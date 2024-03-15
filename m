@@ -1,54 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5C61A38DA
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 04:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E863D396
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 15:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710476460; cv=none; b=UENFWITxh72y0BkB+K2IGYeJZgC4ofJBNDFUoyuMIc2xWaUmfNa6L8cJ4CFsaStnUG0t2fWKArT4eHH3cjysV/2q42eXODtVCcL1vkNqs6xooWsKelfpe6US8Jlc/+sfQin36/zrfcfHOlJ4Xx4qiODtAl2cWoF5fFocXIMnt4M=
+	t=1710516648; cv=none; b=XD+ZDP5PWG7guPJa1y9kHcMrvCbzrw3wYRy0K/ja36z2JAAA2iDa/ScYdixEjW1GZWhoetO2wvR1FNq2VmJJXQ/1Rf8SFpsSLY/ve/2BcqVE42sURw0fW1O0enVD4y+AF/RZOGNx2aYOSIjE3NEqDPBsZUAF5Li6uL5Q2YkNdYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710476460; c=relaxed/simple;
-	bh=J3AjJ1mxLmcfZ+2nG1JkeSLYKTNxVNG/YZd/aCViXbA=;
+	s=arc-20240116; t=1710516648; c=relaxed/simple;
+	bh=/aJ4/mSQH4eyQXv/ADbXDKWWNtCt/kUVQRKMSihPbvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DPOe+M6IMOaActre8aw2Bjz+GA6uAj9U04wRIyd6yR9GSvkIk5PxzDI+tH+BTlGeXyXnml0s6ZO/70PlzOMrAFtyk8/wrA4ItpFFt+F0iocDakQi953CUhaOwkZGxH9iYpITPJzYJoCv3hPnnwiTn2+PBKWDFh367CF76XbNGhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OLwVTkWH; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=FSeOiGSxPoH9zVMuhNZZsJZ0/tvf8RAt0xZF4Nvuxflp37rL4eNTUh6yANznHgd60sS269+t3QG/rEHCIm6pI32iP6+3HFvRzXXexbsEDnGrfZcYP8ISz20fAHEbzh/pL/GGOJ+mewVVi0pwWIqtVFFcw2ijA+Aemz4o29la4+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdTj3cdK; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OLwVTkWH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710476458; x=1742012458;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J3AjJ1mxLmcfZ+2nG1JkeSLYKTNxVNG/YZd/aCViXbA=;
-  b=OLwVTkWHpE51cNWzO58DRn2cKVdkZEN09Iz9lB3wu2bJaC6Cui+mbbwh
-   pv8yvejMzaQ2i6a+RWmxcFGbmfQu/rVDdoWJSXLLg9hGXFLuL4DQJcOkp
-   R2hnaeIryj8Fk4bjINtxSWE08AtkYbGfViykxY6/yr//qDQp2pJ+U+QhZ
-   WZWz6lA8zbsAwcTNqbbE+WG1th06zgsJ/q4TxAagK8V7n3UYdsBqgmguL
-   zObZYR+GN3U6ujQtLISofr1m3ofxVsF3sD70Hcd33mdJOgaLl+XuppERV
-   /4kYhnMCvwptXCJi6WRvMMTZ/wAL7RSDtO2BZcC9ZFnxB+GxYE5nv4qfx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16785026"
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
-   d="scan'208";a="16785026"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 21:20:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
-   d="scan'208";a="17232111"
-Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Mar 2024 21:20:56 -0700
-Received: from kbuild by b21307750695 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rkz3t-000E5R-1F;
-	Fri, 15 Mar 2024 04:20:53 +0000
-Date: Fri, 15 Mar 2024 12:20:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdTj3cdK"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-413fff1dacfso5854305e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 08:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710516644; x=1711121444; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
+        b=AdTj3cdKDuEuGkJXK+m1FjIcqD2/gNEICwZp783fKjt8FFkYn1gI0ac4bhyQM75ozS
+         VCpnmAMCsiJ+m7idptkoaVPl8rMnUt6svR8/nOoWVgbQfpGYh3l+l3zOdBUbbyYXJN55
+         a1lhzfkMSnJyLf5WRy3AmSTvunEgrcXn/o+qgS26gYFXOgygvVePHTc6mGZKWma/uDi9
+         x+9P+EMIH0bTfjbmCBEOXvb6ijSLwYs65qAgqlcu6SmFi+ZSqPDj+q3bBx/+GQ4q35V4
+         iF3JK4/hVvdSEJyB32EOXKXRwj90ky8F4zK8qWpl8kBbf15l6gJDTXFN4xxbFt+zXckp
+         i5Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710516644; x=1711121444;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
+        b=rSxDuAv279ia7xVOVoZ7YwBOqrXC8uRhnIun6fh13cZH6ul4fH3WojvBTdy8WU98Je
+         5FTs7OZNuIzuVsINOlDU6UXD9jjc36Fd8mAGC0cVuGzAfGjHlIeqPTDlNUfOozkmFW7j
+         XfGc9YZoAR3R2xN28fPCPGOgvL0YzCuaqXbzXMrDIPTE8uKxB4S1H3n2xS7pemR9/+it
+         TqggtEnM5dIOW1OTOL54ATzrcOJ1GXLN3YDNWa6IfGbvJEU1lNfyGF2gxyPcNPNPY/jR
+         Nrdy4ugLf+v78CppYVyHSr6i0Nrqg/3zhIuKke2btPZSQtH/PWz9OXaNX3fBQxLcYDCW
+         akyg==
+X-Gm-Message-State: AOJu0Yxf9wcKH5cKtCctyMVOGjvbm4MVbfhoRrmhPl9iYrb7VU/O5BSB
+	0UAkdvZTcQNlni6EKadnFuFQk+FRzA8lgyLcjvUtNVltOPjM6tnZcyaBiT6HcBi2YJhWqAu1CgA
+	7
+X-Google-Smtp-Source: AGHT+IERUqoqmlegoZ+ggeJ6cHV4jm+2H2WG+MWSEQEIzUQHgT4ILHzlUHyfxp5FkLD2pmJTfbQvnQ==
+X-Received: by 2002:a05:600c:502b:b0:413:f8d5:27e with SMTP id n43-20020a05600c502b00b00413f8d5027emr2539576wmr.5.1710516643946;
+        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id a3-20020a05600c348300b00413e6c56faasm6127611wmq.41.2024.03.15.08.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
+Date: Fri, 15 Mar 2024 18:30:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yuezhang Mo <Yuezhang.Mo@sony.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Namjae Jeon <linkinjeon@kernel.org>, Andy Wu <Andy.Wu@sony.com>,
+	Aoyama Wataru <wataru.aoyama@sony.com>,
+	Sungjong Seo <sj1557.seo@samsung.com>
 Subject: [linux-next:master 12881/13613] fs/exfat/dir.c:896
  __exfat_get_dentry_set() warn: missing unwind goto?
-Message-ID: <202403151204.LNYJdVfp-lkp@intel.com>
+Message-ID: <6669eebb-e27b-4a50-840e-101112765e3d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -58,60 +69,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
-CC: Namjae Jeon <linkinjeon@kernel.org>
-CC: Andy Wu <Andy.Wu@sony.com>
-CC: Aoyama Wataru <wataru.aoyama@sony.com>
-CC: Sungjong Seo <sj1557.seo@samsung.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   9bb9b28d0568991b1d63e66fe75afa5f97ad1156
 commit: bd31db2fd3bdaca4be598ddc39770eb6ebd9e3f3 [12881/13613] exfat: add __exfat_get_dentry_set() helper
-:::::: branch date: 25 hours ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-141-20240313 (https://download.01.org/0day-ci/archive/20240315/202403151204.LNYJdVfp-lkp@intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202403151204.LNYJdVfp-lkp@intel.com/
 
 New smatch warnings:
 fs/exfat/dir.c:896 __exfat_get_dentry_set() warn: missing unwind goto?
 
-Old smatch warnings:
-fs/exfat/dir.c:172 exfat_readdir() warn: passing freed memory 'bh'
-fs/exfat/dir.c:494 exfat_init_dir_entry() warn: passing freed memory 'bh'
-fs/exfat/dir.c:578 exfat_init_ext_entry() warn: passing freed memory 'bh'
-fs/exfat/dir.c:590 exfat_init_ext_entry() warn: passing freed memory 'bh'
-
 vim +896 fs/exfat/dir.c
 
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  829  
-ca06197382bde0 Namjae Jeon      2020-03-02  830  /*
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  831   * Returns a set of dentries.
-ca06197382bde0 Namjae Jeon      2020-03-02  832   *
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  833   * Note It provides a direct pointer to bh->data via exfat_get_dentry_cached().
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  834   * User should call exfat_get_dentry_set() after setting 'modified' to apply
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  835   * changes made in this entry set to the real device.
-ca06197382bde0 Namjae Jeon      2020-03-02  836   *
-ca06197382bde0 Namjae Jeon      2020-03-02  837   * in:
-ca06197382bde0 Namjae Jeon      2020-03-02  838   *   sb+p_dir+entry: indicates a file/dir
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  839   *   num_entries: specifies how many dentries should be included.
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  840   *                It will be set to es->num_entries if it is not 0.
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  841   *                If num_entries is 0, es->num_entries will be obtained
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  842   *                from the first dentry.
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  843   * out:
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  844   *   es: pointer of entry set on success.
-ca06197382bde0 Namjae Jeon      2020-03-02  845   * return:
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  846   *   0 on success
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  847   *   -error code on failure
-ca06197382bde0 Namjae Jeon      2020-03-02  848   */
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  849  static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
 20914ff6dd56dd Yuezhang Mo      2022-11-17  850  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  851  		unsigned int num_entries)
@@ -148,6 +122,8 @@ bd31db2fd3bdac Yuezhang Mo      2023-12-08  881
 f3fe3954c09f97 Yuezhang Mo      2022-03-17  882  		ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  883  		if (ep->type != EXFAT_FILE)
 3b9681acb0ef73 Yuezhang Mo      2022-03-17  884  			goto put_es;
+                                                                        ^^^^^^^^^^^^
+
 ca06197382bde0 Namjae Jeon      2020-03-02  885  
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  886  		num_entries = ep->dentry.file.num_ext + 1;
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  887  	}
@@ -160,6 +136,15 @@ a3ff29a95fde16 Yuezhang Mo      2022-11-09  893  		es->bh = kmalloc_array(num_bh
 a3ff29a95fde16 Yuezhang Mo      2022-11-09  894  		if (!es->bh) {
 a3ff29a95fde16 Yuezhang Mo      2022-11-09  895  			brelse(bh);
 20914ff6dd56dd Yuezhang Mo      2022-11-17 @896  			return -ENOMEM;
+
+I normally wouldn't send this because it's not a bug, but actually other
+people are going to see this static checker warning and the code is
+slightly confusing.
+
+At this point calling brelse(bh) and calling exfat_put_dentry_set(es, false);
+are equivalent.  So the code works.  But it would be better to do things
+consistently on both lines 884 and 896.
+
 a3ff29a95fde16 Yuezhang Mo      2022-11-09  897  		}
 a3ff29a95fde16 Yuezhang Mo      2022-11-09  898  		es->bh[0] = bh;
 a3ff29a95fde16 Yuezhang Mo      2022-11-09  899  	}
@@ -190,14 +175,8 @@ bd31db2fd3bdac Yuezhang Mo      2023-12-08  923  put_es:
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  924  	exfat_put_dentry_set(es, false);
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  925  	return -EIO;
 bd31db2fd3bdac Yuezhang Mo      2023-12-08  926  }
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  927  
-
-:::::: The code at line 896 was first introduced by commit
-:::::: 20914ff6dd56dd6b548bf5dd90bff09ef89999e4 exfat: move exfat_entry_set_cache from heap to stack
-
-:::::: TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
-:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
