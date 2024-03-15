@@ -1,54 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64786635
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 00:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5C61A38DA
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 04:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710461877; cv=none; b=OGj3Sqafge480QhDcW51N5F2Q3abfGj3CANkGrNaM3PXLh8X0EW8pnF7XZUiDtHXudopIcEGNYufCbwphN5OO8ser0AMBl1WmNTh/+/T0HoMcNR4yji9sQ54ZhIffJxW7EpJFKia2NC7gzY8e202c8jLhr7VIFBCxHKE0qCqEDs=
+	t=1710476460; cv=none; b=UENFWITxh72y0BkB+K2IGYeJZgC4ofJBNDFUoyuMIc2xWaUmfNa6L8cJ4CFsaStnUG0t2fWKArT4eHH3cjysV/2q42eXODtVCcL1vkNqs6xooWsKelfpe6US8Jlc/+sfQin36/zrfcfHOlJ4Xx4qiODtAl2cWoF5fFocXIMnt4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710461877; c=relaxed/simple;
-	bh=eROvsIExXEHU0Zukeq8cO1OmxeNzrcmSHThzInMWris=;
+	s=arc-20240116; t=1710476460; c=relaxed/simple;
+	bh=J3AjJ1mxLmcfZ+2nG1JkeSLYKTNxVNG/YZd/aCViXbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HVQaJmA7vKRhWniaG9uN2JX7fd9ElHzJNoIWr+Fm4Mdf4DU51a8Zav2/RnK/FPF1LsFN3wtSdi7NrVHpPitqXJhpVNpZgJKlnVLHnfBdVaTkdYE8Q4kjHdUjWkppIZ5gkjIyCbnwOD0QEOyNcxIK3nCbgNRWv7T0Znk9BLGkdgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HejJvZJQ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=DPOe+M6IMOaActre8aw2Bjz+GA6uAj9U04wRIyd6yR9GSvkIk5PxzDI+tH+BTlGeXyXnml0s6ZO/70PlzOMrAFtyk8/wrA4ItpFFt+F0iocDakQi953CUhaOwkZGxH9iYpITPJzYJoCv3hPnnwiTn2+PBKWDFh367CF76XbNGhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OLwVTkWH; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HejJvZJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OLwVTkWH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1710461873; x=1741997873;
+  t=1710476458; x=1742012458;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eROvsIExXEHU0Zukeq8cO1OmxeNzrcmSHThzInMWris=;
-  b=HejJvZJQ30dq1iOq5+UqfmcL0gffjIfWmiUYk4cMkd/1R6K2ytG6xWLP
-   ini1uo+VY1+9ghd0CnhFTqEWLFb3PtvBgDNMXVpObA/zw50M+E0VOfucW
-   Q+/52/bTGjTbyhAdMz2gNvlj7+hLFI1TTCY4P1T0IQHH3VAUD/gqsrY4P
-   roVYERyzs1xXa33O96yGv4fFxSyCdpWDOkmXUD2r4we3aFY9hBsk6ytEw
-   z3xT1yLsCWTjOlJk8GDgx/RH3cdIFwZc0tY+E7+8bBPsIIZgPWRCD4m4+
-   OHvF2qnvC6x4eV4Vm4/ybPUKb+TTNHGZKaiysOpF8b5bpow6a+wIVa1UX
+  bh=J3AjJ1mxLmcfZ+2nG1JkeSLYKTNxVNG/YZd/aCViXbA=;
+  b=OLwVTkWHpE51cNWzO58DRn2cKVdkZEN09Iz9lB3wu2bJaC6Cui+mbbwh
+   pv8yvejMzaQ2i6a+RWmxcFGbmfQu/rVDdoWJSXLLg9hGXFLuL4DQJcOkp
+   R2hnaeIryj8Fk4bjINtxSWE08AtkYbGfViykxY6/yr//qDQp2pJ+U+QhZ
+   WZWz6lA8zbsAwcTNqbbE+WG1th06zgsJ/q4TxAagK8V7n3UYdsBqgmguL
+   zObZYR+GN3U6ujQtLISofr1m3ofxVsF3sD70Hcd33mdJOgaLl+XuppERV
+   /4kYhnMCvwptXCJi6WRvMMTZ/wAL7RSDtO2BZcC9ZFnxB+GxYE5nv4qfx
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="5448293"
-X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
-   d="scan'208";a="5448293"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 17:17:52 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,11013"; a="16785026"
+X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
+   d="scan'208";a="16785026"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2024 21:20:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,126,1708416000"; 
-   d="scan'208";a="17208517"
+X-IronPort-AV: E=Sophos;i="6.07,127,1708416000"; 
+   d="scan'208";a="17232111"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Mar 2024 17:17:50 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 Mar 2024 21:20:56 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rkvGd-000Dvx-1y;
-	Fri, 15 Mar 2024 00:17:47 +0000
-Date: Fri, 15 Mar 2024 08:17:37 +0800
+	id 1rkz3t-000E5R-1F;
+	Fri, 15 Mar 2024 04:20:53 +0000
+Date: Fri, 15 Mar 2024 12:20:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [tobetter:odroid-6.8.y 41/50] drivers/char/aml-gpiomem.c:242:15-18:
- ERROR: inst is NULL but dereferenced.
-Message-ID: <202403150813.o0pk6aZb-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 12881/13613] fs/exfat/dir.c:896
+ __exfat_get_dentry_set() warn: missing unwind goto?
+Message-ID: <202403151204.LNYJdVfp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,156 +60,143 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Steve Jeong <how2soft@gmail.com>
-CC: Dongjin Kim <tobetter@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
+CC: Namjae Jeon <linkinjeon@kernel.org>
+CC: Andy Wu <Andy.Wu@sony.com>
+CC: Aoyama Wataru <wataru.aoyama@sony.com>
+CC: Sungjong Seo <sj1557.seo@samsung.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.8.y
-head:   acad72b08e300e6aef1322a1bfd2d7b2c42cd860
-commit: e393996c2ac91678267128462c92f08f28f14993 [41/50] ODROID-N2/C4: char: Add /dev/gpiomem device
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-randconfig-103-20240314 (https://download.01.org/0day-ci/archive/20240315/202403150813.o0pk6aZb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9bb9b28d0568991b1d63e66fe75afa5f97ad1156
+commit: bd31db2fd3bdaca4be598ddc39770eb6ebd9e3f3 [12881/13613] exfat: add __exfat_get_dentry_set() helper
+:::::: branch date: 25 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20240313 (https://download.01.org/0day-ci/archive/20240315/202403151204.LNYJdVfp-lkp@intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202403150813.o0pk6aZb-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403151204.LNYJdVfp-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/char/aml-gpiomem.c:242:15-18: ERROR: inst is NULL but dereferenced.
---
->> drivers/char/aml-gpiomem.c:242:9-13: ERROR: reference preceded by free on line 240
---
->> drivers/char/aml-gpiomem.c:269:3-8: No need to set .owner here. The core will do it.
+New smatch warnings:
+fs/exfat/dir.c:896 __exfat_get_dentry_set() warn: missing unwind goto?
 
-vim +242 drivers/char/aml-gpiomem.c
+Old smatch warnings:
+fs/exfat/dir.c:172 exfat_readdir() warn: passing freed memory 'bh'
+fs/exfat/dir.c:494 exfat_init_dir_entry() warn: passing freed memory 'bh'
+fs/exfat/dir.c:578 exfat_init_ext_entry() warn: passing freed memory 'bh'
+fs/exfat/dir.c:590 exfat_init_ext_entry() warn: passing freed memory 'bh'
 
-e393996c2ac9167 Steve Jeong 2023-04-04  152  
-e393996c2ac9167 Steve Jeong 2023-04-04  153  static int aml_gpiomem_probe(struct platform_device *pdev)
-e393996c2ac9167 Steve Jeong 2023-04-04  154  {
-e393996c2ac9167 Steve Jeong 2023-04-04  155  	int err = 0;
-e393996c2ac9167 Steve Jeong 2023-04-04  156  	struct device *dev = &pdev->dev;
-e393996c2ac9167 Steve Jeong 2023-04-04  157  	struct device_node *np = dev->of_node;
-e393996c2ac9167 Steve Jeong 2023-04-04  158  	struct resource *res = NULL;
-e393996c2ac9167 Steve Jeong 2023-04-04  159  	int i = 0;
-e393996c2ac9167 Steve Jeong 2023-04-04  160  
-e393996c2ac9167 Steve Jeong 2023-04-04  161  	/* Allocate buffers and instance data */
-e393996c2ac9167 Steve Jeong 2023-04-04  162  	inst = kzalloc(sizeof(struct aml_gpiomem_instance), GFP_KERNEL);
-e393996c2ac9167 Steve Jeong 2023-04-04  163  
-e393996c2ac9167 Steve Jeong 2023-04-04  164  	if (!inst) {
-e393996c2ac9167 Steve Jeong 2023-04-04  165  		err = -ENOMEM;
-e393996c2ac9167 Steve Jeong 2023-04-04  166  		goto failed_inst_alloc;
-e393996c2ac9167 Steve Jeong 2023-04-04  167  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  168  
-e393996c2ac9167 Steve Jeong 2023-04-04  169  	inst->dev = dev;
-e393996c2ac9167 Steve Jeong 2023-04-04  170  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
-e393996c2ac9167 Steve Jeong 2023-04-04  171  				sizeof(u32)) / 4;
-e393996c2ac9167 Steve Jeong 2023-04-04  172  
-e393996c2ac9167 Steve Jeong 2023-04-04  173  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
-e393996c2ac9167 Steve Jeong 2023-04-04  174  		dev_err(inst->dev, "failed to get gpio register area.");
-e393996c2ac9167 Steve Jeong 2023-04-04  175  		err = -EINVAL;
-e393996c2ac9167 Steve Jeong 2023-04-04  176  		goto failed_inst_alloc;
-e393996c2ac9167 Steve Jeong 2023-04-04  177  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  178  
-e393996c2ac9167 Steve Jeong 2023-04-04  179  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
-e393996c2ac9167 Steve Jeong 2023-04-04  180  			inst->gpio_area_count);
-e393996c2ac9167 Steve Jeong 2023-04-04  181  
-e393996c2ac9167 Steve Jeong 2023-04-04  182  	for (i = 0; i < inst->gpio_area_count; ++i) {
-e393996c2ac9167 Steve Jeong 2023-04-04  183  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-e393996c2ac9167 Steve Jeong 2023-04-04  184  		if (res) {
-e393996c2ac9167 Steve Jeong 2023-04-04  185  			inst->gpio_regs_phys[i].start = res->start;
-e393996c2ac9167 Steve Jeong 2023-04-04  186  			inst->gpio_regs_phys[i].end   = res->end;
-e393996c2ac9167 Steve Jeong 2023-04-04  187  		} else {
-e393996c2ac9167 Steve Jeong 2023-04-04  188  			dev_err(inst->dev, "failed to get IO resource area %d", i);
-e393996c2ac9167 Steve Jeong 2023-04-04  189  			err = -ENOENT;
-e393996c2ac9167 Steve Jeong 2023-04-04  190  			goto failed_get_resource;
-e393996c2ac9167 Steve Jeong 2023-04-04  191  		}
-e393996c2ac9167 Steve Jeong 2023-04-04  192  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  193  
-e393996c2ac9167 Steve Jeong 2023-04-04  194  	/* Create character device entries */
-e393996c2ac9167 Steve Jeong 2023-04-04  195  	err = alloc_chrdev_region(&aml_gpiomem_devid,
-e393996c2ac9167 Steve Jeong 2023-04-04  196  				  DEVICE_MINOR, 1, DEVICE_NAME);
-e393996c2ac9167 Steve Jeong 2023-04-04  197  	if (err != 0) {
-e393996c2ac9167 Steve Jeong 2023-04-04  198  		dev_err(inst->dev, "unable to allocate device number");
-e393996c2ac9167 Steve Jeong 2023-04-04  199  		goto failed_alloc_chrdev;
-e393996c2ac9167 Steve Jeong 2023-04-04  200  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  201  	cdev_init(&aml_gpiomem_cdev, &aml_gpiomem_fops);
-e393996c2ac9167 Steve Jeong 2023-04-04  202  	aml_gpiomem_cdev.owner = THIS_MODULE;
-e393996c2ac9167 Steve Jeong 2023-04-04  203  	err = cdev_add(&aml_gpiomem_cdev, aml_gpiomem_devid, 1);
-e393996c2ac9167 Steve Jeong 2023-04-04  204  	if (err != 0) {
-e393996c2ac9167 Steve Jeong 2023-04-04  205  		dev_err(inst->dev, "unable to register device");
-e393996c2ac9167 Steve Jeong 2023-04-04  206  		goto failed_cdev_add;
-e393996c2ac9167 Steve Jeong 2023-04-04  207  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  208  
-e393996c2ac9167 Steve Jeong 2023-04-04  209  	/* Create sysfs entries */
-e393996c2ac9167 Steve Jeong 2023-04-04  210  	aml_gpiomem_class = class_create(DEVICE_NAME);
-e393996c2ac9167 Steve Jeong 2023-04-04  211  	err = IS_ERR(aml_gpiomem_class);
-e393996c2ac9167 Steve Jeong 2023-04-04  212  	if (err)
-e393996c2ac9167 Steve Jeong 2023-04-04  213  		goto failed_class_create;
-e393996c2ac9167 Steve Jeong 2023-04-04  214  
-e393996c2ac9167 Steve Jeong 2023-04-04  215  	aml_gpiomem_dev = device_create(aml_gpiomem_class, NULL,
-e393996c2ac9167 Steve Jeong 2023-04-04  216  					aml_gpiomem_devid, NULL,
-e393996c2ac9167 Steve Jeong 2023-04-04  217  					"gpiomem");
-e393996c2ac9167 Steve Jeong 2023-04-04  218  	err = IS_ERR(aml_gpiomem_dev);
-e393996c2ac9167 Steve Jeong 2023-04-04  219  	if (err)
-e393996c2ac9167 Steve Jeong 2023-04-04  220  		goto failed_device_create;
-e393996c2ac9167 Steve Jeong 2023-04-04  221  
-e393996c2ac9167 Steve Jeong 2023-04-04  222  	for (i = 0; i < inst->gpio_area_count; ++i) {
-e393996c2ac9167 Steve Jeong 2023-04-04  223  		dev_info(inst->dev,
-e393996c2ac9167 Steve Jeong 2023-04-04  224  			"Initialised: Registers at start:0x%08lx end:0x%08lx size:0x%08lx",
-e393996c2ac9167 Steve Jeong 2023-04-04  225  			inst->gpio_regs_phys[i].start,
-e393996c2ac9167 Steve Jeong 2023-04-04  226  			inst->gpio_regs_phys[i].end,
-e393996c2ac9167 Steve Jeong 2023-04-04  227  			inst->gpio_regs_phys[i].end - inst->gpio_regs_phys[i].start);
-e393996c2ac9167 Steve Jeong 2023-04-04  228  	}
-e393996c2ac9167 Steve Jeong 2023-04-04  229  
-e393996c2ac9167 Steve Jeong 2023-04-04  230  	return 0;
-e393996c2ac9167 Steve Jeong 2023-04-04  231  
-e393996c2ac9167 Steve Jeong 2023-04-04  232  failed_device_create:
-e393996c2ac9167 Steve Jeong 2023-04-04  233  	class_destroy(aml_gpiomem_class);
-e393996c2ac9167 Steve Jeong 2023-04-04  234  failed_class_create:
-e393996c2ac9167 Steve Jeong 2023-04-04  235  	cdev_del(&aml_gpiomem_cdev);
-e393996c2ac9167 Steve Jeong 2023-04-04  236  failed_cdev_add:
-e393996c2ac9167 Steve Jeong 2023-04-04  237  	unregister_chrdev_region(aml_gpiomem_devid, 1);
-e393996c2ac9167 Steve Jeong 2023-04-04  238  failed_alloc_chrdev:
-e393996c2ac9167 Steve Jeong 2023-04-04  239  failed_get_resource:
-e393996c2ac9167 Steve Jeong 2023-04-04 @240  	kfree(inst);
-e393996c2ac9167 Steve Jeong 2023-04-04  241  failed_inst_alloc:
-e393996c2ac9167 Steve Jeong 2023-04-04 @242  	dev_err(inst->dev, "could not load aml_gpiomem");
-e393996c2ac9167 Steve Jeong 2023-04-04  243  	return err;
-e393996c2ac9167 Steve Jeong 2023-04-04  244  }
-e393996c2ac9167 Steve Jeong 2023-04-04  245  
-e393996c2ac9167 Steve Jeong 2023-04-04  246  static int aml_gpiomem_remove(struct platform_device *pdev)
-e393996c2ac9167 Steve Jeong 2023-04-04  247  {
-e393996c2ac9167 Steve Jeong 2023-04-04  248  	struct device *dev = inst->dev;
-e393996c2ac9167 Steve Jeong 2023-04-04  249  
-e393996c2ac9167 Steve Jeong 2023-04-04  250  	kfree(inst);
-e393996c2ac9167 Steve Jeong 2023-04-04  251  	device_destroy(aml_gpiomem_class, aml_gpiomem_devid);
-e393996c2ac9167 Steve Jeong 2023-04-04  252  	class_destroy(aml_gpiomem_class);
-e393996c2ac9167 Steve Jeong 2023-04-04  253  	cdev_del(&aml_gpiomem_cdev);
-e393996c2ac9167 Steve Jeong 2023-04-04  254  	unregister_chrdev_region(aml_gpiomem_devid, 1);
-e393996c2ac9167 Steve Jeong 2023-04-04  255  
-e393996c2ac9167 Steve Jeong 2023-04-04  256  	dev_info(dev, "GPIO mem driver removed - OK");
-e393996c2ac9167 Steve Jeong 2023-04-04  257  	return 0;
-e393996c2ac9167 Steve Jeong 2023-04-04  258  }
-e393996c2ac9167 Steve Jeong 2023-04-04  259  
-e393996c2ac9167 Steve Jeong 2023-04-04  260  static const struct of_device_id aml_gpiomem_of_match[] = {
-e393996c2ac9167 Steve Jeong 2023-04-04  261  	{.compatible = "amlogic, gpiomem",},
-e393996c2ac9167 Steve Jeong 2023-04-04  262  	{ },
-e393996c2ac9167 Steve Jeong 2023-04-04  263  };
-e393996c2ac9167 Steve Jeong 2023-04-04  264  MODULE_DEVICE_TABLE(of, aml_gpiomem_of_match);
-e393996c2ac9167 Steve Jeong 2023-04-04  265  
-e393996c2ac9167 Steve Jeong 2023-04-04  266  static struct platform_driver aml_gpiomem_driver = {
-e393996c2ac9167 Steve Jeong 2023-04-04  267  	.driver			= {
-e393996c2ac9167 Steve Jeong 2023-04-04  268  		.name		= DRIVER_NAME,
-e393996c2ac9167 Steve Jeong 2023-04-04 @269  		.owner		= THIS_MODULE,
-e393996c2ac9167 Steve Jeong 2023-04-04  270  		.of_match_table	= aml_gpiomem_of_match,
-e393996c2ac9167 Steve Jeong 2023-04-04  271  	},
-e393996c2ac9167 Steve Jeong 2023-04-04  272  	.probe			= aml_gpiomem_probe,
-e393996c2ac9167 Steve Jeong 2023-04-04  273  	.remove			= aml_gpiomem_remove,
-e393996c2ac9167 Steve Jeong 2023-04-04  274  };
-e393996c2ac9167 Steve Jeong 2023-04-04  275  
+vim +896 fs/exfat/dir.c
+
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  829  
+ca06197382bde0 Namjae Jeon      2020-03-02  830  /*
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  831   * Returns a set of dentries.
+ca06197382bde0 Namjae Jeon      2020-03-02  832   *
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  833   * Note It provides a direct pointer to bh->data via exfat_get_dentry_cached().
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  834   * User should call exfat_get_dentry_set() after setting 'modified' to apply
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  835   * changes made in this entry set to the real device.
+ca06197382bde0 Namjae Jeon      2020-03-02  836   *
+ca06197382bde0 Namjae Jeon      2020-03-02  837   * in:
+ca06197382bde0 Namjae Jeon      2020-03-02  838   *   sb+p_dir+entry: indicates a file/dir
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  839   *   num_entries: specifies how many dentries should be included.
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  840   *                It will be set to es->num_entries if it is not 0.
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  841   *                If num_entries is 0, es->num_entries will be obtained
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  842   *                from the first dentry.
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  843   * out:
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  844   *   es: pointer of entry set on success.
+ca06197382bde0 Namjae Jeon      2020-03-02  845   * return:
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  846   *   0 on success
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  847   *   -error code on failure
+ca06197382bde0 Namjae Jeon      2020-03-02  848   */
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  849  static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
+20914ff6dd56dd Yuezhang Mo      2022-11-17  850  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  851  		unsigned int num_entries)
+ca06197382bde0 Namjae Jeon      2020-03-02  852  {
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  853  	int ret, i, num_bh;
+36955d368dc101 Yuezhang Mo      2022-11-17  854  	unsigned int off;
+ca06197382bde0 Namjae Jeon      2020-03-02  855  	sector_t sec;
+ca06197382bde0 Namjae Jeon      2020-03-02  856  	struct exfat_sb_info *sbi = EXFAT_SB(sb);
+ca06197382bde0 Namjae Jeon      2020-03-02  857  	struct buffer_head *bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  858  
+ca06197382bde0 Namjae Jeon      2020-03-02  859  	if (p_dir->dir == DIR_DELETED) {
+d1727d55c0327e Joe Perches      2020-04-24  860  		exfat_err(sb, "access to deleted dentry");
+20914ff6dd56dd Yuezhang Mo      2022-11-17  861  		return -EIO;
+ca06197382bde0 Namjae Jeon      2020-03-02  862  	}
+ca06197382bde0 Namjae Jeon      2020-03-02  863  
+36955d368dc101 Yuezhang Mo      2022-11-17  864  	ret = exfat_find_location(sb, p_dir, entry, &sec, &off);
+ca06197382bde0 Namjae Jeon      2020-03-02  865  	if (ret)
+20914ff6dd56dd Yuezhang Mo      2022-11-17  866  		return ret;
+ca06197382bde0 Namjae Jeon      2020-03-02  867  
+20914ff6dd56dd Yuezhang Mo      2022-11-17  868  	memset(es, 0, sizeof(*es));
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  869  	es->sb = sb;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  870  	es->modified = false;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  871  	es->start_off = off;
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  872  	es->bh = es->__bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  873  
+ca06197382bde0 Namjae Jeon      2020-03-02  874  	bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon      2020-03-02  875  	if (!bh)
+20914ff6dd56dd Yuezhang Mo      2022-11-17  876  		return -EIO;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  877  	es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  878  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  879  	if (num_entries == ES_ALL_ENTRIES) {
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  880  		struct exfat_dentry *ep;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  881  
+f3fe3954c09f97 Yuezhang Mo      2022-03-17  882  		ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  883  		if (ep->type != EXFAT_FILE)
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  884  			goto put_es;
+ca06197382bde0 Namjae Jeon      2020-03-02  885  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  886  		num_entries = ep->dentry.file.num_ext + 1;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  887  	}
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  888  
+ca06197382bde0 Namjae Jeon      2020-03-02  889  	es->num_entries = num_entries;
+ca06197382bde0 Namjae Jeon      2020-03-02  890  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  891  	num_bh = EXFAT_B_TO_BLK_ROUND_UP(off + num_entries * DENTRY_SIZE, sb);
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  892  	if (num_bh > ARRAY_SIZE(es->__bh)) {
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  893  		es->bh = kmalloc_array(num_bh, sizeof(*es->bh), GFP_KERNEL);
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  894  		if (!es->bh) {
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  895  			brelse(bh);
+20914ff6dd56dd Yuezhang Mo      2022-11-17 @896  			return -ENOMEM;
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  897  		}
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  898  		es->bh[0] = bh;
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  899  	}
+a3ff29a95fde16 Yuezhang Mo      2022-11-09  900  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  901  	for (i = 1; i < num_bh; i++) {
+ca06197382bde0 Namjae Jeon      2020-03-02  902  		/* get the next sector */
+ca06197382bde0 Namjae Jeon      2020-03-02  903  		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
+36955d368dc101 Yuezhang Mo      2022-11-17  904  			unsigned int clu = exfat_sector_to_cluster(sbi, sec);
+36955d368dc101 Yuezhang Mo      2022-11-17  905  
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  906  			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
+ca06197382bde0 Namjae Jeon      2020-03-02  907  				clu++;
+ca06197382bde0 Namjae Jeon      2020-03-02  908  			else if (exfat_get_next_cluster(sb, &clu))
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  909  				goto put_es;
+ca06197382bde0 Namjae Jeon      2020-03-02  910  			sec = exfat_cluster_to_sector(sbi, clu);
+ca06197382bde0 Namjae Jeon      2020-03-02  911  		} else {
+ca06197382bde0 Namjae Jeon      2020-03-02  912  			sec++;
+ca06197382bde0 Namjae Jeon      2020-03-02  913  		}
+ca06197382bde0 Namjae Jeon      2020-03-02  914  
+ca06197382bde0 Namjae Jeon      2020-03-02  915  		bh = sb_bread(sb, sec);
+ca06197382bde0 Namjae Jeon      2020-03-02  916  		if (!bh)
+3b9681acb0ef73 Yuezhang Mo      2022-03-17  917  			goto put_es;
+943af1fdacfebe Tetsuhiro Kohada 2020-05-20  918  		es->bh[es->num_bh++] = bh;
+ca06197382bde0 Namjae Jeon      2020-03-02  919  	}
+ca06197382bde0 Namjae Jeon      2020-03-02  920  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  921  	return 0;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  922  
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  923  put_es:
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  924  	exfat_put_dentry_set(es, false);
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  925  	return -EIO;
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  926  }
+bd31db2fd3bdac Yuezhang Mo      2023-12-08  927  
+
+:::::: The code at line 896 was first introduced by commit
+:::::: 20914ff6dd56dd6b548bf5dd90bff09ef89999e4 exfat: move exfat_entry_set_cache from heap to stack
+
+:::::: TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
+:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
