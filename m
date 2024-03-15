@@ -1,65 +1,55 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E863D396
-	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 15:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6675814A85
+	for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 22:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710516648; cv=none; b=XD+ZDP5PWG7guPJa1y9kHcMrvCbzrw3wYRy0K/ja36z2JAAA2iDa/ScYdixEjW1GZWhoetO2wvR1FNq2VmJJXQ/1Rf8SFpsSLY/ve/2BcqVE42sURw0fW1O0enVD4y+AF/RZOGNx2aYOSIjE3NEqDPBsZUAF5Li6uL5Q2YkNdYU=
+	t=1710542190; cv=none; b=UUjoQrkbf5EeUT30JkHc4yL8iiVNSCByI5e3pVBuYMWm4qdkRgJnfN7u2PHyqJMHH+vk49Hr7yxZck7K8dgBiZffWVKq/guWBBpRL2XsQrB34uBszARfMj7/GL9xuDbXS4FYdmnc5ScOj7+wpE9yBufypj3KG1Zw3EZcvkkn3OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710516648; c=relaxed/simple;
-	bh=/aJ4/mSQH4eyQXv/ADbXDKWWNtCt/kUVQRKMSihPbvY=;
+	s=arc-20240116; t=1710542190; c=relaxed/simple;
+	bh=giaNVh7Znr6JqDKAGsH+bXFN65QuVet4kAUeAvHb4Jo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FSeOiGSxPoH9zVMuhNZZsJZ0/tvf8RAt0xZF4Nvuxflp37rL4eNTUh6yANznHgd60sS269+t3QG/rEHCIm6pI32iP6+3HFvRzXXexbsEDnGrfZcYP8ISz20fAHEbzh/pL/GGOJ+mewVVi0pwWIqtVFFcw2ijA+Aemz4o29la4+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AdTj3cdK; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=i6InGIOjj7EmnAzlG1K6+N9+lewpcGcHycIeVPktTyEe8r9xd6PUTNx8kejEnEwLyaV4Fuec238K5aFB88Bq7meq521KDBtbsmzdec7+tuJBzs0FljC3LOF/1sMAyPqwcW23qLHewPLipkBc8s0meqd5/UmS8sdn88GPkkFnDTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IbjxrOiI; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AdTj3cdK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-413fff1dacfso5854305e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 15 Mar 2024 08:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710516644; x=1711121444; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
-        b=AdTj3cdKDuEuGkJXK+m1FjIcqD2/gNEICwZp783fKjt8FFkYn1gI0ac4bhyQM75ozS
-         VCpnmAMCsiJ+m7idptkoaVPl8rMnUt6svR8/nOoWVgbQfpGYh3l+l3zOdBUbbyYXJN55
-         a1lhzfkMSnJyLf5WRy3AmSTvunEgrcXn/o+qgS26gYFXOgygvVePHTc6mGZKWma/uDi9
-         x+9P+EMIH0bTfjbmCBEOXvb6ijSLwYs65qAgqlcu6SmFi+ZSqPDj+q3bBx/+GQ4q35V4
-         iF3JK4/hVvdSEJyB32EOXKXRwj90ky8F4zK8qWpl8kBbf15l6gJDTXFN4xxbFt+zXckp
-         i5Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710516644; x=1711121444;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iYFnc1hM0XJu3PhzImR/Qsw6QOHf5BtWM4FtMChzf7c=;
-        b=rSxDuAv279ia7xVOVoZ7YwBOqrXC8uRhnIun6fh13cZH6ul4fH3WojvBTdy8WU98Je
-         5FTs7OZNuIzuVsINOlDU6UXD9jjc36Fd8mAGC0cVuGzAfGjHlIeqPTDlNUfOozkmFW7j
-         XfGc9YZoAR3R2xN28fPCPGOgvL0YzCuaqXbzXMrDIPTE8uKxB4S1H3n2xS7pemR9/+it
-         TqggtEnM5dIOW1OTOL54ATzrcOJ1GXLN3YDNWa6IfGbvJEU1lNfyGF2gxyPcNPNPY/jR
-         Nrdy4ugLf+v78CppYVyHSr6i0Nrqg/3zhIuKke2btPZSQtH/PWz9OXaNX3fBQxLcYDCW
-         akyg==
-X-Gm-Message-State: AOJu0Yxf9wcKH5cKtCctyMVOGjvbm4MVbfhoRrmhPl9iYrb7VU/O5BSB
-	0UAkdvZTcQNlni6EKadnFuFQk+FRzA8lgyLcjvUtNVltOPjM6tnZcyaBiT6HcBi2YJhWqAu1CgA
-	7
-X-Google-Smtp-Source: AGHT+IERUqoqmlegoZ+ggeJ6cHV4jm+2H2WG+MWSEQEIzUQHgT4ILHzlUHyfxp5FkLD2pmJTfbQvnQ==
-X-Received: by 2002:a05:600c:502b:b0:413:f8d5:27e with SMTP id n43-20020a05600c502b00b00413f8d5027emr2539576wmr.5.1710516643946;
-        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a3-20020a05600c348300b00413e6c56faasm6127611wmq.41.2024.03.15.08.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 08:30:43 -0700 (PDT)
-Date: Fri, 15 Mar 2024 18:30:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yuezhang Mo <Yuezhang.Mo@sony.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Namjae Jeon <linkinjeon@kernel.org>, Andy Wu <Andy.Wu@sony.com>,
-	Aoyama Wataru <wataru.aoyama@sony.com>,
-	Sungjong Seo <sj1557.seo@samsung.com>
-Subject: [linux-next:master 12881/13613] fs/exfat/dir.c:896
- __exfat_get_dentry_set() warn: missing unwind goto?
-Message-ID: <6669eebb-e27b-4a50-840e-101112765e3d@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IbjxrOiI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1710542186; x=1742078186;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=giaNVh7Znr6JqDKAGsH+bXFN65QuVet4kAUeAvHb4Jo=;
+  b=IbjxrOiIrC2tiNdis/vqzW+2KmRlSXz8HGR4EqSD6XgZQ68LXi9a+DZv
+   FmTJdHg8gpRLOVQmHf+JyxTp00Nzz+AkyZCXwgAu8ssvYYOjQhXUrt02k
+   AWpgd9gLPFh+iBsJim28CobngfmR1s9hvGV1wa6fS30AXdB4YgHB5IzfO
+   r6bwYGrAqVI/mlNPA8ctLewM0UrwhdHYlDM2mQTbfltYH8cmVON6P2L3v
+   efil2ghC+UeD9H2nDF1VGXECl9qvBTU3Z1K/w0H379ah/dbE+roI11kC3
+   Y2zWDNy+BO9jNXRXDcIu8TKZjVPIikQw/8whv7aCnVD3DjxzOcuFZsTOJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11014"; a="5640807"
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="5640807"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2024 15:36:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,129,1708416000"; 
+   d="scan'208";a="17425961"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2024 15:36:24 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rlGA2-000Eql-0j;
+	Fri, 15 Mar 2024 22:36:22 +0000
+Date: Sat, 16 Mar 2024 06:35:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:openEuler-1.0-LTS 4556/21871]
+ drivers/gpio/gpio-exar.c:152 gpio_exar_probe() warn: missing error code
+ 'ret'
+Message-ID: <202403160655.9n8qKqP3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,114 +59,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9bb9b28d0568991b1d63e66fe75afa5f97ad1156
-commit: bd31db2fd3bdaca4be598ddc39770eb6ebd9e3f3 [12881/13613] exfat: add __exfat_get_dentry_set() helper
-config: i386-randconfig-141-20240313 (https://download.01.org/0day-ci/archive/20240315/202403151204.LNYJdVfp-lkp@intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Xie XiuQi <xiexiuqi@huawei.com>
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c0f28264ce70e762ccdf396767a85688e6ed4810
+commit: 96386d11646351bda8a42bc3e2115e03b489f992 [4556/21871] gpio: exar: add a check for the return value of ida_simple_get fails
+:::::: branch date: 14 hours ago
+:::::: commit date: 4 years, 3 months ago
+config: x86_64-randconfig-161-20240303 (https://download.01.org/0day-ci/archive/20240316/202403160655.9n8qKqP3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403151204.LNYJdVfp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403160655.9n8qKqP3-lkp@intel.com/
 
 New smatch warnings:
-fs/exfat/dir.c:896 __exfat_get_dentry_set() warn: missing unwind goto?
+drivers/gpio/gpio-exar.c:152 gpio_exar_probe() warn: missing error code 'ret'
 
-vim +896 fs/exfat/dir.c
+Old smatch warnings:
+drivers/gpio/gpio-exar.c:56 exar_set_direction() warn: replace divide condition '(offset + exar_gpio->first_pin) / 8' with '(offset + exar_gpio->first_pin) >= 8'
+drivers/gpio/gpio-exar.c:79 exar_get_direction() warn: replace divide condition '(offset + exar_gpio->first_pin) / 8' with '(offset + exar_gpio->first_pin) >= 8'
+drivers/gpio/gpio-exar.c:89 exar_get_value() warn: replace divide condition '(offset + exar_gpio->first_pin) / 8' with '(offset + exar_gpio->first_pin) >= 8'
+drivers/gpio/gpio-exar.c:100 exar_set_value() warn: replace divide condition '(offset + exar_gpio->first_pin) / 8' with '(offset + exar_gpio->first_pin) >= 8'
 
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  849  static int __exfat_get_dentry_set(struct exfat_entry_set_cache *es,
-20914ff6dd56dd Yuezhang Mo      2022-11-17  850  		struct super_block *sb, struct exfat_chain *p_dir, int entry,
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  851  		unsigned int num_entries)
-ca06197382bde0 Namjae Jeon      2020-03-02  852  {
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  853  	int ret, i, num_bh;
-36955d368dc101 Yuezhang Mo      2022-11-17  854  	unsigned int off;
-ca06197382bde0 Namjae Jeon      2020-03-02  855  	sector_t sec;
-ca06197382bde0 Namjae Jeon      2020-03-02  856  	struct exfat_sb_info *sbi = EXFAT_SB(sb);
-ca06197382bde0 Namjae Jeon      2020-03-02  857  	struct buffer_head *bh;
-ca06197382bde0 Namjae Jeon      2020-03-02  858  
-ca06197382bde0 Namjae Jeon      2020-03-02  859  	if (p_dir->dir == DIR_DELETED) {
-d1727d55c0327e Joe Perches      2020-04-24  860  		exfat_err(sb, "access to deleted dentry");
-20914ff6dd56dd Yuezhang Mo      2022-11-17  861  		return -EIO;
-ca06197382bde0 Namjae Jeon      2020-03-02  862  	}
-ca06197382bde0 Namjae Jeon      2020-03-02  863  
-36955d368dc101 Yuezhang Mo      2022-11-17  864  	ret = exfat_find_location(sb, p_dir, entry, &sec, &off);
-ca06197382bde0 Namjae Jeon      2020-03-02  865  	if (ret)
-20914ff6dd56dd Yuezhang Mo      2022-11-17  866  		return ret;
-ca06197382bde0 Namjae Jeon      2020-03-02  867  
-20914ff6dd56dd Yuezhang Mo      2022-11-17  868  	memset(es, 0, sizeof(*es));
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  869  	es->sb = sb;
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  870  	es->modified = false;
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  871  	es->start_off = off;
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  872  	es->bh = es->__bh;
-ca06197382bde0 Namjae Jeon      2020-03-02  873  
-ca06197382bde0 Namjae Jeon      2020-03-02  874  	bh = sb_bread(sb, sec);
-ca06197382bde0 Namjae Jeon      2020-03-02  875  	if (!bh)
-20914ff6dd56dd Yuezhang Mo      2022-11-17  876  		return -EIO;
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  877  	es->bh[es->num_bh++] = bh;
-ca06197382bde0 Namjae Jeon      2020-03-02  878  
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  879  	if (num_entries == ES_ALL_ENTRIES) {
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  880  		struct exfat_dentry *ep;
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  881  
-f3fe3954c09f97 Yuezhang Mo      2022-03-17  882  		ep = exfat_get_dentry_cached(es, ES_IDX_FILE);
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  883  		if (ep->type != EXFAT_FILE)
-3b9681acb0ef73 Yuezhang Mo      2022-03-17  884  			goto put_es;
-                                                                        ^^^^^^^^^^^^
+vim +/ret +152 drivers/gpio/gpio-exar.c
 
-ca06197382bde0 Namjae Jeon      2020-03-02  885  
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  886  		num_entries = ep->dentry.file.num_ext + 1;
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  887  	}
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  888  
-ca06197382bde0 Namjae Jeon      2020-03-02  889  	es->num_entries = num_entries;
-ca06197382bde0 Namjae Jeon      2020-03-02  890  
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  891  	num_bh = EXFAT_B_TO_BLK_ROUND_UP(off + num_entries * DENTRY_SIZE, sb);
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  892  	if (num_bh > ARRAY_SIZE(es->__bh)) {
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  893  		es->bh = kmalloc_array(num_bh, sizeof(*es->bh), GFP_KERNEL);
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  894  		if (!es->bh) {
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  895  			brelse(bh);
-20914ff6dd56dd Yuezhang Mo      2022-11-17 @896  			return -ENOMEM;
-
-I normally wouldn't send this because it's not a bug, but actually other
-people are going to see this static checker warning and the code is
-slightly confusing.
-
-At this point calling brelse(bh) and calling exfat_put_dentry_set(es, false);
-are equivalent.  So the code works.  But it would be better to do things
-consistently on both lines 884 and 896.
-
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  897  		}
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  898  		es->bh[0] = bh;
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  899  	}
-a3ff29a95fde16 Yuezhang Mo      2022-11-09  900  
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  901  	for (i = 1; i < num_bh; i++) {
-ca06197382bde0 Namjae Jeon      2020-03-02  902  		/* get the next sector */
-ca06197382bde0 Namjae Jeon      2020-03-02  903  		if (exfat_is_last_sector_in_cluster(sbi, sec)) {
-36955d368dc101 Yuezhang Mo      2022-11-17  904  			unsigned int clu = exfat_sector_to_cluster(sbi, sec);
-36955d368dc101 Yuezhang Mo      2022-11-17  905  
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  906  			if (p_dir->flags == ALLOC_NO_FAT_CHAIN)
-ca06197382bde0 Namjae Jeon      2020-03-02  907  				clu++;
-ca06197382bde0 Namjae Jeon      2020-03-02  908  			else if (exfat_get_next_cluster(sb, &clu))
-3b9681acb0ef73 Yuezhang Mo      2022-03-17  909  				goto put_es;
-ca06197382bde0 Namjae Jeon      2020-03-02  910  			sec = exfat_cluster_to_sector(sbi, clu);
-ca06197382bde0 Namjae Jeon      2020-03-02  911  		} else {
-ca06197382bde0 Namjae Jeon      2020-03-02  912  			sec++;
-ca06197382bde0 Namjae Jeon      2020-03-02  913  		}
-ca06197382bde0 Namjae Jeon      2020-03-02  914  
-ca06197382bde0 Namjae Jeon      2020-03-02  915  		bh = sb_bread(sb, sec);
-ca06197382bde0 Namjae Jeon      2020-03-02  916  		if (!bh)
-3b9681acb0ef73 Yuezhang Mo      2022-03-17  917  			goto put_es;
-943af1fdacfebe Tetsuhiro Kohada 2020-05-20  918  		es->bh[es->num_bh++] = bh;
-ca06197382bde0 Namjae Jeon      2020-03-02  919  	}
-ca06197382bde0 Namjae Jeon      2020-03-02  920  
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  921  	return 0;
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  922  
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  923  put_es:
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  924  	exfat_put_dentry_set(es, false);
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  925  	return -EIO;
-bd31db2fd3bdac Yuezhang Mo      2023-12-08  926  }
+eddeae073760aa Axel Lin        2017-02-26  118  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  119  static int gpio_exar_probe(struct platform_device *pdev)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  120  {
+d3936d7437e388 Jan Kiszka      2017-06-09  121  	struct pci_dev *pcidev = to_pci_dev(pdev->dev.parent);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  122  	struct exar_gpio_chip *exar_gpio;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  123  	u32 first_pin, ngpios;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  124  	void __iomem *p;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  125  	int index, ret;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  126  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  127  	/*
+8847f5f9ef5542 Jan Kiszka      2017-05-02  128  	 * The UART driver must have mapped region 0 prior to registering this
+8847f5f9ef5542 Jan Kiszka      2017-05-02  129  	 * device - use it.
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  130  	 */
+8847f5f9ef5542 Jan Kiszka      2017-05-02  131  	p = pcim_iomap_table(pcidev)[0];
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  132  	if (!p)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  133  		return -ENOMEM;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  134  
+a589e211bd7471 Jan Kiszka      2017-07-19  135  	ret = device_property_read_u32(&pdev->dev, "exar,first-pin",
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  136  				       &first_pin);
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  137  	if (ret)
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  138  		return ret;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  139  
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  140  	ret = device_property_read_u32(&pdev->dev, "ngpios", &ngpios);
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  141  	if (ret)
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  142  		return ret;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  143  
+5dab5872e59390 Jan Kiszka      2017-06-09  144  	exar_gpio = devm_kzalloc(&pdev->dev, sizeof(*exar_gpio), GFP_KERNEL);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  145  	if (!exar_gpio)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  146  		return -ENOMEM;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  147  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  148  	mutex_init(&exar_gpio->lock);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  149  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  150  	index = ida_simple_get(&ida_index, 0, 0, GFP_KERNEL);
+96386d11646351 Kangjie Lu      2019-03-08  151  	if (index < 0)
+96386d11646351 Kangjie Lu      2019-03-08 @152  		goto err_destroy;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  153  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  154  	sprintf(exar_gpio->name, "exar_gpio%d", index);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  155  	exar_gpio->gpio_chip.label = exar_gpio->name;
+4076cf08ac7673 Jan Kiszka      2017-05-21  156  	exar_gpio->gpio_chip.parent = &pdev->dev;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  157  	exar_gpio->gpio_chip.direction_output = exar_direction_output;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  158  	exar_gpio->gpio_chip.direction_input = exar_direction_input;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  159  	exar_gpio->gpio_chip.get_direction = exar_get_direction;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  160  	exar_gpio->gpio_chip.get = exar_get_value;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  161  	exar_gpio->gpio_chip.set = exar_set_value;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  162  	exar_gpio->gpio_chip.base = -1;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  163  	exar_gpio->gpio_chip.ngpio = ngpios;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  164  	exar_gpio->regs = p;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  165  	exar_gpio->index = index;
+380b1e2f3a2f32 Jan Kiszka      2017-05-22  166  	exar_gpio->first_pin = first_pin;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  167  
+5dab5872e59390 Jan Kiszka      2017-06-09  168  	ret = devm_gpiochip_add_data(&pdev->dev,
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  169  				     &exar_gpio->gpio_chip, exar_gpio);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  170  	if (ret)
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  171  		goto err_destroy;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  172  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  173  	platform_set_drvdata(pdev, exar_gpio);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  174  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  175  	return 0;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  176  
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  177  err_destroy:
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  178  	ida_simple_remove(&ida_index, index);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  179  	mutex_destroy(&exar_gpio->lock);
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  180  	return ret;
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  181  }
+6596e59e63cd4c Sudip Mukherjee 2017-01-19  182  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
