@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17422DF84
-	for <oe-kbuild@lists.linux.dev>; Thu, 21 Mar 2024 20:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423E012B171
+	for <oe-kbuild@lists.linux.dev>; Thu, 21 Mar 2024 21:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711054444; cv=none; b=nBZ3yc5fRb0kuZPTgQRqK5kHOPXlbZPV7Ulsg0+sa0I7FaJorkZhd1ifI5YPFJibSo2tmZPVrE+J0aYMknpuOIqM2TpsfDyhAROg1ZbfO+gQZyujIzVCvVbcC+oKzt3vCKjRKrWtjkKkcaP/jMxB5PfSUWURbxuT+xKowQozsAw=
+	t=1711055168; cv=none; b=Jf4rVF21bNVYVg5Z05bx8nK1pCiAnCWoom6jLKYM+X0poo+Y/fQNTkOXhgciOIiYnGohjyfG7sPQCpFBy2Oe1vWrUL7sD0jf6+PAp0NV0P/aGZRZWfczWsGsZGcI2tbjy25P5RutI68W8iNudJXVh9RP/qXlbfvR2m3sE3SgoU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711054444; c=relaxed/simple;
-	bh=KOY+8LL7qZhGuAgOsJXacIXOa9qi6N0hEUCqT/Gjlv0=;
+	s=arc-20240116; t=1711055168; c=relaxed/simple;
+	bh=k7ecwNg6a3mK7IyJ3dMjxdUahBODMiL4Ii0Lp5mFU/Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pWWnK79/FXUJAirD98W7qZVi/Hw+TgljHKoceXRo7gfW60r4HKlgxxO7lAdI70YoFJcoX6DucbudvgZ/MpQOAUL6kWim/eEODqlZ8ol058k+9FvtMT/xPfY4CR5qVYhBqRxUJu6XZmEWVqU+yj7BYvSVEhv5rwnpS7kWxW8sdOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3vLd+Sn; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=NWeHAoN++0g+QnSGqiq7gKU+liM1RtN56tzGJvW4S8D0zUYbBWHe4TYks0MUkHrQucA96udPv580hT1AlvzUzzofAU4a7aZX2471cOEFa4vdwYOB1IbaCJYEAviPnmWXlCvIoj+CaQUpG5I3HUPAly1wRXafBkE1Wf9PuA5erJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8f4pAUj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3vLd+Sn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8f4pAUj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711054442; x=1742590442;
+  t=1711055164; x=1742591164;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KOY+8LL7qZhGuAgOsJXacIXOa9qi6N0hEUCqT/Gjlv0=;
-  b=R3vLd+SnheyecZguGrvPnznpg1koYSf4hZUNHA7CGDwY79t0DQgSbgqt
-   Zuup4D8lcMkHaq93B5WvtrKcc0dN3Pqc//WDO9xLLfRjmDGqGN61WIhST
-   uzBQD5arSKcrnStsQh9xHaQ7n89cpRc8DsvsU/maKxWH4fxtb3lclYch1
-   ea7eBcbzWu8yxp4fufYb1heW+eIlv6gM737b5g9Y8TFW8lNcRiJv+IB53
-   ik3S6pUuGLWiC65td17QKt03eD5JUFejouA8jKUaic+/yA/OFgGQYvFWr
-   k32jqkoEfjsgfvZafkhDUmHTyjs2b6e5pfQEa1PHmQXGzIcZIZm5kCxHt
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6019421"
+  bh=k7ecwNg6a3mK7IyJ3dMjxdUahBODMiL4Ii0Lp5mFU/Y=;
+  b=k8f4pAUjGl5GoMLimGgCYUKwIH4Na8FfY5Xf7mA895rVHHaIRZUgpbba
+   pAsi5NS885X9ASdZLwRYQ3UyP6cRdhzm9bdLpjZ9JMy8/kBVMnidNFE3v
+   4fz/nx0C9I2gB8lyJaPcWke3AWzKfIPWzuMWb/TN5JdJkDUSNYFybbxfD
+   0vfj1UYlNUwqJu17LEM76FgWuC/OGz/+NYlzFX4nL1mlz9tfLZ8wvhIXz
+   hJGZI5qQj87XE+/Ek46eEuTqtB/acKEoT1fcYUI94Y7NsCEufUVgzASyz
+   VLK1+KiDKsbGpn4QZpaRQJGvqtl7g8NqMkj2GTOm+4Obf0a6QoM+2Y0K2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="5974717"
 X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="6019421"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 13:54:02 -0700
+   d="scan'208";a="5974717"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 14:06:02 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,143,1708416000"; 
-   d="scan'208";a="14557880"
+   d="scan'208";a="52095323"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Mar 2024 13:54:01 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Mar 2024 14:06:01 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rnPQE-000Jlr-1a;
-	Thu, 21 Mar 2024 20:53:58 +0000
-Date: Fri, 22 Mar 2024 04:53:42 +0800
+	id 1rnPbq-000JmH-2R;
+	Thu, 21 Mar 2024 21:05:58 +0000
+Date: Fri, 22 Mar 2024 05:05:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android14-6.1 6/8] block/blk.h:347
- bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
- be null (see line 343)
-Message-ID: <202403220441.8DiNyGzH-lkp@intel.com>
+Subject: [djwong-xfs:twf-hoist 568/627] fs/iomap/buffered-io.c:364
+ iomap_fsverity_init_bioset() warn: missing error code 'error'
+Message-ID: <202403220530.n4a9KVdg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,75 +60,58 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   24850809220d9e09bb48c47d83b971a3d247e467
-commit: 8a2f432fcb4a6c2deed12afa3d2b76fcb6dc8ada [6/8] ANDROID: block: Add support for filesystem requests and small segments
-:::::: branch date: 4 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-161-20240321 (https://download.01.org/0day-ci/archive/20240322/202403220441.8DiNyGzH-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git twf-hoist
+head:   709c2aed7586c3ac6a9d636355c623611d5c14d1
+commit: f0f93bf8ee6030bdb20d406b20b6632cac7aa8bc [568/627] iomap: dynamically allocate fsverity bioset
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-161-20240321 (https://download.01.org/0day-ci/archive/20240322/202403220530.n4a9KVdg-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403220441.8DiNyGzH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403220530.n4a9KVdg-lkp@intel.com/
 
-New smatch warnings:
-block/blk.h:347 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 343)
-block/blk.h:347 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 343)
+smatch warnings:
+fs/iomap/buffered-io.c:364 iomap_fsverity_init_bioset() warn: missing error code 'error'
 
-Old smatch warnings:
-block/blk-mq.c:3144 blk_rq_prep_clone() error: uninitialized symbol 'bio'.
+vim +/error +364 fs/iomap/buffered-io.c
 
-vim +347 block/blk.h
-
-83d016ac86428d Bart Van Assche   2018-01-17  312  
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  313  ssize_t part_size_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  314  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  315  ssize_t part_stat_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  316  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  317  ssize_t part_inflight_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  318  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  319  ssize_t part_fail_show(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  320  		char *buf);
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  321  ssize_t part_fail_store(struct device *dev, struct device_attribute *attr,
-3ad5cee5cd000d Christoph Hellwig 2020-03-24  322  		const char *buf, size_t count);
-581d4e28d9195a Jens Axboe        2008-09-14  323  ssize_t part_timeout_show(struct device *, struct device_attribute *, char *);
-581d4e28d9195a Jens Axboe        2008-09-14  324  ssize_t part_timeout_store(struct device *, struct device_attribute *,
-581d4e28d9195a Jens Axboe        2008-09-14  325  				const char *, size_t);
-581d4e28d9195a Jens Axboe        2008-09-14  326  
-c55ddd9082f757 Christoph Hellwig 2022-07-27  327  static inline bool bio_may_exceed_limits(struct bio *bio,
-c55ddd9082f757 Christoph Hellwig 2022-07-27  328  		struct queue_limits *lim)
-abd45c159df5fc Jens Axboe        2021-10-13  329  {
-abd45c159df5fc Jens Axboe        2021-10-13  330  	switch (bio_op(bio)) {
-abd45c159df5fc Jens Axboe        2021-10-13  331  	case REQ_OP_DISCARD:
-abd45c159df5fc Jens Axboe        2021-10-13  332  	case REQ_OP_SECURE_ERASE:
-abd45c159df5fc Jens Axboe        2021-10-13  333  	case REQ_OP_WRITE_ZEROES:
-abd45c159df5fc Jens Axboe        2021-10-13  334  		return true; /* non-trivial splitting decisions */
-abd45c159df5fc Jens Axboe        2021-10-13  335  	default:
-abd45c159df5fc Jens Axboe        2021-10-13  336  		break;
-abd45c159df5fc Jens Axboe        2021-10-13  337  	}
-abd45c159df5fc Jens Axboe        2021-10-13  338  
-abd45c159df5fc Jens Axboe        2021-10-13  339  	/*
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  340  	 * Check whether bio splitting should be performed. This check may
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  341  	 * trigger the bio splitting code even if splitting is not necessary.
-abd45c159df5fc Jens Axboe        2021-10-13  342  	 */
-8a2f432fcb4a6c Bart Van Assche   2023-06-12 @343  	if (blk_queue_sub_page_limits(lim) && bio->bi_io_vec &&
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  344  	    bio->bi_io_vec->bv_len > lim->max_segment_size)
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  345  		return true;
-c55ddd9082f757 Christoph Hellwig 2022-07-27  346  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
-abd45c159df5fc Jens Axboe        2021-10-13 @347  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
-abd45c159df5fc Jens Axboe        2021-10-13  348  }
-abd45c159df5fc Jens Axboe        2021-10-13  349  
-
-:::::: The code at line 347 was first introduced by commit
-:::::: abd45c159df5fcb7ac820e2825dac85de7c01c21 block: handle fast path of bio splitting inline
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  342  
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  343  static int iomap_fsverity_init_bioset(void)
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  344  {
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  345  	struct bio_set *bs, *old;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  346  	int error;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  347  
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  348  	bs = kmalloc(sizeof(*bs), GFP_KERNEL);
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  349  	if (!bs)
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  350  		return -ENOMEM;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  351  
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  352  	error = bioset_init(bs, IOMAP_FSVERITY_POOL_SIZE,
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  353  			    offsetof(struct iomap_fsverity_bio, bio),
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  354  			    BIOSET_NEED_BVECS);
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  355  	if (error)
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  356  		goto out_exit;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  357  
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  358  	/*
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  359  	 * This has to be atomic as readaheads can race to create the
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  360  	 * bioset.  If someone set the pointer before us, we drop ours.
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  361  	 */
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  362  	old = cmpxchg(&iomap_fsverity_bioset, NULL, bs);
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  363  	if (old)
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20 @364  		goto out_exit;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  365  
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  366  	return 0;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  367  out_exit:
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  368  	bioset_exit(bs);
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  369  	kfree(bs);
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  370  	return error;
+f0f93bf8ee6030 Darrick J. Wong    2024-03-20  371  }
+a4c740bf529f43 Andrey Albershteyn 2024-03-13  372  
 
 -- 
 0-DAY CI Kernel Test Service
