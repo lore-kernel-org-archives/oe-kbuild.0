@@ -1,69 +1,54 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC7010965
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Mar 2024 06:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4C31C6AB
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Mar 2024 09:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711090237; cv=none; b=XRDmQ7D/N+ejpa9LDMljcp8X25LxQ/MWwcbJ2dfm1mLAWk4c531h66mgBChCAM06DuzZNt6Qp7FMT0mkqbLZBncV6saydHP/Cj05NaoAHfFEiOs3MeITlhSmYUZFczphcvtjNSezVHEeYr7ae5V//EJAOXYlYnPPYvKtwJCwJHQ=
+	t=1711098458; cv=none; b=mCOS/vgQSatkHhZ6BA9UQVtgx9DArCu8EAGBR5e5V0TnPdzfa5ZNCJW0/xyLH5sNAxAXRfF0bwinsfK+ZR0HgLPKgKyyx4hhc01N5bXDvzqy01X2tAAck0eXJuXtr4C9jiMXOpW6/1MURG8ObvLcpkWFx+W3VgItyxkN3AzvIKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711090237; c=relaxed/simple;
-	bh=zrzuAso8aeh5pC4mAiFrJhVpvOb5mnzmkaw95vJcMks=;
+	s=arc-20240116; t=1711098458; c=relaxed/simple;
+	bh=QGZYCPpWIG8bZGnUZcDQ4yNPhg2ebFeQkAB3JSwCAv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ZnlfH7Lx7xYYU1tzJvdBVFumWvN5j/5a2ag/nBocZGyJzmL8EqMk1CpP9wWNfY6AXnYioLKMmUSAcNICkcNGLkor0qwQqvVXw/jYvj4xom7jjLKrkgKR2S91O/tESbK3h2YvDI8sais2s/kpeskVo1dyVFdyb1ej/+mCqtd68ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nf0vgoyt; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=hDcJW8HuXDchvfmspTHZjZ6P47UxcoZl4ULLXzE7duH9evyXVgf4zN2Eyyt1Al0vjjrGelupQt2cBF/9oO5QyfD7aQi7oXSdpDagGpz5gNreebFQxzYuXTbrkU2ITzjJCK82mm8muMoJ6mIU9G6pey4X2IWyNEoHfdNuNVuIsdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=duIAzfUY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nf0vgoyt"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d475b6609eso22871221fa.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 21 Mar 2024 23:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711090234; x=1711695034; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
-        b=Nf0vgoytz8xeVZd7qc9PE0yOTBNACkvCE8atRlbnv4OIRNN3p9Q2YohTWwKctKm/Qb
-         aJAEWEAoPjMPgeIsyaUeLH3gGtQ4zB8FZWfe5Eb6MaOGHtCy1GPumP+fqQdKO1JHCzMo
-         1WdNNxD/z2qkuAA3svT/y18tVd9CxjtjMRrSH+Zbif+MswHUywXn0YumwdPk4DbXjFFI
-         9Ucjd0s7ym7L56Zndpc0h6/V+xUKKQhWEdCMWX70hueEPAy/ytfadc3pQbSzRYhpgPn1
-         T18tC2TaHA3g55gposEey2r7DEvT3ngHXWaZy9eyIq61fhx6FVQNcXOh7krDQlCQVgLD
-         KLoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711090234; x=1711695034;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
-        b=LnSh0E2A74LHHgPJ8KiEQa+upEeaOQ9wf5t6tth1ZdcVsr9rZSqm1E42Aa3c4wjOz8
-         tB10fZ7ncwP8rhM7AkWU3YwJrLLO8/7aIEqwSP3i1mbFjwpUPtMuWuvJK/vX3M66lN91
-         gs83yKhUaZ6WvkMN3Mx9wOAHuLjJU0IcwdDTTuhgQlqpAicDKKcDU2UW1ncvNU7Qe3lN
-         jAT5R8ol8x6hVe3sJ0n19g+3kswUu0agdQz7mHPgkfUKC4AB3InxVjoxGIafI57yredX
-         zcAlR5YWrAbTkH39t2FtYKkGhjNd726eCKXK++OLSKf1j+NJMT5pZKCPD54nCuUx4gKC
-         xzFg==
-X-Gm-Message-State: AOJu0Yy1OiD2FHSiJJKgBtCY9v6SV0yq7Ek68Tu5y6VDK139ds6B2P9r
-	+bxi9JTBdeOxPl1cUEu5CuCGLxy0tyPxpqoit0W7GOzUYTM/Sn4tFlTTGx+lDxxOjEHsJYWHcyH
-	p
-X-Google-Smtp-Source: AGHT+IFMKzopYJg1Vt6qS3sf2pwS4XyO1nc7E0ZLMHJ/MRpND18D1RLffEWtQvCiMJW2u64hmYBWrg==
-X-Received: by 2002:a2e:3015:0:b0:2d2:dfd6:8335 with SMTP id w21-20020a2e3015000000b002d2dfd68335mr1126741ljw.22.1711090233349;
-        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id q17-20020a05600c46d100b00414659ba8c2sm2090679wmo.37.2024.03.21.23.50.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
-Date: Fri, 22 Mar 2024 09:50:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Heng Qi <hengqi@linux.alibaba.com>,
-	netdev@vger.kernel.org, virtualization@lists.linux.dev,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
-Message-ID: <b7392d49-5619-4653-b565-29a7c5ca6ca1@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duIAzfUY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711098441; x=1742634441;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QGZYCPpWIG8bZGnUZcDQ4yNPhg2ebFeQkAB3JSwCAv4=;
+  b=duIAzfUYDZw2m1LLBtXocDDNsPRX2yWMvFplFG7dsIuBCscGNR2c1xFd
+   3NHJVF/3/xIqxfD2MafaC40PGWUWSmugynz6xCC7/h0VKg2pYCv2EjD71
+   kGDPV9xwn197VIhn7hDvVHxOjtqWOeddPEVKfMNWm8V1gPn/LyP2uWtft
+   5UE78LX/FLbHSAbcTw2aUZ5NcAZvTY7e+ZYwwkO9KROxqG3qqL9c9tQdN
+   6bwOWbIzeoqqv/fMhgfYXU4zS+T6jwJIxv0o3SP0p7iugWGuQDidhJlR0
+   Mea2efdiFroKmSxm1tBqv/ZYWKNtFfPfySy7c75A5Dv/D+yoMvKuoeufZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="6073537"
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="6073537"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 02:07:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,145,1708416000"; 
+   d="scan'208";a="14714193"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 22 Mar 2024 02:07:18 -0700
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rnarr-000KBn-1t;
+	Fri, 22 Mar 2024 09:07:15 +0000
+Date: Fri, 22 Mar 2024 17:06:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2:
+ sparse: sparse: "AltiVec support not enabled"
+Message-ID: <202403221609.ZwvYkFdR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,75 +57,4326 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1711021557-58116-3-git-send-email-hengqi@linux.alibaba.com>
 
-Hi Heng,
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled""
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-fix-possible-dim-status-unrecoverable/20240321-194759
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1711021557-58116-3-git-send-email-hengqi%40linux.alibaba.com
-patch subject: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
-config: i386-randconfig-141-20240322 (https://download.01.org/0day-ci/archive/20240322/202403221133.J66oueZh-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8e938e39866920ddc266898e6ae1fffc5c8f51aa
+commit: cd575ddf57af004913ff5a994aa5f3203216fa68 bcachefs: Erasure coding
+date:   5 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 5 months ago
+config: powerpc-randconfig-r132-20240321 (https://download.01.org/0day-ci/archive/20240322/202403221609.ZwvYkFdR-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
+reproduce: (https://download.01.org/0day-ci/archive/20240322/202403221609.ZwvYkFdR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403221133.J66oueZh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403221609.ZwvYkFdR-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/virtio_net.c:5031 virtnet_probe() warn: missing error code 'err'
-
-vim +/err +5031 drivers/net/virtio_net.c
-
-986a4f4d452dec Jason Wang            2012-12-07  5006  	/* Allocate/initialize the rx/tx queues, and invoke find_vqs */
-3f9c10b0d478a3 Amit Shah             2011-12-22  5007  	err = init_vqs(vi);
-d2a7ddda9ffb1c Michael S. Tsirkin    2009-06-12  5008  	if (err)
-d7dfc5cf56b0e3 Toshiaki Makita       2018-01-17  5009  		goto free;
-296f96fcfc160e Rusty Russell         2007-10-22  5010  
-3014a0d54820d2 Heng Qi               2023-10-08  5011  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_NOTF_COAL)) {
-3014a0d54820d2 Heng Qi               2023-10-08  5012  		vi->intr_coal_rx.max_usecs = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5013  		vi->intr_coal_tx.max_usecs = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5014  		vi->intr_coal_rx.max_packets = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5015  
-3014a0d54820d2 Heng Qi               2023-10-08  5016  		/* Keep the default values of the coalescing parameters
-3014a0d54820d2 Heng Qi               2023-10-08  5017  		 * aligned with the default napi_tx state.
-3014a0d54820d2 Heng Qi               2023-10-08  5018  		 */
-3014a0d54820d2 Heng Qi               2023-10-08  5019  		if (vi->sq[0].napi.weight)
-3014a0d54820d2 Heng Qi               2023-10-08  5020  			vi->intr_coal_tx.max_packets = 1;
-3014a0d54820d2 Heng Qi               2023-10-08  5021  		else
-3014a0d54820d2 Heng Qi               2023-10-08  5022  			vi->intr_coal_tx.max_packets = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5023  	}
-3014a0d54820d2 Heng Qi               2023-10-08  5024  
-d8cd72f1622753 Heng Qi               2024-03-21  5025  	INIT_LIST_HEAD(&vi->coal_list);
-3014a0d54820d2 Heng Qi               2023-10-08  5026  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_VQ_NOTF_COAL)) {
-d8cd72f1622753 Heng Qi               2024-03-21  5027  		vi->cvq_cmd_nums = 0;
-d8cd72f1622753 Heng Qi               2024-03-21  5028  		vi->dim_loop_index = 0;
-d8cd72f1622753 Heng Qi               2024-03-21  5029  
-d8cd72f1622753 Heng Qi               2024-03-21  5030  		if (virtnet_init_coal_list(vi))
-d8cd72f1622753 Heng Qi               2024-03-21 @5031  			goto free;
-
-This should probably set the error code.
-
-	err = virtnet_init_coal_list(vi);
-	if (err)
-		goto free;
-
-d8cd72f1622753 Heng Qi               2024-03-21  5032  
-3014a0d54820d2 Heng Qi               2023-10-08  5033  		/* The reason is the same as VIRTIO_NET_F_NOTF_COAL. */
-d8cd72f1622753 Heng Qi               2024-03-21  5034  		for (i = 0; i < vi->max_queue_pairs; i++) {
-d8cd72f1622753 Heng Qi               2024-03-21  5035  			vi->rq[i].packets_in_napi = 0;
-3014a0d54820d2 Heng Qi               2023-10-08  5036  			if (vi->sq[i].napi.weight)
-3014a0d54820d2 Heng Qi               2023-10-08  5037  				vi->sq[i].intr_coal.max_packets = 1;
-3014a0d54820d2 Heng Qi               2023-10-08  5038  		}
-d8cd72f1622753 Heng Qi               2024-03-21  5039  	}
+sparse warnings: (new ones prefixed by >>)
+   lib/raid6/altivec2.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/altivec2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/altivec2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/altivec2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/altivec2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec2.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/altivec2.c:41:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/altivec2.c:41:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   lib/raid6/altivec2.c:41:23: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:41:23: sparse: sparse: got char
+   lib/raid6/altivec2.c:50:45: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:50:45: sparse: sparse: got SHLBYTE
+   lib/raid6/altivec2.c:53:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec2.c:53:1: sparse: sparse: got }
+   lib/raid6/altivec2.c:64:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid6/altivec2.c:64:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:64:27: sparse: sparse: got vec_cmpgt
+   lib/raid6/altivec2.c:65:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec2.c:65:1: sparse: sparse: got }
+   lib/raid6/altivec2.c:77:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:77:19: sparse: sparse: got wd0
+   lib/raid6/altivec2.c:78:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:78:19: sparse: sparse: got wd1
+   lib/raid6/altivec2.c:79:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:79:19: sparse: sparse: got x1d
+   lib/raid6/altivec2.c:85:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/altivec2.c:85:17: sparse: sparse: got =
+   lib/raid6/altivec2.c:85:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/altivec2.c:85:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:85:25: sparse: sparse: got <
+   lib/raid6/altivec2.c:85:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:85:37: sparse: sparse: got +=
+   lib/raid6/altivec2.c:87:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec2.c:88:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/altivec2.c:88:25: sparse: sparse: got =
+   lib/raid6/altivec2.c:88:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/altivec2.c:88:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:88:36: sparse: sparse: got >=
+   lib/raid6/altivec2.c:88:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec2.c:88:44: sparse: sparse: got --
+   lib/raid6/altivec2.c:90:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec2.c:103:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec2.c:103:17: sparse: sparse: got }
+   lib/raid6/altivec2.c:105:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec2.c:105:29: sparse: sparse: got *
+   lib/raid6/altivec2.c:106:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec2.c:106:29: sparse: sparse: got *
+   lib/raid6/altivec2.c:107:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec2.c:107:29: sparse: sparse: got *
+   lib/raid6/altivec2.c:108:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec2.c:108:9: sparse: sparse: got }
+   lib/raid6/altivec2.c:120:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec2.c:120:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/altivec2.c:81:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid6/altivec2.c:82:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec2.c:82:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:82:9: sparse:    int [addressable] [toplevel] p
+   lib/raid6/altivec2.c:74:12: sparse: note: previously declared as:
+   lib/raid6/altivec2.c:74:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid6/altivec2.c:83:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec2.c:83:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:83:9: sparse:    int [addressable] [toplevel] q
+   lib/raid6/altivec2.c:74:16: sparse: note: previously declared as:
+   lib/raid6/altivec2.c:74:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid6/altivec2.c:87:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/altivec2.c:87:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec2.c:87:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec2.c:90:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec2.c:90:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec2.c:91:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:92:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:93:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec2.c:94:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec2.c:95:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec2.c:96:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec2.c:97:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec2.c:97:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid6/altivec2.c:93)
+   lib/raid6/altivec2.c:98:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec2.c:98:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid6/altivec2.c:94)
+   lib/raid6/altivec2.c:99:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:99:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid6/altivec2.c:95)
+   lib/raid6/altivec2.c:100:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:100:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid6/altivec2.c:96)
+   lib/raid6/altivec2.c:101:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:102:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec2.c:102:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid6/altivec2.c:87)
+   lib/raid6/altivec2.c:105:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:105:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec2.c:79:9: sparse: note: previously declared as:
+   lib/raid6/altivec2.c:79:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec2.c:106:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:106:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec2.c:79:9: sparse: note: previously declared as:
+   lib/raid6/altivec2.c:79:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec2.c:107:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:107:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec2.c:79:9: sparse: note: previously declared as:
+   lib/raid6/altivec2.c:79:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec2.c:118:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
+   lib/raid6/altivec2.c:118:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
+   lib/raid6/altivec2.c: note: in included file:
+   arch/powerpc/include/asm/switch_to.h:58:20: sparse: note: previously declared as:
+   arch/powerpc/include/asm/switch_to.h:58:20: sparse:    void static inline [gnu_inline] [toplevel] disable_kernel_altivec( ... )
+   lib/raid6/altivec2.c:136:9: sparse: sparse: undefined identifier 'raid6_altivec2_gen_syndrome'
+   lib/raid6/altivec2.c:138:9: sparse: sparse: undefined identifier 'raid6_have_altivec'
+--
+   lib/raid6/altivec1.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/altivec1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/altivec1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/altivec1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/altivec1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec1.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/altivec1.c:41:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/altivec1.c:41:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   lib/raid6/altivec1.c:41:23: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:41:23: sparse: sparse: got char
+   lib/raid6/altivec1.c:50:45: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:50:45: sparse: sparse: got SHLBYTE
+   lib/raid6/altivec1.c:53:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec1.c:53:1: sparse: sparse: got }
+   lib/raid6/altivec1.c:64:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid6/altivec1.c:64:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:64:27: sparse: sparse: got vec_cmpgt
+   lib/raid6/altivec1.c:65:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec1.c:65:1: sparse: sparse: got }
+   lib/raid6/altivec1.c:77:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:77:19: sparse: sparse: got wd0
+   lib/raid6/altivec1.c:78:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:78:19: sparse: sparse: got x1d
+   lib/raid6/altivec1.c:84:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/altivec1.c:84:17: sparse: sparse: got =
+   lib/raid6/altivec1.c:84:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/altivec1.c:84:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:84:25: sparse: sparse: got <
+   lib/raid6/altivec1.c:84:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:84:37: sparse: sparse: got +=
+   lib/raid6/altivec1.c:86:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/altivec1.c:86:25: sparse: sparse: got =
+   lib/raid6/altivec1.c:86:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/altivec1.c:86:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:86:36: sparse: sparse: got >=
+   lib/raid6/altivec1.c:86:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec1.c:86:44: sparse: sparse: got --
+   lib/raid6/altivec1.c:94:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec1.c:94:17: sparse: sparse: got }
+   lib/raid6/altivec1.c:96:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec1.c:96:29: sparse: sparse: got *
+   lib/raid6/altivec1.c:97:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec1.c:97:9: sparse: sparse: got }
+   lib/raid6/altivec1.c:109:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec1.c:109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/altivec1.c:80:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid6/altivec1.c:81:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec1.c:81:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid6/altivec1.c:81:9: sparse:    int [addressable] [toplevel] p
+   lib/raid6/altivec1.c:74:12: sparse: note: previously declared as:
+   lib/raid6/altivec1.c:74:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid6/altivec1.c:82:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec1.c:82:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid6/altivec1.c:82:9: sparse:    int [addressable] [toplevel] q
+   lib/raid6/altivec1.c:74:16: sparse: note: previously declared as:
+   lib/raid6/altivec1.c:74:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid6/altivec1.c:88:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec1.c:89:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec1.c:90:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec1.c:91:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec1.c:91:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid6/altivec1.c:89)
+   lib/raid6/altivec1.c:92:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec1.c:92:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid6/altivec1.c:90)
+   lib/raid6/altivec1.c:93:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec1.c:96:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec1.c:96:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec1.c:78:9: sparse: note: previously declared as:
+   lib/raid6/altivec1.c:78:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec1.c:107:9: sparse: sparse: symbol 'disable_kernel_altivec' redeclared with different type (different base types):
+   lib/raid6/altivec1.c:107:9: sparse:    int static [signed] [toplevel] disable_kernel_altivec( ... )
+   lib/raid6/altivec1.c: note: in included file:
+   arch/powerpc/include/asm/switch_to.h:58:20: sparse: note: previously declared as:
+   arch/powerpc/include/asm/switch_to.h:58:20: sparse:    void static inline [gnu_inline] [toplevel] disable_kernel_altivec( ... )
+   lib/raid6/altivec1.c:125:9: sparse: sparse: undefined identifier 'raid6_altivec1_gen_syndrome'
+--
+   lib/raid6/altivec8.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/altivec8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/altivec8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/altivec8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/altivec8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec8.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/altivec8.c:41:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/altivec8.c:41:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   lib/raid6/altivec8.c:41:23: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:41:23: sparse: sparse: got char
+   lib/raid6/altivec8.c:50:45: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:50:45: sparse: sparse: got SHLBYTE
+   lib/raid6/altivec8.c:53:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec8.c:53:1: sparse: sparse: got }
+   lib/raid6/altivec8.c:64:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid6/altivec8.c:64:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:64:27: sparse: sparse: got vec_cmpgt
+   lib/raid6/altivec8.c:65:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec8.c:65:1: sparse: sparse: got }
+   lib/raid6/altivec8.c:77:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:77:19: sparse: sparse: got wd0
+   lib/raid6/altivec8.c:78:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:78:19: sparse: sparse: got wd1
+   lib/raid6/altivec8.c:79:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:79:19: sparse: sparse: got wd2
+   lib/raid6/altivec8.c:80:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:80:19: sparse: sparse: got wd3
+   lib/raid6/altivec8.c:81:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec8.c:81:19: sparse: sparse: got wd4
+--
+   lib/raid6/altivec8.c:108:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec8.c:157:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec8.c:157:17: sparse: sparse: got }
+   lib/raid6/altivec8.c:159:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:159:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:160:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:160:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:161:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:161:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:162:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:162:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:163:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:163:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:164:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:164:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:165:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:165:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:166:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:166:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:167:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:167:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:168:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:168:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:169:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:169:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:170:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:170:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:171:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:171:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:172:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:172:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:173:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec8.c:173:29: sparse: sparse: got *
+   lib/raid6/altivec8.c:174:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec8.c:174:9: sparse: sparse: got }
+   lib/raid6/altivec8.c:186:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec8.c:186:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/altivec8.c:87:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid6/altivec8.c:88:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:88:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid6/altivec8.c:88:9: sparse:    int [addressable] [toplevel] p
+   lib/raid6/altivec8.c:74:12: sparse: note: previously declared as:
+   lib/raid6/altivec8.c:74:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid6/altivec8.c:89:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:89:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid6/altivec8.c:89:9: sparse:    int [addressable] [toplevel] q
+   lib/raid6/altivec8.c:74:16: sparse: note: previously declared as:
+   lib/raid6/altivec8.c:74:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid6/altivec8.c:93:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/altivec8.c:93:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:93:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:94:23: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/altivec8.c:94:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:94:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:95:23: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/altivec8.c:95:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:95:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:96:23: sparse: sparse: undefined identifier 'wp4'
+   lib/raid6/altivec8.c:96:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:96:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:97:23: sparse: sparse: undefined identifier 'wp5'
+   lib/raid6/altivec8.c:97:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:97:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:98:23: sparse: sparse: undefined identifier 'wp6'
+   lib/raid6/altivec8.c:98:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:98:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:99:23: sparse: sparse: undefined identifier 'wp7'
+   lib/raid6/altivec8.c:99:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:99:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:102:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:102:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:103:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:103:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:104:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:104:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:105:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:105:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:106:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:106:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:107:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:107:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:108:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec8.c:108:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec8.c:109:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:110:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:111:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:112:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:113:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:114:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:115:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:116:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec8.c:117:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:118:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:119:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:120:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:121:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:122:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:123:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:124:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec8.c:125:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:126:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:127:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:128:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:129:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:130:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:131:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:132:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec8.c:133:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec8.c:133:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid6/altivec8.c:117)
+   lib/raid6/altivec8.c:134:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec8.c:134:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid6/altivec8.c:118)
+   lib/raid6/altivec8.c:135:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec8.c:135:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid6/altivec8.c:119)
+--
+   lib/raid6/altivec4.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/altivec4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/altivec4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/altivec4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/altivec4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/altivec4.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/altivec4.c:41:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/altivec4.c:41:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   lib/raid6/altivec4.c:41:23: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:41:23: sparse: sparse: got char
+   lib/raid6/altivec4.c:50:45: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:50:45: sparse: sparse: got SHLBYTE
+   lib/raid6/altivec4.c:53:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec4.c:53:1: sparse: sparse: got }
+   lib/raid6/altivec4.c:64:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   lib/raid6/altivec4.c:64:27: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:64:27: sparse: sparse: got vec_cmpgt
+   lib/raid6/altivec4.c:65:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec4.c:65:1: sparse: sparse: got }
+   lib/raid6/altivec4.c:77:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:77:19: sparse: sparse: got wd0
+   lib/raid6/altivec4.c:78:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:78:19: sparse: sparse: got wd1
+   lib/raid6/altivec4.c:79:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:79:19: sparse: sparse: got wd2
+   lib/raid6/altivec4.c:80:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:80:19: sparse: sparse: got wd3
+   lib/raid6/altivec4.c:81:19: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:81:19: sparse: sparse: got x1d
+--
+   lib/raid6/altivec4.c:87:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:87:25: sparse: sparse: got <
+   lib/raid6/altivec4.c:87:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:87:37: sparse: sparse: got +=
+   lib/raid6/altivec4.c:89:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:90:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:91:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:92:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/altivec4.c:92:25: sparse: sparse: got =
+   lib/raid6/altivec4.c:92:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/altivec4.c:92:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:92:36: sparse: sparse: got >=
+   lib/raid6/altivec4.c:92:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/altivec4.c:92:44: sparse: sparse: got --
+   lib/raid6/altivec4.c:94:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:95:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:96:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/altivec4.c:121:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec4.c:121:17: sparse: sparse: got }
+   lib/raid6/altivec4.c:123:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:123:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:124:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:124:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:125:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:125:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:126:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:126:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:127:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:127:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:128:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:128:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:129:29: sparse: sparse: Expected ) in nested declarator
+   lib/raid6/altivec4.c:129:29: sparse: sparse: got *
+   lib/raid6/altivec4.c:130:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec4.c:130:9: sparse: sparse: got }
+   lib/raid6/altivec4.c:142:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/altivec4.c:142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/altivec4.c:83:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid6/altivec4.c:84:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:84:9: sparse: sparse: symbol 'p' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:84:9: sparse:    int [addressable] [toplevel] p
+   lib/raid6/altivec4.c:74:12: sparse: note: previously declared as:
+   lib/raid6/altivec4.c:74:12: sparse:    unsigned char [usertype] *[addressable] [toplevel] p
+   lib/raid6/altivec4.c:85:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:85:9: sparse: sparse: symbol 'q' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:85:9: sparse:    int [addressable] [toplevel] q
+   lib/raid6/altivec4.c:74:16: sparse: note: previously declared as:
+   lib/raid6/altivec4.c:74:16: sparse:    unsigned char [usertype] *[addressable] [toplevel] q
+   lib/raid6/altivec4.c:89:23: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/altivec4.c:89:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:89:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:90:23: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/altivec4.c:90:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:90:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:91:23: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/altivec4.c:91:29: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:91:44: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:94:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:94:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:95:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:95:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:96:31: sparse: sparse: cannot dereference this type
+   lib/raid6/altivec4.c:96:46: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/altivec4.c:97:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:98:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:99:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:100:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:101:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec4.c:102:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec4.c:103:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec4.c:104:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/altivec4.c:105:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec4.c:106:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec4.c:107:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec4.c:108:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/altivec4.c:109:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec4.c:109:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid6/altivec4.c:101)
+   lib/raid6/altivec4.c:110:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec4.c:110:25: sparse: sparse: symbol 'w21' has multiple initializers (originally initialized at lib/raid6/altivec4.c:102)
+   lib/raid6/altivec4.c:111:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec4.c:111:25: sparse: sparse: symbol 'w22' has multiple initializers (originally initialized at lib/raid6/altivec4.c:103)
+   lib/raid6/altivec4.c:112:31: sparse: sparse: undefined identifier 'vec_and'
+   lib/raid6/altivec4.c:112:25: sparse: sparse: symbol 'w23' has multiple initializers (originally initialized at lib/raid6/altivec4.c:104)
+   lib/raid6/altivec4.c:113:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:113:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid6/altivec4.c:105)
+   lib/raid6/altivec4.c:114:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:114:25: sparse: sparse: symbol 'w11' has multiple initializers (originally initialized at lib/raid6/altivec4.c:106)
+   lib/raid6/altivec4.c:115:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:115:25: sparse: sparse: symbol 'w12' has multiple initializers (originally initialized at lib/raid6/altivec4.c:107)
+   lib/raid6/altivec4.c:116:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:116:25: sparse: sparse: symbol 'w13' has multiple initializers (originally initialized at lib/raid6/altivec4.c:108)
+   lib/raid6/altivec4.c:117:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:118:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:118:25: sparse: sparse: symbol 'wq1' has multiple initializers (originally initialized at lib/raid6/altivec4.c:89)
+   lib/raid6/altivec4.c:119:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:119:25: sparse: sparse: symbol 'wq2' has multiple initializers (originally initialized at lib/raid6/altivec4.c:90)
+   lib/raid6/altivec4.c:120:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/altivec4.c:120:25: sparse: sparse: symbol 'wq3' has multiple initializers (originally initialized at lib/raid6/altivec4.c:91)
+   lib/raid6/altivec4.c:123:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:123:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec4.c:81:9: sparse: note: previously declared as:
+   lib/raid6/altivec4.c:81:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec4.c:124:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:124:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec4.c:81:9: sparse: note: previously declared as:
+   lib/raid6/altivec4.c:81:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec4.c:125:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:125:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec4.c:81:9: sparse: note: previously declared as:
+   lib/raid6/altivec4.c:81:9: sparse:    int static [toplevel] unative_t
+   lib/raid6/altivec4.c:126:17: sparse: sparse: symbol 'unative_t' redeclared with different type (different base types):
+   lib/raid6/altivec4.c:126:17: sparse:    incomplete type *static [toplevel] unative_t
+   lib/raid6/altivec4.c:81:9: sparse: note: previously declared as:
+--
+   lib/raid6/vpermxor1.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/vpermxor1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor1.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor1.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/vpermxor1.c:33:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor1.c:33:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor1.c:33:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor1.c:33:25: sparse: sparse: got char
+   lib/raid6/vpermxor1.c:36:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor1.c:36:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor1.c:36:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor1.c:36:30: sparse: sparse: got char
+   lib/raid6/vpermxor1.c:39:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor1.c:39:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor1.c:39:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor1.c:39:30: sparse: sparse: got char
+   lib/raid6/vpermxor1.c:49:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor1.c:49:19: sparse: sparse: got wp0
+   lib/raid6/vpermxor1.c:56:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor1.c:59:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor1.c:67:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor1.c:68:30: sparse: sparse: No right hand side of '*'-expression
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/vpermxor1.c:49:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:56:17: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor1.c:56:23: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor1.c:56:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:56:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:59:25: sparse: sparse: undefined identifier 'wd0'
+   lib/raid6/vpermxor1.c:59:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:59:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:61:25: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor1.c:61:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor1.c:64:56: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor1.c:65:25: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor1.c:65:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor1.c:67:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:67:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:67:47: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor1.c:68:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:68:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor1.c:68:47: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor1.c:55:37: sparse: sparse: undefined identifier 'unative_t'
+--
+   lib/raid6/vpermxor2.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/vpermxor2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor2.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor2.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/vpermxor2.c:33:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor2.c:33:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor2.c:33:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor2.c:33:25: sparse: sparse: got char
+   lib/raid6/vpermxor2.c:36:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor2.c:36:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor2.c:36:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor2.c:36:30: sparse: sparse: got char
+   lib/raid6/vpermxor2.c:39:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor2.c:39:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor2.c:39:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor2.c:39:30: sparse: sparse: got char
+   lib/raid6/vpermxor2.c:49:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor2.c:49:19: sparse: sparse: got wp0
+   lib/raid6/vpermxor2.c:50:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor2.c:50:19: sparse: sparse: got wp1
+   lib/raid6/vpermxor2.c:57:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:58:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:61:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:62:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:73:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:74:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:75:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor2.c:76:30: sparse: sparse: No right hand side of '*'-expression
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/vpermxor2.c:49:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:50:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:57:17: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor2.c:57:23: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor2.c:57:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:57:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:58:17: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor2.c:58:23: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor2.c:58:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:58:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:61:25: sparse: sparse: undefined identifier 'wd0'
+   lib/raid6/vpermxor2.c:61:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:61:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:62:25: sparse: sparse: undefined identifier 'wd1'
+   lib/raid6/vpermxor2.c:62:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:62:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:64:25: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor2.c:64:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor2.c:65:25: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor2.c:65:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor2.c:68:56: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor2.c:69:56: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor2.c:70:25: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor2.c:70:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor2.c:71:25: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor2.c:71:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor2.c:73:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:73:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:73:47: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor2.c:74:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:74:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:74:47: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor2.c:75:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:75:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:75:47: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor2.c:76:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:76:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor2.c:76:47: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor2.c:56:37: sparse: sparse: undefined identifier 'unative_t'
+--
+   lib/raid6/vpermxor4.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/vpermxor4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor4.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor4.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/vpermxor4.c:33:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor4.c:33:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor4.c:33:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor4.c:33:25: sparse: sparse: got char
+   lib/raid6/vpermxor4.c:36:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor4.c:36:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor4.c:36:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor4.c:36:30: sparse: sparse: got char
+   lib/raid6/vpermxor4.c:39:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor4.c:39:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor4.c:39:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor4.c:39:30: sparse: sparse: got char
+   lib/raid6/vpermxor4.c:49:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor4.c:49:19: sparse: sparse: got wp0
+   lib/raid6/vpermxor4.c:50:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor4.c:50:19: sparse: sparse: got wp1
+   lib/raid6/vpermxor4.c:51:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor4.c:51:19: sparse: sparse: got wp2
+   lib/raid6/vpermxor4.c:52:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor4.c:52:19: sparse: sparse: got wp3
+   lib/raid6/vpermxor4.c:59:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:60:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:61:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:62:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:65:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:66:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:67:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:68:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:85:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:86:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:87:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:88:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:89:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:90:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:91:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor4.c:92:30: sparse: sparse: No right hand side of '*'-expression
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/vpermxor4.c:49:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:50:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:51:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:52:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:59:17: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor4.c:59:23: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor4.c:59:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:59:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:60:17: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor4.c:60:23: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor4.c:60:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:60:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:61:17: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/vpermxor4.c:61:23: sparse: sparse: undefined identifier 'wq2'
+   lib/raid6/vpermxor4.c:61:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:61:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:62:17: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/vpermxor4.c:62:23: sparse: sparse: undefined identifier 'wq3'
+   lib/raid6/vpermxor4.c:62:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:62:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:65:25: sparse: sparse: undefined identifier 'wd0'
+   lib/raid6/vpermxor4.c:65:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:65:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:66:25: sparse: sparse: undefined identifier 'wd1'
+   lib/raid6/vpermxor4.c:66:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:66:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:67:25: sparse: sparse: undefined identifier 'wd2'
+   lib/raid6/vpermxor4.c:67:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:67:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:68:25: sparse: sparse: undefined identifier 'wd3'
+   lib/raid6/vpermxor4.c:68:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:68:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:70:25: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor4.c:70:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:71:25: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor4.c:71:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:72:25: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/vpermxor4.c:72:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:73:25: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/vpermxor4.c:73:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:76:56: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor4.c:77:56: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor4.c:78:56: sparse: sparse: undefined identifier 'wq2'
+   lib/raid6/vpermxor4.c:79:56: sparse: sparse: undefined identifier 'wq3'
+   lib/raid6/vpermxor4.c:80:25: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor4.c:80:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:81:25: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor4.c:81:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:82:25: sparse: sparse: undefined identifier 'wq2'
+   lib/raid6/vpermxor4.c:82:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:83:25: sparse: sparse: undefined identifier 'wq3'
+   lib/raid6/vpermxor4.c:83:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor4.c:85:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:85:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:85:47: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor4.c:86:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:86:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:86:47: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor4.c:87:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:87:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:87:47: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/vpermxor4.c:88:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:88:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:88:47: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/vpermxor4.c:89:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:89:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:89:47: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor4.c:90:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:90:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:90:47: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor4.c:91:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:91:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:91:47: sparse: sparse: undefined identifier 'wq2'
+   lib/raid6/vpermxor4.c:92:19: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:92:36: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor4.c:92:47: sparse: sparse: undefined identifier 'wq3'
+--
+   lib/raid6/vpermxor8.c: note: in included file:
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:13:2: sparse: sparse: "AltiVec support not enabled"
+   lib/raid6/vpermxor8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_ptrdiff_t.h:14:26: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_size_t.h:14:23: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:17:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_wchar_t.h:16:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:41: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_null.h:10:20: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor8.c: note: in included file (through /opt/cross/clang-23de3862dc/lib/clang/19/include/stddef.h, /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h):
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:15:50: sparse: sparse: not a function <noident>
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/__stddef_offsetof.h:14:24: sparse: sparse: bad constant expression type
+   lib/raid6/vpermxor8.c: note: in included file:
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:50:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:53:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:57:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:60:26: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:64:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:68:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:71:26: sparse: sparse: got pixel
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:75:26: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:79:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:82:26: sparse: sparse: got bool
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:85:26: sparse: sparse: got float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:107:26: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:116:26: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:119:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:124:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:129:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: Expected ) in function declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:18: sparse: sparse: got float
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:144:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:146:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:163:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:169:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:175:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:202:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:207:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:217:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:222:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:227:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:232:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:242:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:247:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:252:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:257:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:267:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:272:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:277:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:282:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:345:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:386:10: sparse: sparse: got signed
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:387:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:388:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:394:10: sparse: sparse: got unsigned
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:395:10: sparse: sparse: got vec_add
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:396:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:478:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:483:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:488:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:493:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:498:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:503:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:512:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:517:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:522:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:527:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:532:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:537:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:551:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:556:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:561:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:566:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:571:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:580:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:588:1: sparse: sparse: got }
+--
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17097:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17103:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17109:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17115:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17121:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17125:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17130:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17136:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17142:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17148:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17154:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17160:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17212:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17250:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17268:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17286:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17304:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17321:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17334:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17531:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17536:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17542:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17546:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17550:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17555:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17559:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17564:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17569:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17573:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17600:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17605:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17610:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17616:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17617:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17623:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17624:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17630:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17631:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17637:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17638:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17644:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17645:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17651:10: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17652:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:2: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17658:9: sparse: sparse: got vec_perm
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17659:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17717:16: sparse: sparse: got unsigned
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17718:23: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17719:25: sparse: sparse: got short
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:16: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17720:23: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17721:25: sparse: sparse: got int
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: two or more data types in declaration specifiers
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:16: sparse: sparse: Trying to use reserved word 'float' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17722:22: sparse: sparse: got unaligned_vec_float
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: two or more data types in declaration specifiers
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:35: sparse: sparse: Trying to use reserved word 'signed' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17724:42: sparse: sparse: got char
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17727:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17732:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17737:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17738:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17743:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17744:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17749:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17750:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17755:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17756:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:3: sparse: sparse: Trying to use reserved word 'return' as identifier
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: Expected ; at end of declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17761:10: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17762:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:17997:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18002:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18007:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18008:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18014:26: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18015:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18020:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18021:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18026:24: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18027:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: Expected ) in nested declarator
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18032:25: sparse: sparse: got *
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18033:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18237:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18254:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18258:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18262:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18266:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18283:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18287:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18291:1: sparse: sparse: got }
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: Expected ; at the end of type declaration
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:18296:1: sparse: sparse: got }
+   lib/raid6/vpermxor8.c:33:16: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor8.c:33:16: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor8.c:33:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor8.c:33:25: sparse: sparse: got char
+   lib/raid6/vpermxor8.c:36:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor8.c:36:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor8.c:36:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor8.c:36:30: sparse: sparse: got char
+   lib/raid6/vpermxor8.c:39:21: sparse: sparse: two or more data types in declaration specifiers
+   lib/raid6/vpermxor8.c:39:21: sparse: sparse: Trying to use reserved word 'unsigned' as identifier
+   lib/raid6/vpermxor8.c:39:30: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/vpermxor8.c:39:30: sparse: sparse: got char
+   lib/raid6/vpermxor8.c:49:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:49:19: sparse: sparse: got wp0
+   lib/raid6/vpermxor8.c:50:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:50:19: sparse: sparse: got wp1
+   lib/raid6/vpermxor8.c:51:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:51:19: sparse: sparse: got wp2
+   lib/raid6/vpermxor8.c:52:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:52:19: sparse: sparse: got wp3
+   lib/raid6/vpermxor8.c:53:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:53:19: sparse: sparse: got wp4
+   lib/raid6/vpermxor8.c:54:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:54:19: sparse: sparse: got wp5
+   lib/raid6/vpermxor8.c:55:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:55:19: sparse: sparse: got wp6
+   lib/raid6/vpermxor8.c:56:19: sparse: sparse: Expected ; at end of statement
+   lib/raid6/vpermxor8.c:56:19: sparse: sparse: got wp7
+   lib/raid6/vpermxor8.c:63:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:64:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:65:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:66:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:67:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:68:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:69:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:70:42: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:73:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:74:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:75:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:76:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:77:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:78:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:79:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:80:44: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:109:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:110:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:111:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:112:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:113:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:114:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:115:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:116:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:117:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:118:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:119:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:120:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:121:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:122:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:123:30: sparse: sparse: No right hand side of '*'-expression
+   lib/raid6/vpermxor8.c:124:30: sparse: sparse: No right hand side of '*'-expression
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10107)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10116)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10125)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10134)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10143)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10152)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:22: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:35: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:30: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:48: sparse: sparse: undefined identifier 'b0'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170:43: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10161)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10241)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10250)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10259)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10268)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10170)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10281)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10290)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:22: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:17: sparse: sparse: symbol 'b1' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:36: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:31: sparse: sparse: symbol 'b2' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:50: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10308:45: sparse: sparse: symbol 'b3' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:10299)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:13: sparse: sparse: bad constant expression type
+>> /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14654)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14664)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14672)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14681)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14688)
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:9: sparse: sparse: undefined identifier '__b'
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:13: sparse: sparse: bad constant expression type
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:22: sparse: sparse: invalid initializer
+   /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14704:3: sparse: sparse: symbol '__res' has multiple initializers (originally initialized at /opt/cross/clang-23de3862dc/lib/clang/19/include/altivec.h:14697)
+   lib/raid6/vpermxor8.c:49:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:50:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:51:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:52:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:53:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:54:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:55:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:56:9: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:63:17: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor8.c:63:23: sparse: sparse: undefined identifier 'wq0'
+   lib/raid6/vpermxor8.c:63:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:63:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:64:17: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor8.c:64:23: sparse: sparse: undefined identifier 'wq1'
+   lib/raid6/vpermxor8.c:64:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:64:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:65:17: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/vpermxor8.c:65:23: sparse: sparse: undefined identifier 'wq2'
+   lib/raid6/vpermxor8.c:65:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:65:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:66:17: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/vpermxor8.c:66:23: sparse: sparse: undefined identifier 'wq3'
+   lib/raid6/vpermxor8.c:66:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:66:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:67:17: sparse: sparse: undefined identifier 'wp4'
+   lib/raid6/vpermxor8.c:67:23: sparse: sparse: undefined identifier 'wq4'
+   lib/raid6/vpermxor8.c:67:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:67:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:68:17: sparse: sparse: undefined identifier 'wp5'
+   lib/raid6/vpermxor8.c:68:23: sparse: sparse: undefined identifier 'wq5'
+   lib/raid6/vpermxor8.c:68:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:68:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:69:17: sparse: sparse: undefined identifier 'wp6'
+   lib/raid6/vpermxor8.c:69:23: sparse: sparse: undefined identifier 'wq6'
+   lib/raid6/vpermxor8.c:69:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:69:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:70:17: sparse: sparse: undefined identifier 'wp7'
+   lib/raid6/vpermxor8.c:70:23: sparse: sparse: undefined identifier 'wq7'
+   lib/raid6/vpermxor8.c:70:31: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:70:57: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:73:25: sparse: sparse: undefined identifier 'wd0'
+   lib/raid6/vpermxor8.c:73:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:73:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:74:25: sparse: sparse: undefined identifier 'wd1'
+   lib/raid6/vpermxor8.c:74:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:74:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:75:25: sparse: sparse: undefined identifier 'wd2'
+   lib/raid6/vpermxor8.c:75:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:75:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:76:25: sparse: sparse: undefined identifier 'wd3'
+   lib/raid6/vpermxor8.c:76:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:76:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:77:25: sparse: sparse: undefined identifier 'wd4'
+   lib/raid6/vpermxor8.c:77:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:77:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:78:25: sparse: sparse: undefined identifier 'wd5'
+   lib/raid6/vpermxor8.c:78:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:78:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:79:25: sparse: sparse: undefined identifier 'wd6'
+   lib/raid6/vpermxor8.c:79:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:79:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:80:25: sparse: sparse: undefined identifier 'wd7'
+   lib/raid6/vpermxor8.c:80:33: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:80:58: sparse: sparse: undefined identifier 'unative_t'
+   lib/raid6/vpermxor8.c:82:25: sparse: sparse: undefined identifier 'wp0'
+   lib/raid6/vpermxor8.c:82:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor8.c:83:25: sparse: sparse: undefined identifier 'wp1'
+   lib/raid6/vpermxor8.c:83:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor8.c:84:25: sparse: sparse: undefined identifier 'wp2'
+   lib/raid6/vpermxor8.c:84:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor8.c:85:25: sparse: sparse: undefined identifier 'wp3'
+   lib/raid6/vpermxor8.c:85:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor8.c:86:25: sparse: sparse: undefined identifier 'wp4'
+   lib/raid6/vpermxor8.c:86:31: sparse: sparse: undefined identifier 'vec_xor'
+   lib/raid6/vpermxor8.c:87:25: sparse: sparse: undefined identifier 'wp5'
+   lib/raid6/vpermxor8.c:87:31: sparse: sparse: undefined identifier 'vec_xor'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
