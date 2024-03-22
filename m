@@ -1,63 +1,69 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76015C8DE
-	for <oe-kbuild@lists.linux.dev>; Fri, 22 Mar 2024 06:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC7010965
+	for <oe-kbuild@lists.linux.dev>; Fri, 22 Mar 2024 06:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711090060; cv=none; b=KxsnDkJTQr1HahaxdVIXa2fdVL5z/p3Yh8eZQNWDrKDXiD3kWUNoJ1GeV7rZ7ARbGA8ZnCpN6CcIfKEOL0kD7FsyKBw5305Kn4RzvUXTu/22B2EMgCiqvb81qAye7gyKjZgCnRXd1QzFd7/kCxbzqJFx4J9pLfBnkrA34ZH3pyk=
+	t=1711090237; cv=none; b=XRDmQ7D/N+ejpa9LDMljcp8X25LxQ/MWwcbJ2dfm1mLAWk4c531h66mgBChCAM06DuzZNt6Qp7FMT0mkqbLZBncV6saydHP/Cj05NaoAHfFEiOs3MeITlhSmYUZFczphcvtjNSezVHEeYr7ae5V//EJAOXYlYnPPYvKtwJCwJHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711090060; c=relaxed/simple;
-	bh=gFqZU16vxxTe/zJ27a7yIc0LkX9tywZjiOiwWzvDfhc=;
+	s=arc-20240116; t=1711090237; c=relaxed/simple;
+	bh=zrzuAso8aeh5pC4mAiFrJhVpvOb5mnzmkaw95vJcMks=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CeqoPMrwUUSetRUh759DmZkzLO1rZ/87KDsE2AxZAUFlN612wOhT7p0lSjWQARxOCjXK0wCb5ZjP7pOSL+3HCtf3RX8Avi40BtbiffD9tZ6UtmYNDfOcGnFdSn+1CW3a5R7VwZ/tVIk7y2X0gBmdJei+xo0EeGKN8nEFvvXTbZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TKop6giQ; arc=none smtp.client-ip=209.85.221.41
+	 Content-Disposition:In-Reply-To; b=ZnlfH7Lx7xYYU1tzJvdBVFumWvN5j/5a2ag/nBocZGyJzmL8EqMk1CpP9wWNfY6AXnYioLKMmUSAcNICkcNGLkor0qwQqvVXw/jYvj4xom7jjLKrkgKR2S91O/tESbK3h2YvDI8sais2s/kpeskVo1dyVFdyb1ej/+mCqtd68ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nf0vgoyt; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TKop6giQ"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-341b9f6fb2eso29033f8f.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 21 Mar 2024 23:47:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nf0vgoyt"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d475b6609eso22871221fa.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 21 Mar 2024 23:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711090056; x=1711694856; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TUy1pUFZGRZWiaEeg2Zv5YdnBWiyjqTrFVitFmUSYsE=;
-        b=TKop6giQXR49ZiIwzByCqY0MOD+XuI/aqeYVlr4SlHbW5xkAEcPtQtPfDDw40QgDVH
-         ZzPYawoBuL0JgXoaHfydiamYbfS/QwVJGPZ+71uVu6XAWRXANULbTL3WA64EaNd4KLZX
-         cl4yZyyLI9/lNSsJg96sjy8JpyO362YyvoCbmcUps1vfqkaPkrltb07LiQST5yfOEE4G
-         KBlxSL0iihB97nBaikRCJUrx3veJVkQR0xj+tNNTt229qqWCIeH3r4e44CPR00fScEnZ
-         M2QFAKBXfUKAeqN6MEzQpPrDCDy9pw5chdD1bdCJtsfNHCn4/k4V/WLQz3ymDnbjL4yQ
-         QZjQ==
+        d=linaro.org; s=google; t=1711090234; x=1711695034; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
+        b=Nf0vgoytz8xeVZd7qc9PE0yOTBNACkvCE8atRlbnv4OIRNN3p9Q2YohTWwKctKm/Qb
+         aJAEWEAoPjMPgeIsyaUeLH3gGtQ4zB8FZWfe5Eb6MaOGHtCy1GPumP+fqQdKO1JHCzMo
+         1WdNNxD/z2qkuAA3svT/y18tVd9CxjtjMRrSH+Zbif+MswHUywXn0YumwdPk4DbXjFFI
+         9Ucjd0s7ym7L56Zndpc0h6/V+xUKKQhWEdCMWX70hueEPAy/ytfadc3pQbSzRYhpgPn1
+         T18tC2TaHA3g55gposEey2r7DEvT3ngHXWaZy9eyIq61fhx6FVQNcXOh7krDQlCQVgLD
+         KLoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711090056; x=1711694856;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TUy1pUFZGRZWiaEeg2Zv5YdnBWiyjqTrFVitFmUSYsE=;
-        b=QD92UETlohJWsqer38amgoNE0soYFj9hAHY1TuJBYBDHNY3Ep3JFII21fVXwajZ5Ov
-         Tk6LaFtwVXGp8/Zmyr5h3wNSsbrlVpYPUWik3WiejELHSpYmEI9eSwHp29TocCRT+T8N
-         Yt2eTHALlPVm4Og8/EDRChFcqm3Oc3GxX6Hkid7SjLk0oTl4UFiHsOoq+uKGW1eOp4N4
-         PpkBejmXB5EuICR0cmfAYWEySPXHDtEn8YHazvQoc7F1E2LEGI3IaCW6s0Op3MSW9CNA
-         qfifI3ll22InnS30dWpLBNZNwVpetzg2Q8pBtbQyAu6k78t7T2YWhjkhgQQppQ7xmVIm
-         2coA==
-X-Gm-Message-State: AOJu0YytHc7ciIS6kvhSaNAsRnYulLpbrqRMGmbxO2vD9SHp4r6/+L0W
-	Y0FURYaOUBJX6j8Nx6nJvbZAsFOAbwh/ErxS8naq7nwsMgA5h8Q7HjlyK1OqZqBOkLwn/P5zREk
-	e
-X-Google-Smtp-Source: AGHT+IGbKjxqqIZAIbwwt2SMljk30paWqYEdUeXvGC+QNms9hxkoR1ACr3MscyEyBggmvLkEKrgmIw==
-X-Received: by 2002:adf:f109:0:b0:341:8ba6:2ffc with SMTP id r9-20020adff109000000b003418ba62ffcmr840701wro.39.1711090056369;
-        Thu, 21 Mar 2024 23:47:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711090234; x=1711695034;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Lear5JurVCpdFHONteGtRS/FeuXHg1HujgyE41Ql6qk=;
+        b=LnSh0E2A74LHHgPJ8KiEQa+upEeaOQ9wf5t6tth1ZdcVsr9rZSqm1E42Aa3c4wjOz8
+         tB10fZ7ncwP8rhM7AkWU3YwJrLLO8/7aIEqwSP3i1mbFjwpUPtMuWuvJK/vX3M66lN91
+         gs83yKhUaZ6WvkMN3Mx9wOAHuLjJU0IcwdDTTuhgQlqpAicDKKcDU2UW1ncvNU7Qe3lN
+         jAT5R8ol8x6hVe3sJ0n19g+3kswUu0agdQz7mHPgkfUKC4AB3InxVjoxGIafI57yredX
+         zcAlR5YWrAbTkH39t2FtYKkGhjNd726eCKXK++OLSKf1j+NJMT5pZKCPD54nCuUx4gKC
+         xzFg==
+X-Gm-Message-State: AOJu0Yy1OiD2FHSiJJKgBtCY9v6SV0yq7Ek68Tu5y6VDK139ds6B2P9r
+	+bxi9JTBdeOxPl1cUEu5CuCGLxy0tyPxpqoit0W7GOzUYTM/Sn4tFlTTGx+lDxxOjEHsJYWHcyH
+	p
+X-Google-Smtp-Source: AGHT+IFMKzopYJg1Vt6qS3sf2pwS4XyO1nc7E0ZLMHJ/MRpND18D1RLffEWtQvCiMJW2u64hmYBWrg==
+X-Received: by 2002:a2e:3015:0:b0:2d2:dfd6:8335 with SMTP id w21-20020a2e3015000000b002d2dfd68335mr1126741ljw.22.1711090233349;
+        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id c5-20020adfc045000000b0033e34c53354sm1325504wrf.56.2024.03.21.23.47.35
+        by smtp.gmail.com with ESMTPSA id q17-20020a05600c46d100b00414659ba8c2sm2090679wmo.37.2024.03.21.23.50.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Mar 2024 23:47:36 -0700 (PDT)
-Date: Fri, 22 Mar 2024 09:47:32 +0300
+        Thu, 21 Mar 2024 23:50:33 -0700 (PDT)
+Date: Fri, 22 Mar 2024 09:50:29 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+To: oe-kbuild@lists.linux.dev, Heng Qi <hengqi@linux.alibaba.com>,
+	netdev@vger.kernel.org, virtualization@lists.linux.dev,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6/8] block/blk.h:347
- bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could
- be null (see line 343)
-Message-ID: <1f393614-3f76-4753-b5de-d317299da931@moroto.mountain>
+Subject: Re: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
+Message-ID: <b7392d49-5619-4653-b565-29a7c5ca6ca1@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,52 +72,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1711021557-58116-3-git-send-email-hengqi@linux.alibaba.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   24850809220d9e09bb48c47d83b971a3d247e467
-commit: 8a2f432fcb4a6c2deed12afa3d2b76fcb6dc8ada [6/8] ANDROID: block: Add support for filesystem requests and small segments
-config: x86_64-randconfig-161-20240321 (https://download.01.org/0day-ci/archive/20240322/202403220441.8DiNyGzH-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+Hi Heng,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/virtio-net-fix-possible-dim-status-unrecoverable/20240321-194759
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1711021557-58116-3-git-send-email-hengqi%40linux.alibaba.com
+patch subject: [PATCH 2/2] virtio-net: reduce the CPU consumption of dim worker
+config: i386-randconfig-141-20240322 (https://download.01.org/0day-ci/archive/20240322/202403221133.J66oueZh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202403220441.8DiNyGzH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403221133.J66oueZh-lkp@intel.com/
 
 New smatch warnings:
-block/blk.h:347 bio_may_exceed_limits() error: we previously assumed 'bio->bi_io_vec' could be null (see line 343)
+drivers/net/virtio_net.c:5031 virtnet_probe() warn: missing error code 'err'
 
-vim +347 block/blk.h
+vim +/err +5031 drivers/net/virtio_net.c
 
-c55ddd9082f757 Christoph Hellwig 2022-07-27  327  static inline bool bio_may_exceed_limits(struct bio *bio,
-c55ddd9082f757 Christoph Hellwig 2022-07-27  328  		struct queue_limits *lim)
-abd45c159df5fc Jens Axboe        2021-10-13  329  {
-abd45c159df5fc Jens Axboe        2021-10-13  330  	switch (bio_op(bio)) {
-abd45c159df5fc Jens Axboe        2021-10-13  331  	case REQ_OP_DISCARD:
-abd45c159df5fc Jens Axboe        2021-10-13  332  	case REQ_OP_SECURE_ERASE:
-abd45c159df5fc Jens Axboe        2021-10-13  333  	case REQ_OP_WRITE_ZEROES:
-abd45c159df5fc Jens Axboe        2021-10-13  334  		return true; /* non-trivial splitting decisions */
-abd45c159df5fc Jens Axboe        2021-10-13  335  	default:
-abd45c159df5fc Jens Axboe        2021-10-13  336  		break;
-abd45c159df5fc Jens Axboe        2021-10-13  337  	}
-abd45c159df5fc Jens Axboe        2021-10-13  338  
-abd45c159df5fc Jens Axboe        2021-10-13  339  	/*
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  340  	 * Check whether bio splitting should be performed. This check may
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  341  	 * trigger the bio splitting code even if splitting is not necessary.
-abd45c159df5fc Jens Axboe        2021-10-13  342  	 */
-8a2f432fcb4a6c Bart Van Assche   2023-06-12 @343  	if (blk_queue_sub_page_limits(lim) && bio->bi_io_vec &&
-                                                                                              ^^^^^^^^^^^^^^
-This assumes bio->bi_io_vec can be NULL
+986a4f4d452dec Jason Wang            2012-12-07  5006  	/* Allocate/initialize the rx/tx queues, and invoke find_vqs */
+3f9c10b0d478a3 Amit Shah             2011-12-22  5007  	err = init_vqs(vi);
+d2a7ddda9ffb1c Michael S. Tsirkin    2009-06-12  5008  	if (err)
+d7dfc5cf56b0e3 Toshiaki Makita       2018-01-17  5009  		goto free;
+296f96fcfc160e Rusty Russell         2007-10-22  5010  
+3014a0d54820d2 Heng Qi               2023-10-08  5011  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_NOTF_COAL)) {
+3014a0d54820d2 Heng Qi               2023-10-08  5012  		vi->intr_coal_rx.max_usecs = 0;
+3014a0d54820d2 Heng Qi               2023-10-08  5013  		vi->intr_coal_tx.max_usecs = 0;
+3014a0d54820d2 Heng Qi               2023-10-08  5014  		vi->intr_coal_rx.max_packets = 0;
+3014a0d54820d2 Heng Qi               2023-10-08  5015  
+3014a0d54820d2 Heng Qi               2023-10-08  5016  		/* Keep the default values of the coalescing parameters
+3014a0d54820d2 Heng Qi               2023-10-08  5017  		 * aligned with the default napi_tx state.
+3014a0d54820d2 Heng Qi               2023-10-08  5018  		 */
+3014a0d54820d2 Heng Qi               2023-10-08  5019  		if (vi->sq[0].napi.weight)
+3014a0d54820d2 Heng Qi               2023-10-08  5020  			vi->intr_coal_tx.max_packets = 1;
+3014a0d54820d2 Heng Qi               2023-10-08  5021  		else
+3014a0d54820d2 Heng Qi               2023-10-08  5022  			vi->intr_coal_tx.max_packets = 0;
+3014a0d54820d2 Heng Qi               2023-10-08  5023  	}
+3014a0d54820d2 Heng Qi               2023-10-08  5024  
+d8cd72f1622753 Heng Qi               2024-03-21  5025  	INIT_LIST_HEAD(&vi->coal_list);
+3014a0d54820d2 Heng Qi               2023-10-08  5026  	if (virtio_has_feature(vi->vdev, VIRTIO_NET_F_VQ_NOTF_COAL)) {
+d8cd72f1622753 Heng Qi               2024-03-21  5027  		vi->cvq_cmd_nums = 0;
+d8cd72f1622753 Heng Qi               2024-03-21  5028  		vi->dim_loop_index = 0;
+d8cd72f1622753 Heng Qi               2024-03-21  5029  
+d8cd72f1622753 Heng Qi               2024-03-21  5030  		if (virtnet_init_coal_list(vi))
+d8cd72f1622753 Heng Qi               2024-03-21 @5031  			goto free;
 
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  344  	    bio->bi_io_vec->bv_len > lim->max_segment_size)
-8a2f432fcb4a6c Bart Van Assche   2023-06-12  345  		return true;
-c55ddd9082f757 Christoph Hellwig 2022-07-27  346  	return lim->chunk_sectors || bio->bi_vcnt != 1 ||
-abd45c159df5fc Jens Axboe        2021-10-13 @347  		bio->bi_io_vec->bv_len + bio->bi_io_vec->bv_offset > PAGE_SIZE;
-                                                                ^^^^^^^^^^^^^^^^^^^^^^   ^^^^^^^^^^^^^^^^^^^^^^^^^
-Unchecked dereferences.
+This should probably set the error code.
 
-abd45c159df5fc Jens Axboe        2021-10-13  348  }
+	err = virtnet_init_coal_list(vi);
+	if (err)
+		goto free;
+
+d8cd72f1622753 Heng Qi               2024-03-21  5032  
+3014a0d54820d2 Heng Qi               2023-10-08  5033  		/* The reason is the same as VIRTIO_NET_F_NOTF_COAL. */
+d8cd72f1622753 Heng Qi               2024-03-21  5034  		for (i = 0; i < vi->max_queue_pairs; i++) {
+d8cd72f1622753 Heng Qi               2024-03-21  5035  			vi->rq[i].packets_in_napi = 0;
+3014a0d54820d2 Heng Qi               2023-10-08  5036  			if (vi->sq[i].napi.weight)
+3014a0d54820d2 Heng Qi               2023-10-08  5037  				vi->sq[i].intr_coal.max_packets = 1;
+3014a0d54820d2 Heng Qi               2023-10-08  5038  		}
+d8cd72f1622753 Heng Qi               2024-03-21  5039  	}
 
 -- 
 0-DAY CI Kernel Test Service
