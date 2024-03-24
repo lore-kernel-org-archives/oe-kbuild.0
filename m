@@ -1,55 +1,54 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7377913ADC
-	for <oe-kbuild@lists.linux.dev>; Sun, 24 Mar 2024 07:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF002CA4
+	for <oe-kbuild@lists.linux.dev>; Sun, 24 Mar 2024 09:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711265253; cv=none; b=P21UxJCoqrD5rRR4a04goq/KC1eXGhKFp1L80RLzhNFNMuLj/ejlikFkySWlTbW/tauCZsTwEx919hPYe/A1+c2t1KFfmqRkqOscUVZstI2RcbF1JlZg2aUlQrVNLXiQz9pirtOlpYByJKlbA+qCs1H8lEy1ni7+LzhePfLi2dE=
+	t=1711270895; cv=none; b=tqhwnrkDzHbYH0L61LnCcADT++qVtazA6VnGGWaF9pb0+Luq29ngVPvWBMm1zQmWj5hVcebp71NtmDaf8JXYX6VrEweBPwTOyBC5aMgLZVnm7KBHYhZtQgYSErVG2I6azEB4ZwVNKe6ZOR++P9wGC0O5OaSjnWLPNzrt+3EornY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711265253; c=relaxed/simple;
-	bh=aOpC9lzYQg4JxXhMIy3V93Uv2kFZLWftSr3IbNiS5mQ=;
+	s=arc-20240116; t=1711270895; c=relaxed/simple;
+	bh=iS+z37/q14xxwcnLahaoKv/00+uKZzYXw13fM2hdb7E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KRXFATpHjOqkpP110K+DV1VRVRC1nmRH9W3r0glJZKLXdJqpFVIqO/Ff5ubFmApOMsvF3c31Z+jGFwTp+1xjnd97aea7KergG9++JGmo3j9/RBNzGnV1AaEIhzokYqDg+kilElzY0AdaTh+zOFpKOGJB40fks+rm7TsyYYcm78A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uo6yQdtM; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=rc3lIk/ieohphuc7t+N+npwIXRcODbv9YMqrnXPoYGivOPlblsaIRSt3ntYUYmWEVYgEHmeFwYAVpby9c2B7N3KBWvIJ8LsE9Bm05AvhC/MnDTjLXX6rF19XfFz1SGsDPYEsj3uDOoFT2JIOIewKrCUTxQo3qpUTJNJ4ywWRvvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SQskhfj3; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uo6yQdtM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SQskhfj3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711265252; x=1742801252;
+  t=1711270893; x=1742806893;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aOpC9lzYQg4JxXhMIy3V93Uv2kFZLWftSr3IbNiS5mQ=;
-  b=Uo6yQdtMwlWn25pOc9jzK5ZOPz+fKAtGkiGW8UVroDeNBRjDPdmDztoW
-   kwLyTUJ/eX4ZV/eJwY2QjZdipFaG9x3MjUikrpj02kSdzf6EGRk/uiEkw
-   8OcLvvNoOZ7K1jOn7IT103nmrvEGmGIivYYOxFE/qhqHSgv+xmeZV1OiY
-   KnRc4KkSHDasYVFn3tNtJhshPDSge/vI00z8KKcamnJ9OzmbOFmbbkKd8
-   ZNtv10GbIhSyNfb5UrfbtRiHv4PetOEZX5uU3SmKrw7VBpBxemJRlf8QM
-   RxxyLqeMF/+2MlltWlApxuQeEjeYbfTr5+KDPAFzzFwQbOk4agDkRjAhS
+  bh=iS+z37/q14xxwcnLahaoKv/00+uKZzYXw13fM2hdb7E=;
+  b=SQskhfj3LnxBONUqGuqawAw2AKjP08NJMlzXglqltiSgZ0gxMMUAlzUp
+   T57N8dF3x5rlnAdG/L50YooNcVuhgSwVr4JgIfdlCsM4F5dgkkDWut29q
+   Q0FrJKjBJ6eF595LjlWESPXNA4DU5Y5oAD1Xcg8ijpp7qnzHgYWHpPXBi
+   qvmf8Am8zL1Phs4LlaeEUBKSJT5Xy9styVMztqSzXR1EAlwtRJH0m1Kka
+   vjDRy0N8+YJw19Xb1Lf49pAOBBohKKBwMqeL2a5+0r6Pea2kaXETok65L
+   7OE1Ry3J72loY8TWZC8ihyAY7oyduqmrdGzGVlVur3A6zqgwOX5/NFs/7
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="6464820"
-X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="6464820"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 00:27:30 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,11022"; a="10068892"
+X-IronPort-AV: E=Sophos;i="6.07,151,1708416000"; 
+   d="scan'208";a="10068892"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 02:01:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,150,1708416000"; 
-   d="scan'208";a="15286369"
+X-IronPort-AV: E=Sophos;i="6.07,151,1708416000"; 
+   d="scan'208";a="15216374"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Mar 2024 00:27:29 -0700
+  by orviesa010.jf.intel.com with ESMTP; 24 Mar 2024 02:01:30 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roIGM-000Lhz-1y;
-	Sun, 24 Mar 2024 07:27:26 +0000
-Date: Sun, 24 Mar 2024 15:27:25 +0800
+	id 1roJjL-000LjT-1n;
+	Sun, 24 Mar 2024 09:01:27 +0000
+Date: Sun, 24 Mar 2024 17:01:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [dhowells-fs:netfs-writeback 15/22]
- fs/netfs/write_collect.c:254:7-13: ERROR: invalid reference to the index
- variable of the iterator on line 225
-Message-ID: <202403241507.oq4guPPM-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/mtd/nand/raw/marvell_nand.c:2870 marvell_nfc_init_dma()
+ warn: Please consider using kzalloc instead of kmalloc
+Message-ID: <202403241656.OBJEk2rO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,188 +60,107 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
+CC: linux-kernel@vger.kernel.org
+TO: Suren Baghdasaryan <surenb@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Kees Cook <keescook@chromium.org>
+CC: Pasha Tatashin <pasha.tatashin@soleen.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   6d4dafd8301ee8645d4814a7e75a9135acf67613
-commit: 9a3702e1d161f5b03a7b42122f9f693af1144fc8 [15/22] netfs: New writeback implementation
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20240324 (https://download.01.org/0day-ci/archive/20240324/202403241507.oq4guPPM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   70293240c5ce675a67bfc48f419b093023b862b3
+commit: 772dd0342727cc3c3b676b5d97c99708e75730a2 mm: enumerate all gfp flags
+date:   3 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 3 weeks ago
+config: xtensa-randconfig-r071-20240323 (https://download.01.org/0day-ci/archive/20240324/202403241656.OBJEk2rO-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202403241507.oq4guPPM-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202403241656.OBJEk2rO-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/netfs/write_collect.c:254:7-13: ERROR: invalid reference to the index variable of the iterator on line 225
+smatch warnings:
+drivers/mtd/nand/raw/marvell_nand.c:2870 marvell_nfc_init_dma() warn: Please consider using kzalloc instead of kmalloc
 
-vim +254 fs/netfs/write_collect.c
+vim +2870 drivers/mtd/nand/raw/marvell_nand.c
 
-9a3702e1d161f5 David Howells 2024-03-18  160  
-9a3702e1d161f5 David Howells 2024-03-18  161  /*
-9a3702e1d161f5 David Howells 2024-03-18  162   * Perform retries on the streams that need it.
-9a3702e1d161f5 David Howells 2024-03-18  163   */
-9a3702e1d161f5 David Howells 2024-03-18  164  static void netfs_retry_write_stream(struct netfs_io_request *wreq,
-9a3702e1d161f5 David Howells 2024-03-18  165  				     struct netfs_io_stream *stream)
-9a3702e1d161f5 David Howells 2024-03-18  166  {
-9a3702e1d161f5 David Howells 2024-03-18  167  	struct list_head *next;
-9a3702e1d161f5 David Howells 2024-03-18  168  
-9a3702e1d161f5 David Howells 2024-03-18  169  	_enter("R=%x[%x:]", wreq->debug_id, stream->stream_nr);
-9a3702e1d161f5 David Howells 2024-03-18  170  
-9a3702e1d161f5 David Howells 2024-03-18  171  	if (unlikely(stream->failed))
-9a3702e1d161f5 David Howells 2024-03-18  172  		return;
-9a3702e1d161f5 David Howells 2024-03-18  173  
-9a3702e1d161f5 David Howells 2024-03-18  174  	/* If there's no renegotiation to do, just resend each failed subreq. */
-9a3702e1d161f5 David Howells 2024-03-18  175  	if (!stream->prepare_write) {
-9a3702e1d161f5 David Howells 2024-03-18  176  		struct netfs_io_subrequest *subreq;
-9a3702e1d161f5 David Howells 2024-03-18  177  
-9a3702e1d161f5 David Howells 2024-03-18  178  		list_for_each_entry(subreq, &stream->subrequests, rreq_link) {
-9a3702e1d161f5 David Howells 2024-03-18  179  			if (test_bit(NETFS_SREQ_FAILED, &subreq->flags))
-9a3702e1d161f5 David Howells 2024-03-18  180  				break;
-9a3702e1d161f5 David Howells 2024-03-18  181  			if (__test_and_clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags)) {
-9a3702e1d161f5 David Howells 2024-03-18  182  				__set_bit(NETFS_SREQ_RETRYING, &subreq->flags);
-9a3702e1d161f5 David Howells 2024-03-18  183  				netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
-9a3702e1d161f5 David Howells 2024-03-18  184  				netfs_reissue_write(stream, subreq);
-9a3702e1d161f5 David Howells 2024-03-18  185  			}
-9a3702e1d161f5 David Howells 2024-03-18  186  		}
-9a3702e1d161f5 David Howells 2024-03-18  187  		return;
-9a3702e1d161f5 David Howells 2024-03-18  188  	}
-9a3702e1d161f5 David Howells 2024-03-18  189  
-9a3702e1d161f5 David Howells 2024-03-18  190  	if (list_empty(&stream->subrequests))
-9a3702e1d161f5 David Howells 2024-03-18  191  		return;
-9a3702e1d161f5 David Howells 2024-03-18  192  	next = stream->subrequests.next;
-9a3702e1d161f5 David Howells 2024-03-18  193  
-9a3702e1d161f5 David Howells 2024-03-18  194  	do {
-9a3702e1d161f5 David Howells 2024-03-18  195  		struct netfs_io_subrequest *subreq = NULL, *from, *to, *tmp;
-9a3702e1d161f5 David Howells 2024-03-18  196  		unsigned long long start, len;
-9a3702e1d161f5 David Howells 2024-03-18  197  		size_t part;
-9a3702e1d161f5 David Howells 2024-03-18  198  		bool boundary = false;
-9a3702e1d161f5 David Howells 2024-03-18  199  
-9a3702e1d161f5 David Howells 2024-03-18  200  		/* Go through the stream and find the next span of contiguous
-9a3702e1d161f5 David Howells 2024-03-18  201  		 * data that we then rejig (cifs, for example, needs the wsize
-9a3702e1d161f5 David Howells 2024-03-18  202  		 * renegotiating) and reissue.
-9a3702e1d161f5 David Howells 2024-03-18  203  		 */
-9a3702e1d161f5 David Howells 2024-03-18  204  		from = list_entry(next, struct netfs_io_subrequest, rreq_link);
-9a3702e1d161f5 David Howells 2024-03-18  205  		to = from;
-9a3702e1d161f5 David Howells 2024-03-18  206  		start = from->start + from->transferred;
-9a3702e1d161f5 David Howells 2024-03-18  207  		len   = from->len   - from->transferred;
-9a3702e1d161f5 David Howells 2024-03-18  208  
-9a3702e1d161f5 David Howells 2024-03-18  209  		if (test_bit(NETFS_SREQ_FAILED, &from->flags) ||
-9a3702e1d161f5 David Howells 2024-03-18  210  		    !test_bit(NETFS_SREQ_NEED_RETRY, &from->flags))
-9a3702e1d161f5 David Howells 2024-03-18  211  			return;
-9a3702e1d161f5 David Howells 2024-03-18  212  
-9a3702e1d161f5 David Howells 2024-03-18  213  		list_for_each_continue(next, &stream->subrequests) {
-9a3702e1d161f5 David Howells 2024-03-18  214  			subreq = list_entry(next, struct netfs_io_subrequest, rreq_link);
-9a3702e1d161f5 David Howells 2024-03-18  215  			if (subreq->start + subreq->transferred != start + len ||
-9a3702e1d161f5 David Howells 2024-03-18  216  			    test_bit(NETFS_SREQ_BOUNDARY, &subreq->flags) ||
-9a3702e1d161f5 David Howells 2024-03-18  217  			    !test_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags))
-9a3702e1d161f5 David Howells 2024-03-18  218  				break;
-9a3702e1d161f5 David Howells 2024-03-18  219  			to = subreq;
-9a3702e1d161f5 David Howells 2024-03-18  220  			len += to->len;
-9a3702e1d161f5 David Howells 2024-03-18  221  		}
-9a3702e1d161f5 David Howells 2024-03-18  222  
-9a3702e1d161f5 David Howells 2024-03-18  223  		/* Work through the sublist. */
-9a3702e1d161f5 David Howells 2024-03-18  224  		subreq = from;
-9a3702e1d161f5 David Howells 2024-03-18 @225  		list_for_each_entry_from(subreq, &stream->subrequests, rreq_link) {
-9a3702e1d161f5 David Howells 2024-03-18  226  			if (!len)
-9a3702e1d161f5 David Howells 2024-03-18  227  				break;
-9a3702e1d161f5 David Howells 2024-03-18  228  			/* Renegotiate max_len (wsize) */
-9a3702e1d161f5 David Howells 2024-03-18  229  			trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
-9a3702e1d161f5 David Howells 2024-03-18  230  			__clear_bit(NETFS_SREQ_NEED_RETRY, &subreq->flags);
-9a3702e1d161f5 David Howells 2024-03-18  231  			__set_bit(NETFS_SREQ_RETRYING, &subreq->flags);
-9a3702e1d161f5 David Howells 2024-03-18  232  			stream->prepare_write(subreq);
-9a3702e1d161f5 David Howells 2024-03-18  233  
-9a3702e1d161f5 David Howells 2024-03-18  234  			part = min(len, subreq->max_len);
-9a3702e1d161f5 David Howells 2024-03-18  235  			subreq->len = part;
-9a3702e1d161f5 David Howells 2024-03-18  236  			subreq->start = start;
-9a3702e1d161f5 David Howells 2024-03-18  237  			subreq->transferred = 0;
-9a3702e1d161f5 David Howells 2024-03-18  238  			len -= part;
-9a3702e1d161f5 David Howells 2024-03-18  239  			start += part;
-9a3702e1d161f5 David Howells 2024-03-18  240  			if (len && subreq == to &&
-9a3702e1d161f5 David Howells 2024-03-18  241  			    __test_and_clear_bit(NETFS_SREQ_BOUNDARY, &to->flags))
-9a3702e1d161f5 David Howells 2024-03-18  242  				boundary = true;
-9a3702e1d161f5 David Howells 2024-03-18  243  
-9a3702e1d161f5 David Howells 2024-03-18  244  			netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
-9a3702e1d161f5 David Howells 2024-03-18  245  			netfs_reissue_write(stream, subreq);
-9a3702e1d161f5 David Howells 2024-03-18  246  			if (subreq == to)
-9a3702e1d161f5 David Howells 2024-03-18  247  				break;
-9a3702e1d161f5 David Howells 2024-03-18  248  		}
-9a3702e1d161f5 David Howells 2024-03-18  249  
-9a3702e1d161f5 David Howells 2024-03-18  250  		/* If we managed to use fewer subreqs, we can discard the
-9a3702e1d161f5 David Howells 2024-03-18  251  		 * excess; if we used the same number, then we're done.
-9a3702e1d161f5 David Howells 2024-03-18  252  		 */
-9a3702e1d161f5 David Howells 2024-03-18  253  		if (!len) {
-9a3702e1d161f5 David Howells 2024-03-18 @254  			if (subreq == to)
-9a3702e1d161f5 David Howells 2024-03-18  255  				continue;
-9a3702e1d161f5 David Howells 2024-03-18  256  			list_for_each_entry_safe_from(subreq, tmp,
-9a3702e1d161f5 David Howells 2024-03-18  257  						      &stream->subrequests, rreq_link) {
-9a3702e1d161f5 David Howells 2024-03-18  258  				trace_netfs_sreq(subreq, netfs_sreq_trace_discard);
-9a3702e1d161f5 David Howells 2024-03-18  259  				list_del(&subreq->rreq_link);
-9a3702e1d161f5 David Howells 2024-03-18  260  				netfs_put_subrequest(subreq, false, netfs_sreq_trace_put_done);
-9a3702e1d161f5 David Howells 2024-03-18  261  				if (subreq == to)
-9a3702e1d161f5 David Howells 2024-03-18  262  					break;
-9a3702e1d161f5 David Howells 2024-03-18  263  			}
-9a3702e1d161f5 David Howells 2024-03-18  264  			continue;
-9a3702e1d161f5 David Howells 2024-03-18  265  		}
-9a3702e1d161f5 David Howells 2024-03-18  266  
-9a3702e1d161f5 David Howells 2024-03-18  267  		/* We ran out of subrequests, so we need to allocate some more
-9a3702e1d161f5 David Howells 2024-03-18  268  		 * and insert them after.
-9a3702e1d161f5 David Howells 2024-03-18  269  		 */
-9a3702e1d161f5 David Howells 2024-03-18  270  		do {
-9a3702e1d161f5 David Howells 2024-03-18  271  			subreq = netfs_alloc_subrequest(wreq);
-9a3702e1d161f5 David Howells 2024-03-18  272  			subreq->source		= to->source;
-9a3702e1d161f5 David Howells 2024-03-18  273  			subreq->start		= start;
-9a3702e1d161f5 David Howells 2024-03-18  274  			subreq->max_len		= len;
-9a3702e1d161f5 David Howells 2024-03-18  275  			subreq->max_nr_segs	= INT_MAX;
-9a3702e1d161f5 David Howells 2024-03-18  276  			subreq->debug_index	= atomic_inc_return(&wreq->subreq_counter);
-9a3702e1d161f5 David Howells 2024-03-18  277  			subreq->stream_nr	= to->stream_nr;
-9a3702e1d161f5 David Howells 2024-03-18  278  			__set_bit(NETFS_SREQ_RETRYING, &subreq->flags);
-9a3702e1d161f5 David Howells 2024-03-18  279  
-9a3702e1d161f5 David Howells 2024-03-18  280  			trace_netfs_sreq_ref(wreq->debug_id, subreq->debug_index,
-9a3702e1d161f5 David Howells 2024-03-18  281  					     refcount_read(&subreq->ref),
-9a3702e1d161f5 David Howells 2024-03-18  282  					     netfs_sreq_trace_new);
-9a3702e1d161f5 David Howells 2024-03-18  283  			netfs_get_subrequest(subreq, netfs_sreq_trace_get_resubmit);
-9a3702e1d161f5 David Howells 2024-03-18  284  
-9a3702e1d161f5 David Howells 2024-03-18  285  			list_add(&subreq->rreq_link, &to->rreq_link);
-9a3702e1d161f5 David Howells 2024-03-18  286  			to = list_next_entry(to, rreq_link);
-9a3702e1d161f5 David Howells 2024-03-18  287  			trace_netfs_sreq(subreq, netfs_sreq_trace_retry);
-9a3702e1d161f5 David Howells 2024-03-18  288  
-9a3702e1d161f5 David Howells 2024-03-18  289  			switch (stream->source) {
-9a3702e1d161f5 David Howells 2024-03-18  290  			case NETFS_UPLOAD_TO_SERVER:
-9a3702e1d161f5 David Howells 2024-03-18  291  				netfs_stat(&netfs_n_wh_upload);
-9a3702e1d161f5 David Howells 2024-03-18  292  				subreq->max_len = min(len, wreq->wsize);
-9a3702e1d161f5 David Howells 2024-03-18  293  				break;
-9a3702e1d161f5 David Howells 2024-03-18  294  			case NETFS_WRITE_TO_CACHE:
-9a3702e1d161f5 David Howells 2024-03-18  295  				netfs_stat(&netfs_n_wh_write);
-9a3702e1d161f5 David Howells 2024-03-18  296  				break;
-9a3702e1d161f5 David Howells 2024-03-18  297  			default:
-9a3702e1d161f5 David Howells 2024-03-18  298  				WARN_ON_ONCE(1);
-9a3702e1d161f5 David Howells 2024-03-18  299  			}
-9a3702e1d161f5 David Howells 2024-03-18  300  
-9a3702e1d161f5 David Howells 2024-03-18  301  			stream->prepare_write(subreq);
-9a3702e1d161f5 David Howells 2024-03-18  302  
-9a3702e1d161f5 David Howells 2024-03-18  303  			part = min(len, subreq->max_len);
-9a3702e1d161f5 David Howells 2024-03-18  304  			subreq->len = subreq->transferred + part;
-9a3702e1d161f5 David Howells 2024-03-18  305  			len -= part;
-9a3702e1d161f5 David Howells 2024-03-18  306  			start += part;
-9a3702e1d161f5 David Howells 2024-03-18  307  			if (!len && boundary) {
-9a3702e1d161f5 David Howells 2024-03-18  308  				__set_bit(NETFS_SREQ_BOUNDARY, &to->flags);
-9a3702e1d161f5 David Howells 2024-03-18  309  				boundary = false;
-9a3702e1d161f5 David Howells 2024-03-18  310  			}
-9a3702e1d161f5 David Howells 2024-03-18  311  
-9a3702e1d161f5 David Howells 2024-03-18  312  			netfs_reissue_write(stream, subreq);
-9a3702e1d161f5 David Howells 2024-03-18  313  			if (!len)
-9a3702e1d161f5 David Howells 2024-03-18  314  				break;
-9a3702e1d161f5 David Howells 2024-03-18  315  
-9a3702e1d161f5 David Howells 2024-03-18  316  		} while (len);
-9a3702e1d161f5 David Howells 2024-03-18  317  
-9a3702e1d161f5 David Howells 2024-03-18  318  	} while (!list_is_head(next, &stream->subrequests));
-9a3702e1d161f5 David Howells 2024-03-18  319  }
-9a3702e1d161f5 David Howells 2024-03-18  320  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2819  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2820  static int marvell_nfc_init_dma(struct marvell_nfc *nfc)
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2821  {
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2822  	struct platform_device *pdev = container_of(nfc->dev,
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2823  						    struct platform_device,
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2824  						    dev);
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2825  	struct dma_slave_config config = {};
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2826  	struct resource *r;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2827  	int ret;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2828  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2829  	if (!IS_ENABLED(CONFIG_PXA_DMA)) {
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2830  		dev_warn(nfc->dev,
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2831  			 "DMA not enabled in configuration\n");
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2832  		return -ENOTSUPP;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2833  	}
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2834  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2835  	ret = dma_set_mask_and_coherent(nfc->dev, DMA_BIT_MASK(32));
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2836  	if (ret)
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2837  		return ret;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2838  
+cf9e2389482179 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2839  	nfc->dma_chan =	dma_request_chan(nfc->dev, "data");
+cf9e2389482179 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2840  	if (IS_ERR(nfc->dma_chan)) {
+cf9e2389482179 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2841  		ret = PTR_ERR(nfc->dma_chan);
+cf9e2389482179 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2842  		nfc->dma_chan = NULL;
+6ce92faeefc018 drivers/mtd/nand/raw/marvell_nand.c Krzysztof Kozlowski 2020-09-01  2843  		return dev_err_probe(nfc->dev, ret, "DMA channel request failed\n");
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2844  	}
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2845  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2846  	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2847  	if (!r) {
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2848  		ret = -ENXIO;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2849  		goto release_channel;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2850  	}
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2851  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2852  	config.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2853  	config.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2854  	config.src_addr = r->start + NDDB;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2855  	config.dst_addr = r->start + NDDB;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2856  	config.src_maxburst = 32;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2857  	config.dst_maxburst = 32;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2858  	ret = dmaengine_slave_config(nfc->dma_chan, &config);
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2859  	if (ret < 0) {
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2860  		dev_err(nfc->dev, "Failed to configure DMA channel\n");
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2861  		goto release_channel;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2862  	}
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2863  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2864  	/*
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2865  	 * DMA must act on length multiple of 32 and this length may be
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2866  	 * bigger than the destination buffer. Use this buffer instead
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2867  	 * for DMA transfers and then copy the desired amount of data to
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2868  	 * the provided buffer.
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2869  	 */
+c495a9275eeca0 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-19 @2870  	nfc->dma_buf = kmalloc(MAX_CHUNK_SIZE, GFP_KERNEL | GFP_DMA);
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2871  	if (!nfc->dma_buf) {
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2872  		ret = -ENOMEM;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2873  		goto release_channel;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2874  	}
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2875  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2876  	nfc->use_dma = true;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2877  
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2878  	return 0;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2879  
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2880  release_channel:
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2881  	dma_release_channel(nfc->dma_chan);
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2882  	nfc->dma_chan = NULL;
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2883  
+aafe30baf4ad13 drivers/mtd/nand/raw/marvell_nand.c Peter Ujfalusi      2020-02-27  2884  	return ret;
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2885  }
+02f26ecf8c7727 drivers/mtd/nand/marvell_nand.c     Miquel Raynal       2018-01-09  2886  
+
+:::::: The code at line 2870 was first introduced by commit
+:::::: c495a9275eeca0bbc9358de7200e58184e864aeb mtd: nand: marvell: Fix missing memory allocation modifier
+
+:::::: TO: Miquel Raynal <miquel.raynal@free-electrons.com>
+:::::: CC: Boris Brezillon <boris.brezillon@free-electrons.com>
 
 -- 
 0-DAY CI Kernel Test Service
