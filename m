@@ -1,56 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47713213420
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CE923A750
 	for <oe-kbuild@lists.linux.dev>; Mon, 25 Mar 2024 03:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711336039; cv=none; b=Yzoo/60oHUoMP7Kak28D690f7F2cxn6i0uwlW/BSwW3P5RneAT09hmFwK2xLUjexRzZ9jg0gz8Geph6p2FcNelrVvjMObK6+zT4ikXOyJd6539vDktbgNYEfGdybUHf/Mr2zV1UrR1OXr3nPKjQcr0c8glWQw55SC5N2ClRb8ec=
+	t=1711336040; cv=none; b=HEKjRABme6d8De2tmbk49lTRZVskZilYdrik770Eg/h/WBN0AjUzWqknVLydFIGFtj6uk65dAy9Kf5hwzgGSvAVietnsNHGTiJzJM+aAXQ/ZuQ7gThbQOfHEwK0UxQFYx7cMEUXTFgehPpgArqVQt93nHDJFC+TaT1Fd4qBqx74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711336039; c=relaxed/simple;
-	bh=zqcY1MCQCwhLJIUwJV/8xVY3jRu4/3aOc0YkGWLy7fI=;
+	s=arc-20240116; t=1711336040; c=relaxed/simple;
+	bh=slkDMEAVR7EIgDJ51GBvXojdFno6EQNpJEfwbOVwF10=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gZnJ+efOY1BuieBp1wx4pUm284WCGcquJe6vURWsn2plqz8z7JsiVw27pZaSb3C9ND8Taq6zXLKKXPphrNyTv7yvYY0/tDycPUedkvO2N7Gp8WZWElw9/nwoXWYKyEtbrmVKhhoI17wwwiJbjhzWlJJVxSovRRXD6+vd5jaMGGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iHXJdnKY; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=FINKZrmLQXvVniGLgEihrizcskBbPuAytN190ZAF7eOE+Omum3rYsK3xTEgxITqdTXggVX8ueJF5hNpDejwn8+brGYZ3hxMhwLSv+Ir93gd6CHDxsly22W2YCPFo+R0l6+NKuAris9kXZE7vCFbIO/T46TbW0p25IOF+NTl4yxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L5GjJuZ5; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iHXJdnKY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L5GjJuZ5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711336037; x=1742872037;
+  t=1711336038; x=1742872038;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zqcY1MCQCwhLJIUwJV/8xVY3jRu4/3aOc0YkGWLy7fI=;
-  b=iHXJdnKYt1bLNujvUv58E6gXUXS4Xeeseg/VKCYIoIkXzk3L6VS376wM
-   OTz65HsI4cbfgByYdCVaPnve+e8Ex4jFb0mry2SZizEd8XWfctwP24h4b
-   eIMqNEzyuoF1Du3XEI5/Idz3+H5VRjz8bxSD1uVHf4g1r14kjYSk5Gtel
-   0PNQJJHiSVVsK0fsbvkjAMo6SreIypxWbL4yaP5VCofBOJQxfhETpGv60
-   WlP9fMkDMZVTal5yl2bvxYExRBWxFxUn0eOAruSvt8i3B3gvgRjw1jKxT
-   IeqV9LXUmB4PBl0bWxoot2LZylFwzkoQm29h9ojsxkHRevbqUf0OW0Twy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="17050443"
+  bh=slkDMEAVR7EIgDJ51GBvXojdFno6EQNpJEfwbOVwF10=;
+  b=L5GjJuZ57vTDKTMKvCM099Wv6d4zHpkLWPHHsC9BTOTdnmTp4bUmN7qy
+   1Ec+xiWDuQ5f+l6Iwdaw3PrI0iuA02hD07ytkcGOff/LnRUw8JNxQ71V5
+   3DzLl28ZxCyMlw/qQC3ZDa4frCl7FqY9PJGf5UriAQqEJczqzy3HSIEaZ
+   U8AtzeTtFDomiEPJ5i6JchYIhS24r6E5LR2/1HUFXncYCo/T4ZCLjMpUX
+   rXiYZLuQS/pwZSt7lfX4A5X9PvyPzdvnvVSW/6P70dn0XKRdlPXQ92E0y
+   pcM0CammtV1sMN9ThXmtNKnHLLejYPJ598DhDYryLWzUHZYo1QAH8HiGS
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11023"; a="6426082"
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="17050443"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 20:07:16 -0700
+   d="scan'208";a="6426082"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2024 20:07:17 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,152,1708416000"; 
-   d="scan'208";a="20137368"
+   d="scan'208";a="46603071"
 Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Mar 2024 20:07:15 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Mar 2024 20:07:15 -0700
 Received: from kbuild by b21307750695 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1roag5-000MBb-1E;
+	id 1roag5-000MBg-1M;
 	Mon, 25 Mar 2024 03:07:13 +0000
 Date: Mon, 25 Mar 2024 11:06:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hverkuil-media-tree:vivid-cec 59/62]
- drivers/media/test-drivers/vivid/vivid-vid-cap.c:1570
- vivid_update_connected_outputs() warn: variable dereferenced before check
- 'dev_tx' (see line 1569)
-Message-ID: <202403251134.rCvdEVfY-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: net/sunrpc/xdr.c:1248:12-14: WARNING opportunity for min()
+Message-ID: <202403251147.waqPmwFw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,57 +59,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hans Verkuil <hverkuil@xs4all.nl>
+CC: linux-kernel@vger.kernel.org
+TO: Trond Myklebust <trond.myklebust@hammerspace.com>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git vivid-cec
-head:   bfe9974b584040f6df7aebada2a3b6a61d0dbb67
-commit: 514333e776cd80413971a91ce668634fe7e030c3 [59/62] vivid: drop display_present control, route EDIDs correctly
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arc-randconfig-r071-20240325 (https://download.01.org/0day-ci/archive/20240325/202403251134.rCvdEVfY-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4cece764965020c22cff7665b18a012006359095
+commit: 1d97316692f708de755655ac1cfd704d7a55843f SUNRPC: Fix up xdr_read_pages() to take arbitrary object lengths
+date:   3 years, 4 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 years, 4 months ago
+config: x86_64-randconfig-102-20240324 (https://download.01.org/0day-ci/archive/20240325/202403251147.waqPmwFw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403251134.rCvdEVfY-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202403251147.waqPmwFw-lkp@intel.com/
 
-smatch warnings:
-drivers/media/test-drivers/vivid/vivid-vid-cap.c:1570 vivid_update_connected_outputs() warn: variable dereferenced before check 'dev_tx' (see line 1569)
+cocci warnings: (new ones prefixed by >>)
+>> net/sunrpc/xdr.c:1248:12-14: WARNING opportunity for min()
 
-vim +/dev_tx +1570 drivers/media/test-drivers/vivid/vivid-vid-cap.c
+vim +1248 net/sunrpc/xdr.c
 
-514333e776cd80 Hans Verkuil 2024-03-22  1553  
-514333e776cd80 Hans Verkuil 2024-03-22  1554  void vivid_update_connected_outputs(struct vivid_dev *dev)
-514333e776cd80 Hans Verkuil 2024-03-22  1555  {
-514333e776cd80 Hans Verkuil 2024-03-22  1556  	u16 phys_addr = cec_get_edid_phys_addr(dev->edid, dev->edid_blocks * 128, NULL);
-514333e776cd80 Hans Verkuil 2024-03-22  1557  
-514333e776cd80 Hans Verkuil 2024-03-22  1558  	for (unsigned int i = 0, j = 0; i < dev->num_inputs; i++) {
-514333e776cd80 Hans Verkuil 2024-03-22  1559  		unsigned int menu_idx =
-514333e776cd80 Hans Verkuil 2024-03-22  1560  			dev->input_is_connected_to_output[i];
-514333e776cd80 Hans Verkuil 2024-03-22  1561  
-514333e776cd80 Hans Verkuil 2024-03-22  1562  		if (dev->input_type[i] != HDMI)
-514333e776cd80 Hans Verkuil 2024-03-22  1563  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1564  		j++;
-514333e776cd80 Hans Verkuil 2024-03-22  1565  		if (menu_idx < FIXED_MENU_ITEMS)
-514333e776cd80 Hans Verkuil 2024-03-22  1566  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1567  		struct vivid_dev *dev_tx = vivid_ctrl_hdmi_to_output_instance[menu_idx];
-514333e776cd80 Hans Verkuil 2024-03-22  1568  		unsigned int output = vivid_ctrl_hdmi_to_output_index[menu_idx];
-514333e776cd80 Hans Verkuil 2024-03-22 @1569  		unsigned int hdmi_output = dev_tx->output_to_iface_index[output];
-514333e776cd80 Hans Verkuil 2024-03-22 @1570  		if (!dev_tx)
-514333e776cd80 Hans Verkuil 2024-03-22  1571  			continue;
-514333e776cd80 Hans Verkuil 2024-03-22  1572  		vivid_update_outputs(dev_tx);
-514333e776cd80 Hans Verkuil 2024-03-22  1573  		if (dev->edid_blocks) {
-514333e776cd80 Hans Verkuil 2024-03-22  1574  			cec_s_phys_addr(dev_tx->cec_tx_adap[hdmi_output],
-514333e776cd80 Hans Verkuil 2024-03-22  1575  					v4l2_phys_addr_for_input(phys_addr, j),
-514333e776cd80 Hans Verkuil 2024-03-22  1576  					false);
-514333e776cd80 Hans Verkuil 2024-03-22  1577  		} else {
-514333e776cd80 Hans Verkuil 2024-03-22  1578  			cec_phys_addr_invalidate(dev_tx->cec_tx_adap[hdmi_output]);
-514333e776cd80 Hans Verkuil 2024-03-22  1579  		}
-514333e776cd80 Hans Verkuil 2024-03-22  1580  	}
-514333e776cd80 Hans Verkuil 2024-03-22  1581  }
-514333e776cd80 Hans Verkuil 2024-03-22  1582  
+3994ee6fbf5185 Trond Myklebust 2012-06-26  1220  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1221  /**
+1d97316692f708 Trond Myklebust 2020-11-20  1222   * xdr_read_pages - align page-based XDR data to current pointer position
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1223   * @xdr: pointer to xdr_stream struct
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1224   * @len: number of bytes of page data
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1225   *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1226   * Moves data beyond the current pointer position from the XDR head[] buffer
+1d97316692f708 Trond Myklebust 2020-11-20  1227   * into the page list. Any data that lies beyond current position + @len
+1d97316692f708 Trond Myklebust 2020-11-20  1228   * bytes is moved into the XDR tail[]. The xdr_stream current position is
+1d97316692f708 Trond Myklebust 2020-11-20  1229   * then advanced past that data to align to the next XDR object in the tail.
+3994ee6fbf5185 Trond Myklebust 2012-06-26  1230   *
+3994ee6fbf5185 Trond Myklebust 2012-06-26  1231   * Returns the number of XDR encoded bytes now contained in the pages
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1232   */
+3994ee6fbf5185 Trond Myklebust 2012-06-26  1233  unsigned int xdr_read_pages(struct xdr_stream *xdr, unsigned int len)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1234  {
+1d97316692f708 Trond Myklebust 2020-11-20  1235  	unsigned int nwords = XDR_QUADLEN(len);
+1d97316692f708 Trond Myklebust 2020-11-20  1236  	unsigned int base, end, pglen;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1237  
+1d97316692f708 Trond Myklebust 2020-11-20  1238  	pglen = xdr_align_pages(xdr, nwords << 2);
+1d97316692f708 Trond Myklebust 2020-11-20  1239  	if (pglen == 0)
+3994ee6fbf5185 Trond Myklebust 2012-06-26  1240  		return 0;
+bd00f84bc57f42 Trond Myklebust 2012-06-26  1241  
+1d97316692f708 Trond Myklebust 2020-11-20  1242  	xdr->nwords -= nwords;
+1d97316692f708 Trond Myklebust 2020-11-20  1243  	base = (nwords << 2) - pglen;
+1d97316692f708 Trond Myklebust 2020-11-20  1244  	end = xdr_stream_remaining(xdr) - pglen;
+1d97316692f708 Trond Myklebust 2020-11-20  1245  
+1d97316692f708 Trond Myklebust 2020-11-20  1246  	if (xdr_set_iov(xdr, xdr->buf->tail, base, end) == 0)
+1d97316692f708 Trond Myklebust 2020-11-20  1247  		xdr->nwords = 0;
+1d97316692f708 Trond Myklebust 2020-11-20 @1248  	return len <= pglen ? len : pglen;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1249  }
+468039ee469c57 Trond Myklebust 2008-12-23  1250  EXPORT_SYMBOL_GPL(xdr_read_pages);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1251  
 
 -- 
 0-DAY CI Kernel Test Service
