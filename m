@@ -1,56 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D995717545
-	for <oe-kbuild@lists.linux.dev>; Wed, 27 Mar 2024 03:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C477610C
+	for <oe-kbuild@lists.linux.dev>; Wed, 27 Mar 2024 05:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711509556; cv=none; b=JP/hflJs6o5sEQnQwXwByIGYpVIZB7H5tdx6TiC7OTqAci1SUnZdCV14SgncrcQNB8UGffT4IemaF0UgcEMRVVHcvrzlUqBjvrUXLp2ferrVy62nVCPzylfBtdpJ6/XIHJz/DO5zss/MMtfZicysWp7XxmVfmMuutCMiaRsEGxM=
+	t=1711517058; cv=none; b=VddTYl0vDduJkpdIMDM104YcBU4nBIQhCBHDPBLblMUo9Ve9Lnhu8CMSyB3ZlRVD8qFL2eAcmDNARRroiP3Qr3xTd1s6FD3OL32Uu2y88qD5SJmaYFcclQOwAQY4FxMFSPfdjsbKA0UIe+EDa+t9tdJXsvO/th9pTPe7Hieg4rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711509556; c=relaxed/simple;
-	bh=rw6qavmh8WhpjrcDu3bxjvVPESRVFID1MnnmhwLLgSA=;
+	s=arc-20240116; t=1711517058; c=relaxed/simple;
+	bh=T66E0/LLxs/7UD8l0vi0p2pd+6QqGU8pob8ojiS1xOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LuhohXXzKFclmRlmL+7PkjnGaZf4s9NwnxfB4SHfTPu+AKGbVxZdoBUPpM2/+SGEdR38fDMrhojtqqNKWy++FGhTjjAkyTbI61+rbBpNIdweKwST8ExlCLZhSjxcfEqxV7jVmufhQF1wRGrlWgbQAGPkTfbsnbew8+C4COOKjo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACQanPTB; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=QXDU3QCsxI2g6rv9zWkTFnm1DflmqTUgqtN7V9vjlvaw1zKKkSJxy6PMy7aLbwmNTDDuEm49rvGo7X+wVgMlKNHfHKL3Qg0cwJNRgXddjR+wdKnUufWX9D8UBnYhqBzCmrm7roSFQozYW8LbC4/QG77BHjH5Yzm7JNLYS8CqLic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqsR5+EI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACQanPTB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqsR5+EI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711509555; x=1743045555;
+  t=1711517057; x=1743053057;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rw6qavmh8WhpjrcDu3bxjvVPESRVFID1MnnmhwLLgSA=;
-  b=ACQanPTBdCZ2OXGog7fz9R+St/aGd821ViFf1xpsdmdAMoqC5zl+xVWm
-   YxU2mysjUitx96RAxouX0DbypjIwdKv2Ymq8LVL2r6tyuz4/CamucRsPs
-   M2YmTn9O8kipfo5PJ0F2u6DuxzV0V3upxcw77ti8sJX8CdHWiPI2RtYzq
-   CipcJVQy+cwaVlfpiA6c/a5PMw3GdMZkA7uKhXxFG01w6Aq7DHUUBo8f9
-   1S2LHJVND0ZMZlc7OLt/WoocyZkGllohoF/Mo3oS+pZtOE66fMrttOy8V
-   aN0x82c8Wp+hJJj/YxfhD79ELhgm/9t3Z9a+mkP2RWKLZWpD/kF0UV/8y
-   w==;
-X-CSE-ConnectionGUID: M8CRd74cTFeo4nz9eT4IDA==
-X-CSE-MsgGUID: oZK6vd2wSRCPu+UUWJN1ZA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6722567"
+  bh=T66E0/LLxs/7UD8l0vi0p2pd+6QqGU8pob8ojiS1xOY=;
+  b=IqsR5+EIUjECrXLuZWpY+QMomzVV0CfUMAx12Zuu45GpEA7sHtsYzNvg
+   e8DWhZnwVyQ7CjdjDcKepSrmwEtYA9ATrJfjGset61wRTxr9F/vyeBhHQ
+   dqoQyLC6DgyHohW3AU81NOvbVlzqN6w/EOO5h3SN01YaTGc0t//FApLuk
+   Dc9PLAfy/+OKStR+d+5f0zYS8hugVySTYOwDqzmz3HHwGNKiSOjcb5092
+   W0MzasCK3gy4kKhgGNAGfv3IBsGwQl/FsKYJ+2jpgRd/OrOe+93Rd0are
+   EypA5EZEscaqjLKkzne178ZA7Sxmb0EuMs0v6tCh+ZNfSirA2XsKK+Pg5
+   Q==;
+X-CSE-ConnectionGUID: uEHCiWz0RI+zBNBfcM1nYA==
+X-CSE-MsgGUID: jMcTooJ4TSmP16spVKV42A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="17983441"
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="6722567"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 20:19:14 -0700
+   d="scan'208";a="17983441"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 22:24:16 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="16012211"
+   d="scan'208";a="16200076"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Mar 2024 20:19:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Mar 2024 22:24:14 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpJoj-0000h4-1P;
-	Wed, 27 Mar 2024 03:19:09 +0000
-Date: Wed, 27 Mar 2024 11:18:58 +0800
+	id 1rpLlk-0000mQ-0o;
+	Wed, 27 Mar 2024 05:24:12 +0000
+Date: Wed, 27 Mar 2024 13:24:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [paulmck-rcu:50ways.2024.03.26a 59/59] kernel/rcu/tree.c:2242
- rcu_gp_kthread() warn: sleeping in atomic context
-Message-ID: <202403271124.K0Oicb6g-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 836/2169]
+ drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_dscl.c:400:42-43: WARNING
+ opportunity for min()
+Message-ID: <202403271352.aDiLK5LE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,106 +63,101 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Revalla Hari Krishna <harikrishna.revalla@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Martin Leung <martin.leung@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git 50ways.2024.03.26a
-head:   097f5787a886cf5dbe7a2c374e5937fd4d5744ab
-commit: 097f5787a886cf5dbe7a2c374e5937fd4d5744ab [59/59] rcu: Test code for "50 ways to hang your kernel"
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-randconfig-141-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271124.K0Oicb6g-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   26074e1be23143b2388cacb36166766c235feb7c
+commit: 88867807564e28409d8220419da7559364109a2a [836/2169] drm/amd/display: Refactor DPP into a component directory
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-102-20240326 (https://download.01.org/0day-ci/archive/20240327/202403271352.aDiLK5LE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202403271124.K0Oicb6g-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202403271352.aDiLK5LE-lkp@intel.com/
 
-smatch warnings:
-kernel/rcu/tree.c:2242 rcu_gp_kthread() warn: sleeping in atomic context
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_dscl.c:400:42-43: WARNING opportunity for min()
+   drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_dscl.c:402:46-47: WARNING opportunity for min()
+--
+>> drivers/gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp.c:269:42-43: WARNING opportunity for min()
+   drivers/gpu/drm/amd/display/dc/dpp/dcn20/dcn20_dpp.c:271:46-47: WARNING opportunity for min()
+--
+>> drivers/gpu/drm/amd/display/dc/dpp/dcn32/dcn32_dpp.c:43:42-43: WARNING opportunity for min()
+   drivers/gpu/drm/amd/display/dc/dpp/dcn32/dcn32_dpp.c:45:46-47: WARNING opportunity for min()
 
-vim +2242 kernel/rcu/tree.c
+vim +400 drivers/gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp_dscl.c
 
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2221  
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2222  /*
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2223   * Body of kthread that handles grace periods.
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2224   */
-0854a05c9fa554 kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2225  static int __noreturn rcu_gp_kthread(void *unused)
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2226  {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2227  	static DECLARE_WORK(deadlock_work, deadlock_work_fn);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2228  
-5871968d531f39 kernel/rcu/tree.c Paul E. McKenney 2015-02-24  2229  	rcu_bind_gp_kthread();
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2230  	if (whichverse == 2 || whichverse == 3 || whichverse == 4) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2231  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2232  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2233  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2234  	if (whichverse == 1 || whichverse == 1001) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2235  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2236  		spin_lock(&spinlock_b);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2237  		spin_unlock(&spinlock_b);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2238  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2239  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2240  	if (whichverse == 2) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2241  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26 @2242  		schedule();
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2243  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2244  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2245  	if (whichverse == 1001) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2246  		spin_lock(&spinlock_b);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2247  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2248  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2249  		spin_unlock(&spinlock_b);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2250  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2251  	if (whichverse == 1002) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2252  		raw_spin_lock(&raw_spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2253  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2254  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2255  		raw_spin_unlock(&raw_spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2256  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2257  	if (whichverse == 1003) {
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2258  		preempt_disable();
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2259  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2260  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2261  		preempt_enable();
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2262  		spin_lock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2263  		spin_unlock(&spinlock_a);
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2264  	}
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2265  	if (whichverse == 2001)
-097f5787a886cf kernel/rcu/tree.c Paul E. McKenney 2024-03-26  2266  		queue_work(system_unbound_wq, &deadlock_work);
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2267  	for (;;) {
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2268  
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2269  		/* Handle grace-period start. */
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2270  		for (;;) {
-0f11ad323dd3d3 kernel/rcu/tree.c Paul E. McKenney 2020-02-10  2271  			trace_rcu_grace_period(rcu_state.name, rcu_state.gp_seq,
-63c4db78e80407 kernel/rcutree.c  Paul E. McKenney 2013-08-09  2272  					       TPS("reqwait"));
-683954e55c9814 kernel/rcu/tree.c Neeraj Upadhyay  2020-11-16  2273  			WRITE_ONCE(rcu_state.gp_state, RCU_GP_WAIT_GPS);
-9cbc5b97029bff kernel/rcu/tree.c Paul E. McKenney 2018-07-05  2274  			swait_event_idle_exclusive(rcu_state.gp_wq,
-9cbc5b97029bff kernel/rcu/tree.c Paul E. McKenney 2018-07-05  2275  					 READ_ONCE(rcu_state.gp_flags) &
-4cdfc175c25c89 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2276  					 RCU_GP_FLAG_INIT);
-55b2dcf5870004 kernel/rcu/tree.c Paul E. McKenney 2020-04-01  2277  			rcu_gp_torture_wait();
-683954e55c9814 kernel/rcu/tree.c Neeraj Upadhyay  2020-11-16  2278  			WRITE_ONCE(rcu_state.gp_state, RCU_GP_DONE_GPS);
-78e4bc34e5d966 kernel/rcu/tree.c Paul E. McKenney 2013-09-24  2279  			/* Locking provides needed memory barrier. */
-0854a05c9fa554 kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2280  			if (rcu_gp_init())
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2281  				break;
-cee43939893337 kernel/rcu/tree.c Paul E. McKenney 2018-03-02  2282  			cond_resched_tasks_rcu_qs();
-9cbc5b97029bff kernel/rcu/tree.c Paul E. McKenney 2018-07-05  2283  			WRITE_ONCE(rcu_state.gp_activity, jiffies);
-73a860cd58a1eb kernel/rcu/tree.c Paul E. McKenney 2014-08-14  2284  			WARN_ON(signal_pending(current));
-0f11ad323dd3d3 kernel/rcu/tree.c Paul E. McKenney 2020-02-10  2285  			trace_rcu_grace_period(rcu_state.name, rcu_state.gp_seq,
-63c4db78e80407 kernel/rcutree.c  Paul E. McKenney 2013-08-09  2286  					       TPS("reqwaitsig"));
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2287  		}
-7fdefc10e1d730 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2288  
-4cdfc175c25c89 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2289  		/* Handle quiescent-state forcing. */
-c3854a055bc834 kernel/rcu/tree.c Paul E. McKenney 2018-07-05  2290  		rcu_gp_fqs_loop();
-4cdfc175c25c89 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2291  
-4cdfc175c25c89 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2292  		/* Handle grace-period end. */
-683954e55c9814 kernel/rcu/tree.c Neeraj Upadhyay  2020-11-16  2293  		WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANUP);
-0854a05c9fa554 kernel/rcu/tree.c Paul E. McKenney 2018-07-03  2294  		rcu_gp_cleanup();
-683954e55c9814 kernel/rcu/tree.c Neeraj Upadhyay  2020-11-16  2295  		WRITE_ONCE(rcu_state.gp_state, RCU_GP_CLEANED);
-4cdfc175c25c89 kernel/rcutree.c  Paul E. McKenney 2012-06-22  2296  	}
-b3dbec76e5334f kernel/rcutree.c  Paul E. McKenney 2012-06-18  2297  }
-b3dbec76e5334f kernel/rcutree.c  Paul E. McKenney 2012-06-18  2298  
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  390  
+dd93752b648309 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-10-10  391  void dpp1_dscl_calc_lb_num_partitions(
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  392  		const struct scaler_data *scl_data,
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  393  		enum lb_memory_config lb_config,
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  394  		int *num_part_y,
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  395  		int *num_part_c)
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  396  {
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  397  	int lb_memory_size, lb_memory_size_c, lb_memory_size_a, num_partitions_a,
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  398  	lb_bpc, memory_line_size_y, memory_line_size_c, memory_line_size_a;
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  399  
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15 @400  	int line_size = scl_data->viewport.width < scl_data->recout.width ?
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  401  			scl_data->viewport.width : scl_data->recout.width;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  402  	int line_size_c = scl_data->viewport_c.width < scl_data->recout.width ?
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  403  			scl_data->viewport_c.width : scl_data->recout.width;
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  404  
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  405  	if (line_size == 0)
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  406  		line_size = 1;
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  407  
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  408  	if (line_size_c == 0)
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  409  		line_size_c = 1;
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  410  
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  411  
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  412  	lb_bpc = dpp1_dscl_get_lb_depth_bpc(scl_data->lb_params.depth);
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  413  	memory_line_size_y = (line_size * lb_bpc + 71) / 72; /* +71 to ceil */
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  414  	memory_line_size_c = (line_size_c * lb_bpc + 71) / 72; /* +71 to ceil */
+59979bf8be1784 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Murton Liu     2019-02-15  415  	memory_line_size_a = (line_size + 5) / 6; /* +5 to ceil */
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  416  
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  417  	if (lb_config == LB_MEMORY_CONFIG_1) {
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  418  		lb_memory_size = 816;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  419  		lb_memory_size_c = 816;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  420  		lb_memory_size_a = 984;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  421  	} else if (lb_config == LB_MEMORY_CONFIG_2) {
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  422  		lb_memory_size = 1088;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  423  		lb_memory_size_c = 1088;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  424  		lb_memory_size_a = 1312;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  425  	} else if (lb_config == LB_MEMORY_CONFIG_3) {
+734a092b1fe407 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Eric Bernstein 2017-09-29  426  		/* 420 mode: using 3rd mem from Y, Cr and Cb */
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  427  		lb_memory_size = 816 + 1088 + 848 + 848 + 848;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  428  		lb_memory_size_c = 816 + 1088;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  429  		lb_memory_size_a = 984 + 1312 + 456;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  430  	} else {
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  431  		lb_memory_size = 816 + 1088 + 848;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  432  		lb_memory_size_c = 816 + 1088 + 848;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  433  		lb_memory_size_a = 984 + 1312 + 456;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  434  	}
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  435  	*num_part_y = lb_memory_size / memory_line_size_y;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  436  	*num_part_c = lb_memory_size_c / memory_line_size_c;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  437  	num_partitions_a = lb_memory_size_a / memory_line_size_a;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  438  
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  439  	if (scl_data->lb_params.alpha_en
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  440  			&& (num_partitions_a < *num_part_y))
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  441  		*num_part_y = num_partitions_a;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  442  
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  443  	if (*num_part_y > 64)
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  444  		*num_part_y = 64;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  445  	if (*num_part_c > 64)
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  446  		*num_part_c = 64;
+5e9a81b2c46555 drivers/gpu/drm/amd/display/dc/dcn10/dcn10_dpp_dscl.c Yue Hin Lau    2017-08-15  447  
+
+:::::: The code at line 400 was first introduced by commit
+:::::: 5e9a81b2c465557adbaeef7231834e3ab40e4102 drm/amd/display: separate scl functions out from dcn10_dpp
+
+:::::: TO: Yue Hin Lau <Yuehin.Lau@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
