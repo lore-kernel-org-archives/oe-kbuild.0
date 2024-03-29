@@ -1,57 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963F238DEC
-	for <oe-kbuild@lists.linux.dev>; Fri, 29 Mar 2024 03:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152C344377
+	for <oe-kbuild@lists.linux.dev>; Fri, 29 Mar 2024 07:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711681297; cv=none; b=rLsLh0cRv7gpVSthfMQW8/bhfZR+JmM8tfY9Nuuf8mf2dJqElRVeEN9m8M0xGWYk7aJ0yhkSds3B8fO6On7EI7D9/SGbdySgoJ8I917E3qlZToj92gN44dOcKYp4b3fofFzq0N3vsStfQ+f5HzqG8s3ogMHOK5nZocP6Dx6IirM=
+	t=1711698524; cv=none; b=gt40UsWeczyWPrcj9deZq8q3Rkuxr+rWLJLd82QJcmZ9BW7byARjmn6yfL0825zWmbRPZGx0a45WWpOZux15GIUOa69okOvzuDZ8C/CT5pbY0428EDkiCgxQq07E73iDe3fhlSMgxLigKJ/2HR3MduKEMnkngstXw32pLJ49EPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711681297; c=relaxed/simple;
-	bh=aDapcZbUXS+Gm+oM8p5O3f4BY3HzC9F03NZBb/xK3S4=;
+	s=arc-20240116; t=1711698524; c=relaxed/simple;
+	bh=Vyii/Wrvqp0AEpMmNOd1GqL0xncww80OrwzZv+v+OVY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ExWaH+NpC0+mSrdUskxYS6OjqDVpviy/nT8pRnQPZwkHgGJu68BPBiw0Hz94xXPJz276aLF+tV2EMoWMmQE8bGzm1KGyE/Ws7SyETFVIOMGIA3HQ1gBRR1o6OEP2+CSYzKfY8Qe1bBizDP+FL4WAfNtdITHRVpgshMK28IPBGE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvThstdS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=aQKXuUgB8dveresNBw2SPrzdHtWTGePqP0fUCiFZSswWjOEmkfXD7kWVjuSotjrr0HOu7KyjrXyplp8sxDG9cVIsFWbnGwP/ARiMd88xDAdkG54jhkS2LZhJBA+mxfhD4EZNFLcO1F0uS69DJVi+AbxYCuYg/2gEYAoViqtXM84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iYnQYPBq; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvThstdS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iYnQYPBq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711681295; x=1743217295;
+  t=1711698522; x=1743234522;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aDapcZbUXS+Gm+oM8p5O3f4BY3HzC9F03NZBb/xK3S4=;
-  b=IvThstdSgp6sCuIGsWjeJxahSI7KgHlei1KJlqMSEgAXNpOiuzBOB8HO
-   8YZPZ+voG2ZzUX7dBEBZqQUOfzY6DfQwuDcC3ylLIDeV4tNoQRaUhGB36
-   fMitJREvhUMuaFVC5iQrUgPYoRNo4zuwAPhB2jS9T2gh3RaKT8nqL4NAL
-   Ywy7lqHPkE4TK+0ExkI4MKEsRp79sOO8X5V+oltyi/ZYqQ/VFudG/Kq26
-   58MKwEAbyosHyM1p2ogloAK82jewG/F+Mw8dVsjIbR6hC5HE4yvHsgmM8
-   stnLGxA4n/GwYdj92MhW6ZIJX50iwFchDu54C9ukMRq1f85UAIh4/LUmj
-   w==;
-X-CSE-ConnectionGUID: lsOGrk6URl+RswXw+MVWJw==
-X-CSE-MsgGUID: qHDDFPg7Sm6SEN7RSgL3Wg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="7464838"
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="7464838"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2024 20:01:34 -0700
+  bh=Vyii/Wrvqp0AEpMmNOd1GqL0xncww80OrwzZv+v+OVY=;
+  b=iYnQYPBq2IbFguXBBMdOjIJVjjKHiGjSEQXJljsSJYayK7HowYnw9lx2
+   i8amR0KCbP8/Alcq8bbtHWRlCfKk0pV4EwQKErBqFSrbw7iRF5nGkDKKG
+   S5F2q6SpOX4RaqMigl46n6gAhiOmLNR2qKZVj0PyqBO0j6tGoUZjWRg0u
+   YM8xS7FN13lR9PIS6WLOEiOmNJQrMKq5edAl4c77lzC6XliQuTt21zUwk
+   51h4kGSbhn1eYPoxb/c6o5AJuf/sMqvBIlqyvjXhHW+hoVnDJwYd67/sJ
+   FYvvwclU6coOQOspeA0mCqas0eKQ6nBJGlQVRqYsidQOH8A94GwbTB+p2
+   g==;
+X-CSE-ConnectionGUID: AmXL0xgqQNOzNGlvAQZ8Sg==
+X-CSE-MsgGUID: dWCRadskR2OOeTIBkE1lsg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11027"; a="7480239"
+X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
+   d="scan'208";a="7480239"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2024 00:48:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,162,1708416000"; 
-   d="scan'208";a="16894189"
+X-IronPort-AV: E=Sophos;i="6.07,164,1708416000"; 
+   d="scan'208";a="21568660"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Mar 2024 20:01:32 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Mar 2024 00:48:40 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rq2Uk-0002nK-18;
-	Fri, 29 Mar 2024 03:01:30 +0000
-Date: Fri, 29 Mar 2024 11:01:22 +0800
+	id 1rq6yb-0002xo-2n;
+	Fri, 29 Mar 2024 07:48:37 +0000
+Date: Fri, 29 Mar 2024 15:48:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 1910/2532] WARNING: modpost: lib/test_user_copy:
- section mismatch in reference: (unknown)+0x4 (section: .text.fixup) ->
-  (section: .init.text)
-Message-ID: <202403291040.AjpOaxUc-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [bcachefs:bcachefs-testing 174/177] fs/bcachefs/error.c:360:1-7:
+ preceding lock on line 227
+Message-ID: <202403291555.i4InFfIm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,142 +60,208 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "only scripts/mod/modpost.c file changed"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-commit: 60fff9be7eff2de9e8439d43d0c5cc15a95f33b3 [1910/2532] modpost: do not make find_tosym() return NULL
-:::::: branch date: 22 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-001-20240329 (https://download.01.org/0day-ci/archive/20240329/202403291040.AjpOaxUc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240329/202403291040.AjpOaxUc-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   3e556288d52a623a50e81b3686e596a9bdd9d382
+commit: 8e8e3bb58523eb25f81be05c8dd36324b1e23e3b [174/177] bcachefs: allow for custom action in fsck error messages
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: x86_64-randconfig-102-20240329 (https://download.01.org/0day-ci/archive/20240329/202403291555.i4InFfIm-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202403291040.AjpOaxUc-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202403291555.i4InFfIm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/error.c:360:1-7: preceding lock on line 227
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/locking/test-ww_mutex.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/backtracetest.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp855.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp862.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp936.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp950.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1250.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1255.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-15.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-cyrillic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-gaelic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-greek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-iceland.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in fs/autofs/autofs4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/encrypted-keys/encrypted-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/find_bit_benchmark.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ida.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_user_copy.o
->> WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x4 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x10 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x18 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x24 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x2c (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x38 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x44 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x4c (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x58 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x60 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x6c (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x74 (section: .text.fixup) ->  (section: .init.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_static_key_base.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_printf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_scanf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ref_tracker.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/bus/vexpress-config.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-gw-pld.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-imx27.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/goldfishfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/vfb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/rt4831-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/regulator/tps6286x-regulator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-auo-a030jtn01.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-novatek-nt39016.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/panel/panel-orisetech-ota5601a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/lontium-lt9611uxc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sil-sii8620.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/bridge/sii9234.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_mipi_dbi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-slimbus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/misc/open-dice.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/vexpress-sysreg.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spi/spi-fsl-lib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/spmi/hisi-spmi-controller.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/charlcd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_emmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/framebuffer-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/memconsole-coreboot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/platform/goldfish/goldfish_pipe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/fsl_imx8_ddr_perf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/fsl/imx-pcm-dma.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-formatter-pcm.o
+vim +360 fs/bcachefs/error.c
+
+8e8e3bb58523eb Kent Overstreet 2024-03-28  191  
+b65db750e2bb92 Kent Overstreet 2023-10-24  192  int bch2_fsck_err(struct bch_fs *c,
+b65db750e2bb92 Kent Overstreet 2023-10-24  193  		  enum bch_fsck_flags flags,
+b65db750e2bb92 Kent Overstreet 2023-10-24  194  		  enum bch_sb_error_id err,
+b65db750e2bb92 Kent Overstreet 2023-10-24  195  		  const char *fmt, ...)
+dbb9936b0dc905 Kent Overstreet 2022-09-25  196  {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  197  	struct fsck_err_state *s = NULL;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  198  	va_list args;
+22f51621335837 Kent Overstreet 2022-10-09  199  	bool print = true, suppressing = false, inconsistent = false;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  200  	struct printbuf buf = PRINTBUF, *out = &buf;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  201  	int ret = -BCH_ERR_fsck_ignore;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  202  	const char *action_orig = "fix?", *action = action_orig;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  203  
+a64a37338d49a7 Kent Overstreet 2024-01-03  204  	if ((flags & FSCK_CAN_FIX) &&
+a64a37338d49a7 Kent Overstreet 2024-01-03  205  	    test_bit(err, c->sb.errors_silent))
+8b16413cda7c46 Kent Overstreet 2023-12-29  206  		return -BCH_ERR_fsck_fix;
+8b16413cda7c46 Kent Overstreet 2023-12-29  207  
+b65db750e2bb92 Kent Overstreet 2023-10-24  208  	bch2_sb_error_count(c, err);
+b65db750e2bb92 Kent Overstreet 2023-10-24  209  
+9c5d38bba03425 Kent Overstreet 2023-02-16  210  	va_start(args, fmt);
+9c5d38bba03425 Kent Overstreet 2023-02-16  211  	prt_vprintf(out, fmt, args);
+9c5d38bba03425 Kent Overstreet 2023-02-16  212  	va_end(args);
+9c5d38bba03425 Kent Overstreet 2023-02-16  213  
+8e8e3bb58523eb Kent Overstreet 2024-03-28  214  	/* Custom fix/continue/recreate/etc.? */
+8e8e3bb58523eb Kent Overstreet 2024-03-28  215  	if (out->buf[out->pos - 1] == '?') {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  216  		const char *p = strrchr(out->buf, ',');
+8e8e3bb58523eb Kent Overstreet 2024-03-28  217  		if (p) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  218  			out->pos = p - out->buf;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  219  			action = kstrdup(p + 2, GFP_KERNEL);
+8e8e3bb58523eb Kent Overstreet 2024-03-28  220  			if (!action) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  221  				ret = -ENOMEM;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  222  				goto err;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  223  			}
+8e8e3bb58523eb Kent Overstreet 2024-03-28  224  		}
+8e8e3bb58523eb Kent Overstreet 2024-03-28  225  	}
+8e8e3bb58523eb Kent Overstreet 2024-03-28  226  
+f5d26fa31ed2e2 Kent Overstreet 2023-10-25 @227  	mutex_lock(&c->fsck_error_msgs_lock);
+dbb9936b0dc905 Kent Overstreet 2022-09-25  228  	s = fsck_err_get(c, fmt);
+dbb9936b0dc905 Kent Overstreet 2022-09-25  229  	if (s) {
+c8d5b714114731 Kent Overstreet 2023-04-25  230  		/*
+c8d5b714114731 Kent Overstreet 2023-04-25  231  		 * We may be called multiple times for the same error on
+c8d5b714114731 Kent Overstreet 2023-04-25  232  		 * transaction restart - this memoizes instead of asking the user
+c8d5b714114731 Kent Overstreet 2023-04-25  233  		 * multiple times for the same error:
+c8d5b714114731 Kent Overstreet 2023-04-25  234  		 */
+9c5d38bba03425 Kent Overstreet 2023-02-16  235  		if (s->last_msg && !strcmp(buf.buf, s->last_msg)) {
+9c5d38bba03425 Kent Overstreet 2023-02-16  236  			ret = s->ret;
+f5d26fa31ed2e2 Kent Overstreet 2023-10-25  237  			mutex_unlock(&c->fsck_error_msgs_lock);
+8e8e3bb58523eb Kent Overstreet 2024-03-28  238  			goto err;
+9c5d38bba03425 Kent Overstreet 2023-02-16  239  		}
+9c5d38bba03425 Kent Overstreet 2023-02-16  240  
+9c5d38bba03425 Kent Overstreet 2023-02-16  241  		kfree(s->last_msg);
+9c5d38bba03425 Kent Overstreet 2023-02-16  242  		s->last_msg = kstrdup(buf.buf, GFP_KERNEL);
+8e8e3bb58523eb Kent Overstreet 2024-03-28  243  		if (!s->last_msg) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  244  			ret = -ENOMEM;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  245  			goto err;
+8e8e3bb58523eb Kent Overstreet 2024-03-28  246  		}
+9c5d38bba03425 Kent Overstreet 2023-02-16  247  
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  248  		if (c->opts.ratelimit_errors &&
+0806151913dff8 Kent Overstreet 2021-06-21  249  		    !(flags & FSCK_NO_RATELIMIT) &&
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  250  		    s->nr >= FSCK_ERR_RATELIMIT_NR) {
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  251  			if (s->nr == FSCK_ERR_RATELIMIT_NR)
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  252  				suppressing = true;
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  253  			else
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  254  				print = false;
+e2ee3eaab72a05 Kent Overstreet 2019-11-06  255  		}
+dbb9936b0dc905 Kent Overstreet 2022-09-25  256  
+dbb9936b0dc905 Kent Overstreet 2022-09-25  257  		s->nr++;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  258  	}
+dbb9936b0dc905 Kent Overstreet 2022-09-25  259  
+b2d1d56b1d34bc Kent Overstreet 2022-11-13  260  #ifdef BCACHEFS_LOG_PREFIX
+dbb9936b0dc905 Kent Overstreet 2022-09-25  261  	if (!strncmp(fmt, "bcachefs:", 9))
+dbb9936b0dc905 Kent Overstreet 2022-09-25  262  		prt_printf(out, bch2_log_msg(c, ""));
+b2d1d56b1d34bc Kent Overstreet 2022-11-13  263  #endif
+dbb9936b0dc905 Kent Overstreet 2022-09-25  264  
+d55ddf6e7a81e1 Kent Overstreet 2023-12-31  265  	if (!test_bit(BCH_FS_fsck_running, &c->flags)) {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  266  		if (c->opts.errors != BCH_ON_ERROR_continue ||
+dbb9936b0dc905 Kent Overstreet 2022-09-25  267  		    !(flags & (FSCK_CAN_FIX|FSCK_CAN_IGNORE))) {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  268  			prt_str(out, ", shutting down");
+22f51621335837 Kent Overstreet 2022-10-09  269  			inconsistent = true;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  270  			ret = -BCH_ERR_fsck_errors_not_fixed;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  271  		} else if (flags & FSCK_CAN_FIX) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  272  			prt_str(out, ", ");
+8e8e3bb58523eb Kent Overstreet 2024-03-28  273  			prt_actioning(out, action);
+dbb9936b0dc905 Kent Overstreet 2022-09-25  274  			ret = -BCH_ERR_fsck_fix;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  275  		} else {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  276  			prt_str(out, ", continuing");
+dbb9936b0dc905 Kent Overstreet 2022-09-25  277  			ret = -BCH_ERR_fsck_ignore;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  278  		}
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  279  	} else if (c->opts.fix_errors == FSCK_FIX_exit) {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  280  		prt_str(out, ", exiting");
+dbb9936b0dc905 Kent Overstreet 2022-09-25  281  		ret = -BCH_ERR_fsck_errors_not_fixed;
+0bc166ff564f9e Kent Overstreet 2019-03-28  282  	} else if (flags & FSCK_CAN_FIX) {
+853b7393c20d5e Kent Overstreet 2023-04-15  283  		int fix = s && s->fix
+853b7393c20d5e Kent Overstreet 2023-04-15  284  			? s->fix
+853b7393c20d5e Kent Overstreet 2023-04-15  285  			: c->opts.fix_errors;
+853b7393c20d5e Kent Overstreet 2023-04-15  286  
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  287  		if (fix == FSCK_FIX_ask) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  288  			prt_str(out, ", ");
+8e8e3bb58523eb Kent Overstreet 2024-03-28  289  			prt_str(out, action);
+853b7393c20d5e Kent Overstreet 2023-04-15  290  
+96f37eabe7a5cb Kent Overstreet 2023-12-31  291  			if (bch2_fs_stdio_redirect(c))
+96f37eabe7a5cb Kent Overstreet 2023-12-31  292  				bch2_print(c, "%s", out->buf);
+96f37eabe7a5cb Kent Overstreet 2023-12-31  293  			else
+dbb9936b0dc905 Kent Overstreet 2022-09-25  294  				bch2_print_string_as_lines(KERN_ERR, out->buf);
+dbb9936b0dc905 Kent Overstreet 2022-09-25  295  			print = false;
+853b7393c20d5e Kent Overstreet 2023-04-15  296  
+8e8e3bb58523eb Kent Overstreet 2024-03-28  297  			int ask = bch2_fsck_ask_yn(c);
+853b7393c20d5e Kent Overstreet 2023-04-15  298  
+853b7393c20d5e Kent Overstreet 2023-04-15  299  			if (ask >= YN_ALLNO && s)
+853b7393c20d5e Kent Overstreet 2023-04-15  300  				s->fix = ask == YN_ALLNO
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  301  					? FSCK_FIX_no
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  302  					: FSCK_FIX_yes;
+853b7393c20d5e Kent Overstreet 2023-04-15  303  
+853b7393c20d5e Kent Overstreet 2023-04-15  304  			ret = ask & 1
+dbb9936b0dc905 Kent Overstreet 2022-09-25  305  				? -BCH_ERR_fsck_fix
+dbb9936b0dc905 Kent Overstreet 2022-09-25  306  				: -BCH_ERR_fsck_ignore;
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  307  		} else if (fix == FSCK_FIX_yes ||
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  308  			   (c->opts.nochanges &&
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  309  			    !(flags & FSCK_CAN_IGNORE))) {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  310  			prt_str(out, ", ");
+8e8e3bb58523eb Kent Overstreet 2024-03-28  311  			prt_actioning(out, action);
+dbb9936b0dc905 Kent Overstreet 2022-09-25  312  			ret = -BCH_ERR_fsck_fix;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  313  		} else {
+8e8e3bb58523eb Kent Overstreet 2024-03-28  314  			prt_str(out, ", not ");
+8e8e3bb58523eb Kent Overstreet 2024-03-28  315  			prt_actioning(out, action);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  316  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  317  	} else if (flags & FSCK_NEED_FSCK) {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  318  		prt_str(out, " (run fsck to correct)");
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  319  	} else {
+dbb9936b0dc905 Kent Overstreet 2022-09-25  320  		prt_str(out, " (repair unimplemented)");
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  321  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  322  
+dbb9936b0dc905 Kent Overstreet 2022-09-25  323  	if (ret == -BCH_ERR_fsck_ignore &&
+a0f8faea5f47d6 Kent Overstreet 2023-07-11  324  	    (c->opts.fix_errors == FSCK_FIX_exit ||
+dbb9936b0dc905 Kent Overstreet 2022-09-25  325  	     !(flags & FSCK_CAN_IGNORE)))
+dbb9936b0dc905 Kent Overstreet 2022-09-25  326  		ret = -BCH_ERR_fsck_errors_not_fixed;
+dbb9936b0dc905 Kent Overstreet 2022-09-25  327  
+96f37eabe7a5cb Kent Overstreet 2023-12-31  328  	if (print) {
+96f37eabe7a5cb Kent Overstreet 2023-12-31  329  		if (bch2_fs_stdio_redirect(c))
+96f37eabe7a5cb Kent Overstreet 2023-12-31  330  			bch2_print(c, "%s\n", out->buf);
+96f37eabe7a5cb Kent Overstreet 2023-12-31  331  		else
+dbb9936b0dc905 Kent Overstreet 2022-09-25  332  			bch2_print_string_as_lines(KERN_ERR, out->buf);
+96f37eabe7a5cb Kent Overstreet 2023-12-31  333  	}
+dbb9936b0dc905 Kent Overstreet 2022-09-25  334  
+d55ddf6e7a81e1 Kent Overstreet 2023-12-31  335  	if (test_bit(BCH_FS_fsck_running, &c->flags) &&
+dbb9936b0dc905 Kent Overstreet 2022-09-25  336  	    (ret != -BCH_ERR_fsck_fix &&
+dbb9936b0dc905 Kent Overstreet 2022-09-25  337  	     ret != -BCH_ERR_fsck_ignore))
+dbb9936b0dc905 Kent Overstreet 2022-09-25  338  		bch_err(c, "Unable to continue, halting");
+dbb9936b0dc905 Kent Overstreet 2022-09-25  339  	else if (suppressing)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  340  		bch_err(c, "Ratelimiting new instances of previous error");
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  341  
+9c5d38bba03425 Kent Overstreet 2023-02-16  342  	if (s)
+9c5d38bba03425 Kent Overstreet 2023-02-16  343  		s->ret = ret;
+9c5d38bba03425 Kent Overstreet 2023-02-16  344  
+f5d26fa31ed2e2 Kent Overstreet 2023-10-25  345  	mutex_unlock(&c->fsck_error_msgs_lock);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  346  
+22f51621335837 Kent Overstreet 2022-10-09  347  	if (inconsistent)
+22f51621335837 Kent Overstreet 2022-10-09  348  		bch2_inconsistent_error(c);
+22f51621335837 Kent Overstreet 2022-10-09  349  
+dbb9936b0dc905 Kent Overstreet 2022-09-25  350  	if (ret == -BCH_ERR_fsck_fix) {
+3c471b65889aa2 Kent Overstreet 2023-11-26  351  		set_bit(BCH_FS_errors_fixed, &c->flags);
+0bc166ff564f9e Kent Overstreet 2019-03-28  352  	} else {
+3c471b65889aa2 Kent Overstreet 2023-11-26  353  		set_bit(BCH_FS_errors_not_fixed, &c->flags);
+3c471b65889aa2 Kent Overstreet 2023-11-26  354  		set_bit(BCH_FS_error, &c->flags);
+0bc166ff564f9e Kent Overstreet 2019-03-28  355  	}
+8e8e3bb58523eb Kent Overstreet 2024-03-28  356  err:
+8e8e3bb58523eb Kent Overstreet 2024-03-28  357  	if (action != action_orig)
+8e8e3bb58523eb Kent Overstreet 2024-03-28  358  		kfree(action);
+8e8e3bb58523eb Kent Overstreet 2024-03-28  359  	printbuf_exit(&buf);
+dbb9936b0dc905 Kent Overstreet 2022-09-25 @360  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  361  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  362  
+
+:::::: The code at line 360 was first introduced by commit
+:::::: dbb9936b0dc905657db6e5289be18e425f1b60d3 bcachefs: Improve bch2_fsck_err()
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
