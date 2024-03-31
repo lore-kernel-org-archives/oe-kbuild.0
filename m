@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A060843ADE
-	for <oe-kbuild@lists.linux.dev>; Sat, 30 Mar 2024 22:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB3D1C33
+	for <oe-kbuild@lists.linux.dev>; Sun, 31 Mar 2024 03:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711836785; cv=none; b=j8h3IlMgzVVTMlv2C8Je47xHDxRY2yxd4C0DDqqi8Eeaz7NloP1+nIId6WI1PqwbZW5Ce7XDG4MaIViQg418aI61hkWtJlj0QjNyxFhZa/+orNBAzwph6XTvUmZBLK/6CJ83wBLato6LPAUmZwNuD58bAx2Tf66VuWHdje8VaO4=
+	t=1711854977; cv=none; b=HMPXlscqsZo64Gd09uUEcgHSoWRGWWpi35qVN30rsNI29d/+CgsF4u5rxdaWcqQplkEoi6llUShj6J65LJOWtmoIQhO56vm+g3GoBBWPZh17tz2qE8pln+EcMCFy9V4vW0FMwJpj6ex7vW3xlGBWnQR/98QHs/8LTuuiD3H+S1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711836785; c=relaxed/simple;
-	bh=0FNbYFwAxLe33F9g+Gu/yYpbysBIxReM89jq3cAm78s=;
+	s=arc-20240116; t=1711854977; c=relaxed/simple;
+	bh=957ajdqJZ+9baxBkLRWa/Q2XoPxfbp8Sl7kDdTf9n4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=K8wKhr8XV/beUaHL/anVI6DHy91+ZXiL6NPClb1elo2kFLuIuZUIFS3/fto7vdxSREQFPTAtDxc09Hcf+m1Rs71oU1hRzrhR40yT9wyHsCPvH1c33mvR0sq4hLpJEJR1nvQPL8g1Zvil+khYong2d36GJB/CsxyyPQEQIbpKvA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mf+T/yUf; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=SyN44ubNl5gbwwP5HggEQnRYxPVgBnlbSYJH2s2H5Ew5W7R3DYQ+8OeBYf7CxdtZq6yjMCL5U17OIghOWVFknIQpUNQk5C+WX4mpslLu33LWUcufwoDHSq24EAONmpxJiQ4UNv2ix0MceWQWivJTsqfB7UmY57HjDIgOM5OQcEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxVazifv; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mf+T/yUf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxVazifv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711836784; x=1743372784;
+  t=1711854975; x=1743390975;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0FNbYFwAxLe33F9g+Gu/yYpbysBIxReM89jq3cAm78s=;
-  b=mf+T/yUfG2E2NkTqkJHIwEOIehI6DoIWmSlBIsmakrpcj2DJOg8DK/CD
-   HaVLxoLkpAxhrqmXrCDU76dRIltDPjT2BO8TnjX7wM93axWgZlcEFW76+
-   mguOvym5EbT3I7FIUhiIAHdVm9YRng8NJJ7SZw/ngDzGBHlo/cNvkXqMI
-   5VYpbMcORgZodd70v3tB8nVEC+6o4LxPZrRZxERg2fOqu+a793NEf27Vq
-   87pKAnQeakVMr3hFKMv0a0mlRSeGcM5DYMhQ8+4PYa0WiFLH5agOokFe1
-   71WfCaSy6KE1wQA30pbW8Ki10NUsNHqg+7P5YeDESNeDzDGcgorAN18tR
-   w==;
-X-CSE-ConnectionGUID: Ft89b6EcQlSdEO6M9PcJrg==
-X-CSE-MsgGUID: V5Ss6f4ISTyY7HVgLWa0VQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="18437468"
-X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="18437468"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 15:13:03 -0700
+  bh=957ajdqJZ+9baxBkLRWa/Q2XoPxfbp8Sl7kDdTf9n4o=;
+  b=DxVazifvQWzfiT03VLLQTzjLZDVw0wiS4m8i0TRhCzGW1WfeicaUCHNr
+   AUR/ZElzd7n4kUUdKWnR5Y26I0F36qPPmPN+54RyeJGOaB+qyKUuOkeAO
+   SktUvIxYugW3a4/zAye2cKwqc8TfE8tydxXKGVdTPJ1EjA6rTN8+OAEOV
+   neg8cNQd1vijTEs8j7FbeBjlM/oL00lABCpcbcddyF4l7BFi0YEOVeUUU
+   az+m0j3nH6EubcYtU2NgRAgb44x7jvU5byjFAUIr5KvVvO1EFASlRrLCz
+   L57I+4FLzLYhBWQqFwCt3hpukI0Nd6KMH6q+2L9dPp9dATRJg/68im9Bi
+   A==;
+X-CSE-ConnectionGUID: tVD9lf5HQRaWSq8WGrAraA==
+X-CSE-MsgGUID: /YATxZsESZieoG9DyEou3w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11029"; a="6860204"
+X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
+   d="scan'208";a="6860204"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2024 20:16:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,168,1708416000"; 
-   d="scan'208";a="21964340"
+X-IronPort-AV: E=Sophos;i="6.07,169,1708416000"; 
+   d="scan'208";a="17763423"
 Received: from lkp-server01.sh.intel.com (HELO 3d808bfd2502) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Mar 2024 15:13:01 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Mar 2024 20:16:13 -0700
 Received: from kbuild by 3d808bfd2502 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rqgwd-0000SC-1m;
-	Sat, 30 Mar 2024 22:12:59 +0000
-Date: Sun, 31 Mar 2024 06:12:57 +0800
+	id 1rqlg2-0000k8-1c;
+	Sun, 31 Mar 2024 03:16:10 +0000
+Date: Sun, 31 Mar 2024 11:15:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [alobakin:idpf-libie-new 60/74]
- drivers/net/ethernet/intel/libeth/rx.c:180:11-12: WARNING kvmalloc is used
- to allocate this memory at line 164
-Message-ID: <202403310626.XY01b0CL-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 1910/2532] WARNING: modpost:
+ drivers/char/hw_random/mxc-rnga: section mismatch in reference:
+ mxc_rnga_driver+0x8 (section: .data) ->  (section: .exit.text)
+Message-ID: <202403311133.PG9XY8qv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,89 +61,176 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/mod/modpost.c file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Alexander Lobakin <aleksander.lobakin@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
-tree:   https://github.com/alobakin/linux idpf-libie-new
-head:   f7e5ff9972ee9afd57afebedbc55c37173d39dd3
-commit: 1529de47fcee1dc7805a0ddfd8c8d75bd4a99c36 [60/74] libie: support native XDP and register memory model
-:::::: branch date: 29 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-052-20240329 (https://download.01.org/0day-ci/archive/20240331/202403310626.XY01b0CL-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+commit: 60fff9be7eff2de9e8439d43d0c5cc15a95f33b3 [1910/2532] modpost: do not make find_tosym() return NULL
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: xtensa-randconfig-r021-20220610 (https://download.01.org/0day-ci/archive/20240331/202403311133.PG9XY8qv-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240331/202403311133.PG9XY8qv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202403310626.XY01b0CL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202403311133.PG9XY8qv-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/libeth/rx.c:180:11-12: WARNING kvmalloc is used to allocate this memory at line 164
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +180 drivers/net/ethernet/intel/libeth/rx.c
-
-e5e39cdea755af Alexander Lobakin 2023-12-04  128  
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  129  /**
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  130   * libeth_rx_fq_create - create a PP with the default libeth settings
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  131   * @fq: buffer queue struct to fill
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  132   * @napi: &napi_struct covering this PP (no usage outside its poll loops)
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  133   *
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  134   * Return: %0 on success, -%errno on failure.
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  135   */
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  136  int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi)
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  137  {
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  138  	struct page_pool_params pp = {
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  139  		.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  140  		.order		= LIBETH_RX_PAGE_ORDER,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  141  		.pool_size	= fq->count,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  142  		.nid		= NUMA_NO_NODE,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  143  		.dev		= napi->dev->dev.parent,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  144  		.netdev		= napi->dev,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  145  		.napi		= napi,
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  146  	};
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  147  	struct libeth_fqe *fqes;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  148  	struct page_pool *pool;
-1529de47fcee1d Alexander Lobakin 2023-12-08  149  	int ret;
-1529de47fcee1d Alexander Lobakin 2023-12-08  150  
-1529de47fcee1d Alexander Lobakin 2023-12-08  151  	pp.dma_dir = fq->xdp ? DMA_BIDIRECTIONAL : DMA_FROM_DEVICE;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  152  
-e5e39cdea755af Alexander Lobakin 2023-12-04  153  	if (!fq->hsplit)
-e5e39cdea755af Alexander Lobakin 2023-12-04  154  		ret = libeth_rx_page_pool_params(fq, &pp);
-e5e39cdea755af Alexander Lobakin 2023-12-04  155  	else
-e5e39cdea755af Alexander Lobakin 2023-12-04  156  		ret = libeth_rx_page_pool_params_zc(fq, &pp);
-e5e39cdea755af Alexander Lobakin 2023-12-04  157  	if (!ret)
-e5e39cdea755af Alexander Lobakin 2023-12-04  158  		return -EINVAL;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  159  
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  160  	pool = page_pool_create(&pp);
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  161  	if (IS_ERR(pool))
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  162  		return PTR_ERR(pool);
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  163  
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20 @164  	fqes = kvcalloc(fq->count, sizeof(*fqes), GFP_KERNEL);
-1529de47fcee1d Alexander Lobakin 2023-12-08  165  	if (!fqes) {
-1529de47fcee1d Alexander Lobakin 2023-12-08  166  		ret = -ENOMEM;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  167  		goto err_buf;
-1529de47fcee1d Alexander Lobakin 2023-12-08  168  	}
-1529de47fcee1d Alexander Lobakin 2023-12-08  169  
-1529de47fcee1d Alexander Lobakin 2023-12-08  170  	ret = xdp_reg_page_pool(pool);
-1529de47fcee1d Alexander Lobakin 2023-12-08  171  	if (ret)
-1529de47fcee1d Alexander Lobakin 2023-12-08  172  		goto err_mem;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  173  
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  174  	fq->fqes = fqes;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  175  	fq->pp = pool;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  176  
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  177  	return 0;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  178  
-1529de47fcee1d Alexander Lobakin 2023-12-08  179  err_mem:
-1529de47fcee1d Alexander Lobakin 2023-12-08 @180  	kfree(fqes);
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  181  err_buf:
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  182  	page_pool_destroy(pool);
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  183  
-1529de47fcee1d Alexander Lobakin 2023-12-08  184  	return ret;
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  185  }
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  186  EXPORT_SYMBOL_NS_GPL(libeth_rx_fq_create, LIBETH);
-4fe2fda36b31e0 Alexander Lobakin 2023-06-20  187  
+WARNING: modpost: missing MODULE_DESCRIPTION() in vmlinux.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/rcuscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/trace/preemptirq_delay_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/scftorture.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/fat/fat_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp860.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp932.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_euc-jp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp1250.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-3.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-9.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-13.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-roman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-turkish.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ucs2_utils.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/ext4/ext4-inode-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/jbd2/jbd2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/cramfs/cramfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/hpfs/hpfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/efs/efs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/btrfs/btrfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/pstore/pstore.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in block/t10-pi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/prime_numbers.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/test_ubsan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_deflate/zlib_deflate.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-ts4800.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/irqchip/irq-meson-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpio/gpio-pcf857x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-imx1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pwm/pwm-pxa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-altera-msi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pci/controller/pcie-mt7621.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/via/viafb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a64-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-a100-r-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun50i-h6-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun6i-rtc-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun8i-h3-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-de-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/sunxi-ng/sun9i-a80-usb-ccu.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/clk/clk-gate_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/ixp4xx/ixp4xx-qmgr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/amlogic/meson-clk-measure.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/soc/qcom/spm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/virtio/virtio_ring.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+>> WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x8 (section: .data) ->  (section: .exit.text)
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/gud/gud.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/drm_panel_orientation_quirks.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-sccb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/rt4831.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/yurex.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/navman.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb-serial-simple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/symbolserial.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/touchscreen/cyttsp_i2c_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-ccgx-ucsi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/i2c/uda1342.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/sa2ul.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-apple.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-aureal.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-bigbenff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cherry.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-cypress.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elecom.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-elo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-kye.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lcpower.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-logitech.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lg-g15.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-magicmouse.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-maltron.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ntrig.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-saitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-samsung.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-semitek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sunplus.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-gaff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-uclogic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zpff.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-i2c.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-pwm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_performance.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_powersave.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mm-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_cif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_netx.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_pruss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/uio/uio_mf624.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/corsair-cpro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
 
 -- 
 0-DAY CI Kernel Test Service
