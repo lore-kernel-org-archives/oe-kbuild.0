@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B03E3A8CB
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Apr 2024 12:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4751E888
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Apr 2024 12:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711975526; cv=none; b=WfBAKsV/VdhT/i2nqFW3HU9vSoIxO+qUjIApiCDmp6EcGhcajw6jwDFHZCLDF2dsto73BFMvQ32cenn5tVI4gBY8mkF+RdEOFRi6126LMugpcyTX0ptYukxiUCbIIei4+74GbYfMfQ7EckPucvOf05Qz9t0tNgawPRHo/Da0KJg=
+	t=1711975809; cv=none; b=Lt4/NEgcngccMs0CxoAVRRtk1jtATmLD3RuPpKTFKEz03C9sB68HblGPNxsJosQktOsYgy5HOuRT5hLcOK1w5p/Crz3XC05/43ua8CZh6BAZKgxZy+TE1Nv9cv/WFgVUc8S24J0JYe2CkFkPbef5fE/ZFc95ggfyQ4THKRss1RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711975526; c=relaxed/simple;
-	bh=QwtsP3UkQjTAWPcBbs1S5O1fwoiQlFcJ9iVex5LdmFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QHdZr/+QmPo3+POaViomtEJ4FXozTbZkdyM+D6tmIr+EIzYJoMUkPF2gOEj+iP6Ef9U8UGAp5ebKdL/fDUKXTmdSCiGBy2Y3jobwd81LQjgy499+oMgBIBF1S2gWnuqRj+nsdJlkwRwemr/2NdkXARvPeaLcnwV6F1/tP78+Kv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dv9BwKGy; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1711975809; c=relaxed/simple;
+	bh=8vRx4uhhz/auTSFBTv5dZoYJqNKslLSKFRxBUd5nmkc=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=pj0eDzFTYZXmxX91FDht7Okm2I6verKGGcp8Ud3H6mUq1OB7kJsl7qM7AzV1JmyDwBoCV5TFFaRDGRADxkTjy4bhmeCDhCKRWTZx673fqtijdMXSr0dTZxBh/A3Y3klom7mGMJTYPEXLvjNscezbeKZja7rSz0lySjYFHJGosYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=MjbNnoc3; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dv9BwKGy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711975524; x=1743511524;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QwtsP3UkQjTAWPcBbs1S5O1fwoiQlFcJ9iVex5LdmFs=;
-  b=Dv9BwKGyquOWEtxNJc2AIzyXdG3rBpSNjaJ9Z8Lfir78wWhHScirho7F
-   vue6/z54shenEVHhgUW+ixdQaK3m1QN/PJv8VhEPMvIxGNsqVNn4EeuJk
-   0ygIU7XQQ+B/qRlTbHiltqJBo/XfBQgMXLyeRY3mdaUJw2ODO7z4wlBL9
-   zsKzDh/AuZNyRznZowKXJsiD0prsMYkBDrACg168aDIq4Pz3voUaeKuFl
-   FzpgMzA3m6yCPeJ0mSTztWVh9iDkhhIt3ay5n3zQDAm6vNt2AlJ7py+1L
-   127IiSJTWsqz2epZFLiFj8Yj4CmVgK0Gx+Atx17K4mTlUguPLBu07qslq
-   Q==;
-X-CSE-ConnectionGUID: nG2CKccxSTixHrAEoZ/jYg==
-X-CSE-MsgGUID: ESIlXzSJSSukl3BKQFG9PQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="18249606"
-X-IronPort-AV: E=Sophos;i="6.07,172,1708416000"; 
-   d="scan'208";a="18249606"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 05:45:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,172,1708416000"; 
-   d="scan'208";a="22449453"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Apr 2024 05:45:22 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rrH2N-0000Ir-0g;
-	Mon, 01 Apr 2024 12:45:19 +0000
-Date: Mon, 1 Apr 2024 20:44:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="MjbNnoc3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ya6XvcvBQxWb0T/GFLxYjENgak195KLQfVn7jeo0lnI=;
+  b=MjbNnoc3ql4vD4Vv0iPGV3RzP45uYatvrWvc+x1pjTnMoAJh/J58WU4p
+   SAA0ErJD5A8UMgYulabGpQbIcCslx0kNeEq1JNPrEr/eTXTcyLlw7qSM4
+   WDB5cTmGU4yJRecycrib+T6QfQTG3CU2Iicebi7qWJBLjw+wKNvUzpr92
+   M=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.07,172,1708383600"; 
+   d="scan'208";a="159339678"
+Received: from 71-51-181-183.chvl.centurylink.net (HELO hadrien) ([71.51.181.183])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2024 14:49:56 +0200
+Date: Mon, 1 Apr 2024 08:49:55 -0400 (EDT)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+cc: oe-kbuild@lists.linux.dev
 Subject: Re: [RFC PATCH 5/8] drm/ttm: Add a virtual base class for graphics
- memory backup
-Message-ID: <202404012026.OqsAS9KJ-lkp@intel.com>
+ memory backup (fwd)
+Message-ID: <2b64b9e6-f28e-29ee-1ea4-5df16a6c356@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323329-1628280104-1711975797=:3182"
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-1628280104-1711975797=:3182
 Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+
+Reference after free at the end of the function.
+
+---------- Forwarded message ----------
+Date: Mon, 1 Apr 2024 20:44:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [RFC PATCH 5/8] drm/ttm: Add a virtual base class for graphics
+    memory backup
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
@@ -99,7 +97,7 @@ cocci warnings: (new ones prefixed by >>)
 
 vim +130 drivers/gpu/drm/ttm/ttm_backup_shmem.c
 
-73db80e5206ba1 Thomas Hellström 2024-03-29  109  
+73db80e5206ba1 Thomas Hellström 2024-03-29  109
 73db80e5206ba1 Thomas Hellström 2024-03-29  110  /**
 73db80e5206ba1 Thomas Hellström 2024-03-29  111   * ttm_backup_shmem_create() - Create a shmem-based struct backup.
 73db80e5206ba1 Thomas Hellström 2024-03-29  112   * @size: The maximum size (in bytes) to back up.
@@ -113,10 +111,10 @@ vim +130 drivers/gpu/drm/ttm/ttm_backup_shmem.c
 73db80e5206ba1 Thomas Hellström 2024-03-29  120  {
 73db80e5206ba1 Thomas Hellström 2024-03-29  121  	struct ttm_backup_shmem *sbackup =
 73db80e5206ba1 Thomas Hellström 2024-03-29  122  		kzalloc(sizeof(*sbackup), GFP_KERNEL | __GFP_ACCOUNT);
-73db80e5206ba1 Thomas Hellström 2024-03-29  123  
+73db80e5206ba1 Thomas Hellström 2024-03-29  123
 73db80e5206ba1 Thomas Hellström 2024-03-29  124  	if (!sbackup)
 73db80e5206ba1 Thomas Hellström 2024-03-29  125  		return ERR_PTR(-ENOMEM);
-73db80e5206ba1 Thomas Hellström 2024-03-29  126  
+73db80e5206ba1 Thomas Hellström 2024-03-29  126
 73db80e5206ba1 Thomas Hellström 2024-03-29  127  	sbackup->filp = shmem_file_setup("ttm shmem backup", size, 0);
 73db80e5206ba1 Thomas Hellström 2024-03-29  128  	if (IS_ERR(sbackup->filp)) {
 73db80e5206ba1 Thomas Hellström 2024-03-29 @129  		kfree(sbackup);
@@ -125,3 +123,4 @@ vim +130 drivers/gpu/drm/ttm/ttm_backup_shmem.c
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+--8323329-1628280104-1711975797=:3182--
