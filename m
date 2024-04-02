@@ -1,72 +1,72 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E1386ACA
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Apr 2024 14:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC6112BF27
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Apr 2024 14:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712068136; cv=none; b=bVCx+hA1soLxTeapqHZvTrNRF+33+WjAaA14XDTeJ0IEkcHybj5ZL6M5iBkaQtrZTp1cEjQMEzX+yGqfowHdTrLjUILEMoyYKjfSiWJWa+gtJ28Hxn1ptRS+loaCyhqKjptCpoPp3iZynBBS3/mzMv8mkkfhv2iyxbEHfOwLHTg=
+	t=1712068549; cv=none; b=OGtR5RPJ2jPMBEQc9x3ZcmR2wpQXmjMEGlIK3Y19a/9kNWwLkE31KBnLRgLEqo6ttSSy8EIL5rc18ZAFY6GXE5t538ldSO0//8IgHd+KDfH7iFvqthgF8psg3EJ7sZZ7WGal62ZxjJGrGiA8wFP232ybFTwmuI8/A9/IkCC6AFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712068136; c=relaxed/simple;
-	bh=fRHOq+mWZPSalcGiLvnJcNAakk7ykW7S34Y0J2V0d1U=;
+	s=arc-20240116; t=1712068549; c=relaxed/simple;
+	bh=fQLuhD36E/ci1+0Q+DKy+5OlypO0KV3ocMoLe8264mk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=j9CwcKL3snEp0XDiAi3GA0iLkEgi5RFa7EGID8qmnCAm5IDfLDLDxTUNO4+aywEVLctyZJUKzdmMv1gQ+hAFkbcljJYzBw2kh1N+u0wetD7x5VUTK1xt7bTkBDG9ZLfo5hLe+zid1SeCAHDxFsfrYG0vmVZN/JLM2cCm6jqbqLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pa4z8qXg; arc=none smtp.client-ip=209.85.218.51
+	 Content-Disposition:In-Reply-To; b=qNVormLXPyMghRpp3KUDhxIUYn7HbE7r2TCIyPqADpKUfyrNKfTgrb+vPlmOpGzz07QOR+9NOM/1aFApDdbAD1KX2v/1L4naJbLGCIXkZJmCkGo6o7m1cybVjuB0jq6hUBqlcnpRqSeZgxMIBYZCagb3SaNyFaQGNB7vC9m7228=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rvLbQFvc; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pa4z8qXg"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a450bedffdfso585340166b.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 02 Apr 2024 07:28:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rvLbQFvc"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56dc9955091so2403348a12.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 02 Apr 2024 07:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712068132; x=1712672932; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1712068545; x=1712673345; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pSKxf0IIEUwyutNpDWLf0ZVVUCmfh34i9H8sYjRga6I=;
-        b=Pa4z8qXg8ATeU+m6BShNgo2erPanYXTFen+DaaFJvAjLcDkcmCqnQ4VqusJG1tNCBM
-         Yy/88443klDzI20o9SdtGxeZ49rDnB9ofd2RJvnqrlN/wkQWoBbOD8qlw/NluQPm0dcU
-         Q1ZuUhDt7cn7BB+OhsGB873uk646no45f9eoQz4S1AFkHyXPnRUvsiGaIEEcgQwuGtn8
-         G6z0lB27Bj2ekgE3VOtGAnuaOewq61xGM8abAPI9boAo84ZYwo1JGbJATii+CzHfxaYk
-         WDM6/zDgCI0bLQUPpjpbch/p/Pay4rR5w+e9HnDXbZ1zr+ZeLH5+sx7nhyg1whFvkFpl
-         mCHw==
+        bh=7KEJIrVUqbeyt98Ud1PwflhK4nwSINZjdOF29dDrsoo=;
+        b=rvLbQFvcMrQJdZyLiy5PD+1YRisIEOP/Ox/iI2lQm+p1Wi1UgYB1t8cIA3jWGneR4N
+         vz63+TfKXKjr6vOBCQt1N0naGw9guNyDmc3R2IY+1u0fhWkRp/z9+PWriwV16B/DadWZ
+         uI1MlhEkLfHZznTJuui5KwmOIuMQBIdgKm8EMxqTcHbyPTbMPr/YQNZi2Go5X3VhRKVF
+         nWog6aCpUgu/GclSL85KQYi15Ak2yXJx9yCsoResMdCU3raOVdUvQGQq4Q/AEri82Wr2
+         DmsDYypZr5hPgmw3hl9owiT6Z1dTktkkLOMvVUyxiCDXCnk+CxIWdgNG+GHFIbKyjzh0
+         E+yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712068132; x=1712672932;
+        d=1e100.net; s=20230601; t=1712068545; x=1712673345;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pSKxf0IIEUwyutNpDWLf0ZVVUCmfh34i9H8sYjRga6I=;
-        b=WWo/qFIDFaMWMTdvSU/aTSGbUKQwK6hnqYJ9EERB/TMTgn0DbnOInabx27hJMbm8EH
-         W/UTI56EecPWBgyFw8x8ThrlNJ98dW9dHHAIMCEPv+pKdFEr4YWpV2uZjT0fkwklvKYT
-         km3DMYNRaPPvrXbnu2P2lK09LaY/g8UKLZoGFRo2u4yv0N4SgyQ1DhMBK8pUIAP/qkbI
-         ZbKfReiDJunadPbp90DKLfdNB890ZL+wi+0xK3Fp0Yb1Bl9roC3Cp+0GrIWbxDDLUHie
-         u5tJtXOBIMC3EIDhpwJ4rd9D1jjrLeUOxdI9YmFhvZkPr7pJszyrHJtvBOQ+VbFtYloK
-         dsrg==
-X-Gm-Message-State: AOJu0Yy31MFZmZCqpCfOLngDxkGe3EIpw6DDzs89tC9wqTC6Jd6AH61S
-	+5kHCEmq+SLUrJQST7I2I5kdooT40Tm6fhkxs0xjSNLNTPJWm186vTY/cxtmJFy5qnHNMhTxh5/
-	i
-X-Google-Smtp-Source: AGHT+IGg3KQKWJHw4XuJFppAkBsb9cAouGb9m1ZHLRR8XQFwuIhpnlS9HkKPOad2YoSJ8s/R871tqQ==
-X-Received: by 2002:a17:907:7ea8:b0:a4e:5abe:3832 with SMTP id qb40-20020a1709077ea800b00a4e5abe3832mr5567936ejc.72.1712068131602;
-        Tue, 02 Apr 2024 07:28:51 -0700 (PDT)
+        bh=7KEJIrVUqbeyt98Ud1PwflhK4nwSINZjdOF29dDrsoo=;
+        b=K0B58ZNhQklWHJQaXJ+Uhy247qhntSS3gyYYvKTUmjxb9Sk4X5rK38i/dhIHTOtDgy
+         rFzhQLncQ4sL5JjRx/8zOgxkxweCJGMMJDGQBMkF3i+qX3oUAVevCg3b304XOIcMvb5P
+         MDYUSaSxaMaJqSLWPzjnl682Mxj+qe66iFFKJ0k7N7dSCN1Ve8prB08t/4vTbskvkTFQ
+         4lIqVp0PG5Gl6I5EjrzCvdIHhQqBOJ1V+QolxNU9Kmin1gXx0u0YlxmCBkbCrLgHqOOd
+         Y9YvXFRLfx4gvDn8mU+cbdwI877w8EDKOl0PXIuQJSUbkxq7ZvpHXLOAzW2UCoO42CvR
+         4Z7Q==
+X-Gm-Message-State: AOJu0Yx0mtUOj5WgeGG/BA9VtpKz9Gxhg5WHW8udfXNIRrhP+zMoPi+0
+	eDBEPi4fDZ7Z8Av4b+ZWaP5VUSQNxcd38uWANSuJ9EAwTTrMiUxp11oBKjlvIweRmBsfEx/1NYy
+	q
+X-Google-Smtp-Source: AGHT+IHCofE7Xg160OG2egAJnKF0oiNZHZIWV3DkkXe2HP9pc/DI3G0pkED3atujIwRVqD0byi7FxQ==
+X-Received: by 2002:a17:906:9a8d:b0:a47:38c0:fb4e with SMTP id ag13-20020a1709069a8d00b00a4738c0fb4emr7710510ejc.19.1712068544411;
+        Tue, 02 Apr 2024 07:35:44 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id qf31-20020a1709077f1f00b00a4df4243473sm6556183ejc.4.2024.04.02.07.28.50
+        by smtp.gmail.com with ESMTPSA id f13-20020a1709062c4d00b00a4df82aa6a7sm6554592ejh.219.2024.04.02.07.35.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Apr 2024 07:28:50 -0700 (PDT)
-Date: Tue, 2 Apr 2024 17:28:41 +0300
+        Tue, 02 Apr 2024 07:35:43 -0700 (PDT)
+Date: Tue, 2 Apr 2024 17:35:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, git@luigi311.com,
-	linux-media@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dave.stevenson@raspberrypi.com, jacopo.mondi@ideasonboard.com,
-	mchehab@kernel.org, robh@kernel.org,
+To: oe-kbuild@lists.linux.dev, Shenghao Ding <shenghao-ding@ti.com>,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com,
+	broonie@kernel.org, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Luigi311 <git@luigi311.com>, Ondrej Jirman <megi@xff.cz>
-Subject: Re: [PATCH 22/23] drivers: media: i2c: imx258: Add support for
- powerdown gpio
-Message-ID: <fae1ba7c-2f74-42f9-a79e-ce2a04f5d6da@moroto.mountain>
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	perex@perex.cz, tiwai@suse.com, 13916275206@139.com,
+	mohit.chawla@ti.com, soyer@irl.hu, jkhuang3@ti.com, tiwai@suse.de,
+	pdjuandi@ti.com, manisha.agrawal@ti.com, s-hari@ti.com,
+	aviel@ti.com, hnagalla@ti.com, praneeth@ti.com, Baojun.Xu@fpt.com,
+	Shenghao Ding <shenghao-ding@ti.com>
+Subject: Re: [PATCH v7 3/4] ASoc: PCM6240: Add compile item for PCM6240
+ Family driver
+Message-ID: <c206cc39-27ad-4a4d-8703-220dc0bf7dab@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -75,181 +75,144 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327231710.53188-23-git@luigi311.com>
+In-Reply-To: <20240331021835.1470-4-shenghao-ding@ti.com>
 
-Hi,
+Hi Shenghao,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/git-luigi311-com/media-i2c-imx258-Remove-unused-defines/20240328-072629
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20240327231710.53188-23-git%40luigi311.com
-patch subject: [PATCH 22/23] drivers: media: i2c: imx258: Add support for powerdown gpio
-config: x86_64-randconfig-161-20240331 (https://download.01.org/0day-ci/archive/20240401/202404011425.PVKV9Lf1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoc-PCM6240-Create-PCM6240-Family-driver-code/20240331-102303
+base:   v6.9-rc1
+patch link:    https://lore.kernel.org/r/20240331021835.1470-4-shenghao-ding%40ti.com
+patch subject: [PATCH v7 3/4] ASoc: PCM6240: Add compile item for PCM6240 Family driver
+config: um-randconfig-r081-20240402 (https://download.01.org/0day-ci/archive/20240402/202404021225.mx5KlUlV-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404011425.PVKV9Lf1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404021225.mx5KlUlV-lkp@intel.com/
 
 smatch warnings:
-drivers/media/i2c/imx258.c:1562 imx258_probe() warn: missing unwind goto?
+sound/soc/codecs/pcm6240.c:1715 pcmdevice_process_block() warn: inconsistent indenting
 
-vim +1562 drivers/media/i2c/imx258.c
+vim +/fw_entry +1577 sound/soc/codecs/pcm6240.c
 
-d3773094af21c9 Dave Stevenson      2024-03-27  1476  
-e4802cb00bfe3d Jason Chen          2018-05-02  1477  static int imx258_probe(struct i2c_client *client)
-e4802cb00bfe3d Jason Chen          2018-05-02  1478  {
-e4802cb00bfe3d Jason Chen          2018-05-02  1479  	struct imx258 *imx258;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1480  	struct fwnode_handle *endpoint;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1481  	struct v4l2_fwnode_endpoint ep = {
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1482  		.bus_type = V4L2_MBUS_CSI2_DPHY
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1483  	};
-e4802cb00bfe3d Jason Chen          2018-05-02  1484  	int ret;
-e4802cb00bfe3d Jason Chen          2018-05-02  1485  	u32 val = 0;
-e4802cb00bfe3d Jason Chen          2018-05-02  1486  
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1487  	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1488  	if (!imx258)
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1489  		return -ENOMEM;
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1490  
-d3773094af21c9 Dave Stevenson      2024-03-27  1491  	ret = imx258_get_regulators(imx258, client);
-d3773094af21c9 Dave Stevenson      2024-03-27  1492  	if (ret)
-d3773094af21c9 Dave Stevenson      2024-03-27  1493  		return dev_err_probe(&client->dev, ret,
-d3773094af21c9 Dave Stevenson      2024-03-27  1494  				     "failed to get regulators\n");
-d3773094af21c9 Dave Stevenson      2024-03-27  1495  
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1496  	imx258->clk = devm_clk_get_optional(&client->dev, NULL);
-d170b0ea176098 Sakari Ailus        2021-08-16  1497  	if (IS_ERR(imx258->clk))
-d170b0ea176098 Sakari Ailus        2021-08-16  1498  		return dev_err_probe(&client->dev, PTR_ERR(imx258->clk),
-d170b0ea176098 Sakari Ailus        2021-08-16  1499  				     "error getting clock\n");
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1500  	if (!imx258->clk) {
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1501  		dev_dbg(&client->dev,
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1502  			"no clock provided, using clock-frequency property\n");
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1503  
-e4802cb00bfe3d Jason Chen          2018-05-02  1504  		device_property_read_u32(&client->dev, "clock-frequency", &val);
-d170b0ea176098 Sakari Ailus        2021-08-16  1505  	} else {
-d170b0ea176098 Sakari Ailus        2021-08-16  1506  		val = clk_get_rate(imx258->clk);
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1507  	}
-8bde18cb296d0e Dave Stevenson      2024-03-27  1508  
-8bde18cb296d0e Dave Stevenson      2024-03-27  1509  	switch (val) {
-8bde18cb296d0e Dave Stevenson      2024-03-27  1510  	case 19200000:
-8bde18cb296d0e Dave Stevenson      2024-03-27  1511  		imx258->link_freq_configs = link_freq_configs_19_2;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1512  		imx258->link_freq_menu_items = link_freq_menu_items_19_2;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1513  		break;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1514  	case 24000000:
-8bde18cb296d0e Dave Stevenson      2024-03-27  1515  		imx258->link_freq_configs = link_freq_configs_24;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1516  		imx258->link_freq_menu_items = link_freq_menu_items_24;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1517  		break;
-8bde18cb296d0e Dave Stevenson      2024-03-27  1518  	default:
-8bde18cb296d0e Dave Stevenson      2024-03-27  1519  		dev_err(&client->dev, "input clock frequency of %u not supported\n",
-8bde18cb296d0e Dave Stevenson      2024-03-27  1520  			val);
-e4802cb00bfe3d Jason Chen          2018-05-02  1521  		return -EINVAL;
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1522  	}
-e4802cb00bfe3d Jason Chen          2018-05-02  1523  
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1524  	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1525  	if (!endpoint) {
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1526  		dev_err(&client->dev, "Endpoint node not found\n");
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1527  		return -EINVAL;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1528  	}
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1529  
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1530  	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1531  	fwnode_handle_put(endpoint);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1532  	if (ret) {
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1533  		dev_err(&client->dev, "Parsing endpoint node failed\n");
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1534  		return ret;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1535  	}
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1536  
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1537  	/* Get number of data lanes */
-a42d61a239fac8 Dave Stevenson      2024-03-27  1538  	switch (ep.bus.mipi_csi2.num_data_lanes) {
-a42d61a239fac8 Dave Stevenson      2024-03-27  1539  	case 2:
-a42d61a239fac8 Dave Stevenson      2024-03-27  1540  		imx258->lane_mode_idx = IMX258_2_LANE_MODE;
-a42d61a239fac8 Dave Stevenson      2024-03-27  1541  		break;
-a42d61a239fac8 Dave Stevenson      2024-03-27  1542  	case 4:
-a42d61a239fac8 Dave Stevenson      2024-03-27  1543  		imx258->lane_mode_idx = IMX258_4_LANE_MODE;
-a42d61a239fac8 Dave Stevenson      2024-03-27  1544  		break;
-a42d61a239fac8 Dave Stevenson      2024-03-27  1545  	default:
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1546  		dev_err(&client->dev, "Invalid data lanes: %u\n",
-a42d61a239fac8 Dave Stevenson      2024-03-27  1547  			ep.bus.mipi_csi2.num_data_lanes);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1548  		ret = -EINVAL;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1549  		goto error_endpoint_free;
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1550  	}
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1551  
-7db096053387db Dave Stevenson      2024-03-27  1552  	imx258->csi2_flags = ep.bus.mipi_csi2.flags;
-7db096053387db Dave Stevenson      2024-03-27  1553  
-a8bb93eeccfa73 Dave Stevenson      2024-03-27  1554  	imx258->variant_cfg = of_device_get_match_data(&client->dev);
-a8bb93eeccfa73 Dave Stevenson      2024-03-27  1555  	if (!imx258->variant_cfg)
-a8bb93eeccfa73 Dave Stevenson      2024-03-27  1556  		imx258->variant_cfg = &imx258_cfg;
-a8bb93eeccfa73 Dave Stevenson      2024-03-27  1557  
-8a1906e91c0093 Luigi311            2024-03-27  1558  	/* request optional power down pin */
-8a1906e91c0093 Luigi311            2024-03-27  1559  	imx258->powerdown_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
-8a1906e91c0093 Luigi311            2024-03-27  1560  						    GPIOD_OUT_HIGH);
-8a1906e91c0093 Luigi311            2024-03-27  1561  	if (IS_ERR(imx258->powerdown_gpio))
-8a1906e91c0093 Luigi311            2024-03-27 @1562  		return PTR_ERR(imx258->powerdown_gpio);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1619  static int pcmdevice_process_block(void *ctxt, unsigned char *data,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1620  	unsigned char dev_idx, int sublocksize)
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1621  {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1622  	struct pcmdevice_priv *pcm_dev = (struct pcmdevice_priv *)ctxt;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1623  	int subblk_offset = 2, chn, chnend, ret;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1624  	unsigned char subblk_typ = data[1];
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1625  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1626  	if (dev_idx) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1627  		chn = dev_idx - 1;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1628  		chnend = dev_idx;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1629  	} else {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1630  		chn = 0;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1631  		chnend = pcm_dev->ndev;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1632  	}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1633  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1634  	for (; chn < chnend; chn++) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1635  		switch (subblk_typ) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1636  		case PCMDEVICE_CMD_SING_W: {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1637  			unsigned short len = get_unaligned_be16(&data[2]);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1638  			int i = 0;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1639  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1640  			subblk_offset += 2;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1641  			if (subblk_offset + 4 * len > sublocksize) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1642  				dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1643  					"%s: byt wr out of boundary\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1644  					__func__);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1645  				break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1646  			}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1647  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1648  			for (i = 0; i < len; i++) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1649  				ret = pcmdev_dev_write(pcm_dev, chn,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1650  					PCMDEVICE_REG(data[subblk_offset + 1],
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1651  						data[subblk_offset + 2]),
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1652  					data[subblk_offset + 3]);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1653  				if (ret < 0)
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1654  					dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1655  						"%s: single write error\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1656  						__func__);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1657  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1658  				subblk_offset += 4;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1659  			}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1660  		}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1661  		break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1662  		case PCMDEVICE_CMD_BURST: {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1663  			unsigned short len = get_unaligned_be16(&data[2]);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1664  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1665  			subblk_offset += 2;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1666  			if (subblk_offset + 4 + len > sublocksize) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1667  				dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1668  					"%s: burst Out of boundary\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1669  					__func__);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1670  				break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1671  			}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1672  			if (len % 4) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1673  				dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1674  					"%s: burst-len(%u) not div by 4\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1675  					__func__, len);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1676  				break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1677  			}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1678  			ret = pcmdev_dev_bulk_write(pcm_dev, chn,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1679  				PCMDEVICE_REG(data[subblk_offset + 1],
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1680  				data[subblk_offset + 2]),
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1681  				&(data[subblk_offset + 4]), len);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1682  			if (ret < 0)
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1683  				dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1684  					"%s: bulk_write err = %d\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1685  					__func__, ret);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1686  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1687  			subblk_offset += (len + 4);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1688  		}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1689  			break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1690  		case PCMDEVICE_CMD_DELAY: {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1691  			unsigned int delay_time = 0;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1692  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1693  			if (subblk_offset + 2 > sublocksize) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1694  				dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1695  					"%s: deley out of boundary\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1696  					__func__);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1697  				break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1698  			}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1699  			delay_time = get_unaligned_be16(&data[2]) * 1000;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1700  			usleep_range(delay_time, delay_time + 50);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1701  			subblk_offset += 2;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1702  		}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1703  			break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1704  		case PCMDEVICE_CMD_FIELD_W:
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1705  		if (subblk_offset + 6 > sublocksize) {
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1706  			dev_err(pcm_dev->dev,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1707  				"%s: bit write out of memory\n", __func__);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1708  			break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1709  		}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1710  			ret = pcmdev_dev_update_bits(pcm_dev, chn,
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1711  				PCMDEVICE_REG(data[subblk_offset + 3],
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1712  				data[subblk_offset + 4]),
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1713  				data[subblk_offset + 1],
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1714  				data[subblk_offset + 5]);
 
-	ret = PTR_ERR(imx258->powerdown_gpio);
-	goto error_endpoint_free;
+This line is indented too far.
 
-8a1906e91c0093 Luigi311            2024-03-27  1563  
-e4802cb00bfe3d Jason Chen          2018-05-02  1564  	/* Initialize subdev */
-e4802cb00bfe3d Jason Chen          2018-05-02  1565  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
-e4802cb00bfe3d Jason Chen          2018-05-02  1566  
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1567  	/* Will be powered off via pm_runtime_idle */
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1568  	ret = imx258_power_on(&client->dev);
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1569  	if (ret)
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1570  		goto error_endpoint_free;
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1571  
-e4802cb00bfe3d Jason Chen          2018-05-02  1572  	/* Check module identity */
-e4802cb00bfe3d Jason Chen          2018-05-02  1573  	ret = imx258_identify_module(imx258);
-e4802cb00bfe3d Jason Chen          2018-05-02  1574  	if (ret)
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1575  		goto error_identify;
-e4802cb00bfe3d Jason Chen          2018-05-02  1576  
-e4802cb00bfe3d Jason Chen          2018-05-02  1577  	/* Set default mode to max resolution */
-e4802cb00bfe3d Jason Chen          2018-05-02  1578  	imx258->cur_mode = &supported_modes[0];
-e4802cb00bfe3d Jason Chen          2018-05-02  1579  
-e4802cb00bfe3d Jason Chen          2018-05-02  1580  	ret = imx258_init_controls(imx258);
-e4802cb00bfe3d Jason Chen          2018-05-02  1581  	if (ret)
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1582  		goto error_identify;
-e4802cb00bfe3d Jason Chen          2018-05-02  1583  
-e4802cb00bfe3d Jason Chen          2018-05-02  1584  	/* Initialize subdev */
-e4802cb00bfe3d Jason Chen          2018-05-02  1585  	imx258->sd.internal_ops = &imx258_internal_ops;
-e4802cb00bfe3d Jason Chen          2018-05-02  1586  	imx258->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-e4802cb00bfe3d Jason Chen          2018-05-02  1587  	imx258->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-e4802cb00bfe3d Jason Chen          2018-05-02  1588  
-e4802cb00bfe3d Jason Chen          2018-05-02  1589  	/* Initialize source pad */
-e4802cb00bfe3d Jason Chen          2018-05-02  1590  	imx258->pad.flags = MEDIA_PAD_FL_SOURCE;
-e4802cb00bfe3d Jason Chen          2018-05-02  1591  
-e4802cb00bfe3d Jason Chen          2018-05-02  1592  	ret = media_entity_pads_init(&imx258->sd.entity, 1, &imx258->pad);
-e4802cb00bfe3d Jason Chen          2018-05-02  1593  	if (ret)
-e4802cb00bfe3d Jason Chen          2018-05-02  1594  		goto error_handler_free;
-e4802cb00bfe3d Jason Chen          2018-05-02  1595  
-15786f7b564eff Sakari Ailus        2021-03-05  1596  	ret = v4l2_async_register_subdev_sensor(&imx258->sd);
-e4802cb00bfe3d Jason Chen          2018-05-02  1597  	if (ret < 0)
-e4802cb00bfe3d Jason Chen          2018-05-02  1598  		goto error_media_entity;
-e4802cb00bfe3d Jason Chen          2018-05-02  1599  
-e4802cb00bfe3d Jason Chen          2018-05-02  1600  	pm_runtime_set_active(&client->dev);
-e4802cb00bfe3d Jason Chen          2018-05-02  1601  	pm_runtime_enable(&client->dev);
-e4802cb00bfe3d Jason Chen          2018-05-02  1602  	pm_runtime_idle(&client->dev);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1603  	v4l2_fwnode_endpoint_free(&ep);
-e4802cb00bfe3d Jason Chen          2018-05-02  1604  
-e4802cb00bfe3d Jason Chen          2018-05-02  1605  	return 0;
-e4802cb00bfe3d Jason Chen          2018-05-02  1606  
-e4802cb00bfe3d Jason Chen          2018-05-02  1607  error_media_entity:
-e4802cb00bfe3d Jason Chen          2018-05-02  1608  	media_entity_cleanup(&imx258->sd.entity);
-e4802cb00bfe3d Jason Chen          2018-05-02  1609  
-e4802cb00bfe3d Jason Chen          2018-05-02  1610  error_handler_free:
-e4802cb00bfe3d Jason Chen          2018-05-02  1611  	imx258_free_controls(imx258);
-e4802cb00bfe3d Jason Chen          2018-05-02  1612  
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1613  error_identify:
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1614  	imx258_power_off(&client->dev);
-9fda25332c4b9e Krzysztof Kozlowski 2021-01-27  1615  
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1616  error_endpoint_free:
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1617  	v4l2_fwnode_endpoint_free(&ep);
-786d2ad50b9b49 Dave Stevenson      2024-03-27  1618  
-e4802cb00bfe3d Jason Chen          2018-05-02  1619  	return ret;
-e4802cb00bfe3d Jason Chen          2018-05-02  1620  }
+051d749b6eaeb0 Shenghao Ding 2024-03-31 @1715  		if (ret < 0)
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1716  			dev_err(pcm_dev->dev, "%s: update_bits err = %d\n",
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1717  				__func__, ret);
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1718  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1719  		subblk_offset += 6;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1720  			break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1721  		default:
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1722  			break;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1723  		}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1724  	}
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1725  
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1726  	return subblk_offset;
+051d749b6eaeb0 Shenghao Ding 2024-03-31  1727  }
 
 -- 
 0-DAY CI Kernel Test Service
