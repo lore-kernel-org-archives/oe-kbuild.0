@@ -1,147 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571A212DD92
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Apr 2024 15:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3552612BF26
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Apr 2024 15:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712070041; cv=none; b=j5gBOTGNJnLwhLz+a2gUOYGgSPT/W/AwSD1pb9l4B32uxV9io8dCBENCqx9z0ZNwWbHIGNfYtCb1whCINFRJWuJiobf5sr5uRlPr8yQVtkTrYogscbTT3s8WVqVz42UI0r0OJTDRhbBVKqRvhxqt9G+4pV9TT0iGm4jTCBF7IJE=
+	t=1712070689; cv=none; b=gyCapFLSadxzBcsc3nr/m6pybpfRzSfPaA0oJynGWW072dIFHdN0QrO7tATbR5mwuNi7h53PPmkhT7txrRGzkHVhyjYGtK5eo1qOLJYw/4GCqtIBMHpmh6lQswDhhVZVLqEFYAYeKy2PTukH8WBmBeWqWcCGzVMPWPy4Z+4dN3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712070041; c=relaxed/simple;
-	bh=nbGgwfTfzdKjfLxHgHJox6Y+ka7rH6uTRrp4pu6Oocc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OAjqiAisDMgrh2Wf1+1xeUTBgvbE2NzkFdVIsr3MUIGvOabh/Jsia+aSUlBbXoP62kFn/Z6CLZzRmY8l91v4KGJNu4piI+zi6RGI6BGb81ZirT6PbUdCeIKsj6G21D/D6apcHsAASfFbKPN5Qqi/en49NP6h0F9VtvmYtiTFV0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJhJ5SMz; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJhJ5SMz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712070039; x=1743606039;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nbGgwfTfzdKjfLxHgHJox6Y+ka7rH6uTRrp4pu6Oocc=;
-  b=TJhJ5SMz2NwGYZfGDqGhjiYGzublpFfZrdZRGbqmtvGtkjV8TDvWOIbL
-   ScDiALhR58sSB2AfP6Yg5XT1QLTR9M8HWfVeRwy7A3vXh+Ty/F2ZHKoEJ
-   4vfEg8G5zFKoK9it+d2ZpsHYlFoFcBiYa29WlSc53Xzur7nr7OwJw/E1M
-   759fwTPDTvgPplKpAzJnzNG5mnh7yO7dYG0aaOznxloDTkzhHskoZZnmh
-   XaZp4VDrJXnsi1ARenyseCm8G4A+rrOpKwz9SgbVAYtswaXLj/zqKDdld
-   XBkok6TpUGPs0tOFyrtMxkEtRk/xEIqpi0we5mj/FfUVSJBjZTjAU8ois
-   A==;
-X-CSE-ConnectionGUID: z82pLuUITaa6nclxwk6lCQ==
-X-CSE-MsgGUID: NKmPePkMSGSpdwFbqCmxag==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="18603713"
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="18603713"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 08:00:38 -0700
-X-CSE-ConnectionGUID: 4p0ZorMpTcihmJmcGbG78A==
-X-CSE-MsgGUID: DSlPl08JQjO9z1ouPZlOQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,175,1708416000"; 
-   d="scan'208";a="49326157"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Apr 2024 08:00:38 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rrfcp-0001GF-2a;
-	Tue, 02 Apr 2024 15:00:35 +0000
-Date: Tue, 2 Apr 2024 22:59:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 2/2] perf evsel: Use evsel__name_is() helper
-Message-ID: <202404022240.nFyJIMwC-lkp@intel.com>
+	s=arc-20240116; t=1712070689; c=relaxed/simple;
+	bh=sCdbldorM4fwcYHUGZUMrZ/GrDc3BFV9uss5146BVV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T2EA846k97ZtXjrxm9MCKn9+AJJS+Fx7VSPHBBJlK572J3dmrlhudZPbkmO5DLAITi1Efwb4k7vu8fcK7d4iiDrekvyr/XEFJW1V6tZYUCfTehJAVo9FxcoEfJlpL63btJQ9d4p1YYJkLisLOdUs6kLL72EZxYs1H3uLKgdJhHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rrfnH-0007I3-GQ; Tue, 02 Apr 2024 17:11:23 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rrfnG-00A0Ji-NN; Tue, 02 Apr 2024 17:11:22 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rrfnG-00EPQd-23;
+	Tue, 02 Apr 2024 17:11:22 +0200
+Date: Tue, 2 Apr 2024 17:11:22 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 1128/2532] drivers/pwm/core.c:1530 pwm_put()
+ warn: variable dereferenced before check 'pwm' (see line 1528)
+Message-ID: <ylioua4xvt7cbbhk6vnqmywbtj5zuk6lonxjyfaggrb7urvayz@pqglnven76ai>
+References: <086d46a0-70a2-41cf-94e5-5cd2377a0937@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dogpob2bd534sg2s"
 Content-Disposition: inline
+In-Reply-To: <086d46a0-70a2-41cf-94e5-5cd2377a0937@moroto.mountain>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild@lists.linux.dev
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240401062724.1006010-3-yangjihong@bytedance.com>
-References: <20240401062724.1006010-3-yangjihong@bytedance.com>
-TO: Yang Jihong <yangjihong@bytedance.com>
-TO: peterz@infradead.org
-TO: mingo@redhat.com
-TO: acme@kernel.org
-TO: namhyung@kernel.org
-TO: mark.rutland@arm.com
-TO: alexander.shishkin@linux.intel.com
-TO: jolsa@kernel.org
-TO: irogers@google.com
-TO: adrian.hunter@intel.com
-TO: kan.liang@linux.intel.com
-TO: james.clark@arm.com
-TO: linux-perf-users@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: yangjihong@bytedance.com
+--dogpob2bd534sg2s
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Yang,
+Hello,
 
-kernel test robot noticed the following build errors:
+On Tue, Apr 02, 2024 at 05:13:15PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+> commit: d60bc2995732489766cbe650fc367e036ff6a0e0 [1128/2532] pwm: Add a s=
+truct device to struct pwm_chip
+> config: m68k-randconfig-r071-20240326 (https://download.01.org/0day-ci/ar=
+chive/20240331/202403312030.QYCgiAey-lkp@intel.com/config)
+> compiler: m68k-linux-gcc (GCC) 13.2.0
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403312030.QYCgiAey-lkp@intel.com/
+>=20
+> smatch warnings:
+> drivers/pwm/core.c:1530 pwm_put() warn: variable dereferenced before chec=
+k 'pwm' (see line 1528)
+>=20
+> vim +/pwm +1530 drivers/pwm/core.c
+>=20
+> 8138d2ddbcca2a Thierry Reding   2012-03-26  1526  void pwm_put(struct pwm=
+_device *pwm)
+> 8138d2ddbcca2a Thierry Reding   2012-03-26  1527  {
+> d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17 @1528  	struct pwm_chip *chi=
+p =3D pwm->chip;
+>                                                                          =
+       ^^^^^^^^^^
+> Dereference
+>=20
+> d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17  1529 =20
+> 8138d2ddbcca2a Thierry Reding   2012-03-26 @1530  	if (!pwm)
+>                                                             ^^^^
+> Too late.
+>=20
+> 8138d2ddbcca2a Thierry Reding   2012-03-26  1531  		return;
+> 8138d2ddbcca2a Thierry Reding   2012-03-26  1532 =20
+> 8138d2ddbcca2a Thierry Reding   2012-03-26  1533  	mutex_lock(&pwm_lock);
 
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.9-rc2 next-20240402]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This is already addressed in fbf632f9dc55.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Jihong/perf-sched-timehist-Fix-g-call-graph-option-failure/20240401-143023
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240401062724.1006010-3-yangjihong%40bytedance.com
-patch subject: [PATCH v2 2/2] perf evsel: Use evsel__name_is() helper
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240402/202404022240.nFyJIMwC-lkp@intel.com/reproduce)
+Best regards
+Uwe
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404022240.nFyJIMwC-lkp@intel.com/
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-All errors (new ones prefixed by >>):
+--dogpob2bd534sg2s
+Content-Type: application/pgp-signature; name="signature.asc"
 
-   Makefile.config:1095: No libcapstone found, disables disasm engine support for 'perf script', please install libcapstone-dev/capstone-devel
-   Makefile.config:1160: libpfm4 not found, disables libpfm4 support. Please install libpfm4-dev
-     PERF_VERSION = 6.8.g91c361385eb9
-   builtin-trace.c: In function 'cmd_trace':
->> builtin-trace.c:4919:90: error: macro "assert" passed 2 arguments, but takes just 1
-    4919 |         assert(evsel__name_is(trace.syscalls.events.bpf_output), "__augmented_syscalls__");
-         |                                                                                          ^
-   In file included from tools/include/linux/kernel.h:7,
-                    from tools/include/linux/refcount.h:42,
-                    from util/cgroup.h:6,
-                    from builtin-trace.c:29:
-   /usr/include/assert.h:50: note: macro "assert" defined here
-      50 | # define assert(expr)           (__ASSERT_VOID_CAST (0))
-         | 
->> builtin-trace.c:4919:9: error: 'assert' undeclared (first use in this function)
-    4919 |         assert(evsel__name_is(trace.syscalls.events.bpf_output), "__augmented_syscalls__");
-         |         ^~~~~~
-   builtin-trace.c:915:1: note: 'assert' is defined in header '<assert.h>'; did you forget to '#include <assert.h>'?
-     914 | #include "trace/beauty/waitid_options.c"
-     +++ |+#include <assert.h>
-     915 | 
-   builtin-trace.c:4919:9: note: each undeclared identifier is reported only once for each function it appears in
-    4919 |         assert(evsel__name_is(trace.syscalls.events.bpf_output), "__augmented_syscalls__");
-         |         ^~~~~~
-   make[6]: *** [tools/build/Makefile.build:105: tools/perf/builtin-trace.o] Error 1
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:264: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYMIBkACgkQj4D7WH0S
+/k7OlwgAimd7sOhpRGfoD62K1mTknHUKNYm77sKkJB80/WmABlOdtMvJuMXdYFrC
+mEBI6TVL8GBfiME7QlgzdoA2EiTNIb4+iG+ez2MN/u1cfob2FGXQus4LzdTZ17kO
+guVN0H80yqq/awaK80YJQqLQLw5A+gugSriDtFyTrOON3Mi44Ak9tCrA0l9UoM2e
+KXM9WBN/C3Lj57JiSKgdnZpLhVFD4j07cu8M6e5upXBr6wpE683/kNI9hjLsQNpY
+6rUAmDPUH4yRCDKfO+YO4cVKLgFHHRR9twgWxn71PNnJnx+WygINaytqsyOTADr7
+zpqcIF7Jhr3gKkIlJL7jsCzrTOwKFA==
+=2V4r
+-----END PGP SIGNATURE-----
+
+--dogpob2bd534sg2s--
