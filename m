@@ -1,135 +1,127 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8E5136E3E
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Apr 2024 10:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4084514BF93
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Apr 2024 14:17:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712141305; cv=none; b=He901poRvhYwC3jHYSU0af210i54v9M7u1vS7Sz8CHOIVLBhJTTg5YfvWtlFJkDCrCDK8JNTy6iiLKD7PUyAOJ5nwIe4zjCTq+tPhNfumhbjCl4Ad+oxHKe3LIb5CXXp6d5HIS28PbSqa6yz2DPQhhPGgV+Nz4Z24dt2n7CMTyA=
+	t=1712153842; cv=none; b=V9D/x/i76TlUSnJFnPn9OH+ePG7ACq8hAIzG2CPU8UcBisgJ0TY0KkDQsxvVYt9l8oIM3NLoWl7+atJnZLMY0C1M7SdLbgZBAY56S6XrumoT0aloAQS0013nbpCC3F8TxMPQQDIpjfzAX3hggDEKzqZ7XkQGO9FHk1LEmXBkVho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712141305; c=relaxed/simple;
-	bh=rVzwMOHevUYb9zbiefBLzJmJL2BLCod0EsmhP95pgUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cixcwF4MVO7SmPT0DP7b9qksdaBeRYJpEm0lhhz3zwzwxlVy2NFRV5gNtlvEbV+G33ob4v1FN/T7R9zrHIZaRsy670OqEszPhcQIpovCveWkqTVTI2hYSSnIJADVJgSnEsYOojVgPWQsfenIPNI7EyhdXlWLE1zSQUBM03e2zsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RaNjkwfk; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712153842; c=relaxed/simple;
+	bh=bN1HssWdUeqbKAA8jRMVZ5/k3VQM2hOF918vgHlZkSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cDYF/d8crwbMXINQBcXWUkzEGW+Jzd8rVIhro/20sBfYmrKLN0qIcLaY7iFnj+3u0OYUdf0KCc+Tl09qRIpapT7myXT0FDLEQ33VbeGXkeEP41oZ3dKF4bxoT68L3H8My5Gp00juT+aLVR2CeszPpvMYqJ/iVhJR7J91/yGTbr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCuCORDM; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RaNjkwfk"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56df8e6a376so1577893a12.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Apr 2024 03:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712141302; x=1712746102; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A8/xWx4c0CtG/2UB+dKr8NhYYOILRHFBONTBopP5RV8=;
-        b=RaNjkwfkfLblnKb+5I+juEmYZLQK6XFEYG9Ke0BTs5ouPiZTy5EGI5q5SM2cprl32P
-         GqD99bvYaTWsxlGy4Mk8+5EzSsqeTNZlgWdhd3mIhMECnxlp9WLXZGegQiZj4m/D8QJv
-         eNfQIF2GZqdopD8xJUXTWiQyJ/QAF0Jv6fJ5uOALfZf+5mdwO13mrPWQLclad3AKhPA4
-         39Wr4m9vnAnvVFQ+jDO+jCrBMVTjOUnH77kL7op8nf0WER0kJ2TFMlPGr2d14bovvOxm
-         /WLtNa6j8LPU5jpE+Hz3PKYSSC7NjDgdcNPDIjmCaBZ1pUDKFbnVNgRc7EdBfzhEve8p
-         lOxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712141302; x=1712746102;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A8/xWx4c0CtG/2UB+dKr8NhYYOILRHFBONTBopP5RV8=;
-        b=NsFqhMXYQcReyRzQDUY19wrFXPMj8f5Hs/+1i0OA1CoEPadnBorLbYghQaxtVTfAHv
-         EbbrxVX/q+Lnnd7o3vGFxo3v3+qqODeRsrTFpjVI76mAal3DwDBWBMgHYTSUXQb3uXS/
-         ax9rXjNCtJQyff+qxGEGJB8fP1jvoQk/dtJcZdgUdE9Laz1USKt/KwK6cdQ+FIxET0p4
-         fY5RynfLCnt61cVaFoX7aq4zItriCI1GO/KVWT6+O7jBeQCrjq6sPd/Tey40Pve9CBxn
-         9Tj8jyHk/fSi44kvXkGHnt8YGdw/S6P8njR8vZbXIfJlyuMovrOZZG5/w6/p+YM7oGUo
-         eiRQ==
-X-Gm-Message-State: AOJu0Yx0p5Nga8Zgo6q7WxNoSk3xkuvLcMacw9fm+vfiggWudyO8UvuG
-	TxzcPvsrLAYWHBoGc3tLIfabyp6HvMm5QY0CqMhfPGgs1FLp4HmF7SXzpIKMdl0=
-X-Google-Smtp-Source: AGHT+IHKaN7THG2ZzuGsKUj3Zs9uIRke3IgBj1z99ytwAGtKtugNNeCJOInuJb8dQw4krnmG78Tznw==
-X-Received: by 2002:a50:ba88:0:b0:56d:faa3:7dac with SMTP id x8-20020a50ba88000000b0056dfaa37dacmr1877653ede.9.1712141301653;
-        Wed, 03 Apr 2024 03:48:21 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id v3-20020aa7d643000000b0056e0376286bsm835183edr.24.2024.04.03.03.48.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 03:48:21 -0700 (PDT)
-Date: Wed, 3 Apr 2024 13:48:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 1131/2532] drivers/pwm/core.c:1282
- pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-Message-ID: <d7dcc0bf-ace4-476f-9ef9-4f9f7955001c@moroto.mountain>
-References: <1e3dc81d-dcd4-4b04-85b1-23937e2f0acd@moroto.mountain>
- <jobtlrm6v7r2gssuko6hn3mo4wsjcifaytsltfj3nvwhrh66lr@wmihv53dv75s>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCuCORDM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712153839; x=1743689839;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bN1HssWdUeqbKAA8jRMVZ5/k3VQM2hOF918vgHlZkSM=;
+  b=JCuCORDMcrChGocIMfeVqE83hNPgsblUKVss8Nu2tWtfNDmI22qT0qdG
+   4ok1qe75i1nKnpH+eQ+PsBOiR9HiUBxAaJMUlGR2y+4zT7/aILHQplytl
+   vmNt729lkOCRTTIhQA4yBKv8/IUGouRkw0eLsLD7pQyaHwqbk/jr6VKcQ
+   AK1ZnexZpghEZC1aLCRpMLOhOCiZn7c0N2qQgwA7zQyJ+SbPuDRRhsmsJ
+   a6Fp1MseeOuC2D3c124nWDcZTMR/mnpo+K+AzQchcM92ssVHvoFb2wQ/N
+   yP3SNfnn9E3O/+oiBpNnsl6KBsFXzkRmPpxqcHafanNjRVSli4DD1b4s5
+   g==;
+X-CSE-ConnectionGUID: FcURczBeTeyLHh4f6yArNQ==
+X-CSE-MsgGUID: xGDXMVtEQyGvyKRyW25Ohw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="10356072"
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="10356072"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 07:17:03 -0700
+X-CSE-ConnectionGUID: PPWAI4GKRPGFuUBiYT92xQ==
+X-CSE-MsgGUID: tnxokoNrSliJHNrWdAfJ4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,177,1708416000"; 
+   d="scan'208";a="23210492"
+Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2024 07:17:02 -0700
+Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rs1QB-0002G1-2P;
+	Wed, 03 Apr 2024 14:16:59 +0000
+Date: Wed, 3 Apr 2024 22:16:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/md/dm-vdo/data-vio.c:969:2-8: preceding lock on line 966
+Message-ID: <202404032212.NV7EJ2Zj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <jobtlrm6v7r2gssuko6hn3mo4wsjcifaytsltfj3nvwhrh66lr@wmihv53dv75s>
 
-On Wed, Apr 03, 2024 at 12:28:57PM +0200, Uwe Kleine-König wrote:
-> On Tue, Apr 02, 2024 at 05:26:31PM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   a6bd6c9333397f5a0e2667d4d82fef8c970108f2
-> > commit: 0835e5c8704297e91b54071c3bbcd0c05c63bd3f [1131/2532] pwm: Add support for pwmchip devices for faster and easier userspace access
-> > config: m68k-randconfig-r071-20240326 (https://download.01.org/0day-ci/archive/20240401/202404010703.o1yYkXrA-lkp@intel.com/config)
-> > compiler: m68k-linux-gcc (GCC) 13.2.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202404010703.o1yYkXrA-lkp@intel.com/
-> > 
-> > New smatch warnings:
-> > drivers/pwm/core.c:1282 pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-> > drivers/pwm/core.c:1284 pwm_cdev_ioctl() warn: possible spectre second half.  'pwm'
-> > drivers/pwm/core.c:1368 pwm_cdev_ioctl() warn: maybe return -EFAULT instead of the bytes remaining?
-> 
-> I fixed the issue in line 1368 in my pwm/for-next branch.
-> 
-> For the spectre issue my first guess is:
-> 
-> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-> index 2745941a008b..dd54acd336a6 100644
-> --- a/drivers/pwm/core.c
-> +++ b/drivers/pwm/core.c
-> @@ -17,6 +17,7 @@
->  #include <linux/slab.h>
->  #include <linux/device.h>
->  #include <linux/debugfs.h>
-> +#include <linux/nospec.h>
->  #include <linux/seq_file.h>
->  
->  #include <dt-bindings/pwm/pwm.h>
-> @@ -1191,6 +1192,12 @@ static int pwm_cdev_request(struct pwm_cdev_data *cdata, unsigned int hwpwm)
->  	if (hwpwm >= chip->npwm)
->  		return -EINVAL;
->  
-> +	/*
-> +	 * Mitigate speculation side-channels; without considering speculation
-> +	 * this is a noop.
-> +	 */
-> +	hwpwm = array_index_nospec(hwpwm, chip->npwm);
-> +
->  	if (!cdata->pwm[hwpwm]) {
->  		struct pwm_device *pwm = &chip->pwms[hwpwm];
->  		int ret;
-> 
-> But I'm unsure if this also addresses the issue for
-> 
-> 	pwm = cdata->pwm[cstate.hwpwm];
-> 
-> Maybe pwm_cdev_request() is better changed to return the struct
-> pwm_device *? Who is the expert, who can help here?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Mike Snitzer <snitzer@kernel.org>
+CC: Matthew Sakai <msakai@redhat.com>
 
-I believe that your patch does fix it.  I'm not sure who the experts are
-but probably they are on the x86@kernel.org mailing list.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3e92c1e6cd876754b64d1998ec0a01800ed954a6
+commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
+date:   6 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 weeks ago
+config: s390-randconfig-r052-20240403 (https://download.01.org/0day-ci/archive/20240403/202404032212.NV7EJ2Zj-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
 
-regards,
-dan carpenter
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202404032212.NV7EJ2Zj-lkp@intel.com/
 
+cocci warnings: (new ones prefixed by >>)
+>> drivers/md/dm-vdo/data-vio.c:969:2-8: preceding lock on line 966
+   drivers/md/dm-vdo/data-vio.c:972:2-8: preceding lock on line 966
+
+vim +969 drivers/md/dm-vdo/data-vio.c
+
+79535a7881c0cb Matthew Sakai 2023-11-16  952  
+79535a7881c0cb Matthew Sakai 2023-11-16  953  /**
+79535a7881c0cb Matthew Sakai 2023-11-16  954   * vdo_launch_bio() - Acquire a data_vio from the pool, assign the bio to it, and launch it.
+79535a7881c0cb Matthew Sakai 2023-11-16  955   *
+79535a7881c0cb Matthew Sakai 2023-11-16  956   * This will block if data_vios or discard permits are not available.
+79535a7881c0cb Matthew Sakai 2023-11-16  957   */
+79535a7881c0cb Matthew Sakai 2023-11-16  958  void vdo_launch_bio(struct data_vio_pool *pool, struct bio *bio)
+79535a7881c0cb Matthew Sakai 2023-11-16  959  {
+79535a7881c0cb Matthew Sakai 2023-11-16  960  	struct data_vio *data_vio;
+79535a7881c0cb Matthew Sakai 2023-11-16  961  
+79535a7881c0cb Matthew Sakai 2023-11-16  962  	ASSERT_LOG_ONLY(!vdo_is_state_quiescent(&pool->state),
+79535a7881c0cb Matthew Sakai 2023-11-16  963  			"data_vio_pool not quiescent on acquire");
+79535a7881c0cb Matthew Sakai 2023-11-16  964  
+79535a7881c0cb Matthew Sakai 2023-11-16  965  	bio->bi_private = (void *) jiffies;
+79535a7881c0cb Matthew Sakai 2023-11-16 @966  	spin_lock(&pool->lock);
+79535a7881c0cb Matthew Sakai 2023-11-16  967  	if ((bio_op(bio) == REQ_OP_DISCARD) &&
+79535a7881c0cb Matthew Sakai 2023-11-16  968  	    !acquire_permit(&pool->discard_limiter, bio))
+79535a7881c0cb Matthew Sakai 2023-11-16 @969  		return;
+79535a7881c0cb Matthew Sakai 2023-11-16  970  
+79535a7881c0cb Matthew Sakai 2023-11-16  971  	if (!acquire_permit(&pool->limiter, bio))
+79535a7881c0cb Matthew Sakai 2023-11-16  972  		return;
+79535a7881c0cb Matthew Sakai 2023-11-16  973  
+79535a7881c0cb Matthew Sakai 2023-11-16  974  	data_vio = get_available_data_vio(pool);
+79535a7881c0cb Matthew Sakai 2023-11-16  975  	spin_unlock(&pool->lock);
+79535a7881c0cb Matthew Sakai 2023-11-16  976  	launch_bio(pool->completion.vdo, data_vio, bio);
+79535a7881c0cb Matthew Sakai 2023-11-16  977  }
+79535a7881c0cb Matthew Sakai 2023-11-16  978  
+
+:::::: The code at line 969 was first introduced by commit
+:::::: 79535a7881c0cbe95063a2670d840cc950ae9282 dm vdo: add data_vio, the request object which services incoming bios
+
+:::::: TO: Matthew Sakai <msakai@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
