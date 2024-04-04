@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269D41CD2D
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Apr 2024 03:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2E74CB3D
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Apr 2024 06:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712200107; cv=none; b=MHLX2f+VZNjCNYJdivn3jXps12zavmg1XJ/dPneXLJ7LzUixAzYhIVpILdKhXfg4M36tYsTAhzB3xbUseSHeLcZFPh9RMYke6m+X0fdH+2drd1wvgb0ojiEBnv06qEO7syjt+BlzgmaYXrXd1J2nWkWkEVwMHG9J8i/qOGEwgE4=
+	t=1712212197; cv=none; b=ErrFvSfexg5np2dvDuZrEx8Te5shJiASOf27cqyYTvlq8cqj1QRCGGnRhXVPWnHw28AcZ6RolrJ4f3sAVa7GG99MmFoCAWMiWsJxhTXp/PE0fTQnZna+7Bdq+d+6WxnCIbHJoJH5V+vM6tDBfZ2VGC96HQdGwfy8DWWU/B4Ydf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712200107; c=relaxed/simple;
-	bh=6K9gR0S77plL7TPHF3ljpVcJ4atWI2xlan07HT6fmP0=;
+	s=arc-20240116; t=1712212197; c=relaxed/simple;
+	bh=N2EBofg0RqwFuqCFJowHjGnGSYzIzirgztIJAPFJFr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QZ0uN6aSyVKC+XdB54smVQ8vuU0q5dR0j2DmVCes/bl+sEn3Q3/KB8yMOXegxkWkNN0laVoCFfbJQlZAPauw99aasGzR2WSVOLRZusUJF4oBNToEStLYS6nx7LZKrIb1CFP5LFBUhQbrR7sIelrpFA9mJg5VbHjhcGFncHlIx3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gSrpZ0H0; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=BG27GtrG+/TbLoG7sKd4K+OkEeuOCVq/aKZqfju5NLUiwcsEKxShHJP9f7zVACs7+0XPaM7TnFZSX+qYNVD2RAy17b5Dx+C1G523Fp087hWREj38p/9Fomk2GokJS2fj6yUd06h51pEnsnswgB4wAAP5H0DEeiXtWSyvS1UKZEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CE4/qFq0; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSrpZ0H0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712200105; x=1743736105;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6K9gR0S77plL7TPHF3ljpVcJ4atWI2xlan07HT6fmP0=;
-  b=gSrpZ0H0SModueWed4ITl/awdFCC7zmrSfgoHM9qYAIIz4JT5WZeRf5r
-   n8dOjKd2vuk3Zpn5p79ZRRzWXC8tx0dDkrkX/Tr3XTYfLjYIikpozcS9B
-   LTpFOG8S2UAsMrubRMKLogK3vHpvhl7NI9tgNPwZMTEoKZXZPwGidBSEt
-   QRX+lmobS63fPCItEFXyhkP3uzylPof0+4nBDnfw7/4TMtjeVUAyxJeJI
-   3bMN1R9FdPNe6usUx1ExzFfCY1N9coyXgbZJ6zLo5J/RG1RI6aXrZuhq3
-   48CWohScpr+Ow40HMU5eedBza1bswBRPMCVvWuiAi1JvrSo2FdStXdD8T
-   w==;
-X-CSE-ConnectionGUID: lQXFgyo3R5+H/wQ4Lem9AQ==
-X-CSE-MsgGUID: wAMuqERLSSKDyg1ZWUT+OQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11033"; a="10432579"
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="10432579"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2024 20:08:24 -0700
-X-CSE-ConnectionGUID: Tp3U+dAbTSyO1eMPbxuuag==
-X-CSE-MsgGUID: DlniG7kOSWmdif1UGa6djQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,178,1708416000"; 
-   d="scan'208";a="18577916"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Apr 2024 20:08:23 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rsDSf-0000Xa-15;
-	Thu, 04 Apr 2024 03:08:21 +0000
-Date: Thu, 4 Apr 2024 11:07:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [vivek-drm-tip:virtgpu_import_rfc 9/9]
- drivers/dma-buf/udmabuf.c:147:12-13: WARNING opportunity for min()
-Message-ID: <202404041042.IN1DTfIl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CE4/qFq0"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a45f257b81fso77431966b.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Apr 2024 23:29:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712212194; x=1712816994; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+UNZae/k2EBcx5FlHf+Q0FilIMtRBcS/dSCMZEDWPas=;
+        b=CE4/qFq0Q8LasJMNsWJZk/ucoTTDNQxEkumg3k33vNRWvfB/zujMokgijUFZSHWeN6
+         8TMjrLIvKLZQO6DeT6zzZ+mFLw0S/M+EBkUMJsJc5E324xyRO67zbXDEgxxbmAIDNiUZ
+         nsIq68lz44DiYbVjIN/Rueaaa9EwbpztYFd+I0stqwnRhemcNQIOkyaH01gMRaiBGpqD
+         ZWGsA3z8LBpgqRhiUNXhu+D1/eRJwErT+mFjeb2nTMPOSwT2bdGq2U8D+JSyoYjwlZsM
+         gFCKt4sP20Uh7ciu5B5VJlb30U8xf3nnEfMdEDUVfffzE7HYikOfCO38oeMwxVgdeA9X
+         4umA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712212194; x=1712816994;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+UNZae/k2EBcx5FlHf+Q0FilIMtRBcS/dSCMZEDWPas=;
+        b=vPw2/P6SPiun+/mZsIowilfj73JWjiCxTFDXK2Z6dces3Jx0sj2l4tOgSxTLUL8DZD
+         sXM0mvYJhdJvuQLux1rpot9j6Ppi+8+WW5yHPWQAK50jwR+lXuCgnF3tGEHRoAgEJu8t
+         DpQbjOxyrZqgGL3fzc8ahRYPLkiivC/oPsR96+3DxfuXm7TyFjnbY8E60o/W+7ifbz17
+         tVTkpxgL0GK45+r+ttIjQlLiG4/CfRSt33CnxKAO2DPWZ4puBdN9R4x48PKXnurfqtpa
+         VASrIACw/sBxKfoHgXFee6SLNnQuGJ9vB/iEIIRcfjFEmu2OYZdvwBca/sr1ObikdEup
+         r96Q==
+X-Gm-Message-State: AOJu0YxxTTZesJtRYyx7/3ky13rh4LKvyVh1SpzcVMpBHC5wzirWSlfP
+	RDjteqicmEj10KwWdV075nkHOF3AAQZY9bovgpvy4i6dW+C82IWZKOCExBuIu8mX29xcqFWJFUw
+	j
+X-Google-Smtp-Source: AGHT+IEC5kYIEakGdkrA8tGW3LWmI7igo3mAP1KXlZN0cpSOuO8oBoj84PvDyIQH6wZORBgrm+VQOw==
+X-Received: by 2002:a17:906:3891:b0:a4e:1035:3ed7 with SMTP id q17-20020a170906389100b00a4e10353ed7mr934130ejd.25.1712212193696;
+        Wed, 03 Apr 2024 23:29:53 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id xc4-20020a170907074400b00a4e5ab88803sm5503487ejb.183.2024.04.03.23.29.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Apr 2024 23:29:53 -0700 (PDT)
+Date: Thu, 4 Apr 2024 09:29:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Philipp Stanner <pstanner@redhat.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Bjorn Helgaas <helgaas@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+	dakr@redhat.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>
+Subject: Re: [PATCH v5 02/10] PCI: Deprecate iomap-table functions
+Message-ID: <c59ff5c5-7551-41ca-a5cc-9c214051a20d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,48 +74,78 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240403080712.13986-5-pstanner@redhat.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Hi Philipp,
 
-tree:   https://gitlab.freedesktop.org/Vivek/drm-tip.git virtgpu_import_rfc
-head:   2347bf8ba6d850818b830aa54bb75d4b892fb6a8
-commit: 2347bf8ba6d850818b830aa54bb75d4b892fb6a8 [9/9] udmabuf: Implement UDMABUF_CREATE_LIST_FOR_PCIDEV ioctl
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: x86_64-randconfig-101-20240404 (https://download.01.org/0day-ci/archive/20240404/202404041042.IN1DTfIl-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/PCI-Add-new-set-of-devres-functions/20240403-160932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240403080712.13986-5-pstanner%40redhat.com
+patch subject: [PATCH v5 02/10] PCI: Deprecate iomap-table functions
+config: i386-randconfig-141-20240404 (https://download.01.org/0day-ci/archive/20240404/202404040920.QIxhNeMu-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404041042.IN1DTfIl-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404040920.QIxhNeMu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma-buf/udmabuf.c:147:12-13: WARNING opportunity for min()
+smatch warnings:
+drivers/pci/devres.c:897 pcim_iomap_regions_request_all() error: we previously assumed 'legacy_iomap_table' could be null (see line 894)
 
-vim +147 drivers/dma-buf/udmabuf.c
+vim +/legacy_iomap_table +897 drivers/pci/devres.c
 
-fbb0de795078190 Gerd Hoffmann   2018-08-27  133  
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  134  static int check_p2p_support(struct dma_buf_attachment *attach)
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  135  {
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  136  	struct udmabuf *ubuf = attach->dmabuf->priv;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  137  	struct pci_dev *provider = ubuf->pdev;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  138  	struct device *client = attach->dev;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  139  	int ret = -1;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  140  
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  141  	if (!provider)
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  142  		return 0;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  143  
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  144  	if (attach->peer2peer)
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  145  		ret = pci_p2pdma_distance(provider, client, true);
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  146  
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26 @147  	return ret < 0 ? ret : 0;
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  148  }
-2347bf8ba6d8508 Vivek Kasireddy 2024-03-26  149  
+acc2364fe66106 Philipp Stanner 2024-01-31  865  int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
+acc2364fe66106 Philipp Stanner 2024-01-31  866  				   const char *name)
+acc2364fe66106 Philipp Stanner 2024-01-31  867  {
+34e90b966504f3 Philipp Stanner 2024-04-03  868  	short bar;
+34e90b966504f3 Philipp Stanner 2024-04-03  869  	int ret;
+34e90b966504f3 Philipp Stanner 2024-04-03  870  	void __iomem **legacy_iomap_table;
+acc2364fe66106 Philipp Stanner 2024-01-31  871  
+34e90b966504f3 Philipp Stanner 2024-04-03  872  	ret = pcim_request_all_regions(pdev, name);
+34e90b966504f3 Philipp Stanner 2024-04-03  873  	if (ret != 0)
+34e90b966504f3 Philipp Stanner 2024-04-03  874  		return ret;
+acc2364fe66106 Philipp Stanner 2024-01-31  875  
+34e90b966504f3 Philipp Stanner 2024-04-03  876  	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
+34e90b966504f3 Philipp Stanner 2024-04-03  877  		if (!mask_contains_bar(mask, bar))
+34e90b966504f3 Philipp Stanner 2024-04-03  878  			continue;
+34e90b966504f3 Philipp Stanner 2024-04-03  879  		if (!pcim_iomap(pdev, bar, 0))
+34e90b966504f3 Philipp Stanner 2024-04-03  880  			goto err;
+34e90b966504f3 Philipp Stanner 2024-04-03  881  	}
+34e90b966504f3 Philipp Stanner 2024-04-03  882  
+34e90b966504f3 Philipp Stanner 2024-04-03  883  	return 0;
+34e90b966504f3 Philipp Stanner 2024-04-03  884  
+34e90b966504f3 Philipp Stanner 2024-04-03  885  err:
+34e90b966504f3 Philipp Stanner 2024-04-03  886  	/*
+34e90b966504f3 Philipp Stanner 2024-04-03  887  	 * Here it gets tricky: pcim_iomap() above has most likely
+34e90b966504f3 Philipp Stanner 2024-04-03  888  	 * failed because it got an OOM when trying to create the
+34e90b966504f3 Philipp Stanner 2024-04-03  889  	 * legacy-table.
+34e90b966504f3 Philipp Stanner 2024-04-03  890  	 * We check here if that has happened. If not, pcim_iomap()
+34e90b966504f3 Philipp Stanner 2024-04-03  891  	 * must have failed because of EINVAL.
+34e90b966504f3 Philipp Stanner 2024-04-03  892  	 */
+34e90b966504f3 Philipp Stanner 2024-04-03  893  	legacy_iomap_table = (void __iomem **)pcim_iomap_table(pdev);
+34e90b966504f3 Philipp Stanner 2024-04-03 @894  	ret = legacy_iomap_table ? -EINVAL : -ENOMEM;
+                                                              ^^^^^^^^^^^^^^^^^^
+Check for NULL
+
+34e90b966504f3 Philipp Stanner 2024-04-03  895  
+34e90b966504f3 Philipp Stanner 2024-04-03  896  	while (--bar >= 0)
+34e90b966504f3 Philipp Stanner 2024-04-03 @897  		pcim_iounmap(pdev, legacy_iomap_table[bar]);
+                                                                                   ^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+34e90b966504f3 Philipp Stanner 2024-04-03  898  
+34e90b966504f3 Philipp Stanner 2024-04-03  899  	pcim_release_all_regions(pdev);
+34e90b966504f3 Philipp Stanner 2024-04-03  900  
+34e90b966504f3 Philipp Stanner 2024-04-03  901  	return ret;
+acc2364fe66106 Philipp Stanner 2024-01-31  902  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
