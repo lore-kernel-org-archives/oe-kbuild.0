@@ -1,117 +1,133 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1122.securemx.jp [210.130.202.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E983223775
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Apr 2024 06:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29CE2C69F;
+	Fri,  5 Apr 2024 07:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712299961; cv=none; b=cJZ6czihEyrffWrv90zst+9O05DDvNb8/BhNngWkm59pfXUa5XeyH0lJMBsenjAzOP5ve950FkUmwQuGejiJNoUXzlTd6NnYLB4CJCEn54O2/pKcmTW2amutnv+7GI2dNCErw76Qpwc6iBcu71UoFOUcvSCyWEVKJELugTDe6bA=
+	t=1712301444; cv=none; b=XC3T8apiow0ZrRCO0unQiSk+yM23QgruI71A5Rp9B5zfqsnk+dvoAPt3Shqq/7YZAcU+nm/g5RmP4au5/2QaTiqkRNGCSBvDNDsduh8haedTtqCOacFjFZxjnEBRq0ZHwcBfg/OPnY2WYJ4/wlaMPfElwxynTlWXnIg8+rT4snc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712299961; c=relaxed/simple;
-	bh=QSYd4loLBDBTAA1un1YLQuRsu4iU3ElNNFm8JqyeJFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=hrP8lLkSCHtakJzADA1wmioC2rrBna6hI6j/pLjn1ZcKKfi6BUav0CmSUk3oXN7OmH3XF5WKZ9KLQgKQRz7Ai5Jy+NGwheXsqvm+PIpGlmXEQ3qdL5EKkQ7RGQinB/9nKsGWifmX38r2ckKaPXEC/GGQlmAIgyKpwQmV+yCMQf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qoBHm92T; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qoBHm92T"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a46ba938de0so253805166b.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 04 Apr 2024 23:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712299958; x=1712904758; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
-        b=qoBHm92TTG5xcgG6kdXKRwhiwuDR80GXpoV4dwcdJFCvmNHxaawzBSTTBK+OqAmsB5
-         sYrQwJJrpLzoSK+SmVuBNd4j1RN2nRIOAh2ZougKjSkM/aObeaj9ncYFSGzjCM1Uax/N
-         ul3teFHTb5sI4WxlWqo+SRFSVH5odzxiwaDLUdVcNk/a/OJVIV2NpvB2ZpG+83UJiYLd
-         5XyEjh+zLYqxDTjPYYvLdGTAWrSppkzdOhk8EU9c51HIeYsnlOxMR4BUUGJ4/oqs1/GF
-         ASjHb+PGYggHs4EZP+qsBpTUvNwU9e4AHvwNzEdigcE890zN3wEKUq2WX/YRuipm6XYx
-         AE0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712299958; x=1712904758;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OAoWz44Vah0FBQQ++BlkUgil4y/bpkTelSJbB2HtwhU=;
-        b=rTwfxCHLAqFIFvX0Ei+qZ6OtstNQ48BRHqMik54wcNcQzVBuEfZleJBW4piIiJ1Ydr
-         8s0yr2l5VUXRQRnVHD+wOAdVX+3tYeIjAooUqgfI3yb1NKlPPWS3buvAeQuhnaqsCZqv
-         nz2d2kZqOX3Xr05IMCaaLA+y5xKY13RDzwDVLoTkfP8pf79YBaGxnSoW4yA22sWIhLzr
-         VLWajAT2vN+IaPggJecGVSDEN+9OfUgF3jdQc39m5np0YaPmsvgMLLvqqUMtJWbfVPEc
-         REDcMEhZhIScOQA4HcGIquMrYtOrKKz0iv3ZUqwTbVD+Japh52v7dvvm/Nk0GOOUILjV
-         Jg1A==
-X-Gm-Message-State: AOJu0YwKfJFODjbGstqD/vYuYgJZp05QorsUKqf1YgWPt9bky/b3U7Hy
-	pheDyrUmkxkL91IeVFpf0g9uVZZY39COFoArGubp9A6Jz/p+UT7BovoOo36OcwHcueR/b0jo0HM
-	u
-X-Google-Smtp-Source: AGHT+IHrwnngq+1Rt4kkQZqXldfwAXh/zqUOJ3sPDzmdU91aZ2DmDYA4tJB6sJ+Sb8yrjn9BGztDCg==
-X-Received: by 2002:a17:906:a895:b0:a4e:2a5b:f94 with SMTP id ha21-20020a170906a89500b00a4e2a5b0f94mr412192ejb.6.1712299957495;
-        Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id se1-20020a170906ce4100b00a51a9d87570sm147217ejb.17.2024.04.04.23.52.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Apr 2024 23:52:37 -0700 (PDT)
-Date: Fri, 5 Apr 2024 09:52:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
-	javierm@redhat.com, jani.nikula@linux.intel.com, airlied@redhat.com,
-	sean@poorly.run
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 7/7] drm/udl: Remove struct udl_connector
-Message-ID: <39bfffb4-1e72-4b37-bfa7-1c52d969ddd3@moroto.mountain>
+	s=arc-20240116; t=1712301444; c=relaxed/simple;
+	bh=aWuYLQx3cT3sMqjyLNuhSw0YnpRhPP9iVZTnefmVILg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=LVmhkeVTyYE88m5cuZarHKAO5W9cCzmdw0+SnW5z5ODYotmvbPYLljwDSW3c2t5pMck6oCU744j3Fr85lnsol/4Ck4ATAWHnjqTERhhwDSOzXuqFP7DSxRH2f/uLL/CZ6I5u4iwb7pT/HHRkQFtzo3Rpx5x8NOq0Eb5yz9YXJNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kioxia.com; spf=pass smtp.mailfrom=kioxia.com; arc=none smtp.client-ip=210.130.202.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kioxia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kioxia.com
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1122) id 4355bqJ21399056; Fri, 5 Apr 2024 14:37:52 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1121) id 4355bKPr2321699; Fri, 5 Apr 2024 14:37:21 +0900
+X-Iguazu-Qid: 2rWg9o4uj4bd4uUMYT
+X-Iguazu-QSIG: v=2; s=0; t=1712295440; q=2rWg9o4uj4bd4uUMYT; m=qaukDK6/RdB2jfGj6npjkS5B4Zl3dh7LPkYmq44zB1o=
+Received: from CNN1EMTA03.test.kioxia.com ([202.248.33.144])
+	by relay.securemx.jp (mx-mr1120) id 4355bIiq1330523
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 5 Apr 2024 14:37:19 +0900
+Received: from Switcher-Post_Send (gateway [10.232.20.1])
+	by CNN1EMTA03.test.kioxia.com (Postfix) with ESMTP id 8B45C2F603;
+	Fri,  5 Apr 2024 14:37:18 +0900 (JST)
+Received: from CNN1ESTR04.kioxia.com (localhost [127.0.0.1])
+	by Switcher-Post_Send (Postfix) with ESMTP id 463861900001F6;
+	Fri,  5 Apr 2024 14:24:45 +0900 (JST)
+Received: from localhost [127.0.0.1] 
+	 by CNN1ESTR04.kioxia.com with ESMTP id 0003QAAAAAA01FJ0;
+	 Fri, 5 Apr 2024 14:24:45 +0900
+Received: from CNN1EXMB01.r1.kioxia.com (CNN1EXMB01.r1.kioxia.com [10.232.20.150])
+	by Switcher-Pre_Send (Postfix) with ESMTP id 3A808A2A9BFD5;
+	Fri,  5 Apr 2024 14:24:45 +0900 (JST)
+Received: from CNN1EXMB03.r1.kioxia.com (10.232.20.152) by
+ CNN1EXMB01.r1.kioxia.com (10.232.20.150) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 5 Apr 2024 14:37:17 +0900
+Received: from CNN1EXMB03.r1.kioxia.com ([10.13.100.22]) by
+ CNN1EXMB03.r1.kioxia.com ([10.13.100.22]) with mapi id 15.01.2507.035; Fri, 5
+ Apr 2024 14:37:17 +0900
+From: tada keisuke <keisuke1.tada@kioxia.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+        "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>,
+        "song@kernel.org" <song@kernel.org>,
+        "yukuai3@huawei.com" <yukuai3@huawei.com>
+CC: "lkp@intel.com" <lkp@intel.com>,
+        "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>,
+        "linux-raid@vger.kernel.org"
+	<linux-raid@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH 06/11] md: avoid conflicts in active_aligned_reads
+ operations
+Thread-Topic: [PATCH 06/11] md: avoid conflicts in active_aligned_reads
+ operations
+Thread-Index: AQHahQix9h4wjYrA/ke63gQzkJ761bFZJ/ew
+Date: Fri, 5 Apr 2024 05:37:17 +0000
+Message-ID: <d843796bc3634fa691685ee63aa68357@kioxia.com>
+References: <ffb112e756514a0eaab891379df0d834@kioxia.com>
+ <a35d6b54-8e63-4b0b-be18-bb5ab7d12bdf@moroto.mountain>
+In-Reply-To: <a35d6b54-8e63-4b0b-be18-bb5ab7d12bdf@moroto.mountain>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: ISME-14.0.0.2080-9.0.1002-28298.001
+x-tm-as-result: No-10--23.847800-8.000000
+x-tmase-matchedrid: zwpC2WOSP9WmagT1k9kBpu5i6weAmSDKKQNhMboqZlo02EZLYIEwCyj5
+	3aEB5qDLe+eZU8eiw0YjkzXjqrWT+yK2CVtnYH0ynVTWWiNp+v9uwUsg2ZgJ8QMn8l3DFl4Q8oG
+	xyJMM48B7A20xaD5o5nBKGzyAWTMW9R7dwXny/be7LWwix27pUtOUg7tlBn3vStxxn32stFhjGq
+	ZxQuvF5r2jand2PRF8QjRHotpINbQf0H3tYJmWPU2xVQmDwU6mwMc7ZZ8e7/c0DNPwjqLncPGG5
+	PZMzxFoCpt1CXXJsmrhQDopaw5doU1QH6PUk2DD3QqJN4m15UGuLG21Eb4T8wZZ8N3RvTMxo8WM
+	kQWv6iUDpAZ2/B/Blrew1twePJJB3QfwsVk0UbslCGssfkpInQ==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--23.847800-8.000000
+x-tmase-version: ISME-14.0.0.2080-9.0.1002-28298.001
+x-tm-snts-smtp: B85BA37545B82BF712B2F42B98231C28DF19BF716B56D57B32176A8C34120EBC2000:8
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240404150857.5520-8-tzimmermann@suse.de>
+X-CrossPremisesHeadersFilteredBySendConnector: CNN1EXMB01.r1.kioxia.com
+X-OrganizationHeadersPreserved: CNN1EXMB01.r1.kioxia.com
 
-Hi Thomas,
+> Hi tada,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/tada-keisuke/md-add-infra-=
+for-active_aligned_reads-changes/202403
+> 26-201827
+> base:   fcf3f7e2fc8a53a6140beee46ec782a4c88e4744
+> patch link:    https://lore.kernel.org/r/ffb112e756514a0eaab891379df0d834=
+%40kioxia.com
+> patch subject: [PATCH 06/11] md: avoid conflicts in active_aligned_reads =
+operations
+> config: i386-randconfig-141-20240328
+> (https://download.01.org/0day-ci/archive/20240331/202403312116.Sh5vFCWf-l=
+kp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009=
+708b4367171ccdbf4b5905cb6a803753fe18)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202403312116.Sh5vFCWf-lkp@intel.com/
+>=20
+> New smatch warnings:
+> drivers/md/raid5.c:7680 setup_conf() warn: passing zero to 'ERR_PTR'
+>=20
+> vim +/ERR_PTR +7680 drivers/md/raid5.c
 
-kernel test robot noticed the following build warnings:
+Thanks for reporting.
+I forgot to keep the error code.
+I will also fix another issue and submit v2.
+https://marc.info/?l=3Dlinux-raid&m=3D171184328530325
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/drm-edid-Implement-drm_probe_ddc-with-drm_edid_probe_custom/20240404-231057
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240404150857.5520-8-tzimmermann%40suse.de
-patch subject: [PATCH 7/7] drm/udl: Remove struct udl_connector
-config: parisc-randconfig-r071-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051359.Y6AgUwFi-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 13.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404051359.Y6AgUwFi-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/udl/udl_modeset.c:527 udl_modeset_init() warn: passing a valid pointer to 'PTR_ERR'
-
-vim +/PTR_ERR +527 drivers/gpu/drm/udl/udl_modeset.c
-
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  518  	encoder = &udl->encoder;
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  519  	ret = drm_encoder_init(dev, encoder, &udl_encoder_funcs, DRM_MODE_ENCODER_DAC, NULL);
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  520  	if (ret)
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  521  		return ret;
-72d73dd3a95c7e8 Thomas Zimmermann 2022-10-06  522  	encoder->possible_crtcs = drm_crtc_mask(crtc);
-5320918b9a87865 Dave Airlie       2010-12-15  523  
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  524  	connector = &udl->connector;
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  525  	ret = drm_connector_init(dev, connector, &udl_connector_funcs, DRM_MODE_CONNECTOR_VGA);
-a80d9e00c8195dc Thomas Zimmermann 2024-04-04  526  	if (ret)
-                                                        ^^^^^^^^
-
-fe5b7c86d6068ac Daniel Vetter     2020-03-23 @527  		return PTR_ERR(connector);
-                                                                       ^^^^^^^^^^^^^^^^^^^
-
-This needs to be updated to "return ret;"
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Keisuke
 
