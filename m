@@ -1,58 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F007146D7F
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Apr 2024 08:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DFE7F7CB
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Apr 2024 08:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712305599; cv=none; b=pp+lEqhamD6ZfTYbQHtRLCr1vZPwvCT8mws9mMyqP+nMOD2SYiHu9zHqsag4+l68Xi4u6EyAMYwqx4NkFPIx/p14+qbFLVOqbl6vPn5i33EPkNjlCvRe6nA0jXYiPYLn0Z1w6WIAvSNHGGbM8RHm5HZbiKrlErQ5a5wFla8WSkQ=
+	t=1712306323; cv=none; b=ekc02dfZsQzaMcLCLMiq2aiNmS5+QDd2YC4N1DaAIsS9/ELRA3xODiTUUI9B0pZOMq71EW6q9UW06dQNrHBknR1pfDXldnahFt80FyGQWJ8VJCuUZ49u8YilzZ9O2HIMZgc3V4nZYOZ8T4BmMOcarpE3WlwAvWB8k9UaHxxq9oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712305599; c=relaxed/simple;
-	bh=MqFFI75GZrqV4mtjX56anf8Ll9gzqackUJibZfDzPhM=;
+	s=arc-20240116; t=1712306323; c=relaxed/simple;
+	bh=xISzmojLsDLGl7/oDlZmJ5er1RJ3umBe4NFqy8Uh/f0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nqhbM+0QoMxgfHEwHAWnn15EFmkOjHdd+hy2c4zEd6KXjQIUAXospduhZ4Pjh7kRfXzmZqoh32QCtxRJ18F7wu2MrHreH+Q8PEt7SnFamIKzHK2KhGxohT9g4knKWSY232FtchSfo3KYqtNqR944ScoaRoj9DBk+hSrDZOeOpR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNdjuEYY; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=hGD/jVJbiZEnKk7ZkUONnBiwDbUcX8hg3vcfcI+oLAD1z6SN92hl16UXe3M59TM7amPoGDxM4JxDUi7hGYvXnGDbNa/dNY27CeK9TD4AZizL4I0yI7rCKVp4R0akCgyVEGi2FbtuFYwUAs+aN3LYIgIoeo0Q7VVp9VL5rPt4Nk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jNU7c0C1; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNdjuEYY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712305597; x=1743841597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MqFFI75GZrqV4mtjX56anf8Ll9gzqackUJibZfDzPhM=;
-  b=hNdjuEYYyY25PTAjDRZzCK5wQfm9sT3kPw68Hc6HzHfGcr880QwyUaNe
-   m9x+i4L31aJnH1zF35PPiqQ7W7IkEab7y6JnCL+W0rR4d1ZhcmvKU9peh
-   RoB3XzdFXZgSotQQHQQtxiR6FH/pb1XSTVjJ0E2VQdjPawEP8fIUcuvja
-   t4AnfrJlN7gZ9XryuKihJaRLUxGx8qU4HCgiQYXQUBG+XOdegilISRNEH
-   nBvmexI6/tZsY0Q+rq9LgCIVrEk2S/BKAIhsVS/TYpglVCquGKEdDVSFs
-   NNMeTOx3AuQzrD+n/UKvL7u74XAcRIvHv6CkWExnS6NjUsMD3gbU3aWEy
-   A==;
-X-CSE-ConnectionGUID: 9bchfN7vQ9a2qYzJSRuKag==
-X-CSE-MsgGUID: flT9TYQUSJidmtNFz38hag==
-X-IronPort-AV: E=McAfee;i="6600,9927,11034"; a="8205965"
-X-IronPort-AV: E=Sophos;i="6.07,180,1708416000"; 
-   d="scan'208";a="8205965"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2024 01:26:35 -0700
-X-CSE-ConnectionGUID: ZicPojHMSim3rESBMXMdhQ==
-X-CSE-MsgGUID: TTkOOxt5Sv2r1Dfa5Ym/EA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,181,1708416000"; 
-   d="scan'208";a="19501406"
-Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Apr 2024 01:26:34 -0700
-Received: from kbuild by e61807b1d151 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rseu8-00022s-04;
-	Fri, 05 Apr 2024 08:26:32 +0000
-Date: Fri, 5 Apr 2024 16:25:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
-	Elena Reshetova <elena.reshetova@intel.com>
-Subject: fs/afs/file.c:420:48-49: WARNING: atomic_add_unless
-Message-ID: <202404051635.si5VKXoE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jNU7c0C1"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-56845954ffeso2723658a12.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 05 Apr 2024 01:38:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712306320; x=1712911120; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ubTb0fgVnrfBS5bggRD1QN9w4aDFQXkPd91AMrgys1Q=;
+        b=jNU7c0C1Sy3M/fl40XNPbl9f3BE2ciQs6Thc5JnfRO3YJhe6RUtizRjpTePsx12Pj9
+         Zh8SDS25NqW6COvpZyG2M+km3XkzMp96c4XXc1N2RCoSRl2r4V5DWRoanKSYo8i/lNGn
+         DCy0ngCSjRBWe1IuAGPmb8HBezoGJyibZjQGYdomTqVN0XGScAqtl21ycO/irZOHLwHM
+         6NP8cr1P1IR+kGSTeekZwinoyAEilqvBAKvvNZehLselO9b3BE8GYycTO7sfvSpyY440
+         U+flWRrSrB77ZeYVZi3vUi8hWOYZ/dWTjIM47UpsZXu9ukv7fnWhLDShiBBswPfsf0hi
+         3XrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712306320; x=1712911120;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ubTb0fgVnrfBS5bggRD1QN9w4aDFQXkPd91AMrgys1Q=;
+        b=rybCJoCwktwg2rUDfYs3w3Y4dS34Obq9wE3jrlFeFzVJB3PP2C08rriB/d0sBvc11f
+         i+mYI0yH5A501DGp71sxTt0TTO6GguJWwKdOfP6KIZdX/QQ0F+u76X/j0OvsRHbStUUd
+         CETegQDkcLN9/DeXm+EpprvVRk8JLP3HcAxfDbK1AqULpKhkpNZorcXGchrUwmt0XjJ9
+         b/5N1HfcCUwoF3FecglClgT3/bFYMalx04d5aU/LrYMTpqzCm8bx2qbm6EaSfMcs/lYm
+         eM4sUa+Eoi/3LV1vz3tyu7ucW0YNLvEUJTodR//LKyftUuwKYfKBDh99nIZqDl4nLxn6
+         Masg==
+X-Gm-Message-State: AOJu0Yx9XGPvzieWJw+sbBofd4rMcUIe7e+FIn3C1s2B0pzol3G+4t6i
+	pp7hNm26YfrWlkmYnXGZ/0kubL9Ei0mvT26Tm2B2xCA5K0fcJEhmg6hr+lORj58fic6eXJu82/l
+	S
+X-Google-Smtp-Source: AGHT+IEbsXOh/N7WNWmlYpCZzHx5wkzHFgy5SzPZtE5tZZGTZhrkAvGSYXBlZD3FtsmRpsA6biQgGQ==
+X-Received: by 2002:a17:906:2798:b0:a45:e3ab:152f with SMTP id j24-20020a170906279800b00a45e3ab152fmr499838ejc.21.1712306319804;
+        Fri, 05 Apr 2024 01:38:39 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ci25-20020a170906c35900b00a4e2ad2cef0sm570122ejb.203.2024.04.05.01.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Apr 2024 01:38:39 -0700 (PDT)
+Date: Fri, 5 Apr 2024 11:38:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Damien Le Moal <dlemoal@kernel.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v2 02/18] PCI: endpoint: Introduce pci_epc_map_align()
+Message-ID: <2b9ad9b2-c5df-4364-99cb-c2b41cdfee52@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,53 +80,84 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240330041928.1555578-3-dlemoal@kernel.org>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Al Viro <viro@zeniv.linux.org.uk>
+Hi Damien,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8cb4a9a82b21623dbb4b3051dd30d98356cf95bc
-commit: 275655d3207b9e65d1561bf21c06a622d9ec1d43 afs: fix __afs_break_callback() / afs_drop_open_mmap() race
-date:   6 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 weeks ago
-config: parisc-randconfig-r063-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051635.si5VKXoE-lkp@intel.com/config)
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/PCI-endpoint-Introduce-pci_epc_function_is_valid/20240330-122311
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20240330041928.1555578-3-dlemoal%40kernel.org
+patch subject: [PATCH v2 02/18] PCI: endpoint: Introduce pci_epc_map_align()
+config: parisc-randconfig-r071-20240405 (https://download.01.org/0day-ci/archive/20240405/202404051508.hvNRDVZq-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404051635.si5VKXoE-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404051508.hvNRDVZq-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
-   fs/afs/file.c:428:5-24: WARNING: atomic_dec_and_test variation before object free at line 429.
->> fs/afs/file.c:420:48-49: WARNING: atomic_add_unless
+smatch warnings:
+drivers/pci/endpoint/pci-epc-core.c:493 pci_epc_map_align() error: we previously assumed 'features' could be null (see line 487)
 
-vim +420 fs/afs/file.c
+vim +/features +493 drivers/pci/endpoint/pci-epc-core.c
 
-6e0e99d58a6530 David Howells 2021-09-02  417  
-6e0e99d58a6530 David Howells 2021-09-02  418  static void afs_drop_open_mmap(struct afs_vnode *vnode)
-6e0e99d58a6530 David Howells 2021-09-02  419  {
-275655d3207b9e Al Viro       2023-09-29 @420  	if (atomic_add_unless(&vnode->cb_nr_mmap, -1, 1))
-6e0e99d58a6530 David Howells 2021-09-02  421  		return;
-6e0e99d58a6530 David Howells 2021-09-02  422  
-453924de6212ac David Howells 2023-11-08  423  	down_write(&vnode->volume->open_mmaps_lock);
-6e0e99d58a6530 David Howells 2021-09-02  424  
-275655d3207b9e Al Viro       2023-09-29  425  	read_seqlock_excl(&vnode->cb_lock);
-275655d3207b9e Al Viro       2023-09-29  426  	// the only place where ->cb_nr_mmap may hit 0
-275655d3207b9e Al Viro       2023-09-29  427  	// see __afs_break_callback() for the other side...
-275655d3207b9e Al Viro       2023-09-29  428  	if (atomic_dec_and_test(&vnode->cb_nr_mmap))
-6e0e99d58a6530 David Howells 2021-09-02  429  		list_del_init(&vnode->cb_mmap_link);
-275655d3207b9e Al Viro       2023-09-29  430  	read_sequnlock_excl(&vnode->cb_lock);
-6e0e99d58a6530 David Howells 2021-09-02  431  
-453924de6212ac David Howells 2023-11-08  432  	up_write(&vnode->volume->open_mmaps_lock);
-6e0e99d58a6530 David Howells 2021-09-02  433  	flush_work(&vnode->cb_work);
-6e0e99d58a6530 David Howells 2021-09-02  434  }
-6e0e99d58a6530 David Howells 2021-09-02  435  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  458  int pci_epc_map_align(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+9d2f10d2ace040 Damien Le Moal         2024-03-30  459  		      u64 pci_addr, size_t size, struct pci_epc_map *map)
+9d2f10d2ace040 Damien Le Moal         2024-03-30  460  {
+9d2f10d2ace040 Damien Le Moal         2024-03-30  461  	const struct pci_epc_features *features;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  462  	size_t mask;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  463  	int ret;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  464  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  465  	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
+9d2f10d2ace040 Damien Le Moal         2024-03-30  466  		return -EINVAL;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  467  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  468  	if (!size || !map)
+9d2f10d2ace040 Damien Le Moal         2024-03-30  469  		return -EINVAL;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  470  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  471  	memset(map, 0, sizeof(*map));
+9d2f10d2ace040 Damien Le Moal         2024-03-30  472  	map->pci_addr = pci_addr;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  473  	map->pci_size = size;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  474  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  475  	if (epc->ops->map_align) {
+9d2f10d2ace040 Damien Le Moal         2024-03-30  476  		mutex_lock(&epc->lock);
+9d2f10d2ace040 Damien Le Moal         2024-03-30  477  		ret = epc->ops->map_align(epc, func_no, vfunc_no, map);
+9d2f10d2ace040 Damien Le Moal         2024-03-30  478  		mutex_unlock(&epc->lock);
+9d2f10d2ace040 Damien Le Moal         2024-03-30  479  		return ret;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  480  	}
+9d2f10d2ace040 Damien Le Moal         2024-03-30  481  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  482  	/*
+9d2f10d2ace040 Damien Le Moal         2024-03-30  483  	 * Assume a fixed alignment constraint as specified by the controller
+9d2f10d2ace040 Damien Le Moal         2024-03-30  484  	 * features.
+9d2f10d2ace040 Damien Le Moal         2024-03-30  485  	 */
+9d2f10d2ace040 Damien Le Moal         2024-03-30  486  	features = pci_epc_get_features(epc, func_no, vfunc_no);
+9d2f10d2ace040 Damien Le Moal         2024-03-30 @487  	if (!features || !features->align) {
+                                                            ^^^^^^^^^
+Check for NULL
+
+9d2f10d2ace040 Damien Le Moal         2024-03-30  488  		map->map_pci_addr = pci_addr;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  489  		map->map_size = size;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  490  		map->map_ofst = 0;
+
+Missing return 0?
+
+9d2f10d2ace040 Damien Le Moal         2024-03-30  491  	}
+9d2f10d2ace040 Damien Le Moal         2024-03-30  492  
+9d2f10d2ace040 Damien Le Moal         2024-03-30 @493  	mask = features->align - 1;
+                                                               ^^^^^^^^^^
+
+9d2f10d2ace040 Damien Le Moal         2024-03-30  494  	map->map_pci_addr = map->pci_addr & ~mask;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  495  	map->map_ofst = map->pci_addr & mask;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  496  	map->map_size = ALIGN(map->map_ofst + map->pci_size, features->align);
+9d2f10d2ace040 Damien Le Moal         2024-03-30  497  
+9d2f10d2ace040 Damien Le Moal         2024-03-30  498  	return 0;
+9d2f10d2ace040 Damien Le Moal         2024-03-30  499  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
