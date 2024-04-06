@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E315537E2
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Apr 2024 22:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D2045037
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Apr 2024 22:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712442956; cv=none; b=NHbL9DzO8XbtxYozhN6ZOHzUPPkFH70Ed4yP52i5r4Nd37wyrYOmRD+YHzoF4Kbj6oxUBck+ZYPd1udOmMF6wbPJq6seyMpq2/QVIIuY69x7o9lG4abgd7XTa+n+1HXHK0sMsRK1PUDNIrdHxYCDo5CvzoVSYCwiUNdhDaNlObg=
+	t=1712443675; cv=none; b=Nc3S1FttVEneUNPCdJ5y16FSVXI7FLeihuxmN6m8p4qQ1MPT+4DdpqdfJoS27LajxHMaYdd+4hRAUH9LypuYlOY6yOvmx+wRbmY+zwO3Be74Hn38NNkofZd6XU3vc9gWRmHeIpFhHn3wrajZxcW5DBmwCjtQF/pTY6rA4cPnAUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712442956; c=relaxed/simple;
-	bh=vTTdSd1JSzwem3C4ARNMRVVbSi6hXeAN3YpRREqW/mQ=;
+	s=arc-20240116; t=1712443675; c=relaxed/simple;
+	bh=OazOD2CZrWjvKnr4cOhsC/ouKMs4W/reXf+unJNsvt0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MBt6IWpQ+fo6UWxri63rHghWALA8ljfd5SQyeLHXGVGETaZsL0UDOPMav+eng9ExEQZm2+nHfW4jxGwBIfpQYxGca8mDiHcP1xYmMUfszXdd3Acdhy219Qh16gjHTt7StuXfSJy+42T7mMmil6rAFads9AYx5qVycpo7ASUtIyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ntX0t16e; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=e+EOJ2/wKHlCnr1DiQI4rvMaOgiGjy+1frC1uGm4mw3+ggAF0bpWSkDm+QX6WUJsuD53qJttxtthH/L4BzbFuZjxzQc8vhwe+3TIh7VZaR2ASiBxYqpUn0KXKteSGmCN5qtM/hMWJWhDVMxT58N4j1DkoDVDMETTOkHGZtfviVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJXJmkHx; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntX0t16e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJXJmkHx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712442954; x=1743978954;
+  t=1712443673; x=1743979673;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=vTTdSd1JSzwem3C4ARNMRVVbSi6hXeAN3YpRREqW/mQ=;
-  b=ntX0t16eoNyEe1saD14fbArag7b6/3pgE40qB6ss6djwYQk5PrgebXEd
-   ot5GLe3GKSl6EzSsCtri/UPKGL6LBlsN3Ou88RkJ4I5QcfXjXRoOkEBQ3
-   zWhuX4fhcFyRXij2LiomM+CyW5MGEW+P08MAJQs/8H1nYzW5qPQJ3/2xJ
-   EAcvvg9RVDMSa+kzT0QfiVnZvFOGpNgAuw5mRpyQuv3dPFnXNAzcnNKSM
-   GxhQ+RvIf8gI1SxSp1hWuSOazqW7XMxWg5Oe+bLiZVNat39WYt18d7Wf8
-   AavdMs0P81FBZcFjO3cC+3wZkQeFkEmT7kJMvGeSU8wwx0eY9oOJuxPHx
+  bh=OazOD2CZrWjvKnr4cOhsC/ouKMs4W/reXf+unJNsvt0=;
+  b=ZJXJmkHxZfj0512EhkBfd8sHMYsnmrkHxlVZ3SfWXcZ8cOEur9NoiS3Z
+   f4mN5noKYyy91MSyzQXW6pJG1a3GcA9AUTZlD8wvi9S4vf2SJbRyXP2yh
+   4Fp13VoBhgPnJkSCEkIevludanKf2jDYy3VTaaa4wPXj7tlsd58f8Eguo
+   vfvmn264iwNrA5Inz+xd12/FFyzJpq7KQvUqDS8zt82FSVWRDtnvID2XX
+   SEPoXlpjGMpgKG7lGKFVMTln5pgKvIJWZAxvoCnfMpjW9niZFUFJCVQnA
+   3P6niQc+otlDA0rfI4G/d9sX9EJ+aQ4Q9cg/mMuQZzOVgkJcQya/rzATe
    Q==;
-X-CSE-ConnectionGUID: iUUJ3YHNRj6Q+DgmqRjIfQ==
-X-CSE-MsgGUID: 8C4zJ4+aSQyICMRsjk5plw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="25251711"
+X-CSE-ConnectionGUID: BpXBaT1hQLKiup9xMix0kg==
+X-CSE-MsgGUID: cRAKQgIhQeijrN+XfQmkjQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11036"; a="19182721"
 X-IronPort-AV: E=Sophos;i="6.07,184,1708416000"; 
-   d="scan'208";a="25251711"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2024 15:35:52 -0700
-X-CSE-ConnectionGUID: NY1LJygDRpSlMwHEC/VmKQ==
-X-CSE-MsgGUID: a6Wh95IARiOjIQSH0pRurQ==
+   d="scan'208";a="19182721"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2024 15:47:53 -0700
+X-CSE-ConnectionGUID: 4i5G5Qa+R0aGymvVfsMiTA==
+X-CSE-MsgGUID: pcE1NMJiSdO1BL14+M9bUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,184,1708416000"; 
-   d="scan'208";a="42670575"
+   d="scan'208";a="24175514"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Apr 2024 15:35:51 -0700
+  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2024 15:47:51 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rtEdZ-0003ua-0S;
-	Sat, 06 Apr 2024 22:35:49 +0000
-Date: Sun, 7 Apr 2024 06:34:58 +0800
+	id 1rtEpB-0003vK-1W;
+	Sat, 06 Apr 2024 22:47:49 +0000
+Date: Sun, 7 Apr 2024 06:46:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/pinctrl/nomadik/pinctrl-nomadik.c:966:1-7: preceding lock on
- line 900
-Message-ID: <202404070655.nKBH4F8n-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net-next v3 6/9] net: dsa: microchip: dcb: add special
+ handling for KSZ88X3 family
+Message-ID: <202404070608.U0LIXb0K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,148 +66,70 @@ Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240405095216.353829-7-o.rempel@pengutronix.de>
+References: <20240405095216.353829-7-o.rempel@pengutronix.de>
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Eric Dumazet <edumazet@google.com>
+TO: Florian Fainelli <f.fainelli@gmail.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Vladimir Oltean <olteanv@gmail.com>
+TO: Woojung Huh <woojung.huh@microchip.com>
+TO: Arun Ramadoss <arun.ramadoss@microchip.com>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: kernel@pengutronix.de
 CC: linux-kernel@vger.kernel.org
-TO: "Théo Lebrun" <theo.lebrun@bootlin.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+CC: UNGLinuxDriver@microchip.com
+CC: David Ahern <dsahern@kernel.org>
+CC: Simon Horman <horms@kernel.org>
+CC: Willem de Bruijn <willemb@google.com>
+CC: "Søren Andersen" <san@skov.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f2f80ac809875855ac843f9e5e7480604b5cbff5
-commit: ae82f5d2b18a6c6cd95f8896010b221780114cac pinctrl: nomadik: Kconfig: allow building with COMPILE_TEST
-date:   5 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 weeks ago
-config: hexagon-randconfig-r053-20240406 (https://download.01.org/0day-ci/archive/20240407/202404070655.nKBH4F8n-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 546dc2245ffc4cccd0b05b58b7a5955e355a3b27)
+Hi Oleksij,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-dsa-add-support-for-DCB-get-set-apptrust-configuration/20240405-175505
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240405095216.353829-7-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v3 6/9] net: dsa: microchip: dcb: add special handling for KSZ88X3 family
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: sparc-randconfig-r081-20240407 (https://download.01.org/0day-ci/archive/20240407/202404070608.U0LIXb0K-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404070655.nKBH4F8n-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202404070608.U0LIXb0K-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/pinctrl/nomadik/pinctrl-nomadik.c:966:1-7: preceding lock on line 900
+smatch warnings:
+drivers/net/dsa/microchip/ksz8795.c:194 ksz8_all_queues_split() error: uninitialized symbol 'ret'.
 
-vim +966 drivers/pinctrl/nomadik/pinctrl-nomadik.c
+vim +/ret +194 drivers/net/dsa/microchip/ksz8795.c
 
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  857  
-03e9f0cac5da6a drivers/pinctrl/nomadik/pinctrl-nomadik.c Linus Walleij      2014-09-03  858  static int nmk_pmx_set(struct pinctrl_dev *pctldev, unsigned function,
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  859  		       unsigned group)
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  860  {
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  861  	struct nmk_pinctrl *npct = pinctrl_dev_get_drvdata(pctldev);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  862  	const struct nmk_pingroup *g;
-966942ae493650 drivers/pinctrl/nomadik/pinctrl-nomadik.c Théo Lebrun        2024-02-28  863  	static unsigned int slpm[NMK_MAX_BANKS];
-f84b4171312a59 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2013-08-15  864  	unsigned long flags = 0;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  865  	bool glitch;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  866  	int ret = -EINVAL;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  867  	int i;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  868  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  869  	g = &npct->soc->groups[group];
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  870  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  871  	if (g->altsetting < 0)
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  872  		return -EINVAL;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  873  
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  874  	dev_dbg(npct->dev, "enable group %s, %u pins\n", g->grp.name, g->grp.npins);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  875  
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  876  	/*
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  877  	 * If we're setting altfunc C by setting both AFSLA and AFSLB to 1,
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  878  	 * we may pass through an undesired state. In this case we take
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  879  	 * some extra care.
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  880  	 *
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  881  	 * Safe sequence used to switch IOs between GPIO and Alternate-C mode:
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  882  	 *  - Save SLPM registers (since we have a shadow register in the
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  883  	 *    nmk_chip we're using that as backup)
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  884  	 *  - Set SLPM=0 for the IOs you want to switch and others to 1
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  885  	 *  - Configure the GPIO registers for the IOs that are being switched
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  886  	 *  - Set IOFORCE=1
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  887  	 *  - Modify the AFLSA/B registers for the IOs that are being switched
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  888  	 *  - Set IOFORCE=0
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  889  	 *  - Restore SLPM registers
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  890  	 *  - Any spurious wake up event during switch sequence to be ignored
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  891  	 *    and cleared
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  892  	 *
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  893  	 * We REALLY need to save ALL slpm registers, because the external
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  894  	 * IOFORCE will switch *all* ports to their sleepmode setting to as
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  895  	 * to avoid glitches. (Not just one port!)
-daf731748f978e drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-22  896  	 */
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  897  	glitch = ((g->altsetting & NMK_GPIO_ALT_C) == NMK_GPIO_ALT_C);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  898  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  899  	if (glitch) {
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02 @900  		spin_lock_irqsave(&nmk_gpio_slpm_lock, flags);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  901  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  902  		/* Initially don't put any pins to sleep when switching */
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  903  		memset(slpm, 0xff, sizeof(slpm));
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  904  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  905  		/*
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  906  		 * Then mask the pins that need to be sleeping now when we're
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  907  		 * switching to the ALT C function.
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  908  		 */
-53cf6b72e07486 drivers/pinctrl/nomadik/pinctrl-nomadik.c Théo Lebrun        2024-02-28  909  		for (i = 0; i < g->grp.npins; i++) {
-53cf6b72e07486 drivers/pinctrl/nomadik/pinctrl-nomadik.c Théo Lebrun        2024-02-28  910  			unsigned int bit = g->grp.pins[i] % NMK_GPIO_PER_CHIP;
-53cf6b72e07486 drivers/pinctrl/nomadik/pinctrl-nomadik.c Théo Lebrun        2024-02-28  911  			slpm[g->grp.pins[i] / NMK_GPIO_PER_CHIP] &= ~BIT(bit);
-53cf6b72e07486 drivers/pinctrl/nomadik/pinctrl-nomadik.c Théo Lebrun        2024-02-28  912  		}
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  913  		nmk_gpio_glitch_slpm_init(slpm);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  914  	}
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  915  
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  916  	for (i = 0; i < g->grp.npins; i++) {
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  917  		struct nmk_gpio_chip *nmk_chip;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  918  		unsigned bit;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  919  
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  920  		nmk_chip = find_nmk_gpio_from_pin(g->grp.pins[i]);
-6ca7d2e3525451 drivers/pinctrl/nomadik/pinctrl-nomadik.c Linus Walleij      2015-06-17  921  		if (!nmk_chip) {
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  922  			dev_err(npct->dev,
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  923  				"invalid pin offset %d in group %s at index %d\n",
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  924  				g->grp.pins[i], g->grp.name, i);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  925  			goto out_glitch;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  926  		}
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  927  		dev_dbg(npct->dev, "setting pin %d to altsetting %d\n", g->grp.pins[i], g->altsetting);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  928  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  929  		clk_enable(nmk_chip->clk);
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  930  		bit = g->grp.pins[i] % NMK_GPIO_PER_CHIP;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  931  		/*
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  932  		 * If the pin is switching to altfunc, and there was an
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  933  		 * interrupt installed on it which has been lazy disabled,
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  934  		 * actually mask the interrupt to prevent spurious interrupts
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  935  		 * that would occur while the pin is under control of the
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  936  		 * peripheral. Only SKE does this.
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  937  		 */
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  938  		nmk_gpio_disable_lazy_irq(nmk_chip, bit);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  939  
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  940  		__nmk_gpio_set_mode_safe(nmk_chip, bit,
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  941  			(g->altsetting & NMK_GPIO_ALT_C), glitch);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  942  		clk_disable(nmk_chip->clk);
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  943  
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  944  		/*
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  945  		 * Call PRCM GPIOCR config function in case ALTC
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  946  		 * has been selected:
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  947  		 * - If selection is a ALTCx, some bits in PRCM GPIOCR registers
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  948  		 *   must be set.
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  949  		 * - If selection is pure ALTC and previous selection was ALTCx,
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  950  		 *   then some bits in PRCM GPIOCR registers must be cleared.
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  951  		 */
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  952  		if ((g->altsetting & NMK_GPIO_ALT_C) == NMK_GPIO_ALT_C)
-39b707fa7aba7c drivers/pinctrl/nomadik/pinctrl-nomadik.c Andy Shevchenko    2022-06-21  953  			nmk_prcm_altcx_set_mode(npct, g->grp.pins[i],
-c22df08c7ffbfb drivers/pinctrl/pinctrl-nomadik.c         Jean-Nicolas Graux 2012-09-27  954  				g->altsetting >> NMK_GPIO_ALT_CX_SHIFT);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  955  	}
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  956  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  957  	/* When all pins are successfully reconfigured we get here */
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  958  	ret = 0;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  959  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  960  out_glitch:
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  961  	if (glitch) {
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  962  		nmk_gpio_glitch_slpm_restore(slpm);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  963  		spin_unlock_irqrestore(&nmk_gpio_slpm_lock, flags);
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  964  	}
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  965  
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02 @966  	return ret;
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  967  }
-dbfe8ca259e1f8 drivers/pinctrl/pinctrl-nomadik.c         Linus Walleij      2012-05-02  968  
-
-:::::: The code at line 966 was first introduced by commit
-:::::: dbfe8ca259e1f899ca02ea33d903fa21bbea67c5 pinctrl/nomadik: implement pin multiplexing
-
-:::::: TO: Linus Walleij <linus.walleij@linaro.org>
-:::::: CC: Linus Walleij <linus.walleij@linaro.org>
+e66f840c08a237 Tristram Ha    2019-07-29  181  
+d9c072a3456921 Oleksij Rempel 2024-04-05  182  int ksz8_all_queues_split(struct ksz_device *dev, int queues)
+d9c072a3456921 Oleksij Rempel 2024-04-05  183  {
+d9c072a3456921 Oleksij Rempel 2024-04-05  184  	struct dsa_switch *ds = dev->ds;
+d9c072a3456921 Oleksij Rempel 2024-04-05  185  	const struct dsa_port *dp;
+d9c072a3456921 Oleksij Rempel 2024-04-05  186  	int ret;
+d9c072a3456921 Oleksij Rempel 2024-04-05  187  
+d9c072a3456921 Oleksij Rempel 2024-04-05  188  	dsa_switch_for_each_port(dp, ds) {
+d9c072a3456921 Oleksij Rempel 2024-04-05  189  		ret = ksz8_port_queue_split(dev, dp->index, queues);
+d9c072a3456921 Oleksij Rempel 2024-04-05  190  		if (ret)
+d9c072a3456921 Oleksij Rempel 2024-04-05  191  			return ret;
+d9c072a3456921 Oleksij Rempel 2024-04-05  192  	}
+d9c072a3456921 Oleksij Rempel 2024-04-05  193  
+d9c072a3456921 Oleksij Rempel 2024-04-05 @194  	return ret;
+d9c072a3456921 Oleksij Rempel 2024-04-05  195  }
+d9c072a3456921 Oleksij Rempel 2024-04-05  196  
 
 -- 
 0-DAY CI Kernel Test Service
