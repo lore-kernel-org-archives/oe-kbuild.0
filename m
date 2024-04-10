@@ -1,152 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2993E497
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Apr 2024 22:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02383E48C
+	for <oe-kbuild@lists.linux.dev>; Wed, 10 Apr 2024 23:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712789694; cv=none; b=hpGFskRzwSaNiVH0qgLsC7S4im/o1HBDnWemHUN+Mo//m/YGqz2pqi5sp7IM9+5vqjs/h8IWwBSRQbB3sD3R2eCAtkREZ5pRL3AxyPF+nkXV8GZYPmE9gdCpsRoxF5QPS1HXPX12MWkJwUxsZEdJCv8SAdZ4Ktu1U/WTp4VOxH4=
+	t=1712792398; cv=none; b=t7u4kGvvGuCR5TvfUwrsK2LZ8o5DzKaBUVfF0upAZxZNqMGvRhF/11FxZJlGCcYNaCJWetydlLHFLGX7AgUdIZGC8zdeJIhRl6ui/CpQZNKoJUTc9JeQIPEyk4ufM1fJqYQHJ83mewE4gtKclAWskwFhLq6nR+SXAPN2PfpXDHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712789694; c=relaxed/simple;
-	bh=oyq3d7dyCHWh8FYGg4NApPPZcXVrdLlN8PWa11oLi6I=;
+	s=arc-20240116; t=1712792398; c=relaxed/simple;
+	bh=+LmjgOo0YEJB5lCLEzNtroj0o714xdk4YrpERAPnsjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GwlBjkLfC1A334qJthZWyDpxoXd+hHcW8sl9ai3EcyXNcgXGRToTepwYScX/0exnD1dyWlXuizLYzXhRpi/fqz2Hu6do5SN3Ig9nQAhADjEEyxqN0SzcPSHvZQ2oKH/mPbJ753CvHqxMVRrX1s6kiq3yyp9w6GuTR3uFxiGYn1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSw2LMeV; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=gpKc+XdI2uPC3aK/XeexV89G/mZqf0J7C9Ml1v1byWhcwG1ppIIQs8Ko+kLfC7zBvWm8ch2Anmly84oKB/cOCTF8kSBcFs8B0+RtaH+GmEYIjfMjbIi8H2uUpwsdx9PmWpOvX3G6K9t7ZdedLCWxxNofuTnTYndtrKI6aU14ReI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc4KzZwz; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSw2LMeV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc4KzZwz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712789693; x=1744325693;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oyq3d7dyCHWh8FYGg4NApPPZcXVrdLlN8PWa11oLi6I=;
-  b=QSw2LMeVWkzlo4FILjIUs9EW5a2s8YAnECRquyKZwRhqZxmvmkdPVPMR
-   Vf2Ug6u+lKRvL8RlfdHXMxNEsU6Ol3LdsKOEFD7uG9jvJPgWcYJxM4meZ
-   0q/GY9sLotte07co46KCJ31S0JvVdfTFWKs58S/xdMcdjRjdGxoxj8hUs
-   rXd/dNcyg3sKuM9o1IvnQLHZALdwICLjG9ExZBxaDqjbTPhun3F6L9Um7
-   bOKDs86cy8tn3aGfutWk2VsLAmXjMB92qKLb8SPGHWhfjhYUNZUcMZFv9
-   nvQZb30gwUqXbKY5jCIWMK+33vfaTtZnYYB6pzhoruHnOc+5Xehe2X6sH
-   g==;
-X-CSE-ConnectionGUID: hoqfR2XiRnK3raiyvgEpig==
-X-CSE-MsgGUID: xoZz4lGxQRWv/DZ9Twlgnw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8309812"
+  t=1712792396; x=1744328396;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+LmjgOo0YEJB5lCLEzNtroj0o714xdk4YrpERAPnsjg=;
+  b=hc4KzZwzDRNZHTKOfhDM1mAHQho/7RjEYy4mYVOaro0wUsoLsHr9n1o0
+   ToZc5lV7hCSbQbHKPaZpb90ivCxkolLHHP2e0j6X6pIAVb76iRPms7W1X
+   47yLK0jZvKAvcYzukSKg4RyLKal0r97qIp2ZgffXw6Mg5fJSVvGFt0Arm
+   1oo8v4j4sBe40quDyC64kbdTcWqkxRHjZTMXD4A0HTA4nVVPFtKLsNLaF
+   cidKC26bqlFEcMcwqqSbkgxxbbthI3rGWTr8+n3FQq+/4Ty8iLs7dvQ/q
+   KinKLbS1Swpjo/x3q1STj4fkdcqF73xG+TyL5xg1aCY9W2M7ZEoAgNJ3A
+   w==;
+X-CSE-ConnectionGUID: hkohZkAJS2mNHnzLu8SNAw==
+X-CSE-MsgGUID: jVHsEnshT7ytKfsBJI4iSg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8047941"
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="8309812"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 15:54:52 -0700
-X-CSE-ConnectionGUID: FtXbmL1MRnGbrCER2z1/oA==
-X-CSE-MsgGUID: pUG1+JZ6THOeMQ4c8ZMiGg==
+   d="scan'208";a="8047941"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 16:39:56 -0700
+X-CSE-ConnectionGUID: yAQMJAb7QL2Sx8T0yqfxXA==
+X-CSE-MsgGUID: KrqnLElORWWUVXIM6iQRBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="25372868"
+   d="scan'208";a="20799258"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2024 15:54:50 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2024 16:39:54 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rugq7-0007uw-2h;
-	Wed, 10 Apr 2024 22:54:47 +0000
-Date: Thu, 11 Apr 2024 06:53:49 +0800
+	id 1ruhXj-0007xm-1K;
+	Wed, 10 Apr 2024 23:39:51 +0000
+Date: Thu, 11 Apr 2024 07:39:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jirislaby:devel 33/40] drivers/tty/mxser.c:513 mxser_set_baud()
- error: uninitialized symbol 'baud'.
-Message-ID: <202404110644.9Hya2zB1-lkp@intel.com>
+Subject: Re: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error
+ handling
+Message-ID: <202404110708.7BQYVa7Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+In-Reply-To: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
+References: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
+TO: Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>
+TO: joel@jms.id.au
+CC: bsp-development.geo@leica-geosystems.com
+CC: Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>
+CC: Eddie James <eajames@linux.ibm.com>
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: linux-iio@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
-head:   a56ff0cb0fd0fd59f4a9a12091951ae80f866abb
-commit: fb7c4d96c47896d2d8db670f34bb961a66ea869a [33/40] mxser: use timeout from uart_port
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110644.9Hya2zB1-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2c71fdf02a95b3dd425b42f28fd47fb2b1d22702]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Haemmerle/iio-pressure-dps310-support-negative-temperature-values/20240410-183937
+base:   2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
+patch link:    https://lore.kernel.org/r/20240410103604.992989-3-thomas.haemmerle%40leica-geosystems.com
+patch subject: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error handling
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110708.7BQYVa7Z-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404110644.9Hya2zB1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404110708.7BQYVa7Z-lkp@intel.com/
 
 smatch warnings:
-drivers/tty/mxser.c:513 mxser_set_baud() error: uninitialized symbol 'baud'.
+drivers/iio/pressure/dps310.c:497 dps310_read_pres_raw() warn: inconsistent returns '&data->lock'.
+drivers/iio/pressure/dps310.c:541 dps310_read_temp_raw() warn: inconsistent returns '&data->lock'.
 
-vim +/baud +513 drivers/tty/mxser.c
+vim +497 drivers/iio/pressure/dps310.c
 
-5d951fb458f847 drivers/char/mxser.c Alan Cox          2009-01-02  489  
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  490  static int mxser_set_baud(struct mxser_port *info, struct ktermios *termios)
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  491  {
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  492) 	struct uart_port *uport = &info->uport;
-104583b504da8a drivers/tty/mxser.c  Jiri Slaby        2017-09-12  493  	unsigned int quot = 0, baud;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  494  	unsigned char cval;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  495  	speed_t newspd = tty_termios_baud_rate(termios);
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  496  
-928f946426905d drivers/tty/mxser.c  Jiri Slaby        2021-06-18  497  	if (newspd > info->board->max_baud)
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  498  		return -1;
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  499  
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  500  	if (newspd == 134) {
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  501  		quot = 2 * MXSER_BAUD_BASE / 269;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  502  		tty_termios_encode_baud_rate(termios, 134, 134);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  503  	} else if (newspd) {
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  504  		quot = MXSER_BAUD_BASE / newspd;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  505  		if (quot == 0)
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  506  			quot = 1;
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  507  		baud = MXSER_BAUD_BASE / quot;
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  508  		tty_termios_encode_baud_rate(termios, baud, baud);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  509  	} else {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  510  		quot = 0;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  511  	}
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  512  
-fb7c4d96c47896 drivers/tty/mxser.c  Jiri Slaby (SUSE  2022-11-15 @513) 	uart_update_timeout(uport, termios->c_cflag, baud);
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  514  
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  515  	if (quot) {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  516  		info->MCR |= UART_MCR_DTR;
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  517) 		outb(info->MCR, uport->iobase + UART_MCR);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  518  	} else {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  519  		info->MCR &= ~UART_MCR_DTR;
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  520) 		outb(info->MCR, uport->iobase + UART_MCR);
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  521  		return 0;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  522  	}
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  523  
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  524) 	cval = inb(uport->iobase + UART_LCR);
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  525  
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  526) 	outb(cval | UART_LCR_DLAB, uport->iobase + UART_LCR);	/* set DLAB */
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  527  
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  528) 	outb(quot & 0xff, uport->iobase + UART_DLL);	/* LS of divisor */
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  529) 	outb(quot >> 8, uport->iobase + UART_DLM);	/* MS of divisor */
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  530) 	outb(cval, uport->iobase + UART_LCR);	/* reset DLAB */
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  531  
-ded0799af88cdc drivers/tty/mxser.c  Jiri Slaby        2021-12-01  532  	if ((termios->c_cflag & CBAUD) == BOTHER) {
-a6970c39c311f3 drivers/tty/mxser.c  Jiri Slaby        2021-06-18  533  		quot = MXSER_BAUD_BASE % newspd;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  534  		quot *= 8;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  535  		if (quot % newspd > newspd / 2) {
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  536  			quot /= newspd;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  537  			quot++;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  538  		} else
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  539  			quot /= newspd;
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  540  
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  541) 		mxser_set_must_enum_value(uport->iobase, quot);
-69648d7bda8636 drivers/tty/mxser.c  Ilpo Järvinen     2022-05-13  542  	} else {
-2a92b0c951630a drivers/tty/mxser.c  Jiri Slaby (SUSE  2023-04-24  543) 		mxser_set_must_enum_value(uport->iobase, 0);
-69648d7bda8636 drivers/tty/mxser.c  Ilpo Järvinen     2022-05-13  544  	}
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  545  
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  546  	return 0;
-1c45607ad3eb73 drivers/char/mxser.c Jiri Slaby        2008-02-07  547  }
-^1da177e4c3f41 drivers/char/mxser.c Linus Torvalds    2005-04-16  548  
+7b4ab4abcea4c0 Eddie James      2022-09-15  465  
+d711a3c7dc829c Eddie James      2019-05-20  466  static int dps310_read_pres_raw(struct dps310_data *data)
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  467  {
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  468  	int rc;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  469  	int rate;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  470  	int timeout;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  471  	s32 raw;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  472  	u8 val[3];
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  473  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  474  	if (mutex_lock_interruptible(&data->lock))
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  475  		return -EINTR;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  476  
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  477  	rc = dps310_get_pres_samp_freq(data, &rate);
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  478  	if (rc)
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  479  		return rc;
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  480  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  481  	timeout = DPS310_POLL_TIMEOUT_US(rate);
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  482  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  483  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
+7b4ab4abcea4c0 Eddie James      2022-09-15  484  	rc = dps310_ready(data, DPS310_PRS_RDY, timeout);
+d711a3c7dc829c Eddie James      2019-05-20  485  	if (rc)
+d711a3c7dc829c Eddie James      2019-05-20  486  		goto done;
+d711a3c7dc829c Eddie James      2019-05-20  487  
+d711a3c7dc829c Eddie James      2019-05-20  488  	rc = regmap_bulk_read(data->regmap, DPS310_PRS_BASE, val, sizeof(val));
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  489  	if (rc < 0)
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  490  		goto done;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  491  
+d711a3c7dc829c Eddie James      2019-05-20  492  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
+d711a3c7dc829c Eddie James      2019-05-20  493  	data->pressure_raw = sign_extend32(raw, 23);
+d711a3c7dc829c Eddie James      2019-05-20  494  
+d711a3c7dc829c Eddie James      2019-05-20  495  done:
+d711a3c7dc829c Eddie James      2019-05-20  496  	mutex_unlock(&data->lock);
+d711a3c7dc829c Eddie James      2019-05-20 @497  	return rc;
+d711a3c7dc829c Eddie James      2019-05-20  498  }
+d711a3c7dc829c Eddie James      2019-05-20  499  
+d711a3c7dc829c Eddie James      2019-05-20  500  /* Called with lock held */
+d711a3c7dc829c Eddie James      2019-05-20  501  static int dps310_read_temp_ready(struct dps310_data *data)
+d711a3c7dc829c Eddie James      2019-05-20  502  {
+d711a3c7dc829c Eddie James      2019-05-20  503  	int rc;
+d711a3c7dc829c Eddie James      2019-05-20  504  	u8 val[3];
+d711a3c7dc829c Eddie James      2019-05-20  505  	s32 raw;
+d711a3c7dc829c Eddie James      2019-05-20  506  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  507  	rc = regmap_bulk_read(data->regmap, DPS310_TMP_BASE, val, sizeof(val));
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  508  	if (rc < 0)
+d711a3c7dc829c Eddie James      2019-05-20  509  		return rc;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  510  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  511  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  512  	data->temp_raw = sign_extend32(raw, 23);
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  513  
+d711a3c7dc829c Eddie James      2019-05-20  514  	return 0;
+d711a3c7dc829c Eddie James      2019-05-20  515  }
+d711a3c7dc829c Eddie James      2019-05-20  516  
+d711a3c7dc829c Eddie James      2019-05-20  517  static int dps310_read_temp_raw(struct dps310_data *data)
+d711a3c7dc829c Eddie James      2019-05-20  518  {
+d711a3c7dc829c Eddie James      2019-05-20  519  	int rc;
+d711a3c7dc829c Eddie James      2019-05-20  520  	int rate;
+d711a3c7dc829c Eddie James      2019-05-20  521  	int timeout;
+d711a3c7dc829c Eddie James      2019-05-20  522  
+d711a3c7dc829c Eddie James      2019-05-20  523  	if (mutex_lock_interruptible(&data->lock))
+d711a3c7dc829c Eddie James      2019-05-20  524  		return -EINTR;
+d711a3c7dc829c Eddie James      2019-05-20  525  
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  526  	rc = dps310_get_temp_samp_freq(data, &rate);
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  527  	if (rc)
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  528  		return rc;
+f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  529  
+d711a3c7dc829c Eddie James      2019-05-20  530  	timeout = DPS310_POLL_TIMEOUT_US(rate);
+d711a3c7dc829c Eddie James      2019-05-20  531  
+d711a3c7dc829c Eddie James      2019-05-20  532  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
+7b4ab4abcea4c0 Eddie James      2022-09-15  533  	rc = dps310_ready(data, DPS310_TMP_RDY, timeout);
+7b4ab4abcea4c0 Eddie James      2022-09-15  534  	if (rc)
+d711a3c7dc829c Eddie James      2019-05-20  535  		goto done;
+d711a3c7dc829c Eddie James      2019-05-20  536  
+d711a3c7dc829c Eddie James      2019-05-20  537  	rc = dps310_read_temp_ready(data);
+d711a3c7dc829c Eddie James      2019-05-20  538  
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  539  done:
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  540  	mutex_unlock(&data->lock);
+ba6ec48e76bcd4 Joel Stanley     2019-05-20 @541  	return rc;
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  542  }
+ba6ec48e76bcd4 Joel Stanley     2019-05-20  543  
 
 -- 
 0-DAY CI Kernel Test Service
