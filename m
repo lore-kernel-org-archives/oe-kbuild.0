@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75637605CD
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 01:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F6B8BEC
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 03:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712799784; cv=none; b=Ln98NSj190DmStuPWxE7Ax7QVfnPmpOZJ3VMF5lhOCqW2jGnQJIu9E3CkQewiGTXIycmHgOrKv0XXvT9NPKxQCP11cGNvX5aKOUIiGIXHaDWY4FvqFENaRolyHUd8hsH7OCLqXbgxI8qe2PMolVAojVUU9+AriV/iUd9mEzjQqo=
+	t=1712806807; cv=none; b=mApLcgGuNygPVV+qSi0yLq3kzkL/0qdnFufsvA/QKcVntRaKO4EwIl5b3LKZaoI5Zq1OZ96BNvRN6sTiHMoNGOvRCmu7Uw413AIHsLlNVhFZ7yJcmC+05sOKfMQ9nReWLgTT2RUioMkmHsm7sokgDpP+J348rgWZe9lKJxnGIfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712799784; c=relaxed/simple;
-	bh=5tXSpdnaiqihpQK7nIL3di6Aq/8dcTd3C8WknvSzquM=;
+	s=arc-20240116; t=1712806807; c=relaxed/simple;
+	bh=DB/g9kkQwk8hhlXdkzUSJQa1UjRLDfpkZwlUSpbZswM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DQSy7Kdm3Ua191aC6zOEBArdgnXoJhfDU877RP4gnYU9nnprhyJVyTWASFuSOkFglV0mZhBHqEzhQNajeEseDld7rP9Zh7ErKbG8K/q6xHHF4chkjJf3C1qb/XNy1Bmw761cKC73lZJETPx82lM3NjslsBajOxTqSQhCVKT7i+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZR5yiA2e; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=UCv/pJYPeZcd5R4OOvQviwz9TpbrjbmkbZ5ZuUNcIaaqg5WUigqxFXPGN+SngiELy+UT6ntlaHSDZbU7NDAyZn8O0I6Cna3MiMzPaUbzmNZUlA2yYY8uxWc4vAc4fFCHYFhfyQY4BPDBHwr4S13FLbaW/OundTa7JcSZY8AJNYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9b7A2hp; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZR5yiA2e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9b7A2hp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712799782; x=1744335782;
+  t=1712806805; x=1744342805;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5tXSpdnaiqihpQK7nIL3di6Aq/8dcTd3C8WknvSzquM=;
-  b=ZR5yiA2eEQMdEAe4nfNFhVGe/iiXYwvT/XM5RtLY4sc/rtcwpm/fiwxm
-   8z3Dub3T1CgjA55d5KAKcXdGEltilGdsYzBlkbs3WKk7WyfTXxCNugG3G
-   JzrjXGtDjl+lCAKU/HBuTYdtDxUa+EbieJOopJJpc4DnwR3MOJHUNkj6d
-   pl+s8wWeUG6noVPl7pt6Nqs1A4vW1cz9DLOvCN7MQTC75xp49GsD00zj9
-   5i+2KraN8i1+AXLbvim7GoRJ7k6nujqtt92PpHP8ard3MJWzjmKFvDum2
-   FX5sx46bEoQAPR3/O1SZzFzqRlTcEs4QA53Rrie2WKwhJE4BRKytfV1DZ
-   Q==;
-X-CSE-ConnectionGUID: b6IG6mCUTEmQBXneoAOrXw==
-X-CSE-MsgGUID: xVVooAp2SH2m/CKb2V2qfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11972393"
+  bh=DB/g9kkQwk8hhlXdkzUSJQa1UjRLDfpkZwlUSpbZswM=;
+  b=m9b7A2hpiS26aV6k2zad5XJuEepCtZbj2UnsN+JL242MHuBvYoA8gGgR
+   1ee86t5BG71Dipc+UCy7VWk4xFJZdAYLu7QQzyv2JSQIHdQqXEtMAWeNg
+   Yd6IO62QN7v52t9KyDgqn5FquxsiWOzhA/T7LVCn5rLzobj1NuTsL1wUo
+   uYQNftUN5Nfww0ZVLWGie6dHfyDCju57f0097+NUgvp8o7JfoLjUmwD3O
+   wxslKmXWN/u6hWhFWybnMtuhS9UOHzM1+TB9FtDNNlvMTTiP7lqwLVxoC
+   TVKMF17Uf6BIs9ZSaKwq8ZezzBsJCgMTSIA83hx11YQuVWpbyzX6eLK25
+   g==;
+X-CSE-ConnectionGUID: kNJvbN1HTeWZ0L3IVVZDig==
+X-CSE-MsgGUID: lrj3A2xIQkCg4tBxgjFbBA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8375822"
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="11972393"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 18:43:02 -0700
-X-CSE-ConnectionGUID: 0fozFlQRRgKZZpaKraoDrQ==
-X-CSE-MsgGUID: n0xoM7/oSliYHwhjKmveaA==
+   d="scan'208";a="8375822"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 20:40:04 -0700
+X-CSE-ConnectionGUID: ZTYPyMrIT92lEIjmU+l6Cg==
+X-CSE-MsgGUID: tTP67xrjSqOrsRde6sVIGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
-   d="scan'208";a="25405141"
+   d="scan'208";a="20805026"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2024 18:43:00 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Apr 2024 20:40:03 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rujSr-00085u-34;
-	Thu, 11 Apr 2024 01:42:57 +0000
-Date: Thu, 11 Apr 2024 09:42:53 +0800
+	id 1rulI9-0008Au-0F;
+	Thu, 11 Apr 2024 03:40:01 +0000
+Date: Thu, 11 Apr 2024 11:39:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3454/5042] drivers/dma/fsl-edma-main.c:133
- fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
-Message-ID: <202404110915.riwV3ZAC-lkp@intel.com>
+Subject: Re: [PATCH bpf-next 05/11] bpf: initialize/free array of
+ btf_field(s).
+Message-ID: <202404111119.PsGsCBYC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,76 +64,117 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Vinod Koul <vkoul@kernel.org>
+In-Reply-To: <20240410004150.2917641-6-thinker.li@gmail.com>
+References: <20240410004150.2917641-6-thinker.li@gmail.com>
+TO: "Kui-Feng Lee" <thinker.li@gmail.com>
+TO: bpf@vger.kernel.org
+TO: ast@kernel.org
+TO: martin.lau@linux.dev
+TO: song@kernel.org
+TO: kernel-team@meta.com
+TO: andrii@kernel.org
+CC: sinquersw@gmail.com
+CC: kuifeng@meta.com
+CC: "Kui-Feng Lee" <thinker.li@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6ebf211bb11dfc004a2ff73a9de5386fa309c430
-commit: 6aa60f79e6794bbbc571ea4e0501b9fcc26026e2 [3454/5042] dmaengine: fsl-edma: add safety check for 'srcid'
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110915.riwV3ZAC-lkp@intel.com/config)
+Hi Kui-Feng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kui-Feng-Lee/bpf-Remove-unnecessary-checks-on-the-offset-of-btf_field/20240410-084331
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20240410004150.2917641-6-thinker.li%40gmail.com
+patch subject: [PATCH bpf-next 05/11] bpf: initialize/free array of btf_field(s).
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404111119.PsGsCBYC-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404110915.riwV3ZAC-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404111119.PsGsCBYC-lkp@intel.com/
 
 smatch warnings:
-drivers/dma/fsl-edma-main.c:133 fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
+kernel/bpf/syscall.c:701 bpf_obj_free_fields() error: uninitialized symbol 'pointee_struct_meta'.
 
-vim +133 drivers/dma/fsl-edma-main.c
+vim +/pointee_struct_meta +701 kernel/bpf/syscall.c
 
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   95  
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   96  static struct dma_chan *fsl_edma_xlate(struct of_phandle_args *dma_spec,
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   97  		struct of_dma *ofdma)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   98  {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   99  	struct fsl_edma_engine *fsl_edma = ofdma->of_dma_data;
-178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  100  	struct dma_chan *chan, *_chan;
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  101  	struct fsl_edma_chan *fsl_chan;
-af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  102  	u32 dmamux_nr = fsl_edma->drvdata->dmamuxs;
-af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  103  	unsigned long chans_per_mux = fsl_edma->n_chans / dmamux_nr;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  104  
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  105  	if (dma_spec->args_count != 2)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  106  		return NULL;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  107  
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  108  	mutex_lock(&fsl_edma->fsl_edma_mutex);
-178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  109  	list_for_each_entry_safe(chan, _chan, &fsl_edma->dma_dev.channels, device_node) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  110  		if (chan->client_count)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  111  			continue;
-211bfef7c2bc8c drivers/dma/fsl-edma.c      Jingchang Lu 2014-07-01  112  		if ((chan->chan_id / chans_per_mux) == dma_spec->args[0]) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  113  			chan = dma_get_slave_channel(chan);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  114  			if (chan) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  115  				chan->device->privatecnt++;
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  116  				fsl_chan = to_fsl_edma_chan(chan);
-cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  117  				fsl_chan->srcid = dma_spec->args[1];
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  118  
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  119  				if (!fsl_chan->srcid) {
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  120  					dev_err(&fsl_chan->pdev->dev, "Invalidate srcid %d\n",
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  121  						fsl_chan->srcid);
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  122  					return NULL;
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  123  				}
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  124  
-cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  125  				fsl_edma_chan_mux(fsl_chan, fsl_chan->srcid,
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  126  						true);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  127  				mutex_unlock(&fsl_edma->fsl_edma_mutex);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  128  				return chan;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  129  			}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  130  		}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  131  	}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  132  	mutex_unlock(&fsl_edma->fsl_edma_mutex);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18 @133  	return NULL;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  134  }
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  135  
-
-:::::: The code at line 133 was first introduced by commit
-:::::: d6be34fbd39b7d577d25cb4edec538e8990ba07c dma: Add Freescale eDMA engine driver support
-
-:::::: TO: Jingchang Lu <b35083@freescale.com>
-:::::: CC: Vinod Koul <vinod.koul@intel.com>
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  661  
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  662  void bpf_obj_free_fields(const struct btf_record *rec, void *obj)
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  663  {
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  664  	const struct btf_field *fields;
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  665  	int i;
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  666  
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  667  	if (IS_ERR_OR_NULL(rec))
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  668  		return;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  669  	fields = rec->fields;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  670  	for (i = 0; i < rec->cnt; i++) {
+c8e18754091479 Dave Marchevsky         2023-03-10  671  		struct btf_struct_meta *pointee_struct_meta;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  672  		const struct btf_field *field = &fields[i];
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  673  		void *field_ptr = obj + field->offset;
+c8e18754091479 Dave Marchevsky         2023-03-10  674  		void *xchgd_field;
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  675  		u32 elem_size = field->size / field->nelems;
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  676  		int j;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  677  
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  678  		switch (fields[i].type) {
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  679  		case BPF_SPIN_LOCK:
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  680  			break;
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  681  		case BPF_TIMER:
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  682  			bpf_timer_cancel_and_free(field_ptr);
+db559117828d24 Kumar Kartikeya Dwivedi 2022-11-04  683  			break;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  684  		case BPF_KPTR_UNREF:
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  685  			for (j = 0; j < field->nelems; j++, field_ptr += elem_size)
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  686  				WRITE_ONCE(*(u64 *)field_ptr, 0);
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  687  			break;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  688  		case BPF_KPTR_REF:
+55db92f42fe4a4 Yonghong Song           2023-08-27  689  		case BPF_KPTR_PERCPU:
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  690  			if (!btf_is_kernel(field->kptr.btf))
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  691  				pointee_struct_meta = btf_find_struct_meta(field->kptr.btf,
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  692  									   field->kptr.btf_id);
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  693  
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  694  			for (j = 0; j < field->nelems; j++, field_ptr += elem_size) {
+c8e18754091479 Dave Marchevsky         2023-03-10  695  				xchgd_field = (void *)xchg((unsigned long *)field_ptr, 0);
+1431d0b584a673 David Vernet            2023-03-25  696  				if (!xchgd_field)
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  697  					continue;
+1431d0b584a673 David Vernet            2023-03-25  698  
+c8e18754091479 Dave Marchevsky         2023-03-10  699  				if (!btf_is_kernel(field->kptr.btf)) {
+9e36a204bd4355 Dave Marchevsky         2023-03-13  700  					migrate_disable();
+9e36a204bd4355 Dave Marchevsky         2023-03-13 @701  					__bpf_obj_drop_impl(xchgd_field, pointee_struct_meta ?
+e383a459023373 Hou Tao                 2023-10-20  702  							    pointee_struct_meta->record : NULL,
+e383a459023373 Hou Tao                 2023-10-20  703  							    fields[i].type == BPF_KPTR_PERCPU);
+9e36a204bd4355 Dave Marchevsky         2023-03-13  704  					migrate_enable();
+c8e18754091479 Dave Marchevsky         2023-03-10  705  				} else {
+c8e18754091479 Dave Marchevsky         2023-03-10  706  					field->kptr.dtor(xchgd_field);
+c8e18754091479 Dave Marchevsky         2023-03-10  707  				}
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  708  			}
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  709  			break;
+f0c5941ff5b255 Kumar Kartikeya Dwivedi 2022-11-15  710  		case BPF_LIST_HEAD:
+f0c5941ff5b255 Kumar Kartikeya Dwivedi 2022-11-15  711  			if (WARN_ON_ONCE(rec->spin_lock_off < 0))
+f0c5941ff5b255 Kumar Kartikeya Dwivedi 2022-11-15  712  				continue;
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  713  			for (j = 0; j < field->nelems; j++, field_ptr += elem_size)
+f0c5941ff5b255 Kumar Kartikeya Dwivedi 2022-11-15  714  				bpf_list_head_free(field, field_ptr, obj + rec->spin_lock_off);
+f0c5941ff5b255 Kumar Kartikeya Dwivedi 2022-11-15  715  			break;
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  716  		case BPF_RB_ROOT:
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  717  			if (WARN_ON_ONCE(rec->spin_lock_off < 0))
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  718  				continue;
+67ca0738d58c2f Kui-Feng Lee            2024-04-09  719  			for (j = 0; j < field->nelems; j++, field_ptr += elem_size)
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  720  				bpf_rb_root_free(field, field_ptr, obj + rec->spin_lock_off);
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  721  			break;
+8ffa5cc142137a Kumar Kartikeya Dwivedi 2022-11-18  722  		case BPF_LIST_NODE:
+9c395c1b99bd23 Dave Marchevsky         2023-02-13  723  		case BPF_RB_NODE:
+d54730b50bae1f Dave Marchevsky         2023-04-15  724  		case BPF_REFCOUNT:
+8ffa5cc142137a Kumar Kartikeya Dwivedi 2022-11-18  725  			break;
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  726  		default:
+aa3496accc412b Kumar Kartikeya Dwivedi 2022-11-04  727  			WARN_ON_ONCE(1);
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  728  			continue;
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  729  		}
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  730  	}
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  731  }
+14a324f6a67ef6 Kumar Kartikeya Dwivedi 2022-04-25  732  
 
 -- 
 0-DAY CI Kernel Test Service
