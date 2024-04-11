@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31E13A3EE
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 18:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853DF2E40D
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 18:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712859110; cv=none; b=b2LWn/sF2/LNC/zJ4jxyEepuAUySH1NJDnu1zztgNV2Efm3cXLK+jrBwq+CJ4GTu8cqixwALiQH78vxUbLbZoNBpfrf4WIEHbiJ3KeoBK/QGhh14xtrzsmrQiasiqrWU+/AWWf9jJmHXhUwWDhnnqpZvZkssRAwzcHe29pnKRWY=
+	t=1712859924; cv=none; b=fk+dsicBdqYNBroxrF+7g0gfY+ABzR+YZCYHK7wkV2fpGlITSgrPHkPlnqikrz0adcGL5t87VFwRmohrI9X0u5TeIC/oR6FEoU8jo4BXMBbF/Ljn6W7t48nqv+uDsucnXzjbAwgVW6hVWU6VKCCIYF1ugALHbbOtq+KYlRqZg9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712859110; c=relaxed/simple;
-	bh=5wXf5Gt3klhmLBUk3cD/9g3WxVFLFLX1oixm96zl8sc=;
+	s=arc-20240116; t=1712859924; c=relaxed/simple;
+	bh=ZPtKGfwGvOs/qGxzO9eTMjFEPu1TnivJ6JVJDoIz8do=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YUPdJniSDKMUUizyS9ZqEiFfs1IwuQAMaKWApKuy7OI74Yq7mSHHNxJScBLnHTaGEIoSVSS50qBUeOh6+PFsskocuhayn4z85mSLsD4ySGIKPp30m0yuoSXubGhw2/uSoKj1BPhTSqaF+sN+b+tIc5IX8LsxwdrhkRIqCtIjwZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ewe9H8Nu; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=fRPweVB0jj0NaoP0BqOZATWBEJ1Z1B9MRlPZRQRvxPw5zlVWK1YCaMOZB/s76ZPP1jbHyUcAOFS+27PBgSwo+Cyvl4Xj7DS4RLZIokl8wOmepBVhu7E7ASfP74YAg6cjl9Z1S5/PkLarAbQp0wrtX/a3KSs2Vi4evM42EjjF0A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QfeWGbI9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ewe9H8Nu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QfeWGbI9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712859109; x=1744395109;
+  t=1712859922; x=1744395922;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5wXf5Gt3klhmLBUk3cD/9g3WxVFLFLX1oixm96zl8sc=;
-  b=Ewe9H8Nu9URzk8joi7Oh4gVXgOHR0TKjwvFKwTzpXzucJEFeoM6aRL4f
-   +xgcKBGf2b7DWjaJwfCi7Fe71BQJ9tfwv4Qhp5UxJNgwIRH668bT4E3S7
-   jFo58Qm85+iYJR185Ck66xaCicrYy2OA4l9jm3+RQEsmSMXDSdu0sW+U0
-   QaqxXakqt5gtTpOuywGpdfWUsIihMRrg4ngkeebJPEq93s5Po2EX8UGHS
-   MjE0MpYgpybYgK3d52Fh2pGKKKW/5EpgTGUbeT6TiC9GFcZly28hqZU3j
-   1joYDLgbaeky5iLs9DX3zEveTrkoziEsW6a4fu0g2UtiJQ0f+R6zFbOC8
+  bh=ZPtKGfwGvOs/qGxzO9eTMjFEPu1TnivJ6JVJDoIz8do=;
+  b=QfeWGbI9/YFQDQNbCjp3DFwTkzclNpwBHl3rZiGaogCNobacSSvCHv9x
+   5nKbN+ZykYlEA/zJhn/pXW5Et0Lfjm7xSUYvbUiL3J8i9URWJGhzGNPOc
+   KYzcYk/o+YJUD+A7w2kyM24g3PuZ8f36B9uerA/0UX2aXdm7T+6Du0g2M
+   fwp6DAK4fQhxsrEPogKrN4KuCN+M4dE50TL5olOGjOFN8iZvNd5ekh+3P
+   NGiw9QL2tiHLlWKgyRRIEsBWG/maY0hzDGpMxqhs3ys9qezDlsBtqew2t
+   Q1wVmzdmvOeY1TuvdKZyPLNaYedP0hh8DoYRN8zJS6ukz+pf72s1nnRqN
    Q==;
-X-CSE-ConnectionGUID: AUaQBLDgRQ2CzBSm/HAH2Q==
-X-CSE-MsgGUID: KaGoRtMgTzec7+hvtv5ohA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8211071"
+X-CSE-ConnectionGUID: wPGSlLZjQWS5BDaDQVZBwA==
+X-CSE-MsgGUID: RaC2C8GhRdG2IIJqoR6L9A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8154543"
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="8211071"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 11:11:23 -0700
-X-CSE-ConnectionGUID: TNd2uS0vTzCl3JreHBqF7w==
-X-CSE-MsgGUID: bmId7rbCRXCPTCr69W6uWg==
+   d="scan'208";a="8154543"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 11:25:22 -0700
+X-CSE-ConnectionGUID: /IRr1oiIRAabf2XZ/gcfmg==
+X-CSE-MsgGUID: k1kDrMs3RWCCkOGeeokzVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
-   d="scan'208";a="21475311"
+   d="scan'208";a="25529240"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Apr 2024 11:11:21 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Apr 2024 11:25:21 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruytK-0008rz-1o;
-	Thu, 11 Apr 2024 18:11:18 +0000
-Date: Fri, 12 Apr 2024 02:10:41 +0800
+	id 1ruz6s-0008sb-2s;
+	Thu, 11 Apr 2024 18:25:18 +0000
+Date: Fri, 12 Apr 2024 02:24:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 79/415] kernel/time/test_udelay.c:112
- udelay_test_write() warn: potential spectre issue 'lbuf' [w]
-Message-ID: <202404120214.rzmLN0cI-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [opencloudos:next 4787/4792]
+ drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h: linux/sctp.h is included
+ more than once.
+Message-ID: <202404120217.hu9eX7F0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,65 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+TO: jasperwang@tencent.com
+TO: kaixuxia@tencent.com
+TO: frankjpliu@tencent.com
+TO: kasong@tencent.com
+TO: sagazchen@tencent.com
+TO: kernelxing@tencent.com
+TO: aurelianliu@tencent.com
+TO: jason.zeng@intel.com
+TO: wu.zheng@intel.com
+TO: yingbao.jia@intel.com
+TO: pei.p.jia@intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   4697e7b2960e76dc525f676f4729d1bf219e0ccd
-commit: 99faf2122db10e555ebd87072639ca6ac8e2fb92 [79/415] kernel/time: convert to read/write iterators
-:::::: branch date: 2 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240412/202404120214.rzmLN0cI-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   5a4887e84d1f38cdaa7d82d911ad735fb06009fe
+commit: c783f7daed8739b9497e40656bc220d2d17c9c10 [4787/4792] drivers: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 hours ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404120214.rzmLN0cI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404120217.hu9eX7F0-lkp@intel.com/
 
-smatch warnings:
-kernel/time/test_udelay.c:112 udelay_test_write() warn: potential spectre issue 'lbuf' [w]
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h: linux/sctp.h is included more than once.
+--
+>> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: linux/fs.h is included more than once.
 
-vim +/lbuf +112 kernel/time/test_udelay.c
+vim +17 drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h
 
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16   98  
-99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08   99  static ssize_t udelay_test_write(struct kiocb *iocb, struct iov_iter *from)
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  100  {
-99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08  101  	size_t count = iov_iter_count(from);
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  102  	char lbuf[32];
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  103  	int ret;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  104  	int usecs;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  105  	int iters;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  106  
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  107  	if (count >= sizeof(lbuf))
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  108  		return -EINVAL;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  109  
-99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08  110  	if (!copy_from_iter_full(lbuf, count, from))
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  111  		return -EFAULT;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16 @112  	lbuf[count] = '\0';
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  113  
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  114  	ret = sscanf(lbuf, "%d %d", &usecs, &iters);
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  115  	if (ret < 1)
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  116  		return -EINVAL;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  117  	else if (ret < 2)
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  118  		iters = DEFAULT_ITERATIONS;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  119  
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  120  	mutex_lock(&udelay_test_lock);
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  121  	udelay_test_usecs = usecs;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  122  	udelay_test_iterations = iters;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  123  	mutex_unlock(&udelay_test_lock);
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  124  
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  125  	return count;
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  126  }
-e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  127  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: e704f93af5a083c07b8f722672d63a1d908daf55 kernel: time: Add udelay_test module to validate udelay
-
-:::::: TO: David Riley <davidriley@chromium.org>
-:::::: CC: John Stultz <john.stultz@linaro.org>
+     6	
+     7	#include <linux/module.h>
+     8	#include <linux/pci.h>
+     9	#include <linux/aer.h>
+    10	#include <linux/netdevice.h>
+    11	#include <linux/vmalloc.h>
+    12	#include <linux/interrupt.h>
+    13	#include <linux/ethtool.h>
+    14	#include <linux/if_vlan.h>
+    15	#include <linux/ip.h>
+    16	#include <linux/tcp.h>
+  > 17	#include <linux/sctp.h>
+    18	#include <linux/ipv6.h>
+    19	#include <linux/kernel.h>
+    20	#include <linux/bitops.h>
+    21	#include <linux/timer.h>
+    22	#include <linux/workqueue.h>
+    23	#include <linux/wait.h>
+    24	#include <linux/delay.h>
+    25	#include <linux/gfp.h>
+    26	#include <linux/skbuff.h>
+    27	#include <linux/dma-mapping.h>
+    28	#include <linux/etherdevice.h>
+    29	#include <linux/socket.h>
+    30	#include <linux/jiffies.h>
+    31	#include <net/ipv6.h>
+    32	#include <net/ip6_checksum.h>
+    33	#include <net/udp.h>
+  > 34	#include <linux/sctp.h>
+    35	#include <linux/pci_hotplug.h>
+    36	#include <net/pkt_cls.h>
+    37	#include <net/tc_act/tc_gact.h>
+    38	#include <net/tc_act/tc_mirred.h>
+    39	#include <linux/bitmap.h>
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
