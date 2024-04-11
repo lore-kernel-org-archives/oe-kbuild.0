@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02383E48C
-	for <oe-kbuild@lists.linux.dev>; Wed, 10 Apr 2024 23:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75637605CD
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 01:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712792398; cv=none; b=t7u4kGvvGuCR5TvfUwrsK2LZ8o5DzKaBUVfF0upAZxZNqMGvRhF/11FxZJlGCcYNaCJWetydlLHFLGX7AgUdIZGC8zdeJIhRl6ui/CpQZNKoJUTc9JeQIPEyk4ufM1fJqYQHJ83mewE4gtKclAWskwFhLq6nR+SXAPN2PfpXDHE=
+	t=1712799784; cv=none; b=Ln98NSj190DmStuPWxE7Ax7QVfnPmpOZJ3VMF5lhOCqW2jGnQJIu9E3CkQewiGTXIycmHgOrKv0XXvT9NPKxQCP11cGNvX5aKOUIiGIXHaDWY4FvqFENaRolyHUd8hsH7OCLqXbgxI8qe2PMolVAojVUU9+AriV/iUd9mEzjQqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712792398; c=relaxed/simple;
-	bh=+LmjgOo0YEJB5lCLEzNtroj0o714xdk4YrpERAPnsjg=;
+	s=arc-20240116; t=1712799784; c=relaxed/simple;
+	bh=5tXSpdnaiqihpQK7nIL3di6Aq/8dcTd3C8WknvSzquM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gpKc+XdI2uPC3aK/XeexV89G/mZqf0J7C9Ml1v1byWhcwG1ppIIQs8Ko+kLfC7zBvWm8ch2Anmly84oKB/cOCTF8kSBcFs8B0+RtaH+GmEYIjfMjbIi8H2uUpwsdx9PmWpOvX3G6K9t7ZdedLCWxxNofuTnTYndtrKI6aU14ReI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc4KzZwz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=DQSy7Kdm3Ua191aC6zOEBArdgnXoJhfDU877RP4gnYU9nnprhyJVyTWASFuSOkFglV0mZhBHqEzhQNajeEseDld7rP9Zh7ErKbG8K/q6xHHF4chkjJf3C1qb/XNy1Bmw761cKC73lZJETPx82lM3NjslsBajOxTqSQhCVKT7i+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZR5yiA2e; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc4KzZwz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZR5yiA2e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712792396; x=1744328396;
+  t=1712799782; x=1744335782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+LmjgOo0YEJB5lCLEzNtroj0o714xdk4YrpERAPnsjg=;
-  b=hc4KzZwzDRNZHTKOfhDM1mAHQho/7RjEYy4mYVOaro0wUsoLsHr9n1o0
-   ToZc5lV7hCSbQbHKPaZpb90ivCxkolLHHP2e0j6X6pIAVb76iRPms7W1X
-   47yLK0jZvKAvcYzukSKg4RyLKal0r97qIp2ZgffXw6Mg5fJSVvGFt0Arm
-   1oo8v4j4sBe40quDyC64kbdTcWqkxRHjZTMXD4A0HTA4nVVPFtKLsNLaF
-   cidKC26bqlFEcMcwqqSbkgxxbbthI3rGWTr8+n3FQq+/4Ty8iLs7dvQ/q
-   KinKLbS1Swpjo/x3q1STj4fkdcqF73xG+TyL5xg1aCY9W2M7ZEoAgNJ3A
-   w==;
-X-CSE-ConnectionGUID: hkohZkAJS2mNHnzLu8SNAw==
-X-CSE-MsgGUID: jVHsEnshT7ytKfsBJI4iSg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="8047941"
-X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="8047941"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 16:39:56 -0700
-X-CSE-ConnectionGUID: yAQMJAb7QL2Sx8T0yqfxXA==
-X-CSE-MsgGUID: KrqnLElORWWUVXIM6iQRBw==
+  bh=5tXSpdnaiqihpQK7nIL3di6Aq/8dcTd3C8WknvSzquM=;
+  b=ZR5yiA2eEQMdEAe4nfNFhVGe/iiXYwvT/XM5RtLY4sc/rtcwpm/fiwxm
+   8z3Dub3T1CgjA55d5KAKcXdGEltilGdsYzBlkbs3WKk7WyfTXxCNugG3G
+   JzrjXGtDjl+lCAKU/HBuTYdtDxUa+EbieJOopJJpc4DnwR3MOJHUNkj6d
+   pl+s8wWeUG6noVPl7pt6Nqs1A4vW1cz9DLOvCN7MQTC75xp49GsD00zj9
+   5i+2KraN8i1+AXLbvim7GoRJ7k6nujqtt92PpHP8ard3MJWzjmKFvDum2
+   FX5sx46bEoQAPR3/O1SZzFzqRlTcEs4QA53Rrie2WKwhJE4BRKytfV1DZ
+   Q==;
+X-CSE-ConnectionGUID: b6IG6mCUTEmQBXneoAOrXw==
+X-CSE-MsgGUID: xVVooAp2SH2m/CKb2V2qfg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="11972393"
+X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
+   d="scan'208";a="11972393"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 18:43:02 -0700
+X-CSE-ConnectionGUID: 0fozFlQRRgKZZpaKraoDrQ==
+X-CSE-MsgGUID: n0xoM7/oSliYHwhjKmveaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,191,1708416000"; 
-   d="scan'208";a="20799258"
+X-IronPort-AV: E=Sophos;i="6.07,192,1708416000"; 
+   d="scan'208";a="25405141"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Apr 2024 16:39:54 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Apr 2024 18:43:00 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ruhXj-0007xm-1K;
-	Wed, 10 Apr 2024 23:39:51 +0000
-Date: Thu, 11 Apr 2024 07:39:14 +0800
+	id 1rujSr-00085u-34;
+	Thu, 11 Apr 2024 01:42:57 +0000
+Date: Thu, 11 Apr 2024 09:42:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error
- handling
-Message-ID: <202404110708.7BQYVa7Z-lkp@intel.com>
+Subject: [linux-next:master 3454/5042] drivers/dma/fsl-edma-main.c:133
+ fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
+Message-ID: <202404110915.riwV3ZAC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,124 +64,76 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
-References: <20240410103604.992989-3-thomas.haemmerle@leica-geosystems.com>
-TO: Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>
-TO: joel@jms.id.au
-CC: bsp-development.geo@leica-geosystems.com
-CC: Thomas Haemmerle <thomas.haemmerle@leica-geosystems.com>
-CC: Eddie James <eajames@linux.ibm.com>
-CC: Jonathan Cameron <jic23@kernel.org>
-CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: linux-iio@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Frank Li <Frank.Li@nxp.com>
+CC: Vinod Koul <vkoul@kernel.org>
 
-Hi Thomas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2c71fdf02a95b3dd425b42f28fd47fb2b1d22702]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Haemmerle/iio-pressure-dps310-support-negative-temperature-values/20240410-183937
-base:   2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
-patch link:    https://lore.kernel.org/r/20240410103604.992989-3-thomas.haemmerle%40leica-geosystems.com
-patch subject: [PATCH v2 2/4] iio: pressure: dps310: introduce consistent error handling
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110708.7BQYVa7Z-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6ebf211bb11dfc004a2ff73a9de5386fa309c430
+commit: 6aa60f79e6794bbbc571ea4e0501b9fcc26026e2 [3454/5042] dmaengine: fsl-edma: add safety check for 'srcid'
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110915.riwV3ZAC-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404110708.7BQYVa7Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404110915.riwV3ZAC-lkp@intel.com/
 
 smatch warnings:
-drivers/iio/pressure/dps310.c:497 dps310_read_pres_raw() warn: inconsistent returns '&data->lock'.
-drivers/iio/pressure/dps310.c:541 dps310_read_temp_raw() warn: inconsistent returns '&data->lock'.
+drivers/dma/fsl-edma-main.c:133 fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
 
-vim +497 drivers/iio/pressure/dps310.c
+vim +133 drivers/dma/fsl-edma-main.c
 
-7b4ab4abcea4c0 Eddie James      2022-09-15  465  
-d711a3c7dc829c Eddie James      2019-05-20  466  static int dps310_read_pres_raw(struct dps310_data *data)
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  467  {
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  468  	int rc;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  469  	int rate;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  470  	int timeout;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  471  	s32 raw;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  472  	u8 val[3];
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  473  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  474  	if (mutex_lock_interruptible(&data->lock))
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  475  		return -EINTR;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  476  
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  477  	rc = dps310_get_pres_samp_freq(data, &rate);
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  478  	if (rc)
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  479  		return rc;
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  480  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  481  	timeout = DPS310_POLL_TIMEOUT_US(rate);
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  482  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  483  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
-7b4ab4abcea4c0 Eddie James      2022-09-15  484  	rc = dps310_ready(data, DPS310_PRS_RDY, timeout);
-d711a3c7dc829c Eddie James      2019-05-20  485  	if (rc)
-d711a3c7dc829c Eddie James      2019-05-20  486  		goto done;
-d711a3c7dc829c Eddie James      2019-05-20  487  
-d711a3c7dc829c Eddie James      2019-05-20  488  	rc = regmap_bulk_read(data->regmap, DPS310_PRS_BASE, val, sizeof(val));
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  489  	if (rc < 0)
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  490  		goto done;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  491  
-d711a3c7dc829c Eddie James      2019-05-20  492  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
-d711a3c7dc829c Eddie James      2019-05-20  493  	data->pressure_raw = sign_extend32(raw, 23);
-d711a3c7dc829c Eddie James      2019-05-20  494  
-d711a3c7dc829c Eddie James      2019-05-20  495  done:
-d711a3c7dc829c Eddie James      2019-05-20  496  	mutex_unlock(&data->lock);
-d711a3c7dc829c Eddie James      2019-05-20 @497  	return rc;
-d711a3c7dc829c Eddie James      2019-05-20  498  }
-d711a3c7dc829c Eddie James      2019-05-20  499  
-d711a3c7dc829c Eddie James      2019-05-20  500  /* Called with lock held */
-d711a3c7dc829c Eddie James      2019-05-20  501  static int dps310_read_temp_ready(struct dps310_data *data)
-d711a3c7dc829c Eddie James      2019-05-20  502  {
-d711a3c7dc829c Eddie James      2019-05-20  503  	int rc;
-d711a3c7dc829c Eddie James      2019-05-20  504  	u8 val[3];
-d711a3c7dc829c Eddie James      2019-05-20  505  	s32 raw;
-d711a3c7dc829c Eddie James      2019-05-20  506  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  507  	rc = regmap_bulk_read(data->regmap, DPS310_TMP_BASE, val, sizeof(val));
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  508  	if (rc < 0)
-d711a3c7dc829c Eddie James      2019-05-20  509  		return rc;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  510  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  511  	raw = (val[0] << 16) | (val[1] << 8) | val[2];
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  512  	data->temp_raw = sign_extend32(raw, 23);
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  513  
-d711a3c7dc829c Eddie James      2019-05-20  514  	return 0;
-d711a3c7dc829c Eddie James      2019-05-20  515  }
-d711a3c7dc829c Eddie James      2019-05-20  516  
-d711a3c7dc829c Eddie James      2019-05-20  517  static int dps310_read_temp_raw(struct dps310_data *data)
-d711a3c7dc829c Eddie James      2019-05-20  518  {
-d711a3c7dc829c Eddie James      2019-05-20  519  	int rc;
-d711a3c7dc829c Eddie James      2019-05-20  520  	int rate;
-d711a3c7dc829c Eddie James      2019-05-20  521  	int timeout;
-d711a3c7dc829c Eddie James      2019-05-20  522  
-d711a3c7dc829c Eddie James      2019-05-20  523  	if (mutex_lock_interruptible(&data->lock))
-d711a3c7dc829c Eddie James      2019-05-20  524  		return -EINTR;
-d711a3c7dc829c Eddie James      2019-05-20  525  
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  526  	rc = dps310_get_temp_samp_freq(data, &rate);
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  527  	if (rc)
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  528  		return rc;
-f3e28d813ae8d1 Thomas Haemmerle 2024-04-10  529  
-d711a3c7dc829c Eddie James      2019-05-20  530  	timeout = DPS310_POLL_TIMEOUT_US(rate);
-d711a3c7dc829c Eddie James      2019-05-20  531  
-d711a3c7dc829c Eddie James      2019-05-20  532  	/* Poll for sensor readiness; base the timeout upon the sample rate. */
-7b4ab4abcea4c0 Eddie James      2022-09-15  533  	rc = dps310_ready(data, DPS310_TMP_RDY, timeout);
-7b4ab4abcea4c0 Eddie James      2022-09-15  534  	if (rc)
-d711a3c7dc829c Eddie James      2019-05-20  535  		goto done;
-d711a3c7dc829c Eddie James      2019-05-20  536  
-d711a3c7dc829c Eddie James      2019-05-20  537  	rc = dps310_read_temp_ready(data);
-d711a3c7dc829c Eddie James      2019-05-20  538  
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  539  done:
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  540  	mutex_unlock(&data->lock);
-ba6ec48e76bcd4 Joel Stanley     2019-05-20 @541  	return rc;
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  542  }
-ba6ec48e76bcd4 Joel Stanley     2019-05-20  543  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   95  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   96  static struct dma_chan *fsl_edma_xlate(struct of_phandle_args *dma_spec,
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   97  		struct of_dma *ofdma)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   98  {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   99  	struct fsl_edma_engine *fsl_edma = ofdma->of_dma_data;
+178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  100  	struct dma_chan *chan, *_chan;
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  101  	struct fsl_edma_chan *fsl_chan;
+af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  102  	u32 dmamux_nr = fsl_edma->drvdata->dmamuxs;
+af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  103  	unsigned long chans_per_mux = fsl_edma->n_chans / dmamux_nr;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  104  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  105  	if (dma_spec->args_count != 2)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  106  		return NULL;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  107  
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  108  	mutex_lock(&fsl_edma->fsl_edma_mutex);
+178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  109  	list_for_each_entry_safe(chan, _chan, &fsl_edma->dma_dev.channels, device_node) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  110  		if (chan->client_count)
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  111  			continue;
+211bfef7c2bc8c drivers/dma/fsl-edma.c      Jingchang Lu 2014-07-01  112  		if ((chan->chan_id / chans_per_mux) == dma_spec->args[0]) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  113  			chan = dma_get_slave_channel(chan);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  114  			if (chan) {
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  115  				chan->device->privatecnt++;
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  116  				fsl_chan = to_fsl_edma_chan(chan);
+cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  117  				fsl_chan->srcid = dma_spec->args[1];
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  118  
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  119  				if (!fsl_chan->srcid) {
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  120  					dev_err(&fsl_chan->pdev->dev, "Invalidate srcid %d\n",
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  121  						fsl_chan->srcid);
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  122  					return NULL;
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  123  				}
+6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  124  
+cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  125  				fsl_edma_chan_mux(fsl_chan, fsl_chan->srcid,
+82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  126  						true);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  127  				mutex_unlock(&fsl_edma->fsl_edma_mutex);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  128  				return chan;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  129  			}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  130  		}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  131  	}
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  132  	mutex_unlock(&fsl_edma->fsl_edma_mutex);
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18 @133  	return NULL;
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  134  }
+d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  135  
+
+:::::: The code at line 133 was first introduced by commit
+:::::: d6be34fbd39b7d577d25cb4edec538e8990ba07c dma: Add Freescale eDMA engine driver support
+
+:::::: TO: Jingchang Lu <b35083@freescale.com>
+:::::: CC: Vinod Koul <vinod.koul@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
