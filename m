@@ -1,64 +1,58 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BB81448F6
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 10:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31E13A3EE
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 18:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712830542; cv=none; b=fUOiKc+O2O+nuqx+r48WMiuWwntuoc7NWwp5PAL7fTNgMDodMw9lvpCYhaHZ6f8ZlbMDp/Zb+cTHbpvF5lBBT0f7kT5eWlkuja5+cPjr0B9e7NpeA+O0B29Jjyi6dfOoPX6HCUPF1myLZ+XWtYer4tGGM9aTHV0He7kUgMHD7ZU=
+	t=1712859110; cv=none; b=b2LWn/sF2/LNC/zJ4jxyEepuAUySH1NJDnu1zztgNV2Efm3cXLK+jrBwq+CJ4GTu8cqixwALiQH78vxUbLbZoNBpfrf4WIEHbiJ3KeoBK/QGhh14xtrzsmrQiasiqrWU+/AWWf9jJmHXhUwWDhnnqpZvZkssRAwzcHe29pnKRWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712830542; c=relaxed/simple;
-	bh=9RsK3hjU+aOXfQuW5yzHUK/QlMsMm4EqKd31lq6j6B4=;
+	s=arc-20240116; t=1712859110; c=relaxed/simple;
+	bh=5wXf5Gt3klhmLBUk3cD/9g3WxVFLFLX1oixm96zl8sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kTh6z1VX9DIT4ZYj5Wj+E/3efcpBcRKrzSPPwoAGu7fXPrL0iKEz/c8ZbsYpW2qjQqmH1Bb1bwUIWxioQG57SGIeJFuWR2ZmMyeDkG6crM+0uru4xBsgK5vTAWsnsflfXtA1z4zKndpvrITOhTgjZGt4OiK5EhXmF2tjBJ2VBfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RsncWAw4; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=YUPdJniSDKMUUizyS9ZqEiFfs1IwuQAMaKWApKuy7OI74Yq7mSHHNxJScBLnHTaGEIoSVSS50qBUeOh6+PFsskocuhayn4z85mSLsD4ySGIKPp30m0yuoSXubGhw2/uSoKj1BPhTSqaF+sN+b+tIc5IX8LsxwdrhkRIqCtIjwZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ewe9H8Nu; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RsncWAw4"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a51fea60c0bso305374466b.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 03:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712830538; x=1713435338; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WiVmZ6cq6HixfqxYNA972rbKxcwD9JRiQEpuhMop1E8=;
-        b=RsncWAw4PUO7dLVkI/13TKAx2dgeaXuxN9PdudgqlpZgtpVMp/IPNg0F2fvRaizT66
-         peLwS+TLsCuH9TYXGg5opNz1Xa5mmw4LbNQlb5JxW6WXnA68YL6exzaAvByI3F5U3u5d
-         iVPnBIeNZb6tylcGxkR9p/6dPVeg39rdd3c/l7cD+05XbhT+lCdKa2CxcImBEcd8okVI
-         JaOhMtBOCkpFYk+WipoR3P6ugrtnuiuJaELXpqZl9qwZ/NF34uYUHJgw98RarBgvo1Su
-         1deKsfIlf/Sn6YkRU5oIp/c0i5OlNJUquguk4KLV4jcooRKUXY95U0+OLimlaNtGcMJM
-         JfWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712830538; x=1713435338;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WiVmZ6cq6HixfqxYNA972rbKxcwD9JRiQEpuhMop1E8=;
-        b=mOtDZNxr8Yo8yzA2zz/PrGFU/R3SvqAKcolLozpMr80YILKKjk+EZFlARJGu00Vrb0
-         hEtaWicmKirA/MVLA6hFLewQy9+/WskHHsfCfpvFXv4gRK6QbOh8lI27aypmO/lZPVXc
-         Cp+Yn9ZUQcDjs7oQSGxr220EoU06SLMl0Tx66TqnYuT7maeeyu8kcCNtafn64S1Jv+Op
-         Kt3pmxGYtoYGKnOXtOPDWZhNzrCme70oggh2g5wuXK0noQtijXyF9q1vzindxceq+7qN
-         7RsRaxpOOyXNB0WpNkEgVNWoHFLlSkeFu84mgem+hsy1r+N05DFHRNnB+zJuAiOt40hG
-         1fhQ==
-X-Gm-Message-State: AOJu0YyiM3ut1kMjnpJ9A5i8zl6uVLqLaB1uYKYkDH1Un+pT+XJcW9Yl
-	9ZYGRu1br+XWj44rFrNWzKY97fq/mxA77kn4uLNhoVcXXeG12JVse4tsdOUUtOy+htR/jPCtBml
-	+
-X-Google-Smtp-Source: AGHT+IFpTNg5pJuUDJkIczk50XOHfll1lCLgYdqCedfxH2svtnTfZm/iKGHRjoAl16XU8bYTi1cMfA==
-X-Received: by 2002:a17:907:1b1a:b0:a51:abb0:a8a1 with SMTP id mp26-20020a1709071b1a00b00a51abb0a8a1mr5127101ejc.54.1712830537648;
-        Thu, 11 Apr 2024 03:15:37 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id jw9-20020a170906e94900b00a52241b823esm354394ejb.109.2024.04.11.03.15.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Apr 2024 03:15:37 -0700 (PDT)
-Date: Thu, 11 Apr 2024 13:15:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 3454/5042] drivers/dma/fsl-edma-main.c:133
- fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
-Message-ID: <425abe00-438e-4736-98f7-89609789b3d4@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ewe9H8Nu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712859109; x=1744395109;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5wXf5Gt3klhmLBUk3cD/9g3WxVFLFLX1oixm96zl8sc=;
+  b=Ewe9H8Nu9URzk8joi7Oh4gVXgOHR0TKjwvFKwTzpXzucJEFeoM6aRL4f
+   +xgcKBGf2b7DWjaJwfCi7Fe71BQJ9tfwv4Qhp5UxJNgwIRH668bT4E3S7
+   jFo58Qm85+iYJR185Ck66xaCicrYy2OA4l9jm3+RQEsmSMXDSdu0sW+U0
+   QaqxXakqt5gtTpOuywGpdfWUsIihMRrg4ngkeebJPEq93s5Po2EX8UGHS
+   MjE0MpYgpybYgK3d52Fh2pGKKKW/5EpgTGUbeT6TiC9GFcZly28hqZU3j
+   1joYDLgbaeky5iLs9DX3zEveTrkoziEsW6a4fu0g2UtiJQ0f+R6zFbOC8
+   Q==;
+X-CSE-ConnectionGUID: AUaQBLDgRQ2CzBSm/HAH2Q==
+X-CSE-MsgGUID: KaGoRtMgTzec7+hvtv5ohA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8211071"
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="8211071"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 11:11:23 -0700
+X-CSE-ConnectionGUID: TNd2uS0vTzCl3JreHBqF7w==
+X-CSE-MsgGUID: bmId7rbCRXCPTCr69W6uWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,193,1708416000"; 
+   d="scan'208";a="21475311"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 11 Apr 2024 11:11:21 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ruytK-0008rz-1o;
+	Thu, 11 Apr 2024 18:11:18 +0000
+Date: Fri, 12 Apr 2024 02:10:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [axboe-block:rw_iter 79/415] kernel/time/test_udelay.c:112
+ udelay_test_write() warn: potential spectre issue 'lbuf' [w]
+Message-ID: <202404120214.rzmLN0cI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,67 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6ebf211bb11dfc004a2ff73a9de5386fa309c430
-commit: 6aa60f79e6794bbbc571ea4e0501b9fcc26026e2 [3454/5042] dmaengine: fsl-edma: add safety check for 'srcid'
-config: i386-randconfig-141-20240411 (https://download.01.org/0day-ci/archive/20240411/202404110915.riwV3ZAC-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jens Axboe <axboe@kernel.dk>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   4697e7b2960e76dc525f676f4729d1bf219e0ccd
+commit: 99faf2122db10e555ebd87072639ca6ac8e2fb92 [79/415] kernel/time: convert to read/write iterators
+:::::: branch date: 2 hours ago
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240412/202404120214.rzmLN0cI-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404110915.riwV3ZAC-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202404120214.rzmLN0cI-lkp@intel.com/
 
 smatch warnings:
-drivers/dma/fsl-edma-main.c:133 fsl_edma_xlate() warn: inconsistent returns '&fsl_edma->fsl_edma_mutex'.
+kernel/time/test_udelay.c:112 udelay_test_write() warn: potential spectre issue 'lbuf' [w]
 
-vim +133 drivers/dma/fsl-edma-main.c
+vim +/lbuf +112 kernel/time/test_udelay.c
 
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   96  static struct dma_chan *fsl_edma_xlate(struct of_phandle_args *dma_spec,
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   97  		struct of_dma *ofdma)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   98  {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18   99  	struct fsl_edma_engine *fsl_edma = ofdma->of_dma_data;
-178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  100  	struct dma_chan *chan, *_chan;
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  101  	struct fsl_edma_chan *fsl_chan;
-af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  102  	u32 dmamux_nr = fsl_edma->drvdata->dmamuxs;
-af802728e4ab07 drivers/dma/fsl-edma.c      Robin Gong   2019-06-25  103  	unsigned long chans_per_mux = fsl_edma->n_chans / dmamux_nr;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  104  
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  105  	if (dma_spec->args_count != 2)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  106  		return NULL;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  107  
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  108  	mutex_lock(&fsl_edma->fsl_edma_mutex);
-178c81e58e9155 drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-21  109  	list_for_each_entry_safe(chan, _chan, &fsl_edma->dma_dev.channels, device_node) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  110  		if (chan->client_count)
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  111  			continue;
-211bfef7c2bc8c drivers/dma/fsl-edma.c      Jingchang Lu 2014-07-01  112  		if ((chan->chan_id / chans_per_mux) == dma_spec->args[0]) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  113  			chan = dma_get_slave_channel(chan);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  114  			if (chan) {
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  115  				chan->device->privatecnt++;
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  116  				fsl_chan = to_fsl_edma_chan(chan);
-cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  117  				fsl_chan->srcid = dma_spec->args[1];
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  118  
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  119  				if (!fsl_chan->srcid) {
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  120  					dev_err(&fsl_chan->pdev->dev, "Invalidate srcid %d\n",
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  121  						fsl_chan->srcid);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16   98  
+99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08   99  static ssize_t udelay_test_write(struct kiocb *iocb, struct iov_iter *from)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  100  {
+99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08  101  	size_t count = iov_iter_count(from);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  102  	char lbuf[32];
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  103  	int ret;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  104  	int usecs;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  105  	int iters;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  106  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  107  	if (count >= sizeof(lbuf))
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  108  		return -EINVAL;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  109  
+99faf2122db10e kernel/time/test_udelay.c Jens Axboe  2024-04-08  110  	if (!copy_from_iter_full(lbuf, count, from))
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  111  		return -EFAULT;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16 @112  	lbuf[count] = '\0';
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  113  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  114  	ret = sscanf(lbuf, "%d %d", &usecs, &iters);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  115  	if (ret < 1)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  116  		return -EINVAL;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  117  	else if (ret < 2)
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  118  		iters = DEFAULT_ITERATIONS;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  119  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  120  	mutex_lock(&udelay_test_lock);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  121  	udelay_test_usecs = usecs;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  122  	udelay_test_iterations = iters;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  123  	mutex_unlock(&udelay_test_lock);
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  124  
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  125  	return count;
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  126  }
+e704f93af5a083 kernel/time/udelay_test.c David Riley 2014-06-16  127  
 
-mutex_unlock(&fsl_edma->fsl_edma_mutex); before returning
+:::::: The code at line 112 was first introduced by commit
+:::::: e704f93af5a083c07b8f722672d63a1d908daf55 kernel: time: Add udelay_test module to validate udelay
 
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  122  					return NULL;
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  123  				}
-6aa60f79e6794b drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  124  
-cee8cbfc7be8ff drivers/dma/fsl-edma-main.c Frank Li     2024-03-23  125  				fsl_edma_chan_mux(fsl_chan, fsl_chan->srcid,
-82d149b86d31e1 drivers/dma/fsl-edma.c      Yuan Yao     2015-10-30  126  						true);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  127  				mutex_unlock(&fsl_edma->fsl_edma_mutex);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  128  				return chan;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  129  			}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  130  		}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  131  	}
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  132  	mutex_unlock(&fsl_edma->fsl_edma_mutex);
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18 @133  	return NULL;
-d6be34fbd39b7d drivers/dma/fsl-edma.c      Jingchang Lu 2014-02-18  134  }
+:::::: TO: David Riley <davidriley@chromium.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
