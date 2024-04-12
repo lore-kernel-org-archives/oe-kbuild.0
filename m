@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9B253E15
-	for <oe-kbuild@lists.linux.dev>; Fri, 12 Apr 2024 10:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A8841775
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Apr 2024 11:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712916288; cv=none; b=LcWfu+E/CRGE8EHYbdQ3s/TWkOYZiEuQpHUgWd1U8GFRRcMWzLTH7+VNiAdsjsHIZcvE7QlekIFaWt3zN10UfXrAUK0oV1KbkwDS3OPU51JK45d25UtSM+jw4AAEOS88qkDleFY2np0idC797SzhTiacx4rwZvdbb3B0RdBxh5A=
+	t=1712920786; cv=none; b=Jhds5lyCG2KZ+04PHsZ+JILo3/5kw1Q2wCgGpFJdn2ZZRxAUPianwX3vnWkF+uxWdAWEo16oT+4jboYxJNP2yYhC8IC/qLKoZbVN59b9XhQI8D59KXb1d3t6E8VvxZcLhvyA2zsEcuMNWVS2bBob8jxDVBva2vU75D++6x8MJnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712916288; c=relaxed/simple;
-	bh=6z83OpoNci9Njlu/5yhZzlBlNcgtS7kt8NgZRyZHToI=;
+	s=arc-20240116; t=1712920786; c=relaxed/simple;
+	bh=ctzWgqfJv5fnk95ge32HhAYqZHPGWiIaOjf/Ni3JnuE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M3vDiwwyUTyTJ39JiSSbrC+VHB+Mu27BZkQZ3ZPAqvx3K1RxQRm/d1cl7tjXr6xPulcyOIaUlIMQUE6g2kspm3hCIs9cvVomrvNaHwBzNJWLnBjTMRSBkVQHea5TQYSFu9bSpRbXgU9ZXAYjtHUckUCoJBJ/O5RO7y5+lqbsTB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3LxZAzV; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=dgkhPc6k/Ky7txMyO20Z8W+0HgLXDaUGpN3K1TSRDnYkALcybBfcEzYI+mA3Q0wJkqPL6RA5u8dXYKjdaWWYiCDC1lg6H1uS0yVGN7GSBt4ZrIZvmSVg66FsSIOvOgQLS8SDsyZ4He6oSGMzM/gn9qdJ36NyiUxcLy0vL6ZsRBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0387z/X; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3LxZAzV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0387z/X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712916284; x=1744452284;
+  t=1712920785; x=1744456785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6z83OpoNci9Njlu/5yhZzlBlNcgtS7kt8NgZRyZHToI=;
-  b=l3LxZAzVdMlrt/Mhtn1a3J/BLlhvghEeOjWLccNmeFO+yQrHZeGM6rQp
-   htPjnb0ZNG7OZT9Arnou7idD5G61vKCb+dRask5x8RhSoOELngaRugaXr
-   7D5pkOe9uQKkWqqIiR5yo0H7k2sxRjAx1rBWKfOgWCFH4L2q8kV0NTMfc
-   kuAIIpIO6WwiTtOux4YLQmcfukmHOwLek+zEtMO7CGV23ZG0wTt40NUem
-   wuyS0bjyGtP9N/7JPIpftG3EIYxs69v69SlXYM3nyrxCKXVMykrAPSzdh
-   +liGe5mEQvKc+iKuMtEQ2eaKghR0G87i2DaH0M5vlBznOBUDW0dqAvsSB
-   A==;
-X-CSE-ConnectionGUID: yk5kmaPHSZmjC0Uj8G8LFQ==
-X-CSE-MsgGUID: J+LNeLy/Qqy95i/tCMc5Lg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8226150"
+  bh=ctzWgqfJv5fnk95ge32HhAYqZHPGWiIaOjf/Ni3JnuE=;
+  b=N0387z/XqRPRlNOW3tLMIESnZiGMLypEJfgW+KJIvnVR7xCzqU0tZ2n8
+   RtK+wdV20hn5dlXnRsQulN/GWRDqjvMa09xzYqhAFjoVPozPoZJC3ZRt3
+   DaQCbvwZQs2Ng6bVtTLaJrfel7vWW6gv/e4XvuNv8Bg/X+HpmKSit8PoW
+   69tm37BCcyRhAts6R45D8OBaVgpCTigLJdtEsNEFXBhRjo3ZxRpnqO1Ni
+   zVlUMq2F3LeLlr1z1OoepZQmVBM8E2BvaCiF2mBu84HRgLSMHNCynas9C
+   H/mdvPdlLtK9EN/GMhoN4+5+hG2DImKC+Oi2+45tfu8nbs9ImnRUusJzj
+   Q==;
+X-CSE-ConnectionGUID: 1zI3wXLyThijp530ym1Pug==
+X-CSE-MsgGUID: AooTLO5FT3eDPE8Ml9wL0w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8289505"
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="8226150"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 03:04:43 -0700
-X-CSE-ConnectionGUID: 9w1NusgPSpyd44+MnOxZNg==
-X-CSE-MsgGUID: djpakIW4TnaB1+iclUzOXg==
+   d="scan'208";a="8289505"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2024 04:19:44 -0700
+X-CSE-ConnectionGUID: PgFclvpZRc29VpLKlB/rIQ==
+X-CSE-MsgGUID: DZgOk98jRYa6EyobfSPKwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,195,1708416000"; 
-   d="scan'208";a="25977156"
+   d="scan'208";a="21292627"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Apr 2024 03:04:41 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Apr 2024 04:19:42 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvDlu-0009fB-2R;
-	Fri, 12 Apr 2024 10:04:38 +0000
-Date: Fri, 12 Apr 2024 18:03:59 +0800
+	id 1rvEwW-0009hp-1Y;
+	Fri, 12 Apr 2024 11:19:40 +0000
+Date: Fri, 12 Apr 2024 19:19:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 118/438] drivers/hid/hid-wiimote-debug.c:142
- wiidebug_drm_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202404121846.6YVqmGcc-lkp@intel.com>
+Subject: [axboe-block:rw_iter 331/438]
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1261 pseudo_lock_measure_trigger()
+ warn: potential spectre issue 'buf' [w]
+Message-ID: <202404121902.YyIVlsC0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,69 +69,61 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
 head:   8e79f6c3d0a118031e843758491803e38794f6e8
-commit: d34a3b4a89f09108ccd3a5a391f19134f945fcfb [118/438] drivers/hid: convert to read/write iterators
-:::::: branch date: 15 hours ago
-:::::: commit date: 18 hours ago
-config: x86_64-randconfig-161-20240412 (https://download.01.org/0day-ci/archive/20240412/202404121846.6YVqmGcc-lkp@intel.com/config)
+commit: b07f20689e1567c51174538eb7ddfc7b86170dd6 [331/438] x86/kernel: convert to read/write iterators
+:::::: branch date: 16 hours ago
+:::::: commit date: 19 hours ago
+config: x86_64-randconfig-161-20240412 (https://download.01.org/0day-ci/archive/20240412/202404121902.YyIVlsC0-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404121846.6YVqmGcc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404121902.YyIVlsC0-lkp@intel.com/
 
 smatch warnings:
-drivers/hid/hid-wiimote-debug.c:142 wiidebug_drm_write() warn: potential spectre issue 'buf' [w]
+arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1261 pseudo_lock_measure_trigger() warn: potential spectre issue 'buf' [w]
 
-vim +/buf +142 drivers/hid/hid-wiimote-debug.c
+vim +/buf +1261 arch/x86/kernel/cpu/resctrl/pseudo_lock.c
 
-43d782ae80b8266 David Rheinsberg 2011-11-17  124  
-d34a3b4a89f0910 Jens Axboe       2024-04-05  125  static ssize_t wiidebug_drm_write(struct kiocb *iocb, struct iov_iter *from)
-43d782ae80b8266 David Rheinsberg 2011-11-17  126  {
-d34a3b4a89f0910 Jens Axboe       2024-04-05  127  	struct seq_file *sf = iocb->ki_filp->private_data;
-51103c70bf8d483 David Rheinsberg 2013-05-05  128  	struct wiimote_debug *dbg = sf->private;
-d34a3b4a89f0910 Jens Axboe       2024-04-05  129  	size_t s = iov_iter_count(from);
-43d782ae80b8266 David Rheinsberg 2011-11-17  130  	unsigned long flags;
-43d782ae80b8266 David Rheinsberg 2011-11-17  131  	char buf[16];
-43d782ae80b8266 David Rheinsberg 2011-11-17  132  	ssize_t len;
-43d782ae80b8266 David Rheinsberg 2011-11-17  133  	int i;
-43d782ae80b8266 David Rheinsberg 2011-11-17  134  
-43d782ae80b8266 David Rheinsberg 2011-11-17  135  	if (s == 0)
-43d782ae80b8266 David Rheinsberg 2011-11-17  136  		return -EINVAL;
-43d782ae80b8266 David Rheinsberg 2011-11-17  137  
-43d782ae80b8266 David Rheinsberg 2011-11-17  138  	len = min((size_t) 15, s);
-d34a3b4a89f0910 Jens Axboe       2024-04-05  139  	if (!copy_from_iter_full(buf, len, from))
-43d782ae80b8266 David Rheinsberg 2011-11-17  140  		return -EFAULT;
-43d782ae80b8266 David Rheinsberg 2011-11-17  141  
-0d57eb8758c865a David Rheinsberg 2013-05-05 @142  	buf[len] = 0;
-43d782ae80b8266 David Rheinsberg 2011-11-17  143  
-43d782ae80b8266 David Rheinsberg 2011-11-17  144  	for (i = 0; i < WIIPROTO_REQ_MAX; ++i) {
-43d782ae80b8266 David Rheinsberg 2011-11-17  145  		if (!wiidebug_drmmap[i])
-43d782ae80b8266 David Rheinsberg 2011-11-17  146  			continue;
-43d782ae80b8266 David Rheinsberg 2011-11-17  147  		if (!strcasecmp(buf, wiidebug_drmmap[i]))
-43d782ae80b8266 David Rheinsberg 2011-11-17  148  			break;
-43d782ae80b8266 David Rheinsberg 2011-11-17  149  	}
-43d782ae80b8266 David Rheinsberg 2011-11-17  150  
-43d782ae80b8266 David Rheinsberg 2011-11-17  151  	if (i == WIIPROTO_REQ_MAX)
-0d57eb8758c865a David Rheinsberg 2013-05-05  152  		i = simple_strtoul(buf, NULL, 16);
-43d782ae80b8266 David Rheinsberg 2011-11-17  153  
-43d782ae80b8266 David Rheinsberg 2011-11-17  154  	spin_lock_irqsave(&dbg->wdata->state.lock, flags);
-d76f89e13a04396 David Rheinsberg 2013-05-05  155  	dbg->wdata->state.flags &= ~WIIPROTO_FLAG_DRM_LOCKED;
-43d782ae80b8266 David Rheinsberg 2011-11-17  156  	wiiproto_req_drm(dbg->wdata, (__u8) i);
-d76f89e13a04396 David Rheinsberg 2013-05-05  157  	if (i != WIIPROTO_REQ_NULL)
-d76f89e13a04396 David Rheinsberg 2013-05-05  158  		dbg->wdata->state.flags |= WIIPROTO_FLAG_DRM_LOCKED;
-43d782ae80b8266 David Rheinsberg 2011-11-17  159  	spin_unlock_irqrestore(&dbg->wdata->state.lock, flags);
-43d782ae80b8266 David Rheinsberg 2011-11-17  160  
-43d782ae80b8266 David Rheinsberg 2011-11-17  161  	return len;
-43d782ae80b8266 David Rheinsberg 2011-11-17  162  }
-43d782ae80b8266 David Rheinsberg 2011-11-17  163  
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1246  
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1247  static ssize_t pseudo_lock_measure_trigger(struct kiocb *iocb,
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1248  					   struct iov_iter *from)
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1249  {
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1250  	struct rdtgroup *rdtgrp = iocb->ki_filp->private_data;
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1251  	size_t count = iov_iter_count(from);
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1252  	size_t buf_size;
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1253  	char buf[32];
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1254  	int ret;
+8a2fc0e1bc0cd85 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1255  	int sel;
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1256  
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1257  	buf_size = min(count, (sizeof(buf) - 1));
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1258  	if (!copy_from_iter_full(buf, buf_size, from))
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1259  		return -EFAULT;
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1260  
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22 @1261  	buf[buf_size] = '\0';
+8a2fc0e1bc0cd85 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1262  	ret = kstrtoint(buf, 10, &sel);
+8a2fc0e1bc0cd85 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1263  	if (ret == 0) {
+53ed74af05517cf arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-09-19  1264  		if (sel != 1 && sel != 2 && sel != 3)
+8a2fc0e1bc0cd85 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1265  			return -EINVAL;
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1266  		ret = debugfs_file_get(iocb->ki_filp->f_path.dentry);
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1267  		if (ret)
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1268  			return ret;
+8a2fc0e1bc0cd85 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1269  		ret = pseudo_lock_measure_cycles(rdtgrp, sel);
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1270  		if (ret == 0)
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1271  			ret = count;
+b07f20689e1567c arch/x86/kernel/cpu/resctrl/pseudo_lock.c   Jens Axboe      2024-04-11  1272  		debugfs_file_put(iocb->ki_filp->f_path.dentry);
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1273  	}
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1274  
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1275  	return ret;
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1276  }
+443810fe6160542 arch/x86/kernel/cpu/intel_rdt_pseudo_lock.c Reinette Chatre 2018-06-22  1277  
 
-:::::: The code at line 142 was first introduced by commit
-:::::: 0d57eb8758c865a70dd05f7c6a857acd996167fa HID: wiimote: fix DRM debug-attr to correctly parse input
+:::::: The code at line 1261 was first introduced by commit
+:::::: 443810fe6160542c78e24c66047edd7a3cc830c6 x86/intel_rdt: Create debugfs files for pseudo-locking testing
 
-:::::: TO: David Herrmann <dh.herrmann@gmail.com>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+:::::: TO: Reinette Chatre <reinette.chatre@intel.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
