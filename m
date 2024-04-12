@@ -1,69 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBDB4653A
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Apr 2024 22:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AAE33E1
+	for <oe-kbuild@lists.linux.dev>; Fri, 12 Apr 2024 02:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712875319; cv=none; b=UhmildmWAeKTG1GNgLKxCX7Tebr6ZAnqjbjihM97OCFZH115yh3Je8qEp6WfUXR4dspUZ+9gxOf1vy1KOgBCd/JdP2atvN+vqsd7Yn2SeZy+270W/Ncbouu3UZQrOHxu/BG3qIm43CPtbw1BeBWjTaPxz36ENj0dmZ7P00OD0i8=
+	t=1712888539; cv=none; b=ptgfABxcN3njZnTI8TzCgxcxuxvFjWBGpc8pDFjBQAiLAp6PZ5Ge3qgwXpyGkmiTA0b8ijXyjw1LAMEi0isR2Ct8pU59K0CcL+d8FtJePA+BbQN2INSCRtqFEVMigaiqtmEDHhS0pCBPgy5xyS9T07s6vJv1mpVm7RNqHVGo+ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712875319; c=relaxed/simple;
-	bh=iA6JVX/UmzB9xuDVa2AHAVgpw0J2IF5nBISJPjg9ZYc=;
+	s=arc-20240116; t=1712888539; c=relaxed/simple;
+	bh=5Q36lfLOWgThEyM32UXNa+URy57035UAsDv7bs73f+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q127MS8CEQnmzkinriN6BAF9SBxtRmuuUJvklRSj4MwSutPgksukaAVpwJBJ+yYGLB0UNFYjAUpsGRijQKBGo5i17tKoxE4kfd29DE2kBOm+qDg8p90kjTor63/ELzpxR2mu9WvoZaCOItxdc0I/7suiuTZoSlPmeNejI5Dhedo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yv57l+h2; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=TNlE3bFQL0X4yF0W9VeCRAST59ildHd6q/mYMeX6gDttql8aLt2oHsg0ug1KezbG+b6ZBUX8SkL+HhNwSGthPZkt0dJegrONrhDSXQJXbWoR5KZrL2Li/1gqLnak5T4osBthWl23xLLpLnevTgwOaXPCN+jk7Z+w9GuyVOFxM5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImEjFIPl; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yv57l+h2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImEjFIPl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712875315; x=1744411315;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=iA6JVX/UmzB9xuDVa2AHAVgpw0J2IF5nBISJPjg9ZYc=;
-  b=Yv57l+h2PItTocmtFarCio8dJiR9oyCVZY6Ksx3SRjiysWJDuNnebIVp
-   c0N8u/JAyxvgU7ElJ2yoQJm90NBzBi5QCihHl8XJ3r/I4AC4FjQkHc3fE
-   QNxH+ZTPuRRpXc8RiLEOkmi99TPE5qJrAoEkvv3SykOE0w/DaOS1VrkZp
-   pGSZ4YbFVCyDLJD9koPhqajbO498oghDjbA2p379KOwHqUqKFFwRwjNd6
-   BRx1FvYyjgPhdLQFl2czyxktoVYTj7HV+kuaGG7God2BgLNOmhDw0Y1mo
-   7E7tmoL13hHgt2kDqlwkAUkCaNwf0TrBjbyqsQjSByVLztH3KDzeIGSRP
-   Q==;
-X-CSE-ConnectionGUID: AH9CovnZSEiEhzXxUyQwIA==
-X-CSE-MsgGUID: kv/57A7bS8GPsZGgENxybQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8539434"
+  t=1712888535; x=1744424535;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Q36lfLOWgThEyM32UXNa+URy57035UAsDv7bs73f+E=;
+  b=ImEjFIPliIqYwaa+X1m2f8IwheliUtS8I53hwEyV/lNcwX7Xe1b4C3y/
+   Pp6GRzp3+jB+H3jlWXp8YgBvcld3aY+uIGh+9kiptNqr2Pu9ZsUcE2u1M
+   gLf6V9j48EeFgL3VDkgYT6Eo7bSPpKSyeOR2zms1p0yNhxvJO1u/i5tiU
+   yFDBJdRcxnkQQpcXLkz5K+352/kMqXSWYdZManR5JgnQ6l6wiPsUtWNRj
+   8LIuTnTIMUMz/92gyaz6oKMbDFX7C5sKSfznMlf1GRL75i2HQ6BeoB9zY
+   L+7ew/Vi+gcq9qnS+7xCcm6K9CsuNubp4sXirjpk9b5d70UOLUKWMKOAM
+   w==;
+X-CSE-ConnectionGUID: hTez74NpTOekYT6so6aOQA==
+X-CSE-MsgGUID: GFbT5U/qTb68n5TSJtnk4A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11041"; a="8499157"
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="8539434"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 15:41:54 -0700
-X-CSE-ConnectionGUID: B477KekBSx+pck6bcd65og==
-X-CSE-MsgGUID: xjq5SuSURLmqpdPTWrld4w==
+   d="scan'208";a="8499157"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2024 19:22:14 -0700
+X-CSE-ConnectionGUID: J5aRD+jVRD62PORG6TUsUA==
+X-CSE-MsgGUID: mBuoKOm0SB+eAD+HX4giJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,194,1708416000"; 
-   d="scan'208";a="25513388"
+   d="scan'208";a="44375672"
 Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Apr 2024 15:41:53 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Apr 2024 19:22:14 -0700
 Received: from kbuild by e61807b1d151 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rv379-000937-0i;
-	Thu, 11 Apr 2024 22:41:51 +0000
-Date: Fri, 12 Apr 2024 06:41:38 +0800
+	id 1rv6YO-0009GY-2R;
+	Fri, 12 Apr 2024 02:22:12 +0000
+Date: Fri, 12 Apr 2024 10:21:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 118/415] drivers/hid/hid-picolcd_debugfs.c:49
- picolcd_debug_reset_write() warn: potential spectre issue 'buf' [w] (local
- cap)
-Message-ID: <202404120631.XwkeGYur-lkp@intel.com>
+Subject: [axboe-block:rw_iter 201/415] drivers/misc/lkdtm/core.c:243
+ lkdtm_debugfs_entry() warn: potential spectre issue 'buf' [w]
+Message-ID: <202404121007.lwFNRpQt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
@@ -71,54 +68,71 @@ TO: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
 head:   8e79f6c3d0a118031e843758491803e38794f6e8
-commit: 63f49fb8afefcadfed5b557296f8f7345a772633 [118/415] drivers/hid: convert to read/write iterators
-:::::: branch date: 4 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240412/202404120631.XwkeGYur-lkp@intel.com/config)
+commit: a1a155c91686296745efd6a9fbb865ca4cef6ff5 [201/415] misc: lkdtm: convert to read/write iterators
+:::::: branch date: 7 hours ago
+:::::: commit date: 26 hours ago
+config: x86_64-randconfig-161-20240411 (https://download.01.org/0day-ci/archive/20240412/202404121007.lwFNRpQt-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404120631.XwkeGYur-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404121007.lwFNRpQt-lkp@intel.com/
 
-smatch warnings:
-drivers/hid/hid-picolcd_debugfs.c:49 picolcd_debug_reset_write() warn: potential spectre issue 'buf' [w] (local cap)
+New smatch warnings:
+drivers/misc/lkdtm/core.c:243 lkdtm_debugfs_entry() warn: potential spectre issue 'buf' [w]
 
-vim +/buf +49 drivers/hid/hid-picolcd_debugfs.c
+Old smatch warnings:
+drivers/misc/lkdtm/core.c:318 direct_entry() warn: potential spectre issue 'buf' [w]
 
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  36  
-63f49fb8afefca Jens Axboe    2024-04-05  37  static ssize_t picolcd_debug_reset_write(struct kiocb *iocb,
-63f49fb8afefca Jens Axboe    2024-04-05  38  					 struct iov_iter *from)
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  39  {
-63f49fb8afefca Jens Axboe    2024-04-05  40  	struct picolcd_data *data = ((struct seq_file *)iocb->ki_filp->private_data)->private;
-63f49fb8afefca Jens Axboe    2024-04-05  41  	size_t count = iov_iter_count(from);
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  42  	char buf[32];
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  43  	size_t cnt = min(count, sizeof(buf)-1);
-63f49fb8afefca Jens Axboe    2024-04-05  44  	if (!copy_from_iter_full(buf, cnt, from))
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  45  		return -EFAULT;
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  46  
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  47  	while (cnt > 0 && (buf[cnt-1] == ' ' || buf[cnt-1] == '\n'))
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  48  		cnt--;
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30 @49  	buf[cnt] = '\0';
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  50  	if (strcmp(buf, "all") == 0) {
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  51  		picolcd_reset(data->hdev);
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  52  		picolcd_fb_reset(data, 1);
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  53  	} else if (strcmp(buf, "fb") == 0) {
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  54  		picolcd_fb_reset(data, 1);
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  55  	} else {
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  56  		return -EINVAL;
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  57  	}
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  58  	return count;
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  59  }
-fabdbf2fd22fa1 Bruno Prémont 2012-07-30  60  
+vim +/buf +243 drivers/misc/lkdtm/core.c
 
-:::::: The code at line 49 was first introduced by commit
-:::::: fabdbf2fd22fa170b4c5340dbdda5c8cd88fb205 HID: picoLCD: split driver code
+2b271cb7203dd4 drivers/misc/lkdtm_core.c Arnd Bergmann  2016-07-15  223  
+a1a155c9168629 drivers/misc/lkdtm/core.c Jens Axboe     2024-04-05  224  static ssize_t lkdtm_debugfs_entry(struct kiocb *iocb, struct iov_iter *from)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  225  {
+a1a155c9168629 drivers/misc/lkdtm/core.c Jens Axboe     2024-04-05  226  	struct crashpoint *crashpoint = file_inode(iocb->ki_filp)->i_private;
+75f98b7ab748a6 drivers/misc/lkdtm_core.c Kees Cook      2017-10-20  227  	const struct crashtype *crashtype = NULL;
+a1a155c9168629 drivers/misc/lkdtm/core.c Jens Axboe     2024-04-05  228  	size_t count = iov_iter_count(from);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  229  	char *buf;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  230  	int err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  231  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  232  	if (count >= PAGE_SIZE)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  233  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  234  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  235  	buf = (char *)__get_free_page(GFP_KERNEL);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  236  	if (!buf)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  237  		return -ENOMEM;
+a1a155c9168629 drivers/misc/lkdtm/core.c Jens Axboe     2024-04-05  238  	if (!copy_from_iter_full(buf, count, from)) {
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  239  		free_page((unsigned long) buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  240  		return -EFAULT;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  241  	}
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  242  	/* NULL-terminate and remove enter */
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05 @243  	buf[count] = '\0';
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  244  	strim(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  245  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook      2016-06-29  246  	crashtype = find_crashtype(buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  247  	free_page((unsigned long)buf);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  248  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook      2016-06-29  249  	if (!crashtype)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  250  		return -EINVAL;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  251  
+c479e3fd88703c drivers/misc/lkdtm_core.c Kees Cook      2016-06-29  252  	err = lkdtm_register_cpoint(crashpoint, crashtype);
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  253  	if (err < 0)
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  254  		return err;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  255  
+a1a155c9168629 drivers/misc/lkdtm/core.c Jens Axboe     2024-04-05  256  	iocb->ki_pos += count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  257  
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  258  	return count;
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  259  }
+2b271cb7203dd4 drivers/misc/lkdtm_core.c Arnd Bergmann  2016-07-15  260  #endif
+0347af4ee39222 drivers/misc/lkdtm.c      Simon Kagstrom 2010-03-05  261  
 
-:::::: TO: Bruno Prémont <bonbons@linux-vserver.org>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+:::::: The code at line 243 was first introduced by commit
+:::::: 0347af4ee3922220f6bfe74b87b526aa709a0365 lkdtm: add debugfs access and loosen KPROBE ties
+
+:::::: TO: Simon Kagstrom <simon.kagstrom@netinsight.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
