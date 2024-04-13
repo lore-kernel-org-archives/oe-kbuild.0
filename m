@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373593A8D8
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Apr 2024 09:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9451A2C189
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Apr 2024 09:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712999991; cv=none; b=oo+76rqkDc0cABeqG58Qi7GlYUc8+fjOoTEP8HqzFpnTZIyg7G0vbnFllOHvOVW1dYWOC9OUWwRFRZQK0ZzpyBKPFgE8LPUp3HRlaj8a4ieCq6ZM74tne/tMNFQjxbi457bLO3dnz6FZKCP7q/BYsy1oBmbHcStwRqhxsg65VOM=
+	t=1713002395; cv=none; b=nL8yJSjz+4w9dHRUr6EdMNr7NZ+QG3EzgAOMDji0dWATB+J+lWg5c/uujvdk4uBZNYlFLIFYH2dDs77MWOCI8kkzsVJWT/yWDiatb2cpgvG2bdBM9FEJWMUqqpLIACseDE/WrVAdMrcW17pK+7ptIn2n1zUOWooccRRqqZ9rpCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712999991; c=relaxed/simple;
-	bh=tUmtO65cg4Dw2KPJ3uQZ70kQTA2foJK/v2o1HszthNU=;
+	s=arc-20240116; t=1713002395; c=relaxed/simple;
+	bh=KI6uPQleGXA6mdsk+FCGhPdT8LBKEixLtIvalg9Z9Ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HRPoOeih9+fLQKck0LsDSJQrazJKoVvDcSdbS3nS6S+lftBkV9fZ8aqJ3pvKJJfKENieSwqlcYtunBwOAwaxfNDvrn6bOKEHbDkvBL8URkiMVQ6n9PyEJFUQrSw+wPztfjuB56Aar4sOhNyNdwQKoH0DsmHt8I1Y49uiVzitZmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzBWYqI9; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=cKeKy++Ap7ylazAzKGjXa803TyPMiKVLDaq0YPdemPFEQQKA2vu+Vdi4MnT4fky1dmwLxxRkGAVB1nvs04xRxw60w4Rv+id8S/la5cyAWJBG1ScLYZKo6VW2zxOu65CGb3gHSvibJv8IJTaX6yt9ZBusrc+tSIAaQVdExNHSPAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQIb2es/; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzBWYqI9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQIb2es/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712999989; x=1744535989;
+  t=1713002392; x=1744538392;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tUmtO65cg4Dw2KPJ3uQZ70kQTA2foJK/v2o1HszthNU=;
-  b=dzBWYqI9Z23HuHoxLUDrKktoCkgw+02nbkD2vQFDAVc6dvgL5dj472e8
-   gA9MH7YEE1xbXlyiBwlfbQvbs1gso/JngTofiy7VhLWYcHabFty2sNNkF
-   kFgBW2VwJaLKUDgQKi3QAxmFpzQ30BxTU2MEiiBWUsU0PXulF6I8FEBHv
-   BW+aTaVb8fPBH1B1Li5k7+Yf3mv+jUUBhHC4clNwKn40SWaqHQOmks3r3
-   i3wSPQnAYY0NjrgyH46dUEhl4qcJUhrYa+HbJd/Q2K9qqO9Zn4B06t7qU
-   ZIWl0SogXA96wVhZ9tilnqCJxBWE9lqQwLSCf1GwuJ8uaxCJ+yV1jsjLm
-   g==;
-X-CSE-ConnectionGUID: aCgYD9oNTvqpW/ETNKxgoA==
-X-CSE-MsgGUID: z1aG2lYtTy+GNqngglHjag==
-X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="8310771"
+  bh=KI6uPQleGXA6mdsk+FCGhPdT8LBKEixLtIvalg9Z9Ko=;
+  b=MQIb2es/CQE9uwoYe22TVx6VVe3RXUdb1JqSXMvwhKjPHDi4rmowhg7W
+   jY2nbdSNBARDELHOxRFX3nc27RStg1xDh7sXkrezUt2AVf/ZGvBzqMHdX
+   9szWO4KcCjNlVmRjR4/aWyzV7hgsRbIOLyYFJo4rGUbnW47KVzBn+OBY9
+   00XZQh85amrM3ndpHUIu6cZP0NiFmsamr+p7frYk0tdP3WgxQk+t4FNmJ
+   42XbZIQVZASdyq+B3ODVn0OuF5NfPC2dGDiZ6blFs4MYvQ9h+GtCsWlFn
+   /p4PZb0sg8GeT+QR+eZSZ/uU+juh1ZoLQpagiZmvgr0iTjTIF6BmGxBuA
+   A==;
+X-CSE-ConnectionGUID: UfkByBKUSJC4X7tcWDgz0A==
+X-CSE-MsgGUID: ZhWrGC6kRcC6CaQ7CMmImQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11042"; a="19848186"
 X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="8310771"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2024 02:19:48 -0700
-X-CSE-ConnectionGUID: 4Wi+Y+mZTAOhMzzUo2oo9A==
-X-CSE-MsgGUID: qdnmmJjiTBWnflBS10hiHw==
+   d="scan'208";a="19848186"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2024 02:59:51 -0700
+X-CSE-ConnectionGUID: JdfsOYMHQ0KOpI9NWkI1hw==
+X-CSE-MsgGUID: L8Mr0wfxRpy2rgNyv1hBmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,198,1708416000"; 
-   d="scan'208";a="25871228"
+   d="scan'208";a="26146174"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Apr 2024 02:19:47 -0700
+  by orviesa003.jf.intel.com with ESMTP; 13 Apr 2024 02:59:50 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rvZY1-0002BY-09;
-	Sat, 13 Apr 2024 09:19:45 +0000
-Date: Sat, 13 Apr 2024 17:19:10 +0800
+	id 1rvaAl-0002DW-21;
+	Sat, 13 Apr 2024 09:59:47 +0000
+Date: Sat, 13 Apr 2024 17:59:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2954/30000] drivers/iommu/intel/dmar.c:770
- dmar_acpi_bus_add_dev() error: uninitialized symbol 'ret'.
-Message-ID: <202404131747.x1YZL3XL-lkp@intel.com>
+Subject: [broonie-sound:for-next 12/13] sound/soc/codecs/cs35l41.c:1129
+ cs35l41_dsp_init() warn: missing error code 'ret'
+Message-ID: <202404131743.unitkCiT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,51 +64,99 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
+TO: Stefan Binding <sbinding@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   14b3ddaf4c377eb7fa805821170ee799707511db
-commit: d660222861c468ce77fe3197ddc5189deb1665c6 [2954/30000] iommu/vt-d:Add support for detecting ACPI device, in RMRR
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 years, 9 months ago
-config: x86_64-randconfig-161-20240331 (https://download.01.org/0day-ci/archive/20240413/202404131747.x1YZL3XL-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+head:   47c44619b51cb0367249a1f5c53afd28cfd9dd82
+commit: eefb831d2e4dd58d58002a2ef75ff989e073230d [12/13] ASoC: cs35l41: Update DSP1RX5/6 Sources for DSP config
+:::::: branch date: 22 hours ago
+:::::: commit date: 2 days ago
+config: mips-randconfig-r071-20240413 (https://download.01.org/0day-ci/archive/20240413/202404131743.unitkCiT-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404131747.x1YZL3XL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404131743.unitkCiT-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/intel/dmar.c:770 dmar_acpi_bus_add_dev() error: uninitialized symbol 'ret'.
+sound/soc/codecs/cs35l41.c:1129 cs35l41_dsp_init() warn: missing error code 'ret'
 
-vim +/ret +770 drivers/iommu/intel/dmar.c
+vim +/ret +1129 sound/soc/codecs/cs35l41.c
 
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  753  
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  754  static int dmar_acpi_bus_add_dev(u8 device_number, struct acpi_device *adev)
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  755  {
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  756  	struct dmar_drhd_unit *dmaru;
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  757  	struct acpi_dmar_hardware_unit *drhd;
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  758  	int ret;
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  759  
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  760  	for_each_drhd_unit(dmaru) {
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  761  		drhd = container_of(dmaru->hdr,
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  762  				    struct acpi_dmar_hardware_unit,
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  763  				    header);
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  764  		ret = dmar_acpi_insert_dev_scope(device_number, adev, (void *)(drhd+1),
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  765  						((void *)drhd)+drhd->header.length,
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  766  						dmaru->devices, dmaru->devices_cnt);
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  767  		if (ret)
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  768  			break;
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  769  	}
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23 @770  	if (ret > 0)
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  771  		ret = dmar_rmrr_add_acpi_dev(device_number, adev);
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  772  
-d660222861c468 drivers/iommu/intel/dmar.c LeoLiu-oc       2021-07-23  773  	return ret;
-ed40356b5fcf1c drivers/iommu/dmar.c       David Woodhouse 2014-03-07  774  }
-ed40356b5fcf1c drivers/iommu/dmar.c       David Woodhouse 2014-03-07  775  
+6450ef55905688 David Rhodes   2021-09-07  1093  
+bae9e13fc55cbc David Rhodes   2021-10-29  1094  static int cs35l41_dsp_init(struct cs35l41_private *cs35l41)
+bae9e13fc55cbc David Rhodes   2021-10-29  1095  {
+bae9e13fc55cbc David Rhodes   2021-10-29  1096  	struct wm_adsp *dsp;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1097  	uint32_t dsp1rx5_src;
+bae9e13fc55cbc David Rhodes   2021-10-29  1098  	int ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1099  
+bae9e13fc55cbc David Rhodes   2021-10-29  1100  	dsp = &cs35l41->dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1101  	dsp->part = "cs35l41";
+bae9e13fc55cbc David Rhodes   2021-10-29  1102  	dsp->fw = 9; /* 9 is WM_ADSP_FW_SPK_PROT in wm_adsp.c */
+f517ba4924ad02 Charles Keepax 2022-01-07  1103  	dsp->toggle_preload = true;
+0db99577c4cddc Stefan Binding 2022-05-09  1104  
+0db99577c4cddc Stefan Binding 2022-05-09  1105  	cs35l41_configure_cs_dsp(cs35l41->dev, cs35l41->regmap, &dsp->cs_dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1106  
+ff8aad072e6388 Stefan Binding 2022-05-09  1107  	ret = cs35l41_write_fs_errata(cs35l41->dev, cs35l41->regmap);
+ff8aad072e6388 Stefan Binding 2022-05-09  1108  	if (ret < 0)
+bae9e13fc55cbc David Rhodes   2021-10-29  1109  		return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1110  
+bae9e13fc55cbc David Rhodes   2021-10-29  1111  	ret = wm_halo_init(dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1112  	if (ret) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1113  		dev_err(cs35l41->dev, "wm_halo_init failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1114  		return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1115  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1116  
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1117  	switch (cs35l41->hw_cfg.bst_type) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1118  	case CS35L41_INT_BOOST:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1119  	case CS35L41_SHD_BOOST_ACTV:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1120  		dsp1rx5_src = CS35L41_INPUT_SRC_VPMON;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1121  		break;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1122  	case CS35L41_EXT_BOOST:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1123  	case CS35L41_SHD_BOOST_PASS:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1124  		dsp1rx5_src = CS35L41_INPUT_SRC_VBSTMON;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1125  		break;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1126  	default:
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1127  		dev_err(cs35l41->dev, "wm_halo_init failed - Invalid Boost Type: %d\n",
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1128  			cs35l41->hw_cfg.bst_type);
+eefb831d2e4dd5 Stefan Binding 2024-04-11 @1129  		goto err_dsp;
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1130  	}
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1131  
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1132  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX5_SRC, dsp1rx5_src);
+bae9e13fc55cbc David Rhodes   2021-10-29  1133  	if (ret < 0) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1134  		dev_err(cs35l41->dev, "Write DSP1RX5_SRC: %d failed: %d\n", dsp1rx5_src, ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1135  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1136  	}
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1137  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX6_SRC, CS35L41_INPUT_SRC_VBSTMON);
+bae9e13fc55cbc David Rhodes   2021-10-29  1138  	if (ret < 0) {
+eefb831d2e4dd5 Stefan Binding 2024-04-11  1139  		dev_err(cs35l41->dev, "Write CS35L41_INPUT_SRC_VBSTMON failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1140  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1141  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1142  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX7_SRC,
+bae9e13fc55cbc David Rhodes   2021-10-29  1143  			   CS35L41_INPUT_SRC_TEMPMON);
+bae9e13fc55cbc David Rhodes   2021-10-29  1144  	if (ret < 0) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1145  		dev_err(cs35l41->dev, "Write INPUT_SRC_TEMPMON failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1146  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1147  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1148  	ret = regmap_write(cs35l41->regmap, CS35L41_DSP1_RX8_SRC,
+bae9e13fc55cbc David Rhodes   2021-10-29  1149  			   CS35L41_INPUT_SRC_RSVD);
+bae9e13fc55cbc David Rhodes   2021-10-29  1150  	if (ret < 0) {
+bae9e13fc55cbc David Rhodes   2021-10-29  1151  		dev_err(cs35l41->dev, "Write INPUT_SRC_RSVD failed: %d\n", ret);
+bae9e13fc55cbc David Rhodes   2021-10-29  1152  		goto err_dsp;
+bae9e13fc55cbc David Rhodes   2021-10-29  1153  	}
+bae9e13fc55cbc David Rhodes   2021-10-29  1154  
+bae9e13fc55cbc David Rhodes   2021-10-29  1155  	return 0;
+bae9e13fc55cbc David Rhodes   2021-10-29  1156  
+bae9e13fc55cbc David Rhodes   2021-10-29  1157  err_dsp:
+bae9e13fc55cbc David Rhodes   2021-10-29  1158  	wm_adsp2_remove(dsp);
+bae9e13fc55cbc David Rhodes   2021-10-29  1159  
+bae9e13fc55cbc David Rhodes   2021-10-29  1160  	return ret;
+bae9e13fc55cbc David Rhodes   2021-10-29  1161  }
+bae9e13fc55cbc David Rhodes   2021-10-29  1162  
 
 -- 
 0-DAY CI Kernel Test Service
