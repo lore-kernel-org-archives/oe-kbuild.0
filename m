@@ -1,69 +1,58 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A7E22F17
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Apr 2024 09:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4012C190
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Apr 2024 10:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713088101; cv=none; b=S6DjVuXctdivDPVABcvcTQGJnHc2YdvF1PMzhRaLpgydVrE4qZK4cl+aKBGMfz8ccSXLhbUK1nXB35h6KkIauGX2fCzsc5ds3I2yPHx9Re+/tjFOH83N6FnfWrZnPWc4sOvPnrbtr0V+zdgIZ0n1xhu1NTnWJXAdHYB4U8+bEBY=
+	t=1713090416; cv=none; b=Y5hlZh5cbL3Y3Us5Wj4Zls//Nyq2c6GJmojBoXMtVo/C8UVKxtu1ypUhRhuo4XRbxRYdrpDti9ubVT4etNqrVyeEiclEJVUuCDjqWk9BT077yMOphGCP6ZvVegtgGq7n2NqQ1YYDvssKAam/jCnWBtapQKx+5sxSHYQEdK/0H+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713088101; c=relaxed/simple;
-	bh=NDlsgoc6A4IxXBOEATwELgEDexzc69w9dYPIh0f56gg=;
+	s=arc-20240116; t=1713090416; c=relaxed/simple;
+	bh=Q03w+Y/D3Mvue1mxK6G6O7uSMkHfW6tchaKjpXSadvk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Qj1HljwfZlYB3R2RYpz3pDZkJXyB5yCJmQEDoAzn8cyUR/LTyqBuuiglyLF9M7WWTiK7cyD/+gusA/tla94or0lSvq4jMN6uQG82TS0UPYJpUlWnueGO+l/2KmPaOht2oLbsBrZdvqvPmbaD1HE82rhtbEib2WF7b9R5P/fptDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MXNPj6uM; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Y1Ybr6O2kH+bm1MSD65yJNHliwuRFvh4eqWDJyHhleHRCixCWrS2EjW/RmlP9b5A1by601EEyT+5N5sDuoLl10iuygIzDv3FRMT/3VzrR5bdxKowKjtRfb6C4p4a+J7BhAXq3TijPJJh502Qio3j/tR70FbNV+TfP/vxRf4YClQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9EzGY+T; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MXNPj6uM"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-518e2283bd3so109924e87.1
-        for <oe-kbuild@lists.linux.dev>; Sun, 14 Apr 2024 02:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713088098; x=1713692898; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PVqD2Rvirwu12W5FfnBuYS741rQo1YJJcl1syKPBUN0=;
-        b=MXNPj6uMdJv0O42zOCCN3ScSXX/xfStAlwKnKWPlbv9oHXe1RvVGW7wapa7nzuDTEI
-         amiefzHkiYUfoFM4+V85qY62J+1tLbrFYOt+R3gDNHhtyIZvFUB9DrVnsHMnTrfDeiPs
-         J9uqokxgFy+nGhB/EFnp4q5r8UFPBqaowdvDjDc6UysPDGr5Qnx8Ed+k4YjWQtSUWISP
-         paPWIBrmF9bP7PsqFJcSiXVIJpLtx3S0+qZMo88hjbyVUlExOWmIuMwAz/B2Jn6cvtP0
-         u5QZfjrDKWq5oHwRFOTOKAwgoQUMQJmM2YTPgp2aApoHKh8TxHjSwR2//+/g2NmoQwwS
-         dqFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713088098; x=1713692898;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PVqD2Rvirwu12W5FfnBuYS741rQo1YJJcl1syKPBUN0=;
-        b=R6Jx7GqeOLCyHxU32nbQRud/9q4j6BW0859Vlnz/XjSfNwG1aKqtARjK1nxFd20GjJ
-         XoGe9KbeGh5e+TtLteEh+6wpCvettc1Z87ju3sMe4m6PvRk5NtHoB2STRXI7r5O9kYcE
-         l6sQ9Cxty+Y9Y+LE0Ewizd2nwc7XiLv5TXCorQm1BlSxRMlajcb1+FtAGwyis+h0/iag
-         BrJzSuzY38dTOF2eqcK+7EIPekk817rRpMZgnNkn3cB9BCN9n+8Rz1Q6x0MHlI6KAVZY
-         hmfqSU3rAP/qdXkAV/UU782L/EkcrN0kDLW05U5/rkoAzlKlDknHEfv79l3sj544Xazk
-         QoGQ==
-X-Gm-Message-State: AOJu0Ywu9GdqHuqdefdPon6SpFPTEAb+zpzBO51s9ddw7r4i9Uupc8xu
-	RvPFt1F05D1/i56GMg9hXD48XwfOSw/WfEeTevzpyxDcgsNICwYBrqnxXkClZ9VYtYNNE4kNwD9
-	Q
-X-Google-Smtp-Source: AGHT+IF+o4gNFJDGJrFzzBfCpTnxmIUEqX4iFJfz0itRIzQrDGl4yEWKWtL79ugoRK/UVLGNpDL1tQ==
-X-Received: by 2002:ac2:51b6:0:b0:518:bd37:606e with SMTP id f22-20020ac251b6000000b00518bd37606emr1630389lfk.13.1713088097535;
-        Sun, 14 Apr 2024 02:48:17 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id e23-20020a170906249700b00a52454f4533sm2009486ejb.208.2024.04.14.02.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 02:48:17 -0700 (PDT)
-Date: Sun, 14 Apr 2024 12:48:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	virtualization@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH vhost 4/6] virtio_net: big mode support premapped
-Message-ID: <8f518b9a-36cb-4988-8e69-3ea8ea567364@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9EzGY+T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713090415; x=1744626415;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q03w+Y/D3Mvue1mxK6G6O7uSMkHfW6tchaKjpXSadvk=;
+  b=Y9EzGY+TCl658a2Zb5rqnny8U7SXCuDFoOquNT2h30zc/KJc8QAevS94
+   RjBnriHzMSgoyvkUhRTde+evRhhPzLVQjkaz68Sw+4WZAdxbGKPtnDztO
+   b5Qp0bp49hnzi6F6PAK4psYSyADWlmmjbZRMrIrSskgZsoiLjus1Sl6B3
+   54p82527CerBWbFexWDnARjsmRd2evSc5LYkeCdW84xAfdWmlenNlzyLs
+   jqAb0y7AA+awn+jhYWJ2qgdvNEpCnU2ElpEYmdI6h8SRLZh+mrrG579li
+   snYsdNWlOJoEVXCX9tCJUsd+k4uIY9nNzfMaKsGOhJ67U6JsdXgoDKUjv
+   g==;
+X-CSE-ConnectionGUID: KPxvQRY1S9qu0FD2xeEOqQ==
+X-CSE-MsgGUID: hfZ1jcfQTEiMlV4azqbq9w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11043"; a="12268059"
+X-IronPort-AV: E=Sophos;i="6.07,200,1708416000"; 
+   d="scan'208";a="12268059"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2024 03:26:54 -0700
+X-CSE-ConnectionGUID: WgD+8BGdTxiXVVoadnehpQ==
+X-CSE-MsgGUID: YjtQlVigQiKAD8HPFsr01g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,200,1708416000"; 
+   d="scan'208";a="21572652"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2024 03:26:52 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rvx4G-0003ZE-2P;
+	Sun, 14 Apr 2024 10:26:44 +0000
+Date: Sun, 14 Apr 2024 18:25:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: clang: error: unknown argument '-static-libasan'; did you mean
+ '-static-libsan'?
+Message-ID: <202404141807.LgsqXPY5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,55 +61,39 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240411025127.51945-5-xuanzhuo@linux.alibaba.com>
 
-Hi Xuan,
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Ryan Roberts <ryan.roberts@arm.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-introduce-dma-map-api-for-page/20240411-105318
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20240411025127.51945-5-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH vhost 4/6] virtio_net: big mode support premapped
-config: i386-randconfig-141-20240414 (https://download.01.org/0day-ci/archive/20240414/202404141343.iPhKo7zd-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7efd0a74039fb6b584be2cb91c1d0ef0bd796ee1
+commit: c652df8a4a9d7853fa1100b244024fd6f1a9c18a selftests: link libasan statically for tests with -fsanitize=address
+date:   7 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 7 months ago
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240414/202404141807.LgsqXPY5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404141343.iPhKo7zd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404141807.LgsqXPY5-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/virtio_net.c:485 give_pages() warn: impossible condition '((page->dma_addr) == (~0)) => (0-u32max == u64max)'
+All errors (new ones prefixed by >>):
 
-vim +485 drivers/net/virtio_net.c
-
-e9d7417b97f420 Jason Wang      2012-12-07  481  static void give_pages(struct receive_queue *rq, struct page *page)
-0a888fd1f6320d Mark McLoughlin 2008-11-16  482  {
-9ab86bbcf8be75 Shirley Ma      2010-01-29  483  	struct page *end;
-0a888fd1f6320d Mark McLoughlin 2008-11-16  484  
-59e4bcf761eeba Xuan Zhuo       2024-04-11 @485  	if (page_dma_addr(page) == DMA_MAPPING_ERROR) {
-
-(struct page)->dma_addr is unsigned long but DMA_MAPPING_ERROR is
-dma_addr_t.
-
-59e4bcf761eeba Xuan Zhuo       2024-04-11  486  		if (page_chain_map(rq, page)) {
-59e4bcf761eeba Xuan Zhuo       2024-04-11  487  			__free_pages(page, 0);
-59e4bcf761eeba Xuan Zhuo       2024-04-11  488  			return;
-59e4bcf761eeba Xuan Zhuo       2024-04-11  489  		}
-59e4bcf761eeba Xuan Zhuo       2024-04-11  490  	}
-59e4bcf761eeba Xuan Zhuo       2024-04-11  491  
-e9d7417b97f420 Jason Wang      2012-12-07  492  	/* Find end of list, sew whole thing into vi->rq.pages. */
-590f79cf558cb4 Xuan Zhuo       2024-04-11  493  	for (end = page; page_chain_next(end); end = page_chain_next(end));
-590f79cf558cb4 Xuan Zhuo       2024-04-11  494  
-590f79cf558cb4 Xuan Zhuo       2024-04-11  495  	page_chain_add(end, rq->pages);
-e9d7417b97f420 Jason Wang      2012-12-07  496  	rq->pages = page;
-0a888fd1f6320d Mark McLoughlin 2008-11-16  497  }
+>> clang: error: unknown argument '-static-libasan'; did you mean '-static-libsan'?
+--
+>> clang: error: unknown argument '-static-libasan'; did you mean '-static-libsan'?
+   clang: error: cannot specify -o when generating multiple output files
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
