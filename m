@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E80E555
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 02:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D913D18EAB
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 02:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713233667; cv=none; b=EGS0ovttinfR0DCZpRrg1HcGkV0pMrst7R9Uzafp6zLxcglB91lKgfnNl/BsAZUlO/pvZJqnS9BEIKaS9R/GKOjWjS4zIo8+K1H+ULpYjv3+SlD2kDpK2RRjfFvtIsvfo71p8TUuETEe/2dYkreH4NKB3uhdsnnTY/J7pMZj9II=
+	t=1713236306; cv=none; b=trGq1eNZ0k2Xy57JWTMOFbySOdjanIlHFwwydHC1fry8Iog6CMegYyhMtybLskMTTMsske7Y/szLuhii7BSoLqFHqfe6/rvQw++jzEua0/mWzphjoZxzDdzC1Nzql5gs8zuu4RhcDCtIeq8pzvddXjPtHJkVlRfVOVhUsNUTvFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713233667; c=relaxed/simple;
-	bh=DVaChdvMwUKA/NU22UkZwLyQDpFPj56ieHDq/dcZRHw=;
+	s=arc-20240116; t=1713236306; c=relaxed/simple;
+	bh=u7TfWg2NlMEEgGAM/4Ty0JXSbz4KlltOyM/kiDr7U1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IPcjHmfJfgrLZrrjmaYOTkjiheJh0F4Yzhk+NGx4mzsqVDsBx6UANFT/9GrU7AKlBCCr01413Fp6bs7FrIbTdLFDDlzFHXfcQ2OyoNB2WJO2U91H6xvWJszbvuGnS5FyaDkBAgZQMgN4EyLPJkuxNea4KiXEQE0p1a6w8QR1hos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkiETZ27; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=gE0v4MbP3Jx+lZ69au9JyR2DsPN/iFdFIa0Q/9SjDlytuPRxccaPJ/qihq5SGOjS+CPorSPVBd4zD4Udf/X0MU5GWQLz9VAo6ZxhhoPg7PRLwSOZj95pX3Lcfet/a4YlotjqRLl2NVi7wMxdh5WStLm1FuqBG1ColAau6OFAdgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+Q0TJXg; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkiETZ27"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+Q0TJXg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713233666; x=1744769666;
+  t=1713236304; x=1744772304;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DVaChdvMwUKA/NU22UkZwLyQDpFPj56ieHDq/dcZRHw=;
-  b=NkiETZ27mh2AAe6yGEhXfb/LMn9EkE1bRP9MdUP8r3O6waf1F7SwaT1Z
-   csO3DnpnJ7/nSGoXLFugAZ4/3+wOVyEQgHGA4cLSWBmrI/hiDSwmXD9XM
-   b16dGNbGGk+mO0wLBIo01UAVp+3Sel5ZaQUU0h0IYPRleGvPvPnTNEhPF
-   lC1EMRlGjl+CZzwtVLnD7t0oGpfW6CiQHlmNgq6bVbe9Ix9GNWb2KnAnv
-   7p8TsAsfVgha4wPYF8GZgu4G/7aGpNXs8htb8QDPvHgzqEt50Rnn/tmgd
-   J0Y0kYrwdJgwANpPZGf4lCvte1jkzXQfkPgSOLGp3FFQYY8Kj5kRaL+iN
-   g==;
-X-CSE-ConnectionGUID: MjnazGKYTg62xvxGS9Ct2g==
-X-CSE-MsgGUID: 35R1NguLTrGIZ4MaPpjRPQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8814293"
+  bh=u7TfWg2NlMEEgGAM/4Ty0JXSbz4KlltOyM/kiDr7U1A=;
+  b=c+Q0TJXgyE0XgOxnueFbwPWp5do1xr1meQ9zqzzJw/BoeSzzeCFIdVKA
+   xgh1VY7vbxXKSYYfy50ErWrtt/NGnFLOcSPUtntmcNDAjg/9cHpEDCxk/
+   YdpEwQtSQHyAkKcyBgklyZDwdTu21MIcIjVNAzJHupWkBqlr+9t/eiAye
+   hJntqEywp+7Y/mZVL5ygm+jld5KgpuEpMn42GxVN7t8X/4/6XuWTXUvyo
+   ltWG/27yRQ0uipxAMn48dhb/KTv+u/RXE0yse32nUAbc+SSz+zqafZ5kS
+   4050yXfjqC8+XwsgCHpVYppO8nNnjPhsFZ1yyWSE2eudBtRAc70lcfmed
+   A==;
+X-CSE-ConnectionGUID: OywUIGnjSrqKucIMX3RImQ==
+X-CSE-MsgGUID: 34kO2JVZSBmjRKJJfojGfQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19256854"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8814293"
+   d="scan'208";a="19256854"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 19:14:25 -0700
-X-CSE-ConnectionGUID: wuYOQTykS3udmuQnmMSEcA==
-X-CSE-MsgGUID: lJF/UfGwTkyL5cN6HkYMAw==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 19:58:23 -0700
+X-CSE-ConnectionGUID: 3Y7JwLiHQpCm1hTzFJGeWQ==
+X-CSE-MsgGUID: ITUZoQi4QwCDnk76vzWmvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="26762113"
+   d="scan'208";a="26767873"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 19:14:20 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 19:58:21 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwYKv-0004qa-2f;
-	Tue, 16 Apr 2024 02:14:17 +0000
-Date: Tue, 16 Apr 2024 10:13:57 +0800
+	id 1rwZ1X-0004tM-0v;
+	Tue, 16 Apr 2024 02:58:19 +0000
+Date: Tue, 16 Apr 2024 10:58:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tobetter:odroid-5.15.y 32/204]
- drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testing
- array offset 'tz->id' after use.
-Message-ID: <202404161011.gCoUG4KZ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 5507/6266] ../kselftest_harness.h:1167:9:
+ warning: ignoring return value of 'asprintf' declared with attribute
+ 'warn_unused_result'
+Message-ID: <202404161023.K0EsnDmF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,94 +63,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "charles.park" <charles.park@hardkernel.com>
-CC: Dongjin Kim <tobetter@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Edward Liaw <edliaw@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/tobetter/linux odroid-5.15.y
-head:   28a16e1ab36472a36cac8b10003b29f322f458ff
-commit: 80ab63aad57c0100e5277218c03ce79f4256d8c4 [32/204] ODROID-XU4: Update hack avoiding the invalid temperature by TMU broken
-:::::: branch date: 19 hours ago
-:::::: commit date: 2 years, 5 months ago
-config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161011.gCoUG4KZ-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6bd343537461b57f3efe5dfc5fc193a232dfef1e
+commit: c19377e23d4cb45f69c5d226ae3436f7fa818c8f [5507/6266] selftests/harness: remove use of LINE_MAX
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 days ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161023.K0EsnDmF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404161011.gCoUG4KZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404161023.K0EsnDmF-lkp@intel.com/
 
-smatch warnings:
-drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testing array offset 'tz->id' after use.
+All warnings (new ones prefixed by >>):
 
-vim +123 drivers/thermal/thermal_helpers.c
+   In file included from tls.c:24:
+   ../kselftest_harness.h: In function '__run_test':
+>> ../kselftest_harness.h:1167:9: warning: ignoring return value of 'asprintf' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1167 |         asprintf(&test_name, "%s%s%s.%s", f->name,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1168 |                  variant->name[0] ? "." : "", variant->name, t->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/kvm_test_harness.h:11,
+                    from x86_64/fix_hypercall_test.c:12:
+   ../kselftest_harness.h: In function '__run_test':
+>> ../kselftest_harness.h:1167:9: warning: ignoring return value of 'asprintf' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1167 |         asprintf(&test_name, "%s%s%s.%s", f->name,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1168 |                  variant->name[0] ? "." : "", variant->name, t->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
 
-80ab63aad57c01 charles.park     2018-06-01   81  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   82  int thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   83  {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   84  	int ret = -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   85  	int count;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   86  	int crit_temp = INT_MAX;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   87  	enum thermal_trip_type type;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   88  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   89  	if (!tz || IS_ERR(tz) || !tz->ops->get_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   90  		goto exit;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   91  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   92  	mutex_lock(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   93  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   94  	ret = tz->ops->get_temp(tz, temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   95  
-cd221c7b638f83 Eduardo Valentin 2016-11-07   96  	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) && tz->emul_temperature) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   97  		for (count = 0; count < tz->trips; count++) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   98  			ret = tz->ops->get_trip_type(tz, count, &type);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   99  			if (!ret && type == THERMAL_TRIP_CRITICAL) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07  100  				ret = tz->ops->get_trip_temp(tz, count,
-cd221c7b638f83 Eduardo Valentin 2016-11-07  101  						&crit_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  102  				break;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  103  			}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  104  		}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  105  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  106  		/*
-cd221c7b638f83 Eduardo Valentin 2016-11-07  107  		 * Only allow emulating a temperature when the real temperature
-cd221c7b638f83 Eduardo Valentin 2016-11-07  108  		 * is below the critical temperature so that the emulation code
-cd221c7b638f83 Eduardo Valentin 2016-11-07  109  		 * cannot hide critical conditions.
-cd221c7b638f83 Eduardo Valentin 2016-11-07  110  		 */
-cd221c7b638f83 Eduardo Valentin 2016-11-07  111  		if (!ret && *temp < crit_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07  112  			*temp = tz->emul_temperature;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  113  	}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  114  
-80ab63aad57c01 charles.park     2018-06-01  115  	/* save thermal_zone data */
-80ab63aad57c01 charles.park     2018-06-01  116  	if (!ret)
-80ab63aad57c01 charles.park     2018-06-01  117  		thermal_zone_data[tz->id] = *temp;
-80ab63aad57c01 charles.park     2018-06-01  118  	/*
-80ab63aad57c01 charles.park     2018-06-01  119  	 * This case is that the thermal sensor is broken.
-80ab63aad57c01 charles.park     2018-06-01  120  	 * That's not real temperature. Set the fake temperature value in order to
-80ab63aad57c01 charles.park     2018-06-01  121  	 * avoid reaching the ciritical temperature.
-80ab63aad57c01 charles.park     2018-06-01  122  	 */
-80ab63aad57c01 charles.park     2018-06-01 @123  	if ((thermal_zone_data[tz->id] > CRITICAL_TEMP) && (tz->id != 4)) {
-80ab63aad57c01 charles.park     2018-06-01  124  		int i, broken_sensor = 0, correct_temp = 0;
-80ab63aad57c01 charles.park     2018-06-01  125  		for (i = 0; i < 4; i++) {
-80ab63aad57c01 charles.park     2018-06-01  126  			if ((thermal_zone_data[i] <= CRITICAL_TEMP) &&
-80ab63aad57c01 charles.park     2018-06-01  127  			    (correct_temp <= thermal_zone_data[i]))
-80ab63aad57c01 charles.park     2018-06-01  128  				correct_temp = thermal_zone_data[i];
-80ab63aad57c01 charles.park     2018-06-01  129  			if (thermal_zone_data[i] > CRITICAL_TEMP)
-80ab63aad57c01 charles.park     2018-06-01  130  				broken_sensor++;
-80ab63aad57c01 charles.park     2018-06-01  131  		}
-80ab63aad57c01 charles.park     2018-06-01  132  		/*
-80ab63aad57c01 charles.park     2018-06-01  133  		 * if all thermal sensor broken then critical temperature data send
-80ab63aad57c01 charles.park     2018-06-01  134  		 * for system poweroff.
-80ab63aad57c01 charles.park     2018-06-01  135  		 */
-80ab63aad57c01 charles.park     2018-06-01  136  		*temp = (broken_sensor == 4) ? CRITICAL_TEMP : correct_temp;
-80ab63aad57c01 charles.park     2018-06-01  137  	}
-80ab63aad57c01 charles.park     2018-06-01  138  
-cd221c7b638f83 Eduardo Valentin 2016-11-07  139  	mutex_unlock(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  140  exit:
-cd221c7b638f83 Eduardo Valentin 2016-11-07  141  	return ret;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  142  }
-cd221c7b638f83 Eduardo Valentin 2016-11-07  143  EXPORT_SYMBOL_GPL(thermal_zone_get_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  144  
+
+vim +1167 tools/testing/selftests/net/../kselftest_harness.h
+
+65177e47d3035c tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2023-01-25  1153  
+142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1154  void __run_test(struct __fixture_metadata *f,
+74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1155  		struct __fixture_variant_metadata *variant,
+142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1156  		struct __test_metadata *t)
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1157  {
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1158  	struct __test_xfail *xfail;
+c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1159  	char *test_name;
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1160  	const char *diagnostic;
+38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1161  
+74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1162  	/* reset test struct */
+69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1163  	t->exit_code = KSFT_PASS;
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1164  	t->trigger = 0;
+0ef67a888375b0 tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1165  	memset(t->results->reason, 0, sizeof(t->results->reason));
+74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1166  
+c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11 @1167  	asprintf(&test_name, "%s%s%s.%s", f->name,
+c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1168  	         variant->name[0] ? "." : "", variant->name, t->name);
+c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1169  
+38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1170  	ksft_print_msg(" RUN           %s ...\n", test_name);
+38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1171  
+c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1172  	/* Make sure output buffers are flushed before fork */
+c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1173  	fflush(stdout);
+c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1174  	fflush(stderr);
+c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1175  
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1176  	t->pid = fork();
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1177  	if (t->pid < 0) {
+e80068be21824e tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1178  		ksft_print_msg("ERROR SPAWNING TEST CHILD\n");
+69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1179  		t->exit_code = KSFT_FAIL;
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1180  	} else if (t->pid == 0) {
+92d25637a3a459 tools/testing/selftests/kselftest_harness.h    Li Zhijian       2021-12-17  1181  		setpgrp();
+74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1182  		t->fn(t, variant);
+796a344fa4315f tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1183  		_exit(t->exit_code);
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1184  	} else {
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1185  		__wait_for_test(t);
+f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1186  	}
+38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1187  	ksft_print_msg("         %4s  %s\n",
+69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1188  		       __test_passed(t) ? "OK" : "FAIL", test_name);
+9847d24af95c7f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1189  
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1190  	/* Check if we're expecting this test to fail */
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1191  	for (xfail = variant->xfails; xfail; xfail = xfail->next)
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1192  		if (xfail->test == t)
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1193  			break;
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1194  	if (xfail)
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1195  		t->exit_code = __test_passed(t) ? KSFT_XPASS : KSFT_XFAIL;
+2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1196  
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1197  	if (t->results->reason[0])
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1198  		diagnostic = t->results->reason;
+378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1199  	else if (t->exit_code == KSFT_PASS || t->exit_code == KSFT_FAIL)
+378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1200  		diagnostic = NULL;
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1201  	else
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1202  		diagnostic = "unknown";
+fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1203  
+732e2035280bf4 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1204  	ksft_test_result_code(t->exit_code, test_name,
+378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1205  			      diagnostic ? "%s" : "", diagnostic);
+c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1206  	free(test_name);
+c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1207  }
+c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1208  
 
 -- 
 0-DAY CI Kernel Test Service
