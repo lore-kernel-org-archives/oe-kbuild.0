@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D913D18EAB
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 02:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6359012E48
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 03:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713236306; cv=none; b=trGq1eNZ0k2Xy57JWTMOFbySOdjanIlHFwwydHC1fry8Iog6CMegYyhMtybLskMTTMsske7Y/szLuhii7BSoLqFHqfe6/rvQw++jzEua0/mWzphjoZxzDdzC1Nzql5gs8zuu4RhcDCtIeq8pzvddXjPtHJkVlRfVOVhUsNUTvFE=
+	t=1713237029; cv=none; b=en/xdkX8Kn9aD98rqbvaiePaRRx0Bxe+MGK1vz2z7hbeUL0t7RL9zzdNcBNBdRCAeHUoycEQLe3TioxyKGqXX1OBKmMNZ30n2KTF0AFZLwh4Gld0h9kLzSPXciS0eORWzJ+FasBy3ssW2sHKAlB5wEdbQYs2/KFY7kljiavcw8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713236306; c=relaxed/simple;
-	bh=u7TfWg2NlMEEgGAM/4Ty0JXSbz4KlltOyM/kiDr7U1A=;
+	s=arc-20240116; t=1713237029; c=relaxed/simple;
+	bh=PdsaucKDvmy4U+v5VY0T2F3f8v3zozCgVkWfpoSdSXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gE0v4MbP3Jx+lZ69au9JyR2DsPN/iFdFIa0Q/9SjDlytuPRxccaPJ/qihq5SGOjS+CPorSPVBd4zD4Udf/X0MU5GWQLz9VAo6ZxhhoPg7PRLwSOZj95pX3Lcfet/a4YlotjqRLl2NVi7wMxdh5WStLm1FuqBG1ColAau6OFAdgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+Q0TJXg; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=tqE05STeRxdxSl1LrsgSwt1x3G6+CdDbo/JN/Oh9Xylm8IlV+Bl3rkS7UVGMdCXXAAlY2vbkU/4FT3lU2jl/+e9h1G8Uo05FyRdqqVclVOmhOdZ+dkD90EBF9Jmg5oPYFU6LU5kQSANZGvb5cgvIyOx6a/kpVUQIDhmK4LGxas0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7Be+uyB; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+Q0TJXg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7Be+uyB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713236304; x=1744772304;
+  t=1713237027; x=1744773027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u7TfWg2NlMEEgGAM/4Ty0JXSbz4KlltOyM/kiDr7U1A=;
-  b=c+Q0TJXgyE0XgOxnueFbwPWp5do1xr1meQ9zqzzJw/BoeSzzeCFIdVKA
-   xgh1VY7vbxXKSYYfy50ErWrtt/NGnFLOcSPUtntmcNDAjg/9cHpEDCxk/
-   YdpEwQtSQHyAkKcyBgklyZDwdTu21MIcIjVNAzJHupWkBqlr+9t/eiAye
-   hJntqEywp+7Y/mZVL5ygm+jld5KgpuEpMn42GxVN7t8X/4/6XuWTXUvyo
-   ltWG/27yRQ0uipxAMn48dhb/KTv+u/RXE0yse32nUAbc+SSz+zqafZ5kS
-   4050yXfjqC8+XwsgCHpVYppO8nNnjPhsFZ1yyWSE2eudBtRAc70lcfmed
-   A==;
-X-CSE-ConnectionGUID: OywUIGnjSrqKucIMX3RImQ==
-X-CSE-MsgGUID: 34kO2JVZSBmjRKJJfojGfQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19256854"
+  bh=PdsaucKDvmy4U+v5VY0T2F3f8v3zozCgVkWfpoSdSXU=;
+  b=l7Be+uyBrGRas2GUszk6oPJKckWIiKUi1C6RFqdkIwZldSRuMw6MiTMG
+   QIy8CgWQr2W0e1rwCL/sRoGmz3VDwF8BQMtr626J+jD11cSoZZMuAkrBg
+   sxD4gXjU2SX75feOTSDw52E2PAwLh1d/ET6duTSoCBnVncw4WPpcFqo0h
+   hYWDPcXG7Diwy1RRsK70jCdd+7mdRUg/ysS11349cJdzw8KxTzpLnAmBy
+   KhRW+qjWUuRTcmWDgTZsK7rf2IF8CaWQgr6cCLgV99IpzYsL1JCety5yC
+   d4PIhv1YPZZ1/TNYbGRF5w8YTPJTD5T3iCJkCCE9vhiYRHPO+sO7juYrj
+   w==;
+X-CSE-ConnectionGUID: Do53RlZ6Qu2s1DRgjy7W8g==
+X-CSE-MsgGUID: E4THABYZTXiNdCTu44mv2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="19257619"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="19256854"
+   d="scan'208";a="19257619"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 19:58:23 -0700
-X-CSE-ConnectionGUID: 3Y7JwLiHQpCm1hTzFJGeWQ==
-X-CSE-MsgGUID: ITUZoQi4QwCDnk76vzWmvg==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 20:10:27 -0700
+X-CSE-ConnectionGUID: 1HxBpHUcS5yhAwUhuuQA5Q==
+X-CSE-MsgGUID: QP8ocFqKT52kIIVh5ZkchQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="26767873"
+   d="scan'208";a="26770129"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 19:58:21 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 20:10:25 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwZ1X-0004tM-0v;
-	Tue, 16 Apr 2024 02:58:19 +0000
-Date: Tue, 16 Apr 2024 10:58:07 +0800
+	id 1rwZDD-0004to-1h;
+	Tue, 16 Apr 2024 03:10:23 +0000
+Date: Tue, 16 Apr 2024 11:09:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 5507/6266] ../kselftest_harness.h:1167:9:
- warning: ignoring return value of 'asprintf' declared with attribute
- 'warn_unused_result'
-Message-ID: <202404161023.K0EsnDmF-lkp@intel.com>
+Subject: conf.c:119:1: warning: non-void function does not return a value in
+ all control paths
+Message-ID: <202404161009.ZcnFbWPa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,104 +68,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Edward Liaw <edliaw@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: Nathan Chancellor <nathan@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6bd343537461b57f3efe5dfc5fc193a232dfef1e
-commit: c19377e23d4cb45f69c5d226ae3436f7fa818c8f [5507/6266] selftests/harness: remove use of LINE_MAX
-:::::: branch date: 21 hours ago
-:::::: commit date: 3 days ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161023.K0EsnDmF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   96fca68c4fbf77a8185eb10f7557e23352732ea2
+commit: f7d5bcd35d427daac7e206b1073ca14f5db85c27 selftests: kselftest: Mark functions that unconditionally call exit() as __noreturn
+date:   4 days ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 days ago
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240416/202404161009.ZcnFbWPa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404161023.K0EsnDmF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404161009.ZcnFbWPa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from tls.c:24:
-   ../kselftest_harness.h: In function '__run_test':
->> ../kselftest_harness.h:1167:9: warning: ignoring return value of 'asprintf' declared with attribute 'warn_unused_result' [-Wunused-result]
-    1167 |         asprintf(&test_name, "%s%s%s.%s", f->name,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1168 |                  variant->name[0] ? "." : "", variant->name, t->name);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/kvm_test_harness.h:11,
-                    from x86_64/fix_hypercall_test.c:12:
-   ../kselftest_harness.h: In function '__run_test':
->> ../kselftest_harness.h:1167:9: warning: ignoring return value of 'asprintf' declared with attribute 'warn_unused_result' [-Wunused-result]
-    1167 |         asprintf(&test_name, "%s%s%s.%s", f->name,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1168 |                  variant->name[0] ? "." : "", variant->name, t->name);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+>> conf.c:119:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     119 | }
+         | ^
+   1 warning generated.
 
 
-vim +1167 tools/testing/selftests/net/../kselftest_harness.h
+vim +119 tools/testing/selftests/alsa/conf.c
 
-65177e47d3035c tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2023-01-25  1153  
-142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1154  void __run_test(struct __fixture_metadata *f,
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1155  		struct __fixture_variant_metadata *variant,
-142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1156  		struct __test_metadata *t)
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1157  {
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1158  	struct __test_xfail *xfail;
-c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1159  	char *test_name;
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1160  	const char *diagnostic;
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1161  
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1162  	/* reset test struct */
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1163  	t->exit_code = KSFT_PASS;
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1164  	t->trigger = 0;
-0ef67a888375b0 tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1165  	memset(t->results->reason, 0, sizeof(t->results->reason));
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1166  
-c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11 @1167  	asprintf(&test_name, "%s%s%s.%s", f->name,
-c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1168  	         variant->name[0] ? "." : "", variant->name, t->name);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1169  
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1170  	ksft_print_msg(" RUN           %s ...\n", test_name);
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1171  
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1172  	/* Make sure output buffers are flushed before fork */
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1173  	fflush(stdout);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1174  	fflush(stderr);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1175  
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1176  	t->pid = fork();
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1177  	if (t->pid < 0) {
-e80068be21824e tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1178  		ksft_print_msg("ERROR SPAWNING TEST CHILD\n");
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1179  		t->exit_code = KSFT_FAIL;
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1180  	} else if (t->pid == 0) {
-92d25637a3a459 tools/testing/selftests/kselftest_harness.h    Li Zhijian       2021-12-17  1181  		setpgrp();
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1182  		t->fn(t, variant);
-796a344fa4315f tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1183  		_exit(t->exit_code);
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1184  	} else {
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1185  		__wait_for_test(t);
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1186  	}
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1187  	ksft_print_msg("         %4s  %s\n",
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1188  		       __test_passed(t) ? "OK" : "FAIL", test_name);
-9847d24af95c7f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1189  
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1190  	/* Check if we're expecting this test to fail */
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1191  	for (xfail = variant->xfails; xfail; xfail = xfail->next)
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1192  		if (xfail->test == t)
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1193  			break;
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1194  	if (xfail)
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1195  		t->exit_code = __test_passed(t) ? KSFT_XPASS : KSFT_XFAIL;
-2709473c938602 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1196  
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1197  	if (t->results->reason[0])
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1198  		diagnostic = t->results->reason;
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1199  	else if (t->exit_code == KSFT_PASS || t->exit_code == KSFT_FAIL)
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1200  		diagnostic = NULL;
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1201  	else
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1202  		diagnostic = "unknown";
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1203  
-732e2035280bf4 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1204  	ksft_test_result_code(t->exit_code, test_name,
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1205  			      diagnostic ? "%s" : "", diagnostic);
-c19377e23d4cb4 tools/testing/selftests/kselftest_harness.h    Edward Liaw      2024-04-11  1206  	free(test_name);
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1207  }
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1208  
+aba51cd0949aee Jaroslav Kysela 2022-11-08  107  
+aba51cd0949aee Jaroslav Kysela 2022-11-08  108  static int dump_config_tree(snd_config_t *top)
+aba51cd0949aee Jaroslav Kysela 2022-11-08  109  {
+aba51cd0949aee Jaroslav Kysela 2022-11-08  110  	snd_output_t *out;
+aba51cd0949aee Jaroslav Kysela 2022-11-08  111  	int err;
+aba51cd0949aee Jaroslav Kysela 2022-11-08  112  
+aba51cd0949aee Jaroslav Kysela 2022-11-08  113  	err = snd_output_stdio_attach(&out, stdout, 0);
+aba51cd0949aee Jaroslav Kysela 2022-11-08  114  	if (err < 0)
+aba51cd0949aee Jaroslav Kysela 2022-11-08  115  		ksft_exit_fail_msg("stdout attach\n");
+aba51cd0949aee Jaroslav Kysela 2022-11-08  116  	if (snd_config_save(top, out))
+aba51cd0949aee Jaroslav Kysela 2022-11-08  117  		ksft_exit_fail_msg("config save\n");
+aba51cd0949aee Jaroslav Kysela 2022-11-08  118  	snd_output_close(out);
+aba51cd0949aee Jaroslav Kysela 2022-11-08 @119  }
+aba51cd0949aee Jaroslav Kysela 2022-11-08  120  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: aba51cd0949aee50a2b93f1b32ed3668cd613649 selftests: alsa - add PCM test
+
+:::::: TO: Jaroslav Kysela <perex@perex.cz>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
