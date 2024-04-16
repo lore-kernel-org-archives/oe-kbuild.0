@@ -1,149 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A22517736
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 22:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA15013A896
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 23:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713306377; cv=none; b=LXys/kT4guUwXyo3ufKlvcvjiSTb22QTeHEKDYgs1sLnHjFmYvZ0ZqqkepgJPpwOHaGWQQmX5XwBmjA3yXbsfvmhLW22yH9v1VhnX8CO6NZSzQJnkr0NVtHurKFlIflezUAOLOoOu0k6LsPxvUITDgEMuKeFOHgriIvitUQ6BmQ=
+	t=1713311837; cv=none; b=MibMc1kXn5qRNEaQ74d2R4bdwMLGJTocrVI0txRyx0VnZq5mmBu764j0BKlcsSzzghuWyY8TCpkhh1qcazPzkh40uAfeBMyHXOkVLvWSi22W+sCRVaVcInFOjYJ51V41eO1iMPW/zhSHuBFnZIZsz/rIviGmgcwFpRmQZmoJmqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713306377; c=relaxed/simple;
-	bh=jw5pQU38eBmWwloggLIjgRk4E0Md3FFj+E2J0AqLvmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bdmETAk8T9/onsNOXDQqccvNeI/Zw6lja6o2lOOrRDxTnAtJz5DOsyMJo6i15Yxin2v+Qxwr/eIFkFAUlNQ6LofY2WGkP/Q/DN1PXKxS9MGV1E/S8yipB659cV4EK6PDqpLFZg61r5DXSAh8XncttFbM8v5P4YjN/oPmQUIURj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoV72chX; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1713311837; c=relaxed/simple;
+	bh=WzRXIGLvs1tpmwfTdYiXqT+Xb63ATMlbvNwYZpgiob4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=caZl/ce8+lNEZFmT8tTY2hK9Qe7ju+cEafB4pWwyPPzHykLrZ89uaw3sb3uP0Eqk5NFmwYtb0tXXTQi448V7X2gwrKvQ3KIo7L8TTuaoRIGDTubD29EkMxUw8JUa7P1+xJtHZXrX+3Um00S8lLRTbX6nW58duPT0hD+ii51hk3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=idz2H9kQ; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoV72chX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713306374; x=1744842374;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jw5pQU38eBmWwloggLIjgRk4E0Md3FFj+E2J0AqLvmY=;
-  b=CoV72chXUB8ShaPpU47W/3Sg7Q2YXXPjVDrw1RpM0sLsrMQSqY6qfsc7
-   l9JjrwyiF8i/uhB2+ZUjuo7vDDswoEgluTp5aoqcJJ1BRRrCZDk7DC87e
-   ucoI8g68BpWUWV3gTX64HH4ESg+vhYvvTgfI7JmRsMtLjfdGVqKn9yNuR
-   1QVj4u8GTIahmHhxcEqQ/E3130DNbAZSvVD0DJHx8NI6hgjvSAqrPgG1n
-   Zfb5iSApG6rawOCmE3XX333/VrXSZxKKpbs4M68ifS0ZXg52QgOmWkMLg
-   DaT0JVHaLOJBKnu38Q9iDgZZRZJYV30SJOXwVOXS2bJTgKt+w6LUcIruF
-   A==;
-X-CSE-ConnectionGUID: nCfBt8lWRhSbkBhm/x8TaQ==
-X-CSE-MsgGUID: 8VKvi8rhTOaSqLzRdg6ZZQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="20166628"
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="20166628"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:26:14 -0700
-X-CSE-ConnectionGUID: ZDzU6Y2PTC+7No5ynTwIhQ==
-X-CSE-MsgGUID: g3nu8ID9R7qbmu3vYDvV9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="26967540"
-Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Apr 2024 15:26:12 -0700
-Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rwrFi-0005nI-2A;
-	Tue, 16 Apr 2024 22:26:10 +0000
-Date: Wed, 17 Apr 2024 06:25:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: ./../kselftest_harness.h:1152:30: error: format string is empty
-Message-ID: <202404170611.Kkkdkvdy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="idz2H9kQ"
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so4818303276.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 16:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713311834; x=1713916634; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IC8mWV6b6QzlZE6JFnyR9+zfyszn/P9cKrq9cHY85Yc=;
+        b=idz2H9kQHNpTT/4bayHvvcv5Pp7pTxQPGQ+/bI7ybOr+4naIeYd/D+Ov0ceoDacb7X
+         rwLrpvJuWYaaenakWQcsPj0Z6r/DSX2enPqndAs7EDsSaqVYO9ZXnJ4yor21tRjHnkgT
+         wr4KCRFG1S1T6OzWkboNBaW3atoQX+Sn38eQkUDhDT7m7VgjVWfkTgE1ASHrX7jNZNzE
+         IBoJfL90oJ9WFwNTKoTfXLxYCW+T7kRWuBjsWqk2TSl76Si8Ry88s+71msVgRs8TrZQU
+         dGk7DfohdW0QfytVbj6kJ+oA6I8V782AiWjGcMObCkr03cg6hHZksBiUsbLITquvMVwi
+         574A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713311834; x=1713916634;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IC8mWV6b6QzlZE6JFnyR9+zfyszn/P9cKrq9cHY85Yc=;
+        b=LGEWPxy9p6mxlIak3D/axkSEmmInKhXMiurSxwfiJnadTqIOJr+En3XkdQtW8QmA1m
+         wYPHWZglTJ9dwnWVCnBILD4xKVLWd3LQ/NbJThPAYAJt0uJhYgkT0nWx0fTuYE9YzqGp
+         kDwiBx6YniLpym0woCDke3xnzUA2RsPcYBdDyQUyEfLqYgKaU1jr5T50+wgcNoFOJsbX
+         anFjonBhXs0txmq7A3woqwEfj3A5UUair2aoRmVXuqN4Bp5Fyw/5pWYB6vdFKBU1D9Vn
+         yigNfpXIkdUjeHk1JNvBNDa4bhuJsxUSRNkFPI8Tu0Ft6R/tYF8R4nvY7yiAfgFgcLC/
+         OyBQ==
+X-Gm-Message-State: AOJu0YyNVjbnSZMP8PFbGu49SBl0KKFda2hEJAm6U9zzD+E7By9zjHRA
+	JvhwJt6yKKdkniwHGXI5M79n0W60NT0eDmdWroV0TGLowFPiVn/6F0FAmt8AB+/NEXhEcNF53ls
+	b/INSpFBlrUGaAKPIrWhKEjBzc8+X1GoM72h9
+X-Google-Smtp-Source: AGHT+IHMoPAxpjKDVaNQ+EXB0M8jdi1kEZvbp6UZM4KQDz6GqswGDJkg4CfM8mkE05Ermcc37rOU3hCGAd+Av5etk6Q=
+X-Received: by 2002:a25:8b01:0:b0:de0:ed33:da8c with SMTP id
+ i1-20020a258b01000000b00de0ed33da8cmr13045167ybl.59.1713311833463; Tue, 16
+ Apr 2024 16:57:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <6b5281d8-2998-4e66-b65e-45a0e68e5780@moroto.mountain>
+In-Reply-To: <6b5281d8-2998-4e66-b65e-45a0e68e5780@moroto.mountain>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 16 Apr 2024 23:57:01 +0000
+Message-ID: <CAJuCfpE-YoTONXC-SYPfcjiMbfN64s9XScO_v-SAo0brB=6i1A@mail.gmail.com>
+Subject: Re: [linux-next:master 2720/3921] lib/alloc_tag.c:142
+ alloc_tag_init() warn: passing zero to 'PTR_ERR'
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Fri, Apr 5, 2024 at 6:51=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   8568bb2ccc278f344e6ac44af6ed010a90aa88dc
+> commit: 9e2dcefa791e9d14006b360fba3455510fd3325d [2720/3921] lib: add all=
+ocation tagging support for memory allocation profiling
+> config: microblaze-randconfig-r081-20240405 (https://download.01.org/0day=
+-ci/archive/20240405/202404051340.7Wo7oiJ5-lkp@intel.com/config)
+> compiler: microblaze-linux-gcc (GCC) 13.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202404051340.7Wo7oiJ5-lkp@intel.com/
+>
+> smatch warnings:
+> lib/alloc_tag.c:142 alloc_tag_init() warn: passing zero to 'PTR_ERR'
+>
+> vim +/PTR_ERR +142 lib/alloc_tag.c
+>
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  132  static int __init allo=
+c_tag_init(void)
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  133  {
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  134       const struct code=
+tag_type_desc desc =3D {
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  135               .section =
+       =3D "alloc_tags",
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  136               .tag_size=
+       =3D sizeof(struct alloc_tag),
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  137               .module_u=
+nload  =3D alloc_tag_module_unload,
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  138       };
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  139
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  140       alloc_tag_cttype =
+=3D codetag_register_type(&desc);
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21  141       if (IS_ERR_OR_NUL=
+L(alloc_tag_cttype))
+>                                                             ^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^
+> This should just be IS_ERR().  I have written a blog that has more
+> details:
+>
+> https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and=
+-null/
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-CC: Kees Cook <keescook@chromium.org>
+Sorry for the delay, I somehow missed this report. You are absolutely
+right about the fix. codetag_register_type() never returns NULL, so
+IS_ERR() should be used here. I'll post a fix shortly.
+Thanks,
+Suren.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   96fca68c4fbf77a8185eb10f7557e23352732ea2
-commit: 378193eff3399acb8529d0b553709e8f91d34fe3 selftests: kselftest_harness: let PASS / FAIL provide diagnostic
-date:   7 weeks ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 7 weeks ago
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170611.Kkkdkvdy-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404170611.Kkkdkvdy-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from hid_bpf.c:5:
->> ./../kselftest_harness.h:1152:30: error: format string is empty [-Werror,-Wformat-zero-length]
-    1152 |                               diagnostic ? "%s" : "", diagnostic);
-         |                                                   ^~
-   1 error generated.
-
-
-vim +1152 tools/testing/selftests/hid/./../kselftest_harness.h
-
-65177e47d3035c tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2023-01-25  1108  
-142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1109  void __run_test(struct __fixture_metadata *f,
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1110  		struct __fixture_variant_metadata *variant,
-142aca6b388c8a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1111  		struct __test_metadata *t)
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1112  {
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1113  	char test_name[LINE_MAX];
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1114  	const char *diagnostic;
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1115  
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1116  	/* reset test struct */
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1117  	t->exit_code = KSFT_PASS;
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1118  	t->trigger = 0;
-0ef67a888375b0 tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1119  	memset(t->results->reason, 0, sizeof(t->results->reason));
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1120  
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1121  	snprintf(test_name, sizeof(test_name), "%s%s%s.%s",
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1122  		 f->name, variant->name[0] ? "." : "", variant->name, t->name);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1123  
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1124  	ksft_print_msg(" RUN           %s ...\n", test_name);
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1125  
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1126  	/* Make sure output buffers are flushed before fork */
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1127  	fflush(stdout);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1128  	fflush(stderr);
-c8bd596f9388bc tools/testing/selftests/kselftest_harness.h    Michael Ellerman 2020-09-17  1129  
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1130  	t->pid = fork();
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1131  	if (t->pid < 0) {
-e80068be21824e tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1132  		ksft_print_msg("ERROR SPAWNING TEST CHILD\n");
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1133  		t->exit_code = KSFT_FAIL;
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1134  	} else if (t->pid == 0) {
-92d25637a3a459 tools/testing/selftests/kselftest_harness.h    Li Zhijian       2021-12-17  1135  		setpgrp();
-74bc7c97fa88ae tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2020-04-27  1136  		t->fn(t, variant);
-796a344fa4315f tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1137  		_exit(t->exit_code);
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1138  	} else {
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1139  		__wait_for_test(t);
-f46f576280595f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-03-13  1140  	}
-38c957f0703827 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1141  	ksft_print_msg("         %4s  %s\n",
-69fe8ec4f673b5 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1142  		       __test_passed(t) ? "OK" : "FAIL", test_name);
-9847d24af95c7f tools/testing/selftests/kselftest_harness.h    Kees Cook        2020-06-22  1143  
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1144  	if (t->results->reason[0])
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1145  		diagnostic = t->results->reason;
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1146  	else if (t->exit_code == KSFT_PASS || t->exit_code == KSFT_FAIL)
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1147  		diagnostic = NULL;
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1148  	else
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1149  		diagnostic = "unknown";
-fa1a53d83674b3 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1150  
-732e2035280bf4 tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28  1151  	ksft_test_result_code(t->exit_code, test_name,
-378193eff3399a tools/testing/selftests/kselftest_harness.h    Jakub Kicinski   2024-02-28 @1152  			      diagnostic ? "%s" : "", diagnostic);
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1153  }
-c99ee51a9d9716 tools/testing/selftests/seccomp/test_harness.h Kees Cook        2015-06-16  1154  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> 9e2dcefa791e9d Suren Baghdasaryan 2024-03-21 @142               return PT=
+R_ERR(alloc_tag_cttype);
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
