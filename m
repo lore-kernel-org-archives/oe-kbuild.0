@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D015717F0
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 00:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E80E555
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 02:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713228581; cv=none; b=CXoWBzgqfPBtWqpprr2azzqz+m+sRPmhGVXHg6Uq9zEWmS7BRxQkyLyQZlUFscVj7ain2nLeFygptcaZcE+4f/kfkBMuUdIAcpxNRuwdO6xVhVWloHiZX10jxZrNmDS4MrPqwjKP2GSveFbzJqhIptz9qFqbcir57osbnZpMW1w=
+	t=1713233667; cv=none; b=EGS0ovttinfR0DCZpRrg1HcGkV0pMrst7R9Uzafp6zLxcglB91lKgfnNl/BsAZUlO/pvZJqnS9BEIKaS9R/GKOjWjS4zIo8+K1H+ULpYjv3+SlD2kDpK2RRjfFvtIsvfo71p8TUuETEe/2dYkreH4NKB3uhdsnnTY/J7pMZj9II=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713228581; c=relaxed/simple;
-	bh=UMN+UOH79zKHZYju7w6SBGJDu7IeJa++kcRGi9er9OM=;
+	s=arc-20240116; t=1713233667; c=relaxed/simple;
+	bh=DVaChdvMwUKA/NU22UkZwLyQDpFPj56ieHDq/dcZRHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TFZ7z+wYeP+eGZrd8bxD0UHPt69gISLmhractB42ZJaJJPfD3zX0/rapxtWyuxwOCHWud6jJKTtjqn/zRAWpBjWWr0+NOurWw4aYyUHVSlx7CJXSRQbVL+znX/eufVjB20Gj7a1s9PbBhihv30Us0RQjFIQrlhcrd/sFVLl6dVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ju3XenKC; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=IPcjHmfJfgrLZrrjmaYOTkjiheJh0F4Yzhk+NGx4mzsqVDsBx6UANFT/9GrU7AKlBCCr01413Fp6bs7FrIbTdLFDDlzFHXfcQ2OyoNB2WJO2U91H6xvWJszbvuGnS5FyaDkBAgZQMgN4EyLPJkuxNea4KiXEQE0p1a6w8QR1hos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkiETZ27; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ju3XenKC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkiETZ27"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713228580; x=1744764580;
+  t=1713233666; x=1744769666;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UMN+UOH79zKHZYju7w6SBGJDu7IeJa++kcRGi9er9OM=;
-  b=Ju3XenKCKKrQpjxHOX1cNjMXRq4W71fMUHBopvRfHmvFp6lvFUw3w3nt
-   lJiZkstrCDlX2PymuHBa+XOMbTbsMNj96kgePsHPv9I/lcYNmuheDNONG
-   FhLz5NKPPQpi5I+OZwferBTyE4kvlHBdVgMyhP2O9VQ6StG/0W/gCK1s6
-   sWkEDUnF6pMsWXT058fD2mylOSKQlxSHWWhL0Yi+n2EXER6Xzr++AttP7
-   n18l9aKfyisUO0SeAQyjvaBZn+JQ1MdhQxpfRVXyapcm0xJlAaiWCTKfD
-   qOZF2rcDZA7CyinX83Fo9v8xH4xaP0pmNEN+xW/lqLvcAdXRcQvymZSOj
-   w==;
-X-CSE-ConnectionGUID: Tk+Q9mJCQDuAflRthuYgYw==
-X-CSE-MsgGUID: mt/Lh8N4Sb+SsOV0zWK7Lw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8813168"
+  bh=DVaChdvMwUKA/NU22UkZwLyQDpFPj56ieHDq/dcZRHw=;
+  b=NkiETZ27mh2AAe6yGEhXfb/LMn9EkE1bRP9MdUP8r3O6waf1F7SwaT1Z
+   csO3DnpnJ7/nSGoXLFugAZ4/3+wOVyEQgHGA4cLSWBmrI/hiDSwmXD9XM
+   b16dGNbGGk+mO0wLBIo01UAVp+3Sel5ZaQUU0h0IYPRleGvPvPnTNEhPF
+   lC1EMRlGjl+CZzwtVLnD7t0oGpfW6CiQHlmNgq6bVbe9Ix9GNWb2KnAnv
+   7p8TsAsfVgha4wPYF8GZgu4G/7aGpNXs8htb8QDPvHgzqEt50Rnn/tmgd
+   J0Y0kYrwdJgwANpPZGf4lCvte1jkzXQfkPgSOLGp3FFQYY8Kj5kRaL+iN
+   g==;
+X-CSE-ConnectionGUID: MjnazGKYTg62xvxGS9Ct2g==
+X-CSE-MsgGUID: 35R1NguLTrGIZ4MaPpjRPQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8814293"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="8813168"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:49:39 -0700
-X-CSE-ConnectionGUID: s03Bh+DKQHWEFW5tvjb0fA==
-X-CSE-MsgGUID: 3X6IQkUbTBSlSqLX6ISwZQ==
+   d="scan'208";a="8814293"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 19:14:25 -0700
+X-CSE-ConnectionGUID: wuYOQTykS3udmuQnmMSEcA==
+X-CSE-MsgGUID: lJF/UfGwTkyL5cN6HkYMAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="22102418"
+   d="scan'208";a="26762113"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2024 17:49:37 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Apr 2024 19:14:20 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwX0x-0004mu-1c;
-	Tue, 16 Apr 2024 00:49:35 +0000
-Date: Tue, 16 Apr 2024 08:49:08 +0800
+	id 1rwYKv-0004qa-2f;
+	Tue, 16 Apr 2024 02:14:17 +0000
+Date: Tue, 16 Apr 2024 10:13:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tobetter:odroid-5.15.y 21/204] drivers/char/exynos-gpiomem.c:231
- exynos_gpiomem_probe() error: we previously assumed 'inst' could be null
- (see line 156)
-Message-ID: <202404160800.qLr46RNZ-lkp@intel.com>
+Subject: [tobetter:odroid-5.15.y 32/204]
+ drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testing
+ array offset 'tz->id' after use.
+Message-ID: <202404161011.gCoUG4KZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,121 +65,92 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Brian Kim <brian.kim@hardkernel.com>
+TO: "charles.park" <charles.park@hardkernel.com>
 CC: Dongjin Kim <tobetter@gmail.com>
-CC: memeka <mihailescu2m@gmail.com>
-CC: Yang Deokgyu <secugyu@gmail.com>
 
 tree:   https://github.com/tobetter/linux odroid-5.15.y
 head:   28a16e1ab36472a36cac8b10003b29f322f458ff
-commit: 61f45d975621becb00c0aef303769f10428b9cd8 [21/204] ODROID-XU4: char: exynos: add /dev/gpiomem device for rootless user GPIO access
-:::::: branch date: 17 hours ago
+commit: 80ab63aad57c0100e5277218c03ce79f4256d8c4 [32/204] ODROID-XU4: Update hack avoiding the invalid temperature by TMU broken
+:::::: branch date: 19 hours ago
 :::::: commit date: 2 years, 5 months ago
-config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160800.qLr46RNZ-lkp@intel.com/config)
+config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404161011.gCoUG4KZ-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404160800.qLr46RNZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404161011.gCoUG4KZ-lkp@intel.com/
 
 smatch warnings:
-drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 156)
+drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testing array offset 'tz->id' after use.
 
-vim +/inst +231 drivers/char/exynos-gpiomem.c
+vim +123 drivers/thermal/thermal_helpers.c
 
-61f45d975621be Brian Kim 2017-01-10  144  
-61f45d975621be Brian Kim 2017-01-10  145  static int exynos_gpiomem_probe(struct platform_device *pdev)
-61f45d975621be Brian Kim 2017-01-10  146  {
-61f45d975621be Brian Kim 2017-01-10  147  	int err = 0;
-61f45d975621be Brian Kim 2017-01-10  148  	struct device *dev = &pdev->dev;
-61f45d975621be Brian Kim 2017-01-10  149  	struct device_node *np = dev->of_node;
-61f45d975621be Brian Kim 2017-01-10  150  	struct resource *res = NULL;
-61f45d975621be Brian Kim 2017-01-10  151  	int i = 0;
-61f45d975621be Brian Kim 2017-01-10  152  
-61f45d975621be Brian Kim 2017-01-10  153  	/* Allocate buffers and instance data */
-61f45d975621be Brian Kim 2017-01-10  154  	inst = kzalloc(sizeof(struct exynos_gpiomem_instance), GFP_KERNEL);
-61f45d975621be Brian Kim 2017-01-10  155  
-61f45d975621be Brian Kim 2017-01-10 @156  	if (!inst) {
-61f45d975621be Brian Kim 2017-01-10  157  		err = -ENOMEM;
-61f45d975621be Brian Kim 2017-01-10  158  		goto failed_inst_alloc;
-61f45d975621be Brian Kim 2017-01-10  159  	}
-61f45d975621be Brian Kim 2017-01-10  160  
-61f45d975621be Brian Kim 2017-01-10  161  	inst->dev = dev;
-61f45d975621be Brian Kim 2017-01-10  162  
-61f45d975621be Brian Kim 2017-01-10  163  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
-61f45d975621be Brian Kim 2017-01-10  164  				sizeof(u32)) / 2;
-61f45d975621be Brian Kim 2017-01-10  165  
-61f45d975621be Brian Kim 2017-01-10  166  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
-61f45d975621be Brian Kim 2017-01-10  167  		dev_err(inst->dev, "failed to get gpio register area.");
-61f45d975621be Brian Kim 2017-01-10  168  		err = -EINVAL;
-61f45d975621be Brian Kim 2017-01-10  169  		goto failed_inst_alloc;
-61f45d975621be Brian Kim 2017-01-10  170  	}
-61f45d975621be Brian Kim 2017-01-10  171  
-61f45d975621be Brian Kim 2017-01-10  172  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
-61f45d975621be Brian Kim 2017-01-10  173  			inst->gpio_area_count);
-61f45d975621be Brian Kim 2017-01-10  174  
-61f45d975621be Brian Kim 2017-01-10  175  	for (i = 0; i < inst->gpio_area_count; ++i) {
-61f45d975621be Brian Kim 2017-01-10  176  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
-61f45d975621be Brian Kim 2017-01-10  177  		if (res) {
-61f45d975621be Brian Kim 2017-01-10  178  			inst->gpio_regs_phys[i] = res->start;
-61f45d975621be Brian Kim 2017-01-10  179  		} else {
-61f45d975621be Brian Kim 2017-01-10  180  			dev_err(inst->dev, "failed to get IO resource");
-61f45d975621be Brian Kim 2017-01-10  181  			err = -ENOENT;
-61f45d975621be Brian Kim 2017-01-10  182  			goto failed_get_resource;
-61f45d975621be Brian Kim 2017-01-10  183  		}
-61f45d975621be Brian Kim 2017-01-10  184  	}
-61f45d975621be Brian Kim 2017-01-10  185  
-61f45d975621be Brian Kim 2017-01-10  186  	/* Create character device entries */
-61f45d975621be Brian Kim 2017-01-10  187  	err = alloc_chrdev_region(&exynos_gpiomem_devid,
-61f45d975621be Brian Kim 2017-01-10  188  				  DEVICE_MINOR, 1, DEVICE_NAME);
-61f45d975621be Brian Kim 2017-01-10  189  	if (err != 0) {
-61f45d975621be Brian Kim 2017-01-10  190  		dev_err(inst->dev, "unable to allocate device number");
-61f45d975621be Brian Kim 2017-01-10  191  		goto failed_alloc_chrdev;
-61f45d975621be Brian Kim 2017-01-10  192  	}
-61f45d975621be Brian Kim 2017-01-10  193  	cdev_init(&exynos_gpiomem_cdev, &exynos_gpiomem_fops);
-61f45d975621be Brian Kim 2017-01-10  194  	exynos_gpiomem_cdev.owner = THIS_MODULE;
-61f45d975621be Brian Kim 2017-01-10  195  	err = cdev_add(&exynos_gpiomem_cdev, exynos_gpiomem_devid, 1);
-61f45d975621be Brian Kim 2017-01-10  196  	if (err != 0) {
-61f45d975621be Brian Kim 2017-01-10  197  		dev_err(inst->dev, "unable to register device");
-61f45d975621be Brian Kim 2017-01-10  198  		goto failed_cdev_add;
-61f45d975621be Brian Kim 2017-01-10  199  	}
-61f45d975621be Brian Kim 2017-01-10  200  
-61f45d975621be Brian Kim 2017-01-10  201  	/* Create sysfs entries */
-61f45d975621be Brian Kim 2017-01-10  202  	exynos_gpiomem_class = class_create(THIS_MODULE, DEVICE_NAME);
-61f45d975621be Brian Kim 2017-01-10  203  	err = IS_ERR(exynos_gpiomem_class);
-61f45d975621be Brian Kim 2017-01-10  204  	if (err)
-61f45d975621be Brian Kim 2017-01-10  205  		goto failed_class_create;
-61f45d975621be Brian Kim 2017-01-10  206  
-61f45d975621be Brian Kim 2017-01-10  207  	exynos_gpiomem_dev = device_create(exynos_gpiomem_class, NULL,
-61f45d975621be Brian Kim 2017-01-10  208  					exynos_gpiomem_devid, NULL,
-61f45d975621be Brian Kim 2017-01-10  209  					"gpiomem");
-61f45d975621be Brian Kim 2017-01-10  210  	err = IS_ERR(exynos_gpiomem_dev);
-61f45d975621be Brian Kim 2017-01-10  211  	if (err)
-61f45d975621be Brian Kim 2017-01-10  212  		goto failed_device_create;
-61f45d975621be Brian Kim 2017-01-10  213  
-61f45d975621be Brian Kim 2017-01-10  214  	for (i = 0; i < inst->gpio_area_count; ++i) {
-61f45d975621be Brian Kim 2017-01-10  215  		dev_info(inst->dev, "Initialised: Registers at 0x%08lx",
-61f45d975621be Brian Kim 2017-01-10  216  				inst->gpio_regs_phys[i]);
-61f45d975621be Brian Kim 2017-01-10  217  	}
-61f45d975621be Brian Kim 2017-01-10  218  
-61f45d975621be Brian Kim 2017-01-10  219  	return 0;
-61f45d975621be Brian Kim 2017-01-10  220  
-61f45d975621be Brian Kim 2017-01-10  221  failed_device_create:
-61f45d975621be Brian Kim 2017-01-10  222  	class_destroy(exynos_gpiomem_class);
-61f45d975621be Brian Kim 2017-01-10  223  failed_class_create:
-61f45d975621be Brian Kim 2017-01-10  224  	cdev_del(&exynos_gpiomem_cdev);
-61f45d975621be Brian Kim 2017-01-10  225  failed_cdev_add:
-61f45d975621be Brian Kim 2017-01-10  226  	unregister_chrdev_region(exynos_gpiomem_devid, 1);
-61f45d975621be Brian Kim 2017-01-10  227  failed_alloc_chrdev:
-61f45d975621be Brian Kim 2017-01-10  228  failed_get_resource:
-61f45d975621be Brian Kim 2017-01-10  229  	kfree(inst);
-61f45d975621be Brian Kim 2017-01-10  230  failed_inst_alloc:
-61f45d975621be Brian Kim 2017-01-10 @231  	dev_err(inst->dev, "could not load exynos_gpiomem");
-61f45d975621be Brian Kim 2017-01-10  232  	return err;
-61f45d975621be Brian Kim 2017-01-10  233  }
-61f45d975621be Brian Kim 2017-01-10  234  
+80ab63aad57c01 charles.park     2018-06-01   81  
+cd221c7b638f83 Eduardo Valentin 2016-11-07   82  int thermal_zone_get_temp(struct thermal_zone_device *tz, int *temp)
+cd221c7b638f83 Eduardo Valentin 2016-11-07   83  {
+cd221c7b638f83 Eduardo Valentin 2016-11-07   84  	int ret = -EINVAL;
+cd221c7b638f83 Eduardo Valentin 2016-11-07   85  	int count;
+cd221c7b638f83 Eduardo Valentin 2016-11-07   86  	int crit_temp = INT_MAX;
+cd221c7b638f83 Eduardo Valentin 2016-11-07   87  	enum thermal_trip_type type;
+cd221c7b638f83 Eduardo Valentin 2016-11-07   88  
+cd221c7b638f83 Eduardo Valentin 2016-11-07   89  	if (!tz || IS_ERR(tz) || !tz->ops->get_temp)
+cd221c7b638f83 Eduardo Valentin 2016-11-07   90  		goto exit;
+cd221c7b638f83 Eduardo Valentin 2016-11-07   91  
+cd221c7b638f83 Eduardo Valentin 2016-11-07   92  	mutex_lock(&tz->lock);
+cd221c7b638f83 Eduardo Valentin 2016-11-07   93  
+cd221c7b638f83 Eduardo Valentin 2016-11-07   94  	ret = tz->ops->get_temp(tz, temp);
+cd221c7b638f83 Eduardo Valentin 2016-11-07   95  
+cd221c7b638f83 Eduardo Valentin 2016-11-07   96  	if (IS_ENABLED(CONFIG_THERMAL_EMULATION) && tz->emul_temperature) {
+cd221c7b638f83 Eduardo Valentin 2016-11-07   97  		for (count = 0; count < tz->trips; count++) {
+cd221c7b638f83 Eduardo Valentin 2016-11-07   98  			ret = tz->ops->get_trip_type(tz, count, &type);
+cd221c7b638f83 Eduardo Valentin 2016-11-07   99  			if (!ret && type == THERMAL_TRIP_CRITICAL) {
+cd221c7b638f83 Eduardo Valentin 2016-11-07  100  				ret = tz->ops->get_trip_temp(tz, count,
+cd221c7b638f83 Eduardo Valentin 2016-11-07  101  						&crit_temp);
+cd221c7b638f83 Eduardo Valentin 2016-11-07  102  				break;
+cd221c7b638f83 Eduardo Valentin 2016-11-07  103  			}
+cd221c7b638f83 Eduardo Valentin 2016-11-07  104  		}
+cd221c7b638f83 Eduardo Valentin 2016-11-07  105  
+cd221c7b638f83 Eduardo Valentin 2016-11-07  106  		/*
+cd221c7b638f83 Eduardo Valentin 2016-11-07  107  		 * Only allow emulating a temperature when the real temperature
+cd221c7b638f83 Eduardo Valentin 2016-11-07  108  		 * is below the critical temperature so that the emulation code
+cd221c7b638f83 Eduardo Valentin 2016-11-07  109  		 * cannot hide critical conditions.
+cd221c7b638f83 Eduardo Valentin 2016-11-07  110  		 */
+cd221c7b638f83 Eduardo Valentin 2016-11-07  111  		if (!ret && *temp < crit_temp)
+cd221c7b638f83 Eduardo Valentin 2016-11-07  112  			*temp = tz->emul_temperature;
+cd221c7b638f83 Eduardo Valentin 2016-11-07  113  	}
+cd221c7b638f83 Eduardo Valentin 2016-11-07  114  
+80ab63aad57c01 charles.park     2018-06-01  115  	/* save thermal_zone data */
+80ab63aad57c01 charles.park     2018-06-01  116  	if (!ret)
+80ab63aad57c01 charles.park     2018-06-01  117  		thermal_zone_data[tz->id] = *temp;
+80ab63aad57c01 charles.park     2018-06-01  118  	/*
+80ab63aad57c01 charles.park     2018-06-01  119  	 * This case is that the thermal sensor is broken.
+80ab63aad57c01 charles.park     2018-06-01  120  	 * That's not real temperature. Set the fake temperature value in order to
+80ab63aad57c01 charles.park     2018-06-01  121  	 * avoid reaching the ciritical temperature.
+80ab63aad57c01 charles.park     2018-06-01  122  	 */
+80ab63aad57c01 charles.park     2018-06-01 @123  	if ((thermal_zone_data[tz->id] > CRITICAL_TEMP) && (tz->id != 4)) {
+80ab63aad57c01 charles.park     2018-06-01  124  		int i, broken_sensor = 0, correct_temp = 0;
+80ab63aad57c01 charles.park     2018-06-01  125  		for (i = 0; i < 4; i++) {
+80ab63aad57c01 charles.park     2018-06-01  126  			if ((thermal_zone_data[i] <= CRITICAL_TEMP) &&
+80ab63aad57c01 charles.park     2018-06-01  127  			    (correct_temp <= thermal_zone_data[i]))
+80ab63aad57c01 charles.park     2018-06-01  128  				correct_temp = thermal_zone_data[i];
+80ab63aad57c01 charles.park     2018-06-01  129  			if (thermal_zone_data[i] > CRITICAL_TEMP)
+80ab63aad57c01 charles.park     2018-06-01  130  				broken_sensor++;
+80ab63aad57c01 charles.park     2018-06-01  131  		}
+80ab63aad57c01 charles.park     2018-06-01  132  		/*
+80ab63aad57c01 charles.park     2018-06-01  133  		 * if all thermal sensor broken then critical temperature data send
+80ab63aad57c01 charles.park     2018-06-01  134  		 * for system poweroff.
+80ab63aad57c01 charles.park     2018-06-01  135  		 */
+80ab63aad57c01 charles.park     2018-06-01  136  		*temp = (broken_sensor == 4) ? CRITICAL_TEMP : correct_temp;
+80ab63aad57c01 charles.park     2018-06-01  137  	}
+80ab63aad57c01 charles.park     2018-06-01  138  
+cd221c7b638f83 Eduardo Valentin 2016-11-07  139  	mutex_unlock(&tz->lock);
+cd221c7b638f83 Eduardo Valentin 2016-11-07  140  exit:
+cd221c7b638f83 Eduardo Valentin 2016-11-07  141  	return ret;
+cd221c7b638f83 Eduardo Valentin 2016-11-07  142  }
+cd221c7b638f83 Eduardo Valentin 2016-11-07  143  EXPORT_SYMBOL_GPL(thermal_zone_get_temp);
+cd221c7b638f83 Eduardo Valentin 2016-11-07  144  
 
 -- 
 0-DAY CI Kernel Test Service
