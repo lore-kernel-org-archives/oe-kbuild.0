@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D72C36E
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 00:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D015717F0
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Apr 2024 00:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713226060; cv=none; b=LMb5RCmYAC3R5UD6SNbAH7umhnnQNVKoLyIpJmvK5LMVkKqjEemd0IJTRPE8c1u5mOlSLsd0UpyRT0dPXnRxKDXACWhcKUQe7gIy4wXwiWr8HMO9odeNO/djw2L1n8PQ0OtGBSxvBczF98kJYKGogNke+bo4n5hMuDydn28OfIA=
+	t=1713228581; cv=none; b=CXoWBzgqfPBtWqpprr2azzqz+m+sRPmhGVXHg6Uq9zEWmS7BRxQkyLyQZlUFscVj7ain2nLeFygptcaZcE+4f/kfkBMuUdIAcpxNRuwdO6xVhVWloHiZX10jxZrNmDS4MrPqwjKP2GSveFbzJqhIptz9qFqbcir57osbnZpMW1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713226060; c=relaxed/simple;
-	bh=8FSPQV7Ht+7KCf7M7XBpfq/hQiDYcuZREdHdzy8vMWE=;
+	s=arc-20240116; t=1713228581; c=relaxed/simple;
+	bh=UMN+UOH79zKHZYju7w6SBGJDu7IeJa++kcRGi9er9OM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G4rdH5J9gukYEP/6tJz9ZC71nsXPb2e5pk3EeBzh5+NrodECdRpp0JmkkEgopq2wPcmDqvRhlETMEJAKDAqo3WwMO52QfWK2retdH5+Jo/Esxn79ojw/XqPsOYzxsyBeIe5jCkb55LNnh/VHUR36v6dlnF9hlddk6NJzejyes/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIe6whdx; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=TFZ7z+wYeP+eGZrd8bxD0UHPt69gISLmhractB42ZJaJJPfD3zX0/rapxtWyuxwOCHWud6jJKTtjqn/zRAWpBjWWr0+NOurWw4aYyUHVSlx7CJXSRQbVL+znX/eufVjB20Gj7a1s9PbBhihv30Us0RQjFIQrlhcrd/sFVLl6dVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ju3XenKC; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIe6whdx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ju3XenKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713226059; x=1744762059;
+  t=1713228580; x=1744764580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8FSPQV7Ht+7KCf7M7XBpfq/hQiDYcuZREdHdzy8vMWE=;
-  b=lIe6whdxb8wIAUO5kwyfKE9gBbWn0eFrnIpWpbdqrcWx4wqjriEbk7un
-   Pqezin3jOewnVwtPdQthTog0otyRTMZMDAvmTKWIXL1J6KbPa+1AmqmZM
-   USTBQ4w/vIfmIafxjEJN/pdKBecaYvT/M1lUJpyOj3ls9jyKqWww3nyfQ
-   42VhMYwUTG6aaOgjXmQiOXsbTLz/xA64y4Fb+yhl/wtuSjGOZOXU6+Y5g
-   8qb+t70N7+FdGjPj4Q+8TkQpOS0yaleKjRd5G9k8lBT930XyRFK8KaJTz
-   bmLfc+i1Av7Yv2clTV6U+V8tigt+fVGWnthc+wPpOuo1K9KFG2IbENKjO
+  bh=UMN+UOH79zKHZYju7w6SBGJDu7IeJa++kcRGi9er9OM=;
+  b=Ju3XenKCKKrQpjxHOX1cNjMXRq4W71fMUHBopvRfHmvFp6lvFUw3w3nt
+   lJiZkstrCDlX2PymuHBa+XOMbTbsMNj96kgePsHPv9I/lcYNmuheDNONG
+   FhLz5NKPPQpi5I+OZwferBTyE4kvlHBdVgMyhP2O9VQ6StG/0W/gCK1s6
+   sWkEDUnF6pMsWXT058fD2mylOSKQlxSHWWhL0Yi+n2EXER6Xzr++AttP7
+   n18l9aKfyisUO0SeAQyjvaBZn+JQ1MdhQxpfRVXyapcm0xJlAaiWCTKfD
+   qOZF2rcDZA7CyinX83Fo9v8xH4xaP0pmNEN+xW/lqLvcAdXRcQvymZSOj
    w==;
-X-CSE-ConnectionGUID: UF90RQVBSUWVUSWZ9JE6+Q==
-X-CSE-MsgGUID: GED/6Zc/QMa8CCMSApZGeA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="12421769"
+X-CSE-ConnectionGUID: Tk+Q9mJCQDuAflRthuYgYw==
+X-CSE-MsgGUID: mt/Lh8N4Sb+SsOV0zWK7Lw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8813168"
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="12421769"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:07:37 -0700
-X-CSE-ConnectionGUID: CoKDb1mZRYuyt8W9arHFkg==
-X-CSE-MsgGUID: IvcET4dsQO63UxmN75w9QQ==
+   d="scan'208";a="8813168"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:49:39 -0700
+X-CSE-ConnectionGUID: s03Bh+DKQHWEFW5tvjb0fA==
+X-CSE-MsgGUID: 3X6IQkUbTBSlSqLX6ISwZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
-   d="scan'208";a="22158227"
+   d="scan'208";a="22102418"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Apr 2024 17:07:36 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 15 Apr 2024 17:49:37 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwWMI-0004k2-0L;
-	Tue, 16 Apr 2024 00:07:34 +0000
-Date: Tue, 16 Apr 2024 08:06:48 +0800
+	id 1rwX0x-0004mu-1c;
+	Tue, 16 Apr 2024 00:49:35 +0000
+Date: Tue, 16 Apr 2024 08:49:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 81/438] kernel/trace/trace_osnoise.c:2221
- osnoise_options_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202404160705.XjbuMswh-lkp@intel.com>
+Subject: [tobetter:odroid-5.15.y 21/204] drivers/char/exynos-gpiomem.c:231
+ exynos_gpiomem_probe() error: we previously assumed 'inst' could be null
+ (see line 156)
+Message-ID: <202404160800.qLr46RNZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,108 +65,121 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+TO: Brian Kim <brian.kim@hardkernel.com>
+CC: Dongjin Kim <tobetter@gmail.com>
+CC: memeka <mihailescu2m@gmail.com>
+CC: Yang Deokgyu <secugyu@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   fe753ea36f846c5a5638f1db502ba023e76132ae
-commit: 0a8611a070841cdb5c2d20eb33f56ef5b1a9951b [81/438] tracing: convert to read/write iterators
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160705.XjbuMswh-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-5.15.y
+head:   28a16e1ab36472a36cac8b10003b29f322f458ff
+commit: 61f45d975621becb00c0aef303769f10428b9cd8 [21/204] ODROID-XU4: char: exynos: add /dev/gpiomem device for rootless user GPIO access
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 years, 5 months ago
+config: i386-randconfig-141-20240416 (https://download.01.org/0day-ci/archive/20240416/202404160800.qLr46RNZ-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404160705.XjbuMswh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404160800.qLr46RNZ-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/trace_osnoise.c:2221 osnoise_options_write() warn: potential spectre issue 'buf' [w]
+drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 156)
 
-vim +/buf +2221 kernel/trace/trace_osnoise.c
+vim +/inst +231 drivers/char/exynos-gpiomem.c
 
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2198  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2199  /**
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2200   * osnoise_options_write - Write function for "options" entry
-0a8611a070841c Jens Axboe                 2024-04-08  2201   * @iocb: Metadata for IO
-0a8611a070841c Jens Axboe                 2024-04-08  2202   * @from: The user buffer that contains the value to write
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2203   *
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2204   * Writing the option name sets the option, writing the "NO_"
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2205   * prefix in front of the option name disables it.
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2206   *
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2207   * Writing "DEFAULTS" resets the option values to the default ones.
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2208   */
-0a8611a070841c Jens Axboe                 2024-04-08  2209  static ssize_t osnoise_options_write(struct kiocb *iocb, struct iov_iter *from)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2210  {
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2211  	int running, option, enable, retval;
-0a8611a070841c Jens Axboe                 2024-04-08  2212  	size_t cnt = iov_iter_count(from);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2213  	char buf[256], *option_str;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2214  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2215  	if (cnt >= 256)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2216  		return -EINVAL;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2217  
-0a8611a070841c Jens Axboe                 2024-04-08  2218  	if (!copy_from_iter_full(buf, cnt, from))
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2219  		return -EFAULT;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2220  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17 @2221  	buf[cnt] = 0;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2222  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2223  	if (strncmp(buf, "NO_", 3)) {
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2224  		option_str = strstrip(buf);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2225  		enable = true;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2226  	} else {
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2227  		option_str = strstrip(&buf[3]);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2228  		enable = false;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2229  	}
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2230  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2231  	option = match_string(osnoise_options_str, OSN_MAX, option_str);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2232  	if (option < 0)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2233  		return -EINVAL;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2234  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2235  	/*
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2236  	 * trace_types_lock is taken to avoid concurrency on start/stop.
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2237  	 */
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2238  	mutex_lock(&trace_types_lock);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2239  	running = osnoise_has_registered_instances();
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2240  	if (running)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2241  		stop_per_cpu_kthreads();
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2242  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2243  	mutex_lock(&interface_lock);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2244  	/*
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2245  	 * avoid CPU hotplug operations that might read options.
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2246  	 */
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2247  	cpus_read_lock();
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2248  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2249  	retval = cnt;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2250  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2251  	if (enable) {
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2252  		if (option == OSN_DEFAULTS)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2253  			osnoise_options = OSN_DEFAULT_OPTIONS;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2254  		else
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2255  			set_bit(option, &osnoise_options);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2256  	} else {
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2257  		if (option == OSN_DEFAULTS)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2258  			retval = -EINVAL;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2259  		else
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2260  			clear_bit(option, &osnoise_options);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2261  	}
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2262  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2263  	cpus_read_unlock();
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2264  	mutex_unlock(&interface_lock);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2265  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2266  	if (running)
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2267  		start_per_cpu_kthreads();
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2268  	mutex_unlock(&trace_types_lock);
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2269  
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2270  	return retval;
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2271  }
-b179d48b6aab21 Daniel Bristot de Oliveira 2022-11-17  2272  
-
-:::::: The code at line 2221 was first introduced by commit
-:::::: b179d48b6aab21f3999f5006685ea4254c0618a9 tracing/osnoise: Add osnoise/options file
-
-:::::: TO: Daniel Bristot de Oliveira <bristot@kernel.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+61f45d975621be Brian Kim 2017-01-10  144  
+61f45d975621be Brian Kim 2017-01-10  145  static int exynos_gpiomem_probe(struct platform_device *pdev)
+61f45d975621be Brian Kim 2017-01-10  146  {
+61f45d975621be Brian Kim 2017-01-10  147  	int err = 0;
+61f45d975621be Brian Kim 2017-01-10  148  	struct device *dev = &pdev->dev;
+61f45d975621be Brian Kim 2017-01-10  149  	struct device_node *np = dev->of_node;
+61f45d975621be Brian Kim 2017-01-10  150  	struct resource *res = NULL;
+61f45d975621be Brian Kim 2017-01-10  151  	int i = 0;
+61f45d975621be Brian Kim 2017-01-10  152  
+61f45d975621be Brian Kim 2017-01-10  153  	/* Allocate buffers and instance data */
+61f45d975621be Brian Kim 2017-01-10  154  	inst = kzalloc(sizeof(struct exynos_gpiomem_instance), GFP_KERNEL);
+61f45d975621be Brian Kim 2017-01-10  155  
+61f45d975621be Brian Kim 2017-01-10 @156  	if (!inst) {
+61f45d975621be Brian Kim 2017-01-10  157  		err = -ENOMEM;
+61f45d975621be Brian Kim 2017-01-10  158  		goto failed_inst_alloc;
+61f45d975621be Brian Kim 2017-01-10  159  	}
+61f45d975621be Brian Kim 2017-01-10  160  
+61f45d975621be Brian Kim 2017-01-10  161  	inst->dev = dev;
+61f45d975621be Brian Kim 2017-01-10  162  
+61f45d975621be Brian Kim 2017-01-10  163  	inst->gpio_area_count = of_property_count_elems_of_size(np, "reg",
+61f45d975621be Brian Kim 2017-01-10  164  				sizeof(u32)) / 2;
+61f45d975621be Brian Kim 2017-01-10  165  
+61f45d975621be Brian Kim 2017-01-10  166  	if (inst->gpio_area_count > 32 || inst->gpio_area_count <= 0) {
+61f45d975621be Brian Kim 2017-01-10  167  		dev_err(inst->dev, "failed to get gpio register area.");
+61f45d975621be Brian Kim 2017-01-10  168  		err = -EINVAL;
+61f45d975621be Brian Kim 2017-01-10  169  		goto failed_inst_alloc;
+61f45d975621be Brian Kim 2017-01-10  170  	}
+61f45d975621be Brian Kim 2017-01-10  171  
+61f45d975621be Brian Kim 2017-01-10  172  	dev_info(inst->dev, "Initialised: GPIO register area is %d",
+61f45d975621be Brian Kim 2017-01-10  173  			inst->gpio_area_count);
+61f45d975621be Brian Kim 2017-01-10  174  
+61f45d975621be Brian Kim 2017-01-10  175  	for (i = 0; i < inst->gpio_area_count; ++i) {
+61f45d975621be Brian Kim 2017-01-10  176  		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+61f45d975621be Brian Kim 2017-01-10  177  		if (res) {
+61f45d975621be Brian Kim 2017-01-10  178  			inst->gpio_regs_phys[i] = res->start;
+61f45d975621be Brian Kim 2017-01-10  179  		} else {
+61f45d975621be Brian Kim 2017-01-10  180  			dev_err(inst->dev, "failed to get IO resource");
+61f45d975621be Brian Kim 2017-01-10  181  			err = -ENOENT;
+61f45d975621be Brian Kim 2017-01-10  182  			goto failed_get_resource;
+61f45d975621be Brian Kim 2017-01-10  183  		}
+61f45d975621be Brian Kim 2017-01-10  184  	}
+61f45d975621be Brian Kim 2017-01-10  185  
+61f45d975621be Brian Kim 2017-01-10  186  	/* Create character device entries */
+61f45d975621be Brian Kim 2017-01-10  187  	err = alloc_chrdev_region(&exynos_gpiomem_devid,
+61f45d975621be Brian Kim 2017-01-10  188  				  DEVICE_MINOR, 1, DEVICE_NAME);
+61f45d975621be Brian Kim 2017-01-10  189  	if (err != 0) {
+61f45d975621be Brian Kim 2017-01-10  190  		dev_err(inst->dev, "unable to allocate device number");
+61f45d975621be Brian Kim 2017-01-10  191  		goto failed_alloc_chrdev;
+61f45d975621be Brian Kim 2017-01-10  192  	}
+61f45d975621be Brian Kim 2017-01-10  193  	cdev_init(&exynos_gpiomem_cdev, &exynos_gpiomem_fops);
+61f45d975621be Brian Kim 2017-01-10  194  	exynos_gpiomem_cdev.owner = THIS_MODULE;
+61f45d975621be Brian Kim 2017-01-10  195  	err = cdev_add(&exynos_gpiomem_cdev, exynos_gpiomem_devid, 1);
+61f45d975621be Brian Kim 2017-01-10  196  	if (err != 0) {
+61f45d975621be Brian Kim 2017-01-10  197  		dev_err(inst->dev, "unable to register device");
+61f45d975621be Brian Kim 2017-01-10  198  		goto failed_cdev_add;
+61f45d975621be Brian Kim 2017-01-10  199  	}
+61f45d975621be Brian Kim 2017-01-10  200  
+61f45d975621be Brian Kim 2017-01-10  201  	/* Create sysfs entries */
+61f45d975621be Brian Kim 2017-01-10  202  	exynos_gpiomem_class = class_create(THIS_MODULE, DEVICE_NAME);
+61f45d975621be Brian Kim 2017-01-10  203  	err = IS_ERR(exynos_gpiomem_class);
+61f45d975621be Brian Kim 2017-01-10  204  	if (err)
+61f45d975621be Brian Kim 2017-01-10  205  		goto failed_class_create;
+61f45d975621be Brian Kim 2017-01-10  206  
+61f45d975621be Brian Kim 2017-01-10  207  	exynos_gpiomem_dev = device_create(exynos_gpiomem_class, NULL,
+61f45d975621be Brian Kim 2017-01-10  208  					exynos_gpiomem_devid, NULL,
+61f45d975621be Brian Kim 2017-01-10  209  					"gpiomem");
+61f45d975621be Brian Kim 2017-01-10  210  	err = IS_ERR(exynos_gpiomem_dev);
+61f45d975621be Brian Kim 2017-01-10  211  	if (err)
+61f45d975621be Brian Kim 2017-01-10  212  		goto failed_device_create;
+61f45d975621be Brian Kim 2017-01-10  213  
+61f45d975621be Brian Kim 2017-01-10  214  	for (i = 0; i < inst->gpio_area_count; ++i) {
+61f45d975621be Brian Kim 2017-01-10  215  		dev_info(inst->dev, "Initialised: Registers at 0x%08lx",
+61f45d975621be Brian Kim 2017-01-10  216  				inst->gpio_regs_phys[i]);
+61f45d975621be Brian Kim 2017-01-10  217  	}
+61f45d975621be Brian Kim 2017-01-10  218  
+61f45d975621be Brian Kim 2017-01-10  219  	return 0;
+61f45d975621be Brian Kim 2017-01-10  220  
+61f45d975621be Brian Kim 2017-01-10  221  failed_device_create:
+61f45d975621be Brian Kim 2017-01-10  222  	class_destroy(exynos_gpiomem_class);
+61f45d975621be Brian Kim 2017-01-10  223  failed_class_create:
+61f45d975621be Brian Kim 2017-01-10  224  	cdev_del(&exynos_gpiomem_cdev);
+61f45d975621be Brian Kim 2017-01-10  225  failed_cdev_add:
+61f45d975621be Brian Kim 2017-01-10  226  	unregister_chrdev_region(exynos_gpiomem_devid, 1);
+61f45d975621be Brian Kim 2017-01-10  227  failed_alloc_chrdev:
+61f45d975621be Brian Kim 2017-01-10  228  failed_get_resource:
+61f45d975621be Brian Kim 2017-01-10  229  	kfree(inst);
+61f45d975621be Brian Kim 2017-01-10  230  failed_inst_alloc:
+61f45d975621be Brian Kim 2017-01-10 @231  	dev_err(inst->dev, "could not load exynos_gpiomem");
+61f45d975621be Brian Kim 2017-01-10  232  	return err;
+61f45d975621be Brian Kim 2017-01-10  233  }
+61f45d975621be Brian Kim 2017-01-10  234  
 
 -- 
 0-DAY CI Kernel Test Service
