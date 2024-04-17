@@ -1,66 +1,67 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB699146D7F
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Apr 2024 15:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C913715E1E9
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Apr 2024 15:36:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713367462; cv=none; b=eUKsNAyB5f2UMg222RP0AXexrjZwCWTlfYNnN+UdJ3EAdg7NPVB5xTaZk21fXrqVsN0Ou5mPO0xHOVET1KrFdilI2+zqFhkuBexbke93cxi1FEJZGyMf/j9ZvX9K/YcGrF+wGS8JhpmuRps6zCp9VHSRsiqyP96CCGzVn76D2os=
+	t=1713368215; cv=none; b=j1kPj9QBKhd3ASxu3iV3XRp+yCVAlYkNufsJyA6KGLdWFq2QEAzyo6UQlKS3M75SUD6qjtuvR/B4fWGTH++1xiXveKA8YP9XjY7n8tyHM5uIXkPCqrFDaqTB5YtwfcS5SHdvZdtmdS/E+T6MflmVyl5JE2e8QI85SUx0x7lgmDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713367462; c=relaxed/simple;
-	bh=wv6TzIexs3gOSYNLydcDjikuOWnq0Lw+6o//JvAaFE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=nzu3KakB2YD1qKm+JTqlOdBYxP3b2oT1DFEU3dXumXQFgD3e3TOPqf9mI2SEyic6QHspqO1ldFF6VCbDZlqY74HnTRqciEdUuAlN8tynBzg5xHWb0qOkF0VgE8X9JTX7JRp/bMb55TqNmvgRWCvajz/j+6e99D0IqB/hyNNJ7Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qDGffqH7; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1713368215; c=relaxed/simple;
+	bh=VkAi+Oi4732nOvULuO6QyMuVfUyFo4erU9B5Jnc2p4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NxB87evOD03LDLrk0nwS7VEKVFoX62AVC2yvCg4xseFvQk5jFwfpCNEZVZktRCG2D4dAPu7XP/8jnVTpVyhQof76Q9ShZTDHaS+zILJqCPfaWTjOSpGUwrs6/SO6O0SDM+jIqYKS2Zdk452+xaeLrlI7GD3Zu4P2EmJnT/RiEBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wh+vvfaD; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qDGffqH7"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-516db2214e6so7220085e87.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 17 Apr 2024 08:24:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wh+vvfaD"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-56e1f3462caso7595448a12.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 17 Apr 2024 08:36:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713367458; x=1713972258; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z0JTVW4GlCOZN1AlXtV9zVy9VXkvFGVMaMHEsnX5OLE=;
-        b=qDGffqH76lHKIGlTbfs9/BBoC/vQR5LbQ1HzTKDLNjW6NqyuCvx298wS27WiQLvnN6
-         vYHOv9s65xilhVV8CP7Uav7gOW1E5GdoW82A4U23Oqdm81IID9sc14n54iTH/PeM/fYw
-         XcmhX3ZKZvAimmtVA0JT9F/6vBgOdt4nbXDpxK4Tv9rhqHh8ORYTjXHFiwDyCTlm2oMq
-         7tvjkcPNXhis0XxKErb3T/mcKHNPjrH2OJygbWJ3zviP2Tz0QSbsYX3yWBmp+ZCztAJf
-         IwiUylPRpV/BvIYGMSIQ1R4BYPIAPRniUdtnVneGVF5npCSj3Jzqsb8+Zi1HRs7J1bN4
-         En5A==
+        d=linaro.org; s=google; t=1713368211; x=1713973011; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bvO3DPqx3lPlx1hH5TlbDiIQHROw2ymM8pak9u0Y0jA=;
+        b=Wh+vvfaDsp++uNVja5m/EARulcyOVV0X9Iud8jZ5wH+dT14uz5R9uyQfqeDw0i+Hqa
+         B5M3RBmRp/JUTpJ6O/yFZ21a0OgTl9cdDt7zbbQb+DvA2co9dJuFeIRPtq0ej6qW8w+X
+         6j7RPyCGmL0TE6Albnw7Yb8K5ncof4aAv+lPPMzHOeOaJFvECdTR55FDo/4LySQw/tvJ
+         sbF4A/U04dtHVnyuBrYn7HNwokFYXH6FAaKmueO01IwWK6EDUPObPa671rNYtt9evsCG
+         GYvtwseTx7pHOWpxjGybk4MI7biaOIleHE2F8JLWpX9HrYHTJ8+7dZzoUzuGUpFxnJr2
+         jeTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713367458; x=1713972258;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z0JTVW4GlCOZN1AlXtV9zVy9VXkvFGVMaMHEsnX5OLE=;
-        b=go4GfbvCRfJS8FIvruI/6oAaLPj3qrW/mkHlSUxvITeLNlK3VeD5iwX0SVh7shGr9B
-         mE21wvktVccC2AtbOsFxI/KpnkcWb8FqlNzPH2FbRSO0CmPB0JiuREoEr/6LyPK/L3iK
-         V3sOPnA4UrrXm4um3as4B1MR7rQKgzZlQTSyMTJZKPoCbBb2/+bAoka0aOosizfxfJ77
-         0XRfAVeVrO4/PpPzvfHuEvTmRVEflI9D4Bhe1RnUGWwtGYcCAE1TublIzGdgh0mcI29b
-         9ZS2qr9DO0aoH4nfC86X/LQg3xv8Ehr7M/NEhwUb9MbmB58O41Q4D0nAgVB1UZ6HzWrW
-         KDbg==
-X-Gm-Message-State: AOJu0YwNeVUTMcukRvgB3Hn2fDYSATOWyx4MOn+E9klhhgvKWCOPKxS5
-	SIzEzNVp6t7QAHQYmt4GwktqGEbHsWWMUwqi1OS0qls1l82/AM5wp+Xh2JNPo+rqiqIN8kqOudw
-	n
-X-Google-Smtp-Source: AGHT+IFgQBi2Xw9wKHUCyJbBXYQp48oCH3X/nexHrDVmbWbgpcrBlr5KOsli0evrQgiutu/jauHOXQ==
-X-Received: by 2002:ac2:4e07:0:b0:518:b865:eab4 with SMTP id e7-20020ac24e07000000b00518b865eab4mr9274971lfr.60.1713367458254;
-        Wed, 17 Apr 2024 08:24:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713368211; x=1713973011;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bvO3DPqx3lPlx1hH5TlbDiIQHROw2ymM8pak9u0Y0jA=;
+        b=CeA6ruE0nka/5TQhtY/dOzYxEVWQj+LUthu7X+f/djhfGX8nH8CX6OUPgqQ7uc5EWu
+         /JrgmH8lGpAUtAUnVma9E0ymIVY9UoOh0zWMfgpG7gZg9Ta1fmJeUlMSC+190QgbRtdh
+         sw3JkEw+yOeWVZj8/69QX4JeyAM8YkP0gyuPz/L4wJn/xcZBYfFUC9MzPgBKKv9+1KuH
+         pZAGsEobd3z+FFR0SyZonWgZNTeOsFa6tmjfTNwyComvf99Z5tXMw+vKUh5RpmyWGV8N
+         eXyUoLfcyGn84RmxUxaPWlg7gWIQ+pe9T502Oxj5La0G3xVT/OvoKAK1lipaMC1u0Qcy
+         eM3g==
+X-Gm-Message-State: AOJu0Yy+bvMBQgzW8WcLCA1PP1KMDg8ykfXZT58wUwrKkudfkZSYaHaR
+	wf/xuHkCHVMq9nDQnAhjudV44/OHl6spaaDQACLuBW+arxg8rgKI1R9CsJdnVMssgrbCPxr6Pl9
+	4
+X-Google-Smtp-Source: AGHT+IEdQvhkYcwfNYVttvD+PCK3mX+DoNc33SzybShtY3KJ9yRVUTT3HdyR6ktTrphXTccneM5pDg==
+X-Received: by 2002:a50:8d0b:0:b0:56e:2e6a:9eef with SMTP id s11-20020a508d0b000000b0056e2e6a9eefmr13109528eds.2.1713368211355;
+        Wed, 17 Apr 2024 08:36:51 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id bl22-20020a170906c25600b00a522bf06d8fsm7739567ejb.14.2024.04.17.08.24.17
+        by smtp.gmail.com with ESMTPSA id r6-20020aa7cb86000000b0056e3707323bsm7327192edt.97.2024.04.17.08.36.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 08:24:17 -0700 (PDT)
-Date: Wed, 17 Apr 2024 18:24:13 +0300
+        Wed, 17 Apr 2024 08:36:51 -0700 (PDT)
+Date: Wed, 17 Apr 2024 18:36:47 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Geetha sowjanya <gakula@marvell.com>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
 	davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
-	sgoutham@marvell.com, gakula@marvell.com, sbhatta@marvell.com,
-	hkelam@marvell.com
+	sgoutham@marvell.com, sbhatta@marvell.com, hkelam@marvell.com
 Subject: Re: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
-Message-ID: <a55c4d98-030c-420e-b29d-3836e1ce0876@moroto.mountain>
+Message-ID: <d5ce5cd4-3d4f-444d-be1d-e201c1439421@moroto.mountain>
+References: <20240416050616.6056-4-gakula@marvell.com>
+ <a55c4d98-030c-420e-b29d-3836e1ce0876@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,121 +70,83 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240416050616.6056-4-gakula@marvell.com>
+In-Reply-To: <a55c4d98-030c-420e-b29d-3836e1ce0876@moroto.mountain>
 
-Hi Geetha,
+On Wed, Apr 17, 2024 at 06:24:13PM +0300, Dan Carpenter wrote:
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  132  int rvu_rep_create(struct otx2_nic *priv)
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  133  {
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  134  	int rep_cnt = priv->rep_cnt;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  135  	struct net_device *ndev;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  136  	struct rep_dev *rep;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  137  	int rep_id, err;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  138  	u16 pcifunc;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  139  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  140  	priv->reps = devm_kcalloc(priv->dev, rep_cnt, sizeof(struct rep_dev), GFP_KERNEL);
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  141  	if (!priv->reps)
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  142  		return -ENOMEM;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  143  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  144  	for (rep_id = 0; rep_id < rep_cnt; rep_id++) {
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  145  		ndev = alloc_etherdev(sizeof(*rep));
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  146  		if (!ndev) {
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  147  			dev_err(priv->dev, "PFVF representor:%d creation failed\n", rep_id);
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  148  			err = -ENOMEM;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  149  			goto exit;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  150  		}
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  151  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  152  		rep = netdev_priv(ndev);
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  153  		priv->reps[rep_id] = rep;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  154  		rep->mdev = priv;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  155  		rep->netdev = ndev;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  156  		rep->rep_id = rep_id;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  157  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  158  		ndev->min_mtu = OTX2_MIN_MTU;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  159  		ndev->max_mtu = priv->hw.max_mtu;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  160  		pcifunc = priv->rep_pf_map[rep_id];
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  161  		rep->pcifunc = pcifunc;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  162  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  163  		snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  164  			 rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  165  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  166  		eth_hw_addr_random(ndev);
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  167  		if (register_netdev(ndev)) {
+> 
+> err = register_netdev(ndev);
+> if (err) {
+> 
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  168  			dev_err(priv->dev, "PFVF reprentator registration failed\n");
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  169  			free_netdev(ndev);
+>                                                                                     ^^^^
+> freed
+> 
+> f9a5b510759eeb Geetha sowjanya 2024-04-16 @170  			ndev->netdev_ops = NULL;
+>                                                                         ^^^^^^^^^^^^^^^^^^^^^^^
+> Use after free
+> 
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  171  			goto exit;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  172  		}
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  173  	}
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  174  	err = rvu_rep_napi_init(priv);
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  175  	if (err)
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  176  		goto exit;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  177  
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  178  	return 0;
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  179  exit:
+> f9a5b510759eeb Geetha sowjanya 2024-04-16  180  	rvu_rep_free_netdev(priv);
+> 
+> rvu_rep_free_netdev() also calls free_netdev() so it's a double free.
 
-kernel test robot noticed the following build warnings:
+Actually the rep->netdev->netdev_ops check in rvu_rep_free_netdev() was
+supposed to prevent the double free.  But since rep->netdev is already
+freed, then it's another use after free.  You could use a different flag
+instead of rep->netdev->netdev_ops to mean "don't free this".  But
+really, it's just better to write it how I have suggested.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Geetha-sowjanya/octeontx2-pf-Refactoring-RVU-driver/20240416-131052
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240416050616.6056-4-gakula%40marvell.com
-patch subject: [net-next PATCH 3/9] octeontx2-pf: Create representor netdev
-config: alpha-randconfig-r081-20240417 (https://download.01.org/0day-ci/archive/20240417/202404172208.4REfSKKS-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
+My patch adds some duplicate code but when you remove the conditions in
+rvu_rep_free_netdev() and the "ndev->netdev_ops = NULL" assignment, then
+overall it's fewer lines of code this way.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202404172208.4REfSKKS-lkp@intel.com/
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
 
-New smatch warnings:
-drivers/net/ethernet/marvell/octeontx2/nic/rep.c:170 rvu_rep_create() error: dereferencing freed memory 'ndev'
-
-vim +/ndev +170 drivers/net/ethernet/marvell/octeontx2/nic/rep.c
-
-f9a5b510759eeb Geetha sowjanya 2024-04-16  131  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  132  int rvu_rep_create(struct otx2_nic *priv)
-f9a5b510759eeb Geetha sowjanya 2024-04-16  133  {
-f9a5b510759eeb Geetha sowjanya 2024-04-16  134  	int rep_cnt = priv->rep_cnt;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  135  	struct net_device *ndev;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  136  	struct rep_dev *rep;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  137  	int rep_id, err;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  138  	u16 pcifunc;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  139  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  140  	priv->reps = devm_kcalloc(priv->dev, rep_cnt, sizeof(struct rep_dev), GFP_KERNEL);
-f9a5b510759eeb Geetha sowjanya 2024-04-16  141  	if (!priv->reps)
-f9a5b510759eeb Geetha sowjanya 2024-04-16  142  		return -ENOMEM;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  143  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  144  	for (rep_id = 0; rep_id < rep_cnt; rep_id++) {
-f9a5b510759eeb Geetha sowjanya 2024-04-16  145  		ndev = alloc_etherdev(sizeof(*rep));
-f9a5b510759eeb Geetha sowjanya 2024-04-16  146  		if (!ndev) {
-f9a5b510759eeb Geetha sowjanya 2024-04-16  147  			dev_err(priv->dev, "PFVF representor:%d creation failed\n", rep_id);
-f9a5b510759eeb Geetha sowjanya 2024-04-16  148  			err = -ENOMEM;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  149  			goto exit;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  150  		}
-f9a5b510759eeb Geetha sowjanya 2024-04-16  151  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  152  		rep = netdev_priv(ndev);
-f9a5b510759eeb Geetha sowjanya 2024-04-16  153  		priv->reps[rep_id] = rep;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  154  		rep->mdev = priv;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  155  		rep->netdev = ndev;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  156  		rep->rep_id = rep_id;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  157  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  158  		ndev->min_mtu = OTX2_MIN_MTU;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  159  		ndev->max_mtu = priv->hw.max_mtu;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  160  		pcifunc = priv->rep_pf_map[rep_id];
-f9a5b510759eeb Geetha sowjanya 2024-04-16  161  		rep->pcifunc = pcifunc;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  162  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  163  		snprintf(ndev->name, sizeof(ndev->name), "r%dp%dv%d", rep_id,
-f9a5b510759eeb Geetha sowjanya 2024-04-16  164  			 rvu_get_pf(pcifunc), (pcifunc & RVU_PFVF_FUNC_MASK));
-f9a5b510759eeb Geetha sowjanya 2024-04-16  165  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  166  		eth_hw_addr_random(ndev);
-f9a5b510759eeb Geetha sowjanya 2024-04-16  167  		if (register_netdev(ndev)) {
-
-err = register_netdev(ndev);
-if (err) {
-
-f9a5b510759eeb Geetha sowjanya 2024-04-16  168  			dev_err(priv->dev, "PFVF reprentator registration failed\n");
-f9a5b510759eeb Geetha sowjanya 2024-04-16  169  			free_netdev(ndev);
-                                                                                    ^^^^
-freed
-
-f9a5b510759eeb Geetha sowjanya 2024-04-16 @170  			ndev->netdev_ops = NULL;
-                                                                        ^^^^^^^^^^^^^^^^^^^^^^^
-Use after free
-
-f9a5b510759eeb Geetha sowjanya 2024-04-16  171  			goto exit;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  172  		}
-f9a5b510759eeb Geetha sowjanya 2024-04-16  173  	}
-f9a5b510759eeb Geetha sowjanya 2024-04-16  174  	err = rvu_rep_napi_init(priv);
-f9a5b510759eeb Geetha sowjanya 2024-04-16  175  	if (err)
-f9a5b510759eeb Geetha sowjanya 2024-04-16  176  		goto exit;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  177  
-f9a5b510759eeb Geetha sowjanya 2024-04-16  178  	return 0;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  179  exit:
-f9a5b510759eeb Geetha sowjanya 2024-04-16  180  	rvu_rep_free_netdev(priv);
-
-rvu_rep_free_netdev() also calls free_netdev() so it's a double free.  I
-would normally write this as:
-
-exit:
-	while (--rep_id >= 0) {
-		unregister_netdev(priv->reps[rep_id]);
-		free_netdev(priv->reps[rep_id]);
-	}
-
-	return err;
-
-When you write it that way then rvu_rep_free_netdev() can be made easier
-as well:
-
-static void rvu_rep_free_netdev(struct otx2_nic *priv)
-{
-	int rep_id;
-
-	for (rep_id = 0; rep_id < priv->rep_cnt; rep_id++) {
-		unregister_netdev(priv->reps[rep_id]);
-		free_netdev(priv->reps[rep_id]);
-	}
-}
-
-There should be no need to call devm_kfree(priv->dev, priv->reps);.
-
-f9a5b510759eeb Geetha sowjanya 2024-04-16 @181  	return err;
-f9a5b510759eeb Geetha sowjanya 2024-04-16  182  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
