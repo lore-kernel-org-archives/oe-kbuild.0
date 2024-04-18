@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF1B1779A4
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Apr 2024 18:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF2A181BB4
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Apr 2024 21:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713463913; cv=none; b=sl0PRGYrW56keh2ZaRxyqEk5nc0Pc40DrrplQb/zOp19GlLIQ3OGwnbCt8rSezrFA3Xa6eL7sjFa2w/HP6QRWUcTeCM2JBlcFS/dex6cMtJ88oVpknMXAzl0IT0L/NJ5jFS4+e611VDpvklNjCdp6mH6pDzu7Ye06rkhPSYVceE=
+	t=1713474680; cv=none; b=i0bVD1BpwMPkHrm5yG/p5tZhx3QzMXvTyl2JTGPyauVUK6CDXqNYGQmumU2e8fC/WNRWYWbABuQbxkiA3mttvlqPb1paptqLFeo+fJO0e2u000rv+wK27ypvJrEWjmr+h4evUbuIYDOYFTZ3b5dyQsGRnXKuCF5hD66wRhm2P2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713463913; c=relaxed/simple;
-	bh=0GXQ6q0Adz2/N9Ig52HvX8H1/11Vw9b1TQSagBJQ01M=;
+	s=arc-20240116; t=1713474680; c=relaxed/simple;
+	bh=uMAP0R71pg3h5oM4Uz5UTVaxWOQWq+Q+8YKiBYKxeXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gQBN/fay88j5oQmP6pPmOc47BlirYBPEGVGW9FzZgUnTSjRJv5ASWrtXH1YnJdTgze2l32VednLzBwNC47p+FAD08I5n2tx9QoinTk7rKA5OPPg/Tq/CjlfO39cXxxEA0IfySr658cCmy2AskERQbJDWRS/CDla3XF+K2kKIaD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CADsZ5OT; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=LMv7K7uGbiAmoqXs15T6jiOsasOSq5ZSoBzFPPRWJ8WfeWRlfIfRGeLQPgrnn63VO0wqXfnQch4H75oJgt9vb/FGt8dCp0+cjlnf9ds4MK+INH/V1dMvqR/+jxGjdKH2K972nXPr3fM3zClIZz1KYNvreeAU9HmNZxYV5sfWUlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvKnz++A; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CADsZ5OT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvKnz++A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713463911; x=1744999911;
+  t=1713474679; x=1745010679;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0GXQ6q0Adz2/N9Ig52HvX8H1/11Vw9b1TQSagBJQ01M=;
-  b=CADsZ5OTQ/oo38Xfs/oh8T2MOYG/uI3CrQKmKU7wl5MrzOVHSnOWocE9
-   l5qY2qtk+qaoL/mqNBlVmbjfloWcGWz4BImusutWLAZRD1IVq/oKy7Jwm
-   +bMc2EDpU0Zl78eKZ5ciRbLBRbZ1pm8vhpnjWFL8WVoCGDJLBU0W4PY0T
-   C4X2FlWiOtfw1FNeRQl0IgEe5YQ7KXqSJs7J9wXisiKz0HNI+0UBB9E5c
-   vgi9A5PWrkWCS2wpDcykbHLhzuHOCj23FI1Fy0OtDIHCx39IdPli9BN76
-   ysf5CFhL7ulKxoQjMZ63fAyFINSsdHxJfX9Ur+9Tub6sswqJwqy7kL3dR
-   Q==;
-X-CSE-ConnectionGUID: u0mdyi6hQI6R89OZgYFpxw==
-X-CSE-MsgGUID: YNhRJ5UiRdiT/urOlml8yw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9203286"
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="9203286"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 11:11:50 -0700
-X-CSE-ConnectionGUID: KhphbOXDRsqXVxD/ANy1gA==
-X-CSE-MsgGUID: Aqkc2LOISz6EvgKHFoVldA==
+  bh=uMAP0R71pg3h5oM4Uz5UTVaxWOQWq+Q+8YKiBYKxeXI=;
+  b=IvKnz++AfxbVTtozty36LVcDsmr/DNAbxI+iWuSjUINzXLs4+gipsv9f
+   4Sq8zgfEiDgd+ueiIwD/45Idr96CmvDoGCnNvY7eVuRUkB+KwEud5UdST
+   VvIzqjD845WWeInX1JIx34WDZL65FLCU6/y1Yg2ZdUMv+u5q8E8anoUUm
+   ojaxc/kuX9RS5TwumuBxO9oPtVqp0dWWjiooJrIei3v5OVuU64wtjqa1k
+   uiQVXEl4QTasxriPuKy7zjHsd+k/Ee8j/UE0pI8D2rvv/IJyIPHyMJd9h
+   b2hi37lHviIk7KUEgNxXK2iN1MtFC7iWm/crCA6fVlWPo1zs9aG2t+Eoo
+   g==;
+X-CSE-ConnectionGUID: dCby9wJ2RZu/K7vZdi4lhQ==
+X-CSE-MsgGUID: r28PwEQkRa+dKicP6NP/5w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="12842008"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="12842008"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2024 14:11:18 -0700
+X-CSE-ConnectionGUID: jJiQrRheQru1Q88y/5JX4w==
+X-CSE-MsgGUID: dhfSYRJ2SrS0oZYrVy/F2A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,212,1708416000"; 
-   d="scan'208";a="22941390"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="27568040"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2024 11:11:49 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Apr 2024 14:11:17 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rxWEc-000956-2U;
-	Thu, 18 Apr 2024 18:11:46 +0000
-Date: Fri, 19 Apr 2024 02:10:55 +0800
+	id 1rxZ2I-0009FE-26;
+	Thu, 18 Apr 2024 21:11:14 +0000
+Date: Fri, 19 Apr 2024 05:10:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 6378/6705] mseal_test.c:84:59: warning: format
- specifies type 'char *' but the argument has type 'char (*)[5]'
-Message-ID: <202404190226.OfJOewV8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:upstream-linux-5.15.y 264/377]
+ drivers/pci/endpoint/functions/pci-epf-vntb.c:1316 epf_ntb_bind() warn:
+ missing error code 'ret'
+Message-ID: <202404190553.UtOSurIn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,72 +63,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jeff Xu <jeffxu@chromium.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7b4f2bc91c15fdcf948bb2d9741a9d7d54303f8d
-commit: 87c436bebeeb885b21f47a7dbcfc548e9679c688 [6378/6705] selftest mm/mseal memory sealing
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 days ago
+tree:   https://android.googlesource.com/kernel/common upstream-linux-5.15.y
+head:   c52b9710c83d3b8ab63bb217cc7c8b61e13f12cd
+commit: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb [264/377] PCI: endpoint: Support NTB transfer between RC and EP
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-161-20240419 (https://download.01.org/0day-ci/archive/20240419/202404190553.UtOSurIn-lkp@intel.com/config)
 compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240419/202404190226.OfJOewV8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404190226.OfJOewV8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202404190553.UtOSurIn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/pci/endpoint/functions/pci-epf-vntb.c:1316 epf_ntb_bind() warn: missing error code 'ret'
 
->> mseal_test.c:84:59: warning: format specifies type 'char *' but the argument has type 'char (*)[5]' [-Wformat]
-      84 |                 if (sscanf(line, "%lx-%lx %4s", &addr_start, &addr_end, &protstr) == 3) {
-         |                                           ~~~                           ^~~~~~~~
-   1 warning generated.
+Old smatch warnings:
+drivers/pci/endpoint/functions/pci-epf-vntb.c:891 epf_ntb_mw1_store() warn: potential spectre issue 'ntb->mws_size' [w]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:893 epf_ntb_mw2_store() warn: potential spectre issue 'ntb->mws_size' [w]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:895 epf_ntb_mw3_store() warn: potential spectre issue 'ntb->mws_size' [w]
+drivers/pci/endpoint/functions/pci-epf-vntb.c:897 epf_ntb_mw4_store() warn: potential spectre issue 'ntb->mws_size' [w]
 
+vim +/ret +1316 drivers/pci/endpoint/functions/pci-epf-vntb.c
 
-vim +84 tools/testing/selftests/mm/mseal_test.c
-
-87c436bebeeb88 Jeff Xu 2024-04-15   69  
-87c436bebeeb88 Jeff Xu 2024-04-15   70  static unsigned long get_vma_size(void *addr, int *prot)
-87c436bebeeb88 Jeff Xu 2024-04-15   71  {
-87c436bebeeb88 Jeff Xu 2024-04-15   72  	FILE *maps;
-87c436bebeeb88 Jeff Xu 2024-04-15   73  	char line[256];
-87c436bebeeb88 Jeff Xu 2024-04-15   74  	int size = 0;
-87c436bebeeb88 Jeff Xu 2024-04-15   75  	uintptr_t  addr_start, addr_end;
-87c436bebeeb88 Jeff Xu 2024-04-15   76  	char protstr[5];
-87c436bebeeb88 Jeff Xu 2024-04-15   77  	*prot = 0;
-87c436bebeeb88 Jeff Xu 2024-04-15   78  
-87c436bebeeb88 Jeff Xu 2024-04-15   79  	maps = fopen("/proc/self/maps", "r");
-87c436bebeeb88 Jeff Xu 2024-04-15   80  	if (!maps)
-87c436bebeeb88 Jeff Xu 2024-04-15   81  		return 0;
-87c436bebeeb88 Jeff Xu 2024-04-15   82  
-87c436bebeeb88 Jeff Xu 2024-04-15   83  	while (fgets(line, sizeof(line), maps)) {
-87c436bebeeb88 Jeff Xu 2024-04-15  @84  		if (sscanf(line, "%lx-%lx %4s", &addr_start, &addr_end, &protstr) == 3) {
-87c436bebeeb88 Jeff Xu 2024-04-15   85  			if (addr_start == (uintptr_t) addr) {
-87c436bebeeb88 Jeff Xu 2024-04-15   86  				size = addr_end - addr_start;
-87c436bebeeb88 Jeff Xu 2024-04-15   87  				if (protstr[0] == 'r')
-87c436bebeeb88 Jeff Xu 2024-04-15   88  					*prot |= 0x4;
-87c436bebeeb88 Jeff Xu 2024-04-15   89  				if (protstr[1] == 'w')
-87c436bebeeb88 Jeff Xu 2024-04-15   90  					*prot |= 0x2;
-87c436bebeeb88 Jeff Xu 2024-04-15   91  				if (protstr[2] == 'x')
-87c436bebeeb88 Jeff Xu 2024-04-15   92  					*prot |= 0x1;
-87c436bebeeb88 Jeff Xu 2024-04-15   93  				break;
-87c436bebeeb88 Jeff Xu 2024-04-15   94  			}
-87c436bebeeb88 Jeff Xu 2024-04-15   95  		}
-87c436bebeeb88 Jeff Xu 2024-04-15   96  	}
-87c436bebeeb88 Jeff Xu 2024-04-15   97  	fclose(maps);
-87c436bebeeb88 Jeff Xu 2024-04-15   98  	return size;
-87c436bebeeb88 Jeff Xu 2024-04-15   99  }
-87c436bebeeb88 Jeff Xu 2024-04-15  100  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1269  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1270  /**
+e2b6ef72b7aea9 Frank Li 2022-02-22  1271   * epf_ntb_bind() - Initialize endpoint controller to provide NTB functionality
+e2b6ef72b7aea9 Frank Li 2022-02-22  1272   * @epf: NTB endpoint function device
+e2b6ef72b7aea9 Frank Li 2022-02-22  1273   *
+e2b6ef72b7aea9 Frank Li 2022-02-22  1274   * Initialize both the endpoint controllers associated with NTB function device.
+e2b6ef72b7aea9 Frank Li 2022-02-22  1275   * Invoked when a primary interface or secondary interface is bound to EPC
+e2b6ef72b7aea9 Frank Li 2022-02-22  1276   * device. This function will succeed only when EPC is bound to both the
+e2b6ef72b7aea9 Frank Li 2022-02-22  1277   * interfaces.
+e2b6ef72b7aea9 Frank Li 2022-02-22  1278   */
+e2b6ef72b7aea9 Frank Li 2022-02-22  1279  static int epf_ntb_bind(struct pci_epf *epf)
+e2b6ef72b7aea9 Frank Li 2022-02-22  1280  {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1281  	struct epf_ntb *ntb = epf_get_drvdata(epf);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1282  	struct device *dev = &epf->dev;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1283  	int ret;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1284  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1285  	if (!epf->epc) {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1286  		dev_dbg(dev, "PRIMARY EPC interface not yet bound\n");
+e2b6ef72b7aea9 Frank Li 2022-02-22  1287  		return 0;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1288  	}
+e2b6ef72b7aea9 Frank Li 2022-02-22  1289  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1290  	ret = epf_ntb_init_epc_bar(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1291  	if (ret) {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1292  		dev_err(dev, "Failed to create NTB EPC\n");
+e2b6ef72b7aea9 Frank Li 2022-02-22  1293  		goto err_bar_init;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1294  	}
+e2b6ef72b7aea9 Frank Li 2022-02-22  1295  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1296  	ret = epf_ntb_config_spad_bar_alloc(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1297  	if (ret) {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1298  		dev_err(dev, "Failed to allocate BAR memory\n");
+e2b6ef72b7aea9 Frank Li 2022-02-22  1299  		goto err_bar_alloc;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1300  	}
+e2b6ef72b7aea9 Frank Li 2022-02-22  1301  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1302  	ret = epf_ntb_epc_init(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1303  	if (ret) {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1304  		dev_err(dev, "Failed to initialize EPC\n");
+e2b6ef72b7aea9 Frank Li 2022-02-22  1305  		goto err_bar_alloc;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1306  	}
+e2b6ef72b7aea9 Frank Li 2022-02-22  1307  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1308  	epf_set_drvdata(epf, ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1309  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1310  	pci_space[0] = (ntb->vntb_pid << 16) | ntb->vntb_vid;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1311  	pci_vntb_table[0].vendor = ntb->vntb_vid;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1312  	pci_vntb_table[0].device = ntb->vntb_pid;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1313  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1314  	if (pci_register_driver(&vntb_pci_driver)) {
+e2b6ef72b7aea9 Frank Li 2022-02-22  1315  		dev_err(dev, "failure register vntb pci driver\n");
+e2b6ef72b7aea9 Frank Li 2022-02-22 @1316  		goto err_bar_alloc;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1317  	}
+e2b6ef72b7aea9 Frank Li 2022-02-22  1318  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1319  	vpci_scan_bus(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1320  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1321  	return 0;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1322  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1323  err_bar_alloc:
+e2b6ef72b7aea9 Frank Li 2022-02-22  1324  	epf_ntb_config_spad_bar_free(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1325  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1326  err_bar_init:
+e2b6ef72b7aea9 Frank Li 2022-02-22  1327  	epf_ntb_epc_destroy(ntb);
+e2b6ef72b7aea9 Frank Li 2022-02-22  1328  
+e2b6ef72b7aea9 Frank Li 2022-02-22  1329  	return ret;
+e2b6ef72b7aea9 Frank Li 2022-02-22  1330  }
+e2b6ef72b7aea9 Frank Li 2022-02-22  1331  
 
 -- 
 0-DAY CI Kernel Test Service
