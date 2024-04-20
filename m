@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EBB205E32
-	for <oe-kbuild@lists.linux.dev>; Sat, 20 Apr 2024 04:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA38F9DE
+	for <oe-kbuild@lists.linux.dev>; Sat, 20 Apr 2024 07:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713587609; cv=none; b=HLCnD3jnsmjW44HiQJvwzyxUw0GP8F9IURzYxDjrj9YwwbIhq+84omrWTiFXmk5yFGOvhNWjmmlrLAodn/0N7xLQdW/5+Kde3PVcGrHVyyqoSfOB4b7UJ3z5T9scuIziYpE/YzCTlVVfcZfKykbaMty5wLYNb3NxlhqX6iisbGU=
+	t=1713598130; cv=none; b=hngEITXPwSxvZwFwBRtPnQ/xmM2pKb6HHHjlleSSdfwvhvgtm9Tadwy60oi0jVAE9CH/GkBwhUlNnnJt6WoXA/QVTEQVBE62+2WMb0dLyB1JGcUcVGpWPQLH6YCAHc3SsxD5KPXhXOKW7/nLMKOAaA1xY2n4PRiHb6+NAWUN1ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713587609; c=relaxed/simple;
-	bh=6z3aPpcYDjCxxA3Yc+/77CYbutFyD7AmYNVeJzxPHn0=;
+	s=arc-20240116; t=1713598130; c=relaxed/simple;
+	bh=bFo4s9SZL4rxVFtxW0ponOoHT38LjyJCrgCdjHcPvao=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jJEqNprUE8cloXQ3NtG7XlvgECDOWuugip8v2FwZssTlKSQR3nyzhc+WEOYL/L+h6xush8PCks5Q3rph2eNnE9nHkjlGa0pUWo82D9QadglKkZuk9PVPVp/PlYpKF3Rq2o9pay52En4xTpyWr5v+hxIwTumbAgECI5mkcfSmwc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=amxBRkH9; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=MmbkWsjrdELpB2enpyGgosCtOhQKmO68e1XdQ273lPuwIqEgdKwr+2SHpzm2SXvtDFOC+SEaq7D/ZDDGUSVparG/QsROAvFmQFrsR1GYETN9BUC44OTeSRu2eIkSEGfi8M5h8Ok4HhjjjhhmLySNS7xl2E0qbN/OELgSiCv7HRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDHVOE98; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amxBRkH9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDHVOE98"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713587608; x=1745123608;
+  t=1713598128; x=1745134128;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6z3aPpcYDjCxxA3Yc+/77CYbutFyD7AmYNVeJzxPHn0=;
-  b=amxBRkH99JldTXIwpnv+l/XYahIt5yZB3DINVPzbBsNdYXglDNxgUHtB
-   bYRg/OVyPqxl5gQVcF2oKQphu9oRiEPKJZbaMOQqkcsnvOqrxm4GRtb//
-   1sgvR/aSjPHFK8FGbQwbgTEq2kYQGn9BVXWLPfTvzo2gONbbikrVZwY/a
-   BLs10dF3LjgUufRs/VxnLWxuLz4QIqA5J0kEDT663pIaoDzbusTaj0bn6
-   ubZNeKqsFfByus+wLDdKLKSCsLJXWVj+zl2vf5XEjrI27PbQnLNjZBLtY
-   eL1Fx+y5Tmxx4iclaLhdMJBnXUh52Kpy/hV3TzCAKLFOF/zrelIwXqGKL
-   A==;
-X-CSE-ConnectionGUID: bmL2hkNYRACkmmlGrRM10A==
-X-CSE-MsgGUID: B4AsFWfXQ3KJ2pV8mkcsuw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="19811656"
+  bh=bFo4s9SZL4rxVFtxW0ponOoHT38LjyJCrgCdjHcPvao=;
+  b=SDHVOE982/EAe1BP+oc9FQsmuEfD03mC9v8JoWtsdCoo/5qBmZo3SSGK
+   oBnoDy8dD/EzqKtf1bBJejVgqoN966wIfq2EiWrQ384luaOFGyWOHDId9
+   CEZWTrSwRpAZZsFaTtulFeE0Skkj11S2unMKxZ+fRjsWDp0fNHBiRE7Tp
+   jY8OoPrsJP8v77eBr5GltMWQZIeyaepzN3wC/SXUk8bDWFkiGuU7J+1M7
+   gt9rtoAc4p3WkHHjlphe0gki+ShbkV3EKEWFLLn0vhh6kOHIVijqKT8Fn
+   PmdO1/NgbU/JwTHxvIDNgGf6X7tk0vg5XpYyubPNkiMQ0lA70TI14wnJf
+   g==;
+X-CSE-ConnectionGUID: NG6oxgxBSmyMOq9WbD5kgA==
+X-CSE-MsgGUID: KJQtqeaORMCiHfIqmUeRaA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="26725358"
 X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
-   d="scan'208";a="19811656"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 21:33:27 -0700
-X-CSE-ConnectionGUID: +r1AYhxcQCaRWjIb6ecpNw==
-X-CSE-MsgGUID: VV/eRKBHQxa0yym+qOUYzg==
+   d="scan'208";a="26725358"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2024 00:28:47 -0700
+X-CSE-ConnectionGUID: 11kmKnFLR8qrIoU7mRX8Hw==
+X-CSE-MsgGUID: l/oQoxkuQGmfeqQNHxWzKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
-   d="scan'208";a="28179580"
+   d="scan'208";a="28003806"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Apr 2024 21:33:25 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 Apr 2024 00:28:46 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ry2Pj-000AjM-0O;
-	Sat, 20 Apr 2024 04:33:23 +0000
-Date: Sat, 20 Apr 2024 12:32:36 +0800
+	id 1ry59P-000Aps-1M;
+	Sat, 20 Apr 2024 07:28:43 +0000
+Date: Sat, 20 Apr 2024 15:28:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 8/8] iio: adc: ad9467: support digital interface
- calibration
-Message-ID: <202404201240.EYJwoHKf-lkp@intel.com>
+Subject: [tiwai-sound:for-next 34/51] sound/usb/mixer_scarlett2.c:3690
+ scarlett2_ag_target_ctl_get() error: uninitialized symbol 'err'.
+Message-ID: <202404201509.mWdaL3xF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,129 +64,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240419-ad9467-new-features-v1-8-3e7628ff6d5e@analog.com>
-References: <20240419-ad9467-new-features-v1-8-3e7628ff6d5e@analog.com>
-TO: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-TO: linux-iio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Alexandru Ardelean <alexandru.ardelean@analog.com>
-CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: Michael Hennerich <Michael.Hennerich@analog.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Olivier Moysan <olivier.moysan@foss.st.com>
-CC: Nuno Sa <nuno.sa@analog.com>
+CC: alsa-devel@alsa-project.org
+TO: "Geoffrey D. Bennett" <g@b4.vu>
+CC: Takashi Iwai <tiwai@suse.de>
 
-Hi Nuno,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa-via-B4-Relay/iio-backend-add-API-for-interface-tuning/20240419-233948
-base:   62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f
-patch link:    https://lore.kernel.org/r/20240419-ad9467-new-features-v1-8-3e7628ff6d5e%40analog.com
-patch subject: [PATCH 8/8] iio: adc: ad9467: support digital interface calibration
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: csky-randconfig-r081-20240420 (https://download.01.org/0day-ci/archive/20240420/202404201240.EYJwoHKf-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   32cb23a0f911317cdb5030035e49a204aa86fef5
+commit: e30ea5340c25d41484d551f61d8c93106989019b [34/51] ALSA: scarlett2: Add autogain target controls
+:::::: branch date: 21 hours ago
+:::::: commit date: 2 days ago
+config: csky-randconfig-r081-20240420 (https://download.01.org/0day-ci/archive/20240420/202404201509.mWdaL3xF-lkp@intel.com/config)
 compiler: csky-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404201240.EYJwoHKf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404201509.mWdaL3xF-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad9467.c:587 ad9467_calibrate() error: uninitialized symbol 'inv_val'.
+New smatch warnings:
+sound/usb/mixer_scarlett2.c:3690 scarlett2_ag_target_ctl_get() error: uninitialized symbol 'err'.
 
-vim +/inv_val +587 drivers/iio/adc/ad9467.c
+Old smatch warnings:
+arch/csky/include/asm/uaccess.h:191 __get_user_fn() error: uninitialized symbol 'retval'.
 
-65ac942f507d901 Nuno Sa 2024-04-19  523  
-65ac942f507d901 Nuno Sa 2024-04-19  524  static int ad9467_calibrate(const struct ad9467_state *st)
-65ac942f507d901 Nuno Sa 2024-04-19  525  {
-65ac942f507d901 Nuno Sa 2024-04-19  526  	DECLARE_BITMAP(err_map, AD9647_MAX_TEST_POINTS * 2);
-65ac942f507d901 Nuno Sa 2024-04-19  527  	unsigned int point, val, inv_val, cnt, inv_cnt = 0;
-65ac942f507d901 Nuno Sa 2024-04-19  528  	/*
-65ac942f507d901 Nuno Sa 2024-04-19  529  	 * Half of the bitmap is for the inverted signal. The number of test
-65ac942f507d901 Nuno Sa 2024-04-19  530  	 * points is the same though...
-65ac942f507d901 Nuno Sa 2024-04-19  531  	 */
-65ac942f507d901 Nuno Sa 2024-04-19  532  	unsigned int test_points = AD9647_MAX_TEST_POINTS;
-65ac942f507d901 Nuno Sa 2024-04-19  533  	unsigned long sample_rate = clk_get_rate(st->clk);
-65ac942f507d901 Nuno Sa 2024-04-19  534  	struct device *dev = &st->spi->dev;
-65ac942f507d901 Nuno Sa 2024-04-19  535  	bool invert = false, stat;
-65ac942f507d901 Nuno Sa 2024-04-19  536  	int ret;
-65ac942f507d901 Nuno Sa 2024-04-19  537  
-65ac942f507d901 Nuno Sa 2024-04-19  538  	ret = ad9647_calibrate_prepare(st);
-65ac942f507d901 Nuno Sa 2024-04-19  539  	if (ret)
-65ac942f507d901 Nuno Sa 2024-04-19  540  		return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  541  retune:
-65ac942f507d901 Nuno Sa 2024-04-19  542  	ret = ad9647_calibrate_polarity_set(st, invert);
-65ac942f507d901 Nuno Sa 2024-04-19  543  	if (ret)
-65ac942f507d901 Nuno Sa 2024-04-19  544  		return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  545  
-65ac942f507d901 Nuno Sa 2024-04-19  546  	for (point = 0; point < test_points; point++) {
-65ac942f507d901 Nuno Sa 2024-04-19  547  		ret = ad9467_calibrate_apply(st, point);
-65ac942f507d901 Nuno Sa 2024-04-19  548  		if (ret)
-65ac942f507d901 Nuno Sa 2024-04-19  549  			return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  550  
-65ac942f507d901 Nuno Sa 2024-04-19  551  		ret = ad9467_calibrate_status_check(st, &stat);
-65ac942f507d901 Nuno Sa 2024-04-19  552  		if (ret < 0)
-65ac942f507d901 Nuno Sa 2024-04-19  553  			return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  554  
-65ac942f507d901 Nuno Sa 2024-04-19  555  		__assign_bit(point + invert * test_points, err_map, stat);
-65ac942f507d901 Nuno Sa 2024-04-19  556  	}
-65ac942f507d901 Nuno Sa 2024-04-19  557  
-65ac942f507d901 Nuno Sa 2024-04-19  558  	if (!invert) {
-65ac942f507d901 Nuno Sa 2024-04-19  559  		cnt = ad9467_find_optimal_point(err_map, 0, test_points, &val);
-65ac942f507d901 Nuno Sa 2024-04-19  560  		/*
-65ac942f507d901 Nuno Sa 2024-04-19  561  		 * We're happy if we find, at least, three good test points in
-65ac942f507d901 Nuno Sa 2024-04-19  562  		 * a row.
-65ac942f507d901 Nuno Sa 2024-04-19  563  		 */
-65ac942f507d901 Nuno Sa 2024-04-19  564  		if (cnt < 3) {
-65ac942f507d901 Nuno Sa 2024-04-19  565  			invert = true;
-65ac942f507d901 Nuno Sa 2024-04-19  566  			goto retune;
-65ac942f507d901 Nuno Sa 2024-04-19  567  		}
-65ac942f507d901 Nuno Sa 2024-04-19  568  	} else {
-65ac942f507d901 Nuno Sa 2024-04-19  569  		inv_cnt = ad9467_find_optimal_point(err_map, test_points,
-65ac942f507d901 Nuno Sa 2024-04-19  570  						    test_points, &inv_val);
-65ac942f507d901 Nuno Sa 2024-04-19  571  		if (!inv_cnt && !cnt)
-65ac942f507d901 Nuno Sa 2024-04-19  572  			return -EIO;
-65ac942f507d901 Nuno Sa 2024-04-19  573  	}
-65ac942f507d901 Nuno Sa 2024-04-19  574  
-65ac942f507d901 Nuno Sa 2024-04-19  575  	ad9467_dump_table(err_map, BITS_PER_TYPE(err_map), invert);
-65ac942f507d901 Nuno Sa 2024-04-19  576  
-65ac942f507d901 Nuno Sa 2024-04-19  577  	if (inv_cnt < cnt) {
-65ac942f507d901 Nuno Sa 2024-04-19  578  		ret = ad9647_calibrate_polarity_set(st, false);
-65ac942f507d901 Nuno Sa 2024-04-19  579  		if (ret)
-65ac942f507d901 Nuno Sa 2024-04-19  580  			return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  581  	} else {
-65ac942f507d901 Nuno Sa 2024-04-19  582  		/*
-65ac942f507d901 Nuno Sa 2024-04-19  583  		 * polarity inverted is the last test to run. Hence, there's no
-65ac942f507d901 Nuno Sa 2024-04-19  584  		 * need to re-do any configuration. We just need to "normalize"
-65ac942f507d901 Nuno Sa 2024-04-19  585  		 * the selected value.
-65ac942f507d901 Nuno Sa 2024-04-19  586  		 */
-65ac942f507d901 Nuno Sa 2024-04-19 @587  		val = inv_val - test_points;
-65ac942f507d901 Nuno Sa 2024-04-19  588  	}
-65ac942f507d901 Nuno Sa 2024-04-19  589  
-65ac942f507d901 Nuno Sa 2024-04-19  590  	if (st->info->has_dco)
-65ac942f507d901 Nuno Sa 2024-04-19  591  		dev_dbg(dev, "%sDCO 0x%X CLK %lu Hz\n", inv_cnt >= cnt ? "INVERT " : "",
-65ac942f507d901 Nuno Sa 2024-04-19  592  			val, sample_rate);
-65ac942f507d901 Nuno Sa 2024-04-19  593  	else
-65ac942f507d901 Nuno Sa 2024-04-19  594  		dev_dbg(dev, "%sIDELAY 0x%x\n", inv_cnt >= cnt ? "INVERT " : "",
-65ac942f507d901 Nuno Sa 2024-04-19  595  			val);
-65ac942f507d901 Nuno Sa 2024-04-19  596  
-65ac942f507d901 Nuno Sa 2024-04-19  597  	ret = ad9467_calibrate_apply(st, val);
-65ac942f507d901 Nuno Sa 2024-04-19  598  	if (ret)
-65ac942f507d901 Nuno Sa 2024-04-19  599  		return ret;
-65ac942f507d901 Nuno Sa 2024-04-19  600  
-65ac942f507d901 Nuno Sa 2024-04-19  601  	/* finally apply the optimal value */
-65ac942f507d901 Nuno Sa 2024-04-19  602  	return ad9647_calibrate_stop(st);
-65ac942f507d901 Nuno Sa 2024-04-19  603  }
-65ac942f507d901 Nuno Sa 2024-04-19  604  
+vim +/err +3690 sound/usb/mixer_scarlett2.c
+
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3664  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3665  static int scarlett2_ag_target_ctl_get(
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3666  	struct snd_kcontrol *kctl, struct snd_ctl_elem_value *ucontrol)
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3667  {
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3668  	struct usb_mixer_elem_info *elem = kctl->private_data;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3669  	struct usb_mixer_interface *mixer = elem->head.mixer;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3670  	struct scarlett2_data *private = mixer->private_data;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3671  	int err;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3672  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3673  	mutex_lock(&private->data_mutex);
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3674  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3675  	if (private->hwdep_in_use) {
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3676  		err = -EBUSY;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3677  		goto unlock;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3678  	}
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3679  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3680  	if (private->autogain_updated) {
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3681  		err = scarlett2_update_autogain(mixer);
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3682  		if (err < 0)
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3683  			goto unlock;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3684  	}
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3685  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3686  	ucontrol->value.integer.value[0] = private->ag_targets[elem->control];
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3687  
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3688  unlock:
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3689  	mutex_unlock(&private->data_mutex);
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13 @3690  	return err;
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3691  }
+e30ea5340c25d41 Geoffrey D. Bennett 2024-03-13  3692  
 
 -- 
 0-DAY CI Kernel Test Service
