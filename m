@@ -1,137 +1,193 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50075028B
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Apr 2024 14:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33D618E1D
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Apr 2024 03:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713795003; cv=none; b=vAXUQvvFytUXyrtAC9OqzkbipvRJiKHEVWEREAgPnfHPub5rMmXTktQziGDFKKdJsPSCq1iPY/Yu5EKvc838qwWJSbtlZ2P4XN3EUWsVsU2ORUGHNLbIV3CicIamYPDc4RFXs1kNYbixqBcBpqICEPm+qtiU2RRQefX3rYZh5z4=
+	t=1713844204; cv=none; b=vGex/OAFk6MTY3OED0Au0xyXb6/CQvo74Mp/OiD3VA7yrCmuE2MBkTdP7oTZA6fdbSwhn2jwmXtZMKAAxn5+SzgSdFh6t3kCNCWWGNuvEmwdKAPSp5wBuNzQlTHotYAd/ULzJAb657J5nt0pk5dX/qzhdBAwm1OTD4Uo+23XElU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713795003; c=relaxed/simple;
-	bh=kW8hFzNQFziSuTKz9VEMLzLH6KmEp6xgQBTktoEmAhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KiA/DbLGW9v/Ygu90M3Y9vHCBpu1l4t6AinQyndEvV+sD0zJ2StRfcvJJPquOcNc3xv5pt0MulM0ni1tQXP1M55OtdiCnNVaYTtK114pASE95qBj5mhXov9so6Dgg2n/i49Vw653iB6XgBVQtTXDo85ClvOrsKtRsavqEM10M64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oxKn8LUQ; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1713844204; c=relaxed/simple;
+	bh=78XbMkeYn7qmRUkLmSGmHpfTeai1ZMlqly+2d5Je2bk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jmJuSZ/ZR7w3EJVuXXmxgUaG1h8YIY+jBXqQUW9XcxCaWW7KkD5edSvpeqq9jWgu9lCzt2oFcbw54rxqoKHHME6jFvtf1o9eLaPUoee/mWrIXBBiPiO7ukgiWirkgxXmeftNVbDLHXwb37vnzI3YhURcehgRGD8OW8yginCfuDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bSRH0ucK; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oxKn8LUQ"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-343e46ec237so3782322f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 22 Apr 2024 07:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713794997; x=1714399797; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=E8RKZN+uDnrGafmojLkH1SP8lnN/o0Y8G3G8F607Y/A=;
-        b=oxKn8LUQEQweKWsXfVBNmim4/kQg1BiQnWN5ODshoU7UuZCPcEp8ve1euWhxoOdvSP
-         +pf7JgEmo5KyZJ8AGOYcJBuDkdkwHqyj+IkpiGpGXB3hSgLvCQfXBYH3Qhi2KdskR5Ma
-         C/VfQppy8Klbeh4QBRxJvvpb5/b1b4cF+QKCd7KJ71FOkYxI0aJgKVTzPH52C6UMnTYn
-         7J6H8Siq697S+orrUUXVprdZZFMJ4nrIYDqtn0otNwz00oiAwXbbX0lhJx7RpADvxIjM
-         RuRn+npJzgkdUXOrc4SNnetcsSQZcMfQCJr5D3e3aCDnRfNsLdSqS6EUGC75cD8wV+GS
-         2ESA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713794997; x=1714399797;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E8RKZN+uDnrGafmojLkH1SP8lnN/o0Y8G3G8F607Y/A=;
-        b=hftF5R92nq5VMU1DjUkiPaRDi+DbkMYsb40prxp/803eyubvEVDdGFT9bMzYUIar+6
-         Qw5k6JGVx5S+23HUPbHJUfU809iEIQRMqBQgkyGv/SuHrpFAnguLH02oxGqcnm5cc+LS
-         9nZqEyKfTTS4A2Y2HVebRHXU4F8eqgFnpYwPXK2s7FayPh3KWZObuVVCCsfdcgWPmdUn
-         hyyYsjGSMk+TczoY36Pt41ggmVag8tKn/k52QHZqWfiR9W6u9jmQcz3JtMt3+VT8U4i6
-         SYVHuliAOOGCe/JHaxGNH3NR7oCmBCnYdDVc8jEoKQYqzg+0mxZVIy8VpZfLiFxDmrsL
-         i7gA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvNEgVNuJPCa53nif5i43IpuxSjF7z2I2Ivq1Rqk7D47ShrYmS+PGDA0lSff3llvsYAQ+WTOzYWNwjmEo1vnVfY5aYDfpiiUrM
-X-Gm-Message-State: AOJu0Yy6NPMWQKncUD6biLq2mAi/6Vnj/Dq/2JKigG1ODZ9purpIiWEE
-	PSlIU6t+BT+5jAOcB/EcFFnipRcvQ/SB4AWT4twnzZf6cd6I04IJX9aOnorHO2E=
-X-Google-Smtp-Source: AGHT+IECXGOeVKkPeQbk7PD7Wf5ejYo6tMf19FomyXvVazm1LasPMozmeewBgnPjAl74SOLC4DMRuw==
-X-Received: by 2002:a5d:6a46:0:b0:346:b581:ff57 with SMTP id t6-20020a5d6a46000000b00346b581ff57mr7517399wrw.68.1713794996802;
-        Mon, 22 Apr 2024 07:09:56 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id y7-20020a17090629c700b00a4628cacad4sm5780491eje.195.2024.04.22.07.09.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Apr 2024 07:09:56 -0700 (PDT)
-Date: Mon, 22 Apr 2024 17:09:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 8/8] iio: adc: ad9467: support digital interface
- calibration
-Message-ID: <559a4fa4-f0b3-4741-a143-630e834af291@moroto.mountain>
-References: <202404201240.EYJwoHKf-lkp@intel.com>
- <d0b732b7490d18cc0751a0dee78c0f34678d4699.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bSRH0ucK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713844203; x=1745380203;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=78XbMkeYn7qmRUkLmSGmHpfTeai1ZMlqly+2d5Je2bk=;
+  b=bSRH0ucKgjX5REpNGUK1CYZP6cQbnjCO9prfPsOuaXnxKq6OhUu6oX/v
+   Y9OjnoHOXkQDOGv/3lykKEfVzUxtDsk6/mYa6ZM6KhQ8EVWlou68ozRUw
+   Es+yDPjU4EWriYPWi1qYaQPDSvl0RRVReCKy/Pm+yp6LNi+z6+OwgzDg+
+   KnctfGyP+S6khC2ewRIS62X+2poEAeGonUj0faIuvaMQXT40N7w20Mp26
+   dfUMeZR40nyG34TvBfdfsslkGNwBZjoR1sUfy1NYkYctNol5G/YnKeKzq
+   b2rCciw3pIZ9l2qS1gsJTlcNstRIuwdquop5K2Al+bGSaDvgyJAtVnbA/
+   w==;
+X-CSE-ConnectionGUID: nz+XC65PSlqEx26v1KxsUA==
+X-CSE-MsgGUID: eBN9HJ9tR+uWxY3IqqGwWw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="9949950"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9949950"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 20:50:02 -0700
+X-CSE-ConnectionGUID: 3MCTiiJ1Qoy/N3r3j5iYqg==
+X-CSE-MsgGUID: ZMBYoOajTo+Bb0zgbnp14g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="55168606"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 22 Apr 2024 20:50:00 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rz7AL-0000Se-20;
+	Tue, 23 Apr 2024 03:49:57 +0000
+Date: Tue, 23 Apr 2024 11:49:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
+Message-ID: <202404231109.h2IRrMMD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d0b732b7490d18cc0751a0dee78c0f34678d4699.camel@gmail.com>
 
-On Mon, Apr 22, 2024 at 09:24:28AM +0200, Nuno Sá wrote:
-> On Sat, 2024-04-20 at 12:32 +0800, kernel test robot wrote:
-> > BCC: lkp@intel.com
-> > CC: oe-kbuild-all@lists.linux.dev
-> > In-Reply-To: <20240419-ad9467-new-features-v1-8-3e7628ff6d5e@analog.com>
-> > References: <20240419-ad9467-new-features-v1-8-3e7628ff6d5e@analog.com>
-> > TO: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-> > TO: linux-iio@vger.kernel.org
-> > TO: devicetree@vger.kernel.org
-> > CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> > CC: Alexandru Ardelean <alexandru.ardelean@analog.com>
-> > CC: "Lars-Peter Clausen" <lars@metafoo.de>
-> > CC: Michael Hennerich <Michael.Hennerich@analog.com>
-> > CC: Rob Herring <robh@kernel.org>
-> > CC: Krzysztof Kozlowski <krzk@kernel.org>
-> > CC: Conor Dooley <conor+dt@kernel.org>
-> > CC: Olivier Moysan <olivier.moysan@foss.st.com>
-> > CC: Nuno Sa <nuno.sa@analog.com>
-> > 
-> > Hi Nuno,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on 62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f]
-> > 
-> > url:   
-> > https://github.com/intel-lab-lkp/linux/commits/Nuno-Sa-via-B4-Relay/iio-backend-add-API-for-interface-tuning/20240419-233948
-> > base:   62d3fb9dcc091ccdf25eb3b716e90e07e3ed861f
-> > patch link:   
-> > https://lore.kernel.org/r/20240419-ad9467-new-features-v1-8-3e7628ff6d5e%40analog.com
-> > patch subject: [PATCH 8/8] iio: adc: ad9467: support digital interface calibration
-> > :::::: branch date: 13 hours ago
-> > :::::: commit date: 13 hours ago
-> > config: csky-randconfig-r081-20240420
-> > (https://download.01.org/0day-ci/archive/20240420/202404201240.EYJwoHKf-lkp@intel.c
-> > om/config)
-> > compiler: csky-linux-gcc (GCC) 13.2.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Reported-by: Dan Carpenter <error27@gmail.com>
-> > > Closes: https://lore.kernel.org/r/202404201240.EYJwoHKf-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/iio/adc/ad9467.c:587 ad9467_calibrate() error: uninitialized symbol
-> > 'inv_val'.
-> > 
-> 
-> It may still be too early for me but I think this is a false positive...
-> 'inv_cnt' which is initialized should control if we access 'inv_val' or not
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
+References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
+TO: Benjamin Tissoires <bentiss@kernel.org>
+TO: Jiri Kosina <jikos@kernel.org>
+TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC: linux-input@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: stable@vger.kernel.org
 
-Yeah.  Smatch doesn't handle this sort of loop correctly...
+Hi Benjamin,
 
-You're reviewing the unfiltered warnings.  Normally, I look through
-these and either hit forward or ignore the warning.  If I had forwarded
-it then it would have gone out to all the people on the CC list above.
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+[auto build test WARNING on b912cf042072e12e93faa874265b30cc0aa521b9]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
+base:   b912cf042072e12e93faa874265b30cc0aa521b9
+patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
+patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
+
+smatch warnings:
+drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
+
+vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
+
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  394  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  395  /* called from syscall */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
+7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
+60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
+4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
+f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  482  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
