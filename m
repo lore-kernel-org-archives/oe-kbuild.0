@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16F48BF8
-	for <oe-kbuild@lists.linux.dev>; Wed, 24 Apr 2024 02:44:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7722013CFAD
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Apr 2024 06:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713926697; cv=none; b=hsXFa574b0ItPhKeMX9csL/WQEae1pYIH3TUV7u+VGKk+pQ32B5YkzzUf7drWFA7WPx4Mdo1of7DIgolv+O3pwi3Hrr/00FPR8wjBO4jZgsUycGA4de4OG37Qj0VhHEiHzQ4dW6VB546XHhNNYFs0ZoZjyrQZlhgnr4m3SoTPlw=
+	t=1713938762; cv=none; b=ZDjs9E7dKnbQW7bnXthGk9VmptY7lYbI89doMrmq80mYkcvDoiRw49u2hBbsRW0vmP6jeTZ+l4LiLQcMV7HYV82Hal8QlJuN9vfcayrg6iKC3wXMsIyXGVBwjm9dWaTd+q0LfHiGEWxWF2sfy66QXt87KuUVSpGBZ7Fs04e2kM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713926697; c=relaxed/simple;
-	bh=X22t4/h9YSAup7ocEm7bnvL3/6kFAIWu6SFDc+rd/fs=;
+	s=arc-20240116; t=1713938762; c=relaxed/simple;
+	bh=iKfRx5pN8C5pe6eKIPybFUn1gn9nBfA8NyX2ccyVx7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SE2OPG1tVJ83vOUwd3H7aZ+SjCLYKJq2vb54sPush726xVyVP5XYWydFVQ+iX4nkI9K6221JJzoSuwGCSNWlU31KPA/aQO1rpZEyeFysHlWEtxiYmTziWt4tqusUk1BNuJVhfNGBb4IT5Xtsdw1hQlOxRPdnITRoa8zRFAtAlhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQpv8P/V; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YHty4wtRS9jD5feAjKf3DeQeM+DsyYKUgY3b7S6gkbIiIqMwvR9dL7k3jwOT1DTVzsFAExxErN1ysvuwNEx3NOMu95eVuua/Ogdfk7CqUKNDTq2IKzXs/S4ngCcw92Hw3um9Vm3F/nsX/jWZq0S89dav9Wxhy+dUIbxbhruiIdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kH8zr3cc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQpv8P/V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kH8zr3cc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713926696; x=1745462696;
+  t=1713938760; x=1745474760;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X22t4/h9YSAup7ocEm7bnvL3/6kFAIWu6SFDc+rd/fs=;
-  b=XQpv8P/V9n+uQ7nF+XM6B0/QBxCGnpn2/J/keb3c1CVIejClowgDWYF0
-   /Lpj3Smynh+JfaxZYI55B59VUnVCJG4rXyL78lm3RQ0Qsh/wPGbzG7tbS
-   5pHEmliFcOGJIEqZK5f/vc5LcKbS5RCh7+XRAtpyqEWUBPWgS7S8axjW0
-   PB165RIAgllY6nWQgkFgRZVxe9np3S9ecqVjCl80QDIyjucu6SsdeJ6/I
-   4ja4vIi5UUc8YROIFYguB/6di8zVguP/ImG1Kc2pvhRcBKQJDSSpLV2Wb
-   Ev+faA8txavAJW4Z7D6LT6MJq00zevt9EbWtcsXgiWnXbSo/XQz3uPLZp
-   Q==;
-X-CSE-ConnectionGUID: VDARV+iXR4O166nb2wB/WQ==
-X-CSE-MsgGUID: 2KO0DKheS/O009Zsi4ZrTw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9367631"
+  bh=iKfRx5pN8C5pe6eKIPybFUn1gn9nBfA8NyX2ccyVx7U=;
+  b=kH8zr3cc9G6pxrvJWIDJFfbztpfpCFtXJOqP25NVeuE92IiX6/1YoAg/
+   XJe/NZg6PZkFeJ5rssK2Gfa3hKJAQqjUOls2eBwHMTEeyPMY5tMtls9p8
+   YnQPYMIPBjUWMncpUqOCaknlwh2vR3YcLv166q/RgFMdKO7CluixnP0Ev
+   66MB0wlNMamBqpBPxuYPUUoazW3YHp8PXOQC6gqVoKGk4OqJSd1aEE6SX
+   euHZrjpTm1lJJYCn3Z/nPeXxemqHmP6FZRgV8uyPBbNM4xyrEE7kcOT3i
+   6r4BCfQgza8cAotJmds7xt2cPOTZ5QKLxSTGxQBdxgA8wzr2J8Y/0ZCPz
+   g==;
+X-CSE-ConnectionGUID: pWMAbROPSgGUqX7lanYGPQ==
+X-CSE-MsgGUID: AsrMqlxmTheDTKiS9mbYeg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20248765"
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="9367631"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 19:44:55 -0700
-X-CSE-ConnectionGUID: kAagK9ujQGyHF+RKHE5BZQ==
-X-CSE-MsgGUID: c46APcJxScyu+eQrjRR2gA==
+   d="scan'208";a="20248765"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 23:06:00 -0700
+X-CSE-ConnectionGUID: HAgahIC6Q5y6WXO6RvFfvw==
+X-CSE-MsgGUID: xm/JhWJpT1ma1f3ybNPwqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="24609178"
+   d="scan'208";a="55805769"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Apr 2024 19:44:54 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 Apr 2024 23:05:59 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzSct-0000mV-2h;
-	Wed, 24 Apr 2024 02:44:51 +0000
-Date: Wed, 24 Apr 2024 10:44:39 +0800
+	id 1rzVlU-0000vE-2L;
+	Wed, 24 Apr 2024 06:05:56 +0000
+Date: Wed, 24 Apr 2024 14:05:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v2 4/6] perf test pmu: Add an eagerly loaded event test
-Message-ID: <202404241018.bgi3yFxj-lkp@intel.com>
+Subject: [agd5f:amd-staging-drm-next 2014/2033]
+ drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c:
+ dcn401/dcn401_clk_mgr.h is included more than once.
+Message-ID: <202404241420.gx1LAd2A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,82 +69,49 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240423031719.1941141-5-irogers@google.com>
-References: <20240423031719.1941141-5-irogers@google.com>
-TO: Ian Rogers <irogers@google.com>
-TO: Kan Liang <kan.liang@linux.intel.com>
-TO: Peter Zijlstra <peterz@infradead.org>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Arnaldo Carvalho de Melo <acme@kernel.org>
-TO: Namhyung Kim <namhyung@kernel.org>
-TO: Mark Rutland <mark.rutland@arm.com>
-TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-TO: Jiri Olsa <jolsa@kernel.org>
-TO: Ian Rogers <irogers@google.com>
-TO: Adrian Hunter <adrian.hunter@intel.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-TO: Randy Dunlap <rdunlap@infradead.org>
-TO: Jing Zhang <renyu.zj@linux.alibaba.com>
-TO: James Clark <james.clark@arm.com>
-TO: Ravi Bangoria <ravi.bangoria@amd.com>
-TO: linux-kernel@vger.kernel.org
-TO: linux-perf-users@vger.kernel.org
+TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+CC: Linux Infrastructure <z1.linuxinfra@amd.com>
 
-Hi Ian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.9-rc5 next-20240423]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/perf-test-pmu-events-Make-it-clearer-that-pmu-events-tests-json-events/20240423-112057
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240423031719.1941141-5-irogers%40google.com
-patch subject: [PATCH v2 4/6] perf test pmu: Add an eagerly loaded event test
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240424/202404241018.bgi3yFxj-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   5550c5defbdf958f2df459be74f87afa9eb0bdde
+commit: 96c23c8cb3fb82f50d75df0dca6ace9788bb7eb7 [2014/2033] drm/amd/display: Add new DCN401 sources
+:::::: branch date: 19 hours ago
+:::::: commit date: 4 days ago
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404241018.bgi3yFxj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404241420.gx1LAd2A-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c: dcn401/dcn401_clk_mgr.h is included more than once.
 
-All errors (new ones prefixed by >>):
+vim +12 drivers/gpu/drm/amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c
 
-     PERF_VERSION = 6.8.ged816a028ac7
-   tests/pmu.c: In function 'test_pmu_get':
-   tests/pmu.c:89:9: error: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Werror=unused-result]
-      89 |         write(file, "9999\n", 5);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   tests/pmu.c:128:9: error: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Werror=unused-result]
-     128 |         write(file, test_event, strlen(test_event));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tests/pmu.c: In function 'test__pmu_events':
->> tests/pmu.c:241:16: error: 'ret' may be used uninitialized [-Werror=maybe-uninitialized]
-     241 |         return ret;
-         |                ^~~
-   tests/pmu.c:198:13: note: 'ret' was declared here
-     198 |         int ret;
-         |             ^~~
-   cc1: all warnings being treated as errors
-   make[7]: *** [tools/build/Makefile.build:106: tools/perf/tests/pmu.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: tests] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:264: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+     4	
+     5	#include "dccg.h"
+     6	#include "clk_mgr_internal.h"
+     7	#include "dcn401/dcn401_clk_mgr_smu_msg.h"
+     8	#include "dcn20/dcn20_clk_mgr.h"
+     9	#include "dce100/dce_clk_mgr.h"
+    10	#include "dcn31/dcn31_clk_mgr.h"
+    11	#include "dcn32/dcn32_clk_mgr.h"
+  > 12	#include "dcn401/dcn401_clk_mgr.h"
+    13	#include "reg_helper.h"
+    14	#include "core_types.h"
+    15	#include "dm_helpers.h"
+    16	#include "link.h"
+    17	#include "atomfirmware.h"
+    18	
+    19	#include "dcn401_smu14_driver_if.h"
+    20	
+    21	#include "dcn/dcn_4_1_0_offset.h"
+    22	#include "dcn/dcn_4_1_0_sh_mask.h"
+    23	
+  > 24	#include "dcn401/dcn401_clk_mgr.h"
+    25	#include "dml/dcn401/dcn401_fpu.h"
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
