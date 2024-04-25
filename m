@@ -1,125 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C302421A
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 04:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAAA3B794
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 05:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714019206; cv=none; b=swLnF5rzRD/UFhlub3KZCVnv6gRlj6KIjMx6imPQp+pp1IuwSg4kV6M58EZeSNNJvjTDuuUiEtWsAIL/VMZ8ePqHkjZaTKxAe7TtzBQNK0Qxom8frlXH+gLv04Yyc7oQ9jJ70wYIkOOw12zaioS+vryALb9dmW4RS6hxdd+jzJ4=
+	t=1714023094; cv=none; b=o7uo/A34QWw58b8bsLV25zsV4IgD4rrNWkk49VVf8gWDyU0sACHrSGbCNYDyLD+ut3z8SuWO83IQR9nPFK/vJO9BChlQEZX2cRVFNSFG4MiAlNp8bhZNOCrS7Py450C6bs3RZPX5jZzTZmoKyRZTCRHquM3uz1nwTYB72v9QiXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714019206; c=relaxed/simple;
-	bh=p6r5zhW04tCHlhNOen1xRRlQ9N2Y/6tC3vFLHYMmcV4=;
+	s=arc-20240116; t=1714023094; c=relaxed/simple;
+	bh=nVBrL7YJuNzCkb+t0TQFbZ+nLpcpPgHNZvsiUTjW2s0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b94ozdFcY3QzaPzifA/ofUyCfSoGlmNFSd0J/MuAfyLdtnhY0brJoGpSuN0RE91kttUf/ze9ILJwmgUxZ20wIDZOMq8jBrTYCTSyrHHpEkluyCdEimFbGAq/vmZKGPiqqEiP4yeNx9Whg0MoCdYTiRcJbp0h6RaKOHfZz+vwBU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F2EAvTpr; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=n8r2gLSvj1CiJDQLes4XsKcUxe13xkG0dGOiOl2+b+ATtP4EeL8SR0DzCuUlsjg4wktXJiPZOuBbxfvKQzRxSsyKheHcTfaDcoaQw3e+RzalCPDF1VUGwmM8nEOX80uYwL6zlLF2eyIcMS6G2BRRmrETbXVpGE1Leb0HVby8KD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vbV3Qhhv; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F2EAvTpr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714019204; x=1745555204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p6r5zhW04tCHlhNOen1xRRlQ9N2Y/6tC3vFLHYMmcV4=;
-  b=F2EAvTprnkcXSjZvRbQBd3Ljo0NMO2XBHsuGdbD+wQEaW9AjbO9027k/
-   r+Nt0Qxz2IlF3/t2cj8uDAopvyK4TNseFlLZoaVuRfrgH8E7xy1maC3yP
-   itkWeMtsPMZZ3fIRF7aoqvuzks6mZcHHuJasB9hY8yYGvBqQf1+OJVVr4
-   bfMmZCwS7KrCXfuWtnm6K6vYa8CiaMKfJuyeAJWu1PNUMqwB4h6nrNjXb
-   PxdsaGyXIWi3umaCHHP49+dL8NKegBUr92a8ckKSe7BJolOV8pAOUNGr6
-   L3+87fo4K08y22C4DoW1OqG0yvHgec7Ai1ZTnZPVgpBWP8ROSx+rmRoUL
-   g==;
-X-CSE-ConnectionGUID: RT2jocAcQLy3etAIiWbJfA==
-X-CSE-MsgGUID: GI3dbdx4Ty2g3f8kXJV+qA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="35079428"
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="35079428"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 21:26:43 -0700
-X-CSE-ConnectionGUID: jHPj3Q/pR4CEierOVYMwIg==
-X-CSE-MsgGUID: 1l/h3AI8RZ2hRxCU/XB5Tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="24992512"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Apr 2024 21:26:42 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rzqgx-0001wK-2K;
-	Thu, 25 Apr 2024 04:26:39 +0000
-Date: Thu, 25 Apr 2024 12:26:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1 net-next 5/6] arp: Get dev after calling
- arp_req_(delete|set|get)().
-Message-ID: <202404251215.QHgck00A-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vbV3Qhhv"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-41b4e640ddcso1041895e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 24 Apr 2024 22:31:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714023091; x=1714627891; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
+        b=vbV3QhhvfbDjCX3Gil9ppm4BLTVLKRM/A2mmYdMG2IgTYSrVdUxloTnfalEZOvhlum
+         DtB+vsiPp9gfSevevQk7p+nMmDMOavvQHbVRZd7eOTaoCUkhQxziZ25BZPUoQtzPVnij
+         rv1SELXlQxnDQ1QWziRKqqHMz9v9+p2jEVBKAZhd+m+kVRr1bZ3KuVoCsLyuCorPBvuS
+         fvIU7OJTUAqHYCVc6ZmVmRyk4e1pmbclu6d4iMRsQTWs7XU8nXlGM2rw1MDqmwK8DXeJ
+         irfswBVKVC0TCmKu2d0pYsD/yLJImcx6ZIWgISlrCqO7MPKxmasLBzXUaD9vvtMSLSb5
+         R4eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714023091; x=1714627891;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cMmQUcIVgSzWuW2ZWEiFPzqJ+do6tt+UV73InjD+R7U=;
+        b=QlskT4VUV3Qfkqm83EW2Q5rzIf5MzBfwCKKkKSTcTD7VrmmW3ABFZZoETsMGlSDJtT
+         YfjCQH0z//6inJfdX8BBOJP8coZL6vNlxA1BGdgUGc97aRnvqwnC3kSdzZy4nWTwUi3B
+         oX0iTZZThCcg5NC3BQ+waHYq1n0A3jvVQY/X0RAg1kylMAAsc46PdlwTHK1KLYs/MOKT
+         /Zxz4ttDjKn2+Nznuxuw3D6dvlAt5QRyk+S2qLyTWxdAH+avpkbhrY816RSS0mgYRQ8m
+         GDXliUPCpclPnSCTNDRDDDoFBIAgdaGmi1dOqiIXxJj0pazxHoy24Ea/okJ5Nl1EYlqa
+         xibA==
+X-Gm-Message-State: AOJu0YxPvsaRRdQdGdJJLFHtPtJJV6pq1v/LstayTqTZ0ZYCS3DVCx8y
+	5Mq9MAaC+vDZ/6SrRUlMwXHqLs06Jf20pFzJ+rhhrZAkjAWwUGhGWsLpvod/zx9J8FHJiWSoFA0
+	m
+X-Google-Smtp-Source: AGHT+IGnkVtA5Wtwo7q3DYXIHysN+Cu0EJxSPiMeca2h/hO/A4Gzv4GhNLke0XTi2A49j9T/1rc+tw==
+X-Received: by 2002:a05:600c:4f8f:b0:418:58ac:7477 with SMTP id n15-20020a05600c4f8f00b0041858ac7477mr3171421wmq.30.1714023090830;
+        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id fj3-20020a05600c0c8300b00416b2cbad06sm29941718wmb.41.2024.04.24.22.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Apr 2024 22:31:30 -0700 (PDT)
+Date: Thu, 25 Apr 2024 08:31:26 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Aren Moynihan <aren@peacevolution.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Aren Moynihan <aren@peacevolution.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-iio@vger.kernel.org, phone-devel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Willow Barraco <contact@willowbarraco.fr>
+Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
+ power it off during suspend
+Message-ID: <b47ad9a6-2b17-497f-ac2d-33ffec1b2750@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240422194755.4221-6-kuniyu@amazon.com>
-References: <20240422194755.4221-6-kuniyu@amazon.com>
-TO: Kuniyuki Iwashima <kuniyu@amazon.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: David Ahern <dsahern@kernel.org>
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
-CC: Kuniyuki Iwashima <kuniyu@amazon.com>
-
-Hi Kuniyuki,
+Hi Aren,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/arp-Move-ATF_COM-setting-in-arp_req_set/20240423-035458
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240422194755.4221-6-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 5/6] arp: Get dev after calling arp_req_(delete|set|get)().
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240424 (https://download.01.org/0day-ci/archive/20240425/202404251215.QHgck00A-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
+patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
+config: i386-randconfig-141-20240424 (https://download.01.org/0day-ci/archive/20240425/202404251021.4OPER3OS-lkp@intel.com/config)
 compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404251215.QHgck00A-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404251021.4OPER3OS-lkp@intel.com/
 
 smatch warnings:
-net/ipv4/arp.c:1242 arp_req_delete() warn: passing zero to 'PTR_ERR'
+drivers/iio/light/stk3310.c:615 stk3310_probe() error: uninitialized symbol 'ret'.
 
-vim +/PTR_ERR +1242 net/ipv4/arp.c
+vim +/ret +615 drivers/iio/light/stk3310.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1234  
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1235  static int arp_req_delete(struct net *net, struct arpreq *r)
-46479b432989d6 Pavel Emelyanov   2007-12-05  1236  {
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1237  	struct net_device *dev;
-46479b432989d6 Pavel Emelyanov   2007-12-05  1238  	__be32 ip;
-46479b432989d6 Pavel Emelyanov   2007-12-05  1239  
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1240  	dev = arp_req_dev(net, r);
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1241  	if (!IS_ERR(dev))
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22 @1242  		return PTR_ERR(dev);
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1243  
-46479b432989d6 Pavel Emelyanov   2007-12-05  1244  	if (r->arp_flags & ATF_PUBL)
-32e569b7277f13 Pavel Emelyanov   2007-12-16  1245  		return arp_req_delete_public(net, r, dev);
-46479b432989d6 Pavel Emelyanov   2007-12-05  1246  
-46479b432989d6 Pavel Emelyanov   2007-12-05  1247  	ip = ((struct sockaddr_in *)&r->arp_pa)->sin_addr.s_addr;
-8f4429edb1b716 Kuniyuki Iwashima 2024-04-22  1248  
-0c51e12e218f20 Ido Schimmel      2022-02-19  1249  	return arp_invalidate(dev, ip, true);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1250  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1251  
+9046d80dce04c6 Uwe Kleine-König 2022-11-18  592  static int stk3310_probe(struct i2c_client *client)
+be9e6229d67696 Tiberiu Breana   2015-04-27  593  {
+be9e6229d67696 Tiberiu Breana   2015-04-27  594  	int ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  595  	struct iio_dev *indio_dev;
+be9e6229d67696 Tiberiu Breana   2015-04-27  596  	struct stk3310_data *data;
+be9e6229d67696 Tiberiu Breana   2015-04-27  597  
+be9e6229d67696 Tiberiu Breana   2015-04-27  598  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+be9e6229d67696 Tiberiu Breana   2015-04-27  599  	if (!indio_dev) {
+be9e6229d67696 Tiberiu Breana   2015-04-27  600  		dev_err(&client->dev, "iio allocation failed!\n");
+be9e6229d67696 Tiberiu Breana   2015-04-27  601  		return -ENOMEM;
+be9e6229d67696 Tiberiu Breana   2015-04-27  602  	}
+be9e6229d67696 Tiberiu Breana   2015-04-27  603  
+be9e6229d67696 Tiberiu Breana   2015-04-27  604  	data = iio_priv(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  605  	data->client = client;
+be9e6229d67696 Tiberiu Breana   2015-04-27  606  	i2c_set_clientdata(client, indio_dev);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  607  
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  608  	device_property_read_u32(&client->dev, "proximity-near-level",
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  609  				 &data->ps_near_level);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  610  
+be9e6229d67696 Tiberiu Breana   2015-04-27  611  	mutex_init(&data->lock);
+be9e6229d67696 Tiberiu Breana   2015-04-27  612  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  613  	data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  614  	if (IS_ERR(data->vdd_reg))
+dd231c1d219f6b Ondrej Jirman    2024-04-23 @615  		return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+
+s/ret/PTR_ERR(data->vdd_reg)/
+
+dd231c1d219f6b Ondrej Jirman    2024-04-23  616  
+be9e6229d67696 Tiberiu Breana   2015-04-27  617  	ret = stk3310_regmap_init(data);
+be9e6229d67696 Tiberiu Breana   2015-04-27  618  	if (ret < 0)
+be9e6229d67696 Tiberiu Breana   2015-04-27  619  		return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  620  
+be9e6229d67696 Tiberiu Breana   2015-04-27  621  	indio_dev->info = &stk3310_info;
+be9e6229d67696 Tiberiu Breana   2015-04-27  622  	indio_dev->name = STK3310_DRIVER_NAME;
+be9e6229d67696 Tiberiu Breana   2015-04-27  623  	indio_dev->modes = INDIO_DIRECT_MODE;
+be9e6229d67696 Tiberiu Breana   2015-04-27  624  	indio_dev->channels = stk3310_channels;
+be9e6229d67696 Tiberiu Breana   2015-04-27  625  	indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
+be9e6229d67696 Tiberiu Breana   2015-04-27  626  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  627  	ret = regulator_enable(data->vdd_reg);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  628  	if (ret)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  629  		return dev_err_probe(&client->dev, ret,
+dd231c1d219f6b Ondrej Jirman    2024-04-23  630  				     "regulator vdd enable failed\n");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  631  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  632  	/* we need a short delay to allow the chip time to power on */
+dd231c1d219f6b Ondrej Jirman    2024-04-23  633  	fsleep(1000);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  634  
+be9e6229d67696 Tiberiu Breana   2015-04-27  635  	ret = stk3310_init(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  636  	if (ret < 0)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  637  		goto err_vdd_disable;
+be9e6229d67696 Tiberiu Breana   2015-04-27  638  
+6839c1b0700a79 Octavian Purdila 2015-09-23  639  	if (client->irq > 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  640  		ret = devm_request_threaded_irq(&client->dev, client->irq,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  641  						stk3310_irq_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  642  						stk3310_irq_event_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  643  						IRQF_TRIGGER_FALLING |
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  644  						IRQF_ONESHOT,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  645  						STK3310_EVENT, indio_dev);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  646  		if (ret < 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  647  			dev_err(&client->dev, "request irq %d failed\n",
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  648  				client->irq);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  649  			goto err_standby;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  650  		}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  651  	}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  652  
+037e966f2d6389 Hartmut Knaack   2015-07-09  653  	ret = iio_device_register(indio_dev);
+037e966f2d6389 Hartmut Knaack   2015-07-09  654  	if (ret < 0) {
+037e966f2d6389 Hartmut Knaack   2015-07-09  655  		dev_err(&client->dev, "device_register failed\n");
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  656  		goto err_standby;
+037e966f2d6389 Hartmut Knaack   2015-07-09  657  	}
+037e966f2d6389 Hartmut Knaack   2015-07-09  658  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  659  	return 0;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  660  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  661  err_standby:
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  662  	stk3310_set_state(data, STK3310_STATE_STANDBY);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  663  err_vdd_disable:
+dd231c1d219f6b Ondrej Jirman    2024-04-23  664  	regulator_disable(data->vdd_reg);
+be9e6229d67696 Tiberiu Breana   2015-04-27  665  	return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  666  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
