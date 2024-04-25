@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F3A1E492
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 06:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084AA85274
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 11:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714027309; cv=none; b=Y9WWfV+4DcvpQX42geGm4GbhaBH/x6bvKstYw8/Nm7Oh8SV78v/Z+2wK9/dhqbcNXhIo0zFMmolK0PHq8kWmegdnXvE/OQQMsZHR7ignX5vG7sEpOmxCFyPyTKqQjgImP+BkoSSpsuuF1exhw1mqgMF0IWrzTEWkOPfeX0zzqYU=
+	t=1714046158; cv=none; b=AOYm11tLBmnFD2hC3ronAsSCZL58FSZwD+B100CGWudwhcIl5ybdNoAtsDZBjruQC+atN/Z5ceXQgAoELGjscCrCdv7U4tADKKr4/0sWaSDapnVF96ugfCwrLDghWXL6BOPtP4lI9ov2TBtM/CegsSp/J/qr0NgWQw4NuRJJUUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714027309; c=relaxed/simple;
-	bh=F94I3s4TblIxOAMtOgm5QgzCQghJGzCpaX0Sr/y/uaw=;
+	s=arc-20240116; t=1714046158; c=relaxed/simple;
+	bh=XrW7TZqM0uRfk0zSamUmN/es8Uyo8ZrnoULQtzNcmFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=We7hjfk7+3la3i5XTts3V5oRhPyfkI6G9FjhR0HBn0638sQuGAccOBK201McMcFMP97QgUFR21M8CxILG8r92AZ+lWwkPlGgmOHzgyk+zF9x8WwJG9ci78MFSwEahybb2E6u9I2yXP/ZyBWvaMWsgZFHssPmI5Wvo/tEslpN9N0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp1mzv9Z; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=WDwSP9bMZddp7O23bUGGYyCn+TC3WfKdqFuQToKM2QYqaM6ReKCMgfBHQyhjSugAGLa0TvfPXG5f8N5pqLofu0/YLi5zWXDJy3jReMFppzPBNgsWoJOQ+biL47+ZGGGyFnae40XLhmhKPUoUrnNxJJxyuYAxP7On5SXgOIv0EVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wolp9m7N; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp1mzv9Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wolp9m7N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714027308; x=1745563308;
+  t=1714046157; x=1745582157;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F94I3s4TblIxOAMtOgm5QgzCQghJGzCpaX0Sr/y/uaw=;
-  b=Cp1mzv9Z0XwrmlpMjQLIo/XKXyDSs37ReR66xWt+gazPjuYtXehcN9Rx
-   VgrzVded8kkvxODeuQBlLcVgxX3ATOKcOQG2P5PDKA0ppkDHyeysug047
-   xGitdF1xSgZz2gz4FptnZ4t6yeRFhvl6G0Sknm/MLoaNLDeMuZ9FfqKqC
-   C0Dn0uWPIUr53OoOZ0q0ZXADUl5+Bo0xzRSKvTlOfrZg4MxDmzpUbOXw1
-   bAAPY0ji0GcO2r/T3ILfxOo3bqptB4GmEzw87K8BJWpYI39K7oXMsF8Vz
-   qdU5U7/YJpQJ7e2UJ2Iz/y2B3XqhdR+COIXX5w+Ig76ASr9750bsHdjDz
-   Q==;
-X-CSE-ConnectionGUID: LNlFIusWTUKyU5kJThgcPg==
-X-CSE-MsgGUID: nUHdHhgGRL2PBjZfAAvfMw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="21103351"
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="21103351"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 23:41:47 -0700
-X-CSE-ConnectionGUID: bAA4icI/S8S69QNOzr0fRg==
-X-CSE-MsgGUID: cJmhAPpLTQWiYZbSZUsxmA==
+  bh=XrW7TZqM0uRfk0zSamUmN/es8Uyo8ZrnoULQtzNcmFw=;
+  b=Wolp9m7NveOzABid/ujTX/+QvvFNgTOfA15wuqINESyr0bD5rX5RxWUP
+   /48TqpANaItBczNER8oBxTFmMoTD09buVmY5gcx4uZXmbS+8tMY+Hg9pY
+   6sOmqBgxRv8C/uVbd/ZvNNBkf50wkyHhaIZdEKJ0aZNdGnAwYLw4SXVwv
+   hTEJEQhlJNXrsgW3N59l7sNV++xOLb87gEkxDcGgki9HBuKYmBPmuQRno
+   ZKjdP3agXgbpVT7UXIgtH+su+GbpVkvPwmQV8VkXsdB3EhclxDuoEWpX5
+   HUcZPQACoO9YeJUbYZGfpZrnFYkr9ijGZxNbj5lW7vz1uBbW5AInackx3
+   w==;
+X-CSE-ConnectionGUID: CcEwGXr0TZiRfg3M7GBVNw==
+X-CSE-MsgGUID: RYLrMUV1TvC7sChtCB5dUA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="20414923"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="20414923"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 04:55:56 -0700
+X-CSE-ConnectionGUID: mLJF6a3jRwmYwP8JiRei5A==
+X-CSE-MsgGUID: /YrJaCNyQFqG2Kb15g8lYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
-   d="scan'208";a="25033808"
+X-IronPort-AV: E=Sophos;i="6.07,229,1708416000"; 
+   d="scan'208";a="48309315"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Apr 2024 23:41:46 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Apr 2024 04:55:55 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rzsng-00025U-0v;
-	Thu, 25 Apr 2024 06:41:44 +0000
-Date: Thu, 25 Apr 2024 14:41:38 +0800
+	id 1rzxhh-0002Jc-0W;
+	Thu, 25 Apr 2024 11:55:53 +0000
+Date: Thu, 25 Apr 2024 19:55:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [konis-nilfs2:for-akpm 4/4] fs/nilfs2/super.c: linux/fs_context.h is
- included more than once.
-Message-ID: <202404251450.rttcxC1o-lkp@intel.com>
+Subject: [linux-next:master 7867/8170]
+ drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:501:9: sparse:
+ sparse: static assertion failed: "DMUB command size mismatch"
+Message-ID: <202404251956.riTlbHss-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,54 +64,70 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:501:9: sparse: sparse: static assertion failed: "DMUB command size mismatch""
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-nilfs@vger.kernel.org
-TO: Eric Sandeen <sandeen@redhat.com>
-CC: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
-tree:   https://github.com/konis/nilfs2 for-akpm
-head:   69812977939c7895ede256e122284c19d4d83aef
-commit: 69812977939c7895ede256e122284c19d4d83aef [4/4] nilfs2: convert to use the new mount API
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5e4f84f18c4ee9b0ccdc19e39b7de41df21699dd
+commit: 3dc4c954031129a68ba68c99b1803d775ee78258 [7867/8170] drm/amd/display: Add DCN401 dependant changes for DMCUB
+:::::: branch date: 26 hours ago
+:::::: commit date: 2 days ago
+config: mips-randconfig-r131-20240425 (https://download.01.org/0day-ci/archive/20240425/202404251956.riTlbHss-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20240425/202404251956.riTlbHss-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404251450.rttcxC1o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404251956.riTlbHss-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> fs/nilfs2/super.c: linux/fs_context.h is included more than once.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:501:9: sparse: sparse: static assertion failed: "DMUB command size mismatch"
+   drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:537:9: sparse: sparse: static assertion failed: "DMUB command size mismatch"
 
-vim +32 fs/nilfs2/super.c
+vim +501 drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c
 
-  > 32	#include <linux/fs_context.h>
-    33	#include <linux/fs_parser.h>
-    34	#include <linux/crc32.h>
-    35	#include <linux/vfs.h>
-    36	#include <linux/writeback.h>
-    37	#include <linux/seq_file.h>
-    38	#include <linux/mount.h>
-  > 39	#include <linux/fs_context.h>
-    40	#include "nilfs.h"
-    41	#include "export.h"
-    42	#include "mdt.h"
-    43	#include "alloc.h"
-    44	#include "btree.h"
-    45	#include "btnode.h"
-    46	#include "page.h"
-    47	#include "cpfile.h"
-    48	#include "sufile.h" /* nilfs_sufile_resize(), nilfs_sufile_set_alloc_range() */
-    49	#include "ifile.h"
-    50	#include "dat.h"
-    51	#include "segment.h"
-    52	#include "segbuf.h"
-    53	
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  495  
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  496  void dmub_dcn401_send_reg_inbox0_cmd_msg(struct dmub_srv *dmub,
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  497  		union dmub_rb_cmd *cmd)
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  498  {
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  499  	uint32_t *dwords = (uint32_t *)cmd;
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  500  
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19 @501  	static_assert(sizeof(*cmd) == 64, "DMUB command size mismatch");
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  502  
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  503  	REG_WRITE(DMCUB_REG_INBOX0_MSG0, dwords[0]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  504  	REG_WRITE(DMCUB_REG_INBOX0_MSG1, dwords[1]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  505  	REG_WRITE(DMCUB_REG_INBOX0_MSG2, dwords[2]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  506  	REG_WRITE(DMCUB_REG_INBOX0_MSG3, dwords[3]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  507  	REG_WRITE(DMCUB_REG_INBOX0_MSG4, dwords[4]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  508  	REG_WRITE(DMCUB_REG_INBOX0_MSG5, dwords[5]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  509  	REG_WRITE(DMCUB_REG_INBOX0_MSG6, dwords[6]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  510  	REG_WRITE(DMCUB_REG_INBOX0_MSG7, dwords[7]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  511  	REG_WRITE(DMCUB_REG_INBOX0_MSG8, dwords[8]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  512  	REG_WRITE(DMCUB_REG_INBOX0_MSG9, dwords[9]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  513  	REG_WRITE(DMCUB_REG_INBOX0_MSG10, dwords[10]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  514  	REG_WRITE(DMCUB_REG_INBOX0_MSG11, dwords[11]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  515  	REG_WRITE(DMCUB_REG_INBOX0_MSG12, dwords[12]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  516  	REG_WRITE(DMCUB_REG_INBOX0_MSG13, dwords[13]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  517  	REG_WRITE(DMCUB_REG_INBOX0_MSG14, dwords[14]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  518  	/* writing to INBOX RDY register will trigger DMUB REG INBOX0 RDY
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  519  	 * interrupt.
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  520  	 */
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  521  	REG_WRITE(DMCUB_REG_INBOX0_RDY, dwords[15]);
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  522  }
+3df48ddedee4b6 Aurabindo Pillai 2024-04-19  523  
+
+:::::: The code at line 501 was first introduced by commit
+:::::: 3df48ddedee4b68787087cdbdbec8fa28ad0ce68 drm/amd/display: Add new DCN401 sources
+
+:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
