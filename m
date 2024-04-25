@@ -1,174 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2615E5B1;
-	Wed, 24 Apr 2024 14:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F053C3C
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 02:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713968266; cv=none; b=mBSaEpEovflSWcSIJVp3sVzBt+Pl9aFuLgUJly1wkREYExKjjdFQtjQYUi99kJXg3F9hyH8LGo0EOFFeYqQ+d79JmT65quNQ2ygYXS/pLzW/yjMMAs8ar8+K3qvR+ZOgaSfz8sJH1limqFlHmBgcdVxAUBVHJk+T/x0kJDly+gA=
+	t=1714012245; cv=none; b=o2/9bWrUVLaPH2HSb+ozrFw58MH/ohG9qMtON44dZ/UBSqHKv1dVf6SjACABWb6NkvMWyFO17dp1p9gFJXhceQPlfEn6fNAHU4XoybT3du7Qk3w+kNgiPIHX5k9RaK5aAYZaZ7UAu9Ek6pZDFIJbTzYzKQ+Rj1SBM7UPQcZ/0eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713968266; c=relaxed/simple;
-	bh=hyNzl6UHSzZchf9V7Gzo3JKQ9WWb5GYJYSs/R7191MQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fY9zNL5FMIJs5ACFn4tw1TQcbYzkvBBCnX3UIsex5FZvNK2rlNSvdzteesyzaqSlbpgMzWExwxFpMhFukN4kk9Gr3DdPiv++gLObLCrii/TJb3A82H9dKhxbQgPLA2O3VCdo4tbQrFUlmIFPqZ8Mcu3EXdCtWrnjKlqX7okb7hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N6AdF/aC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714012245; c=relaxed/simple;
+	bh=ioVW2JQsYxUpMzapxrfkVcdEwt6Cj9og72K5LcR6ZuA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A4mg/afX/KpE0Yhng0CLohPe7ljfgdO4eM98gqLuS0CA70+aOeqC06ZjQhFwvAHNSgjPa6P8sU/zPYEC4Acb+L8CzX+zL4aXRei3xfAfSR4gXe6zXhugJY2vYjvMPn87jgUIz8jnYpi+dV5LQ/XbnalawqZMAguQVibn8Zzs0UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P3IThz+L; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N6AdF/aC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D148EC2BBFC;
-	Wed, 24 Apr 2024 14:17:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713968265;
-	bh=hyNzl6UHSzZchf9V7Gzo3JKQ9WWb5GYJYSs/R7191MQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N6AdF/aCeqUK+VBjdffOWQqcyN3U73+GM1EOKOkw8bZ4ZBR1/o8ENmj7G6xrH0Sz3
-	 IWhfpKCHEMtgLjIBIm+2xT+8azlEMxDrjeU2mI+rMnKXq3PMl/8mEVeVggKGsAQxJ6
-	 tfloeZFgxZgCtHlcmhqECG03f9A9G/2ZSzPjgA5UM6+pl3s0stJOSVORRTeTme4LTo
-	 7myYTWHjBu56ei5lmkopt+zkCDi/cOt3nbTa3T5FXKqRry8DpztUK6GieY0JSx4aH+
-	 6UAvFgD6utL4pKvQqTSk4QMNoGM96pXw5dChDVORXZtzypKwXKaGmKbBug8WBOpTcW
-	 RV/GsAHSwTT1w==
-Date: Wed, 24 Apr 2024 16:17:41 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-Message-ID: <x7ffovagmqjazr6jhr6urkctcj7ozn6poakvjluorhzuxmyyg2@dxw7ucw3qc6z>
-References: <20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c@kernel.org>
- <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P3IThz+L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714012242; x=1745548242;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ioVW2JQsYxUpMzapxrfkVcdEwt6Cj9og72K5LcR6ZuA=;
+  b=P3IThz+LYj942zPRy7eZbBOQZj9G11Osdd7GPggDfymU6VrlHuoOkxbd
+   VRMvuFWpSzTW8kavB/nZGKHaKpQ2i5epqPke99tMQ8cyhlQK7iYvpDNTa
+   LhUv6vjpzB38L1WOoiRHpTGAH5qrSgvCDuMK0q6U/Mrr98wpn06/s52/t
+   zgkAwQLBBzYlmrxcccvohRMi+u3wsXPoUeVIVZ18pP2KK6XyILtAo7vyQ
+   N5W4XB3yqePcwWAbcnd5wMm/QV/1rJdHx9ijLXcd/Ze4Ur8EU31JsR5TT
+   ABn5qSKoF7TxrVbp4XPVLr5YuQss07GiUcRqPSVIepA9jgcXfL/QWs1PB
+   Q==;
+X-CSE-ConnectionGUID: DB1+Mr77QNeseFmhnGKBZQ==
+X-CSE-MsgGUID: hYcjKkA3TE2ZqvzLGafsXA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="27191006"
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="27191006"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 19:30:40 -0700
+X-CSE-ConnectionGUID: K2/IA2zCQHGXbvoyaCOipQ==
+X-CSE-MsgGUID: ZHJvjlIkTgubcROH51cFjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,228,1708416000"; 
+   d="scan'208";a="25001833"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Apr 2024 19:30:39 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rzosf-0001rw-0Z;
+	Thu, 25 Apr 2024 02:30:37 +0000
+Date: Thu, 25 Apr 2024 10:30:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and
+ power it off during suspend
+Message-ID: <202404251021.4OPER3OS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <74d0e9d1-7ac6-4f08-bab6-76c51e69cebf@moroto.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Apr 23 2024, Dan Carpenter wrote:
-> Hi Benjamin,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-bpf-fix-a-comment-in-a-define/20240419-225110
-> base:   b912cf042072e12e93faa874265b30cc0aa521b9
-> patch link:    https://lore.kernel.org/r/20240419-hid_bpf_lazy_skel-v1-3-9210bcd4b61c%40kernel.org
-> patch subject: [PATCH 3/3] HID: bpf: lazy load the hid_tail_call entrypoint
-> config: i386-randconfig-141-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231109.h2IRrMMD-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202404231109.h2IRrMMD-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hid/bpf/hid_bpf_jmp_table.c:478 __hid_bpf_attach_prog() error: uninitialized symbol 'link'.
-> 
-> vim +/link +478 drivers/hid/bpf/hid_bpf_jmp_table.c
-> 
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  396  noinline int
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  397  __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_type,
-> 7cdd2108903a4e3 Benjamin Tissoires 2024-01-24  398  		      int prog_fd, struct bpf_prog *prog, __u32 flags)
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  399  {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  400  	struct bpf_link_primer link_primer;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  401  	struct hid_bpf_link *link;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  402  	struct hid_bpf_prog_entry *prog_entry;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  403  	int cnt, err = -EINVAL, prog_table_idx = -1;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  404  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  405  	mutex_lock(&hid_bpf_attach_lock);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  406  
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  407  	if (!jmp_table.map) {
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  408  		err = hid_bpf_preload_skel();
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  409  		WARN_ONCE(err, "error while preloading HID BPF dispatcher: %d", err);
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  410  		if (err)
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  411  			goto err_unlock;
->                                                                         ^^^^^^^^^^^^^^^^
-> link isn't initialized.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240423223309.1468198-4-aren@peacevolution.org>
+References: <20240423223309.1468198-4-aren@peacevolution.org>
+TO: Aren Moynihan <aren@peacevolution.org>
+TO: Jonathan Cameron <jic23@kernel.org>
+TO: "Lars-Peter Clausen" <lars@metafoo.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: "Chen-Yu Tsai" <wens@csie.org>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: Samuel Holland <samuel@sholland.org>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+CC: Aren Moynihan <aren@peacevolution.org>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: Ondrej Jirman <megi@xff.cz>
+CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+CC: linux-iio@vger.kernel.org
+CC: phone-devel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-sunxi@lists.linux.dev
+CC: Willow Barraco <contact@willowbarraco.fr>
 
-Well spotted! Thanks
-I'll send a v2 soon.
+Hi Aren,
 
-Cheers,
-Benjamin
+kernel test robot noticed the following build warnings:
 
-> 
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  412  	}
-> 60caa381da7dc38 Benjamin Tissoires 2024-04-19  413  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  414  	link = kzalloc(sizeof(*link), GFP_USER);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  415  	if (!link) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  416  		err = -ENOMEM;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  417  		goto err_unlock;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  418  	}
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  419  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  420  	bpf_link_init(&link->link, BPF_LINK_TYPE_UNSPEC,
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  421  		      &hid_bpf_link_lops, prog);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  422  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  423  	/* do not attach too many programs to a given HID device */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  424  	cnt = hid_bpf_program_count(hdev, NULL, prog_type);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  425  	if (cnt < 0) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  426  		err = cnt;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  427  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  428  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  429  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  430  	if (cnt >= hid_bpf_max_programs(prog_type)) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  431  		err = -E2BIG;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  432  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  433  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  434  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  435  	prog_table_idx = hid_bpf_insert_prog(prog_fd, prog);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  436  	/* if the jmp table is full, abort */
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  437  	if (prog_table_idx < 0) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  438  		err = prog_table_idx;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  439  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  440  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  441  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  442  	if (flags & HID_BPF_FLAG_INSERT_HEAD) {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  443  		/* take the previous prog_entry slot */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  444  		jmp_table.tail = PREV(jmp_table.tail);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  445  		prog_entry = &jmp_table.entries[jmp_table.tail];
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  446  	} else {
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  447  		/* take the next prog_entry slot */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  448  		prog_entry = &jmp_table.entries[jmp_table.head];
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  449  		jmp_table.head = NEXT(jmp_table.head);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  450  	}
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  451  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  452  	/* we steal the ref here */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  453  	prog_entry->prog = prog;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  454  	prog_entry->idx = prog_table_idx;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  455  	prog_entry->hdev = hdev;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  456  	prog_entry->type = prog_type;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  457  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  458  	/* finally store the index in the device list */
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  459  	err = hid_bpf_populate_hdev(hdev, prog_type);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  460  	if (err) {
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  461  		hid_bpf_release_prog_at(prog_table_idx);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  462  		goto err_unlock;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  463  	}
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  464  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  465  	link->hid_table_index = prog_table_idx;
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  466  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  467  	err = bpf_link_prime(&link->link, &link_primer);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  468  	if (err)
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  469  		goto err_unlock;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  470  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  471  	mutex_unlock(&hid_bpf_attach_lock);
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  472  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  473  	return bpf_link_settle(&link_primer);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  474  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  475   err_unlock:
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  476  	mutex_unlock(&hid_bpf_attach_lock);
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13  477  
-> 4b9a3f49f02bf68 Benjamin Tissoires 2023-01-13 @478  	kfree(link);
->                                                               ^^^^
-> 
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  479  
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  480  	return err;
-> f5c27da4e3c8a2e Benjamin Tissoires 2022-11-03  481  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on sunxi/sunxi/for-next robh/for-next linus/master v6.9-rc5 next-20240424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aren-Moynihan/dt-bindings-iio-light-stk33xx-add-vdd-and-leda-regulators/20240424-064250
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240423223309.1468198-4-aren%40peacevolution.org
+patch subject: [PATCH v2 2/6] iio: light: stk3310: Implement vdd supply and power it off during suspend
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: i386-randconfig-141-20240424 (https://download.01.org/0day-ci/archive/20240425/202404251021.4OPER3OS-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202404251021.4OPER3OS-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/light/stk3310.c:615 stk3310_probe() error: uninitialized symbol 'ret'.
+
+vim +/ret +615 drivers/iio/light/stk3310.c
+
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  591  
+9046d80dce04c6 Uwe Kleine-König 2022-11-18  592  static int stk3310_probe(struct i2c_client *client)
+be9e6229d67696 Tiberiu Breana   2015-04-27  593  {
+be9e6229d67696 Tiberiu Breana   2015-04-27  594  	int ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  595  	struct iio_dev *indio_dev;
+be9e6229d67696 Tiberiu Breana   2015-04-27  596  	struct stk3310_data *data;
+be9e6229d67696 Tiberiu Breana   2015-04-27  597  
+be9e6229d67696 Tiberiu Breana   2015-04-27  598  	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+be9e6229d67696 Tiberiu Breana   2015-04-27  599  	if (!indio_dev) {
+be9e6229d67696 Tiberiu Breana   2015-04-27  600  		dev_err(&client->dev, "iio allocation failed!\n");
+be9e6229d67696 Tiberiu Breana   2015-04-27  601  		return -ENOMEM;
+be9e6229d67696 Tiberiu Breana   2015-04-27  602  	}
+be9e6229d67696 Tiberiu Breana   2015-04-27  603  
+be9e6229d67696 Tiberiu Breana   2015-04-27  604  	data = iio_priv(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  605  	data->client = client;
+be9e6229d67696 Tiberiu Breana   2015-04-27  606  	i2c_set_clientdata(client, indio_dev);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  607  
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  608  	device_property_read_u32(&client->dev, "proximity-near-level",
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  609  				 &data->ps_near_level);
+d6ecb01583d4e0 Arnaud Ferraris  2022-04-20  610  
+be9e6229d67696 Tiberiu Breana   2015-04-27  611  	mutex_init(&data->lock);
+be9e6229d67696 Tiberiu Breana   2015-04-27  612  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  613  	data->vdd_reg = devm_regulator_get(&client->dev, "vdd");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  614  	if (IS_ERR(data->vdd_reg))
+dd231c1d219f6b Ondrej Jirman    2024-04-23 @615  		return dev_err_probe(&client->dev, ret, "get regulator vdd failed\n");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  616  
+be9e6229d67696 Tiberiu Breana   2015-04-27  617  	ret = stk3310_regmap_init(data);
+be9e6229d67696 Tiberiu Breana   2015-04-27  618  	if (ret < 0)
+be9e6229d67696 Tiberiu Breana   2015-04-27  619  		return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  620  
+be9e6229d67696 Tiberiu Breana   2015-04-27  621  	indio_dev->info = &stk3310_info;
+be9e6229d67696 Tiberiu Breana   2015-04-27  622  	indio_dev->name = STK3310_DRIVER_NAME;
+be9e6229d67696 Tiberiu Breana   2015-04-27  623  	indio_dev->modes = INDIO_DIRECT_MODE;
+be9e6229d67696 Tiberiu Breana   2015-04-27  624  	indio_dev->channels = stk3310_channels;
+be9e6229d67696 Tiberiu Breana   2015-04-27  625  	indio_dev->num_channels = ARRAY_SIZE(stk3310_channels);
+be9e6229d67696 Tiberiu Breana   2015-04-27  626  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  627  	ret = regulator_enable(data->vdd_reg);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  628  	if (ret)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  629  		return dev_err_probe(&client->dev, ret,
+dd231c1d219f6b Ondrej Jirman    2024-04-23  630  				     "regulator vdd enable failed\n");
+dd231c1d219f6b Ondrej Jirman    2024-04-23  631  
+dd231c1d219f6b Ondrej Jirman    2024-04-23  632  	/* we need a short delay to allow the chip time to power on */
+dd231c1d219f6b Ondrej Jirman    2024-04-23  633  	fsleep(1000);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  634  
+be9e6229d67696 Tiberiu Breana   2015-04-27  635  	ret = stk3310_init(indio_dev);
+be9e6229d67696 Tiberiu Breana   2015-04-27  636  	if (ret < 0)
+dd231c1d219f6b Ondrej Jirman    2024-04-23  637  		goto err_vdd_disable;
+be9e6229d67696 Tiberiu Breana   2015-04-27  638  
+6839c1b0700a79 Octavian Purdila 2015-09-23  639  	if (client->irq > 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  640  		ret = devm_request_threaded_irq(&client->dev, client->irq,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  641  						stk3310_irq_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  642  						stk3310_irq_event_handler,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  643  						IRQF_TRIGGER_FALLING |
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  644  						IRQF_ONESHOT,
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  645  						STK3310_EVENT, indio_dev);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  646  		if (ret < 0) {
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  647  			dev_err(&client->dev, "request irq %d failed\n",
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  648  				client->irq);
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  649  			goto err_standby;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  650  		}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  651  	}
+3dd477acbdd1f1 Tiberiu Breana   2015-04-27  652  
+037e966f2d6389 Hartmut Knaack   2015-07-09  653  	ret = iio_device_register(indio_dev);
+037e966f2d6389 Hartmut Knaack   2015-07-09  654  	if (ret < 0) {
+037e966f2d6389 Hartmut Knaack   2015-07-09  655  		dev_err(&client->dev, "device_register failed\n");
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  656  		goto err_standby;
+037e966f2d6389 Hartmut Knaack   2015-07-09  657  	}
+037e966f2d6389 Hartmut Knaack   2015-07-09  658  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  659  	return 0;
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  660  
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  661  err_standby:
+7c7a9eeaa335df Hartmut Knaack   2015-07-09  662  	stk3310_set_state(data, STK3310_STATE_STANDBY);
+dd231c1d219f6b Ondrej Jirman    2024-04-23  663  err_vdd_disable:
+dd231c1d219f6b Ondrej Jirman    2024-04-23  664  	regulator_disable(data->vdd_reg);
+be9e6229d67696 Tiberiu Breana   2015-04-27  665  	return ret;
+be9e6229d67696 Tiberiu Breana   2015-04-27  666  }
+be9e6229d67696 Tiberiu Breana   2015-04-27  667  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
