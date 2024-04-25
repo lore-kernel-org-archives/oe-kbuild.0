@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4586614F9ED
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 21:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F244A155A53
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Apr 2024 22:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714079720; cv=none; b=QiYE2KXG3E5HOcFKMMKh0awFvMzGHOlo4tjL52GX1xQEgDkkyFmGJFjmPozQZtAfFGJWBKvQFzsYOngiYRk8CWmCUdsF3UryvVkWaF17aPe67gdAntYQgjH6oxucGVO2v0SYiQzTz/IcaLJaiPXodXah92owoF2aceCmYpgrKc4=
+	t=1714082902; cv=none; b=Y1uoUHzIBLFlj5h+NBfKCoH1iuW6//nPA24QZAHpgRNxXgfvJPoqRo4cvxqwhWkZy4idooTapYy14aSq+YEOlkmQGOGRtQZXdfwg5RhmSB34VPQPxTQ4dISRir/WYmcy+65eJUy5kjill0vxlp7divIbwPRjRyqbJp3o1P/0ZJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714079720; c=relaxed/simple;
-	bh=MBFmK9p5n/VordfRozzrpCvUl8LLfJwVwnIsD8k+z3A=;
+	s=arc-20240116; t=1714082902; c=relaxed/simple;
+	bh=RCF4sGADzbSDCV/PWCrkrVHm92ZuRQEAQEuswBTkXh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fMlFeT5mixP3nl1NBzb92zOl4m7HzdXjkHOHRZ8m/XAvtPnjaECDaKB8Hs6nKHV2ig5Up/PNNt2XJsBNyEwtJMuKMgkUtl5mK32mU8DFWK7VvdegyGo+m9ObRlzErxld8Yvzlg+WLH6verAZH0tCNXtyvg/yQ6InjEIFYR+i7WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=daIjhT34; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=gS3F+S//5U05LjuX6ReMOp+yJAmZ26sx7leYeuOp13pgmoMHC2a8uAzVlVB2vwqUhWkZXeFwtjnUirrkC6/N8tIk4oelYL7V/6eNqBUo/UE8AqWsjVAkPvra6pU2iFvQ1Qhf3d99CdRH4hBd6qX0arbjzaQDoTg52/PIekBzDjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DcEB7Ebb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="daIjhT34"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DcEB7Ebb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714079718; x=1745615718;
+  t=1714082900; x=1745618900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MBFmK9p5n/VordfRozzrpCvUl8LLfJwVwnIsD8k+z3A=;
-  b=daIjhT347LT4FL82mzlX5rOrW2nUtjxry1F5xMFXqeL1WO24bXH13x2E
-   v1paTtSRWKluPrtLTWUTaUAh6CjIeFTKqT+yHCCa+XYl0RvKBI/ZLNXkA
-   72th9FSuYQGiaySznogPLDssQ5eLG9fX8telcnlJQFPT5I3ZDNJAYQkDR
-   kajRSA6HNWaSfWE5Kb+tFbvQnd5gFgAu/8pgjuuhlS2jYuBzeUF1VxQr7
-   +5/aHhLRjhlSxvqDk3xmGyWlncWs86lTSEgNqX1bVEqtrN/mxMQ1JVkO6
-   IUZfWMP8X6AGbBq286VqyUGERLNsPxKIMUNRoLnbN7cAryUAkAtXLExKn
+  bh=RCF4sGADzbSDCV/PWCrkrVHm92ZuRQEAQEuswBTkXh4=;
+  b=DcEB7EbbaLsCm0WuB8nM+4LKszb8960LA+nJHHqqDZqrNagwWAbHSxF0
+   5ZcwcYg+DdPXmP2Pn5fSrBMS4+XP693IOFJ++A7Jz99RLB224GvyXbEIi
+   qQJvj+C3XCJDH2aLRvtBRrhqMMBA5/vaPg1xOnXfwY7G4EDLvI+MxRAqZ
+   yL9SAu9lITlfTobBTLRh5azXenzqHMJGXrfIoAE+XG/bj2JMdHJksqh70
+   JjDWzLmjaMQdMD2UJTXCMHHBLIEdjWCMNh793HbEFK9MCUA9/AYmZ5kU8
+   tpgdVVJxTUCnGNO8Rc9BUTbsLd7vbfBL6a7bPmFQ3qG6K5crEqMqTXqwU
    Q==;
-X-CSE-ConnectionGUID: OZ02RFiLSMa38ETfOrl+Xw==
-X-CSE-MsgGUID: b0P/xLvFShe23hSs7MBqBA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="35189116"
+X-CSE-ConnectionGUID: JakIKTpoQ5WF0MyHQdyxGw==
+X-CSE-MsgGUID: x8sggJsKSZGmNAqHSUOCEQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="13585658"
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="35189116"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 14:15:17 -0700
-X-CSE-ConnectionGUID: b4jEF2oTSjODQzH1z00sZw==
-X-CSE-MsgGUID: iVE4VHPJStq8GNkREiAwdg==
+   d="scan'208";a="13585658"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2024 15:08:19 -0700
+X-CSE-ConnectionGUID: XLSPLDwvTOyeLc00E8Jczw==
+X-CSE-MsgGUID: /qt8z9LZS9m+tjp3BUCJqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,230,1708416000"; 
-   d="scan'208";a="25203059"
+   d="scan'208";a="25185253"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Apr 2024 14:15:16 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Apr 2024 15:08:18 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s06R0-0002sm-0O;
-	Thu, 25 Apr 2024 21:15:14 +0000
-Date: Fri, 26 Apr 2024 05:14:26 +0800
+	id 1s07GJ-0002vU-1T;
+	Thu, 25 Apr 2024 22:08:15 +0000
+Date: Fri, 26 Apr 2024 06:07:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/smb/client/smb2pdu.c:3639 __SMB2_close() error:
- __builtin_memcpy() '&rsp->network_open_info' too small (52 vs 56)
-Message-ID: <202404260506.LY2fnQRZ-lkp@intel.com>
+Subject: Re: [PATCH net-next v1 4/4] net: stmmac: use delays reported by the
+ PHY driver to correct MAC propagation delay
+Message-ID: <202404260527.mBIbJOvC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,128 +64,202 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240417164316.1755299-5-o.rempel@pengutronix.de>
+References: <20240417164316.1755299-5-o.rempel@pengutronix.de>
+TO: Oleksij Rempel <o.rempel@pengutronix.de>
+TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
+TO: Jose Abreu <joabreu@synopsys.com>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Heiner Kallweit <hkallweit1@gmail.com>
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+TO: Woojung Huh <woojung.huh@microchip.com>
+TO: Arun Ramadoss <arun.ramadoss@microchip.com>
+TO: Richard Cochran <richardcochran@gmail.com>
+TO: Russell King <linux@armlinux.org.uk>
+CC: Oleksij Rempel <o.rempel@pengutronix.de>
+CC: kernel@pengutronix.de
 CC: linux-kernel@vger.kernel.org
-TO: Namjae Jeon <linkinjeon@kernel.org>
-CC: Steve French <stfrench@microsoft.com>
+CC: UNGLinuxDriver@microchip.com
+CC: linux-stm32@st-md-mailman.stormreply.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a93289b830ce783955b22fbe5d1274a464c05acf
-commit: 0268a7cc7fdc47d90b6c18859de7718d5059f6f1 ksmbd: common: use struct_group_attr instead of struct_group for network_open_info
-date:   6 days ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-161-20240426 (https://download.01.org/0day-ci/archive/20240426/202404260506.LY2fnQRZ-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+Hi Oleksij,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/net-phy-Add-TimeSync-delay-query-support-to-PHYlib-API/20240418-004607
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240417164316.1755299-5-o.rempel%40pengutronix.de
+patch subject: [PATCH net-next v1 4/4] net: stmmac: use delays reported by the PHY driver to correct MAC propagation delay
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20240426 (https://download.01.org/0day-ci/archive/20240426/202404260527.mBIbJOvC-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202404260506.LY2fnQRZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202404260527.mBIbJOvC-lkp@intel.com/
 
-smatch warnings:
-fs/smb/client/smb2pdu.c:3639 __SMB2_close() error: __builtin_memcpy() '&rsp->network_open_info' too small (52 vs 56)
+New smatch warnings:
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:1110 stmmac_mac_link_up() warn: passing zero to 'ERR_PTR'
 
-vim +3639 fs/smb/client/smb2pdu.c
+Old smatch warnings:
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'dev->irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'priv->lpi_irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'priv->sfty_ce_irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'priv->sfty_irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'priv->sfty_ue_irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3801 stmmac_request_irq_multi_msi() warn: 'priv->wol_irq' from request_irq() not released on lines: 3801.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3867 stmmac_request_irq_single() warn: 'dev->irq' from request_irq() not released on lines: 3867.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3867 stmmac_request_irq_single() warn: 'priv->lpi_irq' from request_irq() not released on lines: 3867.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3867 stmmac_request_irq_single() warn: 'priv->wol_irq' from request_irq() not released on lines: 3867.
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5651 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5663 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
+drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5689 stmmac_rx() error: 'skb' dereferencing possible ERR_PTR()
 
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3575  
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3576  int
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3577  __SMB2_close(const unsigned int xid, struct cifs_tcon *tcon,
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3578  	     u64 persistent_fid, u64 volatile_fid,
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3579  	     struct smb2_file_network_open_info *pbuf)
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3580  {
-40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-06-12  3581  	struct smb_rqst rqst;
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3582  	struct smb2_close_rsp *rsp = NULL;
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3583  	struct cifs_ses *ses = tcon->ses;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3584  	struct TCP_Server_Info *server;
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3585  	struct kvec iov[1];
-da502f7df03d2d fs/cifs/smb2pdu.c       Pavel Shilovsky  2016-10-25  3586  	struct kvec rsp_iov;
-ef2298a06d0129 fs/cifs/smb2pdu.c       Garry McNulty    2018-10-03  3587  	int resp_buftype = CIFS_NO_BUFFER;
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3588  	int rc = 0;
-9e8fae2597405a fs/cifs/smb2pdu.c       Steve French     2019-12-02  3589  	int flags = 0;
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3590  	bool query_attrs = false;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3591  	int retries = 0, cur_sleep = 1;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3592  
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3593  replay_again:
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3594  	/* reinitialize for possible replay */
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3595  	flags = 0;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3596  	query_attrs = false;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3597  	server = cifs_pick_channel(ses);
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3598  
-f96637be081141 fs/cifs/smb2pdu.c       Joe Perches      2013-05-04  3599  	cifs_dbg(FYI, "Close\n");
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3600  
-352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel   2020-05-31  3601  	if (!ses || !server)
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3602  		return -EIO;
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3603  
-5a77e75fedce55 fs/cifs/smb2pdu.c       Steve French     2018-05-09  3604  	if (smb3_encryption_required(tcon))
-7fb8986e7449d0 fs/cifs/smb2pdu.c       Pavel Shilovsky  2016-10-31  3605  		flags |= CIFS_TRANSFORM_REQ;
-7fb8986e7449d0 fs/cifs/smb2pdu.c       Pavel Shilovsky  2016-10-31  3606  
-40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-06-12  3607  	memset(&rqst, 0, sizeof(struct smb_rqst));
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3608  	memset(&iov, 0, sizeof(iov));
-40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-06-12  3609  	rqst.rq_iov = iov;
-40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-06-12  3610  	rqst.rq_nvec = 1;
-40eff45b5dc7df fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-06-12  3611  
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3612  	/* check if need to ask server to return timestamps in close response */
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3613  	if (pbuf)
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3614  		query_attrs = true;
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3615  
-f90f979726bc37 fs/cifs/smb2pdu.c       Steve French     2019-09-03  3616  	trace_smb3_close_enter(xid, persistent_fid, tcon->tid, ses->Suid);
-352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel   2020-05-31  3617  	rc = SMB2_close_init(tcon, server,
-352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel   2020-05-31  3618  			     &rqst, persistent_fid, volatile_fid,
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3619  			     query_attrs);
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3620  	if (rc)
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3621  		goto close_exit;
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3622  
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3623  	if (retries)
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3624  		smb2_set_replay(server, &rqst);
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3625  
-352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel   2020-05-31  3626  	rc = cifs_send_recv(xid, ses, server,
-352d96f3acc6e0 fs/cifs/smb2pdu.c       Aurelien Aptel   2020-05-31  3627  			    &rqst, &resp_buftype, flags, &rsp_iov);
-da502f7df03d2d fs/cifs/smb2pdu.c       Pavel Shilovsky  2016-10-25  3628  	rsp = (struct smb2_close_rsp *)rsp_iov.iov_base;
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3629  
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3630  	if (rc != 0) {
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3631  		cifs_stats_fail_inc(tcon, SMB2_CLOSE_HE);
-eccb4422cf97a4 fs/cifs/smb2pdu.c       Steve French     2018-05-17  3632  		trace_smb3_close_err(xid, persistent_fid, tcon->tid, ses->Suid,
-eccb4422cf97a4 fs/cifs/smb2pdu.c       Steve French     2018-05-17  3633  				     rc);
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3634  		goto close_exit;
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3635  	} else {
-f90f979726bc37 fs/cifs/smb2pdu.c       Steve French     2019-09-03  3636  		trace_smb3_close_done(xid, persistent_fid, tcon->tid,
-f90f979726bc37 fs/cifs/smb2pdu.c       Steve French     2019-09-03  3637  				      ses->Suid);
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3638  		if (pbuf)
-0015eb6e12384f fs/smb/client/smb2pdu.c Dmitry Antipov   2023-11-28 @3639  			memcpy(&pbuf->network_open_info,
-0015eb6e12384f fs/smb/client/smb2pdu.c Dmitry Antipov   2023-11-28  3640  			       &rsp->network_open_info,
-0015eb6e12384f fs/smb/client/smb2pdu.c Dmitry Antipov   2023-11-28  3641  			       sizeof(pbuf->network_open_info));
-173217bd733658 fs/smb/client/smb2pdu.c Ritvik Budhiraja 2024-04-02  3642  		atomic_dec(&tcon->num_remote_opens);
-43f8a6a74ee244 fs/cifs/smb2pdu.c       Steve French     2019-12-02  3643  	}
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3644  
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3645  close_exit:
-8eb4ecfab03d21 fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-08-01  3646  	SMB2_close_free(&rqst);
-2503a0dba98948 fs/cifs/smb2pdu.c       Pavel Shilovsky  2011-12-26  3647  	free_rsp_buf(resp_buftype, rsp);
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3648  
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3649  	/* retry close in a worker thread if this one is interrupted */
-2659d3bff3e1b0 fs/cifs/smb2pdu.c       Paulo Alcantara  2021-01-13  3650  	if (is_interrupt_error(rc)) {
-9e8fae2597405a fs/cifs/smb2pdu.c       Steve French     2019-12-02  3651  		int tmp_rc;
-9e8fae2597405a fs/cifs/smb2pdu.c       Steve French     2019-12-02  3652  
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3653  		tmp_rc = smb2_handle_cancelled_close(tcon, persistent_fid,
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3654  						     volatile_fid);
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3655  		if (tmp_rc)
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3656  			cifs_dbg(VFS, "handle cancelled close fid 0x%llx returned error %d\n",
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3657  				 persistent_fid, tmp_rc);
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3658  	}
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3659  
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3660  	if (is_replayable_error(rc) &&
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3661  	    smb2_should_replay(tcon, &retries, &cur_sleep))
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3662  		goto replay_again;
-4f1fffa2376922 fs/smb/client/smb2pdu.c Shyam Prasad N   2024-01-21  3663  
-9150c3adbf24d7 fs/cifs/smb2pdu.c       Pavel Shilovsky  2019-11-21  3664  	return rc;
-97ca1762246d6e fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-04-26  3665  }
-97ca1762246d6e fs/cifs/smb2pdu.c       Ronnie Sahlberg  2018-04-26  3666  
+vim +/ERR_PTR +1110 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-:::::: The code at line 3639 was first introduced by commit
-:::::: 0015eb6e12384ff1c589928e84deac2ad1ceb236 smb: client, common: fix fortify warnings
-
-:::::: TO: Dmitry Antipov <dmantipov@yandex.ru>
-:::::: CC: Steve French <stfrench@microsoft.com>
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   986  
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   987  static void stmmac_mac_link_up(struct phylink_config *config,
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   988  			       struct phy_device *phy,
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   989  			       unsigned int mode, phy_interface_t interface,
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   990  			       int speed, int duplex,
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09   991  			       bool tx_pause, bool rx_pause)
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14   992  {
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11   993  	struct stmmac_priv *priv = netdev_priv(to_net_dev(config->dev));
+a3a57bf07de23f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Heiner Kallweit            2022-08-24   994  	u32 old_ctrl, ctrl;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14   995  
+efe92571bfc30f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Bartosz Golaszewski        2023-07-10   996  	if ((priv->plat->flags & STMMAC_FLAG_SERDES_UP_AFTER_PHY_LINKUP) &&
+efe92571bfc30f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Bartosz Golaszewski        2023-07-10   997  	    priv->plat->serdes_powerup)
+a46e9010124256 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Revanth Kumar Uppala       2022-12-01   998  		priv->plat->serdes_powerup(priv->dev, priv->plat->bsp_priv);
+a46e9010124256 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Revanth Kumar Uppala       2022-12-01   999  
+a3a57bf07de23f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Heiner Kallweit            2022-08-24  1000  	old_ctrl = readl(priv->ioaddr + MAC_CTRL_REG);
+a3a57bf07de23f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Heiner Kallweit            2022-08-24  1001  	ctrl = old_ctrl & ~priv->hw->link.speed_mask;
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1002  
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1003  	if (interface == PHY_INTERFACE_MODE_USXGMII) {
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1004  		switch (speed) {
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1005  		case SPEED_10000:
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1006  			ctrl |= priv->hw->link.xgmii.speed10000;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1007  			break;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1008  		case SPEED_5000:
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1009  			ctrl |= priv->hw->link.xgmii.speed5000;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1010  			break;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1011  		case SPEED_2500:
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1012  			ctrl |= priv->hw->link.xgmii.speed2500;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1013  			break;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1014  		default:
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1015  			return;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1016  		}
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1017  	} else if (interface == PHY_INTERFACE_MODE_XLGMII) {
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1018  		switch (speed) {
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1019  		case SPEED_100000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1020  			ctrl |= priv->hw->link.xlgmii.speed100000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1021  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1022  		case SPEED_50000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1023  			ctrl |= priv->hw->link.xlgmii.speed50000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1024  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1025  		case SPEED_40000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1026  			ctrl |= priv->hw->link.xlgmii.speed40000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1027  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1028  		case SPEED_25000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1029  			ctrl |= priv->hw->link.xlgmii.speed25000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1030  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1031  		case SPEED_10000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1032  			ctrl |= priv->hw->link.xgmii.speed10000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1033  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1034  		case SPEED_2500:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1035  			ctrl |= priv->hw->link.speed2500;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1036  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1037  		case SPEED_1000:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1038  			ctrl |= priv->hw->link.speed1000;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1039  			break;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1040  		default:
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1041  			return;
+8a880936e9025e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-17  1042  		}
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1043  	} else {
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1044  		switch (speed) {
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1045  		case SPEED_2500:
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1046  			ctrl |= priv->hw->link.speed2500;
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1047  			break;
+afbe17a3ad38e1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1048  		case SPEED_1000:
+ca84dfb9ab7084 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1049  			ctrl |= priv->hw->link.speed1000;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14  1050  			break;
+afbe17a3ad38e1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1051  		case SPEED_100:
+ca84dfb9ab7084 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1052  			ctrl |= priv->hw->link.speed100;
+9beae261baab3f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-02-15  1053  			break;
+afbe17a3ad38e1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1054  		case SPEED_10:
+ca84dfb9ab7084 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c LABBE Corentin             2017-05-24  1055  			ctrl |= priv->hw->link.speed10;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14  1056  			break;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14  1057  		default:
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1058  			return;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14  1059  		}
+5b0d7d7da64b42 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1060  	}
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1061  
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1062  	priv->speed = speed;
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1063  
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1064  	if (priv->plat->fix_mac_speed)
+1fc04a0b973392 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Shenwei Wang               2023-08-07  1065  		priv->plat->fix_mac_speed(priv->plat->bsp_priv, speed, mode);
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe Cavallaro         2009-10-14  1066  
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1067  	if (!duplex)
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1068  		ctrl &= ~priv->hw->link.duplex;
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1069  	else
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1070  		ctrl |= priv->hw->link.duplex;
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1071  
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1072  	/* Flow Control operation */
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1073  	if (rx_pause && tx_pause)
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1074  		priv->flow_ctrl = FLOW_AUTO;
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1075  	else if (rx_pause && !tx_pause)
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1076  		priv->flow_ctrl = FLOW_RX;
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1077  	else if (!rx_pause && tx_pause)
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1078  		priv->flow_ctrl = FLOW_TX;
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1079  	else
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1080  		priv->flow_ctrl = FLOW_OFF;
+cc3d2b5fc0d6f8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Goh, Wei Sheng             2022-11-23  1081  
+46f69ded988d23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2020-03-09  1082  	stmmac_mac_flow_ctrl(priv, duplex);
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1083  
+a3a57bf07de23f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Heiner Kallweit            2022-08-24  1084  	if (ctrl != old_ctrl)
+ad01b7d480a4a1 drivers/net/stmmac/stmmac_main.c                  Giuseppe CAVALLARO         2010-08-23  1085  		writel(ctrl, priv->ioaddr + MAC_CTRL_REG);
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1086  
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1087  	stmmac_mac_set(priv, priv->ioaddr, true);
+5b1117704d4c59 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-28  1088  	if (phy && priv->dma_cap.eee) {
+54aa39a513dbf2 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Andrey Konovalov           2023-01-27  1089  		priv->eee_active =
+743dd1db85f40b drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Bartosz Golaszewski        2023-07-10  1090  			phy_init_eee(phy, !(priv->plat->flags &
+743dd1db85f40b drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Bartosz Golaszewski        2023-07-10  1091  				STMMAC_FLAG_RX_CLK_RUNS_IN_LPI)) >= 0;
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1092  		priv->eee_enabled = stmmac_eee_init(priv);
+388e201d41fa1e drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Vineetha G. Jaya Kumaran   2020-10-01  1093  		priv->tx_lpi_enabled = priv->eee_enabled;
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1094  		stmmac_set_eee_pls(priv, priv->hw, true);
+74371272f97fd1 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1095  	}
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon Leong             2021-03-24  1096  
+63c173ff7aa3b5 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Mohammad Athari Bin Ismail 2021-03-26  1097  	if (priv->dma_cap.fpesel)
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon Leong             2021-03-24  1098  		stmmac_fpe_link_state_handle(priv, true);
+26cfb838aa002a drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Johannes Zink              2023-08-01  1099  
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1100  	if (priv->plat->flags & STMMAC_FLAG_HWTSTAMP_CORRECT_LATENCY) {
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1101  		int ret = 0;
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1102  
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1103  		if (phy)
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1104  			ret = phy_get_timesync_data_path_delays(phy,
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1105  								&priv->phy_tx_delay_ns,
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1106  								&priv->phy_rx_delay_ns);
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1107  		if (!phy || ret) {
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1108  			if (ret != -EOPNOTSUPP)
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1109  				netdev_err(priv->dev, "Failed to get PHY delay: %pe\n",
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17 @1110  					   ERR_PTR(ret));
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1111  			priv->phy_tx_delay_ns = 0;
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1112  			priv->phy_rx_delay_ns = 0;
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1113  		}
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1114  
+26cfb838aa002a drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Johannes Zink              2023-08-01  1115  		stmmac_hwtstamp_correct_latency(priv, priv);
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1116  	}
+aa187184434368 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Oleksij Rempel             2024-04-17  1117  }
+9ad372fc5aaf12 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu                 2019-06-11  1118  
 
 -- 
 0-DAY CI Kernel Test Service
