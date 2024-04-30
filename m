@@ -1,136 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5619A172BD5
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Apr 2024 15:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE7D1802B8
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Apr 2024 16:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714492652; cv=none; b=Czw83qU1HFcG4OOKyGak8eG4h0CzPsDWv8sGE3WTtIpBIm1hDHQRdelFMgQRYWqhJ2+qr0Az7UrtNX+hAZ8OY/zKgsuif8WTHfFYxTYIqD7W2wdKhP9PfwcbEs6z+ABcI5z0LZEbOugmtLkBmmpPug86yg4oWF7GNH2hIX6P+hA=
+	t=1714496394; cv=none; b=utfqQhZMwfeYQDevhvtiYTGJsxF3gLtc1gmVVHT6lL08ymeRzSVz/i1yzKPs/Oae3kR1/3SrK0+kmpJwiaXvNQ7ek3UKIkS57XSOLJoa6IZFC8k/jKv5IGvE/uZFQ1GRFGcU1n17qvRdPvLv73tzPKIDxsSQ9joFVmup2s3XRuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714492652; c=relaxed/simple;
-	bh=az4oAtn1FNTZLgbHyc3Yz2MaU26M/thSe9ZglD1cZQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dU8vtilEDSNSYMjz5jCm1LaxrNrFCPbr7J/q5bk+5sntcikltn/tAsNZm38tVdKQcx2yqMJaRxS6MZ3HJjFEo0JFLLnbo7Lw0gieOnnPX8LDcS4bbkiMV9ez2IZuqBz4l64WPD7zwjndgQAiiLf9Hf9CY7vLRUoKd8nfvJGK4WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNKnlGeH; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNKnlGeH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714492650; x=1746028650;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=az4oAtn1FNTZLgbHyc3Yz2MaU26M/thSe9ZglD1cZQw=;
-  b=CNKnlGeH0TVejRYDRN5S/Mh87/zKKQFu+d8UUu2rrTLcmQnTprY4z1Af
-   j0cuODmLp783YxZGlxp10MCLkY/SXw8/FJ52RIYKPYCs++IS4Ioyx2KQF
-   XGh+ghVuVU5zdzyDp+xkms+TWOp5/q8fZQQA0u/k0+WkF0RH0JTRr47PH
-   XPb0QXp/A/FCBn+8/XReT03sqIEeCZY/nlAoH4xrwwV/TqHmlZEqOucX4
-   WyDsrZVSrfqq3zL0T7VsMJ5Tukr8z/EdCUjuDJr+5QSt+Ot2FqZoh6WHs
-   YTSJcCWjW/kt6yZ49kiPfFb7yGmcZJqXOyqtOe0UCFdmHb5RCC8W/YWVu
-   A==;
-X-CSE-ConnectionGUID: /NK3jO+DQ4aJjeuAAu55yg==
-X-CSE-MsgGUID: 8SAFs7eJSCGi+32TB+zN+A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="20755014"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="20755014"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 08:57:30 -0700
-X-CSE-ConnectionGUID: G5u/WIXAQ3K3DyqWOFkCeg==
-X-CSE-MsgGUID: ot7BbFHWTieE/dD/Y9H9XQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="26912447"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2024 08:57:28 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1prC-0008I7-0o;
-	Tue, 30 Apr 2024 15:57:26 +0000
-Date: Tue, 30 Apr 2024 23:57:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 3/6] perf test pmu: Refactor format test and exposed
- test APIs
-Message-ID: <202404302348.8fXJfenz-lkp@intel.com>
+	s=arc-20240116; t=1714496394; c=relaxed/simple;
+	bh=qz8/q7aDjXRetfMq0QCD+Hjl+BFQCiyUaL2twD/FGsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qcc6CSmuKRHLUbiYgtbrtQHkBtWbvuT8Y1Q3XhtDZVa6BakOfzpmHu3n25xLNitva3NhBK2gi+lBmSoO/cFrE2u7VtJ/XE6n75XdvozmFlZmXgzioOioE51ClMWKTJoD3673xjSVblVdssGM6k+096HffBwXJfryBeyTS9FSPgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpS-0001MB-FN; Tue, 30 Apr 2024 18:59:42 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpR-00FCBm-IF; Tue, 30 Apr 2024 18:59:41 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1s1qpR-00CKvW-1Z;
+	Tue, 30 Apr 2024 18:59:41 +0200
+Date: Tue, 30 Apr 2024 18:59:41 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [linux-next:master 1128/2532] drivers/pwm/core.c:1530 pwm_put()
+ warn: variable dereferenced before check 'pwm' (see line 1528)
+Message-ID: <rxnzwxj2txeobevail7mt2xnstuwzusbcilxznjwuk7wqx2cke@y4aw2d24jzpx>
+References: <086d46a0-70a2-41cf-94e5-5cd2377a0937@moroto.mountain>
+ <ylioua4xvt7cbbhk6vnqmywbtj5zuk6lonxjyfaggrb7urvayz@pqglnven76ai>
+ <7ab56969-2524-4458-9881-8b63fc80cca8@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3neuahgzqsxkrpzm"
 Content-Disposition: inline
+In-Reply-To: <7ab56969-2524-4458-9881-8b63fc80cca8@moroto.mountain>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild@lists.linux.dev
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240429200225.1271876-4-irogers@google.com>
-References: <20240429200225.1271876-4-irogers@google.com>
-TO: Ian Rogers <irogers@google.com>
-TO: Kan Liang <kan.liang@linux.intel.com>
-TO: Thomas Richter <tmricht@linux.ibm.com>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Arnaldo Carvalho de Melo <acme@kernel.org>
-TO: Namhyung Kim <namhyung@kernel.org>
-TO: Mark Rutland <mark.rutland@arm.com>
-TO: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-TO: Jiri Olsa <jolsa@kernel.org>
-TO: Bjorn Helgaas <helgaas@kernel.org>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Randy Dunlap <rdunlap@infradead.org>
-TO: Jing Zhang <renyu.zj@linux.alibaba.com>
-TO: James Clark <james.clark@arm.com>
-TO: Ravi Bangoria <ravi.bangoria@amd.com>
-TO: linux-kernel@vger.kernel.org
-TO: linux-perf-users@vger.kernel.org
-CC: Ian Rogers <irogers@google.com>
+--3neuahgzqsxkrpzm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ian,
+Hello Dan,
 
-kernel test robot noticed the following build errors:
+On Tue, Apr 30, 2024 at 02:08:05PM +0300, Dan Carpenter wrote:
+> On Tue, Apr 02, 2024 at 05:11:22PM +0200, Uwe Kleine-K=F6nig wrote:
+> > Hello,
+> >=20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1526  void pwm_put(struct=
+ pwm_device *pwm)
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1527  {
+> > > d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17 @1528  	struct pwm_chip =
+*chip =3D pwm->chip;
+> > >                                                                      =
+           ^^^^^^^^^^
+> > > Dereference
+> > >=20
+> > > d60bc299573248 Uwe Kleine-K=F6nig 2024-03-17  1529 =20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26 @1530  	if (!pwm)
+> > >                                                             ^^^^
+> > > Too late.
+> > >=20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1531  		return;
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1532 =20
+> > > 8138d2ddbcca2a Thierry Reding   2012-03-26  1533  	mutex_lock(&pwm_lo=
+ck);
+> >=20
+> > This is already addressed in fbf632f9dc55.
+> >=20
+>=20
+> Apparently we never merged that commit, though...  It's not in
+> linux-next.
 
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on tip/perf/core perf-tools/perf-tools linus/master v6.9-rc6 next-20240430]
-[cannot apply to acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Oh, I recently dropped a few commits from my for-next branch and this
+one was (wrongly) among them. Thanks for paying attention, it's back
+now.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/perf-test-pmu-events-Make-it-clearer-that-pmu-events-tests-json-events/20240430-040959
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240429200225.1271876-4-irogers%40google.com
-patch subject: [PATCH v3 3/6] perf test pmu: Refactor format test and exposed test APIs
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240430/202404302348.8fXJfenz-lkp@intel.com/reproduce)
+Best regards
+Uwe
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202404302348.8fXJfenz-lkp@intel.com/
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-All errors (new ones prefixed by >>):
+--3neuahgzqsxkrpzm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-     PERF_VERSION = 6.9.rc5.g00252012d0a2
-   tests/pmu.c: In function 'test_pmu_get':
->> tests/pmu.c:84:9: error: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Werror=unused-result]
-      84 |         write(file, "9999\n", 5);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-   make[7]: *** [tools/build/Makefile.build:106: tools/perf/tests/pmu.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: tests] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:264: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+-----BEGIN PGP SIGNATURE-----
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmYxI3wACgkQj4D7WH0S
+/k6YLgf/bgwGqi7ZhYTTDqJCwwDV+AjYaF9qEf9nkrttUVja+LzvOP25Z0Kij0Ub
+vhk9l8dplZ3uyswwKTLco9UCX/uKlnZiRrqf5IyACUFYJTlY6zBb2W9xpFv3joCo
+QDmvvhMBaCLEnhkUwlP1TmxIJPYlkALyemKjtLYY5gPDkMc1AwEZWfFAEjLr8t9j
+8EmqvYvxmwuOPhMpB6degs46j9SKNmNCfpwHW7GdzcZO9JNWiZuhwcHnZ+PAb8iz
+b5MNqYPOj95OVJCE2vz+dK3qyBSD8P0cZRVlum7W0uJbPM8So4wPZIpmyOwbVqYp
+50mb0cXxF0nWgNmucgXI8ERhLVnTKw==
+=ScWg
+-----END PGP SIGNATURE-----
+
+--3neuahgzqsxkrpzm--
