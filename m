@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E32D515
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Apr 2024 02:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530B5376E5
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Apr 2024 07:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714445710; cv=none; b=RbhparFat2+TyujyjoLuDsVuO7V1P7pITK9X6oquaTS6M3OfqZNsyIaefaLnXDAfXFFPqNRwGhxjTf7AjJFdVuP5i95T7/Hykq53S5XEqnvCEhniCPGKPYdNLwpVxSg2y4cq4sS5Qo3o7g2RQFb0Ptay5AII6Nzy1j9YPMTZqJc=
+	t=1714461874; cv=none; b=cM0flKaePBhyjlC05YPIul3Hy0QyoEIwcm6wLGz7fpGmW6hQw4C6pLQB7cEQ27ou8QHf9JKs2ejxvxBqTagf4vzFUaPoNYowNsl1ExMYg5nmPxBFmb7FGW2FPG2PulmBWmcWRKw38ubRjL+YoNZaubYePtVOwD6EKu3PE8MUOU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714445710; c=relaxed/simple;
-	bh=+OlCaVypan2bnV/WjxR4UHYy70rb/wj4pp89xYjoot8=;
+	s=arc-20240116; t=1714461874; c=relaxed/simple;
+	bh=yyZjb6uJBHtfQDi9vcRqAluwv7g2WUi3qhsCuCrRV1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FM7fXXxeJCCPL5mFMvlJWLZWxRkmNd20AG8WDTQt7wuM/B12M3qIl7v3+xiWtUdER90ndoEIYwPnrFNhyL/95YvnD8hOZ3mIJMDolnu6lwGu7tLR/YDSNfxDdVSI9PKnSmDBrNaIrDpbJV5XguQXNcjrgx3ixf0hWXEvZR7OKr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJgc5uRr; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=ohI61dWIboFfX82SAFowPnkJQESvfbw8pwPADcBh2eVoVNMlyQrOd4ck/15mGmdaphGklbklSuc5J6jHcmIK98Q40KWG3DNDac0gOUNJnaibx0ytr0Ejx/1Vv80AEQclFx3KEo0REQQ5bIwAAddrNGSfkhYLbQNLyyE+2aw8Bqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GROGWXH1; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJgc5uRr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714445709; x=1745981709;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+OlCaVypan2bnV/WjxR4UHYy70rb/wj4pp89xYjoot8=;
-  b=IJgc5uRratAhZPLhgAsyt9vVFgrSBOWff9RCkVkWdIuFiH32e6N59yE6
-   hkQsv5/g4WQx4f/EnKPq6gw+tdllJ0rtTOI/ML/Rt207W8Qyd3fdVKfj7
-   1tCWePRCnARNiEpRa6ciIh1V0TU9Ut1XaiNDbLoQ58cbTdRd4VimcqlXW
-   XZhZWWoRiBa8v14VuPhZJZXdGJumh98gCIp7JT1wl0M62Jd/fNfguLaNo
-   aHFzxEQj8BkGGysGQBzpHl/Geq97TZXM/kkDiu7Mj7bs2/OnYcqt8PPZZ
-   +xcSIuZS0C+igoROY3JYnZtHpaiHzM6MAi36S8ibT8fQNaZeapwE2PhFO
-   Q==;
-X-CSE-ConnectionGUID: ZrBT4t5mQQmrX6ZtlumnLA==
-X-CSE-MsgGUID: lK3JtQtzR1+eVSSygcpTfA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10299255"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10299255"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2024 19:55:08 -0700
-X-CSE-ConnectionGUID: 1hrOagPJQSawY3krfUotrw==
-X-CSE-MsgGUID: PGk1jcogSEWuvhTf0TJCzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="49508143"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2024 19:55:06 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s1de4-0007e4-0m;
-	Tue, 30 Apr 2024 02:55:04 +0000
-Date: Tue, 30 Apr 2024 10:55:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 21254/22260]
- drivers/gpu/drm/phytium/phytium_plane.c:218:7-9: WARNING: possible condition
- with no effect (if == else)
-Message-ID: <202404301017.LO0G9z7D-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GROGWXH1"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56e1f3462caso6820033a12.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 30 Apr 2024 00:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714461870; x=1715066670; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/7s89Ib+yw/GmKuXOIYBvUFt2qfG5QHiPGhNhFrnzGQ=;
+        b=GROGWXH1zcMTxdI5cWKPqt0RBMx+nWDhom8bA+OQUO6BYz48x7cdKklNNK0sknXri1
+         5efFzwdlt9uR+gT5c8aeegNbABhWdptFc9lXIp8oPdD5+5YBzRT/gVqR1jE8o+SAEaan
+         gaoSFegtz/7vpESDtAlNb0h73O9wNxKBxqle3DIrco9xmtREODboBGaxvYGz1rSSSE6N
+         xqvCtCmTR1AVhtdlisQTwhT8B08vC080D+7f1TIoFtXKnmgXAxjuEIZ0UanHl8FnF005
+         9V1chz5lt5JUjAOKtBJ1bBb8N53McyP4uH6hvnAckWx3K33wqxMhAc8il62Cx6BGGEba
+         miEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714461870; x=1715066670;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/7s89Ib+yw/GmKuXOIYBvUFt2qfG5QHiPGhNhFrnzGQ=;
+        b=IPBPgN5irgOOa0lz8oq8BChpluhzysVD777OnPaKixJ+iRBzYGcmVISvJ1x88JLiUk
+         XEx3bYGpcaPfag8ubouVN6EIF34LSHwPzaHbBP1xnme52grTCajfBY54kKcgzxxuIcoT
+         I/YoMXWZjKGYXVYdT3GoWlJPuH7X1FsuRUxyCAKRtsbqrYgtmOtObo3JBAWFSvc6tRuR
+         izuz/lBi+4PPcpRy6lgfFpnET14bPuEbNgvnj3sO6q6JaeeckZS7rRVSXx3vaqsGANnf
+         HM0grrCFlXoOaXDqINFEy/YAZyMPluDogce4qxnZ0f3hXBzZOkvGd5qgzZ97j/DTH0Ga
+         m2LQ==
+X-Gm-Message-State: AOJu0YwiDutXcWWRxuoo+6eM13VYEnGt+4ClfpWYHg/A831jZWLW+nCj
+	jQDcCr76qWizVGtM1abCpXAKga/BmPASfmOqGKHwUWGNmWDSGo6oaQRlpqnpk+KYONP0ASK8uJy
+	g
+X-Google-Smtp-Source: AGHT+IEnyAcN6JEupMPAax6ZOgByVwP2oJqMT6SUvW+cb6CrU28YZX/Ub7ZnrT1/7sFjFCoZOg1jwA==
+X-Received: by 2002:a05:6402:1a4d:b0:572:8aab:4420 with SMTP id bf13-20020a0564021a4d00b005728aab4420mr2380881edb.39.1714461869687;
+        Tue, 30 Apr 2024 00:24:29 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id e12-20020a056402104c00b00571c12b388dsm13389893edu.35.2024.04.30.00.24.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:24:29 -0700 (PDT)
+Date: Tue, 30 Apr 2024 10:24:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kemeng Shi <shikemeng@huaweicloud.com>,
+	willy@infradead.org, akpm@linux-foundation.org, jack@suse.cz,
+	tj@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] writeback: factor out wb_dirty_exceeded to remove
+ repeated code
+Message-ID: <6d3471cd-f491-4949-ba75-9fae63198b59@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,203 +70,252 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240429034738.138609-10-shikemeng@huaweicloud.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: lishuo <lishuo@phytium.com.cn>
+Hi Kemeng,
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   534530510857129d59e723e50cc93349b4a59fb2
-commit: cad0702e5286d3cc80afe545de027858b855dd5a [21254/22260] DRM: Phytium display DRM driver
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-r054-20240430 (https://download.01.org/0day-ci/archive/20240430/202404301017.LO0G9z7D-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kemeng-Shi/writeback-factor-out-wb_bg_dirty_limits-to-remove-repeated-code/20240429-114903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240429034738.138609-10-shikemeng%40huaweicloud.com
+patch subject: [PATCH 09/10] writeback: factor out wb_dirty_exceeded to remove repeated code
+config: i386-randconfig-141-20240429 (https://download.01.org/0day-ci/archive/20240430/202404300231.bnb28iB8-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202404301017.LO0G9z7D-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202404300231.bnb28iB8-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/phytium/phytium_plane.c:218:7-9: WARNING: possible condition with no effect (if == else)
---
->> drivers/gpu/drm/phytium/phytium_platform.c:149:2-9: line 149 is redundant because platform_get_irq() already prints an error
+New smatch warnings:
+mm/page-writeback.c:1903 balance_dirty_pages() error: we previously assumed 'mdtc' could be null (see line 1886)
 
-vim +218 drivers/gpu/drm/phytium/phytium_plane.c
+vim +/mdtc +1903 mm/page-writeback.c
 
-cad0702e5286d3 lishuo 2023-10-27  196  
-cad0702e5286d3 lishuo 2023-10-27  197  static void phytium_dc_get_plane_parameter(struct drm_plane *plane)
-cad0702e5286d3 lishuo 2023-10-27  198  {
-cad0702e5286d3 lishuo 2023-10-27  199  	struct phytium_plane *phytium_plane = to_phytium_plane(plane);
-cad0702e5286d3 lishuo 2023-10-27  200  	struct drm_framebuffer *fb = plane->state->fb;
-cad0702e5286d3 lishuo 2023-10-27  201  	struct phytium_framebuffer *phytium_fb = to_phytium_framebuffer(fb);
-cad0702e5286d3 lishuo 2023-10-27  202  	struct phytium_gem_object *phytium_gem_obj = NULL;
-cad0702e5286d3 lishuo 2023-10-27  203  	int i, num_planes = 0;
-cad0702e5286d3 lishuo 2023-10-27  204  	const struct drm_format_info *info;
-cad0702e5286d3 lishuo 2023-10-27  205  
-cad0702e5286d3 lishuo 2023-10-27  206  	info = drm_format_info(fb->format->format);
-cad0702e5286d3 lishuo 2023-10-27  207  	num_planes = info ? info->num_planes : 1;
-cad0702e5286d3 lishuo 2023-10-27  208  
-cad0702e5286d3 lishuo 2023-10-27  209  	for (i = 0; i < num_planes; i++) {
-cad0702e5286d3 lishuo 2023-10-27  210  		phytium_gem_obj = phytium_fb->phytium_gem_obj[i];
-cad0702e5286d3 lishuo 2023-10-27  211  		phytium_plane->iova[i] =  phytium_gem_obj->iova + fb->offsets[i];
-cad0702e5286d3 lishuo 2023-10-27  212  		phytium_plane->size[i] = phytium_gem_obj->size - fb->offsets[i];
-cad0702e5286d3 lishuo 2023-10-27  213  
-cad0702e5286d3 lishuo 2023-10-27  214  		if (fb->modifier == DRM_FORMAT_MOD_PHYTIUM_TILE_MODE0_FBCDC)
-cad0702e5286d3 lishuo 2023-10-27  215  			phytium_plane->tiling[i] = FRAMEBUFFER_TILE_MODE0;
-cad0702e5286d3 lishuo 2023-10-27  216  		else if (fb->modifier == DRM_FORMAT_MOD_PHYTIUM_TILE_MODE3_FBCDC)
-cad0702e5286d3 lishuo 2023-10-27  217  			phytium_plane->tiling[i] = FRAMEBUFFER_TILE_MODE3;
-cad0702e5286d3 lishuo 2023-10-27 @218  		else if (fb->modifier == DRM_FORMAT_MOD_LINEAR)
-cad0702e5286d3 lishuo 2023-10-27  219  			phytium_plane->tiling[i] = FRAMEBUFFER_LINEAR;
-cad0702e5286d3 lishuo 2023-10-27  220  		else
-cad0702e5286d3 lishuo 2023-10-27  221  			phytium_plane->tiling[i] = FRAMEBUFFER_LINEAR;
-cad0702e5286d3 lishuo 2023-10-27  222  
-cad0702e5286d3 lishuo 2023-10-27  223  		if (i == 0) {
-cad0702e5286d3 lishuo 2023-10-27  224  			switch (fb->format->format) {
-cad0702e5286d3 lishuo 2023-10-27  225  			case DRM_FORMAT_ARGB2101010:
-cad0702e5286d3 lishuo 2023-10-27  226  			case DRM_FORMAT_ABGR2101010:
-cad0702e5286d3 lishuo 2023-10-27  227  			case DRM_FORMAT_RGBA1010102:
-cad0702e5286d3 lishuo 2023-10-27  228  			case DRM_FORMAT_BGRA1010102:
-cad0702e5286d3 lishuo 2023-10-27  229  				phytium_plane->format = FRAMEBUFFER_FORMAT_ARGB2101010;
-cad0702e5286d3 lishuo 2023-10-27  230  				break;
-cad0702e5286d3 lishuo 2023-10-27  231  
-cad0702e5286d3 lishuo 2023-10-27  232  			case DRM_FORMAT_ARGB8888:
-cad0702e5286d3 lishuo 2023-10-27  233  			case DRM_FORMAT_ABGR8888:
-cad0702e5286d3 lishuo 2023-10-27  234  			case DRM_FORMAT_RGBA8888:
-cad0702e5286d3 lishuo 2023-10-27  235  			case DRM_FORMAT_BGRA8888:
-cad0702e5286d3 lishuo 2023-10-27  236  				phytium_plane->format = FRAMEBUFFER_FORMAT_ARGB8888;
-cad0702e5286d3 lishuo 2023-10-27  237  				break;
-cad0702e5286d3 lishuo 2023-10-27  238  
-cad0702e5286d3 lishuo 2023-10-27  239  			case DRM_FORMAT_XRGB8888:
-cad0702e5286d3 lishuo 2023-10-27  240  			case DRM_FORMAT_XBGR8888:
-cad0702e5286d3 lishuo 2023-10-27  241  			case DRM_FORMAT_RGBX8888:
-cad0702e5286d3 lishuo 2023-10-27  242  			case DRM_FORMAT_BGRX8888:
-cad0702e5286d3 lishuo 2023-10-27  243  				phytium_plane->format = FRAMEBUFFER_FORMAT_XRGB8888;
-cad0702e5286d3 lishuo 2023-10-27  244  				break;
-cad0702e5286d3 lishuo 2023-10-27  245  
-cad0702e5286d3 lishuo 2023-10-27  246  			case DRM_FORMAT_ARGB4444:
-cad0702e5286d3 lishuo 2023-10-27  247  			case DRM_FORMAT_ABGR4444:
-cad0702e5286d3 lishuo 2023-10-27  248  			case DRM_FORMAT_RGBA4444:
-cad0702e5286d3 lishuo 2023-10-27  249  			case DRM_FORMAT_BGRA4444:
-cad0702e5286d3 lishuo 2023-10-27  250  				phytium_plane->format = FRAMEBUFFER_FORMAT_ARGB4444;
-cad0702e5286d3 lishuo 2023-10-27  251  				break;
-cad0702e5286d3 lishuo 2023-10-27  252  
-cad0702e5286d3 lishuo 2023-10-27  253  			case DRM_FORMAT_XRGB4444:
-cad0702e5286d3 lishuo 2023-10-27  254  			case DRM_FORMAT_XBGR4444:
-cad0702e5286d3 lishuo 2023-10-27  255  			case DRM_FORMAT_RGBX4444:
-cad0702e5286d3 lishuo 2023-10-27  256  			case DRM_FORMAT_BGRX4444:
-cad0702e5286d3 lishuo 2023-10-27  257  				phytium_plane->format = FRAMEBUFFER_FORMAT_XRGB4444;
-cad0702e5286d3 lishuo 2023-10-27  258  				break;
-cad0702e5286d3 lishuo 2023-10-27  259  
-cad0702e5286d3 lishuo 2023-10-27  260  			case DRM_FORMAT_ARGB1555:
-cad0702e5286d3 lishuo 2023-10-27  261  			case DRM_FORMAT_ABGR1555:
-cad0702e5286d3 lishuo 2023-10-27  262  			case DRM_FORMAT_RGBA5551:
-cad0702e5286d3 lishuo 2023-10-27  263  			case DRM_FORMAT_BGRA5551:
-cad0702e5286d3 lishuo 2023-10-27  264  				phytium_plane->format = FRAMEBUFFER_FORMAT_ARGB1555;
-cad0702e5286d3 lishuo 2023-10-27  265  				break;
-cad0702e5286d3 lishuo 2023-10-27  266  
-cad0702e5286d3 lishuo 2023-10-27  267  			case DRM_FORMAT_XRGB1555:
-cad0702e5286d3 lishuo 2023-10-27  268  			case DRM_FORMAT_XBGR1555:
-cad0702e5286d3 lishuo 2023-10-27  269  			case DRM_FORMAT_RGBX5551:
-cad0702e5286d3 lishuo 2023-10-27  270  			case DRM_FORMAT_BGRX5551:
-cad0702e5286d3 lishuo 2023-10-27  271  				phytium_plane->format = FRAMEBUFFER_FORMAT_XRGB1555;
-cad0702e5286d3 lishuo 2023-10-27  272  				break;
-cad0702e5286d3 lishuo 2023-10-27  273  
-cad0702e5286d3 lishuo 2023-10-27  274  			case DRM_FORMAT_RGB565:
-cad0702e5286d3 lishuo 2023-10-27  275  			case DRM_FORMAT_BGR565:
-cad0702e5286d3 lishuo 2023-10-27  276  				phytium_plane->format = FRAMEBUFFER_FORMAT_RGB565;
-cad0702e5286d3 lishuo 2023-10-27  277  				break;
-cad0702e5286d3 lishuo 2023-10-27  278  
-cad0702e5286d3 lishuo 2023-10-27  279  			case DRM_FORMAT_YUYV:
-cad0702e5286d3 lishuo 2023-10-27  280  				phytium_plane->format = FRAMEBUFFER_FORMAT_YUYV;
-cad0702e5286d3 lishuo 2023-10-27  281  				break;
-cad0702e5286d3 lishuo 2023-10-27  282  
-cad0702e5286d3 lishuo 2023-10-27  283  			case DRM_FORMAT_UYVY:
-cad0702e5286d3 lishuo 2023-10-27  284  				phytium_plane->format = FRAMEBUFFER_FORMAT_UYVY;
-cad0702e5286d3 lishuo 2023-10-27  285  				break;
-cad0702e5286d3 lishuo 2023-10-27  286  			case DRM_FORMAT_NV16:
-cad0702e5286d3 lishuo 2023-10-27  287  				phytium_plane->format = FRAMEBUFFER_FORMAT_NV16;
-cad0702e5286d3 lishuo 2023-10-27  288  				break;
-cad0702e5286d3 lishuo 2023-10-27  289  			case DRM_FORMAT_NV12:
-cad0702e5286d3 lishuo 2023-10-27  290  				phytium_plane->format = FRAMEBUFFER_FORMAT_NV12;
-cad0702e5286d3 lishuo 2023-10-27  291  				break;
-cad0702e5286d3 lishuo 2023-10-27  292  			case DRM_FORMAT_NV21:
-cad0702e5286d3 lishuo 2023-10-27  293  				phytium_plane->format = FRAMEBUFFER_FORMAT_NV12;
-cad0702e5286d3 lishuo 2023-10-27  294  				break;
-cad0702e5286d3 lishuo 2023-10-27  295  			default:
-cad0702e5286d3 lishuo 2023-10-27  296  				DRM_ERROR("unsupported pixel format (format = %d)\n",
-cad0702e5286d3 lishuo 2023-10-27  297  					  fb->format->format);
-cad0702e5286d3 lishuo 2023-10-27  298  				return;
-cad0702e5286d3 lishuo 2023-10-27  299  			}
-cad0702e5286d3 lishuo 2023-10-27  300  
-cad0702e5286d3 lishuo 2023-10-27  301  			switch (fb->format->format) {
-cad0702e5286d3 lishuo 2023-10-27  302  			case DRM_FORMAT_ARGB2101010:
-cad0702e5286d3 lishuo 2023-10-27  303  			case DRM_FORMAT_ARGB8888:
-cad0702e5286d3 lishuo 2023-10-27  304  			case DRM_FORMAT_XRGB8888:
-cad0702e5286d3 lishuo 2023-10-27  305  			case DRM_FORMAT_ARGB4444:
-cad0702e5286d3 lishuo 2023-10-27  306  			case DRM_FORMAT_XRGB4444:
-cad0702e5286d3 lishuo 2023-10-27  307  			case DRM_FORMAT_ARGB1555:
-cad0702e5286d3 lishuo 2023-10-27  308  			case DRM_FORMAT_XRGB1555:
-cad0702e5286d3 lishuo 2023-10-27  309  			case DRM_FORMAT_RGB565:
-cad0702e5286d3 lishuo 2023-10-27  310  				phytium_plane->swizzle = FRAMEBUFFER_SWIZZLE_ARGB;
-cad0702e5286d3 lishuo 2023-10-27  311  				phytium_plane->uv_swizzle = FRAMEBUFFER_UVSWIZZLE_DISABLE;
-cad0702e5286d3 lishuo 2023-10-27  312  				break;
-cad0702e5286d3 lishuo 2023-10-27  313  
-cad0702e5286d3 lishuo 2023-10-27  314  			case DRM_FORMAT_ABGR2101010:
-cad0702e5286d3 lishuo 2023-10-27  315  			case DRM_FORMAT_ABGR8888:
-cad0702e5286d3 lishuo 2023-10-27  316  			case DRM_FORMAT_XBGR8888:
-cad0702e5286d3 lishuo 2023-10-27  317  			case DRM_FORMAT_ABGR4444:
-cad0702e5286d3 lishuo 2023-10-27  318  			case DRM_FORMAT_XBGR4444:
-cad0702e5286d3 lishuo 2023-10-27  319  			case DRM_FORMAT_ABGR1555:
-cad0702e5286d3 lishuo 2023-10-27  320  			case DRM_FORMAT_XBGR1555:
-cad0702e5286d3 lishuo 2023-10-27  321  			case DRM_FORMAT_BGR565:
-cad0702e5286d3 lishuo 2023-10-27  322  				phytium_plane->swizzle = FRAMEBUFFER_SWIZZLE_ABGR;
-cad0702e5286d3 lishuo 2023-10-27  323  				phytium_plane->uv_swizzle = FRAMEBUFFER_UVSWIZZLE_DISABLE;
-cad0702e5286d3 lishuo 2023-10-27  324  				break;
-cad0702e5286d3 lishuo 2023-10-27  325  
-cad0702e5286d3 lishuo 2023-10-27  326  			case DRM_FORMAT_RGBA1010102:
-cad0702e5286d3 lishuo 2023-10-27  327  			case DRM_FORMAT_RGBA8888:
-cad0702e5286d3 lishuo 2023-10-27  328  			case DRM_FORMAT_RGBX8888:
-cad0702e5286d3 lishuo 2023-10-27  329  			case DRM_FORMAT_RGBA4444:
-cad0702e5286d3 lishuo 2023-10-27  330  			case DRM_FORMAT_RGBX4444:
-cad0702e5286d3 lishuo 2023-10-27  331  			case DRM_FORMAT_RGBA5551:
-cad0702e5286d3 lishuo 2023-10-27  332  			case DRM_FORMAT_RGBX5551:
-cad0702e5286d3 lishuo 2023-10-27  333  				phytium_plane->swizzle = FRAMEBUFFER_SWIZZLE_RGBA;
-cad0702e5286d3 lishuo 2023-10-27  334  				phytium_plane->uv_swizzle = FRAMEBUFFER_UVSWIZZLE_DISABLE;
-cad0702e5286d3 lishuo 2023-10-27  335  				break;
-cad0702e5286d3 lishuo 2023-10-27  336  
-cad0702e5286d3 lishuo 2023-10-27  337  			case DRM_FORMAT_BGRA1010102:
-cad0702e5286d3 lishuo 2023-10-27  338  			case DRM_FORMAT_BGRA8888:
-cad0702e5286d3 lishuo 2023-10-27  339  			case DRM_FORMAT_BGRX8888:
-cad0702e5286d3 lishuo 2023-10-27  340  			case DRM_FORMAT_BGRA4444:
-cad0702e5286d3 lishuo 2023-10-27  341  			case DRM_FORMAT_BGRX4444:
-cad0702e5286d3 lishuo 2023-10-27  342  			case DRM_FORMAT_BGRA5551:
-cad0702e5286d3 lishuo 2023-10-27  343  			case DRM_FORMAT_BGRX5551:
-cad0702e5286d3 lishuo 2023-10-27  344  				phytium_plane->swizzle = FRAMEBUFFER_SWIZZLE_BGRA;
-cad0702e5286d3 lishuo 2023-10-27  345  				phytium_plane->uv_swizzle = FRAMEBUFFER_UVSWIZZLE_DISABLE;
-cad0702e5286d3 lishuo 2023-10-27  346  				break;
-cad0702e5286d3 lishuo 2023-10-27  347  
-cad0702e5286d3 lishuo 2023-10-27  348  			case DRM_FORMAT_YUYV:
-cad0702e5286d3 lishuo 2023-10-27  349  			case DRM_FORMAT_UYVY:
-cad0702e5286d3 lishuo 2023-10-27  350  			case DRM_FORMAT_NV16:
-cad0702e5286d3 lishuo 2023-10-27  351  			case DRM_FORMAT_NV12:
-cad0702e5286d3 lishuo 2023-10-27  352  				phytium_plane->swizzle = FRAMEBUFFER_SWIZZLE_ARGB;
-cad0702e5286d3 lishuo 2023-10-27  353  				phytium_plane->uv_swizzle = FRAMEBUFFER_UVSWIZZLE_DISABLE;
-cad0702e5286d3 lishuo 2023-10-27  354  				break;
-cad0702e5286d3 lishuo 2023-10-27  355  
-cad0702e5286d3 lishuo 2023-10-27  356  			default:
-cad0702e5286d3 lishuo 2023-10-27  357  				DRM_ERROR("unsupported pixel format (format = %d)\n",
-cad0702e5286d3 lishuo 2023-10-27  358  					   fb->format->format);
-cad0702e5286d3 lishuo 2023-10-27  359  				return;
-cad0702e5286d3 lishuo 2023-10-27  360  			}
-cad0702e5286d3 lishuo 2023-10-27  361  		}
-cad0702e5286d3 lishuo 2023-10-27  362  	}
-cad0702e5286d3 lishuo 2023-10-27  363  }
-cad0702e5286d3 lishuo 2023-10-27  364  
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1800  static int balance_dirty_pages(struct bdi_writeback *wb,
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1801  			       unsigned long pages_dirtied, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1802  {
+2bc00aef030f4f Tejun Heo       2015-05-22  1803  	struct dirty_throttle_control gdtc_stor = { GDTC_INIT(wb) };
+c2aa723a609363 Tejun Heo       2015-05-22  1804  	struct dirty_throttle_control mdtc_stor = { MDTC_INIT(wb, &gdtc_stor) };
+2bc00aef030f4f Tejun Heo       2015-05-22  1805  	struct dirty_throttle_control * const gdtc = &gdtc_stor;
+c2aa723a609363 Tejun Heo       2015-05-22  1806  	struct dirty_throttle_control * const mdtc = mdtc_valid(&mdtc_stor) ?
+c2aa723a609363 Tejun Heo       2015-05-22  1807  						     &mdtc_stor : NULL;
+c2aa723a609363 Tejun Heo       2015-05-22  1808  	struct dirty_throttle_control *sdtc;
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1809  	unsigned long nr_dirty;
+83712358ba0a14 Wu Fengguang    2011-06-11  1810  	long period;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1811  	long pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1812  	long max_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1813  	long min_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1814  	int nr_dirtied_pause;
+143dfe8611a630 Wu Fengguang    2010-08-27  1815  	unsigned long task_ratelimit;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1816  	unsigned long dirty_ratelimit;
+dfb8ae56783542 Tejun Heo       2015-05-22  1817  	struct backing_dev_info *bdi = wb->bdi;
+5a53748568f796 Maxim Patlasov  2013-09-11  1818  	bool strictlimit = bdi->capabilities & BDI_CAP_STRICTLIMIT;
+e98be2d599207c Wu Fengguang    2010-08-29  1819  	unsigned long start_time = jiffies;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1820  	int ret = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1821  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1822  	for (;;) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1823  		unsigned long now = jiffies;
+83712358ba0a14 Wu Fengguang    2011-06-11  1824  
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1825  		nr_dirty = global_node_page_state(NR_FILE_DIRTY);
+5fce25a9df4865 Peter Zijlstra  2007-11-14  1826  
+204c26b42a22b8 Kemeng Shi      2024-04-29  1827  		balance_domain_limits(gdtc, strictlimit);
+204c26b42a22b8 Kemeng Shi      2024-04-29  1828  		if (mdtc)
+c2aa723a609363 Tejun Heo       2015-05-22  1829  			/*
+c2aa723a609363 Tejun Heo       2015-05-22  1830  			 * If @wb belongs to !root memcg, repeat the same
+c2aa723a609363 Tejun Heo       2015-05-22  1831  			 * basic calculations for the memcg domain.
+c2aa723a609363 Tejun Heo       2015-05-22  1832  			 */
+204c26b42a22b8 Kemeng Shi      2024-04-29  1833  			balance_domain_limits(mdtc, strictlimit);
+5a53748568f796 Maxim Patlasov  2013-09-11  1834  
+ea6813be07dcdc Jan Kara        2022-06-23  1835  		/*
+ea6813be07dcdc Jan Kara        2022-06-23  1836  		 * In laptop mode, we wait until hitting the higher threshold
+ea6813be07dcdc Jan Kara        2022-06-23  1837  		 * before starting background writeout, and then write out all
+ea6813be07dcdc Jan Kara        2022-06-23  1838  		 * the way down to the lower threshold.  So slow writers cause
+ea6813be07dcdc Jan Kara        2022-06-23  1839  		 * minimal disk activity.
+ea6813be07dcdc Jan Kara        2022-06-23  1840  		 *
+ea6813be07dcdc Jan Kara        2022-06-23  1841  		 * In normal mode, we start background writeout at the lower
+ea6813be07dcdc Jan Kara        2022-06-23  1842  		 * background_thresh, to keep the amount of dirty memory low.
+ea6813be07dcdc Jan Kara        2022-06-23  1843  		 */
+c8a7ee1b73042a Kemeng Shi      2024-04-23  1844  		if (!laptop_mode && nr_dirty > gdtc->bg_thresh &&
+ea6813be07dcdc Jan Kara        2022-06-23  1845  		    !writeback_in_progress(wb))
+ea6813be07dcdc Jan Kara        2022-06-23  1846  			wb_start_background_writeback(wb);
+ea6813be07dcdc Jan Kara        2022-06-23  1847  
+16c4042f08919f Wu Fengguang    2010-08-11  1848  		/*
+c2aa723a609363 Tejun Heo       2015-05-22  1849  		 * If memcg domain is in effect, @dirty should be under
+c2aa723a609363 Tejun Heo       2015-05-22  1850  		 * both global and memcg freerun ceilings.
+16c4042f08919f Wu Fengguang    2010-08-11  1851  		 */
+c474a90dc076a7 Kemeng Shi      2024-04-29  1852  		if (gdtc->freerun && (!mdtc || mdtc->freerun)) {
+a37b0715ddf300 NeilBrown       2020-06-01  1853  			unsigned long intv;
+a37b0715ddf300 NeilBrown       2020-06-01  1854  			unsigned long m_intv;
+a37b0715ddf300 NeilBrown       2020-06-01  1855  
+a37b0715ddf300 NeilBrown       2020-06-01  1856  free_running:
+c474a90dc076a7 Kemeng Shi      2024-04-29  1857  			intv = domain_poll_intv(gdtc, strictlimit);
+a37b0715ddf300 NeilBrown       2020-06-01  1858  			m_intv = ULONG_MAX;
+c2aa723a609363 Tejun Heo       2015-05-22  1859  
+83712358ba0a14 Wu Fengguang    2011-06-11  1860  			current->dirty_paused_when = now;
+83712358ba0a14 Wu Fengguang    2011-06-11  1861  			current->nr_dirtied = 0;
+c2aa723a609363 Tejun Heo       2015-05-22  1862  			if (mdtc)
+c474a90dc076a7 Kemeng Shi      2024-04-29  1863  				m_intv = domain_poll_intv(mdtc, strictlimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1864  			current->nr_dirtied_pause = min(intv, m_intv);
+16c4042f08919f Wu Fengguang    2010-08-11  1865  			break;
+83712358ba0a14 Wu Fengguang    2011-06-11  1866  		}
+16c4042f08919f Wu Fengguang    2010-08-11  1867  
+ea6813be07dcdc Jan Kara        2022-06-23  1868  		/* Start writeback even when in laptop mode */
+bc05873dccd27d Tejun Heo       2015-05-22  1869  		if (unlikely(!writeback_in_progress(wb)))
+9ecf4866c018ae Tejun Heo       2015-05-22  1870  			wb_start_background_writeback(wb);
+143dfe8611a630 Wu Fengguang    2010-08-27  1871  
+97b27821b4854c Tejun Heo       2019-08-26  1872  		mem_cgroup_flush_foreign(wb);
+97b27821b4854c Tejun Heo       2019-08-26  1873  
+c2aa723a609363 Tejun Heo       2015-05-22  1874  		/*
+c2aa723a609363 Tejun Heo       2015-05-22  1875  		 * Calculate global domain's pos_ratio and select the
+c2aa723a609363 Tejun Heo       2015-05-22  1876  		 * global dtc by default.
+c2aa723a609363 Tejun Heo       2015-05-22  1877  		 */
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1878  		wb_dirty_freerun(gdtc, strictlimit);
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1879  		if (gdtc->freerun)
+a37b0715ddf300 NeilBrown       2020-06-01  1880  			goto free_running;
+a37b0715ddf300 NeilBrown       2020-06-01  1881  
+8b8bf84233eccf Kemeng Shi      2024-04-29  1882  		wb_dirty_exceeded(gdtc, strictlimit);
+daddfa3cb30ebf Tejun Heo       2015-05-22  1883  		wb_position_ratio(gdtc);
+c2aa723a609363 Tejun Heo       2015-05-22  1884  		sdtc = gdtc;
+e98be2d599207c Wu Fengguang    2010-08-29  1885  
+c2aa723a609363 Tejun Heo       2015-05-22 @1886  		if (mdtc) {
+                                                                ^^^^^^^^^^^
+This code assumes mdtc can be NULL
+
+c2aa723a609363 Tejun Heo       2015-05-22  1887  			/*
+c2aa723a609363 Tejun Heo       2015-05-22  1888  			 * If memcg domain is in effect, calculate its
+c2aa723a609363 Tejun Heo       2015-05-22  1889  			 * pos_ratio.  @wb should satisfy constraints from
+c2aa723a609363 Tejun Heo       2015-05-22  1890  			 * both global and memcg domains.  Choose the one
+c2aa723a609363 Tejun Heo       2015-05-22  1891  			 * w/ lower pos_ratio.
+c2aa723a609363 Tejun Heo       2015-05-22  1892  			 */
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1893  			wb_dirty_freerun(mdtc, strictlimit);
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1894  			if (mdtc->freerun)
+a37b0715ddf300 NeilBrown       2020-06-01  1895  				goto free_running;
+aab09fbaa2dd34 Kemeng Shi      2024-04-29  1896  
+8b8bf84233eccf Kemeng Shi      2024-04-29  1897  			wb_dirty_exceeded(mdtc, strictlimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1898  			wb_position_ratio(mdtc);
+c2aa723a609363 Tejun Heo       2015-05-22  1899  			if (mdtc->pos_ratio < gdtc->pos_ratio)
+c2aa723a609363 Tejun Heo       2015-05-22  1900  				sdtc = mdtc;
+c2aa723a609363 Tejun Heo       2015-05-22  1901  		}
+daddfa3cb30ebf Tejun Heo       2015-05-22  1902  
+8b8bf84233eccf Kemeng Shi      2024-04-29 @1903  		wb->dirty_exceeded = gdtc->dirty_exceeded || mdtc->dirty_exceeded;
+                                                                                                             ^^^^^^
+Unchecked dereference
+
+20792ebf3eeb82 Jan Kara        2021-09-02  1904  		if (time_is_before_jiffies(READ_ONCE(wb->bw_time_stamp) +
+45a2966fd64147 Jan Kara        2021-09-02  1905  					   BANDWIDTH_INTERVAL))
+fee468fdf41cdf Jan Kara        2021-09-02  1906  			__wb_update_bandwidth(gdtc, mdtc, true);
+e98be2d599207c Wu Fengguang    2010-08-29  1907  
+c2aa723a609363 Tejun Heo       2015-05-22  1908  		/* throttle according to the chosen dtc */
+20792ebf3eeb82 Jan Kara        2021-09-02  1909  		dirty_ratelimit = READ_ONCE(wb->dirty_ratelimit);
+c2aa723a609363 Tejun Heo       2015-05-22  1910  		task_ratelimit = ((u64)dirty_ratelimit * sdtc->pos_ratio) >>
+3a73dbbc9bb3fc Wu Fengguang    2011-11-07  1911  							RATELIMIT_CALC_SHIFT;
+c2aa723a609363 Tejun Heo       2015-05-22  1912  		max_pause = wb_max_pause(wb, sdtc->wb_dirty);
+a88a341a73be4e Tejun Heo       2015-05-22  1913  		min_pause = wb_min_pause(wb, max_pause,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1914  					 task_ratelimit, dirty_ratelimit,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1915  					 &nr_dirtied_pause);
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1916  
+3a73dbbc9bb3fc Wu Fengguang    2011-11-07  1917  		if (unlikely(task_ratelimit == 0)) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1918  			period = max_pause;
+c8462cc9de9e92 Wu Fengguang    2011-06-11  1919  			pause = max_pause;
+143dfe8611a630 Wu Fengguang    2010-08-27  1920  			goto pause;
+e50e37201ae2e7 Wu Fengguang    2010-08-11  1921  		}
+83712358ba0a14 Wu Fengguang    2011-06-11  1922  		period = HZ * pages_dirtied / task_ratelimit;
+83712358ba0a14 Wu Fengguang    2011-06-11  1923  		pause = period;
+83712358ba0a14 Wu Fengguang    2011-06-11  1924  		if (current->dirty_paused_when)
+83712358ba0a14 Wu Fengguang    2011-06-11  1925  			pause -= now - current->dirty_paused_when;
+83712358ba0a14 Wu Fengguang    2011-06-11  1926  		/*
+83712358ba0a14 Wu Fengguang    2011-06-11  1927  		 * For less than 1s think time (ext3/4 may block the dirtier
+83712358ba0a14 Wu Fengguang    2011-06-11  1928  		 * for up to 800ms from time to time on 1-HDD; so does xfs,
+83712358ba0a14 Wu Fengguang    2011-06-11  1929  		 * however at much less frequency), try to compensate it in
+83712358ba0a14 Wu Fengguang    2011-06-11  1930  		 * future periods by updating the virtual time; otherwise just
+83712358ba0a14 Wu Fengguang    2011-06-11  1931  		 * do a reset, as it may be a light dirtier.
+83712358ba0a14 Wu Fengguang    2011-06-11  1932  		 */
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1933  		if (pause < min_pause) {
+5634cc2aa9aebc Tejun Heo       2015-08-18  1934  			trace_balance_dirty_pages(wb,
+c2aa723a609363 Tejun Heo       2015-05-22  1935  						  sdtc->thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1936  						  sdtc->bg_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1937  						  sdtc->dirty,
+c2aa723a609363 Tejun Heo       2015-05-22  1938  						  sdtc->wb_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1939  						  sdtc->wb_dirty,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1940  						  dirty_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1941  						  task_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1942  						  pages_dirtied,
+83712358ba0a14 Wu Fengguang    2011-06-11  1943  						  period,
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1944  						  min(pause, 0L),
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1945  						  start_time);
+83712358ba0a14 Wu Fengguang    2011-06-11  1946  			if (pause < -HZ) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1947  				current->dirty_paused_when = now;
+83712358ba0a14 Wu Fengguang    2011-06-11  1948  				current->nr_dirtied = 0;
+83712358ba0a14 Wu Fengguang    2011-06-11  1949  			} else if (period) {
+83712358ba0a14 Wu Fengguang    2011-06-11  1950  				current->dirty_paused_when += period;
+83712358ba0a14 Wu Fengguang    2011-06-11  1951  				current->nr_dirtied = 0;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1952  			} else if (current->nr_dirtied_pause <= pages_dirtied)
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1953  				current->nr_dirtied_pause += pages_dirtied;
+57fc978cfb61ed Wu Fengguang    2011-06-11  1954  			break;
+e50e37201ae2e7 Wu Fengguang    2010-08-11  1955  		}
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1956  		if (unlikely(pause > max_pause)) {
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1957  			/* for occasional dropped task_ratelimit */
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1958  			now += min(pause - max_pause, max_pause);
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1959  			pause = max_pause;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1960  		}
+143dfe8611a630 Wu Fengguang    2010-08-27  1961  
+143dfe8611a630 Wu Fengguang    2010-08-27  1962  pause:
+5634cc2aa9aebc Tejun Heo       2015-08-18  1963  		trace_balance_dirty_pages(wb,
+c2aa723a609363 Tejun Heo       2015-05-22  1964  					  sdtc->thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1965  					  sdtc->bg_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1966  					  sdtc->dirty,
+c2aa723a609363 Tejun Heo       2015-05-22  1967  					  sdtc->wb_thresh,
+c2aa723a609363 Tejun Heo       2015-05-22  1968  					  sdtc->wb_dirty,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1969  					  dirty_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1970  					  task_ratelimit,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1971  					  pages_dirtied,
+83712358ba0a14 Wu Fengguang    2011-06-11  1972  					  period,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1973  					  pause,
+ece13ac31bbe49 Wu Fengguang    2010-08-29  1974  					  start_time);
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1975  		if (flags & BDP_ASYNC) {
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1976  			ret = -EAGAIN;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1977  			break;
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  1978  		}
+499d05ecf990a7 Jan Kara        2011-11-16  1979  		__set_current_state(TASK_KILLABLE);
+f814bdda774c18 Jan Kara        2024-01-23  1980  		bdi->last_bdp_sleep = jiffies;
+d25105e8911bff Wu Fengguang    2009-10-09  1981  		io_schedule_timeout(pause);
+87c6a9b253520b Jens Axboe      2009-09-17  1982  
+83712358ba0a14 Wu Fengguang    2011-06-11  1983  		current->dirty_paused_when = now + pause;
+83712358ba0a14 Wu Fengguang    2011-06-11  1984  		current->nr_dirtied = 0;
+7ccb9ad5364d6a Wu Fengguang    2011-11-30  1985  		current->nr_dirtied_pause = nr_dirtied_pause;
+83712358ba0a14 Wu Fengguang    2011-06-11  1986  
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1987  		/*
+2bc00aef030f4f Tejun Heo       2015-05-22  1988  		 * This is typically equal to (dirty < thresh) and can also
+2bc00aef030f4f Tejun Heo       2015-05-22  1989  		 * keep "1000+ dd on a slow USB stick" under control.
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1990  		 */
+1df647197c5b8a Wu Fengguang    2011-11-13  1991  		if (task_ratelimit)
+ffd1f609ab1053 Wu Fengguang    2011-06-19  1992  			break;
+499d05ecf990a7 Jan Kara        2011-11-16  1993  
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1994  		/*
+f0953a1bbaca71 Ingo Molnar     2021-05-06  1995  		 * In the case of an unresponsive NFS server and the NFS dirty
+de1fff37b2781f Tejun Heo       2015-05-22  1996  		 * pages exceeds dirty_thresh, give the other good wb's a pipe
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1997  		 * to go through, so that tasks on them still remain responsive.
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  1998  		 *
+3f8b6fb7f279c7 Masahiro Yamada 2017-02-27  1999  		 * In theory 1 page is enough to keep the consumer-producer
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2000  		 * pipe going: the flusher cleans 1 page => the task dirties 1
+de1fff37b2781f Tejun Heo       2015-05-22  2001  		 * more page. However wb_dirty has accounting errors.  So use
+93f78d882865cb Tejun Heo       2015-05-22  2002  		 * the larger and more IO friendly wb_stat_error.
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2003  		 */
+2bce774e8245e9 Wang Long       2017-11-15  2004  		if (sdtc->wb_dirty <= wb_stat_error())
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2005  			break;
+c5c6343c4d75f9 Wu Fengguang    2011-12-02  2006  
+499d05ecf990a7 Jan Kara        2011-11-16  2007  		if (fatal_signal_pending(current))
+499d05ecf990a7 Jan Kara        2011-11-16  2008  			break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2009  	}
+fe6c9c6e3e3e33 Jan Kara        2022-06-23  2010  	return ret;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2011  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
