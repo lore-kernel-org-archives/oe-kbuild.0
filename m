@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C4FBEA
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 May 2024 17:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2547417C6A
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 May 2024 20:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714584600; cv=none; b=oi7DgaHJYgxg7lZLETJlmM5xsL4V3pgB7FtGv77JkaOuXFoYqOrOi22Nejiq8imQZBSZPJXdCig9c0fpXt84Ph8rnzhb/svgTR1Yxv5h3BoF1Z35Eu94aWAakOb3vjvLawaBpWSJ2HoYowxJJLSW3/sc3DQhZikMkd5o8Zqxz+o=
+	t=1714595929; cv=none; b=l+xDH9lHelT4bdnGpguBGZLYpTx8IY1fFZTjZNtvh4+8/b068CwIkbCQ3akRCJSC+z9osRERZWBpi0vRLQKqS7rrJdXN0UOoGWGKr/d65dEoK3XYQ+ocCg24aLAOchF+f/N4ryybktfksSyOJ+aPBkn4399XcEX1WzgJ11eKGtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714584600; c=relaxed/simple;
-	bh=hV4AD7W9z+VMfg/IhguepetxdXYmhxQbrguxZSDFnz4=;
+	s=arc-20240116; t=1714595929; c=relaxed/simple;
+	bh=RiYAxEfjTQpfvHlw84WzLBo3yK8JLv+W3w2sq+YIDww=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LR8cnFfiWDVhi8P8azPrNxE6QtyzVzYHq855XHjw3/dsrImdTC1JM+uWF4NlL5dF8UHCNLWhZk5mo3OugpViObVWDIe5MJsvHC4zHkTVRf2Ezl82JvpFGxeHGd3i8BJRLAh/ZourGU49PSpa1mJ8H+GXmyY4asAPLFPgFY2sfEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSWCfcA7; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=q7OM9OVRL7PrEBfcB/4d2gpb0qB9d2L2DV4R0jKUac7m50DJzpOAPzjaUgu/nxx19TGHFXP5jOZS8Ey46Fq1GcfmXnQC9CtxWNT6wKfM6g8CXsOOAgG7R004c0qZ38Qv/o5z/M/PxsSajf2RkDDgwe5W/OlfpaFqYegPVAhsYuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KrVW4Ixu; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSWCfcA7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KrVW4Ixu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714584598; x=1746120598;
+  t=1714595927; x=1746131927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hV4AD7W9z+VMfg/IhguepetxdXYmhxQbrguxZSDFnz4=;
-  b=LSWCfcA7WS56hkN6g88eGh+xNoLglsOecczsT8t7fxN7NfOuVS1p23tD
-   6aaqxIUv15i8mB47XB1YgUa+uJCsRfnHc8hXVWnL7+jdWvx01hPN25cYg
-   Jn89ILHARZaoGKfBbIoqUrjdFZrV4B+eIX2bmX4D1pwtokA36Ewaytnvr
-   VNxE4QLZdLGw4kVQq3O+ulec8ynaVC2SLcumZptQ+5YggdaLPcb84n3Dy
-   G424Y73Ha5Yy4WlEVWApBX8GF3MmmxuSCzJFtGjiALR5umg/3ZTSRojLL
-   XVtr0e2Tvw/SixhrWrhz+YBlbLkTYuwNMH71aqWft+eav0S1cnmCd3TsK
-   A==;
-X-CSE-ConnectionGUID: afiHESNSQk+585sUxpaYAw==
-X-CSE-MsgGUID: 8ubslGSNT8udltntHvGUiQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10448394"
-X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="10448394"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 10:29:58 -0700
-X-CSE-ConnectionGUID: jbsveMxYT0i6HD7ZE4tyLA==
-X-CSE-MsgGUID: +oN3Pk1tTA6AJbO7fQqo1A==
+  bh=RiYAxEfjTQpfvHlw84WzLBo3yK8JLv+W3w2sq+YIDww=;
+  b=KrVW4IxufNf9ltQ9bY+lKEWx4YEpxybtB4qNv9gLIUjIg6EDEhUuXbo4
+   i/e1bLkC0xKirqrHxS5KMISoyGRLgAQaRByd7uc7+3wOP5ushwPRgQI7a
+   qp7sOKNSBSaJjw7qOKKtiBj8QAxpNhrQCmLJiTulXq6kopGYG4N1gdxF/
+   lgh+62JxGylMvfIHNnrQ5L/q36NrgiirPAdA0nZlziMC8yPJ5xOD6iSJc
+   ELP1HM+Z0/K39cKiUJBGoBOYviNUstM74+NV7FNp4cLiSnZnZeMCV5rDV
+   9k+dQtJTUcAwdBbT1noNXtvXTu9sD1xGdtlWre/8c/z6CebGHvpfC4Qf3
+   g==;
+X-CSE-ConnectionGUID: lhp0dYY6S92XuvSYV26AzQ==
+X-CSE-MsgGUID: 8wy/w4eDTyWlAqCskg9eyg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="20896707"
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="20896707"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 13:38:46 -0700
+X-CSE-ConnectionGUID: AleYUTFEQguei6vMnpeFsw==
+X-CSE-MsgGUID: T8BRhqelT3WZthO6Tfh00A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="26857298"
+X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
+   d="scan'208";a="50100732"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 May 2024 10:29:56 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 May 2024 13:38:45 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2DmE-0009p2-14;
-	Wed, 01 May 2024 17:29:54 +0000
-Date: Thu, 2 May 2024 01:29:53 +0800
+	id 1s2Giw-0009y0-3D;
+	Wed, 01 May 2024 20:38:42 +0000
+Date: Thu, 2 May 2024 04:38:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:463
- fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
-Message-ID: <202405020127.3ncxx3EI-lkp@intel.com>
+Subject: [linux-next:master 9409/10134] lib/fortify_kunit.c:443
+ fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs
+ 32)
+Message-ID: <202405020451.cgCahkAL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,81 +66,100 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Oreoluwa Babatunde <quic_obabatun@quicinc.com>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
+TO: Kees Cook <keescook@chromium.org>
+
+Hi Kees,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   f68868ba718e30594165879cc3020607165b0761
-commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
-:::::: branch date: 7 hours ago
-:::::: commit date: 25 hours ago
-config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020127.3ncxx3EI-lkp@intel.com/config)
+commit: 63228e09bd3128589a98b5eb9fa2ece4dd804c31 [9409/10134] kunit/fortify: Rename tests to use recommended conventions
+:::::: branch date: 10 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020451.cgCahkAL-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405020127.3ncxx3EI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405020451.cgCahkAL-lkp@intel.com/
 
-smatch warnings:
-drivers/of/of_reserved_mem.c:463 fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
+New smatch warnings:
+lib/fortify_kunit.c:443 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
 
-vim +/nomap +463 drivers/of/of_reserved_mem.c
+Old smatch warnings:
+lib/fortify_kunit.c:454 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
+lib/fortify_kunit.c:467 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
 
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  426  
-3f0c8206644836 Marek Szyprowski   2014-02-28  427  /**
-c8813f7ec01c67 chenqiwu           2020-05-11  428   * fdt_init_reserved_mem() - allocate and init all saved reserved memory regions
-3f0c8206644836 Marek Szyprowski   2014-02-28  429   */
-3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
-3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
-3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
-ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
-3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
-3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
-3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
-3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
-6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
-3f0c8206644836 Marek Szyprowski   2014-02-28  442  
-3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
-3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
-3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
-d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
-d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
-d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
-2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
-2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
-d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
-7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
-3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
-3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
-3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
-aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
-aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
-aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
-aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
-aeb9267eb6b1df Martin Liu         2023-02-10  462  
-6ee7afbabcee4d Geert Uytterhoeven 2023-02-16 @463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
-aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
-aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
-aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
-aeb9267eb6b1df Martin Liu         2023-02-10  467  					rmem->name ? rmem->name : "unknown");
-d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
-d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
-3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
-3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
-9dcfee01930e6c Marek Szyprowski   2014-07-14  472  
+vim +443 lib/fortify_kunit.c
 
-:::::: The code at line 463 was first introduced by commit
-:::::: 6ee7afbabcee4d54024c46f8fc74314c69a04613 of: reserved_mem: Use proper binary prefix
+fa4a3f86d4982b Kees Cook 2023-04-07  424  
+63228e09bd3128 Kees Cook 2024-04-29  425  static void fortify_test_strcpy(struct kunit *test)
+fa4a3f86d4982b Kees Cook 2023-04-07  426  {
+fa4a3f86d4982b Kees Cook 2023-04-07  427  	struct fortify_padding pad = { };
+fa4a3f86d4982b Kees Cook 2023-04-07  428  	char src[sizeof(pad.buf) + 1] = { };
+fa4a3f86d4982b Kees Cook 2023-04-07  429  	int i;
+fa4a3f86d4982b Kees Cook 2023-04-07  430  
+fa4a3f86d4982b Kees Cook 2023-04-07  431  	/* Fill 31 bytes with valid characters. */
+fa4a3f86d4982b Kees Cook 2023-04-07  432  	for (i = 0; i < sizeof(src) - 2; i++)
+fa4a3f86d4982b Kees Cook 2023-04-07  433  		src[i] = i + '0';
+fa4a3f86d4982b Kees Cook 2023-04-07  434  
+fa4a3f86d4982b Kees Cook 2023-04-07  435  	/* Destination is %NUL-filled to start with. */
+fa4a3f86d4982b Kees Cook 2023-04-07  436  	KUNIT_EXPECT_EQ(test, pad.bytes_before, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  437  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  438  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  439  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 3], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  440  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  441  
+fa4a3f86d4982b Kees Cook 2023-04-07  442  	/* Legitimate strcpy() 1 less than of max size. */
+fa4a3f86d4982b Kees Cook 2023-04-07 @443  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b Kees Cook 2023-04-07  444  				== pad.buf);
+fa4a3f86d4982b Kees Cook 2023-04-07  445  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  446  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  447  	/* Only last byte should be %NUL */
+fa4a3f86d4982b Kees Cook 2023-04-07  448  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  449  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  450  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 3], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  451  
+fa4a3f86d4982b Kees Cook 2023-04-07  452  	src[sizeof(src) - 2] = 'A';
+fa4a3f86d4982b Kees Cook 2023-04-07  453  	/* But now we trip the overflow checking. */
+fa4a3f86d4982b Kees Cook 2023-04-07  454  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b Kees Cook 2023-04-07  455  				== pad.buf);
+fa4a3f86d4982b Kees Cook 2023-04-07  456  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  457  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 1);
+fa4a3f86d4982b Kees Cook 2023-04-07  458  	/* Trailing %NUL -- thanks to FORTIFY. */
+fa4a3f86d4982b Kees Cook 2023-04-07  459  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  460  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  461  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  462  	/* And we will not have gone beyond. */
+fa4a3f86d4982b Kees Cook 2023-04-07  463  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  464  
+fa4a3f86d4982b Kees Cook 2023-04-07  465  	src[sizeof(src) - 1] = 'A';
+fa4a3f86d4982b Kees Cook 2023-04-07  466  	/* And for sure now, two bytes past. */
+fa4a3f86d4982b Kees Cook 2023-04-07  467  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
+fa4a3f86d4982b Kees Cook 2023-04-07  468  				== pad.buf);
+fa4a3f86d4982b Kees Cook 2023-04-07  469  	/*
+fa4a3f86d4982b Kees Cook 2023-04-07  470  	 * Which trips both the strlen() on the unterminated src,
+fa4a3f86d4982b Kees Cook 2023-04-07  471  	 * and the resulting copy attempt.
+fa4a3f86d4982b Kees Cook 2023-04-07  472  	 */
+fa4a3f86d4982b Kees Cook 2023-04-07  473  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 1);
+fa4a3f86d4982b Kees Cook 2023-04-07  474  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 2);
+fa4a3f86d4982b Kees Cook 2023-04-07  475  	/* Trailing %NUL -- thanks to FORTIFY. */
+fa4a3f86d4982b Kees Cook 2023-04-07  476  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  477  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  478  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
+fa4a3f86d4982b Kees Cook 2023-04-07  479  	/* And we will not have gone beyond. */
+fa4a3f86d4982b Kees Cook 2023-04-07  480  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
+fa4a3f86d4982b Kees Cook 2023-04-07  481  }
+fa4a3f86d4982b Kees Cook 2023-04-07  482  
 
-:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
-:::::: CC: Rob Herring <robh@kernel.org>
+:::::: The code at line 443 was first introduced by commit
+:::::: fa4a3f86d4982b603865ccb97dde82f0ae1e3302 fortify: Add KUnit tests for runtime overflows
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
