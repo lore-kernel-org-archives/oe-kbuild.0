@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCB51C68E
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 May 2024 14:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C4FBEA
+	for <oe-kbuild@lists.linux.dev>; Wed,  1 May 2024 17:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714574306; cv=none; b=rNBOFiGh69ZYp7u881rFgviTJcwo6MAQ+/PL+FDtOOneDBORSn7uqQQ8SjOg+FbcOOfe2WmCgOiQdK+nHj2RkfvgRZo3tXv2+PEWy7GPQC0mhLfxwl29pmOUHfUNYVPEvHr9kZU50shUfosFi37EtvAhrAClFsmz0LaaTCP1W60=
+	t=1714584600; cv=none; b=oi7DgaHJYgxg7lZLETJlmM5xsL4V3pgB7FtGv77JkaOuXFoYqOrOi22Nejiq8imQZBSZPJXdCig9c0fpXt84Ph8rnzhb/svgTR1Yxv5h3BoF1Z35Eu94aWAakOb3vjvLawaBpWSJ2HoYowxJJLSW3/sc3DQhZikMkd5o8Zqxz+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714574306; c=relaxed/simple;
-	bh=6tmmFgKRqGmuz/znymeYhrbhTYQ3GD9lKyRjUxixr8I=;
+	s=arc-20240116; t=1714584600; c=relaxed/simple;
+	bh=hV4AD7W9z+VMfg/IhguepetxdXYmhxQbrguxZSDFnz4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EtxBuktGYhEjpCFcOdBpaACCgoAh8dcxa3wZuX4P2TENCLpif/r2Oo6Z3HKQ3MwSs3yPMCh94LjR2ITjQU5R/z3C71P0CPNxDQzDg+pNOTQxbRcbYhXbB6ZL5Ti/wppNNnYOQmTJHAU/TTsRFCDGucHw0j5NbgVR7tsgXtmNsFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkEYo4Eo; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=LR8cnFfiWDVhi8P8azPrNxE6QtyzVzYHq855XHjw3/dsrImdTC1JM+uWF4NlL5dF8UHCNLWhZk5mo3OugpViObVWDIe5MJsvHC4zHkTVRf2Ezl82JvpFGxeHGd3i8BJRLAh/ZourGU49PSpa1mJ8H+GXmyY4asAPLFPgFY2sfEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSWCfcA7; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkEYo4Eo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSWCfcA7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714574305; x=1746110305;
+  t=1714584598; x=1746120598;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6tmmFgKRqGmuz/znymeYhrbhTYQ3GD9lKyRjUxixr8I=;
-  b=YkEYo4Eormc2XI/wsTLqxjb2whRImtcpD6+A3dSn60NjoEbq3c0EXooj
-   x99zSXSK5IaiQEZGW37xnCFpUp4DBK2hJKYbPaHw6TrEk1m9FlDtoi3z0
-   vhP6MXdKemhSHj/3jqy6JGoIGeLY5YvnCLQi/l9mqS64NqgkXjZdL2X/M
-   uLTTpLtlQm8z5oRh9XmXrkjU8LxQtFrV1G7TQ+mNZnOEqIxYeCGhvk/dC
-   n560GQ3KNiIdGVZXxFJg03dNTXrY3DGJVEDBnAA+nAUZ/y7bQjrzCzodd
-   mh6+O0xFFtfTbqzC7MrZ5DrRwwtKd2rt7GY0FBednqdAAjsQPS6AmGF1W
+  bh=hV4AD7W9z+VMfg/IhguepetxdXYmhxQbrguxZSDFnz4=;
+  b=LSWCfcA7WS56hkN6g88eGh+xNoLglsOecczsT8t7fxN7NfOuVS1p23tD
+   6aaqxIUv15i8mB47XB1YgUa+uJCsRfnHc8hXVWnL7+jdWvx01hPN25cYg
+   Jn89ILHARZaoGKfBbIoqUrjdFZrV4B+eIX2bmX4D1pwtokA36Ewaytnvr
+   VNxE4QLZdLGw4kVQq3O+ulec8ynaVC2SLcumZptQ+5YggdaLPcb84n3Dy
+   G424Y73Ha5Yy4WlEVWApBX8GF3MmmxuSCzJFtGjiALR5umg/3ZTSRojLL
+   XVtr0e2Tvw/SixhrWrhz+YBlbLkTYuwNMH71aqWft+eav0S1cnmCd3TsK
    A==;
-X-CSE-ConnectionGUID: d0KmvZ+ORUejV6/3qZ+myQ==
-X-CSE-MsgGUID: j2+WonLURwKHd3d01GdYsA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10131815"
+X-CSE-ConnectionGUID: afiHESNSQk+585sUxpaYAw==
+X-CSE-MsgGUID: 8ubslGSNT8udltntHvGUiQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10448394"
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="10131815"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 07:38:24 -0700
-X-CSE-ConnectionGUID: 6UhHvs3SSPaBog3z+FgSlg==
-X-CSE-MsgGUID: scN+N066RG2l4Wauc23uNg==
+   d="scan'208";a="10448394"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 10:29:58 -0700
+X-CSE-ConnectionGUID: jbsveMxYT0i6HD7ZE4tyLA==
+X-CSE-MsgGUID: +oN3Pk1tTA6AJbO7fQqo1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,245,1708416000"; 
-   d="scan'208";a="64279295"
+   d="scan'208";a="26857298"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 May 2024 07:38:23 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 May 2024 10:29:56 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2B6C-0009c4-1c;
-	Wed, 01 May 2024 14:38:20 +0000
-Date: Wed, 1 May 2024 22:37:47 +0800
+	id 1s2DmE-0009p2-14;
+	Wed, 01 May 2024 17:29:54 +0000
+Date: Thu, 2 May 2024 01:29:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [djwong-xfs:timestats-hoist 169/464]
- fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line 501.
-Message-ID: <202405012240.dEcFooB6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:463
+ fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
+Message-ID: <202405020127.3ncxx3EI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,70 +64,82 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Oreoluwa Babatunde <quic_obabatun@quicinc.com>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
-head:   506e7e6f31fbd22bbf6fb3ad2e66cd0d3761d2f2
-commit: 5316671eec5d6d369121ccaaa21f8cbbad59600d [169/464] xfs: invalidate dentries for a file before moving it to the orphanage
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r063-20240501 (https://download.01.org/0day-ci/archive/20240501/202405012240.dEcFooB6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f68868ba718e30594165879cc3020607165b0761
+commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
+:::::: branch date: 7 hours ago
+:::::: commit date: 25 hours ago
+config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020127.3ncxx3EI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405012240.dEcFooB6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405020127.3ncxx3EI-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line 501.
+smatch warnings:
+drivers/of/of_reserved_mem.c:463 fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
 
-vim +495 fs/xfs/scrub/orphanage.c
+vim +/nomap +463 drivers/of/of_reserved_mem.c
 
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  460  
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  461  /*
-5316671eec5d6d Darrick J. Wong 2024-04-10  462   * Invalidate all dentries for the name that was added to the orphanage
-5316671eec5d6d Darrick J. Wong 2024-04-10  463   * directory, and all dentries pointing to the child inode that was moved.
-5316671eec5d6d Darrick J. Wong 2024-04-10  464   *
-5316671eec5d6d Darrick J. Wong 2024-04-10  465   * There should not be any positive entries for the name, since we've
-5316671eec5d6d Darrick J. Wong 2024-04-10  466   * maintained our lock on the orphanage directory.
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  467   */
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  468  static void
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  469  xrep_adoption_zap_dcache(
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  470  	struct xrep_adoption	*adopt)
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  471  {
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  472  	struct qstr		qname = QSTR_INIT(adopt->xname->name,
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  473  						  adopt->xname->len);
-5316671eec5d6d Darrick J. Wong 2024-04-10  474  	struct xfs_scrub	*sc = adopt->sc;
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  475  	struct dentry		*d_orphanage, *d_child;
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  476  
-5316671eec5d6d Darrick J. Wong 2024-04-10  477  	/* Invalidate all dentries for the adoption name */
-5316671eec5d6d Darrick J. Wong 2024-04-10  478  	d_orphanage = d_find_alias(VFS_I(sc->orphanage));
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  479  	if (!d_orphanage)
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  480  		return;
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  481  
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  482  	d_child = d_hash_and_lookup(d_orphanage, &qname);
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  483  	while (d_child != NULL) {
-5316671eec5d6d Darrick J. Wong 2024-04-10  484  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  485  
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  486  		ASSERT(d_is_negative(d_child));
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  487  		d_invalidate(d_child);
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  488  		dput(d_child);
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  489  		d_child = d_lookup(d_orphanage, &qname);
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  490  	}
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  491  
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  492  	dput(d_orphanage);
-5316671eec5d6d Darrick J. Wong 2024-04-10  493  
-5316671eec5d6d Darrick J. Wong 2024-04-10  494  	/* Invalidate all the dentries pointing down to this file. */
-5316671eec5d6d Darrick J. Wong 2024-04-10 @495  	while ((d_child = d_find_alias(VFS_I(sc->ip))) != NULL) {
-5316671eec5d6d Darrick J. Wong 2024-04-10  496  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
-5316671eec5d6d Darrick J. Wong 2024-04-10  497  
-5316671eec5d6d Darrick J. Wong 2024-04-10  498  		d_invalidate(d_child);
-5316671eec5d6d Darrick J. Wong 2024-04-10  499  		dput(d_child);
-5316671eec5d6d Darrick J. Wong 2024-04-10  500  	}
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09 @501  }
-87aff44c9e2fa9 Darrick J. Wong 2024-01-09  502  
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  426  
+3f0c8206644836 Marek Szyprowski   2014-02-28  427  /**
+c8813f7ec01c67 chenqiwu           2020-05-11  428   * fdt_init_reserved_mem() - allocate and init all saved reserved memory regions
+3f0c8206644836 Marek Szyprowski   2014-02-28  429   */
+3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
+3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
+3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
+3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
+3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
+3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
+3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
+6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
+3f0c8206644836 Marek Szyprowski   2014-02-28  442  
+3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
+3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
+3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
+d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
+d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
+7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
+3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
+3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
+3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
+aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
+aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
+aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
+aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
+aeb9267eb6b1df Martin Liu         2023-02-10  462  
+6ee7afbabcee4d Geert Uytterhoeven 2023-02-16 @463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
+aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
+aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
+aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
+aeb9267eb6b1df Martin Liu         2023-02-10  467  					rmem->name ? rmem->name : "unknown");
+d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
+d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
+3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
+3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
+9dcfee01930e6c Marek Szyprowski   2014-07-14  472  
+
+:::::: The code at line 463 was first introduced by commit
+:::::: 6ee7afbabcee4d54024c46f8fc74314c69a04613 of: reserved_mem: Use proper binary prefix
+
+:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
+:::::: CC: Rob Herring <robh@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
