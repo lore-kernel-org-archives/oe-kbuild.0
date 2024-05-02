@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F399921A1C
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 May 2024 07:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3074647A7A
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 May 2024 08:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714635041; cv=none; b=ntoCiW9XYGryOxA455qwVH8VwDZ4UCTQ3CExV3MKaWTdvh4JxBe+IiVFvoll1iCxTavIy/khetAHCTXh+kc++Pe0ta0OXFRQjpht69bg43rthXE6bYmXHZXSrRqb95Ewrwe83Sr7wr5SiW8Ry+yJDPIUF3do/m7lJ3K/alZ/0/o=
+	t=1714640378; cv=none; b=GMpPfwrKvxfxxtLGZ/Jn6+zaTTgg+ljNtLFHlQXfZjOAIw/Ur41V1LL5tO66KtPgcUMApTPDsOetRNfOSA8mnepxCPvAuM5GA7OrVykjOydJh8yrvn0nAdRUjzz4SkluPVEhPgKH/sNrDsNKrIC/Mx5ySOv6tu5wynpsGxE+cLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714635041; c=relaxed/simple;
-	bh=turALDA93dNTfVFRN9ckfAYKAYZ9Y8cCa2/VE1DkexQ=;
+	s=arc-20240116; t=1714640378; c=relaxed/simple;
+	bh=D4E94Bf3nVOiOUOtGxbjP0qqOdPORDnjxt9Hu/q2a9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U3lWIOxXtIZt/UTxK0TS7yYSyq8Q5qVZZG5ahBO4sSQ2PCq71XOGBY4VHmRzhBAGBdHlh7g+1EdMBScHZP558s7KZhHugK7NJ2OZJPjzmJZY0xNg0ohmLN/xRVEa2td51pPB6YE2w9KpuHbL5OdATc0VDyQIwdln6/RDUMCfTZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JqMBYABg; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Ul8K9S5VyEjFG/vBt0tuIEREfEbWmz8LWxyosR5iVSG4QmUEAPC1xtr2ktTkKxfPXaQYYkDVFUeoG5AavyqceNxsMh7/VlOiEXUiV0jSC6nvu6wwYgz+ZIib7sdgj3JjsLg7MKoVs+r1RjMhrWBI+PIA8LGsJfLjvDFdvbjQimM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=htdmcM9k; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JqMBYABg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714635036; x=1746171036;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=turALDA93dNTfVFRN9ckfAYKAYZ9Y8cCa2/VE1DkexQ=;
-  b=JqMBYABg92+lR753uJyLazO4Xtr39DzIdjcCkfcb6k+6eY5afVn98aoH
-   iRucv6sVJ8qxmCzurFzBd60la0kHutf0ScdtRvYU7O4QwPrVhA4sVPxf2
-   rprFVBc8wsYbbd5774T+t0bK3xpTcnqu0XiPbZGjmBo5p4xyO8PvPAVDu
-   v9oUQn14Ko4pYR+8dTep0VO6bDtqOBM7cmLVQbOpEkvdzz0uOcbenaPtM
-   ijWRbh/Z137PJQmGgGMxnIIkEg61NH+VZjd4kmBluBmBWikxJCQuobP0P
-   VHnOu7/8eFLDqZj58uTCW3MkUfZsGMEpHWWWNpijX1pEnxpaKLNIQ5VfZ
-   Q==;
-X-CSE-ConnectionGUID: 2AOh2AbGSjWT3dcNYRZ7tw==
-X-CSE-MsgGUID: 0IX/M6jnRtC6SImb6912Hw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21538067"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="21538067"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 00:30:33 -0700
-X-CSE-ConnectionGUID: ZMvyIHccRmWaaJOLn6a3Xg==
-X-CSE-MsgGUID: JNI+WnhISGOKiweepsCX4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="31513642"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 May 2024 00:30:32 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s2Qth-000AVC-22;
-	Thu, 02 May 2024 07:30:29 +0000
-Date: Thu, 2 May 2024 15:30:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [nbdd0121:thin-lto 4/4] rust/helpers/helpers_combined.c: helpers.h
- is included more than once.
-Message-ID: <202405021511.dplt7agj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="htdmcM9k"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e1fa1f1d9bso4449741fa.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 02 May 2024 01:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714640374; x=1715245174; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0Jv464nUVZs5/EmPlVKp62NMB+0lshPo0ejZbmfV3ec=;
+        b=htdmcM9k89EQhIBey/oxtaUR80Ap/mw2tup04zBhbaEqPFLzJp/UhEJorY5mItDcZS
+         Gy4cfxqwXOIuLxOr8tsqvwQBmxzWvSVzv5e1LtxKKheXAvB75FXtC8VIq5BKL2mFxy+d
+         T4rBk5XXH2n/xs3cwGbYpZiilrp6I5v0k4ZTZXZTHVHEqV2xPx4j6E9s7f+3h6CdVU+/
+         f6SjskxaL6dhDgJpJkjxn+mdIRqb+d+5/u3iL2JHV20u8lg883JbA2JfwKfJu/uVVQut
+         4PiWK13PHBNm8iW3RMGdYBKJ+3VDSNy4sKooIhLfwwqpUwxdEV5mW/mvg+9sMKMNXtkg
+         Txrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714640374; x=1715245174;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Jv464nUVZs5/EmPlVKp62NMB+0lshPo0ejZbmfV3ec=;
+        b=elPAZp2TcdDgn6GjPwOSz2HTuLqBnb8uD98vLoVnkBXVBKXDSz5NutgK8u33fj96+R
+         uZAh9CwvI9ZeqlgJnPbYntSlNMpYnrc7Ez28MoeAt+/M6mAvM2f2O0+NSKI8Wb7VKPfF
+         PztfNN85173U8TOE6sTFjcw2FyD4Ogee7xky8BR/ohJ9omR+1Jen2lA3EA7sfAko3cfo
+         dmPwvEv73VnsU3vZxSnp7KLnjgoIoo6I1dsa0sC71tsSeMmKXPuMK8YCFuZ9+W+rw1+x
+         pNJxuICKh5uIwXqEJpXODgPpLTVbi7OCLaveE18Rw4mOx5mhogTcWi1z5zM81OBoqX4r
+         6ITw==
+X-Gm-Message-State: AOJu0YyM+OZYDnSqv+FKg1hVHVshwbYyKAyqq8Di0/KASLwGt9/GW9io
+	NdlFm1qTs7CGnNizo6lZOHwd3ag5kegl1naB77yTQE5Z0bfrwqsowaNwo7bPAV2gz6qtYJG7iT7
+	J
+X-Google-Smtp-Source: AGHT+IFSm1XgjU4ltzkV4coChbf017gLdis2ZE1zb2ZVx12mG5gq9WFToPXwHmmgQqFOfP89396O0w==
+X-Received: by 2002:ac2:5b4f:0:b0:51f:3e0c:ace3 with SMTP id i15-20020ac25b4f000000b0051f3e0cace3mr587276lfp.16.1714640373922;
+        Thu, 02 May 2024 01:59:33 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id i25-20020a056512007900b00516c247fc40sm101701lfo.222.2024.05.02.01.59.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 01:59:33 -0700 (PDT)
+Date: Thu, 2 May 2024 11:45:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Oreoluwa Babatunde <quic_obabatun@quicinc.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 9793/10134] drivers/of/of_reserved_mem.c:463
+ fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
+Message-ID: <34976102-567d-4651-bf14-41b85af8735e@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,207 +69,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Gary Guo <gary@garyguo.net>
-
-tree:   https://github.com/nbdd0121/linux thin-lto
-head:   98d45a070a161cc285a5aa8f2ab05159ff318146
-commit: 98d45a070a161cc285a5aa8f2ab05159ff318146 [4/4] WIP
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f68868ba718e30594165879cc3020607165b0761
+commit: 2acef04ad57cab44b33001542791fc93f81cadf1 [9793/10134] of: reserved_mem: Remove the use of phandle from the reserved_mem APIs
+config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020127.3ncxx3EI-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202405021511.dplt7agj-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405020127.3ncxx3EI-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
-   rust/helpers/helpers_combined.c: linux/export.h is included more than once.
->> rust/helpers/helpers_combined.c: helpers.h is included more than once.
+smatch warnings:
+drivers/of/of_reserved_mem.c:463 fdt_init_reserved_mem() error: uninitialized symbol 'nomap'.
 
-vim +4 rust/helpers/helpers_combined.c
+vim +/nomap +463 drivers/of/of_reserved_mem.c
 
-     2	
-     3	#include <linux/bug.h>
-   > 4	#include "helpers.h"
-     5	
-     6	__rust_helper __noreturn void rust_helper_BUG(void)
-     7	{
-     8		BUG();
-     9	}
-    10	// SPDX-License-Identifier: GPL-2.0
-    11	
-    12	#include <linux/build_bug.h>
-    13	
-    14	/*
-    15	 * `bindgen` binds the C `size_t` type as the Rust `usize` type, so we can
-    16	 * use it in contexts where Rust expects a `usize` like slice (array) indices.
-    17	 * `usize` is defined to be the same as C's `uintptr_t` type (can hold any
-    18	 * pointer) but not necessarily the same as `size_t` (can hold the size of any
-    19	 * single object). Most modern platforms use the same concrete integer type for
-    20	 * both of them, but in case we find ourselves on a platform where
-    21	 * that's not true, fail early instead of risking ABI or
-    22	 * integer-overflow issues.
-    23	 *
-    24	 * If your platform fails this assertion, it means that you are in
-    25	 * danger of integer-overflow bugs (even if you attempt to add
-    26	 * `--no-size_t-is-usize`). It may be easiest to change the kernel ABI on
-    27	 * your platform such that `size_t` matches `uintptr_t` (i.e., to increase
-    28	 * `size_t`, because `uintptr_t` has to be at least as big as `size_t`).
-    29	 */
-    30	static_assert(
-    31		sizeof(size_t) == sizeof(uintptr_t) &&
-    32		__alignof__(size_t) == __alignof__(uintptr_t),
-    33		"Rust code expects C `size_t` to match Rust `usize`"
-    34	);
-    35	// SPDX-License-Identifier: GPL-2.0
-    36	
-    37	#include <linux/export.h>
-    38	#include <linux/errname.h>
-  > 39	#include "helpers.h"
-    40	
-    41	__rust_helper const char *rust_helper_errname(int err)
-    42	{
-    43		return errname(err);
-    44	}
-    45	// SPDX-License-Identifier: GPL-2.0
-    46	
-    47	#include <linux/err.h>
-    48	#include <linux/export.h>
-  > 49	#include "helpers.h"
-    50	
-    51	__rust_helper __force void *rust_helper_ERR_PTR(long err)
-    52	{
-    53		return ERR_PTR(err);
-    54	}
-    55	
-    56	__rust_helper bool rust_helper_IS_ERR(__force const void *ptr)
-    57	{
-    58		return IS_ERR(ptr);
-    59	}
-    60	
-    61	__rust_helper long rust_helper_PTR_ERR(__force const void *ptr)
-    62	{
-    63		return PTR_ERR(ptr);
-    64	}
-    65	// SPDX-License-Identifier: GPL-2.0
-    66	
-    67	#include <kunit/test-bug.h>
-    68	#include <linux/export.h>
-  > 69	#include "helpers.h"
-    70	
-    71	__rust_helper struct kunit *rust_helper_kunit_get_current_test(void)
-    72	{
-    73		return kunit_get_current_test();
-    74	}
-    75	// SPDX-License-Identifier: GPL-2.0
-    76	
-    77	#include <linux/export.h>
-    78	#include <linux/mutex.h>
-  > 79	#include "helpers.h"
-    80	
-    81	__rust_helper void rust_helper_mutex_lock(struct mutex *lock)
-    82	{
-    83		mutex_lock(lock);
-    84	}
-    85	// SPDX-License-Identifier: GPL-2.0
-    86	
-    87	#include <linux/export.h>
-    88	#include <linux/refcount.h>
-  > 89	#include "helpers.h"
-    90	
-    91	__rust_helper refcount_t rust_helper_REFCOUNT_INIT(int n)
-    92	{
-    93		return (refcount_t)REFCOUNT_INIT(n);
-    94	}
-    95	
-    96	__rust_helper void rust_helper_refcount_inc(refcount_t *r)
-    97	{
-    98		refcount_inc(r);
-    99	}
-   100	
-   101	__rust_helper bool rust_helper_refcount_dec_and_test(refcount_t *r)
-   102	{
-   103		return refcount_dec_and_test(r);
-   104	}
-   105	// SPDX-License-Identifier: GPL-2.0
-   106	
-   107	#include <linux/export.h>
-   108	#include <linux/sched/signal.h>
- > 109	#include "helpers.h"
-   110	
-   111	__rust_helper int rust_helper_signal_pending(struct task_struct *t)
-   112	{
-   113		return signal_pending(t);
-   114	}
-   115	// SPDX-License-Identifier: GPL-2.0
-   116	
-   117	#include <linux/export.h>
-   118	#include <linux/spinlock.h>
- > 119	#include "helpers.h"
-   120	
-   121	__rust_helper void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
-   122					  struct lock_class_key *key)
-   123	{
-   124	#ifdef CONFIG_DEBUG_SPINLOCK
-   125		__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
-   126	#else
-   127		spin_lock_init(lock);
-   128	#endif
-   129	}
-   130	
-   131	__rust_helper void rust_helper_spin_lock(spinlock_t *lock)
-   132	{
-   133		spin_lock(lock);
-   134	}
-   135	
-   136	__rust_helper void rust_helper_spin_unlock(spinlock_t *lock)
-   137	{
-   138		spin_unlock(lock);
-   139	}
-   140	// SPDX-License-Identifier: GPL-2.0
-   141	
-   142	#include <linux/export.h>
-   143	#include <linux/sched/task.h>
- > 144	#include "helpers.h"
-   145	
-   146	__rust_helper struct task_struct *rust_helper_get_current(void)
-   147	{
-   148		return current;
-   149	}
-   150	
-   151	__rust_helper void rust_helper_get_task_struct(struct task_struct *t)
-   152	{
-   153		get_task_struct(t);
-   154	}
-   155	
-   156	__rust_helper void rust_helper_put_task_struct(struct task_struct *t)
-   157	{
-   158		put_task_struct(t);
-   159	}
-   160	// SPDX-License-Identifier: GPL-2.0
-   161	
-   162	#include <linux/export.h>
-   163	#include <linux/wait.h>
- > 164	#include "helpers.h"
-   165	
-   166	__rust_helper void rust_helper_init_wait(struct wait_queue_entry *wq_entry)
-   167	{
-   168		init_wait(wq_entry);
-   169	}
-   170	// SPDX-License-Identifier: GPL-2.0
-   171	
-   172	#include <linux/export.h>
-   173	#include <linux/workqueue.h>
- > 174	#include "helpers.h"
-   175	
+3f0c8206644836 Marek Szyprowski   2014-02-28  430  void __init fdt_init_reserved_mem(void)
+3f0c8206644836 Marek Szyprowski   2014-02-28  431  {
+3f0c8206644836 Marek Szyprowski   2014-02-28  432  	int i;
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  433  
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  434  	/* check for overlapping reserved regions */
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  435  	__rmem_check_for_overlap();
+ae1add247bf8c2 Mitchel Humpherys  2015-09-15  436  
+3f0c8206644836 Marek Szyprowski   2014-02-28  437  	for (i = 0; i < reserved_mem_count; i++) {
+3f0c8206644836 Marek Szyprowski   2014-02-28  438  		struct reserved_mem *rmem = &reserved_mem[i];
+3f0c8206644836 Marek Szyprowski   2014-02-28  439  		unsigned long node = rmem->fdt_node;
+3f0c8206644836 Marek Szyprowski   2014-02-28  440  		int err = 0;
+6f1188b4ac7577 Yue Hu             2020-07-30  441  		bool nomap;
+3f0c8206644836 Marek Szyprowski   2014-02-28  442  
+3f0c8206644836 Marek Szyprowski   2014-02-28  443  		if (rmem->size == 0)
+3f0c8206644836 Marek Szyprowski   2014-02-28  444  			err = __reserved_mem_alloc_size(node, rmem->name,
+3f0c8206644836 Marek Szyprowski   2014-02-28  445  						 &rmem->base, &rmem->size);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  446  		if (err == 0) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  447  			err = __reserved_mem_init_node(rmem);
+d0b8ed47e83a22 pierre Kuo         2019-02-19  448  			if (err != 0 && err != -ENOENT) {
+d0b8ed47e83a22 pierre Kuo         2019-02-19  449  				pr_info("node %s compatible matching fail\n",
+d0b8ed47e83a22 pierre Kuo         2019-02-19  450  					rmem->name);
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  451  
+2acef04ad57cab Oreoluwa Babatunde 2024-04-22  452  				nomap = of_get_flat_dt_prop(node, "no-map", NULL) != NULL;
+d0b8ed47e83a22 pierre Kuo         2019-02-19  453  				if (nomap)
+7b25995f5319ad Dong Aisheng       2021-06-11  454  					memblock_clear_nomap(rmem->base, rmem->size);
+3c6867a12a224d Dong Aisheng       2021-06-11  455  				else
+3ecc68349bbab6 Mike Rapoport      2021-11-05  456  					memblock_phys_free(rmem->base,
+3ecc68349bbab6 Mike Rapoport      2021-11-05  457  							   rmem->size);
+aeb9267eb6b1df Martin Liu         2023-02-10  458  			} else {
+aeb9267eb6b1df Martin Liu         2023-02-10  459  				phys_addr_t end = rmem->base + rmem->size - 1;
+aeb9267eb6b1df Martin Liu         2023-02-10  460  				bool reusable =
+aeb9267eb6b1df Martin Liu         2023-02-10  461  					(of_get_flat_dt_prop(node, "reusable", NULL)) != NULL;
+aeb9267eb6b1df Martin Liu         2023-02-10  462  
+6ee7afbabcee4d Geert Uytterhoeven 2023-02-16 @463  				pr_info("%pa..%pa (%lu KiB) %s %s %s\n",
+aeb9267eb6b1df Martin Liu         2023-02-10  464  					&rmem->base, &end, (unsigned long)(rmem->size / SZ_1K),
+aeb9267eb6b1df Martin Liu         2023-02-10  465  					nomap ? "nomap" : "map",
+                                                                                        ^^^^^    ^^^^^
+This is nomap from the previous iteration through the loop.  How is
+it useful?
+
+aeb9267eb6b1df Martin Liu         2023-02-10  466  					reusable ? "reusable" : "non-reusable",
+aeb9267eb6b1df Martin Liu         2023-02-10  467  					rmem->name ? rmem->name : "unknown");
+d0b8ed47e83a22 pierre Kuo         2019-02-19  468  			}
+d0b8ed47e83a22 pierre Kuo         2019-02-19  469  		}
+3f0c8206644836 Marek Szyprowski   2014-02-28  470  	}
+3f0c8206644836 Marek Szyprowski   2014-02-28  471  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
