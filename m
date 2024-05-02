@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2547417C6A
-	for <oe-kbuild@lists.linux.dev>; Wed,  1 May 2024 20:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B60D29A0
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 May 2024 04:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714595929; cv=none; b=l+xDH9lHelT4bdnGpguBGZLYpTx8IY1fFZTjZNtvh4+8/b068CwIkbCQ3akRCJSC+z9osRERZWBpi0vRLQKqS7rrJdXN0UOoGWGKr/d65dEoK3XYQ+ocCg24aLAOchF+f/N4ryybktfksSyOJ+aPBkn4399XcEX1WzgJ11eKGtM=
+	t=1714623866; cv=none; b=Hw42xbJoWEnFeXS3klt0lB/zc0xNoBXT2qttrQYZu6b/F0QgSTSZLs0ODF6/xqXzixBjwkBuvomBUG2EaQwg6sz1rCK2m/+OBBTPsZsHmPsNNNLEse2j4o0WrQjnuqDyGZTzgsN5DW7GlSfltZxf9Lk3xpW3MDs80KgYj05kJ9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714595929; c=relaxed/simple;
-	bh=RiYAxEfjTQpfvHlw84WzLBo3yK8JLv+W3w2sq+YIDww=;
+	s=arc-20240116; t=1714623866; c=relaxed/simple;
+	bh=Q7VWYowwKjC1CmoYNdSHxX2jXLIbRtWn1tzNaTdtaLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q7OM9OVRL7PrEBfcB/4d2gpb0qB9d2L2DV4R0jKUac7m50DJzpOAPzjaUgu/nxx19TGHFXP5jOZS8Ey46Fq1GcfmXnQC9CtxWNT6wKfM6g8CXsOOAgG7R004c0qZ38Qv/o5z/M/PxsSajf2RkDDgwe5W/OlfpaFqYegPVAhsYuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KrVW4Ixu; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=lPf0lLdSUmHClRKpq1y6Q9T8Pb9njBAYaIf74d7i4fl3smlsJBv1cMRLTTGIMp31hzad8F0/k04vnfReqS1AS9H113fVYrvaMlfQv95PIA2GjI7FsGjPvZRX187lp+mzFbWqeXWtSudrXeRnxMxoCiaNtVgOR+e6cojVnlSPWv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h2GS1Y61; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KrVW4Ixu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h2GS1Y61"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714595927; x=1746131927;
+  t=1714623865; x=1746159865;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RiYAxEfjTQpfvHlw84WzLBo3yK8JLv+W3w2sq+YIDww=;
-  b=KrVW4IxufNf9ltQ9bY+lKEWx4YEpxybtB4qNv9gLIUjIg6EDEhUuXbo4
-   i/e1bLkC0xKirqrHxS5KMISoyGRLgAQaRByd7uc7+3wOP5ushwPRgQI7a
-   qp7sOKNSBSaJjw7qOKKtiBj8QAxpNhrQCmLJiTulXq6kopGYG4N1gdxF/
-   lgh+62JxGylMvfIHNnrQ5L/q36NrgiirPAdA0nZlziMC8yPJ5xOD6iSJc
-   ELP1HM+Z0/K39cKiUJBGoBOYviNUstM74+NV7FNp4cLiSnZnZeMCV5rDV
-   9k+dQtJTUcAwdBbT1noNXtvXTu9sD1xGdtlWre/8c/z6CebGHvpfC4Qf3
-   g==;
-X-CSE-ConnectionGUID: lhp0dYY6S92XuvSYV26AzQ==
-X-CSE-MsgGUID: 8wy/w4eDTyWlAqCskg9eyg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="20896707"
-X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="20896707"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 13:38:46 -0700
-X-CSE-ConnectionGUID: AleYUTFEQguei6vMnpeFsw==
-X-CSE-MsgGUID: T8BRhqelT3WZthO6Tfh00A==
+  bh=Q7VWYowwKjC1CmoYNdSHxX2jXLIbRtWn1tzNaTdtaLM=;
+  b=h2GS1Y61Q/pv4FW8B3aBu7pJdNEg6m8cByTdQEj4CuDpfD87hqihp1iV
+   M8Y7cxW4z2gEnvCzHhkbLSx+CxmKOhkZsrf/8rwOAzDO7zVJ5oDMrBvS+
+   vt+Q8p6r1DkhtVLx99tLflTItxKLC67wvC2NGYiMRtJ18Dt7qgHtFeSNs
+   oYyfDflnPBpYWZSCOB+6UHyyFkvPmYl9N487bqCVAlojr5yDoMgxRuUB3
+   IGw6UJ28di7xf0AZEct3qUS8rjEEtvEfp57xsYQ4D0odM/2bvdlMboRJj
+   ki6Pxhk1fHb5XetxL/ytIPxRGoEeA5DcV+SEAAl3WjG1q2vNs9L/CM5Iy
+   w==;
+X-CSE-ConnectionGUID: MUOUteX0Syan371v2StvRw==
+X-CSE-MsgGUID: 1cDmoZLlRNCtSGVcqqY7FQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21779816"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="21779816"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 21:24:19 -0700
+X-CSE-ConnectionGUID: 3TtdcwbvSV2yQgtxZxteyg==
+X-CSE-MsgGUID: av/MFIirTM2Ieebo+QY47A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,246,1708416000"; 
-   d="scan'208";a="50100732"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="27504643"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 May 2024 13:38:45 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 May 2024 21:24:18 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2Giw-0009y0-3D;
-	Wed, 01 May 2024 20:38:42 +0000
-Date: Thu, 2 May 2024 04:38:22 +0800
+	id 1s2NzU-000ANk-06;
+	Thu, 02 May 2024 04:24:16 +0000
+Date: Thu, 2 May 2024 12:23:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 9409/10134] lib/fortify_kunit.c:443
- fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs
- 32)
-Message-ID: <202405020451.cgCahkAL-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [nbdd0121:thin-lto 3/4] rust/helpers/helpers_combined.c:
+ linux/export.h is included more than once.
+Message-ID: <202405021222.RhKDre45-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,103 +62,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kees Cook <keescook@chromium.org>
+TO: Gary Guo <gary@garyguo.net>
 
-Hi Kees,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f68868ba718e30594165879cc3020607165b0761
-commit: 63228e09bd3128589a98b5eb9fa2ece4dd804c31 [9409/10134] kunit/fortify: Rename tests to use recommended conventions
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240501 (https://download.01.org/0day-ci/archive/20240502/202405020451.cgCahkAL-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://github.com/nbdd0121/linux thin-lto
+head:   98d45a070a161cc285a5aa8f2ab05159ff318146
+commit: bf2d01fbb08533e84608386fe310bdd2cbe058af [3/4] kbuild: rust: auto generate rust helper exports
+:::::: branch date: 9 hours ago
+:::::: commit date: 12 hours ago
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405020451.cgCahkAL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405021222.RhKDre45-lkp@intel.com/
 
-New smatch warnings:
-lib/fortify_kunit.c:443 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
+includecheck warnings: (new ones prefixed by >>)
+>> rust/helpers/helpers_combined.c: linux/export.h is included more than once.
 
-Old smatch warnings:
-lib/fortify_kunit.c:454 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
-lib/fortify_kunit.c:467 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
+vim +36 rust/helpers/helpers_combined.c
 
-vim +443 lib/fortify_kunit.c
-
-fa4a3f86d4982b Kees Cook 2023-04-07  424  
-63228e09bd3128 Kees Cook 2024-04-29  425  static void fortify_test_strcpy(struct kunit *test)
-fa4a3f86d4982b Kees Cook 2023-04-07  426  {
-fa4a3f86d4982b Kees Cook 2023-04-07  427  	struct fortify_padding pad = { };
-fa4a3f86d4982b Kees Cook 2023-04-07  428  	char src[sizeof(pad.buf) + 1] = { };
-fa4a3f86d4982b Kees Cook 2023-04-07  429  	int i;
-fa4a3f86d4982b Kees Cook 2023-04-07  430  
-fa4a3f86d4982b Kees Cook 2023-04-07  431  	/* Fill 31 bytes with valid characters. */
-fa4a3f86d4982b Kees Cook 2023-04-07  432  	for (i = 0; i < sizeof(src) - 2; i++)
-fa4a3f86d4982b Kees Cook 2023-04-07  433  		src[i] = i + '0';
-fa4a3f86d4982b Kees Cook 2023-04-07  434  
-fa4a3f86d4982b Kees Cook 2023-04-07  435  	/* Destination is %NUL-filled to start with. */
-fa4a3f86d4982b Kees Cook 2023-04-07  436  	KUNIT_EXPECT_EQ(test, pad.bytes_before, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  437  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  438  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  439  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 3], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  440  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  441  
-fa4a3f86d4982b Kees Cook 2023-04-07  442  	/* Legitimate strcpy() 1 less than of max size. */
-fa4a3f86d4982b Kees Cook 2023-04-07 @443  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
-fa4a3f86d4982b Kees Cook 2023-04-07  444  				== pad.buf);
-fa4a3f86d4982b Kees Cook 2023-04-07  445  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  446  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  447  	/* Only last byte should be %NUL */
-fa4a3f86d4982b Kees Cook 2023-04-07  448  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  449  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  450  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 3], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  451  
-fa4a3f86d4982b Kees Cook 2023-04-07  452  	src[sizeof(src) - 2] = 'A';
-fa4a3f86d4982b Kees Cook 2023-04-07  453  	/* But now we trip the overflow checking. */
-fa4a3f86d4982b Kees Cook 2023-04-07  454  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
-fa4a3f86d4982b Kees Cook 2023-04-07  455  				== pad.buf);
-fa4a3f86d4982b Kees Cook 2023-04-07  456  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  457  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 1);
-fa4a3f86d4982b Kees Cook 2023-04-07  458  	/* Trailing %NUL -- thanks to FORTIFY. */
-fa4a3f86d4982b Kees Cook 2023-04-07  459  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  460  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  461  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  462  	/* And we will not have gone beyond. */
-fa4a3f86d4982b Kees Cook 2023-04-07  463  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  464  
-fa4a3f86d4982b Kees Cook 2023-04-07  465  	src[sizeof(src) - 1] = 'A';
-fa4a3f86d4982b Kees Cook 2023-04-07  466  	/* And for sure now, two bytes past. */
-fa4a3f86d4982b Kees Cook 2023-04-07  467  	KUNIT_ASSERT_TRUE(test, strcpy(pad.buf, src)
-fa4a3f86d4982b Kees Cook 2023-04-07  468  				== pad.buf);
-fa4a3f86d4982b Kees Cook 2023-04-07  469  	/*
-fa4a3f86d4982b Kees Cook 2023-04-07  470  	 * Which trips both the strlen() on the unterminated src,
-fa4a3f86d4982b Kees Cook 2023-04-07  471  	 * and the resulting copy attempt.
-fa4a3f86d4982b Kees Cook 2023-04-07  472  	 */
-fa4a3f86d4982b Kees Cook 2023-04-07  473  	KUNIT_EXPECT_EQ(test, fortify_read_overflows, 1);
-fa4a3f86d4982b Kees Cook 2023-04-07  474  	KUNIT_EXPECT_EQ(test, fortify_write_overflows, 2);
-fa4a3f86d4982b Kees Cook 2023-04-07  475  	/* Trailing %NUL -- thanks to FORTIFY. */
-fa4a3f86d4982b Kees Cook 2023-04-07  476  	KUNIT_EXPECT_EQ(test, pad.buf[sizeof(pad.buf) - 1], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  477  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  478  	KUNIT_EXPECT_NE(test, pad.buf[sizeof(pad.buf) - 2], '\0');
-fa4a3f86d4982b Kees Cook 2023-04-07  479  	/* And we will not have gone beyond. */
-fa4a3f86d4982b Kees Cook 2023-04-07  480  	KUNIT_EXPECT_EQ(test, pad.bytes_after, 0);
-fa4a3f86d4982b Kees Cook 2023-04-07  481  }
-fa4a3f86d4982b Kees Cook 2023-04-07  482  
-
-:::::: The code at line 443 was first introduced by commit
-:::::: fa4a3f86d4982b603865ccb97dde82f0ae1e3302 fortify: Add KUnit tests for runtime overflows
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+    35	
+  > 36	#include <linux/export.h>
+    37	#include <linux/errname.h>
+    38	
+    39	const char *rust_helper_errname(int err)
+    40	{
+    41		return errname(err);
+    42	}
+    43	// SPDX-License-Identifier: GPL-2.0
+    44	
+    45	#include <linux/err.h>
+  > 46	#include <linux/export.h>
+    47	
+    48	__force void *rust_helper_ERR_PTR(long err)
+    49	{
+    50		return ERR_PTR(err);
+    51	}
+    52	
+    53	bool rust_helper_IS_ERR(__force const void *ptr)
+    54	{
+    55		return IS_ERR(ptr);
+    56	}
+    57	
+    58	long rust_helper_PTR_ERR(__force const void *ptr)
+    59	{
+    60		return PTR_ERR(ptr);
+    61	}
+    62	// SPDX-License-Identifier: GPL-2.0
+    63	
+    64	#include <kunit/test-bug.h>
+  > 65	#include <linux/export.h>
+    66	
+    67	struct kunit *rust_helper_kunit_get_current_test(void)
+    68	{
+    69		return kunit_get_current_test();
+    70	}
+    71	// SPDX-License-Identifier: GPL-2.0
+    72	
+  > 73	#include <linux/export.h>
+    74	#include <linux/mutex.h>
+    75	
+    76	void rust_helper_mutex_lock(struct mutex *lock)
+    77	{
+    78		mutex_lock(lock);
+    79	}
+    80	// SPDX-License-Identifier: GPL-2.0
+    81	
+  > 82	#include <linux/export.h>
+    83	#include <linux/refcount.h>
+    84	
+    85	refcount_t rust_helper_REFCOUNT_INIT(int n)
+    86	{
+    87		return (refcount_t)REFCOUNT_INIT(n);
+    88	}
+    89	
+    90	void rust_helper_refcount_inc(refcount_t *r)
+    91	{
+    92		refcount_inc(r);
+    93	}
+    94	
+    95	bool rust_helper_refcount_dec_and_test(refcount_t *r)
+    96	{
+    97		return refcount_dec_and_test(r);
+    98	}
+    99	// SPDX-License-Identifier: GPL-2.0
+   100	
+ > 101	#include <linux/export.h>
+   102	#include <linux/sched/signal.h>
+   103	
+   104	int rust_helper_signal_pending(struct task_struct *t)
+   105	{
+   106		return signal_pending(t);
+   107	}
+   108	// SPDX-License-Identifier: GPL-2.0
+   109	
+ > 110	#include <linux/export.h>
+   111	#include <linux/spinlock.h>
+   112	
+   113	void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
+   114					  struct lock_class_key *key)
+   115	{
+   116	#ifdef CONFIG_DEBUG_SPINLOCK
+   117		__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFIG);
+   118	#else
+   119		spin_lock_init(lock);
+   120	#endif
+   121	}
+   122	
+   123	void rust_helper_spin_lock(spinlock_t *lock)
+   124	{
+   125		spin_lock(lock);
+   126	}
+   127	
+   128	void rust_helper_spin_unlock(spinlock_t *lock)
+   129	{
+   130		spin_unlock(lock);
+   131	}
+   132	// SPDX-License-Identifier: GPL-2.0
+   133	
+ > 134	#include <linux/export.h>
+   135	#include <linux/sched/task.h>
+   136	
+   137	struct task_struct *rust_helper_get_current(void)
+   138	{
+   139		return current;
+   140	}
+   141	
+   142	void rust_helper_get_task_struct(struct task_struct *t)
+   143	{
+   144		get_task_struct(t);
+   145	}
+   146	
+   147	void rust_helper_put_task_struct(struct task_struct *t)
+   148	{
+   149		put_task_struct(t);
+   150	}
+   151	// SPDX-License-Identifier: GPL-2.0
+   152	
+ > 153	#include <linux/export.h>
+   154	#include <linux/wait.h>
+   155	
+   156	void rust_helper_init_wait(struct wait_queue_entry *wq_entry)
+   157	{
+   158		init_wait(wq_entry);
+   159	}
+   160	// SPDX-License-Identifier: GPL-2.0
+   161	
+ > 162	#include <linux/export.h>
+   163	#include <linux/workqueue.h>
+   164	
 
 -- 
 0-DAY CI Kernel Test Service
