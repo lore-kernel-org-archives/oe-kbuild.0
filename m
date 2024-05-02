@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1CB1CA81
-	for <oe-kbuild@lists.linux.dev>; Thu,  2 May 2024 05:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE474152797
+	for <oe-kbuild@lists.linux.dev>; Thu,  2 May 2024 07:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714627588; cv=none; b=E0yVWYmGHL/eoAV/F8KxLVL62xZGKsAKmhHMik0tVO0a7ehsnRICXhJfRm73mWwBZRv7pcJoeUH+xNvjRo2j69Ua7kfEq23woI5Ta/dxeVzwvyMqCabbEuWUrsL8qN4HJt86WPjInDYDh04fxJcMI1JjYhk6aI2OZ1Du5lmYVns=
+	t=1714635035; cv=none; b=hqTCp7KCz9XfDs2D8ORfu0Fpk+8lOk/nSmEROO1UYGEBqBexy6wZYsH86n6RXjPJsCZnLDVpjM8w5NbFFwMUHTExyRTLtELNHLVd81Y8JSuJmtSWJB1Zu5iH8+yhbDK5km21B4IYy2FT8NGJZD8Odt0Mjj1W0wTexTVnr2Ne2aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714627588; c=relaxed/simple;
-	bh=fJp5wJkAVSnAZN+7p5tbbevDs9AULpF6tuHAt2BBAxc=;
+	s=arc-20240116; t=1714635035; c=relaxed/simple;
+	bh=kHEpTf0Zj64rMPboFCcaK3YwjZTZ5wM7COCy4IRV9Ik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pWE/z2NnQIs7Ex2D4mDqRjH4RdtFgCB2lbIVJqKvgVvBLHsHsitcVuTklDbS72I06J3KbofZfhyXE/0xQ0ak5hh/cLx2kaf+u/eoasys2q1+v9fDZ9rntZ8y+F+W70seaBsxES8FkSx13uw+c3tY6VoiiX9nlA2U4fYJVPcVdHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5KvJs7Y; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=JUxsLhEO4W+7milHMq2VVl+AO6ugiiayJ+p6IMD1nrSLvqYdiFhu83MmPDHrn78KmipoUbIOrJXA41ex9dyIEM1IibdL6Zv+OmwPf9owJyVJUJ40iTxLJr0Uy8IlMi8oPjPHYkdqK84APmbfM2bkCbcF53YcOYRgZ0TqJSeySwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsQXdsar; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5KvJs7Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsQXdsar"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714627585; x=1746163585;
+  t=1714635034; x=1746171034;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fJp5wJkAVSnAZN+7p5tbbevDs9AULpF6tuHAt2BBAxc=;
-  b=M5KvJs7YyEsvW8PilfXyKmueNg6pzjgoF3sBFjYXxYXBAY35pKX5uoGE
-   bski7Pn98Zwbp5gbDggUGxEtbttSFzgoXk5urJM9GnDgysK3doFtvKES9
-   vIpznn5PZhSyWpXAA6KAaDu/IJy+Un1jnUCN1tjorb1yOvjrhs3jBg5n4
-   FW7bjUupZ6vOPvEv0kcN+OWwnfC/n/CSItfd8XHI2unoGFfdORMMNFOWn
-   Mf03L/jo0DmSRD1amyhWRhWTsxPlOtHO0fj9P9/MiLduRdaPmQkBduQz8
-   H9WhWQSxHO0C5UkTctEwZvt9IPryWDEAoUi98+h2uTdFBE2NOBKwbT664
-   A==;
-X-CSE-ConnectionGUID: A0C8XRm6SC6fJXb9+jAeig==
-X-CSE-MsgGUID: WuyFiu7HS7KAs3LQTEquVg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="10310734"
+  bh=kHEpTf0Zj64rMPboFCcaK3YwjZTZ5wM7COCy4IRV9Ik=;
+  b=YsQXdsarWOTpRptjeKaM48d9o0kifg9XXlvX3VNTnxYsrnpWA893qO3O
+   vNWvwVczaGjmX7aUvlPlnNjPuXWijhiGYGcJx7RygFl3gA4fKbr14X5JQ
+   EDC6QfziRDfQuKqOaPO6bBQlRFuMdW0XiP3r6nkzJCyU9gh32LrwTeJqe
+   xTQ/4942kqsym5ZK0tpBDGfaj340PZDUPrikSYuNwuB8ZjKyM+2ML51mF
+   LgU6oRNdos/pozoxNBIgFIqlR+/IEMf2SRNfdXtbqgWUcZdKFFSnEVi29
+   pnu08jlXUjmx/mPasm3XFY617Bovb21Kd7w50Xv9xfTJMjPJkPXP3Ob0H
+   g==;
+X-CSE-ConnectionGUID: D4ykHn8qTU66HTS68e6VpQ==
+X-CSE-MsgGUID: x96QoKuaRQOYkmZdIGfTIg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21538066"
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10310734"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2024 22:26:25 -0700
-X-CSE-ConnectionGUID: 9YyDsY8DQzmgHc08coKvPA==
-X-CSE-MsgGUID: qnkixoTvS+eGwwHmWtEmyA==
+   d="scan'208";a="21538066"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 00:30:33 -0700
+X-CSE-ConnectionGUID: 1bZhHDNCR8eQ4twv8zafrA==
+X-CSE-MsgGUID: 1KC+HLKxRCOmvPgqkzi8GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="64452537"
+   d="scan'208";a="31513638"
 Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 May 2024 22:26:24 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 May 2024 00:30:32 -0700
 Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s2Oxa-000AQS-05;
-	Thu, 02 May 2024 05:26:22 +0000
-Date: Thu, 2 May 2024 13:25:51 +0800
+	id 1s2Qth-000AVE-2A;
+	Thu, 02 May 2024 07:30:29 +0000
+Date: Thu, 2 May 2024 15:30:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [chrome-os:chromeos-5.15 9/14] dtbs_check: make[3]: ***
- [scripts/Makefile.lib:374:
- arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dt.yaml] Error
- 1
-Message-ID: <202405021347.vOexG1gG-lkp@intel.com>
+Subject: [coresight:next 26/26]
+ drivers/hwtracing/coresight/coresight-tmc-core.c: linux/acpi.h is included
+ more than once.
+Message-ID: <202405021512.LWPwzJtX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,57 +64,56 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dt.yaml] Error 1"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+TO: Anshuman Khandual <anshuman.khandual@arm.com>
+CC: Suzuki K Poulose <suzuki.poulose@arm.com>
+CC: James Clark <james.clark@arm.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   e931c5c3244d7ebba8856dc6aed54a5d1a85975e
-commit: e9bf0d6e98d2633afef620f4d8cb76ececfb393b [9/14] CHROMIUM: arm64: dts: mt8186: Add veluza board
-:::::: branch date: 12 hours ago
-:::::: commit date: 30 hours ago
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 37ae4ad0eef338776c7e2cffb3896153d43dcd90)
-dtschema version: 2024.4
-reproduce: (https://download.01.org/0day-ci/archive/20240502/202405021347.vOexG1gG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git next
+head:   8877ef45ef9ec281849870d88039f8dc84cde774
+commit: 8877ef45ef9ec281849870d88039f8dc84cde774 [26/26] coresight: tmc: Enable SG capability on ACPI based SoC-400 TMC ETR devices
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202405021347.vOexG1gG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405021512.LWPwzJtX-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131072.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-rev0-sku131073.dt.yaml'
->> make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dt.yaml] Error 1
->> make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131077.dt.yaml'
->> make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dt.yaml] Error 1
->> make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589824.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589825.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-rev0-sku589825.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dt.yaml'
-   make[3]: *** [scripts/Makefile.lib:374: arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio-sku0.dt.yaml] Error 1
-   make[3]: *** Deleting file 'arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio-sku0.dt.yaml'
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/hwtracing/coresight/coresight-tmc-core.c: linux/acpi.h is included more than once.
+
+vim +7 drivers/hwtracing/coresight/coresight-tmc-core.c
+
+   > 7	#include <linux/acpi.h>
+     8	#include <linux/kernel.h>
+     9	#include <linux/init.h>
+    10	#include <linux/types.h>
+    11	#include <linux/device.h>
+    12	#include <linux/idr.h>
+    13	#include <linux/io.h>
+    14	#include <linux/iommu.h>
+    15	#include <linux/err.h>
+    16	#include <linux/fs.h>
+    17	#include <linux/miscdevice.h>
+    18	#include <linux/mutex.h>
+    19	#include <linux/property.h>
+    20	#include <linux/uaccess.h>
+    21	#include <linux/slab.h>
+    22	#include <linux/dma-mapping.h>
+    23	#include <linux/spinlock.h>
+    24	#include <linux/pm_runtime.h>
+    25	#include <linux/of.h>
+    26	#include <linux/coresight.h>
+    27	#include <linux/amba/bus.h>
+    28	#include <linux/platform_device.h>
+  > 29	#include <linux/acpi.h>
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
