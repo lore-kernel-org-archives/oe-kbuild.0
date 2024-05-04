@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A871DF4E7
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 May 2024 03:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E284421362
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 May 2024 12:18:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714794438; cv=none; b=W741LYKvREObd9njCw/YDcsG1wBXv3l4IPj0Mu+j39tyLwokgvMkA0yjHFqp2Nt0eXpdI/8WTtoMTXIrApTlnu4NW4eEdacHjlvS1ZQsu86SPjNDeEuKH7JXBP4XnSbuSibhfNqVb3MJ8sEQkiOJY1HuszJPgYB+m0WDYstUG3Q=
+	t=1714825125; cv=none; b=EyGTApTdi1uFAeMgeC9ssBdOjWNL4vjUaRDniCMvINty7uHKLhd+n/PcjkDr81gGPMjsR8nPDsjW70Dea5wdr4mKQIpmm54zkNUi9iNYXXX4BvvG2uwzrPZODH/Etp/ZG/8KttFxlZG1SylZDaXJlMgxoVhekM13m62cRyMkf9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714794438; c=relaxed/simple;
-	bh=eewW3R9mxlpfoF6XMWXhbDPQJGyMzy9+EhZyn6SKnFg=;
+	s=arc-20240116; t=1714825125; c=relaxed/simple;
+	bh=KvX+tMQC35r8Zw36jjxi/3yW/6yDNWHuAjrkLFnobVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t3kjl/7Biyv/rQOW9FceS9uqW+venEWaxJeImoMYbnvSZ19iHNf1aX1UDGqHwuyw6YUW5BhkDtlkLk63cyZ4sMhemiOVD7AtimnVgNmNAzAg05k18FueX+vyYMlF0sU6Y9V57t/Juz6+j9fWoyyk3rrRFzN/YYmygv89zDz92v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YCPM5GiF; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=LvcDW5sAdCOpdixgsKoceFGiLCh48Y9I6qlrOwG30vxWq0QqxG97dlS2VVk2HHIcHaiFv0NOl3JvAqhWQipZLCSIqWmer7SLuNQ3/BLO4Y4e6mv8dYaQ8pJQAsrJVfO6Z0+d5OWghKO6v4y8VIDTTqxECb215o6CA/83h3uBHwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wO61j6al; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YCPM5GiF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714794437; x=1746330437;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eewW3R9mxlpfoF6XMWXhbDPQJGyMzy9+EhZyn6SKnFg=;
-  b=YCPM5GiF30AhT6UoW0uG1TZdLy04zQ5JGoQlJF5AddCxB6LxiNyJgxBa
-   tTbekjkhUv7rXe1h3lL7YSkgPsF8lQZTQ/jemkAAMzGeTM5PSEW/3uv/v
-   Q7yV3q5eU2ZRzbZvnMqyF2Ha8lgpqqntuCdTa12CDMmbhrgHjYvvKFCJ/
-   DreuKM0WhnNks4IHdVZce8MPEeJjc9JIhXvHJcVYnsBfz5Fojh8utyYiC
-   h7c8Mq3hSBkaOjsdITOK5SF1UMxHZ2M+KUWNM0pliejUyksvG846dxKeS
-   jyGs+89atQeSE08gFvwsLJEC8HxqKZmrkInzsPCbT6zWP+Y1hpj/zx5yn
-   g==;
-X-CSE-ConnectionGUID: M4Iew/6LQEW20cXrYYMVlQ==
-X-CSE-MsgGUID: 712bxo4dTc2xTTIYJvbpOw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10491735"
-X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="10491735"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 20:47:16 -0700
-X-CSE-ConnectionGUID: hpAGbmVsRSi/syRFI+g7BA==
-X-CSE-MsgGUID: jDvfnuT0QTeHO3Sku1MULQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,252,1708416000"; 
-   d="scan'208";a="50824606"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 May 2024 20:47:14 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s36Mi-000CQ4-1v;
-	Sat, 04 May 2024 03:47:12 +0000
-Date: Sat, 4 May 2024 11:46:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack
- maps
-Message-ID: <202405041108.2Up5HT0H-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wO61j6al"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2db6f5977e1so6748861fa.2
+        for <oe-kbuild@lists.linux.dev>; Sat, 04 May 2024 05:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714825121; x=1715429921; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Z/7UJGubfMelKvbYDiZ/Mv2wY5bh+9xHKgfJKuvSMK4=;
+        b=wO61j6al8fOkQpUAgMVtEr3ynhpgINdAcDNEH+3/mQY+oUQaY6WwKz4niuow114aXx
+         vGvjvt/2vh0GJS6T/1OsJW26LussgudCYmg6ciE0mtNe9A53oQj7Mh5/rUv0oVDC4MBo
+         RGWtmMkKtzqIZgsaxlu2M2rDbqGmY+cvufbfsq6fZjcS7M04y7T442FFUagsQs7C40mp
+         jRDtM7mmeecO/9yAL1DbkgxB46dB6D/yYEYPKJr692gazg7CK7YvItaISQV9Zakw9oQ+
+         hMrKSfWAqA1SGpMw1H/SisgW7ECo0mKyhY6G8mzwo3a5cwJK4cvaTiXzToNo9I+urzfm
+         T+CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714825121; x=1715429921;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z/7UJGubfMelKvbYDiZ/Mv2wY5bh+9xHKgfJKuvSMK4=;
+        b=NIzp4yLyxiWw65n8JSWV+tdeKgCoQ+dfGKoC2l/otbUrWcQrIHgFXgt2CrisjiOyQC
+         y9K7lkCj5lh3+B/sKQ/8K8UvBFnEl69VZ5EApGuVpChDNlpJFisSLvGBKldOdYAL064/
+         0IW4v9UknVGWI0im7dATg+1fxXSYULFH53uOfwKOqAG+Gc5YG11GTZu3+CaMpznGfVdU
+         CfcQ18Xd3sFR880UkSwjhDDmOJLKxcbAkqhhgP90YZnqtyIs7lFjztGJ2nvx/RKEabgx
+         Cdb1KaLonA9poaMzjdS40/I1VwcFhR/G1AMaM9TK5+kFHponTAQe6OuYS/MdRBQ0+oiP
+         g+2w==
+X-Gm-Message-State: AOJu0YzlGJdOjvAANaDjnyprWA6QCn7vxRMJN1ByfgIuLvPZvAHgJil6
+	KVrCJSCDmbhPfElrc4wtw7urgcKci+1LBJMnEaFg4j3FZrGEFlZ4ei83D090aY83OjuH3IdIgQU
+	O
+X-Google-Smtp-Source: AGHT+IEMl3/9+VdMxzxvYyxuTl4RsZq5GUNid+YtiRDPqktYL2gYS0YU1UFZkgLtuk9S3nLdXGTH9w==
+X-Received: by 2002:a05:651c:201c:b0:2dd:c9fc:c472 with SMTP id s28-20020a05651c201c00b002ddc9fcc472mr3128640ljo.26.1714825121362;
+        Sat, 04 May 2024 05:18:41 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id y12-20020a5d614c000000b0034dd3849eeasm6105031wrt.106.2024.05.04.05.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 05:18:41 -0700 (PDT)
+Date: Sat, 4 May 2024 15:18:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Kamil =?iso-8859-1?Q?Hor=E1k?= - 2N <kamilh@axis.com>,
+	florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com, andrew@lunn.ch,
+	hkallweit1@gmail.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kamilh@axis.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach
+ link modes
+Message-ID: <586a9bc8-aa2a-4312-8936-a10f18e1f9ce@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,107 +73,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240503083719.899312-4-kamilh@axis.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240429165658.1305969-1-sidchintamaneni@gmail.com>
-References: <20240429165658.1305969-1-sidchintamaneni@gmail.com>
-TO: Siddharth Chintamaneni <sidchintamaneni@gmail.com>
-TO: bpf@vger.kernel.org
-CC: alexei.starovoitov@gmail.com
-CC: daniel@iogearbox.net
-CC: olsajiri@gmail.com
-CC: andrii@kernel.org
-CC: yonghong.song@linux.dev
-CC: rjsu26@vt.edu
-CC: sairoop@vt.edu
-CC: Siddharth Chintamaneni <sidchintamaneni@vt.edu>
-CC: syzbot+8bdfc2c53fb2b63e1871@syzkaller.appspotmail.com
-
-Hi Siddharth,
+Hi Kamil,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Chintamaneni/Added-selftests-to-check-deadlocks-in-queue-and-stack-map/20240430-142201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240429165658.1305969-1-sidchintamaneni%40gmail.com
-patch subject: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack maps
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041108.2Up5HT0H-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kamil-Hor-k-2N/net-phy-bcm54811-New-link-mode-for-BroadR-Reach/20240503-164308
+base:   net/main
+patch link:    https://lore.kernel.org/r/20240503083719.899312-4-kamilh%40axis.com
+patch subject: [PATCH v2 3/3] net: phy: bcm-phy-lib: Implement BroadR-Reach link modes
+config: i386-randconfig-141-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041037.sjZak003-lkp@intel.com/config)
 compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405041108.2Up5HT0H-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405041037.sjZak003-lkp@intel.com/
 
 smatch warnings:
-kernel/bpf/queue_stack_maps.c:273 queue_stack_map_push_elem() warn: inconsistent returns 'irq_flags'.
+drivers/net/phy/broadcom.c:627 bcm5481x_config_delay_swap() error: uninitialized symbol 'ret'.
+drivers/net/phy/broadcom.c:1249 bcm_read_master_slave() error: uninitialized symbol 'cfg'.
 
-vim +/irq_flags +273 kernel/bpf/queue_stack_maps.c
+vim +/ret +627 drivers/net/phy/broadcom.c
 
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  219  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  220  /* Called from syscall or from eBPF program */
-d7ba4cc900bf1e JP Kobryn              2023-03-22  221  static long queue_stack_map_push_elem(struct bpf_map *map, void *value,
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  222  				      u64 flags)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  223  {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  224  	struct bpf_queue_stack *qs = bpf_queue_stack(map);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  225  	unsigned long irq_flags;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  226  	int err = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  227  	void *dst;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  228  
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  229  	preempt_disable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  230  	local_irq_save(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  231  	if (unlikely(__this_cpu_inc_return(*(qs->map_locked)) != 1)) {
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  232  		__this_cpu_dec(*(qs->map_locked));
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  233  		local_irq_restore(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  234  		preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  235  		return -EBUSY;
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  236  	}
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  237  	preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  238  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  239  	/* BPF_EXIST is used to force making room for a new element in case the
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  240  	 * map is full
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  241  	 */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  242  	bool replace = (flags & BPF_EXIST);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  243  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  244  	/* Check supported flags for queue and stack maps */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  245  	if (flags & BPF_NOEXIST || flags > BPF_EXIST)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  246  		return -EINVAL;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  247  
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  248  	if (in_nmi()) {
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  249  		if (!raw_spin_trylock_irqsave(&qs->lock, irq_flags))
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  250  			return -EBUSY;
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  251  	} else {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  252  		raw_spin_lock_irqsave(&qs->lock, irq_flags);
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  253  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  254  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  255  	if (queue_stack_map_is_full(qs)) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  256  		if (!replace) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  257  			err = -E2BIG;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  258  			goto out;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  259  		}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  260  		/* advance tail pointer to overwrite oldest element */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  261  		if (unlikely(++qs->tail >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  262  			qs->tail = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  263  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  264  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  265  	dst = &qs->elements[qs->head * qs->map.value_size];
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  266  	memcpy(dst, value, qs->map.value_size);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  267  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  268  	if (unlikely(++qs->head >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  269  		qs->head = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  270  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  271  out:
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  272  	raw_spin_unlock_irqrestore(&qs->lock, irq_flags);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18 @273  	return err;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  274  }
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  275  
+f1e9c8e593d6ea Kamil Horák - 2N 2024-05-03  611  static int bcm5481x_config_delay_swap(struct phy_device *phydev)
+57bb7e222804c6 Anton Vorontsov  2008-03-04  612  {
+b14995ac2527b4 Jon Mason        2016-11-04  613  	struct device_node *np = phydev->mdio.dev.of_node;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  614  	int ret;
+57bb7e222804c6 Anton Vorontsov  2008-03-04  615  
+f1e9c8e593d6ea Kamil Horák - 2N 2024-05-03  616  	/* Set up the delay. */
+042cb56478152b Tao Ren          2018-11-05  617  	bcm54xx_config_clock_delay(phydev);
+57bb7e222804c6 Anton Vorontsov  2008-03-04  618  
+b14995ac2527b4 Jon Mason        2016-11-04  619  	if (of_property_read_bool(np, "enet-phy-lane-swap")) {
+b14995ac2527b4 Jon Mason        2016-11-04  620  		/* Lane Swap - Undocumented register...magic! */
+b14995ac2527b4 Jon Mason        2016-11-04  621  		ret = bcm_phy_write_exp(phydev, MII_BCM54XX_EXP_SEL_ER + 0x9,
+b14995ac2527b4 Jon Mason        2016-11-04  622  					0x11B);
+b14995ac2527b4 Jon Mason        2016-11-04  623  		if (ret < 0)
+b14995ac2527b4 Jon Mason        2016-11-04  624  			return ret;
+b14995ac2527b4 Jon Mason        2016-11-04  625  	}
+
+"ret" not initialized on else path.
+
+b14995ac2527b4 Jon Mason        2016-11-04  626  
+57bb7e222804c6 Anton Vorontsov  2008-03-04 @627  	return ret;
+
+Also "return 0;" is always better.
+
+57bb7e222804c6 Anton Vorontsov  2008-03-04  628  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
