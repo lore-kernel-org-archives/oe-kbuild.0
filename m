@@ -1,170 +1,128 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED0B210E6
-	for <oe-kbuild@lists.linux.dev>; Sat,  4 May 2024 12:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBA557CAE
+	for <oe-kbuild@lists.linux.dev>; Sat,  4 May 2024 13:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714825349; cv=none; b=nt09/tkS4ip3rAl9eIxyxYcwzeZJcu+5CDKbL7pNqHie8/hIYUH5oACiqgHl1b+xd9Gv5euI1bBgEUxG03IFg72n+uA5Q1zc0BQ1E9aUkwAOI+Ftk9/NVrrzyUnGC6n7kiHLfuKsidfimiKuMrpkmq+GHP7UbHmqpQyUTvas7kE=
+	t=1714830635; cv=none; b=pSutHpz6dEETkfOk/vjEKbifpUlOxTjQCyjsAlGL63MN9NSa8NzowqMYxaKcBAOp0VBMhvADTBvlwd+wQ10MYljTv/2FuKBKqJVyYPVymnGUYshdQduizN1Bl0JRNVcQfRQp9ObEAPAd56ICbcboA/c3GHGOjl4k21hUY2M6lAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714825349; c=relaxed/simple;
-	bh=GRHxUCqGaZoAecd6ElsSHObJmxt3nCdb/R8cqqNDzew=;
+	s=arc-20240116; t=1714830635; c=relaxed/simple;
+	bh=WCN2HN5hDpmkHKwBhmkzirJw+YhT6lnswBa3XPe9+l4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=YARw/DDGRFHqaOVHzgVSdD7NsAyo5r6JXJvYFXDwjtE0xbFNqe3Z6x0FnBv4kB4wo/+MVecpA/wtIofiiTXqiODd9pK/rghoUj1jXjrNk1I+ROrKhy16Q8+hH3+vVbeP0LjQrw2hfEZrQ8gQOikoTqSMwsPh/Gd5jLUBxNoikvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BpraEqoC; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=htG9FRf5Xp3SFaL8U42EcwcJrIrr/l4gPWRsAiC2CfpwK3wfWLIKax2oWpnnLjxBtJFph4IWgFu/xdtzPIRmSj831VprCbxXs3KGCfGg43Zf1pjlINWta1YzoV64pP9dtjsVUx/VtScLm807aBVfhBxHj0ChPqEKS0zJ7WU72nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIwJGcRB; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BpraEqoC"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41b782405d5so5198695e9.2
-        for <oe-kbuild@lists.linux.dev>; Sat, 04 May 2024 05:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1714825345; x=1715430145; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=M2vp/JKI429/HHS37Iz8iVVeNzZRSNJFUP79XleGm+E=;
-        b=BpraEqoCM9mfgLTpK21bS4twrHRfyAxFL8MjdJmOio4vt7x6BofeuYN7ue+09i0G+g
-         luIovrfLK6FhnIsgYGVS8XS2LpiEDwBI62yrpgZslc36sp9zSUDmQHBD+KlPK+mLPPRg
-         0y9p333vingmkzBpl0nDsKbsMd2Pzhn8oQMaSWiII87BFd8bG8WuNYvY5lNrOdm99YP8
-         0ZVRhvIUtya7UhleOpZ7/iCeYzy2vBj/LhiZj8ajDe/dQ2bI2kv0XkJtCDVsfZDkUzpY
-         jRGqT3e+dQpn9v0wczTWPhkKrjeDGqrZYXhVYDFjmUKpbrCOeYVsBJIhqulGhYh8s4KI
-         heDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714825345; x=1715430145;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M2vp/JKI429/HHS37Iz8iVVeNzZRSNJFUP79XleGm+E=;
-        b=dqHabH5qYnOzj/3/Pt6Qf90kcPVXEAkuTnUleJFhfHDTHJZR6oruKLZG5+zd4wdk11
-         4yjuZqliab6l4E1ezuFW5Vyan2pTznkc/deuWkL2ewNw7wTSMZi+89GQrUGuJE6N60II
-         sOzVtoRRBEHdv8ecsF5p0tLwhW5e5NVHzp6p8FuU4tr2ZRlEihBB3zVMOpGCijAeEVRE
-         9XY8uaBBWKwzD/WbUbAcJpO5I8fPFargniiH/uEfHG0v+zH8SvqAQ32RZq5yB/pqruE5
-         CMi2B0o4G9oAIr3IlOwbIz+txzHcgdX4Hh0rbCm0VcAnpg+VxVGVjwpzQkk1uZVlB+hB
-         0OMg==
-X-Gm-Message-State: AOJu0YxbiD3KnOpNVNBmBjkxWwbl9sO0Q/fjgdNoG4/OMhr5ptUHcExN
-	TC9W6O0A1hvMVv4aRmKTejCki1wfj5b+x5H5FqtMQk/R+nWxcjnfIPB21CkcSDkUpeI2ihzmg/z
-	j
-X-Google-Smtp-Source: AGHT+IFF4yjgKipag7jhN7Q7o11f1T7BsWiIH2Qt4T9Q5z3xzGtEXUPJe6y2u65rRYlosu9Kt8H7vw==
-X-Received: by 2002:a05:600c:3586:b0:41c:b44:f917 with SMTP id p6-20020a05600c358600b0041c0b44f917mr5631753wmq.22.1714825345404;
-        Sat, 04 May 2024 05:22:25 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id d1-20020a05600c34c100b0041c130520f3sm12850227wmq.6.2024.05.04.05.22.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 05:22:25 -0700 (PDT)
-Date: Sat, 4 May 2024 15:22:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Siddharth Chintamaneni <sidchintamaneni@gmail.com>,
-	bpf@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	alexei.starovoitov@gmail.com, daniel@iogearbox.net,
-	olsajiri@gmail.com, andrii@kernel.org, yonghong.song@linux.dev,
-	rjsu26@vt.edu, sairoop@vt.edu,
-	Siddharth Chintamaneni <sidchintamaneni@vt.edu>,
-	syzbot+8bdfc2c53fb2b63e1871@syzkaller.appspotmail.com
-Subject: Re: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack
- maps
-Message-ID: <e5286af1-53cb-40f1-a0c9-601e2a368114@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIwJGcRB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714830634; x=1746366634;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WCN2HN5hDpmkHKwBhmkzirJw+YhT6lnswBa3XPe9+l4=;
+  b=BIwJGcRBHFabs85rxiih0k9sI2rhjD46KVfrhnXo4g2n8T/FnNxFRR+x
+   zCHXZboEMHOFxKu8hzpCzWqKymottepJ/ae7UiuQiCkJ34/xzUu9mEXSy
+   feCOboiIX3+u1hPzBWSbxOQcCr85MltgbZ5WEQ8mtnpiJ1q67TYJ2v5+K
+   03/H9J7lkVmsm6yxa4LIY0vrDOOOx1Yza3hU3JeeOeBEIlNpTpn50u2bJ
+   VEvn89fgmsIT0RJ3Nk3APu2z3HB+CzFKUX246086MGKDAc9mqFpsDgqj2
+   bmonDG8Ne7ZosvKwzW/11J5ib8D/bnrlvZGINRHjoF5TTY4b1NGJtgMBG
+   A==;
+X-CSE-ConnectionGUID: CzwWfGt3Qpao45SP91Rhtg==
+X-CSE-MsgGUID: Ze62ZtvTRdWWC5ouLE2gDw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11063"; a="10784006"
+X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
+   d="scan'208";a="10784006"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2024 06:50:33 -0700
+X-CSE-ConnectionGUID: p0TFCVHcSiubXkA4Uuxs1w==
+X-CSE-MsgGUID: vrKhrC/qRum1zeBsX8ZXBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,254,1708416000"; 
+   d="scan'208";a="27605469"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 04 May 2024 06:50:33 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s3FmY-000Cpg-0W;
+	Sat, 04 May 2024 13:50:30 +0000
+Date: Sat, 4 May 2024 21:50:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/8] selftests: x86: Remove dependence of headers file
+Message-ID: <202405042136.6JepEDCv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240429165658.1305969-1-sidchintamaneni@gmail.com>
 
-Hi Siddharth,
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240501122918.3831734-2-usama.anjum@collabora.com>
+References: <20240501122918.3831734-2-usama.anjum@collabora.com>
+TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+TO: Nathan Chancellor <nathan@kernel.org>
+TO: Nick Desaulniers <ndesaulniers@google.com>
+TO: Bill Wendling <morbo@google.com>
+TO: Justin Stitt <justinstitt@google.com>
+TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
+TO: Rick Edgecombe <rick.p.edgecombe@intel.com>
+TO: "Mike Rapoport (IBM)" <rppt@kernel.org>
+TO: Ingo Molnar <mingo@kernel.org>
+TO: Dave Hansen <dave.hansen@linux.intel.com>
+TO: Alexey Dobriyan <adobriyan@gmail.com>
+TO: Binbin Wu <binbin.wu@linux.intel.com>
+TO: "Chang S. Bae" <chang.seok.bae@intel.com>
+TO: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+TO: linux-kselftest@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: llvm@lists.linux.dev
+CC: kernel@collabora.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Siddharth-Chintamaneni/Added-selftests-to-check-deadlocks-in-queue-and-stack-map/20240430-142201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20240429165658.1305969-1-sidchintamaneni%40gmail.com
-patch subject: [PATCH bpf-next 1/2] Patch to Fix deadlocks in queue and stack maps
-config: i386-randconfig-141-20240504 (https://download.01.org/0day-ci/archive/20240504/202405041108.2Up5HT0H-lkp@intel.com/config)
+Hi Muhammad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on shuah-kselftest/next]
+[also build test ERROR on shuah-kselftest/fixes linus/master v6.9-rc6 next-20240503]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/selftests-x86-Remove-dependence-of-headers-file/20240501-203158
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20240501122918.3831734-2-usama.anjum%40collabora.com
+patch subject: [PATCH 1/8] selftests: x86: Remove dependence of headers file
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240504/202405042136.6JepEDCv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405041108.2Up5HT0H-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405042136.6JepEDCv-lkp@intel.com/
 
-smatch warnings:
-kernel/bpf/queue_stack_maps.c:273 queue_stack_map_push_elem() warn: inconsistent returns 'irq_flags'.
+All errors (new ones prefixed by >>):
 
-vim +/irq_flags +273 kernel/bpf/queue_stack_maps.c
-
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  219  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  220  /* Called from syscall or from eBPF program */
-d7ba4cc900bf1e JP Kobryn              2023-03-22  221  static long queue_stack_map_push_elem(struct bpf_map *map, void *value,
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  222  				      u64 flags)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  223  {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  224  	struct bpf_queue_stack *qs = bpf_queue_stack(map);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  225  	unsigned long irq_flags;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  226  	int err = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  227  	void *dst;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  228  
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  229  	preempt_disable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  230  	local_irq_save(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  231  	if (unlikely(__this_cpu_inc_return(*(qs->map_locked)) != 1)) {
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  232  		__this_cpu_dec(*(qs->map_locked));
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  233  		local_irq_restore(irq_flags);
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  234  		preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  235  		return -EBUSY;
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  236  	}
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  237  	preempt_enable();
-568ce03b978beb Siddharth Chintamaneni 2024-04-29  238  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  239  	/* BPF_EXIST is used to force making room for a new element in case the
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  240  	 * map is full
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  241  	 */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  242  	bool replace = (flags & BPF_EXIST);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  243  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  244  	/* Check supported flags for queue and stack maps */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  245  	if (flags & BPF_NOEXIST || flags > BPF_EXIST)
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  246  		return -EINVAL;
-
-local_irq_restore(irq_flags) before returning.
-
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  247  
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  248  	if (in_nmi()) {
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  249  		if (!raw_spin_trylock_irqsave(&qs->lock, irq_flags))
-
-
-_irqsave can't be nested.  Has this code been tested?  Perhaps it works
-because the callers always call this with IRQs disabled.
-
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  250  			return -EBUSY;
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  251  	} else {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  252  		raw_spin_lock_irqsave(&qs->lock, irq_flags);
-a34a9f1a19afe9 Toke Høiland-Jørgensen 2023-09-11  253  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  254  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  255  	if (queue_stack_map_is_full(qs)) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  256  		if (!replace) {
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  257  			err = -E2BIG;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  258  			goto out;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  259  		}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  260  		/* advance tail pointer to overwrite oldest element */
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  261  		if (unlikely(++qs->tail >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  262  			qs->tail = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  263  	}
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  264  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  265  	dst = &qs->elements[qs->head * qs->map.value_size];
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  266  	memcpy(dst, value, qs->map.value_size);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  267  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  268  	if (unlikely(++qs->head >= qs->size))
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  269  		qs->head = 0;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  270  
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  271  out:
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  272  	raw_spin_unlock_irqrestore(&qs->lock, irq_flags);
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18 @273  	return err;
-f1a2e44a3aeccb Mauricio Vasquez B     2018-10-18  274  }
+>> <inline asm>:7:8: error: expected absolute expression
+       7 |         .ifne . - test_page - 4096
+         |               ^
+>> <inline asm>:8:2: error: test page is not one page long
+       8 |         .error "test page is not one page long"
+         |         ^
+   2 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
