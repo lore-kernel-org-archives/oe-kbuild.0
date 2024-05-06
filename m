@@ -1,91 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FD51EB36
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 May 2024 07:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F884F1EE
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 May 2024 07:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980138; cv=fail; b=tGRlvHhz9dyPnFQs9epn541vT3Mc3ti2uBnzw+whBxE/8gjlJAtY9rIbJr8USHXcmyc3hit8iM30kuOl/zG0gVvnzjkIbSghIKepH1JbFjM8ARkMjRfO9ikpfN4ffMHLzveAi/bzTeVhwDislU0oMSRdGIP3RuAlDRBi9XQjrUs=
+	t=1714981367; cv=fail; b=eJ23zoB+vLYnWbGJFxtnYiexHaF+t9Ars9xdnPtwT7U9ILFxXhrR7ZIHndEQVhsIoCHwIzFlfRZuEgS1E3FP+IVcZdv7aw4n1mFfc+WYaZUh32qGoXdtuM5SOX19bnRYf6cRJ3UiO5LEK5P9OnCxRlsTGotKaG/w2/cbiVHco2c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980138; c=relaxed/simple;
-	bh=GG653H24hSlBmeKcNzXV+utUm11abKag+Gq0mh0noXc=;
+	s=arc-20240116; t=1714981367; c=relaxed/simple;
+	bh=GOWj6vXxkNYO97h5R3jGF03sDn+r5l1VJfh6TZU+2X0=;
 	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BwkVtys8GmcEPhs6IMJcLUh6wTOtS9HE5QUATIurPZLnRCrR4QIRbDMNCEpgBiGLmsvCbXrQ9XuqTSq0ModvcEqIKBGJYD0OFt7mJEtRROl+r0qbd8IM2UFaWorssGoKkngf4nE1uGz+PLH5BhdIRmtFr3FYtGUHP6PD0M3vLDY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzF6HZ/E; arc=fail smtp.client-ip=192.198.163.18
+	 Content-Type:MIME-Version; b=seKlrqifCSWhO0e9LRtIrw01cGpfsfiY1ZLrQUZ+7qKdqbCWfcd9x/+SrBpNxdO40sfnlmcp6JD1jGAhdU1hIlak9bICVbw2JqIixB0dR0ScxyplJE8NTJlwhrD+gfPda5ZvySF6MQmUnFTUP8eDI1RFivMVxxquyqE0E1smFU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4ri8OC7; arc=fail smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzF6HZ/E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4ri8OC7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714980136; x=1746516136;
+  t=1714981364; x=1746517364;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=GG653H24hSlBmeKcNzXV+utUm11abKag+Gq0mh0noXc=;
-  b=UzF6HZ/E6K3itNYY+nrXPghA0SH1e4bwZ4nODAvfXrhoZZHT5lgyGobV
-   Zgeb1S/Ds4cf67/K+/nIygRw0iu47Vqt2i4p8nyLPr7rspqyOVE1ABUPi
-   jBBQti+er6Slq7/fKGnJeyd64EtM1cehFze+bdNkC4Pr6ixqsx2azKpYg
-   XYtxWcbElAK9uatG6GUpC0wLbXtow0s0Uo7bAmTA057NRquXaN5IgjI1a
-   naFpNg+Lxta4mUOu/dD2UJCjdwSVZQs6okXfWAVUrsdZNdpNi01kKYZUq
-   kIP/N2PVKxLhUHirrQqQiw1iaTh+a4LUv3Lq4E/emi4HlDVhVUVw54Fzn
-   g==;
-X-CSE-ConnectionGUID: vOp93akARYydmiB9D+sXwg==
-X-CSE-MsgGUID: sYqSGcZUR2CCGt+LO1igtQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10554824"
+  bh=GOWj6vXxkNYO97h5R3jGF03sDn+r5l1VJfh6TZU+2X0=;
+  b=d4ri8OC7gbdfAQ1T3S5IrpQhd8wz3IBC4RJMwzsjOJJX25VVwQqPyNlg
+   zih8T8avIi17XHWMe+iv4EiYCpNaXR0E7FcsXglN+mmYzB6HTkKdXNgOe
+   2sArCgNy2vMqiwHwvgKbZlm8Gg2ChCDD2N8cp/DujNDGui+2pqZHFSiFC
+   z/3/4CAHW/0/WGYaJIHVtekRI+jUVWsvjMlRRqeX2wtNotF2AUFcLuB+s
+   bkVDowm1MF4vEI2yS696jXXDpuLRMNN90N4EhZ4+PQlxIoI/NMogdTW7P
+   chU3NeWn0Q/RhvMQ5coXozuEwgCz5aFg9vZmVXYcsQU86D5SMGJaSKu2x
+   w==;
+X-CSE-ConnectionGUID: xHt0NphhRLWiUMjMIsPkbw==
+X-CSE-MsgGUID: iJtJUGoHS7i1dxWGQycJpA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="22122717"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="10554824"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 00:22:15 -0700
-X-CSE-ConnectionGUID: E7LlQDf3SFyMSiZxhKi6Ow==
-X-CSE-MsgGUID: tLt5yp5DQn+P+EHb/1O9xA==
+   d="scan'208";a="22122717"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 00:42:44 -0700
+X-CSE-ConnectionGUID: xgvHqdd8SX6aRp+0vdLOnw==
+X-CSE-MsgGUID: G+4jKzUTQjCwsQbmrs0OaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="28081966"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 May 2024 00:22:15 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+   d="scan'208";a="28165802"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 May 2024 00:42:44 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 6 May 2024 00:22:15 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ 15.1.2507.35; Mon, 6 May 2024 00:42:43 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 6 May 2024 00:22:15 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.35 via Frontend Transport; Mon, 6 May 2024 00:42:43 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 6 May 2024 00:22:15 -0700
+ 15.1.2507.35; Mon, 6 May 2024 00:42:43 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gy8Yn2EBaGSIljBEyi1JRNGUqwDwidYtCSa5Roy556RjpIk3aSSiK+ovhNMae7aKCqKFvI6R8FTwIYW5FnhA6tw+pXLxOIu/IfnAhAMaoTZgXjVciRxWrYOHSJBKVDY2yUTjM7HDTjRL/QB/CH/64UHkeRc8ritxbg4lN1NNuMGGoVTaL97dIgfwrYLMZD2VRrdhAmDlTUoQTBnA6JGxIlQI4tuiIkJ6MC5Y+2vgOgGIVdfe7x9BiD96iUr18CH2ANhFBhgjTXMbMwKsyNefVw19Q6xwP4rG6Mhy3AryvuWA+T3Re6Y7JTkT1rZ90zDstaSY1Fv85MAN7fqchBOUKw==
+ b=lnFDiF3G6JPeBsmXI8VsYNvhc4gy9RaXcz48eAlk177gGo8nx2q8JaiTvJwatkizFLadSp3NAZ/yQP0Ii1H3CEyV96xtaLZfMvEsnzI18HC6BrgTEBb30CO4ve9OKDfs3g/5Ea6Xv+E65ULuYExCOqWvXDhGLbQMQPeEhBaxQCNgcyL/tT6IzOUetnq1hJHVcuVMVLYgMpcozmfKUwQyuKYCzvxr0Kq5YxG5J4VBxO/dWwc1uNHVjh8+QvtSGz6bJDyQc5B8kRRe1ol0i8PxvFOEtTsRtRUgYyqP8B9e9NTjDV+tMw0yo1dIRHYjU10Tqrd1kEBaRSZ+Q7WudPgdUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WR93mmTecvKzT3lQlsrsBC+tV77vxek5hWdRywbp7/k=;
- b=nx0v8IsKRvy7ayA5gF9S5QlAsZE2fQTXf6m88CICHKhz0KkMVpxCHU3w4yfr7staMEAU2qiHeNJuenheTdYF7DKBg8Ec9QeC5haEzRphAEaqVsBlkC8/yV0mEsh6TaOpcFJE2Q1MijNa6WjoZnNennpALJtUtBgIu7DDWXgGTl/DUwyNUb4eyX4UpLnzpGxV8B8F3rn/LcwzTZ4fH7U+lerDWu2Envg+c9TdfBOcy4qsZm2OAgSktJKi5My6Db/hGOSbFmVbWWpjuI+J9stnra2v+GSd/xshfrFFS9ziUeUL3kQR4afImhh/NMxdvfpgttM4IS/yL/4RBGbOu5wEbQ==
+ bh=r9slDZ2G0fbbYa5Fm/mM7QAgNU3RFQnWnFmjX/18zQ0=;
+ b=iYy9b0rJYvN3LfX7RhMBJtCkzkHgoCXJbNOdk0KcfxMhSYgtoKmXG2AVHyBJXIdPJeGIWsIRlo18tPvq5MK3yFJBPdorRRoRiEU6NRKvXPuFeZ3cYH9/eqEEKiu5k5aBvK0lbAGTt6apeFtsPxGV19D0KMtd29rSAShDhv8ECPWVQONQW9QIlap547WCOu0/bJcAxV2FlzeL3GSXIjkqIcpPwizNQZhddyZIdjDjObeZQ7ggFEB3VrwF05cc3ueT+/fMa29q7F8x0Fr9bMl31i9/joO1jp5ZWoAxPLzK/PvWU6lcyG1Wpk/xDDf5m5YJoYdH/534CoquDoOhQ1RS4Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
- by DS7PR11MB6270.namprd11.prod.outlook.com (2603:10b6:8:96::12) with
+ by MW4PR11MB5911.namprd11.prod.outlook.com (2603:10b6:303:16b::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
- 2024 07:22:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Mon, 6 May
+ 2024 07:42:39 +0000
 Received: from SA1PR11MB8393.namprd11.prod.outlook.com
  ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
  ([fe80::1835:328e:6bb5:3a45%4]) with mapi id 15.20.7544.041; Mon, 6 May 2024
- 07:22:03 +0000
+ 07:42:39 +0000
 From: "Liu, Yujie" <yujie.liu@intel.com>
 To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
 	<oe-kbuild@lists.linux.dev>
-Subject: RE: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46:
- warning: unused variable 'region'
-Thread-Topic: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46:
- warning: unused variable 'region'
-Thread-Index: AQHanllQ91p7Dkc9mUqLtP5Km3vgeLGJz1sQ
-Date: Mon, 6 May 2024 07:22:03 +0000
-Message-ID: <SA1PR11MB83937A1FC42881058E2F2487FB1C2@SA1PR11MB8393.namprd11.prod.outlook.com>
-References: <202405050343.ZgfQxdbN-lkp@intel.com>
-In-Reply-To: <202405050343.ZgfQxdbN-lkp@intel.com>
+Subject: RE: [nbdd0121:thin-lto 4/4] rust/helpers/helpers_combined.c:
+ helpers.h is included more than once.
+Thread-Topic: [nbdd0121:thin-lto 4/4] rust/helpers/helpers_combined.c:
+ helpers.h is included more than once.
+Thread-Index: AQHanGNPrwN9C01OVUmOLsjNURB+TrGJ2P0A
+Date: Mon, 6 May 2024 07:42:39 +0000
+Message-ID: <SA1PR11MB8393B339FFB42585C25E8B89FB1C2@SA1PR11MB8393.namprd11.prod.outlook.com>
+References: <202405021511.dplt7agj-lkp@intel.com>
+In-Reply-To: <202405021511.dplt7agj-lkp@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -93,62 +93,62 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8393:EE_|DS7PR11MB6270:EE_
-x-ms-office365-filtering-correlation-id: 949f7f1a-e123-43f2-724b-08dc6d9d3a2a
+x-ms-traffictypediagnostic: SA1PR11MB8393:EE_|MW4PR11MB5911:EE_
+x-ms-office365-filtering-correlation-id: 02b7b082-e8a9-4aae-8d3e-08dc6da01b11
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|366007|376005|38070700009;
-x-microsoft-antispam-message-info: =?us-ascii?Q?ypWBigcYlPeX6n5qovOZsYO3b+Hz2fTfLw3X2nYlOXan2uDroJhDgWUsng1+?=
- =?us-ascii?Q?4GQRIvYWQfzBUlg09T29AUyGSqyo1SLnkj23bYBhiVpalN5IBY+V+NuS4PQ2?=
- =?us-ascii?Q?sENx0W40YY3av6lwis/24x8ygtj0hhuQgIyl1RNNrG83VEDQZzYzioz4cSgy?=
- =?us-ascii?Q?aodDA+P5EGZVe0yRlC38spjK0TJeRSkl+HkR64t09jY3OEWHgPW4p91+deME?=
- =?us-ascii?Q?2whYI4fQ4TQNAs6KwnHIRyY+VI6Ax+8p5trPGFRx/6LaB83sxHyNjRpZ8YpF?=
- =?us-ascii?Q?5ZR9l1tno9BbNq+mCtjsaHZirFZs8AcRf9hi8r6gHHEEK34aJyEH8LESXhll?=
- =?us-ascii?Q?wVKfuVz2Ln8TTtKpF8w6zI8Z2u5CfGBEZqJyqjDs4UydB4YLcLBJlKkZuaxe?=
- =?us-ascii?Q?yD1zRJwm9/0Den7BcZS6WfHy6H2TK9l+EM+Z0ntlFQmwkz7B9PfIUa7TCS7I?=
- =?us-ascii?Q?bpZs/GvFKM+AYhJ9MXnVNGd+in0tUyxozwHD9Nhw9FAy3h/L9Hl64etllqza?=
- =?us-ascii?Q?39a71fmbj8BNbQYNoE5/2UcJq/TnslDtdY4HF3+OEk+zFFMiJfYoal7lSdTR?=
- =?us-ascii?Q?6I1ECqKk62ALEuSQ3Azv8ARC/Bb4abi1ATUXCrnQtwmKBHX2E0rQImwk7M1k?=
- =?us-ascii?Q?Jb8joAvDzZ6dqt01VtawDPqJ/LD03jLdATmFBvqVx9272UsPvsOy5EMsSH6x?=
- =?us-ascii?Q?xhTFQw0i9rpf58DZaq02baHc67jTb1jGEA4zzAdXu/4ebiTbeS/pgSFYwGpq?=
- =?us-ascii?Q?WqbL/h8ud9gVhGKqhtQam6plpUOQPPYacUz7LsXu6ODAjYvD+n8NOhxOjaM2?=
- =?us-ascii?Q?fPWWl5LMpcdVK7qE307aPk/q4FPfC4sas6H+wNrkdIkpnsmraPyEKvI4FzLJ?=
- =?us-ascii?Q?dAtWGgA3ZOeJuF8ZhHqz9Zz1fmvJM6Zo4Vgr2xvRDuxvBnQf59QixIGLcejn?=
- =?us-ascii?Q?Uur1r7MCIwITvDW3g1ZKkSaC9YbIIcvyA9JTsSam1L1OQU/xNuA9l0QIOLQl?=
- =?us-ascii?Q?SwenUunt7Z/6t4FzuNSvzDO6KYciIADjSVBJUFLGiZgpwDKqkWt4vzyuSadV?=
- =?us-ascii?Q?cy+YEuN+9u6b2ZGEvT87e1NLzS/E34f59Zh0SaIKBgZoBPMsAYKWj90Hon28?=
- =?us-ascii?Q?wSfnLa50b3Hd09Tj6b9R7M90QumUe8B23+aArjR7C1zRuHneJQyIdxX3XAUH?=
- =?us-ascii?Q?aAboPvYz1d0wVKuJLr2VNnjVxNupUJ7HGpjad1DJn8+3zT4XdxQ57kzHs4SI?=
- =?us-ascii?Q?Dw4bwjc9klR+/C0MyfAHlaWm0L9hTArWInLdB/ohq4gS72ImtvE6RZokwRBQ?=
- =?us-ascii?Q?q58=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-microsoft-antispam: BCL:0;ARA:13230031|376005|1800799015|366007|38070700009;
+x-microsoft-antispam-message-info: =?us-ascii?Q?slXV0u50xS5qx9BSe86QDDF70zMDMpruFsaaJM3hLnzwu07nwomnmWa2asJu?=
+ =?us-ascii?Q?V1x/YX4uEFiM8rYWVphaklceEheW6f3jullHFwdeLynpGACGBzl07Ch4XGCH?=
+ =?us-ascii?Q?V8ZFBTOZGzYJfbzc0eyONIVum7RCOApM76+dYAgGXRMYYTV7sjAiUp7NC8do?=
+ =?us-ascii?Q?gmiOg1M1vulOkUYJl/mYkEAdgVKmL07p7CUcHZhksfB30GH1XFhT6u/iEtIR?=
+ =?us-ascii?Q?Nrnvve+MWrOwCW6VpsU48K5pKGF856ECv+IEmDY1qhTbhi4k21bcVVdWXDwU?=
+ =?us-ascii?Q?h6BVlHfpd492b4kOBnEo96iSDh1UYrnfk/sgD5aAH8JYMfQn47f0IXCTIG53?=
+ =?us-ascii?Q?1s+G2qavZzPMiamI2ma3QVpJl8sokHlujrRNd8AJ+5YqeNclggSepJhzHbpA?=
+ =?us-ascii?Q?YMC9YTPUWa60Gst4hME2N5yBSPK4ssm8Y7bx1KqMgGtyRXyQyBEgaudzykzs?=
+ =?us-ascii?Q?6UHfnWQ+a5pJRWx5aqxLgAwEmmUXpgcO/iEpVkP9rxNM9drXKzHtMQ3TEhlt?=
+ =?us-ascii?Q?ox37nmDlQzvkfkz3erWEPl8syZBSbDTSDNrw0DKzy2Bi1MIySFvp4Om8up9l?=
+ =?us-ascii?Q?U6BFCjBWspfatuTnZEqRQ+lvRP0hOnvZkckCN2AHYZkoezCI/cfqEDtQNBJh?=
+ =?us-ascii?Q?8mgK7kzcAyfPBGe3uBJKCa39QuX623HCMbeM74TwhQETTI6+9k9e7h/2oLsn?=
+ =?us-ascii?Q?agg7rOaf0MFZX11EWct7ImGiSI27yrcOIjzv1nB2aPYY44zV+f9Fjm+wD/a5?=
+ =?us-ascii?Q?6HoE4OSGxS1Xpi9T2D7C+D7C4Qq1AIANOFmJ2qIi2kNO7R6lkRJAX0wrTk+s?=
+ =?us-ascii?Q?fLb8CqW5Ff41B2xHKkX4ugg4BXb23olLVxnE2z18WhdnLqWis2PiQgpQwc39?=
+ =?us-ascii?Q?QQsaBrFVjZzkEtgKa2AG+HkO2noxM0/5DwVESojp7cHEJzRH1/7RMJbkPP7H?=
+ =?us-ascii?Q?DcNQXOqTMibpfAKA4l6+u7pwMPwvHeYucDujQMf+WuWJur7S1I1qr5Dxwzxw?=
+ =?us-ascii?Q?Nc8pHmnsZbH8OkZz8b2/PGUpRVRuhPMjGgYMsFW3aK1lo/+TrcwXS/4jgUlJ?=
+ =?us-ascii?Q?HBWRcl0pjG8mwUAV44fDewlUbILilH2OKaQjptS1IePPhQ25TOlyyXCBM73H?=
+ =?us-ascii?Q?jyNB1RxAtxCHRvrhv2X0s05jeoqFber/dY9cJX6xR9L7qrhrhlnPcD/wj4nl?=
+ =?us-ascii?Q?OfkUvdUOYhdFAhPMgdXULsYJegzE85L8HZIY3ZhZ9BPjn8gpv24FrvKZ1ZhZ?=
+ =?us-ascii?Q?XA+VQ2GRfsTgmThTdSrGlGrY2vM1SCBDrYndAGAwYFxtlRofDD4oBZtqs8qQ?=
+ =?us-ascii?Q?VrY=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NuLBp3rjZ3gnJ+Lx/eo9kPAwrONMhVnbgqvoYrLRRie2CzJzUbMzdJa/GyIO?=
- =?us-ascii?Q?qF/D0dOqwNIsVqRgzD+a05PQ2QkM9fzRemFXblia8AoYmH8YZyRRiwSK0j8M?=
- =?us-ascii?Q?md4nlcOtqJdqSYd8T/05/2dw66aKcfVTXDrb2MIKJ43V58X2XbyTYb1FYBn7?=
- =?us-ascii?Q?JpmYHpR1YqeLjUmWvkqiPSrXP862nvi6enxBcBFIkcxXJpGcLtInS62244kr?=
- =?us-ascii?Q?iaGJM/vrMeT2tSdyrtjV/eEf8locy/e3bkCCv4B3Ij++tey+mgKUxfoVXqly?=
- =?us-ascii?Q?JcCvWmhL7Ymd4lSWMD4TEsvOgEh2NlCBYK5ZeqttlMQaZDOd//sayhUr5y4o?=
- =?us-ascii?Q?M3kcT1OeSr/Xrtq6p0cXKEHZaBGHJ1e9X2LSYOIoKgKZgFfSbvGsgaLKewNq?=
- =?us-ascii?Q?4p+UT9C2TqB19KyXVznjDqogwrNXr9JurY54z+RFdS97RmQFWWjCBSUsD4b1?=
- =?us-ascii?Q?VOK+15yszorlo/YxPZkAFxvhXW6pR3NGxbGZuk6OVJ66KbUvdjA280jI2DoK?=
- =?us-ascii?Q?p6jnNIfSIAOkDgo6b75tYmHKK+mwIyxda039k3DPZKErq8WTFuewHsQ/RVEJ?=
- =?us-ascii?Q?L9dHnJsSRGOAktjj52LhzXaOdcvpXCAzahJiitLA+E6ddz0C5he/m+zk3bmD?=
- =?us-ascii?Q?alkShfh0EY630G/qFWru8lJtJ7uqZYWZPLnW+0N7maIMdgQ/o1ItKh46KI7Q?=
- =?us-ascii?Q?R87j1eDIkRvfXD/M2Q+XkevOgsGpqke0Ov3PrsizoznHI1/doy1hCuLaYAU9?=
- =?us-ascii?Q?WCyfZ6DiWBMdnxpVWFaLSW8fhwkQaUakW376vjMYpXmvWbt4UGHJB3X6Q32s?=
- =?us-ascii?Q?S7YY6jiK+3H38sLZP77loPNMmPSR2gDnamwHUey/SX4otA32Ejai5CGGmtAk?=
- =?us-ascii?Q?Sb39TSSgaqEJg+0nsZYlA5ZXO+HH3XFJHjpg3Xu4frNCzGl6MbC9+6HYfeh0?=
- =?us-ascii?Q?aX7GzMLNU6TdhLaq8DGHAX2RqR+fD8+Sew/+B7BDBRUfOv7VQ1uTvUgOMu+6?=
- =?us-ascii?Q?/G0rG3Lsif2mKlRHWigY8K1ubnYSRdMB89N8wWupfU8sJAtLY76BgxrfGv+r?=
- =?us-ascii?Q?aduyriTZJdEzMJVz7g1P2Bh3rdi2go2hJ22oTogmNQXLAsPnbM+MK+k38Tfm?=
- =?us-ascii?Q?ViEuK4PnMQxqpCloi7IhKqaQjSqNrmivIHpKLFZ7tTkiDuOsfDBaCUEBvivN?=
- =?us-ascii?Q?l6wRMFGvD1NosH9k6u1UglQ1VaW4/Q0WToVmlniK/J7DuzIcruvnD3DteYvC?=
- =?us-ascii?Q?cjdXn499foBsh92xkd4hDWxRLCUd6lanHZ2+x+kB9CqyVgUIMVRp5YdnIGrW?=
- =?us-ascii?Q?Qw+HXDnaIH30ZZxxA95UqGv4t4XyW7Og+ulT/NRHKPst2ttl6aUSWyiixrFx?=
- =?us-ascii?Q?HKkt/wMTy1jZ3zEx73rhByGMsIOGuvAl9hEGO9/gwJm3Ot8LgOjDLyPZ560K?=
- =?us-ascii?Q?RKksAVcXTXKW86GpyoXifFOc6DCHh0BxDo88ze8mw9oqtuEUjik/DiqrPSm0?=
- =?us-ascii?Q?i5byFEUoB9n+tSeyx2dy0E0BrwZXsvTmDr/AlyJrWDOBtV+iXZMINDVjlQ?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?FoUZFAqjwZnNdOfhsoQmxOxxx8VjThwIE07Xpx2/BzEiHLpLdaBlEqpbfPNw?=
+ =?us-ascii?Q?srfQAF0OlqKyymoQADbDHlFwVAgB8ys/XH7UmK4iSYh81K4YND308Q426fh+?=
+ =?us-ascii?Q?O7JKyKgpLwoxXmZmEVFXl589HgrkX5Xtxsaa497zUR/ViyprOBHrygRNOvza?=
+ =?us-ascii?Q?sa2uFsiMGTH26Jiho09xtaQaTb6TI0liJeXBolo9sUpWwoVi+z+2wEMRVhO1?=
+ =?us-ascii?Q?Ou3YoylYU60tv3xyUMyv8Niz53SJS0JQiN1yhZ72vGLyZsPwGOtX/wh+2YwD?=
+ =?us-ascii?Q?NAv+CEsp+pOeLHpeBDH9b7kRILq1nVJ4Nl21D2DXTwCZnQzbeN11jouEDxGo?=
+ =?us-ascii?Q?P2H/Kxr47Pu38RFv5BuqL1BAqrl5+T4jhCDAThV1kJE9PfmvHOZOyPGXpo+z?=
+ =?us-ascii?Q?emwy+L1jFN4vOO/BAB0tr3aWo8/1pMcQtJnaZUxFxoeiIbduN7Z0+q8mem6q?=
+ =?us-ascii?Q?ZsEwk/V9+E8hAFNaKA4IVkQm6dnY4joVq//o5yfl5P3tDSJntTu9qNdOlK4r?=
+ =?us-ascii?Q?qa7m1g43GNRDsGgLvxsSiNeZiLfCzuoZP3Su0c7a1jy2yNrLyG0TXIJy+T7R?=
+ =?us-ascii?Q?GFPOdIr/M4Mmj7JbYyiZBVvxW64/9qTULIxtBT0hA0QzahloRsn60jyEjl3h?=
+ =?us-ascii?Q?Q49UL2euQAuRq+sxXftsCMo099poPXAa0bzsXKBhx1ac2LD8XTja0q6uAUr+?=
+ =?us-ascii?Q?y5ucHGBRpF4lv4ZYh8H85xnClMCbuA9RpV0ZsPz4wuTUD5gqZZnbEIgE8R5X?=
+ =?us-ascii?Q?8E3J55IEMa4bWx0M9wrPrCLMPTC1ZYxoafNJQKQDod0nCeW9ZeEWKecF6Oc5?=
+ =?us-ascii?Q?hMMVvhX/gH6EdNG5Un0wj4MOQ2jBRuUMOFLwIVhDIq/PHXYOn/WUCby1b3Gw?=
+ =?us-ascii?Q?Y4z5qtt0vUMPB6fbY4eL5Uuyc83ZY6jhG5iejfNfp97X48zhuh3+DC38S9g6?=
+ =?us-ascii?Q?h2k2OaVKbgIiOnSS++lP1DOFKhMvlFFh0R8WbaoMhJZgGMU3EyO1C0Ul/XGk?=
+ =?us-ascii?Q?4vym6XVuLEK0PQvt4NrFFHq8MZHTcjJGEAISMKKT6xCO0nhqc+sGFVAv5z4R?=
+ =?us-ascii?Q?NmY49+doLinbzuYWVBnkXxP4FqCdjO/Qo+30MT3muU/3Ses3jrsSsT96XAzO?=
+ =?us-ascii?Q?dMvGsvf2ezv981gdx4VUiINL+A0icCJ4xGRi6v05z0UsAiJvF815LLmN+Jel?=
+ =?us-ascii?Q?vcpCEIzP91Ha/lOjjR6qpIe+VKvkHTThaBTMf1YdZbpysxL/IayQSXSIjczb?=
+ =?us-ascii?Q?EZvo6MXs3ZcrgnteWVNDQzGCboFzaRVOQZxFb9FoztWb8znGNes1BdoPKXPl?=
+ =?us-ascii?Q?hxZSK0bOy79HQYYU/heNInRNEyjYAFX7s/I30YrSHMcenl5OENWNPFpcsRkX?=
+ =?us-ascii?Q?irxzP3wi/xu43P2h/zRokRIxqPracTI1iIgknr9W8YZEH4FaBciYT7skam2M?=
+ =?us-ascii?Q?kT3WHy9+CFB6fIZVMfyKSwjyN1HQ2X2+Uk6brbb9PVOHWQiF3lemphPP2iO3?=
+ =?us-ascii?Q?SX7vx7spopZd2gsJC1XFp5kyR6Q8bYtgRnkbyfR8HrmZQdwcuuY+L3CUFA?=
  =?us-ascii?Q?=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -160,29 +160,35 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 949f7f1a-e123-43f2-724b-08dc6d9d3a2a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2024 07:22:03.2494
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02b7b082-e8a9-4aae-8d3e-08dc6da01b11
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2024 07:42:39.6034
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BO1cXx24kmna6JAz69NDOvS4VKxtYRtCTYNnWe36rsJm1FaBvd2SYxhufZKgDQSTiVfMzqWIoINdUwkY/R8FqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6270
+X-MS-Exchange-CrossTenant-userprincipalname: ZUYFUWsNlEwSteQMJWWTSf7X9yZ/1qwdT8r3FezoBDLKACa/j2OhF3GlQPDYP9DMD7eyuYJqwAlXXAtfFKIIMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5911
 X-OriginatorOrg: intel.com
 
 not_report
 
 informal patch
 
-XXX make fdbox work
+commit 98d45a070a161cc285a5aa8f2ab05159ff318146
+Author: Gary Guo <gary@garyguo.net>
+Date:   Wed Apr 24 19:13:25 2024 +0100
+
+    WIP
+
+    Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
 
 -----Original Message-----
 From: lkp <lkp@intel.com>=20
-Sent: Sunday, May 5, 2024 03:28
+Sent: Thursday, May 2, 2024 15:30
 To: oe-kbuild@lists.linux.dev
 Cc: lkp <lkp@intel.com>
-Subject: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46: warning=
-: unused variable 'region'
+Subject: [nbdd0121:thin-lto 4/4] rust/helpers/helpers_combined.c: helpers.h=
+ is included more than once.
 
 ::::::=20
 :::::: Manual check reason: "low confidence bisect report"
@@ -190,75 +196,216 @@ Subject: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46: warning=
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: kvm-ppc@vger.kernel.org
-TO: Alexander Graf <graf@amazon.com>
+TO: Gary Guo <gary@garyguo.net>
 
-tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
-head:   9a58862a298a63bad21d05191e28b857063bb9dc
-commit: ea39f95803e6da8a46791922be3724b49bea2c7a [19/27] XXX make fdbox wor=
-k
-:::::: branch date: 35 hours ago
-:::::: commit date: 7 weeks ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20240505/202405050343.ZgfQxdbN-lkp@intel.com/reproduce)
+tree:   https://github.com/nbdd0121/linux thin-lto
+head:   98d45a070a161cc285a5aa8f2ab05159ff318146
+commit: 98d45a070a161cc285a5aa8f2ab05159ff318146 [4/4] WIP
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c328=
+9804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new versio=
 n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202405050343.ZgfQxdbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405021511.dplt7agj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+   rust/helpers/helpers_combined.c: linux/export.h is included more than on=
+ce.
+>> rust/helpers/helpers_combined.c: helpers.h is included more than once.
 
-   lib/kvm_util.c: In function 'vm_open':
->> lib/kvm_util.c:202:46: warning: unused variable 'region' [-Wunused-varia=
-ble]
-     202 |                 struct userspace_mem_region *region;
-         |                                              ^~~~~~
->> lib/kvm_util.c:201:36: warning: unused variable 'node' [-Wunused-variabl=
-e]
-     201 |                 struct hlist_node *node;
-         |                                    ^~~~
->> lib/kvm_util.c:200:21: warning: unused variable 'ctr' [-Wunused-variable=
-]
-     200 |                 int ctr;
-         |                     ^~~
-   At top level:
-   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-typ=
-e-not-at-end' may have been intended to silence earlier diagnostics
+vim +4 rust/helpers/helpers_combined.c
 
-
-vim +/region +202 tools/testing/selftests/kvm/lib/kvm_util.c
-
-ea39f95803e6da Alexander Graf      2024-03-15  191 =20
-ccc82ba6bea451 Sean Christopherson 2022-02-14  192  static void vm_open(str=
-uct kvm_vm *vm)
-fa3899add1056f Paolo Bonzini       2018-07-26  193  {
-ccc82ba6bea451 Sean Christopherson 2022-02-14  194  	vm->kvm_fd =3D _open_k=
-vm_dev_path_or_exit(O_RDWR);
-fa3899add1056f Paolo Bonzini       2018-07-26  195 =20
-7ed397d107d461 Sean Christopherson 2022-05-27  196  	TEST_REQUIRE(kvm_has_c=
-ap(KVM_CAP_IMMEDIATE_EXIT));
-c68c21ca929771 Paolo Bonzini       2019-04-11  197 =20
-ea39f95803e6da Alexander Graf      2024-03-15  198  	/* XXX HACK! */
-ea39f95803e6da Alexander Graf      2024-03-15  199  	if (old_vmfd) {
-ea39f95803e6da Alexander Graf      2024-03-15  200  		int ctr;
-ea39f95803e6da Alexander Graf      2024-03-15  201  		struct hlist_node *no=
-de;
-ea39f95803e6da Alexander Graf      2024-03-15 @202  		struct userspace_mem_=
-region *region;
-ea39f95803e6da Alexander Graf      2024-03-15  203 =20
-ea39f95803e6da Alexander Graf      2024-03-15  204  		/* Recover old VM fd =
-*/
-ea39f95803e6da Alexander Graf      2024-03-15  205  		vm->fd =3D old_vmfd;
-ea39f95803e6da Alexander Graf      2024-03-15  206  	} else
-fcba483e824628 Sean Christopherson 2022-06-01  207  		vm->fd =3D __kvm_ioct=
-l(vm->kvm_fd, KVM_CREATE_VM, (void *)vm->type);
-f9725f89dc5027 Sean Christopherson 2022-02-15  208  	TEST_ASSERT(vm->fd >=
-=3D 0, KVM_IOCTL_ERROR(KVM_CREATE_VM, vm->fd));
-fa3899add1056f Paolo Bonzini       2018-07-26  209  }
-fa3899add1056f Paolo Bonzini       2018-07-26  210 =20
+     2=09
+     3	#include <linux/bug.h>
+   > 4	#include "helpers.h"
+     5=09
+     6	__rust_helper __noreturn void rust_helper_BUG(void)
+     7	{
+     8		BUG();
+     9	}
+    10	// SPDX-License-Identifier: GPL-2.0
+    11=09
+    12	#include <linux/build_bug.h>
+    13=09
+    14	/*
+    15	 * `bindgen` binds the C `size_t` type as the Rust `usize` type, so =
+we can
+    16	 * use it in contexts where Rust expects a `usize` like slice (array=
+) indices.
+    17	 * `usize` is defined to be the same as C's `uintptr_t` type (can ho=
+ld any
+    18	 * pointer) but not necessarily the same as `size_t` (can hold the s=
+ize of any
+    19	 * single object). Most modern platforms use the same concrete integ=
+er type for
+    20	 * both of them, but in case we find ourselves on a platform where
+    21	 * that's not true, fail early instead of risking ABI or
+    22	 * integer-overflow issues.
+    23	 *
+    24	 * If your platform fails this assertion, it means that you are in
+    25	 * danger of integer-overflow bugs (even if you attempt to add
+    26	 * `--no-size_t-is-usize`). It may be easiest to change the kernel A=
+BI on
+    27	 * your platform such that `size_t` matches `uintptr_t` (i.e., to in=
+crease
+    28	 * `size_t`, because `uintptr_t` has to be at least as big as `size_=
+t`).
+    29	 */
+    30	static_assert(
+    31		sizeof(size_t) =3D=3D sizeof(uintptr_t) &&
+    32		__alignof__(size_t) =3D=3D __alignof__(uintptr_t),
+    33		"Rust code expects C `size_t` to match Rust `usize`"
+    34	);
+    35	// SPDX-License-Identifier: GPL-2.0
+    36=09
+    37	#include <linux/export.h>
+    38	#include <linux/errname.h>
+  > 39	#include "helpers.h"
+    40=09
+    41	__rust_helper const char *rust_helper_errname(int err)
+    42	{
+    43		return errname(err);
+    44	}
+    45	// SPDX-License-Identifier: GPL-2.0
+    46=09
+    47	#include <linux/err.h>
+    48	#include <linux/export.h>
+  > 49	#include "helpers.h"
+    50=09
+    51	__rust_helper __force void *rust_helper_ERR_PTR(long err)
+    52	{
+    53		return ERR_PTR(err);
+    54	}
+    55=09
+    56	__rust_helper bool rust_helper_IS_ERR(__force const void *ptr)
+    57	{
+    58		return IS_ERR(ptr);
+    59	}
+    60=09
+    61	__rust_helper long rust_helper_PTR_ERR(__force const void *ptr)
+    62	{
+    63		return PTR_ERR(ptr);
+    64	}
+    65	// SPDX-License-Identifier: GPL-2.0
+    66=09
+    67	#include <kunit/test-bug.h>
+    68	#include <linux/export.h>
+  > 69	#include "helpers.h"
+    70=09
+    71	__rust_helper struct kunit *rust_helper_kunit_get_current_test(void)
+    72	{
+    73		return kunit_get_current_test();
+    74	}
+    75	// SPDX-License-Identifier: GPL-2.0
+    76=09
+    77	#include <linux/export.h>
+    78	#include <linux/mutex.h>
+  > 79	#include "helpers.h"
+    80=09
+    81	__rust_helper void rust_helper_mutex_lock(struct mutex *lock)
+    82	{
+    83		mutex_lock(lock);
+    84	}
+    85	// SPDX-License-Identifier: GPL-2.0
+    86=09
+    87	#include <linux/export.h>
+    88	#include <linux/refcount.h>
+  > 89	#include "helpers.h"
+    90=09
+    91	__rust_helper refcount_t rust_helper_REFCOUNT_INIT(int n)
+    92	{
+    93		return (refcount_t)REFCOUNT_INIT(n);
+    94	}
+    95=09
+    96	__rust_helper void rust_helper_refcount_inc(refcount_t *r)
+    97	{
+    98		refcount_inc(r);
+    99	}
+   100=09
+   101	__rust_helper bool rust_helper_refcount_dec_and_test(refcount_t *r)
+   102	{
+   103		return refcount_dec_and_test(r);
+   104	}
+   105	// SPDX-License-Identifier: GPL-2.0
+   106=09
+   107	#include <linux/export.h>
+   108	#include <linux/sched/signal.h>
+ > 109	#include "helpers.h"
+   110=09
+   111	__rust_helper int rust_helper_signal_pending(struct task_struct *t)
+   112	{
+   113		return signal_pending(t);
+   114	}
+   115	// SPDX-License-Identifier: GPL-2.0
+   116=09
+   117	#include <linux/export.h>
+   118	#include <linux/spinlock.h>
+ > 119	#include "helpers.h"
+   120=09
+   121	__rust_helper void rust_helper___spin_lock_init(spinlock_t *lock, co=
+nst char *name,
+   122					  struct lock_class_key *key)
+   123	{
+   124	#ifdef CONFIG_DEBUG_SPINLOCK
+   125		__raw_spin_lock_init(spinlock_check(lock), name, key, LD_WAIT_CONFI=
+G);
+   126	#else
+   127		spin_lock_init(lock);
+   128	#endif
+   129	}
+   130=09
+   131	__rust_helper void rust_helper_spin_lock(spinlock_t *lock)
+   132	{
+   133		spin_lock(lock);
+   134	}
+   135=09
+   136	__rust_helper void rust_helper_spin_unlock(spinlock_t *lock)
+   137	{
+   138		spin_unlock(lock);
+   139	}
+   140	// SPDX-License-Identifier: GPL-2.0
+   141=09
+   142	#include <linux/export.h>
+   143	#include <linux/sched/task.h>
+ > 144	#include "helpers.h"
+   145=09
+   146	__rust_helper struct task_struct *rust_helper_get_current(void)
+   147	{
+   148		return current;
+   149	}
+   150=09
+   151	__rust_helper void rust_helper_get_task_struct(struct task_struct *t=
+)
+   152	{
+   153		get_task_struct(t);
+   154	}
+   155=09
+   156	__rust_helper void rust_helper_put_task_struct(struct task_struct *t=
+)
+   157	{
+   158		put_task_struct(t);
+   159	}
+   160	// SPDX-License-Identifier: GPL-2.0
+   161=09
+   162	#include <linux/export.h>
+   163	#include <linux/wait.h>
+ > 164	#include "helpers.h"
+   165=09
+   166	__rust_helper void rust_helper_init_wait(struct wait_queue_entry *wq=
+_entry)
+   167	{
+   168		init_wait(wq_entry);
+   169	}
+   170	// SPDX-License-Identifier: GPL-2.0
+   171=09
+   172	#include <linux/export.h>
+   173	#include <linux/workqueue.h>
+ > 174	#include "helpers.h"
+   175=09
 
 --=20
 0-DAY CI Kernel Test Service
