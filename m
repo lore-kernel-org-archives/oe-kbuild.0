@@ -1,235 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48F8210FF
-	for <oe-kbuild@lists.linux.dev>; Mon,  6 May 2024 06:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714977063; cv=none; b=XCT/eFa+xWKQYy5N1BxvEmibzbgBKNHNNbk+FRwIjztanIeMz4bHbi2Ir02l+Fk095gyT45Y5Gp3WAEQ4eU0/2kHBp0BtffhiWiHhxR6grohCKuKWpff1kBCNz8uJ55QxFAW2CsDkZ8Oh1+yIz4bQp27ZOejvC/UNcsMXkhTzzs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714977063; c=relaxed/simple;
-	bh=aX4Ct9lO20uWG5QWFqo6X/jFS/nZjKFJBkhkWnHWz+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oVEjETzpB+ThXL1AgsVbHh42jDPfAC3bCU0DsOF5N6p0KMO5hEdjN3WpcO61B7IdoWuVmpv7Y1X4aPtpct+jRxMJzHAkrOAHj9ndp8WgjXY6d+s697cXgztdq1zPRaXMTC5T063SZLQbiQeb3GNt2TkCs+/PeqqczFeSTV7/hRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aZe7yIZC; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FD51EB36
+	for <oe-kbuild@lists.linux.dev>; Mon,  6 May 2024 07:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714980138; cv=fail; b=tGRlvHhz9dyPnFQs9epn541vT3Mc3ti2uBnzw+whBxE/8gjlJAtY9rIbJr8USHXcmyc3hit8iM30kuOl/zG0gVvnzjkIbSghIKepH1JbFjM8ARkMjRfO9ikpfN4ffMHLzveAi/bzTeVhwDislU0oMSRdGIP3RuAlDRBi9XQjrUs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714980138; c=relaxed/simple;
+	bh=GG653H24hSlBmeKcNzXV+utUm11abKag+Gq0mh0noXc=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BwkVtys8GmcEPhs6IMJcLUh6wTOtS9HE5QUATIurPZLnRCrR4QIRbDMNCEpgBiGLmsvCbXrQ9XuqTSq0ModvcEqIKBGJYD0OFt7mJEtRROl+r0qbd8IM2UFaWorssGoKkngf4nE1uGz+PLH5BhdIRmtFr3FYtGUHP6PD0M3vLDY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzF6HZ/E; arc=fail smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aZe7yIZC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzF6HZ/E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714977062; x=1746513062;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aX4Ct9lO20uWG5QWFqo6X/jFS/nZjKFJBkhkWnHWz+Q=;
-  b=aZe7yIZC4+pqiWAvkOkLbAReaji2iZgW6nfnqWiWH1epxKR0VwOyp6RA
-   uZIaqdV4ATnseZDZl5Nz5AknMEgT09KHJ/nCSDmI95h1KuJjAgiBTHnrj
-   miS/9TZWZYcJcp/4PJt+j2sBwWwwuOu1RB5aLjYppIiIeuis7U6f0spN7
-   wKxYgb46oT4v9xGjc77EO91tH52HbQqIbtNI37lMIAYHdD1zn97KxBTso
-   kAZP2v1h+Qw5ioV6W53+5M0t2eqi1G90bUiBZ2Rit9p7aBe7EocpdnXk+
-   BPACk6RwBeARkuTXivVE88ziw/+7Lm0EWfExyj/hhOi5/XotDRnVA2mct
-   Q==;
-X-CSE-ConnectionGUID: p9qWDpKhQxqxRSjNTdgeBA==
-X-CSE-MsgGUID: 9fC3IkyHS26ffOdbMX35yA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="21264147"
+  t=1714980136; x=1746516136;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=GG653H24hSlBmeKcNzXV+utUm11abKag+Gq0mh0noXc=;
+  b=UzF6HZ/E6K3itNYY+nrXPghA0SH1e4bwZ4nODAvfXrhoZZHT5lgyGobV
+   Zgeb1S/Ds4cf67/K+/nIygRw0iu47Vqt2i4p8nyLPr7rspqyOVE1ABUPi
+   jBBQti+er6Slq7/fKGnJeyd64EtM1cehFze+bdNkC4Pr6ixqsx2azKpYg
+   XYtxWcbElAK9uatG6GUpC0wLbXtow0s0Uo7bAmTA057NRquXaN5IgjI1a
+   naFpNg+Lxta4mUOu/dD2UJCjdwSVZQs6okXfWAVUrsdZNdpNi01kKYZUq
+   kIP/N2PVKxLhUHirrQqQiw1iaTh+a4LUv3Lq4E/emi4HlDVhVUVw54Fzn
+   g==;
+X-CSE-ConnectionGUID: vOp93akARYydmiB9D+sXwg==
+X-CSE-MsgGUID: sYqSGcZUR2CCGt+LO1igtQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11064"; a="10554824"
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="21264147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2024 23:31:01 -0700
-X-CSE-ConnectionGUID: 0gFt21sbQ1isI3sOxWG9eA==
-X-CSE-MsgGUID: eJZ8vPqgQf6514DE2nsaLA==
+   d="scan'208";a="10554824"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 00:22:15 -0700
+X-CSE-ConnectionGUID: E7LlQDf3SFyMSiZxhKi6Ow==
+X-CSE-MsgGUID: tLt5yp5DQn+P+EHb/1O9xA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,257,1708416000"; 
-   d="scan'208";a="32577377"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 05 May 2024 23:30:58 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s3rsG-0000Vr-2K;
-	Mon, 06 May 2024 06:30:56 +0000
-Date: Mon, 6 May 2024 14:30:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:pending-fixes 54/103]
- net/bluetooth/l2cap_core.c:4017:2-8: preceding lock on line 3926
-Message-ID: <202405061441.ZOD4UFaj-lkp@intel.com>
+   d="scan'208";a="28081966"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 May 2024 00:22:15 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 6 May 2024 00:22:15 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Mon, 6 May 2024 00:22:15 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 6 May 2024 00:22:15 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gy8Yn2EBaGSIljBEyi1JRNGUqwDwidYtCSa5Roy556RjpIk3aSSiK+ovhNMae7aKCqKFvI6R8FTwIYW5FnhA6tw+pXLxOIu/IfnAhAMaoTZgXjVciRxWrYOHSJBKVDY2yUTjM7HDTjRL/QB/CH/64UHkeRc8ritxbg4lN1NNuMGGoVTaL97dIgfwrYLMZD2VRrdhAmDlTUoQTBnA6JGxIlQI4tuiIkJ6MC5Y+2vgOgGIVdfe7x9BiD96iUr18CH2ANhFBhgjTXMbMwKsyNefVw19Q6xwP4rG6Mhy3AryvuWA+T3Re6Y7JTkT1rZ90zDstaSY1Fv85MAN7fqchBOUKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WR93mmTecvKzT3lQlsrsBC+tV77vxek5hWdRywbp7/k=;
+ b=nx0v8IsKRvy7ayA5gF9S5QlAsZE2fQTXf6m88CICHKhz0KkMVpxCHU3w4yfr7staMEAU2qiHeNJuenheTdYF7DKBg8Ec9QeC5haEzRphAEaqVsBlkC8/yV0mEsh6TaOpcFJE2Q1MijNa6WjoZnNennpALJtUtBgIu7DDWXgGTl/DUwyNUb4eyX4UpLnzpGxV8B8F3rn/LcwzTZ4fH7U+lerDWu2Envg+c9TdfBOcy4qsZm2OAgSktJKi5My6Db/hGOSbFmVbWWpjuI+J9stnra2v+GSd/xshfrFFS9ziUeUL3kQR4afImhh/NMxdvfpgttM4IS/yL/4RBGbOu5wEbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB8393.namprd11.prod.outlook.com (2603:10b6:806:373::21)
+ by DS7PR11MB6270.namprd11.prod.outlook.com (2603:10b6:8:96::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
+ 2024 07:22:03 +0000
+Received: from SA1PR11MB8393.namprd11.prod.outlook.com
+ ([fe80::1835:328e:6bb5:3a45]) by SA1PR11MB8393.namprd11.prod.outlook.com
+ ([fe80::1835:328e:6bb5:3a45%4]) with mapi id 15.20.7544.041; Mon, 6 May 2024
+ 07:22:03 +0000
+From: "Liu, Yujie" <yujie.liu@intel.com>
+To: lkp <lkp@intel.com>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>
+Subject: RE: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46:
+ warning: unused variable 'region'
+Thread-Topic: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46:
+ warning: unused variable 'region'
+Thread-Index: AQHanllQ91p7Dkc9mUqLtP5Km3vgeLGJz1sQ
+Date: Mon, 6 May 2024 07:22:03 +0000
+Message-ID: <SA1PR11MB83937A1FC42881058E2F2487FB1C2@SA1PR11MB8393.namprd11.prod.outlook.com>
+References: <202405050343.ZgfQxdbN-lkp@intel.com>
+In-Reply-To: <202405050343.ZgfQxdbN-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB8393:EE_|DS7PR11MB6270:EE_
+x-ms-office365-filtering-correlation-id: 949f7f1a-e123-43f2-724b-08dc6d9d3a2a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|1800799015|366007|376005|38070700009;
+x-microsoft-antispam-message-info: =?us-ascii?Q?ypWBigcYlPeX6n5qovOZsYO3b+Hz2fTfLw3X2nYlOXan2uDroJhDgWUsng1+?=
+ =?us-ascii?Q?4GQRIvYWQfzBUlg09T29AUyGSqyo1SLnkj23bYBhiVpalN5IBY+V+NuS4PQ2?=
+ =?us-ascii?Q?sENx0W40YY3av6lwis/24x8ygtj0hhuQgIyl1RNNrG83VEDQZzYzioz4cSgy?=
+ =?us-ascii?Q?aodDA+P5EGZVe0yRlC38spjK0TJeRSkl+HkR64t09jY3OEWHgPW4p91+deME?=
+ =?us-ascii?Q?2whYI4fQ4TQNAs6KwnHIRyY+VI6Ax+8p5trPGFRx/6LaB83sxHyNjRpZ8YpF?=
+ =?us-ascii?Q?5ZR9l1tno9BbNq+mCtjsaHZirFZs8AcRf9hi8r6gHHEEK34aJyEH8LESXhll?=
+ =?us-ascii?Q?wVKfuVz2Ln8TTtKpF8w6zI8Z2u5CfGBEZqJyqjDs4UydB4YLcLBJlKkZuaxe?=
+ =?us-ascii?Q?yD1zRJwm9/0Den7BcZS6WfHy6H2TK9l+EM+Z0ntlFQmwkz7B9PfIUa7TCS7I?=
+ =?us-ascii?Q?bpZs/GvFKM+AYhJ9MXnVNGd+in0tUyxozwHD9Nhw9FAy3h/L9Hl64etllqza?=
+ =?us-ascii?Q?39a71fmbj8BNbQYNoE5/2UcJq/TnslDtdY4HF3+OEk+zFFMiJfYoal7lSdTR?=
+ =?us-ascii?Q?6I1ECqKk62ALEuSQ3Azv8ARC/Bb4abi1ATUXCrnQtwmKBHX2E0rQImwk7M1k?=
+ =?us-ascii?Q?Jb8joAvDzZ6dqt01VtawDPqJ/LD03jLdATmFBvqVx9272UsPvsOy5EMsSH6x?=
+ =?us-ascii?Q?xhTFQw0i9rpf58DZaq02baHc67jTb1jGEA4zzAdXu/4ebiTbeS/pgSFYwGpq?=
+ =?us-ascii?Q?WqbL/h8ud9gVhGKqhtQam6plpUOQPPYacUz7LsXu6ODAjYvD+n8NOhxOjaM2?=
+ =?us-ascii?Q?fPWWl5LMpcdVK7qE307aPk/q4FPfC4sas6H+wNrkdIkpnsmraPyEKvI4FzLJ?=
+ =?us-ascii?Q?dAtWGgA3ZOeJuF8ZhHqz9Zz1fmvJM6Zo4Vgr2xvRDuxvBnQf59QixIGLcejn?=
+ =?us-ascii?Q?Uur1r7MCIwITvDW3g1ZKkSaC9YbIIcvyA9JTsSam1L1OQU/xNuA9l0QIOLQl?=
+ =?us-ascii?Q?SwenUunt7Z/6t4FzuNSvzDO6KYciIADjSVBJUFLGiZgpwDKqkWt4vzyuSadV?=
+ =?us-ascii?Q?cy+YEuN+9u6b2ZGEvT87e1NLzS/E34f59Zh0SaIKBgZoBPMsAYKWj90Hon28?=
+ =?us-ascii?Q?wSfnLa50b3Hd09Tj6b9R7M90QumUe8B23+aArjR7C1zRuHneJQyIdxX3XAUH?=
+ =?us-ascii?Q?aAboPvYz1d0wVKuJLr2VNnjVxNupUJ7HGpjad1DJn8+3zT4XdxQ57kzHs4SI?=
+ =?us-ascii?Q?Dw4bwjc9klR+/C0MyfAHlaWm0L9hTArWInLdB/ohq4gS72ImtvE6RZokwRBQ?=
+ =?us-ascii?Q?q58=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8393.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NuLBp3rjZ3gnJ+Lx/eo9kPAwrONMhVnbgqvoYrLRRie2CzJzUbMzdJa/GyIO?=
+ =?us-ascii?Q?qF/D0dOqwNIsVqRgzD+a05PQ2QkM9fzRemFXblia8AoYmH8YZyRRiwSK0j8M?=
+ =?us-ascii?Q?md4nlcOtqJdqSYd8T/05/2dw66aKcfVTXDrb2MIKJ43V58X2XbyTYb1FYBn7?=
+ =?us-ascii?Q?JpmYHpR1YqeLjUmWvkqiPSrXP862nvi6enxBcBFIkcxXJpGcLtInS62244kr?=
+ =?us-ascii?Q?iaGJM/vrMeT2tSdyrtjV/eEf8locy/e3bkCCv4B3Ij++tey+mgKUxfoVXqly?=
+ =?us-ascii?Q?JcCvWmhL7Ymd4lSWMD4TEsvOgEh2NlCBYK5ZeqttlMQaZDOd//sayhUr5y4o?=
+ =?us-ascii?Q?M3kcT1OeSr/Xrtq6p0cXKEHZaBGHJ1e9X2LSYOIoKgKZgFfSbvGsgaLKewNq?=
+ =?us-ascii?Q?4p+UT9C2TqB19KyXVznjDqogwrNXr9JurY54z+RFdS97RmQFWWjCBSUsD4b1?=
+ =?us-ascii?Q?VOK+15yszorlo/YxPZkAFxvhXW6pR3NGxbGZuk6OVJ66KbUvdjA280jI2DoK?=
+ =?us-ascii?Q?p6jnNIfSIAOkDgo6b75tYmHKK+mwIyxda039k3DPZKErq8WTFuewHsQ/RVEJ?=
+ =?us-ascii?Q?L9dHnJsSRGOAktjj52LhzXaOdcvpXCAzahJiitLA+E6ddz0C5he/m+zk3bmD?=
+ =?us-ascii?Q?alkShfh0EY630G/qFWru8lJtJ7uqZYWZPLnW+0N7maIMdgQ/o1ItKh46KI7Q?=
+ =?us-ascii?Q?R87j1eDIkRvfXD/M2Q+XkevOgsGpqke0Ov3PrsizoznHI1/doy1hCuLaYAU9?=
+ =?us-ascii?Q?WCyfZ6DiWBMdnxpVWFaLSW8fhwkQaUakW376vjMYpXmvWbt4UGHJB3X6Q32s?=
+ =?us-ascii?Q?S7YY6jiK+3H38sLZP77loPNMmPSR2gDnamwHUey/SX4otA32Ejai5CGGmtAk?=
+ =?us-ascii?Q?Sb39TSSgaqEJg+0nsZYlA5ZXO+HH3XFJHjpg3Xu4frNCzGl6MbC9+6HYfeh0?=
+ =?us-ascii?Q?aX7GzMLNU6TdhLaq8DGHAX2RqR+fD8+Sew/+B7BDBRUfOv7VQ1uTvUgOMu+6?=
+ =?us-ascii?Q?/G0rG3Lsif2mKlRHWigY8K1ubnYSRdMB89N8wWupfU8sJAtLY76BgxrfGv+r?=
+ =?us-ascii?Q?aduyriTZJdEzMJVz7g1P2Bh3rdi2go2hJ22oTogmNQXLAsPnbM+MK+k38Tfm?=
+ =?us-ascii?Q?ViEuK4PnMQxqpCloi7IhKqaQjSqNrmivIHpKLFZ7tTkiDuOsfDBaCUEBvivN?=
+ =?us-ascii?Q?l6wRMFGvD1NosH9k6u1UglQ1VaW4/Q0WToVmlniK/J7DuzIcruvnD3DteYvC?=
+ =?us-ascii?Q?cjdXn499foBsh92xkd4hDWxRLCUd6lanHZ2+x+kB9CqyVgUIMVRp5YdnIGrW?=
+ =?us-ascii?Q?Qw+HXDnaIH30ZZxxA95UqGv4t4XyW7Og+ulT/NRHKPst2ttl6aUSWyiixrFx?=
+ =?us-ascii?Q?HKkt/wMTy1jZ3zEx73rhByGMsIOGuvAl9hEGO9/gwJm3Ot8LgOjDLyPZ560K?=
+ =?us-ascii?Q?RKksAVcXTXKW86GpyoXifFOc6DCHh0BxDo88ze8mw9oqtuEUjik/DiqrPSm0?=
+ =?us-ascii?Q?i5byFEUoB9n+tSeyx2dy0E0BrwZXsvTmDr/AlyJrWDOBtV+iXZMINDVjlQ?=
+ =?us-ascii?Q?=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8393.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 949f7f1a-e123-43f2-724b-08dc6d9d3a2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2024 07:22:03.2494
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BO1cXx24kmna6JAz69NDOvS4VKxtYRtCTYNnWe36rsJm1FaBvd2SYxhufZKgDQSTiVfMzqWIoINdUwkY/R8FqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6270
+X-OriginatorOrg: intel.com
+
+not_report
+
+informal patch
+
+XXX make fdbox work
+
+-----Original Message-----
+From: lkp <lkp@intel.com>=20
+Sent: Sunday, May 5, 2024 03:28
+To: oe-kbuild@lists.linux.dev
+Cc: lkp <lkp@intel.com>
+Subject: [agraf-2.6:kvm-kho-gmem-test 19/27] lib/kvm_util.c:202:46: warning=
+: unused variable 'region'
+
+::::::=20
+:::::: Manual check reason: "low confidence bisect report"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Sungwoo Kim <iam@sung-woo.kim>
-CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+CC: kvm-ppc@vger.kernel.org
+TO: Alexander Graf <graf@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   a185dbfbbbbdc7182a72f909bd8de736a3793de9
-commit: 4d7b41c0e43995b0e992b9f8903109275744b658 [54/103] Bluetooth: L2CAP: Fix slab-use-after-free in l2cap_connect()
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20240506 (https://download.01.org/0day-ci/archive/20240506/202405061441.ZOD4UFaj-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+tree:   https://github.com/agraf/linux-2.6.git kvm-kho-gmem-test
+head:   9a58862a298a63bad21d05191e28b857063bb9dc
+commit: ea39f95803e6da8a46791922be3724b49bea2c7a [19/27] XXX make fdbox wor=
+k
+:::::: branch date: 35 hours ago
+:::::: commit date: 7 weeks ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240505/202405050343.ZgfQxdbN-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405061441.ZOD4UFaj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405050343.ZgfQxdbN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> net/bluetooth/l2cap_core.c:4017:2-8: preceding lock on line 3926
+All warnings (new ones prefixed by >>):
 
-vim +4017 net/bluetooth/l2cap_core.c
+   lib/kvm_util.c: In function 'vm_open':
+>> lib/kvm_util.c:202:46: warning: unused variable 'region' [-Wunused-varia=
+ble]
+     202 |                 struct userspace_mem_region *region;
+         |                                              ^~~~~~
+>> lib/kvm_util.c:201:36: warning: unused variable 'node' [-Wunused-variabl=
+e]
+     201 |                 struct hlist_node *node;
+         |                                    ^~~~
+>> lib/kvm_util.c:200:21: warning: unused variable 'ctr' [-Wunused-variable=
+]
+     200 |                 int ctr;
+         |                     ^~~
+   At top level:
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-typ=
+e-not-at-end' may have been intended to silence earlier diagnostics
 
-4e8402a3f88442 net/bluetooth/l2cap.c      Marcel Holtmann     2007-10-20  3904  
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  3905  static void l2cap_connect(struct l2cap_conn *conn, struct l2cap_cmd_hdr *cmd,
-4c89b6aad5b7c5 net/bluetooth/l2cap_core.c Mat Martineau       2012-10-11  3906  			  u8 *data, u8 rsp_code, u8 amp_id)
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3907  {
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3908  	struct l2cap_conn_req *req = (struct l2cap_conn_req *) data;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3909  	struct l2cap_conn_rsp rsp;
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  3910  	struct l2cap_chan *chan = NULL, *pchan = NULL;
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3911  	int result, status = L2CAP_CS_NO_INFO;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3912  
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3913  	u16 dcid = 0, scid = __le16_to_cpu(req->scid);
-8e036fc3143646 net/bluetooth/l2cap.c      Al Viro             2007-07-29  3914  	__le16 psm = req->psm;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3915  
-097db76cdccd81 net/bluetooth/l2cap_core.c Andrei Emeltchenko  2012-03-09  3916  	BT_DBG("psm 0x%2.2x scid 0x%4.4x", __le16_to_cpu(psm), scid);
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3917  
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3918  	/* Check if we have socket listening on psm */
-6f59b904ae57df net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-13  3919  	pchan = l2cap_global_chan_by_psm(BT_LISTEN, psm, &conn->hcon->src,
-bf20fd4ec1d39d net/bluetooth/l2cap_core.c Johan Hedberg       2013-05-14  3920  					 &conn->hcon->dst, ACL_LINK);
-23691d75cdc69c net/bluetooth/l2cap_core.c Gustavo Padovan     2011-04-27  3921  	if (!pchan) {
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3922  		result = L2CAP_CR_BAD_PSM;
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  3923  		goto response;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3924  	}
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3925  
-3df91ea20e7443 net/bluetooth/l2cap_core.c Andrei Emeltchenko  2012-02-21 @3926  	mutex_lock(&conn->chan_lock);
-8ffb929098a569 net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  3927  	l2cap_chan_lock(pchan);
-e0f0cb56364958 net/bluetooth/l2cap.c      Gustavo Padovan     2010-11-01  3928  
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3929  	/* Check if the ACL is secure enough (if not SDP) */
-dcf4adbfdc7ad1 net/bluetooth/l2cap_core.c Joe Perches         2014-03-12  3930  	if (psm != cpu_to_le16(L2CAP_PSM_SDP) &&
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3931  	    !hci_conn_check_link_mode(conn->hcon)) {
-9f5a0d7bf079e9 net/bluetooth/l2cap_core.c Andrei Emeltchenko  2011-11-07  3932  		conn->disc_reason = HCI_ERROR_AUTH_FAILURE;
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3933  		result = L2CAP_CR_SEC_BLOCK;
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3934  		goto response;
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3935  	}
-e7c29cb16c8334 net/bluetooth/l2cap.c      Marcel Holtmann     2008-09-09  3936  
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3937  	result = L2CAP_CR_NO_MEM;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3938  
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3939  	/* Check for valid dynamic CID range (as per Erratum 3253) */
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3940  	if (scid < L2CAP_CID_DYN_START || scid > L2CAP_CID_DYN_END) {
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3941  		result = L2CAP_CR_INVALID_SCID;
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3942  		goto response;
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3943  	}
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3944  
-2dfa1003ccd19b net/bluetooth/l2cap_core.c Gustavo Padovan     2012-05-27  3945  	/* Check if we already have channel with that dcid */
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3946  	if (__l2cap_get_chan_by_dcid(conn, scid)) {
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3947  		result = L2CAP_CR_SCID_IN_USE;
-2dfa1003ccd19b net/bluetooth/l2cap_core.c Gustavo Padovan     2012-05-27  3948  		goto response;
-dd1a8f8a88eecb net/bluetooth/l2cap_core.c Mallikarjun Phulari 2018-10-05  3949  	}
-2dfa1003ccd19b net/bluetooth/l2cap_core.c Gustavo Padovan     2012-05-27  3950  
-80b980279508ed net/bluetooth/l2cap_core.c Gustavo Padovan     2012-05-27  3951  	chan = pchan->ops->new_connection(pchan);
-80808e431e1ef2 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-05-16  3952  	if (!chan)
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3953  		goto response;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3954  
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3955  	/* For certain devices (ex: HID mouse), support for authentication,
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3956  	 * pairing and bonding is optional. For such devices, inorder to avoid
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3957  	 * the ACL alive for too long after L2CAP disconnection, reset the ACL
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3958  	 * disc_timeout back to HCI_DISCONN_TIMEOUT during L2CAP connect.
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3959  	 */
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3960  	conn->hcon->disc_timeout = HCI_DISCONN_TIMEOUT;
-330b6c1521d76d net/bluetooth/l2cap_core.c Syam Sidhardhan     2013-08-06  3961  
-7eafc59e2f547f net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-13  3962  	bacpy(&chan->src, &conn->hcon->src);
-7eafc59e2f547f net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-13  3963  	bacpy(&chan->dst, &conn->hcon->dst);
-a250e048a7fb32 net/bluetooth/l2cap_core.c Johan Hedberg       2015-01-15  3964  	chan->src_type = bdaddr_src_type(conn->hcon);
-a250e048a7fb32 net/bluetooth/l2cap_core.c Johan Hedberg       2015-01-15  3965  	chan->dst_type = bdaddr_dst_type(conn->hcon);
-fe4128e0aabc3c net/bluetooth/l2cap_core.c Gustavo Padovan     2011-04-13  3966  	chan->psm  = psm;
-fe4128e0aabc3c net/bluetooth/l2cap_core.c Gustavo Padovan     2011-04-13  3967  	chan->dcid = scid;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3968  
-6be3655552ee49 net/bluetooth/l2cap_core.c Andrei Emeltchenko  2012-02-22  3969  	__l2cap_chan_add(conn, chan);
-48454079c2d4b9 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-03-25  3970  
-fe4128e0aabc3c net/bluetooth/l2cap_core.c Gustavo Padovan     2011-04-13  3971  	dcid = chan->scid;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3972  
-8d836d71e2223b net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-15  3973  	__set_chan_timer(chan, chan->ops->get_sndtimeo(chan));
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  3974  
-fc7f8a7ed45438 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-03-25  3975  	chan->ident = cmd->ident;
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  3976  
-984947dc64f82b net/bluetooth/l2cap.c      Marcel Holtmann     2009-02-06  3977  	if (conn->info_state & L2CAP_INFO_FEAT_MASK_REQ_DONE) {
-e7cafc45258c85 net/bluetooth/l2cap_core.c Johan Hedberg       2014-07-17  3978  		if (l2cap_chan_check_security(chan, false)) {
-bdc257830760a7 net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-14  3979  			if (test_bit(FLAG_DEFER_SETUP, &chan->flags)) {
-f93fa2732313ca net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  3980  				l2cap_state_change(chan, BT_CONNECT2);
-f66dc81f44d918 net/bluetooth/l2cap.c      Marcel Holtmann     2009-01-15  3981  				result = L2CAP_CR_PEND;
-f66dc81f44d918 net/bluetooth/l2cap.c      Marcel Holtmann     2009-01-15  3982  				status = L2CAP_CS_AUTHOR_PEND;
-2dc4e5105f012b net/bluetooth/l2cap_core.c Gustavo Padovan     2012-10-12  3983  				chan->ops->defer(chan);
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3984  			} else {
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3985  				/* Force pending result for AMP controllers.
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3986  				 * The connection will succeed after the
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3987  				 * physical link is up.
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3988  				 */
-6ed971ca4f6bd9 net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-05  3989  				if (amp_id == AMP_ID_BREDR) {
-f93fa2732313ca net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  3990  					l2cap_state_change(chan, BT_CONFIG);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  3991  					result = L2CAP_CR_SUCCESS;
-6ed971ca4f6bd9 net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-05  3992  				} else {
-f93fa2732313ca net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  3993  					l2cap_state_change(chan, BT_CONNECT2);
-6ed971ca4f6bd9 net/bluetooth/l2cap_core.c Marcel Holtmann     2013-10-05  3994  					result = L2CAP_CR_PEND;
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  3995  				}
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  3996  				status = L2CAP_CS_NO_INFO;
-f66dc81f44d918 net/bluetooth/l2cap.c      Marcel Holtmann     2009-01-15  3997  			}
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  3998  		} else {
-f93fa2732313ca net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  3999  			l2cap_state_change(chan, BT_CONNECT2);
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  4000  			result = L2CAP_CR_PEND;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  4001  			status = L2CAP_CS_AUTHEN_PEND;
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4002  		}
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4003  	} else {
-f93fa2732313ca net/bluetooth/l2cap_core.c Gustavo Padovan     2013-10-21  4004  		l2cap_state_change(chan, BT_CONNECT2);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4005  		result = L2CAP_CR_PEND;
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4006  		status = L2CAP_CS_NO_INFO;
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  4007  	}
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  4008  
-^1da177e4c3f41 net/bluetooth/l2cap.c      Linus Torvalds      2005-04-16  4009  response:
-aca3192cc60d2b net/bluetooth/l2cap.c      YOSHIFUJI Hideaki   2007-03-25  4010  	rsp.scid   = cpu_to_le16(scid);
-aca3192cc60d2b net/bluetooth/l2cap.c      YOSHIFUJI Hideaki   2007-03-25  4011  	rsp.dcid   = cpu_to_le16(dcid);
-aca3192cc60d2b net/bluetooth/l2cap.c      YOSHIFUJI Hideaki   2007-03-25  4012  	rsp.result = cpu_to_le16(result);
-aca3192cc60d2b net/bluetooth/l2cap.c      YOSHIFUJI Hideaki   2007-03-25  4013  	rsp.status = cpu_to_le16(status);
-4c89b6aad5b7c5 net/bluetooth/l2cap_core.c Mat Martineau       2012-10-11  4014  	l2cap_send_cmd(conn, cmd->ident, rsp_code, sizeof(rsp), &rsp);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4015  
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  4016  	if (!pchan)
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30 @4017  		return;
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  4018  
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4019  	if (result == L2CAP_CR_PEND && status == L2CAP_CS_NO_INFO) {
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4020  		struct l2cap_info_req info;
-dcf4adbfdc7ad1 net/bluetooth/l2cap_core.c Joe Perches         2014-03-12  4021  		info.type = cpu_to_le16(L2CAP_IT_FEAT_MASK);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4022  
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4023  		conn->info_state |= L2CAP_INFO_FEAT_MASK_REQ_SENT;
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4024  		conn->info_ident = l2cap_get_ident(conn);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4025  
-ba13ccd9b911e0 net/bluetooth/l2cap_core.c Marcel Holtmann     2012-03-01  4026  		schedule_delayed_work(&conn->info_timer, L2CAP_INFO_TIMEOUT);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4027  
-2d7928184c3d87 net/bluetooth/l2cap_core.c Gustavo Padovan     2012-10-06  4028  		l2cap_send_cmd(conn, conn->info_ident, L2CAP_INFO_REQ,
-2d7928184c3d87 net/bluetooth/l2cap_core.c Gustavo Padovan     2012-10-06  4029  			       sizeof(info), &info);
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4030  	}
-79d554a6976a29 net/bluetooth/l2cap.c      Marcel Holtmann     2008-07-14  4031  
-c1360a1cf35117 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-06-10  4032  	if (chan && !test_bit(CONF_REQ_SENT, &chan->conf_state) &&
-e9aeb2ddd441f0 net/bluetooth/l2cap.c      Gustavo Padovan     2010-07-08  4033  	    result == L2CAP_CR_SUCCESS) {
-e9aeb2ddd441f0 net/bluetooth/l2cap.c      Gustavo Padovan     2010-07-08  4034  		u8 buf[128];
-c1360a1cf35117 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-06-10  4035  		set_bit(CONF_REQ_SENT, &chan->conf_state);
-e9aeb2ddd441f0 net/bluetooth/l2cap.c      Gustavo Padovan     2010-07-08  4036  		l2cap_send_cmd(conn, l2cap_get_ident(conn), L2CAP_CONF_REQ,
-e860d2c904d1a9 net/bluetooth/l2cap_core.c Ben Seri            2017-09-09  4037  			       l2cap_build_conf_req(chan, buf, sizeof(buf)), buf);
-73ffa904b78287 net/bluetooth/l2cap_core.c Gustavo Padovan     2011-03-25  4038  		chan->num_conf_req++;
-e9aeb2ddd441f0 net/bluetooth/l2cap.c      Gustavo Padovan     2010-07-08  4039  	}
-1700915fef115b net/bluetooth/l2cap_core.c Mat Martineau       2012-10-23  4040  
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  4041  	l2cap_chan_unlock(pchan);
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  4042  	mutex_unlock(&conn->chan_lock);
-4d7b41c0e43995 net/bluetooth/l2cap_core.c Sungwoo Kim         2024-04-30  4043  	l2cap_chan_put(pchan);
-4c89b6aad5b7c5 net/bluetooth/l2cap_core.c Mat Martineau       2012-10-11  4044  }
-e9aeb2ddd441f0 net/bluetooth/l2cap.c      Gustavo Padovan     2010-07-08  4045  
 
--- 
+vim +/region +202 tools/testing/selftests/kvm/lib/kvm_util.c
+
+ea39f95803e6da Alexander Graf      2024-03-15  191 =20
+ccc82ba6bea451 Sean Christopherson 2022-02-14  192  static void vm_open(str=
+uct kvm_vm *vm)
+fa3899add1056f Paolo Bonzini       2018-07-26  193  {
+ccc82ba6bea451 Sean Christopherson 2022-02-14  194  	vm->kvm_fd =3D _open_k=
+vm_dev_path_or_exit(O_RDWR);
+fa3899add1056f Paolo Bonzini       2018-07-26  195 =20
+7ed397d107d461 Sean Christopherson 2022-05-27  196  	TEST_REQUIRE(kvm_has_c=
+ap(KVM_CAP_IMMEDIATE_EXIT));
+c68c21ca929771 Paolo Bonzini       2019-04-11  197 =20
+ea39f95803e6da Alexander Graf      2024-03-15  198  	/* XXX HACK! */
+ea39f95803e6da Alexander Graf      2024-03-15  199  	if (old_vmfd) {
+ea39f95803e6da Alexander Graf      2024-03-15  200  		int ctr;
+ea39f95803e6da Alexander Graf      2024-03-15  201  		struct hlist_node *no=
+de;
+ea39f95803e6da Alexander Graf      2024-03-15 @202  		struct userspace_mem_=
+region *region;
+ea39f95803e6da Alexander Graf      2024-03-15  203 =20
+ea39f95803e6da Alexander Graf      2024-03-15  204  		/* Recover old VM fd =
+*/
+ea39f95803e6da Alexander Graf      2024-03-15  205  		vm->fd =3D old_vmfd;
+ea39f95803e6da Alexander Graf      2024-03-15  206  	} else
+fcba483e824628 Sean Christopherson 2022-06-01  207  		vm->fd =3D __kvm_ioct=
+l(vm->kvm_fd, KVM_CREATE_VM, (void *)vm->type);
+f9725f89dc5027 Sean Christopherson 2022-02-15  208  	TEST_ASSERT(vm->fd >=
+=3D 0, KVM_IOCTL_ERROR(KVM_CREATE_VM, vm->fd));
+fa3899add1056f Paolo Bonzini       2018-07-26  209  }
+fa3899add1056f Paolo Bonzini       2018-07-26  210 =20
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
