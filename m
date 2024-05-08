@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C37D16C447
-	for <oe-kbuild@lists.linux.dev>; Tue,  7 May 2024 17:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA2174E26
+	for <oe-kbuild@lists.linux.dev>; Wed,  8 May 2024 09:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715101720; cv=none; b=ERAR5M7MJIMEqHoHY70E13GGh8/vB7HzRkZW00LJSxCLXARefwpy0DS60G7dsmYgUlpQoH5+Rzi/3gdvdKK/TMsxMtMqeYXdgMsnolPBnnboE9wjdFFDUCm3BF5RfXRT1F5KurJB7X9oZllOsQShGO8pZUJRHF9b5KtzQuMzN3A=
+	t=1715160255; cv=none; b=kvKRH+XejRbgefmDFtNnZEBLnar8IZ5EXENUfCXBkyvq9V8C3YXmcBzlCnS14p3XMD/MQLqaPT/AK0khRB7+5Pf4yupnVJPD6XRr3QpN7SPpAELEtL44bDF8iNtfyQGiUdio0v1le8MbbWeVJDDfWti5E4fI2GbCi1C2Mfmvhtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715101720; c=relaxed/simple;
-	bh=lOmHSTONg1hhhYGO7iYHB8591+OILWYx5NAFh6n2mF8=;
+	s=arc-20240116; t=1715160255; c=relaxed/simple;
+	bh=uYhZekOkkOHfKXGCj5ucuRXaIQzjazI11e+Ctu1HWKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jzEbTisSoz2Ay3JgDDZVPNw9OW84N1orWigLXFvJaADxNBzB3MyDepQHEwjzvjLv3V0mixqw0H8E0HKPd3oMNLz8XEr4tveBhjswypdkVVGjJrOeVKStmyD9DB5uNI4WxebglWpHDYtQ1L29G9fJrpMDtNvRQm9PJcHbwx7QAzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+ubmc6q; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=qu3bFLiS/TaLCWlJpTGMdknm6e++PTI9XfiNHXEXPKy+BCO7ny3Z06NeK4UYySALcTluIPXOK//UgH+Whw1v1ezwGrGDjktlEPphuEDtuYhEtjNjbo6qNvQNaeHWxviH8U7qfsC+GZGerh+suSUTa6fgcPD8iVnjV0k7/gAdfm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SvWZqH7A; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+ubmc6q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715101718; x=1746637718;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lOmHSTONg1hhhYGO7iYHB8591+OILWYx5NAFh6n2mF8=;
-  b=g+ubmc6quMvm6+NxEyOB1W4tUKIzmT958WnUFsPioOS8RJjBqEoiY8mg
-   VcvVLNZY0DA2iu3JRe3jvIWOT58HWGtsKoqJf85yhKHXTG+WcpYNJhahK
-   +Pa1iN5eW4QCk1iQy1wNeTGBbgKfQJm3cXqgq1FhzUSyhYci02BS2J8LQ
-   NtQ52UWBMpaNsw7E1z0+rUvm+b3F+sPxvi2zkHXg1hu65cWXlPysd5cfR
-   rF0c2VhlhuAOkS+YO2X+RvTxx4iuF7qMB6os7khAHVoANR4+kOX7Tiypj
-   7vGCLeXf6w/7ZjHxf6vWHF3rT0WeCeXWZ9stm/KOdGf15W2yFcaHyAyLC
-   Q==;
-X-CSE-ConnectionGUID: 1zWxQsuYT72H7HRYyJ1Y2w==
-X-CSE-MsgGUID: AAnHaO1lTQG47+ruTbDaKw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="10762673"
-X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
-   d="scan'208";a="10762673"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 10:08:37 -0700
-X-CSE-ConnectionGUID: T9CXvbHaSjqbJ326ozGIKQ==
-X-CSE-MsgGUID: n5rBq8+fSzCGBudmwHo3/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,142,1712646000"; 
-   d="scan'208";a="66022654"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 May 2024 10:08:37 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s4OIr-0002NO-2t;
-	Tue, 07 May 2024 17:08:33 +0000
-Date: Wed, 8 May 2024 01:07:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SvWZqH7A"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59a0e4b773so986761166b.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 08 May 2024 02:24:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715160252; x=1715765052; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tf2BwG+u9VmnZB+sTxqJBr3aBULBQfY1BT0RCKapG4w=;
+        b=SvWZqH7ACXePyYuXW0uyDsL2uU+CjPOAw2NkFkby8RZLHYqZNXjpZA9MEHLqYps2Fo
+         4a1/kl1g9FS5ZQ+0Q0pppZwWPYvB/m0lCtgVFTZbpR5v9bGy+tVfF9cruRnLdpXwbHW6
+         +5R3SVpja6GZjT/UYjVA1MyU4mLUQMiYaw0YuTq0HxYrLVFX521c0kzxxmXEvq6+ATiC
+         C6iEu2g9xQnn+dNg5M+O+RT0dPimscyZ7rDROngZvjM/5h1xtzlroE7tTCohRt5etoxe
+         JsoZvmwRcjphHRM5t+R0BTodd2gUKijUXYaWzNrmQVXSUQt51s8Yu+16U0ewS9vbn96h
+         96Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715160252; x=1715765052;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tf2BwG+u9VmnZB+sTxqJBr3aBULBQfY1BT0RCKapG4w=;
+        b=nBR0QA7I1X5OGsuvmDBn7BhPRsUg3KyRFZsbr7rrXrR661g5MJc1OmLk/5CNHeaOzJ
+         FDU79cNsGeADkXly36LFReR/hEqhnxOodW3OiH3pJp5mzMEs1J9f6OEflclT3Kiq4A19
+         eM2zhHhcg3hq9dvk2nanxwZiSNgrTPgibAnHEMOKoPagsloCvGIUn/jLSAmpVgGd4hHy
+         V+L7ecFt8P/NNvb7SRfmVRy3W7hER130NeqmQlegOKKgTqOlTI3E+Raia6d0oQyQ0zrH
+         Fi7SMEuVvzJch9A8jyCWXbDHESQS39GhHmgAGOfd7HoL1wno/+jtWT/0VvdKuwS/3Jcr
+         Zp6A==
+X-Gm-Message-State: AOJu0Yza/HDyUXoi5KrJxFTaFl4JQxmUZrhuY/DGX6AvUFVzyIk8qzgf
+	/T08iMbqQ3FjEBAHWcj7hdhcbz2z+IvcWLeGWU2nyX6qxK3vdlMIYSfefQMGWENNeUS0M5n+KPv
+	n
+X-Google-Smtp-Source: AGHT+IHCkV0TDZOTu1gWKsXF5KUBkBE1rb7vwcG2y4+fPvV6U8UbggvqpYrp8fNrYOSauNz0frIo9A==
+X-Received: by 2002:a17:906:aecb:b0:a59:db0f:6bdb with SMTP id a640c23a62f3a-a59fb9595cdmr120236066b.31.1715160251484;
+        Wed, 08 May 2024 02:24:11 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id c17-20020a1709060fd100b00a526a992d82sm7466584ejk.4.2024.05.08.02.24.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 02:24:11 -0700 (PDT)
+Date: Wed, 8 May 2024 12:24:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Yongqiang Liu <duanzi@zju.edu.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:openEuler-1.0-LTS 20772/22286] drivers/block/loop.c:1338
  loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <202405080032.zESlibc3-lkp@intel.com>
+Message-ID: <7351a4c6-a90a-4c45-a926-4ac1198afa2c@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,35 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yongqiang Liu <duanzi@zju.edu.cn>
-
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   aed5f40af63887ff80a297daac06a67eff4c611d
 commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/22286] loop: Check for overflow while configuring loop
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 months ago
 config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240508/202405080032.zESlibc3-lkp@intel.com/config)
 compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202405080032.zESlibc3-lkp@intel.com/
 
 New smatch warnings:
 drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
 
-Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
-
 vim +1338 drivers/block/loop.c
 
-04799b3a91ea37 Jan Kara          2018-11-08  1216  
 ^1da177e4c3f41 Linus Torvalds    2005-04-16  1217  static int
 ^1da177e4c3f41 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
 ^1da177e4c3f41 Linus Torvalds    2005-04-16  1219  {
@@ -167,6 +160,9 @@ ecdd09597a5725 Ming Lei          2017-02-11  1289  		}
 1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
 1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
 1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
+
+goto out_unlock?
+
 b040ad9cf6a169 Arnd Bergmann     2017-06-09  1293  	}
 541c742a7559eb Guo Chao          2013-02-21  1294  
 dfaa2ef68e80c3 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
@@ -214,14 +210,8 @@ cb26630f042408 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex
 e02898b423802b Omar Sandoval     2017-03-01  1337  
 ecdd09597a5725 Ming Lei          2017-02-11 @1338  	return err;
 ^1da177e4c3f41 Linus Torvalds    2005-04-16  1339  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1340  
-
-:::::: The code at line 1338 was first introduced by commit
-:::::: ecdd09597a57251323b0de50e3d45e69298c4a83 block/loop: fix race between I/O and set_status
-
-:::::: TO: Ming Lei <tom.leiming@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
