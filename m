@@ -1,226 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294FA5C82
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 May 2024 16:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A333E10A36
+	for <oe-kbuild@lists.linux.dev>; Thu,  9 May 2024 19:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715272339; cv=none; b=mRuGArBo4rYcbMNsN8LVMRRCAaUkghSX58LJxzNXMcqkTiUzh7UGz2yvX+zvwcOUw8pG67zgItLz6dGjvDJwDhcpOOqqSiyEItdVqX6uJfOJTYon1Y2pko8cJ+T+JbZyYRKCRWvJs9B4zw08hWOMC4IHSADmMYCqn5SQUsoO4j8=
+	t=1715282364; cv=none; b=t867nM54zP5/kBm1ZGajTT7SfHDPmAmBIpO4QU6aYXGCH1sNhA0R9SQumaT9gk02oz2pFWmmJpgBK0V6N9g4VXKntWpCcbcZRZ6oNE2TkvXPMUHL7/WIQ54DA1pP7e1r6rsKpNOtB9CiB+WZOeVaH4HLvM3cMKCO+GLq/L5piUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715272339; c=relaxed/simple;
-	bh=olLrJaLAQihGn7ZtDY9lMJuWIdBwqbInNZK2Hj8yfV4=;
+	s=arc-20240116; t=1715282364; c=relaxed/simple;
+	bh=IqHgzFpPTBual6aGEHol92Ul3v7tUJf1d7+fxdSgMTw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EAGRY7UlJtIC2qmnw1+KugYxhvPp1pYZsdAeM8pX6/r+ve+jm1uAQgOFLXyhrLYWVyGuIeZIMv/og4BWq3CiTAURkvjy1mN8tVtuBLQsdyutAVfmig7g8GitFVsTK21mOGE3OorXP/pOaMKff8jTReMJ9C+q5lzHJZUDIVSANJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODKdpnQo; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=tVoUJZPdAZ5PR1rIZgjNPJ8lnAAHJiQdtpandwD3pK1cjJegst/xs2aMNB0SN5uoKDbN4k//haoykHRPfwbPsdDnbT3KL+orcA8UQF+plnGcTyDLZE9F0D7Cj4w1IKY4dWXHCEkA3qtmD0c7p0CmCAtbHso9gArSYOMt//Roci4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdOU50Q0; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODKdpnQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdOU50Q0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715272337; x=1746808337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=olLrJaLAQihGn7ZtDY9lMJuWIdBwqbInNZK2Hj8yfV4=;
-  b=ODKdpnQoWDMMFqePR1n0hiCkoe4/MLkrnnvmNQSmtRxrOqEZACTACL/X
-   fvraQn6Dx+6/sbcj9NURuZW4N2LE9ycRo1rSspAm03kexIdL7mqqyfQP2
-   GiFAxy+8fA/WDuERb1pkLdM7mQQcwOukZD55i39gMbU4UdnHLFJksRNWa
-   GPEE+9syJO3q4oX1EDRMzT2wgvoMKiapme1ajTZZz2QaGyYgRpdtLbPTP
-   E/NlW7tbJcClrZJmgOGELRtXGVXAyk9Hb3tMu0ES/jYEAo5dZG3utwkJf
-   woT5NjuPfPaS0pjq6BRyv8xea21MKDjpkpxcs6FXhzt0aDaWaQdiZkBv6
+  t=1715282361; x=1746818361;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IqHgzFpPTBual6aGEHol92Ul3v7tUJf1d7+fxdSgMTw=;
+  b=kdOU50Q0hBSSXBTxa9LmYLqXER2u9u4j6b2h2xRlMSBVFb5wpGgf0tDD
+   Ls0VYiNDpA+2vf+AAP2k3A4egAg43zCQew9NzFBzqPT6yD3mCihdfyiNZ
+   KB1ceYsRFL2W9Rdb4d+Da0bfvPnVdNabv5agwHmuyEXBw3u0WKnkc/hBl
+   MqF94oxwnjXBU3jLB0gAFozUkZUqXvCp3JKxfzABNJSUrcKzLiAU7jAmb
+   NAB8iP1Q9/Frg0ByifAVeIHdUzoTIOXPMOBhl9zOUMkaiEa2A4Rl7mMSN
+   q9Ypc8LOt1JonzD6tkoIWgqveNi+LguSwNJhKXClsDxpwOBQbiB+sp63R
    w==;
-X-CSE-ConnectionGUID: uE5B6CWrS1qP7ZYAHVqO7g==
-X-CSE-MsgGUID: 4o8SOhPeSvmg02vswXG2pw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14999684"
+X-CSE-ConnectionGUID: i/D3HAjaSAazubI73UmQkw==
+X-CSE-MsgGUID: mgzOANoISZ+/zHgceRW6Dg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="21826311"
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="14999684"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 09:32:14 -0700
-X-CSE-ConnectionGUID: NaN+udLUSE2SEDA7C+hE0A==
-X-CSE-MsgGUID: 43wlnF4gRFK99VBUyoh8sw==
+   d="scan'208";a="21826311"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:19:21 -0700
+X-CSE-ConnectionGUID: nAYYU5+XQfy1206ymgBM5w==
+X-CSE-MsgGUID: 5onzivhbStOhkGQD1FsVYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="66738252"
+   d="scan'208";a="52544076"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 May 2024 09:32:13 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 09 May 2024 12:19:20 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s56gk-00057P-0m;
-	Thu, 09 May 2024 16:32:10 +0000
-Date: Fri, 10 May 2024 00:31:45 +0800
+	id 1s59IT-0005H0-2b;
+	Thu, 09 May 2024 19:19:17 +0000
+Date: Fri, 10 May 2024 03:18:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:openEuler-1.0-LTS 20772/22351] drivers/block/loop.c:1338
- loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <202405100036.v51LCeIa-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 10918/12321] ../kselftest_harness.h:851:26:
+ error: '_ip_local_port_range_late_bind_object' undeclared here (not in a
+ function); did you mean 'ip_local_port_range_late_bind'?
+Message-ID: <202405100339.vfBe0t9C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yongqiang Liu <duanzi@zju.edu.cn>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Mickaël Salaün" <mic@digikod.net>
+CC: Kees Cook <keescook@chromium.org>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   7d91c9c7753bd6302b570cf491953a3933ebfb01
-commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/22351] loop: Check for overflow while configuring loop
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240510/202405100036.v51LCeIa-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   704ba27ac55579704ba1289392448b0c66b56258
+commit: 8a25c905ae398bdd40f75cffed170516c749e7db [10918/12321] selftests/harness: Share _metadata between forked processes
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 days ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100339.vfBe0t9C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405100036.v51LCeIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405100339.vfBe0t9C-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
+   In file included from ip_local_port_range.c:13:
+>> ../kselftest_harness.h:851:26: error: '_ip_local_port_range_late_bind_object' undeclared here (not in a function); did you mean 'ip_local_port_range_late_bind'?
+     851 |                 .test = &_##fixture_name##_##test_name##_object, \
+         |                          ^
+   ip_local_port_range.c:414:1: note: in expansion of macro 'XFAIL_ADD'
+     414 | XFAIL_ADD(ip_local_port_range, ip4_stcp, late_bind);
+         | ^~~~~~~~~
 
-vim +1338 drivers/block/loop.c
 
-04799b3a91ea37 Jan Kara          2018-11-08  1216  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1217  static int
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1219  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1220  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1221  	struct loop_func_table *xfer;
-e4849737f76c87 Eric W. Biederman 2012-02-11  1222  	kuid_t uid = current_uid();
-2a7d0112997407 Jan Kara          2018-11-08  1223  	struct block_device *bdev;
-2a7d0112997407 Jan Kara          2018-11-08  1224  	bool partscan = false;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1225  
-afa528900c5f5c Jan Kara          2018-11-08  1226  	err = mutex_lock_killable(&loop_ctl_mutex);
-cb26630f042408 Jan Kara          2018-11-08  1227  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1228  		return err;
-b0fafa816ece00 David Howells     2008-11-14  1229  	if (lo->lo_encrypt_key_size &&
-e4849737f76c87 Eric W. Biederman 2012-02-11  1230  	    !uid_eq(lo->lo_key_owner, uid) &&
-cb26630f042408 Jan Kara          2018-11-08  1231  	    !capable(CAP_SYS_ADMIN)) {
-cb26630f042408 Jan Kara          2018-11-08  1232  		err = -EPERM;
-cb26630f042408 Jan Kara          2018-11-08  1233  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1234  	}
-cb26630f042408 Jan Kara          2018-11-08  1235  	if (lo->lo_state != Lo_bound) {
-cb26630f042408 Jan Kara          2018-11-08  1236  		err = -ENXIO;
-cb26630f042408 Jan Kara          2018-11-08  1237  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1238  	}
-cb26630f042408 Jan Kara          2018-11-08  1239  	if ((unsigned int) info->lo_encrypt_key_size > LO_KEY_SIZE) {
-cb26630f042408 Jan Kara          2018-11-08  1240  		err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1241  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1242  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1243  
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1244  	if (lo->lo_offset != info->lo_offset ||
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1245  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1246  		sync_blockdev(lo->lo_device);
-2476d843de4788 Zheng Bin         2020-09-22  1247  		invalidate_bdev(lo->lo_device);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1248  	}
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1249  
-ecdd09597a5725 Ming Lei          2017-02-11  1250  	/* I/O need to be drained during transfer transition */
-ecdd09597a5725 Ming Lei          2017-02-11  1251  	blk_mq_freeze_queue(lo->lo_queue);
-ecdd09597a5725 Ming Lei          2017-02-11  1252  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1253  	err = loop_release_xfer(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1254  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1255  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1256  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1257  	if (info->lo_encrypt_type) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1258  		unsigned int type = info->lo_encrypt_type;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1259  
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1260  		if (type >= MAX_LO_CRYPT) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1261  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1262  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1263  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1264  		xfer = xfer_funcs[type];
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1265  		if (xfer == NULL) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1266  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1267  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1268  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1269  	} else
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1270  		xfer = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1271  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1272  	err = loop_init_xfer(lo, xfer, info);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1273  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1274  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1275  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1276  	if (lo->lo_offset != info->lo_offset ||
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1277  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1278  		/* kill_bdev should have truncated all the pages */
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1279  		if (lo->lo_device->bd_inode->i_mapping->nrpages) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1280  			err = -EAGAIN;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1281  			pr_warn("%s: loop%d (%s) has still dirty pages (nrpages=%lu)\n",
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1282  				__func__, lo->lo_number, lo->lo_file_name,
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1283  				lo->lo_device->bd_inode->i_mapping->nrpages);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1284  			goto out_unfreeze;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1285  		}
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1286  		if (figure_loop_size(lo, info->lo_offset, info->lo_sizelimit)) {
-ecdd09597a5725 Ming Lei          2017-02-11  1287  			err = -EFBIG;
-cb26630f042408 Jan Kara          2018-11-08  1288  			goto out_unfreeze;
-ecdd09597a5725 Ming Lei          2017-02-11  1289  		}
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
-b040ad9cf6a169 Arnd Bergmann     2017-06-09  1293  	}
-541c742a7559eb Guo Chao          2013-02-21  1294  
-dfaa2ef68e80c3 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1296  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1297  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1298  	memcpy(lo->lo_crypt_name, info->lo_crypt_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1299  	lo->lo_file_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1300  	lo->lo_crypt_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1301  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1302  	if (!xfer)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1303  		xfer = &none_funcs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1304  	lo->transfer = xfer->transfer;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1305  	lo->ioctl = xfer->ioctl;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1306  
-96c5865559cee0 David Woodhouse   2008-02-06  1307  	if ((lo->lo_flags & LO_FLAGS_AUTOCLEAR) !=
-96c5865559cee0 David Woodhouse   2008-02-06  1308  	     (info->lo_flags & LO_FLAGS_AUTOCLEAR))
-96c5865559cee0 David Woodhouse   2008-02-06  1309  		lo->lo_flags ^= LO_FLAGS_AUTOCLEAR;
-96c5865559cee0 David Woodhouse   2008-02-06  1310  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1311  	lo->lo_encrypt_key_size = info->lo_encrypt_key_size;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1312  	lo->lo_init[0] = info->lo_init[0];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1313  	lo->lo_init[1] = info->lo_init[1];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1314  	if (info->lo_encrypt_key_size) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1315  		memcpy(lo->lo_encrypt_key, info->lo_encrypt_key,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1316  		       info->lo_encrypt_key_size);
-b0fafa816ece00 David Howells     2008-11-14  1317  		lo->lo_key_owner = uid;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1318  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1319  
-2e5ab5f379f96a Ming Lei          2015-08-17  1320  	/* update dio if lo_offset or transfer is changed */
-2e5ab5f379f96a Ming Lei          2015-08-17  1321  	__loop_update_dio(lo, lo->use_dio);
-2e5ab5f379f96a Ming Lei          2015-08-17  1322  
-cb26630f042408 Jan Kara          2018-11-08  1323  out_unfreeze:
-ecdd09597a5725 Ming Lei          2017-02-11  1324  	blk_mq_unfreeze_queue(lo->lo_queue);
-e02898b423802b Omar Sandoval     2017-03-01  1325  
-e02898b423802b Omar Sandoval     2017-03-01  1326  	if (!err && (info->lo_flags & LO_FLAGS_PARTSCAN) &&
-e02898b423802b Omar Sandoval     2017-03-01  1327  	     !(lo->lo_flags & LO_FLAGS_PARTSCAN)) {
-e02898b423802b Omar Sandoval     2017-03-01  1328  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
-e02898b423802b Omar Sandoval     2017-03-01  1329  		lo->lo_disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-2a7d0112997407 Jan Kara          2018-11-08  1330  		bdev = lo->lo_device;
-2a7d0112997407 Jan Kara          2018-11-08  1331  		partscan = true;
-e02898b423802b Omar Sandoval     2017-03-01  1332  	}
-cb26630f042408 Jan Kara          2018-11-08  1333  out_unlock:
-cb26630f042408 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex);
-2a7d0112997407 Jan Kara          2018-11-08  1335  	if (partscan)
-2a7d0112997407 Jan Kara          2018-11-08  1336  		loop_reread_partitions(lo, bdev);
-e02898b423802b Omar Sandoval     2017-03-01  1337  
-ecdd09597a5725 Ming Lei          2017-02-11 @1338  	return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1339  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1340  
+vim +851 tools/testing/selftests/net/../kselftest_harness.h
 
-:::::: The code at line 1338 was first introduced by commit
-:::::: ecdd09597a57251323b0de50e3d45e69298c4a83 block/loop: fix race between I/O and set_status
+2709473c938602 Jakub Kicinski 2024-02-28  834  
+2709473c938602 Jakub Kicinski 2024-02-28  835  /**
+2709473c938602 Jakub Kicinski 2024-02-28  836   * XFAIL_ADD() - mark variant + test case combination as expected to fail
+2709473c938602 Jakub Kicinski 2024-02-28  837   * @fixture_name: name of the fixture
+2709473c938602 Jakub Kicinski 2024-02-28  838   * @variant_name: name of the variant
+2709473c938602 Jakub Kicinski 2024-02-28  839   * @test_name: name of the test case
+2709473c938602 Jakub Kicinski 2024-02-28  840   *
+2709473c938602 Jakub Kicinski 2024-02-28  841   * Mark a combination of variant + test case for a given fixture as expected
+2709473c938602 Jakub Kicinski 2024-02-28  842   * to fail. Tests marked this way will report XPASS / XFAIL return codes,
+2709473c938602 Jakub Kicinski 2024-02-28  843   * instead of PASS / FAIL,and use respective counters.
+2709473c938602 Jakub Kicinski 2024-02-28  844   */
+2709473c938602 Jakub Kicinski 2024-02-28  845  #define XFAIL_ADD(fixture_name, variant_name, test_name) \
+2709473c938602 Jakub Kicinski 2024-02-28  846  	static struct __test_xfail \
+2709473c938602 Jakub Kicinski 2024-02-28  847  		_##fixture_name##_##variant_name##_##test_name##_xfail = \
+2709473c938602 Jakub Kicinski 2024-02-28  848  	{ \
+2709473c938602 Jakub Kicinski 2024-02-28  849  		.fixture = &_##fixture_name##_fixture_object, \
+2709473c938602 Jakub Kicinski 2024-02-28  850  		.variant = &_##fixture_name##_##variant_name##_object, \
+2709473c938602 Jakub Kicinski 2024-02-28 @851  		.test = &_##fixture_name##_##test_name##_object, \
+2709473c938602 Jakub Kicinski 2024-02-28  852  	}; \
+2709473c938602 Jakub Kicinski 2024-02-28  853  	static void __attribute__((constructor)) \
+2709473c938602 Jakub Kicinski 2024-02-28  854  		_register_##fixture_name##_##variant_name##_##test_name##_xfail(void) \
+2709473c938602 Jakub Kicinski 2024-02-28  855  	{ \
+2709473c938602 Jakub Kicinski 2024-02-28  856  		__register_xfail(&_##fixture_name##_##variant_name##_##test_name##_xfail); \
+2709473c938602 Jakub Kicinski 2024-02-28  857  	}
+2709473c938602 Jakub Kicinski 2024-02-28  858  
 
-:::::: TO: Ming Lei <tom.leiming@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
+:::::: The code at line 851 was first introduced by commit
+:::::: 2709473c938602c3955b87000009e9bf3cd9bb32 selftests: kselftest_harness: support using xfail
+
+:::::: TO: Jakub Kicinski <kuba@kernel.org>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
