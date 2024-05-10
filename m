@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785877EEF8
-	for <oe-kbuild@lists.linux.dev>; Fri, 10 May 2024 10:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D535712C46B
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 May 2024 13:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715337906; cv=none; b=roJYn9vf8Cr3ObNfqXnvWueIPkEqGE1lVglxgf1G/3rWx1UT7q29EwHm5qWOZdTQl3/LCebgL2Jm5AKDX4spMOpsueFuCnleK4kBMjCgpDEyCE29f4gHo4c3jxbIwZQSi8+iWiO4C1/Z8KjPwjW/EFEjb6foBCA0so+xUuz5EQ8=
+	t=1715349258; cv=none; b=bDgg6MZVsLicAmDa16G1lAu6dz3axctdMhgHMBlYoLKYReIdZr81JydjbHLA5NdWDC0fq9TjxKfy8KXbCmjq4ODtWxt/FHmqXK01gOInU8HleUDCkb9K78Dz9AV94ymOucXzUKWnRYvK8POy0pTIwuSTOg36vHTR6EoPiJXLmSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715337906; c=relaxed/simple;
-	bh=0xcERPle+RNx6qnu/MvW/zNk113N1Oa1DckLSCid1LA=;
+	s=arc-20240116; t=1715349258; c=relaxed/simple;
+	bh=iAmkzBNBBPSt5DICDMzFYvVCBUAnEUCZJkyZ9FPfWuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TfUU0c2B7DB20b905j0WNjflIXCdiCmdTqMmjHdAISobBrg3al/egmhSXbTe8P6SaMvane8cyUnCCd2HceyO9nnB9ZtsvxIOxbwt41pjoEX5MYCfIkXMvKKEVDd5221RNInplno5jnQIz5VwbQHvbmDX6eJfkTZ440uaGRHEIWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6HifF3x; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=GVtsE+8bxQy7/T92a0Q+PrOmwrhC9yMBKXiwuMi+ufPaNlUzMHOG8NM/u3epJ3KLm9yXP4PsTJLU8/IVeNlL7xVj0H8L6NlEVAjoGL3aZsCvIDKe97HmnGsS33dZRnj/W4xyPj7loFtsCg+uxiyrfLntgSsAAZEvvojNdaDlDKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LFvcA57/; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6HifF3x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LFvcA57/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715337904; x=1746873904;
+  t=1715349256; x=1746885256;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0xcERPle+RNx6qnu/MvW/zNk113N1Oa1DckLSCid1LA=;
-  b=k6HifF3x8qAXtdD35sa1VstV0wbWyQCv0OrV/dmitqj1FQYuqHYLnMN9
-   2u99YTvKWREBkb2zIm7p+ORVO497s6CBuA9Hcn5OCzefWggKGX1VHnf2w
-   +Gl6K/ZYFDOdx/dKBaf6C/74kitHYo7VXaGy++FAkjFJ8PMRR94ED871d
-   Hp6Exr05En54I8Ol4atzWcM6u1aIX5aVFTcoAgZzWTTL1YgH7EOQVmRfc
-   PVd34yHEa93Xj/7u20a/sQ5oendeNosIO/O3ROu9MF++CeRi3JGYidPXV
-   yTbu6rGcM4mCWnRC+DYCokOFx/hq6m4KBM2j+IddXdH33dKEdXFWQXgsh
-   w==;
-X-CSE-ConnectionGUID: F3caXP34Tz6pG22PVF5vqg==
-X-CSE-MsgGUID: t5vfg/dES/231gdRVNItdQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11173825"
-X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="11173825"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 03:45:04 -0700
-X-CSE-ConnectionGUID: PQN1vCqYQKKaw135GpS7FA==
-X-CSE-MsgGUID: q2pwHLXlRHCkwkQ3J9ssbg==
+  bh=iAmkzBNBBPSt5DICDMzFYvVCBUAnEUCZJkyZ9FPfWuQ=;
+  b=LFvcA57/p2Uy+gA2uQocnoOryU6ekx/2/QUvD7qM9Uyik4qa6N757RiZ
+   nbjVFA8POhmpIfbIQo3Oi2VzRadUtrVyC72FBQHBFDffKFcYdrX7icyXh
+   mlmHZIFx4WCrvdtNRtiqt21ODI/VSxJgwplBtT40DbDoiJUouQ5uLsYXc
+   dGLNCIc4DJpl20G427rkzgLYX9SMMmy+NvbKU5iqc+3YxyYg1AxpX0m4w
+   EjG08laOpdA7T3P6dg4AirenBs6aO70j8drnWEk8ZhGSnND8bH3l9KHTm
+   w73M/sgqBmEWJ53Lj9Ehb7PxSey/U7iIb+tDI/qkbP7LnHqwyLd2VfFDO
+   g==;
+X-CSE-ConnectionGUID: xRbl9eP4S6qzUua5uHNjoA==
+X-CSE-MsgGUID: B5POpn3cTViy+ei/7C09NA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="15123872"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
+   d="scan'208";a="15123872"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 06:54:16 -0700
+X-CSE-ConnectionGUID: paxdZSgAQle1vDrDGMjw+A==
+X-CSE-MsgGUID: soHYJnJmTvGri9yEZhE17g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
-   d="scan'208";a="34228581"
+X-IronPort-AV: E=Sophos;i="6.08,151,1712646000"; 
+   d="scan'208";a="67095405"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 May 2024 03:45:02 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 May 2024 06:54:15 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5NkJ-00060g-2x;
-	Fri, 10 May 2024 10:44:59 +0000
-Date: Fri, 10 May 2024 18:44:21 +0800
+	id 1s5QhP-0006Dh-37;
+	Fri, 10 May 2024 13:54:11 +0000
+Date: Fri, 10 May 2024 21:54:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [conor:qwip 5/15] drivers/spi/spi-microchip-core-qspi.c:593:2-8:
- preceding lock on line 586
-Message-ID: <202405101807.6rG1rE94-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 11286/12533] mm/gup.c:639 follow_hugepd() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <202405102143.yjPDwRrj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,167 +64,76 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Conor Dooley <conor+lkp@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Peter Xu <peterx@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: David Hildenbrand <david@redhat.com>
 
-Hi Conor,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git qwip
-head:   520f2563214599bc3abdd1aa6f127f67e084e65f
-commit: a68acec2b20292248b54f6f69dda8ef92ee8002a [5/15] try to rationalise the cs stuff
-:::::: branch date: 8 days ago
-:::::: commit date: 2 weeks ago
-config: i386-randconfig-051-20240510 (https://download.01.org/0day-ci/archive/20240510/202405101807.6rG1rE94-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   75fa778d74b786a1608d55d655d42b480a6fa8bd
+commit: 01d89b93e1769928529d339d6e4f780129454161 [11286/12533] mm/gup: fix hugepd handling in hugetlb rework
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 days ago
+config: powerpc64-randconfig-r071-20240510 (https://download.01.org/0day-ci/archive/20240510/202405102143.yjPDwRrj-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405101807.6rG1rE94-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405102143.yjPDwRrj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/spi/spi-microchip-core-qspi.c:593:2-8: preceding lock on line 586
+New smatch warnings:
+mm/gup.c:639 follow_hugepd() warn: passing zero to 'ERR_PTR'
 
-vim +593 drivers/spi/spi-microchip-core-qspi.c
+Old smatch warnings:
+arch/powerpc/include/asm/mmu.h:261 mmu_has_feature() warn: bitwise AND condition is false here
 
-a68acec2b20292 Conor Dooley  2024-04-23  574  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  575  static int mchp_coreqspi_transfer_one_message(struct spi_controller *ctlr,
-e08ccfd9874188 Jamie Gibbons 2023-11-29  576  					struct spi_message *m)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  577  {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  578  	struct mchp_coreqspi *qspi = spi_controller_get_devdata(ctlr);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  579  	struct spi_transfer *t = NULL;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  580  	u32 control, frames, status;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  581  	u32 total_bytes, cmd_bytes = 0, idle_cycles = 0;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  582  	int ret;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  583  	bool quad = false, dual = false;
-a68acec2b20292 Conor Dooley  2024-04-23  584  	bool cs_change = true;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  585  
-e08ccfd9874188 Jamie Gibbons 2023-11-29 @586  	mutex_lock(&qspi->op_lock);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  587  	ret = readl_poll_timeout(qspi->regs + REG_STATUS, status,
-e08ccfd9874188 Jamie Gibbons 2023-11-29  588  				 (status & STATUS_READY), 0,
-e08ccfd9874188 Jamie Gibbons 2023-11-29  589  				 TIMEOUT_MS);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  590  	if (ret) {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  591  		dev_err(&ctlr->dev,
-e08ccfd9874188 Jamie Gibbons 2023-11-29  592  			"Timeout waiting on QSPI ready.\n");
-e08ccfd9874188 Jamie Gibbons 2023-11-29 @593  		return -ETIMEDOUT;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  594  	}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  595  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  596  	ret = mchp_coreqspi_setup_clock(qspi, m->spi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  597  	if (ret)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  598  		goto error;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  599  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  600  	control = readl_relaxed(qspi->regs + REG_CONTROL);
-a68acec2b20292 Conor Dooley  2024-04-23  601  	control &= ~(CONTROL_MODE12_MASK | CONTROL_MODE0);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  602  	writel_relaxed(control, qspi->regs + REG_CONTROL);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  603  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  604  	reinit_completion(&qspi->data_completion);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  605  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  606  	/* Check the total bytes and command bytes */
-e08ccfd9874188 Jamie Gibbons 2023-11-29  607  	list_for_each_entry(t, &m->transfers, transfer_list) {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  608  		total_bytes += t->len;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  609  		if ((!cmd_bytes) && !(t->tx_buf && t->rx_buf))
-e08ccfd9874188 Jamie Gibbons 2023-11-29  610  			cmd_bytes = t->len;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  611  		if (!t->rx_buf)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  612  			cmd_bytes = total_bytes;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  613  		if (t->tx_nbits == SPI_NBITS_QUAD || t->rx_nbits == SPI_NBITS_QUAD)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  614  			quad = true;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  615  		else if (t->tx_nbits == SPI_NBITS_DUAL || t->rx_nbits == SPI_NBITS_DUAL)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  616  			dual = true;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  617  	}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  618  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  619  	control = readl_relaxed(qspi->regs + REG_CONTROL);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  620  	if (quad) {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  621  		control |= (CONTROL_MODE0 | CONTROL_MODE12_EX_RW);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  622  	} else if (dual) {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  623  		control &= ~CONTROL_MODE0;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  624  		control |= CONTROL_MODE12_FULL;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  625  	} else {
-a68acec2b20292 Conor Dooley  2024-04-23  626  		control &= ~(CONTROL_MODE12_MASK | CONTROL_MODE0);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  627  	}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  628  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  629  	writel_relaxed(control, qspi->regs + REG_CONTROL);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  630  	frames = total_bytes & BYTESUPPER_MASK;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  631  	writel_relaxed(frames, qspi->regs + REG_FRAMESUP);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  632  	frames = total_bytes & BYTESLOWER_MASK;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  633  	frames |= cmd_bytes << FRAMES_CMDBYTES_SHIFT;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  634  	frames |= idle_cycles << FRAMES_IDLE_SHIFT;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  635  	control = readl_relaxed(qspi->regs + REG_CONTROL);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  636  	if (control & CONTROL_MODE12_MASK)
-e08ccfd9874188 Jamie Gibbons 2023-11-29  637  		frames |= (1 << FRAMES_SHIFT);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  638  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  639  	frames |= FRAMES_FLAGWORD;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  640  	writel_relaxed(frames, qspi->regs + REG_FRAMES);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  641  
-a68acec2b20292 Conor Dooley  2024-04-23  642  	//TODO: questionable robustness if both cs_change and cs_off toggle
-e08ccfd9874188 Jamie Gibbons 2023-11-29  643  	list_for_each_entry(t, &m->transfers, transfer_list) {
-a68acec2b20292 Conor Dooley  2024-04-23  644  		//cs_change being set means we need to re-enable
-a68acec2b20292 Conor Dooley  2024-04-23  645  		if (cs_change && !t->cs_off)
-a68acec2b20292 Conor Dooley  2024-04-23  646  			mchp_coreqspi_activate_cs(m->spi);
-a68acec2b20292 Conor Dooley  2024-04-23  647  		else if (cs_change) //cs_off set but we changed it after last xfer so it may be on
-a68acec2b20292 Conor Dooley  2024-04-23  648  			mchp_coreqspi_deactivate_cs(m->spi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  649  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  650  		if ((t->tx_buf) && (t->rx_buf)){
-e08ccfd9874188 Jamie Gibbons 2023-11-29  651  			bool last = false;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  652  			qspi->txbuf = (u8 *)t->tx_buf;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  653  			qspi->rxbuf = (u8 *)t->rx_buf;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  654  			qspi->tx_len = t->len;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  655  			if (list_is_last(&t->transfer_list, &m->transfers))
-e08ccfd9874188 Jamie Gibbons 2023-11-29  656  				last = true;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  657  			mchp_coreqspi_write_read_op(qspi, last);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  658  		} else if (t->tx_buf) {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  659  			qspi->txbuf = (u8 *)t->tx_buf;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  660  			qspi->tx_len = t->len;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  661  			mchp_coreqspi_write_op(qspi, true);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  662  		} else {
-e08ccfd9874188 Jamie Gibbons 2023-11-29  663  			qspi->rxbuf = (u8 *)t->rx_buf;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  664  			qspi->rx_len = t->len;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  665  		}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  666  
-a68acec2b20292 Conor Dooley  2024-04-23  667  		cs_change = t->cs_change;
-a68acec2b20292 Conor Dooley  2024-04-23  668  
-a68acec2b20292 Conor Dooley  2024-04-23  669  		//TODO: address delay
-e08ccfd9874188 Jamie Gibbons 2023-11-29  670  		//_spi_transfer_cs_change_delay(m, t);
-a68acec2b20292 Conor Dooley  2024-04-23  671  		if (cs_change) {
-a68acec2b20292 Conor Dooley  2024-04-23  672  			if (list_is_last(&t->transfer_list, &m->transfers)) {
-a68acec2b20292 Conor Dooley  2024-04-23  673  				break; //special meaning, see below
-e08ccfd9874188 Jamie Gibbons 2023-11-29  674  			}
-a68acec2b20292 Conor Dooley  2024-04-23  675  
-a68acec2b20292 Conor Dooley  2024-04-23  676  			// cs_change is set, so disable between xfers
-a68acec2b20292 Conor Dooley  2024-04-23  677  			// if cs_off,
-a68acec2b20292 Conor Dooley  2024-04-23  678  			if (!t->cs_off)
-a68acec2b20292 Conor Dooley  2024-04-23  679  				mchp_coreqspi_deactivate_cs(m->spi);
-a68acec2b20292 Conor Dooley  2024-04-23  680  			else
-a68acec2b20292 Conor Dooley  2024-04-23  681  				mchp_coreqspi_activate_cs(m->spi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  682  		}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  683  	}
-e08ccfd9874188 Jamie Gibbons 2023-11-29  684  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  685  
-a68acec2b20292 Conor Dooley  2024-04-23  686  	// need to wait for a final txdone to know that all data has been sent.
-e08ccfd9874188 Jamie Gibbons 2023-11-29  687  	mchp_coreqspi_enable_ints(qspi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  688  	if (!wait_for_completion_timeout(&qspi->data_completion, msecs_to_jiffies(1000)))
-e08ccfd9874188 Jamie Gibbons 2023-11-29  689  		ret = -ETIMEDOUT;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  690  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  691  	m->actual_length = total_bytes;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  692  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  693  error:
-a68acec2b20292 Conor Dooley  2024-04-23  694  	if (ret != 0 || !cs_change) //special case of cs_change for last xfer, set means dont touch line state
-a68acec2b20292 Conor Dooley  2024-04-23  695  		mchp_coreqspi_deactivate_cs(m->spi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  696  
-e08ccfd9874188 Jamie Gibbons 2023-11-29  697  	m->status = ret;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  698  	spi_finalize_current_message(ctlr);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  699  	mutex_unlock(&qspi->op_lock);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  700  	mchp_coreqspi_disable_ints(qspi);
-e08ccfd9874188 Jamie Gibbons 2023-11-29  701  	return ret;
-e08ccfd9874188 Jamie Gibbons 2023-11-29  702  }
-e08ccfd9874188 Jamie Gibbons 2023-11-29  703  
+vim +/ERR_PTR +639 mm/gup.c
 
-:::::: The code at line 593 was first introduced by commit
-:::::: e08ccfd9874188f0f0142fd19cf0579f43e999be spi: microchip-core-qspi: Add regular transfers
-
-:::::: TO: Jamie Gibbons <jamie.gibbons@microchip.com>
-:::::: CC: Conor Dooley <conor.dooley@microchip.com>
+a12083d721d703 Peter Xu 2024-03-27  608  
+a12083d721d703 Peter Xu 2024-03-27  609  static struct page *follow_hugepd(struct vm_area_struct *vma, hugepd_t hugepd,
+a12083d721d703 Peter Xu 2024-03-27  610  				  unsigned long addr, unsigned int pdshift,
+a12083d721d703 Peter Xu 2024-03-27  611  				  unsigned int flags,
+a12083d721d703 Peter Xu 2024-03-27  612  				  struct follow_page_context *ctx)
+a12083d721d703 Peter Xu 2024-03-27  613  {
+a12083d721d703 Peter Xu 2024-03-27  614  	struct page *page;
+a12083d721d703 Peter Xu 2024-03-27  615  	struct hstate *h;
+a12083d721d703 Peter Xu 2024-03-27  616  	spinlock_t *ptl;
+a12083d721d703 Peter Xu 2024-03-27  617  	int nr = 0, ret;
+a12083d721d703 Peter Xu 2024-03-27  618  	pte_t *ptep;
+a12083d721d703 Peter Xu 2024-03-27  619  
+a12083d721d703 Peter Xu 2024-03-27  620  	/* Only hugetlb supports hugepd */
+a12083d721d703 Peter Xu 2024-03-27  621  	if (WARN_ON_ONCE(!is_vm_hugetlb_page(vma)))
+a12083d721d703 Peter Xu 2024-03-27  622  		return ERR_PTR(-EFAULT);
+a12083d721d703 Peter Xu 2024-03-27  623  
+a12083d721d703 Peter Xu 2024-03-27  624  	h = hstate_vma(vma);
+a12083d721d703 Peter Xu 2024-03-27  625  	ptep = hugepte_offset(hugepd, addr, pdshift);
+a12083d721d703 Peter Xu 2024-03-27  626  	ptl = huge_pte_lock(h, vma->vm_mm, ptep);
+01d89b93e17699 Peter Xu 2024-04-30  627  	ret = gup_hugepd(vma, hugepd, addr, pdshift, addr + PAGE_SIZE,
+a12083d721d703 Peter Xu 2024-03-27  628  			 flags, &page, &nr);
+a12083d721d703 Peter Xu 2024-03-27  629  	spin_unlock(ptl);
+a12083d721d703 Peter Xu 2024-03-27  630  
+01d89b93e17699 Peter Xu 2024-04-30  631  	if (ret == 1) {
+01d89b93e17699 Peter Xu 2024-04-30  632  		/* GUP succeeded */
+a12083d721d703 Peter Xu 2024-03-27  633  		WARN_ON_ONCE(nr != 1);
+a12083d721d703 Peter Xu 2024-03-27  634  		ctx->page_mask = (1U << huge_page_order(h)) - 1;
+a12083d721d703 Peter Xu 2024-03-27  635  		return page;
+a12083d721d703 Peter Xu 2024-03-27  636  	}
+a12083d721d703 Peter Xu 2024-03-27  637  
+01d89b93e17699 Peter Xu 2024-04-30  638  	/* ret can be either 0 (translates to NULL) or negative */
+01d89b93e17699 Peter Xu 2024-04-30 @639  	return ERR_PTR(ret);
+a12083d721d703 Peter Xu 2024-03-27  640  }
+a12083d721d703 Peter Xu 2024-03-27  641  #else /* CONFIG_ARCH_HAS_HUGEPD */
+01d89b93e17699 Peter Xu 2024-04-30  642  static inline int gup_hugepd(struct vm_area_struct *vma, hugepd_t hugepd,
+01d89b93e17699 Peter Xu 2024-04-30  643  			     unsigned long addr, unsigned int pdshift,
+01d89b93e17699 Peter Xu 2024-04-30  644  			     unsigned long end, unsigned int flags,
+a12083d721d703 Peter Xu 2024-03-27  645  			     struct page **pages, int *nr)
+a12083d721d703 Peter Xu 2024-03-27  646  {
+a12083d721d703 Peter Xu 2024-03-27  647  	return 0;
+a12083d721d703 Peter Xu 2024-03-27  648  }
+a12083d721d703 Peter Xu 2024-03-27  649  
 
 -- 
 0-DAY CI Kernel Test Service
