@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C4F129A6B
-	for <oe-kbuild@lists.linux.dev>; Thu,  9 May 2024 22:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20607F
+	for <oe-kbuild@lists.linux.dev>; Fri, 10 May 2024 00:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715294371; cv=none; b=rSoxaFsrOaaVUQhdI1MEY216X0VTwu7gF9XY/iG0AS8SceaSedXFFMRaLubHRv15Q2fSsTjlgXb/UwkB82VWHxHgT3gpExBVj5KaxJLQYHC5o8SfTX3GGsIxtXXUBPd5zF4dnRDSZI1dZjFWFYebd70l+jggWdcrd6qg7NA6FS0=
+	t=1715299294; cv=none; b=JKdsjAFT5gJxK/czbSrP2rxAeVs8ayf7XYJHiTDkfqEUZE2eDy/Qq4STnr7JMsIsuzgIU4JbupZE8ts+1qy04viLa2Wzkxk6jajbUds7mTBVQebVqcZnXJ8pS0MXrY8BUuEYjWczX4YdFiqGhdyw40ZRiw3Ssyov+zTGkjU0llc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715294371; c=relaxed/simple;
-	bh=be+PFEORamRdnrRcWY1/a1Ab+quRqrajljsnKfkxbDE=;
+	s=arc-20240116; t=1715299294; c=relaxed/simple;
+	bh=BUA+wbisyL+E5ixtkZSy7MWBCuvYqHpqNQgfbRbIXiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SfQ2H6/Jc/4r4dHQBYXL/zb3iUo8o4qegrG8DJsuv+bTjMrMG0xYLwP8aj0z8V0BCesMymL59aiGtgYUxUMS9bEM6tFr+6xKj68RtPbmFft1wH+Dzi+ipRyBmWE4wbtp+MH9OE55Ii4j1sgxMT9UtpIcB3gEQcKPPGK53AriVOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALgnAhWI; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=GqClxrHWzOp8HiJ6TRIUuAlc+IY9rysWPjYtyZq7yzgHpVmeeQaD+0fVQfktlSLVlFY5TnZStqSmW0st8g2oE5CNLXDQTeieWiVpo57UEjuS4HF5OD9UV1iK7YjanBiwRR+usCw1sb+DDj/2RN0N3Iz4LVU72HNGNyUro1+WNKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AASQcJyp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALgnAhWI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AASQcJyp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715294369; x=1746830369;
+  t=1715299292; x=1746835292;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=be+PFEORamRdnrRcWY1/a1Ab+quRqrajljsnKfkxbDE=;
-  b=ALgnAhWIs0DEx2RpwgtqJ0HniYfTpTm+fO4sUbz2pCHSMxOW4nGpq0vf
-   jnQV7FhzD8XuIPBJpHjGHgCigQ6uZ62JBolvOh5s9DraGIePl0Ucb9kMJ
-   Aax2wzawPLpoggvaQNmcKTaIzE/f/7MDPuJg9kqg2S+u2SykEkD8NQJrJ
-   FBpZsDVuktV15d5JAS6eUf3CABAAR1R1gc8nxfPBkJQT0b3xeTRae9REC
-   r6N2HaqpmUy73lFsv/BvdOxh1Ob8UawG1videJe/pFIOm+/XEHsQbZ6Tz
-   tDO67+bomjNcftxRIrK+n8ctcGb86kDJ6IKklO9mLFyETDpKtejGvLX3p
-   Q==;
-X-CSE-ConnectionGUID: WVhFUq8vQ2GJtxURyZrrNQ==
-X-CSE-MsgGUID: yRux3WU2QZGruV4Ju/GkGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="14202104"
+  bh=BUA+wbisyL+E5ixtkZSy7MWBCuvYqHpqNQgfbRbIXiE=;
+  b=AASQcJypTrqB3rLNieJnLHpKPw/M9J2ZFyGtHn168ta65ztj31m/sEDV
+   w7ik+LegX+GqIJ4dpqKW+naJWYEcqbuoVv8U8Xs9+n6oEjk3uN8kNc38G
+   cNmKjS/SwKSfXni4gBUI3LcvSD8hvC9gZMrTdD5L/xRcPaWfYxpTmKbVB
+   gJk7p2ve+6ptZfL5L1+N+jLeayt6MonnONqaHTx33sEydIb2HKaKXpOl8
+   cNlUIlmqseVnCJRR8EnXFB/2My1D0xGvojPpKkrlsQcLBQWXz8So2NGOI
+   j/ZHTvSyDhAygzJ2vzYdZlCH2Yjt6ILMEo8IX8RXbGrb+Rde1eMSvhuCj
+   g==;
+X-CSE-ConnectionGUID: BHFeszT0Qly8XE9pX3bajw==
+X-CSE-MsgGUID: a7cQTAXORvS7mHaryGDOSg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11417478"
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="14202104"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 15:39:28 -0700
-X-CSE-ConnectionGUID: bGe0ERPvQsO6B4B5L2voug==
-X-CSE-MsgGUID: ZSZFuYCTRVObR8cYMRc0gA==
+   d="scan'208";a="11417478"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 17:01:32 -0700
+X-CSE-ConnectionGUID: +LVkbGyTT1CLJALVBBR8NA==
+X-CSE-MsgGUID: AKrA+ps8QDu3dPi4dtTa9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="52608042"
+   d="scan'208";a="60273903"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 May 2024 15:39:28 -0700
+  by orviesa002.jf.intel.com with ESMTP; 09 May 2024 17:01:30 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5CQ8-0005Rd-2n;
-	Thu, 09 May 2024 22:39:24 +0000
-Date: Fri, 10 May 2024 06:38:30 +0800
+	id 1s5DhX-0005Vt-1H;
+	Fri, 10 May 2024 00:01:27 +0000
+Date: Fri, 10 May 2024 08:01:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 7740/12321] fs/xfs/libxfs/xfs_dir2.c:415:1-5:
- alloc with no test, possible model on line 431
-Message-ID: <202405100601.yF9nftCV-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/pci/emu10k1/io.c:349 snd_emu1010_fpga_link_dst_src_read()
+ error: uninitialized symbol 'hi'.
+Message-ID: <202405100705.TUVIiVsi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,87 +64,89 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Christoph Hellwig <hch@lst.de>
-CC: Chandan Babu R <chandanbabu@kernel.org>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+CC: Takashi Iwai <tiwai@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   704ba27ac55579704ba1289392448b0c66b56258
-commit: 14ee22fef420c864c0869419e54aa4e88f64b4e6 [7740/12321] xfs: factor out a xfs_dir_lookup_args helper
-:::::: branch date: 16 hours ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-103-20240509 (https://download.01.org/0day-ci/archive/20240510/202405100601.yF9nftCV-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   448b3fe5a0eab5b625a7e15c67c7972169e47ff8
+commit: 2d3f4810886eb7c319cec41b6d725d2953bfa88a ALSA: emu10k1: use mutex for E-MU FPGA access locking
+date:   12 days ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 12 days ago
+config: i386-randconfig-141-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100705.TUVIiVsi-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405100601.yF9nftCV-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405100705.TUVIiVsi-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/libxfs/xfs_dir2.c:415:1-5: alloc with no test, possible model on line 431
+New smatch warnings:
+sound/pci/emu10k1/io.c:349 snd_emu1010_fpga_link_dst_src_read() error: uninitialized symbol 'hi'.
+sound/pci/emu10k1/io.c:349 snd_emu1010_fpga_link_dst_src_read() error: uninitialized symbol 'lo'.
+sound/pci/emu10k1/io.c:359 snd_emu1010_get_raw_rate() error: uninitialized symbol 'value'.
+sound/pci/emu10k1/io.c:382 snd_emu1010_get_raw_rate() error: uninitialized symbol 'value2'.
 
-vim +415 fs/xfs/libxfs/xfs_dir2.c
+Old smatch warnings:
+sound/pci/emu10k1/io.c:382 snd_emu1010_get_raw_rate() error: uninitialized symbol 'value'.
 
-14ee22fef420c8 fs/xfs/libxfs/xfs_dir2.c Christoph Hellwig 2024-04-25  393  
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  394  /*
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  395   * Lookup a name in a directory, give back the inode number.
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  396   * If ci_name is not NULL, returns the actual name in ci_name if it differs
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  397   * to name, or ci_name->name is set to NULL for an exact match.
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  398   */
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  399  
-f6c2d1fa6310a7 fs/xfs/xfs_dir2.c        Nathan Scott      2006-06-20  400  int
-f6c2d1fa6310a7 fs/xfs/xfs_dir2.c        Nathan Scott      2006-06-20  401  xfs_dir_lookup(
-996b2329b20a89 fs/xfs/libxfs/xfs_dir2.c Darrick J. Wong   2022-03-09  402  	struct xfs_trans	*tp,
-996b2329b20a89 fs/xfs/libxfs/xfs_dir2.c Darrick J. Wong   2022-03-09  403  	struct xfs_inode	*dp,
-996b2329b20a89 fs/xfs/libxfs/xfs_dir2.c Darrick J. Wong   2022-03-09  404  	const struct xfs_name	*name,
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  405  	xfs_ino_t		*inum,	  /* out: inode number */
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  406  	struct xfs_name		*ci_name) /* out: actual name if CI match */
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  407  {
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  408  	struct xfs_da_args	*args;
-f6c2d1fa6310a7 fs/xfs/xfs_dir2.c        Nathan Scott      2006-06-20  409  	int			rval;
-dbad7c993053d8 fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2015-08-19  410  	int			lock_mode;
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  411  
-c19b3b05ae440d fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2016-02-09  412  	ASSERT(S_ISDIR(VFS_I(dp)->i_mode));
-ff6d6af2351cae fs/xfs/libxfs/xfs_dir2.c Bill O'Donnell    2015-10-12  413  	XFS_STATS_INC(dp->i_mount, xs_dir_lookup);
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  414  
-94a69db2367efc fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2024-01-16 @415  	args = kzalloc(sizeof(*args),
-94a69db2367efc fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2024-01-16  416  			GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_NOFAIL);
-0650b55497ef58 fs/xfs/xfs_dir2.c        Dave Chinner      2014-06-06  417  	args->geo = dp->i_mount->m_dir_geo;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  418  	args->name = name->name;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  419  	args->namelen = name->len;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  420  	args->filetype = name->type;
-d8d11fc703a22b fs/xfs/libxfs/xfs_dir2.c Christoph Hellwig 2019-11-11  421  	args->hashval = xfs_dir2_hashname(dp->i_mount, name);
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  422  	args->dp = dp;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  423  	args->whichfork = XFS_DATA_FORK;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  424  	args->trans = tp;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  425  	args->op_flags = XFS_DA_OP_OKNOENT;
-9eef772f3a194f fs/xfs/libxfs/xfs_dir2.c Darrick J. Wong   2024-04-15  426  	args->owner = dp->i_ino;
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  427  	if (ci_name)
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  428  		args->op_flags |= XFS_DA_OP_CILOOKUP;
-f6c2d1fa6310a7 fs/xfs/xfs_dir2.c        Nathan Scott      2006-06-20  429  
-dbad7c993053d8 fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2015-08-19  430  	lock_mode = xfs_ilock_data_map_shared(dp);
-14ee22fef420c8 fs/xfs/libxfs/xfs_dir2.c Christoph Hellwig 2024-04-25 @431  	rval = xfs_dir_lookup_args(args);
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  432  	if (!rval) {
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  433  		*inum = args->inumber;
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  434  		if (ci_name) {
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  435  			ci_name->name = args->value;
-a1358aa3d39251 fs/xfs/xfs_dir2.c        Dave Chinner      2014-02-27  436  			ci_name->len = args->valuelen;
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  437  		}
-384f3ced07efdd fs/xfs/xfs_dir2.c        Barry Naujok      2008-05-21  438  	}
-dbad7c993053d8 fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2015-08-19  439  	xfs_iunlock(dp, lock_mode);
-d4c75a1b40cd03 fs/xfs/libxfs/xfs_dir2.c Dave Chinner      2024-01-16  440  	kfree(args);
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  441  	return rval;
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  442  }
-^1da177e4c3f41 fs/xfs/xfs_dir2.c        Linus Torvalds    2005-04-16  443  
+vim +/hi +349 sound/pci/emu10k1/io.c
 
-:::::: The code at line 415 was first introduced by commit
-:::::: 94a69db2367efcd7e0eeb5d4603340aff1d3c340 xfs: use __GFP_NOLOCKDEP instead of GFP_NOFS
+9f4bd5dde81b5c James Courtier-Dutton 2006-10-01  338  
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  339  u32 snd_emu1010_fpga_link_dst_src_read(struct snd_emu10k1 *emu, u32 dst)
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  340  {
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  341  	u32 hi, lo;
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  342  
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  343  	if (snd_BUG_ON(dst & ~0x71f))
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  344  		return 0;
+2d3f4810886eb7 Oswald Buddenhagen    2024-04-28  345  	snd_emu1010_fpga_write(emu, EMU_HANA_DESTHI, dst >> 8);
+2d3f4810886eb7 Oswald Buddenhagen    2024-04-28  346  	snd_emu1010_fpga_write(emu, EMU_HANA_DESTLO, dst & 0x1f);
+2d3f4810886eb7 Oswald Buddenhagen    2024-04-28  347  	snd_emu1010_fpga_read(emu, EMU_HANA_SRCHI, &hi);
+2d3f4810886eb7 Oswald Buddenhagen    2024-04-28  348  	snd_emu1010_fpga_read(emu, EMU_HANA_SRCLO, &lo);
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26 @349  	return (hi << 8) | lo;
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  350  }
+6ab13291ba82e6 Oswald Buddenhagen    2023-05-26  351  
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  352  int snd_emu1010_get_raw_rate(struct snd_emu10k1 *emu, u8 src)
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  353  {
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  354  	u32 reg_lo, reg_hi, value, value2;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  355  
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  356  	switch (src) {
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  357  	case EMU_HANA_WCLOCK_HANA_SPDIF_IN:
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  358  		snd_emu1010_fpga_read(emu, EMU_HANA_SPDIF_MODE, &value);
+e73b597e63ebad Oswald Buddenhagen    2023-06-12 @359  		if (value & EMU_HANA_SPDIF_MODE_RX_INVALID)
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  360  			return 0;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  361  		reg_lo = EMU_HANA_WC_SPDIF_LO;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  362  		reg_hi = EMU_HANA_WC_SPDIF_HI;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  363  		break;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  364  	case EMU_HANA_WCLOCK_HANA_ADAT_IN:
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  365  		reg_lo = EMU_HANA_WC_ADAT_LO;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  366  		reg_hi = EMU_HANA_WC_ADAT_HI;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  367  		break;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  368  	case EMU_HANA_WCLOCK_SYNC_BNC:
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  369  		reg_lo = EMU_HANA_WC_BNC_LO;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  370  		reg_hi = EMU_HANA_WC_BNC_HI;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  371  		break;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  372  	case EMU_HANA_WCLOCK_2ND_HANA:
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  373  		reg_lo = EMU_HANA2_WC_SPDIF_LO;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  374  		reg_hi = EMU_HANA2_WC_SPDIF_HI;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  375  		break;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  376  	default:
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  377  		return 0;
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  378  	}
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  379  	snd_emu1010_fpga_read(emu, reg_hi, &value);
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  380  	snd_emu1010_fpga_read(emu, reg_lo, &value2);
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  381  	// FIXME: The /4 is valid for 0404b, but contradicts all other info.
+e73b597e63ebad Oswald Buddenhagen    2023-06-12 @382  	return 0x1770000 / 4 / (((value << 5) | value2) + 1);
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  383  }
+e73b597e63ebad Oswald Buddenhagen    2023-06-12  384  
 
-:::::: TO: Dave Chinner <dchinner@redhat.com>
-:::::: CC: Chandan Babu R <chandanbabu@kernel.org>
+:::::: The code at line 349 was first introduced by commit
+:::::: 6ab13291ba82e6f0c8778cb45726dffffb9205f5 ALSA: emu10k1: make E-MU FPGA register dump in /proc more useful
+
+:::::: TO: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
