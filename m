@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1AF657D9
-	for <oe-kbuild@lists.linux.dev>; Sat, 11 May 2024 22:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88438C8F3
+	for <oe-kbuild@lists.linux.dev>; Sat, 11 May 2024 23:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715465068; cv=none; b=EoaEYQJo6LgctD3goQys//YrqHid2nWtd/1chY1RGjBLkUivd3LwnfkUFQZmQmPTQpGT8Q04P4PSdrhuvM+aPapwdFT0CxsgPZGgT8oeZw7QVITF8pW7uMExPFfkFsnXX2Wv6+a2MiNMP7D3iVY3lzFn4zMb63ifuNP93MHkmpw=
+	t=1715471853; cv=none; b=YrKzU4WVg4Ulf+UCyYd/QTkfFLFvQzAue3pTsx7X83x2BJCOIF7rxnJ1cjHrjy1Mq71U7hJvnb8NhsGLdL9EMFGlQB1P715p4lNzbBEPI1PhpC1M2aVqhJ4kq9Pfjb29yt+ReDk6KYIOCgeiIFroL7esHt8N+DxU4RXArYgjT2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715465068; c=relaxed/simple;
-	bh=e/Bq4Qfar8pZ54kInVVaS+3CMD9OWqPveiXmBMpPvsM=;
+	s=arc-20240116; t=1715471853; c=relaxed/simple;
+	bh=ZrPEFpOeCwouF8VosfSPbfIDKqBCyt0VuY6NK5ZjNXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TF7MUPzOYxqAIWUlFQ5cZ0L2vCAlfXUDPRIO5lx6vIFCkdLvXAwLqLNex/xoqLFa0aEi2YXUyRWtUnafFxpZ+4n47kuFBAcmPcfBj2CNb0t/W/XUY9WFa7A0z87MmgXXdRjtQhLDjSvYSpNxsUWMGwYvBLnAPDNK7sYgPzua8dA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVw0yRcc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=mU4E6cj7gpBQ14VarJMwGw7FS3Nys0zV5bGZufr5sxmZm7y4lmR1R77Yi9C9OxbsH6LRXxzPK52+TaUEVzrmBRK/b+nXNUbahX8NGMWs+sdZsAS5PG+BaODcauR1a5SkgAYQLUwYcK7Fhce6KJklwulR1pL4aaUxBrozVa8k5ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L0t2OMiV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVw0yRcc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L0t2OMiV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715465067; x=1747001067;
+  t=1715471852; x=1747007852;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e/Bq4Qfar8pZ54kInVVaS+3CMD9OWqPveiXmBMpPvsM=;
-  b=MVw0yRccYTMMBi3F4rFbcQ9WbOkDredxIpFtd1R06Nk1d19MCMFT7jx0
-   tlu3eNRdrifgBkZMM/w/mdhqhucQW6LjtStrbxtrY+K3v8hx3MZafE+Ao
-   +peZK0sTElSsguTnwjfu+WaBa/5ll4CgG0mGVagcq8vjyid9JJtVrrbf0
-   8woSOVnmvlQW/ZVhxGAJPQPKuZ8J62BYa5x7sSUNsjsrSGllKTBYaAdLy
-   JSsNQTsXQEmrauabquHMgS2VcYZIksgGRKVi3aNurArcHHaX6QsYMHzfi
-   fEqGNLYK0V/GPlZlANmV7Q+YmnzdwG98IVmwsUyZ3n+HBV9cjW/i1C7y4
-   g==;
-X-CSE-ConnectionGUID: 4+AMQSoxRVuQUoAJogq9vg==
-X-CSE-MsgGUID: MkVy+v5YTOuD6uHJ5F7afA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="11375903"
-X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
-   d="scan'208";a="11375903"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 15:04:27 -0700
-X-CSE-ConnectionGUID: YWhyBI5XSXCJ8WVWp7w01w==
-X-CSE-MsgGUID: JxZMP5CjTJ63lDO37/btYg==
+  bh=ZrPEFpOeCwouF8VosfSPbfIDKqBCyt0VuY6NK5ZjNXg=;
+  b=L0t2OMiV90JGhRXmE+sV4Um/2oYjNc+LFP4yr2oxQiWtFPJ5uu50JjXv
+   wAsIklX/2yGnbN1I/w+07A55xnlQe8+3argj18FvQpbgkGwHoUDPsIM4n
+   G0XQr9wD+fVnylpPF/bCSHiue3Wa4YvwcNH2PQabtnKFQw5lInDZGQT9w
+   DB4Q2ANh3bq02cJxTOQs9G36MkfdzRMjwbCcsGKAMAmPMLK0U4lZPgy6/
+   FWta0XCjS7V5nMaYDA22LC3kseINfTgQlxSJMUZ5QIYotdfF/42e0FF8c
+   t9uirewZeswsrDgYc+42e66Hs2YpBG8jTahySn7qOnqpT3o4+X+21jL92
+   Q==;
+X-CSE-ConnectionGUID: H4bRf8TXSO+0dBW6e73JUA==
+X-CSE-MsgGUID: 26TShX12QMOfBVarL9bWvg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="11485299"
+X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
+   d="scan'208";a="11485299"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 16:57:31 -0700
+X-CSE-ConnectionGUID: Re/jdfDNTsyx0p9Kn0uy6A==
+X-CSE-MsgGUID: 4aIBj1OZS5CPu9j0Ji0kPg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,154,1712646000"; 
-   d="scan'208";a="30080695"
+X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
+   d="scan'208";a="53175725"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 May 2024 15:04:25 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 May 2024 16:57:29 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5upK-0007sj-2u;
-	Sat, 11 May 2024 22:04:22 +0000
-Date: Sun, 12 May 2024 06:04:03 +0800
+	id 1s5wak-0007xL-1q;
+	Sat, 11 May 2024 23:57:26 +0000
+Date: Sun, 12 May 2024 07:57:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/of/unittest.c:1195 of_unittest_reg() error: uninitialized
- symbol 'addr'.
-Message-ID: <202405120620.HFCq9U8K-lkp@intel.com>
+Subject: Re: [PATCH 1/2] ASoC: codecs: lpass-macro: add helpers to get codec
+ version
+Message-ID: <202405120735.qbbiUPaX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,67 +64,77 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240510175835.286775-2-srinivas.kandagatla@linaro.org>
+References: <20240510175835.286775-2-srinivas.kandagatla@linaro.org>
+TO: srinivas.kandagatla@linaro.org
+TO: broonie@kernel.org
+CC: perex@perex.cz
+CC: tiwai@suse.com
+CC: alsa-devel@alsa-project.org
+CC: lgirdwood@gmail.com
 CC: linux-kernel@vger.kernel.org
-TO: Frank Rowand <frowand.list@gmail.com>
-CC: Rob Herring <robh@kernel.org>
-CC: Stephen Boyd <sboyd@kernel.org>
+CC: krzysztof.kozlowski@linaro.org
+CC: neil.armstrong@linaro.org
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cf87f46fd34d6c19283d9625a7822f20d90b64a4
-commit: 7b937cc243e5b1df8780a0aa743ce800df6c68d1 of: Create of_root if no dtb provided by firmware
-date:   9 weeks ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 9 weeks ago
-config: sparc-randconfig-r081-20240512 (https://download.01.org/0day-ci/archive/20240512/202405120620.HFCq9U8K-lkp@intel.com/config)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.9-rc7 next-20240510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/srinivas-kandagatla-linaro-org/ASoC-codecs-lpass-macro-add-helpers-to-get-codec-version/20240511-020042
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240510175835.286775-2-srinivas.kandagatla%40linaro.org
+patch subject: [PATCH 1/2] ASoC: codecs: lpass-macro: add helpers to get codec version
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: sparc-randconfig-r081-20240512 (https://download.01.org/0day-ci/archive/20240512/202405120735.qbbiUPaX-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405120620.HFCq9U8K-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405120735.qbbiUPaX-lkp@intel.com/
 
-New smatch warnings:
-drivers/of/unittest.c:1195 of_unittest_reg() error: uninitialized symbol 'addr'.
+smatch warnings:
+sound/soc/codecs/lpass-va-macro.c:1485 va_macro_set_lpass_codec_version() error: uninitialized symbol 'version'.
 
-Old smatch warnings:
-drivers/of/unittest.c:854 of_unittest_changeset() error: potential null dereference 'n1'.  (__of_node_dup returns null)
-drivers/of/unittest.c:855 of_unittest_changeset() error: potential null dereference 'n2'.  (__of_node_dup returns null)
-drivers/of/unittest.c:856 of_unittest_changeset() error: potential null dereference 'n21'.  (__of_node_dup returns null)
-drivers/of/unittest.c:1283 of_unittest_parse_interrupts() warn: bitwise AND condition is false here
-drivers/of/unittest.c:1360 of_unittest_parse_interrupts_extended() warn: bitwise AND condition is false here
-drivers/of/unittest.c:1522 of_unittest_platform_populate() warn: bitwise AND condition is false here
+vim +/version +1485 sound/soc/codecs/lpass-va-macro.c
 
-vim +/addr +1195 drivers/of/unittest.c
-
-3d5089c4263d35 Rob Herring 2023-03-28  1179  
-ff61bacd77f258 Rob Herring 2023-03-28  1180  static void __init of_unittest_reg(void)
-ff61bacd77f258 Rob Herring 2023-03-28  1181  {
-ff61bacd77f258 Rob Herring 2023-03-28  1182  	struct device_node *np;
-ff61bacd77f258 Rob Herring 2023-03-28  1183  	int ret;
-ff61bacd77f258 Rob Herring 2023-03-28  1184  	u64 addr, size;
-ff61bacd77f258 Rob Herring 2023-03-28  1185  
-ff61bacd77f258 Rob Herring 2023-03-28  1186  	np = of_find_node_by_path("/testcase-data/address-tests/bus@80000000/device@1000");
-ff61bacd77f258 Rob Herring 2023-03-28  1187  	if (!np) {
-ff61bacd77f258 Rob Herring 2023-03-28  1188  		pr_err("missing testcase data\n");
-ff61bacd77f258 Rob Herring 2023-03-28  1189  		return;
-ff61bacd77f258 Rob Herring 2023-03-28  1190  	}
-ff61bacd77f258 Rob Herring 2023-03-28  1191  
-ff61bacd77f258 Rob Herring 2023-03-28  1192  	ret = of_property_read_reg(np, 0, &addr, &size);
-ff61bacd77f258 Rob Herring 2023-03-28  1193  	unittest(!ret, "of_property_read_reg(%pOF) returned error %d\n",
-ff61bacd77f258 Rob Herring 2023-03-28  1194  		np, ret);
-ff61bacd77f258 Rob Herring 2023-03-28 @1195  	unittest(addr == 0x1000, "of_property_read_reg(%pOF) untranslated address (%llx) incorrect\n",
-ff61bacd77f258 Rob Herring 2023-03-28  1196  		np, addr);
-ff61bacd77f258 Rob Herring 2023-03-28  1197  
-ff61bacd77f258 Rob Herring 2023-03-28  1198  	of_node_put(np);
-ff61bacd77f258 Rob Herring 2023-03-28  1199  }
-ff61bacd77f258 Rob Herring 2023-03-28  1200  
-
-:::::: The code at line 1195 was first introduced by commit
-:::::: ff61bacd77f258bd2ed145efb69e5449b115d4fe of/address: Add of_property_read_reg() helper
-
-:::::: TO: Rob Herring <robh@kernel.org>
-:::::: CC: Rob Herring <robh@kernel.org>
+908e6b1df26efc Srinivas Kandagatla 2020-11-05  1463  
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1464  static void va_macro_set_lpass_codec_version(struct va_macro *va)
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1465  {
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1466  	int core_id_0 = 0, core_id_1 = 0, core_id_2 = 0, version;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1467  
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1468  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_0, &core_id_0);
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1469  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_1, &core_id_1);
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1470  	regmap_read(va->regmap, CDC_VA_TOP_CSR_CORE_ID_2, &core_id_2);
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1471  
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1472  	if ((core_id_0 == 0x01) && (core_id_1 == 0x0F))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1473  		version = LPASS_CODEC_VERSION_2_0;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1474  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0E))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1475  		version = LPASS_CODEC_VERSION_2_1;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1476  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x50 || core_id_2 == 0x51))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1477  		version = LPASS_CODEC_VERSION_2_5;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1478  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x60 || core_id_2 == 0x61))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1479  		version = LPASS_CODEC_VERSION_2_6;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1480  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x70 || core_id_2 == 0x71))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1481  		version = LPASS_CODEC_VERSION_2_7;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1482  	if ((core_id_0 == 0x02) && (core_id_1 == 0x0F) && (core_id_2 == 0x80 || core_id_2 == 0x81))
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1483  		version = LPASS_CODEC_VERSION_2_8;
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1484  
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10 @1485  	lpass_macro_set_codec_version(version);
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1486  
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1487  	dev_info(va->dev, "LPASS Codec Version %s\n",
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1488  			lpass_macro_get_codec_version_string(version));
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1489  }
+787a4e6d2bc156 Srinivas Kandagatla 2024-05-10  1490  
 
 -- 
 0-DAY CI Kernel Test Service
