@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC07C8D7
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 May 2024 03:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A155A1CA9C
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 May 2024 11:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715484401; cv=none; b=ljTVMe9k4jXM/4kgkHzlLXjQe0djqfwhLwPanW/4wA95CU7Zp1v15PFrSo8BbY3a8P9JFLb3zbTfyA/6Pog4CuokSiGxEnFOicjVpOqLjEB+zI5t+v1Akm6s1vIcgO/lEi8WF86oWssRUhj+Eb85/2aGTK+j2Qj/uBPumst+p00=
+	t=1715513335; cv=none; b=U4/3PpoAvmCasvu4TSbtwXNmK9kn93VI24mfuB0YRDPVFhLVW1SKj7Di+OdhHFOVKtmTAeCYe3bsvyEpCGjHlV/NvR6rDt0pqwDKH8cCk95cBHZZbarAeIpopuElf8CPsQMUNEtc8/8fs/V1OSunezujqMX2OIRaxlDhD42WBQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715484401; c=relaxed/simple;
-	bh=MBsJ9mTKrGdfSv7pq9q6dSdMKt3G8isnvrgk096AdlQ=;
+	s=arc-20240116; t=1715513335; c=relaxed/simple;
+	bh=fBrSlBtH+nIO9DiUbmsO2cX/sHAOuJ8Yodb5Xo+eNDE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k5ca1/lH+dukXAVDEi74pv71MVyOLIn6WlNcLPRA6YU5bWnsoMg9FxbwSuA9BsovJkw8GoD9HP/YYlvYihwjFALuKr7yuJZ3fdrqRCDhKAtiIY8hwWLItUyYBghqQKy3rvUDVidWOoNLzF7i/mwkrDvv2qK0L8pN8Xfhd5IaF/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MwM+9Sxj; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=QRnhI+0DqLKz5b8hQRs6eQGHupXA1iWS549RdWaDqsSaU1cHEEtQwfSqA9L1NiGJ/CzXdeBI9lP5vZAeZ/gtoI1IcgoSZKFY+yYLHgy7U6x3EuBYVdJO+6tOLBi9lxtNt1KKKPqnz3PGFQJNFNFV6pepCosBMhNBbaK6n/2njOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0gbt2Wx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MwM+9Sxj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0gbt2Wx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715484399; x=1747020399;
+  t=1715513334; x=1747049334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MBsJ9mTKrGdfSv7pq9q6dSdMKt3G8isnvrgk096AdlQ=;
-  b=MwM+9Sxj81q1/ACUVMFGD2dXwP5BXl7VpzFew2kH4X2yP45rqfYSLjIT
-   hvZujCH23zeGgWuEdEcqZJIQ4eSfWdBl70iHUBZCo1uK8cdu8/1vs0Gj/
-   PHvCyVr6K9tJdS/UfmTxCfgtdyhqJshZbDTGP94xCKYrIDUa2R2UA8y6A
-   oJILh2Go4FAQXg3LLcT9xlMguhVRl03QnLPQg0eeQJRl93O7coYnm+XzT
-   vnDa7nfZoCJXk+XiuBqs/0yYP1N1IEa03O4OYKpsINIolGXfIVbfaTr3q
-   xytqxWm8hR2xGclI5C8S3gf82h0U318HVZvLaA9Zc/FBd+79W9GtPS9hD
+  bh=fBrSlBtH+nIO9DiUbmsO2cX/sHAOuJ8Yodb5Xo+eNDE=;
+  b=a0gbt2WxDI3vMZrGxMtU82+gos3V7IpHZrfiUaEi+xqiyUKnP6tSpcpl
+   3QWRQXIX5S81zcy5OAmkfyJr34yEa8FTiJK142/tyESKS+P+ItQmGinwc
+   bq//Lp/eaG9fkX3sptEzRJBdJjWucXkcnkGWTW5aiQ03hlt8cwTI/Q4Ss
+   bw/BJzol/iZykhcSqWeLDjr2h+ti1LULEncimTSBh1zzSMK0NrM9v/e9L
+   FABotHblbysW7HMm3VSimYq7l4ipF1sDlar1mNcrEyijvrYv77CHltc/o
+   DwxxI7uMhpfge7LRPSSquPVrB8WtLbo2Zgnr8YZtzmYJnujIBgID8LAHG
    A==;
-X-CSE-ConnectionGUID: aeZWeW1NSiqCxOtSUchkKw==
-X-CSE-MsgGUID: xY5PADSzQqOes/F8sdvCXA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="11616589"
+X-CSE-ConnectionGUID: F27usEWFQ7+d7ccNPMVVUQ==
+X-CSE-MsgGUID: pMbrKFGuSYC8RBUvrMHw8A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="22031561"
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="11616589"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 20:26:39 -0700
-X-CSE-ConnectionGUID: sKN1iYliQTuCwEykEj/UMA==
-X-CSE-MsgGUID: LjU1VU+0QPK697RTW5RiSg==
+   d="scan'208";a="22031561"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 04:28:54 -0700
+X-CSE-ConnectionGUID: dlDRXMTQSBezl59EjNRc+Q==
+X-CSE-MsgGUID: tzo22hsQTuGMADZ7QzCHmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="30122295"
+   d="scan'208";a="53289006"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 May 2024 20:26:38 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 May 2024 04:28:52 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s5zr9-00087b-11;
-	Sun, 12 May 2024 03:26:35 +0000
-Date: Sun, 12 May 2024 11:26:17 +0800
+	id 1s67Np-0008Xj-2T;
+	Sun, 12 May 2024 11:28:49 +0000
+Date: Sun, 12 May 2024 19:28:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v8 3/3] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO
- driver
-Message-ID: <202405121133.eykxulmj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 12023/12533] test_cachestat.c:2:9: warning:
+ '_GNU_SOURCE' macro redefined
+Message-ID: <202405121952.nKKkle9V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,89 +62,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240508065141.565848-4-ychuang570808@gmail.com>
-References: <20240508065141.565848-4-ychuang570808@gmail.com>
-TO: Jacky Huang <ychuang570808@gmail.com>
-TO: linus.walleij@linaro.org
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-TO: p.zabel@pengutronix.de
-TO: j.neuschaefer@gmx.net
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-gpio@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: ychuang3@nuvoton.com
-CC: schung@nuvoton.com
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Edward Liaw <edliaw@google.com>
+CC: Shuah Khan <skhan@linuxfoundation.org>
+CC: Muhammad Usama Anjum <usama.anjum@collabora.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: John Hubbard <jhubbard@nvidia.com>
 
-Hi Jacky,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next pza/reset/next robh/for-next linus/master v6.9-rc7 next-20240510]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/dt-bindings-reset-Add-syscon-to-nuvoton-ma35d1-system-management-node/20240508-145358
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20240508065141.565848-4-ychuang570808%40gmail.com
-patch subject: [PATCH v8 3/3] pinctrl: nuvoton: Add ma35d1 pinctrl and GPIO driver
-:::::: branch date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   75fa778d74b786a1608d55d655d42b480a6fa8bd
+commit: daef47b89efd0b745e8478d69a3ad724bd8b4dc6 [12023/12533] selftests: Compile kselftest headers with -D_GNU_SOURCE
+:::::: branch date: 2 days ago
 :::::: commit date: 4 days ago
-config: sparc-randconfig-r081-20240512 (https://download.01.org/0day-ci/archive/20240512/202405121133.eykxulmj-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.2.0
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240512/202405121952.nKKkle9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405121133.eykxulmj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405121952.nKKkle9V-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/nuvoton/pinctrl-ma35.c:665 ma35_pinconf_set_pull() error: uninitialized symbol 'pull_sel'.
+All warnings (new ones prefixed by >>):
 
-vim +/pull_sel +665 drivers/pinctrl/nuvoton/pinctrl-ma35.c
+>> test_cachestat.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       2 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> test_execve.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       2 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> clone3.c:5:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       5 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> clone3_clear_sighand.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       3 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> clone3_set_tid.c:9:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       9 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> clone3_cap_checkpoint_restore.c:11:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+      11 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> close_range_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       3 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> udmabuf.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       2 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> devpts_pts.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       2 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> dnotify_test.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       2 | #define _GNU_SOURCE     /* needed to get the defines */
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+--
+>> binderfs_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
+       3 | #define _GNU_SOURCE
+         |         ^
+   <command line>:1:9: note: previous definition is here
+       1 | #define _GNU_SOURCE 1
+         |         ^
+   1 warning generated.
+..
 
-cb3da13430a6b4 Jacky Huang 2024-05-08  637  
-cb3da13430a6b4 Jacky Huang 2024-05-08  638  static int ma35_pinconf_set_pull(struct ma35_pinctrl *npctl, unsigned int pin,
-cb3da13430a6b4 Jacky Huang 2024-05-08  639  				 int pull_up)
-cb3da13430a6b4 Jacky Huang 2024-05-08  640  {
-cb3da13430a6b4 Jacky Huang 2024-05-08  641  	unsigned int port, group_num;
-cb3da13430a6b4 Jacky Huang 2024-05-08  642  	void __iomem *base;
-cb3da13430a6b4 Jacky Huang 2024-05-08  643  	u32 regval, pull_sel;
-cb3da13430a6b4 Jacky Huang 2024-05-08  644  
-cb3da13430a6b4 Jacky Huang 2024-05-08  645  	ma35_gpio_cla_port(pin, &group_num, &port);
-cb3da13430a6b4 Jacky Huang 2024-05-08  646  	base = npctl->ctrl->pin_banks[group_num].reg_base;
-cb3da13430a6b4 Jacky Huang 2024-05-08  647  
-cb3da13430a6b4 Jacky Huang 2024-05-08  648  	regval = readl(base + MA35_GP_REG_PUSEL);
-cb3da13430a6b4 Jacky Huang 2024-05-08  649  	regval &= ~MA35_GP_PUSEL_MASK(port);
-cb3da13430a6b4 Jacky Huang 2024-05-08  650  
-cb3da13430a6b4 Jacky Huang 2024-05-08  651  	switch (pull_up) {
-cb3da13430a6b4 Jacky Huang 2024-05-08  652  	case PIN_CONFIG_BIAS_PULL_UP:
-cb3da13430a6b4 Jacky Huang 2024-05-08  653  		pull_sel = MA35_GP_PUSEL_PULL_UP;
-cb3da13430a6b4 Jacky Huang 2024-05-08  654  		break;
-cb3da13430a6b4 Jacky Huang 2024-05-08  655  
-cb3da13430a6b4 Jacky Huang 2024-05-08  656  	case PIN_CONFIG_BIAS_PULL_DOWN:
-cb3da13430a6b4 Jacky Huang 2024-05-08  657  		pull_sel = MA35_GP_PUSEL_PULL_DOWN;
-cb3da13430a6b4 Jacky Huang 2024-05-08  658  		break;
-cb3da13430a6b4 Jacky Huang 2024-05-08  659  
-cb3da13430a6b4 Jacky Huang 2024-05-08  660  	case PIN_CONFIG_BIAS_DISABLE:
-cb3da13430a6b4 Jacky Huang 2024-05-08  661  		pull_sel = MA35_GP_PUSEL_DISABLE;
-cb3da13430a6b4 Jacky Huang 2024-05-08  662  		break;
-cb3da13430a6b4 Jacky Huang 2024-05-08  663  	}
-cb3da13430a6b4 Jacky Huang 2024-05-08  664  
-cb3da13430a6b4 Jacky Huang 2024-05-08 @665  	regval |= field_prep(MA35_GP_PUSEL_MASK(port), pull_sel);
-cb3da13430a6b4 Jacky Huang 2024-05-08  666  	writel(regval, base + MA35_GP_REG_PUSEL);
-cb3da13430a6b4 Jacky Huang 2024-05-08  667  
-cb3da13430a6b4 Jacky Huang 2024-05-08  668  	return 0;
-cb3da13430a6b4 Jacky Huang 2024-05-08  669  }
-cb3da13430a6b4 Jacky Huang 2024-05-08  670  
+
+vim +/_GNU_SOURCE +2 tools/testing/selftests/cachestat/test_cachestat.c
+
+88537aac0b38403 Nhat Pham 2023-05-02 @2  #define _GNU_SOURCE
+88537aac0b38403 Nhat Pham 2023-05-02  3  
+
+:::::: The code at line 2 was first introduced by commit
+:::::: 88537aac0b3840314d3a5cc401a7fc400c069bc9 selftests: add selftests for cachestat
+
+:::::: TO: Nhat Pham <nphamcs@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
