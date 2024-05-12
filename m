@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A155A1CA9C
-	for <oe-kbuild@lists.linux.dev>; Sun, 12 May 2024 11:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D1A17F3
+	for <oe-kbuild@lists.linux.dev>; Sun, 12 May 2024 13:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715513335; cv=none; b=U4/3PpoAvmCasvu4TSbtwXNmK9kn93VI24mfuB0YRDPVFhLVW1SKj7Di+OdhHFOVKtmTAeCYe3bsvyEpCGjHlV/NvR6rDt0pqwDKH8cCk95cBHZZbarAeIpopuElf8CPsQMUNEtc8/8fs/V1OSunezujqMX2OIRaxlDhD42WBQ4=
+	t=1715521019; cv=none; b=eaNBaLHd1MfXfs0nSYogFjWnvT52LiE8YQCPZ1goDqkecW4+1FQ2n+BbPHdOfLpu9FY4jcxamzQR37fyNmrgLQgLi63yIVw55DEB6v1GGQc0C/xdzX8tXnnpiAI2W8P+xs1koxymJ7drNaoXGRh71JceSoKicI9e7vrPE2PVoMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715513335; c=relaxed/simple;
-	bh=fBrSlBtH+nIO9DiUbmsO2cX/sHAOuJ8Yodb5Xo+eNDE=;
+	s=arc-20240116; t=1715521019; c=relaxed/simple;
+	bh=kCvsDzJOzGEM4jgZdZRu0O9z0AH9p1z8NrW4Ml2BBKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QRnhI+0DqLKz5b8hQRs6eQGHupXA1iWS549RdWaDqsSaU1cHEEtQwfSqA9L1NiGJ/CzXdeBI9lP5vZAeZ/gtoI1IcgoSZKFY+yYLHgy7U6x3EuBYVdJO+6tOLBi9lxtNt1KKKPqnz3PGFQJNFNFV6pepCosBMhNBbaK6n/2njOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a0gbt2Wx; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=aiyXIxOuABAb77CeJS97OZtTlkaMjQ/DacmNQ81n1n8H93NyKPP2GVg8RSTaOQJVRfxkOG2cSnxBlJNenBOlCk+SDzAMQzIYDcQXQhU3UW7dRJvyDXlbO5thtc9+YvVrrimxT4+e/G9T75ZCJJmEjlBDF16j1YS1GWGJhkUify0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PAK+TS55; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a0gbt2Wx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PAK+TS55"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715513334; x=1747049334;
+  t=1715521018; x=1747057018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fBrSlBtH+nIO9DiUbmsO2cX/sHAOuJ8Yodb5Xo+eNDE=;
-  b=a0gbt2WxDI3vMZrGxMtU82+gos3V7IpHZrfiUaEi+xqiyUKnP6tSpcpl
-   3QWRQXIX5S81zcy5OAmkfyJr34yEa8FTiJK142/tyESKS+P+ItQmGinwc
-   bq//Lp/eaG9fkX3sptEzRJBdJjWucXkcnkGWTW5aiQ03hlt8cwTI/Q4Ss
-   bw/BJzol/iZykhcSqWeLDjr2h+ti1LULEncimTSBh1zzSMK0NrM9v/e9L
-   FABotHblbysW7HMm3VSimYq7l4ipF1sDlar1mNcrEyijvrYv77CHltc/o
-   DwxxI7uMhpfge7LRPSSquPVrB8WtLbo2Zgnr8YZtzmYJnujIBgID8LAHG
-   A==;
-X-CSE-ConnectionGUID: F27usEWFQ7+d7ccNPMVVUQ==
-X-CSE-MsgGUID: pMbrKFGuSYC8RBUvrMHw8A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11070"; a="22031561"
+  bh=kCvsDzJOzGEM4jgZdZRu0O9z0AH9p1z8NrW4Ml2BBKM=;
+  b=PAK+TS55uR9wQjf05aIr9DtbvJVOoF9x8SUfMaq60cSbBWVdgT8e83cz
+   Hyr7qFTAEJ8DQhUmFvhjGyQ/nteHwDts7AvMnnFyqXCIdf8EADYFKbQbh
+   O+9kagRn9PuZEAnHRbo2gLt3SJ9tNQFpuF/sw3jEm/0G+oeayyThTmU0t
+   UQCZI/L3JO2utnW44Dv5q0WHQbw0oaCg2Xv9zE20Zkru4RWSw9mHPzG3Z
+   5x4SqgSwiGbNSE1Oy1kFAkN5taQrpa1SPAbuDnNaCPzEvAnY+EbwWa+kV
+   XjEzVFKGgokbBYvxOAHUogXRWS0y0p3coGvBQcy7gsnrc0b6ncxvfRj9K
+   g==;
+X-CSE-ConnectionGUID: T691M7KwROqtwaV2xlPxfw==
+X-CSE-MsgGUID: zua/HhqKQkywWYugpbwvgQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="15294269"
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="22031561"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 04:28:54 -0700
-X-CSE-ConnectionGUID: dlDRXMTQSBezl59EjNRc+Q==
-X-CSE-MsgGUID: tzo22hsQTuGMADZ7QzCHmQ==
+   d="scan'208";a="15294269"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 06:36:57 -0700
+X-CSE-ConnectionGUID: nmN7BAOPTg2p9HtOE81Skw==
+X-CSE-MsgGUID: 8o98nGiWRHa+3dhId8dcRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,155,1712646000"; 
-   d="scan'208";a="53289006"
+   d="scan'208";a="30163425"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 May 2024 04:28:52 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 12 May 2024 06:36:56 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s67Np-0008Xj-2T;
-	Sun, 12 May 2024 11:28:49 +0000
-Date: Sun, 12 May 2024 19:28:16 +0800
+	id 1s69Nl-0008cp-0l;
+	Sun, 12 May 2024 13:36:53 +0000
+Date: Sun, 12 May 2024 21:36:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [linux-next:master 12023/12533] test_cachestat.c:2:9: warning:
- '_GNU_SOURCE' macro redefined
-Message-ID: <202405121952.nKKkle9V-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [djwong-xfs:timestats-hoist 451/463] fs/xfs/scrub/common.c:1904
+ xchk_inode_setup_verity() error: uninitialized symbol 'bs'.
+Message-ID: <202405122129.2of8VK2K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,134 +62,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Edward Liaw <edliaw@google.com>
-CC: Shuah Khan <skhan@linuxfoundation.org>
-CC: Muhammad Usama Anjum <usama.anjum@collabora.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: John Hubbard <jhubbard@nvidia.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   75fa778d74b786a1608d55d655d42b480a6fa8bd
-commit: daef47b89efd0b745e8478d69a3ad724bd8b4dc6 [12023/12533] selftests: Compile kselftest headers with -D_GNU_SOURCE
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   487b4161dcf5131acc86e2e942f7bc2eb6e2891d
+commit: 5086db83c78df01a341f9db1839c3d994940ed3d [451/463] xfs: check and repair the verity inode flag state
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-161-20240512 (https://download.01.org/0day-ci/archive/20240512/202405122129.2of8VK2K-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240512/202405121952.nKKkle9V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202405121952.nKKkle9V-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405122129.2of8VK2K-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/xfs/scrub/common.c:1904 xchk_inode_setup_verity() error: uninitialized symbol 'bs'.
+fs/xfs/scrub/common.c:1906 xchk_inode_setup_verity() error: uninitialized symbol 'ts'.
 
->> test_cachestat.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> test_execve.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3.c:5:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       5 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_clear_sighand.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_set_tid.c:9:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       9 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> clone3_cap_checkpoint_restore.c:11:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-      11 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> close_range_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> udmabuf.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> devpts_pts.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> dnotify_test.c:2:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       2 | #define _GNU_SOURCE     /* needed to get the defines */
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
---
->> binderfs_test.c:3:9: warning: '_GNU_SOURCE' macro redefined [-Wmacro-redefined]
-       3 | #define _GNU_SOURCE
-         |         ^
-   <command line>:1:9: note: previous definition is here
-       1 | #define _GNU_SOURCE 1
-         |         ^
-   1 warning generated.
-..
+vim +/bs +1904 fs/xfs/scrub/common.c
 
-
-vim +/_GNU_SOURCE +2 tools/testing/selftests/cachestat/test_cachestat.c
-
-88537aac0b38403 Nhat Pham 2023-05-02 @2  #define _GNU_SOURCE
-88537aac0b38403 Nhat Pham 2023-05-02  3  
-
-:::::: The code at line 2 was first introduced by commit
-:::::: 88537aac0b3840314d3a5cc401a7fc400c069bc9 selftests: add selftests for cachestat
-
-:::::: TO: Nhat Pham <nphamcs@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+1acb75b692cefc Darrick J. Wong 2024-01-09  1875  
+5086db83c78df0 Darrick J. Wong 2024-04-26  1876  /*
+5086db83c78df0 Darrick J. Wong 2024-04-26  1877   * If this inode has S_VERITY set on it, read the merkle tree geometry, which
+5086db83c78df0 Darrick J. Wong 2024-04-26  1878   * will activate the incore fsverity context for this file.  If the activation
+5086db83c78df0 Darrick J. Wong 2024-04-26  1879   * fails with anything other than ENOMEM, the file is corrupt, which we can
+5086db83c78df0 Darrick J. Wong 2024-04-26  1880   * detect later with fsverity_active.
+5086db83c78df0 Darrick J. Wong 2024-04-26  1881   *
+5086db83c78df0 Darrick J. Wong 2024-04-26  1882   * Callers must hold the IOLOCK and must not hold the ILOCK of sc->ip because
+5086db83c78df0 Darrick J. Wong 2024-04-26  1883   * activation reads xattrs.  @blocksize and @treesize will be filled out with
+5086db83c78df0 Darrick J. Wong 2024-04-26  1884   * merkle tree geometry if they are not NULL pointers.
+5086db83c78df0 Darrick J. Wong 2024-04-26  1885   */
+5086db83c78df0 Darrick J. Wong 2024-04-26  1886  int
+5086db83c78df0 Darrick J. Wong 2024-04-26  1887  xchk_inode_setup_verity(
+5086db83c78df0 Darrick J. Wong 2024-04-26  1888  	struct xfs_scrub	*sc,
+5086db83c78df0 Darrick J. Wong 2024-04-26  1889  	unsigned int		*blocksize,
+5086db83c78df0 Darrick J. Wong 2024-04-26  1890  	u64			*treesize)
+5086db83c78df0 Darrick J. Wong 2024-04-26  1891  {
+5086db83c78df0 Darrick J. Wong 2024-04-26  1892  	unsigned int		bs;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1893  	u64			ts;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1894  	int			error;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1895  
+5086db83c78df0 Darrick J. Wong 2024-04-26  1896  	if (!IS_VERITY(VFS_I(sc->ip)))
+5086db83c78df0 Darrick J. Wong 2024-04-26  1897  		return 0;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1898  
+5086db83c78df0 Darrick J. Wong 2024-04-26  1899  	error = fsverity_merkle_tree_geometry(VFS_I(sc->ip), &bs, &ts);
+5086db83c78df0 Darrick J. Wong 2024-04-26  1900  	switch (error) {
+5086db83c78df0 Darrick J. Wong 2024-04-26  1901  	case 0:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1902  		/* fsverity is active; return tree geometry. */
+5086db83c78df0 Darrick J. Wong 2024-04-26  1903  		if (blocksize)
+5086db83c78df0 Darrick J. Wong 2024-04-26 @1904  			*blocksize = bs;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1905  		if (treesize)
+5086db83c78df0 Darrick J. Wong 2024-04-26 @1906  			*treesize = ts;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1907  		break;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1908  	case -ENODATA:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1909  	case -EMSGSIZE:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1910  	case -EINVAL:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1911  	case -EFSCORRUPTED:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1912  	case -EFBIG:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1913  		/*
+5086db83c78df0 Darrick J. Wong 2024-04-26  1914  		 * The nonzero errno codes above are the error codes that can
+5086db83c78df0 Darrick J. Wong 2024-04-26  1915  		 * be returned from fsverity on metadata validation errors.
+5086db83c78df0 Darrick J. Wong 2024-04-26  1916  		 * Set the geometry to zero.
+5086db83c78df0 Darrick J. Wong 2024-04-26  1917  		 */
+5086db83c78df0 Darrick J. Wong 2024-04-26  1918  		if (blocksize)
+5086db83c78df0 Darrick J. Wong 2024-04-26  1919  			*blocksize = 0;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1920  		if (treesize)
+5086db83c78df0 Darrick J. Wong 2024-04-26  1921  			*treesize = 0;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1922  		return 0;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1923  	default:
+5086db83c78df0 Darrick J. Wong 2024-04-26  1924  		/* runtime errors */
+5086db83c78df0 Darrick J. Wong 2024-04-26  1925  		return error;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1926  	}
+5086db83c78df0 Darrick J. Wong 2024-04-26  1927  
+5086db83c78df0 Darrick J. Wong 2024-04-26  1928  	return 0;
+5086db83c78df0 Darrick J. Wong 2024-04-26  1929  }
+5086db83c78df0 Darrick J. Wong 2024-04-26  1930  
 
 -- 
 0-DAY CI Kernel Test Service
