@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BDD22F08
-	for <oe-kbuild@lists.linux.dev>; Mon, 13 May 2024 03:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9356A146006
+	for <oe-kbuild@lists.linux.dev>; Mon, 13 May 2024 05:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715571783; cv=none; b=UPLDeqXLCoJb4inU/UtoXM6lzU1KPXbCL6N78c1+8RhJrh5888luv+/JhE8CFHIKrbS0AHrzv7afVzxOL7j9F9qZbn2EG+BLUpSfeXZe1hjxZk3hh7e1M0qUqLtYuYuAcraQxLFKqQ0wXMwgvkufI7ceATb87uIwUa/wyQuJ7DI=
+	t=1715577364; cv=none; b=K9MYL3ZbFoSNsrw5G6s1+9ow31ycqp0nMEGIoUkacFm6r0pd8tvD2uq0EEJCEbC2GktXexfEw8UdbFsBtiwPFp2DElxu6EKa5m5Vu5NgWrHXoblm8ukK00WAasJu0EGIu8KOdnpnfxe1sfOescA5g9frGyvShv3RojJaX3tAe9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715571783; c=relaxed/simple;
-	bh=kz7OJuEnzouXf0TD0pZeBEOtgArMIusFAo79qksidAs=;
+	s=arc-20240116; t=1715577364; c=relaxed/simple;
+	bh=xUiYFWW/znctI1A9Ffvsk0L7I5wupJQh6/SUZ1wIy4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lw+sj/cOub6HSEzQy3k1BGXHh+ejnnpMthxlcIceWr0FBA08MGvujfmoTdBOzANbtt3DAPyMf3hAV78PsfjyTtqQ/jU9Bv+/7GoPGuIwnB+mB5wPkCxhvxiGiQaWz1ZQTYlL62/szZEC8qpPPAIc65I4NRMr01qQ4zy5/vv9R/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CK59Extd; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=FY1vmZ8H9KDAYUwrHEG/ZcLn4lAYqFnMbsIBqsjK3V6H6J7yX3B1GeAZzyrHHDkZwFhuNcg77b1H3tW0YQWJ0jYG49OURikmJryagmNYnHrGmpofUBxnCjJ9kjvGJrfvpDVp6bqZir1mNLF3/+d0H/L97lz7UdIcHEWnraixz7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nNXAvBmT; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CK59Extd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nNXAvBmT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715571779; x=1747107779;
+  t=1715577362; x=1747113362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kz7OJuEnzouXf0TD0pZeBEOtgArMIusFAo79qksidAs=;
-  b=CK59Extdl4XpGe2Jgg7Epe4uSphWWDUsEIcO70P2OiNKzdc9n0mUH9+d
-   g931kKMkttZBVebNw3lipc65RbkRWkfII/00vykCj9/6R5D5tHv/ZYvNL
-   mb2ygT9tquTnFUftiYxoA1b5pfYp7s5LqRsZqqY4Ty+6xr3lNQCgHQkDV
-   G/lZuus3vigWZLD/MCSP5wDTiikYa1AKH80XXLoSgHH62lDQ8IEDGnx78
-   BFzsiKJ2ypxBq+4tIgAkSMQngmSZ2QHCayIv3mnm0ynE4AVP5Y8If/Rwf
-   Y6ZTUFPbEa3ew4R81wqAH+LndhstBqHqGG0oNThuFh/cy3tBhzpfV4LyJ
-   g==;
-X-CSE-ConnectionGUID: 1quqiDaDSnaJDr6zG/bk7Q==
-X-CSE-MsgGUID: GfWJqDpFQeaLD5GAhK+4SQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="22159086"
+  bh=xUiYFWW/znctI1A9Ffvsk0L7I5wupJQh6/SUZ1wIy4k=;
+  b=nNXAvBmTgRTFzXSyqjBUwMkSSscom9k6RqqTNOZFNUkbMygm9IbkQhIU
+   DCnLK5rD3CD314LEtljZufAUOXvN+ykf2L2fIDuJ6oA/MXJRcWxmEzbk0
+   pqmK1xv7iGXM1F/tRO6LqjcHJpvn98GjH4xX+r/EzU9vhxUD5zPYxFY7D
+   gzETN8nVjM6OMOZu8F0G0IaOnUrXb89YW+0nExXEN5Ov3G7EQKWZ9ptEi
+   2zxOJKSRF2DAztYxNYjrqVxK/ADAZQA8wJsKXQlpSQIYkcevSwuHTHGAw
+   59SmOjNjBDTKNe4APl3pxZZujkpghe7NcvSefea/QbMzAUaL7jMIDM9Aa
+   w==;
+X-CSE-ConnectionGUID: ch2C0lgMS9eeHrf8XHuZqA==
+X-CSE-MsgGUID: B9UzBWIKRgyokOEvRZbzTQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11071"; a="36871360"
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="22159086"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 20:42:58 -0700
-X-CSE-ConnectionGUID: TlY+XCXfQT6Fs0s1Ftqu1Q==
-X-CSE-MsgGUID: rTSfsZ+1Q6KyEDE/eYPMuw==
+   d="scan'208";a="36871360"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2024 22:16:00 -0700
+X-CSE-ConnectionGUID: yRGs/hmiRnWv77RW7mt4cA==
+X-CSE-MsgGUID: KP5AQtMXRqml4m0CTRSuog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,157,1712646000"; 
-   d="scan'208";a="34891162"
+   d="scan'208";a="53444429"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 May 2024 20:42:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 May 2024 22:15:58 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s6MaV-0009UB-0e;
-	Mon, 13 May 2024 03:42:55 +0000
-Date: Mon, 13 May 2024 11:42:38 +0800
+	id 1s6O2W-0009ZL-0s;
+	Mon, 13 May 2024 05:15:56 +0000
+Date: Mon, 13 May 2024 13:15:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 6/8] irqchip/stm32mp-exti: allow build as module
-Message-ID: <202405131105.ulLfHBZJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v4 10/14] MIPS: CPS: Introduce struct cluster_boot_config
+Message-ID: <202405131243.1L77zylN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,130 +63,163 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240507131051.980313-7-antonio.borneo@foss.st.com>
-References: <20240507131051.980313-7-antonio.borneo@foss.st.com>
-TO: Antonio Borneo <antonio.borneo@foss.st.com>
-TO: Russell King <linux@armlinux.org.uk>
-TO: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-TO: Alexandre Torgue <alexandre.torgue@foss.st.com>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-TO: Will Deacon <will@kernel.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Antonio Borneo <antonio.borneo@foss.st.com>
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-stm32@st-md-mailman.stormreply.com
+In-Reply-To: <20240511104341.151550-11-aleksandar.rikalo@syrmia.com>
+References: <20240511104341.151550-11-aleksandar.rikalo@syrmia.com>
+TO: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Aleksandar Rikalo <arikalo@gmail.com>
+CC: "Chao-ying Fu" <cfu@wavecomp.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Greg Ungerer <gerg@kernel.org>
+CC: Hauke Mehrtens <hauke@hauke-m.de>
+CC: Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>
+CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
 CC: linux-kernel@vger.kernel.org
+CC: linux-mips@vger.kernel.org
+CC: Marc Zyngier <maz@kernel.org>
+CC: Paul Burton <paulburton@kernel.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Serge Semin <fancer.lancer@gmail.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Tiezhu Yang <yangtiezhu@loongson.cn>
 
-Hi Antonio,
+Hi Aleksandar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 382d2ffe86efb1e2fa803d2cf17e5bfc34e574f3]
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on tty/tty-testing tty/tty-next tty/tty-linus tip/timers/core linus/master v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antonio-Borneo/irqchip-stm32-exti-add-CONFIG_STM32MP_EXTI/20240507-211459
-base:   382d2ffe86efb1e2fa803d2cf17e5bfc34e574f3
-patch link:    https://lore.kernel.org/r/20240507131051.980313-7-antonio.borneo%40foss.st.com
-patch subject: [PATCH v2 6/8] irqchip/stm32mp-exti: allow build as module
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: powerpc64-randconfig-r071-20240513 (https://download.01.org/0day-ci/archive/20240513/202405131105.ulLfHBZJ-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksandar-Rikalo/MIPS-CPS-Add-a-couple-of-multi-cluster-utility-functions/20240511-184836
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20240511104341.151550-11-aleksandar.rikalo%40syrmia.com
+patch subject: [PATCH v4 10/14] MIPS: CPS: Introduce struct cluster_boot_config
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: mips-randconfig-r051-20240513 (https://download.01.org/0day-ci/archive/20240513/202405131243.1L77zylN-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405131105.ulLfHBZJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202405131243.1L77zylN-lkp@intel.com/
 
-smatch warnings:
-drivers/irqchip/irq-stm32mp-exti.c:654 stm32mp_exti_probe() warn: 'host_data->hwlock' is an error pointer or valid
+cocci warnings: (new ones prefixed by >>)
+>> arch/mips/kernel/smp-cps.c:262:1-25: alloc with no test, possible model on line 269
 
-vim +654 drivers/irqchip/irq-stm32mp-exti.c
+vim +262 arch/mips/kernel/smp-cps.c
 
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  629  
-42841a0e29d1bd Antonio Borneo 2024-05-07  630  static int stm32mp_exti_probe(struct platform_device *pdev)
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  631  {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  632  	int ret, i;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  633  	struct device *dev = &pdev->dev;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  634  	struct device_node *np = dev->of_node;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  635  	struct irq_domain *parent_domain, *domain;
-42841a0e29d1bd Antonio Borneo 2024-05-07  636  	struct stm32mp_exti_host_data *host_data;
-42841a0e29d1bd Antonio Borneo 2024-05-07  637  	const struct stm32mp_exti_drv_data *drv_data;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  638  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  639  	host_data = devm_kzalloc(dev, sizeof(*host_data), GFP_KERNEL);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  640  	if (!host_data)
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  641  		return -ENOMEM;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  642  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  643  	dev_set_drvdata(dev, host_data);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  644  	host_data->dev = dev;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  645  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  646  	/* check for optional hwspinlock which may be not available yet */
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  647  	ret = of_hwspin_lock_get_id(np, 0);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  648  	if (ret == -EPROBE_DEFER)
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  649  		/* hwspinlock framework not yet ready */
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  650  		return ret;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  651  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  652  	if (ret >= 0) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  653  		host_data->hwlock = devm_hwspin_lock_request_specific(dev, ret);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07 @654  		if (!host_data->hwlock) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  655  			dev_err(dev, "Failed to request hwspinlock\n");
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  656  			return -EINVAL;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  657  		}
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  658  	} else if (ret != -ENOENT) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  659  		/* note: ENOENT is a valid case (means 'no hwspinlock') */
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  660  		dev_err(dev, "Failed to get hwspinlock\n");
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  661  		return ret;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  662  	}
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  663  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  664  	/* initialize host_data */
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  665  	drv_data = of_device_get_match_data(dev);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  666  	if (!drv_data) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  667  		dev_err(dev, "no of match data\n");
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  668  		return -ENODEV;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  669  	}
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  670  	host_data->drv_data = drv_data;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  671  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  672  	host_data->chips_data = devm_kcalloc(dev, drv_data->bank_nr,
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  673  					     sizeof(*host_data->chips_data),
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  674  					     GFP_KERNEL);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  675  	if (!host_data->chips_data)
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  676  		return -ENOMEM;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  677  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  678  	host_data->base = devm_platform_ioremap_resource(pdev, 0);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  679  	if (IS_ERR(host_data->base))
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  680  		return PTR_ERR(host_data->base);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  681  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  682  	for (i = 0; i < drv_data->bank_nr; i++)
-42841a0e29d1bd Antonio Borneo 2024-05-07  683  		stm32mp_exti_chip_init(host_data, i, np);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  684  
-42841a0e29d1bd Antonio Borneo 2024-05-07  685  	stm32mp_exti_check_rif(host_data);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  686  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  687  	parent_domain = irq_find_host(of_irq_find_parent(np));
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  688  	if (!parent_domain) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  689  		dev_err(dev, "GIC interrupt-parent not found\n");
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  690  		return -EINVAL;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  691  	}
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  692  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  693  	domain = irq_domain_add_hierarchy(parent_domain, 0,
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  694  					  drv_data->bank_nr * IRQS_PER_BANK,
-42841a0e29d1bd Antonio Borneo 2024-05-07  695  					  np, &stm32mp_exti_domain_ops,
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  696  					  host_data);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  697  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  698  	if (!domain) {
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  699  		dev_err(dev, "Could not register exti domain\n");
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  700  		return -ENOMEM;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  701  	}
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  702  
-42841a0e29d1bd Antonio Borneo 2024-05-07  703  	ret = devm_add_action_or_reset(dev, stm32mp_exti_remove_irq, domain);
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  704  	if (ret)
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  705  		return ret;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  706  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  707  	if (of_property_read_bool(np, "interrupts-extended"))
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  708  		host_data->dt_has_irqs_desc = true;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  709  
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  710  	return 0;
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  711  }
-1bb8b08b0f88a8 Antonio Borneo 2024-05-07  712  
+0ee958e102b62b Paul Burton 2014-01-15  212  
+0ee958e102b62b Paul Burton 2014-01-15  213  static void __init cps_prepare_cpus(unsigned int max_cpus)
+0ee958e102b62b Paul Burton 2014-01-15  214  {
+47e42fc012fae4 Paul Burton 2024-05-11  215  	unsigned int nclusters, ncores, core_vpes, c, cl, cca;
+1ec9dd80bedc20 Paul Burton 2017-08-12  216  	bool cca_unsuitable, cores_limited;
+47e42fc012fae4 Paul Burton 2024-05-11  217  	struct cluster_boot_config *cluster_bootcfg;
+47e42fc012fae4 Paul Burton 2024-05-11  218  	struct core_boot_config *core_bootcfg;
+245a7868d2f2e5 Paul Burton 2014-04-14  219  
+0ee958e102b62b Paul Burton 2014-01-15  220  	mips_mt_set_cpuoptions();
+245a7868d2f2e5 Paul Burton 2014-04-14  221  
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  222  	if (!core_entry_reg) {
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  223  		pr_err("core_entry address unsuitable, disabling smp-cps\n");
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  224  		goto err_out;
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  225  	}
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  226  
+5c399f6eb2c391 Paul Burton 2014-04-14  227  	/* Detect whether the CCA is unsuited to multi-core SMP */
+5c399f6eb2c391 Paul Burton 2014-04-14  228  	cca = read_c0_config() & CONF_CM_CMASK;
+5c399f6eb2c391 Paul Burton 2014-04-14  229  	switch (cca) {
+5c399f6eb2c391 Paul Burton 2014-04-14  230  	case 0x4: /* CWBE */
+5c399f6eb2c391 Paul Burton 2014-04-14  231  	case 0x5: /* CWB */
+5c399f6eb2c391 Paul Burton 2014-04-14  232  		/* The CCA is coherent, multi-core is fine */
+5c399f6eb2c391 Paul Burton 2014-04-14  233  		cca_unsuitable = false;
+5c399f6eb2c391 Paul Burton 2014-04-14  234  		break;
+5c399f6eb2c391 Paul Burton 2014-04-14  235  
+5c399f6eb2c391 Paul Burton 2014-04-14  236  	default:
+5c399f6eb2c391 Paul Burton 2014-04-14  237  		/* CCA is not coherent, multi-core is not usable */
+5c399f6eb2c391 Paul Burton 2014-04-14  238  		cca_unsuitable = true;
+5c399f6eb2c391 Paul Burton 2014-04-14  239  	}
+5c399f6eb2c391 Paul Burton 2014-04-14  240  
+5c399f6eb2c391 Paul Burton 2014-04-14  241  	/* Warn the user if the CCA prevents multi-core */
+1ec9dd80bedc20 Paul Burton 2017-08-12  242  	cores_limited = false;
+1ec9dd80bedc20 Paul Burton 2017-08-12  243  	if (cca_unsuitable || cpu_has_dc_aliases) {
+5c399f6eb2c391 Paul Burton 2014-04-14  244  		for_each_present_cpu(c) {
+1ec9dd80bedc20 Paul Burton 2017-08-12  245  			if (cpus_are_siblings(smp_processor_id(), c))
+1ec9dd80bedc20 Paul Burton 2017-08-12  246  				continue;
+1ec9dd80bedc20 Paul Burton 2017-08-12  247  
+5c399f6eb2c391 Paul Burton 2014-04-14  248  			set_cpu_present(c, false);
+1ec9dd80bedc20 Paul Burton 2017-08-12  249  			cores_limited = true;
+5c399f6eb2c391 Paul Burton 2014-04-14  250  		}
+5c399f6eb2c391 Paul Burton 2014-04-14  251  	}
+1ec9dd80bedc20 Paul Burton 2017-08-12  252  	if (cores_limited)
+1ec9dd80bedc20 Paul Burton 2017-08-12  253  		pr_warn("Using only one core due to %s%s%s\n",
+1ec9dd80bedc20 Paul Burton 2017-08-12  254  			cca_unsuitable ? "unsuitable CCA" : "",
+1ec9dd80bedc20 Paul Burton 2017-08-12  255  			(cca_unsuitable && cpu_has_dc_aliases) ? " & " : "",
+1ec9dd80bedc20 Paul Burton 2017-08-12  256  			cpu_has_dc_aliases ? "dcache aliasing" : "");
+5c399f6eb2c391 Paul Burton 2014-04-14  257  
+5e9d13bd3de8c3 Jiaxun Yang 2024-02-16  258  	setup_cps_vecs();
+0f4d3d1155d9a5 Paul Burton 2014-04-14  259  
+47e42fc012fae4 Paul Burton 2024-05-11  260  	/* Allocate cluster boot configuration structs */
+47e42fc012fae4 Paul Burton 2024-05-11  261  	nclusters = mips_cps_numclusters();
+47e42fc012fae4 Paul Burton 2024-05-11 @262  	mips_cps_cluster_bootcfg = kcalloc(nclusters,
+47e42fc012fae4 Paul Burton 2024-05-11  263  					   sizeof(*mips_cps_cluster_bootcfg),
+47e42fc012fae4 Paul Burton 2024-05-11  264  					   GFP_KERNEL);
+47e42fc012fae4 Paul Burton 2024-05-11  265  
+47e42fc012fae4 Paul Burton 2024-05-11  266  	for (cl = 0; cl < nclusters; cl++) {
+245a7868d2f2e5 Paul Burton 2014-04-14  267  		/* Allocate core boot configuration structs */
+47e42fc012fae4 Paul Burton 2024-05-11  268  		ncores = mips_cps_numcores(cl);
+47e42fc012fae4 Paul Burton 2024-05-11 @269  		core_bootcfg = kcalloc(ncores, sizeof(*core_bootcfg),
+245a7868d2f2e5 Paul Burton 2014-04-14  270  					GFP_KERNEL);
+47e42fc012fae4 Paul Burton 2024-05-11  271  		if (!core_bootcfg)
+245a7868d2f2e5 Paul Burton 2014-04-14  272  			goto err_out;
+47e42fc012fae4 Paul Burton 2024-05-11  273  		mips_cps_cluster_bootcfg[cl].core_config = core_bootcfg;
+0ee958e102b62b Paul Burton 2014-01-15  274  
+245a7868d2f2e5 Paul Burton 2014-04-14  275  		/* Allocate VPE boot configuration structs */
+245a7868d2f2e5 Paul Burton 2014-04-14  276  		for (c = 0; c < ncores; c++) {
+47e42fc012fae4 Paul Burton 2024-05-11  277  			core_vpes = core_vpe_count(cl, c);
+47e42fc012fae4 Paul Burton 2024-05-11  278  			core_bootcfg[c].vpe_config = kcalloc(core_vpes,
+47e42fc012fae4 Paul Burton 2024-05-11  279  					sizeof(*core_bootcfg[c].vpe_config),
+245a7868d2f2e5 Paul Burton 2014-04-14  280  					GFP_KERNEL);
+47e42fc012fae4 Paul Burton 2024-05-11  281  			if (!core_bootcfg[c].vpe_config)
+245a7868d2f2e5 Paul Burton 2014-04-14  282  				goto err_out;
+245a7868d2f2e5 Paul Burton 2014-04-14  283  		}
+0ee958e102b62b Paul Burton 2014-01-15  284  	}
+0ee958e102b62b Paul Burton 2014-01-15  285  
+245a7868d2f2e5 Paul Burton 2014-04-14  286  	/* Mark this CPU as booted */
+47e42fc012fae4 Paul Burton 2024-05-11  287  	cl = cpu_cluster(&current_cpu_data);
+47e42fc012fae4 Paul Burton 2024-05-11  288  	c = cpu_core(&current_cpu_data);
+47e42fc012fae4 Paul Burton 2024-05-11  289  	cluster_bootcfg = &mips_cps_cluster_bootcfg[cl];
+47e42fc012fae4 Paul Burton 2024-05-11  290  	core_bootcfg = &cluster_bootcfg->core_config[c];
+47e42fc012fae4 Paul Burton 2024-05-11  291  	atomic_set(&core_bootcfg->vpe_mask, 1 << cpu_vpe_id(&current_cpu_data));
+245a7868d2f2e5 Paul Burton 2014-04-14  292  
+245a7868d2f2e5 Paul Burton 2014-04-14  293  	return;
+245a7868d2f2e5 Paul Burton 2014-04-14  294  err_out:
+245a7868d2f2e5 Paul Burton 2014-04-14  295  	/* Clean up allocations */
+47e42fc012fae4 Paul Burton 2024-05-11  296  	if (mips_cps_cluster_bootcfg) {
+47e42fc012fae4 Paul Burton 2024-05-11  297  		for (cl = 0; cl < nclusters; cl++) {
+47e42fc012fae4 Paul Burton 2024-05-11  298  			cluster_bootcfg = &mips_cps_cluster_bootcfg[cl];
+47e42fc012fae4 Paul Burton 2024-05-11  299  			ncores = mips_cps_numcores(cl);
+47e42fc012fae4 Paul Burton 2024-05-11  300  			for (c = 0; c < ncores; c++) {
+47e42fc012fae4 Paul Burton 2024-05-11  301  				core_bootcfg = &cluster_bootcfg->core_config[c];
+47e42fc012fae4 Paul Burton 2024-05-11  302  				kfree(core_bootcfg->vpe_config);
+47e42fc012fae4 Paul Burton 2024-05-11  303  			}
+47e42fc012fae4 Paul Burton 2024-05-11  304  			kfree(mips_cps_cluster_bootcfg[c].core_config);
+47e42fc012fae4 Paul Burton 2024-05-11  305  		}
+47e42fc012fae4 Paul Burton 2024-05-11  306  		kfree(mips_cps_cluster_bootcfg);
+47e42fc012fae4 Paul Burton 2024-05-11  307  		mips_cps_cluster_bootcfg = NULL;
+245a7868d2f2e5 Paul Burton 2014-04-14  308  	}
+245a7868d2f2e5 Paul Burton 2014-04-14  309  
+245a7868d2f2e5 Paul Burton 2014-04-14  310  	/* Effectively disable SMP by declaring CPUs not present */
+245a7868d2f2e5 Paul Burton 2014-04-14  311  	for_each_possible_cpu(c) {
+245a7868d2f2e5 Paul Burton 2014-04-14  312  		if (c == 0)
+245a7868d2f2e5 Paul Burton 2014-04-14  313  			continue;
+245a7868d2f2e5 Paul Burton 2014-04-14  314  		set_cpu_present(c, false);
+245a7868d2f2e5 Paul Burton 2014-04-14  315  	}
+245a7868d2f2e5 Paul Burton 2014-04-14  316  }
+245a7868d2f2e5 Paul Burton 2014-04-14  317  
 
 -- 
 0-DAY CI Kernel Test Service
