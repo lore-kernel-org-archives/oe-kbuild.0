@@ -1,203 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F63615CB
-	for <oe-kbuild@lists.linux.dev>; Thu, 16 May 2024 20:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E8FC8D1
+	for <oe-kbuild@lists.linux.dev>; Thu, 16 May 2024 22:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715893092; cv=none; b=QnVA+3MteMBe/GjEIlngc3cotWkrsp3oZXwQ01iWmMdzCp8zYryCVv+BUjXkSnCtoH8hydmPrbS0Ku6cEDvOfwJevZ7VLLbT7e0WRK0uKs7q8yMsGIdXPNvdl6lNdLfnI+vgLmRqCtJmcyczyzUDBgZANk8I5c+ricldxoF3Bgg=
+	t=1715900023; cv=none; b=tgKrKFBeC+S8aDQKwe2+KXhdagotIiJbWBar7KMi9fzNzerYy89mcvO0Jzh0MoZzIo13ikp89tTyV5i1CTJqRLBl0LcDuSG41unMwV1/+5hadXvEDbGnbhOciOK7HbTGH9vl4zUbq4W0ioC/Obrpu0Y3FKuKBjrgsPGr6TwVucY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715893092; c=relaxed/simple;
-	bh=2fdNiUJCkpazt+41T8aolA4uyww/TSP1P/EfA3zGhCw=;
+	s=arc-20240116; t=1715900023; c=relaxed/simple;
+	bh=HCXO1n9U362C7qyX3K7X+rbzlxnkU4amiKzn5F8yDH0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jlcSPCvw3i/7LlpsQBHaqJmCW35J3fRybJ7YaVUxcXgmqUCIaKfguSKPGAoPBguOZ9OcbxFot60UNvykuXXQ2hhD/ulZf9oo1ZT+KE1UKd8ExmELvMtm0eXhJT5obVr7U0YRHZxUsQ3FIBu1jhgO8Yuhs9G+JCLrFF/sNWtiQZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iY/z3YrD; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=XMq6irEQM+LO9XteLH3VRZLQx8kehnc/CX3vrT6XEuLfYSfAPX5ohuH8mq7DzC/n+NOcajgIXvCtTe+JhX6o/fe2j7jUZP+g/1au6R/DEundp/EFnAOAQsLFtZSfmcX6N0a73PVOqjmfSRjZ58V6r0MXee3uox7HVFiv4mKl8bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gt1q16y0; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iY/z3YrD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gt1q16y0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715893091; x=1747429091;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2fdNiUJCkpazt+41T8aolA4uyww/TSP1P/EfA3zGhCw=;
-  b=iY/z3YrDUFA6R4Uir5G52TLXSVHYV2JSZfMtmk626/NkLlEGDbyCEju+
-   pmcXxRx/re4SPOhbtRcJbtgmiInkD4waQBa/H9WuZuyBHP29j9ud3uvvy
-   V24GPk2y5ra7S9VpbFoMhHTzDxcGErbopkc4/y+vQwnRMZvf65ltGcLQX
-   wsk+RyHFEFy+gbmANxoPBgkVKfkDt5G6CqVMnjJpnhUHIu3KNymndZYt1
-   4Zy3yiWnTTgVfw176zMg66I2V6rn3hqy3szTgCl88bVn2qaM3CqKpnCQY
-   ca3sgQToKmBSzCE8OMovLSibIT4MJn4r7RhfYgR5RyeP5FVUU2ByzKhvb
-   A==;
-X-CSE-ConnectionGUID: tvIsTrLTSfytGT4EdtG8pg==
-X-CSE-MsgGUID: a3EffRVRTqWKoKOfrc0u5w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="11890971"
+  t=1715900021; x=1747436021;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HCXO1n9U362C7qyX3K7X+rbzlxnkU4amiKzn5F8yDH0=;
+  b=gt1q16y09rQcLiYoa35OxcJ2BZxK5D9ctO8zoz8NjOlIxUX9gsMiq3nX
+   kX6rNJZas+1XxBnfRO+xjWr/s6UWCWARknPRVeIPQK4T7USHa6/LUPvxI
+   TvqGnz2p47PymEYQQF6eIdkyaubXGhMMsbuhFOrr5KT0p44jC9LJKzc2Q
+   rcLSzDPShgh9uCpMVh2gbUyJmnpjSJplRAgCVuHyin7ukwfYgpFmvRs75
+   XBViOr6z/rAM5GvuDTiTXOcaNgBzO5N9rAJ7/4xvH4lMSBQKgamy6FBAz
+   Ba9eA+EL7AAEbGPdtR8j/+iF+disBgITYqwLhTxIW8URSdwJK5/UFGJMv
+   g==;
+X-CSE-ConnectionGUID: DPw/8L6wR6W77wb5n9pH1g==
+X-CSE-MsgGUID: cwAUZknFReacZoudm9ajaw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="29569976"
 X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
-   d="scan'208";a="11890971"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 13:58:10 -0700
-X-CSE-ConnectionGUID: ZBK+i9XrRs+kqfqk+4jMCg==
-X-CSE-MsgGUID: 5rXg3JArR+SjmrGGXeB9mg==
+   d="scan'208";a="29569976"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 15:53:40 -0700
+X-CSE-ConnectionGUID: KfaTDoI8SN6+nv8xNspnXw==
+X-CSE-MsgGUID: Uabe3yPLTXiZcsxXbgA3eQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,165,1712646000"; 
-   d="scan'208";a="31687982"
+   d="scan'208";a="31599645"
 Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 May 2024 13:58:09 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 16 May 2024 15:53:39 -0700
 Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s7iAw-000Emq-2L;
-	Thu, 16 May 2024 20:58:06 +0000
-Date: Fri, 17 May 2024 04:57:52 +0800
+	id 1s7jyi-000Exb-1i;
+	Thu, 16 May 2024 22:53:36 +0000
+Date: Fri, 17 May 2024 06:53:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn:
- variable dereferenced before check 'data' (see line 380)
-Message-ID: <202405170424.97VIwnBn-lkp@intel.com>
+Subject: drivers/thermal/mediatek/auxadc_thermal.c:1297 mtk_thermal_probe()
+ warn: 'apmixed_base' from of_iomap() not released on lines: 1248,1253,1291.
+Message-ID: <202405170635.pJsuzHsw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kiran K <kiran.k@intel.com>
-CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-CC: Chandrashekar <chandrashekar.devegowda@intel.com>
+TO: "Ricardo Cañuelo" <ricardo.canuelo@collabora.com>
+CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
-commit: 6e65a09f927566f257322358d429b267548473eb Bluetooth: btintel_pcie: Add *setup* function to download firmware
-date:   2 days ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170424.97VIwnBn-lkp@intel.com/config)
+commit: 86edac7d3888c715fe3a81bd61f3617ecfe2e1dd Revert "thermal/drivers/mediatek: Use devm_of_iomap to avoid resource leak in mtk_thermal_probe"
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170635.pJsuzHsw-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405170424.97VIwnBn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405170635.pJsuzHsw-lkp@intel.com/
 
 smatch warnings:
-drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn: variable dereferenced before check 'data' (see line 380)
+drivers/thermal/mediatek/auxadc_thermal.c:1297 mtk_thermal_probe() warn: 'apmixed_base' from of_iomap() not released on lines: 1248,1253,1291.
+drivers/thermal/mediatek/auxadc_thermal.c:1297 mtk_thermal_probe() warn: 'auxadc_base' from of_iomap() not released on lines: 1232,1238,1248,1253,1291.
 
-vim +/data +386 drivers/bluetooth/btintel_pcie.c
+vim +/apmixed_base +1297 drivers/thermal/mediatek/auxadc_thermal.c
 
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  366  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  367  /* Process the received rx data
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  368   * It check the frame header to identify the data type and create skb
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  369   * and calling HCI API
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  370   */
-6e65a09f927566 Kiran K          2024-05-07  371  static int btintel_pcie_recv_frame(struct btintel_pcie_data *data,
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  372  				       struct sk_buff *skb)
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  373  {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  374  	int ret;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  375  	u8 pkt_type;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  376  	u16 plen;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  377  	u32 pcie_pkt_type;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  378  	struct sk_buff *new_skb;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  379  	void *pdata;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @380  	struct hci_dev *hdev = data->hdev;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  381  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  382  	spin_lock(&data->hci_rx_lock);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  383  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  384  	/* The first 4 bytes indicates the Intel PCIe specific packet type */
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  385  	pdata = skb_pull_data(skb, BTINTEL_PCIE_HCI_TYPE_LEN);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @386  	if (!data) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  387  		bt_dev_err(hdev, "Corrupted packet received");
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  388  		ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  389  		goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  390  	}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  391  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  392  	pcie_pkt_type = get_unaligned_le32(pdata);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  393  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  394  	switch (pcie_pkt_type) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  395  	case BTINTEL_PCIE_HCI_ACL_PKT:
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  396  		if (skb->len >= HCI_ACL_HDR_SIZE) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  397  			plen = HCI_ACL_HDR_SIZE + __le16_to_cpu(hci_acl_hdr(skb)->dlen);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  398  			pkt_type = HCI_ACLDATA_PKT;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  399  		} else {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  400  			bt_dev_err(hdev, "ACL packet is too short");
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  401  			ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  402  			goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  403  		}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  404  		break;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  405  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  406  	case BTINTEL_PCIE_HCI_SCO_PKT:
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  407  		if (skb->len >= HCI_SCO_HDR_SIZE) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  408  			plen = HCI_SCO_HDR_SIZE + hci_sco_hdr(skb)->dlen;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  409  			pkt_type = HCI_SCODATA_PKT;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  410  		} else {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  411  			bt_dev_err(hdev, "SCO packet is too short");
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  412  			ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  413  			goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  414  		}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  415  		break;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  416  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  417  	case BTINTEL_PCIE_HCI_EVT_PKT:
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  418  		if (skb->len >= HCI_EVENT_HDR_SIZE) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  419  			plen = HCI_EVENT_HDR_SIZE + hci_event_hdr(skb)->plen;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  420  			pkt_type = HCI_EVENT_PKT;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  421  		} else {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  422  			bt_dev_err(hdev, "Event packet is too short");
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  423  			ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  424  			goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  425  		}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  426  		break;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  427  	default:
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  428  		bt_dev_err(hdev, "Invalid packet type received: 0x%4.4x",
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  429  			   pcie_pkt_type);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  430  		ret = -EINVAL;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  431  		goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  432  	}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  433  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  434  	if (skb->len < plen) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  435  		bt_dev_err(hdev, "Received corrupted packet. type: 0x%2.2x",
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  436  			   pkt_type);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  437  		ret = -EILSEQ;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  438  		goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  439  	}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  440  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  441  	bt_dev_dbg(hdev, "pkt_type: 0x%2.2x len: %u", pkt_type, plen);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  442  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  443  	new_skb = bt_skb_alloc(plen, GFP_ATOMIC);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  444  	if (!new_skb) {
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  445  		bt_dev_err(hdev, "Failed to allocate memory for skb of len: %u",
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  446  			   skb->len);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  447  		ret = -ENOMEM;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  448  		goto exit_error;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  449  	}
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  450  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  451  	hci_skb_pkt_type(new_skb) = pkt_type;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  452  	skb_put_data(new_skb, skb->data, plen);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  453  	hdev->stat.byte_rx += plen;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  454  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  455  	if (pcie_pkt_type == BTINTEL_PCIE_HCI_EVT_PKT)
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  456  		ret = btintel_recv_event(hdev, new_skb);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  457  	else
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  458  		ret = hci_recv_frame(hdev, new_skb);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  459  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  460  exit_error:
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  461  	if (ret)
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  462  		hdev->stat.err_rx++;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  463  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  464  	spin_unlock(&data->hci_rx_lock);
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  465  
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  466  	return ret;
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  467  }
-c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  468  
+89945047b1666c drivers/thermal/mtk_thermal.c             Henry Yen                 2020-04-30  1191  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1192  static int mtk_thermal_probe(struct platform_device *pdev)
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1193  {
+bd9403943d7d19 drivers/thermal/mtk_thermal.c             Michael Kao               2019-02-01  1194  	int ret, i, ctrl_id;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1195  	struct device_node *auxadc, *apmixedsys, *np = pdev->dev.of_node;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1196  	struct mtk_thermal *mt;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1197  	u64 auxadc_phys_base, apmixed_phys_base;
+1f6b0889d0ea03 drivers/thermal/mtk_thermal.c             Axel Lin                  2016-09-07  1198  	struct thermal_zone_device *tzdev;
+89945047b1666c drivers/thermal/mtk_thermal.c             Henry Yen                 2020-04-30  1199  	void __iomem *apmixed_base, *auxadc_base;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1200  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1201  	mt = devm_kzalloc(&pdev->dev, sizeof(*mt), GFP_KERNEL);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1202  	if (!mt)
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1203  		return -ENOMEM;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1204  
+9efc58dfa14a20 drivers/thermal/mtk_thermal.c             Ryder Lee                 2018-04-16  1205  	mt->conf = of_device_get_match_data(&pdev->dev);
+b7cf0053738c54 drivers/thermal/mtk_thermal.c             dawei.chien@mediatek.com  2016-08-18  1206  
+f7f6d3713282a2 drivers/thermal/mtk_thermal.c             ye xingchen               2023-01-18  1207  	mt->thermal_base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1208  	if (IS_ERR(mt->thermal_base))
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1209  		return PTR_ERR(mt->thermal_base);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1210  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1211  	ret = mtk_thermal_get_calibration_data(&pdev->dev, mt);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1212  	if (ret)
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1213  		return ret;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1214  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1215  	mutex_init(&mt->lock);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1216  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1217  	mt->dev = &pdev->dev;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1218  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1219  	auxadc = of_parse_phandle(np, "mediatek,auxadc", 0);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1220  	if (!auxadc) {
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1221  		dev_err(&pdev->dev, "missing auxadc node\n");
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1222  		return -ENODEV;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1223  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1224  
+86edac7d3888c7 drivers/thermal/mediatek/auxadc_thermal.c Ricardo Cañuelo           2023-05-25  1225  	auxadc_base = of_iomap(auxadc, 0);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1226  	auxadc_phys_base = of_get_phys_base(auxadc);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1227  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1228  	of_node_put(auxadc);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1229  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1230  	if (auxadc_phys_base == OF_BAD_ADDR) {
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1231  		dev_err(&pdev->dev, "Can't get auxadc phys address\n");
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1232  		return -EINVAL;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1233  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1234  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1235  	apmixedsys = of_parse_phandle(np, "mediatek,apmixedsys", 0);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1236  	if (!apmixedsys) {
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1237  		dev_err(&pdev->dev, "missing apmixedsys node\n");
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1238  		return -ENODEV;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1239  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1240  
+86edac7d3888c7 drivers/thermal/mediatek/auxadc_thermal.c Ricardo Cañuelo           2023-05-25  1241  	apmixed_base = of_iomap(apmixedsys, 0);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1242  	apmixed_phys_base = of_get_phys_base(apmixedsys);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1243  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1244  	of_node_put(apmixedsys);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1245  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1246  	if (apmixed_phys_base == OF_BAD_ADDR) {
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1247  		dev_err(&pdev->dev, "Can't get auxadc phys address\n");
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1248  		return -EINVAL;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1249  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1250  
+703456ba76e944 drivers/thermal/mtk_thermal.c             Fabien Parent             2020-10-21  1251  	ret = device_reset_optional(&pdev->dev);
+6760f3f74e72d6 drivers/thermal/mtk_thermal.c             Louis Yu                  2017-08-01  1252  	if (ret)
+6760f3f74e72d6 drivers/thermal/mtk_thermal.c             Louis Yu                  2017-08-01  1253  		return ret;
+6760f3f74e72d6 drivers/thermal/mtk_thermal.c             Louis Yu                  2017-08-01  1254  
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1255  	mt->clk_auxadc = devm_clk_get_enabled(&pdev->dev, "auxadc");
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1256  	if (IS_ERR(mt->clk_auxadc)) {
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1257  		ret = PTR_ERR(mt->clk_auxadc);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1258  		dev_err(&pdev->dev, "Can't enable auxadc clk: %d\n", ret);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1259  		return ret;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1260  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1261  
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1262  	mt->clk_peri_therm = devm_clk_get_enabled(&pdev->dev, "therm");
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1263  	if (IS_ERR(mt->clk_peri_therm)) {
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1264  		ret = PTR_ERR(mt->clk_peri_therm);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1265  		dev_err(&pdev->dev, "Can't enable peri clk: %d\n", ret);
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1266  		return ret;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1267  	}
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1268  
+33140e668b1020 drivers/thermal/mediatek/auxadc_thermal.c Markus Schneider-Pargmann 2023-01-27  1269  	mtk_thermal_turn_on_buffer(mt, apmixed_base);
+33140e668b1020 drivers/thermal/mediatek/auxadc_thermal.c Markus Schneider-Pargmann 2023-01-27  1270  
+33140e668b1020 drivers/thermal/mediatek/auxadc_thermal.c Markus Schneider-Pargmann 2023-01-27  1271  	if (mt->conf->version != MTK_THERMAL_V2)
+89945047b1666c drivers/thermal/mtk_thermal.c             Henry Yen                 2020-04-30  1272  		mtk_thermal_release_periodic_ts(mt, auxadc_base);
+89945047b1666c drivers/thermal/mtk_thermal.c             Henry Yen                 2020-04-30  1273  
+4f2ee0aa2e7062 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1274  	if (mt->conf->version == MTK_THERMAL_V1)
+4f2ee0aa2e7062 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1275  		mt->raw_to_mcelsius = raw_to_mcelsius_v1;
+248da1fc8418c7 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1276  	else if (mt->conf->version == MTK_THERMAL_V2)
+4f2ee0aa2e7062 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1277  		mt->raw_to_mcelsius = raw_to_mcelsius_v2;
+248da1fc8418c7 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1278  	else
+248da1fc8418c7 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1279  		mt->raw_to_mcelsius = raw_to_mcelsius_v3;
+4f2ee0aa2e7062 drivers/thermal/mtk_thermal.c             Daniel Golle              2023-01-18  1280  
+bd9403943d7d19 drivers/thermal/mtk_thermal.c             Michael Kao               2019-02-01  1281  	for (ctrl_id = 0; ctrl_id < mt->conf->num_controller ; ctrl_id++)
+b7cf0053738c54 drivers/thermal/mtk_thermal.c             dawei.chien@mediatek.com  2016-08-18  1282  		for (i = 0; i < mt->conf->num_banks; i++)
+eb4fc33eb26807 drivers/thermal/mtk_thermal.c             Eduardo Valentin          2016-02-18  1283  			mtk_thermal_init_bank(mt, i, apmixed_phys_base,
+bd9403943d7d19 drivers/thermal/mtk_thermal.c             Michael Kao               2019-02-01  1284  					      auxadc_phys_base, ctrl_id);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1285  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1286  	platform_set_drvdata(pdev, mt);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1287  
+ab7e865db9a54a drivers/thermal/mtk_thermal.c             Daniel Lezcano            2022-08-05  1288  	tzdev = devm_thermal_of_zone_register(&pdev->dev, 0, mt,
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1289  					      &mtk_thermal_ops);
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1290  	if (IS_ERR(tzdev))
+a3e9a9a5971164 drivers/thermal/mediatek/auxadc_thermal.c Kang Chen                 2023-04-19  1291  		return PTR_ERR(tzdev);
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1292  
+4a16c190f761cb drivers/thermal/mediatek/auxadc_thermal.c Daniel Lezcano            2023-03-01  1293  	ret = devm_thermal_add_hwmon_sysfs(&pdev->dev, tzdev);
+24e21d9f40ec3f drivers/thermal/mtk_thermal.c             Frank Wunderlich          2021-06-08  1294  	if (ret)
+24e21d9f40ec3f drivers/thermal/mtk_thermal.c             Frank Wunderlich          2021-06-08  1295  		dev_warn(&pdev->dev, "error in thermal_add_hwmon_sysfs");
+24e21d9f40ec3f drivers/thermal/mtk_thermal.c             Frank Wunderlich          2021-06-08  1296  
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30 @1297  	return 0;
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1298  }
+a92db1c8089e82 drivers/thermal/mtk_thermal.c             Sascha Hauer              2015-11-30  1299  
 
-:::::: The code at line 386 was first introduced by commit
-:::::: c2b636b3f788d10486a6691ad6dd3ec4c93bd78e Bluetooth: btintel_pcie: Add support for PCIe transport
+:::::: The code at line 1297 was first introduced by commit
+:::::: a92db1c8089e82b7524545d15b6d6ee6cee67965 thermal: Add Mediatek thermal controller support
 
-:::::: TO: Tedd Ho-Jeong An <tedd.an@intel.com>
-:::::: CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+:::::: TO: Sascha Hauer <s.hauer@pengutronix.de>
+:::::: CC: Eduardo Valentin <edubezval@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
