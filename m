@@ -1,164 +1,583 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433A0804
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 May 2024 02:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDCE29A2
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 May 2024 04:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716000036; cv=none; b=NjKkZS/QmxBfCHyqMmZwzeJm96REZG7Q8E5CwWTPN6hRQXzYEOqkJGxxHv+W4LDk9BKJlIBk+pCo9wD+asiFtt052E2fnlFtChQfec89p4IcBWFkTg2FnD0JHpKZHKeGnyZhxmygsTgefBlc/u9kZ5wA5jfcxTJc+p3LzcEJBSg=
+	t=1716006231; cv=none; b=lJG+1hVVuUWT2QxUhmOGnodPSR23lvUQiseJeGuFxORNsUPWXncpksMnMy8AC5Wpg7yY62SifPrl+tEX9gHe/aBK5VVaSJkhFYdl8Wg/GKB0FU5EzGI5tyLaPEp7GBm5xtOnHt9HCLxLjgNh2SbDvYCOky1JR8hhcDNFhbrC7qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716000036; c=relaxed/simple;
-	bh=wInyfTFtGTMZKA8rfUqT4b/M6WdIyGuuX37RW4LVPDI=;
+	s=arc-20240116; t=1716006231; c=relaxed/simple;
+	bh=VBFwxYvbJ8XQJYLZexCirXESHhhWubL5nvFSepdRH3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JdtH4ufTUPCf8Q/CWos43whhkCjUQ8Ge1iUFsR+e07AnzZwg5NCfh0JXjkhbXqK8YMLw2gmaCnRrXTGMOrXltlfp+sWGsbG0u5JZqGFdOKfOgmeA1qRQg39IttbgfaspmQNsF6wLIJ4yNrD6M3b6pmKVjZ687n3oDTBD+R8ITTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RnhCbL7z; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=ssGU1lECGyKr3ArIEMa6OKLciUYU9VKMB5+JgeEu9WX3pErk1Vx/Tn6V4OTpKAS67rDLd1wp8kRslXsWb+bi5z9GdclLtA7ccI5eCd+swOjSmb/CZRIhz5eK1UkJbHy9E+NCHOX3kLg6bLyWiEEbeRV+gIpxcVjWtjhVDHj8nvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7q822VC; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RnhCbL7z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7q822VC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716000034; x=1747536034;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=wInyfTFtGTMZKA8rfUqT4b/M6WdIyGuuX37RW4LVPDI=;
-  b=RnhCbL7z3A5McXccS++toLU14M5l1mfP5xIVVKY9igSo9h0ccEvqCiyx
-   O+KgRlRz4JcymUXh5EdrV6/gZWBHRnZ9s0xXQ7QSgxA35AcLJykBXlL4r
-   eU023zKT06cvELyTI/WWm/LeLwfEbm2HXeyc6GnU2Hr851BnycvaFn0BL
-   l70O1FldNJOPWKPgmbgSlrsrc0fdW30AN6wMv31G9IfkJJF2dF/HyL7zy
-   jHH0kEFxgTg1DayqhvWKumN0CBKTJMgEQxyDMGIlvMFud70OjRLQWQPIV
-   qh1RMt++1jT225cub1lgjR2YC80UBQTNkoY6LDjwYvScONDS322eN70kD
-   A==;
-X-CSE-ConnectionGUID: SQ3+i5Z0RS+qLYjTjUSeEg==
-X-CSE-MsgGUID: EknE6jDpQwyAJF3X4ZLjng==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12071809"
+  t=1716006228; x=1747542228;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VBFwxYvbJ8XQJYLZexCirXESHhhWubL5nvFSepdRH3Y=;
+  b=Q7q822VC3vScfKWVheg6Ju6iUuacjzuXiehJ/451KXqyqgknIR0JNu4L
+   O72fABNMVwk9LwxlCqwliHwgNA71phBl4RZiN1lrbnCrI/OdA6AxiKwNA
+   lsSrmfSPBjx/dqM5yR+ikQ1qqz2mEINnGNF8EkgLMkZN52hRzlrxApydB
+   uZTSyYjmaA0SlJ/2+wUv7FPdz0Y81fIn+q8UqVXtT3vTRvX6YWBW0lQnC
+   gfevgpDQxmOwv7V6f3XgQIdYJKf52b297jlVpgyvCneC+N5Ino3ySErBp
+   mWu9NVFjK/31W6LEnYv1Bt6F1fdfc3umgncvsP/yiSk3pEUnaKTOU8cLB
+   g==;
+X-CSE-ConnectionGUID: hQ9hJAQlSbaztfhZJQ1kyw==
+X-CSE-MsgGUID: pmD/4ixSS/mtQZBsukeC+A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="16031700"
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="12071809"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 19:40:32 -0700
-X-CSE-ConnectionGUID: jxx6Od78QpK5p86CJfcjmg==
-X-CSE-MsgGUID: 8bvtjIbCTxK2XgugzdoDzg==
+   d="scan'208";a="16031700"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 21:23:47 -0700
+X-CSE-ConnectionGUID: sLmyecOYSzOP23RU5TSdUg==
+X-CSE-MsgGUID: 7HwDAIlMTgOa0Ngvb6cA7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,169,1712646000"; 
-   d="scan'208";a="32552455"
+   d="scan'208";a="62836577"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 17 May 2024 19:40:31 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 May 2024 21:23:45 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s89zo-0001Xo-2Q;
-	Sat, 18 May 2024 02:40:28 +0000
-Date: Sat, 18 May 2024 10:39:30 +0800
+	id 1s8Bbj-0001cC-1a;
+	Sat, 18 May 2024 04:23:43 +0000
+Date: Sat, 18 May 2024 12:23:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12443/13355]
- drivers/gpu/drm/i915/display/intel_dpt.c:173 intel_dpt_pin_to_ggtt() error:
- uninitialized symbol 'vma'.
-Message-ID: <202405181057.d5K5ENqy-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2:
+ sparse: sparse: "NEON intrinsics not available with the soft-float ABI.
+ Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+Message-ID: <202405181255.qMUhAboE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard""
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
-CC: Jani Nikula <jani.nikula@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Ville,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c75962170e49f24399141276ae119e6a879f36dc
-commit: c7df997b260919e4d18b2dee21cae6bcf765babc [12443/13355] drm/i915: Rename the fb pinning functions to indicate the address space
-:::::: branch date: 23 hours ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-141-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181057.d5K5ENqy-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4b377b4868ef17b040065bd468668c707d2477a5
+commit: cd575ddf57af004913ff5a994aa5f3203216fa68 bcachefs: Erasure coding
+date:   7 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 months ago
+config: arm64-randconfig-r111-20240517 (https://download.01.org/0day-ci/archive/20240518/202405181255.qMUhAboE-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce: (https://download.01.org/0day-ci/archive/20240518/202405181255.qMUhAboE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405181057.d5K5ENqy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405181255.qMUhAboE-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/display/intel_dpt.c:173 intel_dpt_pin_to_ggtt() error: uninitialized symbol 'vma'.
-drivers/gpu/drm/i915/display/intel_fb_pin.c:93 intel_fb_pin_to_dpt() error: uninitialized symbol 'vma'.
-drivers/gpu/drm/i915/display/intel_fb_pin.c:93 intel_fb_pin_to_dpt() error: 'vma' dereferencing possible ERR_PTR()
-
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:183 __i915_gem_object_lock() error: we previously assumed 'ww' could be null (see line 172)
-drivers/gpu/drm/i915/gem/i915_gem_object.h:183 __i915_gem_object_lock() error: we previously assumed 'ww' could be null (see line 172)
-
-vim +/vma +173 drivers/gpu/drm/i915/display/intel_dpt.c
-
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  123  
-c7df997b260919 Ville Syrjälä        2024-05-06  124  struct i915_vma *intel_dpt_pin_to_ggtt(struct i915_address_space *vm,
-c8bafa0d9898f3 Ville Syrjälä        2024-04-30  125  				       unsigned int alignment)
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  126  {
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  127  	struct drm_i915_private *i915 = vm->i915;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  128  	struct i915_dpt *dpt = i915_vm_to_dpt(vm);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  129  	intel_wakeref_t wakeref;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  130  	struct i915_vma *vma;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  131  	void __iomem *iomem;
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  132  	struct i915_gem_ww_ctx ww;
-0dc987b699ce42 Juha-Pekka Heikkila  2022-06-10  133  	u64 pin_flags = 0;
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  134  	int err;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  135  
-0dc987b699ce42 Juha-Pekka Heikkila  2022-06-10  136  	if (i915_gem_object_is_stolen(dpt->obj))
-0dc987b699ce42 Juha-Pekka Heikkila  2022-06-10  137  		pin_flags |= PIN_MAPPABLE;
-0dc987b699ce42 Juha-Pekka Heikkila  2022-06-10  138  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  139  	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  140  	atomic_inc(&i915->gpu_error.pending_fb_pin);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  141  
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  142  	for_i915_gem_ww(&ww, err, true) {
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  143  		err = i915_gem_object_lock(dpt->obj, &ww);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  144  		if (err)
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  145  			continue;
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  146  
-c8bafa0d9898f3 Ville Syrjälä        2024-04-30  147  		vma = i915_gem_object_ggtt_pin_ww(dpt->obj, &ww, NULL, 0,
-c8bafa0d9898f3 Ville Syrjälä        2024-04-30  148  						  alignment, pin_flags);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  149  		if (IS_ERR(vma)) {
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  150  			err = PTR_ERR(vma);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  151  			continue;
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  152  		}
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  153  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  154  		iomem = i915_vma_pin_iomap(vma);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  155  		i915_vma_unpin(vma);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  156  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  157  		if (IS_ERR(iomem)) {
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  158  			err = PTR_ERR(iomem);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  159  			continue;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  160  		}
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  161  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  162  		dpt->vma = vma;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  163  		dpt->iomem = iomem;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  164  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  165  		i915_vma_get(vma);
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29  166  	}
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  167  
-e91a777a6e602b Radhakrishna Sripada 2023-07-18  168  	dpt->obj->mm.dirty = true;
-e91a777a6e602b Radhakrishna Sripada 2023-07-18  169  
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  170  	atomic_dec(&i915->gpu_error.pending_fb_pin);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  171  	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  172  
-f0b6b01b3efe74 Maarten Lankhorst    2021-09-29 @173  	return err ? ERR_PTR(err) : vma;
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  174  }
-dc6d6158a6e8b1 Jani Nikula          2021-08-23  175  
-
-:::::: The code at line 173 was first introduced by commit
-:::::: f0b6b01b3efe74afd2de59c894105e13b121a01e drm/i915: Add ww context to intel_dpt_pin, v2.
-
-:::::: TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-:::::: CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+sparse warnings: (new ones prefixed by >>)
+   lib/raid6/neon2.c: note: in included file:
+>> /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid6/neon2.c: note: in included file:
+   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:15:50: sparse: sparse: got *
+   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:19:50: sparse: sparse: got *
+   lib/raid6/neon2.c:30:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:30:20: sparse: sparse: got unative_t
+   lib/raid6/neon2.c:38:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:38:25: sparse: sparse: got SHLBYTE
+   lib/raid6/neon2.c:41:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:41:1: sparse: sparse: got }
+   lib/raid6/neon2.c:50:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:50:1: sparse: sparse: got }
+   lib/raid6/neon2.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:55:1: sparse: sparse: got }
+   lib/raid6/neon2.c:60:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:60:17: sparse: sparse: got *
+   lib/raid6/neon2.c:63:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:63:28: sparse: sparse: got wd0
+   lib/raid6/neon2.c:64:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:64:28: sparse: sparse: got wd1
+   lib/raid6/neon2.c:65:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:65:25: sparse: sparse: got x1d
+   lib/raid6/neon2.c:71:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:71:17: sparse: sparse: got =
+   lib/raid6/neon2.c:71:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon2.c:71:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:71:25: sparse: sparse: got <
+   lib/raid6/neon2.c:71:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:71:37: sparse: sparse: got +=
+   lib/raid6/neon2.c:74:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:74:25: sparse: sparse: got =
+   lib/raid6/neon2.c:74:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon2.c:74:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:74:36: sparse: sparse: got >=
+   lib/raid6/neon2.c:74:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:74:44: sparse: sparse: got --
+   lib/raid6/neon2.c:90:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:90:17: sparse: sparse: got }
+   lib/raid6/neon2.c:92:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:92:26: sparse: sparse: got &
+   lib/raid6/neon2.c:93:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:93:26: sparse: sparse: got &
+   lib/raid6/neon2.c:94:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:94:26: sparse: sparse: got &
+   lib/raid6/neon2.c:95:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:95:9: sparse: sparse: got }
+   lib/raid6/neon2.c:102:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:102:17: sparse: sparse: got *
+   lib/raid6/neon2.c:105:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:105:28: sparse: sparse: got wd0
+   lib/raid6/neon2.c:106:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:106:28: sparse: sparse: got wd1
+   lib/raid6/neon2.c:107:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:107:25: sparse: sparse: got x1d
+   lib/raid6/neon2.c:113:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:113:17: sparse: sparse: got =
+   lib/raid6/neon2.c:113:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon2.c:113:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:113:25: sparse: sparse: got <
+   lib/raid6/neon2.c:113:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:113:37: sparse: sparse: got +=
+   lib/raid6/neon2.c:120:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:120:25: sparse: sparse: got =
+   lib/raid6/neon2.c:120:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon2.c:120:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:120:36: sparse: sparse: got >=
+   lib/raid6/neon2.c:120:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:120:48: sparse: sparse: got --
+   lib/raid6/neon2.c:136:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:136:17: sparse: sparse: got }
+   lib/raid6/neon2.c:138:39: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:138:39: sparse: sparse: got >=
+   lib/raid6/neon2.c:138:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:138:48: sparse: sparse: got -=
+   lib/raid6/neon2.c:148:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:148:17: sparse: sparse: got }
+   lib/raid6/neon2.c:161:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon2.c:162:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon2.c:162:22: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:162:22: sparse: sparse: got 1
+   lib/raid6/neon2.c:172:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon2.c:173:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon2.c:173:22: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon2.c:173:22: sparse: sparse: got 0
+   lib/raid6/neon2.c:183:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:183:17: sparse: sparse: got }
+   lib/raid6/neon2.c:189:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:189:26: sparse: sparse: got &
+   lib/raid6/neon2.c:190:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:190:26: sparse: sparse: got &
+   lib/raid6/neon2.c:191:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:191:26: sparse: sparse: got &
+   lib/raid6/neon2.c:192:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon2.c:192:26: sparse: sparse: got &
+   lib/raid6/neon2.c:193:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon2.c:193:9: sparse: sparse: got }
+   lib/raid6/neon2.c:65:15: sparse: sparse: symbol 'unative_t' redeclared with different type (different modifiers):
+   lib/raid6/neon2.c:65:15: sparse:    int static const [toplevel] unative_t
+   lib/raid6/neon2.c:64:18: sparse: note: previously declared as:
+--
+   lib/raid6/recov_neon_inner.c: note: in included file:
+>> /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid6/recov_neon_inner.c: note: in included file:
+   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:15:50: sparse: sparse: got *
+   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:19:50: sparse: sparse: got *
+   lib/raid6/recov_neon_inner.c:28:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/recov_neon_inner.c:28:50: sparse: sparse: got *
+   lib/raid6/recov_neon_inner.c:33:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:33:20: sparse: sparse: got pm1
+   lib/raid6/recov_neon_inner.c:34:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:34:20: sparse: sparse: got qm0
+   lib/raid6/recov_neon_inner.c:35:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:35:20: sparse: sparse: got qm1
+   lib/raid6/recov_neon_inner.c:36:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:36:20: sparse: sparse: got x0f
+   lib/raid6/recov_neon_inner.c:50:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+   lib/raid6/recov_neon_inner.c:50:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid6/recov_neon_inner.c:51:28: sparse: sparse: Expected ; at end of statement
+   lib/raid6/recov_neon_inner.c:51:28: sparse: sparse: got vx
+   lib/raid6/recov_neon_inner.c:76:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/recov_neon_inner.c:76:1: sparse: sparse: got }
+   lib/raid6/recov_neon_inner.c:82:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:82:20: sparse: sparse: got qm1
+   lib/raid6/recov_neon_inner.c:83:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/recov_neon_inner.c:83:20: sparse: sparse: got x0f
+   lib/raid6/recov_neon_inner.c:92:9: sparse: sparse: Trying to use reserved word 'while' as identifier
+   lib/raid6/recov_neon_inner.c:92:16: sparse: sparse: missing type declaration for parameter 'bytes'
+   lib/raid6/recov_neon_inner.c:93:28: sparse: sparse: Expected ; at end of statement
+   lib/raid6/recov_neon_inner.c:93:28: sparse: sparse: got vx
+   lib/raid6/recov_neon_inner.c:111:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/recov_neon_inner.c:111:1: sparse: sparse: got }
+   lib/raid6/recov_neon_inner.c:53:17: sparse: sparse: undefined identifier 'px'
+   lib/raid6/recov_neon_inner.c:53:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:54:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:54:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:56:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:56:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid6/recov_neon_inner.c:57:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:57:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:58:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:58:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:59:17: sparse: sparse: undefined identifier 'qx'
+   lib/raid6/recov_neon_inner.c:59:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:61:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:61:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid6/recov_neon_inner.c:62:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:62:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:63:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:63:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:64:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:64:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:65:17: sparse: sparse: undefined identifier 'db'
+   lib/raid6/recov_neon_inner.c:65:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:67:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid6/recov_neon_inner.c:68:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid6/recov_neon_inner.c:71:17: sparse: sparse: undefined identifier 'p'
+   lib/raid6/recov_neon_inner.c:72:17: sparse: sparse: undefined identifier 'q'
+   lib/raid6/recov_neon_inner.c:73:17: sparse: sparse: undefined identifier 'dp'
+   lib/raid6/recov_neon_inner.c:74:17: sparse: sparse: undefined identifier 'dq'
+   lib/raid6/recov_neon_inner.c:95:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:95:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:97:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:97:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
+   lib/raid6/recov_neon_inner.c:98:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:98:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:99:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:99:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
+   lib/raid6/recov_neon_inner.c:100:17: sparse: sparse: undefined identifier 'vx'
+   lib/raid6/recov_neon_inner.c:100:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:101:17: sparse: sparse: undefined identifier 'vy'
+   lib/raid6/recov_neon_inner.c:101:22: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/recov_neon_inner.c:103:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid6/recov_neon_inner.c:104:17: sparse: sparse: undefined identifier 'vst1q_u8'
+   lib/raid6/recov_neon_inner.c:107:17: sparse: sparse: undefined identifier 'p'
+   lib/raid6/recov_neon_inner.c:108:17: sparse: sparse: undefined identifier 'q'
+   lib/raid6/recov_neon_inner.c:109:17: sparse: sparse: undefined identifier 'dq'
+--
+   lib/raid6/neon4.c: note: in included file:
+>> /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid6/neon4.c: note: in included file:
+   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:15:50: sparse: sparse: got *
+   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:19:50: sparse: sparse: got *
+   lib/raid6/neon4.c:30:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:30:20: sparse: sparse: got unative_t
+   lib/raid6/neon4.c:38:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:38:25: sparse: sparse: got SHLBYTE
+   lib/raid6/neon4.c:41:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:41:1: sparse: sparse: got }
+   lib/raid6/neon4.c:50:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:50:1: sparse: sparse: got }
+   lib/raid6/neon4.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:55:1: sparse: sparse: got }
+   lib/raid6/neon4.c:60:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:60:17: sparse: sparse: got *
+   lib/raid6/neon4.c:63:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:63:28: sparse: sparse: got wd0
+   lib/raid6/neon4.c:64:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:64:28: sparse: sparse: got wd1
+   lib/raid6/neon4.c:65:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:65:28: sparse: sparse: got wd2
+   lib/raid6/neon4.c:66:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:66:28: sparse: sparse: got wd3
+   lib/raid6/neon4.c:67:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:67:25: sparse: sparse: got x1d
+   lib/raid6/neon4.c:73:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:73:17: sparse: sparse: got =
+   lib/raid6/neon4.c:73:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon4.c:73:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:73:25: sparse: sparse: got <
+   lib/raid6/neon4.c:73:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:73:37: sparse: sparse: got +=
+   lib/raid6/neon4.c:78:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:78:25: sparse: sparse: got =
+   lib/raid6/neon4.c:78:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon4.c:78:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:78:36: sparse: sparse: got >=
+   lib/raid6/neon4.c:78:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:78:44: sparse: sparse: got --
+   lib/raid6/neon4.c:108:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:108:17: sparse: sparse: got }
+   lib/raid6/neon4.c:110:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:110:26: sparse: sparse: got &
+   lib/raid6/neon4.c:111:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:111:26: sparse: sparse: got &
+   lib/raid6/neon4.c:112:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:112:26: sparse: sparse: got &
+   lib/raid6/neon4.c:113:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:113:26: sparse: sparse: got &
+   lib/raid6/neon4.c:114:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:114:26: sparse: sparse: got &
+   lib/raid6/neon4.c:115:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:115:26: sparse: sparse: got &
+   lib/raid6/neon4.c:116:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:116:26: sparse: sparse: got &
+   lib/raid6/neon4.c:117:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:117:9: sparse: sparse: got }
+   lib/raid6/neon4.c:124:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:124:17: sparse: sparse: got *
+   lib/raid6/neon4.c:127:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:127:28: sparse: sparse: got wd0
+   lib/raid6/neon4.c:128:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:128:28: sparse: sparse: got wd1
+   lib/raid6/neon4.c:129:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:129:28: sparse: sparse: got wd2
+   lib/raid6/neon4.c:130:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:130:28: sparse: sparse: got wd3
+   lib/raid6/neon4.c:131:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:131:25: sparse: sparse: got x1d
+   lib/raid6/neon4.c:137:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:137:17: sparse: sparse: got =
+   lib/raid6/neon4.c:137:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon4.c:137:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:137:25: sparse: sparse: got <
+   lib/raid6/neon4.c:137:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:137:37: sparse: sparse: got +=
+   lib/raid6/neon4.c:148:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon4.c:148:25: sparse: sparse: got =
+   lib/raid6/neon4.c:148:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon4.c:148:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:148:36: sparse: sparse: got >=
+   lib/raid6/neon4.c:148:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:148:48: sparse: sparse: got --
+   lib/raid6/neon4.c:178:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:178:17: sparse: sparse: got }
+   lib/raid6/neon4.c:180:39: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:180:39: sparse: sparse: got >=
+   lib/raid6/neon4.c:180:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:180:48: sparse: sparse: got -=
+   lib/raid6/neon4.c:198:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon4.c:198:17: sparse: sparse: got }
+   lib/raid6/neon4.c:219:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon4.c:220:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon4.c:220:22: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon4.c:220:22: sparse: sparse: got 1
+   lib/raid6/neon4.c:238:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon4.c:239:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon4.c:239:22: sparse: sparse: Expected ; at end of declaration
+--
+   lib/raid6/neon8.c: note: in included file:
+>> /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid6/neon8.c: note: in included file:
+   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:15:50: sparse: sparse: got *
+   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:19:50: sparse: sparse: got *
+   lib/raid6/neon8.c:30:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:30:20: sparse: sparse: got unative_t
+   lib/raid6/neon8.c:38:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:38:25: sparse: sparse: got SHLBYTE
+   lib/raid6/neon8.c:41:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon8.c:41:1: sparse: sparse: got }
+   lib/raid6/neon8.c:50:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon8.c:50:1: sparse: sparse: got }
+   lib/raid6/neon8.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon8.c:55:1: sparse: sparse: got }
+   lib/raid6/neon8.c:60:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:60:17: sparse: sparse: got *
+   lib/raid6/neon8.c:63:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:63:28: sparse: sparse: got wd0
+   lib/raid6/neon8.c:64:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:64:28: sparse: sparse: got wd1
+   lib/raid6/neon8.c:65:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:65:28: sparse: sparse: got wd2
+   lib/raid6/neon8.c:66:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:66:28: sparse: sparse: got wd3
+   lib/raid6/neon8.c:67:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:67:28: sparse: sparse: got wd4
+   lib/raid6/neon8.c:68:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:68:28: sparse: sparse: got wd5
+   lib/raid6/neon8.c:69:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:69:28: sparse: sparse: got wd6
+   lib/raid6/neon8.c:70:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:70:28: sparse: sparse: got wd7
+   lib/raid6/neon8.c:71:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:71:25: sparse: sparse: got x1d
+   lib/raid6/neon8.c:77:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:77:17: sparse: sparse: got =
+   lib/raid6/neon8.c:77:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon8.c:77:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:77:25: sparse: sparse: got <
+   lib/raid6/neon8.c:77:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:77:37: sparse: sparse: got +=
+   lib/raid6/neon8.c:86:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:86:25: sparse: sparse: got =
+   lib/raid6/neon8.c:86:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon8.c:86:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:86:36: sparse: sparse: got >=
+   lib/raid6/neon8.c:86:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:86:44: sparse: sparse: got --
+   lib/raid6/neon8.c:144:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon8.c:144:17: sparse: sparse: got }
+   lib/raid6/neon8.c:146:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:146:26: sparse: sparse: got &
+   lib/raid6/neon8.c:147:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:147:26: sparse: sparse: got &
+   lib/raid6/neon8.c:148:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:148:26: sparse: sparse: got &
+   lib/raid6/neon8.c:149:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:149:26: sparse: sparse: got &
+   lib/raid6/neon8.c:150:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:150:26: sparse: sparse: got &
+   lib/raid6/neon8.c:151:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:151:26: sparse: sparse: got &
+   lib/raid6/neon8.c:152:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:152:26: sparse: sparse: got &
+   lib/raid6/neon8.c:153:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:153:26: sparse: sparse: got &
+   lib/raid6/neon8.c:154:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:154:26: sparse: sparse: got &
+   lib/raid6/neon8.c:155:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:155:26: sparse: sparse: got &
+   lib/raid6/neon8.c:156:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:156:26: sparse: sparse: got &
+   lib/raid6/neon8.c:157:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:157:26: sparse: sparse: got &
+   lib/raid6/neon8.c:158:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:158:26: sparse: sparse: got &
+   lib/raid6/neon8.c:159:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:159:26: sparse: sparse: got &
+   lib/raid6/neon8.c:160:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon8.c:160:26: sparse: sparse: got &
+   lib/raid6/neon8.c:161:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon8.c:161:9: sparse: sparse: got }
+   lib/raid6/neon8.c:168:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:168:17: sparse: sparse: got *
+   lib/raid6/neon8.c:171:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:171:28: sparse: sparse: got wd0
+   lib/raid6/neon8.c:172:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:172:28: sparse: sparse: got wd1
+   lib/raid6/neon8.c:173:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:173:28: sparse: sparse: got wd2
+   lib/raid6/neon8.c:174:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:174:28: sparse: sparse: got wd3
+   lib/raid6/neon8.c:175:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:175:28: sparse: sparse: got wd4
+   lib/raid6/neon8.c:176:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:176:28: sparse: sparse: got wd5
+   lib/raid6/neon8.c:177:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon8.c:177:28: sparse: sparse: got wd6
+   lib/raid6/neon8.c:178:28: sparse: sparse: Expected ; at end of declaration
+--
+   lib/raid6/neon1.c: note: in included file:
+>> /opt/cross/clang-fa9b1be450/lib/clang/19/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+   lib/raid6/neon1.c: note: in included file:
+   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:15:50: sparse: sparse: got *
+   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon.h:19:50: sparse: sparse: got *
+   lib/raid6/neon1.c:30:20: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:30:20: sparse: sparse: got unative_t
+   lib/raid6/neon1.c:38:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:38:25: sparse: sparse: got SHLBYTE
+   lib/raid6/neon1.c:41:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:41:1: sparse: sparse: got }
+   lib/raid6/neon1.c:50:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:50:1: sparse: sparse: got }
+   lib/raid6/neon1.c:55:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:55:1: sparse: sparse: got }
+   lib/raid6/neon1.c:60:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:60:17: sparse: sparse: got *
+   lib/raid6/neon1.c:63:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:63:28: sparse: sparse: got wd0
+   lib/raid6/neon1.c:64:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:64:25: sparse: sparse: got x1d
+   lib/raid6/neon1.c:70:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:70:17: sparse: sparse: got =
+   lib/raid6/neon1.c:70:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon1.c:70:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:70:25: sparse: sparse: got <
+   lib/raid6/neon1.c:70:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:70:37: sparse: sparse: got +=
+   lib/raid6/neon1.c:72:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:72:25: sparse: sparse: got =
+   lib/raid6/neon1.c:72:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon1.c:72:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:72:36: sparse: sparse: got >=
+   lib/raid6/neon1.c:72:44: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:72:44: sparse: sparse: got --
+   lib/raid6/neon1.c:81:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:81:17: sparse: sparse: got }
+   lib/raid6/neon1.c:83:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:83:26: sparse: sparse: got &
+   lib/raid6/neon1.c:84:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:84:9: sparse: sparse: got }
+   lib/raid6/neon1.c:91:17: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:91:17: sparse: sparse: got *
+   lib/raid6/neon1.c:94:28: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:94:28: sparse: sparse: got wd0
+   lib/raid6/neon1.c:95:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:95:25: sparse: sparse: got x1d
+   lib/raid6/neon1.c:101:17: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:101:17: sparse: sparse: got =
+   lib/raid6/neon1.c:101:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon1.c:101:25: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:101:25: sparse: sparse: got <
+   lib/raid6/neon1.c:101:37: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:101:37: sparse: sparse: got +=
+   lib/raid6/neon1.c:106:25: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:106:25: sparse: sparse: got =
+   lib/raid6/neon1.c:106:17: sparse: sparse: Trying to use reserved word 'for' as identifier
+   lib/raid6/neon1.c:106:36: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:106:36: sparse: sparse: got >=
+   lib/raid6/neon1.c:106:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:106:48: sparse: sparse: got --
+   lib/raid6/neon1.c:115:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:115:17: sparse: sparse: got }
+   lib/raid6/neon1.c:117:39: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:117:39: sparse: sparse: got >=
+   lib/raid6/neon1.c:117:48: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:117:48: sparse: sparse: got -=
+   lib/raid6/neon1.c:123:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:123:17: sparse: sparse: got }
+   lib/raid6/neon1.c:132:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon1.c:133:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon1.c:133:22: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:133:22: sparse: sparse: got 1
+   lib/raid6/neon1.c:139:25: sparse: sparse: Trying to use reserved word 'break' as identifier
+   lib/raid6/neon1.c:140:17: sparse: sparse: Trying to use reserved word 'case' as identifier
+   lib/raid6/neon1.c:140:22: sparse: sparse: Expected ; at end of declaration
+   lib/raid6/neon1.c:140:22: sparse: sparse: got 0
+   lib/raid6/neon1.c:146:17: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:146:17: sparse: sparse: got }
+   lib/raid6/neon1.c:150:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:150:26: sparse: sparse: got &
+   lib/raid6/neon1.c:151:26: sparse: sparse: Expected ) in function declarator
+   lib/raid6/neon1.c:151:26: sparse: sparse: got &
+   lib/raid6/neon1.c:152:9: sparse: sparse: Expected ; at the end of type declaration
+   lib/raid6/neon1.c:152:9: sparse: sparse: got }
+   lib/raid6/neon1.c:64:15: sparse: sparse: symbol 'unative_t' redeclared with different type (different modifiers):
+   lib/raid6/neon1.c:64:15: sparse:    int static const [toplevel] unative_t
+   lib/raid6/neon1.c:63:18: sparse: note: previously declared as:
+   lib/raid6/neon1.c:63:18: sparse:    int register static [toplevel] unative_t
+   lib/raid6/neon1.c:66:14: sparse: sparse: undefined identifier 'disks'
+   lib/raid6/neon1.c:67:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/neon1.c:68:13: sparse: sparse: undefined identifier 'dptr'
+   lib/raid6/neon1.c:74:31: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/neon1.c:75:31: sparse: sparse: undefined identifier 'MASK'
+   lib/raid6/neon1.c:76:31: sparse: sparse: undefined identifier 'SHLBYTE'
+   lib/raid6/neon1.c:78:31: sparse: sparse: undefined identifier 'vandq_u8'
+   lib/raid6/neon1.c:78:25: sparse: sparse: symbol 'w20' has multiple initializers (originally initialized at lib/raid6/neon1.c:75)
+   lib/raid6/neon1.c:79:31: sparse: sparse: undefined identifier 'veorq_u8'
+   lib/raid6/neon1.c:79:25: sparse: sparse: symbol 'w10' has multiple initializers (originally initialized at lib/raid6/neon1.c:76)
+   lib/raid6/neon1.c:80:31: sparse: sparse: undefined identifier 'veorq_u8'
 
 -- 
 0-DAY CI Kernel Test Service
