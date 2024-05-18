@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7CC10A11
-	for <oe-kbuild@lists.linux.dev>; Sat, 18 May 2024 11:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6A1381A4
+	for <oe-kbuild@lists.linux.dev>; Sat, 18 May 2024 13:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716030663; cv=none; b=p+hrBmhB6+GwWyxEEYnKbYTQlhiPKEPRBsipO0+aArQF8ZejKSCUlWVw82RKjZAB8qazf6e26oGfD6SY9NB8LiLaDuS0pQMLWQaZGfvtvfzCy69U7PlBCLRMZneZ5sGUbWwqm0XTMueXjjZj/DwRKnIKLV0TJXYgc/gZIqzL7Uk=
+	t=1716038299; cv=none; b=lqyOyzzxjIQxzMF5F3thdRkuUwv9zcv9oz7sMnA+4I2fECyPKAgBASgHsZhyQgBvRcC2/jg9e/3tuBW0slplh0h43jmL8g3oOr0cWma+attzQlRUxmczF0NkZKmcqTQaRZjO4pB/aYfY5FmlHVe512f2CGxNmo3ogOprRK3djVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716030663; c=relaxed/simple;
-	bh=YSClO0eNNuiz8YV8ixdj8r5+JSx+pzSdEY76ln1akZo=;
+	s=arc-20240116; t=1716038299; c=relaxed/simple;
+	bh=apgJTypyencLAI1OHiVFoFNB6xgs3EyClO/25pfJGIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aDsLysyRPgR5E6SG1R1c6I3Coi0SY543Q91X/2F9cXgaLPdHL5gBPKTZw+LjuJS6w/0Th0cCotlct3j6X2eD6LKb7+iOvVBDivvFGr6yGWeHPz+ds7IF//UfzS6nsaUDgEmmVStsUZ0tXZEcMswwM92TIAC4cBILsQwfayhO2QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YY5QBZ1P; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Ikvp7hUi06oPAqwPBbsTXHZVghLasmw4P8gHeVmIKyrNNy6H/3uYqTcJTXE1TKuZKaTdlQRJcyJqPWZQ3w+6sxQAeDKOpz7SZ6dt3jBVBZ3PZPorEHCY/h+NFnPS+riIyytdyWoPfcKCLD9aVKeVvq44I8KK/1dlb5nhrjJCCRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGnlVuQc; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YY5QBZ1P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGnlVuQc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716030661; x=1747566661;
+  t=1716038297; x=1747574297;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YSClO0eNNuiz8YV8ixdj8r5+JSx+pzSdEY76ln1akZo=;
-  b=YY5QBZ1PZNJOk2rgTSfgPE317XaJeP1fXnIqZje8+UlqZHYH2lCPl2X0
-   sREqRJQoaTp2i1iQE7ymGm1Q66LpB4wcs+v086AfgZiequNq2XAjT71gR
-   ncUlD7Oyrkq+gwXGepNXGDSK14KNVV6hmSrPHNOUPhIrEaidk9l40p5MG
-   vJjW9avsC7QkDSBj0UjAAGlpAYWUfi1iDzUNQPpXQ1w+Oj/SSPx/gQY75
-   9/GCL+WUS/5DlzUFPp8a28xKJhIYmjxB1am3c1/T5axoaWgIoTtsqRQo6
-   XBsQimMOd/hhz9eBL+ly+UEplIysxDTAbG4jmuUHtibxJ/P0bBxifIL1h
-   w==;
-X-CSE-ConnectionGUID: GGBAt6aYSt+jhxTQAoZxBA==
-X-CSE-MsgGUID: p44bsZRKSg2MUnJkITyflg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12386001"
+  bh=apgJTypyencLAI1OHiVFoFNB6xgs3EyClO/25pfJGIU=;
+  b=aGnlVuQcbCjxf/3GfO8BLZ7eoGSPt2nYwL/v74Z7t32e2SViZtGUnhkj
+   7+gfO/XfOXxsY2WMjWIEhW2MEV+AkuBJGk5+WXDtQIshAzAEW91XliVq3
+   oKmI+X8ftYLcxqrS6PZjKaUyVNLpeQy0Kw5Xe8Eq2bquqEJyHQm1ZHD+N
+   XbWA76V2XzvyF6a+ZUDU47uFAFYCuPwFIMMn82xSyiKa0g+ByTY8IfoPc
+   lH6jCGeeTmEZGnVHSXVmx+qHqL6O9y0OAy9UvuxHsuDaIHXkKwbYaUhuU
+   C+UPftZcBlU6UsZzv9oghtFIPeiNv5jvHqERyZXWGynakvBQiP3PTtf/2
+   A==;
+X-CSE-ConnectionGUID: WzPIJOGqSIyKkgWQsRl7jg==
+X-CSE-MsgGUID: 5N5Ai8/rTWO1fm3piW77Lg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="16047490"
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="12386001"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 04:11:01 -0700
-X-CSE-ConnectionGUID: RJaLnPufRqisySw2kfXVXg==
-X-CSE-MsgGUID: yT1/6y1XQtWTmIPZPfKL9A==
+   d="scan'208";a="16047490"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2024 06:18:17 -0700
+X-CSE-ConnectionGUID: CnU72cidS+CMOxok4shniw==
+X-CSE-MsgGUID: TSbsyUIASfakPKma7Lnhzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,170,1712646000"; 
-   d="scan'208";a="36865607"
+   d="scan'208";a="62908117"
 Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 18 May 2024 04:10:59 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 May 2024 06:18:15 -0700
 Received: from kbuild by 108735ec233b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s8Hxo-00027s-2t;
-	Sat, 18 May 2024 11:10:56 +0000
-Date: Sat, 18 May 2024 19:10:56 +0800
+	id 1s8Jwz-0002Em-0O;
+	Sat, 18 May 2024 13:18:13 +0000
+Date: Sat, 18 May 2024 21:17:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/clk/mediatek/clk-mtk.c:622 __mtk_clk_simple_probe() warn:
- 'base' from of_iomap() not released on lines: 506.
-Message-ID: <202405181935.AEIJsSyG-lkp@intel.com>
+Subject: Re: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control
+ ICMP_TIMESTAMP
+Message-ID: <202405182044.rqfrmEqo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,196 +64,100 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
+References: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
+TO: ye.xingchen@zte.com.cn
+TO: davem@davemloft.net
+CC: edumazet@google.com
+CC: kuba@kernel.org
+CC: pabeni@redhat.com
+CC: corbet@lwn.net
+CC: dsahern@kernel.org
+CC: ncardwell@google.com
+CC: soheil@google.com
+CC: mfreemon@cloudflare.com
+CC: lixiaoyan@google.com
+CC: david.laight@aculab.com
+CC: haiyangz@microsoft.com
+CC: ye.xingchen@zte.com.cn
+CC: netdev@vger.kernel.org
+CC: linux-doc@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: "Pin-yen Lin" <treapking@chromium.org>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: xu.xin16@zte.com.cn
+CC: zhang.yunkai@zte.com.cn
+CC: fan.yu9@zte.com.cn
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4b377b4868ef17b040065bd468668c707d2477a5
-commit: 2f7b1d8b5505efb0057cd1ab85fca206063ea4c3 clk: mediatek: Do a runtime PM get on controllers during probe
-date:   5 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 5 weeks ago
-config: csky-randconfig-r081-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181935.AEIJsSyG-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.2.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/icmp-Add-icmp_timestamp_ignore_all-to-control-ICMP_TIMESTAMP/20240517-172903
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240517172639229ec5bN7VBV7SGEHkSK5K6f%40zte.com.cn
+patch subject: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control ICMP_TIMESTAMP
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+config: sparc64-randconfig-r081-20240518 (https://download.01.org/0day-ci/archive/20240518/202405182044.rqfrmEqo-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405181935.AEIJsSyG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405182044.rqfrmEqo-lkp@intel.com/
 
 smatch warnings:
-drivers/clk/mediatek/clk-mtk.c:622 __mtk_clk_simple_probe() warn: 'base' from of_iomap() not released on lines: 506.
+net/ipv4/icmp.c:1157 icmp_timestamp() error: uninitialized symbol 'net'.
 
-vim +/base +622 drivers/clk/mediatek/clk-mtk.c
+vim +/net +1157 net/ipv4/icmp.c
 
-b87385eb5a8ed2 Chen-Yu Tsai               2022-02-08  466  
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  467  static int __mtk_clk_simple_probe(struct platform_device *pdev,
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  468  				  struct device_node *node)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  469  {
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  470  	const struct platform_device_id *id;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  471  	const struct mtk_clk_desc *mcd;
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  472  	struct clk_hw_onecell_data *clk_data;
-51821765e89906 AngeloGioacchino Del Regno 2023-06-15  473  	void __iomem *base = NULL;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  474  	int num_clks, r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  475  
-4b476b0f453431 AngeloGioacchino Del Regno 2023-03-06  476  	mcd = device_get_match_data(&pdev->dev);
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  477  	if (!mcd) {
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  478  		/* Clock driver wasn't registered from devicetree */
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  479  		id = platform_get_device_id(pdev);
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  480  		if (id)
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  481  			mcd = (const struct mtk_clk_desc *)id->driver_data;
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  482  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  483  		if (!mcd)
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  484  			return -EINVAL;
-252091242404aa AngeloGioacchino Del Regno 2023-03-06  485  	}
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  486  
-51821765e89906 AngeloGioacchino Del Regno 2023-06-15  487  	/* Composite and divider clocks needs us to pass iomem pointer */
-51821765e89906 AngeloGioacchino Del Regno 2023-06-15  488  	if (mcd->composite_clks || mcd->divider_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  489  		if (!mcd->shared_io)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  490  			base = devm_platform_ioremap_resource(pdev, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  491  		else
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  492  			base = of_iomap(node, 0);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  493  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  494  		if (IS_ERR_OR_NULL(base))
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  495  			return IS_ERR(base) ? PTR_ERR(base) : -ENOMEM;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  496  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  497  
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  498  
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  499  	devm_pm_runtime_enable(&pdev->dev);
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  500  	/*
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  501  	 * Do a pm_runtime_resume_and_get() to workaround a possible
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  502  	 * deadlock between clk_register() and the genpd framework.
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  503  	 */
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  504  	r = pm_runtime_resume_and_get(&pdev->dev);
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  505  	if (r)
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  506  		return r;
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  507  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  508  	/* Calculate how many clk_hw_onecell_data entries to allocate */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  509  	num_clks = mcd->num_clks + mcd->num_composite_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  510  	num_clks += mcd->num_fixed_clks + mcd->num_factor_clks;
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  511  	num_clks += mcd->num_mux_clks + mcd->num_divider_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  512  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  513  	clk_data = mtk_alloc_clk_data(num_clks);
-3db7285e044144 Bosi Zhang                 2023-04-22  514  	if (!clk_data) {
-3db7285e044144 Bosi Zhang                 2023-04-22  515  		r = -ENOMEM;
-3db7285e044144 Bosi Zhang                 2023-04-22  516  		goto free_base;
-3db7285e044144 Bosi Zhang                 2023-04-22  517  	}
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  518  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  519  	if (mcd->fixed_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  520  		r = mtk_clk_register_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  521  						mcd->num_fixed_clks, clk_data);
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  522  		if (r)
-6203815bf97eea Chun-Jie Chen              2021-09-14  523  			goto free_data;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  524  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  525  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  526  	if (mcd->factor_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  527  		r = mtk_clk_register_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  528  					     mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  529  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  530  			goto unregister_fixed_clks;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  531  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  532  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  533  	if (mcd->mux_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  534  		r = mtk_clk_register_muxes(&pdev->dev, mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  535  					   mcd->num_mux_clks, node,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  536  					   mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  537  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  538  			goto unregister_factors;
-b30a027779a501 Yang Li                    2023-02-02  539  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  540  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  541  	if (mcd->composite_clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  542  		/* We don't check composite_lock because it's optional */
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  543  		r = mtk_clk_register_composites(&pdev->dev,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  544  						mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  545  						mcd->num_composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  546  						base, mcd->clk_lock, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  547  		if (r)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  548  			goto unregister_muxes;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  549  	}
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  550  
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  551  	if (mcd->divider_clks) {
-6b7daeaa7e6415 AngeloGioacchino Del Regno 2023-03-06  552  		r = mtk_clk_register_dividers(&pdev->dev,
-6b7daeaa7e6415 AngeloGioacchino Del Regno 2023-03-06  553  					      mcd->divider_clks,
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  554  					      mcd->num_divider_clks,
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  555  					      base, mcd->clk_lock, clk_data);
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  556  		if (r)
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  557  			goto unregister_composites;
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  558  	}
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  559  
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  560  	if (mcd->clks) {
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  561  		r = mtk_clk_register_gates(&pdev->dev, node, mcd->clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  562  					   mcd->num_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  563  		if (r)
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  564  			goto unregister_dividers;
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  565  	}
-6203815bf97eea Chun-Jie Chen              2021-09-14  566  
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  567  	if (mcd->clk_notifier_func) {
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  568  		struct clk *mfg_mux = clk_data->hws[mcd->mfg_clk_idx]->clk;
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  569  
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  570  		r = mcd->clk_notifier_func(&pdev->dev, mfg_mux);
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  571  		if (r)
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  572  			goto unregister_clks;
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  573  	}
-fd9fe654f41c02 AngeloGioacchino Del Regno 2023-01-20  574  
-609cc5e1a82394 Chen-Yu Tsai               2022-05-19  575  	r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  576  	if (r)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  577  		goto unregister_clks;
-6203815bf97eea Chun-Jie Chen              2021-09-14  578  
-2204d96b191912 Chen-Yu Tsai               2022-02-08  579  	platform_set_drvdata(pdev, clk_data);
-2204d96b191912 Chen-Yu Tsai               2022-02-08  580  
-b27a604a579310 Rex-BC Chen                2022-05-23  581  	if (mcd->rst_desc) {
-b27a604a579310 Rex-BC Chen                2022-05-23  582  		r = mtk_register_reset_controller_with_dev(&pdev->dev,
-b27a604a579310 Rex-BC Chen                2022-05-23  583  							   mcd->rst_desc);
-b27a604a579310 Rex-BC Chen                2022-05-23  584  		if (r)
-b27a604a579310 Rex-BC Chen                2022-05-23  585  			goto unregister_clks;
-b27a604a579310 Rex-BC Chen                2022-05-23  586  	}
-b27a604a579310 Rex-BC Chen                2022-05-23  587  
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  588  	pm_runtime_put(&pdev->dev);
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  589  
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  590  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  591  
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  592  unregister_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  593  	if (mcd->clks)
-2d18b7e31aa804 Chen-Yu Tsai               2022-02-08  594  		mtk_clk_unregister_gates(mcd->clks, mcd->num_clks, clk_data);
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  595  unregister_dividers:
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  596  	if (mcd->divider_clks)
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  597  		mtk_clk_unregister_dividers(mcd->divider_clks,
-1fe074b1f112dc AngeloGioacchino Del Regno 2023-03-06  598  					    mcd->num_divider_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  599  unregister_composites:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  600  	if (mcd->composite_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  601  		mtk_clk_unregister_composites(mcd->composite_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  602  					      mcd->num_composite_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  603  unregister_muxes:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  604  	if (mcd->mux_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  605  		mtk_clk_unregister_muxes(mcd->mux_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  606  					 mcd->num_mux_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  607  unregister_factors:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  608  	if (mcd->factor_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  609  		mtk_clk_unregister_factors(mcd->factor_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  610  					   mcd->num_factor_clks, clk_data);
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  611  unregister_fixed_clks:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  612  	if (mcd->fixed_clks)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  613  		mtk_clk_unregister_fixed_clks(mcd->fixed_clks,
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  614  					      mcd->num_fixed_clks, clk_data);
-6203815bf97eea Chun-Jie Chen              2021-09-14  615  free_data:
-6203815bf97eea Chun-Jie Chen              2021-09-14  616  	mtk_free_clk_data(clk_data);
-3db7285e044144 Bosi Zhang                 2023-04-22  617  free_base:
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  618  	if (mcd->shared_io && base)
-7b6183108c8ccf AngeloGioacchino Del Regno 2023-01-20  619  		iounmap(base);
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  620  
-2f7b1d8b5505ef Pin-yen Lin                2024-03-12  621  	pm_runtime_put(&pdev->dev);
-6203815bf97eea Chun-Jie Chen              2021-09-14 @622  	return r;
-c58cd0e40ffac6 Chun-Jie Chen              2021-07-26  623  }
-32b028fb1d09a0 Miles Chen                 2021-09-02  624  
-
-:::::: The code at line 622 was first introduced by commit
-:::::: 6203815bf97eeaa78ca2e47758f0232043e69ba7 clk: mediatek: Fix resource leak in mtk_clk_simple_probe
-
-:::::: TO: Chun-Jie Chen <chun-jie.chen@mediatek.com>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1144  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1145  /*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1146   *	Handle ICMP Timestamp requests.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1147   *	RFC 1122: 3.2.2.8 MAY implement ICMP timestamp requests.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1148   *		  SHOULD be in the kernel for minimum random latency.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1149   *		  MUST be accurate to a few minutes.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1150   *		  MUST be updated at least at 15Hz.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1151   */
+b384c95a861eeb Menglong Dong            2022-04-07  1152  static enum skb_drop_reason icmp_timestamp(struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1153  {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1154  	struct icmp_bxm icmp_param;
+0a992a998f6531 YeXingchen               2024-05-17  1155  	struct net *net;
+0a992a998f6531 YeXingchen               2024-05-17  1156  
+0a992a998f6531 YeXingchen               2024-05-17 @1157  	if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
+0a992a998f6531 YeXingchen               2024-05-17  1158  		return SKB_NOT_DROPPED_YET;
+0a992a998f6531 YeXingchen               2024-05-17  1159  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1160  	/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1161  	 *	Too short.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1162  	 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1163  	if (skb->len < 4)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1164  		goto out_err;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1165  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1166  	/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1167  	 *	Fill in the current time as ms since midnight UT:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1168  	 */
+822c868532cae2 Deepa Dinamani           2016-02-27  1169  	icmp_param.data.times[1] = inet_current_timestamp();
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1170  	icmp_param.data.times[2] = icmp_param.data.times[1];
+152854025528b3 Gustavo A. R. Silva      2017-10-23  1171  
+152854025528b3 Gustavo A. R. Silva      2017-10-23  1172  	BUG_ON(skb_copy_bits(skb, 0, &icmp_param.data.times[0], 4));
+152854025528b3 Gustavo A. R. Silva      2017-10-23  1173  
+88c7664f13bd1a Arnaldo Carvalho de Melo 2007-03-13  1174  	icmp_param.data.icmph	   = *icmp_hdr(skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1175  	icmp_param.data.icmph.type = ICMP_TIMESTAMPREPLY;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1176  	icmp_param.data.icmph.code = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1177  	icmp_param.skb		   = skb;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1178  	icmp_param.offset	   = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1179  	icmp_param.data_len	   = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1180  	icmp_param.head_len	   = sizeof(struct icmphdr) + 12;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1181  	icmp_reply(&icmp_param, skb);
+b384c95a861eeb Menglong Dong            2022-04-07  1182  	return SKB_NOT_DROPPED_YET;
+e3e3217029a35c Rick Jones               2014-11-17  1183  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1184  out_err:
+5d3848bc33b7d1 Eric Dumazet             2016-04-27  1185  	__ICMP_INC_STATS(dev_net(skb_dst(skb)->dev), ICMP_MIB_INERRORS);
+b384c95a861eeb Menglong Dong            2022-04-07  1186  	return SKB_DROP_REASON_PKT_TOO_SMALL;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1187  }
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1188  
 
 -- 
 0-DAY CI Kernel Test Service
