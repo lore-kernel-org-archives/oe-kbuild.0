@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DE42F52
-	for <oe-kbuild@lists.linux.dev>; Wed, 22 May 2024 04:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E0352F7A
+	for <oe-kbuild@lists.linux.dev>; Wed, 22 May 2024 09:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716352395; cv=none; b=uOsOyBAIcvLjM0cNZ/grBzydIrN/6/QOdetBxILKs+xpMFyQ/FUCx+61Bt/4r8oV22DjuWsYRgy1+g+a3Yb2js4mriHY2RYqyApUr1GTkZDcXFV8uk/Byrlg8LKZPGdRplLEFMe4MgGjw25WNOIdzidlSfliiBlwPtgISplGnlY=
+	t=1716369914; cv=none; b=EuUbUSH3YoT6Dg5o3gQSZjR4qGs2utQVl5jxvcqUjJhMbydBfHtstFeaAGHLw1ceEfw9DHvdhYwTf9di4zHuoebjOAdQZ6YaMJbq5dDg8c5GIH/1rtetK6ldo65fKsA+Mx7MdrqFWgpshRHZtrWYWg+TsLLjlqsWE4C3AkOYVqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716352395; c=relaxed/simple;
-	bh=3s0lvaiWqku2vpRDH01FIknduXb/oW+KAIu3iNBOKXg=;
+	s=arc-20240116; t=1716369914; c=relaxed/simple;
+	bh=gWEfM2dyl5AMB636vqSbuu7TjWwXbvVBBgXyj5dBfvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wl9UdZCByZYgN/u5xujd8PSWhQ4TyIm3lf4NUCjX9Z9BLkUAFC9GWnjwX9lZoX27HNWUfEle99AspUuBv8wweJDk3hwsUvObrcl4nujjQqwwthxx5aeBzQiiIu9EckX1rmBQ5WuhmN35+IafgzZRUwBuoZaTY27P0PmFoUOlaDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGjPTkoq; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=m+g+Yb139V/FWhs8Ot6QAm3CuWS86DBxUAVJd1pb+Z8YLXrRWkBDY14ehWtGIAxsWXmOd1xAbU8TCRtp44+lwJyVaZec3xxpRb5EVJDJJ8846x7eEmAqRtJatXYa66X8j9UFLC39vdXuKjcYCp3c7LRklZmIIIW9fKpKLVoEflk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBwSuvD1; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGjPTkoq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBwSuvD1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716352394; x=1747888394;
+  t=1716369912; x=1747905912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3s0lvaiWqku2vpRDH01FIknduXb/oW+KAIu3iNBOKXg=;
-  b=bGjPTkoqaUPEguswSqd7EYbMzNFrUgNCNb4nGLix5p/j8iqOPsX9Z8q7
-   RY2vFY7gsrUtbit2ajzYO4AvAeXgoU6mSgkNHKibnIfqRxICnTzhB7zDl
-   0+VL3EPcZutp4VArjg6osjComYYEeFDPOdXlg4f+ADF2qacOUsNMTYznM
-   xfyekj/wbU7VZnctXl0OfhkRbK2PszIOLnnPCc7UA9NkjmCkj3IycGL1A
-   TZrkaayDKClGLx1D2ahGw97uC+uU9ZvuT7eqoQU5/MrVQaEDyiYJGO5y3
-   PyZno1veDDYYxAq8J3ajNDgpOV6fOZiY3BAIoT41QbhvrrNb8T/596PcD
-   A==;
-X-CSE-ConnectionGUID: uj+zcl7KQGerJQjB6ijlLA==
-X-CSE-MsgGUID: mEieKD8hR76OoopGrzLDtQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="23155369"
+  bh=gWEfM2dyl5AMB636vqSbuu7TjWwXbvVBBgXyj5dBfvA=;
+  b=jBwSuvD1lyUViBNqyhEv1usJzqdpH6ag/2GBZbfldZCWVWQIUNxfV0yd
+   HYqZFNmsyhDbQkX0KuABn2RAvxk6zGX5ROkFaxSIvCJKiNzSehVMUeUZl
+   5bN637OE4crlpryVwf1SP1Uw3803qw9i9QLY7G2qEAYAqZPneOWY/gemF
+   pdiel36+8mfGugjMWP0d/yE8Ube6v0UNfIknTfNLYHVjBBjagdcISSt1x
+   T+KZJyQZ1vJk196VmGUP2G0tHL6fQhZP0bmXx2e7SKgBT7jlQ7yFFSI/3
+   4HfBfcGTmNWuwZVOmMv8mtdkhefXqPNnKXPOS9O7l/8ZCXoNWzggNyp9l
+   Q==;
+X-CSE-ConnectionGUID: BVACNOgYTTekzSOcl/4Peg==
+X-CSE-MsgGUID: Xv+7suDfR36Q3wc/HYY49g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11079"; a="12723335"
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="23155369"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 21:33:13 -0700
-X-CSE-ConnectionGUID: Be9nlWouSUiGaVsKC5ZMvQ==
-X-CSE-MsgGUID: yoTDzJm/Q8qNp07YqxgVRw==
+   d="scan'208";a="12723335"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 02:25:11 -0700
+X-CSE-ConnectionGUID: jH5Xu/+bRWOjbnE9i7/i8g==
+X-CSE-MsgGUID: pePqV2w6SSeqEHG2C1c9rQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,179,1712646000"; 
-   d="scan'208";a="37910648"
+   d="scan'208";a="33645436"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 21 May 2024 21:33:12 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 May 2024 02:25:10 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1s9df2-00013J-31;
-	Wed, 22 May 2024 04:33:08 +0000
-Date: Wed, 22 May 2024 12:32:45 +0800
+	id 1s9iDb-0001E5-21;
+	Wed, 22 May 2024 09:25:07 +0000
+Date: Wed, 22 May 2024 17:25:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:openEuler-1.0-LTS 20772/22454] drivers/block/loop.c:1338
- loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <202405221205.VDJobGgt-lkp@intel.com>
+Subject: [alobakin:idpf-libie-new 12/63]
+ drivers/net/ethernet/intel/idpf/idpf_txrx.c:1385 idpf_txq_group_alloc()
+ error: uninitialized symbol 'stashes'.
+Message-ID: <202405221707.iiMY3YCG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,163 +65,127 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yongqiang Liu <duanzi@zju.edu.cn>
+TO: Alexander Lobakin <aleksander.lobakin@intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5bab8a92bf43d6d0f1260e8d0a11dd01ef2e2e8a
-commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/22454] loop: Check for overflow while configuring loop
-:::::: branch date: 16 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240522/202405221205.VDJobGgt-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://github.com/alobakin/linux idpf-libie-new
+head:   e0f15f92530432c10486607c676825d5dd2d35f0
+commit: 9793c512a876b33ec415998510e36d49398bb87e [12/63] idpf: split &idpf_queue into 4 strictly-typed queue structures
+:::::: branch date: 18 hours ago
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-161-20240522 (https://download.01.org/0day-ci/archive/20240522/202405221707.iiMY3YCG-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405221205.VDJobGgt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405221707.iiMY3YCG-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
+smatch warnings:
+drivers/net/ethernet/intel/idpf/idpf_txrx.c:1385 idpf_txq_group_alloc() error: uninitialized symbol 'stashes'.
 
-Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
+vim +/stashes +1385 drivers/net/ethernet/intel/idpf/idpf_txrx.c
 
-vim +1338 drivers/block/loop.c
-
-04799b3a91ea371 Jan Kara          2018-11-08  1216  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1217  static int
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1219  {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1220  	int err;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1221  	struct loop_func_table *xfer;
-e4849737f76c876 Eric W. Biederman 2012-02-11  1222  	kuid_t uid = current_uid();
-2a7d01129974075 Jan Kara          2018-11-08  1223  	struct block_device *bdev;
-2a7d01129974075 Jan Kara          2018-11-08  1224  	bool partscan = false;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1225  
-afa528900c5f5ca Jan Kara          2018-11-08  1226  	err = mutex_lock_killable(&loop_ctl_mutex);
-cb26630f0424088 Jan Kara          2018-11-08  1227  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1228  		return err;
-b0fafa816ece008 David Howells     2008-11-14  1229  	if (lo->lo_encrypt_key_size &&
-e4849737f76c876 Eric W. Biederman 2012-02-11  1230  	    !uid_eq(lo->lo_key_owner, uid) &&
-cb26630f0424088 Jan Kara          2018-11-08  1231  	    !capable(CAP_SYS_ADMIN)) {
-cb26630f0424088 Jan Kara          2018-11-08  1232  		err = -EPERM;
-cb26630f0424088 Jan Kara          2018-11-08  1233  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1234  	}
-cb26630f0424088 Jan Kara          2018-11-08  1235  	if (lo->lo_state != Lo_bound) {
-cb26630f0424088 Jan Kara          2018-11-08  1236  		err = -ENXIO;
-cb26630f0424088 Jan Kara          2018-11-08  1237  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1238  	}
-cb26630f0424088 Jan Kara          2018-11-08  1239  	if ((unsigned int) info->lo_encrypt_key_size > LO_KEY_SIZE) {
-cb26630f0424088 Jan Kara          2018-11-08  1240  		err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1241  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1242  	}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1243  
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1244  	if (lo->lo_offset != info->lo_offset ||
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1245  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1246  		sync_blockdev(lo->lo_device);
-2476d843de47880 Zheng Bin         2020-09-22  1247  		invalidate_bdev(lo->lo_device);
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1248  	}
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1249  
-ecdd09597a57251 Ming Lei          2017-02-11  1250  	/* I/O need to be drained during transfer transition */
-ecdd09597a57251 Ming Lei          2017-02-11  1251  	blk_mq_freeze_queue(lo->lo_queue);
-ecdd09597a57251 Ming Lei          2017-02-11  1252  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1253  	err = loop_release_xfer(lo);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1254  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1255  		goto out_unfreeze;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1256  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1257  	if (info->lo_encrypt_type) {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1258  		unsigned int type = info->lo_encrypt_type;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1259  
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1260  		if (type >= MAX_LO_CRYPT) {
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1261  			err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1262  			goto out_unfreeze;
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1263  		}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1264  		xfer = xfer_funcs[type];
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1265  		if (xfer == NULL) {
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1266  			err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1267  			goto out_unfreeze;
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1268  		}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1269  	} else
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1270  		xfer = NULL;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1271  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1272  	err = loop_init_xfer(lo, xfer, info);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1273  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1274  		goto out_unfreeze;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1275  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1276  	if (lo->lo_offset != info->lo_offset ||
-1e6ec9ea89d3073 Omar Sandoval     2017-08-23  1277  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1278  		/* kill_bdev should have truncated all the pages */
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1279  		if (lo->lo_device->bd_inode->i_mapping->nrpages) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1280  			err = -EAGAIN;
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1281  			pr_warn("%s: loop%d (%s) has still dirty pages (nrpages=%lu)\n",
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1282  				__func__, lo->lo_number, lo->lo_file_name,
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1283  				lo->lo_device->bd_inode->i_mapping->nrpages);
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1284  			goto out_unfreeze;
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1285  		}
-1e6ec9ea89d3073 Omar Sandoval     2017-08-23  1286  		if (figure_loop_size(lo, info->lo_offset, info->lo_sizelimit)) {
-ecdd09597a57251 Ming Lei          2017-02-11  1287  			err = -EFBIG;
-cb26630f0424088 Jan Kara          2018-11-08  1288  			goto out_unfreeze;
-ecdd09597a57251 Ming Lei          2017-02-11  1289  		}
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
-b040ad9cf6a169c Arnd Bergmann     2017-06-09  1293  	}
-541c742a7559eb6 Guo Chao          2013-02-21  1294  
-dfaa2ef68e80c37 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1296  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1297  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1298  	memcpy(lo->lo_crypt_name, info->lo_crypt_name, LO_NAME_SIZE);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1299  	lo->lo_file_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1300  	lo->lo_crypt_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1301  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1302  	if (!xfer)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1303  		xfer = &none_funcs;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1304  	lo->transfer = xfer->transfer;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1305  	lo->ioctl = xfer->ioctl;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1306  
-96c5865559cee0f David Woodhouse   2008-02-06  1307  	if ((lo->lo_flags & LO_FLAGS_AUTOCLEAR) !=
-96c5865559cee0f David Woodhouse   2008-02-06  1308  	     (info->lo_flags & LO_FLAGS_AUTOCLEAR))
-96c5865559cee0f David Woodhouse   2008-02-06  1309  		lo->lo_flags ^= LO_FLAGS_AUTOCLEAR;
-96c5865559cee0f David Woodhouse   2008-02-06  1310  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1311  	lo->lo_encrypt_key_size = info->lo_encrypt_key_size;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1312  	lo->lo_init[0] = info->lo_init[0];
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1313  	lo->lo_init[1] = info->lo_init[1];
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1314  	if (info->lo_encrypt_key_size) {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1315  		memcpy(lo->lo_encrypt_key, info->lo_encrypt_key,
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1316  		       info->lo_encrypt_key_size);
-b0fafa816ece008 David Howells     2008-11-14  1317  		lo->lo_key_owner = uid;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1318  	}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1319  
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1320  	/* update dio if lo_offset or transfer is changed */
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1321  	__loop_update_dio(lo, lo->use_dio);
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1322  
-cb26630f0424088 Jan Kara          2018-11-08  1323  out_unfreeze:
-ecdd09597a57251 Ming Lei          2017-02-11  1324  	blk_mq_unfreeze_queue(lo->lo_queue);
-e02898b423802b1 Omar Sandoval     2017-03-01  1325  
-e02898b423802b1 Omar Sandoval     2017-03-01  1326  	if (!err && (info->lo_flags & LO_FLAGS_PARTSCAN) &&
-e02898b423802b1 Omar Sandoval     2017-03-01  1327  	     !(lo->lo_flags & LO_FLAGS_PARTSCAN)) {
-e02898b423802b1 Omar Sandoval     2017-03-01  1328  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
-e02898b423802b1 Omar Sandoval     2017-03-01  1329  		lo->lo_disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-2a7d01129974075 Jan Kara          2018-11-08  1330  		bdev = lo->lo_device;
-2a7d01129974075 Jan Kara          2018-11-08  1331  		partscan = true;
-e02898b423802b1 Omar Sandoval     2017-03-01  1332  	}
-cb26630f0424088 Jan Kara          2018-11-08  1333  out_unlock:
-cb26630f0424088 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex);
-2a7d01129974075 Jan Kara          2018-11-08  1335  	if (partscan)
-2a7d01129974075 Jan Kara          2018-11-08  1336  		loop_reread_partitions(lo, bdev);
-e02898b423802b1 Omar Sandoval     2017-03-01  1337  
-ecdd09597a57251 Ming Lei          2017-02-11 @1338  	return err;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1339  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1340  
-
-:::::: The code at line 1338 was first introduced by commit
-:::::: ecdd09597a57251323b0de50e3d45e69298c4a83 block/loop: fix race between I/O and set_status
-
-:::::: TO: Ming Lei <tom.leiming@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
+1c325aac10a82f Alan Brady        2023-08-07  1318  
+1c325aac10a82f Alan Brady        2023-08-07  1319  /**
+1c325aac10a82f Alan Brady        2023-08-07  1320   * idpf_txq_group_alloc - Allocate all txq group resources
+1c325aac10a82f Alan Brady        2023-08-07  1321   * @vport: vport to allocate txq groups for
+1c325aac10a82f Alan Brady        2023-08-07  1322   * @num_txq: number of txqs to allocate for each group
+1c325aac10a82f Alan Brady        2023-08-07  1323   *
+1c325aac10a82f Alan Brady        2023-08-07  1324   * Returns 0 on success, negative on failure
+1c325aac10a82f Alan Brady        2023-08-07  1325   */
+1c325aac10a82f Alan Brady        2023-08-07  1326  static int idpf_txq_group_alloc(struct idpf_vport *vport, u16 num_txq)
+1c325aac10a82f Alan Brady        2023-08-07  1327  {
+9793c512a876b3 Alexander Lobakin 2023-11-29  1328  	bool split, flow_sch_en;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1329  	int i;
+1c325aac10a82f Alan Brady        2023-08-07  1330  
+1c325aac10a82f Alan Brady        2023-08-07  1331  	vport->txq_grps = kcalloc(vport->num_txq_grp,
+1c325aac10a82f Alan Brady        2023-08-07  1332  				  sizeof(*vport->txq_grps), GFP_KERNEL);
+1c325aac10a82f Alan Brady        2023-08-07  1333  	if (!vport->txq_grps)
+1c325aac10a82f Alan Brady        2023-08-07  1334  		return -ENOMEM;
+1c325aac10a82f Alan Brady        2023-08-07  1335  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1336  	split = idpf_is_queue_model_split(vport->txq_model);
+d38b4d0d95bc0c Michal Kubiak     2023-10-23  1337  	flow_sch_en = !idpf_is_cap_ena(vport->adapter, IDPF_OTHER_CAPS,
+d38b4d0d95bc0c Michal Kubiak     2023-10-23  1338  				       VIRTCHNL2_CAP_SPLITQ_QSCHED);
+d38b4d0d95bc0c Michal Kubiak     2023-10-23  1339  
+1c325aac10a82f Alan Brady        2023-08-07  1340  	for (i = 0; i < vport->num_txq_grp; i++) {
+1c325aac10a82f Alan Brady        2023-08-07  1341  		struct idpf_txq_group *tx_qgrp = &vport->txq_grps[i];
+1c325aac10a82f Alan Brady        2023-08-07  1342  		struct idpf_adapter *adapter = vport->adapter;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1343  		struct idpf_txq_stash *stashes;
+1c325aac10a82f Alan Brady        2023-08-07  1344  		int j;
+1c325aac10a82f Alan Brady        2023-08-07  1345  
+1c325aac10a82f Alan Brady        2023-08-07  1346  		tx_qgrp->vport = vport;
+1c325aac10a82f Alan Brady        2023-08-07  1347  		tx_qgrp->num_txq = num_txq;
+1c325aac10a82f Alan Brady        2023-08-07  1348  
+1c325aac10a82f Alan Brady        2023-08-07  1349  		for (j = 0; j < tx_qgrp->num_txq; j++) {
+1c325aac10a82f Alan Brady        2023-08-07  1350  			tx_qgrp->txqs[j] = kzalloc(sizeof(*tx_qgrp->txqs[j]),
+1c325aac10a82f Alan Brady        2023-08-07  1351  						   GFP_KERNEL);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1352  			if (!tx_qgrp->txqs[j])
+1c325aac10a82f Alan Brady        2023-08-07  1353  				goto err_alloc;
+1c325aac10a82f Alan Brady        2023-08-07  1354  		}
+9793c512a876b3 Alexander Lobakin 2023-11-29  1355  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1356  		if (split && flow_sch_en) {
+9793c512a876b3 Alexander Lobakin 2023-11-29  1357  			stashes = kcalloc(num_txq, sizeof(*stashes),
+9793c512a876b3 Alexander Lobakin 2023-11-29  1358  					  GFP_KERNEL);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1359  			if (!stashes)
+9793c512a876b3 Alexander Lobakin 2023-11-29  1360  				goto err_alloc;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1361  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1362  			tx_qgrp->stashes = stashes;
+1c325aac10a82f Alan Brady        2023-08-07  1363  		}
+1c325aac10a82f Alan Brady        2023-08-07  1364  
+1c325aac10a82f Alan Brady        2023-08-07  1365  		for (j = 0; j < tx_qgrp->num_txq; j++) {
+9793c512a876b3 Alexander Lobakin 2023-11-29  1366  			struct idpf_tx_queue *q = tx_qgrp->txqs[j];
+1c325aac10a82f Alan Brady        2023-08-07  1367  
+1c325aac10a82f Alan Brady        2023-08-07  1368  			q->dev = &adapter->pdev->dev;
+1c325aac10a82f Alan Brady        2023-08-07  1369  			q->desc_count = vport->txq_desc_count;
+1c325aac10a82f Alan Brady        2023-08-07  1370  			q->tx_max_bufs = idpf_get_max_tx_bufs(adapter);
+1c325aac10a82f Alan Brady        2023-08-07  1371  			q->tx_min_pkt_len = idpf_get_min_tx_pkt_len(adapter);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1372  			q->netdev = vport->netdev;
+1c325aac10a82f Alan Brady        2023-08-07  1373  			q->txq_grp = tx_qgrp;
+1c325aac10a82f Alan Brady        2023-08-07  1374  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1375  			if (!split) {
+9793c512a876b3 Alexander Lobakin 2023-11-29  1376  				q->clean_budget = vport->compln_clean_budget;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1377  				idpf_queue_assign(CRC_EN, q,
+9793c512a876b3 Alexander Lobakin 2023-11-29  1378  						  vport->crc_enable);
+1c325aac10a82f Alan Brady        2023-08-07  1379  			}
+1c325aac10a82f Alan Brady        2023-08-07  1380  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1381  			if (!flow_sch_en)
+9793c512a876b3 Alexander Lobakin 2023-11-29  1382  				continue;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1383  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1384  			if (split) {
+9793c512a876b3 Alexander Lobakin 2023-11-29 @1385  				q->stash = &stashes[j];
+9793c512a876b3 Alexander Lobakin 2023-11-29  1386  				hash_init(q->stash->sched_buf_hash);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1387  			}
+9793c512a876b3 Alexander Lobakin 2023-11-29  1388  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1389  			idpf_queue_set(FLOW_SCH_EN, q);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1390  		}
+9793c512a876b3 Alexander Lobakin 2023-11-29  1391  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1392  		if (!split)
+1c325aac10a82f Alan Brady        2023-08-07  1393  			continue;
+1c325aac10a82f Alan Brady        2023-08-07  1394  
+1c325aac10a82f Alan Brady        2023-08-07  1395  		tx_qgrp->complq = kcalloc(IDPF_COMPLQ_PER_GROUP,
+1c325aac10a82f Alan Brady        2023-08-07  1396  					  sizeof(*tx_qgrp->complq),
+1c325aac10a82f Alan Brady        2023-08-07  1397  					  GFP_KERNEL);
+9793c512a876b3 Alexander Lobakin 2023-11-29  1398  		if (!tx_qgrp->complq)
+1c325aac10a82f Alan Brady        2023-08-07  1399  			goto err_alloc;
+1c325aac10a82f Alan Brady        2023-08-07  1400  
+1c325aac10a82f Alan Brady        2023-08-07  1401  		tx_qgrp->complq->desc_count = vport->complq_desc_count;
+1c325aac10a82f Alan Brady        2023-08-07  1402  		tx_qgrp->complq->txq_grp = tx_qgrp;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1403  		tx_qgrp->complq->netdev = vport->netdev;
+9793c512a876b3 Alexander Lobakin 2023-11-29  1404  		tx_qgrp->complq->clean_budget = vport->compln_clean_budget;
+d38b4d0d95bc0c Michal Kubiak     2023-10-23  1405  
+d38b4d0d95bc0c Michal Kubiak     2023-10-23  1406  		if (flow_sch_en)
+9793c512a876b3 Alexander Lobakin 2023-11-29  1407  			idpf_queue_set(FLOW_SCH_EN, tx_qgrp->complq);
+1c325aac10a82f Alan Brady        2023-08-07  1408  	}
+1c325aac10a82f Alan Brady        2023-08-07  1409  
+1c325aac10a82f Alan Brady        2023-08-07  1410  	return 0;
+1c325aac10a82f Alan Brady        2023-08-07  1411  
+1c325aac10a82f Alan Brady        2023-08-07  1412  err_alloc:
+1c325aac10a82f Alan Brady        2023-08-07  1413  	idpf_txq_group_rel(vport);
+1c325aac10a82f Alan Brady        2023-08-07  1414  
+9793c512a876b3 Alexander Lobakin 2023-11-29  1415  	return -ENOMEM;
+1c325aac10a82f Alan Brady        2023-08-07  1416  }
+1c325aac10a82f Alan Brady        2023-08-07  1417  
 
 -- 
 0-DAY CI Kernel Test Service
