@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4262E13BAFA
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 11:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D823D13BAD7
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 12:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716465379; cv=none; b=MDFFIf79YH2ojiI04QyKnPhFS1rkbIuNWkAyrXEEn6rNGzLWyAJM3JJb0EvtafEGD+rb8Jaq+LAMV3NB1hzwdbRZIZKGRgq1t9l33z9mAfDbd78mNwco65pdZJpDqzcjOq+63TVzbQDmALTfNCIlgoQLrxH8pJOcl7OSlf0aMqQ=
+	t=1716467440; cv=none; b=epeOOfrNyy7J2NERjXyu8EwB3xrpwZW5pr/qkCYp2wEIgm81e6IAk3fk2PtG/MTTdVO/5c1hSBhGApxcPoogPUNxw2ZKcCT87dxHvQLaVC7sIb4xx9ODJ266GzsXkqzn+fbNW24+/txZMM/0Mv6rDXqIdkDEaUCqWV11f9TEWIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716465379; c=relaxed/simple;
-	bh=d7MgYVHMxuzny0y6v1pBUgPgd0F8ZGrVNeEP3BzPQVM=;
+	s=arc-20240116; t=1716467440; c=relaxed/simple;
+	bh=Bjz/ig/gLbIXoRDfEEu5wQSlFToKNYmRgh2HDGqS07I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z5wfq6DFYbyq/CnCFt8g/skEpVnd2E++hzad8MmptTTYT/Ak2xGBpkQqsLwGD3YO0Jdcq1KqE6NvEAUWMPGfzEUtqF6NWPISyAcgjfqjIfFQScWMois6YK7cTYrCWhwIWAzo2/tT6XxlfDJQw+3H285MmSK8v3JfDfhLQA80VZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OD8TOyfn; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=UGlK57MkZyF38G/GbokeRgbgBbHVZYoKytVm8okfaa22DxQT8FaJAKuB5hjuxA5THq00mavot9JToScz19UA5rRdUnW6/dY7V/05BWNUSo4Y82lU3v2GKUVgukD5q/h1CooOC4uS3eFNlqOgT6HHEUA6g/rLYeacKSBJO28dsDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f0ovOkFM; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OD8TOyfn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716465377; x=1748001377;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d7MgYVHMxuzny0y6v1pBUgPgd0F8ZGrVNeEP3BzPQVM=;
-  b=OD8TOyfnsoYZ08LdQclODtmgBr/5y8f/gnwjYTtcTKXSgwJvZIhqpNkz
-   KOZ91j9od6RbAi3XjjWbO2tjnZ6NNY9/bR1J4rB4bWWwCxGuA1+mscoE5
-   lbeVwmRCju0vzva9GCCkYxkihdEPVY+sOezhcb1pP4beHmijjftm5taGN
-   OTYyP3NKpJLRvpOWCacx/uyawHGWPLTuNrQjboidMGrrVnsatW70eO7I4
-   +LCwhhyISTWNQKNTF8cI4ixZrfiqFPuwyVTx1WdlWk/DgzVHJLq+rZVT1
-   xgSgwEmAI8h7B+zKSKXIp/UXHqCbPIZAtWrMy/yZEPV9m048s69XePuX7
-   w==;
-X-CSE-ConnectionGUID: 0qCCJctCSKiCNJ4fRuqJKg==
-X-CSE-MsgGUID: hHZZRclBRMCExme67uKASA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11081"; a="11660499"
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="11660499"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2024 04:56:17 -0700
-X-CSE-ConnectionGUID: 9YoGMk5wT8CzkHKoGGmQxA==
-X-CSE-MsgGUID: jygHJpDpTPmfOM8673VLgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,182,1712646000"; 
-   d="scan'208";a="56875889"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 May 2024 04:56:15 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sA73N-0002oH-1P;
-	Thu, 23 May 2024 11:56:13 +0000
-Date: Thu, 23 May 2024 19:55:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [isilence:zcrx/next 47/68] net/ipv4/tcp.c:2373 tcp_xa_pool_refill()
- error: uninitialized symbol 'err'.
-Message-ID: <202405231907.2Pa5F0cE-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f0ovOkFM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42017f8de7aso53079055e9.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 05:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1716467437; x=1717072237; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
+        b=f0ovOkFM+vFKI1UtCR4lZK+lmN9C8dNQ+uX7QX7rWxZg721w8dU84/JrSwFtd9D8Q+
+         BhOnRLFlaL6spwVcQ6WbVQSVNb2Mw19gyhKUGhgqAFQSTtxpMRRrF7cCfILFHhU0Pysq
+         2ohpt+Fa0c9CRsrjqNRSLMxkspwCBRe+0zfpI4ctSPmJtTGXABf3R028qzASAMZGiIWa
+         rnUzBtAIIXR+x4lYSNE6pj5RlZEqAA2XpeByi+o+XFyULcFqwBcUntVDwceyn/lZeFql
+         bWnNYIdBVTRvWpyg+dbNP4UbaM4m6B9bbXxGgvGMJ07OmlJC0gYWlOYlMpPqsn1sSj59
+         JA9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716467437; x=1717072237;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sxpjAXqiH/+EfsCOuAq8y02ih0xRop+9c4sjd7YvDrY=;
+        b=Rq4hZ2aW9dd0XxNNqC52HkY47LElX/R8j8dAWhqKc6gZm8FiT8zRNkD7bAGWh/4wUE
+         QNjlOd+l10i3yZJBVBYlA/a92v5IH/lSzKoJfWNMxwmD5b8T/YH93dZk8oFZ2tH7mizE
+         lbcA/LgH2nqdKAZb3fWB1hX2HwMyvR9fce48BQeea+rF7HG3sDZU0q9UxlSdYy8CQUBN
+         2W0xZZTNApauukAL6IK/ziav8mmVf3SysuCsV6HBG3LFVCm7/xnHkRybzfdMjam5MeS9
+         +S1l4pPMR5PHY47TWLjMx8/La4oEp/PkEfWRcIGP5V+/Br7Ce0ZcnIn0q5DqVeVMI91w
+         MAEw==
+X-Gm-Message-State: AOJu0Yy6BloyfXUxe715qSfCshcWZAOPdh9JUmp2F0XSDLRLkMVbE8aO
+	0cF+kjjUki9GPcsFozkJ9+oiKi1wIFkuJO6lDV5IDiHl4eRQ3UIZvRozll6Ooz7jKyZI896t8Ex
+	YT7U=
+X-Google-Smtp-Source: AGHT+IHsPYPK5nLhbLq8ov1G8vIMZXbft1sDAvZ24WiHuV5r2ypulRQGNKivfF6NhXredx7u8RAeDg==
+X-Received: by 2002:a05:600c:1c15:b0:418:5ed2:5aa6 with SMTP id 5b1f17b1804b1-420fd34d36bmr38811025e9.31.1716467436686;
+        Thu, 23 May 2024 05:30:36 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f7c047sm24088605e9.26.2024.05.23.05.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 May 2024 05:30:36 -0700 (PDT)
+Date: Thu, 23 May 2024 15:30:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kiran K <kiran.k@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Chandrashekar <chandrashekar.devegowda@intel.com>
+Subject: drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn:
+ variable dereferenced before check 'data' (see line 380)
+Message-ID: <7446b314-53f8-4ec7-9ff7-ae47defc43fb@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,59 +69,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Pavel Begunkov <asml.silence@gmail.com>
-
-tree:   https://github.com/isilence/linux zcrx/next
-head:   9b5718278c90658985f5d335dff91dd589b3d4c7
-commit: 63ab49256a5efea098be7c827c8516220d8c21ae [47/68] tcp: RX path for devmem TCP
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-141-20240523 (https://download.01.org/0day-ci/archive/20240523/202405231907.2Pa5F0cE-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea5f6ad9ad9645733b72ab53a98e719b460d36a6
+commit: 6e65a09f927566f257322358d429b267548473eb Bluetooth: btintel_pcie: Add *setup* function to download firmware
+config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170424.97VIwnBn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405231907.2Pa5F0cE-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405170424.97VIwnBn-lkp@intel.com/
 
-New smatch warnings:
-net/ipv4/tcp.c:2373 tcp_xa_pool_refill() error: uninitialized symbol 'err'.
+smatch warnings:
+drivers/bluetooth/btintel_pcie.c:386 btintel_pcie_recv_frame() warn: variable dereferenced before check 'data' (see line 380)
 
-Old smatch warnings:
-net/ipv4/tcp.c:2688 tcp_recvmsg_locked() error: uninitialized symbol 'peek_seq'.
+vim +/data +386 drivers/bluetooth/btintel_pcie.c
 
-vim +/err +2373 net/ipv4/tcp.c
+6e65a09f927566 Kiran K          2024-05-07  371  static int btintel_pcie_recv_frame(struct btintel_pcie_data *data,
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  372  				       struct sk_buff *skb)
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  373  {
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  374  	int ret;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  375  	u8 pkt_type;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  376  	u16 plen;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  377  	u32 pcie_pkt_type;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  378  	struct sk_buff *new_skb;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  379  	void *pdata;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @380  	struct hci_dev *hdev = data->hdev;
+                                                                               ^^^^^^^^^^
+data dereferenced
 
-63ab49256a5efe Mina Almasry 2024-05-10  2350  
-63ab49256a5efe Mina Almasry 2024-05-10  2351  static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
-63ab49256a5efe Mina Almasry 2024-05-10  2352  			      unsigned int max_frags)
-63ab49256a5efe Mina Almasry 2024-05-10  2353  {
-63ab49256a5efe Mina Almasry 2024-05-10  2354  	int err, k;
-63ab49256a5efe Mina Almasry 2024-05-10  2355  
-63ab49256a5efe Mina Almasry 2024-05-10  2356  	if (p->idx < p->max)
-63ab49256a5efe Mina Almasry 2024-05-10  2357  		return 0;
-63ab49256a5efe Mina Almasry 2024-05-10  2358  
-63ab49256a5efe Mina Almasry 2024-05-10  2359  	xa_lock_bh(&sk->sk_user_frags);
-63ab49256a5efe Mina Almasry 2024-05-10  2360  
-63ab49256a5efe Mina Almasry 2024-05-10  2361  	tcp_xa_pool_commit(sk, p, false);
-63ab49256a5efe Mina Almasry 2024-05-10  2362  	for (k = 0; k < max_frags; k++) {
-63ab49256a5efe Mina Almasry 2024-05-10  2363  		err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
-63ab49256a5efe Mina Almasry 2024-05-10  2364  				 XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
-63ab49256a5efe Mina Almasry 2024-05-10  2365  		if (err)
-63ab49256a5efe Mina Almasry 2024-05-10  2366  			break;
-63ab49256a5efe Mina Almasry 2024-05-10  2367  	}
-63ab49256a5efe Mina Almasry 2024-05-10  2368  
-63ab49256a5efe Mina Almasry 2024-05-10  2369  	xa_unlock_bh(&sk->sk_user_frags);
-63ab49256a5efe Mina Almasry 2024-05-10  2370  
-63ab49256a5efe Mina Almasry 2024-05-10  2371  	p->max = k;
-63ab49256a5efe Mina Almasry 2024-05-10  2372  	p->idx = 0;
-63ab49256a5efe Mina Almasry 2024-05-10 @2373  	return k ? 0 : err;
-63ab49256a5efe Mina Almasry 2024-05-10  2374  }
-63ab49256a5efe Mina Almasry 2024-05-10  2375  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  381  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  382  	spin_lock(&data->hci_rx_lock);
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  383  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  384  	/* The first 4 bytes indicates the Intel PCIe specific packet type */
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  385  	pdata = skb_pull_data(skb, BTINTEL_PCIE_HCI_TYPE_LEN);
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07 @386  	if (!data) {
+                                                            ^^^^^
+Presumably this was supposed to check "pdata".
+
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  387  		bt_dev_err(hdev, "Corrupted packet received");
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  388  		ret = -EILSEQ;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  389  		goto exit_error;
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  390  	}
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  391  
+c2b636b3f788d1 Tedd Ho-Jeong An 2024-05-07  392  	pcie_pkt_type = get_unaligned_le32(pdata);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
