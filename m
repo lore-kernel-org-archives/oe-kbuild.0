@@ -1,68 +1,64 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22166149E05
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 12:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2452514A4D2
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 12:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716468145; cv=none; b=j7sn+VGknkOGp/v109nEGXwZy7MseeDf14wx0YfS/tGpMhuEHoW3NK7EdYoVmeeqQQ1ndvisJOgZlJ1IRm25ug5Z74yUwfAbxy7Nms3xf4pPSbBwCwdIILPL+4ck8GTnOcwDxP70MHA4R1bX05Dv99fYYMvUPIfglvUwAlMHUdI=
+	t=1716468627; cv=none; b=XdHbWX53yJnU37V+niakd87fOiQjjWhihtsrgOaPTSjKLlKtTJLrqJmNs37f344NlscvPqsAvL3jHc2VpNilUb8dxnd7SawjFA0ucTc4gEWT1640j3o0jLQrmE0zR/2oMQvrwZL6x2+LegqWjBTLFxH7hi1gNAARddLGHbmvvto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716468145; c=relaxed/simple;
-	bh=NxkdAdrJdInDnQmRVOBymr54RQlzSPSCJD6k5LWkhYo=;
+	s=arc-20240116; t=1716468627; c=relaxed/simple;
+	bh=ibZU/Uk6VSr0voTpC9iwARL/7suVVCV2wKyJXhs8GqE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qJM63qHyC/y11UUGobxOeOAKOOaWqhrScJiUlbbbHEyIow166OV2UCcCms3Q60gpcrfx+xCz/Ds0vRofrjC7QiGsNxPYcBNY8VUOeYtSvQ3VDBm4OgCN2ZKoF+MTPBa3fWI+JiXK/0USS3IAq1cjyLmsjXdhlwaXmUdmb0KAS18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TNgXeZVL; arc=none smtp.client-ip=209.85.167.50
+	 Content-Disposition; b=ZzlNJCZLSUEF8ISsR4ZtPDE+9GKCkyjI0S2E3/jE9jWVXYx++sZgk4wMCPe1nSIC3MppuX/F38fz+06hhV/JVbKe3I93kPdn/T8RuRvdVCRTJ+W23u3CXGhYgQnw3k8UQj8As346cGfPJPUS8xknciEiyWziXyNOTCmRZQNwZps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FQHj4H9/; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TNgXeZVL"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51fc01b6fe7so6652787e87.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 05:42:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FQHj4H9/"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e52181c228so74760961fa.0
+        for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 05:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716468141; x=1717072941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JFU7oe29wmWrSHAWUNO1lKOXXAdRLnYpFR9nmVzit9Y=;
-        b=TNgXeZVLRb8GmTxbYsAZPRrYvimDAOHHFU4N+nReu75uPHEq49H0wB5G/M4kt7yQc4
-         FXL7AZrA3Xp20nceMfAN1kwBa3B+jmDmCVFdaZA4JzGjBgqLVUoryKB+koL4lzHfXtRV
-         AcQyQ3Jr2KG5F2lzWxIeft35CcFIdDIIMV+7rFCBVPtqQ5vWCuUEYvayEfNMyFy2Nev5
-         x69UhdDvdSZy6I9yKfbID0+JZdCkqRvV9dESeSrAnRe5fD5chH4uwpeLBVDZ6oO/Yux2
-         RyoHzHWivC6cpw+vxyFn6sXaXQvK1gULg+LMhscgNbDw80SITy6x/sI12KiVebsIh7gL
-         kVsQ==
+        d=linaro.org; s=google; t=1716468623; x=1717073423; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iMRosXpx6OHaMx5JGWHkEwQsj1y/M7jejw8tTuvOccA=;
+        b=FQHj4H9/7oUaoSz9vwjJu1z6LHltLh1pKAexKpRf6Yz8XnvQLFkFF40gNZvNH8rkim
+         jDIYoJctZC+GwLkFNhnncsZz7ojoNQdmMtO30lAyyrAwONi/mK4CKNm8wJ75755DnK/q
+         1pwklNZqNUzwuPP0E7yc9t2ukYFV3P+3W83XveYDohXTaVBjr5Tav/6u+L2KQd6K2A//
+         9jvJQM/BVigb/mnLL/MA47DrANB5jzGgpcFkzCWOmfXlPPlw+XeOojwu0PetacJ0r7he
+         FyAg56mmGoAwu/KAH1aHkOwJ4XT7TYT+c41Dq+wPDcq8krnZcm19OEZOBRcibW2GBAOe
+         5v/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716468141; x=1717072941;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JFU7oe29wmWrSHAWUNO1lKOXXAdRLnYpFR9nmVzit9Y=;
-        b=TJycukvOJHvdNJvfUwJXaZoifpUBougem8RgAKGUQ55hmfa+b/0mrLNSQhcxs9HH2L
-         kTL8n7Oz+EDqis0YGkgshcmNoOdfxJXS275Fwp7pCQniXo4eU2BGqDoo79QKcKz7HmOb
-         ttxh8CdREnpHqU7S/i+wQbEIBg7MEh/zqMpDJk5HVM1N+Zevf8MJEQaWblXKb5MsH7dL
-         zkZ6y4zvCiqnmz2QrvGNRhASHKEvE/VMYfSCbIO8wsPy5n4Ty06pJOKEFmKREwmTJ3o3
-         69FMXcjvf5ofKXShJYMLT8p15EM+9a4F3TFgaI/KNy1zeFMU/BJlCYWGXDGRoedZb1ti
-         8v+A==
-X-Gm-Message-State: AOJu0YzVtfaMbm+g5wzCPadArUriV0EJDvpEU5teEigjW+zYyyC9WM0b
-	mEYUeBln/IW8GQkCRIIOvA6CEWCYILpI6OBqKbKYc+FbjHCX0r96XvCx+K06nOyVd9+HEeFau9H
-	Q0us=
-X-Google-Smtp-Source: AGHT+IG3pezFMtkMlzalGpaEUoGKwhfiLMGTt+4yA3z1pbJAP8F/Z0+LeagQc9XdwWQbIpirFEUQzA==
-X-Received: by 2002:a2e:a549:0:b0:2df:b7cf:9607 with SMTP id 38308e7fff4ca-2e9494f2a5bmr38375081fa.22.1716468140465;
-        Thu, 23 May 2024 05:42:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716468623; x=1717073423;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iMRosXpx6OHaMx5JGWHkEwQsj1y/M7jejw8tTuvOccA=;
+        b=dfrrJTAQL43RgtkQwfDtuhLZjKVuAtcW+oMoseZuShj1c6/RUn/z7+vGuSAMkpOHV3
+         CUGVblEk9VSA284yNJ3IL9kHos6Yw1ZHJ7XAGZH1jcodp9h78lfejhAyZIm3/SJOUu5z
+         stSw4i7POaxlLYrj6d/fkzT6YHxSaDw6lh4Szohf+XA8yi9z5gwITq1clrN17OolrZny
+         /0h07ZFiscWIoC8fIr9PTEEhZIxWv2Qkb0wdt90N0LqjaILA7o9GX9cjEwJimaxbEPDI
+         B40CJTxU+s3egAR3abRHzMYQ0QcL8yQFwkE3A3RwCxakWk5nGasKw1MiWL+oMKyUEUwD
+         Pl0g==
+X-Gm-Message-State: AOJu0Yw9sS9yGEXr7lvy/MExPaibS2MsOF3sPfAw7BG75fu2CN827myO
+	abz6hj2470XdoolioabEtQbpXc4H872lnZXhzwInL67tv4SVjcUFywBBYgmTL/0AzGWkiVZSpui
+	5eXY=
+X-Google-Smtp-Source: AGHT+IEYdbwkk+JyzWTXRqnous0dnxnUZ9YrXqdyIoZLDlluWrI7kO3bl7ZKTWUKoBj2mjM2eRZ/oQ==
+X-Received: by 2002:a2e:7302:0:b0:2e6:f4c1:31e5 with SMTP id 38308e7fff4ca-2e9494bb49amr32177141fa.23.1716468622636;
+        Thu, 23 May 2024 05:50:22 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-420fc82eeb4sm26079305e9.0.2024.05.23.05.42.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354f9ba7584sm1430381f8f.57.2024.05.23.05.50.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 05:42:20 -0700 (PDT)
-Date: Thu, 23 May 2024 15:42:16 +0300
+        Thu, 23 May 2024 05:50:22 -0700 (PDT)
+Date: Thu, 23 May 2024 15:50:18 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
-	jic23@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lars@metafoo.de,
-	swboyd@chromium.org, nuno.a@analog.com, andy.shevchenko@gmail.com,
-	u.kleine-koenig@pengutronix.de, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com,
-	yasin.lee.x@outlook.com
-Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
- driver
-Message-ID: <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [rafael-pm:bleeding-edge 11/15] drivers/opp/core.c:2447
+ _opp_attach_genpd() warn: missing unwind goto?
+Message-ID: <3d73f08e-8305-4ad8-8327-adaaf96ac673@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,110 +67,121 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
 
-Hi Yasin,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yasin-Lee/iio-proximity-hx9031as-Add-TYHX-HX9031AS-HX9023S-sensor-driver/20240515-083021
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/SN7PR12MB8101EDFA7F91A59761095A28A4E72%40SN7PR12MB8101.namprd12.prod.outlook.com
-patch subject: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor driver
-config: alpha-randconfig-r081-20240516 (https://download.01.org/0day-ci/archive/20240517/202405170824.uhEslLI0-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   fe07fa9fa1115e0979b89a90ae8594794ac2f63f
+commit: 2a56c462fe5a2ee61d38e2d7b772bee56115a00c [11/15] OPP: Fix required_opp_tables for multiple genpds using same table
+config: i386-randconfig-141-20240517 (https://download.01.org/0day-ci/archive/20240518/202405180016.4fbn86bm-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405170824.uhEslLI0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405180016.4fbn86bm-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/proximity/hx9031as.c:1118 hx9031as_raw_data_show() error: snprintf() is printing too much 8192 vs 512
-drivers/iio/proximity/hx9031as.c:1240 hx9031as_channel_en_show() error: snprintf() is printing too much 8192 vs 512
-drivers/iio/proximity/hx9031as.c:1466 hx9031as_threshold_show() error: snprintf() is printing too much 8192 vs 512
-drivers/iio/proximity/hx9031as.c:1491 hx9031as_dump_show() error: snprintf() is printing too much 8192 vs 1024
-drivers/iio/proximity/hx9031as.c:1513 hx9031as_offset_dac_show() error: snprintf() is printing too much 8192 vs 512
+New smatch warnings:
+drivers/opp/core.c:2447 _opp_attach_genpd() warn: missing unwind goto?
 
-vim +1118 drivers/iio/proximity/hx9031as.c
+vim +2447 drivers/opp/core.c
 
-5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
-5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
-5e5a419c9407f6 Yasin Lee 2024-05-10  1112  	char buf[BUF_SIZE] = {0};
-5e5a419c9407f6 Yasin Lee 2024-05-10  1113  	char *p = buf;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1114  	int ii = 0;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1115  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1116  	hx9031as_sample();
-5e5a419c9407f6 Yasin Lee 2024-05-10  1117  	for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
-5e5a419c9407f6 Yasin Lee 2024-05-10 @1118  		p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
-                                                                         ^^^^^^^^^
-This doesn't work at all.  It should be BUF_SIZE instead of PAGE_SIZE
-but also PAGE_SIZE is a fixed size where the number of bytes remaining
-should get smaller as we write further into the buffer.
+442e7a1786e628 Viresh Kumar          2022-05-26  2394  static int _opp_attach_genpd(struct opp_table *opp_table, struct device *dev,
+3734b9f2cee01d Dmitry Osipenko       2021-09-27  2395  			const char * const *names, struct device ***virt_devs)
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2396  {
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2397  	struct device *virt_dev, *gdev;
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2398  	struct opp_table *genpd_table;
+baea35e4db17a7 Viresh Kumar          2019-07-17  2399  	int index = 0, ret = -EINVAL;
+3734b9f2cee01d Dmitry Osipenko       2021-09-27  2400  	const char * const *name = names;
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2401  
+e37440e7e2c276 Viresh Kumar          2023-10-27  2402  	if (!opp_table->required_devs) {
+e37440e7e2c276 Viresh Kumar          2023-10-27  2403  		dev_err(dev, "Required OPPs not available, can't attach genpd\n");
+e37440e7e2c276 Viresh Kumar          2023-10-27  2404  		return -EINVAL;
+e37440e7e2c276 Viresh Kumar          2023-10-27  2405  	}
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2406  
+925141432fa4d8 Viresh Kumar          2023-11-16  2407  	/* Genpd core takes care of propagation to parent genpd */
+925141432fa4d8 Viresh Kumar          2023-11-16  2408  	if (opp_table->is_genpd) {
+925141432fa4d8 Viresh Kumar          2023-11-16  2409  		dev_err(dev, "%s: Operation not supported for genpds\n", __func__);
+925141432fa4d8 Viresh Kumar          2023-11-16  2410  		return -EOPNOTSUPP;
+925141432fa4d8 Viresh Kumar          2023-11-16  2411  	}
+925141432fa4d8 Viresh Kumar          2023-11-16  2412  
+e37440e7e2c276 Viresh Kumar          2023-10-27  2413  	/* Checking only the first one is enough ? */
+e37440e7e2c276 Viresh Kumar          2023-10-27  2414  	if (opp_table->required_devs[0])
+e37440e7e2c276 Viresh Kumar          2023-10-27  2415  		return 0;
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2416  
+6319aee10e5303 Viresh Kumar          2019-05-08  2417  	while (*name) {
+6319aee10e5303 Viresh Kumar          2019-05-08  2418  		if (index >= opp_table->required_opp_count) {
+6319aee10e5303 Viresh Kumar          2019-05-08  2419  			dev_err(dev, "Index can't be greater than required-opp-count - 1, %s (%d : %d)\n",
+6319aee10e5303 Viresh Kumar          2019-05-08  2420  				*name, opp_table->required_opp_count, index);
+6319aee10e5303 Viresh Kumar          2019-05-08  2421  			goto err;
+6319aee10e5303 Viresh Kumar          2019-05-08  2422  		}
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2423  
+6319aee10e5303 Viresh Kumar          2019-05-08  2424  		virt_dev = dev_pm_domain_attach_by_name(dev, *name);
+4ea9496cbc959e Tang Bin              2022-05-24  2425  		if (IS_ERR_OR_NULL(virt_dev)) {
+d920920f85a82c Manivannan Sadhasivam 2023-07-21  2426  			ret = virt_dev ? PTR_ERR(virt_dev) : -ENODEV;
+6319aee10e5303 Viresh Kumar          2019-05-08  2427  			dev_err(dev, "Couldn't attach to pm_domain: %d\n", ret);
+6319aee10e5303 Viresh Kumar          2019-05-08  2428  			goto err;
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2429  		}
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2430  
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2431  		/*
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2432  		 * The required_opp_tables parsing is not perfect, as the OPP
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2433  		 * core does the parsing solely based on the DT node pointers.
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2434  		 * The core sets the required_opp_tables entry to the first OPP
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2435  		 * table in the "opp_tables" list, that matches with the node
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2436  		 * pointer.
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2437  		 *
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2438  		 * If the target DT OPP table is used by multiple devices and
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2439  		 * they all create separate instances of 'struct opp_table' from
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2440  		 * it, then it is possible that the required_opp_tables entry
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2441  		 * may be set to the incorrect sibling device.
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2442  		 *
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2443  		 * Cross check it again and fix if required.
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2444  		 */
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2445  		gdev = dev_to_genpd_dev(virt_dev);
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2446  		if (IS_ERR(gdev))
+2a56c462fe5a2e Viresh Kumar          2024-04-09 @2447  			return PTR_ERR(gdev);
 
-Also use scnprintf() instead of snprintf() unless you need to check the
-results.  The normal way to write this is:
+I have read the comment, but I don't have any context outside this email
+so I don't really understand it.  The error handling in this function is
+confusing to me.  What are we undoing?  So potentially this is a false
+positive.  But Smatch wants a "ret = PTR_ERR(gdev); goto err;" here.
 
-	int off = 0;
-
-	hx9031as_sample();
-	for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
-		off += scnprintf(buf + off, BUF_SIZE - off,
-                                 ^^^^^^^^^  ^^^^^^^^^^^^^^
-
-				 "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
-				 ii, hx9031as_pdata.diff[ii], hx9031as_pdata.raw[ii], ...
-
-5e5a419c9407f6 Yasin Lee 2024-05-10  1119  						ii, hx9031as_pdata.diff[ii], hx9031as_pdata.raw[ii], hx9031as_pdata.dac[ii],
-5e5a419c9407f6 Yasin Lee 2024-05-10  1120  						hx9031as_pdata.bl[ii], hx9031as_pdata.lp[ii]);
-5e5a419c9407f6 Yasin Lee 2024-05-10  1121  	}
-5e5a419c9407f6 Yasin Lee 2024-05-10  1122  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1123  	return simple_read_from_buffer(user_buf, count, ppos, buf, strlen(buf));
-5e5a419c9407f6 Yasin Lee 2024-05-10  1124  }
-5e5a419c9407f6 Yasin Lee 2024-05-10  1125  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1126  static const struct file_operations hx9031as_raw_data_fops = {
-5e5a419c9407f6 Yasin Lee 2024-05-10  1127  	.read = hx9031as_raw_data_show,
-5e5a419c9407f6 Yasin Lee 2024-05-10  1128  };
-5e5a419c9407f6 Yasin Lee 2024-05-10  1129  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1130  static ssize_t hx9031as_reg_write_store(struct file *file, const char __user *user_buf, size_t count, loff_t *ppos)
-5e5a419c9407f6 Yasin Lee 2024-05-10  1131  {
-5e5a419c9407f6 Yasin Lee 2024-05-10  1132  	int ret = -1;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1133  	unsigned int reg_address = 0;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1134  	unsigned int val = 0;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1135  	uint8_t addr = 0;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1136  	uint8_t tx_buf[1] = {0};
-5e5a419c9407f6 Yasin Lee 2024-05-10  1137  	char buf[BUF_SIZE];
-5e5a419c9407f6 Yasin Lee 2024-05-10  1138  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1139  	ENTER;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1140  	if (count > BUF_SIZE)
-5e5a419c9407f6 Yasin Lee 2024-05-10  1141  		return -EINVAL;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1142  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1143  	if (copy_from_user(buf, user_buf, count))
-
-We don't know that this is NUL terminated.  What about if count == 1
-and the rest of the buffer is uninitialized.  Same issues in other
-functions as well.
-
-5e5a419c9407f6 Yasin Lee 2024-05-10  1144  		return -EFAULT;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1145  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1146  	if (sscanf(buf, "%x,%x", &reg_address, &val) != 2) {
-5e5a419c9407f6 Yasin Lee 2024-05-10  1147  		PRINT_ERR("please input two HEX numbers: aa,bb (aa: reg_address, bb: value_to_be_set)\n");
-5e5a419c9407f6 Yasin Lee 2024-05-10  1148  		return -EINVAL;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1149  	}
-5e5a419c9407f6 Yasin Lee 2024-05-10  1150  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1151  	addr = (uint8_t)reg_address;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1152  	tx_buf[0] = (uint8_t)val;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1153  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1154  	ret = hx9031as_write(addr, tx_buf, 1);
-5e5a419c9407f6 Yasin Lee 2024-05-10  1155  	if (ret != 0)
-5e5a419c9407f6 Yasin Lee 2024-05-10  1156  		PRINT_ERR("hx9031as_write failed\n");
-5e5a419c9407f6 Yasin Lee 2024-05-10  1157  
-5e5a419c9407f6 Yasin Lee 2024-05-10  1158  	PRINT_INF("WRITE:Reg0x%02X=0x%02X\n", addr, tx_buf[0]);
-5e5a419c9407f6 Yasin Lee 2024-05-10  1159  	return count;
-5e5a419c9407f6 Yasin Lee 2024-05-10  1160  }
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2448  
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2449  		genpd_table = _find_opp_table(gdev);
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2450  		if (!IS_ERR(genpd_table)) {
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2451  			if (genpd_table != opp_table->required_opp_tables[index]) {
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2452  				dev_pm_opp_put_opp_table(opp_table->required_opp_tables[index]);
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2453  				opp_table->required_opp_tables[index] = genpd_table;
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2454  			} else {
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2455  				dev_pm_opp_put_opp_table(genpd_table);
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2456  			}
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2457  		}
+2a56c462fe5a2e Viresh Kumar          2024-04-09  2458  
+e37440e7e2c276 Viresh Kumar          2023-10-27  2459  		/*
+e37440e7e2c276 Viresh Kumar          2023-10-27  2460  		 * Add the virtual genpd device as a user of the OPP table, so
+e37440e7e2c276 Viresh Kumar          2023-10-27  2461  		 * we can call dev_pm_opp_set_opp() on it directly.
+e37440e7e2c276 Viresh Kumar          2023-10-27  2462  		 *
+e37440e7e2c276 Viresh Kumar          2023-10-27  2463  		 * This will be automatically removed when the OPP table is
+e37440e7e2c276 Viresh Kumar          2023-10-27  2464  		 * removed, don't need to handle that here.
+e37440e7e2c276 Viresh Kumar          2023-10-27  2465  		 */
+e37440e7e2c276 Viresh Kumar          2023-10-27  2466  		if (!_add_opp_dev(virt_dev, opp_table->required_opp_tables[index])) {
+e37440e7e2c276 Viresh Kumar          2023-10-27  2467  			ret = -ENOMEM;
+e37440e7e2c276 Viresh Kumar          2023-10-27  2468  			goto err;
+e37440e7e2c276 Viresh Kumar          2023-10-27  2469  		}
+e37440e7e2c276 Viresh Kumar          2023-10-27  2470  
+e37440e7e2c276 Viresh Kumar          2023-10-27  2471  		opp_table->required_devs[index] = virt_dev;
+baea35e4db17a7 Viresh Kumar          2019-07-17  2472  		index++;
+6319aee10e5303 Viresh Kumar          2019-05-08  2473  		name++;
+6319aee10e5303 Viresh Kumar          2019-05-08  2474  	}
+6319aee10e5303 Viresh Kumar          2019-05-08  2475  
+17a8f868ae3e85 Viresh Kumar          2019-07-08  2476  	if (virt_devs)
+e37440e7e2c276 Viresh Kumar          2023-10-27  2477  		*virt_devs = opp_table->required_devs;
+4f018bc0e1cfde Viresh Kumar          2018-06-26  2478  
+442e7a1786e628 Viresh Kumar          2022-05-26  2479  	return 0;
+6319aee10e5303 Viresh Kumar          2019-05-08  2480  
+6319aee10e5303 Viresh Kumar          2019-05-08  2481  err:
+48b5aaec596d9a Viresh Kumar          2023-10-12  2482  	_opp_detach_genpd(opp_table);
+442e7a1786e628 Viresh Kumar          2022-05-26  2483  	return ret;
+6319aee10e5303 Viresh Kumar          2019-05-08  2484  
 
 -- 
 0-DAY CI Kernel Test Service
