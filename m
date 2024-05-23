@@ -1,64 +1,72 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2452514A4D2
-	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 12:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A40A14A4DC
+	for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 13:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716468627; cv=none; b=XdHbWX53yJnU37V+niakd87fOiQjjWhihtsrgOaPTSjKLlKtTJLrqJmNs37f344NlscvPqsAvL3jHc2VpNilUb8dxnd7SawjFA0ucTc4gEWT1640j3o0jLQrmE0zR/2oMQvrwZL6x2+LegqWjBTLFxH7hi1gNAARddLGHbmvvto=
+	t=1716470086; cv=none; b=G+nBWPfoSIuW9gGRokDCc/PumX0Xv7E6p5oUmisNX1sSyDdc54NjP/1CaDH6V3fwRyxxB9P22XId/m4nE29G/9R8g9cKjTJbW2cEMJSb+bKueLuBFjMKhBMv5CFrqqy9DjJp3LbxRA7s5gAgWN91i4EgMswg6RljjijHBymbz0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716468627; c=relaxed/simple;
-	bh=ibZU/Uk6VSr0voTpC9iwARL/7suVVCV2wKyJXhs8GqE=;
+	s=arc-20240116; t=1716470086; c=relaxed/simple;
+	bh=nK1mhMR5sp2HGvlXVhonM9F6WZxXA/qiREN8Rf6H+4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZzlNJCZLSUEF8ISsR4ZtPDE+9GKCkyjI0S2E3/jE9jWVXYx++sZgk4wMCPe1nSIC3MppuX/F38fz+06hhV/JVbKe3I93kPdn/T8RuRvdVCRTJ+W23u3CXGhYgQnw3k8UQj8As346cGfPJPUS8xknciEiyWziXyNOTCmRZQNwZps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FQHj4H9/; arc=none smtp.client-ip=209.85.208.181
+	 Content-Disposition:In-Reply-To; b=Ypw1fyYB7GICbjS5o1oBNeq5FziAHiYQLiEdSZ3V+gEsAspGG8ASoChs+QhXVrzgBo5uO3MiFTd9rUguCWxcsWAWa5O0bX7F0FimewM4NMo2gY1sziG6lF8uiZaiI7OZT/FzWcj7DSSfggOVgekAWczxbowNQbBIAh/bm7HV8Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U/2+YSZB; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FQHj4H9/"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e52181c228so74760961fa.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 05:50:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U/2+YSZB"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4200ee78f33so19990225e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 23 May 2024 06:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716468623; x=1717073423; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iMRosXpx6OHaMx5JGWHkEwQsj1y/M7jejw8tTuvOccA=;
-        b=FQHj4H9/7oUaoSz9vwjJu1z6LHltLh1pKAexKpRf6Yz8XnvQLFkFF40gNZvNH8rkim
-         jDIYoJctZC+GwLkFNhnncsZz7ojoNQdmMtO30lAyyrAwONi/mK4CKNm8wJ75755DnK/q
-         1pwklNZqNUzwuPP0E7yc9t2ukYFV3P+3W83XveYDohXTaVBjr5Tav/6u+L2KQd6K2A//
-         9jvJQM/BVigb/mnLL/MA47DrANB5jzGgpcFkzCWOmfXlPPlw+XeOojwu0PetacJ0r7he
-         FyAg56mmGoAwu/KAH1aHkOwJ4XT7TYT+c41Dq+wPDcq8krnZcm19OEZOBRcibW2GBAOe
-         5v/w==
+        d=linaro.org; s=google; t=1716470083; x=1717074883; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SWD7CtUtkqXIzQoWrQh8FoeaevQYrYwYHAnr/5q6xaI=;
+        b=U/2+YSZBQiRbEFw1Zgo264Eio7s9MKmdMF76VGL1p7sqot30TYVVLtjXDCbv922A2c
+         UCxujT8Uyf2uX8bqg1yRRgltBdG7WD3XZ3JAInGjb7wiJVey5LTMFCDu479zfxljuh6x
+         98UBX5xO5etIM2XLgQi5s651CNWuU2jVXBh1oUwdBSZ3pTtZUMtxTqRFU35e8a4mz3G2
+         jL50o8dI02LwPfqIK+VSyivNuDhqOX4wFuCQak6v0DipMSoPzVOQ13NJH8K3rxhMGYtD
+         5HKxhAUCAjG5OO2HwHJspkbjSZ+6+C3JtEEOMmvntVXYLtI7FkLs7KLOSDqDYqwdqwI4
+         hebA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716468623; x=1717073423;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iMRosXpx6OHaMx5JGWHkEwQsj1y/M7jejw8tTuvOccA=;
-        b=dfrrJTAQL43RgtkQwfDtuhLZjKVuAtcW+oMoseZuShj1c6/RUn/z7+vGuSAMkpOHV3
-         CUGVblEk9VSA284yNJ3IL9kHos6Yw1ZHJ7XAGZH1jcodp9h78lfejhAyZIm3/SJOUu5z
-         stSw4i7POaxlLYrj6d/fkzT6YHxSaDw6lh4Szohf+XA8yi9z5gwITq1clrN17OolrZny
-         /0h07ZFiscWIoC8fIr9PTEEhZIxWv2Qkb0wdt90N0LqjaILA7o9GX9cjEwJimaxbEPDI
-         B40CJTxU+s3egAR3abRHzMYQ0QcL8yQFwkE3A3RwCxakWk5nGasKw1MiWL+oMKyUEUwD
-         Pl0g==
-X-Gm-Message-State: AOJu0Yw9sS9yGEXr7lvy/MExPaibS2MsOF3sPfAw7BG75fu2CN827myO
-	abz6hj2470XdoolioabEtQbpXc4H872lnZXhzwInL67tv4SVjcUFywBBYgmTL/0AzGWkiVZSpui
-	5eXY=
-X-Google-Smtp-Source: AGHT+IEYdbwkk+JyzWTXRqnous0dnxnUZ9YrXqdyIoZLDlluWrI7kO3bl7ZKTWUKoBj2mjM2eRZ/oQ==
-X-Received: by 2002:a2e:7302:0:b0:2e6:f4c1:31e5 with SMTP id 38308e7fff4ca-2e9494bb49amr32177141fa.23.1716468622636;
-        Thu, 23 May 2024 05:50:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716470083; x=1717074883;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SWD7CtUtkqXIzQoWrQh8FoeaevQYrYwYHAnr/5q6xaI=;
+        b=TT14D8QjrzuQtJGvMJX08cjedrVYXtmSoRjhM3qQkYLEsnM28hlbzvuHYC8W+4G5Wi
+         SmMz/J28gijOzp5oSurtWIif64syx3Hjkozq+2RjQxSmHRhyvVnEbumszt9xErfC6Aw/
+         17fPavYQ2+5WsPe5Q5VYg0rBT7loYNzeclorRfKujx31LQSj0Y5SUd6jXq08i97cQIgP
+         uYXHLBPiHXCLHmm/b8nGtV/olCWs6wEKMM7NlKgCfjVYZwaQJXMPMKBJVg5+RLj2ZFEV
+         eXpvu9t+NGI4UPhuEelJZvKGlEnaYlV9VFDwRsG2BdOtzS1UTzyuwRxJsSRjihTfh1cd
+         bXWQ==
+X-Gm-Message-State: AOJu0YxGakU1yd/tWLqshUlo6GiY5Rb7Gs7NfAuMmigZ+aRBA9pQVJDz
+	M1iHNnXQt16/VkScFHRcTuoBciU9BripgoIk81JsOo3ME5Ni2EqJJRxoX508S1UeU9LteFHraGf
+	FZTw=
+X-Google-Smtp-Source: AGHT+IFNQhgHCdHm4dC36MCqGkdYxgUj5wdX9du2Ncve17vPZJB8anwVgsBR/V0kkOoTM/uM20yPew==
+X-Received: by 2002:adf:ec07:0:b0:354:f24f:aa4b with SMTP id ffacd0b85a97d-354f24fab45mr2710505f8f.3.1716470082525;
+        Thu, 23 May 2024 06:14:42 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-354f9ba7584sm1430381f8f.57.2024.05.23.05.50.21
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502baad037sm36523640f8f.71.2024.05.23.06.14.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 May 2024 05:50:22 -0700 (PDT)
-Date: Thu, 23 May 2024 15:50:18 +0300
+        Thu, 23 May 2024 06:14:41 -0700 (PDT)
+Date: Thu, 23 May 2024 16:14:37 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Viresh Kumar <viresh.kumar@linaro.org>
+To: oe-kbuild@lists.linux.dev, Volodymyr Kharuk <vkh@melexis.com>,
+	linux-media@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, devel@acpica.org,
-	linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [rafael-pm:bleeding-edge 11/15] drivers/opp/core.c:2447
- _opp_attach_genpd() warn: missing unwind goto?
-Message-ID: <3d73f08e-8305-4ad8-8327-adaaf96ac673@moroto.mountain>
+	Andrii Kyselov <ays@melexis.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	devicetree@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Volodymyr Kharuk <vkh@melexis.com>
+Subject: Re: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+Message-ID: <5a14400e-97e6-47a0-bac5-0e4c4db9b8d5@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,121 +75,85 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh@melexis.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   fe07fa9fa1115e0979b89a90ae8594794ac2f63f
-commit: 2a56c462fe5a2ee61d38e2d7b772bee56115a00c [11/15] OPP: Fix required_opp_tables for multiple genpds using same table
-config: i386-randconfig-141-20240517 (https://download.01.org/0day-ci/archive/20240518/202405180016.4fbn86bm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Volodymyr,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Volodymyr-Kharuk/media-uapi-ctrls-Add-camera-trigger-controls/20240517-004536
+base:   8771b7f31b7fff91a998e6afdb60650d4bac59a5
+patch link:    https://lore.kernel.org/r/6f666d475da17b3469fd0471531bc615f6fd797a.1715871189.git.vkh%40melexis.com
+patch subject: [PATCH v6 10/10] media: i2c: Add driver for mlx7502x ToF sensor
+config: mips-randconfig-r071-20240518 (https://download.01.org/0day-ci/archive/20240518/202405181557.HpbDJU4b-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405180016.4fbn86bm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405181557.HpbDJU4b-lkp@intel.com/
 
-New smatch warnings:
-drivers/opp/core.c:2447 _opp_attach_genpd() warn: missing unwind goto?
+smatch warnings:
+drivers/media/i2c/mlx7502x.c:664 mlx7502x_runtime_resume() warn: 'sensor->xclk' from clk_prepare_enable() not released on lines: 664.
+drivers/media/i2c/mlx7502x.c:1586 mlx7502x_link_freq_init() error: buffer overflow 'link_freq' 6 <= 6 (assuming for loop doesn't break)
 
-vim +2447 drivers/opp/core.c
+vim +664 drivers/media/i2c/mlx7502x.c
 
-442e7a1786e628 Viresh Kumar          2022-05-26  2394  static int _opp_attach_genpd(struct opp_table *opp_table, struct device *dev,
-3734b9f2cee01d Dmitry Osipenko       2021-09-27  2395  			const char * const *names, struct device ***virt_devs)
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2396  {
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2397  	struct device *virt_dev, *gdev;
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2398  	struct opp_table *genpd_table;
-baea35e4db17a7 Viresh Kumar          2019-07-17  2399  	int index = 0, ret = -EINVAL;
-3734b9f2cee01d Dmitry Osipenko       2021-09-27  2400  	const char * const *name = names;
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2401  
-e37440e7e2c276 Viresh Kumar          2023-10-27  2402  	if (!opp_table->required_devs) {
-e37440e7e2c276 Viresh Kumar          2023-10-27  2403  		dev_err(dev, "Required OPPs not available, can't attach genpd\n");
-e37440e7e2c276 Viresh Kumar          2023-10-27  2404  		return -EINVAL;
-e37440e7e2c276 Viresh Kumar          2023-10-27  2405  	}
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2406  
-925141432fa4d8 Viresh Kumar          2023-11-16  2407  	/* Genpd core takes care of propagation to parent genpd */
-925141432fa4d8 Viresh Kumar          2023-11-16  2408  	if (opp_table->is_genpd) {
-925141432fa4d8 Viresh Kumar          2023-11-16  2409  		dev_err(dev, "%s: Operation not supported for genpds\n", __func__);
-925141432fa4d8 Viresh Kumar          2023-11-16  2410  		return -EOPNOTSUPP;
-925141432fa4d8 Viresh Kumar          2023-11-16  2411  	}
-925141432fa4d8 Viresh Kumar          2023-11-16  2412  
-e37440e7e2c276 Viresh Kumar          2023-10-27  2413  	/* Checking only the first one is enough ? */
-e37440e7e2c276 Viresh Kumar          2023-10-27  2414  	if (opp_table->required_devs[0])
-e37440e7e2c276 Viresh Kumar          2023-10-27  2415  		return 0;
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2416  
-6319aee10e5303 Viresh Kumar          2019-05-08  2417  	while (*name) {
-6319aee10e5303 Viresh Kumar          2019-05-08  2418  		if (index >= opp_table->required_opp_count) {
-6319aee10e5303 Viresh Kumar          2019-05-08  2419  			dev_err(dev, "Index can't be greater than required-opp-count - 1, %s (%d : %d)\n",
-6319aee10e5303 Viresh Kumar          2019-05-08  2420  				*name, opp_table->required_opp_count, index);
-6319aee10e5303 Viresh Kumar          2019-05-08  2421  			goto err;
-6319aee10e5303 Viresh Kumar          2019-05-08  2422  		}
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2423  
-6319aee10e5303 Viresh Kumar          2019-05-08  2424  		virt_dev = dev_pm_domain_attach_by_name(dev, *name);
-4ea9496cbc959e Tang Bin              2022-05-24  2425  		if (IS_ERR_OR_NULL(virt_dev)) {
-d920920f85a82c Manivannan Sadhasivam 2023-07-21  2426  			ret = virt_dev ? PTR_ERR(virt_dev) : -ENODEV;
-6319aee10e5303 Viresh Kumar          2019-05-08  2427  			dev_err(dev, "Couldn't attach to pm_domain: %d\n", ret);
-6319aee10e5303 Viresh Kumar          2019-05-08  2428  			goto err;
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2429  		}
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2430  
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2431  		/*
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2432  		 * The required_opp_tables parsing is not perfect, as the OPP
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2433  		 * core does the parsing solely based on the DT node pointers.
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2434  		 * The core sets the required_opp_tables entry to the first OPP
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2435  		 * table in the "opp_tables" list, that matches with the node
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2436  		 * pointer.
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2437  		 *
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2438  		 * If the target DT OPP table is used by multiple devices and
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2439  		 * they all create separate instances of 'struct opp_table' from
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2440  		 * it, then it is possible that the required_opp_tables entry
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2441  		 * may be set to the incorrect sibling device.
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2442  		 *
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2443  		 * Cross check it again and fix if required.
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2444  		 */
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2445  		gdev = dev_to_genpd_dev(virt_dev);
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2446  		if (IS_ERR(gdev))
-2a56c462fe5a2e Viresh Kumar          2024-04-09 @2447  			return PTR_ERR(gdev);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  620  static int __maybe_unused mlx7502x_runtime_resume(struct device *dev)
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  621  {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  622  	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  623  	struct mlx7502x *sensor = to_mlx7502x(sd);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  624  	int ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  625  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  626  	gpiod_set_value_cansleep(sensor->reset, 0);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  627  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  628  	ret = regulator_bulk_enable(MLX7502X_NUM_SUPPLIES, sensor->supplies);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  629  	if (ret) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  630  		dev_err(sensor->dev, "failed to enable supply: %d\n", ret);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  631  		return ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  632  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  633  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  634  	ret = clk_prepare_enable(sensor->xclk);
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-I have read the comment, but I don't have any context outside this email
-so I don't really understand it.  The error handling in this function is
-confusing to me.  What are we undoing?  So potentially this is a false
-positive.  But Smatch wants a "ret = PTR_ERR(gdev); goto err;" here.
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  635  	if (ret) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  636  		dev_err(sensor->dev, "failed to enable external clock: %d\n",
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  637  			ret);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  638  		goto fail_clk;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  639  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  640  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  641  	gpiod_set_value_cansleep(sensor->reset, 1);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  642  	msleep(MLX7502X_RESET_DELAY_MS);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  643  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  644  	dev_dbg(sensor->dev, "power on\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  645  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  646  	ret = mlx7502x_write_regval(sd, mlx7502x_common_init_cfg,
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  647  				    ARRAY_SIZE(mlx7502x_common_init_cfg));
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  648  	if (ret < 0) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  649  		dev_err(sensor->dev, "failed to write init_cfg\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  650  		goto fail_clk;
 
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2448  
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2449  		genpd_table = _find_opp_table(gdev);
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2450  		if (!IS_ERR(genpd_table)) {
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2451  			if (genpd_table != opp_table->required_opp_tables[index]) {
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2452  				dev_pm_opp_put_opp_table(opp_table->required_opp_tables[index]);
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2453  				opp_table->required_opp_tables[index] = genpd_table;
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2454  			} else {
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2455  				dev_pm_opp_put_opp_table(genpd_table);
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2456  			}
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2457  		}
-2a56c462fe5a2e Viresh Kumar          2024-04-09  2458  
-e37440e7e2c276 Viresh Kumar          2023-10-27  2459  		/*
-e37440e7e2c276 Viresh Kumar          2023-10-27  2460  		 * Add the virtual genpd device as a user of the OPP table, so
-e37440e7e2c276 Viresh Kumar          2023-10-27  2461  		 * we can call dev_pm_opp_set_opp() on it directly.
-e37440e7e2c276 Viresh Kumar          2023-10-27  2462  		 *
-e37440e7e2c276 Viresh Kumar          2023-10-27  2463  		 * This will be automatically removed when the OPP table is
-e37440e7e2c276 Viresh Kumar          2023-10-27  2464  		 * removed, don't need to handle that here.
-e37440e7e2c276 Viresh Kumar          2023-10-27  2465  		 */
-e37440e7e2c276 Viresh Kumar          2023-10-27  2466  		if (!_add_opp_dev(virt_dev, opp_table->required_opp_tables[index])) {
-e37440e7e2c276 Viresh Kumar          2023-10-27  2467  			ret = -ENOMEM;
-e37440e7e2c276 Viresh Kumar          2023-10-27  2468  			goto err;
-e37440e7e2c276 Viresh Kumar          2023-10-27  2469  		}
-e37440e7e2c276 Viresh Kumar          2023-10-27  2470  
-e37440e7e2c276 Viresh Kumar          2023-10-27  2471  		opp_table->required_devs[index] = virt_dev;
-baea35e4db17a7 Viresh Kumar          2019-07-17  2472  		index++;
-6319aee10e5303 Viresh Kumar          2019-05-08  2473  		name++;
-6319aee10e5303 Viresh Kumar          2019-05-08  2474  	}
-6319aee10e5303 Viresh Kumar          2019-05-08  2475  
-17a8f868ae3e85 Viresh Kumar          2019-07-08  2476  	if (virt_devs)
-e37440e7e2c276 Viresh Kumar          2023-10-27  2477  		*virt_devs = opp_table->required_devs;
-4f018bc0e1cfde Viresh Kumar          2018-06-26  2478  
-442e7a1786e628 Viresh Kumar          2022-05-26  2479  	return 0;
-6319aee10e5303 Viresh Kumar          2019-05-08  2480  
-6319aee10e5303 Viresh Kumar          2019-05-08  2481  err:
-48b5aaec596d9a Viresh Kumar          2023-10-12  2482  	_opp_detach_genpd(opp_table);
-442e7a1786e628 Viresh Kumar          2022-05-26  2483  	return ret;
-6319aee10e5303 Viresh Kumar          2019-05-08  2484  
+Don't we need to disable the xclk on this path?
+
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  651  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  652  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  653  	ret = mlx7502x_write_regval(sd, sensor->cur_desc->init_cfg,
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  654  				    sensor->cur_desc->init_cfg_size);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  655  	if (ret < 0) {
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  656  		dev_err(sensor->dev, "failed to write sensor specific init_cfg\n");
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  657  		goto fail_clk;
+
+And here.
+
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  658  	}
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  659  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  660  	return 0;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  661  
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  662  fail_clk:
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  663  	regulator_bulk_disable(MLX7502X_NUM_SUPPLIES, sensor->supplies);
+93b22d3a235baf Volodymyr Kharuk 2024-05-16 @664  	return ret;
+93b22d3a235baf Volodymyr Kharuk 2024-05-16  665  }
 
 -- 
 0-DAY CI Kernel Test Service
