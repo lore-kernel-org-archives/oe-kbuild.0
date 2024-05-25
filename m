@@ -1,132 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C71208CE
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 May 2024 09:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDE51DA2F;
+	Sat, 25 May 2024 14:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716631088; cv=none; b=QrrjuzK1Fffbyr3AcESau+40pogtyFpzNr1LIjIwuGH/fRFuRgr6LFuV6YfF5nevHejmBfcl013131AjJuEHfgFnoY+M2drsvSDB++Rpt+nfgSUhYGKr8sccykSqlZb5iH+9SKTzaBwoaI8RCNmNdzdmnkuI0V3j3RaJIA3lzjM=
+	t=1716645699; cv=none; b=lXZrk+gDxsoFfqJYtgh5lzrE9XkoVD2jkSk15lPGcT5csJ8yHb6s8kgcnQ4EEzmV88J/N0GwvO0DlJGZJFTj5MuQGCV1k/lfcX/93Zji6DCJJqhwethahwezt8EnXU2jM+Zy5JXjr0fPq6/ggkiNJj81Q6B5LY3McsuYkmHMsv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716631088; c=relaxed/simple;
-	bh=VeiusOjGcIYCfVOOSg49+iOkLRTEoTPi+EgsA2fGayM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cB/mmPIWxnCIpRzOW8pvXViWLgVOOxp/DmSg8FeYmfRNqpwIVE4nNYYV9v2fGkqhX+MuLjHpf0eLgI6eWZ7LuVzAlzohvgJcljaowGL8a8Fj2qHOmqidFrMIQ0IQSYOOsm55a1cMrREaW5U3jYbXinqqrkXoaWXSb0iz7rLtaac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ah7kPIY9; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716645699; c=relaxed/simple;
+	bh=jz9wkc1FMP4qp1PK1KagkY0E2zB1V5eh7JiuozjXfyE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FxfkGyOBpMVHNVIXQrumw8Q9tadJ96wwhaKJJqDo4LkzXL4SBCKoye4I32Br5QpCR73kB1MPFI7+xKI1MEfVoEh9suk+r6yel4PohJ6mNe7MlwOP58QMG3ZzHt+3pdYbgckzi6xFK+AmjYmNhrQqbcrl3V/4h8KeX5m9RKtgs5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTer4deG; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ah7kPIY9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716631086; x=1748167086;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VeiusOjGcIYCfVOOSg49+iOkLRTEoTPi+EgsA2fGayM=;
-  b=Ah7kPIY9TlzFt61kH5b/J0ljklvAbWHxudA3lMBCspPXC9v85mFhfjXd
-   S/V25hqB7eT3tntGzwFAtVCV7YNIU6XdqRV9GbVMm576SUwXKiWLvFdlm
-   aDq/y8IUma6gtn786WRL4XjNtJnftwz+7CH4WHZNGb0lAUhiuPvaADVPM
-   xcht2dJpkl1KpI0sldjmaSAQBHUh59iAXbYDbXoO3dBM1Ye2kZmHGaZep
-   JuiWwMqwRVvTJEkG7o9GL5QEJkn0rDkuTKIi7iGBZbEiSEjSanSy2O6QD
-   U20OVPV/RVRX3PgbGQ0MOSrj16zK1G/HP7BTkiOZrAz/x3RbZg81DDaj0
-   w==;
-X-CSE-ConnectionGUID: 89upg/TdQc29xt3SUWiAaA==
-X-CSE-MsgGUID: b2ccZpn4TOmhdM/DvvKuYw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="24133136"
-X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
-   d="scan'208";a="24133136"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 02:58:05 -0700
-X-CSE-ConnectionGUID: S8F02XA8Tv2IHg5hciasxg==
-X-CSE-MsgGUID: 7uosqAUsR2yNmq5s2/mgCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
-   d="scan'208";a="34358612"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 25 May 2024 02:58:04 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sAoA6-0006nP-1C;
-	Sat, 25 May 2024 09:58:02 +0000
-Date: Sat, 25 May 2024 17:58:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v5 3/3] perf annotate: LLVM-based disassembler
-Message-ID: <202405251724.FOc34lcz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTer4deG"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-529648cd69dso1923457e87.2;
+        Sat, 25 May 2024 07:01:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716645696; x=1717250496; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qjIf/Nlt5hfmMgIm9+EKfmLkc5Lr9onDLEUZ7ihTSio=;
+        b=OTer4deGqEk4lMqSd5/xul/gsyoiMJNmDQE3lI9SqgH5smWZQ80d1bm3skXrqIhIhh
+         DnMmXW28713rj/OyrTYjLgTRv5CH0N5ObbSSWGZUsUQWW+di9hdyHnTyGrnVCCR63NbI
+         diEUc+MNVFjCDZcwalzlkZPw9Ff47QhdopRtCZh7o0fS97pkdqHZngk1cX7iL+19CYCW
+         g/9IUGkvhmXHCZ36wEB07PQXtdbXQnsjftVQsOwL5E3vYTvxq7Zv+5ihyA7zCnjPyVS+
+         hTc7SpZ02so7jtsoYj/P6qLBRjtbOg2gqnf260wtFpb6gFI0mU7N3enONNa8rHx6TY8Z
+         8/Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716645696; x=1717250496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qjIf/Nlt5hfmMgIm9+EKfmLkc5Lr9onDLEUZ7ihTSio=;
+        b=KHo64S3Gfft09De8FyvoP+5hUVmCpkW1MrRFPjjoYD1nqxKw3krc3cYHCKZAa0MU/h
+         tk+wVPLLYc1u/JTab5eoYbiaE0ElSGo3rnzBzi8TtllEWiUs7Zr8U+GrEzld1euqVsZ/
+         CPq30V0KC9geGJoisCjdCVP6wX1tSnzEp36GDSqf1UMDZaXtIYZDoOoEmwronM00ms2w
+         DC4sfl4lvSJD4JUE1HrA4LCUrfQPlOC4BLohJ7TWIFeI0/Di+KZZCnoTPSt6KAirnCA/
+         fs7FY1yBb/aTH+3AlQ6zZ7TGVkYIL6lWlgF4cFResPpBeQo42T2EQ16qdSkpBZS0TS3M
+         95rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWY+QI0XTUQufKUitO0WO4x+7AgYN930wn86CEda2dQV1DyDWRt2ngt5SmdDMl0Gg2DoqWvUXCif3fukQh4qeAMueOC5+GnCHiQopv5fw==
+X-Gm-Message-State: AOJu0YxcfO7w0TgliMb7ga8L9CwGlry2xq69RS7fWh2Dmeoqij30bbvW
+	d3/EcfqxDYqErMRgGWRmC0pzSuIRuexdTVQ6GmJhZFURFvey3XdXx6DKYZa1AxrXv+gX4Y/lNBx
+	hzYOevn4RyPVL3nkRAfDRr/nCvdk=
+X-Google-Smtp-Source: AGHT+IHy4xNxaHBYuO/6Df4lWzmUbbVJPFJKbyrk49Ry6yefo2WEXYFOcDI9deIszyWdSb6CWPt6cebYXP2Gu8iRLSA=
+X-Received: by 2002:a05:6512:1051:b0:529:a66e:5b52 with SMTP id
+ 2adb3069b0e04-529a66e5bd3mr1852678e87.46.1716645695725; Sat, 25 May 2024
+ 07:01:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
+ <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
+In-Reply-To: <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 25 May 2024 17:00:59 +0300
+Message-ID: <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
+Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor driver
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>, jic23@kernel.org, 
+	lkp@intel.com, oe-kbuild-all@lists.linux.dev, lars@metafoo.de, 
+	swboyd@chromium.org, nuno.a@analog.com, u.kleine-koenig@pengutronix.de, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	yasin.lee.x@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240523092920.3355004-3-sesse@google.com>
-References: <20240523092920.3355004-3-sesse@google.com>
-TO: "Steinar H. Gunderson" <sesse@google.com>
-TO: acme@kernel.org
-CC: linux-perf-users@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: irogers@google.com
-CC: "Steinar H. Gunderson" <sesse@google.com>
-
-Hi Steinar,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on perf-tools/perf-tools linus/master next-20240523]
-[cannot apply to tip/perf/core acme/perf/core v6.9]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steinar-H-Gunderson/perf-annotate-split-out-read_symbol/20240523-173421
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240523092920.3355004-3-sesse%40google.com
-patch subject: [PATCH v5 3/3] perf annotate: LLVM-based disassembler
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251724.FOc34lcz-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202405251724.FOc34lcz-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-     PERF_VERSION = 6.9.gebd624d5c07b
->> util/disasm.c:1615:10: fatal error: llvm-c/Disassembler.h: No such file or directory
-    1615 | #include <llvm-c/Disassembler.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/disasm.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:264: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+On Thu, May 23, 2024 at 3:42=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 
 
-vim +1615 tools/perf/util/disasm.c
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_da=
+ta_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppo=
+s)
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] =3D {0=
+};
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p =3D buf;
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii =3D 0;
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
+> 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii =3D 0; ii < HX903=
+1AS_CH_NUM; ii++) {
+> 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p +=3D snprintf(p=
+, PAGE_SIZE, "ch[%d]: DIFF=3D%-8d, RAW=3D%-8d, OFFSET=3D%-8d, BL=3D%-8d, LP=
+=3D%-8d\n",
+>                                                                          =
+^^^^^^^^^
 
-6d17edc113de1e Namhyung Kim         2024-03-29  1613  
-ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1614  #ifdef HAVE_LLVM_SUPPORT
-ebd624d5c07b19 Steinar H. Gunderson 2024-05-23 @1615  #include <llvm-c/Disassembler.h>
-ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1616  #include <llvm-c/Target.h>
-ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1617  #include "util/llvm-c-helpers.h"
-ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1618  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Also use scnprintf() instead of snprintf() unless you need to check the
+> results.
+
+This is incorrect advice. You should recommend sysfs_emit() /
+sysfs_emit_at() in this kind of case.
+
+--=20
+With Best Regards,
+Andy Shevchenko
