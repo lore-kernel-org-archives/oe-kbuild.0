@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF441CAB4
-	for <oe-kbuild@lists.linux.dev>; Sat, 25 May 2024 08:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C71208CE
+	for <oe-kbuild@lists.linux.dev>; Sat, 25 May 2024 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716626704; cv=none; b=YJmMXCJO6f1bXPcvl/QSQ6olKEQQp3ZK+dpaNTWL//ZjFsPg1fNYWOm9aiD6912Wu9WE0Fbd9BzK7BVc37is5iNKcsPunkUeONUTpFxR0VmHS6ePmNlC+Ff9/IpObRKBWY9YHJ36K4G0LEEBb8nkAcMPlkB/x/lAOBqmGWjz4JU=
+	t=1716631088; cv=none; b=QrrjuzK1Fffbyr3AcESau+40pogtyFpzNr1LIjIwuGH/fRFuRgr6LFuV6YfF5nevHejmBfcl013131AjJuEHfgFnoY+M2drsvSDB++Rpt+nfgSUhYGKr8sccykSqlZb5iH+9SKTzaBwoaI8RCNmNdzdmnkuI0V3j3RaJIA3lzjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716626704; c=relaxed/simple;
-	bh=1gjXNMDDBhAqFL1hrOYSDA0dOqvwxAagrFl4VFVyHoY=;
+	s=arc-20240116; t=1716631088; c=relaxed/simple;
+	bh=VeiusOjGcIYCfVOOSg49+iOkLRTEoTPi+EgsA2fGayM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PoAr5B5bYOYnbUSEOZq7qy766ct0c6Tf6EPrKKAlpEG/JqbdKZOvxV1531n3wX1KfFWLOv2IXm61aqTFT3fXit3fVsHrAeVlqJiQ33qOHkMA7giBbIEByqUKihBXWwBLm38np1x1HHyk+XY6+ge/97sGNIrBA3qNNlxC6Ne40OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nd6hs9mW; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=cB/mmPIWxnCIpRzOW8pvXViWLgVOOxp/DmSg8FeYmfRNqpwIVE4nNYYV9v2fGkqhX+MuLjHpf0eLgI6eWZ7LuVzAlzohvgJcljaowGL8a8Fj2qHOmqidFrMIQ0IQSYOOsm55a1cMrREaW5U3jYbXinqqrkXoaWXSb0iz7rLtaac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ah7kPIY9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nd6hs9mW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ah7kPIY9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716626703; x=1748162703;
+  t=1716631086; x=1748167086;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1gjXNMDDBhAqFL1hrOYSDA0dOqvwxAagrFl4VFVyHoY=;
-  b=Nd6hs9mWqDwTCDP4Yr1OZIoas2wCI+o1ECLn+3Z7cf9B8JZdTnlN5XaV
-   JUGxqYAeZB7tv51FPDy5mZLylT8NABwaxWrA6EhhgFXSg/XqGKKhDkR5X
-   H/e+ef1PvKJsO1hEWVfyDfo1imLrTJ+Upb2HGV4mJyF4ahEE4ftMEUWCL
-   vsBlOsOpZw3JZdkZ8UyBK13ApR42yc/hWjQTnC6MKHVmPZ1Cz12Nd8SCf
-   Fh6fOA5ZNdItFXZW9ctvgJ6GdWw1o6EGSja3JxCb5v+zExvhEEtNo6WmR
-   bhj4qeqaTjo6ssSLgHwyb1HCMMJkwBw2HYhw0hgUTxnaJkKA6Ixx8iT2u
+  bh=VeiusOjGcIYCfVOOSg49+iOkLRTEoTPi+EgsA2fGayM=;
+  b=Ah7kPIY9TlzFt61kH5b/J0ljklvAbWHxudA3lMBCspPXC9v85mFhfjXd
+   S/V25hqB7eT3tntGzwFAtVCV7YNIU6XdqRV9GbVMm576SUwXKiWLvFdlm
+   aDq/y8IUma6gtn786WRL4XjNtJnftwz+7CH4WHZNGb0lAUhiuPvaADVPM
+   xcht2dJpkl1KpI0sldjmaSAQBHUh59iAXbYDbXoO3dBM1Ye2kZmHGaZep
+   JuiWwMqwRVvTJEkG7o9GL5QEJkn0rDkuTKIi7iGBZbEiSEjSanSy2O6QD
+   U20OVPV/RVRX3PgbGQ0MOSrj16zK1G/HP7BTkiOZrAz/x3RbZg81DDaj0
    w==;
-X-CSE-ConnectionGUID: u2fRnViuRXSJYQx+ECva9Q==
-X-CSE-MsgGUID: 0GtVJJCETJmX/GtixL3Uvw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="12941950"
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="12941950"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 01:45:02 -0700
-X-CSE-ConnectionGUID: IU699lpET5SGLlOjfkJ+9g==
-X-CSE-MsgGUID: BDmkTJVeQ+GrU2aLibSAoA==
+X-CSE-ConnectionGUID: 89upg/TdQc29xt3SUWiAaA==
+X-CSE-MsgGUID: b2ccZpn4TOmhdM/DvvKuYw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="24133136"
+X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
+   d="scan'208";a="24133136"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2024 02:58:05 -0700
+X-CSE-ConnectionGUID: S8F02XA8Tv2IHg5hciasxg==
+X-CSE-MsgGUID: 7uosqAUsR2yNmq5s2/mgCA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,187,1712646000"; 
-   d="scan'208";a="34261878"
+X-IronPort-AV: E=Sophos;i="6.08,188,1712646000"; 
+   d="scan'208";a="34358612"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 25 May 2024 01:45:00 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 25 May 2024 02:58:04 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sAn1O-0006j1-2a;
-	Sat, 25 May 2024 08:44:58 +0000
-Date: Sat, 25 May 2024 16:44:03 +0800
+	id 1sAoA6-0006nP-1C;
+	Sat, 25 May 2024 09:58:02 +0000
+Date: Sat, 25 May 2024 17:58:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error:
- uninitialized symbol 'stat'.
-Message-ID: <202405251637.rFM6Hl3B-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v5 3/3] perf annotate: LLVM-based disassembler
+Message-ID: <202405251724.FOc34lcz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,75 +61,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240523092920.3355004-3-sesse@google.com>
+References: <20240523092920.3355004-3-sesse@google.com>
+TO: "Steinar H. Gunderson" <sesse@google.com>
+TO: acme@kernel.org
+CC: linux-perf-users@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Linus Walleij <linus.walleij@linaro.org>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+CC: irogers@google.com
+CC: "Steinar H. Gunderson" <sesse@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   56fb6f92854f29dcb6c3dc3ba92eeda1b615e88c
-commit: 12658af54f2ed10d812dcd0a769d62cb9e9291e5 mmc: mxcmmc: Use sg_miter for PIO
-date:   3 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-r071-20240524 (https://download.01.org/0day-ci/archive/20240525/202405251637.rFM6Hl3B-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+Hi Steinar,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on perf-tools/perf-tools linus/master next-20240523]
+[cannot apply to tip/perf/core acme/perf/core v6.9]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steinar-H-Gunderson/perf-annotate-split-out-read_symbol/20240523-173421
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20240523092920.3355004-3-sesse%40google.com
+patch subject: [PATCH v5 3/3] perf annotate: LLVM-based disassembler
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405251724.FOc34lcz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405251637.rFM6Hl3B-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405251724.FOc34lcz-lkp@intel.com/
 
-New smatch warnings:
-drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error: uninitialized symbol 'stat'.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/mmc/host/mxcmmc.c:558 mxcmci_pull() error: __builtin_memcpy() '&tmp' too small (4 vs u32max)
-drivers/mmc/host/mxcmmc.c:584 mxcmci_push() error: __builtin_memcpy() '&tmp' too small (4 vs u32max)
+     PERF_VERSION = 6.9.gebd624d5c07b
+>> util/disasm.c:1615:10: fatal error: llvm-c/Disassembler.h: No such file or directory
+    1615 | #include <llvm-c/Disassembler.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/disasm.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[6]: *** Waiting for unfinished jobs....
+   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile.perf:264: sub-make] Error 2
+   make[3]: *** [Makefile:70: all] Error 2
 
-vim +/stat +626 drivers/mmc/host/mxcmmc.c
 
-d96be879ff46975 Sascha Hauer  2009-01-06  590  
-d96be879ff46975 Sascha Hauer  2009-01-06  591  static int mxcmci_transfer_data(struct mxcmci_host *host)
-d96be879ff46975 Sascha Hauer  2009-01-06  592  {
-d96be879ff46975 Sascha Hauer  2009-01-06  593  	struct mmc_data *data = host->req->data;
-12658af54f2ed10 Linus Walleij 2024-01-27  594  	struct sg_mapping_iter sgm;
-12658af54f2ed10 Linus Walleij 2024-01-27  595  	int stat;
-12658af54f2ed10 Linus Walleij 2024-01-27  596  	u32 *buf;
-d96be879ff46975 Sascha Hauer  2009-01-06  597  
-d96be879ff46975 Sascha Hauer  2009-01-06  598  	host->data = data;
-d96be879ff46975 Sascha Hauer  2009-01-06  599  	host->datasize = 0;
-12658af54f2ed10 Linus Walleij 2024-01-27  600  	sg_miter_start(&sgm, data->sg, data->sg_len,
-12658af54f2ed10 Linus Walleij 2024-01-27  601  		       (data->flags & MMC_DATA_READ) ? SG_MITER_TO_SG : SG_MITER_FROM_SG);
-d96be879ff46975 Sascha Hauer  2009-01-06  602  
-d96be879ff46975 Sascha Hauer  2009-01-06  603  	if (data->flags & MMC_DATA_READ) {
-12658af54f2ed10 Linus Walleij 2024-01-27  604  		while (sg_miter_next(&sgm)) {
-12658af54f2ed10 Linus Walleij 2024-01-27  605  			buf = sgm.addr;
-12658af54f2ed10 Linus Walleij 2024-01-27  606  			stat = mxcmci_pull(host, buf, sgm.length);
-d96be879ff46975 Sascha Hauer  2009-01-06  607  			if (stat)
-12658af54f2ed10 Linus Walleij 2024-01-27  608  				goto transfer_error;
-12658af54f2ed10 Linus Walleij 2024-01-27  609  			host->datasize += sgm.length;
-d96be879ff46975 Sascha Hauer  2009-01-06  610  		}
-d96be879ff46975 Sascha Hauer  2009-01-06  611  	} else {
-12658af54f2ed10 Linus Walleij 2024-01-27  612  		while (sg_miter_next(&sgm)) {
-12658af54f2ed10 Linus Walleij 2024-01-27  613  			buf = sgm.addr;
-12658af54f2ed10 Linus Walleij 2024-01-27  614  			stat = mxcmci_push(host, buf, sgm.length);
-d96be879ff46975 Sascha Hauer  2009-01-06  615  			if (stat)
-12658af54f2ed10 Linus Walleij 2024-01-27  616  				goto transfer_error;
-12658af54f2ed10 Linus Walleij 2024-01-27  617  			host->datasize += sgm.length;
-d96be879ff46975 Sascha Hauer  2009-01-06  618  		}
-d96be879ff46975 Sascha Hauer  2009-01-06  619  		stat = mxcmci_poll_status(host, STATUS_WRITE_OP_DONE);
-d96be879ff46975 Sascha Hauer  2009-01-06  620  		if (stat)
-12658af54f2ed10 Linus Walleij 2024-01-27  621  			goto transfer_error;
-d96be879ff46975 Sascha Hauer  2009-01-06  622  	}
-12658af54f2ed10 Linus Walleij 2024-01-27  623  
-12658af54f2ed10 Linus Walleij 2024-01-27  624  transfer_error:
-12658af54f2ed10 Linus Walleij 2024-01-27  625  	sg_miter_stop(&sgm);
-12658af54f2ed10 Linus Walleij 2024-01-27 @626  	return stat;
-d96be879ff46975 Sascha Hauer  2009-01-06  627  }
-d96be879ff46975 Sascha Hauer  2009-01-06  628  
+vim +1615 tools/perf/util/disasm.c
+
+6d17edc113de1e Namhyung Kim         2024-03-29  1613  
+ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1614  #ifdef HAVE_LLVM_SUPPORT
+ebd624d5c07b19 Steinar H. Gunderson 2024-05-23 @1615  #include <llvm-c/Disassembler.h>
+ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1616  #include <llvm-c/Target.h>
+ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1617  #include "util/llvm-c-helpers.h"
+ebd624d5c07b19 Steinar H. Gunderson 2024-05-23  1618  
 
 -- 
 0-DAY CI Kernel Test Service
