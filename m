@@ -1,181 +1,105 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764062207A
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 07:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEDB3B298
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 08:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716796104; cv=none; b=P/9O1sB7r0OqXO70RvTrh6D/V1z+TRP7zjNKH5wA8mVL7dCT420XRMBGn54Ikhfia2LmgwpMC7Y9gp1Tm1fzqfdy53+F7FN/xr8LcLvspnYtKmevcpNc9dU/bRQfJ0rRwa948gR1OKavTdTk3FYMo4LNFpOLNApuTX0YHrxZDz8=
+	t=1716797664; cv=none; b=nl+/k2HkqeAc3c/XZiMJOqMQ9UYyfwWRF8CShXuHQUjlOSW6E94k31nCsgFHgu0kXAuSeye0rE40/4E17Wg8PqnFfXAlTBZ9/FHmf6qDGkqRDUlwsBJaY+xMHHqpI2ZBVKRH2QkPI9uzpCu1qH4tZGcuFBM6hHfEvQBY5jBv3ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716796104; c=relaxed/simple;
-	bh=snHEB08XY5JQn621PObDnGVEpGYE4z2PihmqwwfM3ZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gHYMMo8JOOfRshZh6q2Y9J7kaD5Lg45y+biKXcevdA5eRVNVpDHCHHEH5NVrAHoxSmhMq0y81ns+z6Gqwq+eKIPFk1pySVxSZh1kwWnfeQ18MoxhPG3ViyaBsgj/QNJfyDPhu7LaD0OwgUdEBeBOkD8irUMpepLO4J8fNFtDNAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfGPN5Pj; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1716797664; c=relaxed/simple;
+	bh=nwYaraCxggBDKnVnYzLQQW0XR3XO/+s4UMrvkMG2ZYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YB9vERkcud0xwkCs7tyD/3cga2+TNA70D+JuiIpFt2+SHhQBQ8yyf3RB3Wh42UOBmq9Eh6U8qWGpvOoz4TWN2IIAHZC2SapfUis+nyxH3SXh/GE/NdXJDIior6RJHiNqZAascbF+TDNXhb8rcFncJeAxwl3LUWsQEqSABoszTEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qsdRHj7I; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfGPN5Pj"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5295eb47b48so3011875e87.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 00:48:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qsdRHj7I"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-57857e0f462so2867588a12.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 01:14:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716796100; x=1717400900; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
-        b=wfGPN5Pj++AaujkKZ8wgQBoEy3VNpU89FjdJIqLLRCabSSPgcDOx5odTLp4AzTBui/
-         TwfAfX7CftTqsxYtMVC432ZgWrU6DI8fNJxkJfLW8LgDVxyJSpAGsNKJG7JFIoh0wJl8
-         6lEbGOAV5IKQVHbLxZmlrp1Ma+HTeHg3YMjvIu4XUmShC3Gb4SYp3eaRCtC+IUnCRiBU
-         wTbj2eWQ8Egojh6j/4qHmctPO3GGk/Xv6y2MKvkSP+ld/njxWB6scwANZW74x7hY8OGl
-         u+uX1r38HlX9AtDeQf7gJdgWyqYPfzOgnREmRsNfx+Fk2wDGhCgkJ/ZvRPYfRK5uEkoJ
-         JKOg==
+        d=linaro.org; s=google; t=1716797661; x=1717402461; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
+        b=qsdRHj7IG7Fb5yufxOipTMCMjGvPzK9jXUXn1ADHEuNRQPDoYXkr4/YyWB3EMaQSFi
+         adlWXpJsbQlPzWTUrpu914RSJAFQF2rlWOt0VptmKERQaosWjdu3ghSx/80N1lZ57OpB
+         IvAxrryGF8B8SJEtUVB45UYs/3OlLmIwg8wFAACsNPgsW7DYIdLmM2YZoUxA3AP5q1tl
+         vzSqfH73m67qr/G3Jf0cmBktQt4i/8aZIFtyHWwIdX0hd2D7kghS/Oc0/SsxI5HPFr8D
+         4P+Y1/nPXbbCsfwtQkv9N9kQ13qH+VXhjiMRoB3BekXjwG+nhFfUmnlJW1z3ErPkzimT
+         GLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716796100; x=1717400900;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1716797661; x=1717402461;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
-        b=styzFBUmGHIzxkIYqOAz/6vg/uHhoH7q0J/Qj84ROJrlHd9UxJWthaVMaxWN5WdVtw
-         ThdcPNL/tK/g6C/lX73cJU7aVR6n1UP5oyKVEDWUGfBOHDn4S8TvnuW1+FsqWexbEobS
-         6jANnfmWqOZvIFDlOUAgTT0CuL02vARnv4CncjHbjGWlGh+UwBT6JdGGyMnH7qKYrUfI
-         bhEH7QTSytQ0qtgc0FNKl/g486Ge/vMbG3CGidXOl3YhIu006Rd+E1d340K5ITAwTpeN
-         tA+weVLGfzJgPTd8HqOvJVVoIQ9ekamPD2kWJX9eo3kp/35KTKLaF2yhoCREw8nhtxVP
-         2E1Q==
-X-Gm-Message-State: AOJu0Ywj3E3hYud64fJm31PL4Y+mXNwa/JWusigFkRPRRsuXqC/oeT4m
-	tpP/rUwaM1O1F2NInqT0lrfICtL30XO4MH5fPoMBkW9KiC0GFGbz1Q9AqBLc22ANN0u8CjBxLX0
-	c
-X-Google-Smtp-Source: AGHT+IH4t/IBOf/Ew7gwWEo6+jgoCpj8r+bvyE+lZiUzS0bhtYDCCBlqMIU+yWaaueZRRxr5Vu1LEA==
-X-Received: by 2002:a05:6512:10cc:b0:523:7f19:cb44 with SMTP id 2adb3069b0e04-52965198b94mr7303495e87.29.1716796100209;
-        Mon, 27 May 2024 00:48:20 -0700 (PDT)
+        bh=2gOfFJLDZFM1NLZoeu2fRwYilxYpWgEWWcHQQR/WPKs=;
+        b=Msj98Mx9/TJfMstXCHnemvEas4Vs0o2JqiBPbmMluWYRiPFw8dlBl/0mTbDjDTZE0L
+         mK8k+H6e2CuKxNZsNfVJi7umrq6RdJst6RrIT7zA6xPjIo11gbYknV9o12HJ/ey8nJna
+         Y92VRMAF6Xz/Cc6zKk8T61en3H49HNSGQfWpXUmf0rm2zd0MUeLXB3v6RPwC+Vt7P9ab
+         /u14XA4hSxeYVzFFE1cG6RZm0dJowhh1OHkDN6rlCjhBF39PWkecR0pzJd6aD9X7UdQ+
+         LoHIk+D1cdRd+R3djKoll6cse68GoCCMrqxQkaAozK+wsl9FEG+iUwrxbrMf3nFNuc+K
+         qwzQ==
+X-Gm-Message-State: AOJu0YxW5/xlAAtlMJb3VheHSMWJK7ub9j+90/omYRNAiX7BYYBQ9YdX
+	9TQp+WTX/JlSePEPgS9D4+MvPW3D+edfL6ai25JYmPdwJHXRrKsWCV8lXv+yHik=
+X-Google-Smtp-Source: AGHT+IHYnL+hf/PaVRs5w2cBRVnHz4XxYlxeikqwWQlJyhXrjPG34g7ILif/Bx2s4uuxLU41DeUKtQ==
+X-Received: by 2002:a17:906:7f15:b0:a62:e9c:f621 with SMTP id a640c23a62f3a-a6265148c46mr601649666b.58.1716797660675;
+        Mon, 27 May 2024 01:14:20 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda48e6sm458737266b.203.2024.05.27.00.48.19
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8dcbdsm472629966b.175.2024.05.27.01.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 00:48:19 -0700 (PDT)
-Date: Mon, 27 May 2024 10:48:15 +0300
+        Mon, 27 May 2024 01:14:20 -0700 (PDT)
+Date: Mon, 27 May 2024 11:14:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Gstir <david@sigma-star.at>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
-Subject: drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized
- symbol 'key_phys'.
-Message-ID: <129493f0-211f-408f-8435-2e6fead3f07b@moroto.mountain>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Yasin Lee <yasin.lee.x@outlook.com>,
+	jic23@kernel.org, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	lars@metafoo.de, swboyd@chromium.org, nuno.a@analog.com,
+	u.kleine-koenig@pengutronix.de, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yasin.lee.x@gmail.com
+Subject: Re: [PATCH] iio:proximity:hx9031as: Add TYHX HX9031AS/HX9023S sensor
+ driver
+Message-ID: <6f479ca6-cd6d-4a28-8afe-8b74c4d171d4@moroto.mountain>
+References: <SN7PR12MB8101EDFA7F91A59761095A28A4E72@SN7PR12MB8101.namprd12.prod.outlook.com>
+ <59869d5f-3d97-48a2-8a96-127f7b46c0e8@moroto.mountain>
+ <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcTxXsnKVR5EQYTNhokHeXrOxQPe9gAkWFRr0yZT1KTPA@mail.gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c13320499ba0efd93174ef6462ae8a7a2933f6e7
-commit: 3d16af0b4cfac4b2c3b238e2ec37b38c2f316978 crypto: mxs-dcp: Add support for hardware-bound keys
-config: arm-randconfig-r071-20240524 (https://download.01.org/0day-ci/archive/20240527/202405270146.Y9tPoil8-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
+On Sat, May 25, 2024 at 05:00:59PM +0300, Andy Shevchenko wrote:
+> On Thu, May 23, 2024 at 3:42 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> 
+> 
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1110  static ssize_t hx9031as_raw_data_show(struct file *file, char __user *user_buf, size_t count, loff_t *ppos)
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1111  {
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1112       char buf[BUF_SIZE] = {0};
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1113       char *p = buf;
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1114       int ii = 0;
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1115
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1116       hx9031as_sample();
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10  1117       for (ii = 0; ii < HX9031AS_CH_NUM; ii++) {
+> > 5e5a419c9407f6 Yasin Lee 2024-05-10 @1118               p += snprintf(p, PAGE_SIZE, "ch[%d]: DIFF=%-8d, RAW=%-8d, OFFSET=%-8d, BL=%-8d, LP=%-8d\n",
+> >                                                                          ^^^^^^^^^
+> 
+> 
+> > Also use scnprintf() instead of snprintf() unless you need to check the
+> > results.
+> 
+> This is incorrect advice. You should recommend sysfs_emit() /
+> sysfs_emit_at() in this kind of case.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405270146.Y9tPoil8-lkp@intel.com/
+No, this is not sysfs code.  It's debugfs.  The API is completely
+different.
 
-smatch warnings:
-drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized symbol 'key_phys'.
-
-vim +/key_phys +292 drivers/crypto/mxs-dcp.c
-
-2021abaa00da64a Marek Vasut    2014-01-14  225  static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
-9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  226  			   struct skcipher_request *req, int init)
-15b59e7c3733f90 Marek Vasut    2013-12-10  227  {
-df6313d707e575a Sean Anderson  2021-07-01  228  	dma_addr_t key_phys, src_phys, dst_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  229  	struct dcp *sdcp = global_sdcp;
-15b59e7c3733f90 Marek Vasut    2013-12-10  230  	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
-9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  231  	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
-3d16af0b4cfac4b David Gstir    2024-04-03  232  	bool key_referenced = actx->key_referenced;
-15b59e7c3733f90 Marek Vasut    2013-12-10  233  	int ret;
-15b59e7c3733f90 Marek Vasut    2013-12-10  234  
-3d16af0b4cfac4b David Gstir    2024-04-03  235  	if (!key_referenced) {
-df6313d707e575a Sean Anderson  2021-07-01  236  		key_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_key,
-df6313d707e575a Sean Anderson  2021-07-01  237  					  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  238  		ret = dma_mapping_error(sdcp->dev, key_phys);
-df6313d707e575a Sean Anderson  2021-07-01  239  		if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  240  			return ret;
-3d16af0b4cfac4b David Gstir    2024-04-03  241  	}
-
-key_phys not initialized on else path.
-
-df6313d707e575a Sean Anderson  2021-07-01  242  
-df6313d707e575a Sean Anderson  2021-07-01  243  	src_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_in_buf,
-15b59e7c3733f90 Marek Vasut    2013-12-10  244  				  DCP_BUF_SZ, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  245  	ret = dma_mapping_error(sdcp->dev, src_phys);
-df6313d707e575a Sean Anderson  2021-07-01  246  	if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  247  		goto err_src;
-df6313d707e575a Sean Anderson  2021-07-01  248  
-df6313d707e575a Sean Anderson  2021-07-01  249  	dst_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_out_buf,
-15b59e7c3733f90 Marek Vasut    2013-12-10  250  				  DCP_BUF_SZ, DMA_FROM_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  251  	ret = dma_mapping_error(sdcp->dev, dst_phys);
-df6313d707e575a Sean Anderson  2021-07-01  252  	if (ret)
-df6313d707e575a Sean Anderson  2021-07-01  253  		goto err_dst;
-15b59e7c3733f90 Marek Vasut    2013-12-10  254  
-fadd7a6e616b89c Radu Solea     2018-10-02  255  	if (actx->fill % AES_BLOCK_SIZE) {
-fadd7a6e616b89c Radu Solea     2018-10-02  256  		dev_err(sdcp->dev, "Invalid block size!\n");
-fadd7a6e616b89c Radu Solea     2018-10-02  257  		ret = -EINVAL;
-fadd7a6e616b89c Radu Solea     2018-10-02  258  		goto aes_done_run;
-fadd7a6e616b89c Radu Solea     2018-10-02  259  	}
-fadd7a6e616b89c Radu Solea     2018-10-02  260  
-15b59e7c3733f90 Marek Vasut    2013-12-10  261  	/* Fill in the DMA descriptor. */
-15b59e7c3733f90 Marek Vasut    2013-12-10  262  	desc->control0 = MXS_DCP_CONTROL0_DECR_SEMAPHORE |
-15b59e7c3733f90 Marek Vasut    2013-12-10  263  		    MXS_DCP_CONTROL0_INTERRUPT |
-15b59e7c3733f90 Marek Vasut    2013-12-10  264  		    MXS_DCP_CONTROL0_ENABLE_CIPHER;
-15b59e7c3733f90 Marek Vasut    2013-12-10  265  
-3d16af0b4cfac4b David Gstir    2024-04-03  266  	if (key_referenced)
-3d16af0b4cfac4b David Gstir    2024-04-03  267  		/* Set OTP key bit to select the key via KEY_SELECT. */
-3d16af0b4cfac4b David Gstir    2024-04-03  268  		desc->control0 |= MXS_DCP_CONTROL0_OTP_KEY;
-3d16af0b4cfac4b David Gstir    2024-04-03  269  	else
-15b59e7c3733f90 Marek Vasut    2013-12-10  270  		/* Payload contains the key. */
-15b59e7c3733f90 Marek Vasut    2013-12-10  271  		desc->control0 |= MXS_DCP_CONTROL0_PAYLOAD_KEY;
-15b59e7c3733f90 Marek Vasut    2013-12-10  272  
-2021abaa00da64a Marek Vasut    2014-01-14  273  	if (rctx->enc)
-15b59e7c3733f90 Marek Vasut    2013-12-10  274  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_ENCRYPT;
-15b59e7c3733f90 Marek Vasut    2013-12-10  275  	if (init)
-15b59e7c3733f90 Marek Vasut    2013-12-10  276  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_INIT;
-15b59e7c3733f90 Marek Vasut    2013-12-10  277  
-15b59e7c3733f90 Marek Vasut    2013-12-10  278  	desc->control1 = MXS_DCP_CONTROL1_CIPHER_SELECT_AES128;
-15b59e7c3733f90 Marek Vasut    2013-12-10  279  
-2021abaa00da64a Marek Vasut    2014-01-14  280  	if (rctx->ecb)
-15b59e7c3733f90 Marek Vasut    2013-12-10  281  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_ECB;
-15b59e7c3733f90 Marek Vasut    2013-12-10  282  	else
-15b59e7c3733f90 Marek Vasut    2013-12-10  283  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_CBC;
-15b59e7c3733f90 Marek Vasut    2013-12-10  284  
-3d16af0b4cfac4b David Gstir    2024-04-03  285  	if (key_referenced)
-3d16af0b4cfac4b David Gstir    2024-04-03  286  		desc->control1 |= sdcp->coh->aes_key[0] << MXS_DCP_CONTROL1_KEY_SELECT_SHIFT;
-3d16af0b4cfac4b David Gstir    2024-04-03  287  
-15b59e7c3733f90 Marek Vasut    2013-12-10  288  	desc->next_cmd_addr = 0;
-15b59e7c3733f90 Marek Vasut    2013-12-10  289  	desc->source = src_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  290  	desc->destination = dst_phys;
-15b59e7c3733f90 Marek Vasut    2013-12-10  291  	desc->size = actx->fill;
-15b59e7c3733f90 Marek Vasut    2013-12-10 @292  	desc->payload = key_phys;
-                                                                        ^^^^^^^^
-Uninitialized.
-
-15b59e7c3733f90 Marek Vasut    2013-12-10  293  	desc->status = 0;
-15b59e7c3733f90 Marek Vasut    2013-12-10  294  
-15b59e7c3733f90 Marek Vasut    2013-12-10  295  	ret = mxs_dcp_start_dma(actx);
-15b59e7c3733f90 Marek Vasut    2013-12-10  296  
-fadd7a6e616b89c Radu Solea     2018-10-02  297  aes_done_run:
-df6313d707e575a Sean Anderson  2021-07-01  298  	dma_unmap_single(sdcp->dev, dst_phys, DCP_BUF_SZ, DMA_FROM_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  299  err_dst:
-df6313d707e575a Sean Anderson  2021-07-01  300  	dma_unmap_single(sdcp->dev, src_phys, DCP_BUF_SZ, DMA_TO_DEVICE);
-df6313d707e575a Sean Anderson  2021-07-01  301  err_src:
-3d16af0b4cfac4b David Gstir    2024-04-03  302  	if (!key_referenced)
-15b59e7c3733f90 Marek Vasut    2013-12-10  303  		dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
-15b59e7c3733f90 Marek Vasut    2013-12-10  304  				 DMA_TO_DEVICE);
-15b59e7c3733f90 Marek Vasut    2013-12-10  305  	return ret;
-15b59e7c3733f90 Marek Vasut    2013-12-10  306  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+regards,
+dan carpenter
