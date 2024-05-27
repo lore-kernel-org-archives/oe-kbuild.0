@@ -1,62 +1,65 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FCB364BE
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 07:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764062207A
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 07:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716795229; cv=none; b=pYxBigeoPWh24yDbxagfGkjuHHT/j1VppjP3ksIAO8u8UW9jt+zdMvWnNnuXt8LJ0zk+NevT2dw7NX6Q1M1rN9o8oz28a9dOr56UDcwEInQZV285FQzWc8SJ44oeKoxIpzHR2yKuigA8+G0CHsF8PgS77H6+bZKRXb0iXlJT8Iw=
+	t=1716796104; cv=none; b=P/9O1sB7r0OqXO70RvTrh6D/V1z+TRP7zjNKH5wA8mVL7dCT420XRMBGn54Ikhfia2LmgwpMC7Y9gp1Tm1fzqfdy53+F7FN/xr8LcLvspnYtKmevcpNc9dU/bRQfJ0rRwa948gR1OKavTdTk3FYMo4LNFpOLNApuTX0YHrxZDz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716795229; c=relaxed/simple;
-	bh=sM3waqZi5Py8B5gp9eUebVVgyZLKmHgjZusBG/2sFQc=;
+	s=arc-20240116; t=1716796104; c=relaxed/simple;
+	bh=snHEB08XY5JQn621PObDnGVEpGYE4z2PihmqwwfM3ZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bA+AskRi5oxlkQWtNoQj4xr55s6bvpCEmpggvU8wZSKoHN4pX1mw19HWrShTqzAhKYpA7Cq5F78bz97joXsTvTqWYaETwENzcSf51XflDMnwPgUK+5HNnJNwaXK0k6OXpsETEtGM72u8VNDHQjDanFdexebPAz62abtZ5OSDdho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mGgb3mx7; arc=none smtp.client-ip=209.85.218.47
+	 Content-Disposition; b=gHYMMo8JOOfRshZh6q2Y9J7kaD5Lg45y+biKXcevdA5eRVNVpDHCHHEH5NVrAHoxSmhMq0y81ns+z6Gqwq+eKIPFk1pySVxSZh1kwWnfeQ18MoxhPG3ViyaBsgj/QNJfyDPhu7LaD0OwgUdEBeBOkD8irUMpepLO4J8fNFtDNAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfGPN5Pj; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mGgb3mx7"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a62614b9ae1so376312466b.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 00:33:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfGPN5Pj"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5295eb47b48so3011875e87.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 00:48:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716795226; x=1717400026; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1716796100; x=1717400900; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=szq8chx5gDw7g2BArhFvSKwjo2xRRP2jZ+0BsRsUTS4=;
-        b=mGgb3mx7m2+0gLflJ4tE+1KkN6QagBmZtZRU3MGX5d9H5vVHUaP88iAII82fqCTzCi
-         ZWCERwOGmi8bx4siklC/QMFfWhDo8zu0tOr0L5FcTysy1Y4yaGbwKqtiNP2pJU6G/4ZW
-         PzSEYkCD/kMkTs8/cJ/jgVGkm3OcTa254LHC4uaXpK8bUIG2JGOWeJNcKljNWxpCXIHq
-         OsyAnM70sz/UoL9la7a+1G+mfItDFNB7IEh8HSW9zUWqas7WzHOncB99987bsfpik548
-         9oJB2hKOryxbRChZCG8IOwNlUIwDwOsADXakQMq9D8q+gbi3K3AUTlllxKSH1G3GEFWG
-         rujQ==
+        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
+        b=wfGPN5Pj++AaujkKZ8wgQBoEy3VNpU89FjdJIqLLRCabSSPgcDOx5odTLp4AzTBui/
+         TwfAfX7CftTqsxYtMVC432ZgWrU6DI8fNJxkJfLW8LgDVxyJSpAGsNKJG7JFIoh0wJl8
+         6lEbGOAV5IKQVHbLxZmlrp1Ma+HTeHg3YMjvIu4XUmShC3Gb4SYp3eaRCtC+IUnCRiBU
+         wTbj2eWQ8Egojh6j/4qHmctPO3GGk/Xv6y2MKvkSP+ld/njxWB6scwANZW74x7hY8OGl
+         u+uX1r38HlX9AtDeQf7gJdgWyqYPfzOgnREmRsNfx+Fk2wDGhCgkJ/ZvRPYfRK5uEkoJ
+         JKOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716795226; x=1717400026;
+        d=1e100.net; s=20230601; t=1716796100; x=1717400900;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=szq8chx5gDw7g2BArhFvSKwjo2xRRP2jZ+0BsRsUTS4=;
-        b=KwXPHvdjXOcaacGAmniLAaZtlk/A5qMJXycaAHg2Bd2Dhz4VtzfusFl8gSmUZ832P8
-         yo1k7XDaf38rpxV/X7WFABrnqMzOMjSNU1IinP9DrPqeJ1T8ocdG0FYtoNpBW6EuQMtv
-         qdct05LRmoobD37ahOlI2ricyU3bB5zKDfJJIx7Nm5y0uFFqHwp1k3urH7BSzSAqIwTm
-         73Q5Zn1uQArn5uWKXW6zEUNh9LSbhlS0kgY7pQTv6rW+vnxS7ckcLvdGElRyoubom1Gv
-         BT0SqQ6ULP/8mXT2FmQmYaieYECOoy91hMt1+MzJnoeHQvRQvMmfs1F9FTSN+tzCHJTI
-         CRpA==
-X-Gm-Message-State: AOJu0YxTHzvEhIJm2GE3ynG9SPAewbqFCewzRTgPK5kSmQwKL7BGatg5
-	l0Rip2/BYK4u8ty8nYp44TnEZTod8sL6K4pwUyBhi8Zbnudg65HUdK/JFCrhnW6fxmBP4qS6nz8
-	t
-X-Google-Smtp-Source: AGHT+IH+90KDj7wUtUPGfkFPzREA2Ne+OCwWNFgFXaN8yooMX2efgf6yPt1bDl2sO5lsktUrLUoK0g==
-X-Received: by 2002:a17:906:59a2:b0:a62:a530:32aa with SMTP id a640c23a62f3a-a62a53038ddmr333019166b.19.1716795225701;
-        Mon, 27 May 2024 00:33:45 -0700 (PDT)
+        bh=G0F8xDz21HTi5SrFsLB+iyLzGOKVclLkyve6qrrpHP8=;
+        b=styzFBUmGHIzxkIYqOAz/6vg/uHhoH7q0J/Qj84ROJrlHd9UxJWthaVMaxWN5WdVtw
+         ThdcPNL/tK/g6C/lX73cJU7aVR6n1UP5oyKVEDWUGfBOHDn4S8TvnuW1+FsqWexbEobS
+         6jANnfmWqOZvIFDlOUAgTT0CuL02vARnv4CncjHbjGWlGh+UwBT6JdGGyMnH7qKYrUfI
+         bhEH7QTSytQ0qtgc0FNKl/g486Ge/vMbG3CGidXOl3YhIu006Rd+E1d340K5ITAwTpeN
+         tA+weVLGfzJgPTd8HqOvJVVoIQ9ekamPD2kWJX9eo3kp/35KTKLaF2yhoCREw8nhtxVP
+         2E1Q==
+X-Gm-Message-State: AOJu0Ywj3E3hYud64fJm31PL4Y+mXNwa/JWusigFkRPRRsuXqC/oeT4m
+	tpP/rUwaM1O1F2NInqT0lrfICtL30XO4MH5fPoMBkW9KiC0GFGbz1Q9AqBLc22ANN0u8CjBxLX0
+	c
+X-Google-Smtp-Source: AGHT+IH4t/IBOf/Ew7gwWEo6+jgoCpj8r+bvyE+lZiUzS0bhtYDCCBlqMIU+yWaaueZRRxr5Vu1LEA==
+X-Received: by 2002:a05:6512:10cc:b0:523:7f19:cb44 with SMTP id 2adb3069b0e04-52965198b94mr7303495e87.29.1716796100209;
+        Mon, 27 May 2024 00:48:20 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8b9b7sm459717666b.151.2024.05.27.00.33.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cda48e6sm458737266b.203.2024.05.27.00.48.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 00:33:45 -0700 (PDT)
-Date: Mon, 27 May 2024 10:33:41 +0300
+        Mon, 27 May 2024 00:48:19 -0700 (PDT)
+Date: Mon, 27 May 2024 10:48:15 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-msg_ring 5/6] io_uring/msg_ring.c:133
- io_msg_fill_remote() error: uninitialized symbol 'ocqe'.
-Message-ID: <6e45c650-2bd5-4b09-9157-19d0a0fe3b53@moroto.mountain>
+To: oe-kbuild@lists.linux.dev, David Gstir <david@sigma-star.at>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+Subject: drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized
+ symbol 'key_phys'.
+Message-ID: <129493f0-211f-408f-8435-2e6fead3f07b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,91 +69,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-msg_ring
-head:   558d3cfd371df365ab388a0cc86b410a6e2d305c
-commit: fb2eeb0dbfa4112219f87a805ddaa15967dc57c6 [5/6] io_uring/msg_ring: add an alloc cache for CQE entries
-config: i386-randconfig-141-20240526 (https://download.01.org/0day-ci/archive/20240526/202405261421.LEU6xUnr-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c13320499ba0efd93174ef6462ae8a7a2933f6e7
+commit: 3d16af0b4cfac4b2c3b238e2ec37b38c2f316978 crypto: mxs-dcp: Add support for hardware-bound keys
+config: arm-randconfig-r071-20240524 (https://download.01.org/0day-ci/archive/20240527/202405270146.Y9tPoil8-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202405261421.LEU6xUnr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405270146.Y9tPoil8-lkp@intel.com/
 
-New smatch warnings:
-io_uring/msg_ring.c:133 io_msg_fill_remote() error: uninitialized symbol 'ocqe'.
-io_uring/msg_ring.c:142 io_msg_fill_remote() warn: inconsistent returns '&target_ctx->uring_lock'.
-io_uring/msg_ring.c:265 io_msg_install_remote() warn: inconsistent returns '&target_ctx->uring_lock'.
+smatch warnings:
+drivers/crypto/mxs-dcp.c:292 mxs_dcp_run_aes() error: uninitialized symbol 'key_phys'.
 
-vim +/ocqe +133 io_uring/msg_ring.c
+vim +/key_phys +292 drivers/crypto/mxs-dcp.c
 
-6d043ee1164ca3 Pavel Begunkov    2022-12-07  126  
-1d04718b61b885 Jens Axboe        2024-05-24  127  static int io_msg_fill_remote(struct io_msg *msg, unsigned int issue_flags,
-1d04718b61b885 Jens Axboe        2024-05-24  128  			      struct io_ring_ctx *target_ctx, u32 flags)
-1d04718b61b885 Jens Axboe        2024-05-24  129  {
-1d04718b61b885 Jens Axboe        2024-05-24  130  	struct io_overflow_cqe *ocqe;
-1d04718b61b885 Jens Axboe        2024-05-24  131  
-1d04718b61b885 Jens Axboe        2024-05-24  132  	if (unlikely(io_double_lock_ctx(target_ctx, issue_flags))) {
-1d04718b61b885 Jens Axboe        2024-05-24 @133  		kfree(ocqe);
-                                                                      ^^^^
-Heh.
+2021abaa00da64a Marek Vasut    2014-01-14  225  static int mxs_dcp_run_aes(struct dcp_async_ctx *actx,
+9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  226  			   struct skcipher_request *req, int init)
+15b59e7c3733f90 Marek Vasut    2013-12-10  227  {
+df6313d707e575a Sean Anderson  2021-07-01  228  	dma_addr_t key_phys, src_phys, dst_phys;
+15b59e7c3733f90 Marek Vasut    2013-12-10  229  	struct dcp *sdcp = global_sdcp;
+15b59e7c3733f90 Marek Vasut    2013-12-10  230  	struct dcp_dma_desc *desc = &sdcp->coh->desc[actx->chan];
+9acb3247e0e1d94 Ard Biesheuvel 2019-11-09  231  	struct dcp_aes_req_ctx *rctx = skcipher_request_ctx(req);
+3d16af0b4cfac4b David Gstir    2024-04-03  232  	bool key_referenced = actx->key_referenced;
+15b59e7c3733f90 Marek Vasut    2013-12-10  233  	int ret;
+15b59e7c3733f90 Marek Vasut    2013-12-10  234  
+3d16af0b4cfac4b David Gstir    2024-04-03  235  	if (!key_referenced) {
+df6313d707e575a Sean Anderson  2021-07-01  236  		key_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_key,
+df6313d707e575a Sean Anderson  2021-07-01  237  					  2 * AES_KEYSIZE_128, DMA_TO_DEVICE);
+df6313d707e575a Sean Anderson  2021-07-01  238  		ret = dma_mapping_error(sdcp->dev, key_phys);
+df6313d707e575a Sean Anderson  2021-07-01  239  		if (ret)
+df6313d707e575a Sean Anderson  2021-07-01  240  			return ret;
+3d16af0b4cfac4b David Gstir    2024-04-03  241  	}
 
-1d04718b61b885 Jens Axboe        2024-05-24  134  		return -EAGAIN;
-1d04718b61b885 Jens Axboe        2024-05-24  135  	}
-1d04718b61b885 Jens Axboe        2024-05-24  136  
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  137  	ocqe = io_alloc_overflow(target_ctx);
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  138  	if (!ocqe)
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  139  		return -ENOMEM;
+key_phys not initialized on else path.
 
-Drop the lock before returning?
+df6313d707e575a Sean Anderson  2021-07-01  242  
+df6313d707e575a Sean Anderson  2021-07-01  243  	src_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_in_buf,
+15b59e7c3733f90 Marek Vasut    2013-12-10  244  				  DCP_BUF_SZ, DMA_TO_DEVICE);
+df6313d707e575a Sean Anderson  2021-07-01  245  	ret = dma_mapping_error(sdcp->dev, src_phys);
+df6313d707e575a Sean Anderson  2021-07-01  246  	if (ret)
+df6313d707e575a Sean Anderson  2021-07-01  247  		goto err_src;
+df6313d707e575a Sean Anderson  2021-07-01  248  
+df6313d707e575a Sean Anderson  2021-07-01  249  	dst_phys = dma_map_single(sdcp->dev, sdcp->coh->aes_out_buf,
+15b59e7c3733f90 Marek Vasut    2013-12-10  250  				  DCP_BUF_SZ, DMA_FROM_DEVICE);
+df6313d707e575a Sean Anderson  2021-07-01  251  	ret = dma_mapping_error(sdcp->dev, dst_phys);
+df6313d707e575a Sean Anderson  2021-07-01  252  	if (ret)
+df6313d707e575a Sean Anderson  2021-07-01  253  		goto err_dst;
+15b59e7c3733f90 Marek Vasut    2013-12-10  254  
+fadd7a6e616b89c Radu Solea     2018-10-02  255  	if (actx->fill % AES_BLOCK_SIZE) {
+fadd7a6e616b89c Radu Solea     2018-10-02  256  		dev_err(sdcp->dev, "Invalid block size!\n");
+fadd7a6e616b89c Radu Solea     2018-10-02  257  		ret = -EINVAL;
+fadd7a6e616b89c Radu Solea     2018-10-02  258  		goto aes_done_run;
+fadd7a6e616b89c Radu Solea     2018-10-02  259  	}
+fadd7a6e616b89c Radu Solea     2018-10-02  260  
+15b59e7c3733f90 Marek Vasut    2013-12-10  261  	/* Fill in the DMA descriptor. */
+15b59e7c3733f90 Marek Vasut    2013-12-10  262  	desc->control0 = MXS_DCP_CONTROL0_DECR_SEMAPHORE |
+15b59e7c3733f90 Marek Vasut    2013-12-10  263  		    MXS_DCP_CONTROL0_INTERRUPT |
+15b59e7c3733f90 Marek Vasut    2013-12-10  264  		    MXS_DCP_CONTROL0_ENABLE_CIPHER;
+15b59e7c3733f90 Marek Vasut    2013-12-10  265  
+3d16af0b4cfac4b David Gstir    2024-04-03  266  	if (key_referenced)
+3d16af0b4cfac4b David Gstir    2024-04-03  267  		/* Set OTP key bit to select the key via KEY_SELECT. */
+3d16af0b4cfac4b David Gstir    2024-04-03  268  		desc->control0 |= MXS_DCP_CONTROL0_OTP_KEY;
+3d16af0b4cfac4b David Gstir    2024-04-03  269  	else
+15b59e7c3733f90 Marek Vasut    2013-12-10  270  		/* Payload contains the key. */
+15b59e7c3733f90 Marek Vasut    2013-12-10  271  		desc->control0 |= MXS_DCP_CONTROL0_PAYLOAD_KEY;
+15b59e7c3733f90 Marek Vasut    2013-12-10  272  
+2021abaa00da64a Marek Vasut    2014-01-14  273  	if (rctx->enc)
+15b59e7c3733f90 Marek Vasut    2013-12-10  274  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_ENCRYPT;
+15b59e7c3733f90 Marek Vasut    2013-12-10  275  	if (init)
+15b59e7c3733f90 Marek Vasut    2013-12-10  276  		desc->control0 |= MXS_DCP_CONTROL0_CIPHER_INIT;
+15b59e7c3733f90 Marek Vasut    2013-12-10  277  
+15b59e7c3733f90 Marek Vasut    2013-12-10  278  	desc->control1 = MXS_DCP_CONTROL1_CIPHER_SELECT_AES128;
+15b59e7c3733f90 Marek Vasut    2013-12-10  279  
+2021abaa00da64a Marek Vasut    2014-01-14  280  	if (rctx->ecb)
+15b59e7c3733f90 Marek Vasut    2013-12-10  281  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_ECB;
+15b59e7c3733f90 Marek Vasut    2013-12-10  282  	else
+15b59e7c3733f90 Marek Vasut    2013-12-10  283  		desc->control1 |= MXS_DCP_CONTROL1_CIPHER_MODE_CBC;
+15b59e7c3733f90 Marek Vasut    2013-12-10  284  
+3d16af0b4cfac4b David Gstir    2024-04-03  285  	if (key_referenced)
+3d16af0b4cfac4b David Gstir    2024-04-03  286  		desc->control1 |= sdcp->coh->aes_key[0] << MXS_DCP_CONTROL1_KEY_SELECT_SHIFT;
+3d16af0b4cfac4b David Gstir    2024-04-03  287  
+15b59e7c3733f90 Marek Vasut    2013-12-10  288  	desc->next_cmd_addr = 0;
+15b59e7c3733f90 Marek Vasut    2013-12-10  289  	desc->source = src_phys;
+15b59e7c3733f90 Marek Vasut    2013-12-10  290  	desc->destination = dst_phys;
+15b59e7c3733f90 Marek Vasut    2013-12-10  291  	desc->size = actx->fill;
+15b59e7c3733f90 Marek Vasut    2013-12-10 @292  	desc->payload = key_phys;
+                                                                        ^^^^^^^^
+Uninitialized.
 
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  140  
-1d04718b61b885 Jens Axboe        2024-05-24  141  	io_msg_add_overflow(msg, target_ctx, ocqe, msg->len, flags);
-1d04718b61b885 Jens Axboe        2024-05-24 @142  	return 0;
-6d043ee1164ca3 Pavel Begunkov    2022-12-07  143  }
-
-[ snip ]
-
-37501cb5c8a5bc Jens Axboe        2024-05-24  237  static int io_msg_install_remote(struct io_msg *msg, unsigned int issue_flags,
-37501cb5c8a5bc Jens Axboe        2024-05-24  238  				 struct io_ring_ctx *target_ctx)
-6d043ee1164ca3 Pavel Begunkov    2022-12-07  239  {
-37501cb5c8a5bc Jens Axboe        2024-05-24  240  	bool skip_cqe = msg->flags & IORING_MSG_RING_CQE_SKIP;
-37501cb5c8a5bc Jens Axboe        2024-05-24  241  	struct io_overflow_cqe *ocqe;
-37501cb5c8a5bc Jens Axboe        2024-05-24  242  	int ret;
-6d043ee1164ca3 Pavel Begunkov    2022-12-07  243  
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  244  	if (unlikely(io_double_lock_ctx(target_ctx, issue_flags))) {
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  245  		kfree(ocqe);
-                                                                ^^^^^^^^^^^
-
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  246  		return -EAGAIN;
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  247  	}
-fb2eeb0dbfa411 Jens Axboe        2024-05-25  248  
-37501cb5c8a5bc Jens Axboe        2024-05-24  249  	if (!skip_cqe) {
-37501cb5c8a5bc Jens Axboe        2024-05-24  250  		ocqe = io_alloc_overflow(target_ctx);
-37501cb5c8a5bc Jens Axboe        2024-05-24  251  		if (!ocqe)
-37501cb5c8a5bc Jens Axboe        2024-05-24  252  			return -ENOMEM;
-
-Drop the lock?
-
-37501cb5c8a5bc Jens Axboe        2024-05-24  253  	}
-37501cb5c8a5bc Jens Axboe        2024-05-24  254  
-37501cb5c8a5bc Jens Axboe        2024-05-24  255  	ret = __io_fixed_fd_install(target_ctx, msg->src_file, msg->dst_fd);
-37501cb5c8a5bc Jens Axboe        2024-05-24  256  	if (ret >= 0) {
-37501cb5c8a5bc Jens Axboe        2024-05-24  257  		msg->src_file = NULL;
-37501cb5c8a5bc Jens Axboe        2024-05-24  258  		if (!skip_cqe) {
-37501cb5c8a5bc Jens Axboe        2024-05-24  259  			io_msg_add_overflow(msg, target_ctx, ocqe, ret, 0);
-37501cb5c8a5bc Jens Axboe        2024-05-24  260  			return 0;
-37501cb5c8a5bc Jens Axboe        2024-05-24  261  		}
-37501cb5c8a5bc Jens Axboe        2024-05-24  262  	}
-37501cb5c8a5bc Jens Axboe        2024-05-24  263  	mutex_unlock(&target_ctx->uring_lock);
-37501cb5c8a5bc Jens Axboe        2024-05-24  264  	kfree(ocqe);
-                                                        ^^^^^^^^^^^^
-ocqe uninitilaized on skip_cqe path.
-
-
-37501cb5c8a5bc Jens Axboe        2024-05-24 @265  	return ret;
-6d043ee1164ca3 Pavel Begunkov    2022-12-07  266  }
+15b59e7c3733f90 Marek Vasut    2013-12-10  293  	desc->status = 0;
+15b59e7c3733f90 Marek Vasut    2013-12-10  294  
+15b59e7c3733f90 Marek Vasut    2013-12-10  295  	ret = mxs_dcp_start_dma(actx);
+15b59e7c3733f90 Marek Vasut    2013-12-10  296  
+fadd7a6e616b89c Radu Solea     2018-10-02  297  aes_done_run:
+df6313d707e575a Sean Anderson  2021-07-01  298  	dma_unmap_single(sdcp->dev, dst_phys, DCP_BUF_SZ, DMA_FROM_DEVICE);
+df6313d707e575a Sean Anderson  2021-07-01  299  err_dst:
+df6313d707e575a Sean Anderson  2021-07-01  300  	dma_unmap_single(sdcp->dev, src_phys, DCP_BUF_SZ, DMA_TO_DEVICE);
+df6313d707e575a Sean Anderson  2021-07-01  301  err_src:
+3d16af0b4cfac4b David Gstir    2024-04-03  302  	if (!key_referenced)
+15b59e7c3733f90 Marek Vasut    2013-12-10  303  		dma_unmap_single(sdcp->dev, key_phys, 2 * AES_KEYSIZE_128,
+15b59e7c3733f90 Marek Vasut    2013-12-10  304  				 DMA_TO_DEVICE);
+15b59e7c3733f90 Marek Vasut    2013-12-10  305  	return ret;
+15b59e7c3733f90 Marek Vasut    2013-12-10  306  }
 
 -- 
 0-DAY CI Kernel Test Service
