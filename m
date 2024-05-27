@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCC414F9C9
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 11:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F1E2208E
+	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 22:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716809090; cv=none; b=VqVOj3mCo3BXy/DCYXX1KyZRZFXvCUGNruAjudg+fRHU2CayFOXvMm5YRh8egMHGRQVqxmTU67fEFoKo7/AfJvzB9RTHbHx/bUhK6iJPiehEpKl7HQV5YTPDjEmjo9jbT6KtdR+CyEMiWFWFkmRGESKhlRtiReT7EcjqBlPFq/o=
+	t=1716849291; cv=none; b=sjOCknpGBqzoh17vKtX2iZ1Bq+Xkdb6fFtuEhq38VPEB5CFbwmPaq5pmSpLIklf0C/pTWtehZ+zYSh4C4RFfcSZDxFiiggqPJdupZIZ33mtza0Bub7cDvvo+LK0eTvrPCB8GCFH6m6SJ1fqD/PtLJ+VGxR0W+ykDcywe1k85wDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716809090; c=relaxed/simple;
-	bh=8E/Scu9ADpnjW6AdjAAb3pxogNOFybJ1EknB7amcgKo=;
+	s=arc-20240116; t=1716849291; c=relaxed/simple;
+	bh=wTBagEfK5dD6H7Sx30LmNnlEwFAhIK+fVySrv5h8Kto=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f9FK2oBS/WLRE57stibtcecHCeEfioTWxGnMVryQ7coTirqHRrsy0/DZOmQEcPKa+OM7KoWf/GtzhIHOtTHmNjXoj6vEWZ9755lQx97SGkfVnrZvDq56h2kVERw8AJhMMtGCbZ7Ro7ZrhdDFpZMQ5PHnSLtHbCfF5alf4i2daiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdLyQ4MK; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=SEVE67eeKYZadWcFkZCdYekd2RiXrBfEx2QC5jBLh1/PRvJ52NVNY5WN+WuUyoTE1WyO0gojAyUR6VVQs54l/U/Jjs2Khpc70MDLmaTLBgXX/rXPXsUnvWrE1gOqVn9Q/i2gpFBu0Icv1xiLkSrd5iIhLMOmEf/D9rtYGy5hLW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdMoI4EZ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdLyQ4MK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdMoI4EZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716809088; x=1748345088;
+  t=1716849290; x=1748385290;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8E/Scu9ADpnjW6AdjAAb3pxogNOFybJ1EknB7amcgKo=;
-  b=HdLyQ4MK2E0uQwovSLUnVh9d6Hrxv7Jih67uZ6/mXBeS5SZcBXKh6JRF
-   rzmGkZd/21ZGbcVmBh5eA50Z3QejlZGmor8A8jGP4vjs7yssFC2NYW14H
-   HkInjSle1SzTgHhX21TeEjZNQZ9+xU/yOfCaUbLnJ7d5Z3Q9h8tc/3Wgv
-   noZE3aUwWsyJLuCzFaTcTa7zSSrLB8RgQH6HWilpGHw2B3MUo8lMLjeue
-   tiOS1ydKZeP3LmWdGJVO+5W3g0cuXCxbUZQebLO9sCguKeMUPg8m/8nz3
-   reUW+M7Lqos56dbfoGlx8Z1cZtvFdeukDBhUhtZOmyNab5EUTsgx2wXn/
+  bh=wTBagEfK5dD6H7Sx30LmNnlEwFAhIK+fVySrv5h8Kto=;
+  b=XdMoI4EZG6HluWrilUDeBmcOD3Uf4pWdPzJKN+lk85hPXmuo077fDAJX
+   jq35BNU43oVOT3X9tw45vuVeeWYomIQzmmAWYt14hyOFaWITqDus5ZHGv
+   +ZnURqOpJFRkn96iyGMJTTOpDe8HPVlIzIQiBh0HPaH+FIZeM/2Kt0rp5
+   jzKoIabFoodXX1VI5l01dDRy/0je+e5frHEd41gmEm8gRl8BwIAaPFeih
+   o3UjEcW5B6l7CKsB3P1e/lg3geJw/BWqsYoPMDys2jHHJHWVvYV7hIrr5
+   iiobu7lud47apYYHeRqklm9ysmQ7SXWJWCJrUDKcv9DgF2uuRhDt9oQdI
    g==;
-X-CSE-ConnectionGUID: i8s75cQ8SDyjtOG7ndxg8w==
-X-CSE-MsgGUID: bvbWrOrYQxqoZqQfM1iZAg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="12972100"
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="12972100"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 04:24:46 -0700
-X-CSE-ConnectionGUID: e6CAn3iOQX6wF6zF+P3BBA==
-X-CSE-MsgGUID: 1e9JV6E2SsmUGg6hgU+56Q==
+X-CSE-ConnectionGUID: PFM3tJB4QkWhgMfnRHzNGA==
+X-CSE-MsgGUID: js3QM9tATw2/jyE4fFB54g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13361443"
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
+   d="scan'208";a="13361443"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 15:34:49 -0700
+X-CSE-ConnectionGUID: UnK7onbbRN+9aUSEa/O0LQ==
+X-CSE-MsgGUID: 4ocQk7qzQz2CwS939WpLNg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,192,1712646000"; 
-   d="scan'208";a="65516583"
+X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
+   d="scan'208";a="34782243"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 May 2024 04:24:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 27 May 2024 15:34:48 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sBYT4-000A6d-2J;
-	Mon, 27 May 2024 11:24:42 +0000
-Date: Mon, 27 May 2024 19:24:37 +0800
+	id 1sBivV-000B9X-1j;
+	Mon, 27 May 2024 22:34:45 +0000
+Date: Tue, 28 May 2024 06:34:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:openEuler-1.0-LTS 20772/22523] drivers/block/loop.c:1338
- loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <202405271931.9l9gk18c-lkp@intel.com>
+Subject: Re: [PATCH v3 3/3] leds: leds-lp5569: Add support for Texas
+ Instruments LP5569
+Message-ID: <202405280611.QUICzlRj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,163 +64,106 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yongqiang Liu <duanzi@zju.edu.cn>
+In-Reply-To: <20240527094737.13354-3-ansuelsmth@gmail.com>
+References: <20240527094737.13354-3-ansuelsmth@gmail.com>
+TO: Christian Marangi <ansuelsmth@gmail.com>
+TO: Pavel Machek <pavel@ucw.cz>
+TO: Lee Jones <lee@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+TO: linux-leds@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Christian Marangi <ansuelsmth@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b61ca68689b492a15400db11ef5d3ede708b1a60
-commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/22523] loop: Check for overflow while configuring loop
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240527/202405271931.9l9gk18c-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+Hi Christian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on robh/for-next linus/master v6.10-rc1 next-20240523]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-leds-lp55xx-Add-new-ti-lp5569-compatible/20240527-174959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20240527094737.13354-3-ansuelsmth%40gmail.com
+patch subject: [PATCH v3 3/3] leds: leds-lp5569: Add support for Texas Instruments LP5569
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: sparc-randconfig-r071-20240528 (https://download.01.org/0day-ci/archive/20240528/202405280611.QUICzlRj-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405271931.9l9gk18c-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202405280611.QUICzlRj-lkp@intel.com/
 
 New smatch warnings:
-drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
+drivers/leds/leds-lp5569.c:378 lp5569_update_program_memory() error: buffer overflow 'pattern' 128 <= 223
 
 Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
+drivers/leds/leds-lp5569.c:980 lp5569_multicolor_brightness() error: uninitialized symbol 'ret'.
 
-vim +1338 drivers/block/loop.c
+vim +/pattern +378 drivers/leds/leds-lp5569.c
 
-04799b3a91ea371 Jan Kara          2018-11-08  1216  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1217  static int
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1219  {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1220  	int err;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1221  	struct loop_func_table *xfer;
-e4849737f76c876 Eric W. Biederman 2012-02-11  1222  	kuid_t uid = current_uid();
-2a7d01129974075 Jan Kara          2018-11-08  1223  	struct block_device *bdev;
-2a7d01129974075 Jan Kara          2018-11-08  1224  	bool partscan = false;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1225  
-afa528900c5f5ca Jan Kara          2018-11-08  1226  	err = mutex_lock_killable(&loop_ctl_mutex);
-cb26630f0424088 Jan Kara          2018-11-08  1227  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1228  		return err;
-b0fafa816ece008 David Howells     2008-11-14  1229  	if (lo->lo_encrypt_key_size &&
-e4849737f76c876 Eric W. Biederman 2012-02-11  1230  	    !uid_eq(lo->lo_key_owner, uid) &&
-cb26630f0424088 Jan Kara          2018-11-08  1231  	    !capable(CAP_SYS_ADMIN)) {
-cb26630f0424088 Jan Kara          2018-11-08  1232  		err = -EPERM;
-cb26630f0424088 Jan Kara          2018-11-08  1233  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1234  	}
-cb26630f0424088 Jan Kara          2018-11-08  1235  	if (lo->lo_state != Lo_bound) {
-cb26630f0424088 Jan Kara          2018-11-08  1236  		err = -ENXIO;
-cb26630f0424088 Jan Kara          2018-11-08  1237  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1238  	}
-cb26630f0424088 Jan Kara          2018-11-08  1239  	if ((unsigned int) info->lo_encrypt_key_size > LO_KEY_SIZE) {
-cb26630f0424088 Jan Kara          2018-11-08  1240  		err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1241  		goto out_unlock;
-cb26630f0424088 Jan Kara          2018-11-08  1242  	}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1243  
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1244  	if (lo->lo_offset != info->lo_offset ||
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1245  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1246  		sync_blockdev(lo->lo_device);
-2476d843de47880 Zheng Bin         2020-09-22  1247  		invalidate_bdev(lo->lo_device);
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1248  	}
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1249  
-ecdd09597a57251 Ming Lei          2017-02-11  1250  	/* I/O need to be drained during transfer transition */
-ecdd09597a57251 Ming Lei          2017-02-11  1251  	blk_mq_freeze_queue(lo->lo_queue);
-ecdd09597a57251 Ming Lei          2017-02-11  1252  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1253  	err = loop_release_xfer(lo);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1254  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1255  		goto out_unfreeze;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1256  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1257  	if (info->lo_encrypt_type) {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1258  		unsigned int type = info->lo_encrypt_type;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1259  
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1260  		if (type >= MAX_LO_CRYPT) {
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1261  			err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1262  			goto out_unfreeze;
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1263  		}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1264  		xfer = xfer_funcs[type];
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1265  		if (xfer == NULL) {
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1266  			err = -EINVAL;
-cb26630f0424088 Jan Kara          2018-11-08  1267  			goto out_unfreeze;
-1e047eaab3bb556 Tetsuo Handa      2018-04-06  1268  		}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1269  	} else
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1270  		xfer = NULL;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1271  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1272  	err = loop_init_xfer(lo, xfer, info);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1273  	if (err)
-cb26630f0424088 Jan Kara          2018-11-08  1274  		goto out_unfreeze;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1275  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1276  	if (lo->lo_offset != info->lo_offset ||
-1e6ec9ea89d3073 Omar Sandoval     2017-08-23  1277  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1278  		/* kill_bdev should have truncated all the pages */
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1279  		if (lo->lo_device->bd_inode->i_mapping->nrpages) {
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1280  			err = -EAGAIN;
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1281  			pr_warn("%s: loop%d (%s) has still dirty pages (nrpages=%lu)\n",
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1282  				__func__, lo->lo_number, lo->lo_file_name,
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1283  				lo->lo_device->bd_inode->i_mapping->nrpages);
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1284  			goto out_unfreeze;
-5aa6c2bd16d7977 Jaegeuk Kim       2019-01-09  1285  		}
-1e6ec9ea89d3073 Omar Sandoval     2017-08-23  1286  		if (figure_loop_size(lo, info->lo_offset, info->lo_sizelimit)) {
-ecdd09597a57251 Ming Lei          2017-02-11  1287  			err = -EFBIG;
-cb26630f0424088 Jan Kara          2018-11-08  1288  			goto out_unfreeze;
-ecdd09597a57251 Ming Lei          2017-02-11  1289  		}
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
-1472bb0a05bd28c Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
-b040ad9cf6a169c Arnd Bergmann     2017-06-09  1293  	}
-541c742a7559eb6 Guo Chao          2013-02-21  1294  
-dfaa2ef68e80c37 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1296  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1297  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1298  	memcpy(lo->lo_crypt_name, info->lo_crypt_name, LO_NAME_SIZE);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1299  	lo->lo_file_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1300  	lo->lo_crypt_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1301  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1302  	if (!xfer)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1303  		xfer = &none_funcs;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1304  	lo->transfer = xfer->transfer;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1305  	lo->ioctl = xfer->ioctl;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1306  
-96c5865559cee0f David Woodhouse   2008-02-06  1307  	if ((lo->lo_flags & LO_FLAGS_AUTOCLEAR) !=
-96c5865559cee0f David Woodhouse   2008-02-06  1308  	     (info->lo_flags & LO_FLAGS_AUTOCLEAR))
-96c5865559cee0f David Woodhouse   2008-02-06  1309  		lo->lo_flags ^= LO_FLAGS_AUTOCLEAR;
-96c5865559cee0f David Woodhouse   2008-02-06  1310  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1311  	lo->lo_encrypt_key_size = info->lo_encrypt_key_size;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1312  	lo->lo_init[0] = info->lo_init[0];
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1313  	lo->lo_init[1] = info->lo_init[1];
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1314  	if (info->lo_encrypt_key_size) {
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1315  		memcpy(lo->lo_encrypt_key, info->lo_encrypt_key,
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1316  		       info->lo_encrypt_key_size);
-b0fafa816ece008 David Howells     2008-11-14  1317  		lo->lo_key_owner = uid;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1318  	}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1319  
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1320  	/* update dio if lo_offset or transfer is changed */
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1321  	__loop_update_dio(lo, lo->use_dio);
-2e5ab5f379f96a6 Ming Lei          2015-08-17  1322  
-cb26630f0424088 Jan Kara          2018-11-08  1323  out_unfreeze:
-ecdd09597a57251 Ming Lei          2017-02-11  1324  	blk_mq_unfreeze_queue(lo->lo_queue);
-e02898b423802b1 Omar Sandoval     2017-03-01  1325  
-e02898b423802b1 Omar Sandoval     2017-03-01  1326  	if (!err && (info->lo_flags & LO_FLAGS_PARTSCAN) &&
-e02898b423802b1 Omar Sandoval     2017-03-01  1327  	     !(lo->lo_flags & LO_FLAGS_PARTSCAN)) {
-e02898b423802b1 Omar Sandoval     2017-03-01  1328  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
-e02898b423802b1 Omar Sandoval     2017-03-01  1329  		lo->lo_disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-2a7d01129974075 Jan Kara          2018-11-08  1330  		bdev = lo->lo_device;
-2a7d01129974075 Jan Kara          2018-11-08  1331  		partscan = true;
-e02898b423802b1 Omar Sandoval     2017-03-01  1332  	}
-cb26630f0424088 Jan Kara          2018-11-08  1333  out_unlock:
-cb26630f0424088 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex);
-2a7d01129974075 Jan Kara          2018-11-08  1335  	if (partscan)
-2a7d01129974075 Jan Kara          2018-11-08  1336  		loop_reread_partitions(lo, bdev);
-e02898b423802b1 Omar Sandoval     2017-03-01  1337  
-ecdd09597a57251 Ming Lei          2017-02-11 @1338  	return err;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1339  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1340  
-
-:::::: The code at line 1338 was first introduced by commit
-:::::: ecdd09597a57251323b0de50e3d45e69298c4a83 block/loop: fix race between I/O and set_status
-
-:::::: TO: Ming Lei <tom.leiming@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
+ed7ae4f43e228c Christian Marangi 2024-05-27  339  
+ed7ae4f43e228c Christian Marangi 2024-05-27  340  static int lp5569_update_program_memory(struct lp55xx_chip *chip,
+ed7ae4f43e228c Christian Marangi 2024-05-27  341  					const u8 *data, size_t size)
+ed7ae4f43e228c Christian Marangi 2024-05-27  342  {
+ed7ae4f43e228c Christian Marangi 2024-05-27  343  	enum lp55xx_engine_index idx = chip->engine_idx;
+ed7ae4f43e228c Christian Marangi 2024-05-27  344  	u8 pattern[LP5569_PROGRAM_LENGTH] = {0};
+ed7ae4f43e228c Christian Marangi 2024-05-27  345  	unsigned int cmd;
+ed7ae4f43e228c Christian Marangi 2024-05-27  346  	char c[3];
+ed7ae4f43e228c Christian Marangi 2024-05-27  347  	int nrchars;
+ed7ae4f43e228c Christian Marangi 2024-05-27  348  	int ret;
+ed7ae4f43e228c Christian Marangi 2024-05-27  349  	int offset = 0;
+ed7ae4f43e228c Christian Marangi 2024-05-27  350  	int page, i = 0;
+ed7ae4f43e228c Christian Marangi 2024-05-27  351  
+ed7ae4f43e228c Christian Marangi 2024-05-27  352  	while ((offset < size - 1) && (i < LP5569_PROGRAM_LENGTH)) {
+ed7ae4f43e228c Christian Marangi 2024-05-27  353  		/* separate sscanfs because length is working only for %s */
+ed7ae4f43e228c Christian Marangi 2024-05-27  354  		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
+ed7ae4f43e228c Christian Marangi 2024-05-27  355  		if (ret != 1)
+ed7ae4f43e228c Christian Marangi 2024-05-27  356  			goto err;
+ed7ae4f43e228c Christian Marangi 2024-05-27  357  
+ed7ae4f43e228c Christian Marangi 2024-05-27  358  		ret = sscanf(c, "%2x", &cmd);
+ed7ae4f43e228c Christian Marangi 2024-05-27  359  		if (ret != 1)
+ed7ae4f43e228c Christian Marangi 2024-05-27  360  			goto err;
+ed7ae4f43e228c Christian Marangi 2024-05-27  361  
+ed7ae4f43e228c Christian Marangi 2024-05-27  362  		pattern[i] = (u8)cmd;
+ed7ae4f43e228c Christian Marangi 2024-05-27  363  		offset += nrchars;
+ed7ae4f43e228c Christian Marangi 2024-05-27  364  		i++;
+ed7ae4f43e228c Christian Marangi 2024-05-27  365  	}
+ed7ae4f43e228c Christian Marangi 2024-05-27  366  
+ed7ae4f43e228c Christian Marangi 2024-05-27  367  	/* Each instruction is 16bit long. Check that length is even */
+ed7ae4f43e228c Christian Marangi 2024-05-27  368  	if (i % 2)
+ed7ae4f43e228c Christian Marangi 2024-05-27  369  		goto err;
+ed7ae4f43e228c Christian Marangi 2024-05-27  370  
+ed7ae4f43e228c Christian Marangi 2024-05-27  371  	for (page = 0; page < LP5569_PROGRAM_LENGTH / LP5569_BYTES_PER_PAGE; page++) {
+ed7ae4f43e228c Christian Marangi 2024-05-27  372  		/* Write to the next page each 32 bytes */
+ed7ae4f43e228c Christian Marangi 2024-05-27  373  		lp55xx_write(chip, LP5569_REG_PROG_PAGE_SEL,
+ed7ae4f43e228c Christian Marangi 2024-05-27  374  			     LP5569_PAGE_ENG(idx) + page);
+ed7ae4f43e228c Christian Marangi 2024-05-27  375  
+ed7ae4f43e228c Christian Marangi 2024-05-27  376  		for (i = 0; i < LP5569_PROGRAM_LENGTH; i++) {
+ed7ae4f43e228c Christian Marangi 2024-05-27  377  			ret = lp55xx_write(chip, LP5569_REG_PROG_MEM + i,
+ed7ae4f43e228c Christian Marangi 2024-05-27 @378  					   pattern[i + (page * LP5569_BYTES_PER_PAGE)]);
+ed7ae4f43e228c Christian Marangi 2024-05-27  379  			if (ret)
+ed7ae4f43e228c Christian Marangi 2024-05-27  380  				return -EINVAL;
+ed7ae4f43e228c Christian Marangi 2024-05-27  381  		}
+ed7ae4f43e228c Christian Marangi 2024-05-27  382  	}
+ed7ae4f43e228c Christian Marangi 2024-05-27  383  
+ed7ae4f43e228c Christian Marangi 2024-05-27  384  
+ed7ae4f43e228c Christian Marangi 2024-05-27  385  	return size;
+ed7ae4f43e228c Christian Marangi 2024-05-27  386  
+ed7ae4f43e228c Christian Marangi 2024-05-27  387  err:
+ed7ae4f43e228c Christian Marangi 2024-05-27  388  	dev_err(&chip->cl->dev, "wrong pattern format\n");
+ed7ae4f43e228c Christian Marangi 2024-05-27  389  	return -EINVAL;
+ed7ae4f43e228c Christian Marangi 2024-05-27  390  }
+ed7ae4f43e228c Christian Marangi 2024-05-27  391  
 
 -- 
 0-DAY CI Kernel Test Service
