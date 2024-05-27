@@ -1,170 +1,495 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F1E2208E
-	for <oe-kbuild@lists.linux.dev>; Mon, 27 May 2024 22:34:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E6D101DE;
+	Mon, 27 May 2024 22:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716849291; cv=none; b=sjOCknpGBqzoh17vKtX2iZ1Bq+Xkdb6fFtuEhq38VPEB5CFbwmPaq5pmSpLIklf0C/pTWtehZ+zYSh4C4RFfcSZDxFiiggqPJdupZIZ33mtza0Bub7cDvvo+LK0eTvrPCB8GCFH6m6SJ1fqD/PtLJ+VGxR0W+ykDcywe1k85wDc=
+	t=1716849900; cv=none; b=WG3lOL883ablAsmX/RIYDKwytJuMIRGMBWdLRIXVxujjNXpfvNZ+2GfhWOah7669ibB9YMhgqhjWkQQli54P4GuxFgKCm+Rz1obgL6mcdnGCUcQ9DIpVnJCH9ExzznG08ntaBOTUGSXvjdgGewTf+SXvXiDd2OAgBIlevcT+IxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716849291; c=relaxed/simple;
-	bh=wTBagEfK5dD6H7Sx30LmNnlEwFAhIK+fVySrv5h8Kto=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SEVE67eeKYZadWcFkZCdYekd2RiXrBfEx2QC5jBLh1/PRvJ52NVNY5WN+WuUyoTE1WyO0gojAyUR6VVQs54l/U/Jjs2Khpc70MDLmaTLBgXX/rXPXsUnvWrE1gOqVn9Q/i2gpFBu0Icv1xiLkSrd5iIhLMOmEf/D9rtYGy5hLW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XdMoI4EZ; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716849900; c=relaxed/simple;
+	bh=hCv6yl5mw6/q3N1s4M6FJ1Tc2rdxtla6CrsFe0ys0+o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HkhF8S5gCoavVGdQd0a6D3LeLbMRydCP7V1Vac40gXuhPVp/u8xBowlgJRoqQ8Pv8oxBMal1QGajeN57EAbvB6jxrzgQYHasRzYgvQift281kcLx7Z6C3vfLAGA79Mler+1Nfqkm0QoMeRfRIKt8mhXdFSPLRZOEchOG5EOmRGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sasqaepg; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XdMoI4EZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716849290; x=1748385290;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wTBagEfK5dD6H7Sx30LmNnlEwFAhIK+fVySrv5h8Kto=;
-  b=XdMoI4EZG6HluWrilUDeBmcOD3Uf4pWdPzJKN+lk85hPXmuo077fDAJX
-   jq35BNU43oVOT3X9tw45vuVeeWYomIQzmmAWYt14hyOFaWITqDus5ZHGv
-   +ZnURqOpJFRkn96iyGMJTTOpDe8HPVlIzIQiBh0HPaH+FIZeM/2Kt0rp5
-   jzKoIabFoodXX1VI5l01dDRy/0je+e5frHEd41gmEm8gRl8BwIAaPFeih
-   o3UjEcW5B6l7CKsB3P1e/lg3geJw/BWqsYoPMDys2jHHJHWVvYV7hIrr5
-   iiobu7lud47apYYHeRqklm9ysmQ7SXWJWCJrUDKcv9DgF2uuRhDt9oQdI
-   g==;
-X-CSE-ConnectionGUID: PFM3tJB4QkWhgMfnRHzNGA==
-X-CSE-MsgGUID: js3QM9tATw2/jyE4fFB54g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13361443"
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="13361443"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 15:34:49 -0700
-X-CSE-ConnectionGUID: UnK7onbbRN+9aUSEa/O0LQ==
-X-CSE-MsgGUID: 4ocQk7qzQz2CwS939WpLNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,193,1712646000"; 
-   d="scan'208";a="34782243"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 27 May 2024 15:34:48 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sBivV-000B9X-1j;
-	Mon, 27 May 2024 22:34:45 +0000
-Date: Tue, 28 May 2024 06:34:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 3/3] leds: leds-lp5569: Add support for Texas
- Instruments LP5569
-Message-ID: <202405280611.QUICzlRj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sasqaepg"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4202c1d19d5so1194525e9.2;
+        Mon, 27 May 2024 15:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716849896; x=1717454696; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wGVftqpU1/5ZEtw6gJzRx0gRL093OPfWqAnmcv+bGwM=;
+        b=Sasqaepg+y28kqtW+ZPF1+sf1Zjl2kin+6OS2ChNPcoKyJ6o2B0CrpMqZaVIEytXfo
+         cBcrfDZ31XdPDmVf4l7caqFuM7GWhu3WKfTyn8zsQ+1ZZeKVJ14CNKlx0vHTIX2CwpVr
+         EIuF/o/7BlTdM6hv6WoKugucikv/0z7yM/nrc9hPRcaHfTA5hCrjl5AcCB5Hy9Nkoo1G
+         g718Zg3SMwj/Zrhk42V9dozVhL/GTX6Fj9SAokqLj5bA6cXqrouqdzF1qcQE4/YYUOFl
+         a+mQsbw0i0+2scsap2N1ofw4Mnm5rH8b0BZIAqn4dW7Q8w4IvCVjYqvVfTHhLaEKdm46
+         uVfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716849896; x=1717454696;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wGVftqpU1/5ZEtw6gJzRx0gRL093OPfWqAnmcv+bGwM=;
+        b=d6CuWLxSn1yUnITU8g1G50LIRfp9km5RGdCswFHdf5IATsm5nKwdIYUgVhTKrdqGZI
+         Pab+RyRhwe2nyZskMp8J+TDIIPL1FYP8TP0FcmiJKGUg767ExQpvRvkg0azaXFvQN0h3
+         8l1+wFLiZPA+UDvcWbu+2LBiYItFIgABvYx8LzH/Pl/Xt7QmrpqwYu2D2MxCf/I50ntQ
+         zxtZEyPqKSg5G5Hdwq0AqSxkYeiZFhRloh6ieQSsxgsryeo5kSbtIuJDyNJI2QKgzpr7
+         uiPoVqLs4LMUmXIbmxcQgfvvChgHzDtexJafXV4fiBeWeei0B1qFKKvYIq1qvW5eN1cd
+         Ml/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXE9VWyQg0pM1QBNAQHKVe4ZnGp6T0KhtsSbeCAL/WXIFG24mzjOF1GEJli5g4RvPYqrXmCYMt9vRC+HOLU1MyEMyrAzD4bSJTP5fv5sA==
+X-Gm-Message-State: AOJu0YxageVJThSXnHguGBvme0PTr0EzrDAGhZB7PluJjyw4L8PrmHQJ
+	Oa3F03z5J7hKxMibN4hO/5eKBJkXDZSh1MyKomkoSTpSQjoCrxpDMCajlj8KkBhURpESgZO4hAJ
+	79wn3LUpesztjp1k145+YKHXY5pU=
+X-Google-Smtp-Source: AGHT+IFXnyQ8uJxzz9ocbmpnYG6BTT0oEs5LLhGgomPFu+Vzp6LKKEPzTsLNL9W7s+dg4FdC1vhKC+Zeg9E/nEh2GTM=
+X-Received: by 2002:adf:ea0c:0:b0:34d:837a:9d08 with SMTP id
+ ffacd0b85a97d-3552fdfd452mr7258969f8f.61.1716849895857; Mon, 27 May 2024
+ 15:44:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240525031156.13545-1-alexei.starovoitov@gmail.com> <91453e3f-66b0-4927-a756-bd18f9e6bf05@moroto.mountain>
+In-Reply-To: <91453e3f-66b0-4927-a756-bd18f9e6bf05@moroto.mountain>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Mon, 27 May 2024 15:44:44 -0700
+Message-ID: <CAADnVQLWbPd2skY1Lzs8oJ=9Ag9e2qD9Khhb4ycQRimZqdeBfA@mail.gmail.com>
+Subject: Re: [PATCH v3 bpf-next 1/2] bpf: Relax precision marking in open
+ coded iters and may_goto loop.
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, bpf <bpf@vger.kernel.org>, 
+	kbuild test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Martin KaFai Lau <martin.lau@kernel.org>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Eddy Z <eddyz87@gmail.com>, 
+	Kernel Team <kernel-team@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240527094737.13354-3-ansuelsmth@gmail.com>
-References: <20240527094737.13354-3-ansuelsmth@gmail.com>
-TO: Christian Marangi <ansuelsmth@gmail.com>
-TO: Pavel Machek <pavel@ucw.cz>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-TO: linux-leds@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: Christian Marangi <ansuelsmth@gmail.com>
+On Mon, May 27, 2024 at 12:26=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Hi Alexei,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov=
+/selftests-bpf-Remove-i-zero-workaround-and-add-new-tests/20240525-111247
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20240525031156.13545-1-alexei.st=
+arovoitov%40gmail.com
+> patch subject: [PATCH v3 bpf-next 1/2] bpf: Relax precision marking in op=
+en coded iters and may_goto loop.
+> config: nios2-randconfig-r071-20240526 (https://download.01.org/0day-ci/a=
+rchive/20240526/202405260726.0H6QiGNy-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 13.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202405260726.0H6QiGNy-lkp@intel.com/
+>
+> New smatch warnings:
+> kernel/bpf/verifier.c:15315 check_cond_jmp_op() error: uninitialized symb=
+ol 'other_dst_reg'.
+>
+> Old smatch warnings:
+> arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: unin=
+itialized symbol 'sp'.
+>
+> vim +/other_dst_reg +15315 kernel/bpf/verifier.c
+>
+> 58e2af8b3a6b58 Jakub Kicinski     2016-09-21  15108  static int check_con=
+d_jmp_op(struct bpf_verifier_env *env,
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15109                      =
+    struct bpf_insn *insn, int *insn_idx)
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15110  {
+> f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15111     struct bpf_verifi=
+er_state *this_branch =3D env->cur_state;
+> f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15112     struct bpf_verifi=
+er_state *other_branch;
+> f4d7e40a5b7157 Alexei Starovoitov 2017-12-14  15113     struct bpf_reg_st=
+ate *regs =3D this_branch->frame[this_branch->curframe]->regs;
+> fb8d251ee2a6bf Alexei Starovoitov 2019-06-15  15114     struct bpf_reg_st=
+ate *dst_reg, *other_branch_regs, *src_reg =3D NULL;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15115     struct bpf_reg_st=
+ate *eq_branch_regs, *other_dst_reg, *other_src_reg =3D NULL;
+> c31534267c180f Andrii Nakryiko    2023-11-01  15116     struct bpf_reg_st=
+ate fake_reg =3D {};
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15117     u8 opcode =3D BPF=
+_OP(insn->code);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15118     bool is_jmp32, ig=
+nore_pred;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15119     bool has_src_reg =
+=3D false;
+> fb8d251ee2a6bf Alexei Starovoitov 2019-06-15  15120     int pred =3D -1;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15121     int err;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15122
+> 092ed0968bb648 Jiong Wang         2019-01-26  15123     /* Only condition=
+al jumps are expected to reach here. */
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15124     if (opcode =3D=3D=
+ BPF_JA || opcode > BPF_JCOND) {
+> 092ed0968bb648 Jiong Wang         2019-01-26  15125             verbose(e=
+nv, "invalid BPF_JMP/JMP32 opcode %x\n", opcode);
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15126             return -E=
+INVAL;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15127     }
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15128
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15129     if (opcode =3D=3D=
+ BPF_JCOND) {
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15130             struct bp=
+f_verifier_state *cur_st =3D env->cur_state, *queued_st, *prev_st;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15131             int idx =
+=3D *insn_idx;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15132
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15133             if (insn-=
+>code !=3D (BPF_JMP | BPF_JCOND) ||
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15134                 insn-=
+>src_reg !=3D BPF_MAY_GOTO ||
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15135                 insn-=
+>dst_reg || insn->imm || insn->off =3D=3D 0) {
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15136                     v=
+erbose(env, "invalid may_goto off %d imm %d\n",
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15137                      =
+       insn->off, insn->imm);
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15138                     r=
+eturn -EINVAL;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15139             }
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15140             prev_st =
+=3D find_prev_entry(env, cur_st->parent, idx);
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15141
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15142             /* branch=
+ out 'fallthrough' insn as a new state to explore */
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15143             queued_st=
+ =3D push_stack(env, idx + 1, idx, false);
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15144             if (!queu=
+ed_st)
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15145                     r=
+eturn -ENOMEM;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15146
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15147             queued_st=
+->may_goto_depth++;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15148             if (prev_=
+st)
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15149                     w=
+iden_imprecise_scalars(env, prev_st, queued_st);
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15150             *insn_idx=
+ +=3D insn->off;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15151             return 0;
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15152     }
+> 011832b97b311b Alexei Starovoitov 2024-03-05  15153
+> d75e30dddf7344 Yafang Shao        2023-08-23  15154     /* check src2 ope=
+rand */
+> d75e30dddf7344 Yafang Shao        2023-08-23  15155     err =3D check_reg=
+_arg(env, insn->dst_reg, SRC_OP);
+> d75e30dddf7344 Yafang Shao        2023-08-23  15156     if (err)
+> d75e30dddf7344 Yafang Shao        2023-08-23  15157             return er=
+r;
+> d75e30dddf7344 Yafang Shao        2023-08-23  15158
+> d75e30dddf7344 Yafang Shao        2023-08-23  15159     dst_reg =3D &regs=
+[insn->dst_reg];
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15160     if (BPF_SRC(insn-=
+>code) =3D=3D BPF_X) {
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15161             if (insn-=
+>imm !=3D 0) {
+> 092ed0968bb648 Jiong Wang         2019-01-26  15162                     v=
+erbose(env, "BPF_JMP/JMP32 uses reserved fields\n");
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15163                     r=
+eturn -EINVAL;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15164             }
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15165
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15166             /* check =
+src1 operand */
+> dc503a8ad98474 Edward Cree        2017-08-15  15167             err =3D c=
+heck_reg_arg(env, insn->src_reg, SRC_OP);
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15168             if (err)
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15169                     r=
+eturn err;
+> 1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15170
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15171             has_src_r=
+eg =3D true;
+> d75e30dddf7344 Yafang Shao        2023-08-23  15172             src_reg =
+=3D &regs[insn->src_reg];
+> d75e30dddf7344 Yafang Shao        2023-08-23  15173             if (!(reg=
+_is_pkt_pointer_any(dst_reg) && reg_is_pkt_pointer_any(src_reg)) &&
+> d75e30dddf7344 Yafang Shao        2023-08-23  15174                 is_po=
+inter_value(env, insn->src_reg)) {
+> 61bd5218eef349 Jakub Kicinski     2017-10-09  15175                     v=
+erbose(env, "R%d pointer comparison prohibited\n",
+> 1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15176                      =
+       insn->src_reg);
+> 1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15177                     r=
+eturn -EACCES;
+> 1be7f75d1668d6 Alexei Starovoitov 2015-10-07  15178             }
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15179     } else {
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15180             if (insn-=
+>src_reg !=3D BPF_REG_0) {
+> 092ed0968bb648 Jiong Wang         2019-01-26  15181                     v=
+erbose(env, "BPF_JMP/JMP32 uses reserved fields\n");
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15182                     r=
+eturn -EINVAL;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15183             }
+> c31534267c180f Andrii Nakryiko    2023-11-01  15184             src_reg =
+=3D &fake_reg;
+> c31534267c180f Andrii Nakryiko    2023-11-01  15185             src_reg->=
+type =3D SCALAR_VALUE;
+> c31534267c180f Andrii Nakryiko    2023-11-01  15186             __mark_re=
+g_known(src_reg, insn->imm);
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15187     }
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15188
+> 092ed0968bb648 Jiong Wang         2019-01-26  15189     is_jmp32 =3D BPF_=
+CLASS(insn->code) =3D=3D BPF_JMP32;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15190     if (dst_reg->type=
+ !=3D SCALAR_VALUE || src_reg->type !=3D SCALAR_VALUE)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15191             ignore_pr=
+ed =3D false;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15192     /*
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15193      * Compilers ofte=
+n optimize loop exit condition to equality, so
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15194      *      for (i =
+=3D 0; i < 100; i++) arr[i] =3D 1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15195      * becomes
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15196      *      for (i =
+=3D 0; i !=3D 100; i++) arr[1] =3D 1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15197      * Hence treat !=
+=3D and =3D=3D conditions specially in the verifier.
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15198      * Widen only not=
+-predicted branch and keep predict branch as is. Example:
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15199      *    r1 =3D 0
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15200      *    goto L1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15201      * L2:
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15202      *    arr[r1] =3D=
+ 1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15203      *    r1++
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15204      * L1:
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15205      *    if r1 !=3D =
+100 goto L2
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15206      *    fallthrough=
+: r1=3D100 after widening
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15207      *    other_branc=
+h: r1 stays as-is (0, 1, 2, ..)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15208      *
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15209      *  Also recogniz=
+e the case where both LHS and RHS are constant and
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15210      *  equal to each=
+ other. In this case don't widen at all and take the
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15211      *  predicted pat=
+h. This key heuristic allows the verifier detect loop
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15212      *  end condition=
+ and 'for (i =3D 0; i !=3D 100; i++)' is validated just
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15213      *  like bounded =
+loop.
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15214      */
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15215     else if (is_reg_c=
+onst(dst_reg, is_jmp32) && is_reg_const(src_reg, is_jmp32) &&
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15216         reg_const_val=
+ue(dst_reg, is_jmp32) =3D=3D reg_const_value(src_reg, is_jmp32))
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15217             ignore_pr=
+ed =3D false;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15218     else
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15219             ignore_pr=
+ed =3D (get_loop_entry(this_branch) ||
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15220                      =
+      this_branch->may_goto_depth) &&
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15221                      =
+       /* Gate widen_reg() logic */
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15222                      =
+       env->bpf_capable;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15223
+> c31534267c180f Andrii Nakryiko    2023-11-01  15224     pred =3D is_branc=
+h_taken(dst_reg, src_reg, opcode, is_jmp32);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15225     if (pred >=3D 0 &=
+& !ignore_pred) {
+> cac616db39c207 John Fastabend     2020-05-21  15226             /* If we =
+get here with a dst_reg pointer type it is because
+> cac616db39c207 John Fastabend     2020-05-21  15227              * above =
+is_branch_taken() special cased the 0 comparison.
+> cac616db39c207 John Fastabend     2020-05-21  15228              */
+> cac616db39c207 John Fastabend     2020-05-21  15229             if (!__is=
+_pointer_value(false, dst_reg))
+> b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15230                     e=
+rr =3D mark_chain_precision(env, insn->dst_reg);
+> 6d94e741a8ff81 Alexei Starovoitov 2020-11-10  15231             if (BPF_S=
+RC(insn->code) =3D=3D BPF_X && !err &&
+> 6d94e741a8ff81 Alexei Starovoitov 2020-11-10  15232                 !__is=
+_pointer_value(false, src_reg))
+> b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15233                     e=
+rr =3D mark_chain_precision(env, insn->src_reg);
+> b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15234             if (err)
+> b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15235                     r=
+eturn err;
+> b5dc0163d8fd78 Alexei Starovoitov 2019-06-15  15236     }
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15237
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15238     if (pred < 0 || i=
+gnore_pred) {
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15239             other_bra=
+nch =3D push_stack(env, *insn_idx + insn->off + 1, *insn_idx,
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15240                      =
+                 false);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15241             if (!othe=
+r_branch)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15242                     r=
+eturn -EFAULT;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15243             other_bra=
+nch_regs =3D other_branch->frame[other_branch->curframe]->regs;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15244             other_dst=
+_reg =3D &other_branch_regs[insn->dst_reg];
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15245             if (has_s=
+rc_reg)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15246                     o=
+ther_src_reg =3D &other_branch_regs[insn->src_reg];
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15247     }
+>
+> other_dst_reg not set on else path.
+>
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15248
+> 4f7b3e82589e0d Alexei Starovoitov 2018-12-03  15249     if (pred =3D=3D 1=
+) {
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15250             /* Only f=
+ollow the goto, ignore fall-through. If needed, push
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15251              * the fa=
+ll-through branch for simulation under speculative
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15252              * execut=
+ion.
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15253              */
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15254             if (!env-=
+>bypass_spec_v1 &&
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15255                 !sani=
+tize_speculative_path(env, insn, *insn_idx + 1,
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15256                      =
+                      *insn_idx))
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15257                     r=
+eturn -EFAULT;
+> 1a8a315f008a58 Andrii Nakryiko    2023-10-11  15258             if (env->=
+log.level & BPF_LOG_LEVEL)
+> 1a8a315f008a58 Andrii Nakryiko    2023-10-11  15259                     p=
+rint_insn_state(env, this_branch->frame[this_branch->curframe]);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15260             if (ignor=
+e_pred) {
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15261                     /=
+* dst and src regs are scalars. Widen them */
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15262                     w=
+iden_reg(dst_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15263                     i=
+f (has_src_reg)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15264                      =
+       widen_reg(src_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15265                     /=
+*
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15266                      =
+* Widen other branch only if not comparing for equlity.
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15267                      =
+* Example:
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15268                      =
+*   r1 =3D 1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15269                      =
+*   if (r1 < 100)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15270                      =
+* will produce
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15271                      =
+*   [0, 99] and [100, UMAX] after widening and reg_set_min_max().
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15272                      =
+*
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15273                      =
+*   r1 =3D 1
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15274                      =
+*   if (r1 =3D=3D 100)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15275                      =
+* will produce
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15276                      =
+*    [1] and [100] after widening in other_branch and reg_set_min_max().
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15277                      =
+*/
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15278                     i=
+f (opcode !=3D BPF_JEQ && opcode !=3D BPF_JNE) {
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15279                      =
+       widen_reg(other_dst_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15280                      =
+       if (has_src_reg)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15281                      =
+               widen_reg(other_src_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15282                     }
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15283             } else {
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15284                     *=
+insn_idx +=3D insn->off;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15285                     r=
+eturn 0;
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15286             }
+> 4f7b3e82589e0d Alexei Starovoitov 2018-12-03  15287     } else if (pred =
+=3D=3D 0) {
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15288             /* Only f=
+ollow the fall-through branch, since that's where the
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15289              * progra=
+m will go. If needed, push the goto branch for
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15290              * simula=
+tion under speculative execution.
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15291              */
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15292             if (!env-=
+>bypass_spec_v1 &&
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15293                 !sani=
+tize_speculative_path(env, insn,
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15294                      =
+                      *insn_idx + insn->off + 1,
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15295                      =
+                      *insn_idx))
+> 9183671af6dbf6 Daniel Borkmann    2021-05-28  15296                     r=
+eturn -EFAULT;
+> 1a8a315f008a58 Andrii Nakryiko    2023-10-11  15297             if (env->=
+log.level & BPF_LOG_LEVEL)
+> 1a8a315f008a58 Andrii Nakryiko    2023-10-11  15298                     p=
+rint_insn_state(env, this_branch->frame[this_branch->curframe]);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15299             if (ignor=
+e_pred) {
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15300                     i=
+f (opcode !=3D BPF_JEQ && opcode !=3D BPF_JNE) {
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15301                      =
+       widen_reg(dst_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15302                      =
+       if (has_src_reg)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15303                      =
+               widen_reg(src_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15304                     }
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15305                     w=
+iden_reg(other_dst_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15306                     i=
+f (has_src_reg)
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15307                      =
+       widen_reg(other_src_reg);
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15308             } else {
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15309                     r=
+eturn 0;
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15310             }
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15311     }
+> 17a5267067f3c3 Alexei Starovoitov 2014-09-26  15312
+> 484611357c19f9 Josef Bacik        2016-09-28  15313     if (BPF_SRC(insn-=
+>code) =3D=3D BPF_X) {
+> 5f99f312bd3bed Andrii Nakryiko    2023-11-11  15314             err =3D r=
+eg_set_min_max(env,
+> 689049426b9d3b Alexei Starovoitov 2024-05-24 @15315                      =
+             other_dst_reg, other_src_reg,
+>                                                                          =
+             ^^^^^^^^^^^^^
+>
+> 4621202adc5bc0 Andrii Nakryiko    2023-11-01  15316                      =
+             dst_reg, src_reg, opcode, is_jmp32);
+> 4621202adc5bc0 Andrii Nakryiko    2023-11-01  15317     } else /* BPF_SRC=
+(insn->code) =3D=3D BPF_K */ {
+> 5f99f312bd3bed Andrii Nakryiko    2023-11-11  15318             err =3D r=
+eg_set_min_max(env,
+> 689049426b9d3b Alexei Starovoitov 2024-05-24  15319                      =
+             other_dst_reg,
+>                                                                          =
+             ^^^^^^^^^^^^^
+> Passed to reg_set_min_max() without being initialized.
 
-Hi Christian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on robh/for-next linus/master v6.10-rc1 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-leds-lp55xx-Add-new-ti-lp5569-compatible/20240527-174959
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20240527094737.13354-3-ansuelsmth%40gmail.com
-patch subject: [PATCH v3 3/3] leds: leds-lp5569: Add support for Texas Instruments LP5569
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: sparc-randconfig-r071-20240528 (https://download.01.org/0day-ci/archive/20240528/202405280611.QUICzlRj-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202405280611.QUICzlRj-lkp@intel.com/
-
-New smatch warnings:
-drivers/leds/leds-lp5569.c:378 lp5569_update_program_memory() error: buffer overflow 'pattern' 128 <= 223
-
-Old smatch warnings:
-drivers/leds/leds-lp5569.c:980 lp5569_multicolor_brightness() error: uninitialized symbol 'ret'.
-
-vim +/pattern +378 drivers/leds/leds-lp5569.c
-
-ed7ae4f43e228c Christian Marangi 2024-05-27  339  
-ed7ae4f43e228c Christian Marangi 2024-05-27  340  static int lp5569_update_program_memory(struct lp55xx_chip *chip,
-ed7ae4f43e228c Christian Marangi 2024-05-27  341  					const u8 *data, size_t size)
-ed7ae4f43e228c Christian Marangi 2024-05-27  342  {
-ed7ae4f43e228c Christian Marangi 2024-05-27  343  	enum lp55xx_engine_index idx = chip->engine_idx;
-ed7ae4f43e228c Christian Marangi 2024-05-27  344  	u8 pattern[LP5569_PROGRAM_LENGTH] = {0};
-ed7ae4f43e228c Christian Marangi 2024-05-27  345  	unsigned int cmd;
-ed7ae4f43e228c Christian Marangi 2024-05-27  346  	char c[3];
-ed7ae4f43e228c Christian Marangi 2024-05-27  347  	int nrchars;
-ed7ae4f43e228c Christian Marangi 2024-05-27  348  	int ret;
-ed7ae4f43e228c Christian Marangi 2024-05-27  349  	int offset = 0;
-ed7ae4f43e228c Christian Marangi 2024-05-27  350  	int page, i = 0;
-ed7ae4f43e228c Christian Marangi 2024-05-27  351  
-ed7ae4f43e228c Christian Marangi 2024-05-27  352  	while ((offset < size - 1) && (i < LP5569_PROGRAM_LENGTH)) {
-ed7ae4f43e228c Christian Marangi 2024-05-27  353  		/* separate sscanfs because length is working only for %s */
-ed7ae4f43e228c Christian Marangi 2024-05-27  354  		ret = sscanf(data + offset, "%2s%n ", c, &nrchars);
-ed7ae4f43e228c Christian Marangi 2024-05-27  355  		if (ret != 1)
-ed7ae4f43e228c Christian Marangi 2024-05-27  356  			goto err;
-ed7ae4f43e228c Christian Marangi 2024-05-27  357  
-ed7ae4f43e228c Christian Marangi 2024-05-27  358  		ret = sscanf(c, "%2x", &cmd);
-ed7ae4f43e228c Christian Marangi 2024-05-27  359  		if (ret != 1)
-ed7ae4f43e228c Christian Marangi 2024-05-27  360  			goto err;
-ed7ae4f43e228c Christian Marangi 2024-05-27  361  
-ed7ae4f43e228c Christian Marangi 2024-05-27  362  		pattern[i] = (u8)cmd;
-ed7ae4f43e228c Christian Marangi 2024-05-27  363  		offset += nrchars;
-ed7ae4f43e228c Christian Marangi 2024-05-27  364  		i++;
-ed7ae4f43e228c Christian Marangi 2024-05-27  365  	}
-ed7ae4f43e228c Christian Marangi 2024-05-27  366  
-ed7ae4f43e228c Christian Marangi 2024-05-27  367  	/* Each instruction is 16bit long. Check that length is even */
-ed7ae4f43e228c Christian Marangi 2024-05-27  368  	if (i % 2)
-ed7ae4f43e228c Christian Marangi 2024-05-27  369  		goto err;
-ed7ae4f43e228c Christian Marangi 2024-05-27  370  
-ed7ae4f43e228c Christian Marangi 2024-05-27  371  	for (page = 0; page < LP5569_PROGRAM_LENGTH / LP5569_BYTES_PER_PAGE; page++) {
-ed7ae4f43e228c Christian Marangi 2024-05-27  372  		/* Write to the next page each 32 bytes */
-ed7ae4f43e228c Christian Marangi 2024-05-27  373  		lp55xx_write(chip, LP5569_REG_PROG_PAGE_SEL,
-ed7ae4f43e228c Christian Marangi 2024-05-27  374  			     LP5569_PAGE_ENG(idx) + page);
-ed7ae4f43e228c Christian Marangi 2024-05-27  375  
-ed7ae4f43e228c Christian Marangi 2024-05-27  376  		for (i = 0; i < LP5569_PROGRAM_LENGTH; i++) {
-ed7ae4f43e228c Christian Marangi 2024-05-27  377  			ret = lp55xx_write(chip, LP5569_REG_PROG_MEM + i,
-ed7ae4f43e228c Christian Marangi 2024-05-27 @378  					   pattern[i + (page * LP5569_BYTES_PER_PAGE)]);
-ed7ae4f43e228c Christian Marangi 2024-05-27  379  			if (ret)
-ed7ae4f43e228c Christian Marangi 2024-05-27  380  				return -EINVAL;
-ed7ae4f43e228c Christian Marangi 2024-05-27  381  		}
-ed7ae4f43e228c Christian Marangi 2024-05-27  382  	}
-ed7ae4f43e228c Christian Marangi 2024-05-27  383  
-ed7ae4f43e228c Christian Marangi 2024-05-27  384  
-ed7ae4f43e228c Christian Marangi 2024-05-27  385  	return size;
-ed7ae4f43e228c Christian Marangi 2024-05-27  386  
-ed7ae4f43e228c Christian Marangi 2024-05-27  387  err:
-ed7ae4f43e228c Christian Marangi 2024-05-27  388  	dev_err(&chip->cl->dev, "wrong pattern format\n");
-ed7ae4f43e228c Christian Marangi 2024-05-27  389  	return -EINVAL;
-ed7ae4f43e228c Christian Marangi 2024-05-27  390  }
-ed7ae4f43e228c Christian Marangi 2024-05-27  391  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+No. It's initialized when passed. It's a false positive.
+Try to make smatch smarter?
