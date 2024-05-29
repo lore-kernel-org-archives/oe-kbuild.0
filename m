@@ -1,106 +1,150 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20561591E3
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 14:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5351591EE
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 14:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716993158; cv=none; b=n7Q9KJSF3Q2t05MNjF7+v1tyUm68npTw8VMICTzgHzbcJ9lowyV773BtVCiiL0plX0ot79f9fm4zv5+l6fPioEnJO5XSBpn3OTx7dhY5Jk81x4NSeaQkorBVHf0epVQJIxK200RUHGXhSpogjUsoeky+VLAK+eJ02cEhuaoiFxg=
+	t=1716993168; cv=none; b=sjgo3nQeaE5YoB3XbwRSJJQdIDgrp8ejaUeVzzjZ4B34eFuCOoS3p1/atN9ExMvLpFocIOU1zG0CzDAX8TD96BZP+SGH/qXR9bEPWYPN+KLDdC5KkgCFaCy+SO8tOPro0mVo2lHaV5YGdDl9TU6KiMLKbvWPmSKzIwJHMW+sc7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716993158; c=relaxed/simple;
-	bh=TTnJdiN0dwICsVBBJaHkeqayhfOm8yBlF5WnhM/KfCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M3Zz+ivjMlDmOp2+bvO+4JzGjM9OzQ2lnL7gff478OaiaVcQGBYtNeWuKz/SBMbb+ETjI07cUpREY4qgjrvryts01wtJACHqMoKaqRtEebGvBVCdKPTdZlcu+AFhWzc9kvWjyZfDW5RD9jta7PNqzDxA0C1G+Tl31+YdE6+mDFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yueu/jVJ; arc=none smtp.client-ip=209.85.218.43
+	s=arc-20240116; t=1716993168; c=relaxed/simple;
+	bh=li4ZbxG2F4FGjel82rPqgESS9j5jdY8puT5M++X2kzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jInkwshYaleJbYU8c2JTDAGyr1vaET4/O+zfshc3uE0uibnrzP8PajZJ3l0WuaZLDx2i3umkC5v25oSutt8aDqYwsPeU0RgBg0ueTjDiWpm4Panp6Y/dpmvSjZt7nkzjXHLe4pbbKScew3hAQDC29H0YA8JnfAe61yr/sfTcLgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EQN0Y/Wz; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yueu/jVJ"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a62ef52e837so236767866b.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 07:32:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EQN0Y/Wz"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a61b70394c0so251002966b.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 07:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716993155; x=1717597955; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c8pfVjY3N0YvfyGWCKtQaCGQHSMzwUk6OlNcqAVvSgk=;
-        b=Yueu/jVJds3NmXrxCktzx5UajTGWF3K3f1uupiUPNzmijIReyBwBLgOKu5Cgp6rCti
-         nD/hiGBONt1pFCXK5l5uUYmPZLZOHqefzBl/9UvIXtksq+yHkhWhRKk+MT15j3/kdDNv
-         MkuXW34QUCW6U34p0TSymXKpElGJBDCPHjrnF/RC4U0zo5etA2A/pcvobE/FTZJyFiVV
-         O6x3AyhUOV+4VsJuOtEwym2mElsqAUpLyI1ND3E6NzkTiVsEQwBK0nO8wHvo8Z5bIw7C
-         pEuYlj54ia74dxxICCmQbGlNn2PuRJRiJFNlem9ZCEspblDK1PVjHmRQ6sJX3EBQrk7S
-         sdbA==
+        d=linaro.org; s=google; t=1716993165; x=1717597965; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=GL+ZXu8YsVg8veqNeDMZZjWT6LtrFbHYU/tEpop01gE=;
+        b=EQN0Y/Wz2zWXPkE8KmoYStDoJQu+HTlUrq3J7GVd4FCDDfEyvjElY+rcpykX/f/0eq
+         RJfX/0DHgSdTbL3LP/9uFJnpELpO+g1IHhLGb/kRSVRGFbMy32gy51SockfGNGRBS9ns
+         SKP0OKLIv4SZpDcSOdFhTE/5A63pr58FHVA+Hy3bmSrvY6Y1SwM+04iUDoTd6BXwRwrF
+         eeW4NUTzTKgK0hxoGFrapCmIZzo2Ur8YJEsWVzeXbXrfwaSLbghye8M1lr5NKwJ8/B23
+         2jhbIWT1rlANmNx6RqpTt1euxNmXFu32LyQHqetkRhr4DkFQxkm3xb3XjaLlAdky3vx2
+         bwxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716993155; x=1717597955;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c8pfVjY3N0YvfyGWCKtQaCGQHSMzwUk6OlNcqAVvSgk=;
-        b=g90aHLk/c/XBKRpSoB9jOrf4D12QMYjl84nNtY8eYsMKv30IVxIrT2+l1yWN+D9U31
-         hKw+M/DHO8301oV3HyC3kCKwSxPD9ge4Fxg6JPlI/ob1mYIK657+XNmte7mn5S/LILVH
-         bZt76JcAnGccBdFULzNzAfwSEE4LanpkWXcQYH6TzX3GO2USU3h5rHYVUByhaaDZ/OPb
-         q+q7pmSDTCGx7hoSCsIM3vn4zSgTAyRtyCt4hjaahT3t+zTJuU4n/GulW1Ycgshm0w+0
-         Hj2JtPDnZUmJzERqQxftcJKUMXxZojrzhPkiTfaqPYDns0b3TWhDCARRoNKmmkvyTQG1
-         RRcw==
-X-Gm-Message-State: AOJu0Yx35kT0tKg1+aQBjKnYWRNeyrAyNjfeu/1dcJv4zq4fbODGLlUR
-	7ZL/vmkdivQf6j+Ppqd/ddUDsfqtnC0AMcsrhJfreyPB7SAW6LgZhz9y8yljeBbtTPh28BeJkUb
-	C
-X-Google-Smtp-Source: AGHT+IEUwk0uKpLzXpRtjkdBL2ciZJRWEWE/oGee9dpShKyJmD7Xq6zpbrYB2/9lN0ss8bGEsHD1fA==
-X-Received: by 2002:a17:906:6bd4:b0:a63:3586:a4ca with SMTP id a640c23a62f3a-a633586a5b0mr412085066b.11.1716993154764;
-        Wed, 29 May 2024 07:32:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716993165; x=1717597965;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GL+ZXu8YsVg8veqNeDMZZjWT6LtrFbHYU/tEpop01gE=;
+        b=Kyndiy4Z6rVQO19d1f/7tBa5+QOpjUlTv6Nk8odCWj42BztKCJeq7WvlNCmbTbBD/d
+         X9vzPs8R3/pcYvWjn8anM23OeQSS5vlA9m9dCVeEh05Yu5g2wcmKRD2fDYLAwI32zuxV
+         nOBmLLvqkXNoYX6/hHBXw8cHsA7oRSnCQsKUaJRYZt/ST8OnjX8OtZnS72p+kQjylpmX
+         xixs51YUnyhv5//IQNSuOMNqTqMJVVRXuxWPnlndXOnpUgR5TL6qc4aZv8SUPvwGu/dB
+         WkZLCVHJ7oItgP1XHumNXWT40oI8v7M1ZqPrpIKFskmKZXujoCiqNQ3CWAnPBnDwASd/
+         aXHA==
+X-Gm-Message-State: AOJu0YzYS5vpRa32VCknqB6c4hO4nKsjXLA9/AmqEzxcrQJktw4ygI8Z
+	H9Zdv1JzXqn0MooEJvbJaMnEyLs6ExcuE1LAoUVG4CDu5L69ilysoSSC367fFWOc8zcf3/5XyG/
+	L
+X-Google-Smtp-Source: AGHT+IFHKZcI8vnShZhzgKqN73KpOv8IjqZ877BnV4ShkqFBb+Deu4xUihuipUqnmdso1P98gLeYAA==
+X-Received: by 2002:a17:906:dff9:b0:a5a:5bd3:9f0 with SMTP id a640c23a62f3a-a62641df7b1mr987106666b.24.1716993164975;
+        Wed, 29 May 2024 07:32:44 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626c93a812sm726509066b.50.2024.05.29.07.32.33
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc4f465sm717035366b.120.2024.05.29.07.32.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 May 2024 07:32:34 -0700 (PDT)
-Date: Wed, 29 May 2024 17:32:30 +0300
+        Wed, 29 May 2024 07:32:44 -0700 (PDT)
+Date: Wed, 29 May 2024 17:32:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: oe-kbuild@lists.linux.dev, bpf <bpf@vger.kernel.org>,
-	kbuild test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Eddy Z <eddyz87@gmail.com>, Kernel Team <kernel-team@fb.com>
-Subject: Re: [PATCH v3 bpf-next 1/2] bpf: Relax precision marking in open
- coded iters and may_goto loop.
-Message-ID: <6ae809b7-a25e-493b-9488-0bf6e7afbfd0@moroto.mountain>
-References: <20240525031156.13545-1-alexei.starovoitov@gmail.com>
- <91453e3f-66b0-4927-a756-bd18f9e6bf05@moroto.mountain>
- <CAADnVQLWbPd2skY1Lzs8oJ=9Ag9e2qD9Khhb4ycQRimZqdeBfA@mail.gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	robh@kernel.org, nuno.sa@analog.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+Subject: Re: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657x
+ family
+Message-ID: <ff870fa7-436c-4ab1-9e8b-a5efcdd28c29@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAADnVQLWbPd2skY1Lzs8oJ=9Ag9e2qD9Khhb4ycQRimZqdeBfA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240527142618.275897-10-ramona.bolboaca13@gmail.com>
 
-On Mon, May 27, 2024 at 03:44:44PM -0700, Alexei Starovoitov wrote:
-> > 484611357c19f9 Josef Bacik        2016-09-28  15313     if (BPF_SRC(insn->code) == BPF_X) {
-> > 5f99f312bd3bed Andrii Nakryiko    2023-11-11  15314             err = reg_set_min_max(env,
-> > 689049426b9d3b Alexei Starovoitov 2024-05-24 @15315                                   other_dst_reg, other_src_reg,
-> >                                                                                       ^^^^^^^^^^^^^
-> >
-> > 4621202adc5bc0 Andrii Nakryiko    2023-11-01  15316                                   dst_reg, src_reg, opcode, is_jmp32);
-> > 4621202adc5bc0 Andrii Nakryiko    2023-11-01  15317     } else /* BPF_SRC(insn->code) == BPF_K */ {
-> > 5f99f312bd3bed Andrii Nakryiko    2023-11-11  15318             err = reg_set_min_max(env,
-> > 689049426b9d3b Alexei Starovoitov 2024-05-24  15319                                   other_dst_reg,
-> >                                                                                       ^^^^^^^^^^^^^
-> > Passed to reg_set_min_max() without being initialized.
-> 
-> No. It's initialized when passed. It's a false positive.
-> Try to make smatch smarter?
+Hi Ramona,
 
-Ah yes.  I didn't read it carefully enough.
+kernel test robot noticed the following build warnings:
 
-The kbuild bot doesn't use cross function analysis.  So it didn't know
-that pred can only be -1, 0, or 1.  If you have cross function analysis
-this should work.  Unfortunately cross function analysis is too slow to
-scale enough for the zero day bot.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240527-230203
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20240527142618.275897-10-ramona.bolboaca13%40gmail.com
+patch subject: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657x family
+config: x86_64-randconfig-161-20240528 (https://download.01.org/0day-ci/archive/20240528/202405281539.EXGy0dhk-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202405281539.EXGy0dhk-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/imu/adis16475.c:1608 adis16475_push_single_sample() warn: missing error code? 'ret'
+
+vim +/ret +1608 drivers/iio/imu/adis16475.c
+
+c49e2871e50119 Ramona Gradinariu 2024-05-27  1577  static int adis16475_push_single_sample(struct iio_poll_func *pf)
+fff7352bf7a3ce Nuno Sá           2020-04-13  1578  {
+fff7352bf7a3ce Nuno Sá           2020-04-13  1579  	struct iio_dev *indio_dev = pf->indio_dev;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1580  	struct adis16475 *st = iio_priv(indio_dev);
+fff7352bf7a3ce Nuno Sá           2020-04-13  1581  	struct adis *adis = &st->adis;
+8f6bc87d67c030 Ramona Bolboaca   2023-08-08  1582  	int ret, bit, buff_offset = 0, i = 0;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1583  	__be16 *buffer;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1584  	u16 crc;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1585  	bool valid;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1586  	u8 crc_offset = 9;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1587  	u16 burst_size = ADIS16475_BURST_MAX_DATA;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1588  	u16 start_idx = (st->info->flags & ADIS16475_HAS_TIMESTAMP32) ? 2 : 0;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1589  
+fff7352bf7a3ce Nuno Sá           2020-04-13  1590  	/* offset until the first element after gyro and accel */
+fff7352bf7a3ce Nuno Sá           2020-04-13  1591  	const u8 offset = st->burst32 ? 13 : 7;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1592  
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1593  	if (st->burst32) {
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1594  		crc_offset = (st->info->flags & ADIS16475_HAS_TIMESTAMP32) ? 16 : 15;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1595  		burst_size = adis->data->burst_max_len;
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1596  	}
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1597  
+fff7352bf7a3ce Nuno Sá           2020-04-13  1598  	ret = spi_sync(adis->spi, &adis->msg);
+fff7352bf7a3ce Nuno Sá           2020-04-13  1599  	if (ret)
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1600  		return ret;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1601  
+fff7352bf7a3ce Nuno Sá           2020-04-13  1602  	buffer = adis->buffer;
+fff7352bf7a3ce Nuno Sá           2020-04-13  1603  
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1604  	crc = be16_to_cpu(buffer[crc_offset]);
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1605  	valid = adis16475_validate_crc(adis->buffer, crc, burst_size, start_idx);
+fff7352bf7a3ce Nuno Sá           2020-04-13  1606  	if (!valid) {
+fff7352bf7a3ce Nuno Sá           2020-04-13  1607  		dev_err(&adis->spi->dev, "Invalid crc\n");
+7f174ee4adeb12 Ramona Gradinariu 2024-05-27 @1608  		return ret;
+                                                                ^^^^^^^^^^
+return -EINVAL
+
+fff7352bf7a3ce Nuno Sá           2020-04-13  1609  	}
+fff7352bf7a3ce Nuno Sá           2020-04-13  1610  
+fff7352bf7a3ce Nuno Sá           2020-04-13  1611  	for_each_set_bit(bit, indio_dev->active_scan_mask,
+fff7352bf7a3ce Nuno Sá           2020-04-13  1612  			 indio_dev->masklength) {
+fff7352bf7a3ce Nuno Sá           2020-04-13  1613  		/*
+fff7352bf7a3ce Nuno Sá           2020-04-13  1614  		 * When burst mode is used, system flags is the first data
+fff7352bf7a3ce Nuno Sá           2020-04-13  1615  		 * channel in the sequence, but the scan index is 7.
+fff7352bf7a3ce Nuno Sá           2020-04-13  1616  		 */
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
