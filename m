@@ -1,96 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E18818133A;
-	Wed, 29 May 2024 15:42:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A64018411E
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 16:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716997372; cv=none; b=PJANSJgn+I0p00ITtakqsZwIvRntwfg7DEmqMFqzB+cL5E2AHMaWmDHzQJn0DwmD87qDg13eqfH7Euclgdl1N+PDAGcZzPCld2BWVlqz1YLoiXi4GDYOVzRDLN1XOy7cYDIeSCmabxdtHfGLN5QprRIsaLPkdQVfZp0jGYOeK4E=
+	t=1717000772; cv=none; b=c+r65zm+AJrei9Z9f9sCcEVmNjucKHZih/YWVFgDTccMdXinojMK2ej+9uYuAvzCogY4t0v2bNMX44x5xK75KyILgerSV1zRqyNPPP1C3+npynP9IycOollFzxlWq2f0gDQPBprKGz4zMsUCVhJIf4qT4OWgzdrIH1xFjWuFWKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716997372; c=relaxed/simple;
-	bh=Uw1a+c/jvh0mrjmbLpbT8XsGRX5cL+x+MxpnCD3WJc0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=jWMU79H+TPCjKBE6WgygX5DkqBJ9EzPOfYQSJTowjQV7xDSvk49RX+Cac5nGSOEUuRra460eFZO3KjSHmErloqUZSy3H9fvi7Eo8MivQcTtTUV7n/SAfqWzAEQsF734Id2u4rGshHvBeG2iR9w98RETWLIEbaCGwFQMz0A2sbNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nAx6bltk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717000772; c=relaxed/simple;
+	bh=pjnJMVf/6cVXHao975M1GE6CKVeelqmCfa3iYoZEd7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UkU7Pet3C5Vx6jbQQt3OA7dpuX4kb6f8XoWlOktHysw7TZB9gRMGTUKfqL1knm6lrvgNt0YZg5jRkqdwpIyrY/eTMxQacsU15TNh9i/0JlJ4/h+tk/vxZVQEQVIW2xIz2xoLTUmBkDT5OTSoX9LO73bD4ONnzBDHk8S/kZi1HtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtEt/9Nm; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nAx6bltk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9471C113CC;
-	Wed, 29 May 2024 15:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716997372;
-	bh=Uw1a+c/jvh0mrjmbLpbT8XsGRX5cL+x+MxpnCD3WJc0=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=nAx6bltkZ2yh+OGuUNvSi/xvxcXZWfU8rGKXUltKIFPpbQhEyUzWo5lwfEIgQQeuG
-	 9iWFzWD1tJrYOjHtdIlJJFGXoTcpVE6K95Y0wQBmpDShM9i7cLvudOodHivwZ2Nm0J
-	 eOhPqfDQglWHeMI2DSjUAWLQn8grTS9jDQai7GRgY8pnrxO/JK20LGLgsLWGl9AuQk
-	 E98pl5i17jJEjLS9RFXCQIK8bttvjJUO4wDLTI7nn6d6abxvI4Wo1T9GDijPl+Ik1S
-	 cvBj1VbRdzhoUkNY9Gf9JL4pFqT8P3mimYUoiuP42VHolUE8CEzKYdoAmXRf44/a2B
-	 V2d7eR+jv3ajw==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtEt/9Nm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717000771; x=1748536771;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pjnJMVf/6cVXHao975M1GE6CKVeelqmCfa3iYoZEd7w=;
+  b=BtEt/9NmPQptDCB6N092PHCP+4bfySzOHEFS6e3B1VoyIk1RgONFnsqT
+   OZfjSYIaMkglAe1/bAsWDYNRMaNL/yQvDeqxxdmpv0Q7Mt8UJd6Eaf0sp
+   s5F28FBxIyTXbEToFY5EsV/O1ckrVerLkeJfbN5CPR7Ar3w/7oPvlVonh
+   pUTcUXBo1FjwuOPGQix6BbTWjRbvlCXG6fulexkyJS2csoI3v4kk2WkPl
+   4VFTiDKelgt6f0rmlnFlxc88P1FVaDbxYv9jgYP0n1MXLOd6U/ytwlixw
+   ZdscjlXgJG5jB7d8qBuZhEzQS2qvAJEWkMunGtz586xBpAwzz1hUodHRC
+   g==;
+X-CSE-ConnectionGUID: Fh2yF3YVRsWnNWAhvvYv/g==
+X-CSE-MsgGUID: Ee8OlP1jTLW9CJYaAKZE2Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24551603"
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
+   d="scan'208";a="24551603"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 09:39:30 -0700
+X-CSE-ConnectionGUID: EVQHwQilRYem5bnkPB9bSQ==
+X-CSE-MsgGUID: bQrabHEaSb28P1NaJe11Zg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,198,1712646000"; 
+   d="scan'208";a="35961670"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 29 May 2024 09:39:29 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sCMKk-000Dx5-1j;
+	Wed, 29 May 2024 16:39:26 +0000
+Date: Thu, 30 May 2024 00:39:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 7/7] iomap: Return the folio from iomap_write_begin()
+Message-ID: <202405300028.ZTOIuctX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 May 2024 18:42:49 +0300
-Message-Id: <D1M8RQ9YRARD.25KABQOVVVG7J@kernel.org>
-Subject: Re: [jarkko-tpmdd:tpm2key-v7 8/9]
- crypto/asymmetric_keys/tpm2_key_rsa.c:636 tpm2_key_rsa_preparse() error:
- uninitialized symbol 'ret'.
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
-Cc: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, "James Prestwood"
- <prestwoj@gmail.com>
-X-Mailer: aerc 0.17.0
-References: <cbae0ed0-e0a6-41ba-9671-a9f48e8f07f3@moroto.mountain>
-In-Reply-To: <cbae0ed0-e0a6-41ba-9671-a9f48e8f07f3@moroto.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed May 29, 2024 at 5:36 PM EEST, Dan Carpenter wrote:
-> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.=
-git tpm2key-v7
-> head:   892305fec7841bf841a9c19e01c999c5f4b4e831
-> commit: 4970b8d723c3af732b21a8bf7c1eebfb03792457 [8/9] keys: asymmetric: =
-Add tpm2_key_rsa
-> config: alpha-randconfig-r081-20240529 (https://download.01.org/0day-ci/a=
-rchive/20240529/202405291528.FxUKVyP2-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202405291528.FxUKVyP2-lkp@intel.com/
->
-> smatch warnings:
-> crypto/asymmetric_keys/tpm2_key_rsa.c:636 tpm2_key_rsa_preparse() error: =
-uninitialized symbol 'ret'.
->
-> vim +/ret +636 crypto/asymmetric_keys/tpm2_key_rsa.c
->
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  629  static int tpm2_key_rsa_p=
-reparse(struct key_preparsed_payload *prep)
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  630  {
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  631  	struct tpm2_key *key;
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  632  	int ret;
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  633 =20
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  634  	key =3D tpm2_key_decode(=
-prep->data, prep->datalen);
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  635  	if (IS_ERR(key))
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26 @636  		return ret;
->                                                                 ^^^^^^^^^=
-^
-> Same.  return PTR_ERR(key);
->
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  637 =20
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  638  	if (key->oid !=3D OID_TP=
-MLoadableKey) {
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  639  		kfree(key);
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  640  		return -EBADMSG;
-> 4970b8d723c3af Jarkko Sakkinen 2024-05-26  641  	}
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240528164829.2105447-8-willy@infradead.org>
+References: <20240528164829.2105447-8-willy@infradead.org>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: linux-fsdevel@vger.kernel.org
+CC: linux-ext4@vger.kernel.org
 
-Thanks for spotting this!
+Hi Matthew,
 
-BR, Jarkko
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10-rc1 next-20240529]
+[cannot apply to tytso-ext4/dev jack-fs/for_next hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/fs-Introduce-buffered_write_operations/20240529-005213
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240528164829.2105447-8-willy%40infradead.org
+patch subject: [PATCH 7/7] iomap: Return the folio from iomap_write_begin()
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: openrisc-randconfig-r081-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300028.ZTOIuctX-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405300028.ZTOIuctX-lkp@intel.com/
+
+smatch warnings:
+fs/iomap/buffered-io.c:826 iomap_write_begin() error: uninitialized symbol 'status'.
+
+vim +/status +826 fs/iomap/buffered-io.c
+
+69f4a26c1e0c7c Gao Xiang               2021-08-03  766  
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  767) static struct folio *iomap_write_begin(struct iomap_iter *iter, loff_t pos,
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  768) 		size_t len)
+afc51aaa22f26c Darrick J. Wong         2019-07-15  769  {
+471859f57d4253 Andreas Gruenbacher     2023-01-15  770  	const struct iomap_folio_ops *folio_ops = iter->iomap.folio_ops;
+fad0a1ab34f777 Christoph Hellwig       2021-08-10  771  	const struct iomap *srcmap = iomap_iter_srcmap(iter);
+d1bd0b4ebfe052 Matthew Wilcox (Oracle  2021-11-03  772) 	struct folio *folio;
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  773) 	int status;
+afc51aaa22f26c Darrick J. Wong         2019-07-15  774  
+1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  775  	BUG_ON(pos + len > iter->iomap.offset + iter->iomap.length);
+1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  776  	if (srcmap != &iter->iomap)
+c039b997927263 Goldwyn Rodrigues       2019-10-18  777  		BUG_ON(pos + len > srcmap->offset + srcmap->length);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  778  
+afc51aaa22f26c Darrick J. Wong         2019-07-15  779  	if (fatal_signal_pending(current))
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  780) 		return ERR_PTR(-EINTR);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  781  
+d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  782) 	if (!mapping_large_folio_support(iter->inode->i_mapping))
+d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  783) 		len = min_t(size_t, len, PAGE_SIZE - offset_in_page(pos));
+d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  784) 
+07c22b56685dd7 Andreas Gruenbacher     2023-01-15  785  	folio = __iomap_get_folio(iter, pos, len);
+9060bc4d3aca61 Andreas Gruenbacher     2023-01-15  786  	if (IS_ERR(folio))
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  787) 		return folio;
+d7b64041164ca1 Dave Chinner            2022-11-29  788  
+d7b64041164ca1 Dave Chinner            2022-11-29  789  	/*
+d7b64041164ca1 Dave Chinner            2022-11-29  790  	 * Now we have a locked folio, before we do anything with it we need to
+d7b64041164ca1 Dave Chinner            2022-11-29  791  	 * check that the iomap we have cached is not stale. The inode extent
+d7b64041164ca1 Dave Chinner            2022-11-29  792  	 * mapping can change due to concurrent IO in flight (e.g.
+d7b64041164ca1 Dave Chinner            2022-11-29  793  	 * IOMAP_UNWRITTEN state can change and memory reclaim could have
+d7b64041164ca1 Dave Chinner            2022-11-29  794  	 * reclaimed a previously partially written page at this index after IO
+d7b64041164ca1 Dave Chinner            2022-11-29  795  	 * completion before this write reaches this file offset) and hence we
+d7b64041164ca1 Dave Chinner            2022-11-29  796  	 * could do the wrong thing here (zero a page range incorrectly or fail
+d7b64041164ca1 Dave Chinner            2022-11-29  797  	 * to zero) and corrupt data.
+d7b64041164ca1 Dave Chinner            2022-11-29  798  	 */
+471859f57d4253 Andreas Gruenbacher     2023-01-15  799  	if (folio_ops && folio_ops->iomap_valid) {
+471859f57d4253 Andreas Gruenbacher     2023-01-15  800  		bool iomap_valid = folio_ops->iomap_valid(iter->inode,
+d7b64041164ca1 Dave Chinner            2022-11-29  801  							 &iter->iomap);
+d7b64041164ca1 Dave Chinner            2022-11-29  802  		if (!iomap_valid) {
+d7b64041164ca1 Dave Chinner            2022-11-29  803  			iter->iomap.flags |= IOMAP_F_STALE;
+d7b64041164ca1 Dave Chinner            2022-11-29  804  			goto out_unlock;
+d7b64041164ca1 Dave Chinner            2022-11-29  805  		}
+d7b64041164ca1 Dave Chinner            2022-11-29  806  	}
+d7b64041164ca1 Dave Chinner            2022-11-29  807  
+d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  808) 	if (pos + len > folio_pos(folio) + folio_size(folio))
+d454ab82bc7f4a Matthew Wilcox (Oracle  2021-12-09  809) 		len = folio_pos(folio) + folio_size(folio) - pos;
+afc51aaa22f26c Darrick J. Wong         2019-07-15  810  
+c039b997927263 Goldwyn Rodrigues       2019-10-18  811  	if (srcmap->type == IOMAP_INLINE)
+bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  812) 		status = iomap_write_begin_inline(iter, folio);
+1b5c1e36dc0e0f Christoph Hellwig       2021-08-10  813  	else if (srcmap->flags & IOMAP_F_BUFFER_HEAD)
+d1bd0b4ebfe052 Matthew Wilcox (Oracle  2021-11-03  814) 		status = __block_write_begin_int(folio, pos, len, NULL, srcmap);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  815  	else
+bc6123a84a71b5 Matthew Wilcox (Oracle  2021-05-02  816) 		status = __iomap_write_begin(iter, pos, len, folio);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  817  
+afc51aaa22f26c Darrick J. Wong         2019-07-15  818  	if (unlikely(status))
+afc51aaa22f26c Darrick J. Wong         2019-07-15  819  		goto out_unlock;
+afc51aaa22f26c Darrick J. Wong         2019-07-15  820  
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28  821) 	return folio;
+afc51aaa22f26c Darrick J. Wong         2019-07-15  822  
+afc51aaa22f26c Darrick J. Wong         2019-07-15  823  out_unlock:
+7a70a5085ed028 Andreas Gruenbacher     2023-01-15  824  	__iomap_put_folio(iter, pos, 0, folio);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  825  
+07d07cfe38427e Matthew Wilcox (Oracle  2024-05-28 @826) 	return ERR_PTR(status);
+afc51aaa22f26c Darrick J. Wong         2019-07-15  827  }
+afc51aaa22f26c Darrick J. Wong         2019-07-15  828  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
