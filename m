@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4051A0B1D
-	for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 18:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA38167DB4
+	for <oe-kbuild@lists.linux.dev>; Wed, 29 May 2024 23:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717008198; cv=none; b=KFRocoy2wG9iyA7BlWEWdG9Tmr7m80clFW42Viwy8qLs+viIcu/D760CgYaRtRbQT7IFWg666gNF68zypiiawuDtdVJTIZCeKofYlOkguM9l9nzuIgXvqX1k/kRxCwcO7MVSlMtDQRxzNHHs37D6TanomT6whLlOlcuUP+QSaD4=
+	t=1717025057; cv=none; b=uzYNcgDLkxCwYQm5JCERSPz4o6+6aINngBdDehLZPcCxpRgnRMVxXpKw1jmcu5sOJ7AM7Lyq7hc/zwIMduQIDeWB74kR0+rrXtyEe2KRjYbDR9wMcjp74YIkI5z+Nt6mey4hNnRKS0gphe429KXS3xYDth4nzU0aqVq1i6TwYaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717008198; c=relaxed/simple;
-	bh=yRlakIgwExThcV/yvNjnMqcvBT7wm+UMshMePkf3fsQ=;
+	s=arc-20240116; t=1717025057; c=relaxed/simple;
+	bh=GGVcLYCamDE5iBLBMmZz4ET4HExMrh/ptWAisyW4WBc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hcGiAWhvI1FWzmj3PA85DDyowMR60UDlAjOszIkp3rWIGPuKRfRlpiK/gpDke4u5dB7lYFS6y3ac5N5/bLrcISZ3qJ1bAbNv2vmw3nXPnn8jrHqi29NTrypsuqcaWVsZB+Kc4r4l+KauEHnpb4WoXdiSCvyiQPn+tJlmzFQKx0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtHPUhcy; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=om/udDCx5cugZkpUnmVckXEszDcNHYxBfORGDV6fOs8Nq2S1fjMSYIOKMq1MNub6/Va3XZWhA76UCNvNjCw5C+iZQlVPZ+s+GN/UHzVvUoUfzPsN95NoLMLJ7HAHWQezUzqE6bZKKUwGuWwxowwZu8cLg1EgljbVHfpB26IWJsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TW8rU/Ht; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtHPUhcy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TW8rU/Ht"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717008196; x=1748544196;
+  t=1717025055; x=1748561055;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yRlakIgwExThcV/yvNjnMqcvBT7wm+UMshMePkf3fsQ=;
-  b=dtHPUhcyw41DyQWla6slhxn1R5d4fC1m+U0Pmiiwov+Wsvv2IrMPGWcF
-   607VIGWQClA+aGf1Rk1Bd27Ydd9DZCy8/VZgBwnveM7TxbeaqOSOA2GC2
-   p0/4ValujxWndbWVPocbRWMrIJ5wMJHPzQBKKXZKqSwFGG1Tyui4NyCPU
-   +PRgXDIXl3wtRZBfR0cKkckh1jMaAvx6NNLxUBsAAofKBLgMmradfmDol
-   2B3dQ4ILYhL+GkUZTj1VGbRX0l5nMmWRqJqnYmYirB6MtBMuQQSGHfQXA
-   ByQtj2lNyEuioI7HqDtmrh2sw+Xpj/oUO5hIsmbW2V+cyC0YxIbOAD+ow
-   g==;
-X-CSE-ConnectionGUID: ZFUu07aGSGKIqDS3lt9DqA==
-X-CSE-MsgGUID: YrqUhiPKRS+NwsYZfhXvCA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24048463"
+  bh=GGVcLYCamDE5iBLBMmZz4ET4HExMrh/ptWAisyW4WBc=;
+  b=TW8rU/HtgFcxXcBhffBAf4Kv2jrjpJ0uyo1sKrDlqof2YqwX7rGKexFA
+   GM0v5mP7VEFAA9REAcRxMp2zE17nGZw9kBA6U3jdygVMBmCElZeA/fX9b
+   9AWQ15TQhLYKEx+/bNl/ivl9yXi39SF2DJPktyfa8CVCF1ZQaRQ29VsQS
+   hoLjytSw2o5wFuMF6V5FcKIPDs+Tn6jWJ0BGNUHjiQYPNIUmYFy+dpEzF
+   e7qdW9bEArdKXrGuH7Pjr6mekSVqVsUBmSUD5kDe7QufLJvC1QJKhcaeK
+   WDMNLNpdv40JJ13jmI6ignpYdi4QTGC5lT5jwzixudxnDCPIuU93p9S44
+   w==;
+X-CSE-ConnectionGUID: bGM5fe9mSyeMJW7pRqhNOg==
+X-CSE-MsgGUID: nFD2eQw+SaGv0dVRTDih+A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11087"; a="24880576"
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="24048463"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 11:43:16 -0700
-X-CSE-ConnectionGUID: AOASyGTMQEuBi/6322R9dA==
-X-CSE-MsgGUID: S6Y/PQaFRoCckOxB+slbKg==
+   d="scan'208";a="24880576"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2024 16:24:10 -0700
+X-CSE-ConnectionGUID: oaGR+8MwRuOxMCiwMat5EQ==
+X-CSE-MsgGUID: E84lwp9XRtWgayMoM3U0rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,199,1712646000"; 
-   d="scan'208";a="35556365"
+   d="scan'208";a="35701235"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 29 May 2024 11:43:14 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 May 2024 16:24:08 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sCOGW-000E5r-29;
-	Wed, 29 May 2024 18:43:12 +0000
-Date: Thu, 30 May 2024 02:42:14 +0800
+	id 1sCSeM-000EJv-0W;
+	Wed, 29 May 2024 23:24:06 +0000
+Date: Thu, 30 May 2024 07:20:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>,
-	Elena Reshetova <elena.reshetova@intel.com>
-Subject: fs/netfs/objects.c:148:5-24: WARNING: atomic_dec_and_test variation
- before object free at line 150.
-Message-ID: <202405300204.HLp3CCgL-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [bcachefs:bcachefs-testing 53/79] fs/bcachefs/fs.c:1747
+ bch2_remount() error: uninitialized symbol 'ret'.
+Message-ID: <202405300719.uaipPzZD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,61 +64,74 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Dominique Martinet <asmadeus@codewreck.org>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Thomas Bertschinger <tahbertschinger@gmail.com>
+CC: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a4be1ad3a6efea16c56615f31117590fd881358
-commit: f89ea63f1c65d3e93b255f14f9d9e05df87955fa netfs, 9p: Fix race between umount and async request completion
-date:   2 days ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-103-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300204.HLp3CCgL-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   fb868ed1f18b44700bfe55b8a39aa7d1244cbdc5
+commit: 6223304fab6387f4fdefd0681dd88a76b06f960f [53/79] bcachefs: use new mount API
+:::::: branch date: 3 hours ago
+:::::: commit date: 23 hours ago
+config: x86_64-randconfig-161-20240529 (https://download.01.org/0day-ci/archive/20240530/202405300719.uaipPzZD-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202405300204.HLp3CCgL-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202405300719.uaipPzZD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/netfs/objects.c:148:5-24: WARNING: atomic_dec_and_test variation before object free at line 150.
+smatch warnings:
+fs/bcachefs/fs.c:1747 bch2_remount() error: uninitialized symbol 'ret'.
 
-vim +148 fs/netfs/objects.c
+vim +/ret +1747 fs/bcachefs/fs.c
 
-d9f85a04fb0eee David Howells 2024-03-15  123  
-3a4a38e66d2443 David Howells 2022-02-17  124  static void netfs_free_request(struct work_struct *work)
-3a4a38e66d2443 David Howells 2022-02-17  125  {
-3a4a38e66d2443 David Howells 2022-02-17  126  	struct netfs_io_request *rreq =
-3a4a38e66d2443 David Howells 2022-02-17  127  		container_of(work, struct netfs_io_request, work);
-f89ea63f1c65d3 David Howells 2024-05-24  128  	struct netfs_inode *ictx = netfs_inode(rreq->inode);
-21d706d5cf5709 David Howells 2021-07-09  129  	unsigned int i;
-bc899ee1c898e5 David Howells 2021-06-29  130  
-3a4a38e66d2443 David Howells 2022-02-17  131  	trace_netfs_rreq(rreq, netfs_rreq_trace_free);
-87b57a048964ab David Howells 2022-03-04  132  	netfs_proc_del_rreq(rreq);
-40a81101202300 David Howells 2022-02-25  133  	netfs_clear_subrequests(rreq, false);
-40a81101202300 David Howells 2022-02-25  134  	if (rreq->netfs_ops->free_request)
-40a81101202300 David Howells 2022-02-25  135  		rreq->netfs_ops->free_request(rreq);
-3a4a38e66d2443 David Howells 2022-02-17  136  	if (rreq->cache_resources.ops)
-3a4a38e66d2443 David Howells 2022-02-17  137  		rreq->cache_resources.ops->end_operation(&rreq->cache_resources);
-21d706d5cf5709 David Howells 2021-07-09  138  	if (rreq->direct_bv) {
-21d706d5cf5709 David Howells 2021-07-09  139  		for (i = 0; i < rreq->direct_bv_count; i++) {
-21d706d5cf5709 David Howells 2021-07-09  140  			if (rreq->direct_bv[i].bv_page) {
-21d706d5cf5709 David Howells 2021-07-09  141  				if (rreq->direct_bv_unpin)
-21d706d5cf5709 David Howells 2021-07-09  142  					unpin_user_page(rreq->direct_bv[i].bv_page);
-21d706d5cf5709 David Howells 2021-07-09  143  			}
-21d706d5cf5709 David Howells 2021-07-09  144  		}
-21d706d5cf5709 David Howells 2021-07-09  145  		kvfree(rreq->direct_bv);
-21d706d5cf5709 David Howells 2021-07-09  146  	}
-f89ea63f1c65d3 David Howells 2024-05-24  147  
-f89ea63f1c65d3 David Howells 2024-05-24 @148  	if (atomic_dec_and_test(&ictx->io_count))
-f89ea63f1c65d3 David Howells 2024-05-24  149  		wake_up_var(&ictx->io_count);
-d9f85a04fb0eee David Howells 2024-03-15 @150  	call_rcu(&rreq->rcu, netfs_free_request_rcu);
-3a4a38e66d2443 David Howells 2022-02-17  151  }
-3a4a38e66d2443 David Howells 2022-02-17  152  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1711  
+6223304fab6387 Thomas Bertschinger 2024-05-27  1712  static int bch2_remount(struct super_block *sb, int *flags,
+6223304fab6387 Thomas Bertschinger 2024-05-27  1713  			struct bch_opts opts)
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1714  {
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1715  	struct bch_fs *c = sb->s_fs_info;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1716  	int ret;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1717  
+62719cf33c3ad6 Kent Overstreet     2023-12-23  1718  	opt_set(opts, read_only, (*flags & SB_RDONLY) != 0);
+62719cf33c3ad6 Kent Overstreet     2023-12-23  1719  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1720  	if (opts.read_only != c->opts.read_only) {
+1ada160618d66b Kent Overstreet     2020-06-15  1721  		down_write(&c->state_lock);
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1722  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1723  		if (opts.read_only) {
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1724  			bch2_fs_read_only(c);
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1725  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1726  			sb->s_flags |= SB_RDONLY;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1727  		} else {
+134915f3d38d83 Kent Overstreet     2019-03-21  1728  			ret = bch2_fs_read_write(c);
+134915f3d38d83 Kent Overstreet     2019-03-21  1729  			if (ret) {
+134915f3d38d83 Kent Overstreet     2019-03-21  1730  				bch_err(c, "error going rw: %i", ret);
+1ada160618d66b Kent Overstreet     2020-06-15  1731  				up_write(&c->state_lock);
+5c1ef830f67860 Kent Overstreet     2022-09-18  1732  				ret = -EINVAL;
+5c1ef830f67860 Kent Overstreet     2022-09-18  1733  				goto err;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1734  			}
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1735  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1736  			sb->s_flags &= ~SB_RDONLY;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1737  		}
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1738  
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1739  		c->opts.read_only = opts.read_only;
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1740  
+1ada160618d66b Kent Overstreet     2020-06-15  1741  		up_write(&c->state_lock);
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1742  	}
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1743  
+96dea3d599dbc3 Kent Overstreet     2023-09-12  1744  	if (opt_defined(opts, errors))
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1745  		c->opts.errors = opts.errors;
+5c1ef830f67860 Kent Overstreet     2022-09-18  1746  err:
+5c1ef830f67860 Kent Overstreet     2022-09-18 @1747  	return bch2_err_class(ret);
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1748  }
+1c6fdbd8f2465d Kent Overstreet     2017-03-16  1749  
+
+:::::: The code at line 1747 was first introduced by commit
+:::::: 5c1ef830f6786059f85bebe7501b63dffed0b633 bcachefs: Errcodes can now subtype standard error codes
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
