@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A41182AE
-	for <oe-kbuild@lists.linux.dev>; Sat,  1 Jun 2024 08:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2C2182AE
+	for <oe-kbuild@lists.linux.dev>; Sat,  1 Jun 2024 08:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717229642; cv=none; b=ujE6xS27IkhFfeIqca8xDETomjf+ldSr7X3lmaNXHO/WssnPxv1qXxed69DEDHa6dkRXto0crou1RzHoEQrKYSGEzAF/74r1AxdocPukhQL/FK2eoTiDaLjl+xN6hK8yj1fl4O3M5W1UdiAs54pnA6rt8hD5bqKDN4T88RUZWC8=
+	t=1717229701; cv=none; b=sQbcaWSfAcJ3wUzhub3F93S/Hwho52rlA0i3SC3NP5ee1FSek1AHLY0TdxDkErzENMzJ3SwNzW4E36Q91/z9O7shzz42Z4YYnF3+moFN/DD1xEj0tsqXkfWvWqSSeRJFwdFtKGBESWQTe3nDNQsppZdDLRvfPt/vM8aCqPPYfOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717229642; c=relaxed/simple;
-	bh=/c729ne+i9nGEIMijDFdDGvERcb1IAlDMuDlYRvmOkk=;
+	s=arc-20240116; t=1717229701; c=relaxed/simple;
+	bh=p/s7DJhbQVwPdlH3D2yFp8Y+DNj2SRi3LJbeoI3EdRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BE+mBzqzdbwTQnL70ZlyRPLDciy8mptFcRo7hmYVil2hW9g/ZmQy4kVwUJqVQfP4MsotiePDw6sguTfe0RcPZaHPTv7KGPHsO/deMCVp2MCG39oqefUmo7Jh0LFwaiyNT3ISirdNR6yx2wX+iT1ylTAyMBYwOR2+/81V3ovJsOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAadkg0J; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=Pt+n4cX+qHgb2AM9svS7M98ZdaFzq8botQrSQAn4CQ1MS4LJSiGOISFHdCLs0NznCe6Qv0gp6RJgmHiQ5/R1EJMAzrvR8cDxdGoM4thnnP2nC//k5f+03ihLhwGnEGZlV2AXABbw/Wo5OXkKLnWeKreo9tmmIbljSvtLKjI1zfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GFaQRdV4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAadkg0J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GFaQRdV4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717229640; x=1748765640;
+  t=1717229699; x=1748765699;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/c729ne+i9nGEIMijDFdDGvERcb1IAlDMuDlYRvmOkk=;
-  b=DAadkg0JPa3Oncf+1JaWBgFBCpXGulatG/xozATjGdf6Zo8tBq0VzeS+
-   WDpVxlgZHFHPT4VfG8nCrOHrJX1WJ9VmcU0BUKbnEt9ZxXqbmAKc5FeKt
-   MYlVcSK9mRu9MytM9Xq9LE8nM6CVBtZ5r6UgRpfmoTypVrcRV3IdfWOgy
-   4QVVNOT1UzZhrnbJQ4eAg+86vMcB8XHxurprUaX82SiG+mPtXU3EeAReO
-   3LN2mvi9vDhJegW6hbEMTOyj/Si8DliYvJC79n/MNVqA6kw92M6j4VhgY
-   dnff09NQDJWm2JENop7GKkr8OKdwCi/M0R1V5NVNQo/c5YzndoR+VuQop
-   w==;
-X-CSE-ConnectionGUID: xaNyfoH/SJK9j5alQksDSA==
-X-CSE-MsgGUID: YND4SOfXSZehJFAwMAWDLA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="36312930"
+  bh=p/s7DJhbQVwPdlH3D2yFp8Y+DNj2SRi3LJbeoI3EdRY=;
+  b=GFaQRdV4VnQar531rdtRosYHGxM37yohW6jgwGrkb+/DrjG890km9vf4
+   a8Io0b6Je9t6+eGWdZE8BcohNROHDggGNVRoCRUMpv8o6U1Z1spon6hYX
+   vIV5gmF9JqZetbKe9PZ6pxW5+xG5mJSXy6e/uN/8Ef9YkdFv6jJvOtheI
+   JZkY5T1Wqqou28eskqaWSoXK4HEPwDdC/3PLrbZEg7YFhEpxyMIT8Lnfw
+   NrRYaAu1mqjqbsHrgHdkGTzYeVXYbFPJo4Nv22WtvnVbx2nMxITQyVz8O
+   F1Zj3V4+D1P8U+Fcu5E/+cw0ZkjlqXT1QJw0fnG7QVNt3Cxzo4GoCIb1/
+   g==;
+X-CSE-ConnectionGUID: ZzN1RoX5To+3Ue5nJoghzA==
+X-CSE-MsgGUID: S7WOxnL+SNaaHuUbT4gh3A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="31277816"
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="36312930"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 01:13:59 -0700
-X-CSE-ConnectionGUID: RLfiGYihSqyNc1eYeul6ig==
-X-CSE-MsgGUID: bhr1iUNxQumUO9KpXqDSag==
+   d="scan'208";a="31277816"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2024 01:14:58 -0700
+X-CSE-ConnectionGUID: QmpdMiqFSIaL37lJonaj1A==
+X-CSE-MsgGUID: LOEFQa7wROGSm5+NmsivlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,207,1712646000"; 
-   d="scan'208";a="67232944"
+   d="scan'208";a="59563224"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 01 Jun 2024 01:13:57 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Jun 2024 01:14:56 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDJsA-000IYv-1r;
-	Sat, 01 Jun 2024 08:13:54 +0000
-Date: Sat, 1 Jun 2024 16:13:52 +0800
+	id 1sDJt8-000IYz-1w;
+	Sat, 01 Jun 2024 08:14:54 +0000
+Date: Sat, 1 Jun 2024 16:14:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [RFC net-next 4/6] tcp: pass rx socket on rcv drops
-Message-ID: <202406011539.jhwBd7DX-lkp@intel.com>
+Subject: [robh:dt/linus 4/5] drivers/of/irq.c:107 of_irq_parse_imap_parent()
+ warn: bitwise AND condition is false here
+Message-ID: <202406011641.gZZcGAYi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,309 +64,83 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <48392b4d422dd64cb8e76822737928c189b2b4d2.1717105215.git.yan@cloudflare.com>
-References: <48392b4d422dd64cb8e76822737928c189b2b4d2.1717105215.git.yan@cloudflare.com>
-TO: Yan Zhai <yan@cloudflare.com>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Yan,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhai/net-add-kfree_skb_for_sk-function/20240531-055120
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/48392b4d422dd64cb8e76822737928c189b2b4d2.1717105215.git.yan%40cloudflare.com
-patch subject: [RFC net-next 4/6] tcp: pass rx socket on rcv drops
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: i386-randconfig-141-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011539.jhwBd7DX-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/linus
+head:   e7985f43609c782132f8f5794ee6cc4cdb66ca75
+commit: 935df1bd40d43c4ee91838c42a20e9af751885cc [4/5] of/irq: Factor out parsing of interrupt-map parent phandle+args from of_irq_parse_raw()
+:::::: branch date: 31 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-141-20240601 (https://download.01.org/0day-ci/archive/20240601/202406011641.gZZcGAYi-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406011539.jhwBd7DX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406011641.gZZcGAYi-lkp@intel.com/
 
 New smatch warnings:
-net/ipv4/tcp_ipv4.c:2379 tcp_v4_rcv() error: uninitialized symbol 'sk'.
-net/ipv6/tcp_ipv6.c:1947 tcp_v6_rcv() error: uninitialized symbol 'sk'.
+drivers/of/irq.c:107 of_irq_parse_imap_parent() warn: bitwise AND condition is false here
 
 Old smatch warnings:
-net/ipv4/tcp_ipv4.c:327 tcp_v4_connect() warn: missing error code? 'err'
-net/ipv6/tcp_ipv6.c:329 tcp_v6_connect() warn: missing error code? 'err'
+drivers/of/irq.c:68 of_irq_find_parent() warn: bitwise AND condition is false here
+drivers/of/irq.c:362 of_irq_parse_one() warn: bitwise AND condition is false here
 
-vim +/sk +2379 net/ipv4/tcp_ipv4.c
+vim +107 drivers/of/irq.c
 
-eeea10b83a1394 Eric Dumazet             2017-12-03  2166  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2167  /*
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2168   *	From tcp_input.c
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2169   */
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2170  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2171  int tcp_v4_rcv(struct sk_buff *skb)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2172  {
-3b24d854cb3538 Eric Dumazet             2016-04-01  2173  	struct net *net = dev_net(skb->dev);
-643b622b51f1f0 Menglong Dong            2022-02-20  2174  	enum skb_drop_reason drop_reason;
-3fa6f616a7a4d0 David Ahern              2017-08-07  2175  	int sdif = inet_sdif(skb);
-534322ca3daf56 David Ahern              2019-12-30  2176  	int dif = inet_iif(skb);
-eddc9ec53be2ec Arnaldo Carvalho de Melo 2007-04-20  2177  	const struct iphdr *iph;
-cf533ea53ebfae Eric Dumazet             2011-10-21  2178  	const struct tcphdr *th;
-3b24d854cb3538 Eric Dumazet             2016-04-01  2179  	bool refcounted;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2180  	struct sock *sk;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2181  	int ret;
-41eecbd712b73f Eric Dumazet             2024-04-07  2182  	u32 isn;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2183  
-85125597419aec Menglong Dong            2022-01-09  2184  	drop_reason = SKB_DROP_REASON_NOT_SPECIFIED;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2185  	if (skb->pkt_type != PACKET_HOST)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2186  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2187  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2188  	/* Count it even if it's bad */
-90bbcc608369a1 Eric Dumazet             2016-04-27  2189  	__TCP_INC_STATS(net, TCP_MIB_INSEGS);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2190  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2191  	if (!pskb_may_pull(skb, sizeof(struct tcphdr)))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2192  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2193  
-ea1627c20c3462 Eric Dumazet             2016-05-13  2194  	th = (const struct tcphdr *)skb->data;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2195  
-85125597419aec Menglong Dong            2022-01-09  2196  	if (unlikely(th->doff < sizeof(struct tcphdr) / 4)) {
-85125597419aec Menglong Dong            2022-01-09  2197  		drop_reason = SKB_DROP_REASON_PKT_TOO_SMALL;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2198  		goto bad_packet;
-85125597419aec Menglong Dong            2022-01-09  2199  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2200  	if (!pskb_may_pull(skb, th->doff * 4))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2201  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2202  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2203  	/* An explanation is required here, I think.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2204  	 * Packet length and doff are validated by header prediction,
-caa20d9abe810b Stephen Hemminger        2005-11-10  2205  	 * provided case of th->doff==0 is eliminated.
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2206  	 * So, we defer the checks. */
-ed70fcfcee953a Tom Herbert              2014-05-02  2207  
-ed70fcfcee953a Tom Herbert              2014-05-02  2208  	if (skb_checksum_init(skb, IPPROTO_TCP, inet_compute_pseudo))
-6a5dc9e598fe90 Eric Dumazet             2013-04-29  2209  		goto csum_error;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2210  
-ea1627c20c3462 Eric Dumazet             2016-05-13  2211  	th = (const struct tcphdr *)skb->data;
-eddc9ec53be2ec Arnaldo Carvalho de Melo 2007-04-20  2212  	iph = ip_hdr(skb);
-4bdc3d66147b3a Eric Dumazet             2015-10-13  2213  lookup:
-4461568aa4e565 Kuniyuki Iwashima        2022-09-07  2214  	sk = __inet_lookup_skb(net->ipv4.tcp_death_row.hashinfo,
-4461568aa4e565 Kuniyuki Iwashima        2022-09-07  2215  			       skb, __tcp_hdrlen(th), th->source,
-3fa6f616a7a4d0 David Ahern              2017-08-07  2216  			       th->dest, sdif, &refcounted);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2217  	if (!sk)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2218  		goto no_tcp_socket;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2219  
-bb134d5d9580fc Eric Dumazet             2010-03-09  2220  	if (sk->sk_state == TCP_TIME_WAIT)
-bb134d5d9580fc Eric Dumazet             2010-03-09  2221  		goto do_time_wait;
-bb134d5d9580fc Eric Dumazet             2010-03-09  2222  
-079096f103faca Eric Dumazet             2015-10-02  2223  	if (sk->sk_state == TCP_NEW_SYN_RECV) {
-079096f103faca Eric Dumazet             2015-10-02  2224  		struct request_sock *req = inet_reqsk(sk);
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2225  		bool req_stolen = false;
-7716682cc58e30 Eric Dumazet             2016-02-18  2226  		struct sock *nsk;
-079096f103faca Eric Dumazet             2015-10-02  2227  
-079096f103faca Eric Dumazet             2015-10-02  2228  		sk = req->rsk_listener;
-6f0012e35160cd Eric Dumazet             2022-06-23  2229  		if (!xfrm4_policy_check(sk, XFRM_POLICY_IN, skb))
-6f0012e35160cd Eric Dumazet             2022-06-23  2230  			drop_reason = SKB_DROP_REASON_XFRM_POLICY;
-6f0012e35160cd Eric Dumazet             2022-06-23  2231  		else
-0a3a809089eb1d Dmitry Safonov           2023-10-23  2232  			drop_reason = tcp_inbound_hash(sk, req, skb,
-7bbb765b734966 Dmitry Safonov           2022-02-23  2233  						       &iph->saddr, &iph->daddr,
-1330b6ef3313fc Jakub Kicinski           2022-03-07  2234  						       AF_INET, dif, sdif);
-1330b6ef3313fc Jakub Kicinski           2022-03-07  2235  		if (unlikely(drop_reason)) {
-e65c332de8a0c9 Eric Dumazet             2016-08-24  2236  			sk_drops_add(sk, skb);
-729235554d805c Eric Dumazet             2016-02-11  2237  			reqsk_put(req);
-729235554d805c Eric Dumazet             2016-02-11  2238  			goto discard_it;
-729235554d805c Eric Dumazet             2016-02-11  2239  		}
-4fd44a98ffe0d0 Frank van der Linden     2018-06-12  2240  		if (tcp_checksum_complete(skb)) {
-4fd44a98ffe0d0 Frank van der Linden     2018-06-12  2241  			reqsk_put(req);
-4fd44a98ffe0d0 Frank van der Linden     2018-06-12  2242  			goto csum_error;
-4fd44a98ffe0d0 Frank van der Linden     2018-06-12  2243  		}
-7716682cc58e30 Eric Dumazet             2016-02-18  2244  		if (unlikely(sk->sk_state != TCP_LISTEN)) {
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2245  			nsk = reuseport_migrate_sock(sk, req_to_sk(req), skb);
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2246  			if (!nsk) {
-f03f2e154f52fd Eric Dumazet             2015-10-14  2247  				inet_csk_reqsk_queue_drop_and_put(sk, req);
-4bdc3d66147b3a Eric Dumazet             2015-10-13  2248  				goto lookup;
-4bdc3d66147b3a Eric Dumazet             2015-10-13  2249  			}
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2250  			sk = nsk;
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2251  			/* reuseport_migrate_sock() has already held one sk_refcnt
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2252  			 * before returning.
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2253  			 */
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2254  		} else {
-3b24d854cb3538 Eric Dumazet             2016-04-01  2255  			/* We own a reference on the listener, increase it again
-3b24d854cb3538 Eric Dumazet             2016-04-01  2256  			 * as we might lose it too soon.
-3b24d854cb3538 Eric Dumazet             2016-04-01  2257  			 */
-7716682cc58e30 Eric Dumazet             2016-02-18  2258  			sock_hold(sk);
-d4f2c86b2b7e2e Kuniyuki Iwashima        2021-06-12  2259  		}
-3b24d854cb3538 Eric Dumazet             2016-04-01  2260  		refcounted = true;
-1f3b359f1004bd Eric Dumazet             2017-09-08  2261  		nsk = NULL;
-eeea10b83a1394 Eric Dumazet             2017-12-03  2262  		if (!tcp_filter(sk, skb)) {
-eeea10b83a1394 Eric Dumazet             2017-12-03  2263  			th = (const struct tcphdr *)skb->data;
-eeea10b83a1394 Eric Dumazet             2017-12-03  2264  			iph = ip_hdr(skb);
-eeea10b83a1394 Eric Dumazet             2017-12-03  2265  			tcp_v4_fill_cb(skb, iph, th);
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2266  			nsk = tcp_check_req(sk, skb, req, false, &req_stolen);
-255f9034d3050f Menglong Dong            2022-02-20  2267  		} else {
-255f9034d3050f Menglong Dong            2022-02-20  2268  			drop_reason = SKB_DROP_REASON_SOCKET_FILTER;
-eeea10b83a1394 Eric Dumazet             2017-12-03  2269  		}
-079096f103faca Eric Dumazet             2015-10-02  2270  		if (!nsk) {
-079096f103faca Eric Dumazet             2015-10-02  2271  			reqsk_put(req);
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2272  			if (req_stolen) {
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2273  				/* Another cpu got exclusive access to req
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2274  				 * and created a full blown socket.
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2275  				 * Try to feed this packet to this socket
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2276  				 * instead of discarding it.
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2277  				 */
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2278  				tcp_v4_restore_cb(skb);
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2279  				sock_put(sk);
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2280  				goto lookup;
-e0f9759f530bf7 Eric Dumazet             2018-02-13  2281  			}
-7716682cc58e30 Eric Dumazet             2016-02-18  2282  			goto discard_and_relse;
-079096f103faca Eric Dumazet             2015-10-02  2283  		}
-6f0012e35160cd Eric Dumazet             2022-06-23  2284  		nf_reset_ct(skb);
-079096f103faca Eric Dumazet             2015-10-02  2285  		if (nsk == sk) {
-079096f103faca Eric Dumazet             2015-10-02  2286  			reqsk_put(req);
-eeea10b83a1394 Eric Dumazet             2017-12-03  2287  			tcp_v4_restore_cb(skb);
-ee01defe25bad0 Jason Xing               2024-02-26  2288  		} else {
-ee01defe25bad0 Jason Xing               2024-02-26  2289  			drop_reason = tcp_child_process(sk, nsk, skb);
-ee01defe25bad0 Jason Xing               2024-02-26  2290  			if (drop_reason) {
-120391ef9ca8fe Jason Xing               2024-04-25  2291  				enum sk_rst_reason rst_reason;
-120391ef9ca8fe Jason Xing               2024-04-25  2292  
-120391ef9ca8fe Jason Xing               2024-04-25  2293  				rst_reason = sk_rst_convert_drop_reason(drop_reason);
-120391ef9ca8fe Jason Xing               2024-04-25  2294  				tcp_v4_send_reset(nsk, skb, rst_reason);
-7716682cc58e30 Eric Dumazet             2016-02-18  2295  				goto discard_and_relse;
-ee01defe25bad0 Jason Xing               2024-02-26  2296  			}
-7716682cc58e30 Eric Dumazet             2016-02-18  2297  			sock_put(sk);
-079096f103faca Eric Dumazet             2015-10-02  2298  			return 0;
-079096f103faca Eric Dumazet             2015-10-02  2299  		}
-079096f103faca Eric Dumazet             2015-10-02  2300  	}
-14834c4f4eb3c8 Eric Dumazet             2021-10-25  2301  
-d13b05962369ba Eric Dumazet             2024-04-11  2302  process:
-020e71a3cf7f50 Eric Dumazet             2021-10-25  2303  	if (static_branch_unlikely(&ip4_min_ttl)) {
-14834c4f4eb3c8 Eric Dumazet             2021-10-25  2304  		/* min_ttl can be changed concurrently from do_ip_setsockopt() */
-14834c4f4eb3c8 Eric Dumazet             2021-10-25  2305  		if (unlikely(iph->ttl < READ_ONCE(inet_sk(sk)->min_ttl))) {
-02a1d6e7a6bb02 Eric Dumazet             2016-04-27  2306  			__NET_INC_STATS(net, LINUX_MIB_TCPMINTTLDROP);
-2798e36dc233a4 Eric Dumazet             2023-02-01  2307  			drop_reason = SKB_DROP_REASON_TCP_MINTTL;
-d218d11133d888 Stephen Hemminger        2010-01-11  2308  			goto discard_and_relse;
-6cce09f87a0479 Eric Dumazet             2010-03-07  2309  		}
-020e71a3cf7f50 Eric Dumazet             2021-10-25  2310  	}
-d218d11133d888 Stephen Hemminger        2010-01-11  2311  
-255f9034d3050f Menglong Dong            2022-02-20  2312  	if (!xfrm4_policy_check(sk, XFRM_POLICY_IN, skb)) {
-255f9034d3050f Menglong Dong            2022-02-20  2313  		drop_reason = SKB_DROP_REASON_XFRM_POLICY;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2314  		goto discard_and_relse;
-255f9034d3050f Menglong Dong            2022-02-20  2315  	}
-9ea88a153001ff Dmitry Popov             2014-08-07  2316  
-0a3a809089eb1d Dmitry Safonov           2023-10-23  2317  	drop_reason = tcp_inbound_hash(sk, NULL, skb, &iph->saddr, &iph->daddr,
-0a3a809089eb1d Dmitry Safonov           2023-10-23  2318  				       AF_INET, dif, sdif);
-1330b6ef3313fc Jakub Kicinski           2022-03-07  2319  	if (drop_reason)
-9ea88a153001ff Dmitry Popov             2014-08-07  2320  		goto discard_and_relse;
-9ea88a153001ff Dmitry Popov             2014-08-07  2321  
-895b5c9f206eb7 Florian Westphal         2019-09-29  2322  	nf_reset_ct(skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2323  
-85125597419aec Menglong Dong            2022-01-09  2324  	if (tcp_filter(sk, skb)) {
-364df53c081d93 Menglong Dong            2022-01-27  2325  		drop_reason = SKB_DROP_REASON_SOCKET_FILTER;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2326  		goto discard_and_relse;
-85125597419aec Menglong Dong            2022-01-09  2327  	}
-ac6e780070e30e Eric Dumazet             2016-11-10  2328  	th = (const struct tcphdr *)skb->data;
-ac6e780070e30e Eric Dumazet             2016-11-10  2329  	iph = ip_hdr(skb);
-eeea10b83a1394 Eric Dumazet             2017-12-03  2330  	tcp_v4_fill_cb(skb, iph, th);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2331  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2332  	skb->dev = NULL;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2333  
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2334  	if (sk->sk_state == TCP_LISTEN) {
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2335  		ret = tcp_v4_do_rcv(sk, skb);
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2336  		goto put_and_return;
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2337  	}
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2338  
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2339  	sk_incoming_cpu_update(sk);
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2340  
-c63661848581a9 Ingo Molnar              2006-07-03  2341  	bh_lock_sock_nested(sk);
-a44d6eacdaf56f Martin KaFai Lau         2016-03-14  2342  	tcp_segs_in(tcp_sk(sk), skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2343  	ret = 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2344  	if (!sock_owned_by_user(sk)) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2345  		ret = tcp_v4_do_rcv(sk, skb);
-8b27dae5a2e89a Eric Dumazet             2019-03-22  2346  	} else {
-7a26dc9e7b43f5 Menglong Dong            2022-02-20  2347  		if (tcp_add_backlog(sk, skb, &drop_reason))
-6b03a53a5ab7cc Zhu Yi                   2010-03-04  2348  			goto discard_and_relse;
-6b03a53a5ab7cc Zhu Yi                   2010-03-04  2349  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2350  	bh_unlock_sock(sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2351  
-e994b2f0fb9229 Eric Dumazet             2015-10-02  2352  put_and_return:
-3b24d854cb3538 Eric Dumazet             2016-04-01  2353  	if (refcounted)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2354  		sock_put(sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2355  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2356  	return ret;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2357  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2358  no_tcp_socket:
-85125597419aec Menglong Dong            2022-01-09  2359  	drop_reason = SKB_DROP_REASON_NO_SOCKET;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2360  	if (!xfrm4_policy_check(NULL, XFRM_POLICY_IN, skb))
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2361  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2362  
-eeea10b83a1394 Eric Dumazet             2017-12-03  2363  	tcp_v4_fill_cb(skb, iph, th);
-eeea10b83a1394 Eric Dumazet             2017-12-03  2364  
-12e25e1041d044 Eric Dumazet             2015-06-03  2365  	if (tcp_checksum_complete(skb)) {
-6a5dc9e598fe90 Eric Dumazet             2013-04-29  2366  csum_error:
-85125597419aec Menglong Dong            2022-01-09  2367  		drop_reason = SKB_DROP_REASON_TCP_CSUM;
-709c0314239992 Jakub Kicinski           2021-05-14  2368  		trace_tcp_bad_csum(skb);
-90bbcc608369a1 Eric Dumazet             2016-04-27  2369  		__TCP_INC_STATS(net, TCP_MIB_CSUMERRORS);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2370  bad_packet:
-90bbcc608369a1 Eric Dumazet             2016-04-27  2371  		__TCP_INC_STATS(net, TCP_MIB_INERRS);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2372  	} else {
-120391ef9ca8fe Jason Xing               2024-04-25  2373  		tcp_v4_send_reset(NULL, skb, sk_rst_convert_drop_reason(drop_reason));
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2374  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2375  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2376  discard_it:
-f8319dfd1b3b3b Menglong Dong            2022-05-13  2377  	SKB_DR_OR(drop_reason, NOT_SPECIFIED);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2378  	/* Discard frame. */
-ba5a91847cf5d8 Yan Zhai                 2024-05-30 @2379  	kfree_skb_for_sk(skb, sk, drop_reason);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2380  	return 0;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2381  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2382  discard_and_relse:
-532182cd610782 Eric Dumazet             2016-04-01  2383  	sk_drops_add(sk, skb);
-3b24d854cb3538 Eric Dumazet             2016-04-01  2384  	if (refcounted)
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2385  		sock_put(sk);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2386  	goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2387  
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2388  do_time_wait:
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2389  	if (!xfrm4_policy_check(NULL, XFRM_POLICY_IN, skb)) {
-255f9034d3050f Menglong Dong            2022-02-20  2390  		drop_reason = SKB_DROP_REASON_XFRM_POLICY;
-9469c7b4aa210c YOSHIFUJI Hideaki        2006-10-10  2391  		inet_twsk_put(inet_twsk(sk));
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2392  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2393  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2394  
-eeea10b83a1394 Eric Dumazet             2017-12-03  2395  	tcp_v4_fill_cb(skb, iph, th);
-eeea10b83a1394 Eric Dumazet             2017-12-03  2396  
-6a5dc9e598fe90 Eric Dumazet             2013-04-29  2397  	if (tcp_checksum_complete(skb)) {
-6a5dc9e598fe90 Eric Dumazet             2013-04-29  2398  		inet_twsk_put(inet_twsk(sk));
-6a5dc9e598fe90 Eric Dumazet             2013-04-29  2399  		goto csum_error;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2400  	}
-41eecbd712b73f Eric Dumazet             2024-04-07  2401  	switch (tcp_timewait_state_process(inet_twsk(sk), skb, th, &isn)) {
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2402  	case TCP_TW_SYN: {
-4461568aa4e565 Kuniyuki Iwashima        2022-09-07  2403  		struct sock *sk2 = inet_lookup_listener(net,
-4461568aa4e565 Kuniyuki Iwashima        2022-09-07  2404  							net->ipv4.tcp_death_row.hashinfo,
-4461568aa4e565 Kuniyuki Iwashima        2022-09-07  2405  							skb, __tcp_hdrlen(th),
-da5e36308d9f71 Tom Herbert              2013-01-22  2406  							iph->saddr, th->source,
-eddc9ec53be2ec Arnaldo Carvalho de Melo 2007-04-20  2407  							iph->daddr, th->dest,
-3fa6f616a7a4d0 David Ahern              2017-08-07  2408  							inet_iif(skb),
-3fa6f616a7a4d0 David Ahern              2017-08-07  2409  							sdif);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2410  		if (sk2) {
-dbe7faa4045ea8 Eric Dumazet             2015-07-08  2411  			inet_twsk_deschedule_put(inet_twsk(sk));
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2412  			sk = sk2;
-eeea10b83a1394 Eric Dumazet             2017-12-03  2413  			tcp_v4_restore_cb(skb);
-3b24d854cb3538 Eric Dumazet             2016-04-01  2414  			refcounted = false;
-41eecbd712b73f Eric Dumazet             2024-04-07  2415  			__this_cpu_write(tcp_tw_isn, isn);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2416  			goto process;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2417  		}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2418  	}
-fcfd6dfab97006 Gustavo A. R. Silva      2017-10-16  2419  		/* to ACK */
-a8eceea84a3a35 Joe Perches              2020-03-12  2420  		fallthrough;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2421  	case TCP_TW_ACK:
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2422  		tcp_v4_timewait_ack(sk, skb);
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2423  		break;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2424  	case TCP_TW_RST:
-22a32557758a71 Jason Xing               2024-05-10  2425  		tcp_v4_send_reset(sk, skb, SK_RST_REASON_TCP_TIMEWAIT_SOCKET);
-271c3b9b7bdae0 Florian Westphal         2015-12-21  2426  		inet_twsk_deschedule_put(inet_twsk(sk));
-271c3b9b7bdae0 Florian Westphal         2015-12-21  2427  		goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2428  	case TCP_TW_SUCCESS:;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2429  	}
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2430  	goto discard_it;
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2431  }
-^1da177e4c3f41 Linus Torvalds           2005-04-16  2432  
+de4adddcbcc25d Marc Zyngier      2021-12-01  100  
+935df1bd40d43c Rob Herring (Arm  2024-05-29  101) const __be32 *of_irq_parse_imap_parent(const __be32 *imap, int len, struct of_phandle_args *out_irq)
+935df1bd40d43c Rob Herring (Arm  2024-05-29  102) {
+935df1bd40d43c Rob Herring (Arm  2024-05-29  103) 	u32 intsize, addrsize;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  104) 	struct device_node *np;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  105) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  106) 	/* Get the interrupt parent */
+935df1bd40d43c Rob Herring (Arm  2024-05-29 @107) 	if (of_irq_workarounds & OF_IMAP_NO_PHANDLE)
+935df1bd40d43c Rob Herring (Arm  2024-05-29  108) 		np = of_node_get(of_irq_dflt_pic);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  109) 	else
+935df1bd40d43c Rob Herring (Arm  2024-05-29  110) 		np = of_find_node_by_phandle(be32_to_cpup(imap));
+935df1bd40d43c Rob Herring (Arm  2024-05-29  111) 	imap++;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  112) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  113) 	/* Check if not found */
+935df1bd40d43c Rob Herring (Arm  2024-05-29  114) 	if (!np) {
+935df1bd40d43c Rob Herring (Arm  2024-05-29  115) 		pr_debug(" -> imap parent not found !\n");
+935df1bd40d43c Rob Herring (Arm  2024-05-29  116) 		return NULL;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  117) 	}
+935df1bd40d43c Rob Herring (Arm  2024-05-29  118) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  119) 	/* Get #interrupt-cells and #address-cells of new parent */
+935df1bd40d43c Rob Herring (Arm  2024-05-29  120) 	if (of_property_read_u32(np, "#interrupt-cells",
+935df1bd40d43c Rob Herring (Arm  2024-05-29  121) 					&intsize)) {
+935df1bd40d43c Rob Herring (Arm  2024-05-29  122) 		pr_debug(" -> parent lacks #interrupt-cells!\n");
+935df1bd40d43c Rob Herring (Arm  2024-05-29  123) 		of_node_put(np);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  124) 		return NULL;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  125) 	}
+935df1bd40d43c Rob Herring (Arm  2024-05-29  126) 	if (of_property_read_u32(np, "#address-cells",
+935df1bd40d43c Rob Herring (Arm  2024-05-29  127) 					&addrsize))
+935df1bd40d43c Rob Herring (Arm  2024-05-29  128) 		addrsize = 0;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  129) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  130) 	pr_debug(" -> intsize=%d, addrsize=%d\n",
+935df1bd40d43c Rob Herring (Arm  2024-05-29  131) 		intsize, addrsize);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  132) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  133) 	/* Check for malformed properties */
+935df1bd40d43c Rob Herring (Arm  2024-05-29  134) 	if (WARN_ON(addrsize + intsize > MAX_PHANDLE_ARGS)
+935df1bd40d43c Rob Herring (Arm  2024-05-29  135) 		|| (len < (addrsize + intsize))) {
+935df1bd40d43c Rob Herring (Arm  2024-05-29  136) 		of_node_put(np);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  137) 		return NULL;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  138) 	}
+935df1bd40d43c Rob Herring (Arm  2024-05-29  139) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  140) 	pr_debug(" -> imaplen=%d\n", len);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  141) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  142) 	imap += addrsize + intsize;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  143) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  144) 	out_irq->np = np;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  145) 	for (int i = 0; i < intsize; i++)
+935df1bd40d43c Rob Herring (Arm  2024-05-29  146) 		out_irq->args[i] = be32_to_cpup(imap - intsize + i);
+935df1bd40d43c Rob Herring (Arm  2024-05-29  147) 	out_irq->args_count = intsize;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  148) 
+935df1bd40d43c Rob Herring (Arm  2024-05-29  149) 	return imap;
+935df1bd40d43c Rob Herring (Arm  2024-05-29  150) }
+935df1bd40d43c Rob Herring (Arm  2024-05-29  151) 
 
 -- 
 0-DAY CI Kernel Test Service
