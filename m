@@ -1,157 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89C72628D;
-	Sun,  2 Jun 2024 11:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976E21BF3F
+	for <oe-kbuild@lists.linux.dev>; Sun,  2 Jun 2024 12:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717326666; cv=none; b=idZZh7wkxQgZfNNalQeW9Rfubel9RQ+87bLCy+cTd06hACT1HKqE0xVUPRvRhlC/o88ZodaUkIotUTe3VbuFigm/TI6rRd6uRksFOnjfbg6sEzgf5fb+tHRQgWoA0V4drrxQlueATvD2StriDCV51H5UVQYxFL9P3kmXtqThlL4=
+	t=1717331894; cv=none; b=WTNJv3MW6SemHBCGHrAPpkIkT1rsGI5BScaH5eCAYNt3Zcr5iu/na7H1+qNKIijUNpWFf5nHdQYxmrkf5RyEsEKCT3RWCyz/X5ylhEWkHZt5lWQHOQElhcWPoRSCGZ7631QKXLUGlHJ6NP+1wOLJoY+UPpdGOs3DwLjRkR75EK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717326666; c=relaxed/simple;
-	bh=/f1+buvY2wKNB3Djb3Xp6A4nNR8eZ/0oK02yL2xOeWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GUZDPLaiJUu5B7Jwc87gqzFr0PpfNbJR0mqTQdQvYj9pf0iv3hZmBJt/zWalin7Q9nVUSSzpJbI9tkgQitBs8eOXRVEPpUMtrXlBNWGtkhfC92i49atKtiTb0/bdGHwRC+aw97m2nBdiLc124HaDzdckrAZitd/I3yAGiKKXzAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jDFyT22j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717331894; c=relaxed/simple;
+	bh=ILAw2imkBuCFzE0mXy/Ksth2hXJiqmYxan6xMuBST4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LXWEXKkIBugxuN6bo4kyyUUL8ZuJNNYWIJVacfQ3IU5PDGY8xYJH9274HD4vQ5jAYlFdjeGXvB4byFM/ZBOGytIQg42Kj8/zV0kUx8B9PQcofZ4kVw9egjA99w2RvXZj/OrvkqeFp029Ze/X5cxya1LkR1l06vzOiXI7+O6NHfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBmADb44; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jDFyT22j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA938C2BBFC;
-	Sun,  2 Jun 2024 11:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717326666;
-	bh=/f1+buvY2wKNB3Djb3Xp6A4nNR8eZ/0oK02yL2xOeWU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jDFyT22jbQ67clyrNrxdbhD7xaOliiWs4+SseiiLSu6Nr0PNS27VBY119EkzGc9TE
-	 7Rei21olEOO6ncvQygef1eiqCLm2Fb18+625aQnIwYgXSWQUCTOuMoOhfN2QhOVOS6
-	 M9wUOiqohMZ4mUpAja96KeI/BN0hfeit+8H7kiMvjZ0qqcGhXf3V0rzjWmhrdtsgw3
-	 bQrFZ3QcGwVDeG4F8HGxSCFfOrcUUmMkKWk8pWVtOL6XJlcrgYKJfoR0tkAzUo0bhy
-	 bBG08jKYHe0X4eFuxSClGILiZTQtGNmidUROA5tU2cGl1tM1Bm96Q3oE00TRgSevJS
-	 HpzPw7jIlw/Yw==
-Date: Sun, 2 Jun 2024 12:10:51 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Ramona Gradinariu
- <ramona.bolboaca13@gmail.com>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, robh@kernel.org, nuno.sa@analog.com,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657x
- family
-Message-ID: <20240602121051.2f322667@jic23-huawei>
-In-Reply-To: <ff870fa7-436c-4ab1-9e8b-a5efcdd28c29@moroto.mountain>
-References: <20240527142618.275897-10-ramona.bolboaca13@gmail.com>
-	<ff870fa7-436c-4ab1-9e8b-a5efcdd28c29@moroto.mountain>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBmADb44"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717331892; x=1748867892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ILAw2imkBuCFzE0mXy/Ksth2hXJiqmYxan6xMuBST4Y=;
+  b=NBmADb4439enrXVNI69GhlYP3Y35APBKErMGHGKtpsEmeTk4Wp8wPZj2
+   +2sQgW/oWaOSZRbnKrsbdE1RsUt6+nxLruyBwmXTvCnQ+zth8PUsWd1S5
+   5xa/pWQKEciXJ77cUwXL4oZ9xw7A4cRah0iwa5/hc4CMsRkADOR6A8Un3
+   9ospz8LKyECWNYaTyBBODt3y7lwyC2lzBZj0jHFexe4vBBF+4EU4H9bkg
+   bzV0aq4Y/Aju3BcZvTZnDXGw1DBdSQR4nAdnxldk2VAxJJLMo7M3N8GhM
+   harS7ajkTEzJ3fU8+PddKWJO3oemMyVOLgfVUsei+6zzh4mQk+iJw6NHS
+   Q==;
+X-CSE-ConnectionGUID: MYYibdnnSQGdx7xledvxLQ==
+X-CSE-MsgGUID: mSiIMy6tRq2+jZNFScl/3w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24488615"
+X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; 
+   d="scan'208";a="24488615"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 05:38:11 -0700
+X-CSE-ConnectionGUID: zTDHXBMJQFSI1LO+7KAyxw==
+X-CSE-MsgGUID: /v2rlnX+RDGPmYoOC89TOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; 
+   d="scan'208";a="36715490"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2024 05:38:10 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sDkTK-000K0J-2G;
+	Sun, 02 Jun 2024 12:38:07 +0000
+Date: Sun, 2 Jun 2024 20:37:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH V7 08/12] perf tools: Parse aux-action
+Message-ID: <202406022020.WJ2gdPJF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 29 May 2024 17:32:40 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-> Hi Ramona,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ramona-Gradinariu/=
-dt-bindings-iio-imu-Add-ADIS16501-compatibles/20240527-230203
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git tog=
-reg
-> patch link:    https://lore.kernel.org/r/20240527142618.275897-10-ramona.=
-bolboaca13%40gmail.com
-> patch subject: [PATCH v5 9/9] drivers: iio: imu: Add support for adis1657=
-x family
-> config: x86_64-randconfig-161-20240528 (https://download.01.org/0day-ci/a=
-rchive/20240528/202405281539.EXGy0dhk-lkp@intel.com/config)
-> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202405281539.EXGy0dhk-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/iio/imu/adis16475.c:1608 adis16475_push_single_sample() warn: mis=
-sing error code? 'ret'
->=20
-> vim +/ret +1608 drivers/iio/imu/adis16475.c
->=20
-> c49e2871e50119 Ramona Gradinariu 2024-05-27  1577  static int adis16475_p=
-ush_single_sample(struct iio_poll_func *pf)
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1578  {
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1579  	struct iio_dev *=
-indio_dev =3D pf->indio_dev;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1580  	struct adis16475=
- *st =3D iio_priv(indio_dev);
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1581  	struct adis *adi=
-s =3D &st->adis;
-> 8f6bc87d67c030 Ramona Bolboaca   2023-08-08  1582  	int ret, bit, buff_of=
-fset =3D 0, i =3D 0;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1583  	__be16 *buffer;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1584  	u16 crc;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1585  	bool valid;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1586  	u8 crc_offset =3D 9;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1587  	u16 burst_size =3D AD=
-IS16475_BURST_MAX_DATA;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1588  	u16 start_idx =3D (st=
-->info->flags & ADIS16475_HAS_TIMESTAMP32) ? 2 : 0;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1589 =20
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1590  	/* offset until =
-the first element after gyro and accel */
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1591  	const u8 offset =
-=3D st->burst32 ? 13 : 7;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1592 =20
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1593  	if (st->burst32) {
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1594  		crc_offset =3D (st->=
-info->flags & ADIS16475_HAS_TIMESTAMP32) ? 16 : 15;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1595  		burst_size =3D adis-=
->data->burst_max_len;
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1596  	}
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1597 =20
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1598  	ret =3D spi_sync=
-(adis->spi, &adis->msg);
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1599  	if (ret)
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1600  		return ret;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1601 =20
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1602  	buffer =3D adis-=
->buffer;
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1603 =20
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1604  	crc =3D be16_to_cpu(b=
-uffer[crc_offset]);
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27  1605  	valid =3D adis16475_v=
-alidate_crc(adis->buffer, crc, burst_size, start_idx);
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1606  	if (!valid) {
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1607  		dev_err(&adis->=
-spi->dev, "Invalid crc\n");
-> 7f174ee4adeb12 Ramona Gradinariu 2024-05-27 @1608  		return ret;
->                                                                 ^^^^^^^^^^
-> return -EINVAL
-I've gone with this as the fix whilst applying the patch
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240531055731.12541-9-adrian.hunter@intel.com>
+References: <20240531055731.12541-9-adrian.hunter@intel.com>
+TO: Adrian Hunter <adrian.hunter@intel.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
+CC: Thomas Richter <tmricht@linux.ibm.com>
+CC: Hendrik Brueckner <brueckner@linux.ibm.com>
+CC: Suzuki K Poulose <suzuki.poulose@arm.com>
+CC: Mike Leach <mike.leach@linaro.org>
+CC: James Clark <james.clark@arm.com>
+CC: coresight@lists.linaro.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: Yicong Yang <yangyicong@hisilicon.com>
+CC: Jonathan Cameron <jonathan.cameron@huawei.com>
+CC: Will Deacon <will@kernel.org>
+CC: Arnaldo Carvalho de Melo <acme@kernel.org>
+CC: Jiri Olsa <jolsa@kernel.org>
+CC: Namhyung Kim <namhyung@kernel.org>
+CC: Ian Rogers <irogers@google.com>
+CC: Andi Kleen <ak@linux.intel.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-perf-users@vger.kernel.org
 
-Thanks,
+Hi Adrian,
 
-Jonathan
+kernel test robot noticed the following build errors:
 
->=20
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1609  	}
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1610 =20
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1611  	for_each_set_bit=
-(bit, indio_dev->active_scan_mask,
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1612  			 indio_dev->ma=
-sklength) {
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1613  		/*
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1614  		 * When burst m=
-ode is used, system flags is the first data
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1615  		 * channel in t=
-he sequence, but the scan index is 7.
-> fff7352bf7a3ce Nuno S=C3=A1           2020-04-13  1616  		 */
->=20
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on perf-tools/perf-tools linus/master v6.10-rc1 next-20240531]
+[cannot apply to tip/perf/core acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Hunter/perf-core-Add-aux_pause-aux_resume-aux_start_paused/20240531-140321
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20240531055731.12541-9-adrian.hunter%40intel.com
+patch subject: [PATCH V7 08/12] perf tools: Parse aux-action
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406022020.WJ2gdPJF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202406022020.WJ2gdPJF-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   Makefile.config:663: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.10.rc1.g6ea7cd12e2e5
+>> util/auxtrace.c:821:7: error: missing field 'aux_action' initializer [-Werror,-Wmissing-field-initializers]
+     821 |         {NULL},
+         |              ^
+   1 error generated.
+   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/auxtrace.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile.perf:264: sub-make] Error 2
+   make[3]: *** [Makefile:70: all] Error 2
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
