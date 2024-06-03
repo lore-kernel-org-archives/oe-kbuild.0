@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7B0A21
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jun 2024 11:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB37512D205
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jun 2024 15:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717414072; cv=none; b=G0zLu2MvIrZaW8twzt/lU1Qy/f+SXorvp5RrXlmSrx/OmXYsRnO7kwfilSpdy93SAuQpeHJkBQr0nPyu5IzgAaEGuGIrDyazJ3kfPkX1BVIA/qwc6u5UNjDUHaohXfTDdHLi80nm3vE+VnTTqtlyyzll9zdA1RWEjLRHqcFZgm0=
+	t=1717429713; cv=none; b=GjnmjWWIdCTCm7csIgp+r6XHYhGkU2lBH6Fi8yU8yNYeIwdK+Ot10DvRKmpULg7s3zLlQCCtgbqLZsQKzLUVgS5rZQErGEFLUK14JM1xGYSuLllRwmXfNJ9aHD4TSmucmf+M24o88DIc9/P4BNLkTFWJvxUJpu7EcbFrm+2YvBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717414072; c=relaxed/simple;
-	bh=+9r2+PQrbJBRGi1bEt6AefLLItEzgGxLQzc/7cBMTg8=;
+	s=arc-20240116; t=1717429713; c=relaxed/simple;
+	bh=4EORV5jUXG+b0mStgG/92e5YyUjDVTN8pPgX/CGVBNA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fsz7PRUlaHjQ3taChevAkt+1I15WV1cUCZDSK7uZtP2wJhFlMPMy16hjDU5cuXLXOLLvs71k7HjY+7jw7YywIuKmS63k4XkfLKG203slhlQksHQICHLBgB/iMm3/yajCTFPUIhgWCG/KcjhUBYKvuJoyeFLvaVhMh+BVWiLz8cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN8Prcfj; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=CgpUne4GblHIyGE+HSRHaIuryIHokCxh/C/dpb4gzmHHYJ7K4vhTT0R97BO0ANgXV6snnwgJL3bbN+cOcHc/qoMRAQWjE0Ywsh1wydntJT2gppR9LZ1cy44AjLvGx5ZYMUy5cVInIacVc+38XIcNnm7gYa+ZpjwnGRs49r5Q7Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jOnG9LBy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN8Prcfj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jOnG9LBy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717414070; x=1748950070;
+  t=1717429712; x=1748965712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+9r2+PQrbJBRGi1bEt6AefLLItEzgGxLQzc/7cBMTg8=;
-  b=FN8PrcfjbFjpyif8ORqOOc0mz05W9087aiRMM9YNaJgDaAa7LZxjZPy+
-   25dWToL91Piirx7oYJEn1gsW0qcF93465kgXEI+3gezlDXzJlLFSzvsbS
-   edLU+WOSkt4Uy864l1UpSswNlhCnLovQvTj5vBbP08uzFdn04Skx7MUG2
-   +MBDc4yxCKjiT7g3zcJOy3oTLJvQ6BYjOnfi/t2F2jXsKjqPJGPGe+NsR
-   lyrlo/xgrFe8aDQnaG0BiGu1iHvdJnqXHEKwKdgB4zLt0KUZieNQ40dFo
-   RmE9hJ/DyMDMGimZi5Jn+m81RLTZsg6dhvZdbMqHyBWhHKG3jUSDuZB/O
+  bh=4EORV5jUXG+b0mStgG/92e5YyUjDVTN8pPgX/CGVBNA=;
+  b=jOnG9LBylEDyhWusEdNOw9zvkmlRq3MNvzoYLeYWe1gcOC/+p0VbmXpN
+   a2b8vKI44NgVVojG00ok2sEZwTqzscnYpESu7kqEUJGwzOUrdiO4z2YuF
+   akE8Q8llV0HubMt3bRFQ4BxC6aLn2/RJslIg0srnQiImtBYS578p+lgmt
+   6WP/5+N7kINzUVf1Py3pKZTrfMyYhBflmIpc2PBCXNNVY+ITbt7lFZ8wC
+   yra194YaZGlH9JdlNOI1fZaY3SHbaoE5IBujdjq074NV+NW+9q5wuoYAU
+   LLydEIQfjbuOWEmOzDEE1pIkcOI2++zvq+9Xe1vUoY4Vx6Yo9sxBPb/1H
    g==;
-X-CSE-ConnectionGUID: vXfV31/lTFOnzzK8DQB74w==
-X-CSE-MsgGUID: aPwT0p70RSWgO6ExegVzgg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="11872255"
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="11872255"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 04:27:49 -0700
-X-CSE-ConnectionGUID: hNEM5wcZSLyTA8VUsSLGmw==
-X-CSE-MsgGUID: vNRMJZvXQlWkURrCpomFRg==
+X-CSE-ConnectionGUID: whvUfVprRxqUxWDuBgutUw==
+X-CSE-MsgGUID: 19Nn7/0LQwW7QDZhVfNUUA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11092"; a="31458801"
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="31458801"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 08:48:30 -0700
+X-CSE-ConnectionGUID: c+zOlFrqRTSBw7hO8ZlJmw==
+X-CSE-MsgGUID: MyObqFEjQWyDyjS9JnjvHA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
-   d="scan'208";a="60017400"
+X-IronPort-AV: E=Sophos;i="6.08,212,1712646000"; 
+   d="scan'208";a="41831432"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jun 2024 04:27:48 -0700
+  by orviesa003.jf.intel.com with ESMTP; 03 Jun 2024 08:48:28 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE5qs-000LTc-0p;
-	Mon, 03 Jun 2024 11:27:46 +0000
-Date: Mon, 3 Jun 2024 19:27:08 +0800
+	id 1sE9ux-000LqF-11;
+	Mon, 03 Jun 2024 15:48:21 +0000
+Date: Mon, 3 Jun 2024 23:47:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] rcu-tasks: Fix access non-existent percpu rtpcp variable
- in rcu_tasks_need_gpcb()
-Message-ID: <202406031955.KTGAW4fl-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [chrome-os:chromeos-6.1 68/68] dtbs_check:
+ Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml:54:1: but
+ found another document
+Message-ID: <202406032338.bHUEI7Vw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,100 +63,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml:54:1: but found another document"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240603055229.23601-1-qiang.zhang1211@gmail.com>
-References: <20240603055229.23601-1-qiang.zhang1211@gmail.com>
-TO: Zqiang <qiang.zhang1211@gmail.com>
-TO: paulmck@kernel.org
-TO: frederic@kernel.org
-TO: neeraj.upadhyay@kernel.org
-TO: joel@joelfernandes.org
-TO: urezki@gmail.com
-CC: qiang.zhang1211@gmail.com
-CC: rcu@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: cros-kernel-buildreports@googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-Hi Zqiang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on paulmck-rcu/dev]
-[also build test WARNING on linus/master v6.10-rc2 next-20240603]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zqiang/rcu-tasks-Fix-access-non-existent-percpu-rtpcp-variable-in-rcu_tasks_need_gpcb/20240603-135610
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
-patch link:    https://lore.kernel.org/r/20240603055229.23601-1-qiang.zhang1211%40gmail.com
-patch subject: [PATCH] rcu-tasks: Fix access non-existent percpu rtpcp variable in rcu_tasks_need_gpcb()
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: i386-randconfig-141-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031955.KTGAW4fl-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   2268a7004f002732576535c32b514ad4933e3d13
+commit: 2268a7004f002732576535c32b514ad4933e3d13 [68/68] FROMLIST: dt-bindings: mailbox: Add mediatek,gce-props.yaml
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+dtschema version: 2024.5.dev4+ga5bbb3e
+reproduce: (https://download.01.org/0day-ci/archive/20240603/202406032338.bHUEI7Vw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406031955.KTGAW4fl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406032338.bHUEI7Vw-lkp@intel.com/
 
-smatch warnings:
-kernel/rcu/tasks.h:278 cblist_init_generic() error: uninitialized symbol 'maxcpu'.
+dtcheck warnings: (new ones prefixed by >>)
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/net/wireless/microchip,wilc1000.yaml: title: 'Microchip WILC wireless devicetree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/trivial-devices.yaml: title: 'Trivial I2C and SPI devices that have simple device tree bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+   Documentation/devicetree/bindings/display/bridge/ps8640.yaml: title: 'MIPI DSI to eDP Video Format Converter Device Tree Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
+   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
+   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+>> Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml:54:1: but found another document
+   Documentation/devicetree/bindings/leds/leds-lp50xx.yaml: ^led@[0-9a-f]+$: Missing additionalProperties/unevaluatedProperties constraint
+--
+>> Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml: ignoring, error parsing file
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
+   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
+   Documentation/devicetree/bindings/mmc/sdhci-am654.yaml: sdhci-caps-mask: missing type definition
+   Documentation/devicetree/bindings/mtd/ingenic,nand.yaml: ecc-engine: missing type definition
+   Documentation/devicetree/bindings/serial/8250_omap.yaml: rs485-rts-active-high: missing type definition
+   Documentation/devicetree/bindings/input/mediatek,pmic-keys.yaml: linux-keycodes: missing type definition
+   Documentation/devicetree/bindings/media/renesas,vin.yaml: field-active-even: missing type definition
+   Documentation/devicetree/bindings/i2c/i2c-mt65xx.yaml: mediatek,default-timing-adjust: missing type definition
 
-vim +/maxcpu +278 kernel/rcu/tasks.h
+vim +54 Documentation/devicetree/bindings/mailbox/mediatek,gce-props.yaml
 
-af051ca4e4231f Paul E. McKenney 2020-03-16  242  
-cafafd67765b21 Paul E. McKenney 2021-11-05  243  // Initialize per-CPU callback lists for the specified flavor of
-cb88f7f51bc6f3 Paul E. McKenney 2023-07-28  244  // Tasks RCU.  Do not enqueue callbacks before this function is invoked.
-cafafd67765b21 Paul E. McKenney 2021-11-05  245  static void cblist_init_generic(struct rcu_tasks *rtp)
-cafafd67765b21 Paul E. McKenney 2021-11-05  246  {
-cafafd67765b21 Paul E. McKenney 2021-11-05  247  	int cpu;
-8610b65680390a Paul E. McKenney 2021-11-12  248  	int lim;
-da123016ca8cb5 Paul E. McKenney 2022-01-26  249  	int shift;
-db390456e3abf6 Zqiang           2024-06-03  250  	int maxcpu;
-cafafd67765b21 Paul E. McKenney 2021-11-05  251  
-ab97152f88a4d5 Paul E. McKenney 2021-11-24  252  	if (rcu_task_enqueue_lim < 0) {
-ab97152f88a4d5 Paul E. McKenney 2021-11-24  253  		rcu_task_enqueue_lim = 1;
-ab97152f88a4d5 Paul E. McKenney 2021-11-24  254  		rcu_task_cb_adjust = true;
-ab97152f88a4d5 Paul E. McKenney 2021-11-24  255  	} else if (rcu_task_enqueue_lim == 0) {
-8610b65680390a Paul E. McKenney 2021-11-12  256  		rcu_task_enqueue_lim = 1;
-ab97152f88a4d5 Paul E. McKenney 2021-11-24  257  	}
-8610b65680390a Paul E. McKenney 2021-11-12  258  	lim = rcu_task_enqueue_lim;
-8610b65680390a Paul E. McKenney 2021-11-12  259  
-cafafd67765b21 Paul E. McKenney 2021-11-05  260  	for_each_possible_cpu(cpu) {
-cafafd67765b21 Paul E. McKenney 2021-11-05  261  		struct rcu_tasks_percpu *rtpcp = per_cpu_ptr(rtp->rtpcpu, cpu);
-cafafd67765b21 Paul E. McKenney 2021-11-05  262  
-cafafd67765b21 Paul E. McKenney 2021-11-05  263  		WARN_ON_ONCE(!rtpcp);
-cafafd67765b21 Paul E. McKenney 2021-11-05  264  		if (cpu)
-381a4f3b38603a Paul E. McKenney 2021-11-08  265  			raw_spin_lock_init(&ACCESS_PRIVATE(rtpcp, lock));
-9b073de1c7a354 Paul E. McKenney 2021-11-08  266  		if (rcu_segcblist_empty(&rtpcp->cblist))
-9b073de1c7a354 Paul E. McKenney 2021-11-08  267  			rcu_segcblist_init(&rtpcp->cblist);
-d363f833c6d883 Paul E. McKenney 2021-11-10  268  		INIT_WORK(&rtpcp->rtp_work, rcu_tasks_invoke_cbs_wq);
-d363f833c6d883 Paul E. McKenney 2021-11-10  269  		rtpcp->cpu = cpu;
-d363f833c6d883 Paul E. McKenney 2021-11-10  270  		rtpcp->rtpp = rtp;
-434c9eefb959c3 Paul E. McKenney 2022-05-16  271  		if (!rtpcp->rtp_blkd_tasks.next)
-434c9eefb959c3 Paul E. McKenney 2022-05-16  272  			INIT_LIST_HEAD(&rtpcp->rtp_blkd_tasks);
-46faf9d8e1d52e Paul E. McKenney 2024-02-05  273  		if (!rtpcp->rtp_exit_list.next)
-46faf9d8e1d52e Paul E. McKenney 2024-02-05  274  			INIT_LIST_HEAD(&rtpcp->rtp_exit_list);
-db390456e3abf6 Zqiang           2024-06-03  275  		maxcpu = cpu;
-cafafd67765b21 Paul E. McKenney 2021-11-05  276  	}
-5fc8cbe4cf0fd3 Shigeru Yoshida  2022-08-03  277  
-db390456e3abf6 Zqiang           2024-06-03 @278  	rcu_task_cpu_ids = maxcpu + 1;
-db390456e3abf6 Zqiang           2024-06-03  279  	if (lim > rcu_task_cpu_ids)
-db390456e3abf6 Zqiang           2024-06-03  280  		lim = rcu_task_cpu_ids;
-db390456e3abf6 Zqiang           2024-06-03  281  	shift = ilog2(rcu_task_cpu_ids / lim);
-db390456e3abf6 Zqiang           2024-06-03  282  	if (((rcu_task_cpu_ids - 1) >> shift) >= lim)
-db390456e3abf6 Zqiang           2024-06-03  283  		shift++;
-db390456e3abf6 Zqiang           2024-06-03  284  	WRITE_ONCE(rtp->percpu_enqueue_shift, shift);
-db390456e3abf6 Zqiang           2024-06-03  285  	WRITE_ONCE(rtp->percpu_dequeue_lim, lim);
-db390456e3abf6 Zqiang           2024-06-03  286  	smp_store_release(&rtp->percpu_enqueue_lim, lim);
-db390456e3abf6 Zqiang           2024-06-03  287  	pr_info("%s: Setting shift to %d and lim to %d rcu_task_cb_adjust=%d rcu_task_cpu_ids=%d.\n",
-db390456e3abf6 Zqiang           2024-06-03  288  			rtp->name, data_race(rtp->percpu_enqueue_shift), data_race(rtp->percpu_enqueue_lim),
-db390456e3abf6 Zqiang           2024-06-03  289  			rcu_task_cb_adjust, rcu_task_cpu_ids);
-cafafd67765b21 Paul E. McKenney 2021-11-05  290  }
-cafafd67765b21 Paul E. McKenney 2021-11-05  291  
+2268a7004f0027 Jason-jh Lin 2024-05-27   8  
+2268a7004f0027 Jason-jh Lin 2024-05-27   9  maintainers:
+2268a7004f0027 Jason-jh Lin 2024-05-27  10    - Houlong Wei <houlong.wei@mediatek.com>
+2268a7004f0027 Jason-jh Lin 2024-05-27  11  
+2268a7004f0027 Jason-jh Lin 2024-05-27  12  description:
+2268a7004f0027 Jason-jh Lin 2024-05-27  13    The Global Command Engine (GCE) is an instruction based, multi-threaded,
+2268a7004f0027 Jason-jh Lin 2024-05-27  14    single-core command dispatcher for MediaTek hardware. The Command Queue
+2268a7004f0027 Jason-jh Lin 2024-05-27  15    (CMDQ) mailbox driver is a driver for GCE, implemented using the Linux
+2268a7004f0027 Jason-jh Lin 2024-05-27  16    mailbox framework. It is used to receive messages from mailbox consumers
+2268a7004f0027 Jason-jh Lin 2024-05-27  17    and configure GCE to execute the specified instruction set in the message.
+2268a7004f0027 Jason-jh Lin 2024-05-27  18    We use mediatek,gce-mailbox.yaml to define the properties for CMDQ mailbox
+2268a7004f0027 Jason-jh Lin 2024-05-27  19    driver. A device driver that uses the CMDQ driver to configure its hardware
+2268a7004f0027 Jason-jh Lin 2024-05-27  20    registers is a mailbox consumer. The mailbox consumer can request a mailbox
+2268a7004f0027 Jason-jh Lin 2024-05-27  21    channel corresponding to a GCE hardware thread to send a message, specifying
+2268a7004f0027 Jason-jh Lin 2024-05-27  22    that the GCE thread to configure its hardware. The mailbox provider can also
+2268a7004f0027 Jason-jh Lin 2024-05-27  23    reserve a mailbox channel to configure GCE hardware register by the specific
+2268a7004f0027 Jason-jh Lin 2024-05-27  24    GCE thread. This binding defines the common GCE properties for both mailbox
+2268a7004f0027 Jason-jh Lin 2024-05-27  25    provider and consumers.
+2268a7004f0027 Jason-jh Lin 2024-05-27  26  
+2268a7004f0027 Jason-jh Lin 2024-05-27  27  properties:
+2268a7004f0027 Jason-jh Lin 2024-05-27  28    mediatek,gce-events:
+2268a7004f0027 Jason-jh Lin 2024-05-27  29      description:
+2268a7004f0027 Jason-jh Lin 2024-05-27  30        GCE has an event table in SRAM, consisting of 1024 event IDs (0~1023).
+2268a7004f0027 Jason-jh Lin 2024-05-27  31        Each event ID has a boolean event value with the default value 0.
+2268a7004f0027 Jason-jh Lin 2024-05-27  32        The property mediatek,gce-events is used to obtain the event IDs.
+2268a7004f0027 Jason-jh Lin 2024-05-27  33        Some gce-events are hardware-bound and cannot be changed by software.
+2268a7004f0027 Jason-jh Lin 2024-05-27  34        For instance, in MT8195, when VDO0_MUTEX is stream done, VDO_MUTEX will
+2268a7004f0027 Jason-jh Lin 2024-05-27  35        send an event signal to GCE, setting the value of event ID 597 to 1.
+2268a7004f0027 Jason-jh Lin 2024-05-27  36        Similarly, in MT8188, the value of event ID 574 will be set to 1 when
+2268a7004f0027 Jason-jh Lin 2024-05-27  37        VOD0_MUTEX is stream done.
+2268a7004f0027 Jason-jh Lin 2024-05-27  38        On the other hand, some gce-events are not hardware-bound and can be
+2268a7004f0027 Jason-jh Lin 2024-05-27  39        changed by software. For example, in MT8188, we can set the value of
+2268a7004f0027 Jason-jh Lin 2024-05-27  40        event ID 855, which is not bound to any hardware, to 1 when the driver
+2268a7004f0027 Jason-jh Lin 2024-05-27  41        in the secure world completes a task. However, in MT8195, event ID 855
+2268a7004f0027 Jason-jh Lin 2024-05-27  42        is already bound to VDEC_LAT1, so we need to select another event ID to
+2268a7004f0027 Jason-jh Lin 2024-05-27  43        achieve the same purpose. This event ID can be any ID that is not bound
+2268a7004f0027 Jason-jh Lin 2024-05-27  44        to any hardware and is not yet used in any software driver.
+2268a7004f0027 Jason-jh Lin 2024-05-27  45        To determine if the event ID is bound to the hardware or used by a
+2268a7004f0027 Jason-jh Lin 2024-05-27  46        software driver, refer to the GCE header
+2268a7004f0027 Jason-jh Lin 2024-05-27  47        include/dt-bindings/gce/<chip>-gce.h of each chip.
+2268a7004f0027 Jason-jh Lin 2024-05-27  48      $ref: /schemas/types.yaml#/definitions/uint32-array
+2268a7004f0027 Jason-jh Lin 2024-05-27  49      minItems: 1
+2268a7004f0027 Jason-jh Lin 2024-05-27  50      maxItems: 32
+2268a7004f0027 Jason-jh Lin 2024-05-27  51  
+2268a7004f0027 Jason-jh Lin 2024-05-27  52  additionalProperties: true
+2268a7004f0027 Jason-jh Lin 2024-05-27  53  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+2268a7004f0027 Jason-jh Lin 2024-05-27 @54  %YAML 1.2
+2268a7004f0027 Jason-jh Lin 2024-05-27  55  ---
+2268a7004f0027 Jason-jh Lin 2024-05-27  56  $id: http://devicetree.org/schemas/mailbox/mediatek,gce-props.yaml#
+2268a7004f0027 Jason-jh Lin 2024-05-27  57  $schema: http://devicetree.org/meta-schemas/core.yaml#
+2268a7004f0027 Jason-jh Lin 2024-05-27  58  
 
 -- 
 0-DAY CI Kernel Test Service
