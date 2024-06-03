@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976E21BF3F
-	for <oe-kbuild@lists.linux.dev>; Sun,  2 Jun 2024 12:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710671362
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jun 2024 00:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717331894; cv=none; b=WTNJv3MW6SemHBCGHrAPpkIkT1rsGI5BScaH5eCAYNt3Zcr5iu/na7H1+qNKIijUNpWFf5nHdQYxmrkf5RyEsEKCT3RWCyz/X5ylhEWkHZt5lWQHOQElhcWPoRSCGZ7631QKXLUGlHJ6NP+1wOLJoY+UPpdGOs3DwLjRkR75EK8=
+	t=1717374658; cv=none; b=SOrpws7Pi0TtOAjtk1UUm2q0pf7W8c2EDG2Dfs5WvegrHhWIEqfB40R9xUAjha2748M0qOzCTVpS2YiwsTa8gA1Yask9dtHU6Cy8BCqf0o3pkB8Z/HUVduTr8IKy5qb2ADOM8lTHuGrBRd/FEIeyXKHzZrr0Xve0r+XFzIBDPMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717331894; c=relaxed/simple;
-	bh=ILAw2imkBuCFzE0mXy/Ksth2hXJiqmYxan6xMuBST4Y=;
+	s=arc-20240116; t=1717374658; c=relaxed/simple;
+	bh=Px9LpLZ50Vxs66f1OA/pg1XcnbLZAQkqHmAvGhp8sd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LXWEXKkIBugxuN6bo4kyyUUL8ZuJNNYWIJVacfQ3IU5PDGY8xYJH9274HD4vQ5jAYlFdjeGXvB4byFM/ZBOGytIQg42Kj8/zV0kUx8B9PQcofZ4kVw9egjA99w2RvXZj/OrvkqeFp029Ze/X5cxya1LkR1l06vzOiXI7+O6NHfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBmADb44; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Z1wiK9QZSc60CSWcrAlMV7XM32+3pnfwqkvLcsbt0e0HZ7QhpBfgxYOvFLrFz4pXXMWI/pESXFlgaq9KeXqBK7PIRVfFTn1h/51IdN5kJKkwLPJOlNilBv55HMwZWzJ7xm6Awh3soDL8XbdAJESo8C/GSSIi+JFtKoD47TxPDMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XAZPC643; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBmADb44"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XAZPC643"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717331892; x=1748867892;
+  t=1717374656; x=1748910656;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ILAw2imkBuCFzE0mXy/Ksth2hXJiqmYxan6xMuBST4Y=;
-  b=NBmADb4439enrXVNI69GhlYP3Y35APBKErMGHGKtpsEmeTk4Wp8wPZj2
-   +2sQgW/oWaOSZRbnKrsbdE1RsUt6+nxLruyBwmXTvCnQ+zth8PUsWd1S5
-   5xa/pWQKEciXJ77cUwXL4oZ9xw7A4cRah0iwa5/hc4CMsRkADOR6A8Un3
-   9ospz8LKyECWNYaTyBBODt3y7lwyC2lzBZj0jHFexe4vBBF+4EU4H9bkg
-   bzV0aq4Y/Aju3BcZvTZnDXGw1DBdSQR4nAdnxldk2VAxJJLMo7M3N8GhM
-   harS7ajkTEzJ3fU8+PddKWJO3oemMyVOLgfVUsei+6zzh4mQk+iJw6NHS
-   Q==;
-X-CSE-ConnectionGUID: MYYibdnnSQGdx7xledvxLQ==
-X-CSE-MsgGUID: mSiIMy6tRq2+jZNFScl/3w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="24488615"
-X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; 
-   d="scan'208";a="24488615"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 05:38:11 -0700
-X-CSE-ConnectionGUID: zTDHXBMJQFSI1LO+7KAyxw==
-X-CSE-MsgGUID: /v2rlnX+RDGPmYoOC89TOQ==
+  bh=Px9LpLZ50Vxs66f1OA/pg1XcnbLZAQkqHmAvGhp8sd8=;
+  b=XAZPC643kSh2ZYl2bnAqfIbQiCo08QwYljos07mxwyixdEhRNoH+irmk
+   yr1eGjwpfNw8fmdlnIyszzqymAXQDmZR6S3/I2vfh9DLu14DrC5azNV1E
+   IJcKTW8huzy8xJoWAz6+oWTrJ9UsJrnorP2g1AjMdNt6dvXdU4ZSlLCSr
+   EOXmxAm0mjCmw7zH2DohBH7hIXhisk/BOGa2UHkvnhxl2zELaUrLUQKR5
+   fdbHpZ3r9d8PhnFQHu9iUSaD+8yw3NaNzNVzpN13DRc7dIrSDHTiY3fDS
+   UBNWaZpvfJ/Xtw5srTvG8IMgR5CtLCqSDL8x9Z4+hIE06wesZnHodqlif
+   g==;
+X-CSE-ConnectionGUID: 5MiQHZQTQXiVuNuDDGl4QQ==
+X-CSE-MsgGUID: 6tNMTqbLRZupXygkKWdeQg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13670856"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="13670856"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 17:30:56 -0700
+X-CSE-ConnectionGUID: oYR5EoS7T/eOxYeHo/qhlw==
+X-CSE-MsgGUID: KdpIUD5KQRGHMdo24rp9zA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,209,1712646000"; 
-   d="scan'208";a="36715490"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="37171057"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jun 2024 05:38:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Jun 2024 17:30:55 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sDkTK-000K0J-2G;
-	Sun, 02 Jun 2024 12:38:07 +0000
-Date: Sun, 2 Jun 2024 20:37:43 +0800
+	id 1sDvbA-000KfN-0k;
+	Mon, 03 Jun 2024 00:30:52 +0000
+Date: Mon, 3 Jun 2024 08:30:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH V7 08/12] perf tools: Parse aux-action
-Message-ID: <202406022020.WJ2gdPJF-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/amd/acp/acp-legacy-common.c:467 check_acp_config() error:
+ uninitialized symbol 'pdm_addr'.
+Message-ID: <202406030807.JwvI3iy2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,78 +62,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240531055731.12541-9-adrian.hunter@intel.com>
-References: <20240531055731.12541-9-adrian.hunter@intel.com>
-TO: Adrian Hunter <adrian.hunter@intel.com>
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Mark Rutland <mark.rutland@arm.com>
-CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
-CC: Thomas Richter <tmricht@linux.ibm.com>
-CC: Hendrik Brueckner <brueckner@linux.ibm.com>
-CC: Suzuki K Poulose <suzuki.poulose@arm.com>
-CC: Mike Leach <mike.leach@linaro.org>
-CC: James Clark <james.clark@arm.com>
-CC: coresight@lists.linaro.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: Yicong Yang <yangyicong@hisilicon.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>
-CC: Will Deacon <will@kernel.org>
-CC: Arnaldo Carvalho de Melo <acme@kernel.org>
-CC: Jiri Olsa <jolsa@kernel.org>
-CC: Namhyung Kim <namhyung@kernel.org>
-CC: Ian Rogers <irogers@google.com>
-CC: Andi Kleen <ak@linux.intel.com>
 CC: linux-kernel@vger.kernel.org
-CC: linux-perf-users@vger.kernel.org
+TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi Adrian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on perf-tools-next/perf-tools-next]
-[also build test ERROR on perf-tools/perf-tools linus/master v6.10-rc1 next-20240531]
-[cannot apply to tip/perf/core acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Hunter/perf-core-Add-aux_pause-aux_resume-aux_start_paused/20240531-140321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/20240531055731.12541-9-adrian.hunter%40intel.com
-patch subject: [PATCH V7 08/12] perf tools: Parse aux-action
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240602/202406022020.WJ2gdPJF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a693b9c95abd4947c2d06e05733de5d470ab6586
+commit: 09068d624c490c0e89f33f963c402f1859964467 ASoC: amd: acp: fix for acp platform device creation failure
+date:   4 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-141-20240603 (https://download.01.org/0day-ci/archive/20240603/202406030807.JwvI3iy2-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406022020.WJ2gdPJF-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406030807.JwvI3iy2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/soc/amd/acp/acp-legacy-common.c:467 check_acp_config() error: uninitialized symbol 'pdm_addr'.
 
-   Makefile.config:663: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-     PERF_VERSION = 6.10.rc1.g6ea7cd12e2e5
->> util/auxtrace.c:821:7: error: missing field 'aux_action' initializer [-Werror,-Wmissing-field-initializers]
-     821 |         {NULL},
-         |              ^
-   1 error generated.
-   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/auxtrace.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
-   make[5]: *** [Makefile.perf:727: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:264: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+vim +/pdm_addr +467 sound/soc/amd/acp/acp-legacy-common.c
+
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  438  
+09068d624c490c Vijendar Mukunda 2024-05-02  439  void check_acp_config(struct pci_dev *pci, struct acp_chip_info *chip)
+09068d624c490c Vijendar Mukunda 2024-05-02  440  {
+09068d624c490c Vijendar Mukunda 2024-05-02  441  	struct acpi_device *pdm_dev;
+09068d624c490c Vijendar Mukunda 2024-05-02  442  	const union acpi_object *obj;
+09068d624c490c Vijendar Mukunda 2024-05-02  443  	u32 pdm_addr;
+09068d624c490c Vijendar Mukunda 2024-05-02  444  
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  445  	switch (chip->acp_rev) {
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  446  	case ACP3X_DEV:
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  447  		pdm_addr = ACP_RENOIR_PDM_ADDR;
+09068d624c490c Vijendar Mukunda 2024-05-02  448  		check_acp3x_config(chip);
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  449  		break;
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  450  	case ACP6X_DEV:
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  451  		pdm_addr = ACP_REMBRANDT_PDM_ADDR;
+09068d624c490c Vijendar Mukunda 2024-05-02  452  		check_acp6x_config(chip);
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  453  		break;
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  454  	case ACP63_DEV:
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  455  		pdm_addr = ACP63_PDM_ADDR;
+09068d624c490c Vijendar Mukunda 2024-05-02  456  		check_acp6x_config(chip);
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  457  		break;
+e84db124cb2158 Syed Saba Kareem 2023-10-21  458  	case ACP70_DEV:
+e84db124cb2158 Syed Saba Kareem 2023-10-21  459  		pdm_addr = ACP70_PDM_ADDR;
+09068d624c490c Vijendar Mukunda 2024-05-02  460  		check_acp70_config(chip);
+e84db124cb2158 Syed Saba Kareem 2023-10-21  461  		break;
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  462  	default:
+09068d624c490c Vijendar Mukunda 2024-05-02  463  		break;
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  464  	}
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  465  
+09068d624c490c Vijendar Mukunda 2024-05-02  466  	if (chip->is_pdm_config) {
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21 @467  		pdm_dev = acpi_find_child_device(ACPI_COMPANION(&pci->dev), pdm_addr, 0);
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  468  		if (pdm_dev) {
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  469  			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  470  						   ACPI_TYPE_INTEGER, &obj) &&
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  471  						   obj->integer.value == pdm_addr)
+09068d624c490c Vijendar Mukunda 2024-05-02  472  				chip->is_pdm_dev = true;
+09068d624c490c Vijendar Mukunda 2024-05-02  473  		}
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  474  	}
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  475  }
+09068d624c490c Vijendar Mukunda 2024-05-02  476  EXPORT_SYMBOL_NS_GPL(check_acp_config, SND_SOC_ACP_COMMON);
+3a94c8ad0aae2b Syed Saba Kareem 2023-10-21  477  
+
+:::::: The code at line 467 was first introduced by commit
+:::::: 3a94c8ad0aae2b14a55059869871ea2d199af489 ASoC: amd: acp: add code for scanning acp pdm controller
+
+:::::: TO: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
