@@ -1,168 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E3022075
-	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jun 2024 05:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC604AEF5
+	for <oe-kbuild@lists.linux.dev>; Mon,  3 Jun 2024 08:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717392824; cv=none; b=iswuefEof5fPjVs0wpha1BdDAmrUW66nzgPbihwW+Ssg0Kz2u10VB8e1RxVdsyFBC0OYayhdqa3Nf4CsPAt98Fbbjz3WYCWLPHBCpSu06rV6E3CsVC1kM60EX8kWf0HVCyRPHKDkNoMUmYaJvQOKr2Mb/kcE1C2tWtJTVWUtSk4=
+	t=1717402558; cv=none; b=aLYw/QdrjkgMrpD7Rc0+LzHxko8wl8usyeg49YXftDy57W+7eM4ruSLMVSjtFC0jIw7GzJZhTAK9jej9aXNp7G2YXm9e7tzj5F7C/HptlfDO6Q1xMqFg/P+9Y2p5BDkL5coqu5/lcUFrXukzHu2I8jGC4JG96tTd2ZngoEbmLVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717392824; c=relaxed/simple;
-	bh=HLU6J/beVQYlYG88O8Qyn/vwhtcJl1hSTux31rH9SZc=;
+	s=arc-20240116; t=1717402558; c=relaxed/simple;
+	bh=SDdvnt4it1OQ/NPqIFSDE72B/MAQQRXI2ekEZpvG0OQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DckQR+qC6RWoWJbUqalibQUNhpIs2HFivgyGGIaVAJTiFqD00Nll8okc4mSwhF3E/KTYczuLEmntK3So3SOm04mOxk+uCJJC+Nrl4LoraVSHSwvXvnhIgy64y8/tB6FIZiIzMMJijdOcmVIZOeOOTlDaoBHOgBpDwQrLcL8/MP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e+3NWQPj; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=OGPb/Kb4cDFG+dX3IafV8GClsLMdJpM0i7h4mWLl02OIFzq6Ysc399cvQH1DC0bY9biTsXU2KLHIJUr3wDRAJaHyKRQBl2/LA53DgFRpQSg3wt5zZOHbqvzj41IlGIxim4r1qlyjmGx7Yvvc2K+vGa6WiSJMfisxjgGg74T9Rig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T9o0T8rw; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e+3NWQPj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T9o0T8rw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717392823; x=1748928823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HLU6J/beVQYlYG88O8Qyn/vwhtcJl1hSTux31rH9SZc=;
-  b=e+3NWQPjdYVYU2CC8xog5+AGR8SAl3a2IDqVFhRJ/Sk8APraHOzfpdy0
-   rqCK+lwMkax7PH9Tk2ecstcmEKVWhVT03u8EtgBrHzLinn60JrkIAKcR9
-   aSM8cLx3qLSdQeD+KPzfvV5QrhFLqbvRRPsgc6DeQa/fHdxCF4uTu8ZNA
-   NlCL9RgMgBzh+CJ+9Ct3WQbsTo5yrRUp3dxjfcfIak488qdvvyw0AZpJt
-   90Zj5Y09T5jVh7CGN/ZNP84tejG7v66lpi5aV0fPAupwoeAJ3OFGXxTq1
-   GrWDMijGq3knigfvCaBo1rHOY7dIkymz97ecZ/0zdUI15zw1dFybgyv/d
-   A==;
-X-CSE-ConnectionGUID: FX3YWs5OQe67KGm20casOw==
-X-CSE-MsgGUID: EoSnQrTuQfub7jeigO+ejA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="17663336"
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="17663336"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 22:33:42 -0700
-X-CSE-ConnectionGUID: cXjgIZDgSZiXRTSGAzPALQ==
-X-CSE-MsgGUID: kWoIkDEFR7Who2n2vUDNEQ==
+  t=1717402556; x=1748938556;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SDdvnt4it1OQ/NPqIFSDE72B/MAQQRXI2ekEZpvG0OQ=;
+  b=T9o0T8rwkrKGhT+vFVXN6pJKtTkrkkUxJe5MmpJgXXqXNTERHasa35ok
+   UeY7dOWwd/olIOIF7uJh54ijFtA1+XFCGRROyv72GATdwyoJLQu1T6k/I
+   gGFSPEA8TdZ6Exgnhx721NYganaYjzT/qh5PWcV8CW+OLkQkIRlyyA00j
+   PFLoQGpJMPq7/SAMtUDEjvaaCGb1HbyYNZ/YexFKGZaNG80JmIebdz6We
+   DCor60yRNsRaG0/nZ0cXtN4pxkNxNA1aOS2Gv+Hg3sBVcFyinWhBKqYnU
+   NBnG2QnHgNcEPf3jMLRkhvHZAEJ73Nz1DnQeO4lCKLMnL73YeW8TQI8MT
+   Q==;
+X-CSE-ConnectionGUID: IolFXatiTLy3anaFXvH9xQ==
+X-CSE-MsgGUID: reahQOuXQi6s83gnsaoFiA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13695853"
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="13695853"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2024 01:15:55 -0700
+X-CSE-ConnectionGUID: AmdjkPk1SCqpS0lzAt1zRw==
+X-CSE-MsgGUID: +5CCoCFUT2+8UR0lSvOdxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="41854180"
+X-IronPort-AV: E=Sophos;i="6.08,211,1712646000"; 
+   d="scan'208";a="36889024"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jun 2024 22:33:41 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 03 Jun 2024 01:15:52 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sE0K7-000L49-0J;
-	Mon, 03 Jun 2024 05:33:36 +0000
-Date: Mon, 3 Jun 2024 13:33:01 +0800
+	id 1sE2qt-000LC9-1P;
+	Mon, 03 Jun 2024 08:15:40 +0000
+Date: Mon, 3 Jun 2024 16:14:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 2715/3461] drivers/gpu/drm/xe/xe_vram.c:335
- xe_vram_probe() error: '%pa' expects argument of type 'phys_addr_t*',
- argument 3 has type 'ullong*'
-Message-ID: <202406031311.XygeoYUi-lkp@intel.com>
+Subject: Re: [PATCH v3] can: m_can: don't enable transceiver when probing
+Message-ID: <202406031513.ByfTbHww-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Matt Roper <matthew.d.roper@intel.com>
+In-Reply-To: <20240530105801.3930087-1-martin@geanix.com>
+References: <20240530105801.3930087-1-martin@geanix.com>
+TO: "Martin Hundebøll" <martin@geanix.com>
+TO: Chandrasekar Ramakrishnan <rcsekar@samsung.com>
+TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+CC: "Markus Schneider-Pargmann" <msp@baylibre.com>
+CC: "Martin Hundebøll" <martin@geanix.com>
+CC: linux-can@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   861a3cb5a2a8480d361fa6708da24747d6fa72fe
-commit: 638d1c79cbf15c14f1bcf98fd8135ea83a04dc50 [2715/3461] drm/xe: Promote VRAM initialization function to own file
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031311.XygeoYUi-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hi Martin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mkl-can-next/testing]
+[also build test WARNING on linus/master v6.10-rc2 next-20240603]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Hundeb-ll/can-m_can-don-t-enable-transceiver-when-probing/20240530-185906
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
+patch link:    https://lore.kernel.org/r/20240530105801.3930087-1-martin%40geanix.com
+patch subject: [PATCH v3] can: m_can: don't enable transceiver when probing
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-r081-20240603 (https://download.01.org/0day-ci/archive/20240603/202406031513.ByfTbHww-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406031311.XygeoYUi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406031513.ByfTbHww-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/xe/xe_vram.c:335 xe_vram_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 3 has type 'ullong*'
+drivers/net/can/m_can/m_can.c:1725 m_can_dev_setup() error: uninitialized symbol 'err'.
 
 Old smatch warnings:
-drivers/gpu/drm/xe/xe_vram.c:346 xe_vram_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'ullong*'
+drivers/net/can/m_can/m_can.c:2075 m_can_open() warn: 'dev->irq' from request_threaded_irq() not released on lines: 2075.
+drivers/net/can/m_can/m_can.c:2075 m_can_open() warn: 'dev->irq' from request_irq() not released on lines: 2075.
 
-vim +335 drivers/gpu/drm/xe/xe_vram.c
+vim +/err +1725 drivers/net/can/m_can/m_can.c
 
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  264  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  265  /**
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  266   * xe_vram_probe() - Probe VRAM configuration
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  267   * @xe: the &xe_device
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  268   *
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  269   * Collect VRAM size and offset information for all tiles.
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  270   *
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  271   * Return: 0 on success, error code on failure
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  272   */
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  273  int xe_vram_probe(struct xe_device *xe)
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  274  {
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  275  	struct xe_tile *tile;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  276  	resource_size_t io_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  277  	u64 available_size = 0;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  278  	u64 total_size = 0;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  279  	u64 tile_offset;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  280  	u64 tile_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  281  	u64 vram_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  282  	int err;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  283  	u8 id;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  284  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  285  	if (!IS_DGFX(xe))
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  286  		return 0;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  287  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  288  	/* Get the size of the root tile's vram for later accessibility comparison */
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  289  	tile = xe_device_get_root_tile(xe);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  290  	err = tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  291  	if (err)
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  292  		return err;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  293  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  294  	err = determine_lmem_bar_size(xe);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  295  	if (err)
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  296  		return err;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  297  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  298  	drm_info(&xe->drm, "VISIBLE VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  299  		 &xe->mem.vram.io_size);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  300  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  301  	io_size = xe->mem.vram.io_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  302  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  303  	/* tile specific ranges */
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  304  	for_each_tile(tile, xe, id) {
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  305  		err = tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  306  		if (err)
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  307  			return err;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  308  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  309  		tile->mem.vram.actual_physical_size = tile_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  310  		tile->mem.vram.io_start = xe->mem.vram.io_start + tile_offset;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  311  		tile->mem.vram.io_size = min_t(u64, vram_size, io_size);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  312  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  313  		if (!tile->mem.vram.io_size) {
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  314  			drm_err(&xe->drm, "Tile without any CPU visible VRAM. Aborting.\n");
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  315  			return -ENODEV;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  316  		}
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  317  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  318  		tile->mem.vram.dpa_base = xe->mem.vram.dpa_base + tile_offset;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  319  		tile->mem.vram.usable_size = vram_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  320  		tile->mem.vram.mapping = xe->mem.vram.mapping + tile_offset;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  321  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  322  		if (tile->mem.vram.io_size < tile->mem.vram.usable_size)
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  323  			drm_info(&xe->drm, "Small BAR device\n");
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  324  		drm_info(&xe->drm, "VRAM[%u, %u]: Actual physical size %pa, usable size exclude stolen %pa, CPU accessible size %pa\n", id,
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  325  			 tile->id, &tile->mem.vram.actual_physical_size, &tile->mem.vram.usable_size, &tile->mem.vram.io_size);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  326  		drm_info(&xe->drm, "VRAM[%u, %u]: DPA range: [%pa-%llx], io range: [%pa-%llx]\n", id, tile->id,
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  327  			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + (u64)tile->mem.vram.actual_physical_size,
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  328  			 &tile->mem.vram.io_start, tile->mem.vram.io_start + (u64)tile->mem.vram.io_size);
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  329  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  330  		/* calculate total size using tile size to get the correct HW sizing */
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  331  		total_size += tile_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  332  		available_size += vram_size;
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  333  
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30  334  		if (total_size > xe->mem.vram.io_size) {
-638d1c79cbf15c1 Michal Wajdeczko 2024-05-30 @335  			drm_info(&xe->drm, "VRAM: %pa is larger than resource %pa\n",
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1670  
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1671  static int m_can_dev_setup(struct m_can_classdev *cdev)
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1672  {
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1673  	struct net_device *dev = cdev->net;
+e96c73eab56aed Martin Hundebøll  2024-05-30  1674  	int m_can_version, err, niso;
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1675  
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1676  	m_can_version = m_can_check_core_release(cdev);
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1677  	/* return if unsupported version */
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1678  	if (!m_can_version) {
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1679  		dev_err(cdev->dev, "Unsupported version number: %2d",
+5e520edd91f0cd Faiz Abbas        2018-01-16  1680  			m_can_version);
+5e520edd91f0cd Faiz Abbas        2018-01-16  1681  		return -EINVAL;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1682  	}
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1683  
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1684  	if (!cdev->is_peripheral)
+b48b89f9c189d2 Jakub Kicinski    2022-09-27  1685  		netif_napi_add(dev, &cdev->napi, m_can_poll);
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1686  
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1687  	/* Shared properties of all M_CAN versions */
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1688  	cdev->version = m_can_version;
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1689  	cdev->can.do_set_mode = m_can_set_mode;
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1690  	cdev->can.do_get_berr_counter = m_can_get_berr_counter;
+6cfda7fbebe8a4 Oliver Hartkopp   2015-01-05  1691  
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1692  	/* Set M_CAN supported operations */
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1693  	cdev->can.ctrlmode_supported = CAN_CTRLMODE_LOOPBACK |
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1694  		CAN_CTRLMODE_LISTENONLY |
+80646733f11c2e Dong Aisheng      2014-11-18  1695  		CAN_CTRLMODE_BERR_REPORTING |
+fb7d6a81c22017 Pankaj Sharma     2019-10-21  1696  		CAN_CTRLMODE_FD |
+fb7d6a81c22017 Pankaj Sharma     2019-10-21  1697  		CAN_CTRLMODE_ONE_SHOT;
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1698  
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1699  	/* Set properties depending on M_CAN version */
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1700  	switch (cdev->version) {
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1701  	case 30:
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1702  		/* CAN_CTRLMODE_FD_NON_ISO is fixed with M_CAN IP v3.0.x */
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1703  		err = can_set_static_ctrlmode(dev, CAN_CTRLMODE_FD_NON_ISO);
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1704  		if (err)
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1705  			return err;
+d6da7881020f9b Jarkko Nikula     2022-05-12  1706  		cdev->can.bittiming_const = &m_can_bittiming_const_30X;
+d6da7881020f9b Jarkko Nikula     2022-05-12  1707  		cdev->can.data_bittiming_const = &m_can_data_bittiming_const_30X;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1708  		break;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1709  	case 31:
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1710  		/* CAN_CTRLMODE_FD_NON_ISO is fixed with M_CAN IP v3.1.x */
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1711  		err = can_set_static_ctrlmode(dev, CAN_CTRLMODE_FD_NON_ISO);
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1712  		if (err)
+7d4a101c0bd3c6 Vincent Mailhol   2021-12-14  1713  			return err;
+d6da7881020f9b Jarkko Nikula     2022-05-12  1714  		cdev->can.bittiming_const = &m_can_bittiming_const_31X;
+d6da7881020f9b Jarkko Nikula     2022-05-12  1715  		cdev->can.data_bittiming_const = &m_can_data_bittiming_const_31X;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1716  		break;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1717  	case 32:
+5c7d55bded77da Pankaj Sharma     2020-11-26  1718  	case 33:
+5c7d55bded77da Pankaj Sharma     2020-11-26  1719  		/* Support both MCAN version v3.2.x and v3.3.0 */
+d6da7881020f9b Jarkko Nikula     2022-05-12  1720  		cdev->can.bittiming_const = &m_can_bittiming_const_31X;
+d6da7881020f9b Jarkko Nikula     2022-05-12  1721  		cdev->can.data_bittiming_const = &m_can_data_bittiming_const_31X;
+f524f829b75a7d Dan Murphy        2019-05-09  1722  
+e96c73eab56aed Martin Hundebøll  2024-05-30  1723  		niso = m_can_niso_supported(cdev);
+e96c73eab56aed Martin Hundebøll  2024-05-30  1724  		if (niso < 0)
+e96c73eab56aed Martin Hundebøll  2024-05-30 @1725  			return err;
+e96c73eab56aed Martin Hundebøll  2024-05-30  1726  		if (niso)
+e96c73eab56aed Martin Hundebøll  2024-05-30  1727  			cdev->can.ctrlmode_supported |= CAN_CTRLMODE_FD_NON_ISO;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1728  		break;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1729  	default:
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1730  		dev_err(cdev->dev, "Unsupported version number: %2d",
+3b464affd89821 Marc Kleine-Budde 2020-12-12  1731  			cdev->version);
+5e520edd91f0cd Faiz Abbas        2018-01-16  1732  		return -EINVAL;
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1733  	}
+b03cfc5bb0e11f Mario Huettel     2017-04-08  1734  
+e96c73eab56aed Martin Hundebøll  2024-05-30  1735  	/* Forcing standby mode should be redunant, as the chip should be in
+e96c73eab56aed Martin Hundebøll  2024-05-30  1736  	 * standby after a reset. Write the INIT bit anyways, should the chip
+e96c73eab56aed Martin Hundebøll  2024-05-30  1737  	 * be configured by previous stage.
+e96c73eab56aed Martin Hundebøll  2024-05-30  1738  	 */
+e96c73eab56aed Martin Hundebøll  2024-05-30  1739  	return m_can_cccr_update_bits(cdev, CCCR_INIT, CCCR_INIT);
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1740  }
+e0d1f4816f2a7e Dong Aisheng      2014-07-16  1741  
 
 -- 
 0-DAY CI Kernel Test Service
