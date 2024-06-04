@@ -1,69 +1,59 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E7213A415
-	for <oe-kbuild@lists.linux.dev>; Tue,  4 Jun 2024 09:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E46CEEC8
+	for <oe-kbuild@lists.linux.dev>; Tue,  4 Jun 2024 15:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717494515; cv=none; b=EQbQnS7ouMHc8ebK6imTvluITOwkM5x3KItJwAP47ioWzWN9yT6/sg9JM/TYia569OtzJ+n9Vpb3+/okS5f2dZFYoolPvZ+RWqKxnPbcrnlx0h8h+uryODU8/TgIn11Gmf5oTbswjpAXtBgC5PjzSvL85CI4F9PFoYOo2mbbKDc=
+	t=1717513250; cv=none; b=UP94A0b7niI1lC8oIwd3Qwo3pmfJ1cGeJRntNG9qntdVvYJkffCAmEOs5LyyFJqA6oAxEl0vhgoPG9Sr+OFM6ygG2V225c672oKKT/Qr4nQ4g/VWZFid2xI/afp+h9DmjUmfBn5LJI0t1KqN9TbslmAoQpY/KyQsv5E6PuoJmt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717494515; c=relaxed/simple;
-	bh=SJ6yQEMG0EIvQ9DCMlJc/Uc60O40yQMYudAEGIILuIY=;
+	s=arc-20240116; t=1717513250; c=relaxed/simple;
+	bh=SoUDNx0VR/i690Ino49xaspZgRdwamfHaUEUEaxbUfo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=f3CD00zzM8KfEQXrXWwdrDDzzxljkAFziGVbM+8onSAzZhXmS0nnz+WGi5McFOACo8dfnYJZfBlHUvT8Unax53U8mxV4jblebyhWR2IIZsE67btl0fPqLEu13Xyi6k91EGgOgIDVJ1D00dpx81/NYg85tX0lpjR9xjdMUBle71Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dSXuIeig; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=YOZYfoJglzIowNzN3vEhFHmgJP3k/XSEGumGj07boYT7E3Afs83O2ismpiHkSPfCtZX9qlBamTk5kVOh94pWiiyeH1VX4ndAaof2SfSpTt06wVZ3/ZnLPVlZMUc8gteEXfkVl1ZyxbNXPzRpb49vdokq75JDcOggomvYZDjiDEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsDPWda4; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dSXuIeig"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a68ca4d6545so457343766b.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 04 Jun 2024 02:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717494511; x=1718099311; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9qMw90qV+DaLaiLTgKDl1x/aOCrXowhTXsL3r0XH3mg=;
-        b=dSXuIeigwaAjEPd99S+UxveYNy0VlJzW62iOWsXppI+1EhJP+G5Uwu0rM6VbR2wEM0
-         xVubK5oAUJ7qQ9fNJ0IpmKCvWxxQ2TuwHg70jDPN+lTdgdhM12E2LHIjNa6RS/8NsykU
-         mHpEdZVQ9LVH4v5D76KvL3/Vd6pu/lmgOAjGtD61Mf8zcJSOxaaJ97fJUyfC0a7CjmGx
-         gKfTpp9pGH4Ps8/Wop4Tcz/zmUecO8MtkSIbaHfFnTANPP4OhhbNnA1Gon9LEfLqAAF7
-         oaqPmFN0IeB/vKl64R0bknkH1XEaN46jPE8kkGhuIu+ffFKtyfMoyEpZRunffzENs93I
-         eqLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717494511; x=1718099311;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9qMw90qV+DaLaiLTgKDl1x/aOCrXowhTXsL3r0XH3mg=;
-        b=AAESVy/YoBUx8g5LDTEvxPRA8X/UpMoYQ/AzPPPOwrBo+SHWijoseXuunSr7o9lshZ
-         IbjQydEZk56MBs9X1IlyDu+iqmHG++r+s/PH6CqHGTRltc5xxaB7hN+HOljlTfZE5vRE
-         3l2y5WPskgmMVmBrvvRuvm/Irvc/HiV1/pw7vInRSUxuoqYhNnLGFR/2l6Vp8Q0uKVY/
-         hDzLYWqPKZUW9pv4lijJlzbRWUkZY322XKJb+O/uAuP7hxYgGzcILIqtACI1GvnVvQie
-         ZOttP4EXXFO40rD/oCUu/OwlutAkIi2qoaDsV4mqStxtnLriqVkLrdtHM47VIArJEfYp
-         5blQ==
-X-Gm-Message-State: AOJu0YzKT7IU2xARDK1OS+8btnYqW0hMDj3kpRBN73GIwL+ea5mFRa8b
-	FTnDbYLuCcaNvC4ORCHNbPmho5fsQMFOvZM50JOtfUaRNBmQHEyCQlf6LSARnlvQHxgfk1lJFjO
-	h
-X-Google-Smtp-Source: AGHT+IEIpQByHwZPuXZwgtNKBPWh0ShSIP0NDYoquJvLNgTHtNVNVurEQAd2+XginWcAsWfQ77HMsA==
-X-Received: by 2002:a17:907:76f7:b0:a68:cf34:c95b with SMTP id a640c23a62f3a-a695413e308mr161277866b.7.1717494511206;
-        Tue, 04 Jun 2024 02:48:31 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a35e86c36sm6901038a12.54.2024.06.04.02.48.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 02:48:30 -0700 (PDT)
-Date: Tue, 4 Jun 2024 12:48:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v2 3/3] drm/panic: Add a kmsg panic screen
-Message-ID: <916caa58-b044-4594-9a7c-c3ca567bb6f2@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsDPWda4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717513248; x=1749049248;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SoUDNx0VR/i690Ino49xaspZgRdwamfHaUEUEaxbUfo=;
+  b=JsDPWda4u5L3Khlh/8W/OV5ExOMuyU2/rlnecFGIN5Cny9Yp5s4olk86
+   RIwD6Ht6wAgpHhvEjtrZ5ZsmcFpVhg6X5YP8+ZFk5TWLghZ+7p+CdWNx1
+   ymow9ZB5SgEci5CzTFEN/02gb/3nToptbh4SejeyyzMVi3WnMoz6lkCDV
+   m82S/X9LhYmBAjTsR+XfWnkg124bk/mOugIGbs6EfA+5VFcV8CUhInEph
+   peXKN6SzH19eDErVInBP64HqLnFH/w5nf9NCxkoJwn5brzLbyJ1CFxz4f
+   VsJxQq7gyBF/BYSbbcO6IQul4CmgMEMNjXOjD+qxzU+nT+yCICrqLVwEp
+   g==;
+X-CSE-ConnectionGUID: Y3lG7a4mSrK+Ig9LJLp6/w==
+X-CSE-MsgGUID: 1166wtFsRc6k0ZjK4hxFKQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14287792"
+X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
+   d="scan'208";a="14287792"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 08:00:46 -0700
+X-CSE-ConnectionGUID: JjGA0ck7ShyyjXC5BBPVSQ==
+X-CSE-MsgGUID: uek4bPzbRWqSUjDca1h8Gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,214,1712646000"; 
+   d="scan'208";a="37903268"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2024 08:00:44 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sEVe6-000NON-1g;
+	Tue, 04 Jun 2024 15:00:38 +0000
+Date: Tue, 4 Jun 2024 22:59:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [openeuler:openEuler-1.0-LTS 22031/22706] net/tipc/udp_media.c:775
+ cleanup_bearer() warn: variable dereferenced before check 'ub->ubsock' (see
+ line 774)
+Message-ID: <202406042255.VakKNe5f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,53 +62,78 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240603095343.39588-4-jfalempe@redhat.com>
 
-Hi Jocelyn,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Ziyang Xuan <william.xuanziyang@huawei.com>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-only-draw-the-foreground-color-in-drm_panic_blit/20240603-181247
-base:   86266829ea755f737762ebda614c59b136c8feac
-patch link:    https://lore.kernel.org/r/20240603095343.39588-4-jfalempe%40redhat.com
-patch subject: [PATCH v2 3/3] drm/panic: Add a kmsg panic screen
-config: i386-randconfig-141-20240604 (https://download.01.org/0day-ci/archive/20240604/202406041051.KuVqtZCd-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c7b6352c0cf60df59185758b5d18a98215a05b1e
+commit: f147e8f44610a18cff2d6db47d5e7bcad58a59a5 [22031/22706] tipc: wait and exit until all work queues are done
+:::::: branch date: 3 hours ago
+:::::: commit date: 9 weeks ago
+config: x86_64-randconfig-161-20240530 (https://download.01.org/0day-ci/archive/20240604/202406042255.VakKNe5f-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406041051.KuVqtZCd-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406042255.VakKNe5f-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/drm_panic.c:531 draw_panic_static_kmsg() warn: variable dereferenced before check 'font' (see line 529)
+net/tipc/udp_media.c:775 cleanup_bearer() warn: variable dereferenced before check 'ub->ubsock' (see line 774)
+net/tipc/udp_media.c:796 tipc_udp_disable() error: we previously assumed 'ub->ubsock' could be null (see line 791)
 
-vim +/font +531 drivers/gpu/drm/drm_panic.c
+vim +775 net/tipc/udp_media.c
 
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  519  static void draw_panic_static_kmsg(struct drm_scanout_buffer *sb)
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  520  {
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  521  	u32 fg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_FOREGROUND_COLOR, sb->format->format);
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  522  	u32 bg_color = convert_from_xrgb8888(CONFIG_DRM_PANIC_BACKGROUND_COLOR, sb->format->format);
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  523  	const struct font_desc *font = get_default_font(sb->width, sb->height, NULL, NULL);
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  524  	struct drm_rect r_screen = DRM_RECT_INIT(0, 0, sb->width, sb->height);
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  525  	struct kmsg_dump_iter iter;
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  526  	char kmsg_buf[512];
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  527  	size_t kmsg_len;
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  528  	struct drm_panic_line line;
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03 @529  	int yoffset = sb->height - font->height - (sb->height % font->height) / 2;
-                                                                                   ^^^^^^^^^^^^                 ^^^^^^^^^^^^
-Unchecked dereferences
+d0f91938bede20 Erik Hugne   2015-03-05  762  
+d0f91938bede20 Erik Hugne   2015-03-05  763  /* cleanup_bearer - break the socket/bearer association */
+d0f91938bede20 Erik Hugne   2015-03-05  764  static void cleanup_bearer(struct work_struct *work)
+d0f91938bede20 Erik Hugne   2015-03-05  765  {
+d0f91938bede20 Erik Hugne   2015-03-05  766  	struct udp_bearer *ub = container_of(work, struct udp_bearer, work);
+ef20cd4dd16339 Richard Alpe 2016-08-26  767  	struct udp_replicast *rcast, *tmp;
+ef20cd4dd16339 Richard Alpe 2016-08-26  768  
+ef20cd4dd16339 Richard Alpe 2016-08-26  769  	list_for_each_entry_safe(rcast, tmp, &ub->rcast.list, list) {
+ef20cd4dd16339 Richard Alpe 2016-08-26  770  		list_del_rcu(&rcast->list);
+ef20cd4dd16339 Richard Alpe 2016-08-26  771  		kfree_rcu(rcast, rcu);
+ef20cd4dd16339 Richard Alpe 2016-08-26  772  	}
+d0f91938bede20 Erik Hugne   2015-03-05  773  
+f147e8f44610a1 Xin Long     2024-04-02 @774  	atomic_dec(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
+d0f91938bede20 Erik Hugne   2015-03-05 @775  	if (ub->ubsock)
+d0f91938bede20 Erik Hugne   2015-03-05  776  		udp_tunnel_sock_release(ub->ubsock);
+d0f91938bede20 Erik Hugne   2015-03-05  777  	synchronize_net();
+d0f91938bede20 Erik Hugne   2015-03-05  778  	kfree(ub);
+d0f91938bede20 Erik Hugne   2015-03-05  779  }
+d0f91938bede20 Erik Hugne   2015-03-05  780  
+d0f91938bede20 Erik Hugne   2015-03-05  781  /* tipc_udp_disable - detach bearer from socket */
+d0f91938bede20 Erik Hugne   2015-03-05  782  static void tipc_udp_disable(struct tipc_bearer *b)
+d0f91938bede20 Erik Hugne   2015-03-05  783  {
+d0f91938bede20 Erik Hugne   2015-03-05  784  	struct udp_bearer *ub;
+d0f91938bede20 Erik Hugne   2015-03-05  785  
+d0f91938bede20 Erik Hugne   2015-03-05  786  	ub = rcu_dereference_rtnl(b->media_ptr);
+d0f91938bede20 Erik Hugne   2015-03-05  787  	if (!ub) {
+d0f91938bede20 Erik Hugne   2015-03-05  788  		pr_err("UDP bearer instance not found\n");
+d0f91938bede20 Erik Hugne   2015-03-05  789  		return;
+d0f91938bede20 Erik Hugne   2015-03-05  790  	}
+d0f91938bede20 Erik Hugne   2015-03-05 @791  	if (ub->ubsock)
+d0f91938bede20 Erik Hugne   2015-03-05  792  		sock_set_flag(ub->ubsock->sk, SOCK_DEAD);
+d0f91938bede20 Erik Hugne   2015-03-05  793  	RCU_INIT_POINTER(ub->bearer, NULL);
+d0f91938bede20 Erik Hugne   2015-03-05  794  
+d0f91938bede20 Erik Hugne   2015-03-05  795  	/* sock_release need to be done outside of rtnl lock */
+f147e8f44610a1 Xin Long     2024-04-02 @796  	atomic_inc(&tipc_net(sock_net(ub->ubsock->sk))->wq_count);
+d0f91938bede20 Erik Hugne   2015-03-05  797  	INIT_WORK(&ub->work, cleanup_bearer);
+d0f91938bede20 Erik Hugne   2015-03-05  798  	schedule_work(&ub->work);
+d0f91938bede20 Erik Hugne   2015-03-05  799  }
+d0f91938bede20 Erik Hugne   2015-03-05  800  
 
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  530  
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03 @531  	if (!font)
-                                                             ^^^^
-Checked too late
+:::::: The code at line 775 was first introduced by commit
+:::::: d0f91938bede204a343473792529e0db7d599836 tipc: add ip/udp media type
 
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  532  		return;
-c259bba1e69ff2 Jocelyn Falempe 2024-06-03  533  
+:::::: TO: Erik Hugne <erik.hugne@ericsson.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
