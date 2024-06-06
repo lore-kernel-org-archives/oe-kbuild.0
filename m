@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2883944C68
-	for <oe-kbuild@lists.linux.dev>; Thu,  6 Jun 2024 05:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6404A4AED4
+	for <oe-kbuild@lists.linux.dev>; Thu,  6 Jun 2024 06:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717651805; cv=none; b=dcMzc6LRKn7UN5mXPUyu1ymI8CdI7eHxzpPNy12gwaYn0Xo2yZ58/jDmk14iJSeE8XEWa6BXUe0t6zH4hG1pe2folU3JXPRFHgBKCdcxLbS+chgu3NzXMx6RwSk+dxZ2hl+r1E7eiM6nyuOMHefn5PCo8M6VvgYTDq4sfrheHR0=
+	t=1717654452; cv=none; b=ZlP94nRQ/g87BUL+dpfkoFlbjWWxFnJ9ME9A+1gYT7xtG/FaaXylbFAWvdTtGYJkNWXbeO0C/Ls87bEpI1D4zCp8D4xhaTcEPgC6tQyqOG4mbYeuqX+tuzSk1yfFcMlOsb7lLGl/piaWrWNJhcbs84QIrxbYuu4UOZ7sRtkitQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717651805; c=relaxed/simple;
-	bh=P0WScf3AEKufxo7lgfPxaaFWml/youNY6FokZ5sPhG4=;
+	s=arc-20240116; t=1717654452; c=relaxed/simple;
+	bh=/c4j7TGMwWf7s+U3OfvxBqjQDxcbOT9c4U5Y5OaWYCY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EYXyRcBTEwPTnGyA9Lj7ewesLTO4S2wTO2PLkpp+Kt8YBfnosyTjc2Ocw+00VmH/T5jt+j9Tc1vv3TGVzJWW7UkhyggEjefMQo6CxvaxaCD4yUsI/FWIC4jey0aatMEfPTJFCX5VXCbFRFMSD/LkQzd++fmpAMTPdvWHLTnDc3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwDwxUFe; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=l3ihMbcsf6oRcAy9XwhEpP+sZvGBRBhnyuSzCiLgNkc0QYsfOxDJ4cuFAuUG1I+IkPLbig2T2VhDWQdwpFln7QfKldXPxkTtAhD9lOJfS1m72gAa4HzeMZ/kMB16krNgh4jBagaaLccgYukFAJFn1TR3zCY19rDvgr+3f5K0Z+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D48yQIUe; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwDwxUFe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D48yQIUe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717651804; x=1749187804;
+  t=1717654451; x=1749190451;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P0WScf3AEKufxo7lgfPxaaFWml/youNY6FokZ5sPhG4=;
-  b=cwDwxUFeByz/fS/69Z26cdfoESuJc4bKiVlXttWoXpEaV3xG4MJ8bvpg
-   mwEAqxItu0i0upR+rJFRoXVRMie7ceOVwvVAbttTYDvVWy9Bul5J+6J3F
-   iUuaz/isBh9vqJ1tpchOdCpNAYEqu7zTwaUic/uClr4lxpWtm36YvoS1V
-   MPfd5HtGX355e7GYa9oCcJYDT4E4UBEe9icsHM96V4AughI436qufwFJC
-   /Q1J8Z/nk3TUAs8fjzJ56YJAp3zCnld7HNgXWF/PwXNLTbBdtWQGpEmQU
-   DwSAMSDBzc+qfwDpr6CfZRqzCnXZDTnhC5yz23dFgfQ46bCGsKerhXvAP
-   Q==;
-X-CSE-ConnectionGUID: 8MOZByrcQoSO9uggJMc2rw==
-X-CSE-MsgGUID: 1c20Q8LJR8uQUAsiYC6v8g==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14430589"
+  bh=/c4j7TGMwWf7s+U3OfvxBqjQDxcbOT9c4U5Y5OaWYCY=;
+  b=D48yQIUebohpscYQpCKTeSTSVxWpo45z6vnDCoOd9VCkFYXigtVVX6BR
+   VTDduNARmKWa358W7ToFF0mx5FG4j1Aj1Phxbm3iC2kRGnoBRgfERwxag
+   Gym+rYjqCa83V87JwdN3ctm1jCQcYTOhO8vTLNPYyYAjiyASML6X+N2C2
+   2c5vl+1biocrVT9FUDeAxUTKyVprGaL/sn9+aCXVS80XGN6F/VdY0VjOJ
+   Yp3hXRV8X1QC2C9peg7LaBNYWWMCKtQTsigBHEryR02bJRQIy+Sk9iulC
+   Efyz8l4noV32KB7jCrzy1xn2a3Pq+laBUms0KZCw44ZT9SxAhaPYobcoT
+   g==;
+X-CSE-ConnectionGUID: A0RIyI0zQhOc4kG+vGbtRA==
+X-CSE-MsgGUID: IqiU1EDyS6aW5Vu9XhmQ/g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="39703514"
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="14430589"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 22:30:03 -0700
-X-CSE-ConnectionGUID: bAcQYTjoQ7qAWTPt7AE82Q==
-X-CSE-MsgGUID: ucEZ8hRWSx6oJpKIHxc2ag==
+   d="scan'208";a="39703514"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 23:14:09 -0700
+X-CSE-ConnectionGUID: GtoeXdeDQJGLP5Cfw29D4A==
+X-CSE-MsgGUID: P1Fz1gEvTcm8vg8Gjo6hww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,218,1712646000"; 
-   d="scan'208";a="68657005"
+   d="scan'208";a="42264269"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 05 Jun 2024 22:30:01 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jun 2024 23:14:08 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sF5hH-0002ho-11;
-	Thu, 06 Jun 2024 05:29:59 +0000
-Date: Thu, 6 Jun 2024 13:29:38 +0800
+	id 1sF6Nx-0002k7-2q;
+	Thu, 06 Jun 2024 06:14:05 +0000
+Date: Thu, 6 Jun 2024 14:13:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/3] net: core: Implement dstats-type stats collections
-Message-ID: <202406061253.ZgaLHWWp-lkp@intel.com>
+Subject: Re: [PATCH] LoongArch: KVM: Discard dirty page tracking on readonly
+ memslot
+Message-ID: <202406061343.WHIwk2tu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,83 +64,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
-References: <20240605-dstats-v1-2-1024396e1670@codeconstruct.com.au>
-TO: Jeremy Kerr <jk@codeconstruct.com.au>
-TO: David Ahern <dsahern@kernel.org>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev@vger.kernel.org
-TO: Eric Dumazet <edumazet@google.com>
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20240604121502.1985410-1-maobibo@loongson.cn>
+References: <20240604121502.1985410-1-maobibo@loongson.cn>
+TO: Bibo Mao <maobibo@loongson.cn>
+TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+TO: Huacai Chen <chenhuacai@kernel.org>
+CC: WANG Xuerui <kernel@xen0n.name>
+CC: kvm@vger.kernel.org
+CC: loongarch@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
 
-Hi Jeremy,
+Hi Bibo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 32f88d65f01bf6f45476d7edbe675e44fb9e1d58]
+[auto build test WARNING on 2ab79514109578fc4b6df90633d500cf281eb689]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-core-vrf-Change-pcpu_dstat-fields-to-u64_stats_t/20240605-143942
-base:   32f88d65f01bf6f45476d7edbe675e44fb9e1d58
-patch link:    https://lore.kernel.org/r/20240605-dstats-v1-2-1024396e1670%40codeconstruct.com.au
-patch subject: [PATCH 2/3] net: core: Implement dstats-type stats collections
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: x86_64-randconfig-161-20240606 (https://download.01.org/0day-ci/archive/20240606/202406061253.ZgaLHWWp-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-KVM-Discard-dirty-page-tracking-on-readonly-memslot/20240604-201716
+base:   2ab79514109578fc4b6df90633d500cf281eb689
+patch link:    https://lore.kernel.org/r/20240604121502.1985410-1-maobibo%40loongson.cn
+patch subject: [PATCH] LoongArch: KVM: Discard dirty page tracking on readonly memslot
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: loongarch-randconfig-r081-20240606 (https://download.01.org/0day-ci/archive/20240606/202406061343.WHIwk2tu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406061253.ZgaLHWWp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406061343.WHIwk2tu-lkp@intel.com/
 
-smatch warnings:
-net/core/dev.c:10871 dev_fetch_dstats() error: uninitialized symbol 'dstats'.
+New smatch warnings:
+arch/loongarch/kvm/mmu.c:471 kvm_arch_commit_memory_region() error: we previously assumed 'new' could be null (see line 448)
 
-vim +/dstats +10871 net/core/dev.c
+Old smatch warnings:
+arch/loongarch/kvm/mmu.c:892 kvm_map_page() warn: if statement not indented
 
-a18394269fc8727 Heiner Kallweit 2020-11-07  10851  
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10852  /**
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10853   *	dev_fetch_dstats - collate per-cpu network dstats statistics
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10854   *	@s: place to store stats
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10855   *	@dstats: per-cpu network stats to read from
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10856   *
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10857   *	Read per-cpu network statistics from dev->dstats and populate the
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10858   *	related fields in @s.
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10859   */
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10860  void dev_fetch_dstats(struct rtnl_link_stats64 *s,
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10861  		      const struct pcpu_dstats __percpu *dstats)
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10862  {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10863  	int cpu;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10864  
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10865  	for_each_possible_cpu(cpu) {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10866  		u64 rx_packets, rx_bytes, rx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10867  		u64 tx_packets, tx_bytes, tx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10868  		const struct pcpu_dstats *dstats;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10869  		unsigned int start;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10870  
-85bc70c64e8362d Jeremy Kerr     2024-06-05 @10871  		dstats = per_cpu_ptr(dstats, cpu);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10872  		do {
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10873  			start = u64_stats_fetch_begin(&dstats->syncp);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10874  			rx_packets = u64_stats_read(&dstats->rx_packets);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10875  			rx_bytes   = u64_stats_read(&dstats->rx_bytes);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10876  			rx_drops   = u64_stats_read(&dstats->rx_drops);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10877  			tx_packets = u64_stats_read(&dstats->tx_packets);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10878  			tx_bytes   = u64_stats_read(&dstats->tx_bytes);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10879  			tx_drops   = u64_stats_read(&dstats->tx_drops);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10880  		} while (u64_stats_fetch_retry(&dstats->syncp, start));
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10881  
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10882  		s->rx_packets += rx_packets;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10883  		s->rx_bytes   += rx_bytes;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10884  		s->rx_dropped += rx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10885  		s->tx_packets += tx_packets;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10886  		s->tx_bytes   += tx_bytes;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10887  		s->tx_dropped += tx_drops;
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10888  	}
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10889  }
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10890  EXPORT_SYMBOL_GPL(dev_fetch_dstats);
-85bc70c64e8362d Jeremy Kerr     2024-06-05  10891  
+vim +/new +471 arch/loongarch/kvm/mmu.c
+
+7ab6fb505b2a744 Bibo Mao     2023-12-19  440  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  441  void kvm_arch_commit_memory_region(struct kvm *kvm,
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  442  				   struct kvm_memory_slot *old,
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  443  				   const struct kvm_memory_slot *new,
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  444  				   enum kvm_mr_change change)
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  445  {
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  446  	int needs_flush;
+dc7bb37c188f620 Bibo Mao     2024-06-04  447  	u32 old_flags = old ? old->flags : 0;
+dc7bb37c188f620 Bibo Mao     2024-06-04 @448  	u32 new_flags = new ? new->flags : 0;
+dc7bb37c188f620 Bibo Mao     2024-06-04  449  	bool log_dirty_pages = new_flags & KVM_MEM_LOG_DIRTY_PAGES;
+dc7bb37c188f620 Bibo Mao     2024-06-04  450  
+dc7bb37c188f620 Bibo Mao     2024-06-04  451  	/* only track memslot flags changed */
+dc7bb37c188f620 Bibo Mao     2024-06-04  452  	if (change != KVM_MR_FLAGS_ONLY)
+dc7bb37c188f620 Bibo Mao     2024-06-04  453  		return;
+dc7bb37c188f620 Bibo Mao     2024-06-04  454  
+dc7bb37c188f620 Bibo Mao     2024-06-04  455  	/* Discard dirty page tracking on readonly memslot */
+dc7bb37c188f620 Bibo Mao     2024-06-04  456  	if ((old_flags & new_flags) & KVM_MEM_READONLY)
+dc7bb37c188f620 Bibo Mao     2024-06-04  457  		return;
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  458  
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  459  	/*
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  460  	 * If dirty page logging is enabled, write protect all pages in the slot
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  461  	 * ready for dirty logging.
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  462  	 *
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  463  	 * There is no need to do this in any of the following cases:
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  464  	 * CREATE:	No dirty mappings will already exist.
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  465  	 * MOVE/DELETE:	The old mappings will already have been cleaned up by
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  466  	 *		kvm_arch_flush_shadow_memslot()
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  467  	 */
+dc7bb37c188f620 Bibo Mao     2024-06-04  468  	if (!(old_flags & KVM_MEM_LOG_DIRTY_PAGES) && log_dirty_pages) {
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  469  		spin_lock(&kvm->mmu_lock);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  470  		/* Write protect GPA page table entries */
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02 @471  		needs_flush = kvm_mkclean_gpa_pt(kvm, new->base_gfn,
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  472  					new->base_gfn + new->npages);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  473  		spin_unlock(&kvm->mmu_lock);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  474  		if (needs_flush)
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  475  			kvm_flush_remote_tlbs(kvm);
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  476  	}
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  477  }
+752e2cd7b4fb412 Tianrui Zhao 2023-10-02  478  
 
 -- 
 0-DAY CI Kernel Test Service
