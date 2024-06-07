@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8763152164
-	for <oe-kbuild@lists.linux.dev>; Fri,  7 Jun 2024 06:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A7218629A
+	for <oe-kbuild@lists.linux.dev>; Fri,  7 Jun 2024 11:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717742137; cv=none; b=KCbwRmviUaPsjwiF2URNDNi4Z5jcQi13hlbXXabM22GUhLPnkR4ehE5qZLvrdfp/KjDTWm4Uv5+CS3KpO0A2zfDfHsh7yBWEQlTsl2dPNYJ7SSSrRkSQ0tO1ZXzBJ4BVXsuNhSr/k48TbA403UClkHwRo21JBqxbU62AEBZtCiw=
+	t=1717758597; cv=none; b=hKtu9tYuhUwGqcwUZ+aIcHOvpA6URHXcMprTHPVvn7k/FSQZo1X3foXWbFQKaPAWVSUxKwLhsJemCou5QDDXzxCPyKjDdtOTWC6IpknEXiY1uv6O4e3PwuqiDT4/fVDOuGI5+nVder0CcpUeFmCm60M8QH0FPw7/ezEztbASey0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717742137; c=relaxed/simple;
-	bh=CxvRRlElHHlZ5JRLatBY3lPyHJovTtutg8/J3U/AxuE=;
+	s=arc-20240116; t=1717758597; c=relaxed/simple;
+	bh=OzydFJpN2eboyatmlT5zYPYbZxhp/Af0NpbheENP/2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DEkJKuNgEoYu/cZM4kb/V/RRp5amJiutNiV5McyGzlcBEiT7X5SqHZw/1EkLbdOvKSoAcFVGPBGJjT6S45WB8H5jEtTaN2gbKVUaCGzsHBeSMQVLt82IolpPhZX0ar5FZW1cRziAjqg8z9G35cEov4iU+RYMitrf5dM58uxv4Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nX1GSbcp; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=R+kXX6Mi/l4pvlvaKcf+gukfelGqq6stqS/BEMncwV9kznsGWB3c9BVCCr/V0b+fSMqQ8oBajSLhOUywqFUaju0OwEem5f4/iYYGnO51Q6WJILapVHt5sf8Ib+5PvURxVWfpElDfsvVIpRUMvwAAh9PrkcfeRSQhAPfGrVhL6SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYduNEoZ; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nX1GSbcp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYduNEoZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717742136; x=1749278136;
+  t=1717758595; x=1749294595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CxvRRlElHHlZ5JRLatBY3lPyHJovTtutg8/J3U/AxuE=;
-  b=nX1GSbcp0fuzRffQSYhqu55uA5WtCjErCAMRr/SmdP0jkGIsJ7ZrPnlE
-   Acu5YxMPYPptZuAkd68nAG5xcgDuuOviHkyD67JskVFsOZg+6Y8G4pGKi
-   Zp2Jg/mSoIu6/TXryQ8n1ncZt5XxZFCY/QE6y2WRFCQEbtbGdNw/0nMRZ
-   fp0Tr6DEyvMk/JZDWVL+yjmqiyMIPLAs4Y/oBlPAAePsSbmBpWsIKz1zg
-   NUIpyoiaOAQ/Pow5D66eOuMDAMyWkzF+CatBofcCsGhkz/osCOuGq4DhW
-   ICaNkzU/8jxaY7b7BTDi5Tl/5YqEsiYtfj+nDSR5K1UR68z81JKKinILM
-   w==;
-X-CSE-ConnectionGUID: gGbHfx66RBalU4s6qt1jaQ==
-X-CSE-MsgGUID: hL4LuhcCQXaWG13lMUeA/Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14289726"
+  bh=OzydFJpN2eboyatmlT5zYPYbZxhp/Af0NpbheENP/2g=;
+  b=TYduNEoZQXLgD1MyNi/1y6cOWTmH224d9bkEIDHWdSbhAxFYqRM5p/6y
+   +o9NPYsyi0Da7/rtyPqTk3hsr4yNJhvAJbm7iqYmDAhiq0duMfVl5G0sD
+   5itYDYsRvOjWve+OPOBiacicwHNOoVPi3kcvGkpiiZpeb29/Kgu7qvzv1
+   /j2aGfhqV7mUxSWwAt3kKRxoCud3JgLhVGar29XbAtEOC7kx7+90W9PDy
+   2pD3HcTG/sYDBM3zl0PRpSv9+SMnS04XArJR/3zZlLdF73TE4DXDRvaJa
+   G4KIhWqLZHeBUnBzldPynKP13niu1pnPteVAJoqRXEUa5W9XcoQvFBClb
+   Q==;
+X-CSE-ConnectionGUID: 2V4P71lERr6QTGTvuLBWkQ==
+X-CSE-MsgGUID: lxHjZpCfS9uqNY/LDN3sUg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="25128973"
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="14289726"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 23:35:35 -0700
-X-CSE-ConnectionGUID: cBcnwtSsTNSLddt4bGUTHw==
-X-CSE-MsgGUID: iysSGraEQTWejuq/PduY6g==
+   d="scan'208";a="25128973"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 04:09:54 -0700
+X-CSE-ConnectionGUID: nmplLGumTL6uqMgQIwxrFA==
+X-CSE-MsgGUID: pDsGGLaXQACbPTqUi3Oz1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,220,1712646000"; 
-   d="scan'208";a="69389931"
+   d="scan'208";a="42709311"
 Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Jun 2024 23:35:34 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 07 Jun 2024 04:09:53 -0700
 Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sFTCG-0004Ao-0m;
-	Fri, 07 Jun 2024 06:35:32 +0000
-Date: Fri, 7 Jun 2024 14:35:30 +0800
+	id 1sFXTj-0004fi-1W;
+	Fri, 07 Jun 2024 11:09:51 +0000
+Date: Fri, 7 Jun 2024 19:09:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [chrome-os:chromeos-6.1 111/126]
- drivers/mailbox/mtk-cmdq-sec-tee.c:172:2-8: preceding lock on line 158
-Message-ID: <202406071437.bg3BwASr-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi:116.16-297.5:
+ Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells'
+ found, but node is not an interrupt provider
+Message-ID: <202406071912.qEHHqytL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,78 +63,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Rob Herring <robh@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   bb84077a7f2f0e6433f0c71d35738db6fcfca976
-commit: a0f3bf1449bdfbea99babee760c8886ee574e42a [111/126] BACKPORT: FROMLIST: mailbox: mediatek: Add CMDQ secure mailbox driver
-:::::: branch date: 24 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r062-20240607 (https://download.01.org/0day-ci/archive/20240607/202406071437.bg3BwASr-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project d7d2d4f53fc79b4b58e8d8d08151b577c3699d4a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8a92980606e3585d72d510a03b59906e96755b8a
+commit: a8528f7f31abf792f188d3f397b15aae7ed8564c dtc: Enable dtc interrupt_provider check
+date:   3 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 3 months ago
+compiler: mips64el-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240607/202406071912.qEHHqytL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202406071437.bg3BwASr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406071912.qEHHqytL-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/mailbox/mtk-cmdq-sec-tee.c:172:2-8: preceding lock on line 158
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi:116.16-297.5: Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/mips/boot/dts/loongson/loongson64_2core_2k1000.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
 --
->> drivers/mailbox/mtk-cmdq-sec-mailbox.c:219:58-62: ERROR: invalid reference to the index variable of the iterator on line 201
+>> arch/mips/boot/dts/loongson/ls7a-pch.dtsi:68.16-416.5: Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dts:28.31-36.4: Warning (interrupt_provider): /bus@10000000/msi-controller@2ff00000: Missing '#interrupt-cells' in interrupt provider
+>> arch/mips/boot/dts/loongson/loongson64c_4core_ls7a.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+--
+>> arch/mips/boot/dts/loongson/ls7a-pch.dtsi:68.16-416.5: Warning (interrupt_provider): /bus@10000000/pci@1a000000: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dts:32.31-40.4: Warning (interrupt_provider): /bus@10000000/msi-controller@2ff00000: Missing '#interrupt-cells' in interrupt provider
+>> arch/mips/boot/dts/loongson/loongson64g_4core_ls7a.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
 
-vim +172 drivers/mailbox/mtk-cmdq-sec-tee.c
+vim +116 arch/mips/boot/dts/loongson/loongson64-2k1000.dtsi
 
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  149  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  150  int cmdq_sec_execute_session(struct cmdq_sec_tee_context *tee, u32 cmd, s32 timeout_ms)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  151  {
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  152  #if IS_ENABLED(CONFIG_TEE)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  153  	struct tee_ioctl_invoke_arg invoke_arg = {0};
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  154  	struct tee_param params = {0};
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  155  	u64 ts = sched_clock();
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  156  	int ret = 0;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  157  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27 @158  	mutex_lock(&cmdq_sec_exec_lock);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  159  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  160  	params.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  161  	params.u.memref.shm = tee->shared_mem;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  162  	params.u.memref.shm_offs = 0;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  163  	params.u.memref.size = tee->shared_mem->size;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  164  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  165  	invoke_arg.num_params = 1;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  166  	invoke_arg.session = tee->session;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  167  	invoke_arg.func = cmd;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  168  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  169  	ret = tee_client_invoke_func(tee->tee_context, &invoke_arg, &params);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  170  	if (ret) {
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  171  		pr_err("tee_client_invoke_func failed, ret=%d\n", ret);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27 @172  		return -EFAULT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  173  	}
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  174  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  175  	ret = invoke_arg.ret;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  176  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  177  	mutex_unlock(&cmdq_sec_exec_lock);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  178  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  179  	ts = div_u64(sched_clock() - ts, 1000000);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  180  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  181  	if (ret != 0)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  182  		pr_err("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  183  	else if (ts > timeout_ms)
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  184  		pr_err("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  185  	else
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  186  		pr_debug("[SEC]execute: TEEC_InvokeCommand:%u ret:%d cost:%lluus", cmd, ret, ts);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  187  
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  188  	return ret;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  189  #else
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  190  	return -EFAULT;
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  191  #endif
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  192  }
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  193  EXPORT_SYMBOL_GPL(cmdq_sec_execute_session);
-a0f3bf1449bdfb Jason-jh Lin 2024-05-27  194  
+b1a792601f264d Qing Zhang  2021-03-15    6  
+b1a792601f264d Qing Zhang  2021-03-15    7  / {
+b1a792601f264d Qing Zhang  2021-03-15    8  	compatible = "loongson,loongson2k1000";
+b1a792601f264d Qing Zhang  2021-03-15    9  
+b1a792601f264d Qing Zhang  2021-03-15   10  	#address-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   11  	#size-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   12  
+b1a792601f264d Qing Zhang  2021-03-15   13  	cpus {
+b1a792601f264d Qing Zhang  2021-03-15   14  		#address-cells = <1>;
+b1a792601f264d Qing Zhang  2021-03-15   15  		#size-cells = <0>;
+b1a792601f264d Qing Zhang  2021-03-15   16  
+b1a792601f264d Qing Zhang  2021-03-15   17  		cpu0: cpu@0 {
+b1a792601f264d Qing Zhang  2021-03-15   18  			device_type = "cpu";
+b1a792601f264d Qing Zhang  2021-03-15   19  			compatible = "loongson,gs264";
+b1a792601f264d Qing Zhang  2021-03-15   20  			reg = <0x0>;
+b1a792601f264d Qing Zhang  2021-03-15   21  			#clock-cells = <1>;
+b1a792601f264d Qing Zhang  2021-03-15   22  			clocks = <&cpu_clk>;
+b1a792601f264d Qing Zhang  2021-03-15   23  		};
+b1a792601f264d Qing Zhang  2021-03-15   24  	};
+b1a792601f264d Qing Zhang  2021-03-15   25  
+01153887beb551 zhaoxiao    2021-05-21   26  	memory@200000 {
+b1a792601f264d Qing Zhang  2021-03-15   27  		compatible = "memory";
+b1a792601f264d Qing Zhang  2021-03-15   28  		device_type = "memory";
+b1a792601f264d Qing Zhang  2021-03-15   29  		reg = <0x00000000 0x00200000 0x00000000 0x0ee00000>, /* 238 MB at 2 MB */
+b1a792601f264d Qing Zhang  2021-03-15   30  			<0x00000000 0x20000000 0x00000000 0x1f000000>, /* 496 MB at 512 MB */
+b1a792601f264d Qing Zhang  2021-03-15   31  			<0x00000001 0x10000000 0x00000001 0xb0000000>; /* 6912 MB at 4352MB */
+b1a792601f264d Qing Zhang  2021-03-15   32  	};
+b1a792601f264d Qing Zhang  2021-03-15   33  
+b1a792601f264d Qing Zhang  2021-03-15   34  	cpu_clk: cpu_clk {
+b1a792601f264d Qing Zhang  2021-03-15   35  		#clock-cells = <0>;
+b1a792601f264d Qing Zhang  2021-03-15   36  		compatible = "fixed-clock";
+b1a792601f264d Qing Zhang  2021-03-15   37  		clock-frequency = <800000000>;
+b1a792601f264d Qing Zhang  2021-03-15   38  	};
+b1a792601f264d Qing Zhang  2021-03-15   39  
+b1a792601f264d Qing Zhang  2021-03-15   40  	cpuintc: interrupt-controller {
+b1a792601f264d Qing Zhang  2021-03-15   41  		#address-cells = <0>;
+b1a792601f264d Qing Zhang  2021-03-15   42  		#interrupt-cells = <1>;
+b1a792601f264d Qing Zhang  2021-03-15   43  		interrupt-controller;
+b1a792601f264d Qing Zhang  2021-03-15   44  		compatible = "mti,cpu-interrupt-controller";
+b1a792601f264d Qing Zhang  2021-03-15   45  	};
+b1a792601f264d Qing Zhang  2021-03-15   46  
+b1a792601f264d Qing Zhang  2021-03-15   47  	package0: bus@10000000 {
+b1a792601f264d Qing Zhang  2021-03-15   48  		compatible = "simple-bus";
+b1a792601f264d Qing Zhang  2021-03-15   49  		#address-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   50  		#size-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   51  		ranges = <0 0x10000000 0 0x10000000 0 0x10000000 /* ioports */
+b1a792601f264d Qing Zhang  2021-03-15   52  			0 0x40000000 0 0x40000000 0 0x40000000
+b1a792601f264d Qing Zhang  2021-03-15   53  			0xfe 0x00000000 0xfe 0x00000000 0 0x40000000>;
+b1a792601f264d Qing Zhang  2021-03-15   54  
+a8f4fcdd8ba7d1 Qing Zhang  2021-11-26   55  		pm: reset-controller@1fe07000 {
+a8f4fcdd8ba7d1 Qing Zhang  2021-11-26   56  			compatible = "loongson,ls2k-pm";
+a8f4fcdd8ba7d1 Qing Zhang  2021-11-26   57  			reg = <0 0x1fe07000 0 0x422>;
+a8f4fcdd8ba7d1 Qing Zhang  2021-11-26   58  		};
+a8f4fcdd8ba7d1 Qing Zhang  2021-11-26   59  
+b1a792601f264d Qing Zhang  2021-03-15   60  		liointc0: interrupt-controller@1fe11400 {
+b1a792601f264d Qing Zhang  2021-03-15   61  			compatible = "loongson,liointc-2.0";
+b1a792601f264d Qing Zhang  2021-03-15   62  			reg = <0 0x1fe11400 0 0x40>,
+b1a792601f264d Qing Zhang  2021-03-15   63  				<0 0x1fe11040 0 0x8>,
+b1a792601f264d Qing Zhang  2021-03-15   64  				<0 0x1fe11140 0 0x8>;
+b1a792601f264d Qing Zhang  2021-03-15   65  			reg-names = "main", "isr0", "isr1";
+b1a792601f264d Qing Zhang  2021-03-15   66  
+b1a792601f264d Qing Zhang  2021-03-15   67  			interrupt-controller;
+b1a792601f264d Qing Zhang  2021-03-15   68  			#interrupt-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   69  
+b1a792601f264d Qing Zhang  2021-03-15   70  			interrupt-parent = <&cpuintc>;
+b1a792601f264d Qing Zhang  2021-03-15   71  			interrupts = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   72  			interrupt-names = "int0";
+b1a792601f264d Qing Zhang  2021-03-15   73  
+b1a792601f264d Qing Zhang  2021-03-15   74  			loongson,parent_int_map = <0xffffffff>, /* int0 */
+b1a792601f264d Qing Zhang  2021-03-15   75  						<0x00000000>, /* int1 */
+b1a792601f264d Qing Zhang  2021-03-15   76  						<0x00000000>, /* int2 */
+b1a792601f264d Qing Zhang  2021-03-15   77  						<0x00000000>; /* int3 */
+b1a792601f264d Qing Zhang  2021-03-15   78  		};
+b1a792601f264d Qing Zhang  2021-03-15   79  
+b1a792601f264d Qing Zhang  2021-03-15   80  		liointc1: interrupt-controller@1fe11440 {
+b1a792601f264d Qing Zhang  2021-03-15   81  			compatible = "loongson,liointc-2.0";
+b1a792601f264d Qing Zhang  2021-03-15   82  			reg = <0 0x1fe11440 0 0x40>,
+b1a792601f264d Qing Zhang  2021-03-15   83  				<0 0x1fe11048 0 0x8>,
+b1a792601f264d Qing Zhang  2021-03-15   84  				<0 0x1fe11148 0 0x8>;
+b1a792601f264d Qing Zhang  2021-03-15   85  			reg-names = "main", "isr0", "isr1";
+b1a792601f264d Qing Zhang  2021-03-15   86  
+b1a792601f264d Qing Zhang  2021-03-15   87  			interrupt-controller;
+b1a792601f264d Qing Zhang  2021-03-15   88  			#interrupt-cells = <2>;
+b1a792601f264d Qing Zhang  2021-03-15   89  
+b1a792601f264d Qing Zhang  2021-03-15   90  			interrupt-parent = <&cpuintc>;
+b1a792601f264d Qing Zhang  2021-03-15   91  			interrupts = <3>;
+b1a792601f264d Qing Zhang  2021-03-15   92  			interrupt-names = "int1";
+b1a792601f264d Qing Zhang  2021-03-15   93  
+b1a792601f264d Qing Zhang  2021-03-15   94  			loongson,parent_int_map = <0x00000000>, /* int0 */
+b1a792601f264d Qing Zhang  2021-03-15   95  						<0xffffffff>, /* int1 */
+b1a792601f264d Qing Zhang  2021-03-15   96  						<0x00000000>, /* int2 */
+b1a792601f264d Qing Zhang  2021-03-15   97  						<0x00000000>; /* int3 */
+b1a792601f264d Qing Zhang  2021-03-15   98  		};
+b1a792601f264d Qing Zhang  2021-03-15   99  
+e47084e116fcca Binbin Zhou 2023-06-02  100  		rtc0: rtc@1fe07800 {
+e47084e116fcca Binbin Zhou 2023-06-02  101  			compatible = "loongson,ls2k1000-rtc";
+e47084e116fcca Binbin Zhou 2023-06-02  102  			reg = <0 0x1fe07800 0 0x78>;
+e47084e116fcca Binbin Zhou 2023-06-02  103  			interrupt-parent = <&liointc0>;
+e47084e116fcca Binbin Zhou 2023-06-02  104  			interrupts = <60 IRQ_TYPE_LEVEL_LOW>;
+e47084e116fcca Binbin Zhou 2023-06-02  105  		};
+e47084e116fcca Binbin Zhou 2023-06-02  106  
+b1a792601f264d Qing Zhang  2021-03-15  107  		uart0: serial@1fe00000 {
+b1a792601f264d Qing Zhang  2021-03-15  108  			compatible = "ns16550a";
+b1a792601f264d Qing Zhang  2021-03-15  109  			reg = <0 0x1fe00000 0 0x8>;
+b1a792601f264d Qing Zhang  2021-03-15  110  			clock-frequency = <125000000>;
+b1a792601f264d Qing Zhang  2021-03-15  111  			interrupt-parent = <&liointc0>;
+b1a792601f264d Qing Zhang  2021-03-15  112  			interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+b1a792601f264d Qing Zhang  2021-03-15  113  			no-loopback-test;
+b1a792601f264d Qing Zhang  2021-03-15  114  		};
+b1a792601f264d Qing Zhang  2021-03-15  115  
+b1a792601f264d Qing Zhang  2021-03-15 @116  		pci@1a000000 {
+
+:::::: The code at line 116 was first introduced by commit
+:::::: b1a792601f264df7172a728f1a83a05b6b399dfb MIPS: Loongson64: DeviceTree for Loongson-2K1000
+
+:::::: TO: Qing Zhang <zhangqing@loongson.cn>
+:::::: CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
 -- 
 0-DAY CI Kernel Test Service
