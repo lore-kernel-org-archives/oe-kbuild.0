@@ -1,57 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB3F210E4
-	for <oe-kbuild@lists.linux.dev>; Sun,  9 Jun 2024 15:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7136C14265
+	for <oe-kbuild@lists.linux.dev>; Sun,  9 Jun 2024 16:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717947739; cv=none; b=PpQ4sh43y91btOFT6f7h6r7pm62aM82bDM79/G7TVrwnGszHzOBKptL1kY8VQ3ZzuSdcUlHBiYtAC2QhiGRz49b05rdDfQmgV627+Svkh4ZaEjH6IMMOKamTIybD7Kc3A+ifMP7So1BFJRypE7D/U2WhtbZrZvPcpfqwie4kpXg=
+	t=1717949040; cv=none; b=c0n8eldCXRNajQDB17O/HdCXPVSf0Vz7pajTvDGtUtQWMqEhbELCJJUx47zqDe1OMR4gj1QuMynGOVOyW0AKPPlJckWJ/FRx4VkXaVbzgKvzFWXTP7FlsW0ZCu6KpLQaEYtuy0R6Z008dS0YH3/oQSlU6hHwZ4fmZCoOn6Ufimk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717947739; c=relaxed/simple;
-	bh=65XXxa9BTIfe7dk8LBQb9lLvPjgWJuOO6xBSvyfUHlM=;
+	s=arc-20240116; t=1717949040; c=relaxed/simple;
+	bh=uD5a4WMTGSS3ZEm5Ef1829h1zi+/FPA4MqgR7hJ/R/c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tdB8ToHSJ4biYBJwtdrOKynCuwze+6ARlk7qgf3X/jrMNl8/f5gJDSHkH0zF+E+ThZu7PMb3XHpI4HmzH1+Lmjb90pBihOdIu75Q6QjUVqEnNzuPyRbEGGwGygf/JtYMeM8Y7ue5Lel2gd6c/h8cYegugFo6O6DkojJm98JpFlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VS/wSLW1; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=GZRfeXQR/9kyP1BoNaxXzB1FNiI2m0HfMob3uW9vv6UEK4IVcUm66FpRqY39Oxbyh4qeTHAKhPQWQDukkW7M3nOw3jV95IHujCItbqOqezzbJwpD4Xd27cI2Y0wssxPKKpZFsTIeOaoc3x6sJBu1V9CNfI5hQxhD02Ess60mZFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qcJZ02kG; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VS/wSLW1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717947736; x=1749483736;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=65XXxa9BTIfe7dk8LBQb9lLvPjgWJuOO6xBSvyfUHlM=;
-  b=VS/wSLW1i3VdQFtgoQkBkXEhJqYXq0LL4fCtLxS/GevSOqo9MKKUsROr
-   08hIdQs7EqV02AmTexfpil/m7rTksCriUZiWRImy0IqrqIl7KX+kDAlKi
-   +rIbr3a0YAgy9SEgkqU5XTqKAKyXe1QzKsGMy8FcpEH2swhIHVNbpqdG/
-   9lFmNlrWGDGgv3TIeSqr8mZTal6iyMhPAmyPGrg9b+RnaJwdsO8mIHsWL
-   fE6y/a2JihtYofyrEJYbRHLAPJlSe1GoPOvW6WejlXGJ44ppl/EbayEpd
-   MDEWr/qjy0cWoG+brfJqSWBZ1J2ZofaxrQBwqMzGT51leggtgRqhDcp4R
-   A==;
-X-CSE-ConnectionGUID: I/PoaX7AR3mvBtITOuoXFg==
-X-CSE-MsgGUID: yBXOqSH0QTKKbvMhhheK9A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="14452399"
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="14452399"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 08:42:16 -0700
-X-CSE-ConnectionGUID: OtSHOSUuQu6s1wvSLTJ3uQ==
-X-CSE-MsgGUID: TOD8Zm72TWSJrNvNm6odug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,225,1712646000"; 
-   d="scan'208";a="38948561"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Jun 2024 08:42:15 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGKgO-0001MC-1J;
-	Sun, 09 Jun 2024 15:42:12 +0000
-Date: Sun, 9 Jun 2024 23:41:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qcJZ02kG"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2e6f33150bcso40390401fa.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 09 Jun 2024 09:03:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1717949036; x=1718553836; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2VNLbj93PjSART7sD685Za7R6d9S+vSVdbT1Jxc7+AY=;
+        b=qcJZ02kGl+Y+FZOo3nLyxnKglu8g2eqUTXSPpD1e466ZH96FW7B6+xGghbzJvZZNoI
+         9cjvev5Teh3NiqUfSkv/9qG7HgMN+P3emYTDqIk7pr449ZyX64nHumqn1oxZbZ4aYph2
+         7jgVgukC5w00mLdtx2SnCRJNdLk3PZjmvbl9UAVcZesfFI3NaD9UIlq+7TRpfopLqLml
+         0c/Bq/OQ9FoSB8Pi0yPzMcK4GInN7r5JajNvZgeXU67Fnfz963tGGgoZ/yGsBMcF1roF
+         z+Y4C5CLc8MT7vhJytR7YOpnguK3+RWpGhmnSUFOuZsQuchyhI8UcI/Dbh+1/OERlk/1
+         r/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717949036; x=1718553836;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2VNLbj93PjSART7sD685Za7R6d9S+vSVdbT1Jxc7+AY=;
+        b=R6cuOYhRLAEwNevLaEHDfNgS6BgpbVCD9wq2Gy0q5y4bdHuBiGy1GHGr/7cM2F3u7w
+         mo4H4POS/Fsl3TyFj/UJf1lPmTQNlcedFSlKUl8WDyn57puri73AA+K/0gt3WYXH/ZF8
+         Mrww8Fzrdl9ggN//T3hJT5a4JQ+zu4WFFy2Z44+O8fNYQO8ZlQGRGFWM4QxcAllHTLm+
+         ek/bdUvd6usBrQIxi/l7rHvUWDV+Qfn95E7kRuo1/i9Xqe4Tg1+QwEbEokOlM//IU+K4
+         N9mV5dRkYB8QH3gyfJEIBuFFcucwWUiX3TaPOMvuIHa8A43FU03+mcvi3hAcGCcyh5pO
+         8uDQ==
+X-Gm-Message-State: AOJu0YzijJZ11jxbqIj9XiqW3Ral8W+1Fx4RJjgRTQDF6Mcw1C7B/2t+
+	B6KFBDyqu8JT8Fl5zni77EbrUwfu1xgX83ctC7xBqSqgB9Zdt+bkNHZ9BqrNQ+fr6QipIlV/JAc
+	s
+X-Google-Smtp-Source: AGHT+IGVIKuHGzbO1QP1oVSmFQWhwh0Upqk/8HkvnNom2ucX7YAhQ+a9WXovzeXN3e+1uk9SG/pSwQ==
+X-Received: by 2002:a19:5f5b:0:b0:520:c2c1:153a with SMTP id 2adb3069b0e04-52bb9fd2521mr4412443e87.58.1717949035267;
+        Sun, 09 Jun 2024 09:03:55 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c1aa3e4sm114257815e9.15.2024.06.09.09.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Jun 2024 09:03:54 -0700 (PDT)
+Date: Sun, 9 Jun 2024 19:03:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	ying.huang@intel.com, Baolin Wang <baolin.wang@linux.alibaba.com>,
+	David Hildenbrand <david@redhat.com>,
+	John Hubbard <jhubbard@nvidia.com>, Mel Gorman <mgorman@suse.de>,
+	Ryan Roberts <ryan.roberts@arm.com>, liushixin2@huawei.com,
+	Kefeng Wang <wangkefeng.wang@huawei.com>
 Subject: Re: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
-Message-ID: <202406092325.eDrcikT8-lkp@intel.com>
+Message-ID: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,42 +72,23 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240607103241.1298388-1-wangkefeng.wang@huawei.com>
-References: <20240607103241.1298388-1-wangkefeng.wang@huawei.com>
-TO: Kefeng Wang <wangkefeng.wang@huawei.com>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: ying.huang@intel.com
-CC: Baolin Wang <baolin.wang@linux.alibaba.com>
-CC: David Hildenbrand <david@redhat.com>
-CC: John Hubbard <jhubbard@nvidia.com>
-CC: Mel Gorman <mgorman@suse.de>
-CC: Ryan Roberts <ryan.roberts@arm.com>
-CC: liushixin2@huawei.com
-CC: Kefeng Wang <wangkefeng.wang@huawei.com>
 
 Hi Kefeng,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-fix-possible-OOB-in-numa_rebuild_large_mapping/20240607-183609
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20240607103241.1298388-1-wangkefeng.wang%40huawei.com
 patch subject: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/archive/20240609/202406092325.eDrcikT8-lkp@intel.com/config)
 compiler: mips-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202406092325.eDrcikT8-lkp@intel.com/
 
 smatch warnings:
@@ -103,7 +96,6 @@ mm/memory.c:5370 do_numa_page() error: uninitialized symbol 'nr_pages'.
 
 vim +/nr_pages +5370 mm/memory.c
 
-9532fec118d485 Mel Gorman        2012-11-15  5264  
 2b7403035459c7 Souptick Joarder  2018-08-23  5265  static vm_fault_t do_numa_page(struct vm_fault *vmf)
 d10e63f29488b0 Mel Gorman        2012-10-25  5266  {
 82b0f8c39a3869 Jan Kara          2016-12-14  5267  	struct vm_area_struct *vma = vmf->vma;
@@ -143,6 +135,9 @@ d2136d749d76af Baolin Wang       2024-03-29  5297  	if (!writable && pte_write_u
 6695cf68b15c21 Kefeng Wang       2023-09-21  5301  	folio = vm_normal_folio(vma, vmf->address, pte);
 6695cf68b15c21 Kefeng Wang       2023-09-21  5302  	if (!folio || folio_is_zone_device(folio))
 b99a342d4f11a5 Huang Ying        2021-04-29  5303  		goto out_map;
+
+nr_pages not initialized
+
 d10e63f29488b0 Mel Gorman        2012-10-25  5304  
 6688cc05473b36 Peter Zijlstra    2013-10-07  5305  	/*
 bea66fbd11af1c Mel Gorman        2015-03-25  5306  	 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
@@ -209,6 +204,11 @@ b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 * Make it present again, de
 b99a342d4f11a5 Huang Ying        2021-04-29  5367  	 * non-accessible ptes, some can allow access by kernel mode.
 b99a342d4f11a5 Huang Ying        2021-04-29  5368  	 */
 d2136d749d76af Baolin Wang       2024-03-29  5369  	if (folio && folio_test_large(folio))
+
+Are folio_test_large() and folio_is_zone_device() mutually exclusive?
+If so then this is a false positive.  Just ignore the warning in that
+case.
+
 8d27aa5be8ed93 Kefeng Wang       2024-06-07 @5370  		numa_rebuild_large_mapping(vmf, vma, folio, nr_pages, pte,
 8d27aa5be8ed93 Kefeng Wang       2024-06-07  5371  					   ignore_writable, pte_write_upgrade);
 d2136d749d76af Baolin Wang       2024-03-29  5372  	else
@@ -217,8 +217,8 @@ d2136d749d76af Baolin Wang       2024-03-29  5374  					    writable);
 b99a342d4f11a5 Huang Ying        2021-04-29  5375  	pte_unmap_unlock(vmf->pte, vmf->ptl);
 b99a342d4f11a5 Huang Ying        2021-04-29  5376  	goto out;
 d10e63f29488b0 Mel Gorman        2012-10-25  5377  }
-d10e63f29488b0 Mel Gorman        2012-10-25  5378  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
