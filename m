@@ -1,246 +1,150 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5CE55E53;
-	Mon, 10 Jun 2024 08:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E77942A93
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 09:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718007705; cv=none; b=ZGz5glmvYgfgAMXC1WcY1zFq7GYHleEupl7VPCpRpj77f8dhdjbCs7+/RWq3PKa6XTMAAjvh/An3X+CWk8YsApmSRJHauY/62/Qrr4b2OrBGOD5pKlDu/bgHt+gSuNE/auJIyyKG7dXzP3FGPbrLbLIzOBoQnHs/ICabjDIffJg=
+	t=1718010860; cv=none; b=VqeaQGrJ8vPHHE1nPsBJvRB3TBS3nsWFNOvne/8AvhqO/CWOQe3wZ8FW/2e11wwjy2ukFOT+TRO85WqmFwYnhlivsf25SL3qbBV0mO5lwXZIfuizR/IJo2W0EDGfIdVp4hmy9erLktms1HjDioJ0iMRwMTfqQyg3lVZ0tAYHyek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718007705; c=relaxed/simple;
-	bh=68qVpkivRPu/UqBy8a5aM/GcH3KxSp5sMnJQNIuc4FU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aAnVIOkLeTdxTC9XrNjddvIfr/5z7VXTFSUWEEF80VZkf7BV1+mHKLEMXMvfwLAwUbDSQsZqIutR0TFnX0hJX233xfqeJ0pwSV+Q/LnuEdl/+4k9X37P6mh2D/S9RGC6QzhaYePhSgZ8pm7YH5NcazxetC+z0XAlpB+1Qssz8Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwjk+5AG; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718010860; c=relaxed/simple;
+	bh=1fWnl48ZYkWAie2+kLERO7RwKskBL5rgSOaCqfSYETU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HNwU6bmCl64bAiFY4YxVNwq9u0J/71JoYv0eMN+d++YMSUvLUxgCiQTyn+ima2GhEoxqDcV6rbXHMpLp4Y2C0bPOBZgBpWYZ9nmKJaygWUhs50SFnHyIvY3T6Pt28WjgbNM7kb76gKf59L/2yjLbKJqBLVWcrfF7k+Nyha4noyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EM67l0ST; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwjk+5AG"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57c76497cefso1370984a12.1;
-        Mon, 10 Jun 2024 01:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718007702; x=1718612502; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JwKWNr3+SkhJYsnRjSQdpuuiDdqh1Y+N1jlC0TkNGnY=;
-        b=hwjk+5AGjbw3zaXUIj08TQ7sCTTFvxo3V3qW2tRXE2XfSRs3hVjVCR4wRfU0bjjZxL
-         sq5jqelqTpMLdzlgj4D1XwYXCdVEAYmGvgsLXvmN/HtnUkIFyfWGs3wD3XqZEz3EEJ+v
-         jS9QEMDZyPtN+wHMWS+1jmfR5ZBHp9AAIbyWBzfcFgZSowFjaY5oFXuQrgIWWKpAHXC9
-         sAvnw/A/JF+LJ5AnswtV77xexKy4bDcxn9YPWPPCYx35/ZeAKtwA0Bc2yXLSvsJgKcRZ
-         qxVea+NCfvWfjCuk03E/Xo1jzPn+lUihPcI3bKUXSjxpqzuoDv72R1qWFMyjqURUjpBD
-         GBAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718007702; x=1718612502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JwKWNr3+SkhJYsnRjSQdpuuiDdqh1Y+N1jlC0TkNGnY=;
-        b=oRM8fYRcmk1xFPR5ZfB/06Eirj9AONpFkU4rG8qlmEYujSPzjbmlX1xo6YjZNlUSPG
-         VS1+abx+uoRaDX6N/zvVSrFnN6Mz0xdUAbBuoYsBTpDvlNqaPfXL1iKHowRisTnwtmE8
-         I7DpzsLFYYPC8nNq5QOkWQTg8uCJhi3CWtSMuhjbz6x6E3xLfXNqqxYHT2SaSK2FWvDw
-         MZyc2R6XRgSdakwg/h2Q7Xx6onpCKC6/0bYWIrPhPexqUc0NNXfDRbu7E7wWuex3XPM7
-         BaFlgU/7uDkqDiX5uETH8GNPtRWEvlnuTxDcDdqY6L4yBNAol0IDQTZm85zbk8W6Keu7
-         D3xg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcdhuaXKWp28DzjPOR4HRVLa8xSrqg5afGguuHIcJW8/ylTJj0DCwUD5JJ+pFyc/26Nx83vTW20QaAI/uDESmaH7RtLqgnG73+Vf2Z1Q==
-X-Gm-Message-State: AOJu0Yzvjas2giQrygn4+6S2yqrtzkrAf8pWCTadVhAysZAWzLCsweYz
-	ocCYUZzHQs+QU1FFWq7odYLnU7sn5ez4NkK+UMHsgJIjLYzRPjk7zVKWwrRWPlxRlwLcl30fQhZ
-	u6IM4Ze76uT5PVU2tH93EzR6xB/U=
-X-Google-Smtp-Source: AGHT+IFoeL0ZvocmrGv43whyPh4WdDBovgyiR6rzdf6LIdVEfBJkv89u568WYmQekhY/GtCxdAuSJSZUaxZnt6i/1Cc=
-X-Received: by 2002:a17:907:174d:b0:a6e:f8d6:f61d with SMTP id
- a640c23a62f3a-a6ef8d6f7e5mr399407866b.50.1718007701813; Mon, 10 Jun 2024
- 01:21:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EM67l0ST"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718010858; x=1749546858;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1fWnl48ZYkWAie2+kLERO7RwKskBL5rgSOaCqfSYETU=;
+  b=EM67l0STakm3SPEpuFF/kEaacOGWRbbtUv7yvpKyu2aKLywwfeSFkxNq
+   0L3cC4tgTH2RMN5TV57DBn/mn5d7WqW3m3ovhLEaiXP9Mw/ZPn3WCASIy
+   OOXNi9LrkKyK2VahpG4bTX2sKRuzCVF2oNPYpm63N7NYukicXf2TqSOk3
+   kF5dA9J4YA5oqr8UjVQmDp09LqIYIjCbr5mPplm+Bxi0dwKOHD2Z+ZRQV
+   zA26hMZ4+72zIm/SdT+Qp4mMRiYpHmOFEib8fVpTP1o7Xrv9ULsfb7pA5
+   72Z3OACIZE0GgGnYk7t5NCcqzwVtXS32lzxj98oYQk1ycDXrsbf7k4q6+
+   Q==;
+X-CSE-ConnectionGUID: /ZoXB9dkQIuwqEC9LSb7cQ==
+X-CSE-MsgGUID: kvm18ZgnSgC27I+nd2Xmkw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="18485932"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="18485932"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 02:14:17 -0700
+X-CSE-ConnectionGUID: uA4KxOzzR1CvUaAVX1PYnw==
+X-CSE-MsgGUID: Qq3UXPQUR/SUW/tJlywSmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="76455554"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Jun 2024 02:14:16 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGb6T-00020P-2u;
+	Mon, 10 Jun 2024 09:14:13 +0000
+Date: Mon, 10 Jun 2024 17:14:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
+Message-ID: <202406101633.1RJnij1Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240607190955.15376-3-fgriffo@amazon.co.uk> <714268da-d199-4371-8360-500e7165119c@moroto.mountain>
-In-Reply-To: <714268da-d199-4371-8360-500e7165119c@moroto.mountain>
-From: Frederic Griffoul <griffoul@gmail.com>
-Date: Mon, 10 Jun 2024 09:21:31 +0100
-Message-ID: <CAF2vKzPWANE8DBcN8mvpk2fwRRL2kF0-VXP5EygY2tBGJgDjrA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity support
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Fred Griffoul <fgriffo@amazon.co.uk>, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Alex Williamson <alex.williamson@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Zefan Li <lizefan.x@bytedance.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Jeremy Linton <jeremy.linton@arm.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Reinette Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Pff. Thanks Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240607133709.3518-1-charles.goodix@gmail.com>
+References: <20240607133709.3518-1-charles.goodix@gmail.com>
+TO: Charles Wang <charles.goodix@gmail.com>
+TO: dmitry.torokhov@gmail.com
+TO: jikos@kernel.org
+TO: bentiss@kernel.org
+CC: hbarnor@chromium.org
+CC: dianders@chromium.org
+CC: linux-input@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Charles Wang <charles.goodix@gmail.com>
 
-I will post a v5 to address the two issues you mentioned.
+Hi Charles,
 
-Br,
+kernel test robot noticed the following build warnings:
 
-Fred
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.10-rc3 next-20240607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Sun, Jun 9, 2024 at 4:29=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
-org> wrote:
->
-> Hi Fred,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Griffoul/cgro=
-up-cpuset-export-cpuset_cpus_allowed/20240608-031332
-> base:   cbb325e77fbe62a06184175aa98c9eb98736c3e8
-> patch link:    https://lore.kernel.org/r/20240607190955.15376-3-fgriffo%4=
-0amazon.co.uk
-> patch subject: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity suppor=
-t
-> config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/ar=
-chive/20240609/202406092245.Hgx6MqK9-lkp@intel.com/config)
-> compiler: mips-linux-gcc (GCC) 13.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202406092245.Hgx6MqK9-lkp@intel.com/
->
-> New smatch warnings:
-> drivers/vfio/pci/vfio_pci_core.c:1241 vfio_pci_ioctl_set_irqs() warn: may=
-be return -EFAULT instead of the bytes remaining?
->
-> vim +1241 drivers/vfio/pci/vfio_pci_core.c
->
-> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1190  static int vfio_pci_ioctl_set_irqs(struct vfio_pci_core_device *v=
-dev,
-> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1191                                  struct vfio_irq_set __user *arg)
-> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1192  {
-> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1193       unsigned long minsz =3D offsetofend(struct vfio_irq_set, cou=
-nt);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1194       struct vfio_irq_set hdr;
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1195       cpumask_var_t mask;
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1196       u8 *data =3D NULL;
-> 05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-=
-12  1197       int max, ret =3D 0;
-> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
-17  1198       size_t data_size =3D 0;
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1199
-> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1200       if (copy_from_user(&hdr, arg, minsz))
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1201               return -EFAULT;
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1202
-> 05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-=
-12  1203       max =3D vfio_pci_get_irq_count(vdev, hdr.index);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1204
-> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1205       ret =3D vfio_set_irqs_validate_and_prepare(&hdr, max, VFIO_P=
-CI_NUM_IRQS,
-> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1206                                                &data_size);
-> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
-17  1207       if (ret)
-> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
-17  1208               return ret;
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1209
-> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
-17  1210       if (data_size) {
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1211               if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY) {
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1212                       if (!zalloc_cpumask_var(&mask, GFP_KERNEL))
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1213                               return -ENOMEM;
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1214
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1215                       ret =3D copy_from_user(mask, &arg->data, dat=
-a_size);
->
-> copy_from_user() returns the number of bytes remaining to be copied.
-> This should be:
->
->         if (copy_from_user(mask, &arg->data, data_size)) {
->                 ret =3D -EFAULT;
->                 goto out;
->         }
->
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1216                       if (ret)
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1217                               goto out;
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1218
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1219                       data =3D (u8 *)mask;
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1220
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1221               } else {
-> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1222                       data =3D memdup_user(&arg->data, data_size);
-> 3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-=
-07  1223                       if (IS_ERR(data))
-> 3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-=
-07  1224                               return PTR_ERR(data);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1225               }
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1226       }
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1227
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1228       mutex_lock(&vdev->igate);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1229
-> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1230       ret =3D vfio_pci_set_irqs_ioctl(vdev, hdr.flags, hdr.index, =
-hdr.start,
-> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1231                                     hdr.count, data);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1232
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1233       mutex_unlock(&vdev->igate);
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1234
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1235  out:
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1236       if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY && data_size)
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1237               free_cpumask_var(mask);
-> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
-07  1238       else
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1239               kfree(data);
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31  1240
-> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
-31 @1241       return ret;
-> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
-31  1242  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Wang/HID-hid-goodix-Add-Goodix-HID-over-SPI-driver/20240607-214042
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20240607133709.3518-1-charles.goodix%40gmail.com
+patch subject: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: sparc64-randconfig-r071-20240609 (https://download.01.org/0day-ci/archive/20240610/202406101633.1RJnij1Y-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406101633.1RJnij1Y-lkp@intel.com/
+
+smatch warnings:
+drivers/hid/hid-goodix-spi.c:217 goodix_hid_parse() error: uninitialized symbol 'rdesc'.
+
+vim +/rdesc +217 drivers/hid/hid-goodix-spi.c
+
+bb11c3a1740813 Charles Wang 2024-06-07  205  
+bb11c3a1740813 Charles Wang 2024-06-07  206  /**
+bb11c3a1740813 Charles Wang 2024-06-07  207   * goodix_hid_parse() - hid-core .parse() callback
+bb11c3a1740813 Charles Wang 2024-06-07  208   * @hid: hid device instance
+bb11c3a1740813 Charles Wang 2024-06-07  209   *
+bb11c3a1740813 Charles Wang 2024-06-07  210   * This function gets called during call to hid_add_device
+bb11c3a1740813 Charles Wang 2024-06-07  211   *
+bb11c3a1740813 Charles Wang 2024-06-07  212   * Return: 0 on success and non zero on error
+bb11c3a1740813 Charles Wang 2024-06-07  213   */
+bb11c3a1740813 Charles Wang 2024-06-07  214  static int goodix_hid_parse(struct hid_device *hid)
+bb11c3a1740813 Charles Wang 2024-06-07  215  {
+bb11c3a1740813 Charles Wang 2024-06-07  216  	struct goodix_ts_data *ts = hid->driver_data;
+bb11c3a1740813 Charles Wang 2024-06-07 @217  	u8 *rdesc __free(kfree);
+bb11c3a1740813 Charles Wang 2024-06-07  218  	u16 rsize;
+bb11c3a1740813 Charles Wang 2024-06-07  219  	int error;
+bb11c3a1740813 Charles Wang 2024-06-07  220  
+bb11c3a1740813 Charles Wang 2024-06-07  221  	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
+bb11c3a1740813 Charles Wang 2024-06-07  222  	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+bb11c3a1740813 Charles Wang 2024-06-07  223  		dev_err(ts->dev, "invalid report desc size %d", rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  224  		return -EINVAL;
+bb11c3a1740813 Charles Wang 2024-06-07  225  	}
+bb11c3a1740813 Charles Wang 2024-06-07  226  
+bb11c3a1740813 Charles Wang 2024-06-07  227  	rdesc = kzalloc(rsize, GFP_KERNEL);
+bb11c3a1740813 Charles Wang 2024-06-07  228  	if (!rdesc)
+bb11c3a1740813 Charles Wang 2024-06-07  229  		return -ENOMEM;
+bb11c3a1740813 Charles Wang 2024-06-07  230  
+bb11c3a1740813 Charles Wang 2024-06-07  231  	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  232  	if (error) {
+bb11c3a1740813 Charles Wang 2024-06-07  233  		dev_err(ts->dev, "failed get report desc, %d", error);
+bb11c3a1740813 Charles Wang 2024-06-07  234  		return error;
+bb11c3a1740813 Charles Wang 2024-06-07  235  	}
+bb11c3a1740813 Charles Wang 2024-06-07  236  
+bb11c3a1740813 Charles Wang 2024-06-07  237  	error = hid_parse_report(hid, rdesc, rsize);
+bb11c3a1740813 Charles Wang 2024-06-07  238  	if (error)
+bb11c3a1740813 Charles Wang 2024-06-07  239  		dev_err(ts->dev, "failed parse report, %d", error);
+bb11c3a1740813 Charles Wang 2024-06-07  240  
+bb11c3a1740813 Charles Wang 2024-06-07  241  	return error;
+bb11c3a1740813 Charles Wang 2024-06-07  242  }
+bb11c3a1740813 Charles Wang 2024-06-07  243  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
