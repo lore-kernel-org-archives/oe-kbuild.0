@@ -1,66 +1,59 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8CB7441A
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 09:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C127D41D
+	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 10:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718012402; cv=none; b=EHZ608F/kpow38Zdp7ZnxorbE8k+jqC6xFh0EF/hAyh3Euwy4aQ3JAiwwSYG6Fq/mQxz9FWQGgrAloahDTXEkytilOKGkW0tBw2HHPM6n7fBo3VwNfvzPLorfIjPvEckmR1udzyc28L2uGm9RjcB093fwVcHXU1dXu9Mr6fK9IU=
+	t=1718016459; cv=none; b=GzB/o9U8STL8dI/McHXVmawYQbrOsCY8qD2CMFLAwrnd39GgOBbXcl7kxQ1eDvn0eAP47me19B/dNh+883MaMFa0gizavz1gNe1ki1A+wp0EQaIcV0eomZlKYILSiveGm+HieS5af/dvi3CkSWC6NVDN+korOiwfuk4etD7fk8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718012402; c=relaxed/simple;
-	bh=Td/N4E9UURCdvg10DSgcFTNUdT3qZG8vl6zhjaJaZbU=;
+	s=arc-20240116; t=1718016459; c=relaxed/simple;
+	bh=yvsr1JPL5NbRppYD4Q21xImP5P+VwcuZ4fRapceJPK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IfAf5//y9CDmPYigQj8dvjxjnB/3ou0Ux1BS955V3loLGPNDTNl9EG7rPxNJszPOuvAs/R/vSoiNmk5gJFCbp2MMZvT16EyA3xbpThmdc4n3CGQcNcOgWRUcl/yqYJeFuaKx34DMnymBUcJebTZ6rcf0cDmFrHGdW3yc4cJov/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EQE1p6G4; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Gw0FYvFl6c2pedA/2P7iL4qO9TFE6k4pi8/RybXSbbxL65/FF3BCgIW6wJb5C8V4c/GVeLE7o/UgQzY69+mI8N9JOSHE2/eborrSg+x37+29zEpgm18S8gNkEdEm4cVOuuLtvAdi1QulkxGQWPsoqj0DW+0gloNw26Smx5XmTIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cB1H6J2t; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EQE1p6G4"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-35f1c490c13so1543080f8f.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 02:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718012399; x=1718617199; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ocMM4wK0KoJUr2SNgjlZ+bFq4hxDtEwVWf5fWyCNQzA=;
-        b=EQE1p6G4p4rEi/mZbCvVr+e+ZA6Qr2864xeZ3xiYrQTF9Vf25vcyRIgyAfrcF3wY0h
-         AQrkUQcKrLhlyJ5ipo1uWSrbd4p9m+71U6iiI6FDz5kmH7xJdFGdZCX8xiJDI/7zxqYn
-         9pN85Rui5SLqrYghE42DxE6Wre19JkWv+kD0sZVmPdRDBmrhfHxwjryZpWsewdFAjWrU
-         qKgSLyEN7KLrW96MOMTOJBpQhIktI+eMz6lh7mMPna167uaF6EgrT4wc0lsMILetn3gY
-         GMgeEbKkNCwyLHAOlQj9D96YSUw9uPtuuQpMnoJqAO2j9StzmfobZn+DvQl8NhJSbQot
-         v2NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718012399; x=1718617199;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ocMM4wK0KoJUr2SNgjlZ+bFq4hxDtEwVWf5fWyCNQzA=;
-        b=noYYtTrAey3Hzs7Mo41QnijZYwvFfyjPE1lFUwp9tq/UU0CaK6xe64dmkoIhslodWU
-         k+In4ZdcklF3StikMkUCWv/U35jhFJFOJex5whbpnjqKDDjlsm5YTM/sqBRJNXShRGe2
-         IXtzti9RM9oOKc1wymcgLsUUvAkEVY3yUxyeVu7xlorNm/AfQOLGCGd430qxoNJyPJHD
-         iJfR0er0Db/XFmsvoHC6MAk9KR6qkU9S543HFXyNHy5BW3wzO9CzjVc8x/Depnuoo8lH
-         GRX7/4tl2rPGFPtSomsXv84aP5MWW6F8xDvpeFkLs2/A0swwwF/gvA7KpD/Ot2KXQnfs
-         EasA==
-X-Gm-Message-State: AOJu0Yw1DLlGw289PD6w4+pj6sGbt0KIgeiYnpNYVzXe9BwAG2yZKIz0
-	sqi1ju8EzoEdMm7k+lvruWGUcERqJI7iu9AxBN9+JWm0XpuBhwhjNVXOtVaPI2LqqCDD/6ulrhA
-	z
-X-Google-Smtp-Source: AGHT+IG9mD8/x+WVTXsrh8hQTA7ERg9+SENT0a0IkJ0cM7ILrlB0FyR88e3665ehddKLwYaoQrystQ==
-X-Received: by 2002:a5d:5987:0:b0:355:4cb:5048 with SMTP id ffacd0b85a97d-35efedd95f9mr7952708f8f.43.1718012398839;
-        Mon, 10 Jun 2024 02:39:58 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c19e567sm136806365e9.1.2024.06.10.02.39.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 02:39:58 -0700 (PDT)
-Date: Mon, 10 Jun 2024 12:39:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Charles Wang <charles.goodix@gmail.com>,
-	dmitry.torokhov@gmail.com, jikos@kernel.org, bentiss@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, hbarnor@chromium.org,
-	dianders@chromium.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Charles Wang <charles.goodix@gmail.com>
-Subject: Re: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
-Message-ID: <030b639e-f5d1-40a2-8980-f436ca686e6e@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cB1H6J2t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718016457; x=1749552457;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yvsr1JPL5NbRppYD4Q21xImP5P+VwcuZ4fRapceJPK0=;
+  b=cB1H6J2tg+kTJYfb2UzTGeitGuZyEKA72tOwIgA2TWsyBryLHv/qruGs
+   V+to69pNDSdx0LrDHcwdZGHxZ0g2wRCZWnsEA5RLLpVYT2RGd5fGC4AM8
+   CKe7Duoar7O6LLUFwU+4da7blgJjzxzB7kWLS91l4NfKSlh0fhuoc7Gkm
+   5asLsNkz2z9YfRUcbyCByEx/V4cHSTN2FOP+no1Xcxq/lRULy/4ddL/DB
+   oTI58PowquFyxd1hXlapVlNB9uhexonZKVbxcxf0Ci/ywR2lAuKDk/eaf
+   x6sknWFUyg4TBumJulwq/YcPB+Tmu7pdPII+HXr97RTBtvEqq+Egar45w
+   Q==;
+X-CSE-ConnectionGUID: MRojNr6JTEWG4UD2cmx56A==
+X-CSE-MsgGUID: Hv5uFBlfTomsyCDvsYGilg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="26080808"
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="26080808"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2024 03:47:36 -0700
+X-CSE-ConnectionGUID: Xoc0dPHNTp2/LsDU1RN0IA==
+X-CSE-MsgGUID: YRVM7MFLQeGOeIcayCkVmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,227,1712646000"; 
+   d="scan'208";a="76482224"
+Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Jun 2024 03:47:36 -0700
+Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sGcYn-000257-1V;
+	Mon, 10 Jun 2024 10:47:33 +0000
+Date: Mon, 10 Jun 2024 18:47:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [jmondi:imx8mp/media-state/extensible-format 6/8]
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:467 rkisp1_isp_start()
+ error: uninitialized symbol 'ret'.
+Message-ID: <202406101851.Bxtiu89R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,73 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240607133709.3518-1-charles.goodix@gmail.com>
 
-Hi Charles,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Wang/HID-hid-goodix-Add-Goodix-HID-over-SPI-driver/20240607-214042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20240607133709.3518-1-charles.goodix%40gmail.com
-patch subject: [PATCH v3] HID: hid-goodix: Add Goodix HID-over-SPI driver
-config: sparc64-randconfig-r071-20240609 (https://download.01.org/0day-ci/archive/20240610/202406101633.1RJnij1Y-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git imx8mp/media-state/extensible-format
+head:   091749220cf4a01bcfc64c9125ab07d632d578fe
+commit: 84e966f8b939937d8998c5866a1b63c7b420e504 [6/8] media: rkisp1: Propagate pre/post-config errors
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: sparc64-randconfig-r071-20240609 (https://download.01.org/0day-ci/archive/20240610/202406101851.Bxtiu89R-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406101633.1RJnij1Y-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406101851.Bxtiu89R-lkp@intel.com/
 
 smatch warnings:
-drivers/hid/hid-goodix-spi.c:217 goodix_hid_parse() error: uninitialized symbol 'rdesc'.
+drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c:467 rkisp1_isp_start() error: uninitialized symbol 'ret'.
 
-vim +/rdesc +217 drivers/hid/hid-goodix-spi.c
+vim +/ret +467 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 
-bb11c3a1740813 Charles Wang 2024-06-07  214  static int goodix_hid_parse(struct hid_device *hid)
-bb11c3a1740813 Charles Wang 2024-06-07  215  {
-bb11c3a1740813 Charles Wang 2024-06-07  216  	struct goodix_ts_data *ts = hid->driver_data;
-bb11c3a1740813 Charles Wang 2024-06-07 @217  	u8 *rdesc __free(kfree);
-bb11c3a1740813 Charles Wang 2024-06-07  218  	u16 rsize;
-bb11c3a1740813 Charles Wang 2024-06-07  219  	int error;
-bb11c3a1740813 Charles Wang 2024-06-07  220  
-bb11c3a1740813 Charles Wang 2024-06-07  221  	rsize = le16_to_cpu(ts->hid_desc.report_desc_lenght);
-bb11c3a1740813 Charles Wang 2024-06-07  222  	if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
-bb11c3a1740813 Charles Wang 2024-06-07  223  		dev_err(ts->dev, "invalid report desc size %d", rsize);
-bb11c3a1740813 Charles Wang 2024-06-07  224  		return -EINVAL;
-                                                        ^^^^^^^^^^^^^^^
-rdesc isn't initialized here.  It should be declared as:
-
-	u8 *rdesc __free(kfree) = NULL;
-
-bb11c3a1740813 Charles Wang 2024-06-07  225  	}
-bb11c3a1740813 Charles Wang 2024-06-07  226  
-bb11c3a1740813 Charles Wang 2024-06-07  227  	rdesc = kzalloc(rsize, GFP_KERNEL);
-
-Or it could be declared here instead.
-
-	u8 *rdesc __free(kfree) = kzalloc(rsize, GFP_KERNEL);
-
-bb11c3a1740813 Charles Wang 2024-06-07  228  	if (!rdesc)
-bb11c3a1740813 Charles Wang 2024-06-07  229  		return -ENOMEM;
-bb11c3a1740813 Charles Wang 2024-06-07  230  
-bb11c3a1740813 Charles Wang 2024-06-07  231  	error = goodix_spi_read(ts, GOODIX_HID_REPORT_DESC_ADDR, rdesc, rsize);
-bb11c3a1740813 Charles Wang 2024-06-07  232  	if (error) {
-bb11c3a1740813 Charles Wang 2024-06-07  233  		dev_err(ts->dev, "failed get report desc, %d", error);
-bb11c3a1740813 Charles Wang 2024-06-07  234  		return error;
-bb11c3a1740813 Charles Wang 2024-06-07  235  	}
-bb11c3a1740813 Charles Wang 2024-06-07  236  
-bb11c3a1740813 Charles Wang 2024-06-07  237  	error = hid_parse_report(hid, rdesc, rsize);
-bb11c3a1740813 Charles Wang 2024-06-07  238  	if (error)
-bb11c3a1740813 Charles Wang 2024-06-07  239  		dev_err(ts->dev, "failed parse report, %d", error);
-bb11c3a1740813 Charles Wang 2024-06-07  240  
-bb11c3a1740813 Charles Wang 2024-06-07  241  	return error;
-bb11c3a1740813 Charles Wang 2024-06-07  242  }
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  434  
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  435  static int rkisp1_isp_start(struct rkisp1_isp *isp,
+91eef099f88e17 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-05-09  436  			    const struct v4l2_subdev_state *sd_state,
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  437  			    struct media_pad *source)
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  438  {
+bba100df1730f6 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2022-06-14  439  	struct rkisp1_device *rkisp1 = isp->rkisp1;
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  440  	const struct v4l2_mbus_framefmt *src_fmt;
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  441  	const struct rkisp1_mbus_info *src_info;
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  442  	u32 val;
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  443  	int ret;
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  444  
+bba100df1730f6 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2022-06-14  445  	rkisp1_config_clk(isp);
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  446  
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  447  	if (rkisp1->info->isp_ver == RKISP1_V_IMX8MP) {
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  448  		ret = rkisp1_gasket_enable(rkisp1, source);
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  449  		if (ret)
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  450  			return ret;
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  451  	}
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  452  
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  453  	/* Activate ISP */
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  454  	val = rkisp1_read(rkisp1, RKISP1_CIF_ISP_CTRL);
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  455  	val |= RKISP1_CIF_ISP_CTRL_ISP_CFG_UPD |
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  456  	       RKISP1_CIF_ISP_CTRL_ISP_ENABLE |
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  457  	       RKISP1_CIF_ISP_CTRL_ISP_INFORM_ENABLE;
+0ef7dc305bd44d drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2022-03-03  458  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_CTRL, val);
+4b07e2b8f7b53e drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2022-08-17  459  
+bc0e8d91feec72 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Sakari Ailus     2023-10-13  460  	src_fmt = v4l2_subdev_state_get_format(sd_state,
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  461  					       RKISP1_ISP_PAD_SOURCE_VIDEO);
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  462  	src_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  463  
+2cce0a369dbdb5 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2023-01-26  464  	if (src_info->pixel_enc != V4L2_PIXEL_ENC_BAYER)
+84e966f8b93993 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Jacopo Mondi     2024-05-30  465  		ret = rkisp1_params_post_configure(&rkisp1->params);
+fdac4ce9f4fd21 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Laurent Pinchart 2024-02-16  466  
+84e966f8b93993 drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c Jacopo Mondi     2024-05-30 @467  	return ret;
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  468  }
+d65dd85281fbf7 drivers/staging/media/rkisp1/rkisp1-isp.c           Helen Koike      2020-01-08  469  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
