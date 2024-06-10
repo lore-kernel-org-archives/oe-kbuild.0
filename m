@@ -1,107 +1,246 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356842BAE2
-	for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 07:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5CE55E53;
+	Mon, 10 Jun 2024 08:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718005965; cv=none; b=qKoHZqxCGasN7HwhL7N+GstRPFQMRMe52ADfxOWwbmcaVFXyF4WW7aH1JMvJUsLHZ0M4iCmsBwR3OiEU+OYSH/e1EVSw7VapOsHSsD+FXMubtAyyIAH7f8nceiasWH/IaCAYmMU1FQhlShBy3WUTsYcI0k/jGgL+axPoahzIv2M=
+	t=1718007705; cv=none; b=ZGz5glmvYgfgAMXC1WcY1zFq7GYHleEupl7VPCpRpj77f8dhdjbCs7+/RWq3PKa6XTMAAjvh/An3X+CWk8YsApmSRJHauY/62/Qrr4b2OrBGOD5pKlDu/bgHt+gSuNE/auJIyyKG7dXzP3FGPbrLbLIzOBoQnHs/ICabjDIffJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718005965; c=relaxed/simple;
-	bh=KH4qjRBhmsl1Zn3SaHOOUkYq11i39PjnscOAr92S5TM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=smnuYZuHSETuDDD1nFW9aIgZsBPFhJddXpVDYHWadp5yiK5qhoIGdA9pHqOAZwEVPZ4j3u9Bi7K2zKM6jxM1LrbiPzC6jt2rIiPOq29aqGoXZeFblPm+51IUj/qLN0NUNpGGQRv6o88fHsQ75Bf46FCSQhUTJBZat4DtJvafvek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O7FiaFQB; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718007705; c=relaxed/simple;
+	bh=68qVpkivRPu/UqBy8a5aM/GcH3KxSp5sMnJQNIuc4FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aAnVIOkLeTdxTC9XrNjddvIfr/5z7VXTFSUWEEF80VZkf7BV1+mHKLEMXMvfwLAwUbDSQsZqIutR0TFnX0hJX233xfqeJ0pwSV+Q/LnuEdl/+4k9X37P6mh2D/S9RGC6QzhaYePhSgZ8pm7YH5NcazxetC+z0XAlpB+1Qssz8Vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwjk+5AG; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O7FiaFQB"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-421eab59723so3459025e9.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 10 Jun 2024 00:52:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwjk+5AG"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57c76497cefso1370984a12.1;
+        Mon, 10 Jun 2024 01:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718005962; x=1718610762; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QEr/3KbfySfs9QZIPsPKzzybAjgPEX4Rb7osYycFo8g=;
-        b=O7FiaFQB6TKu7rwGhroM0Tbl3KoY3eAOrQtC5FdxmQZjfFO3zJO4VXRE14iKtxdXPy
-         hV5YVBLoNN56cRb4iLPzNzjhedaiu5sW91YMZ//62OJP+kVY2wHixUjfo7pOR0+TSziA
-         0nSHzHxnpdJ6qRB0DttNg0Qwj0g5LbsGLIOJ6yI4z5Xw2qMPjpSOA6ElWOHA/IJlV2ZT
-         aDMNq+lPKjUkJEGDaawQDZ9Oj7fmIvYw/9QDG09o+useU2ADNHqIjIJFP93wtbYJoQA8
-         b0aAh1fh2D/VaX5yKs2DTpy39ilPFotXzop4eKl4gmaxq/N7qvo275Mg8p73+boOgdO5
-         MVYQ==
+        d=gmail.com; s=20230601; t=1718007702; x=1718612502; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JwKWNr3+SkhJYsnRjSQdpuuiDdqh1Y+N1jlC0TkNGnY=;
+        b=hwjk+5AGjbw3zaXUIj08TQ7sCTTFvxo3V3qW2tRXE2XfSRs3hVjVCR4wRfU0bjjZxL
+         sq5jqelqTpMLdzlgj4D1XwYXCdVEAYmGvgsLXvmN/HtnUkIFyfWGs3wD3XqZEz3EEJ+v
+         jS9QEMDZyPtN+wHMWS+1jmfR5ZBHp9AAIbyWBzfcFgZSowFjaY5oFXuQrgIWWKpAHXC9
+         sAvnw/A/JF+LJ5AnswtV77xexKy4bDcxn9YPWPPCYx35/ZeAKtwA0Bc2yXLSvsJgKcRZ
+         qxVea+NCfvWfjCuk03E/Xo1jzPn+lUihPcI3bKUXSjxpqzuoDv72R1qWFMyjqURUjpBD
+         GBAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718005962; x=1718610762;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QEr/3KbfySfs9QZIPsPKzzybAjgPEX4Rb7osYycFo8g=;
-        b=bTigfuwYl6PzihKqhbbCQCUqcaKksbwVCryhlWldhVI35fVgClnv4pxouXr3aS/j+j
-         xMeA3M69dlzgAiGvc+CalxcfANWxAkCY74DJavZEIci0qkLIr9g9W035vIeafvcdLIV/
-         2+yml6X2oIKpDpXHGvTCZgNytuzjwEz+ATm0nfKcteoXzASUHv49hCL6mpV9HptT5lvH
-         rRcabcbx52ZfnMjc+Rtznpxe7REkibSx/BD5V3n6djWQPbxOq7IPxoVTxX/mai/4GTGi
-         nhpc7ioq8q2SjMVlnCuWKDeNb5khG3gCOBQLX7Vw+VkVMPw24l3WbKH2ZkpTN/JXRJvu
-         x7Gg==
-X-Gm-Message-State: AOJu0YzGuoo0bX+xqOiomGcFoVmv2980YD/Sd1JItXQmBvCXoNn2AV1R
-	CGJHBhSSnEZ4y7ErqTQURgjUeF049mGb9QEW8SFa2uaojUenAltB3tKnb6Uc9W+XfOkJ5jDGIgf
-	W
-X-Google-Smtp-Source: AGHT+IG3DvGUemxrZlT0OAUHBf77mkwvO0bJp3enmayTyexNMITEnRZCvUnahoONy11Qu01vJ0RvWw==
-X-Received: by 2002:a05:600c:4450:b0:422:13b2:584 with SMTP id 5b1f17b1804b1-42213b2073emr3098175e9.37.1718005962181;
-        Mon, 10 Jun 2024 00:52:42 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421cd1fdec7sm28513155e9.25.2024.06.10.00.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 00:52:41 -0700 (PDT)
-Date: Mon, 10 Jun 2024 10:52:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Junfeng Guo <junfeng.guo@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Wojciech Drewek <wojciech.drewek@intel.com>,
-	Marcin Szycik <marcin.szycik@linux.intel.com>,
-	Qi Zhang <qi.z.zhang@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: [tnguy-next-queue:dev-queue 20/95]
- drivers/net/ethernet/intel/ice/ice_parser.c:971 __ice_pg_nm_cam_match()
- error: memcmp() '&item->key.val' too small (9 vs 13)
-Message-ID: <83877bb7-8c1b-4189-9b24-41c968212613@moroto.mountain>
+        d=1e100.net; s=20230601; t=1718007702; x=1718612502;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JwKWNr3+SkhJYsnRjSQdpuuiDdqh1Y+N1jlC0TkNGnY=;
+        b=oRM8fYRcmk1xFPR5ZfB/06Eirj9AONpFkU4rG8qlmEYujSPzjbmlX1xo6YjZNlUSPG
+         VS1+abx+uoRaDX6N/zvVSrFnN6Mz0xdUAbBuoYsBTpDvlNqaPfXL1iKHowRisTnwtmE8
+         I7DpzsLFYYPC8nNq5QOkWQTg8uCJhi3CWtSMuhjbz6x6E3xLfXNqqxYHT2SaSK2FWvDw
+         MZyc2R6XRgSdakwg/h2Q7Xx6onpCKC6/0bYWIrPhPexqUc0NNXfDRbu7E7wWuex3XPM7
+         BaFlgU/7uDkqDiX5uETH8GNPtRWEvlnuTxDcDdqY6L4yBNAol0IDQTZm85zbk8W6Keu7
+         D3xg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcdhuaXKWp28DzjPOR4HRVLa8xSrqg5afGguuHIcJW8/ylTJj0DCwUD5JJ+pFyc/26Nx83vTW20QaAI/uDESmaH7RtLqgnG73+Vf2Z1Q==
+X-Gm-Message-State: AOJu0Yzvjas2giQrygn4+6S2yqrtzkrAf8pWCTadVhAysZAWzLCsweYz
+	ocCYUZzHQs+QU1FFWq7odYLnU7sn5ez4NkK+UMHsgJIjLYzRPjk7zVKWwrRWPlxRlwLcl30fQhZ
+	u6IM4Ze76uT5PVU2tH93EzR6xB/U=
+X-Google-Smtp-Source: AGHT+IFoeL0ZvocmrGv43whyPh4WdDBovgyiR6rzdf6LIdVEfBJkv89u568WYmQekhY/GtCxdAuSJSZUaxZnt6i/1Cc=
+X-Received: by 2002:a17:907:174d:b0:a6e:f8d6:f61d with SMTP id
+ a640c23a62f3a-a6ef8d6f7e5mr399407866b.50.1718007701813; Mon, 10 Jun 2024
+ 01:21:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240607190955.15376-3-fgriffo@amazon.co.uk> <714268da-d199-4371-8360-500e7165119c@moroto.mountain>
+In-Reply-To: <714268da-d199-4371-8360-500e7165119c@moroto.mountain>
+From: Frederic Griffoul <griffoul@gmail.com>
+Date: Mon, 10 Jun 2024 09:21:31 +0100
+Message-ID: <CAF2vKzPWANE8DBcN8mvpk2fwRRL2kF0-VXP5EygY2tBGJgDjrA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity support
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Fred Griffoul <fgriffo@amazon.co.uk>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Alex Williamson <alex.williamson@redhat.com>, 
+	Waiman Long <longman@redhat.com>, Zefan Li <lizefan.x@bytedance.com>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Mark Brown <broonie@kernel.org>, 
+	Ard Biesheuvel <ardb@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Jeremy Linton <jeremy.linton@arm.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>, 
+	Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Reinette Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, cgroups@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   2746dc17cbf54ef20cc09a7ec6862477a326fae1
-commit: 678aebbf361736b67e2d83264fb1f2b49ecf6bc0 [20/95] ice: add parser internal helper functions
-config: x86_64-randconfig-161-20240609 (https://download.01.org/0day-ci/archive/20240610/202406100753.38qaQzo9-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Pff. Thanks Dan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406100753.38qaQzo9-lkp@intel.com/
+I will post a v5 to address the two issues you mentioned.
 
-smatch warnings:
-drivers/net/ethernet/intel/ice/ice_parser.c:971 __ice_pg_nm_cam_match() error: memcmp() '&item->key.val' too small (9 vs 13)
+Br,
 
-vim +971 drivers/net/ethernet/intel/ice/ice_parser.c
+Fred
 
-678aebbf361736 Junfeng Guo 2024-05-27  967  static bool __ice_pg_nm_cam_match(struct ice_pg_nm_cam_item *item,
-678aebbf361736 Junfeng Guo 2024-05-27  968  				  struct ice_pg_cam_key *key)
-678aebbf361736 Junfeng Guo 2024-05-27  969  {
-678aebbf361736 Junfeng Guo 2024-05-27  970  	return (item->key.valid &&
-678aebbf361736 Junfeng Guo 2024-05-27 @971  		!memcmp(&item->key.val, &key->val, sizeof(key->val)));
-
-This will read beyond the end of the "item->key.val".  They're similar
-structs but key->val has u32 next_proto; at the end.
-
-678aebbf361736 Junfeng Guo 2024-05-27  972  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+On Sun, Jun 9, 2024 at 4:29=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
+>
+> Hi Fred,
+>
+> kernel test robot noticed the following build warnings:
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Fred-Griffoul/cgro=
+up-cpuset-export-cpuset_cpus_allowed/20240608-031332
+> base:   cbb325e77fbe62a06184175aa98c9eb98736c3e8
+> patch link:    https://lore.kernel.org/r/20240607190955.15376-3-fgriffo%4=
+0amazon.co.uk
+> patch subject: [PATCH v4 2/2] vfio/pci: add msi interrupt affinity suppor=
+t
+> config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/ar=
+chive/20240609/202406092245.Hgx6MqK9-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 13.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202406092245.Hgx6MqK9-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/vfio/pci/vfio_pci_core.c:1241 vfio_pci_ioctl_set_irqs() warn: may=
+be return -EFAULT instead of the bytes remaining?
+>
+> vim +1241 drivers/vfio/pci/vfio_pci_core.c
+>
+> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1190  static int vfio_pci_ioctl_set_irqs(struct vfio_pci_core_device *v=
+dev,
+> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1191                                  struct vfio_irq_set __user *arg)
+> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1192  {
+> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1193       unsigned long minsz =3D offsetofend(struct vfio_irq_set, cou=
+nt);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1194       struct vfio_irq_set hdr;
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1195       cpumask_var_t mask;
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1196       u8 *data =3D NULL;
+> 05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-=
+12  1197       int max, ret =3D 0;
+> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
+17  1198       size_t data_size =3D 0;
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1199
+> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1200       if (copy_from_user(&hdr, arg, minsz))
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1201               return -EFAULT;
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1202
+> 05692d7005a364 drivers/vfio/pci/vfio_pci.c      Vlad Tsyrklevich 2016-10-=
+12  1203       max =3D vfio_pci_get_irq_count(vdev, hdr.index);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1204
+> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1205       ret =3D vfio_set_irqs_validate_and_prepare(&hdr, max, VFIO_P=
+CI_NUM_IRQS,
+> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1206                                                &data_size);
+> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
+17  1207       if (ret)
+> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
+17  1208               return ret;
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1209
+> ef198aaa169c61 drivers/vfio/pci/vfio_pci.c      Kirti Wankhede   2016-11-=
+17  1210       if (data_size) {
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1211               if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY) {
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1212                       if (!zalloc_cpumask_var(&mask, GFP_KERNEL))
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1213                               return -ENOMEM;
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1214
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1215                       ret =3D copy_from_user(mask, &arg->data, dat=
+a_size);
+>
+> copy_from_user() returns the number of bytes remaining to be copied.
+> This should be:
+>
+>         if (copy_from_user(mask, &arg->data, data_size)) {
+>                 ret =3D -EFAULT;
+>                 goto out;
+>         }
+>
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1216                       if (ret)
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1217                               goto out;
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1218
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1219                       data =3D (u8 *)mask;
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1220
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1221               } else {
+> 663eab456e072b drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1222                       data =3D memdup_user(&arg->data, data_size);
+> 3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-=
+07  1223                       if (IS_ERR(data))
+> 3a1f7041ddd59e drivers/vfio/pci/vfio_pci.c      Fengguang Wu     2012-12-=
+07  1224                               return PTR_ERR(data);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1225               }
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1226       }
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1227
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1228       mutex_lock(&vdev->igate);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1229
+> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1230       ret =3D vfio_pci_set_irqs_ioctl(vdev, hdr.flags, hdr.index, =
+hdr.start,
+> ea3fc04d4fad2d drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1231                                     hdr.count, data);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1232
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1233       mutex_unlock(&vdev->igate);
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1234
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1235  out:
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1236       if (hdr.flags & VFIO_IRQ_SET_DATA_AFFINITY && data_size)
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1237               free_cpumask_var(mask);
+> 66c926fb7b2507 drivers/vfio/pci/vfio_pci_core.c Fred Griffoul    2024-06-=
+07  1238       else
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1239               kfree(data);
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31  1240
+> 89e1f7d4c66d85 drivers/vfio/pci/vfio_pci.c      Alex Williamson  2012-07-=
+31 @1241       return ret;
+> 2ecf3b58ed7bc5 drivers/vfio/pci/vfio_pci_core.c Jason Gunthorpe  2022-08-=
+31  1242  }
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
