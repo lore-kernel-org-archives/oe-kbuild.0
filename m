@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984061420CC
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Jun 2024 10:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78E917836F
+	for <oe-kbuild@lists.linux.dev>; Tue, 11 Jun 2024 10:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718101037; cv=none; b=Kv1gzeF2AapFkgiFOxkDAqW3et0bt+D10JBnnel5WzYf5A9qDWWpPuAVRqfm2gIdp6PTQw+NdFj/GzGrnITgvgM5QIjI70MvUphXdILuH9q2gacV6gna9GDd13GXUUg8Usq2+c9JKNFKOIoQpKJK31Il7HHeky+KyJqJX9Si6OQ=
+	t=1718102822; cv=none; b=MZiVNnF4jZUaWeru1A9bkEjRBGGzTIYwcRNpXSwWHnOEcHb+4lAaKVqJcPGmFH7MkWa51u92q+W6WDySPrKnGjg8fsNtjJc0NUDFiX6eGYbViRByOaAuRq/19UO94jhOAT//N7G5pkN6ZFNzzjtsTKizO+MpwApyjETCAET5jmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718101037; c=relaxed/simple;
-	bh=J7VIhdf6enzWpXaPhJvjgTU7mdtr0wnX9YGk8jCtYK4=;
+	s=arc-20240116; t=1718102822; c=relaxed/simple;
+	bh=9v70XV5y4GSnRmoIx0HSZWYeUnRaDfB3X/utGcfIfWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t8ay0RHY00uP8fYj1r7DTmVqpR1R+tTLDL9s5O/wX6m6t6T0FHTD7rY1sv4KKeZ1X4rdnFiSMwfUbRjiKwEAtnc2+egdKtE8GwOWfCorh9lHzP9co2FrSaQPoc55E/6S3b7HNfOU1aA5746BKjWDMtb5oV/5mcR7f7dis0bAyDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7I0C7Xk; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=JPK0Er4iNAGmHlKc/FXELkbWr+gSoBiLbAHugqfeZRUJNpHAnNsRqzmz7uHt1sXNdEmRHWpOkbf7RSLAJb/g0jVcyz0dfPmB5kA5S2JIQBUPAOrAe6ecUletk7MHAZxpfeKfLQIyhZR1FZSkxILFlo27MeXr/5E3i8wfLL8nwrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fLYvBMXJ; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7I0C7Xk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718101036; x=1749637036;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J7VIhdf6enzWpXaPhJvjgTU7mdtr0wnX9YGk8jCtYK4=;
-  b=C7I0C7XkOfesKiGb5imcI6tWebN/bk+qeuHNgSfzusZoCTb5URP+Bmkg
-   HnIh7Ga3EkI1WLELcUxqtP1Qgz+B6Raa+cGYe/0ahl1EpCIVUngyBim07
-   8EINybcuGfvappLDc9aPHk86WDu+XL3icsMB6yZHbVSOv6HJwXraEd5FO
-   yr296EICdy8PvVgjtARsTGDTasPObVE5Lx16PiOMDWuZTUqmnh4eSrK5l
-   3s5pxxM4Ibysa2y5bQ70fX9SEMfb99q8OQAplHeZkq5W2U2xyEcywssa5
-   T+k7d94D70mhwnZ1Wull7sD9uKcXs9tC3tHuXfiZBop26xyzjjvxpgv+3
-   w==;
-X-CSE-ConnectionGUID: h1MPBdV5SLO0qnXh18/NeQ==
-X-CSE-MsgGUID: JMxsDm6KQL+dN3eK9hTSaA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11099"; a="32340619"
-X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="32340619"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 03:17:15 -0700
-X-CSE-ConnectionGUID: tUvG0oLYTvOsRR9Usn4cVw==
-X-CSE-MsgGUID: N3FYzZbyTNaRNJ7lRB+ERA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,229,1712646000"; 
-   d="scan'208";a="44302546"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jun 2024 03:17:14 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGyYx-0000IY-0O;
-	Tue, 11 Jun 2024 10:17:11 +0000
-Date: Tue, 11 Jun 2024 18:16:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fLYvBMXJ"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52c84a21c62so2561072e87.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 11 Jun 2024 03:47:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718102818; x=1718707618; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fp+D+Ajoxcp8Oj4mR/rcn2WCT+/k1rl0VG3rX/u5T2Q=;
+        b=fLYvBMXJk+X7SJ1YgMPB7B4Fr9KJOpvuulPJ5LL+p8Aw7ZSvVbSfHGkKUBTG+bEIOR
+         meKbqkHS6BpV/ANnAZdn+rlN3auQFIv4YuqDw1dktnoe0jPtNE/Ylh/GSNUy1woQBJvO
+         wpJN0ipwEa9OagxOLv0kivgdknYSAHnJjt+CzhuC2YQzldUf00P9nR8YVkOVXhEYbb9/
+         V22BseVbn+V8aEISNKACgFyOjOEeoC0ubJSkU6PflFk3uJKbijblfvhI8SO4SEclbJ25
+         OaohDelEUC3RprsXFGpXiwS7Ea0Xv9NyNuz52AxwVfogXmsAL5p/m90es3UY4ajWPyeE
+         Y10w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718102818; x=1718707618;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fp+D+Ajoxcp8Oj4mR/rcn2WCT+/k1rl0VG3rX/u5T2Q=;
+        b=nRzbo7MRo9Q/CiSLs6Sb63gBSsCqM1jIocSdkXlE+4L+py0VCos7t1KylF+XOvSUcM
+         V/w9k04A7Xko4WjlwrhFpbzCEAvV/uxqMTFeoBLN28f4VxQ6qCZvmHFDlM8+rOYn64m+
+         aYlA6QF98LHt4esNKf+R2tE2jN/uji6/RbwkhQGScKmF7CE94cnnBAAEZyrzwjWQsMS4
+         iaRU3GWm9uM7gj8EGh9k/Wx2WlB7DFXV07lOTjo49WvAFN4esRh+N9r0GmEvqyJM2olB
+         ADB3Yr8RAaTB3xDj/dJNfl/ys/NlQphvpz2waeQ8zdoRirMRMPAl5t4K6Ol4sz7dyYdz
+         C8MA==
+X-Gm-Message-State: AOJu0YzET/NdLWCHSVc5sHAuecPWhv6G93idaD5VaWL5Lea4MTXj0TPT
+	2LY8II64BUYv7ywcUC/KPpjVD4CGUl+CjLpoZkuwo/AGFiS+hV8CIuafAyDvNNRvLOG8k+WYbfj
+	y
+X-Google-Smtp-Source: AGHT+IHtdFqo/9J5gcont3xPpGuqzTIC4OsBhAx07391LfaeWl+GPgTqM/ZWZg+Gl6i65g9CyLwSng==
+X-Received: by 2002:a05:6512:318e:b0:52c:9528:55d1 with SMTP id 2adb3069b0e04-52c952856f6mr1061801e87.4.1718102818138;
+        Tue, 11 Jun 2024 03:46:58 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2583bdedsm4755135f8f.72.2024.06.11.03.46.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 03:46:57 -0700 (PDT)
+Date: Tue, 11 Jun 2024 13:46:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Artur Rojek <contact@artur-rojek.eu>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Input: adc-joystick - move axes data into the main
  structure
-Message-ID: <202406111750.AXBfJUS3-lkp@intel.com>
+Message-ID: <0c098606-aba1-4cc0-9a33-6a68c67b1157@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,41 +70,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <ZmYlfKDm5sgB44EU@google.com>
-References: <ZmYlfKDm5sgB44EU@google.com>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-TO: linux-input@vger.kernel.org
-CC: Artur Rojek <contact@artur-rojek.eu>
-CC: Chris Morgan <macromorgan@hotmail.com>
-CC: linux-kernel@vger.kernel.org
 
 Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on next-20240611]
-[cannot apply to dtor-input/for-linus hid/for-next linus/master v6.10-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Torokhov/Input-adc-joystick-move-axes-data-into-the-main-structure/20240610-060124
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
 patch link:    https://lore.kernel.org/r/ZmYlfKDm5sgB44EU%40google.com
 patch subject: [PATCH] Input: adc-joystick - move axes data into the main structure
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-161-20240611 (https://download.01.org/0day-ci/archive/20240611/202406111750.AXBfJUS3-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202406111750.AXBfJUS3-lkp@intel.com/
 
 smatch warnings:
@@ -141,6 +134,9 @@ vim +/axes +166 drivers/input/joystick/adc-joystick.c
 2c2b364fddd551 Artur Rojek     2020-09-28  164  
 2c2b364fddd551 Artur Rojek     2020-09-28  165  		error = fwnode_property_read_u32(child, "linux,code",
 2c2b364fddd551 Artur Rojek     2020-09-28 @166  						 &axes[i].code);
+
+axes is unitialized.
+
 2c2b364fddd551 Artur Rojek     2020-09-28  167  		if (error) {
 2c2b364fddd551 Artur Rojek     2020-09-28  168  			dev_err(dev, "linux,code invalid or missing\n");
 2c2b364fddd551 Artur Rojek     2020-09-28  169  			goto err_fwnode_put;
@@ -216,81 +212,17 @@ vim +/axes +166 drivers/input/joystick/adc-joystick.c
 815b74328f141f Dmitry Torokhov 2024-06-09  239  	chans = devm_iio_channel_get_all(dev);
 815b74328f141f Dmitry Torokhov 2024-06-09  240  	if (IS_ERR(chans)) {
 2c2b364fddd551 Artur Rojek     2020-09-28 @241  		error = PTR_ERR(joy->chans);
+
+s/joy->chans/chans/
+
 2c2b364fddd551 Artur Rojek     2020-09-28  242  		if (error != -EPROBE_DEFER)
 2c2b364fddd551 Artur Rojek     2020-09-28  243  			dev_err(dev, "Unable to get IIO channels");
 2c2b364fddd551 Artur Rojek     2020-09-28  244  		return error;
 2c2b364fddd551 Artur Rojek     2020-09-28  245  	}
 2c2b364fddd551 Artur Rojek     2020-09-28  246  
 24c06e000e8fa2 Chris Morgan    2022-08-16  247  	error = device_property_read_u32(dev, "poll-interval", &poll_interval);
-24c06e000e8fa2 Chris Morgan    2022-08-16  248  	if (error) {
-24c06e000e8fa2 Chris Morgan    2022-08-16  249  		/* -EINVAL means the property is absent. */
-24c06e000e8fa2 Chris Morgan    2022-08-16  250  		if (error != -EINVAL)
-24c06e000e8fa2 Chris Morgan    2022-08-16  251  			return error;
-24c06e000e8fa2 Chris Morgan    2022-08-16  252  	} else if (poll_interval == 0) {
-24c06e000e8fa2 Chris Morgan    2022-08-16  253  		dev_err(dev, "Unable to get poll-interval\n");
-24c06e000e8fa2 Chris Morgan    2022-08-16  254  		return -EINVAL;
-24c06e000e8fa2 Chris Morgan    2022-08-16  255  	}
-24c06e000e8fa2 Chris Morgan    2022-08-16  256  
-815b74328f141f Dmitry Torokhov 2024-06-09  257  	error = adc_joystick_count_channels(dev, chans, poll_interval != 0,
-815b74328f141f Dmitry Torokhov 2024-06-09  258  					    &num_chans);
-815b74328f141f Dmitry Torokhov 2024-06-09  259  	if (error)
-815b74328f141f Dmitry Torokhov 2024-06-09  260  		return error;
-815b74328f141f Dmitry Torokhov 2024-06-09  261  
-815b74328f141f Dmitry Torokhov 2024-06-09  262  	joy = devm_kzalloc(dev, struct_size(joy, axes, num_chans), GFP_KERNEL);
-815b74328f141f Dmitry Torokhov 2024-06-09  263  	if (!joy)
-815b74328f141f Dmitry Torokhov 2024-06-09  264  		return -ENOMEM;
-815b74328f141f Dmitry Torokhov 2024-06-09  265  
-815b74328f141f Dmitry Torokhov 2024-06-09  266  	joy->chans = chans;
-815b74328f141f Dmitry Torokhov 2024-06-09  267  	joy->num_chans = num_chans;
-2c2b364fddd551 Artur Rojek     2020-09-28  268  
-2c2b364fddd551 Artur Rojek     2020-09-28  269  	input = devm_input_allocate_device(dev);
-2c2b364fddd551 Artur Rojek     2020-09-28  270  	if (!input) {
-2c2b364fddd551 Artur Rojek     2020-09-28  271  		dev_err(dev, "Unable to allocate input device\n");
-2c2b364fddd551 Artur Rojek     2020-09-28  272  		return -ENOMEM;
-2c2b364fddd551 Artur Rojek     2020-09-28  273  	}
-2c2b364fddd551 Artur Rojek     2020-09-28  274  
-2c2b364fddd551 Artur Rojek     2020-09-28  275  	joy->input = input;
-2c2b364fddd551 Artur Rojek     2020-09-28  276  	input->name = pdev->name;
-2c2b364fddd551 Artur Rojek     2020-09-28  277  	input->id.bustype = BUS_HOST;
-2c2b364fddd551 Artur Rojek     2020-09-28  278  
-2c2b364fddd551 Artur Rojek     2020-09-28  279  	error = adc_joystick_set_axes(dev, joy);
-2c2b364fddd551 Artur Rojek     2020-09-28  280  	if (error)
-2c2b364fddd551 Artur Rojek     2020-09-28  281  		return error;
-2c2b364fddd551 Artur Rojek     2020-09-28  282  
-815b74328f141f Dmitry Torokhov 2024-06-09  283  	if (poll_interval != 0) {
-24c06e000e8fa2 Chris Morgan    2022-08-16  284  		input_setup_polling(input, adc_joystick_poll);
-24c06e000e8fa2 Chris Morgan    2022-08-16  285  		input_set_poll_interval(input, poll_interval);
-24c06e000e8fa2 Chris Morgan    2022-08-16  286  	} else {
-24c06e000e8fa2 Chris Morgan    2022-08-16  287  		input->open = adc_joystick_open;
-24c06e000e8fa2 Chris Morgan    2022-08-16  288  		input->close = adc_joystick_close;
-24c06e000e8fa2 Chris Morgan    2022-08-16  289  
-24c06e000e8fa2 Chris Morgan    2022-08-16  290  		joy->buffer = iio_channel_get_all_cb(dev, adc_joystick_handle,
-24c06e000e8fa2 Chris Morgan    2022-08-16  291  						     joy);
-2c2b364fddd551 Artur Rojek     2020-09-28  292  		if (IS_ERR(joy->buffer)) {
-2c2b364fddd551 Artur Rojek     2020-09-28  293  			dev_err(dev, "Unable to allocate callback buffer\n");
-2c2b364fddd551 Artur Rojek     2020-09-28  294  			return PTR_ERR(joy->buffer);
-2c2b364fddd551 Artur Rojek     2020-09-28  295  		}
-2c2b364fddd551 Artur Rojek     2020-09-28  296  
-24c06e000e8fa2 Chris Morgan    2022-08-16  297  		error = devm_add_action_or_reset(dev, adc_joystick_cleanup,
-24c06e000e8fa2 Chris Morgan    2022-08-16  298  						 joy->buffer);
-2c2b364fddd551 Artur Rojek     2020-09-28  299  		if (error)  {
-2c2b364fddd551 Artur Rojek     2020-09-28  300  			dev_err(dev, "Unable to add action\n");
-2c2b364fddd551 Artur Rojek     2020-09-28  301  			return error;
-2c2b364fddd551 Artur Rojek     2020-09-28  302  		}
-24c06e000e8fa2 Chris Morgan    2022-08-16  303  	}
-2c2b364fddd551 Artur Rojek     2020-09-28  304  
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  305  	input_set_drvdata(input, joy);
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  306  
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  307  	error = input_register_device(input);
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  308  	if (error) {
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  309  		dev_err(dev, "Unable to register input device\n");
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  310  		return error;
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  311  	}
-7c744d00990ea9 Dmitry Torokhov 2022-08-02  312  
-2c2b364fddd551 Artur Rojek     2020-09-28  313  	return 0;
-2c2b364fddd551 Artur Rojek     2020-09-28  314  }
-2c2b364fddd551 Artur Rojek     2020-09-28  315  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
