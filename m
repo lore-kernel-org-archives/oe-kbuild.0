@@ -1,298 +1,205 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6A44502B
-	for <oe-kbuild@lists.linux.dev>; Tue, 11 Jun 2024 23:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DC74A1B;
+	Wed, 12 Jun 2024 02:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718149876; cv=none; b=m/VnSXksY9Iu6je3RmmABhAfzsMWcLOfV3ip3pvj/tPg/UyhDUBy3+6vzNqyLvm0QGBbmrNI5ksSiNgg/IPgUsuvvTncJ6QvelL0T1B9jU9ceYp6FRwIHjQfL/JQrj+rtIl9Tv0ULgilkCXLHrA1sJg9sb+W8KSxHIJUpfxteJU=
+	t=1718160615; cv=none; b=PBPmtHudlMWWrkBNba3eFRRZbVtFxWcRCi6e7I6ybT7h4zb1HmZ0dW9Djidw8m2jH+z4wKdIdniKOitotuwmDv/rQt0+l91RD7y1gk26b+2rNLOZtbUbtQNhChDyUiClRrqVVMWG0x7qryZcRktRnjivPXqefW7kL6AnGHxjCEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718149876; c=relaxed/simple;
-	bh=bHe+4k/BGxn3emUW6MlSt6g4OHcjea65Rk7OhJfY2HE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FNBuUyBszWW/jMc/V0saksu83Gzarum1Im/M/ovTyM6Rp6bzwEEZgXi/k4M48VzLYL1JXFU9pImBShWgnIRTMlaBdKf38Aud+lTFCFv5vNe6zDZy3EhOgjnvMJGnO1KFfYYthnuPpDCsM5DtESg1G+CFm4SWy0N4D2kIgMpt2Dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWj20xhZ; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWj20xhZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718149874; x=1749685874;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bHe+4k/BGxn3emUW6MlSt6g4OHcjea65Rk7OhJfY2HE=;
-  b=HWj20xhZ2U6YC3trmB2MqB7JibwV5jUw7MEG5iPHrjntT3h9AkUtZw5V
-   OjjvgPuH6s1fRj9JOlcF8Kv0+NzKtgXF+0OXqYWM+Lceyfh/PsU6310ID
-   y7ATIO+xxvVz2KPpLl1igwl3PlQFSTxHNOXYh4gI0vQ8hB7bytEeL8ED8
-   isAOlBRVKlopwwOzISSm3JN+WH/IokgXxbUysrUeICc1gVSU/ZPlBl9Ce
-   JjPxX7ZW/FbDyFSIhBbpPBM03NelQ4+DAWHjLHpNsbqZiqeoO6Cc19CI+
-   +OivwJvmCCBun2y3jHkmx4Bad0+9JOuV5neTl9QfMImWwYFtyTjF05s/v
-   g==;
-X-CSE-ConnectionGUID: 04HzfjZNTk2xLz07zr5duQ==
-X-CSE-MsgGUID: J/h848LWSYOY4Zd4B2LN8A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="26300180"
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="26300180"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 16:51:14 -0700
-X-CSE-ConnectionGUID: 0yL/xrKoSs+74wCI+OTwHg==
-X-CSE-MsgGUID: 998ATmUwR/urdhJcZTzUtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="39714360"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Jun 2024 16:51:13 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHBGg-00010K-1z;
-	Tue, 11 Jun 2024 23:51:10 +0000
-Date: Wed, 12 Jun 2024 07:50:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [jsarha:topic/chromeos-4.19-s0ix 6415/9999]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3673:2: warning:
- 'strncpy' specified bound 32 equals destination size
-Message-ID: <202406120730.xMznJ4uT-lkp@intel.com>
+	s=arc-20240116; t=1718160615; c=relaxed/simple;
+	bh=WNmbgIEW2ccQEpRrxUE+bt9lrsjKhOdoAw6JSC+8QhQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Y9lCCEe2GNRmQIEZvmaBHMB7F6PIEM63OwvHMly3ceCo7SuJCvZWUbnppSbjZ84lJscDUHPNUgE7rJ3cZR7ToYfqtV5qSI7Bb8MQn691LSMFlht38/c5tLuo7F1u45EjJ7CcZruybLoFXoo1BhMKh8jgpbdrsW3+9DGqUR2mP9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4VzVKh3ffVz2CkH1;
+	Wed, 12 Jun 2024 10:46:16 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id C7C6314022D;
+	Wed, 12 Jun 2024 10:50:03 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 12 Jun 2024 10:50:03 +0800
+Message-ID: <c6df35cc-1331-4255-8ff5-898f6a911bec@huawei.com>
+Date: Wed, 12 Jun 2024 10:50:02 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "only scripts/Makefile.* file changed"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: 872c91b9b3e71479285202070e518727735257e8 [6415/9999] UPSTREAM: Compiler Attributes: enable -Wstringop-truncation on W=1 (gcc >= 8)
-:::::: branch date: 4 years, 8 months ago
-:::::: commit date: 5 years ago
-config: x86_64-buildonly-randconfig-001-20240612 (https://download.01.org/0day-ci/archive/20240612/202406120730.xMznJ4uT-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406120730.xMznJ4uT-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406120730.xMznJ4uT-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:143:29: warning: 'GC_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE GC_BASE   = { { { { 0x00002000, 0x0000A000, 0, 0, 0 } },
-                                ^~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:138:29: warning: 'VCE_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE VCE_BASE   = { { { { 0x00007E00, 0x00048800, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:133:29: warning: 'ATHUB_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE ATHUB_BASE   = { { { { 0x00000C20, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:128:29: warning: 'IOHC_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE IOHC_BASE   = { { { { 0x00010000, 0, 0, 0, 0 } },
-                                ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:123:29: warning: 'L2IMU_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE L2IMU_BASE   = { { { { 0x00007DC0, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:118:29: warning: 'SYSTEMHUB_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE SYSTEMHUB_BASE  = { { { { 0x00000EA0, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:113:29: warning: 'ISP_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE ISP_BASE   = { { { { 0x00018000, 0, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:108:29: warning: 'DFX_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DFX_BASE   = { { { { 0x00000580, 0, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:103:29: warning: 'DFX_DAP_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DFX_DAP_BASE  = { { { { 0x000005A0, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:98:29: warning: 'DBGU_IO_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DBGU_IO_BASE  = { { { { 0x000001E0, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:93:29: warning: 'DBGU_NBIO_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DBGU_NBIO_BASE  = { { { { 0x000001C0, 0, 0, 0, 0 } },
-                                ^~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:88:29: warning: 'DBGU_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DBGU_BASE   = { { { { 0x00000180, 0x000001A0, 0, 0, 0 } },
-                                ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:83:29: warning: 'VCN_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE VCN_BASE   = { { { { 0x00007800, 0x00007E00, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:78:29: warning: 'UVD_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE UVD_BASE   = { { { { 0x00007800, 0x00007E00, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:73:29: warning: 'DF_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DF_BASE   = { { { { 0x00007000, 0, 0, 0, 0 } },
-                                ^~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:68:29: warning: 'MP2_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE MP2_BASE   = { { { { 0x00016000, 0, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:63:29: warning: 'MP1_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE MP1_BASE   = { { { { 0x00016000, 0, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:58:29: warning: 'MP0_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE MP0_BASE   = { { { { 0x00016000, 0, 0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:53:29: warning: 'DCN_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DCN_BASE   = { { { { 0x00000012, 0x000000C0, 0x000034C0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:48:29: warning: 'DCE_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE DCE_BASE   = { { { { 0x00000012, 0x000000C0, 0x000034C0, 0, 0 } },
-                                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:43:29: warning: 'NBIO_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE NBIO_BASE   = { { { { 0x00000000, 0x00000014, 0x00000D20, 0x00010400, 0 } },
-                                ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../include/vega10_ip_offset.h:38:29: warning: 'NBIF_BASE' defined but not used [-Wunused-const-variable=]
-    static const struct IP_BASE NBIF_BASE   = { { { { 0x00000000, 0x00000014, 0x00000D20, 0x00010400, 0 } },
-                                ^~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:28:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:120:22: warning: 'DP_DVI_CONVERTER_ID_4' defined but not used [-Wunused-const-variable=]
-    static const uint8_t DP_DVI_CONVERTER_ID_4[] = "m2DVIa";
-                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:118:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_3' defined but not used [-Wunused-const-variable=]
-    static const uint8_t DP_VGA_LVDS_CONVERTER_ID_3[] = "dnomlA";
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:116:22: warning: 'DP_VGA_LVDS_CONVERTER_ID_2' defined but not used [-Wunused-const-variable=]
-    static const uint8_t DP_VGA_LVDS_CONVERTER_ID_2[] = "sivarT";
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dm_services_types.h:30,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:26:
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:76:32: warning: 'dc_fixpt_ln2_div_2' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_ln2_div_2 = { 1488522236LL };
-                                   ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:75:32: warning: 'dc_fixpt_ln2' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_ln2 = { 2977044471LL };
-                                   ^~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:74:32: warning: 'dc_fixpt_e' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_e = { 11674931555LL };
-                                   ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:73:32: warning: 'dc_fixpt_two_pi' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_two_pi = { 26986075409LL };
-                                   ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:72:32: warning: 'dc_fixpt_pi' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_pi = { 13493037705LL };
-                                   ^~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:67:32: warning: 'dc_fixpt_zero' defined but not used [-Wunused-const-variable=]
-    static const struct fixed31_32 dc_fixpt_zero = { 0 };
-                                   ^~~~~~~~~~~~~
-   In function 'amdgpu_dm_create_common_mode',
-       inlined from 'amdgpu_dm_connector_add_common_modes' at drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3730:10:
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3673:2: warning: 'strncpy' specified bound 32 equals destination size [-Wstringop-truncation]
-     strncpy(mode->name, name, DRM_DISPLAY_MODE_LEN);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'fill_audio_info',
-       inlined from 'create_stream_for_sink' at drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2781:2:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2568:2: warning: 'strncpy' output may be truncated copying 19 bytes from a string of length 19 [-Wstringop-truncation]
-     strncpy(audio_info->display_name,
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      edid_caps->display_name,
-      ~~~~~~~~~~~~~~~~~~~~~~~~
-      AUDIO_INFO_DISPLAY_NAME_SIZE_IN_CHARS - 1);
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Linux Memory Management
+ List <linux-mm@kvack.org>, <ying.huang@intel.com>, Baolin Wang
+	<baolin.wang@linux.alibaba.com>, David Hildenbrand <david@redhat.com>, John
+ Hubbard <jhubbard@nvidia.com>, Mel Gorman <mgorman@suse.de>, Ryan Roberts
+	<ryan.roberts@arm.com>, <liushixin2@huawei.com>
+References: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <100add53-aa58-44ce-a15d-8438001fb2b9@moroto.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
 
-vim +/strncpy +3673 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
-e7b07ceef2a650 Harry Wentland 2017-08-10  3654  
-3ee6b26b78e478 Alex Deucher   2017-10-10  3655  static struct drm_display_mode *
-3ee6b26b78e478 Alex Deucher   2017-10-10  3656  amdgpu_dm_create_common_mode(struct drm_encoder *encoder,
-3ee6b26b78e478 Alex Deucher   2017-10-10  3657  			     char *name,
-e7b07ceef2a650 Harry Wentland 2017-08-10  3658  			     int hdisplay, int vdisplay)
-e7b07ceef2a650 Harry Wentland 2017-08-10  3659  {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3660  	struct drm_device *dev = encoder->dev;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3661  	struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3662  	struct drm_display_mode *mode = NULL;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3663  	struct drm_display_mode *native_mode = &amdgpu_encoder->native_mode;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3664  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3665  	mode = drm_mode_duplicate(dev, native_mode);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3666  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3667  	if (mode == NULL)
-e7b07ceef2a650 Harry Wentland 2017-08-10  3668  		return NULL;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3669  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3670  	mode->hdisplay = hdisplay;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3671  	mode->vdisplay = vdisplay;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3672  	mode->type &= ~DRM_MODE_TYPE_PREFERRED;
-e7b07ceef2a650 Harry Wentland 2017-08-10 @3673  	strncpy(mode->name, name, DRM_DISPLAY_MODE_LEN);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3674  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3675  	return mode;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3676  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3677  }
-e7b07ceef2a650 Harry Wentland 2017-08-10  3678  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3679  static void amdgpu_dm_connector_add_common_modes(struct drm_encoder *encoder,
-e7b07ceef2a650 Harry Wentland 2017-08-10  3680  						 struct drm_connector *connector)
-e7b07ceef2a650 Harry Wentland 2017-08-10  3681  {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3682  	struct amdgpu_encoder *amdgpu_encoder = to_amdgpu_encoder(encoder);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3683  	struct drm_display_mode *mode = NULL;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3684  	struct drm_display_mode *native_mode = &amdgpu_encoder->native_mode;
-c84dec2fe8837f Harry Wentland 2017-09-05  3685  	struct amdgpu_dm_connector *amdgpu_dm_connector =
-c84dec2fe8837f Harry Wentland 2017-09-05  3686  				to_amdgpu_dm_connector(connector);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3687  	int i;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3688  	int n;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3689  	struct mode_size {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3690  		char name[DRM_DISPLAY_MODE_LEN];
-e7b07ceef2a650 Harry Wentland 2017-08-10  3691  		int w;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3692  		int h;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3693  	} common_modes[] = {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3694  		{  "640x480",  640,  480},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3695  		{  "800x600",  800,  600},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3696  		{ "1024x768", 1024,  768},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3697  		{ "1280x720", 1280,  720},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3698  		{ "1280x800", 1280,  800},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3699  		{"1280x1024", 1280, 1024},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3700  		{ "1440x900", 1440,  900},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3701  		{"1680x1050", 1680, 1050},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3702  		{"1600x1200", 1600, 1200},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3703  		{"1920x1080", 1920, 1080},
-e7b07ceef2a650 Harry Wentland 2017-08-10  3704  		{"1920x1200", 1920, 1200}
-e7b07ceef2a650 Harry Wentland 2017-08-10  3705  	};
-e7b07ceef2a650 Harry Wentland 2017-08-10  3706  
-b830ebc910f641 Harry Wentland 2017-07-26  3707  	n = ARRAY_SIZE(common_modes);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3708  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3709  	for (i = 0; i < n; i++) {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3710  		struct drm_display_mode *curmode = NULL;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3711  		bool mode_existed = false;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3712  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3713  		if (common_modes[i].w > native_mode->hdisplay ||
-e7b07ceef2a650 Harry Wentland 2017-08-10  3714  		    common_modes[i].h > native_mode->vdisplay ||
-e7b07ceef2a650 Harry Wentland 2017-08-10  3715  		   (common_modes[i].w == native_mode->hdisplay &&
-e7b07ceef2a650 Harry Wentland 2017-08-10  3716  		    common_modes[i].h == native_mode->vdisplay))
-e7b07ceef2a650 Harry Wentland 2017-08-10  3717  			continue;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3718  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3719  		list_for_each_entry(curmode, &connector->probed_modes, head) {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3720  			if (common_modes[i].w == curmode->hdisplay &&
-e7b07ceef2a650 Harry Wentland 2017-08-10  3721  			    common_modes[i].h == curmode->vdisplay) {
-e7b07ceef2a650 Harry Wentland 2017-08-10  3722  				mode_existed = true;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3723  				break;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3724  			}
-e7b07ceef2a650 Harry Wentland 2017-08-10  3725  		}
-e7b07ceef2a650 Harry Wentland 2017-08-10  3726  
-e7b07ceef2a650 Harry Wentland 2017-08-10  3727  		if (mode_existed)
-e7b07ceef2a650 Harry Wentland 2017-08-10  3728  			continue;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3729  
-e7b07ceef2a650 Harry Wentland 2017-08-10 @3730  		mode = amdgpu_dm_create_common_mode(encoder,
-e7b07ceef2a650 Harry Wentland 2017-08-10  3731  				common_modes[i].name, common_modes[i].w,
-e7b07ceef2a650 Harry Wentland 2017-08-10  3732  				common_modes[i].h);
-e7b07ceef2a650 Harry Wentland 2017-08-10  3733  		drm_mode_probed_add(connector, mode);
-c84dec2fe8837f Harry Wentland 2017-09-05  3734  		amdgpu_dm_connector->num_modes++;
-e7b07ceef2a650 Harry Wentland 2017-08-10  3735  	}
-e7b07ceef2a650 Harry Wentland 2017-08-10  3736  }
-e7b07ceef2a650 Harry Wentland 2017-08-10  3737  
+On 2024/6/10 0:03, Dan Carpenter wrote:
+> Hi Kefeng,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-fix-possible-OOB-in-numa_rebuild_large_mapping/20240607-183609
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20240607103241.1298388-1-wangkefeng.wang%40huawei.com
+> patch subject: [PATCH] mm: fix possible OOB in numa_rebuild_large_mapping()
+> config: mips-randconfig-r081-20240609 (https://download.01.org/0day-ci/archive/20240609/202406092325.eDrcikT8-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202406092325.eDrcikT8-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/memory.c:5370 do_numa_page() error: uninitialized symbol 'nr_pages'.
+> 
+> vim +/nr_pages +5370 mm/memory.c
+> 
+> 2b7403035459c7 Souptick Joarder  2018-08-23  5265  static vm_fault_t do_numa_page(struct vm_fault *vmf)
+> d10e63f29488b0 Mel Gorman        2012-10-25  5266  {
+> 82b0f8c39a3869 Jan Kara          2016-12-14  5267  	struct vm_area_struct *vma = vmf->vma;
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5268  	struct folio *folio = NULL;
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5269  	int nid = NUMA_NO_NODE;
+> d2136d749d76af Baolin Wang       2024-03-29  5270  	bool writable = false, ignore_writable = false;
+> d2136d749d76af Baolin Wang       2024-03-29  5271  	bool pte_write_upgrade = vma_wants_manual_pte_write_upgrade(vma);
+> 90572890d20252 Peter Zijlstra    2013-10-07  5272  	int last_cpupid;
+> cbee9f88ec1b8d Peter Zijlstra    2012-10-25  5273  	int target_nid;
+> 04a8645304500b Aneesh Kumar K.V  2019-03-05  5274  	pte_t pte, old_pte;
+> d2136d749d76af Baolin Wang       2024-03-29  5275  	int flags = 0, nr_pages;
+> d10e63f29488b0 Mel Gorman        2012-10-25  5276
+> d10e63f29488b0 Mel Gorman        2012-10-25  5277  	/*
+> 6c1b748ebf27be John Hubbard      2024-02-27  5278  	 * The pte cannot be used safely until we verify, while holding the page
+> 6c1b748ebf27be John Hubbard      2024-02-27  5279  	 * table lock, that its contents have not changed during fault handling.
+> d10e63f29488b0 Mel Gorman        2012-10-25  5280  	 */
+> 82b0f8c39a3869 Jan Kara          2016-12-14  5281  	spin_lock(vmf->ptl);
+> 6c1b748ebf27be John Hubbard      2024-02-27  5282  	/* Read the live PTE from the page tables: */
+> 6c1b748ebf27be John Hubbard      2024-02-27  5283  	old_pte = ptep_get(vmf->pte);
+> 6c1b748ebf27be John Hubbard      2024-02-27  5284
+> 6c1b748ebf27be John Hubbard      2024-02-27  5285  	if (unlikely(!pte_same(old_pte, vmf->orig_pte))) {
+> 82b0f8c39a3869 Jan Kara          2016-12-14  5286  		pte_unmap_unlock(vmf->pte, vmf->ptl);
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5287  		goto out;
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5288  	}
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5289
+> 04a8645304500b Aneesh Kumar K.V  2019-03-05  5290  	pte = pte_modify(old_pte, vma->vm_page_prot);
+> d10e63f29488b0 Mel Gorman        2012-10-25  5291
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5292  	/*
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5293  	 * Detect now whether the PTE could be writable; this information
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5294  	 * is only valid while holding the PT lock.
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5295  	 */
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5296  	writable = pte_write(pte);
+> d2136d749d76af Baolin Wang       2024-03-29  5297  	if (!writable && pte_write_upgrade &&
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5298  	    can_change_pte_writable(vma, vmf->address, pte))
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5299  		writable = true;
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5300
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5301  	folio = vm_normal_folio(vma, vmf->address, pte);
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5302  	if (!folio || folio_is_zone_device(folio))
+> b99a342d4f11a5 Huang Ying        2021-04-29  5303  		goto out_map;
+> 
+> nr_pages not initialized
+> 
+> d10e63f29488b0 Mel Gorman        2012-10-25  5304
+> 6688cc05473b36 Peter Zijlstra    2013-10-07  5305  	/*
+> bea66fbd11af1c Mel Gorman        2015-03-25  5306  	 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
+> bea66fbd11af1c Mel Gorman        2015-03-25  5307  	 * much anyway since they can be in shared cache state. This misses
+> bea66fbd11af1c Mel Gorman        2015-03-25  5308  	 * the case where a mapping is writable but the process never writes
+> bea66fbd11af1c Mel Gorman        2015-03-25  5309  	 * to it but pte_write gets cleared during protection updates and
+> bea66fbd11af1c Mel Gorman        2015-03-25  5310  	 * pte_dirty has unpredictable behaviour between PTE scan updates,
+> bea66fbd11af1c Mel Gorman        2015-03-25  5311  	 * background writeback, dirty balancing and application behaviour.
+> bea66fbd11af1c Mel Gorman        2015-03-25  5312  	 */
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5313  	if (!writable)
+> 6688cc05473b36 Peter Zijlstra    2013-10-07  5314  		flags |= TNF_NO_GROUP;
+> 6688cc05473b36 Peter Zijlstra    2013-10-07  5315
+> dabe1d992414a6 Rik van Riel      2013-10-07  5316  	/*
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5317  	 * Flag if the folio is shared between multiple address spaces. This
+> dabe1d992414a6 Rik van Riel      2013-10-07  5318  	 * is later used when determining whether to group tasks together
+> dabe1d992414a6 Rik van Riel      2013-10-07  5319  	 */
+> ebb34f78d72c23 David Hildenbrand 2024-02-27  5320  	if (folio_likely_mapped_shared(folio) && (vma->vm_flags & VM_SHARED))
+> dabe1d992414a6 Rik van Riel      2013-10-07  5321  		flags |= TNF_SHARED;
+> dabe1d992414a6 Rik van Riel      2013-10-07  5322
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5323  	nid = folio_nid(folio);
+> d2136d749d76af Baolin Wang       2024-03-29  5324  	nr_pages = folio_nr_pages(folio);
+> 33024536bafd91 Huang Ying        2022-07-13  5325  	/*
+> 33024536bafd91 Huang Ying        2022-07-13  5326  	 * For memory tiering mode, cpupid of slow memory page is used
+> 33024536bafd91 Huang Ying        2022-07-13  5327  	 * to record page access time.  So use default value.
+> 33024536bafd91 Huang Ying        2022-07-13  5328  	 */
+> 33024536bafd91 Huang Ying        2022-07-13  5329  	if ((sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5330  	    !node_is_toptier(nid))
+> 33024536bafd91 Huang Ying        2022-07-13  5331  		last_cpupid = (-1 & LAST_CPUPID_MASK);
+> 33024536bafd91 Huang Ying        2022-07-13  5332  	else
+> 67b33e3ff58374 Kefeng Wang       2023-10-18  5333  		last_cpupid = folio_last_cpupid(folio);
+> f8fd525ba3a298 Donet Tom         2024-03-08  5334  	target_nid = numa_migrate_prep(folio, vmf, vmf->address, nid, &flags);
+> 98fa15f34cb379 Anshuman Khandual 2019-03-05  5335  	if (target_nid == NUMA_NO_NODE) {
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5336  		folio_put(folio);
+> b99a342d4f11a5 Huang Ying        2021-04-29  5337  		goto out_map;
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5338  	}
+> b99a342d4f11a5 Huang Ying        2021-04-29  5339  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> 6a56ccbcf6c695 David Hildenbrand 2022-11-08  5340  	writable = false;
+> d2136d749d76af Baolin Wang       2024-03-29  5341  	ignore_writable = true;
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5342
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5343  	/* Migrate to the requested node */
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5344  	if (migrate_misplaced_folio(folio, vma, target_nid)) {
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5345  		nid = target_nid;
+> 6688cc05473b36 Peter Zijlstra    2013-10-07  5346  		flags |= TNF_MIGRATED;
+> b99a342d4f11a5 Huang Ying        2021-04-29  5347  	} else {
+> 074c238177a75f Mel Gorman        2015-03-25  5348  		flags |= TNF_MIGRATE_FAIL;
+> c7ad08804fae5b Hugh Dickins      2023-06-08  5349  		vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd,
+> c7ad08804fae5b Hugh Dickins      2023-06-08  5350  					       vmf->address, &vmf->ptl);
+> c7ad08804fae5b Hugh Dickins      2023-06-08  5351  		if (unlikely(!vmf->pte))
+> c7ad08804fae5b Hugh Dickins      2023-06-08  5352  			goto out;
+> c33c794828f212 Ryan Roberts      2023-06-12  5353  		if (unlikely(!pte_same(ptep_get(vmf->pte), vmf->orig_pte))) {
+> b99a342d4f11a5 Huang Ying        2021-04-29  5354  			pte_unmap_unlock(vmf->pte, vmf->ptl);
+> b99a342d4f11a5 Huang Ying        2021-04-29  5355  			goto out;
+> b99a342d4f11a5 Huang Ying        2021-04-29  5356  		}
+> b99a342d4f11a5 Huang Ying        2021-04-29  5357  		goto out_map;
+> b99a342d4f11a5 Huang Ying        2021-04-29  5358  	}
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5359
+> 4daae3b4b9e49b Mel Gorman        2012-11-02  5360  out:
+> 6695cf68b15c21 Kefeng Wang       2023-09-21  5361  	if (nid != NUMA_NO_NODE)
+> d2136d749d76af Baolin Wang       2024-03-29  5362  		task_numa_fault(last_cpupid, nid, nr_pages, flags);
+> d10e63f29488b0 Mel Gorman        2012-10-25  5363  	return 0;
+> b99a342d4f11a5 Huang Ying        2021-04-29  5364  out_map:
+> b99a342d4f11a5 Huang Ying        2021-04-29  5365  	/*
+> b99a342d4f11a5 Huang Ying        2021-04-29  5366  	 * Make it present again, depending on how arch implements
+> b99a342d4f11a5 Huang Ying        2021-04-29  5367  	 * non-accessible ptes, some can allow access by kernel mode.
+> b99a342d4f11a5 Huang Ying        2021-04-29  5368  	 */
+> d2136d749d76af Baolin Wang       2024-03-29  5369  	if (folio && folio_test_large(folio))
+> 
+> Are folio_test_large() and folio_is_zone_device() mutually exclusive?
+> If so then this is a false positive.  Just ignore the warning in that
+> case.
+> 
 
-:::::: The code at line 3673 was first introduced by commit
-:::::: e7b07ceef2a650e5ed8ca37997689e086c680daf drm/amd/display: Merge amdgpu_dm_types and amdgpu_dm
+The folio in ZONE_DEVICE is not a large folio, so there is no issue for 
+now, but will fix.
 
-:::::: TO: Harry Wentland <harry.wentland@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+> 8d27aa5be8ed93 Kefeng Wang       2024-06-07 @5370  		numa_rebuild_large_mapping(vmf, vma, folio, nr_pages, pte,
+> 8d27aa5be8ed93 Kefeng Wang       2024-06-07  5371  					   ignore_writable, pte_write_upgrade);
+> d2136d749d76af Baolin Wang       2024-03-29  5372  	else
+> d2136d749d76af Baolin Wang       2024-03-29  5373  		numa_rebuild_single_mapping(vmf, vma, vmf->address, vmf->pte,
+> d2136d749d76af Baolin Wang       2024-03-29  5374  					    writable);
+> b99a342d4f11a5 Huang Ying        2021-04-29  5375  	pte_unmap_unlock(vmf->pte, vmf->ptl);
+> b99a342d4f11a5 Huang Ying        2021-04-29  5376  	goto out;
+> d10e63f29488b0 Mel Gorman        2012-10-25  5377  }
+> 
