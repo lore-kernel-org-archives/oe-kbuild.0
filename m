@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158C6171E70
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 14:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510F817DE39
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 14:39:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718201196; cv=none; b=OWpXcgz4LuI2KvB1us0Y5wRdNKaO2nOZWnT9HECh5EVYkaU+yUIk6aC25X68XNCCB72wjKLm0RnB8lBqrbMaQrwiC4+kuMy6JSzQ0uxChO/Zr1mpQLHNey86NqW1QUG57mwu7GQ0rM3OYRsqr+bdQehWMU+9wQHdk/26jOsoV0E=
+	t=1718203198; cv=none; b=dADPU0Yy4RS6H0Pb1ypLxsWEdaMc1Mci4PzjKzPuxPzACltStGzA4DfXT6Y9QsmKn4s2bioUgRMVu2+ZcXFsRWeNf2IPW/URDsjyTTMLutpLUEmsY4268mM4Aprujlbi+BeVM9JZWfwUu6uS8beNhIzDlJaIFNluCazO32XvyM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718201196; c=relaxed/simple;
-	bh=3PdBzjPM3o/BQf+8b267DAEhovoi/bV0Ij7tLd+07wI=;
+	s=arc-20240116; t=1718203198; c=relaxed/simple;
+	bh=C8Pf6TJnvxaJ4Nn4K66aAeGYlXGVGIeUuoWkgeaYxbg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dUJSD1xMSyL5Wu855xCtyaAKdXDmia2/h9oy5Lw7w1MFwKY7gb7z9sk57kQJDx4U/0S5629Mwzg/zPIaqxisH61fs/ELlmtwcEQA6ngVU3WU2XhJOxa3E+V8TEn235zUA4rsU49uQ4sgSsZOTNkQymtmt8AWYlRfv/E7uFhc4Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1+tCnn5; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jD6Fh1NzSfWD8hXOoaVqE41PkKfiqVh9b5nODrCEVhXLsv/Zqy5x4Dzi0oi8eCbp8EVhD5lOs1J5hc8GBSFT8Rx5a2i+k3dQnHvzsnZ1sRUrbBKdenfn7Xk6ruRkD6HAE3o4t0pgWAFwLqSofBX3VpPUF9OXQGzC6Y3OierjPic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yx59APT7; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1+tCnn5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718201195; x=1749737195;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3PdBzjPM3o/BQf+8b267DAEhovoi/bV0Ij7tLd+07wI=;
-  b=W1+tCnn5nJs0TCEsIHFcoES0ENGHNjCZL3FB8GEntrDnS+xXRQ5lK+Br
-   JiSPaRKoeKJeHGFFz0+zOXAqJuK9YJZc6s77O12Lo0xyXX+GOqsp+QsJ+
-   I11/AszhWDaz7/oMRdMeax/lyyGEOUmS2AaK2IF4E9JdfBQYHH0sz8ok4
-   l5GTNRuJamJuxohezBkYfTmMdQiyx2wSv73WDT3h0xxY1LXWoEhVxY1io
-   JGpYYolHqhJJyXnPYjHgQ6W+hnO6l/3UdGz0aJ/hqYTqOnhxHHsra694r
-   +KY9R0nv74wGz+MVFdxQ1l2Oe0/COrtYh2E2YMWoqbSdQ8e56iRxRHciW
-   w==;
-X-CSE-ConnectionGUID: lrOaMaJlTwOPtkhGguERSw==
-X-CSE-MsgGUID: sIGQzC2LSi2uo/pFv0+KNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="14927121"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="14927121"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:05:55 -0700
-X-CSE-ConnectionGUID: hzXhQs4jTVOCFAotMfXGSA==
-X-CSE-MsgGUID: Zsods8g1TQCVNem6xXwQBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="40429644"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Jun 2024 07:05:53 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHObm-0001b4-1C;
-	Wed, 12 Jun 2024 14:05:50 +0000
-Date: Wed, 12 Jun 2024 22:05:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yx59APT7"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4217a96de38so35938875e9.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 07:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718203194; x=1718807994; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
+        b=Yx59APT7PzcFBu091HgnXtK3bXq8fSf486PlTUNz1a1+a6MnZ44dNshzKrhCPNv545
+         29u9SB1EUC+nLlQuKL1PWDNjka3ZQXIv/K7Pfvp8Ck7r7BUlO284va1V80SzIEduZ/Oo
+         j9C4Cw/lTcKBttjI2wCuFzVRQJxGKi0AYV6jgvBj9wKXQX7OAAmVtLDID1SDCDRdnKAE
+         JNzg+70VgGAF8kWF/FJGJ4fIWv4xOVDq3klf6sDDrsfx4WaDHQKTrCA0W3274zRDbDO+
+         axeDbBcKdZu5ai7CbEBnMwzYqPtQNMYUkzo8JWx2DvZE/00jVlFkHyAVVVaiLrpoiEvp
+         CqLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718203194; x=1718807994;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ek4Yz+vlANPAH4c/dw08+ma76dKbUBNCWTM+vTMJPkg=;
+        b=bARyv5G99c9YlLp3tI+SixM3h+8L5RAorXUcpVCjyrKCatQfvdcYBmzkSa/kK+efV5
+         xKf0PnfKnMJfJGI5+SjPHibJ2+9+5G+WQ2XWTjp+H1Ii7TUyUXfVsGmcNvRxMpP/l2nS
+         rjbbSzUa0g5/Wbvg4K6JTm/C+C/D/gFWVSA84qrH+qIa5Gsv0m+AAXXVfWNZHUT2c6r4
+         j7JrYgXiCXnNN3RvYklsE2VHuLRberiwQWDksY0nprVv1hMEwVxwm0tWIKHRYoKZkfen
+         Emj/DCnGtHjRK7KNMlemcM+fr+nV+DpTwbIuWjCwg838VVuw2PglEIBWpty7q9GzPSGI
+         BDDg==
+X-Gm-Message-State: AOJu0YxwQRM9Zio470737r65CiifIrdwA/FzYvH4OiJw7Vf5vA/faxCo
+	PaEOhuv9iXhCXjzu8+MhouKIRANGSMy9cSQDkVHY8TA1VtHizJpdM6Sk2fEbTZMAk+Nj/O+cBjg
+	b
+X-Google-Smtp-Source: AGHT+IHoBqFVkLgUfa4fzrXbQ2MvOOSCUpnqYXpdqs629Xjbqw2VXrzEMNGPqVF9CCj+Druqiqe2WA==
+X-Received: by 2002:a05:600c:314e:b0:422:140:f440 with SMTP id 5b1f17b1804b1-422867c0b23mr18811025e9.36.1718203193587;
+        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422871ec9e6sm29485865e9.38.2024.06.12.07.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 07:39:53 -0700 (PDT)
+Date: Wed, 12 Jun 2024 17:39:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [vbabka:slub-reservations 6/12] mm/slub.c:5551
  kmem_cache_reserve_only_alloc_noprof() warn: inconsistent returns
  '&s->reserve_lock'.
-Message-ID: <202406122208.joPiUJJy-lkp@intel.com>
+Message-ID: <0682f0c0-41bd-482e-8ea9-6a676766ef34@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Vlastimil Babka <vbabka@suse.cz>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-reservations
 head:   f5877f7833fc9f8a236be339ae5bbcccdde7c850
 commit: 17f60c99bf92fbf1ed52e1c492f46cec91d14cd5 [6/12] mm, slub: implement per-cache reserves
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
 config: x86_64-randconfig-161-20240612 (https://download.01.org/0day-ci/archive/20240612/202406122208.joPiUJJy-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202406122208.joPiUJJy-lkp@intel.com/
 
 smatch warnings:
@@ -99,6 +97,9 @@ vim +5551 mm/slub.c
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5521  
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5522  	if (!reserve->size && !s->reserve_surplus)
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5523  		goto empty_reserve;
+
+spin_unlock_irqrestore(&s->reserve_lock, flags);
+
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5524  
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5525  	/*
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5526  	 * Should not happen, the kmem_cache reserve_size should be sum of all
@@ -106,6 +107,9 @@ vim +5551 mm/slub.c
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5528  	 */
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5529  	if (WARN_ON_ONCE(!s->reserve_size))
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5530  		goto empty_reserve;
+
+spin_unlock_irqrestore(&s->reserve_lock, flags)
+
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5531  
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5532  	obj = s->reserve_freelist;
 17f60c99bf92fbf Vlastimil Babka 2024-05-31  5533  	s->reserve_freelist = get_freepointer(s, obj);
@@ -132,3 +136,4 @@ vim +5551 mm/slub.c
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
