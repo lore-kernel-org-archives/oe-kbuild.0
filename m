@@ -1,175 +1,182 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C40180A93
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 17:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA977CF34
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 19:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718214963; cv=none; b=KvodgtmUZKi+eoNuV/0MtO9sAmRymwVovBg6nt713GKtH9T+vOdK+HviYk72wJhNKXRI738AkzljOAVthhEkJF65k6KnmEWzyuvj/C8rDIPhOsQvv39O6wie7vKJNhmOjVvCkmRK1KMr1AIl5D2XmSiwhU3tcvPlHDpVQbgDMqw=
+	t=1718220614; cv=none; b=Ee9ilahtUPPg7CbmM4o56BE7v2aLZ2QDWlVQLb7cwl5E7m/XRBDzwf5ZSO3qWDo2XPo8j560tgrQHRuG9lvMwtuuuakzF9YQg4qZAYUbQ+JUihan8fwITUluo3i22WNRZwBZvIQZiyE0dAaBey02uSI6Nsiq75BX/qaICQ6jEgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718214963; c=relaxed/simple;
-	bh=kjXnqITOCXKQbqhL//7UtkdojvaYLKHWUvaDTgZsslk=;
+	s=arc-20240116; t=1718220614; c=relaxed/simple;
+	bh=5BtyI5IDIXtKLDBCM9y34kHIvboJlQF6H/aKsojbtFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=etOFG8dwBLklij8z4cpNneeSqdDpCBWa3deRU9qzRENJLO6m0gtMdxXA4PstqU1YzoZXBebqufgw5CD4y8v79trOuqn0rD1nTTsLXEkA9AAlJegbSD+hdfj7enOTBwvb/IA6NWTJctpeXG6JNmcpE2s3eBysVNvDbcZnqRbbC+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZnxXaSxv; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=IFzEjg0DIm0xSF243LydljYxXFZaUYWGqJwFUeMJEQyhtEleE7gXWtG6w0klbEzHKeBQHq7NOuwY/eCXE1Q2ckdkM00bMmNlyHQFCqIdclD09Z7FMazes7H+T/+taTW4Y+l7SXtnM2Qszk84u3WLuoP3ggSqWKn5CkkFXIef17Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y1t6u4X7; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZnxXaSxv"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42172ed3597so1023065e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 10:56:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718214960; x=1718819760; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
-        b=ZnxXaSxvACg8exiSxvYAKQVupzcVcH6r04jQ4e8hILzGNbAPpZdRDKXbCYC/69KOp8
-         G5O4yaPd8fL+xorn5/H/VhvWQQxlt/O0hSP4ss7m3KmpzmnK8OLJLckolkE3Z/Ohg5Nv
-         Xms69juVugDPs/xX0IuilaOGqYy4eE+13jOOSX8EFMoCLJJcsLloIvLsZLN0NAg95/+3
-         hyGDVQi1tgbFXkconVLKzwOshG9xdISCe8Efuo8DezNOfrRrp2fCkOtVtbQrjaG2KGjh
-         0yGLx+imqdo/nKo34Y8UFlVQFr1my22zMj0XMjUDZXqwNLcyHiW5CfmENx+Scuxfl9RN
-         qbvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718214960; x=1718819760;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
-        b=W9KPomYMB1yZhAzCAZfSxy5txTxFWOS70zUIJUNXfi7Lg+dk8hwluAdb6eUGBbpEye
-         9PnPcD7cSnJnu0Ao/l5Pv75pmGmMjYuJacW3G1OmzOJsofGeF47u+To5fvma3z7YbP41
-         EcSbRmJdpEqQRnZM2QFXuCqKre8R68XuxL0Aguqx+StV5W9el8aH7rYtKIk1U9yDWFRR
-         WFX1j0YTFfQdiT8kxDc0luMXHBWH76MDBvloHdm5ArRyi89+uvOAab6Y1xlQvAQDi+sQ
-         mHMs2mMeEwVLsIeWCvEeXE0LP3DI/FTJ2p7iCFe3mPGk0LqcxPiPqLUNPlBLaOXVhpz1
-         om6w==
-X-Gm-Message-State: AOJu0Yw90JptMFn+K21bnQoQV6FyVDLAbxgZZwhgxZjt65h6xrJe3J9T
-	BZYZssjbTqd30BTXKIsYcbJZ+qnnDz6OlgTrzEcJUIjmafr4Jhgs5BKxqdnbgV9BiT3U8TntwjY
-	z
-X-Google-Smtp-Source: AGHT+IFoKhOeHxPYxrsA1enZPu6y9KEeOGeQNAPrF9ALvtH32osWCLosEJykDr8cajBHUdI2GMQsIw==
-X-Received: by 2002:a05:600c:444c:b0:41b:4caa:554c with SMTP id 5b1f17b1804b1-422b6ebfc0bmr4556065e9.2.1718214959638;
-        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d2e73dsm17468817f8f.16.2024.06.12.10.55.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
-Date: Wed, 12 Jun 2024 20:55:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [trace:ring-buffer/core 7/13] kernel/trace/ring_buffer.c:1817
- rb_meta_validate_events() error: uninitialized symbol 'head_page'.
-Message-ID: <dda74df5-db9b-42dd-8cb3-5afa641f1479@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y1t6u4X7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718220613; x=1749756613;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5BtyI5IDIXtKLDBCM9y34kHIvboJlQF6H/aKsojbtFw=;
+  b=Y1t6u4X7VoaZ+vFm9aWyFA0sZdkdW7cMAVlbPHhFfAfHLbRouU6u9EJs
+   3WJWbMitmSWmDi9QzN2Uww0HNj+BQ6icks/25goOuPcoRxyBUG94atTso
+   2iKOmL/kW500AyMAVrwJtFqPKj8hQ8a324weZgOSdZqXRmTaRLvjrQZtK
+   e+n/B8oVVpm2Abm8uGI0ZmKB16RgTUfz315MoId99i8EoSIklFcIQ4EJC
+   kzADaXK1eSC9AvFkSTRzzbkhq0XYbO58spjBs21jCO4hEVFefY2B5CCp1
+   APL62xQS9TMV4ZzSkD+bhtmA1Ayl67qgheTpPJL8X2XB3W3j8PXrAe+jn
+   Q==;
+X-CSE-ConnectionGUID: z7WkQYMnROOu5n10TbxHCQ==
+X-CSE-MsgGUID: hPKGXKGbTaqaPidSNFmopw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="17930818"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="17930818"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 12:30:12 -0700
+X-CSE-ConnectionGUID: Oi5ELaSHQeiK0vXMOLwaqQ==
+X-CSE-MsgGUID: 0M/kwU6ZQeSXGsSt5qWjjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="44333188"
+Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 12 Jun 2024 12:30:10 -0700
+Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sHTfc-0001sM-2N;
+	Wed, 12 Jun 2024 19:30:08 +0000
+Date: Thu, 13 Jun 2024 03:29:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 1/4] kernfs: remove page_mkwrite() from
+ vm_operations_struct
+Message-ID: <202406130357.6NmgCbMP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ring-buffer/core
-head:   640e052ba42d577a7f57052dbee714cf470dd145
-commit: ab776f502cfd06bb217d62cb6f4408349246a233 [7/13] ring-buffer: Validate boot range memory events
-config: i386-randconfig-141-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130130.JtTGRf7W-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240611182732.360317-2-martin.oliveira@eideticom.com>
+References: <20240611182732.360317-2-martin.oliveira@eideticom.com>
+TO: Martin Oliveira <martin.oliveira@eideticom.com>
+TO: linux-rdma@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-mm@kvack.org
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Tejun Heo <tj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Logan Gunthorpe <logang@deltatee.com>
+CC: Martin Oliveira <martin.oliveira@eideticom.com>
+CC: Mike Marciniszyn <mike.marciniszyn@intel.com>
+CC: Shiraz Saleem <shiraz.saleem@intel.com>
+CC: Michael Guralnik <michaelgur@nvidia.com>
+CC: Artemy Kovalyov <artemyko@nvidia.com>
+
+Hi Martin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 83a7eefedc9b56fe7bfeff13b6c7356688ffa670]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Martin-Oliveira/kernfs-remove-page_mkwrite-from-vm_operations_struct/20240612-023130
+base:   83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+patch link:    https://lore.kernel.org/r/20240611182732.360317-2-martin.oliveira%40eideticom.com
+patch subject: [PATCH v2 1/4] kernfs: remove page_mkwrite() from vm_operations_struct
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
+config: i386-randconfig-141-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130357.6NmgCbMP-lkp@intel.com/config)
 compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406130130.JtTGRf7W-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406130357.6NmgCbMP-lkp@intel.com/
 
 smatch warnings:
-kernel/trace/ring_buffer.c:1817 rb_meta_validate_events() error: uninitialized symbol 'head_page'.
+fs/kernfs/file.c:462 kernfs_fop_mmap() error: we previously assumed 'vma->vm_ops' could be null (see line 459)
 
-vim +/head_page +1817 kernel/trace/ring_buffer.c
+vim +462 fs/kernfs/file.c
 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1744) static void rb_meta_validate_events(struct ring_buffer_per_cpu *cpu_buffer)
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1745) {
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1746) 	struct ring_buffer_meta *meta = cpu_buffer->ring_meta;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1747) 	struct buffer_page *head_page;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1748) 	unsigned long entry_bytes = 0;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1749) 	unsigned long entries = 0;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1750) 	int ret;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1751) 	int i;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1752) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1753) 	if (!meta || !meta->head_buffer)
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1754) 		return;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1755) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1756) 	/* Do the reader page first */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1757) 	ret = rb_validate_buffer(cpu_buffer->reader_page->page, cpu_buffer->cpu);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1758) 	if (ret < 0) {
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1759) 		pr_info("Ring buffer reader page is invalid\n");
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1760) 		goto invalid;
-
-head_page not set
-
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1761) 	}
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1762) 	entries += ret;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1763) 	entry_bytes += local_read(&cpu_buffer->reader_page->page->commit);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1764) 	local_set(&cpu_buffer->reader_page->entries, ret);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1765) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1766) 	head_page = cpu_buffer->head_page;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1767) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1768) 	/* If both the head and commit are on the reader_page then we are done. */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1769) 	if (head_page == cpu_buffer->reader_page &&
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1770) 	    head_page == cpu_buffer->commit_page)
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1771) 		goto done;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1772) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1773) 	/* Iterate until finding the commit page */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1774) 	for (i = 0; i < meta->nr_subbufs + 1; i++, rb_inc_page(&head_page)) {
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1775) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1776) 		/* Reader page has already been done */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1777) 		if (head_page == cpu_buffer->reader_page)
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1778) 			continue;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1779) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1780) 		ret = rb_validate_buffer(head_page->page, cpu_buffer->cpu);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1781) 		if (ret < 0) {
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1782) 			pr_info("Ring buffer meta [%d] invalid buffer page\n",
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1783) 				cpu_buffer->cpu);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1784) 			goto invalid;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1785) 		}
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1786) 		entries += ret;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1787) 		entry_bytes += local_read(&head_page->page->commit);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1788) 		local_set(&cpu_buffer->head_page->entries, ret);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1789) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1790) 		if (head_page == cpu_buffer->commit_page)
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1791) 			break;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1792) 	}
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1793) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1794) 	if (head_page != cpu_buffer->commit_page) {
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1795) 		pr_info("Ring buffer meta [%d] commit page not found\n",
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1796) 			cpu_buffer->cpu);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1797) 		goto invalid;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1798) 	}
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1799)  done:
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1800) 	local_set(&cpu_buffer->entries, entries);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1801) 	local_set(&cpu_buffer->entries_bytes, entry_bytes);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1802) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1803) 	pr_info("Ring buffer meta [%d] is from previous boot!\n", cpu_buffer->cpu);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1804) 	return;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1805) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1806)  invalid:
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1807) 	/* The content of the buffers are invalid, reset the meta data */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1808) 	meta->head_buffer = 0;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1809) 	meta->commit_buffer = 0;
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1810) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1811) 	/* Reset the reader page */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1812) 	local_set(&cpu_buffer->reader_page->entries, 0);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1813) 	local_set(&cpu_buffer->reader_page->page->commit, 0);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1814) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1815) 	/* Reset all the subbuffers */
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1816) 	for (i = 0; i < meta->nr_subbufs - 1; i++, rb_inc_page(&head_page)) {
-                                                                                                                        ^^^^^^^^^
-Uninitialized here.  Btw, what's going on with nr_subbufs +/- 1?  Why
-is it + 1 earlier and - 1 here?
-
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11 @1817) 		local_set(&head_page->entries, 0);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1818) 		local_set(&head_page->page->commit, 0);
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1819) 	}
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1820) }
+414985ae23c031 Tejun Heo           2013-11-28  415  
+c637b8acbe079e Tejun Heo           2013-12-11  416  static int kernfs_fop_mmap(struct file *file, struct vm_area_struct *vma)
+414985ae23c031 Tejun Heo           2013-11-28  417  {
+c525aaddc366df Tejun Heo           2013-12-11  418  	struct kernfs_open_file *of = kernfs_of(file);
+414985ae23c031 Tejun Heo           2013-11-28  419  	const struct kernfs_ops *ops;
+414985ae23c031 Tejun Heo           2013-11-28  420  	int rc;
+414985ae23c031 Tejun Heo           2013-11-28  421  
+9b2db6e1894577 Tejun Heo           2013-12-10  422  	/*
+9b2db6e1894577 Tejun Heo           2013-12-10  423  	 * mmap path and of->mutex are prone to triggering spurious lockdep
+9b2db6e1894577 Tejun Heo           2013-12-10  424  	 * warnings and we don't want to add spurious locking dependency
+9b2db6e1894577 Tejun Heo           2013-12-10  425  	 * between the two.  Check whether mmap is actually implemented
+9b2db6e1894577 Tejun Heo           2013-12-10  426  	 * without grabbing @of->mutex by testing HAS_MMAP flag.  See the
+c810729fe6471a Ahelenia Ziemiańska 2023-12-21  427  	 * comment in kernfs_fop_open() for more details.
+9b2db6e1894577 Tejun Heo           2013-12-10  428  	 */
+df23fc39bce03b Tejun Heo           2013-12-11  429  	if (!(of->kn->flags & KERNFS_HAS_MMAP))
+9b2db6e1894577 Tejun Heo           2013-12-10  430  		return -ENODEV;
+9b2db6e1894577 Tejun Heo           2013-12-10  431  
+414985ae23c031 Tejun Heo           2013-11-28  432  	mutex_lock(&of->mutex);
+414985ae23c031 Tejun Heo           2013-11-28  433  
+414985ae23c031 Tejun Heo           2013-11-28  434  	rc = -ENODEV;
+c637b8acbe079e Tejun Heo           2013-12-11  435  	if (!kernfs_get_active(of->kn))
+414985ae23c031 Tejun Heo           2013-11-28  436  		goto out_unlock;
+414985ae23c031 Tejun Heo           2013-11-28  437  
+324a56e16e44ba Tejun Heo           2013-12-11  438  	ops = kernfs_ops(of->kn);
+414985ae23c031 Tejun Heo           2013-11-28  439  	rc = ops->mmap(of, vma);
+b44b2140265ddf Tejun Heo           2014-04-20  440  	if (rc)
+b44b2140265ddf Tejun Heo           2014-04-20  441  		goto out_put;
+414985ae23c031 Tejun Heo           2013-11-28  442  
+414985ae23c031 Tejun Heo           2013-11-28  443  	/*
+414985ae23c031 Tejun Heo           2013-11-28  444  	 * PowerPC's pci_mmap of legacy_mem uses shmem_zero_setup()
+414985ae23c031 Tejun Heo           2013-11-28  445  	 * to satisfy versions of X which crash if the mmap fails: that
+414985ae23c031 Tejun Heo           2013-11-28  446  	 * substitutes a new vm_file, and we don't then want bin_vm_ops.
+414985ae23c031 Tejun Heo           2013-11-28  447  	 */
+414985ae23c031 Tejun Heo           2013-11-28  448  	if (vma->vm_file != file)
+414985ae23c031 Tejun Heo           2013-11-28  449  		goto out_put;
+414985ae23c031 Tejun Heo           2013-11-28  450  
+414985ae23c031 Tejun Heo           2013-11-28  451  	rc = -EINVAL;
+414985ae23c031 Tejun Heo           2013-11-28  452  	if (of->mmapped && of->vm_ops != vma->vm_ops)
+414985ae23c031 Tejun Heo           2013-11-28  453  		goto out_put;
+414985ae23c031 Tejun Heo           2013-11-28  454  
+414985ae23c031 Tejun Heo           2013-11-28  455  	/*
+414985ae23c031 Tejun Heo           2013-11-28  456  	 * It is not possible to successfully wrap close.
+414985ae23c031 Tejun Heo           2013-11-28  457  	 * So error if someone is trying to use close.
+414985ae23c031 Tejun Heo           2013-11-28  458  	 */
+414985ae23c031 Tejun Heo           2013-11-28 @459  	if (vma->vm_ops && vma->vm_ops->close)
+414985ae23c031 Tejun Heo           2013-11-28  460  		goto out_put;
+414985ae23c031 Tejun Heo           2013-11-28  461  
+927bb8d619fea4 Martin Oliveira     2024-06-11 @462  	if (vma->vm_ops->page_mkwrite)
+927bb8d619fea4 Martin Oliveira     2024-06-11  463  		goto out_put;
+927bb8d619fea4 Martin Oliveira     2024-06-11  464  
+414985ae23c031 Tejun Heo           2013-11-28  465  	rc = 0;
+05d8f255867e31 Neel Natu           2024-01-27  466  	if (!of->mmapped) {
+a1d82aff5df760 Tejun Heo           2016-12-27  467  		of->mmapped = true;
+bdb2fd7fc56e19 Tejun Heo           2022-08-27  468  		of_on(of)->nr_mmapped++;
+414985ae23c031 Tejun Heo           2013-11-28  469  		of->vm_ops = vma->vm_ops;
+05d8f255867e31 Neel Natu           2024-01-27  470  	}
+414985ae23c031 Tejun Heo           2013-11-28  471  	vma->vm_ops = &kernfs_vm_ops;
+414985ae23c031 Tejun Heo           2013-11-28  472  out_put:
+c637b8acbe079e Tejun Heo           2013-12-11  473  	kernfs_put_active(of->kn);
+414985ae23c031 Tejun Heo           2013-11-28  474  out_unlock:
+414985ae23c031 Tejun Heo           2013-11-28  475  	mutex_unlock(&of->mutex);
+414985ae23c031 Tejun Heo           2013-11-28  476  
+414985ae23c031 Tejun Heo           2013-11-28  477  	return rc;
+414985ae23c031 Tejun Heo           2013-11-28  478  }
+414985ae23c031 Tejun Heo           2013-11-28  479  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
