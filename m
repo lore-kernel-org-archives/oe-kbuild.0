@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0E4180A99
-	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 17:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C40180A93
+	for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 17:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718214309; cv=none; b=LCrmxyAM8D6C0QdDHon5uSJzp9h5d27wA3FJtNVZmMjHQXj8DS05rtaOwFfLe7z4h1/X0JyH2A4FNWFdDzthoKeg2ziEWij0u9LFfe9PqJQJUemYmCTot29k7RNQzcuA2g/+6kzXgAT3e6v9De9N9DdjvwD6SYqR391tO8Agwlk=
+	t=1718214963; cv=none; b=KvodgtmUZKi+eoNuV/0MtO9sAmRymwVovBg6nt713GKtH9T+vOdK+HviYk72wJhNKXRI738AkzljOAVthhEkJF65k6KnmEWzyuvj/C8rDIPhOsQvv39O6wie7vKJNhmOjVvCkmRK1KMr1AIl5D2XmSiwhU3tcvPlHDpVQbgDMqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718214309; c=relaxed/simple;
-	bh=Nr5D2+RZjteSqUfcRgUqmlu2ZOs4GZZwnrjyjmrUzMc=;
+	s=arc-20240116; t=1718214963; c=relaxed/simple;
+	bh=kjXnqITOCXKQbqhL//7UtkdojvaYLKHWUvaDTgZsslk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lzmg9v0aBmjnlr/y94HLZdWEkfa1YliL+aGhyPvLbI18dgMo43UxOZSV317IKD7NW9js9d8npzoz3oaGlEJliTKBj/x3p+d3k8rOt7sRuODq2fs3IAbye5L89+8U+mfcknJLpUBwbzxpZkyk2WzFKeD3dai7dxIheufF959iznk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZeAlnV/; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=etOFG8dwBLklij8z4cpNneeSqdDpCBWa3deRU9qzRENJLO6m0gtMdxXA4PstqU1YzoZXBebqufgw5CD4y8v79trOuqn0rD1nTTsLXEkA9AAlJegbSD+hdfj7enOTBwvb/IA6NWTJctpeXG6JNmcpE2s3eBysVNvDbcZnqRbbC+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZnxXaSxv; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZeAlnV/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718214307; x=1749750307;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nr5D2+RZjteSqUfcRgUqmlu2ZOs4GZZwnrjyjmrUzMc=;
-  b=nZeAlnV/6+7s4BzRp44Ha86vuHkok9lZR7TsSxxIz+P9zK5zmizPqvnE
-   8ZwExoueR7UmCoO8FiX97NNpSSL55SA9XxVX79tkafe2eIPurBDvgSxTa
-   gOHXLkw4uQS7IrrU5xPzFqEK7mebq6OxpQckLYncx6vVmjYNTVzxzbBRO
-   Wt3KQvUJj+1RjstKNFxppVAMNnR434KrwddIRAqkm+Mz4/ANxFv/jmx/8
-   jZjaC4gyVXpte2brV2ElKzW6kjBR+zUDFjmAA5D1Ehpgjvs14XqeoxONx
-   bO3uS05SP5/PpX58rTeE7fpKW8MRGjBfUaHkjWacvZ2Ki94zGcaw5YZAw
-   Q==;
-X-CSE-ConnectionGUID: XJEUrLZ7Tc6jIIPwAZrdyA==
-X-CSE-MsgGUID: 4uXB/7c0SSyQrpPAeSWv0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25676161"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="25676161"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 10:45:06 -0700
-X-CSE-ConnectionGUID: J6mfj8mTT1Sn4It5HYRFWQ==
-X-CSE-MsgGUID: X/M1pOqCR1yagPz4mfKuaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="39972316"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Jun 2024 10:45:04 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHS1u-0001mc-1H;
-	Wed, 12 Jun 2024 17:45:02 +0000
-Date: Thu, 13 Jun 2024 01:44:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZnxXaSxv"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42172ed3597so1023065e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 12 Jun 2024 10:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718214960; x=1718819760; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
+        b=ZnxXaSxvACg8exiSxvYAKQVupzcVcH6r04jQ4e8hILzGNbAPpZdRDKXbCYC/69KOp8
+         G5O4yaPd8fL+xorn5/H/VhvWQQxlt/O0hSP4ss7m3KmpzmnK8OLJLckolkE3Z/Ohg5Nv
+         Xms69juVugDPs/xX0IuilaOGqYy4eE+13jOOSX8EFMoCLJJcsLloIvLsZLN0NAg95/+3
+         hyGDVQi1tgbFXkconVLKzwOshG9xdISCe8Efuo8DezNOfrRrp2fCkOtVtbQrjaG2KGjh
+         0yGLx+imqdo/nKo34Y8UFlVQFr1my22zMj0XMjUDZXqwNLcyHiW5CfmENx+Scuxfl9RN
+         qbvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718214960; x=1718819760;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tvJCQXS3/Tl+3mYlxlklY6MBoMrYDOVhMrYLnEZI3dE=;
+        b=W9KPomYMB1yZhAzCAZfSxy5txTxFWOS70zUIJUNXfi7Lg+dk8hwluAdb6eUGBbpEye
+         9PnPcD7cSnJnu0Ao/l5Pv75pmGmMjYuJacW3G1OmzOJsofGeF47u+To5fvma3z7YbP41
+         EcSbRmJdpEqQRnZM2QFXuCqKre8R68XuxL0Aguqx+StV5W9el8aH7rYtKIk1U9yDWFRR
+         WFX1j0YTFfQdiT8kxDc0luMXHBWH76MDBvloHdm5ArRyi89+uvOAab6Y1xlQvAQDi+sQ
+         mHMs2mMeEwVLsIeWCvEeXE0LP3DI/FTJ2p7iCFe3mPGk0LqcxPiPqLUNPlBLaOXVhpz1
+         om6w==
+X-Gm-Message-State: AOJu0Yw90JptMFn+K21bnQoQV6FyVDLAbxgZZwhgxZjt65h6xrJe3J9T
+	BZYZssjbTqd30BTXKIsYcbJZ+qnnDz6OlgTrzEcJUIjmafr4Jhgs5BKxqdnbgV9BiT3U8TntwjY
+	z
+X-Google-Smtp-Source: AGHT+IFoKhOeHxPYxrsA1enZPu6y9KEeOGeQNAPrF9ALvtH32osWCLosEJykDr8cajBHUdI2GMQsIw==
+X-Received: by 2002:a05:600c:444c:b0:41b:4caa:554c with SMTP id 5b1f17b1804b1-422b6ebfc0bmr4556065e9.2.1718214959638;
+        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d2e73dsm17468817f8f.16.2024.06.12.10.55.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 10:55:59 -0700 (PDT)
+Date: Wed, 12 Jun 2024 20:55:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [trace:ring-buffer/core 7/13] kernel/trace/ring_buffer.c:1817
  rb_meta_validate_events() error: uninitialized symbol 'head_page'.
-Message-ID: <202406130130.JtTGRf7W-lkp@intel.com>
+Message-ID: <dda74df5-db9b-42dd-8cb3-5afa641f1479@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ring-buffer/core
 head:   640e052ba42d577a7f57052dbee714cf470dd145
 commit: ab776f502cfd06bb217d62cb6f4408349246a233 [7/13] ring-buffer: Validate boot range memory events
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
 config: i386-randconfig-141-20240612 (https://download.01.org/0day-ci/archive/20240613/202406130130.JtTGRf7W-lkp@intel.com/config)
 compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202406130130.JtTGRf7W-lkp@intel.com/
 
 smatch warnings:
@@ -85,8 +84,6 @@ kernel/trace/ring_buffer.c:1817 rb_meta_validate_events() error: uninitialized s
 
 vim +/head_page +1817 kernel/trace/ring_buffer.c
 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1742) 
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1743) /* If the meta data has been validated, now validate the events */
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1744) static void rb_meta_validate_events(struct ring_buffer_per_cpu *cpu_buffer)
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1745) {
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1746) 	struct ring_buffer_meta *meta = cpu_buffer->ring_meta;
@@ -104,6 +101,9 @@ ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1757) 	ret = rb_validate_buff
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1758) 	if (ret < 0) {
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1759) 		pr_info("Ring buffer reader page is invalid\n");
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1760) 		goto invalid;
+
+head_page not set
+
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1761) 	}
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1762) 	entries += ret;
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1763) 	entry_bytes += local_read(&cpu_buffer->reader_page->page->commit);
@@ -160,12 +160,16 @@ ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1813) 	local_set(&cpu_buffer-
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1814) 
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1815) 	/* Reset all the subbuffers */
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1816) 	for (i = 0; i < meta->nr_subbufs - 1; i++, rb_inc_page(&head_page)) {
+                                                                                                                        ^^^^^^^^^
+Uninitialized here.  Btw, what's going on with nr_subbufs +/- 1?  Why
+is it + 1 earlier and - 1 here?
+
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11 @1817) 		local_set(&head_page->entries, 0);
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1818) 		local_set(&head_page->page->commit, 0);
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1819) 	}
 ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1820) }
-ab776f502cfd06 Steven Rostedt (Google  2024-06-11  1821) 
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
