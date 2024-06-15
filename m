@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D7C18C05
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Jun 2024 08:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564091BDD3
+	for <oe-kbuild@lists.linux.dev>; Sat, 15 Jun 2024 08:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718438812; cv=none; b=guISFulGMZBa2MKFogIzJCYHB0f/YEoL6OJMHgr6ZoTdKYBlxi+PxFhxvk+xprb73DwtObZK9VJE7uOdfFbRnzMUGY+27vRiRBJDyJuVzEOZ98dxr2mOLNZpGwsHmhq8Np1BqrDnO9rHPu46uewH3XCtOCLuAPptNIBCKLADJiU=
+	t=1718441395; cv=none; b=uNqMJtd/65tNYfJtclaArhTXM4RZQF2X5F7hD6UgiMQ1tWCNwE7lM6klZLayxecVjSc13yHfpowPZ0KF5vko16kT2aZi77I33QxlZDvjN1NwBHg4k6bQ0ngtEyNidveSMNOeoXKX9vSHSB+dGaPoU3a/nTrXD2jTEqNZi2gRzCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718438812; c=relaxed/simple;
-	bh=4+4JRZ0yETvOFruaTML9Rl+jdL3DR5bCrIXr4KIi9bA=;
+	s=arc-20240116; t=1718441395; c=relaxed/simple;
+	bh=E+2LRhn3leWP+V/7bRgmg39WlahznOwCOyI9/I9zSDc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QrOhgni2RvVJmMyV2VTy7D28AnVBsrIMsYNaQmAEfrp2wQZgS2WVtev61A+OvKtybIlgf3VMjuBD8hF61XvOBFv25B8xDke1mZfPUspiGBL7z659p17A7NzwRP/SfXsNFR1cw9/k7bh1tbYM7s8ZpMcZ3/9AJTJLWRhb8Y7z0oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NykBoQHt; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=ONQabHvn68uqb57mAGnptqWW/Wx5yF+31wMmqSmHyo8cbxWsr1SZd4MJtNqYYXcdtDXOaOHUK1GMOJZlQWqaaNoNF2PgoFNKtzWMcYBC3LTdUdSSmlPceqnG1YgIlv8A8nBfYC7qWkojlXZl1/PpiMBcVoHgzNRFIJeIomr5h34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kp/NMjkm; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NykBoQHt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kp/NMjkm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718438811; x=1749974811;
+  t=1718441393; x=1749977393;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4+4JRZ0yETvOFruaTML9Rl+jdL3DR5bCrIXr4KIi9bA=;
-  b=NykBoQHt/Ylpkpy1B3t91FZmy+OXABMhwAi2ffiKtx249nXxg/W8VkXZ
-   oHrRqSgsyoq9GbrYU4yN6A2pfyXaxosSg/YqO4MJzyQUK+BEX4vNnn59A
-   4KLVciS/Jt3QIs2lwVF3YkNVY4Xe0dxGyyfVWmOiI6V6rt8tMgSbiLXLw
-   ehKGYEbEkcSNUlMUsS6RysL966Vq27aoOpa84EUeaVPjc/a6d4F2AFbRN
-   dRTNVWoE+jbOBhaifU/eVRRrlllxDUJw6grpde6dVbsWlF8MLbMT6lVAo
-   Edj58rDLK4LiVEM99j8rvVoH4sSi8Cg4Qd5H/VtC4u4bvKbKA1Ww71z5F
-   w==;
-X-CSE-ConnectionGUID: XYkOsEE1TtGozB/YdCxMXQ==
-X-CSE-MsgGUID: Wa2MXJlpR5aGFglV/Y7KRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15562857"
+  bh=E+2LRhn3leWP+V/7bRgmg39WlahznOwCOyI9/I9zSDc=;
+  b=Kp/NMjkmEMFEGqS5tqsLu/P3zHoHsrFC8m2dThg/18OSqzVwVtDYBPmi
+   ZEI6YSu8cC4t/PdKccIvZ/JAExBCUTAulc+EUNuSxyqQFFeO+Ux9zQQ12
+   KlEM1e+osHBo3SUJwVqjC+ZJzlrHzCayNj373OHqaCDG4dScmA8V0jK4q
+   GxZvmdpWf4aRvzuwT/PUyty8mWgpE+NP83I28MLkwWm1Qhk1gYm706cPX
+   ek4FHYzLHctS/O9jM5s59zlcvmEEkc1+o2ePHhaeggGYgZAoreoR/lDVw
+   kiuGrpMnpNw5ckUI8MXcn346FM4aOsqer4zTt2W85ZTbk4Ngx2Usf7RMy
+   Q==;
+X-CSE-ConnectionGUID: OPB28/XzSvyDO/Gd81IPVw==
+X-CSE-MsgGUID: bS+iHzqaTFqKBkElQhK8jQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15485663"
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="15562857"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 01:06:50 -0700
-X-CSE-ConnectionGUID: IVBEh3THR7uW5CP9om81uw==
-X-CSE-MsgGUID: PG0ERIeYQRiQoq0uh6UP+w==
+   d="scan'208";a="15485663"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 01:49:53 -0700
+X-CSE-ConnectionGUID: YEiDimu9QGuQc4oI50S9pw==
+X-CSE-MsgGUID: ahLbFr+MSr60/cuLqbG9/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="78213233"
+   d="scan'208";a="40679658"
 Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jun 2024 01:06:50 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 15 Jun 2024 01:49:51 -0700
 Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIOQw-0002Lp-2p;
-	Sat, 15 Jun 2024 08:06:46 +0000
-Date: Sat, 15 Jun 2024 16:06:42 +0800
+	id 1sIP6b-0002Ov-1A;
+	Sat, 15 Jun 2024 08:49:49 +0000
+Date: Sat, 15 Jun 2024 16:49:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 1/2] mailbox: Add power_get/power_put API to mbox_chan_ops
-Message-ID: <202406151520.TDnOFFbV-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 1/2] selftests: kvm: remove print_skip()
+Message-ID: <202406151641.BjqL765q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,121 +61,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240614040133.24967-2-jason-jh.lin@mediatek.com>
-References: <20240614040133.24967-2-jason-jh.lin@mediatek.com>
-TO: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-TO: Jassi Brar <jassisinghbrar@gmail.com>
-TO: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
-CC: "Jason-JH . Lin" <jason-jh.lin@mediatek.com>
-CC: Singo Chang <singo.chang@mediatek.com>
-CC: Nancy Lin <nancy.lin@mediatek.com>
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20240612104500.425012-1-usama.anjum@collabora.com>
+References: <20240612104500.425012-1-usama.anjum@collabora.com>
+TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
+TO: Marc Zyngier <maz@kernel.org>
+TO: Oliver Upton <oliver.upton@linux.dev>
+TO: James Morse <james.morse@arm.com>
+TO: Suzuki K Poulose <suzuki.poulose@arm.com>
+TO: Zenghui Yu <yuzenghui@huawei.com>
+TO: Paolo Bonzini <pbonzini@redhat.com>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+TO: Christian Borntraeger <borntraeger@linux.ibm.com>
+TO: Janosch Frank <frankja@linux.ibm.com>
+TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
+TO: David Hildenbrand <david@redhat.com>
+TO: Sean Christopherson <seanjc@google.com>
+TO: Haibo Xu <haibo1.xu@intel.com>
+TO: Anup Patel <anup@brainfault.org>
+TO: Andrew Jones <ajones@ventanamicro.com>
+TO: Aaron Lewis <aaronlewis@google.com>
+TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
+TO: Thomas Huth <thuth@redhat.com>
+TO: "Maciej Wieczor-Retman" <maciej.wieczor-retman@intel.com>
+TO: Vitaly Kuznetsov <vkuznets@redhat.com>
+CC: kernel@collabora.com
 CC: linux-arm-kernel@lists.infradead.org
-CC: linux-mediatek@lists.infradead.org
-CC: Project_Global_Chrome_Upstream_Group@mediatek.com
+CC: kvmarm@lists.linux.dev
+CC: kvm@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
 
-Hi Jason-JH.Lin,
+Hi Muhammad,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.10-rc3 next-20240613]
+[auto build test WARNING on kvm/queue]
+[also build test WARNING on kvmarm/next kvms390/next linus/master v6.10-rc3 next-20240613]
+[cannot apply to kvm/linux-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/mailbox-Add-power_get-power_put-API-to-mbox_chan_ops/20240614-120412
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240614040133.24967-2-jason-jh.lin%40mediatek.com
-patch subject: [PATCH 1/2] mailbox: Add power_get/power_put API to mbox_chan_ops
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-config: x86_64-randconfig-161-20240615 (https://download.01.org/0day-ci/archive/20240615/202406151520.TDnOFFbV-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/selftests-kvm-replace-exit-with-ksft_exit_fail_msg/20240612-184820
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20240612104500.425012-1-usama.anjum%40collabora.com
+patch subject: [PATCH 1/2] selftests: kvm: remove print_skip()
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151641.BjqL765q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406151520.TDnOFFbV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406151641.BjqL765q-lkp@intel.com/
 
-smatch warnings:
-drivers/mailbox/mailbox.c:485 mbox_request_channel() error: 'chan' dereferencing possible ERR_PTR()
+All warnings (new ones prefixed by >>):
 
-vim +/chan +485 drivers/mailbox/mailbox.c
+>> x86_64/hyperv_cpuid.c:155:1: warning: unused label 'do_sys' [-Wunused-label]
+     155 | do_sys:
+         | ^~~~~~~
+>> x86_64/hyperv_cpuid.c:165:1: warning: unused label 'out' [-Wunused-label]
+     165 | out:
+         | ^~~~
+   2 warnings generated.
 
-85a953806557db Elliot Berman   2023-04-10  426  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  427  /**
-2b6d83e2b8b7de Jassi Brar      2014-06-12  428   * mbox_request_channel - Request a mailbox channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  429   * @cl: Identity of the client requesting the channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  430   * @index: Index of mailbox specifier in 'mboxes' property.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  431   *
-2b6d83e2b8b7de Jassi Brar      2014-06-12  432   * The Client specifies its requirements and capabilities while asking for
-2b6d83e2b8b7de Jassi Brar      2014-06-12  433   * a mailbox channel. It can't be called from atomic context.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  434   * The channel is exclusively allocated and can't be used by another
-2b6d83e2b8b7de Jassi Brar      2014-06-12  435   * client before the owner calls mbox_free_channel.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  436   * After assignment, any packet received on this channel will be
-2b6d83e2b8b7de Jassi Brar      2014-06-12  437   * handed over to the client via the 'rx_callback'.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  438   * The framework holds reference to the client, so the mbox_client
-2b6d83e2b8b7de Jassi Brar      2014-06-12  439   * structure shouldn't be modified until the mbox_free_channel returns.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  440   *
-2b6d83e2b8b7de Jassi Brar      2014-06-12  441   * Return: Pointer to the channel assigned to the client if successful.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  442   *		ERR_PTR for request failure.
-2b6d83e2b8b7de Jassi Brar      2014-06-12  443   */
-2b6d83e2b8b7de Jassi Brar      2014-06-12  444  struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
-2b6d83e2b8b7de Jassi Brar      2014-06-12  445  {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  446  	struct device *dev = cl->dev;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  447  	struct mbox_controller *mbox;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  448  	struct of_phandle_args spec;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  449  	struct mbox_chan *chan;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  450  	int ret;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  451  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  452  	if (!dev || !dev->of_node) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  453  		pr_debug("%s: No owner device node\n", __func__);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  454  		return ERR_PTR(-ENODEV);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  455  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  456  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  457  	mutex_lock(&con_mutex);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  458  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  459  	if (of_parse_phandle_with_args(dev->of_node, "mboxes",
-2b6d83e2b8b7de Jassi Brar      2014-06-12  460  				       "#mbox-cells", index, &spec)) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  461  		dev_dbg(dev, "%s: can't parse \"mboxes\" property\n", __func__);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  462  		mutex_unlock(&con_mutex);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  463  		return ERR_PTR(-ENODEV);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  464  	}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  465  
-2d805fc1c6b2ec Benson Leung    2015-05-04  466  	chan = ERR_PTR(-EPROBE_DEFER);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  467  	list_for_each_entry(mbox, &mbox_cons, node)
-2b6d83e2b8b7de Jassi Brar      2014-06-12  468  		if (mbox->dev->of_node == spec.np) {
-2b6d83e2b8b7de Jassi Brar      2014-06-12  469  			chan = mbox->of_xlate(mbox, &spec);
-8ed82e23875e60 Mikko Perttunen 2018-11-28  470  			if (!IS_ERR(chan))
-2b6d83e2b8b7de Jassi Brar      2014-06-12  471  				break;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  472  		}
-2b6d83e2b8b7de Jassi Brar      2014-06-12  473  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  474  	of_node_put(spec.np);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  475  
-2d805fc1c6b2ec Benson Leung    2015-05-04  476  	if (IS_ERR(chan)) {
-2d805fc1c6b2ec Benson Leung    2015-05-04  477  		mutex_unlock(&con_mutex);
-2d805fc1c6b2ec Benson Leung    2015-05-04  478  		return chan;
-2d805fc1c6b2ec Benson Leung    2015-05-04  479  	}
-2d805fc1c6b2ec Benson Leung    2015-05-04  480  
-85a953806557db Elliot Berman   2023-04-10  481  	ret = __mbox_bind_client(chan, cl);
-85a953806557db Elliot Berman   2023-04-10  482  	if (ret)
-2b6d83e2b8b7de Jassi Brar      2014-06-12  483  		chan = ERR_PTR(ret);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  484  
-9c57f48cd805b1 Jason-JH.Lin    2024-06-14 @485  	if (chan->mbox->ops->power_put)
-9c57f48cd805b1 Jason-JH.Lin    2024-06-14  486  		chan->mbox->ops->power_put(chan);
-9c57f48cd805b1 Jason-JH.Lin    2024-06-14  487  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  488  	mutex_unlock(&con_mutex);
-9c57f48cd805b1 Jason-JH.Lin    2024-06-14  489  
-2b6d83e2b8b7de Jassi Brar      2014-06-12  490  	return chan;
-2b6d83e2b8b7de Jassi Brar      2014-06-12  491  }
-2b6d83e2b8b7de Jassi Brar      2014-06-12  492  EXPORT_SYMBOL_GPL(mbox_request_channel);
-2b6d83e2b8b7de Jassi Brar      2014-06-12  493  
+
+vim +/do_sys +155 tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
+
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  128  
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  129  int main(int argc, char *argv[])
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  130  {
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  131  	struct kvm_vm *vm;
+813e38cd6d7b42 Sean Christopherson  2022-06-14  132  	const struct kvm_cpuid2 *hv_cpuid_entries;
+5c6e31b3bc4b52 Sean Christopherson  2022-02-15  133  	struct kvm_vcpu *vcpu;
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  134  
+7ed397d107d461 Sean Christopherson  2022-05-27  135  	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_CPUID));
+7edcb73433276d Vitaly Kuznetsov     2018-12-10  136  
+5c6e31b3bc4b52 Sean Christopherson  2022-02-15  137  	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  138  
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  139  	/* Test vCPU ioctl version */
+5c6e31b3bc4b52 Sean Christopherson  2022-02-15  140  	test_hv_cpuid_e2big(vm, vcpu);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  141  
+768e9a61856b75 Sean Christopherson  2022-06-02  142  	hv_cpuid_entries = vcpu_get_supported_hv_cpuid(vcpu);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  143  	test_hv_cpuid(hv_cpuid_entries, false);
+813e38cd6d7b42 Sean Christopherson  2022-06-14  144  	free((void *)hv_cpuid_entries);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  145  
+1ecbb337fa107c Sean Christopherson  2022-06-14  146  	if (!kvm_cpu_has(X86_FEATURE_VMX) ||
+a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  147  	    !kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS))
+a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  148  		ksft_exit_skip("Enlightened VMCS is unsupported\n");
+a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  149  
+768e9a61856b75 Sean Christopherson  2022-06-02  150  	vcpu_enable_evmcs(vcpu);
+768e9a61856b75 Sean Christopherson  2022-06-02  151  	hv_cpuid_entries = vcpu_get_supported_hv_cpuid(vcpu);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  152  	test_hv_cpuid(hv_cpuid_entries, true);
+813e38cd6d7b42 Sean Christopherson  2022-06-14  153  	free((void *)hv_cpuid_entries);
+8b460692fee46a Vitaly Kuznetsov     2020-09-29  154  
+8b460692fee46a Vitaly Kuznetsov     2020-09-29 @155  do_sys:
 
 -- 
 0-DAY CI Kernel Test Service
