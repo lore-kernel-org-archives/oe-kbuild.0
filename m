@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564091BDD3
-	for <oe-kbuild@lists.linux.dev>; Sat, 15 Jun 2024 08:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003C112B87
+	for <oe-kbuild@lists.linux.dev>; Sun, 16 Jun 2024 15:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718441395; cv=none; b=uNqMJtd/65tNYfJtclaArhTXM4RZQF2X5F7hD6UgiMQ1tWCNwE7lM6klZLayxecVjSc13yHfpowPZ0KF5vko16kT2aZi77I33QxlZDvjN1NwBHg4k6bQ0ngtEyNidveSMNOeoXKX9vSHSB+dGaPoU3a/nTrXD2jTEqNZi2gRzCc=
+	t=1718550445; cv=none; b=Xm1bwgdQ5dKInGAcMGlNoIOCwuY/+9vtkpGqnT1yOZBBPgjagnp3ncnpIs4wPmvYlFbfA+LXAxDAzlHzVVGEokVMqTmZ1nobBQE8lD/4Hhz0J5/Mq3T3q68Cg3P9jF+567K2g2c1aseRy9JCOGTmuf3mm5UayW87/YnxqAwe/MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718441395; c=relaxed/simple;
-	bh=E+2LRhn3leWP+V/7bRgmg39WlahznOwCOyI9/I9zSDc=;
+	s=arc-20240116; t=1718550445; c=relaxed/simple;
+	bh=Wd6Ir0rwLIlphZACifyq3u8s6fpbZs7Ga3sSkOyD+c0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ONQabHvn68uqb57mAGnptqWW/Wx5yF+31wMmqSmHyo8cbxWsr1SZd4MJtNqYYXcdtDXOaOHUK1GMOJZlQWqaaNoNF2PgoFNKtzWMcYBC3LTdUdSSmlPceqnG1YgIlv8A8nBfYC7qWkojlXZl1/PpiMBcVoHgzNRFIJeIomr5h34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kp/NMjkm; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=uYbUCeMPXWj1sIN1csdGMaS2pVpRJs0stcPynpsghT5/dZfPuavrHLjPqQr+IaZYgySfH1dDCpjthjz0ZgywBLoBLSmSspIZsnzAMJpRGWMN/kZ+84v29xiUSooSAbhjQescFqJ7FXlAOtDV8I6DphgnswY7W1Esb2h9d6jFt84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebr50Q0X; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kp/NMjkm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebr50Q0X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718441393; x=1749977393;
+  t=1718550444; x=1750086444;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E+2LRhn3leWP+V/7bRgmg39WlahznOwCOyI9/I9zSDc=;
-  b=Kp/NMjkmEMFEGqS5tqsLu/P3zHoHsrFC8m2dThg/18OSqzVwVtDYBPmi
-   ZEI6YSu8cC4t/PdKccIvZ/JAExBCUTAulc+EUNuSxyqQFFeO+Ux9zQQ12
-   KlEM1e+osHBo3SUJwVqjC+ZJzlrHzCayNj373OHqaCDG4dScmA8V0jK4q
-   GxZvmdpWf4aRvzuwT/PUyty8mWgpE+NP83I28MLkwWm1Qhk1gYm706cPX
-   ek4FHYzLHctS/O9jM5s59zlcvmEEkc1+o2ePHhaeggGYgZAoreoR/lDVw
-   kiuGrpMnpNw5ckUI8MXcn346FM4aOsqer4zTt2W85ZTbk4Ngx2Usf7RMy
-   Q==;
-X-CSE-ConnectionGUID: OPB28/XzSvyDO/Gd81IPVw==
-X-CSE-MsgGUID: bS+iHzqaTFqKBkElQhK8jQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15485663"
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="15485663"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2024 01:49:53 -0700
-X-CSE-ConnectionGUID: YEiDimu9QGuQc4oI50S9pw==
-X-CSE-MsgGUID: ahLbFr+MSr60/cuLqbG9/g==
+  bh=Wd6Ir0rwLIlphZACifyq3u8s6fpbZs7Ga3sSkOyD+c0=;
+  b=ebr50Q0XneL/+RF1qztvCXOFVyxARZe8zO29xRyuETVbt+97HEW0SqBF
+   orXBeRl81X/9QejmlFlFqZrq97XBVqb6b6OibXcgdg03tCDJW+pJPDNOl
+   ykPWfq3Wht7Crfl1TfkCulUT+/cMUDAGwoVJTgZhvgefFbbmqzRop5gib
+   gr1OWGQzE3HuKsEWH+MHcHIDwoYawkuyqvGHSo2NLaasX5Zf6BwlysZYH
+   59ugHpNRXDXmIvZoyaQa7Dc1lrWDR803pxp0UpWknNk8P6FvCh/ZEK/Nq
+   8y+0SMiOEY4EHiDTIaWquNV2vo5kWjxOmQiydabvXxnAUH3Flu23M0MfB
+   g==;
+X-CSE-ConnectionGUID: VxeBxXhZR2W2pN7zNMhSag==
+X-CSE-MsgGUID: PnlgzHByRmSNyAelAg0i9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15109028"
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="15109028"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 08:07:23 -0700
+X-CSE-ConnectionGUID: tFS14V4EQ/2QuLAjzJneUg==
+X-CSE-MsgGUID: UGrBPgW6QjOgWsk2jXJ0bQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,240,1712646000"; 
-   d="scan'208";a="40679658"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jun 2024 01:49:51 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.08,242,1712646000"; 
+   d="scan'208";a="64180524"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jun 2024 08:07:22 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sIP6b-0002Ov-1A;
-	Sat, 15 Jun 2024 08:49:49 +0000
-Date: Sat, 15 Jun 2024 16:49:08 +0800
+	id 1sIrTU-0002wI-18;
+	Sun, 16 Jun 2024 15:07:20 +0000
+Date: Sun, 16 Jun 2024 23:07:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/2] selftests: kvm: remove print_skip()
-Message-ID: <202406151641.BjqL765q-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] nfs: remove dead code for the old swap over NFS
+ implementation
+Message-ID: <202406162226.EHq7u0eB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,108 +62,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240612104500.425012-1-usama.anjum@collabora.com>
-References: <20240612104500.425012-1-usama.anjum@collabora.com>
-TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
-TO: Marc Zyngier <maz@kernel.org>
-TO: Oliver Upton <oliver.upton@linux.dev>
-TO: James Morse <james.morse@arm.com>
-TO: Suzuki K Poulose <suzuki.poulose@arm.com>
-TO: Zenghui Yu <yuzenghui@huawei.com>
-TO: Paolo Bonzini <pbonzini@redhat.com>
-TO: Shuah Khan <skhan@linuxfoundation.org>
-TO: Christian Borntraeger <borntraeger@linux.ibm.com>
-TO: Janosch Frank <frankja@linux.ibm.com>
-TO: Claudio Imbrenda <imbrenda@linux.ibm.com>
-TO: David Hildenbrand <david@redhat.com>
-TO: Sean Christopherson <seanjc@google.com>
-TO: Haibo Xu <haibo1.xu@intel.com>
-TO: Anup Patel <anup@brainfault.org>
-TO: Andrew Jones <ajones@ventanamicro.com>
-TO: Aaron Lewis <aaronlewis@google.com>
-TO: Muhammad Usama Anjum <usama.anjum@collabora.com>
-TO: Thomas Huth <thuth@redhat.com>
-TO: "Maciej Wieczor-Retman" <maciej.wieczor-retman@intel.com>
-TO: Vitaly Kuznetsov <vkuznets@redhat.com>
-CC: kernel@collabora.com
-CC: linux-arm-kernel@lists.infradead.org
-CC: kvmarm@lists.linux.dev
-CC: kvm@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+In-Reply-To: <20240615080827.1239935-1-hch@lst.de>
+References: <20240615080827.1239935-1-hch@lst.de>
+TO: Christoph Hellwig <hch@lst.de>
+TO: trondmy@kernel.org
+TO: anna@kernel.org
+CC: linux-nfs@vger.kernel.org
 
-Hi Muhammad,
+Hi Christoph,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvmarm/next kvms390/next linus/master v6.10-rc3 next-20240613]
-[cannot apply to kvm/linux-next]
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.10-rc3]
+[cannot apply to next-20240613]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/selftests-kvm-replace-exit-with-ksft_exit_fail_msg/20240612-184820
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20240612104500.425012-1-usama.anjum%40collabora.com
-patch subject: [PATCH 1/2] selftests: kvm: remove print_skip()
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/nfs-remove-dead-code-for-the-old-swap-over-NFS-implementation/20240615-161031
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20240615080827.1239935-1-hch%40lst.de
+patch subject: [PATCH] nfs: remove dead code for the old swap over NFS implementation
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-161-20240616 (https://download.01.org/0day-ci/archive/20240616/202406162226.EHq7u0eB-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240615/202406151641.BjqL765q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406151641.BjqL765q-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406162226.EHq7u0eB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/nfs/write.c:737 nfs_inode_remove_request() warn: variable dereferenced before check 'folio' (see line 734)
 
->> x86_64/hyperv_cpuid.c:155:1: warning: unused label 'do_sys' [-Wunused-label]
-     155 | do_sys:
-         | ^~~~~~~
->> x86_64/hyperv_cpuid.c:165:1: warning: unused label 'out' [-Wunused-label]
-     165 | out:
-         | ^~~~
-   2 warnings generated.
+vim +/folio +737 fs/nfs/write.c
 
-
-vim +/do_sys +155 tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  128  
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  129  int main(int argc, char *argv[])
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  130  {
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  131  	struct kvm_vm *vm;
-813e38cd6d7b42 Sean Christopherson  2022-06-14  132  	const struct kvm_cpuid2 *hv_cpuid_entries;
-5c6e31b3bc4b52 Sean Christopherson  2022-02-15  133  	struct kvm_vcpu *vcpu;
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  134  
-7ed397d107d461 Sean Christopherson  2022-05-27  135  	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_CPUID));
-7edcb73433276d Vitaly Kuznetsov     2018-12-10  136  
-5c6e31b3bc4b52 Sean Christopherson  2022-02-15  137  	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  138  
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  139  	/* Test vCPU ioctl version */
-5c6e31b3bc4b52 Sean Christopherson  2022-02-15  140  	test_hv_cpuid_e2big(vm, vcpu);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  141  
-768e9a61856b75 Sean Christopherson  2022-06-02  142  	hv_cpuid_entries = vcpu_get_supported_hv_cpuid(vcpu);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  143  	test_hv_cpuid(hv_cpuid_entries, false);
-813e38cd6d7b42 Sean Christopherson  2022-06-14  144  	free((void *)hv_cpuid_entries);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  145  
-1ecbb337fa107c Sean Christopherson  2022-06-14  146  	if (!kvm_cpu_has(X86_FEATURE_VMX) ||
-a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  147  	    !kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS))
-a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  148  		ksft_exit_skip("Enlightened VMCS is unsupported\n");
-a9af8b5d3d419a Muhammad Usama Anjum 2024-06-12  149  
-768e9a61856b75 Sean Christopherson  2022-06-02  150  	vcpu_enable_evmcs(vcpu);
-768e9a61856b75 Sean Christopherson  2022-06-02  151  	hv_cpuid_entries = vcpu_get_supported_hv_cpuid(vcpu);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  152  	test_hv_cpuid(hv_cpuid_entries, true);
-813e38cd6d7b42 Sean Christopherson  2022-06-14  153  	free((void *)hv_cpuid_entries);
-8b460692fee46a Vitaly Kuznetsov     2020-09-29  154  
-8b460692fee46a Vitaly Kuznetsov     2020-09-29 @155  do_sys:
+^1da177e4c3f41 Linus Torvalds          2005-04-16  724  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  725  /*
+89a09141df6ac1 Peter Zijlstra          2007-03-16  726   * Remove a write request from an inode
+^1da177e4c3f41 Linus Torvalds          2005-04-16  727   */
+^1da177e4c3f41 Linus Torvalds          2005-04-16  728  static void nfs_inode_remove_request(struct nfs_page *req)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  729  {
+6a6d4644ce935d Scott Mayhew            2023-10-11  730  	struct nfs_inode *nfsi = NFS_I(nfs_page_to_inode(req));
+6a6d4644ce935d Scott Mayhew            2023-10-11  731  
+20633f042fd090 Weston Andros Adamson   2014-05-15  732  	if (nfs_page_group_sync_on_bit(req, PG_REMOVE)) {
+0c493b5cf16e28 Trond Myklebust         2023-01-19  733  		struct folio *folio = nfs_page_to_folio(req->wb_head);
+a43a94f57a0e00 Christoph Hellwig       2024-06-15 @734  		struct address_space *mapping = folio->mapping;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  735  
+600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17  736) 		spin_lock(&mapping->i_private_lock);
+a43a94f57a0e00 Christoph Hellwig       2024-06-15 @737  		if (likely(folio)) {
+0c493b5cf16e28 Trond Myklebust         2023-01-19  738  			folio->private = NULL;
+0c493b5cf16e28 Trond Myklebust         2023-01-19  739  			folio_clear_private(folio);
+0c493b5cf16e28 Trond Myklebust         2023-01-19  740  			clear_bit(PG_MAPPED, &req->wb_head->wb_flags);
+29418aa4bd487c Mel Gorman              2012-07-31  741  		}
+600f111ef51dc2 Matthew Wilcox (Oracle  2023-11-17  742) 		spin_unlock(&mapping->i_private_lock);
+20633f042fd090 Weston Andros Adamson   2014-05-15  743  	}
+17089a29a25a3b Weston Andros Adamson   2014-07-11  744  
+33ea5aaa87cdae ZhangXiaoxu             2019-09-26  745  	if (test_and_clear_bit(PG_INODE_REF, &req->wb_flags)) {
+6a6d4644ce935d Scott Mayhew            2023-10-11  746  		atomic_long_dec(&nfsi->nrequests);
+dd1b2026323a2d Jeff Layton             2023-09-19  747  		nfs_release_request(req);
+33ea5aaa87cdae ZhangXiaoxu             2019-09-26  748  	}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  749  }
+^1da177e4c3f41 Linus Torvalds          2005-04-16  750  
 
 -- 
 0-DAY CI Kernel Test Service
