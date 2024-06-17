@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAE0186287
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 20:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F50019146C
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 22:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718655063; cv=none; b=FF9pZVhPmFtuJ+Zp5oOR8PMH+K0XuRhU3CjheZwjt3D/ulqWUtOsIPOu4N7ujBuGcnOcseKE7FxLxaPxa2/WTLPUXMJDBieJHET5wPs2DJYi8CeOtZQ9zSS02CLi79AQarZ+Nz7r6YLjLaXcGiExqN+QqdxkYZ+GWIRi+IKDcpc=
+	t=1718663058; cv=none; b=o40311G1DjFGwF0VFS+HLKMtGSAE2fF3W0DQ61bHB7CiHCsifAeO2VVOkiaTZBt4xN5Dh2vpyW3ZqWpVPRb84IHxcHIUIepc7Mp34AKNOn3Pf62R7wQcHeJyQIb0VKCxblEpCVWkelYOWGvktAgCeBoK00NWy9FpmfE7XxLDAmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718655063; c=relaxed/simple;
-	bh=Cdq6BhCOeo5eztYxxnjrbyB9KYpSKLRXKZkUp1ijaIA=;
+	s=arc-20240116; t=1718663058; c=relaxed/simple;
+	bh=nwKhSBAsVOCDlnPhMhzKX+Q8o048E1Wyd47ztEWBbPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qrWwiaF2j4IyGa2YI6P0D9aNTuoP2efA4vDLRUQNajQZ+cPVlwIylGZJsLB293x1hI9NBBBMmOY3kwe500ZPqBwDwOFT5lvoDeO35RgRaWN84c8J0ZOvZ6GjOql0Lp7O8BGwxoxEB+MqtK/MpdEPHukCn7sd+E372v2VT42bRAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSdHX9q6; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=pQbXGfcSIIXZltgBW4SIVSn0eTRTV6u0c0u8yAtYqejRLyOgN1jo7oxnqWHvN1HK2bn1oNdyJoJFHxsrg/zOKv6c/T80z9nxw01G/5lRTlfhAx3tkSQA0AwP5hCZmSQpD67VRxNWyqZJZ1kz8NorVGmYOguyIM03i6aS14ZYEcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0GMUeob; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSdHX9q6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0GMUeob"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718655062; x=1750191062;
+  t=1718663056; x=1750199056;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cdq6BhCOeo5eztYxxnjrbyB9KYpSKLRXKZkUp1ijaIA=;
-  b=iSdHX9q6lyUgByJs11eBxC5s1K/31xbapiqmOCWQ11b6fni7gokWJz1P
-   6mxxt4IIBojT4iZ8HXGdkbk+F7nr0bmgTcViwWOJthercvlrKAIn3U4b6
-   M/FTV06gZmHIX7cQkzyPyQiTpDh3NGy24jQGSHbT9lbmGyr1FXnzDXb8h
-   KGbydIWKJRm9UhHQqGDaeC0do/fW2SJHhgR+K7dvVtmAE/6NiikHzy8H0
-   eRImJo1a16H3SuyX6GBt+Ce8b51bXmdR+Rwv3ApZzHFyd/zLh+p8I4E0C
-   JTHGLvKHj9xTIMMKlupznIthDtmI8+rH6TPY1kB4mUd6UJS6i4JA5GaFq
-   w==;
-X-CSE-ConnectionGUID: g6Jz3EuwSRKtCE2js0u5Og==
-X-CSE-MsgGUID: 5qs1UKlCRBWHm4hCdT9X5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="38028494"
+  bh=nwKhSBAsVOCDlnPhMhzKX+Q8o048E1Wyd47ztEWBbPA=;
+  b=h0GMUeobTa6p8YPkN0pWqxsT8oQUjHBEKHVsrYLSIoQ8M/3DD42Y2wOv
+   VUk7fZQ2n9MV+GfNDUtEuRYtgswi8JjJlAlSeDsPQYZjPY1mn7mPTn59x
+   x+yRuDM/5+FNd3l/qvJhgGPrrCb0vLpHmYPYNxQ3DY9cc131Gny36CPOu
+   r+6gkKu1Ou1zC2LP9Ov1yleoc6efwUprNl1q/OQUuTRdSsXZT/l+o5a9o
+   WbQO+uKyFZSuCCEf+UWh3nOAusDOPbR8IfX9luMCY2TkxGYLcr3T3mVNp
+   aYaqIJzDurw/qlvsx/PJNayloHQtIE4mznsHidlfNN/oxtuxIoP3B1kxj
+   g==;
+X-CSE-ConnectionGUID: ZvYZ8cwbTFmFmUacihB/Hw==
+X-CSE-MsgGUID: fhkGPfKxR9+fnu+eQEQz7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15657822"
 X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="38028494"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 13:11:01 -0700
-X-CSE-ConnectionGUID: 4LQOsT5ETfe5BLxuIepHWw==
-X-CSE-MsgGUID: 0hgWqrXATR2SBefHKSjQow==
+   d="scan'208";a="15657822"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 15:24:15 -0700
+X-CSE-ConnectionGUID: Z96yXUXdTj27G25JGHPFRQ==
+X-CSE-MsgGUID: BLyzEbwTQOOwt8wTyrP0mA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
-   d="scan'208";a="72501947"
+   d="scan'208";a="46248635"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Jun 2024 13:11:00 -0700
+  by orviesa003.jf.intel.com with ESMTP; 17 Jun 2024 15:24:15 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJIgr-0004qr-1X;
-	Mon, 17 Jun 2024 20:10:57 +0000
-Date: Tue, 18 Jun 2024 04:10:09 +0800
+	id 1sJKln-0004wb-2u;
+	Mon, 17 Jun 2024 22:24:11 +0000
+Date: Tue, 18 Jun 2024 06:23:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [kvm-x86:mmu 6/7] arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding
- lock on line 1439
-Message-ID: <202406180451.wxfv6W1a-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [wireless:main 3/8]
+ drivers/net/wireless/intel/iwlwifi/mvm/time-event.c:1279 iwl_mvm_stop_roc()
+ warn: inconsistent returns '&mvm->mutex'.
+Message-ID: <202406180614.46Y2Gxz4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,122 +65,96 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Matlack <dmatlack@google.com>
-CC: Sean Christopherson <seanjc@google.com>
+CC: Johannes Berg <johannes@sipsolutions.net>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: linux-wireless@vger.kernel.org
+TO: Shaul Triebitz <shaul.triebitz@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-Hi David,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://github.com/kvm-x86/linux mmu
-head:   0089c055b56024edf90e85dc852440b713ce8cb5
-commit: 3d4a5a45ca26f8de9e0a4f384a2fb0967b8566b5 [6/7] KVM: x86/mmu: Unnest TDP MMU helpers that allocate SPs for eager splitting
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-102-20240618 (https://download.01.org/0day-ci/archive/20240618/202406180451.wxfv6W1a-lkp@intel.com/config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless.git main
+head:   0d9c2beed116e623ac30810d382bd67163650f98
+commit: d792011b6c282bfb787eb2893538e5e336d5e982 [3/8] wifi: iwlwifi: mvm: unlock mvm mutex
+:::::: branch date: 4 days ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-141-20240618 (https://download.01.org/0day-ci/archive/20240618/202406180614.46Y2Gxz4-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202406180451.wxfv6W1a-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406180614.46Y2Gxz4-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
->> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
-   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
-   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
+smatch warnings:
+drivers/net/wireless/intel/iwlwifi/mvm/time-event.c:1279 iwl_mvm_stop_roc() warn: inconsistent returns '&mvm->mutex'.
 
-vim +1475 arch/x86/kvm/mmu/tdp_mmu.c
+vim +1279 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c
 
-a3fe5dbda0a4bb David Matlack 2022-01-19  1397  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1398  static int tdp_mmu_split_huge_pages_root(struct kvm *kvm,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1399  					 struct kvm_mmu_page *root,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1400  					 gfn_t start, gfn_t end,
-cb00a70bd4b7e4 David Matlack 2022-01-19  1401  					 int target_level, bool shared)
-a3fe5dbda0a4bb David Matlack 2022-01-19  1402  {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1403  	struct kvm_mmu_page *sp = NULL;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1404  	struct tdp_iter iter;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1405  	int ret = 0;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1406  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1407  	rcu_read_lock();
-a3fe5dbda0a4bb David Matlack 2022-01-19  1408  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1409  	/*
-a3fe5dbda0a4bb David Matlack 2022-01-19  1410  	 * Traverse the page table splitting all huge pages above the target
-a3fe5dbda0a4bb David Matlack 2022-01-19  1411  	 * level into one lower level. For example, if we encounter a 1GB page
-a3fe5dbda0a4bb David Matlack 2022-01-19  1412  	 * we split it into 512 2MB pages.
-a3fe5dbda0a4bb David Matlack 2022-01-19  1413  	 *
-a3fe5dbda0a4bb David Matlack 2022-01-19  1414  	 * Since the TDP iterator uses a pre-order traversal, we are guaranteed
-a3fe5dbda0a4bb David Matlack 2022-01-19  1415  	 * to visit an SPTE before ever visiting its children, which means we
-a3fe5dbda0a4bb David Matlack 2022-01-19  1416  	 * will correctly recursively split huge pages that are more than one
-a3fe5dbda0a4bb David Matlack 2022-01-19  1417  	 * level above the target level (e.g. splitting a 1GB to 512 2MB pages,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1418  	 * and then splitting each of those to 512 4KB pages).
-a3fe5dbda0a4bb David Matlack 2022-01-19  1419  	 */
-a3fe5dbda0a4bb David Matlack 2022-01-19  1420  	for_each_tdp_pte_min_level(iter, root, target_level + 1, start, end) {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1421  retry:
-cb00a70bd4b7e4 David Matlack 2022-01-19  1422  		if (tdp_mmu_iter_cond_resched(kvm, &iter, false, shared))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1423  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1424  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1425  		if (!is_shadow_present_pte(iter.old_spte) || !is_large_pte(iter.old_spte))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1426  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1427  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1428  		if (!sp) {
-3d4a5a45ca26f8 David Matlack 2024-06-11  1429  			rcu_read_unlock();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1430  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1431  			if (shared)
-3d4a5a45ca26f8 David Matlack 2024-06-11  1432  				read_unlock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1433  			else
-3d4a5a45ca26f8 David Matlack 2024-06-11  1434  				write_unlock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1435  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1436  			sp = tdp_mmu_alloc_sp_for_split();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1437  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1438  			if (shared)
-3d4a5a45ca26f8 David Matlack 2024-06-11 @1439  				read_lock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1440  			else
-3d4a5a45ca26f8 David Matlack 2024-06-11  1441  				write_lock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1442  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1443  			rcu_read_lock();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1444  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1445  			if (!sp) {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1446  				ret = -ENOMEM;
-e0b728b1f1a951 David Matlack 2022-01-19  1447  				trace_kvm_mmu_split_huge_page(iter.gfn,
-e0b728b1f1a951 David Matlack 2022-01-19  1448  							      iter.old_spte,
-e0b728b1f1a951 David Matlack 2022-01-19  1449  							      iter.level, ret);
-a3fe5dbda0a4bb David Matlack 2022-01-19  1450  				break;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1451  			}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1452  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1453  			iter.yielded = true;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1454  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1455  		}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1456  
-c4b33d28ea51c7 David Matlack 2022-11-09  1457  		tdp_mmu_init_child_sp(sp, &iter);
-c4b33d28ea51c7 David Matlack 2022-11-09  1458  
-cb00a70bd4b7e4 David Matlack 2022-01-19  1459  		if (tdp_mmu_split_huge_page(kvm, &iter, sp, shared))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1460  			goto retry;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1461  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1462  		sp = NULL;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1463  	}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1464  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1465  	rcu_read_unlock();
-a3fe5dbda0a4bb David Matlack 2022-01-19  1466  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1467  	/*
-a3fe5dbda0a4bb David Matlack 2022-01-19  1468  	 * It's possible to exit the loop having never used the last sp if, for
-a3fe5dbda0a4bb David Matlack 2022-01-19  1469  	 * example, a vCPU doing HugePage NX splitting wins the race and
-a3fe5dbda0a4bb David Matlack 2022-01-19  1470  	 * installs its own sp in place of the last sp we tried to split.
-a3fe5dbda0a4bb David Matlack 2022-01-19  1471  	 */
-a3fe5dbda0a4bb David Matlack 2022-01-19  1472  	if (sp)
-a3fe5dbda0a4bb David Matlack 2022-01-19  1473  		tdp_mmu_free_sp(sp);
-a3fe5dbda0a4bb David Matlack 2022-01-19  1474  
-a3fe5dbda0a4bb David Matlack 2022-01-19 @1475  	return ret;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1476  }
-a3fe5dbda0a4bb David Matlack 2022-01-19  1477  
+67ac248e4db0a7 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Shaul Triebitz        2023-10-11  1224  
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1225  void iwl_mvm_stop_roc(struct iwl_mvm *mvm, struct ieee80211_vif *vif)
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1226  {
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1227  	struct iwl_mvm_vif *mvmvif;
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1228  	struct iwl_mvm_time_event_data *te_data;
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/time-event.c       Johannes Berg         2013-01-24  1229  
+a1efeb82308402 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Yedidya Benshimol     2024-05-05  1230  	mutex_lock(&mvm->mutex);
+a1efeb82308402 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Yedidya Benshimol     2024-05-05  1231  
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1232  	if (fw_has_capa(&mvm->fw->ucode_capa,
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1233  			IWL_UCODE_TLV_CAPA_SESSION_PROT_CMD)) {
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1234  		mvmvif = iwl_mvm_vif_from_mac80211(vif);
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1235  		te_data = &mvmvif->time_event_data;
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1236  
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1237  		if (vif->type == NL80211_IFTYPE_P2P_DEVICE) {
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1238  			if (te_data->id >= SESSION_PROTECT_CONF_MAX_ID) {
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1239  				IWL_DEBUG_TE(mvm,
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1240  					     "No remain on channel event\n");
+d792011b6c282b drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Shaul Triebitz        2024-06-05  1241  				mutex_unlock(&mvm->mutex);
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1242  				return;
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1243  			}
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1244  
+1350658373106e drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2023-10-17  1245  			iwl_mvm_cancel_session_protection(mvm, vif,
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1246  							  te_data->id,
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1247  							  te_data->link_id);
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1248  		} else {
+67ac248e4db0a7 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Shaul Triebitz        2023-10-11  1249  			iwl_mvm_roc_station_remove(mvm, mvmvif);
+77770189921e38 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1250  		}
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1251  		goto cleanup_roc;
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1252  	}
+fe959c7b20495f drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Emmanuel Grumbach     2019-07-11  1253  
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1254  	te_data = iwl_mvm_get_roc_te(mvm);
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1255  	if (!te_data) {
+bf5da87f60a920 drivers/net/wireless/iwlwifi/mvm/time-event.c       Matti Gottlieb        2014-11-16  1256  		IWL_WARN(mvm, "No remain on channel event\n");
+d792011b6c282b drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Shaul Triebitz        2024-06-05  1257  		mutex_unlock(&mvm->mutex);
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/time-event.c       Johannes Berg         2013-01-24  1258  		return;
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/time-event.c       Johannes Berg         2013-01-24  1259  	}
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/time-event.c       Johannes Berg         2013-01-24  1260  
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1261  	mvmvif = iwl_mvm_vif_from_mac80211(te_data->vif);
+305d236e83b664 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Eliad Peller          2015-12-09  1262  
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1263  	if (te_data->vif->type == NL80211_IFTYPE_P2P_DEVICE)
+8ca151b568b67a drivers/net/wireless/iwlwifi/mvm/time-event.c       Johannes Berg         2013-01-24  1264  		iwl_mvm_remove_time_event(mvm, mvmvif, te_data);
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1265  	else
+bf5da87f60a920 drivers/net/wireless/iwlwifi/mvm/time-event.c       Matti Gottlieb        2014-11-16  1266  		iwl_mvm_remove_aux_roc_te(mvm, mvmvif, te_data);
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1267  
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1268  cleanup_roc:
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1269  	/*
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1270  	 * In case we get here before the ROC event started,
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1271  	 * (so the status bit isn't set) set it here so iwl_mvm_cleanup_roc will
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1272  	 * cleanup things properly
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1273  	 */
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1274  	set_bit(vif->type == NL80211_IFTYPE_P2P_DEVICE ?
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1275  		IWL_MVM_STATUS_ROC_RUNNING : IWL_MVM_STATUS_ROC_AUX_RUNNING,
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05  1276  		&mvm->status);
+a1efeb82308402 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Yedidya Benshimol     2024-05-05  1277  
+a1efeb82308402 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Yedidya Benshimol     2024-05-05  1278  	/* Mutex is released inside this function */
+35c1bbd93c4e69 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Miri Korenblit        2024-02-05 @1279  	iwl_mvm_cleanup_roc(mvm);
+a76b57311b1a24 drivers/net/wireless/intel/iwlwifi/mvm/time-event.c Avraham Stern         2021-08-19  1280  }
+7f0a7c671cdc03 drivers/net/wireless/iwlwifi/mvm/time-event.c       Andrei Otcheretianski 2014-05-04  1281  
 
-:::::: The code at line 1475 was first introduced by commit
-:::::: a3fe5dbda0a4bb7759dcd5a0ad713d347e020401 KVM: x86/mmu: Split huge pages mapped by the TDP MMU when dirty logging is enabled
+:::::: The code at line 1279 was first introduced by commit
+:::::: 35c1bbd93c4e6969b3ac238b48a8bdff3e223ed8 wifi: iwlwifi: mvm: remove IWL_MVM_STATUS_NEED_FLUSH_P2P
 
-:::::: TO: David Matlack <dmatlack@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
