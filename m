@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D782B9A3
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 15:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAE0186287
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 20:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718639062; cv=none; b=POWAZ5XMFF1dxEbOJls2+XHkgaAhR7LYcSZEv31Zu6Rb7smt8u25VcGWj7j0k2FiwXXLCvGJp+SuNGcWXPnTDGlSN0nJFVem3VZerx/P0NQ1jwZynfYrl38sLdMbJc8bwERJiOFXSa0M74D5pnSIBKJH7pOc2L5mioyU0THWw5E=
+	t=1718655063; cv=none; b=FF9pZVhPmFtuJ+Zp5oOR8PMH+K0XuRhU3CjheZwjt3D/ulqWUtOsIPOu4N7ujBuGcnOcseKE7FxLxaPxa2/WTLPUXMJDBieJHET5wPs2DJYi8CeOtZQ9zSS02CLi79AQarZ+Nz7r6YLjLaXcGiExqN+QqdxkYZ+GWIRi+IKDcpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718639062; c=relaxed/simple;
-	bh=8hdS2QqZb0dxWe1MD+/ufASvplClpXNK5pUFrWCDdt8=;
+	s=arc-20240116; t=1718655063; c=relaxed/simple;
+	bh=Cdq6BhCOeo5eztYxxnjrbyB9KYpSKLRXKZkUp1ijaIA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gA6Zz6gSJGh62ebTQZnrcaSgXOqET5FlVrSxICqIjRyKKEHm97WzDBdDySGX5Tb79BEN1xhNAsLbivQF1qUVFDq27gHsnw4ATonz7YR2UTkcm65kAFR7mjIwiDK+fPw4/D1pIR653G5j7xTlmFk8DafrT0SHublP5suOJKJzQ0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAj2y3EI; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=qrWwiaF2j4IyGa2YI6P0D9aNTuoP2efA4vDLRUQNajQZ+cPVlwIylGZJsLB293x1hI9NBBBMmOY3kwe500ZPqBwDwOFT5lvoDeO35RgRaWN84c8J0ZOvZ6GjOql0Lp7O8BGwxoxEB+MqtK/MpdEPHukCn7sd+E372v2VT42bRAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iSdHX9q6; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAj2y3EI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iSdHX9q6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718639061; x=1750175061;
+  t=1718655062; x=1750191062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8hdS2QqZb0dxWe1MD+/ufASvplClpXNK5pUFrWCDdt8=;
-  b=SAj2y3EIsRLar8aGjVjh3lQhJybyjRoFLX6AMnAbbeHA1PqgYKEGbILa
-   tEgV3YjqEtQPLjYTqQpDqDiFxo4QRBF2nQoNXY/1iMoHXSgUSthbQEZcV
-   Wd+tPbmofS1tAnh8MkfV4hci+5cTlHuat9YQUhGbvMsSDOc7KqVePxib8
-   TSavrAkmAlNrD2wS03TGA6YbSAq4PxTJvoyDBNSb9WKL8qmOp4FJ5G04W
-   Ob0QdFrdDHbqSfQc3MMnPRKinYoXxVCCZD9xBsR3zrnZnbvsgOA8Q8HCm
-   yANwW9uA0Vd+7717U82ZdSNHMBj9FggUxS1oUg034O4cPtQ2SiSCg4Lit
-   g==;
-X-CSE-ConnectionGUID: 7S2ffvkpQMy0NmSPmADXmg==
-X-CSE-MsgGUID: X2IJuWSQREqYAFX6XxpfVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15596293"
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="15596293"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 08:44:19 -0700
-X-CSE-ConnectionGUID: +9b7oceCQMazzaPwwYLnOQ==
-X-CSE-MsgGUID: KCsQhV+lTVu964/nDqJNIA==
+  bh=Cdq6BhCOeo5eztYxxnjrbyB9KYpSKLRXKZkUp1ijaIA=;
+  b=iSdHX9q6lyUgByJs11eBxC5s1K/31xbapiqmOCWQ11b6fni7gokWJz1P
+   6mxxt4IIBojT4iZ8HXGdkbk+F7nr0bmgTcViwWOJthercvlrKAIn3U4b6
+   M/FTV06gZmHIX7cQkzyPyQiTpDh3NGy24jQGSHbT9lbmGyr1FXnzDXb8h
+   KGbydIWKJRm9UhHQqGDaeC0do/fW2SJHhgR+K7dvVtmAE/6NiikHzy8H0
+   eRImJo1a16H3SuyX6GBt+Ce8b51bXmdR+Rwv3ApZzHFyd/zLh+p8I4E0C
+   JTHGLvKHj9xTIMMKlupznIthDtmI8+rH6TPY1kB4mUd6UJS6i4JA5GaFq
+   w==;
+X-CSE-ConnectionGUID: g6Jz3EuwSRKtCE2js0u5Og==
+X-CSE-MsgGUID: 5qs1UKlCRBWHm4hCdT9X5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="38028494"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="38028494"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 13:11:01 -0700
+X-CSE-ConnectionGUID: 4LQOsT5ETfe5BLxuIepHWw==
+X-CSE-MsgGUID: 0hgWqrXATR2SBefHKSjQow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
-   d="scan'208";a="41349224"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="72501947"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Jun 2024 08:44:17 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Jun 2024 13:11:00 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJEWl-0004dh-1T;
-	Mon, 17 Jun 2024 15:44:15 +0000
-Date: Mon, 17 Jun 2024 23:43:23 +0800
+	id 1sJIgr-0004qr-1X;
+	Mon, 17 Jun 2024 20:10:57 +0000
+Date: Tue, 18 Jun 2024 04:10:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH V2] drivers: pci: dwc: configure multiple atu regions
-Message-ID: <202406180107.DRkw1UpJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [kvm-x86:mmu 6/7] arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding
+ lock on line 1439
+Message-ID: <202406180451.wxfv6W1a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,78 +64,122 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240610235048.319266-1-shyamsaini@linux.microsoft.com>
-References: <20240610235048.319266-1-shyamsaini@linux.microsoft.com>
-TO: Shyam Saini <shyamsaini@linux.microsoft.com>
-TO: jingoohan1@gmail.com
-CC: Sergey.Semin@baikalelectronics.ru
-CC: fancer.lancer@gmail.com
-CC: manivannan.sadhasivam@linaro.org
-CC: robh@kernel.org
-CC: linux-pci@vger.kernel.org
-CC: code@tyhicks.com
-CC: apais@linux.microsoft.com
-CC: bboscaccy@linux.microsoft.com
-CC: okaya@kernel.org
-CC: shyamsaini@linux.microsoft.com
-CC: srivatsa@csail.mit.edu
-CC: tballasi@linux.microsoft.com
-CC: vijayb@linux.microsoft.com
+TO: David Matlack <dmatlack@google.com>
+CC: Sean Christopherson <seanjc@google.com>
 
-Hi Shyam,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on pci/for-linus]
-[also build test WARNING on linus/master v6.10-rc4]
-[cannot apply to pci/next next-20240613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Saini/drivers-pci-dwc-configure-multiple-atu-regions/20240611-075252
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
-patch link:    https://lore.kernel.org/r/20240610235048.319266-1-shyamsaini%40linux.microsoft.com
-patch subject: [PATCH V2] drivers: pci: dwc: configure multiple atu regions
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: i386-randconfig-141-20240616 (https://download.01.org/0day-ci/archive/20240618/202406180107.DRkw1UpJ-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://github.com/kvm-x86/linux mmu
+head:   0089c055b56024edf90e85dc852440b713ce8cb5
+commit: 3d4a5a45ca26f8de9e0a4f384a2fb0967b8566b5 [6/7] KVM: x86/mmu: Unnest TDP MMU helpers that allocate SPs for eager splitting
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-102-20240618 (https://download.01.org/0day-ci/archive/20240618/202406180451.wxfv6W1a-lkp@intel.com/config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406180107.DRkw1UpJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202406180451.wxfv6W1a-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/controller/dwc/pcie-designware-host.c:679 dw_pcie_prog_outbound_atu_multi() error: uninitialized symbol 'ret'.
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
+>> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
+   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
+   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
 
-vim +/ret +679 drivers/pci/controller/dwc/pcie-designware-host.c
+vim +1475 arch/x86/kvm/mmu/tdp_mmu.c
 
-6bf4bd430cedf8 Shyam Saini 2024-06-10  659  
-6bf4bd430cedf8 Shyam Saini 2024-06-10  660  static int dw_pcie_prog_outbound_atu_multi(struct dw_pcie *pci, int type,
-6bf4bd430cedf8 Shyam Saini 2024-06-10  661  						struct resource_entry *entry)
-6bf4bd430cedf8 Shyam Saini 2024-06-10  662  {
-6bf4bd430cedf8 Shyam Saini 2024-06-10  663  	int idx, ret, num_regions;
-6bf4bd430cedf8 Shyam Saini 2024-06-10  664  
-6bf4bd430cedf8 Shyam Saini 2024-06-10  665  	num_regions = dw_pcie_num_atu_regions(entry);
-6bf4bd430cedf8 Shyam Saini 2024-06-10  666  
-6bf4bd430cedf8 Shyam Saini 2024-06-10  667  	for (idx = 0; idx < num_regions; idx++) {
-6bf4bd430cedf8 Shyam Saini 2024-06-10  668  		dw_pcie_writel_dbi(pci, PCIE_ATU_VIEWPORT, idx);
-6bf4bd430cedf8 Shyam Saini 2024-06-10  669  		ret = dw_pcie_prog_outbound_atu(pci, idx, PCIE_ATU_TYPE_MEM,
-6bf4bd430cedf8 Shyam Saini 2024-06-10  670  						entry->res->start,
-6bf4bd430cedf8 Shyam Saini 2024-06-10  671  						entry->res->start - entry->offset,
-6bf4bd430cedf8 Shyam Saini 2024-06-10  672  						resource_size(entry->res)/4);
-6bf4bd430cedf8 Shyam Saini 2024-06-10  673  
-6bf4bd430cedf8 Shyam Saini 2024-06-10  674  		if (ret)
-6bf4bd430cedf8 Shyam Saini 2024-06-10  675  			goto err;
-6bf4bd430cedf8 Shyam Saini 2024-06-10  676  	}
-6bf4bd430cedf8 Shyam Saini 2024-06-10  677  
-6bf4bd430cedf8 Shyam Saini 2024-06-10  678  err:
-6bf4bd430cedf8 Shyam Saini 2024-06-10 @679  	return ret;
-6bf4bd430cedf8 Shyam Saini 2024-06-10  680  }
-6bf4bd430cedf8 Shyam Saini 2024-06-10  681  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1397  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1398  static int tdp_mmu_split_huge_pages_root(struct kvm *kvm,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1399  					 struct kvm_mmu_page *root,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1400  					 gfn_t start, gfn_t end,
+cb00a70bd4b7e4 David Matlack 2022-01-19  1401  					 int target_level, bool shared)
+a3fe5dbda0a4bb David Matlack 2022-01-19  1402  {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1403  	struct kvm_mmu_page *sp = NULL;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1404  	struct tdp_iter iter;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1405  	int ret = 0;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1406  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1407  	rcu_read_lock();
+a3fe5dbda0a4bb David Matlack 2022-01-19  1408  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1409  	/*
+a3fe5dbda0a4bb David Matlack 2022-01-19  1410  	 * Traverse the page table splitting all huge pages above the target
+a3fe5dbda0a4bb David Matlack 2022-01-19  1411  	 * level into one lower level. For example, if we encounter a 1GB page
+a3fe5dbda0a4bb David Matlack 2022-01-19  1412  	 * we split it into 512 2MB pages.
+a3fe5dbda0a4bb David Matlack 2022-01-19  1413  	 *
+a3fe5dbda0a4bb David Matlack 2022-01-19  1414  	 * Since the TDP iterator uses a pre-order traversal, we are guaranteed
+a3fe5dbda0a4bb David Matlack 2022-01-19  1415  	 * to visit an SPTE before ever visiting its children, which means we
+a3fe5dbda0a4bb David Matlack 2022-01-19  1416  	 * will correctly recursively split huge pages that are more than one
+a3fe5dbda0a4bb David Matlack 2022-01-19  1417  	 * level above the target level (e.g. splitting a 1GB to 512 2MB pages,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1418  	 * and then splitting each of those to 512 4KB pages).
+a3fe5dbda0a4bb David Matlack 2022-01-19  1419  	 */
+a3fe5dbda0a4bb David Matlack 2022-01-19  1420  	for_each_tdp_pte_min_level(iter, root, target_level + 1, start, end) {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1421  retry:
+cb00a70bd4b7e4 David Matlack 2022-01-19  1422  		if (tdp_mmu_iter_cond_resched(kvm, &iter, false, shared))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1423  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1424  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1425  		if (!is_shadow_present_pte(iter.old_spte) || !is_large_pte(iter.old_spte))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1426  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1427  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1428  		if (!sp) {
+3d4a5a45ca26f8 David Matlack 2024-06-11  1429  			rcu_read_unlock();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1430  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1431  			if (shared)
+3d4a5a45ca26f8 David Matlack 2024-06-11  1432  				read_unlock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1433  			else
+3d4a5a45ca26f8 David Matlack 2024-06-11  1434  				write_unlock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1435  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1436  			sp = tdp_mmu_alloc_sp_for_split();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1437  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1438  			if (shared)
+3d4a5a45ca26f8 David Matlack 2024-06-11 @1439  				read_lock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1440  			else
+3d4a5a45ca26f8 David Matlack 2024-06-11  1441  				write_lock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1442  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1443  			rcu_read_lock();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1444  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1445  			if (!sp) {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1446  				ret = -ENOMEM;
+e0b728b1f1a951 David Matlack 2022-01-19  1447  				trace_kvm_mmu_split_huge_page(iter.gfn,
+e0b728b1f1a951 David Matlack 2022-01-19  1448  							      iter.old_spte,
+e0b728b1f1a951 David Matlack 2022-01-19  1449  							      iter.level, ret);
+a3fe5dbda0a4bb David Matlack 2022-01-19  1450  				break;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1451  			}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1452  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1453  			iter.yielded = true;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1454  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1455  		}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1456  
+c4b33d28ea51c7 David Matlack 2022-11-09  1457  		tdp_mmu_init_child_sp(sp, &iter);
+c4b33d28ea51c7 David Matlack 2022-11-09  1458  
+cb00a70bd4b7e4 David Matlack 2022-01-19  1459  		if (tdp_mmu_split_huge_page(kvm, &iter, sp, shared))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1460  			goto retry;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1461  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1462  		sp = NULL;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1463  	}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1464  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1465  	rcu_read_unlock();
+a3fe5dbda0a4bb David Matlack 2022-01-19  1466  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1467  	/*
+a3fe5dbda0a4bb David Matlack 2022-01-19  1468  	 * It's possible to exit the loop having never used the last sp if, for
+a3fe5dbda0a4bb David Matlack 2022-01-19  1469  	 * example, a vCPU doing HugePage NX splitting wins the race and
+a3fe5dbda0a4bb David Matlack 2022-01-19  1470  	 * installs its own sp in place of the last sp we tried to split.
+a3fe5dbda0a4bb David Matlack 2022-01-19  1471  	 */
+a3fe5dbda0a4bb David Matlack 2022-01-19  1472  	if (sp)
+a3fe5dbda0a4bb David Matlack 2022-01-19  1473  		tdp_mmu_free_sp(sp);
+a3fe5dbda0a4bb David Matlack 2022-01-19  1474  
+a3fe5dbda0a4bb David Matlack 2022-01-19 @1475  	return ret;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1476  }
+a3fe5dbda0a4bb David Matlack 2022-01-19  1477  
+
+:::::: The code at line 1475 was first introduced by commit
+:::::: a3fe5dbda0a4bb7759dcd5a0ad713d347e020401 KVM: x86/mmu: Split huge pages mapped by the TDP MMU when dirty logging is enabled
+
+:::::: TO: David Matlack <dmatlack@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
