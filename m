@@ -1,150 +1,123 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C403D139D0E
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 14:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9165813AD3E
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 14:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718633267; cv=none; b=lN1cXvlEAUqbdobmITo9jiycQaaPdoNv9WKrNSlIwE4XYvydI65qF+gOCw+3U3RabPKgiJx9tcmm4wEYRYwppVmVyyc01dWJMylb8k2FM4kofw2PlpaY+6ETFOLwM1M9YH/Hm+Pq4Ez2bJWEv3uwf2GV5b+0wXw+YXtaWTiy3hc=
+	t=1718633364; cv=none; b=cTZeryOjI2/UIDW42dVPM0akM5Hx6fs6KDP7uFeP8aDbyON47VQep7F6YIyLNDe59QfvRTBKCiF1fyvtkuJjFXSJwxhnWlY1qrd9JPZETtUwxDz+LpSGUmB5wAZVLPa/XMznA4pX5gG6F48eAmUcVBzbW18HDf+vr2PqgOKeic8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718633267; c=relaxed/simple;
-	bh=gTaVRInUM5Dk+G0y4kJvxr34Ay3xC6qugD0PHbnJD6k=;
+	s=arc-20240116; t=1718633364; c=relaxed/simple;
+	bh=JNLtlCaocgHRSAUl/maYg/yXvEqsvEDMA01DcyYsPSA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oU0C1h0fu3mFkVMYY8Ilr9oq8pkst0s0tLUtQACSq52NZPKeP7XnVFiQ9cNgwx3MJGrG7cxVE08EodW4OMcMCrNG0Lsqof8Sxxwiga2mCHqc14HfznFWDEEEbDX/6fme6IPYLYocDTuTxFv1hnIripb/GRsTfux/5TCwYTPsqEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VBicMnxX; arc=none smtp.client-ip=209.85.208.181
+	 Content-Disposition:In-Reply-To; b=F1HCC79OWf0VSr9BOADHTHfk2QIxs+3VkZteuc5STvZNV/jvsUpurEq3Nghqi5PsON28O+efF8YnLTKBYMyD9unsk+D9nk0GQ1yFtd52Xq6R8mtasVN0CoefuUP0VH5lQhWFNaBa/5N11LXYT65NgGQlj/bDmVqI/eRxYPykjn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Br/V2avH; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VBicMnxX"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ebd95f136bso50620221fa.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 07:07:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Br/V2avH"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4217a96de38so32107825e9.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 07:09:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718633264; x=1719238064; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=exNmLeQ/1saUICwG+i10ZbiGFu61QQGdsTZZy7V7AmA=;
-        b=VBicMnxXmNaohv25enSLywxXO+BYwioIlwnbGdylvaom02bEXsqOcQpH+hUyX6A/WR
-         48DoTDK03b39mniGTyK9UiFD8/h1rIpBx9lJ96qWjYKf1+DeX1lG7506+Ez+Rj7Sx/uo
-         NZMwMjDY725TtzpJlBoIZKIJ5WQ4tOjf8ZY+kd0w1kWnHhi1eqTvx6/+BJmXLhLdGEf2
-         Dl8kVvy/afh1ir1C3LwXL7SKCRNIGzfjx7cooP73PxQWOO7GJn2loH/21ZAjJaaVCSYA
-         2tCyAd+4ILcVR0/1TPD21GBPLyTuxrScHOjODJEa9+SpvgcItV01k5yvgONT/8QPI4ad
-         bdBA==
+        d=linaro.org; s=google; t=1718633360; x=1719238160; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1gYFbVZSR1dJf0iOwy3Gs/2RtGXxduy8gw+Ee2OK2y0=;
+        b=Br/V2avHGXV4WC+kCJZlWy2YV1z/j2rsTU3I9lUnNSgfRWiZJFyZc0jXhelqK4aT50
+         wVFTZlxTI7uh+WeCKTNfxVMKBYntnybfVv56vZAz0q/qcnlf0TPOo9J8aoHf2+wfAwhW
+         Zl5JPNTFo9+p3RBVfmXcvgIr53xXpDS48Mg2cN5cAiSdQxJlIYjmHuXaQB/62gUETmiT
+         agNuwkHKD09+aIHr1Comu65249WBDtKoLioho2oR0UP0nLMPf7i8TeqR6+NpJLQ8j7KA
+         sAdmPfEH0v88dlOBiQnEDGSRIYB9BSHAG8gBg8+vwqK1DgLHxzR/qqeICZv+f0IMGNyZ
+         A+uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718633264; x=1719238064;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=exNmLeQ/1saUICwG+i10ZbiGFu61QQGdsTZZy7V7AmA=;
-        b=WV4q9Kp/DM6soYT/l7Qd5zmJbiBB/trZj3+G3ZIlHOhWa7+1BYBp+0K1U72UuvdAE1
-         wscOmn/QTruetG+5Tleuu/YfgsEvxqQPcrPPefFbGVVRqyMDojrH4R4J1kcMqkh5kayt
-         i0T8K7VRi1Uvj2LtZbFTSWqn4XWwRRZJ9e8AlrZEtouGdlJJHV9ZtgWdGCZ16iuZWZdO
-         ZBOngBm5H55kUbqR0zG0/czxYfKynWKfXbAy5hWC25J+4dnihc8aPnfJp5o+4gtNvNNz
-         fEgdrfe4e/3xf6dTaCbICQGnn7k9tXkDuSjNvDlWGSVbo0BtSk6BI7Eym84641j+Ffyf
-         ccjw==
-X-Gm-Message-State: AOJu0YxhDM5zH4RMUPIBwGbIuiEs2wtttiBFB7tymlEt8EN7j1bgjlpG
-	/nGwv/yqagW5pD7t3VCzwzmrzzoCsneTZeWLEAs6T3huweCNI1IuIketgCL0hTMmY0VKLkngM5M
-	i
-X-Google-Smtp-Source: AGHT+IFQsaa8hu5ihcOpX77WzFDdvfqH0xHmzhwYvaZnRHLXsr04EN96LjycixPt/HX3eDQag2dJ6g==
-X-Received: by 2002:a05:651c:1a1e:b0:2ec:eee:f19e with SMTP id 38308e7fff4ca-2ec0eeef77fmr74104111fa.37.1718633263311;
-        Mon, 17 Jun 2024 07:07:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718633360; x=1719238160;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1gYFbVZSR1dJf0iOwy3Gs/2RtGXxduy8gw+Ee2OK2y0=;
+        b=P3aLe/W1CbV6x1ca9i1GmdZJjXGbuD5C8DB8hDWyrKTbs+k0vHNgsfy4pUqelPGlRs
+         JfUcuahjQNKcuLz3FK5wULJeRcNO5o8ioJjhe6IbRABTEASjTfPxxQrHh7m59nABLrEg
+         3wcgIwUcgCLlDDA76FybDWawEQixhlQGAvoCk6XGhbyZ/ITrxaDKQxfVaolng0B+EohJ
+         BkvjWwJAVdx8ig7tiC+PN74COA1eY/q12eB5bAH3AO8OkQA9tRm/5eFMOgSRqdDg4PV/
+         ldiRY8bxKp3avUkrreZb9hpvhI3qOneTRqtP810Xpo0BN/QbHwkI22Q1B1YahX3pbk8q
+         s8Fw==
+X-Gm-Message-State: AOJu0YxS3BuU4vU1emDmK/L+XznfzswHlWtUUL79fC6p6OfEC5zNaWVx
+	fbB1eum27FuOyWT8sFgQHV5BDPqEIWeETWgKgHVe7af8iHPMNWcqJ16CP9NPYokHlQxO7Ti0J3C
+	t
+X-Google-Smtp-Source: AGHT+IF89ub/bTYppiV6Zahl61F3KmzNpcO+gb7uLo/5I8P47UFh48RCrUXbcRA1pdZXpLdtZkFucQ==
+X-Received: by 2002:a05:600c:3550:b0:421:e3d6:920b with SMTP id 5b1f17b1804b1-42304811e38mr79919105e9.3.1718633359775;
+        Mon, 17 Jun 2024 07:09:19 -0700 (PDT)
 Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422f6320c70sm159742255e9.30.2024.06.17.07.07.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874de646sm199893195e9.35.2024.06.17.07.09.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 07:07:43 -0700 (PDT)
-Date: Mon, 17 Jun 2024 17:07:39 +0300
+        Mon, 17 Jun 2024 07:09:19 -0700 (PDT)
+Date: Mon, 17 Jun 2024 17:09:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dimitri Fedrau <dima.fedrau@gmail.com>
+To: oe-kbuild@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Dimitri Fedrau <dima.fedrau@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] power: supply: add support for MAX1720x
- standalone fuel gauge
-Message-ID: <f37587e6-bed8-4d91-889f-983bef03cde8@moroto.mountain>
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 08/12] drm/ttm: Add a virtual base class for graphics
+ memory backup
+Message-ID: <de143b6f-461d-4c26-8ab7-bd07795696ed@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240615203352.164234-3-dima.fedrau@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240614102548.4364-9-thomas.hellstrom@linux.intel.com>
 
-Hi Dimitri,
+Hi Thomas,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dimitri-Fedrau/dt-bindings-power-supply-add-support-for-MAX17201-MAX17205-fuel-gauge/20240616-043602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git for-next
-patch link:    https://lore.kernel.org/r/20240615203352.164234-3-dima.fedrau%40gmail.com
-patch subject: [PATCH v3 2/2] power: supply: add support for MAX1720x standalone fuel gauge
-config: nios2-randconfig-r081-20240616 (https://download.01.org/0day-ci/archive/20240617/202406170040.gxB0dYxg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Allow-TTM-LRU-list-nodes-of-different-types/20240614-182911
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20240614102548.4364-9-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v4 08/12] drm/ttm: Add a virtual base class for graphics memory backup
+config: x86_64-randconfig-161-20240617 (https://download.01.org/0day-ci/archive/20240617/202406170559.WdDkFEiU-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406170040.gxB0dYxg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406170559.WdDkFEiU-lkp@intel.com/
 
 smatch warnings:
-drivers/power/supply/max1720x_battery.c:285 max1720x_probe() warn: passing zero to 'PTR_ERR'
+drivers/gpu/drm/ttm/ttm_backup_shmem.c:130 ttm_backup_shmem_create() error: dereferencing freed memory 'sbackup'
 
-vim +/PTR_ERR +285 drivers/power/supply/max1720x_battery.c
+vim +/sbackup +130 drivers/gpu/drm/ttm/ttm_backup_shmem.c
 
-134a669e205435 Dimitri Fedrau 2024-06-15  251  static int max1720x_probe(struct i2c_client *client)
-134a669e205435 Dimitri Fedrau 2024-06-15  252  {
-134a669e205435 Dimitri Fedrau 2024-06-15  253  	struct power_supply_config psy_cfg = {};
-134a669e205435 Dimitri Fedrau 2024-06-15  254  	struct device *dev = &client->dev;
-134a669e205435 Dimitri Fedrau 2024-06-15  255  	struct max1720x_device_info *info;
-134a669e205435 Dimitri Fedrau 2024-06-15  256  	int ret;
-134a669e205435 Dimitri Fedrau 2024-06-15  257  
-134a669e205435 Dimitri Fedrau 2024-06-15  258  	info = devm_kzalloc(dev, sizeof(*info), GFP_KERNEL);
-134a669e205435 Dimitri Fedrau 2024-06-15  259  	if (!info)
-134a669e205435 Dimitri Fedrau 2024-06-15  260  		return -ENOMEM;
-134a669e205435 Dimitri Fedrau 2024-06-15  261  
-134a669e205435 Dimitri Fedrau 2024-06-15  262  	i2c_set_clientdata(client, info);
-134a669e205435 Dimitri Fedrau 2024-06-15  263  	info->bat_desc.name = "max1720x";
-134a669e205435 Dimitri Fedrau 2024-06-15  264  	info->bat_desc.no_thermal = true;
-134a669e205435 Dimitri Fedrau 2024-06-15  265  	info->bat_desc.type = POWER_SUPPLY_TYPE_BATTERY;
-134a669e205435 Dimitri Fedrau 2024-06-15  266  	info->bat_desc.properties = max1720x_battery_props;
-134a669e205435 Dimitri Fedrau 2024-06-15  267  	info->bat_desc.num_properties = ARRAY_SIZE(max1720x_battery_props);
-134a669e205435 Dimitri Fedrau 2024-06-15  268  	info->bat_desc.get_property = max1720x_battery_get_property;
-134a669e205435 Dimitri Fedrau 2024-06-15  269  	psy_cfg.drv_data = info;
-134a669e205435 Dimitri Fedrau 2024-06-15  270  
-134a669e205435 Dimitri Fedrau 2024-06-15  271  	info->regmap = devm_regmap_init_i2c(client, &max1720x_regmap_cfg);
-134a669e205435 Dimitri Fedrau 2024-06-15  272  	if (IS_ERR(info->regmap))
-134a669e205435 Dimitri Fedrau 2024-06-15  273  		return dev_err_probe(dev, PTR_ERR(info->regmap),
-134a669e205435 Dimitri Fedrau 2024-06-15  274  				     "regmap initialization failed\n");
-134a669e205435 Dimitri Fedrau 2024-06-15  275  
-134a669e205435 Dimitri Fedrau 2024-06-15  276  	info->ancillary = i2c_new_ancillary_device(client, "nvmem", 0xb);
-134a669e205435 Dimitri Fedrau 2024-06-15  277  	if (IS_ERR(info->ancillary))
-134a669e205435 Dimitri Fedrau 2024-06-15  278  		return dev_err_probe(dev, PTR_ERR(info->ancillary),
-134a669e205435 Dimitri Fedrau 2024-06-15  279  				     "Failed to initialize ancillary i2c device\n");
-134a669e205435 Dimitri Fedrau 2024-06-15  280  
-134a669e205435 Dimitri Fedrau 2024-06-15  281  	i2c_set_clientdata(info->ancillary, info);
-134a669e205435 Dimitri Fedrau 2024-06-15  282  	ret = max1720x_probe_sense_resistor(info);
-134a669e205435 Dimitri Fedrau 2024-06-15  283  	if (ret) {
-134a669e205435 Dimitri Fedrau 2024-06-15  284  		i2c_unregister_device(info->ancillary);
-134a669e205435 Dimitri Fedrau 2024-06-15 @285  		return dev_err_probe(dev, PTR_ERR(info->bat),
+827540d42dec01 Thomas Hellström 2024-06-14  119  struct ttm_backup *ttm_backup_shmem_create(loff_t size)
+827540d42dec01 Thomas Hellström 2024-06-14  120  {
+827540d42dec01 Thomas Hellström 2024-06-14  121  	struct ttm_backup_shmem *sbackup =
+827540d42dec01 Thomas Hellström 2024-06-14  122  		kzalloc(sizeof(*sbackup), GFP_KERNEL | __GFP_ACCOUNT);
+827540d42dec01 Thomas Hellström 2024-06-14  123  
+827540d42dec01 Thomas Hellström 2024-06-14  124  	if (!sbackup)
+827540d42dec01 Thomas Hellström 2024-06-14  125  		return ERR_PTR(-ENOMEM);
+827540d42dec01 Thomas Hellström 2024-06-14  126  
+827540d42dec01 Thomas Hellström 2024-06-14  127  	sbackup->filp = shmem_file_setup("ttm shmem backup", size, 0);
+827540d42dec01 Thomas Hellström 2024-06-14  128  	if (IS_ERR(sbackup->filp)) {
+827540d42dec01 Thomas Hellström 2024-06-14  129  		kfree(sbackup);
+                                                                      ^^^^^^^
+Freed
 
-s/PTR_ERR(info->bat)/ret/
-
-134a669e205435 Dimitri Fedrau 2024-06-15  286  				     "Failed to read sense resistor value\n");
-134a669e205435 Dimitri Fedrau 2024-06-15  287  	}
-134a669e205435 Dimitri Fedrau 2024-06-15  288  
-134a669e205435 Dimitri Fedrau 2024-06-15  289  	info->bat = devm_power_supply_register(dev, &info->bat_desc, &psy_cfg);
-134a669e205435 Dimitri Fedrau 2024-06-15  290  	if (IS_ERR(info->bat)) {
-134a669e205435 Dimitri Fedrau 2024-06-15  291  		i2c_unregister_device(info->ancillary);
-134a669e205435 Dimitri Fedrau 2024-06-15  292  		return dev_err_probe(dev, PTR_ERR(info->bat),
-134a669e205435 Dimitri Fedrau 2024-06-15  293  				     "Failed to register power supply\n");
-134a669e205435 Dimitri Fedrau 2024-06-15  294  	}
-134a669e205435 Dimitri Fedrau 2024-06-15  295  
-134a669e205435 Dimitri Fedrau 2024-06-15  296  	return 0;
-134a669e205435 Dimitri Fedrau 2024-06-15  297  }
+827540d42dec01 Thomas Hellström 2024-06-14 @130  		return ERR_CAST(sbackup->filp);
+                                                                                ^^^^^^^^^^^^^
+Use after free
 
 -- 
 0-DAY CI Kernel Test Service
