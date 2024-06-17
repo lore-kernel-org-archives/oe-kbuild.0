@@ -1,62 +1,60 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3813DDD4
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 14:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B62A42A8D
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 15:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718633611; cv=none; b=tnU3c04lrBC+gFqNB9m2gaDQ72zsJPqUDrKXs1XIQ5hLI9u6KL9xSBjyFVdteasOBWjVqRvctWysQh/boiHh2enYWeVgyc2fim3Ep9s4urxtHz7CLOHkbturJw/3iD12hbm5vGPN52/7vu/d11HvV5faskpk7nGmZdVxklFJR5E=
+	t=1718638337; cv=none; b=AznvoPnqhqQgeocyVu0qQlLR/kJKqY+g9l4OlRmrBFYkUNWLcBD8zntG/4oEjIPwepTaaullqTwiqf/oE91yGM4oH0qujilbzpOdXky9Keir4BgF8BsYmNBLJHs5hC1XcsibkCxfJICpNo0NijrvENapu7q+jNSl0U7wK/uAlNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718633611; c=relaxed/simple;
-	bh=OAEJQjOKt6ZffNd2j5mnk3cRQHtaSIqZm1PkGW6xFEA=;
+	s=arc-20240116; t=1718638337; c=relaxed/simple;
+	bh=7b8j807ywS0THIT5/AGN4XzMNvYvH1l+XfyHmkAwBTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cy4DQwLpgH96v9HvgfxTcW3aVUOOf2UpQtKpwSzOjX49PG7BiYozXh32y/UeOLJn71RIDTsYHFKmxNo/vphR4pMSU9ucRck448QVT0hMrKC1PAcSOxkL/qBtMoTurJy9v52rgMIUY6g68k8YyGNuQkANUiJfz3NCHegqm1leOy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g4InLERe; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Pz4CRMSaFtWwVRtK27QLjxPWI0CYdpena3wqXSvx+E19M+mW7fVkHOH6XgZJ17J4s3rHRJgoLAOyO07gMcnUx9RvoLXpAqSrqFguHwEbu0U9yZUHrLzRJ+ekEUM2DkX51gPsxSYGEGdEYnAsORGSdtuhh31qPHcJGFsCKSU0lBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G/WApy/E; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g4InLERe"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-421bb51d81aso33545365e9.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 07:13:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718633607; x=1719238407; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E+2jiT3XQoMJkJHMg5TyA11Us/KBxE/Mj+jL6EDQl+0=;
-        b=g4InLERe4MvKYTlvkZRMEcQegDlncKHJdtILktoyCcvGyO9diaUHIDtrwGjDMuS/8v
-         sCO4d/hEiKCNRKFJzXL+uN0ykHG28zju3cA/i+SoRtJylVgch7Mt2I5ZE3DGgJg6TWDW
-         Do7K3O5Xd/Rv6NAUoracixoKIMb8+F0UiYy9Cvt6xXA+++Y1YFT+U8+AHfSyFBZJ4j8d
-         GUzYqeUbmsgMty8XPWrfGWKiahBrYxAI+hBxB7M56ENXJj8N6Ajp3b0PUU8tql//uLBH
-         kIqfBB26R/sdIT99Bhur46jEC5PIo7l3jEkitaHOAeZf34eWNaNvKE695AKP9JljmG1b
-         ZxKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718633607; x=1719238407;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=E+2jiT3XQoMJkJHMg5TyA11Us/KBxE/Mj+jL6EDQl+0=;
-        b=fdQJNoDIA426rEK8swPmnguEI5mDuagj+nd1nfBItpT0xyNlRNOB4yI50eXpLuDhzZ
-         iux8fKKVr7yFwC3+DseQEBuoYi+ZvKjULxwC8bA5PfXBk4Q5KFaqljlKVxEqQEbM7tVo
-         5gNxOULBLUPqwtEoa2pyGGpJ1pccrja27bvRLdcsPqFn0TUcAo80GLpTuk2Yq5YKYFVs
-         stkEsg0QhmHcWmdb+Eei/jnik1wp9toeTo7/nLn5HLdyIHzqpuggcv0wBFr914LOzXDR
-         ZJljrDsbc9PBT1Nf3TLJyrf/yVFmvpRuR5dF05dK+QuYpFyik5Ii0qNIi761URFYNdEu
-         bU4w==
-X-Gm-Message-State: AOJu0YxY8gccu8KaiBegDkoUXcw4gpD0XCyro642Fx5Al1DqX1x6EUUc
-	5Cr0Ak+1++gC+cy+yT5GAigC1KYH1FgeDkVFqG45JE3cZPCSO9jHGOJ8fHYh45vCsQRa6Z2zMXP
-	X
-X-Google-Smtp-Source: AGHT+IGPIeFI147QY1+xbTFjyYG3mzvIbvrVtAibLY1gqJIT59qjqOVeUUcMQUqLv06nw8wMLK5hKQ==
-X-Received: by 2002:a05:600c:4448:b0:421:7ee4:bbeb with SMTP id 5b1f17b1804b1-423047df7b9mr91768025e9.0.1718633607117;
-        Mon, 17 Jun 2024 07:13:27 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe9184sm193250525e9.13.2024.06.17.07.13.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 07:13:26 -0700 (PDT)
-Date: Mon, 17 Jun 2024 17:13:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl-usp-shared-link 3/3] drivers/cxl/core/cdat.c:667
- cxl_endpoint_gather_coordinates() error: uninitialized symbol 'gp_is_root'.
-Message-ID: <6c766b95-5219-44ca-8b54-c65ef6198250@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G/WApy/E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718638335; x=1750174335;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7b8j807ywS0THIT5/AGN4XzMNvYvH1l+XfyHmkAwBTg=;
+  b=G/WApy/EqnnSp4ocxRPLgMi/fV3RrUcV1DN3D5TDKELOdU8bcfRTrttD
+   6ToB8C3/h7i/q8nM9DAVcE960FTD9ny1V4FGoshU3v2CPD59eBTQalRSV
+   4wYV+921ohRSVjtIpcl9dQpNYxaDDkWBst0RiV35+EKq+Ddp9HxSmeoiz
+   cnOYhC9qpPd5GapBwIxeTEMTDJI2qGsSu0Bb5kxKm+TVp7LlfiSUgiPYg
+   ikibGpSVtrOBy1LFPYWELLRDotA6KqkmAu6Qy9MPurdQHV5HdIyRaMwg7
+   nbqXUDDD4k4FcYsUx5Y9llJwBdtHoQFI21W89smOaoP1qnwjAGuXLFOJD
+   A==;
+X-CSE-ConnectionGUID: 0kW+EIB6Qn6M78v7Jnpy0Q==
+X-CSE-MsgGUID: qoKf4T63QnGgWs3OBDLNJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15437765"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="15437765"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 08:32:11 -0700
+X-CSE-ConnectionGUID: 545GVsanTZO7cNKbylEA4w==
+X-CSE-MsgGUID: dc6sdr/ZRpetxUYTabouhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="41318230"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Jun 2024 08:32:10 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJEL2-0004cv-0D;
+	Mon, 17 Jun 2024 15:32:08 +0000
+Date: Mon, 17 Jun 2024 23:32:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [lee-backlight:for-backlight-next 2/4]
+ drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function
+ "for_each_child_of_node" should have of_node_put() before return around line
+ 170.
+Message-ID: <202406172314.2vVgelaS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,129 +64,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-usp-shared-link
-head:   0747c64559121b9d16569c5b0801da3ab18f2144
-commit: 0747c64559121b9d16569c5b0801da3ab18f2144 [3/3] cxl: Calculate region bandwidth of targets with shared upstream link
-config: i386-randconfig-141-20240616 (https://download.01.org/0day-ci/archive/20240617/202406172334.NUywIZ5i-lkp@intel.com/config)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Lee Jones <lee@kernel.org>
+TO: Patrick Gansterer <paroga@paroga.com>
+CC: Lee Jones <lee@kernel.org>
+CC: Daniel Thompson <daniel.thompson@linaro.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git for-backlight-next
+head:   7857f5c38d04a38e7a20060a6d370caf0424aa4e
+commit: b72755f5b577357cac661cbf9048cad704eb4ad8 [2/4] backlight: Add new lm3509 backlight driver
+:::::: branch date: 4 days ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-103-20240617 (https://download.01.org/0day-ci/archive/20240617/202406172314.2vVgelaS-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406172334.NUywIZ5i-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202406172314.2vVgelaS-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/cdat.c:667 cxl_endpoint_gather_coordinates() error: uninitialized symbol 'gp_is_root'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 170.
+   drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 172.
+   drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 177.
+   drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 186.
+   drivers/video/backlight/lm3509_bl.c:162:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before return around line 189.
 
-vim +/gp_is_root +667 drivers/cxl/core/cdat.c
+vim +/for_each_child_of_node +162 drivers/video/backlight/lm3509_bl.c
 
-0747c64559121b Dave Jiang 2024-06-11  599  static int cxl_endpoint_gather_coordinates(struct cxl_region *cxlr,
-0747c64559121b Dave Jiang 2024-06-11  600  					   struct cxl_endpoint_decoder *cxled,
-0747c64559121b Dave Jiang 2024-06-11  601  					   struct xarray *usp_xa)
-0747c64559121b Dave Jiang 2024-06-11  602  {
-0747c64559121b Dave Jiang 2024-06-11  603  	struct cxl_port *endpoint = to_cxl_port(cxled->cxld.dev.parent);
-0747c64559121b Dave Jiang 2024-06-11  604  	struct access_coordinate pci_coord[ACCESS_COORDINATE_MAX];
-0747c64559121b Dave Jiang 2024-06-11  605  	struct access_coordinate sw_coord[ACCESS_COORDINATE_MAX];
-0747c64559121b Dave Jiang 2024-06-11  606  	struct access_coordinate ep_coord[ACCESS_COORDINATE_MAX];
-0747c64559121b Dave Jiang 2024-06-11  607  	struct cxl_memdev *cxlmd = cxled_to_memdev(cxled);
-0747c64559121b Dave Jiang 2024-06-11  608  	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-0747c64559121b Dave Jiang 2024-06-11  609  	struct cxl_memdev_state *mds = to_cxl_memdev_state(cxlds);
-0747c64559121b Dave Jiang 2024-06-11  610  	struct pci_dev *pdev = to_pci_dev(cxlds->dev);
-0747c64559121b Dave Jiang 2024-06-11  611  	struct cxl_port *parent_port, *gp_port;
-0747c64559121b Dave Jiang 2024-06-11  612  	struct cxl_perf_ctx *perf_ctx;
-0747c64559121b Dave Jiang 2024-06-11  613  	struct cxl_dpa_perf *perf;
-0747c64559121b Dave Jiang 2024-06-11  614  	bool gp_is_root;
-
-This needs to be "bool gp_is_root = false;"
-
-0747c64559121b Dave Jiang 2024-06-11  615  	unsigned long index;
-0747c64559121b Dave Jiang 2024-06-11  616  	void *ptr;
-0747c64559121b Dave Jiang 2024-06-11  617  	int rc;
-0747c64559121b Dave Jiang 2024-06-11  618  
-0747c64559121b Dave Jiang 2024-06-11  619  	if (cxlds->rcd)
-0747c64559121b Dave Jiang 2024-06-11  620  		return -ENODEV;
-0747c64559121b Dave Jiang 2024-06-11  621  
-0747c64559121b Dave Jiang 2024-06-11  622  	parent_port = to_cxl_port(endpoint->dev.parent);
-0747c64559121b Dave Jiang 2024-06-11  623  	gp_port = to_cxl_port(parent_port->dev.parent);
-0747c64559121b Dave Jiang 2024-06-11  624  	if (is_cxl_root(gp_port))
-0747c64559121b Dave Jiang 2024-06-11  625  		gp_is_root = true;
-0747c64559121b Dave Jiang 2024-06-11  626  
-0747c64559121b Dave Jiang 2024-06-11  627  	perf = cxl_memdev_get_dpa_perf(mds, cxlr->mode);
-0747c64559121b Dave Jiang 2024-06-11  628  	if (IS_ERR(perf))
-0747c64559121b Dave Jiang 2024-06-11  629  		return PTR_ERR(perf);
-0747c64559121b Dave Jiang 2024-06-11  630  
-0747c64559121b Dave Jiang 2024-06-11  631  	if (!dpa_perf_contains(perf, cxled->dpa_res))
-0747c64559121b Dave Jiang 2024-06-11  632  		return -EINVAL;
-0747c64559121b Dave Jiang 2024-06-11  633  
-0747c64559121b Dave Jiang 2024-06-11  634  	/*
-0747c64559121b Dave Jiang 2024-06-11  635  	 * The index for the xarray is the upstream port device of the upstream
-0747c64559121b Dave Jiang 2024-06-11  636  	 * CXL switch.
-0747c64559121b Dave Jiang 2024-06-11  637  	 */
-0747c64559121b Dave Jiang 2024-06-11  638  	index = (unsigned long)parent_port->uport_dev;
-0747c64559121b Dave Jiang 2024-06-11  639  	perf_ctx = xa_load(usp_xa, index);
-0747c64559121b Dave Jiang 2024-06-11  640  	if (!perf_ctx) {
-0747c64559121b Dave Jiang 2024-06-11  641  		struct cxl_perf_ctx *c __free(kfree) =
-0747c64559121b Dave Jiang 2024-06-11  642  			kzalloc(sizeof(*perf_ctx), GFP_KERNEL);
-0747c64559121b Dave Jiang 2024-06-11  643  
-0747c64559121b Dave Jiang 2024-06-11  644  		if (!c)
-0747c64559121b Dave Jiang 2024-06-11  645  			return -ENOMEM;
-0747c64559121b Dave Jiang 2024-06-11  646  		ptr = xa_store(usp_xa, index, c, GFP_KERNEL);
-0747c64559121b Dave Jiang 2024-06-11  647  		if (xa_is_err(ptr))
-0747c64559121b Dave Jiang 2024-06-11  648  			return xa_err(ptr);
-0747c64559121b Dave Jiang 2024-06-11  649  		perf_ctx = no_free_ptr(c);
-0747c64559121b Dave Jiang 2024-06-11  650  	}
-0747c64559121b Dave Jiang 2024-06-11  651  
-0747c64559121b Dave Jiang 2024-06-11  652  	/* Direct upstream link from EP bandwidth */
-0747c64559121b Dave Jiang 2024-06-11  653  	rc = cxl_pci_get_bandwidth(pdev, pci_coord);
-0747c64559121b Dave Jiang 2024-06-11  654  	if (rc < 0)
-0747c64559121b Dave Jiang 2024-06-11  655  		return rc;
-0747c64559121b Dave Jiang 2024-06-11  656  
-0747c64559121b Dave Jiang 2024-06-11  657  	/*
-0747c64559121b Dave Jiang 2024-06-11  658  	 * Min of upstream link bandwidth and Endpoint CDAT bandwidth from
-0747c64559121b Dave Jiang 2024-06-11  659  	 * DSLBIS.
-0747c64559121b Dave Jiang 2024-06-11  660  	 */
-0747c64559121b Dave Jiang 2024-06-11  661  	cxl_coordinates_combine(ep_coord, pci_coord, perf->cdat_coord);
-0747c64559121b Dave Jiang 2024-06-11  662  
-0747c64559121b Dave Jiang 2024-06-11  663  	/*
-0747c64559121b Dave Jiang 2024-06-11  664  	 * If grandparent port is root, then there's no switch involved and
-0747c64559121b Dave Jiang 2024-06-11  665  	 * the endpoint is connected to a root port.
-0747c64559121b Dave Jiang 2024-06-11  666  	 */
-0747c64559121b Dave Jiang 2024-06-11 @667  	if (!gp_is_root) {
-
-Unitialized.
-
-0747c64559121b Dave Jiang 2024-06-11  668  		/*
-0747c64559121b Dave Jiang 2024-06-11  669  		 * Retrieve the switch SSLBIS for switch downstream port
-0747c64559121b Dave Jiang 2024-06-11  670  		 * associated with the endpoint bandwidth.
-0747c64559121b Dave Jiang 2024-06-11  671  		 */
-0747c64559121b Dave Jiang 2024-06-11  672  		rc = cxl_port_get_switch_dport_bandwidth(endpoint, sw_coord);
-0747c64559121b Dave Jiang 2024-06-11  673  		if (rc)
-0747c64559121b Dave Jiang 2024-06-11  674  			return rc;
-0747c64559121b Dave Jiang 2024-06-11  675  
-0747c64559121b Dave Jiang 2024-06-11  676  		/*
-0747c64559121b Dave Jiang 2024-06-11  677  		 * Min of the earlier coordinates with the switch SSLBIS
-0747c64559121b Dave Jiang 2024-06-11  678  		 * bandwidth
-0747c64559121b Dave Jiang 2024-06-11  679  		 */
-0747c64559121b Dave Jiang 2024-06-11  680  		cxl_coordinates_combine(ep_coord, ep_coord, sw_coord);
-0747c64559121b Dave Jiang 2024-06-11  681  	}
-0747c64559121b Dave Jiang 2024-06-11  682  
-0747c64559121b Dave Jiang 2024-06-11  683  	/*
-0747c64559121b Dave Jiang 2024-06-11  684  	 * Aggregate the computed bandwidth with the current aggregated bandwidth
-0747c64559121b Dave Jiang 2024-06-11  685  	 * of the endpoints with the same switch upstream port.
-0747c64559121b Dave Jiang 2024-06-11  686  	 */
-0747c64559121b Dave Jiang 2024-06-11  687  	cxl_bandwidth_add(perf_ctx->coord, perf_ctx->coord, ep_coord);
-0747c64559121b Dave Jiang 2024-06-11  688  	perf_ctx->port = parent_port;
-0747c64559121b Dave Jiang 2024-06-11  689  	perf_ctx->dport = parent_port->parent_dport;
-0747c64559121b Dave Jiang 2024-06-11  690  
-0747c64559121b Dave Jiang 2024-06-11  691  	/* Count the active RPs */
-0747c64559121b Dave Jiang 2024-06-11  692  	if (gp_is_root)
-0747c64559121b Dave Jiang 2024-06-11  693  		perf_ctx->active_rps++;
-0747c64559121b Dave Jiang 2024-06-11  694  
-0747c64559121b Dave Jiang 2024-06-11  695  	return 0;
-0747c64559121b Dave Jiang 2024-06-11  696  }
+b72755f5b57735 Patrick Gansterer 2024-05-26  155  
+b72755f5b57735 Patrick Gansterer 2024-05-26  156  static int lm3509_parse_dt_node(struct device *dev,
+b72755f5b57735 Patrick Gansterer 2024-05-26  157  				struct lm3509_bl_led_data *led_data)
+b72755f5b57735 Patrick Gansterer 2024-05-26  158  {
+b72755f5b57735 Patrick Gansterer 2024-05-26  159  	struct device_node *child;
+b72755f5b57735 Patrick Gansterer 2024-05-26  160  	int seen_led_sources = 0;
+b72755f5b57735 Patrick Gansterer 2024-05-26  161  
+b72755f5b57735 Patrick Gansterer 2024-05-26 @162  	for_each_child_of_node(dev->of_node, child) {
+b72755f5b57735 Patrick Gansterer 2024-05-26  163  		struct lm3509_bl_led_data *ld;
+b72755f5b57735 Patrick Gansterer 2024-05-26  164  		int ret;
+b72755f5b57735 Patrick Gansterer 2024-05-26  165  		u32 reg;
+b72755f5b57735 Patrick Gansterer 2024-05-26  166  		int valid_led_sources;
+b72755f5b57735 Patrick Gansterer 2024-05-26  167  
+b72755f5b57735 Patrick Gansterer 2024-05-26  168  		ret = of_property_read_u32(child, "reg", &reg);
+b72755f5b57735 Patrick Gansterer 2024-05-26  169  		if (ret < 0)
+b72755f5b57735 Patrick Gansterer 2024-05-26 @170  			return ret;
+b72755f5b57735 Patrick Gansterer 2024-05-26  171  		if (reg >= LM3509_NUM_SINKS)
+b72755f5b57735 Patrick Gansterer 2024-05-26  172  			return -EINVAL;
+b72755f5b57735 Patrick Gansterer 2024-05-26  173  		ld = &led_data[reg];
+b72755f5b57735 Patrick Gansterer 2024-05-26  174  
+b72755f5b57735 Patrick Gansterer 2024-05-26  175  		ld->led_sources = lm3509_parse_led_sources(child, BIT(reg));
+b72755f5b57735 Patrick Gansterer 2024-05-26  176  		if (ld->led_sources < 0)
+b72755f5b57735 Patrick Gansterer 2024-05-26  177  			return ld->led_sources;
+b72755f5b57735 Patrick Gansterer 2024-05-26  178  
+b72755f5b57735 Patrick Gansterer 2024-05-26  179  		if (reg == 0)
+b72755f5b57735 Patrick Gansterer 2024-05-26  180  			valid_led_sources = BIT(LM3509_SINK_MAIN) |
+b72755f5b57735 Patrick Gansterer 2024-05-26  181  					    BIT(LM3509_SINK_SUB);
+b72755f5b57735 Patrick Gansterer 2024-05-26  182  		else
+b72755f5b57735 Patrick Gansterer 2024-05-26  183  			valid_led_sources = BIT(LM3509_SINK_SUB);
+b72755f5b57735 Patrick Gansterer 2024-05-26  184  
+b72755f5b57735 Patrick Gansterer 2024-05-26  185  		if (ld->led_sources != (ld->led_sources & valid_led_sources))
+b72755f5b57735 Patrick Gansterer 2024-05-26  186  			return -EINVAL;
+b72755f5b57735 Patrick Gansterer 2024-05-26  187  
+b72755f5b57735 Patrick Gansterer 2024-05-26  188  		if (seen_led_sources & ld->led_sources)
+b72755f5b57735 Patrick Gansterer 2024-05-26  189  			return -EINVAL;
+b72755f5b57735 Patrick Gansterer 2024-05-26  190  
+b72755f5b57735 Patrick Gansterer 2024-05-26  191  		seen_led_sources |= ld->led_sources;
+b72755f5b57735 Patrick Gansterer 2024-05-26  192  
+b72755f5b57735 Patrick Gansterer 2024-05-26  193  		ld->label = NULL;
+b72755f5b57735 Patrick Gansterer 2024-05-26  194  		of_property_read_string(child, "label", &ld->label);
+b72755f5b57735 Patrick Gansterer 2024-05-26  195  
+b72755f5b57735 Patrick Gansterer 2024-05-26  196  		ld->max_brightness = LM3509_MAX_BRIGHTNESS;
+b72755f5b57735 Patrick Gansterer 2024-05-26  197  		of_property_read_u32(child, "max-brightness",
+b72755f5b57735 Patrick Gansterer 2024-05-26  198  				     &ld->max_brightness);
+b72755f5b57735 Patrick Gansterer 2024-05-26  199  		ld->max_brightness =
+b72755f5b57735 Patrick Gansterer 2024-05-26  200  			min_t(u32, ld->max_brightness, LM3509_MAX_BRIGHTNESS);
+b72755f5b57735 Patrick Gansterer 2024-05-26  201  
+b72755f5b57735 Patrick Gansterer 2024-05-26  202  		ld->brightness = LM3509_DEF_BRIGHTNESS;
+b72755f5b57735 Patrick Gansterer 2024-05-26  203  		of_property_read_u32(child, "default-brightness",
+b72755f5b57735 Patrick Gansterer 2024-05-26  204  				     &ld->brightness);
+b72755f5b57735 Patrick Gansterer 2024-05-26  205  		ld->brightness = min_t(u32, ld->brightness, ld->max_brightness);
+b72755f5b57735 Patrick Gansterer 2024-05-26  206  	}
+b72755f5b57735 Patrick Gansterer 2024-05-26  207  
+b72755f5b57735 Patrick Gansterer 2024-05-26  208  	return 0;
+b72755f5b57735 Patrick Gansterer 2024-05-26  209  }
+b72755f5b57735 Patrick Gansterer 2024-05-26  210  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
