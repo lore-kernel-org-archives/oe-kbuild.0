@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC14176AB7
-	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 01:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FD3171B0
+	for <oe-kbuild@lists.linux.dev>; Mon, 17 Jun 2024 08:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718588969; cv=none; b=SVHiLdnfs98u77hWqSy6fb3JR9n2K1Gv/vpRTgp2s5AMbcI480zmdEaIaWJf+2UYJSGGaDtUEjH1fU4zUwHCVMaxncB4ozGq/Aba3sjw4hzqghiCsXMqso0GC1EQe5niTfW81qH4ZfYUW4EpbFjG7iXlVwJD43LtBTUWGXN0nAg=
+	t=1718614578; cv=none; b=s15eQ65BTys8iEqyN3gi2yrT/VOpb48HYnGaXupJlyBaapi3xZVFRzIsjXt6iwNac5SvPpzl5ltVrQJgEjL3i70O0DObfoJkpaQAsvCpRMpuSs+svaVIeFRG3+w9RL8ulULOhad0HHcd0NR3h5fMDwmDDaNoxJkAOB7+VPInMao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718588969; c=relaxed/simple;
-	bh=eIwXw9BO2kGwM2oYT147Dbk43T5cdovkPbGKMuE9dD0=;
+	s=arc-20240116; t=1718614578; c=relaxed/simple;
+	bh=VGKu9dGIVsZliLTgN5nb71t+pD0PWbNqiEGCo+dH6M0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=urMObX3ws2FUEzEuUul/RgTJ+nm6Iisl/XTojSA6Fp3QQ5yM6OIs/Gp/6E9GArTdbWOHRxyhwjkR7w0VAUZJideO/etnEOM1x713nP4DTynD8yBY2j9qBSSt5/WVOrJQgp1UL5ZGxqerlqxq2eP39+SDrOjsx/BTrAfB52WriNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BORRaTn+; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=VWXHCMhWxloUPxYx9jr4qlrEGAkrB2ObyoyOif0EPYN48pET0+Lhr1QQHXgUm+v2txY9CK4xf0XOWByQhYmp+p6gfm5yLh+JG0oH6fnRtEfWz9I/f871V/gFJ0HIAPVIuad63+UBFNMC4in9JNykY3b8hBLcIuLjOkRE8UK6w4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPs9g1rL; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BORRaTn+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPs9g1rL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718588968; x=1750124968;
+  t=1718614576; x=1750150576;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eIwXw9BO2kGwM2oYT147Dbk43T5cdovkPbGKMuE9dD0=;
-  b=BORRaTn+j31vwMVBqqtoJxOQZiZgDmaEMWG1jxHyx61GIMe/VnBDXCM0
-   sCr7nBrDQGArgAA+JWLZnXUv4+u1+ZXLEzbRSanXNSeLGwzEmgUjou763
-   iGWd0lnzyH5VilcjCw86S/yWCuT9X5wqK4o7sOU8t71RsazfaAjwNC65S
-   btG6GSxXyl6aQYneJC6fhRRuUCqJbVFC9YnUrovuF0yXoB3C+EqgJ3IYf
-   pl4ft0rzNivZTFA21esz9nwPAzXDDgtPXkouMwGOVeCoIXvR9GNBajBHa
-   OC+KJTi8Y7I/WS3OzofAxImbGsfUWCbE3B8TmfZxf0rJ2eawHsfEexz/n
-   w==;
-X-CSE-ConnectionGUID: lzCaZMlTS82VSYSasv3prw==
-X-CSE-MsgGUID: a51xQ4EDQvy/15JmjnOVPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="15560921"
-X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="15560921"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 18:49:25 -0700
-X-CSE-ConnectionGUID: XDDu5pTlTAqsDlsaV8F4Ng==
-X-CSE-MsgGUID: 393u/X5nQ8+aXL17jgBT9w==
+  bh=VGKu9dGIVsZliLTgN5nb71t+pD0PWbNqiEGCo+dH6M0=;
+  b=cPs9g1rLH1/wVY6V/EvPDBZfFXvq0yIUnZtDOwvyp91QVzZoYifnG3WZ
+   M1komXhZH9kSsNfQS0FZY+g2RaFQqM9NArtH72b8H+IeyaH82KAMwIFKQ
+   thyhJMw4PeeuuvqJlhLZftkdgwbMmKUIo6hcr1B208ok6HOYdj2n3NuKd
+   ZSJkw8VnepIxPA7A7PXNBD1sc3KpezF6YrpRqZDGwQHtRGG4wvh3kQXl9
+   fTDZ3CMELSlxQZEGCSdYjihBj30Ho4+7oXPrJ0NnSEzzmkyt+ewx9gE6L
+   X4UPAIHTLG4TBT4HQfCrb88v9swkTYz/BQls8T/5Ypc2gbMY8KGcejh/8
+   A==;
+X-CSE-ConnectionGUID: xhKE4hfdSnCRRQCC3bSzLQ==
+X-CSE-MsgGUID: Mao65OJ+SpKjxdvQGjmCHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="18350302"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="18350302"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 01:56:15 -0700
+X-CSE-ConnectionGUID: KJAlsE4nSyWKsk2ePkTZCw==
+X-CSE-MsgGUID: pL7P2WFEQNewoZ+m5VTuvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="72261399"
+X-IronPort-AV: E=Sophos;i="6.08,244,1712646000"; 
+   d="scan'208";a="41602740"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jun 2024 18:49:23 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Jun 2024 01:56:14 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sJ1Un-0003da-0v;
-	Mon, 17 Jun 2024 01:49:21 +0000
-Date: Mon, 17 Jun 2024 09:48:54 +0800
+	id 1sJ89r-00044U-3D;
+	Mon, 17 Jun 2024 08:56:11 +0000
+Date: Mon, 17 Jun 2024 16:55:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [crng-random:vdso 6/7] vdso_test_getrandom.c:149:40: warning:
- omitting the parameter name in a function definition is a C23 extension
-Message-ID: <202406170938.rs6wG1Nd-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/mediatek/mtk_drm_drv.c:360:1-23: WARNING: Function
+ "for_each_child_of_node" should have of_node_put() before break around line
+ 380.
+Message-ID: <202406171638.nCXqmqA0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,79 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: zx2c4@kernel.org
-TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+CC: "Chun-Kuang Hu" <chunkuang.hu@kernel.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: CK Hu <ck.hu@mediatek.com>
+CC: Alexandre Mergnat <amergnat@baylibre.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git vdso
-head:   a115b568173a8ac7b2c0ed4b3aacdefa89fa7d22
-commit: 1a9e8743248fb63fc15a6168d458e322e320e02b [6/7] random: introduce generic vDSO getrandom() implementation
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170938.rs6wG1Nd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6ba59ff4227927d3a8530fc2973b80e94b54d58f
+commit: d761b9450e31e5abd212f0085d424ed32760de5a drm/mediatek: Add cnt checking for coverity issue
+date:   10 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 10 months ago
+config: arm64-randconfig-r052-20240617 (https://download.01.org/0day-ci/archive/20240617/202406171638.nCXqmqA0-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406170938.rs6wG1Nd-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202406171638.nCXqmqA0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:360:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before break around line 380.
 
->> vdso_test_getrandom.c:149:40: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-     149 | static void *test_vdso_getrandom(void *)
-         |                                        ^
-   vdso_test_getrandom.c:159:40: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-     159 | static void *test_libc_getrandom(void *)
-         |                                        ^
-   vdso_test_getrandom.c:169:43: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-     169 | static void *test_syscall_getrandom(void *)
-         |                                           ^
-   3 warnings generated.
-   parse_vdso.c:65:9: warning: using the result of an assignment as a condition without parentheses [-Wparentheses]
-      65 |                 if (g = h & 0xf0000000)
-         |                     ~~^~~~~~~~~~~~~~~~
-   parse_vdso.c:65:9: note: place parentheses around the assignment to silence this warning
-      65 |                 if (g = h & 0xf0000000)
-         |                       ^               
-         |                     (                 )
-   parse_vdso.c:65:9: note: use '==' to turn this assignment into an equality comparison
-      65 |                 if (g = h & 0xf0000000)
-         |                       ^
-         |                       ==
-   parse_vdso.c:206:22: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
-     206 |         ver_hash = elf_hash(version);
-         |                             ^~~~~~~
-   parse_vdso.c:59:52: note: passing argument to parameter 'name' here
-      59 | static unsigned long elf_hash(const unsigned char *name)
-         |                                                    ^
-   parse_vdso.c:207:46: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
-     207 |         ELF(Word) chain = vdso_info.bucket[elf_hash(name) % vdso_info.nbucket];
-         |                                                     ^~~~
-   parse_vdso.c:59:52: note: passing argument to parameter 'name' here
-      59 | static unsigned long elf_hash(const unsigned char *name)
-         |                                                    ^
-   3 warnings generated.
+vim +/for_each_child_of_node +360 drivers/gpu/drm/mediatek/mtk_drm_drv.c
 
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  348  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  349  static bool mtk_drm_get_all_drm_priv(struct device *dev)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  350  {
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  351  	struct mtk_drm_private *drm_priv = dev_get_drvdata(dev);
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  352  	struct mtk_drm_private *all_drm_priv[MAX_CRTC];
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  353  	struct device_node *phandle = dev->parent->of_node;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  354  	const struct of_device_id *of_id;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  355  	struct device_node *node;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  356  	struct device *drm_dev;
+d761b9450e31e5 Jason-JH.Lin 2023-07-14  357  	unsigned int cnt = 0;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  358  	int i, j;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  359  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21 @360  	for_each_child_of_node(phandle->parent, node) {
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  361  		struct platform_device *pdev;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  362  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  363  		of_id = of_match_node(mtk_drm_of_ids, node);
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  364  		if (!of_id)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  365  			continue;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  366  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  367  		pdev = of_find_device_by_node(node);
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  368  		if (!pdev)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  369  			continue;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  370  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  371  		drm_dev = device_find_child(&pdev->dev, NULL, mtk_drm_match);
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  372  		if (!drm_dev || !dev_get_drvdata(drm_dev))
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  373  			continue;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  374  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  375  		all_drm_priv[cnt] = dev_get_drvdata(drm_dev);
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  376  		if (all_drm_priv[cnt] && all_drm_priv[cnt]->mtk_drm_bound)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  377  			cnt++;
+d761b9450e31e5 Jason-JH.Lin 2023-07-14  378  
+d761b9450e31e5 Jason-JH.Lin 2023-07-14  379  		if (cnt == MAX_CRTC)
+d761b9450e31e5 Jason-JH.Lin 2023-07-14 @380  			break;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  381  	}
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  382  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  383  	if (drm_priv->data->mmsys_dev_num == cnt) {
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  384  		for (i = 0; i < cnt; i++)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  385  			for (j = 0; j < cnt; j++)
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  386  				all_drm_priv[j]->all_drm_private[i] = all_drm_priv[i];
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  387  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  388  		return true;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  389  	}
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  390  
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  391  	return false;
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  392  }
+1ef7ed48356cd5 Nancy.Lin    2023-03-21  393  
 
-vim +149 tools/testing/selftests/vDSO/vdso_test_getrandom.c
+:::::: The code at line 360 was first introduced by commit
+:::::: 1ef7ed48356cd5f9af2b7671956991b658d8c2ba drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support
 
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  148  
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18 @149  static void *test_vdso_getrandom(void *)
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  150  {
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  151  	for (size_t i = 0; i < TRIALS; ++i) {
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  152  		unsigned int val;
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  153  		ssize_t ret = vgetrandom(&val, sizeof(val), 0);
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  154  		assert(ret == sizeof(val));
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  155  	}
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  156  	return NULL;
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  157  }
-1a9e8743248fb6 Jason A. Donenfeld 2022-11-18  158  
+:::::: TO: Nancy.Lin <nancy.lin@mediatek.com>
+:::::: CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
