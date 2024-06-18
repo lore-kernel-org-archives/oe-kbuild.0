@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4192139DD
-	for <oe-kbuild@lists.linux.dev>; Tue, 18 Jun 2024 17:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7B238DD3
+	for <oe-kbuild@lists.linux.dev>; Tue, 18 Jun 2024 18:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718731393; cv=none; b=FEMIKkunXm3T8uiEcFKEeNuc/k1b46i0jhXpm0+87hneYqqsIBrJ3i2z24wd6Qq0yD+Hwxs9rrtpXR1h4pid2BEAyN8hI13d+LcH8sGebTCsMqXTWYgchjSURRi2GzM2Oh2U0M6MLRRDwXUVo0BjfYVwCtvFA71NdFSu8O9jK1Y=
+	t=1718736386; cv=none; b=NJiIZcgn12befbz7UObX67E21yrk80N0rPoQrabEYBaoP3NYlVQaakHGAT8ENCwsHSjacLuEnXFyqz53DODJ2H7SvAAogy3NL5v79EB75T58U8xDh/wAEjPVBwPrSHfKGNSrMiABuEdBHyBqS8h2X6ywps/xZWG4wsbxdTsvyaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718731393; c=relaxed/simple;
-	bh=ramk8qrzfayOpxPuli8NTtFb5AjtHcSJuAA9shhuwd4=;
+	s=arc-20240116; t=1718736386; c=relaxed/simple;
+	bh=4KUosT8FHpsSBEBSDP661Op3DgOv/1F+86N5kqZqP98=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UPJScA3WxODRAAEjouaW+oweMFREod1NMtkAWaKDYF/9+nUnmaXYa44ZYMLE/gVr0Cg/54PqIK7vIBpplwJEg+3iGNtRBswhbKoaymrp8kgqjyVWmnZq3nBZzBQQ2dNB3LhLNfTxobN5nT0nHNw0014NVySOX36P5c0oh359/XY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kz7anmWR; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=GmodZav48TuQdDLXfuxxCdcv5u5u4Dv7o7LBJ7XlVuQP6ZbYzI+E5fmVVFO4/fgATnXKw6KbeMIqkyDZblGLQkCKUnYP+hWpiVp9f05FaXVzXZY1+2X1KMN9tCZAwwM6oOtgD5SB25JAHx61Ra6G7QkzAfgibLad6IjkvYTe7mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cKt6SeUH; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kz7anmWR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718731392; x=1750267392;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ramk8qrzfayOpxPuli8NTtFb5AjtHcSJuAA9shhuwd4=;
-  b=Kz7anmWRt750VkNbRwgdBwD6QV8vQlxO2webrkrOhydzWhvDpna3pio6
-   ThWVEElClrIb04/29JMPyrZw1U7U3iWDn1xdnxAj6iBzgycK71kfKwBlE
-   evxoWEYCRTESDGptY97XqR2BdN3hNxNOQHzzn5ahOGVqccnDTCYj/j2Bz
-   P849H3elDDnyMdLbYqy/qyK1UPTumpzBIKpJeaAmBQ8iBvjck5WUi353b
-   1pYjKLTUtQpg8/5FsyPQoIZn7SzWugirp+FAv1amI9EklxaSNa6u9zeKK
-   KJ10UduaV0tPZBDL5wmWQv4C+AKUaazx6tCMvR2j72FUqxf/o1uY8R88C
-   w==;
-X-CSE-ConnectionGUID: gqni/GIjTV+43sxJIrUw+g==
-X-CSE-MsgGUID: lo9I0AaHQYmGMNKvEi6TXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="27047002"
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="27047002"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 10:23:11 -0700
-X-CSE-ConnectionGUID: kCfAEnSRTeuF0dS6wsDdOQ==
-X-CSE-MsgGUID: h3UcCUfRSXelnxavFsnlfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,247,1712646000"; 
-   d="scan'208";a="64869939"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Jun 2024 10:23:10 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sJcXz-0005lG-1f;
-	Tue, 18 Jun 2024 17:23:07 +0000
-Date: Wed, 19 Jun 2024 01:22:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [asahilinux:gpu/prev 166/191] drivers/gpu/drm/drm_gpuvm.c:2706
- drm_gpuvm_bo_unmap() error: uninitialized symbol 'ret'.
-Message-ID: <202406190112.dM9sf1iu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cKt6SeUH"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-35f236a563cso4488873f8f.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 18 Jun 2024 11:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718736383; x=1719341183; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
+        b=cKt6SeUHf8e5li8bA2q5iQBOGzCvlQKAhWMpq255Liz8nKr3AmDgYPoXeyN82RmKgR
+         CrrSG/r6XaK8FJjAHkob0y+7qflojWDQZDHBIAxRjrAxIizBskMV9RAJ81q7tKFDOG6g
+         uUvi65iEQuImz3uETcMBEAFxiHO9g9NvfUW92MoY153U6fYFqD9qvpO+f457ZTYTMMOb
+         yAPZLP/DTSB2t5e6F0JQVze2XDZl5++KJqUBSe8SnV7cz3rrFAOPruW2lWUhdj54bRIs
+         LIvXI5GZfW+pdtg7WHEkNWvfoGH3ahJy0DSi+6VyIdssrWXM78UqpPUEhxfavp4R8rDP
+         0C1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718736383; x=1719341183;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ls7/SB0JX9BuhqtReW7zJ3OlsmhJIpdPXXBdLDpYTr4=;
+        b=H9jzazYFxqx0BVaF2/J1DZVoVyvgd2+xJoyepUiQ/KEam3aAtXLmWU+ELuBEgogPai
+         QDyY11QKfopw53WgMUo8jxLkvQGChHwP4jDXFXrGs82zzETruKoDOc6mftJAxxa0UdGV
+         pewB+YbrlgHsNVzJ0CSAAfsKhtFlMgK34Oz2ww1au/MQ8lUaerjNkY8vbrQ5xtd7dB8q
+         bTBDNnKmrOT7I/h8+TM3NGi8Xt0c+PrcdIopf6LoU+xfEdkeuCvAcQyc/BTLoWhmWTwH
+         FvVJ17Y7662IhBYJQKGHmHEQZeonxXmjBq6q1V5mTzLC9VOWhChUdm3mf3rhHwasOebl
+         CYMw==
+X-Gm-Message-State: AOJu0YzVeGMwCY3sc96DbmV897uBu5vVgXX31ea5k4hszOzcuJkZ1tXd
+	H2FXpa4QeXf+HOM628TeMyIdnRSh7m4vToRFRs3RQIXnCjpyPumBqcQAOavMbjX6bd2tk5kw0Pj
+	C
+X-Google-Smtp-Source: AGHT+IELO++/aiXHXuy8U1++adT+kJodLvIH3Zal6efe7UqAK/9LQxLhxHwwdtBDKJANNKD1CT0oBA==
+X-Received: by 2002:adf:f98c:0:b0:35f:20da:e1a2 with SMTP id ffacd0b85a97d-36317b7d57dmr276692f8f.30.1718736383291;
+        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
+Received: from localhost ([102.222.70.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-360750acd7csm14826877f8f.52.2024.06.18.11.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 11:46:23 -0700 (PDT)
+Date: Tue, 18 Jun 2024 21:46:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:nfs-buffered-write-cleanups 8/8] fs/nfs/write.c:569
+ nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
+Message-ID: <20b78a17-38c4-4d59-9e36-314795302af9@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,77 +66,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Asahi Lina <lina@asahilina.net>
-
-tree:   https://github.com/AsahiLinux/linux gpu/prev
-head:   ebb83ce10cb43a9ff5fecbe85d37bd2187e5d07f
-commit: 436416207fac1011fc79899107b63858640e7489 [166/191] drm/gpuvm: Add drm_gpuvm_bo_unmap()
-:::::: branch date: 3 days ago
-:::::: commit date: 6 weeks ago
-config: i386-randconfig-141-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190112.dM9sf1iu-lkp@intel.com/config)
+tree:   git://git.infradead.org/users/hch/misc.git nfs-buffered-write-cleanups
+head:   724a9166a85d96c9fa6377fe9c042b72da816c90
+commit: 724a9166a85d96c9fa6377fe9c042b72da816c90 [8/8] nfs: don't reuse partially completed requests in nfs_lock_and_join_requests
+config: x86_64-randconfig-161-20240618 (https://download.01.org/0day-ci/archive/20240619/202406190139.SC6Lhg4h-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406190112.dM9sf1iu-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406190139.SC6Lhg4h-lkp@intel.com/
 
 New smatch warnings:
-drivers/gpu/drm/drm_gpuvm.c:2706 drm_gpuvm_bo_unmap() error: uninitialized symbol 'ret'.
+fs/nfs/write.c:569 nfs_lock_and_join_requests() error: uninitialized symbol 'subreq'.
 
-Old smatch warnings:
-drivers/gpu/drm/drm_gpuvm.c:1354 drm_gpuvm_exec_lock_range() error: uninitialized symbol 'ret'.
+vim +/subreq +569 fs/nfs/write.c
 
-vim +/ret +2706 drivers/gpu/drm/drm_gpuvm.c
+0c493b5cf16e28 Trond Myklebust       2023-01-19  535  static struct nfs_page *nfs_lock_and_join_requests(struct folio *folio)
+e00ed89d7bd59c Trond Myklebust       2020-03-30  536  {
+15b8fdc56a662f Christoph Hellwig     2024-06-14  537  	struct inode *inode = folio->mapping->host;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  538  	struct nfs_page *head, *subreq;
+b193a78ddb5ee7 Trond Myklebust       2023-09-04  539  	struct nfs_commit_info cinfo;
+724a9166a85d96 Christoph Hellwig     2024-06-16  540  	bool removed;
+e00ed89d7bd59c Trond Myklebust       2020-03-30  541  	int ret;
+d458138353726e Weston Andros Adamson 2014-07-11  542  
+e00ed89d7bd59c Trond Myklebust       2020-03-30  543  	/*
+e00ed89d7bd59c Trond Myklebust       2020-03-30  544  	 * A reference is taken only on the head request which acts as a
+e00ed89d7bd59c Trond Myklebust       2020-03-30  545  	 * reference to the whole page group - the group will not be destroyed
+e00ed89d7bd59c Trond Myklebust       2020-03-30  546  	 * until the head reference is released.
+e00ed89d7bd59c Trond Myklebust       2020-03-30  547  	 */
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  548  retry:
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  549  	head = nfs_folio_find_head_request(folio);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  550  	if (!head)
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  551  		return NULL;
+d458138353726e Weston Andros Adamson 2014-07-11  552  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  553  	while (!nfs_lock_request(head)) {
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  554  		ret = nfs_wait_on_request(head);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  555  		if (ret < 0)
+e00ed89d7bd59c Trond Myklebust       2020-03-30  556  			return ERR_PTR(ret);
+b5bab9bf91324a Trond Myklebust       2017-07-17  557  	}
+b5bab9bf91324a Trond Myklebust       2017-07-17  558  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  559  	/* Ensure that nobody removed the request before we locked it */
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  560  	if (head != folio->private) {
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  561  		nfs_unlock_and_release_request(head);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  562  		goto retry;
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  563  	}
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  564  
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  565  	ret = nfs_page_group_lock(head);
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  566  	if (ret < 0)
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  567  		goto out_unlock;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  568  
+724a9166a85d96 Christoph Hellwig     2024-06-16 @569  	removed = test_bit(PG_REMOVE, &subreq->wb_flags);
+                                                                                       ^^^^^^
+Uninitialized until next line.
 
-e6303f323b1ad9 drivers/gpu/drm/drm_gpuva_mgr.c Danilo Krummrich 2023-07-20  2666  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2667  /**
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2668   * drm_gpuvm_bo_unmap() - unmaps a GEM
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2669   * @vm_bo: the &drm_gpuvm_bo abstraction
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2670   *
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2671   * This function calls the unmap callback for every GPUVA attached to a GEM.
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2672   *
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2673   * It is the callers responsibility to protect the GEMs GPUVA list against
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2674   * concurrent access using the GEMs dma_resv lock.
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2675   *
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2676   * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2677   */
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2678  int
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2679  drm_gpuvm_bo_unmap(struct drm_gpuvm_bo *vm_bo, void *priv)
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2680  {
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2681  	struct drm_gpuva_op *op;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2682  	int ret;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2683  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2684  	if (unlikely(!vm_bo->vm))
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2685  		return -EINVAL;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2686  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2687  	const struct drm_gpuvm_ops *vm_ops = vm_bo->vm->ops;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2688  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2689  	if (unlikely(!(vm_ops && vm_ops->sm_step_unmap)))
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2690  		return -EINVAL;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2691  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2692  	struct drm_gpuva_ops *ops = drm_gpuvm_bo_unmap_ops_create(vm_bo);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2693          if (IS_ERR(ops))
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2694                  return PTR_ERR(ops);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2695  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2696  	drm_gpuva_for_each_op(op, ops) {
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2697  		drm_WARN_ON(vm_bo->vm->drm, op->op != DRM_GPUVA_OP_UNMAP);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2698  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2699  		ret = op_unmap_cb(vm_ops, priv, op->unmap.va, false);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2700  		if (ret)
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2701  			goto cleanup;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2702  	}
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2703  
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2704  cleanup:
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2705  	drm_gpuva_ops_free(vm_bo->vm, ops);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08 @2706  	return ret;
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2707  }
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2708  EXPORT_SYMBOL_GPL(drm_gpuvm_bo_unmap);
-436416207fac10 drivers/gpu/drm/drm_gpuvm.c     Asahi Lina       2024-05-08  2709  
+724a9166a85d96 Christoph Hellwig     2024-06-16  570  
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  571  	/* lock each request in the page group */
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  572  	for (subreq = head->wb_this_page;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  573  	     subreq != head;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  574  	     subreq = subreq->wb_this_page) {
+724a9166a85d96 Christoph Hellwig     2024-06-16  575  		if (test_bit(PG_REMOVE, &subreq->wb_flags))
+724a9166a85d96 Christoph Hellwig     2024-06-16  576  			removed = true;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  577  		ret = nfs_page_group_lock_subreq(head, subreq);
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  578  		if (ret < 0)
+fe5ab688ce8408 Christoph Hellwig     2024-06-16  579  			goto out_unlock;
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  580  	}
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  581  
+7e6c7e2a4d2386 Christoph Hellwig     2024-06-16  582  	nfs_page_group_unlock(head);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
