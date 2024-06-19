@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38838475
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jun 2024 19:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A88C4654D
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jun 2024 22:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718825322; cv=none; b=a+8RnzcSmAUj9AnoDeGgVzebHaw0fUHNEoG9GcyzyyHoTUfL0PlXwWyAO7hrEKcYqUWqHDXh6NsUCwJ+C8ZhtDA+2D8jWc+PptxOuH11zULEkI5DcwmeKOgdZinMPTusedQlkFCGPz5zqJDkFYLhmiolLQaC9uUIxkBTMBTWHrk=
+	t=1718835601; cv=none; b=Lk/ArDu+uBCj9jF3zj8YeweHUdbKCokMMPoWVcDz2rOGyHHldzBVA3Z+eEl1bGrsUJU5rYj7kgS40VjPU//W3mRfXWboEQi3EwJHfs/7OOeApVeIp8+0OO5aBBip42C9obOvoKvFZJKpEcFxqj0ImODrOo53uFDSvYw7ulR5Gvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718825322; c=relaxed/simple;
-	bh=VN8ejFDBQomNVj0EbHgNwFrsuaNiJXglQzfsJIw8EwM=;
+	s=arc-20240116; t=1718835601; c=relaxed/simple;
+	bh=jjDR8HBIavRRm+dzoPnsaKMZhaI1bB6o7g5JUesQBL8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l5rQ1cj611+32KEmAiox1wuWSI0x6/ImGSor+uXEaU/wXNcV7ql+xjYpXkAa4bV/CorZjQycCVSZww5oONOgUNIiRi3jX27EFZnRRcIjxjQG1D1+A4b+lgK/HrpR4ibIwAbk8NrzocpS5PSheczhrwXwqNWKoUrseAg4JYqqFv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKLD4B0w; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=d30K3pxwGshzIG6VWBNrJqHGEfnv7MHHDVBSibbw76+y2nFzNA1g2PJXxiFKOoIBphbfTbJbApOzHZllYrMsfR2xXAWahQ2mfF/NxkeaB4mcviuxww3e3k95R0ZEnIuhaT1vFeGnsgu5Dy401F+vPD6k5/rCV9K1rQuj9XjQ33I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZBkxFOvz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKLD4B0w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZBkxFOvz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718825320; x=1750361320;
+  t=1718835599; x=1750371599;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VN8ejFDBQomNVj0EbHgNwFrsuaNiJXglQzfsJIw8EwM=;
-  b=fKLD4B0wRBPpRG6sf1e+1mw8F3wzda/DRndtaKU9Og0ku1J5vAMm54E8
-   EjzVU3BsTs7M8kI90KQfCHkm+r/DH2z5SLKeL0ZTosjJkDyVGWUuBeSUv
-   WxYcmQfmhBuZjMBG7juhwSJ6evvqzf+SpW0s4rIrQv9DivnAdugrThg5i
-   9XQAi7dlkugEUqPbdqABEtNeDgFu8tmDJM8PuWWa2m8EOqUxYc44XFo7b
-   xZaR0rcJsMxxoNOju+s5yKJG6H5fD9gXfhC0Tfkf/0fIxY3Gyn5sBpAkJ
-   zhkKoS9MRh5XLzPBftapMzAuO+rNiX2CnB4OF8xScGTkYnpZksw1dLlEW
-   g==;
-X-CSE-ConnectionGUID: tnozL+PkRV23QS+0NlgWTQ==
-X-CSE-MsgGUID: CkNV+To6SjKitSIP35gWBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="19596277"
+  bh=jjDR8HBIavRRm+dzoPnsaKMZhaI1bB6o7g5JUesQBL8=;
+  b=ZBkxFOvzTPB3q39J59cjRXPriR0e+7wPZcjafomqeyAua1CAksOMt9zm
+   sLb4LGaT3UnU3GpXezXiGBbAm6byrriC+0Fo1tVmLqD3Tgk05LEp0NxWE
+   KWt2UwOntJUrPR0cD4T01NUn2h17JJbQFB/CT6wnWR7vDLjEyOzfQv8Oj
+   ogYWQ1UYi7MffzDAMTgn8qVn0AZCGfyS/QvuMFzJLSJXsTFmMMpPCm+iZ
+   subScDbPUQq73bUJRUW/AnoTGjEGcSZsN6BnXCdsXwxSUQK5xTTefwCv7
+   FQub37UjF4hKWL2XqeBjw4WmMNx31sMoWzGS8Ed/Z22oKSw2MHmVPxJN1
+   A==;
+X-CSE-ConnectionGUID: OufRn92OTyis9atL/4ZMGA==
+X-CSE-MsgGUID: T64z5uXpQWqER6HrqnxLbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="15624675"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="19596277"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 12:28:39 -0700
-X-CSE-ConnectionGUID: 4LMKgRo6Rg+NfHItkPMJ1w==
-X-CSE-MsgGUID: l8eXcyssSVyyMpNwQn046w==
+   d="scan'208";a="15624675"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 15:19:59 -0700
+X-CSE-ConnectionGUID: bp6pEPz/Q9aNR0228arN9w==
+X-CSE-MsgGUID: oKR0uhj1Q5KsKKtaMpb/ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="42672629"
+   d="scan'208";a="42151062"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2024 12:28:38 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Jun 2024 15:19:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK0yx-0006vY-32;
-	Wed, 19 Jun 2024 19:28:35 +0000
-Date: Thu, 20 Jun 2024 03:28:31 +0800
+	id 1sK3ek-00072w-2g;
+	Wed, 19 Jun 2024 22:19:54 +0000
+Date: Thu, 20 Jun 2024 06:19:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6719/7105] mm/swapfile.c:3433 __swap_duplicate()
- error: uninitialized symbol 'err'.
-Message-ID: <202406200353.3HLZ0mmi-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [paulmck-rcu:dev.2024.06.06a 27/34]
+ kernel/time/clocksource.c:136:25: error:
+ 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US' undeclared
+Message-ID: <202406200644.R3fwDBlr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,106 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "commit 421469c14614591c29c312d929142dbb07e3d521 was found in branch paulmck-rcu/dev.2024.06.06a, not in new branch paulmck-rcu/dev.2024.06.18a"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Baolin Wang <baolin.wang@linux.alibaba.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel@vger.kernel.org
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2102cb0d050d34d50b9642a3a50861787527e922
-commit: 63919ec4aaef2ec6eb9c8d6923276040b3a38964 [6719/7105] mm: swap: extend swap_shmem_alloc() to support batch SWAP_MAP_SHMEM flag setting
-:::::: branch date: 4 hours ago
-:::::: commit date: 21 hours ago
-config: sparc-randconfig-r071-20240619 (https://download.01.org/0day-ci/archive/20240620/202406200353.3HLZ0mmi-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.06.06a
+head:   f29bcafffef0ecc8a5d2cdc1bbef9a6889225263
+commit: 421469c14614591c29c312d929142dbb07e3d521 [27/34] Clocksource: Take advantage of always-defined CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+:::::: branch date: 26 hours ago
+:::::: commit date: 6 days ago
+config: arc-randconfig-002-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200644.R3fwDBlr-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200644.R3fwDBlr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406200353.3HLZ0mmi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406200644.R3fwDBlr-lkp@intel.com/
 
-smatch warnings:
-mm/swapfile.c:3433 __swap_duplicate() error: uninitialized symbol 'err'.
+All errors (new ones prefixed by >>):
 
-vim +/err +3433 mm/swapfile.c
+   kernel/time/clocksource.c: In function '__clocksource_update_freq_scale':
+>> kernel/time/clocksource.c:136:25: error: 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US' undeclared (first use in this function)
+     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/clocksource.c:137:28: note: in expansion of macro 'MAX_SKEW_USEC'
+     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+         |                            ^~~~~~~~~~~~~
+   kernel/time/clocksource.c:1167:50: note: in expansion of macro 'WATCHDOG_MAX_SKEW'
+    1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+         |                                                  ^~~~~~~~~~~~~~~~~
+   kernel/time/clocksource.c:136:25: note: each undeclared identifier is reported only once for each function it appears in
+     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/clocksource.c:137:28: note: in expansion of macro 'MAX_SKEW_USEC'
+     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+         |                            ^~~~~~~~~~~~~
+   kernel/time/clocksource.c:1167:50: note: in expansion of macro 'WATCHDOG_MAX_SKEW'
+    1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
+         |                                                  ^~~~~~~~~~~~~~~~~
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3368  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3369  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3370   * Verify that a swap entry is valid and increment its swap map count.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3371   *
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3372   * Returns error code in following case.
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3373   * - success -> 0
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3374   * - swp_entry is invalid -> EINVAL
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3375   * - swp_entry is migration entry -> EINVAL
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3376   * - swap-cache reference is requested but there is already one. -> EEXIST
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3377   * - swap-cache reference is requested but the entry is not used. -> ENOENT
-570a335b8e2257 Hugh Dickins      2009-12-14  3378   * - swap-mapped reference requested but needs continued swap count. -> ENOMEM
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3379   */
-63919ec4aaef2e Baolin Wang       2024-06-18  3380  static int __swap_duplicate(struct swap_info_struct *p, unsigned long offset,
-63919ec4aaef2e Baolin Wang       2024-06-18  3381  			    int nr, unsigned char usage)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3382  {
-235b62176712b9 Huang, Ying       2017-02-22  3383  	struct swap_cluster_info *ci;
-8d69aaee80c123 Hugh Dickins      2009-12-14  3384  	unsigned char count;
-8d69aaee80c123 Hugh Dickins      2009-12-14  3385  	unsigned char has_cache;
-63919ec4aaef2e Baolin Wang       2024-06-18  3386  	int err, i;
-235b62176712b9 Huang, Ying       2017-02-22  3387  
-235b62176712b9 Huang, Ying       2017-02-22  3388  	ci = lock_cluster_or_swap_info(p, offset);
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3389  
-63919ec4aaef2e Baolin Wang       2024-06-18  3390  	for (i = 0; i < nr; i++) {
-63919ec4aaef2e Baolin Wang       2024-06-18  3391  		count = p->swap_map[offset + i];
-edfe23dac3e298 Shaohua Li        2013-09-11  3392  
-edfe23dac3e298 Shaohua Li        2013-09-11  3393  		/*
-edfe23dac3e298 Shaohua Li        2013-09-11  3394  		 * swapin_readahead() doesn't check if a swap entry is valid, so the
-edfe23dac3e298 Shaohua Li        2013-09-11  3395  		 * swap entry could be SWAP_MAP_BAD. Check here with lock held.
-edfe23dac3e298 Shaohua Li        2013-09-11  3396  		 */
-edfe23dac3e298 Shaohua Li        2013-09-11  3397  		if (unlikely(swap_count(count) == SWAP_MAP_BAD)) {
-edfe23dac3e298 Shaohua Li        2013-09-11  3398  			err = -ENOENT;
-63919ec4aaef2e Baolin Wang       2024-06-18  3399  			break;
-edfe23dac3e298 Shaohua Li        2013-09-11  3400  		}
-edfe23dac3e298 Shaohua Li        2013-09-11  3401  
-253d553ba75ab2 Hugh Dickins      2009-12-14  3402  		has_cache = count & SWAP_HAS_CACHE;
-253d553ba75ab2 Hugh Dickins      2009-12-14  3403  		count &= ~SWAP_HAS_CACHE;
-253d553ba75ab2 Hugh Dickins      2009-12-14  3404  		err = 0;
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3405  
-253d553ba75ab2 Hugh Dickins      2009-12-14  3406  		if (usage == SWAP_HAS_CACHE) {
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3407  			/* set SWAP_HAS_CACHE if there is no cache and entry is used */
-253d553ba75ab2 Hugh Dickins      2009-12-14  3408  			if (!has_cache && count)
-253d553ba75ab2 Hugh Dickins      2009-12-14  3409  				has_cache = SWAP_HAS_CACHE;
-253d553ba75ab2 Hugh Dickins      2009-12-14  3410  			else if (has_cache)		/* someone else added cache */
-253d553ba75ab2 Hugh Dickins      2009-12-14  3411  				err = -EEXIST;
-253d553ba75ab2 Hugh Dickins      2009-12-14  3412  			else				/* no users remaining */
-253d553ba75ab2 Hugh Dickins      2009-12-14  3413  				err = -ENOENT;
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3414  		} else if (count || has_cache) {
-570a335b8e2257 Hugh Dickins      2009-12-14  3415  			if ((count & ~COUNT_CONTINUED) < SWAP_MAP_MAX)
-570a335b8e2257 Hugh Dickins      2009-12-14  3416  				count += usage;
-570a335b8e2257 Hugh Dickins      2009-12-14  3417  			else if ((count & ~COUNT_CONTINUED) > SWAP_MAP_MAX)
-253d553ba75ab2 Hugh Dickins      2009-12-14  3418  				err = -EINVAL;
-63919ec4aaef2e Baolin Wang       2024-06-18  3419  			else if (swap_count_continued(p, offset + i, count))
-570a335b8e2257 Hugh Dickins      2009-12-14  3420  				count = COUNT_CONTINUED;
-570a335b8e2257 Hugh Dickins      2009-12-14  3421  			else
-570a335b8e2257 Hugh Dickins      2009-12-14  3422  				err = -ENOMEM;
-355cfa73ddff2f KAMEZAWA Hiroyuki 2009-06-16  3423  		} else
-253d553ba75ab2 Hugh Dickins      2009-12-14  3424  			err = -ENOENT;			/* unused swap entry */
-253d553ba75ab2 Hugh Dickins      2009-12-14  3425  
-63919ec4aaef2e Baolin Wang       2024-06-18  3426  		if (err)
-63919ec4aaef2e Baolin Wang       2024-06-18  3427  			break;
-63919ec4aaef2e Baolin Wang       2024-06-18  3428  
-63919ec4aaef2e Baolin Wang       2024-06-18  3429  		WRITE_ONCE(p->swap_map[offset + i], count | has_cache);
-63919ec4aaef2e Baolin Wang       2024-06-18  3430  	}
-253d553ba75ab2 Hugh Dickins      2009-12-14  3431  
-235b62176712b9 Huang, Ying       2017-02-22  3432  	unlock_cluster_or_swap_info(p, ci);
-253d553ba75ab2 Hugh Dickins      2009-12-14 @3433  	return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3434  }
-253d553ba75ab2 Hugh Dickins      2009-12-14  3435  
 
-:::::: The code at line 3433 was first introduced by commit
-:::::: 253d553ba75ab26b3e9e2f70cbf6fbf0813f7e86 swap_info: SWAP_HAS_CACHE cleanups
+vim +/CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US +136 kernel/time/clocksource.c
 
-:::::: TO: Hugh Dickins <hugh.dickins@tiscali.co.uk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  119  
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  120  /*
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  121   * Maximum permissible delay between two readouts of the watchdog
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  122   * clocksource surrounding a read of the clocksource being validated.
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  123   * This delay could be due to SMIs, NMIs, or to VCPU preemptions.  Used as
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  124   * a lower bound for cs->uncertainty_margin values when registering clocks.
+c37e85c135cead4 Paul E. McKenney 2022-12-06  125   *
+c37e85c135cead4 Paul E. McKenney 2022-12-06  126   * The default of 500 parts per million is based on NTP's limits.
+c37e85c135cead4 Paul E. McKenney 2022-12-06  127   * If a clocksource is good enough for NTP, it is good enough for us!
+5b1825ddca43b53 Borislav Petkov  2024-06-12  128   *
+5b1825ddca43b53 Borislav Petkov  2024-06-12  129   * In other words, by default, even if a clocksource is extremely
+5b1825ddca43b53 Borislav Petkov  2024-06-12  130   * precise (for example, with a sub-nanosecond period), the maximum
+5b1825ddca43b53 Borislav Petkov  2024-06-12  131   * permissible skew between the clocksource watchdog and the clocksource
+5b1825ddca43b53 Borislav Petkov  2024-06-12  132   * under test is not permitted to go below the 500ppm minimum defined
+5b1825ddca43b53 Borislav Petkov  2024-06-12  133   * by MAX_SKEW_USEC.  This 500ppm minimum may be overridden using the
+5b1825ddca43b53 Borislav Petkov  2024-06-12  134   * CLOCKSOURCE_WATCHDOG_MAX_SKEW_US Kconfig option.
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  135   */
+fc153c1c58cb8c3 Waiman Long      2021-12-05 @136  #define MAX_SKEW_USEC	CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
+fc153c1c58cb8c3 Waiman Long      2021-12-05  137  #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
+2e27e793e280ff1 Paul E. McKenney 2021-05-27  138  
+
+:::::: The code at line 136 was first introduced by commit
+:::::: fc153c1c58cb8c3bb3b443b4d7dc3211ff5f65fc clocksource: Add a Kconfig option for WATCHDOG_MAX_SKEW
+
+:::::: TO: Waiman Long <longman@redhat.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
