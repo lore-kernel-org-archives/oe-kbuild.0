@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14637711B
-	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jun 2024 22:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2BAC15B14F
+	for <oe-kbuild@lists.linux.dev>; Wed, 19 Jun 2024 23:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718837522; cv=none; b=GTju2GKl1nDfUQAx+E0/x1w4hR3fX7aYFI4gRUh89bkdD0JxMNOmryuagpCGo+zSusP6jynYwly9WyI9tuYWztOmHWIDYBm4PAKg0NAzQvzDArYh2dJG8IzCbiCCVH4xiU6zztcPMl5qmttcwLEn+eququrHp50y8bFIVw8SN74=
+	t=1718840644; cv=none; b=eCmqY8znkQfRVTvJ5d0kwxF2vMspJ+IDbF8nWN6JDhEl1XEoTqvp8PnoLRmC1tO8ltP14a0ese0JJjZod498nB1uSwdsrQLsxXjQS0mz2Cqz+Npig6D+NRAiL5WgPsFJJxBAF0/VRa7st0LflKZJ7yP7goTrtmtoZAlGCUHvdAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718837522; c=relaxed/simple;
-	bh=mmgQ5Nv/t08y5I76xCETat/4qwPlSCqd+iW34FIiVI0=;
+	s=arc-20240116; t=1718840644; c=relaxed/simple;
+	bh=B1q9TW2Lg96H9hXo/3v9C5mC/7Mgg4DEp3xM/ZVLwDA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o+Pl2Y6u1qr+qz5YktuqYZdqFTnrAwPWnot1LKvm/4Qqz6o+NQwhypdmkCmPjzHyScO75JlHqjBMTqRfyci1HDAh0xEEvaf7JaLUCclxbd+zKyOAcU/FxdxEQjgpS/QOz2lSA4hNq+21FgYLiQepGedxUMM1kH054Tf7talKy5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=koFY0VgQ; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=dOyhdB7MxSYREjNLm4r6IqG+z3jwh0PORktVVPHfRnYzgFJ3KuoB4//uWH8MzUvg5z8ihXWFz/XFAZly9v+5D9Z4kTuNNHNvePAbVJTtyyn3apGAFs4oONTjgaPZxbRcoGYEVVaOy+NIwqO/ghBYz5GQbDZoLtty7gJH9XLuzYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Slsddutb; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="koFY0VgQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Slsddutb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718837519; x=1750373519;
+  t=1718840642; x=1750376642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mmgQ5Nv/t08y5I76xCETat/4qwPlSCqd+iW34FIiVI0=;
-  b=koFY0VgQWm1HCEPii6dyNMJlDRI+irixlSWimPWGn3p+Vi9YIx0fJ38n
-   V5zwkGbIHcJG6ABWmbhRjKlXnYAUgIOr2VUk7fpyfjX+iYyApNWVeRawf
-   CbSJwkRGGIMtuyfMFuEy+mipZjzc4ZrnejDxtaXUcRBhoLwBmcvzjKnB7
-   qFI+oIXCFu/KBzHtsRcIlWqB/Dpu+pcqr+S4481R8/LOUuQB/7Y7HMVmt
-   EvTdSY+mD7aDi/1bgHD5LxzdMqYFS50x/S4K6hP5h4ZOqglGHb4xeXCO5
-   Iu/2Z5T5VcE+vQWwZITbVpMiJGSMAQ9FhWEpAg9vxO3Nez6/2TUHRWS3C
-   A==;
-X-CSE-ConnectionGUID: fyEuMmRER9u+wgYHCj06Cw==
-X-CSE-MsgGUID: 9420Xp9sQLqoInFXYqXUSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="27201111"
+  bh=B1q9TW2Lg96H9hXo/3v9C5mC/7Mgg4DEp3xM/ZVLwDA=;
+  b=SlsddutbVL9yZ37OyON5Qt8W60ilqpV8bFAbBQdY6S7TfuJL0h+TRq1+
+   i0jb1iq7dAQ0zdEYD47Ag6N8cG1UBWeBOWqt1PHhRAl6HD1NlGNOixrG4
+   hGTU8oewrxioi2cz8KLg6RSpe3cak5rgFQ6jXHMbc/qNACnVeg62EfO5q
+   XvWAMDofWoPlJjOsSvcb62opwpBfviqJ5y5601pC8Wo1i8ljUU8y29k3c
+   J+YYBgyrtqRz148ZPMztwqAfNA96fP7b/n4toRqTaIZJV4wneHggIuNna
+   DZpBuCzDmkXVVLIV59OspUbSKOIBY8c6Juxil7RS13K6C6iLElTtZvo28
+   w==;
+X-CSE-ConnectionGUID: yeaLohclS3+Eulqit7/VqA==
+X-CSE-MsgGUID: myNTtvdwQvCWYp1wzADnyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="38310023"
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="27201111"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 15:51:59 -0700
-X-CSE-ConnectionGUID: Qtb9zw8wQXeSPbwzUDQ5Jw==
-X-CSE-MsgGUID: rrqRWtbiQoC7IQIewf50fA==
+   d="scan'208";a="38310023"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 16:44:01 -0700
+X-CSE-ConnectionGUID: GlGyDUXvRxeZVRSplJkcvQ==
+X-CSE-MsgGUID: 1ttjOzcQQfu2iGqPm8N6ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
-   d="scan'208";a="41899362"
+   d="scan'208";a="46428534"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Jun 2024 15:51:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 19 Jun 2024 16:43:59 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sK49j-00074e-3B;
-	Wed, 19 Jun 2024 22:51:55 +0000
-Date: Thu, 20 Jun 2024 06:51:09 +0800
+	id 1sK4y5-00076U-0y;
+	Wed, 19 Jun 2024 23:43:57 +0000
+Date: Thu, 20 Jun 2024 07:43:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [paulmck-rcu:dev.2024.06.06a 27/34]
- kernel/time/clocksource.c:1167:36: error: use of undeclared identifier
- 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-Message-ID: <202406200658.MRbHnhvE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 6397/7105] drivers/gpu/drm/xe/xe_oa.c:293
+ xe_oa_add_config_ioctl() error: we previously assumed 'oa->xe' could be null
+ (see line 292)
+Message-ID: <202406200703.72WIWhEJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,164 +63,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "commit 421469c14614591c29c312d929142dbb07e3d521 was found in branch paulmck-rcu/dev.2024.06.06a, not in new branch paulmck-rcu/dev.2024.06.18a"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+CC: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2024.06.06a
-head:   f29bcafffef0ecc8a5d2cdc1bbef9a6889225263
-commit: 421469c14614591c29c312d929142dbb07e3d521 [27/34] Clocksource: Take advantage of always-defined CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-:::::: branch date: 27 hours ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-002-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200658.MRbHnhvE-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240620/202406200658.MRbHnhvE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2102cb0d050d34d50b9642a3a50861787527e922
+commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 [6397/7105] drm/xe/oa/uapi: Add/remove OA config perf ops
+:::::: branch date: 8 hours ago
+:::::: commit date: 28 hours ago
+config: x86_64-randconfig-161-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200703.72WIWhEJ-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406200658.MRbHnhvE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406200703.72WIWhEJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/xe/xe_oa.c:293 xe_oa_add_config_ioctl() error: we previously assumed 'oa->xe' could be null (see line 292)
+drivers/gpu/drm/xe/xe_oa.c:392 xe_oa_remove_config_ioctl() error: we previously assumed 'oa->xe' could be null (see line 391)
 
->> kernel/time/clocksource.c:1167:36: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1167 |                 if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
-         |                                                  ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   kernel/time/clocksource.c:1168:33: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1168 |                         cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
-         |                                                      ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   kernel/time/clocksource.c:1172:44: error: use of undeclared identifier 'CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US'
-    1172 |         WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
-         |                                                   ^
-   kernel/time/clocksource.c:137:28: note: expanded from macro 'WATCHDOG_MAX_SKEW'
-     137 | #define WATCHDOG_MAX_SKEW (MAX_SKEW_USEC * NSEC_PER_USEC)
-         |                            ^
-   kernel/time/clocksource.c:136:23: note: expanded from macro 'MAX_SKEW_USEC'
-     136 | #define MAX_SKEW_USEC   CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US
-         |                         ^
-   3 errors generated.
+vim +293 drivers/gpu/drm/xe/xe_oa.c
 
-
-vim +/CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US +1167 kernel/time/clocksource.c
-
-734efb467b31e5 John Stultz      2006-06-26  1107  
-d7e81c269db899 John Stultz      2010-05-07  1108  /**
-fba9e07208c0f9 John Stultz      2015-03-11  1109   * __clocksource_update_freq_scale - Used update clocksource with new freq
-b1b73d095084e7 Kusanagi Kouichi 2011-12-19  1110   * @cs:		clocksource to be registered
-d7e81c269db899 John Stultz      2010-05-07  1111   * @scale:	Scale factor multiplied against freq to get clocksource hz
-d7e81c269db899 John Stultz      2010-05-07  1112   * @freq:	clocksource frequency (cycles per second) divided by scale
-d7e81c269db899 John Stultz      2010-05-07  1113   *
-852db46d55e85b John Stultz      2010-07-13  1114   * This should only be called from the clocksource->enable() method.
-d7e81c269db899 John Stultz      2010-05-07  1115   *
-d7e81c269db899 John Stultz      2010-05-07  1116   * This *SHOULD NOT* be called directly! Please use the
-fba9e07208c0f9 John Stultz      2015-03-11  1117   * __clocksource_update_freq_hz() or __clocksource_update_freq_khz() helper
-fba9e07208c0f9 John Stultz      2015-03-11  1118   * functions.
-d7e81c269db899 John Stultz      2010-05-07  1119   */
-fba9e07208c0f9 John Stultz      2015-03-11  1120  void __clocksource_update_freq_scale(struct clocksource *cs, u32 scale, u32 freq)
-d7e81c269db899 John Stultz      2010-05-07  1121  {
-c0e299b1a91cbd Thomas Gleixner  2011-05-20  1122  	u64 sec;
-f8935983f11050 John Stultz      2015-03-11  1123  
-f8935983f11050 John Stultz      2015-03-11  1124  	/*
-f8935983f11050 John Stultz      2015-03-11  1125  	 * Default clocksources are *special* and self-define their mult/shift.
-f8935983f11050 John Stultz      2015-03-11  1126  	 * But, you're not special, so you should specify a freq value.
-f8935983f11050 John Stultz      2015-03-11  1127  	 */
-f8935983f11050 John Stultz      2015-03-11  1128  	if (freq) {
-d7e81c269db899 John Stultz      2010-05-07  1129  		/*
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1130  		 * Calc the maximum number of seconds which we can run before
-f8935983f11050 John Stultz      2015-03-11  1131  		 * wrapping around. For clocksources which have a mask > 32-bit
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1132  		 * we need to limit the max sleep time to have a good
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1133  		 * conversion precision. 10 minutes is still a reasonable
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1134  		 * amount. That results in a shift value of 24 for a
-f8935983f11050 John Stultz      2015-03-11  1135  		 * clocksource with mask >= 40-bit and f >= 4GHz. That maps to
-362fde0410377e John Stultz      2015-03-11  1136  		 * ~ 0.06ppm granularity for NTP.
-d7e81c269db899 John Stultz      2010-05-07  1137  		 */
-362fde0410377e John Stultz      2015-03-11  1138  		sec = cs->mask;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1139  		do_div(sec, freq);
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1140  		do_div(sec, scale);
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1141  		if (!sec)
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1142  			sec = 1;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1143  		else if (sec > 600 && cs->mask > UINT_MAX)
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1144  			sec = 600;
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1145  
-d7e81c269db899 John Stultz      2010-05-07  1146  		clocks_calc_mult_shift(&cs->mult, &cs->shift, freq,
-724ed53e8ac2c5 Thomas Gleixner  2011-05-18  1147  				       NSEC_PER_SEC / scale, sec * scale);
-f8935983f11050 John Stultz      2015-03-11  1148  	}
-2e27e793e280ff Paul E. McKenney 2021-05-27  1149  
-2e27e793e280ff Paul E. McKenney 2021-05-27  1150  	/*
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1151  	 * If the uncertainty margin is not specified, calculate it.  If
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1152  	 * both scale and freq are non-zero, calculate the clock period, but
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1153  	 * bound below at 2*WATCHDOG_MAX_SKEW, that is, 500ppm by default.
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1154  	 * However, if either of scale or freq is zero, be very conservative
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1155  	 * and take the tens-of-milliseconds WATCHDOG_THRESHOLD value
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1156  	 * for the uncertainty margin.  Allow stupidly small uncertainty
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1157  	 * margins to be specified by the caller for testing purposes,
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1158  	 * but warn to discourage production use of this capability.
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1159  	 *
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1160  	 * Bottom line:  The sum of the uncertainty margins of the
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1161  	 * watchdog clocksource and the clocksource under test will be at
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1162  	 * least 500ppm by default.  For more information, please see the
-5b1825ddca43b5 Borislav Petkov  2024-06-12  1163  	 * comment preceding CONFIG_CLOCKSOURCE_WATCHDOG_MAX_SKEW_US above.
-2e27e793e280ff Paul E. McKenney 2021-05-27  1164  	 */
-2e27e793e280ff Paul E. McKenney 2021-05-27  1165  	if (scale && freq && !cs->uncertainty_margin) {
-2e27e793e280ff Paul E. McKenney 2021-05-27  1166  		cs->uncertainty_margin = NSEC_PER_SEC / (scale * freq);
-2e27e793e280ff Paul E. McKenney 2021-05-27 @1167  		if (cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW)
-2e27e793e280ff Paul E. McKenney 2021-05-27  1168  			cs->uncertainty_margin = 2 * WATCHDOG_MAX_SKEW;
-2e27e793e280ff Paul E. McKenney 2021-05-27  1169  	} else if (!cs->uncertainty_margin) {
-2e27e793e280ff Paul E. McKenney 2021-05-27  1170  		cs->uncertainty_margin = WATCHDOG_THRESHOLD;
-2e27e793e280ff Paul E. McKenney 2021-05-27  1171  	}
-2e27e793e280ff Paul E. McKenney 2021-05-27  1172  	WARN_ON_ONCE(cs->uncertainty_margin < 2 * WATCHDOG_MAX_SKEW);
-2e27e793e280ff Paul E. McKenney 2021-05-27  1173  
-d65670a78cdbfa John Stultz      2011-10-31  1174  	/*
-362fde0410377e John Stultz      2015-03-11  1175  	 * Ensure clocksources that have large 'mult' values don't overflow
-362fde0410377e John Stultz      2015-03-11  1176  	 * when adjusted.
-d65670a78cdbfa John Stultz      2011-10-31  1177  	 */
-d65670a78cdbfa John Stultz      2011-10-31  1178  	cs->maxadj = clocksource_max_adjustment(cs);
-f8935983f11050 John Stultz      2015-03-11  1179  	while (freq && ((cs->mult + cs->maxadj < cs->mult)
-f8935983f11050 John Stultz      2015-03-11  1180  		|| (cs->mult - cs->maxadj > cs->mult))) {
-d65670a78cdbfa John Stultz      2011-10-31  1181  		cs->mult >>= 1;
-d65670a78cdbfa John Stultz      2011-10-31  1182  		cs->shift--;
-d65670a78cdbfa John Stultz      2011-10-31  1183  		cs->maxadj = clocksource_max_adjustment(cs);
-d65670a78cdbfa John Stultz      2011-10-31  1184  	}
-d65670a78cdbfa John Stultz      2011-10-31  1185  
-f8935983f11050 John Stultz      2015-03-11  1186  	/*
-f8935983f11050 John Stultz      2015-03-11  1187  	 * Only warn for *special* clocksources that self-define
-f8935983f11050 John Stultz      2015-03-11  1188  	 * their mult/shift values and don't specify a freq.
-f8935983f11050 John Stultz      2015-03-11  1189  	 */
-f8935983f11050 John Stultz      2015-03-11  1190  	WARN_ONCE(cs->mult + cs->maxadj < cs->mult,
-f8935983f11050 John Stultz      2015-03-11  1191  		"timekeeping: Clocksource %s might overflow on 11%% adjustment\n",
-f8935983f11050 John Stultz      2015-03-11  1192  		cs->name);
-f8935983f11050 John Stultz      2015-03-11  1193  
-fb82fe2fe85887 John Stultz      2015-03-11  1194  	clocksource_update_max_deferment(cs);
-8cc8c525ad4e7b John Stultz      2015-03-11  1195  
-45bbfe64ea564a Joe Perches      2015-05-25  1196  	pr_info("%s: mask: 0x%llx max_cycles: 0x%llx, max_idle_ns: %lld ns\n",
-8cc8c525ad4e7b John Stultz      2015-03-11  1197  		cs->name, cs->mask, cs->max_cycles, cs->max_idle_ns);
-852db46d55e85b John Stultz      2010-07-13  1198  }
-fba9e07208c0f9 John Stultz      2015-03-11  1199  EXPORT_SYMBOL_GPL(__clocksource_update_freq_scale);
-852db46d55e85b John Stultz      2010-07-13  1200  
-
-:::::: The code at line 1167 was first introduced by commit
-:::::: 2e27e793e280ff12cb5c202a1214c08b0d3a0f26 clocksource: Reduce clocksource-skew threshold
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  272  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  273  /**
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  274   * xe_oa_add_config_ioctl - Adds one OA config
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  275   * @dev: @drm_device
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  276   * @data: pointer to struct @drm_xe_oa_config
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  277   * @file: @drm_file
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  278   *
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  279   * The functions adds an OA config to the set of OA configs maintained in
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  280   * the kernel. The config determines which OA metrics are collected for an
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  281   * OA stream.
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  282   */
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  283  int xe_oa_add_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  284  {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  285  	struct xe_oa *oa = &to_xe_device(dev)->oa;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  286  	struct drm_xe_oa_config param;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  287  	struct drm_xe_oa_config *arg = &param;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  288  	struct xe_oa_config *oa_config, *tmp;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  289  	struct xe_oa_reg *regs;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  290  	int err, id;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  291  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @292  	if (!oa->xe) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @293  		drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  294  		return -ENODEV;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  295  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  296  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  297  	if (xe_perf_stream_paranoid && !perfmon_capable()) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  298  		drm_dbg(&oa->xe->drm, "Insufficient privileges to add xe OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  299  		return -EACCES;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  300  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  301  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  302  	err = __copy_from_user(&param, u64_to_user_ptr(data), sizeof(param));
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  303  	if (XE_IOCTL_DBG(oa->xe, err))
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  304  		return -EFAULT;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  305  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  306  	if (XE_IOCTL_DBG(oa->xe, arg->extensions) ||
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  307  	    XE_IOCTL_DBG(oa->xe, !arg->regs_ptr) ||
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  308  	    XE_IOCTL_DBG(oa->xe, !arg->n_regs))
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  309  		return -EINVAL;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  310  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  311  	oa_config = kzalloc(sizeof(*oa_config), GFP_KERNEL);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  312  	if (!oa_config)
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  313  		return -ENOMEM;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  314  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  315  	oa_config->oa = oa;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  316  	kref_init(&oa_config->ref);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  317  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  318  	if (!uuid_is_valid(arg->uuid)) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  319  		drm_dbg(&oa->xe->drm, "Invalid uuid format for OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  320  		err = -EINVAL;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  321  		goto reg_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  322  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  323  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  324  	/* Last character in oa_config->uuid will be 0 because oa_config is kzalloc */
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  325  	memcpy(oa_config->uuid, arg->uuid, sizeof(arg->uuid));
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  326  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  327  	oa_config->regs_len = arg->n_regs;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  328  	regs = xe_oa_alloc_regs(oa, xe_oa_is_valid_config_reg_addr,
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  329  				u64_to_user_ptr(arg->regs_ptr),
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  330  				arg->n_regs);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  331  	if (IS_ERR(regs)) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  332  		drm_dbg(&oa->xe->drm, "Failed to create OA config for mux_regs\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  333  		err = PTR_ERR(regs);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  334  		goto reg_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  335  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  336  	oa_config->regs = regs;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  337  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  338  	err = mutex_lock_interruptible(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  339  	if (err)
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  340  		goto reg_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  341  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  342  	/* We shouldn't have too many configs, so this iteration shouldn't be too costly */
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  343  	idr_for_each_entry(&oa->metrics_idr, tmp, id) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  344  		if (!strcmp(tmp->uuid, oa_config->uuid)) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  345  			drm_dbg(&oa->xe->drm, "OA config already exists with this uuid\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  346  			err = -EADDRINUSE;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  347  			goto sysfs_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  348  		}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  349  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  350  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  351  	err = create_dynamic_oa_sysfs_entry(oa, oa_config);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  352  	if (err) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  353  		drm_dbg(&oa->xe->drm, "Failed to create sysfs entry for OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  354  		goto sysfs_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  355  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  356  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  357  	oa_config->id = idr_alloc(&oa->metrics_idr, oa_config, 1, 0, GFP_KERNEL);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  358  	if (oa_config->id < 0) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  359  		drm_dbg(&oa->xe->drm, "Failed to create sysfs entry for OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  360  		err = oa_config->id;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  361  		goto sysfs_err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  362  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  363  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  364  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  365  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  366  	drm_dbg(&oa->xe->drm, "Added config %s id=%i\n", oa_config->uuid, oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  367  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  368  	return oa_config->id;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  369  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  370  sysfs_err:
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  371  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  372  reg_err:
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  373  	xe_oa_config_put(oa_config);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  374  	drm_dbg(&oa->xe->drm, "Failed to add new OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  375  	return err;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  376  }
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  377  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  378  /**
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  379   * xe_oa_remove_config_ioctl - Removes one OA config
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  380   * @dev: @drm_device
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  381   * @data: pointer to struct @drm_xe_perf_param
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  382   * @file: @drm_file
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  383   */
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  384  int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  385  {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  386  	struct xe_oa *oa = &to_xe_device(dev)->oa;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  387  	struct xe_oa_config *oa_config;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  388  	u64 arg, *ptr = u64_to_user_ptr(data);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  389  	int ret;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  390  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @391  	if (!oa->xe) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @392  		drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  393  		return -ENODEV;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  394  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  395  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  396  	if (xe_perf_stream_paranoid && !perfmon_capable()) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  397  		drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  398  		return -EACCES;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  399  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  400  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  401  	ret = get_user(arg, ptr);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  402  	if (XE_IOCTL_DBG(oa->xe, ret))
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  403  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  404  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  405  	ret = mutex_lock_interruptible(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  406  	if (ret)
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  407  		return ret;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  408  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  409  	oa_config = idr_find(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  410  	if (!oa_config) {
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  411  		drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  412  		ret = -ENOENT;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  413  		goto err_unlock;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  414  	}
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  415  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  416  	WARN_ON(arg != oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  417  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  418  	sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  419  	idr_remove(&oa->metrics_idr, arg);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  420  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  421  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  422  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  423  	drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  424  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  425  	xe_oa_config_put(oa_config);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  426  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  427  	return 0;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  428  
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  429  err_unlock:
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  430  	mutex_unlock(&oa->metrics_lock);
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  431  	return ret;
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  432  }
+cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  433  
 
 -- 
 0-DAY CI Kernel Test Service
