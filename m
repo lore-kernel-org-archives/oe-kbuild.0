@@ -1,124 +1,146 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A11243AD5
-	for <oe-kbuild@lists.linux.dev>; Thu, 20 Jun 2024 07:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA46482C8;
+	Thu, 20 Jun 2024 08:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718870174; cv=none; b=dmNRzUOwsWCmyT6t9XiLJXEOzq8plcDLjAI49h8bcDqN2krTtjF23Y2HModwT2WtYn40P1e4l37F9pDrWUk4BV4U+/K2+Q8h7x/2ewD1qgBl7950foV91i2OuDMJ7nV9z8dV8iLpIcghXxxObKHbrSMNN076bymszC9z/DTnX/k=
+	t=1718872157; cv=none; b=YfPKaiGyZ1sSIapl1j9Ecn+4eS5TnHcezYZ2dmXc6IqejEm+Sl3fGN4v5Nl9P4hl3yEdyTI31d9OGtr4vuwsh6zULugH8CtxS/HZqgNr6/Es8XfoltV3ebaLFA+ZGijbSBeSgDIR80ZEyeuDv7+q0hB8dTt32sKSpfDaU807SCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718870174; c=relaxed/simple;
-	bh=BQV8PljRL1R2MKlHV+buP+xt+n5b0gL6wvE3+HAxHaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PQyu1L3TiYw11VTQ19DaGAl36Dbyh9t3E/Ps4wNM8fF3VQkqE46D82oT720sY+tajZmZyFzSab+SmEjCQmaRoh7WKLGB/Z5K13w3pgTexUM9OxX7T/AUSPW/Klrfb68KIAGP/7uLYSbV0VhoSACJLFVXrnkpAUy/oAsSQ/XmyrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CHEoUX3z; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1718872157; c=relaxed/simple;
+	bh=LLhl2cdw80RSty7urosXczhRfhZocWumm0PsXIqdh3o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IwaH5qWKdu0NIo8bmjetP+J9RigXnMNINokIp1cOcH+7VtOQsiSY88GgboEdNNUPX1phreEzc5g0L28aHqZnRtcIIEXF0Jfnynrnk/NI2YZ5D4LQOUCtqsRynZTvKre8F8ICtmuuqW83k9yCWwiXOOTD2BXkPIWJJe6b/7begBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rv2Bv9Wl; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CHEoUX3z"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52c7fbad011so735212e87.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 20 Jun 2024 00:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718870170; x=1719474970; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4Sp9Tow40j8vVkNe7lusJ7wIu9MnedHyl3fGXRjd8Mw=;
-        b=CHEoUX3zCspHWDouwcm+ZR1OkicQwoRrzISM0oGk+EYREeXDwyiT08rBoj/YjdyT8H
-         5NTr2qnw9MKa33sXCaeW1vl56krJcEPZu95byss6MAqxbPNVt64F9z3K+A7t7EghK7dy
-         sqq9MI4Hk3bsuRTHbiRV2jn+6UJEihkMYEIZzHyiQsyamVE3S3zOc6yqF1cMsxGnwjgX
-         vYcbLIFm505pQJ1LWFP/nvzowZZlOqPPapw+z9WvqmxxgjP3p7J1/zOe6OlAXl8H70+g
-         AOyEBu/EE0dBUCBLdkaM8p9F41P0T6V3+YH/bOcYxo2atN1ZHTZ+GBpfFdhPab2nJvEM
-         8g9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718870170; x=1719474970;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Sp9Tow40j8vVkNe7lusJ7wIu9MnedHyl3fGXRjd8Mw=;
-        b=IMEBAdDlnKfEpdV316PJYqwSinFaY+ax7gNmKyaEtVDVGLJ+AtSzabmA1bvN3SDIDt
-         BMDfAgWq24VKRfL8wn1KDS9VF2GuYCO1zi6MjlyUauYmuLqZdhBiXcpDE2uxWKh/i+zr
-         u6Yfs3grz+BuRNKLUWG7peZiYgAYxbAZX+/ZFPmvVQ0nyUe5PfRWe0DuL1EEuiMl0OZZ
-         dRUkCM52BqTJlqmyFRUoxzvKWNubpnWh9NAsUz5SFA6URtZ0tC2iGNOBBdX9rlq4LXTU
-         xlCiMTqczqQqe18zidegDLIX2kiXWDVAFkJt6laJ3UEcKOQTKqGKjKk1nfbn+vDE880S
-         GcMQ==
-X-Gm-Message-State: AOJu0Yzml3BhZ2BY7FRj7BnTYNA9Sw6lYkV9M0fj/nRe23LEhbpSLnHa
-	KzmYT86EkuJbduwACmVC2a+vLg3uSqNHBjY2WVGFX3wsdNiDzfiUG7DN7okIIEz9yHaKF3RJ8v5
-	w
-X-Google-Smtp-Source: AGHT+IGjj7vcLD/gPmDU8Z8Dk0gb7Bf2ldfr07Rldt7HZnfccaNm8jU+fhYzVzwYch0L6rUvuYHepg==
-X-Received: by 2002:a19:4347:0:b0:52c:8318:dc14 with SMTP id 2adb3069b0e04-52ccaa5dc33mr2566883e87.25.1718870170078;
-        Thu, 20 Jun 2024 00:56:10 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f88522f42sm340129766b.110.2024.06.20.00.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 00:56:09 -0700 (PDT)
-Date: Thu, 20 Jun 2024 10:56:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Danielle Ratson <danieller@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 30/41] net/ethtool/module.c:186
- ethnl_module_fw_flash_ntf_put_err() warn: passing zero to 'PTR_ERR'
-Message-ID: <a92ab294-e61e-464f-bd2c-9e96991903c8@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rv2Bv9Wl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718872156; x=1750408156;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=LLhl2cdw80RSty7urosXczhRfhZocWumm0PsXIqdh3o=;
+  b=Rv2Bv9WlN12Y2SgNx11AJFRm8ZMdjGrrWb74GTx6HlWe+YJS8uoK3g8n
+   3fxu3BGuEf6YhcYGobs/I2xzxmrI3vs5j/7lcYEthebK6I4abS2JV0dp8
+   mhaaw6AYs+FJXCMODJ5WMfzQ/zK6QGXDmkvjLImu6VM9a2IOsUfQvqY2j
+   4AjvqA2JN+i7dJGFTvjOcMdhNkcR4/r98NBnA64P6JlRTqyEooh18pR+L
+   gZ3FwAIERS9Ab5pibTNBtv0c6KDwOm/ABw2B8YgtsmoW1ASDQM1txLJ0r
+   LRXFEtJg4aTVdXIdGOGFAlWpJPmnnsoOfXc4rtrXTTo/OT6ixtGFjhA/8
+   g==;
+X-CSE-ConnectionGUID: k6nOCak3T2ejn2oXJygOog==
+X-CSE-MsgGUID: DE+bg3y0Rc6ZYgB4bBwe+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11108"; a="12159195"
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="12159195"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 01:29:15 -0700
+X-CSE-ConnectionGUID: ZCwkljH2RCmVaAAhDswNAQ==
+X-CSE-MsgGUID: Y4s6KC+qSFqkCXAXv1+5hQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,251,1712646000"; 
+   d="scan'208";a="46618240"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+  by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2024 01:29:13 -0700
+Received: from [10.246.49.231] (mwajdecz-MOBL.ger.corp.intel.com [10.246.49.231])
+	by irvmail002.ir.intel.com (Postfix) with ESMTP id A9B2B2FC75;
+	Thu, 20 Jun 2024 09:29:11 +0100 (IST)
+Message-ID: <b8e74985-db87-4f7c-8c8b-f990c3bd1b1c@intel.com>
+Date: Thu, 20 Jun 2024 10:29:11 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 6397/7105] drivers/gpu/drm/xe/xe_oa.c:293
+ xe_oa_add_config_ioctl() error: we previously assumed 'oa->xe' could be null
+ (see line 292)
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ intel-xe@lists.freedesktop.org,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+References: <1275c783-1fc4-4706-add8-3bc5d27b09fc@moroto.mountain>
+Content-Language: en-US
+From: Michal Wajdeczko <michal.wajdeczko@intel.com>
+In-Reply-To: <1275c783-1fc4-4706-add8-3bc5d27b09fc@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   ded71079fd9b5d39c76a01fdfa82eb29e047b512
-commit: c270a7d3889b3655d39165331365c2c65d41185f [30/41] ethtool: Add flashing transceiver modules' firmware notifications ability
-config: i386-randconfig-141-20240620 (https://download.01.org/0day-ci/archive/20240620/202406201539.b3yhaypM-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406201539.b3yhaypM-lkp@intel.com/
 
-smatch warnings:
-net/ethtool/module.c:186 ethnl_module_fw_flash_ntf_put_err() warn: passing zero to 'PTR_ERR'
+On 20.06.2024 08:59, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   2102cb0d050d34d50b9642a3a50861787527e922
+> commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 [6397/7105] drm/xe/oa/uapi: Add/remove OA config perf ops
+> config: x86_64-randconfig-161-20240620 (https://download.01.org/0day-ci/archive/20240620/202406200703.72WIWhEJ-lkp@intel.com/config)
+> compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202406200703.72WIWhEJ-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/gpu/drm/xe/xe_oa.c:293 xe_oa_add_config_ioctl() error: we previously assumed 'oa->xe' could be null (see line 292)
+> drivers/gpu/drm/xe/xe_oa.c:392 xe_oa_remove_config_ioctl() error: we previously assumed 'oa->xe' could be null (see line 391)
 
-vim +/PTR_ERR +186 net/ethtool/module.c
+the fix was already posted earlier [1]
 
-c270a7d3889b36 Danielle Ratson 2024-06-17  165  static int
-c270a7d3889b36 Danielle Ratson 2024-06-17  166  ethnl_module_fw_flash_ntf_put_err(struct sk_buff *skb, char *err_msg,
-c270a7d3889b36 Danielle Ratson 2024-06-17  167  				  char *sub_err_msg)
-c270a7d3889b36 Danielle Ratson 2024-06-17  168  {
-c270a7d3889b36 Danielle Ratson 2024-06-17  169  	int err_msg_len, sub_err_msg_len, total_len;
-c270a7d3889b36 Danielle Ratson 2024-06-17  170  	struct nlattr *attr;
-c270a7d3889b36 Danielle Ratson 2024-06-17  171  
-c270a7d3889b36 Danielle Ratson 2024-06-17  172  	if (!err_msg)
-c270a7d3889b36 Danielle Ratson 2024-06-17  173  		return 0;
-c270a7d3889b36 Danielle Ratson 2024-06-17  174  
-c270a7d3889b36 Danielle Ratson 2024-06-17  175  	err_msg_len = strlen(err_msg);
-c270a7d3889b36 Danielle Ratson 2024-06-17  176  	total_len = err_msg_len + 2; /* For period and NUL. */
-c270a7d3889b36 Danielle Ratson 2024-06-17  177  
-c270a7d3889b36 Danielle Ratson 2024-06-17  178  	if (sub_err_msg) {
-c270a7d3889b36 Danielle Ratson 2024-06-17  179  		sub_err_msg_len = strlen(sub_err_msg);
-c270a7d3889b36 Danielle Ratson 2024-06-17  180  		total_len += sub_err_msg_len + 2; /* For ", ". */
-c270a7d3889b36 Danielle Ratson 2024-06-17  181  	}
-c270a7d3889b36 Danielle Ratson 2024-06-17  182  
-c270a7d3889b36 Danielle Ratson 2024-06-17  183  	attr = nla_reserve(skb, ETHTOOL_A_MODULE_FW_FLASH_STATUS_MSG,
-c270a7d3889b36 Danielle Ratson 2024-06-17  184  			   total_len);
-c270a7d3889b36 Danielle Ratson 2024-06-17  185  	if (!attr)
-c270a7d3889b36 Danielle Ratson 2024-06-17 @186  		return PTR_ERR(attr);
+[1] https://patchwork.freedesktop.org/patch/599969/?series=135074&rev=1
 
-This returns success.  It should be return -ENOMEM;
-
-c270a7d3889b36 Danielle Ratson 2024-06-17  187  
-c270a7d3889b36 Danielle Ratson 2024-06-17  188  	if (sub_err_msg)
-c270a7d3889b36 Danielle Ratson 2024-06-17  189  		sprintf(nla_data(attr), "%s, %s.", err_msg, sub_err_msg);
-c270a7d3889b36 Danielle Ratson 2024-06-17  190  	else
-c270a7d3889b36 Danielle Ratson 2024-06-17  191  		sprintf(nla_data(attr), "%s.", err_msg);
-c270a7d3889b36 Danielle Ratson 2024-06-17  192  
-c270a7d3889b36 Danielle Ratson 2024-06-17  193  	return 0;
-c270a7d3889b36 Danielle Ratson 2024-06-17  194  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> 
+> vim +293 drivers/gpu/drm/xe/xe_oa.c
+> 
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  283  int xe_oa_add_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  284  {
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  285  	struct xe_oa *oa = &to_xe_device(dev)->oa;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  286  	struct drm_xe_oa_config param;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  287  	struct drm_xe_oa_config *arg = &param;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  288  	struct xe_oa_config *oa_config, *tmp;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  289  	struct xe_oa_reg *regs;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  290  	int err, id;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  291  
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @292  	if (!oa->xe) {
+>                                                      ^^^^^^
+> Pointer is NULL
+> 
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @293  		drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+>                                                                 ^^^^^^^^^^^^
+> Dereferenced.
+> 
+> "Real Fact": This is drm_dbg() but the dev_dbg() macro has magic sanity
+> checking where instead of checking for if the device is NULL, it checks
+> for if the (drm < (void *)PAGE_SIZE).  That catches this sort of bug.
+> Hyrum’s Law applies here where people have taken advantage of this to
+> deliberately pass garbage pointers to dev_dbg().
+> 
+> I feel like in a different life I could have had a career writing facts
+> for Snapple bottle caps.  My talents are wasted.
+> 
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  294  		return -ENODEV;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  295  	}
+> 
+> [ snip ]
+> 
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  384  int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  385  {
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  386  	struct xe_oa *oa = &to_xe_device(dev)->oa;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  387  	struct xe_oa_config *oa_config;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  388  	u64 arg, *ptr = u64_to_user_ptr(data);
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  389  	int ret;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  390  
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @391  	if (!oa->xe) {
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17 @392  		drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+>                                                                 ^^^^^^^^^^^^
+> Same.
+> 
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  393  		return -ENODEV;
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  394  	}
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  395  
+> cdf02fe1a94a76 Ashutosh Dixit 2024-06-17  396  	if (xe_perf_stream_paranoid && !perfmon_capable()) {
+> 
