@@ -1,63 +1,58 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC83016C688
-	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jun 2024 06:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0C6433DC
+	for <oe-kbuild@lists.linux.dev>; Fri, 21 Jun 2024 16:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718952966; cv=none; b=bdWkEA8fJPace6A5DNTqcRKQv5jWsmYCetkGAYK5aQNsU+nI3X9UcfAPpUdDul1VOLwywkSGbYty8kay/jXSD163+OTzr/jBiSS96mpH1mIq6+grYVfUziTzVbDZB8mazS053+CrZwr1fAmkvlnK8MzoXQM5M+IaxLAFUL3DByA=
+	t=1718986697; cv=none; b=FsGb0Bh+FyghKgLDBqre8tLI2hqpHhJujaUcFMbFMcd5+e/n2mvsFw0PejnbrmNCbxviRM6yeBIx9usP45Rpd/RiTKGk9WfxIi102G48sYsWUQe31G0y6zYmbwcrEIVTMb3B5xUGX27mpnfg+rhwD4Rb2jLQLvM3mcT1mhjYywo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718952966; c=relaxed/simple;
-	bh=NH3ylXNGLSIMC/oRVBcD5/gB+Ar9gTmcj8mpeoFRSd4=;
+	s=arc-20240116; t=1718986697; c=relaxed/simple;
+	bh=/mGvu+4kjoJCLe3BMGKyHm6eXMLS0W8W9DiV7Yt2pUc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SNVLW0YRShC3NE0yLOC+CW6zi1Ixb8tE9GoWkWZVTwthjGFQyNm2RF5CL69TbSXg8P8IA+vF6X7arp7WiMo2hmxANE78XmelX+S4VF2wpaHsDW9Zo9kN8WHEAHZ4KCj25pKoNT8/lsLESp7/p2tKecMWjknFOE7nuCurLOBHkqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qS8LNWHE; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Tiz0xfxBk6grOqP4IRzqwNuws6wH3OM1w9gpb4QOFJjVzLlh6rttE26Zd/1gu8t+z8euVjFqPUvc9Ha4XppZwG6cmMd60ISIrLN5j6LGfYy+/7QEQsPOv965eW+XHPWycBbDtJSYEf5fB09+QG9Gf7qWS42qN3VyJ3yFQj4PL4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V93NEqS6; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qS8LNWHE"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a6f51660223so86580466b.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 20 Jun 2024 23:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718952962; x=1719557762; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1QM25iSV6b/cpz3jsOy311CfCTtPU7qo9cxLPbw8s8M=;
-        b=qS8LNWHE0zN52xUpw56Ju1imlQA26YuGu0CN7ilrZtkjV/u/zS/5iS/Pjt2tOaYJxE
-         u3TG34HbiXPi9hIOQlOM76DpsPCAgwg/QKWZgITRMftxZiwefFJTRTHNbmgOOQmZ7IMs
-         g5X4IKDVjd57V3EjqjUmRSRK9tv22eEvGEFuE6nZQSAxQXJB06L45LQtD1ZsTfrZLz0G
-         e+hcZBbIR5bUjL/iocPydRYtJ1bFH6nEtTbn+FKPs28LDI6/oyFFMXe2JldG+a60jVdq
-         Xv/0GL0/W1VHAExvHnlIFCM0i0N2PluqExBIIPU4dfSET8wbQfIipV/mARrU59XIQCdz
-         GftA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718952962; x=1719557762;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1QM25iSV6b/cpz3jsOy311CfCTtPU7qo9cxLPbw8s8M=;
-        b=cKc7ZYWhrdb8PayrcWyqQFVCWR/TO9qzKDwLyQW7jwvk2rqinnZqFRDOUmaS2l6sfe
-         M2IbzyfQOifPqUE9JOzA/i9I1z80Qy7fOXC74ZYLDOVwW8uRDL4licekMhYLWcdxv+Zl
-         AXk7Mued/0AB3sv0zA2/XJ+xQwKWiwlAT8IsitGDyux9R9EjuiERODFEDHsOKhIb8dbh
-         RSpO1UrAoKG6UO8NrHVK4dklq8QRDvh7+CBS5oNBjkQpK3Wth/6jHkAgAoFZBcOEyzZ+
-         gnJq2On9h7YJxGFfZlqewEpvsREpF2VLWALe7gdcbOy+LCLpP/HqsPgNP9L00o92Z/0O
-         /4aQ==
-X-Gm-Message-State: AOJu0YyWgVlUKXcF2wcIryaxI2fUo8unSwF3hn0YKXj/KSn/JcbIgb5g
-	ijTBY/9L0y/gmzJ1XWgUscUIudVDvE+ZBbmhp38tPw+wVyersWvRU+BLfwEIpMfaNSBZku1Lxiq
-	7
-X-Google-Smtp-Source: AGHT+IEb9Kw7v2f9ae5w+aFM9k6CKZh0sAVlev/5KNdvVFuaZI2MEfVROx2OxQKfjsNffXNhDPznJw==
-X-Received: by 2002:a50:96cf:0:b0:57c:5874:4f5c with SMTP id 4fb4d7f45d1cf-57d07ea857fmr6189880a12.32.1718952962307;
-        Thu, 20 Jun 2024 23:56:02 -0700 (PDT)
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57d30474546sm522021a12.50.2024.06.20.23.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jun 2024 23:56:01 -0700 (PDT)
-Date: Fri, 21 Jun 2024 09:55:58 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Danielle Ratson <danieller@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next v6 9/9] ethtool: Add ability to flash
- transceiver modules' firmware
-Message-ID: <7a33c661-55d3-4420-821e-267ddc95bd56@moroto.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V93NEqS6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718986696; x=1750522696;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/mGvu+4kjoJCLe3BMGKyHm6eXMLS0W8W9DiV7Yt2pUc=;
+  b=V93NEqS6H2oJR6Mad8QF1E09ps85DJBuKbK65Wv2PxkgWbcjp1oVufVQ
+   lPpKtrvDp02Pm74fBZ1HCtTWCXzdFM3xewcfcVVO+mQpB4tZBDLCYS1xC
+   jvvuItSahr8X+CcsN0VLi6hoTxlbL2/CGdDddH5D5bP7syvvkFRvp3vMc
+   FW/Ph/8a8MRREPc12SWdfORzbwU5lqkGad77tNFf+NsKmHOXMOC0Khy19
+   cNd1u+DUanundDan3JXkbfkMC0cpdXMxhzkWZLYLLfk8BtK89jMVfiLCU
+   ekgKzy71l5YXpsD48AtVdR+YNnPb4+upIM44Z42v4YgVo3HvkMbxfuXlS
+   g==;
+X-CSE-ConnectionGUID: ms5pU1afQSWp8qCC66me/w==
+X-CSE-MsgGUID: QET0kXo+T4COcxF55JVbCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="19913850"
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
+   d="scan'208";a="19913850"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 09:17:13 -0700
+X-CSE-ConnectionGUID: acET+9IoSiaK20Yp1QVvLg==
+X-CSE-MsgGUID: ufl0weNTQD+gJ0JzpU52FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
+   d="scan'208";a="65886856"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Jun 2024 09:17:11 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sKgwn-0008kA-2D;
+	Fri, 21 Jun 2024 16:17:09 +0000
+Date: Sat, 22 Jun 2024 00:16:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cip:linux-4.4.y-cip 6099/9999] drivers/base/power/opp/debugfs.c:166
+ opp_migrate_dentry() warn: iterator used outside loop: 'new_dev'
+Message-ID: <202406220055.EHZ0YBTG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,54 +61,63 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240619121727.3643161-10-danieller@nvidia.com>
 
-Hi Danielle,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+TO: Pavel Machek <pavel@denx.de>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Danielle-Ratson/ethtool-Add-ethtool-operation-to-write-to-a-transceiver-module-EEPROM/20240619-202527
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240619121727.3643161-10-danieller%40nvidia.com
-patch subject: [PATCH net-next v6 9/9] ethtool: Add ability to flash transceiver modules' firmware
-config: x86_64-randconfig-161-20240620 (https://download.01.org/0day-ci/archive/20240621/202406211244.fPBtKk4s-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-cip
+head:   bffa4a10103910f87f99a27cf26a0ac17a612b58
+commit: 71a6dee18e9b677772dcd33c7180c5cdb71b1f25 [6099/9999] PM / OPP: Add debugfs support
+:::::: branch date: 4 days ago
+:::::: commit date: 4 years ago
+config: i386-randconfig-141-20240621 (https://download.01.org/0day-ci/archive/20240622/202406220055.EHZ0YBTG-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406211244.fPBtKk4s-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406220055.EHZ0YBTG-lkp@intel.com/
 
-New smatch warnings:
-net/ethtool/module.c:208 module_flash_fw_work_list_add() warn: inconsistent returns '&module_fw_flash_work_list_lock'.
+smatch warnings:
+drivers/base/power/opp/debugfs.c:166 opp_migrate_dentry() warn: iterator used outside loop: 'new_dev'
 
-vim +208 net/ethtool/module.c
+vim +/new_dev +166 drivers/base/power/opp/debugfs.c
 
-d55d0c47876a6d Danielle Ratson 2024-06-19  191  static int
-d55d0c47876a6d Danielle Ratson 2024-06-19  192  module_flash_fw_work_list_add(struct ethtool_module_fw_flash *module_fw,
-d55d0c47876a6d Danielle Ratson 2024-06-19  193  			      struct genl_info *info)
-d55d0c47876a6d Danielle Ratson 2024-06-19  194  {
-d55d0c47876a6d Danielle Ratson 2024-06-19  195  	struct ethtool_module_fw_flash *work;
-d55d0c47876a6d Danielle Ratson 2024-06-19  196  
-d55d0c47876a6d Danielle Ratson 2024-06-19  197  	/* First, check if already registered. */
-d55d0c47876a6d Danielle Ratson 2024-06-19  198  	spin_lock(&module_fw_flash_work_list_lock);
-d55d0c47876a6d Danielle Ratson 2024-06-19  199  	list_for_each_entry(work, &module_fw_flash_work_list, list) {
-d55d0c47876a6d Danielle Ratson 2024-06-19  200  		if (work->fw_update.ntf_params.portid == info->snd_portid &&
-d55d0c47876a6d Danielle Ratson 2024-06-19  201  		    work->fw_update.dev == module_fw->fw_update.dev)
-
-	spin_unlock(&module_fw_flash_work_list_lock);
-
-d55d0c47876a6d Danielle Ratson 2024-06-19  202  			return -EALREADY;
-d55d0c47876a6d Danielle Ratson 2024-06-19  203  	}
-d55d0c47876a6d Danielle Ratson 2024-06-19  204  
-d55d0c47876a6d Danielle Ratson 2024-06-19  205  	list_add_tail(&module_fw->list, &module_fw_flash_work_list);
-d55d0c47876a6d Danielle Ratson 2024-06-19  206  	spin_unlock(&module_fw_flash_work_list_lock);
-d55d0c47876a6d Danielle Ratson 2024-06-19  207  
-d55d0c47876a6d Danielle Ratson 2024-06-19 @208  	return 0;
-d55d0c47876a6d Danielle Ratson 2024-06-19  209  }
+71a6dee18e9b67 Viresh Kumar 2020-06-09  152  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  153  static void opp_migrate_dentry(struct device_list_opp *list_dev,
+71a6dee18e9b67 Viresh Kumar 2020-06-09  154  			       struct device_opp *dev_opp)
+71a6dee18e9b67 Viresh Kumar 2020-06-09  155  {
+71a6dee18e9b67 Viresh Kumar 2020-06-09  156  	struct device_list_opp *new_dev;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  157  	const struct device *dev;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  158  	struct dentry *dentry;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  159  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  160  	/* Look for next list-dev */
+71a6dee18e9b67 Viresh Kumar 2020-06-09  161  	list_for_each_entry(new_dev, &dev_opp->dev_list, node)
+71a6dee18e9b67 Viresh Kumar 2020-06-09  162  		if (new_dev != list_dev)
+71a6dee18e9b67 Viresh Kumar 2020-06-09  163  			break;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  164  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  165  	/* new_dev is guaranteed to be valid here */
+71a6dee18e9b67 Viresh Kumar 2020-06-09 @166  	dev = new_dev->dev;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  167  	debugfs_remove_recursive(new_dev->dentry);
+71a6dee18e9b67 Viresh Kumar 2020-06-09  168  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  169  	opp_set_dev_name(dev, dev_opp->dentry_name);
+71a6dee18e9b67 Viresh Kumar 2020-06-09  170  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  171  	dentry = debugfs_rename(rootdir, list_dev->dentry, rootdir,
+71a6dee18e9b67 Viresh Kumar 2020-06-09  172  				dev_opp->dentry_name);
+71a6dee18e9b67 Viresh Kumar 2020-06-09  173  	if (!dentry) {
+71a6dee18e9b67 Viresh Kumar 2020-06-09  174  		dev_err(dev, "%s: Failed to rename link from: %s to %s\n",
+71a6dee18e9b67 Viresh Kumar 2020-06-09  175  			__func__, dev_name(list_dev->dev), dev_name(dev));
+71a6dee18e9b67 Viresh Kumar 2020-06-09  176  		return;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  177  	}
+71a6dee18e9b67 Viresh Kumar 2020-06-09  178  
+71a6dee18e9b67 Viresh Kumar 2020-06-09  179  	new_dev->dentry = dentry;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  180  	dev_opp->dentry = dentry;
+71a6dee18e9b67 Viresh Kumar 2020-06-09  181  }
+71a6dee18e9b67 Viresh Kumar 2020-06-09  182  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
