@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44D437C
-	for <oe-kbuild@lists.linux.dev>; Sat, 22 Jun 2024 00:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3873B1E4BF
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jun 2024 12:35:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719014551; cv=none; b=gYeCkhvmp7kcbMTXZoRYgCtPe08jO4IE8bzBfuVprsll7Tg+gzz39slvsbIP21CCXsPBmm3FLsKGbmHNgZY7aKu59/584sNBF/bOynQ8fgybF+4l9F6MeNLCvkf8iPuSTGx7PBFfCkUqlCzK+V1p6LQRHBgw+E+jzWUfnND2Za0=
+	t=1719146159; cv=none; b=pZILJmLoVppN6DMkmvHdqT1M8vm80mHIpuV3Ub0yZ+YuetUJmhnAoeUvMTAesW71atdgugpv9szc3Ya/35nSMgiHK35hhe/vP6fq7Wv2l6TLf/+DyFONlpP1lPwtiL/7fd1pZ8c1lU6/Q/BkdWxko2tOJ7xbwW12GStlolqNj3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719014551; c=relaxed/simple;
-	bh=fSSJNBHTSCX+PA0ZIlfDx2M1bKXwVB+3Brx7kZo+1JY=;
+	s=arc-20240116; t=1719146159; c=relaxed/simple;
+	bh=HX7j+K7oS0TbvgKfaDJaMczOwrd3kILKtI8aWFWRt6M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SBV+IoVaGSyxtOwbLX2XSWUOUoSt6Rt2cxFKkwPfgyOdvzTPzZ8l21nK4wPimD3Ok6S/7H/QDWn+MfSRrvCcqQKBcrjidPmj3uiIBlArnNTuWbACShYs0+yf4PUczlPtYY+xa7fvWcIqT5nmRB/7A4XtxjGpahi24/WsWZvMo0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hw/rhy+f; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=X/qFWd3yPg7PEeQSurv2GOyc7X7NxbCksZo1GUv0MFi93r9ySBQ+J24dx1B/CKn6v80DUkCxxzqHbomhqyXfoZ+PcDkMRlMpFQAtzTdzYIyyuyjo91JuXJ1NRRBuSbNVHThPBL+eNnCFObiIn2OR93JOzKzspR5L45tI46hlCPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmdzffKQ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hw/rhy+f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmdzffKQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719014548; x=1750550548;
+  t=1719146157; x=1750682157;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fSSJNBHTSCX+PA0ZIlfDx2M1bKXwVB+3Brx7kZo+1JY=;
-  b=Hw/rhy+fGLIbYbhrB+Jo9/FUGkU/g8NH5zuEOQ8PNvcf/s520FVFPOIh
-   /o39m8QrUceQDd2wZGNu+lZDf4y/Zy8YeRgKsJw/AoH/CW8Sl39UKMfBQ
-   MXOY3d1EE6cVvP5j+jgRjvMxEq0JpU+sVLEgeLjKPP8R2TjqqnfmxOFv1
-   KffZIG2gM7JpEPecm02rr1SwIGjvGEbzpRIzgd8T7iJWgP9TundTy9X0S
-   XgBrqcm6+FTTO7TDSroV5aHqvvKMuRm+724J9vxnORPQLl7uREArVWowd
-   uGOjggoJl1Wl/zo5zNdsLUMTTCLy8yZIuET7hxzgxzcEBAcWyq8wPArVh
+  bh=HX7j+K7oS0TbvgKfaDJaMczOwrd3kILKtI8aWFWRt6M=;
+  b=fmdzffKQ2UrCWG17BJrAx2ZqE7jyFq4KJwFHRukSGWCBfayMOOIX09pm
+   cuEntLlcYa7zsLl1MXWdceabQaGXBJL1bCEOaf9O6h9lG0zwKxCVe4c3h
+   SsYmb0Fpbfs+twwVZ1VHxXrxJDewFNtrhGGZ5Dh2Cgb56aeTXWkhiV4Ko
+   o4mUaF6Sv6SFQKJWaVNhD4/ikJP36ONKzjnlKmh/7DwC0GO5a32xwkl/E
+   SLBNkPnjXSw9SMx5vQfshC4cOz+j4dTkw2l09gk1jWfWHXZtUukXjTGuI
+   9hSRRvznEct/XVFqlbfcZFdQfsXdcNU+uhwvkN/aFqxBSzTyMW0LniPSv
    A==;
-X-CSE-ConnectionGUID: XGlaj1mATumUFHezY7m7ag==
-X-CSE-MsgGUID: AQdDQHCcSEi20s94ji1bNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="18974079"
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="18974079"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 17:02:28 -0700
-X-CSE-ConnectionGUID: DQkpViElTaeJ6mbT1lr2sg==
-X-CSE-MsgGUID: 4bky2eCeSJqrEhFUQCss1A==
+X-CSE-ConnectionGUID: SA3ew9K5TzihJu0RtWK9Xg==
+X-CSE-MsgGUID: FASEWZl0TwK3CHbrRW4pDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="33665315"
+X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
+   d="scan'208";a="33665315"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 05:35:56 -0700
+X-CSE-ConnectionGUID: CGKwg7jFTtWmPChkARzbkw==
+X-CSE-MsgGUID: yeCU4hmcTXy3I+nYY8vuIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,256,1712646000"; 
-   d="scan'208";a="73952336"
+X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
+   d="scan'208";a="43481916"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Jun 2024 17:02:28 -0700
+  by orviesa006.jf.intel.com with ESMTP; 23 Jun 2024 05:35:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sKoD2-000994-2H;
-	Sat, 22 Jun 2024 00:02:24 +0000
-Date: Sat, 22 Jun 2024 08:02:11 +0800
+	id 1sLMRk-000AUo-2T;
+	Sun, 23 Jun 2024 12:35:52 +0000
+Date: Sun, 23 Jun 2024 20:35:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [dhowells-fs:netfs-writeback 17/17] fs/netfs/buffered_read.c:280
- netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
-Message-ID: <202406220713.ZTEHfOyc-lkp@intel.com>
+Subject: [jic23-iio:testing 15/61] drivers/iio/adc/ad7173.c:1254
+ ad7173_fw_parse_channel_config() error: uninitialized symbol
+ 'is_current_chan'.
+Message-ID: <202406232046.DKfBJq6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,113 +65,162 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
+TO: Dumitru Ceclan <dumitru.ceclan@analog.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Nuno Sa <nuno.sa@analog.com>
+CC: David Lechner <dlechner@baylibre.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   ce62c8542631d1deea2fcedbbba41046c3f95285
-commit: d75f8ece3c49fa2ab1299cdabfc879952702a19a [17/17] netfs: Speed up buffered reading
-:::::: branch date: 8 hours ago
-:::::: commit date: 31 hours ago
-config: x86_64-randconfig-161-20240622 (https://download.01.org/0day-ci/archive/20240622/202406220713.ZTEHfOyc-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   e2afe21f9b0bfa3f188cd5a60940b07a85d65e9a
+commit: cfc4c76b75ab68a95976e0db725baff385c4136d [15/61] iio: adc: ad7173: Add support for AD411x devices
+:::::: branch date: 18 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-161-20240623 (https://download.01.org/0day-ci/archive/20240623/202406232046.DKfBJq6o-lkp@intel.com/config)
+compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406220713.ZTEHfOyc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406232046.DKfBJq6o-lkp@intel.com/
 
-New smatch warnings:
-fs/netfs/buffered_read.c:280 netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
-fs/smb/client/file.c:166 cifs_issue_read() warn: unsigned 'len' is never less than zero.
+smatch warnings:
+drivers/iio/adc/ad7173.c:1254 ad7173_fw_parse_channel_config() error: uninitialized symbol 'is_current_chan'.
 
-Old smatch warnings:
-fs/smb/client/file.c:3054 cifs_oplock_break() warn: variable dereferenced before check 'inode' (see line 3025)
+vim +/is_current_chan +1254 drivers/iio/adc/ad7173.c
 
-vim +/slice +280 fs/netfs/buffered_read.c
-
-d75f8ece3c49fa2 David Howells 2024-06-19  206  
-d75f8ece3c49fa2 David Howells 2024-06-19  207  /*
-d75f8ece3c49fa2 David Howells 2024-06-19  208   * Perform a read to the pagecache from a series of sources of different types,
-d75f8ece3c49fa2 David Howells 2024-06-19  209   * slicing up the region to be read according to available cache blocks and
-d75f8ece3c49fa2 David Howells 2024-06-19  210   * network rsize.
-d75f8ece3c49fa2 David Howells 2024-06-19  211   */
-d75f8ece3c49fa2 David Howells 2024-06-19  212  static int netfs_read_to_pagecache(struct netfs_io_request *rreq)
-d75f8ece3c49fa2 David Howells 2024-06-19  213  {
-d75f8ece3c49fa2 David Howells 2024-06-19  214  	struct netfs_inode *ictx = netfs_inode(rreq->inode);
-d75f8ece3c49fa2 David Howells 2024-06-19  215  	unsigned long long start = rreq->start;
-d75f8ece3c49fa2 David Howells 2024-06-19  216  	ssize_t size = rreq->len;
-d75f8ece3c49fa2 David Howells 2024-06-19  217  
-d75f8ece3c49fa2 David Howells 2024-06-19  218  	/* Chop the readahead request up into subrequests. */
-d75f8ece3c49fa2 David Howells 2024-06-19  219  	do {
-d75f8ece3c49fa2 David Howells 2024-06-19  220  		struct netfs_io_subrequest *subreq;
-d75f8ece3c49fa2 David Howells 2024-06-19  221  		enum netfs_io_source source = NETFS_DOWNLOAD_FROM_SERVER;
-d75f8ece3c49fa2 David Howells 2024-06-19  222  		ssize_t slice;
-d75f8ece3c49fa2 David Howells 2024-06-19  223  
-d75f8ece3c49fa2 David Howells 2024-06-19  224  		subreq = netfs_alloc_subrequest(rreq);
-d75f8ece3c49fa2 David Howells 2024-06-19  225  		if (!subreq)
-d75f8ece3c49fa2 David Howells 2024-06-19  226  			return -ENOMEM;
-d75f8ece3c49fa2 David Howells 2024-06-19  227  
-d75f8ece3c49fa2 David Howells 2024-06-19  228  		subreq->source	= NETFS_DOWNLOAD_FROM_SERVER;
-d75f8ece3c49fa2 David Howells 2024-06-19  229  		subreq->start	= start;
-d75f8ece3c49fa2 David Howells 2024-06-19  230  		subreq->len	= size;
-d75f8ece3c49fa2 David Howells 2024-06-19  231  
-d75f8ece3c49fa2 David Howells 2024-06-19  232  		spin_lock(&rreq->lock);
-d75f8ece3c49fa2 David Howells 2024-06-19  233  		list_add_tail(&subreq->rreq_link, &rreq->subrequests);
-d75f8ece3c49fa2 David Howells 2024-06-19  234  		subreq->prev_donated = rreq->prev_donated;
-d75f8ece3c49fa2 David Howells 2024-06-19  235  		rreq->prev_donated = 0;
-d75f8ece3c49fa2 David Howells 2024-06-19  236  		trace_netfs_sreq(subreq, netfs_sreq_trace_added);
-d75f8ece3c49fa2 David Howells 2024-06-19  237  		spin_unlock(&rreq->lock);
-d75f8ece3c49fa2 David Howells 2024-06-19  238  
-d75f8ece3c49fa2 David Howells 2024-06-19  239  		source = netfs_cache_prepare_read(rreq, subreq, rreq->i_size);
-d75f8ece3c49fa2 David Howells 2024-06-19  240  		if (source == NETFS_DOWNLOAD_FROM_SERVER) {
-d75f8ece3c49fa2 David Howells 2024-06-19  241  			if (subreq->start >= ictx->zero_point) {
-d75f8ece3c49fa2 David Howells 2024-06-19  242  				subreq->source = source = NETFS_FILL_WITH_ZEROES;
-d75f8ece3c49fa2 David Howells 2024-06-19  243  				goto fill_with_zeroes;
-d75f8ece3c49fa2 David Howells 2024-06-19  244  			}
-d75f8ece3c49fa2 David Howells 2024-06-19  245  
-d75f8ece3c49fa2 David Howells 2024-06-19  246  			if (subreq->len > ictx->zero_point - subreq->start)
-d75f8ece3c49fa2 David Howells 2024-06-19  247  				subreq->len = ictx->zero_point - subreq->start;
-d75f8ece3c49fa2 David Howells 2024-06-19  248  			if (subreq->len > rreq->i_size - subreq->start)
-d75f8ece3c49fa2 David Howells 2024-06-19  249  				subreq->len = rreq->i_size - subreq->start;
-d75f8ece3c49fa2 David Howells 2024-06-19  250  
-d75f8ece3c49fa2 David Howells 2024-06-19  251  			netfs_stat(&netfs_n_rh_download);
-d75f8ece3c49fa2 David Howells 2024-06-19  252  			slice = rreq->netfs_ops->issue_read(subreq);
-d75f8ece3c49fa2 David Howells 2024-06-19  253  			if (slice <= 0)
-d75f8ece3c49fa2 David Howells 2024-06-19  254  				return slice;
-d75f8ece3c49fa2 David Howells 2024-06-19  255  			goto done;
-d75f8ece3c49fa2 David Howells 2024-06-19  256  		}
-d75f8ece3c49fa2 David Howells 2024-06-19  257  
-d75f8ece3c49fa2 David Howells 2024-06-19  258  	fill_with_zeroes:
-d75f8ece3c49fa2 David Howells 2024-06-19  259  		if (source == NETFS_FILL_WITH_ZEROES) {
-d75f8ece3c49fa2 David Howells 2024-06-19  260  			subreq->source = NETFS_FILL_WITH_ZEROES;
-d75f8ece3c49fa2 David Howells 2024-06-19  261  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-d75f8ece3c49fa2 David Howells 2024-06-19  262  			netfs_stat(&netfs_n_rh_zero);
-d75f8ece3c49fa2 David Howells 2024-06-19  263  			slice = subreq->len;
-d75f8ece3c49fa2 David Howells 2024-06-19  264  			subreq->transferred = slice;
-d75f8ece3c49fa2 David Howells 2024-06-19  265  			__set_bit(NETFS_SREQ_CLEAR_TAIL, &subreq->flags);
-d75f8ece3c49fa2 David Howells 2024-06-19  266  			netfs_read_subreq_progress(subreq, 0, false);
-d75f8ece3c49fa2 David Howells 2024-06-19  267  			goto done;
-d75f8ece3c49fa2 David Howells 2024-06-19  268  		}
-d75f8ece3c49fa2 David Howells 2024-06-19  269  
-d75f8ece3c49fa2 David Howells 2024-06-19  270  		if (source == NETFS_READ_FROM_CACHE) {
-d75f8ece3c49fa2 David Howells 2024-06-19  271  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-d75f8ece3c49fa2 David Howells 2024-06-19  272  			slice = netfs_read_cache_to_pagecache(rreq, subreq);
-d75f8ece3c49fa2 David Howells 2024-06-19  273  			goto done;
-d75f8ece3c49fa2 David Howells 2024-06-19  274  		}
-d75f8ece3c49fa2 David Howells 2024-06-19  275  
-d75f8ece3c49fa2 David Howells 2024-06-19  276  		if (source == NETFS_INVALID_READ)
-d75f8ece3c49fa2 David Howells 2024-06-19  277  			break;
-d75f8ece3c49fa2 David Howells 2024-06-19  278  
-d75f8ece3c49fa2 David Howells 2024-06-19  279  	done:
-d75f8ece3c49fa2 David Howells 2024-06-19 @280  		size -= slice;
-d75f8ece3c49fa2 David Howells 2024-06-19  281  		start += slice;
-d75f8ece3c49fa2 David Howells 2024-06-19  282  		cond_resched();
-d75f8ece3c49fa2 David Howells 2024-06-19  283  	} while (size > 0);
-d75f8ece3c49fa2 David Howells 2024-06-19  284  
-d75f8ece3c49fa2 David Howells 2024-06-19  285  	return 0;
-d75f8ece3c49fa2 David Howells 2024-06-19  286  }
-d75f8ece3c49fa2 David Howells 2024-06-19  287  
+87477bf7433028 Dumitru Ceclan   2024-06-07  1183  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1184  static int ad7173_fw_parse_channel_config(struct iio_dev *indio_dev)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1185  {
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1186  	struct ad7173_channel *chans_st_arr, *chan_st_priv;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1187  	struct ad7173_state *st = iio_priv(indio_dev);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1188  	struct device *dev = indio_dev->dev.parent;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1189  	struct iio_chan_spec *chan_arr, *chan;
+87477bf7433028 Dumitru Ceclan   2024-06-07  1190  	unsigned int ain[AD7173_NO_AINS_PER_CHANNEL], chan_index = 0;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1191  	int ref_sel, ret, is_current_chan, num_channels;
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1192  
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1193  	num_channels = device_get_child_node_count(dev);
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1194  
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1195  	if (st->info->has_temp)
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1196  		num_channels++;
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1197  
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1198  	if (num_channels == 0)
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1199  		return dev_err_probe(dev, -ENODATA, "No channels specified\n");
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1200  
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1201  	if (num_channels > st->info->num_channels)
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1202  		return dev_err_probe(dev, -EINVAL,
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1203  			"Too many channels specified. Maximum is %d, not including temperature channel if supported.\n",
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1204  			st->info->num_channels);
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1205  
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1206  	indio_dev->num_channels = num_channels;
+51d5a38b21113a Dumitru Ceclan   2024-06-07  1207  	st->num_channels = num_channels;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1208  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1209  	chan_arr = devm_kcalloc(dev, sizeof(*indio_dev->channels),
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1210  				st->num_channels, GFP_KERNEL);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1211  	if (!chan_arr)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1212  		return -ENOMEM;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1213  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1214  	chans_st_arr = devm_kcalloc(dev, st->num_channels, sizeof(*st->channels),
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1215  				    GFP_KERNEL);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1216  	if (!chans_st_arr)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1217  		return -ENOMEM;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1218  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1219  	indio_dev->channels = chan_arr;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1220  	st->channels = chans_st_arr;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1221  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1222  	if (st->info->has_temp) {
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1223  		chan_arr[chan_index] = ad7173_temp_iio_channel_template;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1224  		chan_st_priv = &chans_st_arr[chan_index];
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1225  		chan_st_priv->ain =
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1226  			AD7173_CH_ADDRESS(chan_arr[chan_index].channel,
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1227  					  chan_arr[chan_index].channel2);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1228  		chan_st_priv->cfg.bipolar = false;
+ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1229  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1230  		chan_st_priv->cfg.ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1231  		st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1232  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1233  		chan_index++;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1234  	}
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1235  
+cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1236  	device_for_each_child_node_scoped(dev, child) {
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1237  		chan = &chan_arr[chan_index];
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1238  		*chan = ad7173_channel_template;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1239  		chan_st_priv = &chans_st_arr[chan_index];
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1240  		ret = fwnode_property_read_u32_array(child, "diff-channels",
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1241  						     ain, ARRAY_SIZE(ain));
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1242  		if (ret) {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1243  			ret = fwnode_property_read_u32(child, "single-channel",
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1244  						       ain);
+cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1245  			if (ret)
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1246  				return dev_err_probe(dev, ret,
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1247  					"Channel must define one of diff-channels or single-channel.\n");
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1248  
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1249  			is_current_chan = fwnode_property_read_bool(child, "adi,current-channel");
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1250  		} else {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1251  			chan->differential = true;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1252  		}
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1253  
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07 @1254  		if (is_current_chan) {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1255  			ret = ad4111_validate_current_ain(st, ain);
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1256  			if (ret)
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1257  				return ret;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1258  		} else {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1259  			if (!chan->differential) {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1260  				ret = fwnode_property_read_u32(child,
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1261  					"common-mode-channel", ain + 1);
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1262  				if (ret)
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1263  					return dev_err_probe(dev, ret,
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1264  						"common-mode-channel must be defined for single-ended channels.\n");
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1265  			}
+87477bf7433028 Dumitru Ceclan   2024-06-07  1266  			ret = ad7173_validate_voltage_ain_inputs(st, ain[0], ain[1]);
+87477bf7433028 Dumitru Ceclan   2024-06-07  1267  			if (ret)
+87477bf7433028 Dumitru Ceclan   2024-06-07  1268  				return ret;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1269  		}
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1270  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1271  		ret = fwnode_property_match_property_string(child,
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1272  							    "adi,reference-select",
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1273  							    ad7173_ref_sel_str,
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1274  							    ARRAY_SIZE(ad7173_ref_sel_str));
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1275  		if (ret < 0)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1276  			ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1277  		else
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1278  			ref_sel = ret;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1279  
+87477bf7433028 Dumitru Ceclan   2024-06-07  1280  		ret = ad7173_validate_reference(st, ref_sel);
+87477bf7433028 Dumitru Ceclan   2024-06-07  1281  		if (ret)
+87477bf7433028 Dumitru Ceclan   2024-06-07  1282  			return ret;
+cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1283  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1284  		if (ref_sel == AD7173_SETUP_REF_SEL_INT_REF)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1285  			st->adc_mode |= AD7173_ADC_MODE_REF_EN;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1286  		chan_st_priv->cfg.ref_sel = ref_sel;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1287  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1288  		chan->address = chan_index;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1289  		chan->scan_index = chan_index;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1290  		chan->channel = ain[0];
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1291  		chan_st_priv->chan_reg = chan_index;
+ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1292  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1293  		chan_st_priv->cfg.odr = 0;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1294  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1295  		chan_st_priv->cfg.bipolar = fwnode_property_read_bool(child, "bipolar");
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1296  		if (chan_st_priv->cfg.bipolar)
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1297  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_OFFSET);
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1298  
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1299  		if (is_current_chan) {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1300  			chan->type = IIO_CURRENT;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1301  			chan->differential = false;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1302  			chan->channel2 = 0;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1303  			chan_st_priv->ain = ad4111_current_channel_config[ain[0]];
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1304  		} else {
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1305  			chan_st_priv->cfg.input_buf = st->info->has_input_buf;
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1306  			chan->channel2 = ain[1];
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1307  			chan_st_priv->ain = AD7173_CH_ADDRESS(ain[0], ain[1]);
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1308  		}
+cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1309  
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1310  		chan_index++;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1311  	}
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1312  	return 0;
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1313  }
+76a1e6a4280211 Dumitru Ceclan   2024-02-28  1314  
 
 -- 
 0-DAY CI Kernel Test Service
