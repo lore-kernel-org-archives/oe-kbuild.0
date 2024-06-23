@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EBD181BA7
-	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jun 2024 13:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8B259B71
+	for <oe-kbuild@lists.linux.dev>; Sun, 23 Jun 2024 23:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719150539; cv=none; b=eDb5eNK/ih60FMkX8QHP55mqg/bUUWwcBbmL7dBjic0xdQy+jiFW3N55WwvwxrTMsFG3OzP3pJSRTf/KgUELdIfELi31vnIFKXoGR6zsNO4+BOTVcUm7B8qCejWI6+w6DxytuBFSTuKqAVxS2lrPbIkDHnXQHZtf7pxC8iw0AU8=
+	t=1719186735; cv=none; b=M03HrAGJISneZRmEb40zuxozHPmoqO/u5axOZt1Enj7r4NfHNO7yF8Zvbj8GSH6lxO5apbFEmmV4htj5COdLF5KKxI4f6Yw9J4yi9ph7tkTVmdgfsqNutfHtYlGwyAZ4XffFxnsjRygxSv/IqiUvjLPmWr0ja7J/KrmXYQSXfMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719150539; c=relaxed/simple;
-	bh=FfbTHaIVSCuAWfJ5/JceQuGOut/qnUxQWbNlsuuHYSM=;
+	s=arc-20240116; t=1719186735; c=relaxed/simple;
+	bh=jDmaZlfqmupfgnHgbA6f2nKMH9SQR/DkjIlkCiMPbKg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WAHLQiPbewQ3BJ2LUrjRE5LqHhfqAFynwM3BFplLaaM+WR8Hfnr05rB9RKU3N/wfwY37lc1p95pFa3fh4QTwHNmgzPrI5UiQAeKuRffMLUMr5kHAXaiy7Z2hniwcaqCXtKBXx7wC+lkEAQ0O1DG2x6Z9vpfX5HASIEmD6bUzOAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BscCCaJv; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=KfCvePwzT59doqki8RuhFb8RAqjgJt633j1WyxtGpx+mQh0B5c4v+lzGW0WqJsB4VRmRJRjV3mlC25ntEcWmcjk1Zpjj4J3dLuGC3MVB74JWXKaySIcoTCZDMudE/PeXBCDN9vM94SnFC33OctbGQr2isqqz2fy4oLip9JOaNlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PrcU1U+R; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BscCCaJv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PrcU1U+R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719150538; x=1750686538;
+  t=1719186732; x=1750722732;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FfbTHaIVSCuAWfJ5/JceQuGOut/qnUxQWbNlsuuHYSM=;
-  b=BscCCaJvrPTjFF4Pl/ZjLRt/YaU+MwATSkvv73hFsGG23DNi7ElauF0p
-   wxkub+2xFRSvWuQY/ZAos7RwIk+gb/8NPgjLFG46XXjA1mc3yb12qAJOu
-   NEwG86A3PNXkx6ep9CQrujMnQSKl/dRxEKbsJan78a+sSBUkHp79W1BPQ
-   wBEa0t0Q+O0oEJEoAXyCFC2mEmItzRfgYeZ6R3xPI8RyV1XOAGr/Igjfh
-   0NbkAXBp7DL77BiDdRvFs2ZBIlJpitovVWU+o3XHd6HDCx1CLShpxELNb
-   qVA7nKl4lBlWVsOXUZ0Wq7EtjWZCDXFmNUYw6t0Qv0nc+xyQ64RlwNIBF
-   g==;
-X-CSE-ConnectionGUID: XtAOPTn/R02UidPsM04giQ==
-X-CSE-MsgGUID: GG4xgOhDQ1SZe8hVUL+Niw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="26809579"
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="26809579"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 06:48:57 -0700
-X-CSE-ConnectionGUID: S3TSj6RYS8WStrVKP5A4Ow==
-X-CSE-MsgGUID: ZzRfpDizT9+WEukbixZRjw==
+  bh=jDmaZlfqmupfgnHgbA6f2nKMH9SQR/DkjIlkCiMPbKg=;
+  b=PrcU1U+RDYdDEHQtZXbm84BXnkd4AEYrHP4VfTLTHeSeSYLo1tejszDV
+   qSlqjr+s+qyfAeJwYa2MA/Mrx5mL7mbuUQDxxsqNaqDmH5P1F93Kwaq0A
+   yq7Z68XGLsX29bZxelqDX8V3CtVatr6ivL7WT/f14OU+PV9mvIEhDEut+
+   KnfnH/K10DuFSvgb3yrzDbHPAl6y+KSGCgHBfhJ0yw05aZZ8vWZajh551
+   NAC0CXit+sXPwne9JKoXGct/G/5OKSJPlXS4qYMh2qGwM5ra7y+x7yjfb
+   FKEFPVfqQxaN+cRWcUmMU4cT42Nwv9yIV7gToIQ1bqW5o+pzrzsP6rOlh
+   Q==;
+X-CSE-ConnectionGUID: 81izMjtgRuSf+lp7asZs6A==
+X-CSE-MsgGUID: f9p7ysprTRGpMELCk/DYXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11112"; a="20025033"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="20025033"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2024 16:52:11 -0700
+X-CSE-ConnectionGUID: xqODvO7vTwOhClBSq0IEWQ==
+X-CSE-MsgGUID: NGhM7vgvRniMXKHBCF8Hgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,260,1712646000"; 
-   d="scan'208";a="43162607"
+X-IronPort-AV: E=Sophos;i="6.08,261,1712646000"; 
+   d="scan'208";a="47582502"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Jun 2024 06:48:56 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 23 Jun 2024 16:52:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLNaP-000AWk-2v;
-	Sun, 23 Jun 2024 13:48:53 +0000
-Date: Sun, 23 Jun 2024 21:48:15 +0800
+	id 1sLX0C-000Bku-16;
+	Sun, 23 Jun 2024 23:52:08 +0000
+Date: Mon, 24 Jun 2024 07:51:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: net/mptcp/ctrl.c:140 proc_available_schedulers() warn: (struct
- ctl_table)->procname cannot be NULL. Expression : tbl.procname
-Message-ID: <202406232124.bIt3ZmFi-lkp@intel.com>
+Subject: drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn:
+ iterator 'i' not incremented
+Message-ID: <202406240714.3QZCBolb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,57 +65,60 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Gregory Detal <gregory.detal@gmail.com>
-CC: mptcp@lists.linux.dev
-CC: matthieu.baerts@tessares.net
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Mat Martineau <martineau@kernel.org>
-CC: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+TO: Reinette Chatre <reinette.chatre@intel.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5f583a3162ffd9f7999af76b8ab634ce2dac9f90
-commit: 73c900aa3660dae2050af456d1031d098ab4cb1d mptcp: add net.mptcp.available_schedulers
-date:   6 weeks ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 6 weeks ago
-config: x86_64-randconfig-161-20240623 (https://download.01.org/0day-ci/archive/20240623/202406232124.bIt3ZmFi-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+head:   f2661062f16b2de5d7b6a5c42a9a5c96326b8454
+commit: b156e48fffa9f1caea490e4812a1451adb5c0ef4 vfio/pci: Use xarray for interrupt context storage
+date:   1 year, 1 month ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: alpha-randconfig-r081-20240624 (https://download.01.org/0day-ci/archive/20240624/202406240714.3QZCBolb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406232124.bIt3ZmFi-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406240714.3QZCBolb-lkp@intel.com/
 
-New smatch warnings:
-net/mptcp/ctrl.c:140 proc_available_schedulers() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:140 proc_available_schedulers() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
+smatch warnings:
+drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn: iterator 'i' not incremented
 
-Old smatch warnings:
-net/mptcp/ctrl.c:121 proc_scheduler() warn: (struct ctl_table)->procname cannot be NULL. Expression : tbl.procname
-net/mptcp/ctrl.c:121 proc_scheduler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : tbl.proc_handler
+vim +/i +509 drivers/vfio/pci/vfio_pci_intrs.c
 
-vim +140 net/mptcp/ctrl.c
-
-6963c508fd7ab6 Gregory Detal 2024-05-06  135  
-73c900aa3660da Gregory Detal 2024-05-13  136  static int proc_available_schedulers(struct ctl_table *ctl,
-73c900aa3660da Gregory Detal 2024-05-13  137  				     int write, void *buffer,
-73c900aa3660da Gregory Detal 2024-05-13  138  				     size_t *lenp, loff_t *ppos)
-73c900aa3660da Gregory Detal 2024-05-13  139  {
-73c900aa3660da Gregory Detal 2024-05-13 @140  	struct ctl_table tbl = { .maxlen = MPTCP_SCHED_BUF_MAX, };
-73c900aa3660da Gregory Detal 2024-05-13  141  	int ret;
-73c900aa3660da Gregory Detal 2024-05-13  142  
-73c900aa3660da Gregory Detal 2024-05-13  143  	tbl.data = kmalloc(tbl.maxlen, GFP_USER);
-73c900aa3660da Gregory Detal 2024-05-13  144  	if (!tbl.data)
-73c900aa3660da Gregory Detal 2024-05-13  145  		return -ENOMEM;
-73c900aa3660da Gregory Detal 2024-05-13  146  
-73c900aa3660da Gregory Detal 2024-05-13  147  	mptcp_get_available_schedulers(tbl.data, MPTCP_SCHED_BUF_MAX);
-73c900aa3660da Gregory Detal 2024-05-13  148  	ret = proc_dostring(&tbl, write, buffer, lenp, ppos);
-73c900aa3660da Gregory Detal 2024-05-13  149  	kfree(tbl.data);
-73c900aa3660da Gregory Detal 2024-05-13  150  
-73c900aa3660da Gregory Detal 2024-05-13  151  	return ret;
-73c900aa3660da Gregory Detal 2024-05-13  152  }
-73c900aa3660da Gregory Detal 2024-05-13  153  
+89e1f7d4c66d85 Alex Williamson   2012-07-31  501  
+536475109c8284 Max Gurtovoy      2021-08-26  502  static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
+89e1f7d4c66d85 Alex Williamson   2012-07-31  503  {
+89e1f7d4c66d85 Alex Williamson   2012-07-31  504  	struct pci_dev *pdev = vdev->pdev;
+d977e0f7663961 Reinette Chatre   2023-05-11  505  	struct vfio_pci_irq_ctx *ctx;
+b156e48fffa9f1 Reinette Chatre   2023-05-11  506  	unsigned long i;
+abafbc551fdded Alex Williamson   2020-04-22  507  	u16 cmd;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  508  
+b156e48fffa9f1 Reinette Chatre   2023-05-11 @509  	xa_for_each(&vdev->ctx, i, ctx) {
+d977e0f7663961 Reinette Chatre   2023-05-11  510  		vfio_virqfd_disable(&ctx->unmask);
+d977e0f7663961 Reinette Chatre   2023-05-11  511  		vfio_virqfd_disable(&ctx->mask);
+a65f35cfd504e5 Reinette Chatre   2023-05-11  512  		vfio_msi_set_vector_signal(vdev, i, -1, msix);
+89e1f7d4c66d85 Alex Williamson   2012-07-31  513  	}
+89e1f7d4c66d85 Alex Williamson   2012-07-31  514  
+abafbc551fdded Alex Williamson   2020-04-22  515  	cmd = vfio_pci_memory_lock_and_enable(vdev);
+61771468e0a567 Christoph Hellwig 2016-09-11  516  	pci_free_irq_vectors(pdev);
+abafbc551fdded Alex Williamson   2020-04-22  517  	vfio_pci_memory_unlock_and_restore(vdev, cmd);
+89e1f7d4c66d85 Alex Williamson   2012-07-31  518  
+c93a97ee0583cd Alex Williamson   2016-09-26  519  	/*
+c93a97ee0583cd Alex Williamson   2016-09-26  520  	 * Both disable paths above use pci_intx_for_msi() to clear DisINTx
+c93a97ee0583cd Alex Williamson   2016-09-26  521  	 * via their shutdown paths.  Restore for NoINTx devices.
+c93a97ee0583cd Alex Williamson   2016-09-26  522  	 */
+c93a97ee0583cd Alex Williamson   2016-09-26  523  	if (vdev->nointx)
+c93a97ee0583cd Alex Williamson   2016-09-26  524  		pci_intx(pdev, 0);
+c93a97ee0583cd Alex Williamson   2016-09-26  525  
+89e1f7d4c66d85 Alex Williamson   2012-07-31  526  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  527  	vdev->num_ctx = 0;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  528  }
+89e1f7d4c66d85 Alex Williamson   2012-07-31  529  
 
 -- 
 0-DAY CI Kernel Test Service
