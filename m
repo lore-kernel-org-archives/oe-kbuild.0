@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667441E494
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Jun 2024 01:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839AB17727
+	for <oe-kbuild@lists.linux.dev>; Tue, 25 Jun 2024 01:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719278380; cv=none; b=lyiB0BCZ3GosR9JHuDPe3ew/bmgzsgCI/cj1WDxE10Is+Yf9/9N+eCvYrtgXvcpDc9Gd44xy6wa/7F5OWJsp0csJ2e0NJu0w/1FoACJTXrjE1BANA25GGEiybvfRnIIWTv/4gbWUVBvh6fYttTyBxRVO0fORzelJn/yCWBk2tBE=
+	t=1719279101; cv=none; b=W6WxPEvH8rhwBJ7p9JbvFLK/ZfC9MV3qW4857lKQVtSdTPqHKz+IeteJobW9u/WEMTOzdcwVUnpDDolWD4Ht8Un1hxT0ihUntAnvv+wHydowKQG8gJuHcU58SuONpLliMM+uV06tAa0YvPCNrr3Sehnaa8ZoDq1D71IdO4pFp4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719278380; c=relaxed/simple;
-	bh=ojx7BzNk76ODt32b0VYcow6k4KvphLI4z3VtrQ5opbI=;
+	s=arc-20240116; t=1719279101; c=relaxed/simple;
+	bh=eDZMRANV4Gweo9mjFAqwavn3I8swsvQZaTgAi6XcYX8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RcPJyxKwxSVCW1bHxmlsDHP0DqBZd3icvovJ+Beubhm8jjYZMz6C1xnNeKbWc8/VVWUs+OwguhkE88nmGPOr8yONsqhCthx+gj/++p3VDM0tSZna7JKlMuug8371KfQJE9dRGWir7POkz3PmgtL+9TvdhZCo9bmdq7/U1fbw4F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcP6ps4a; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=NPl6cay5IbuVh7gmOi6Px7e7xBB6NYd15viMqL+iCREIwepfXhEyAHfXQeCJ/EQvfr3nc4WZ6lxeVR9DoPYUf8zpM8hS06Ku1rhoqzlcTazwXJPWj7nTgHd7YlEUIlXfeX/OCb1Lt7IgdWCa1cwqzlDkWauuiJbXls92qy/1S98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jlv8fJza; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcP6ps4a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jlv8fJza"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719278378; x=1750814378;
+  t=1719279100; x=1750815100;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ojx7BzNk76ODt32b0VYcow6k4KvphLI4z3VtrQ5opbI=;
-  b=bcP6ps4axLz1jUbOqVK4tLtJKEbbMFdKIGzh/p7AaJVQhGgbN1rBXMlc
-   m7OkfJthE2xvPlc4cxH6DZToAyHAKXO4mj1YgQTjC32VsWiY70J9t5vhL
-   gGPfJxzWAezjzUTXdaaCAMKkIC4Y7mYynoMi/AAag6Olhn7rn4WXsp9oL
-   cvk3853YuOPJ4G2Uq0RlkcZ4mxEl2TV9twMKglre70yCiYRfi+WycJna6
-   NvQspYEYOuvugHDLoMeCAm+nzSIEKzNVAC4lAnWAbKRKONOVW1EHSlXs3
-   YK98kKW7YlgFWGw/1wm4owe/VUPVi9VE2BT2pWZKDA+Yfa3ducD3OGkAt
-   Q==;
-X-CSE-ConnectionGUID: wB8xAViRTEm/mASIKEpcgQ==
-X-CSE-MsgGUID: +nIXt0vQR3qT1sI83mLAYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="20087335"
+  bh=eDZMRANV4Gweo9mjFAqwavn3I8swsvQZaTgAi6XcYX8=;
+  b=Jlv8fJzafogWKuRVPSEk568UWxrwGhXIlGSOUkAH/ctXPNTy6/eVfSLv
+   +86dVGQPSlkQgcQKNsfI2wSF04dICuldZ+hU3ALI8/k80AmWM57jgjhm6
+   jmK8l+rDwBxwUVC9cQ76N1dnCKDQ2a9PIIEKr/Eu/0rpvWHVVhXIb2yvO
+   cDH2ghpmSkvca0XmC0I2f/aGvBbH6rF0iT67mvimp9BELH9JeaeFyRfPE
+   QksYx40wqBps990gokObXlWK/wE/IAfL0U4B2mK6DfbmluggpXW0t9n/Z
+   2UKn4X9/jS1DJEDT4igruxwg2EvTYKvvXU+HZL1TRntwzQGjkdsqfqmhz
+   w==;
+X-CSE-ConnectionGUID: q4QeuO36TTSWNq3kI56Isw==
+X-CSE-MsgGUID: ZjaDVkMUQOu4a4yRhwGy0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="26864325"
 X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="20087335"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 18:19:37 -0700
-X-CSE-ConnectionGUID: T5EARf0STrWMAow03icOyg==
-X-CSE-MsgGUID: 9rIMApZzQuW1E2E7Ncn6Vw==
+   d="scan'208";a="26864325"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 18:31:40 -0700
+X-CSE-ConnectionGUID: WlCs5JVSTBm3qBd4lhLqUQ==
+X-CSE-MsgGUID: GDqYBq5eRp6+t9Op2dXC8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="43289414"
+   d="scan'208";a="81018997"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Jun 2024 18:19:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 24 Jun 2024 18:31:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLuqL-000DtS-2s;
-	Tue, 25 Jun 2024 01:19:33 +0000
-Date: Tue, 25 Jun 2024 09:19:23 +0800
+	id 1sLv1z-000DuA-1p;
+	Tue, 25 Jun 2024 01:31:35 +0000
+Date: Tue, 25 Jun 2024 09:31:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/gfs2/log.c:1158 gfs2_log_flush() error: we previously assumed
- 'sdp->sd_jdesc' could be null (see line 1111)
-Message-ID: <202406250943.QhOuua0F-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/x86/kernel/head32.c:152:14: sparse: sparse: invalid access
+ below 'boot_params' (-2147483108 4096)
+Message-ID: <202406250927.m1ZXud60-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,189 +62,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: arch/x86/kernel/head32.c:152:14: sparse: sparse: invalid access below 'boot_params' (-2147483108 4096)"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andreas Gruenbacher <agruenba@redhat.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: "Borislav Petkov (AMD)" <bp@alien8.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
-commit: 35264909e9d1973ab9aaa2a1b07cda70f12bb828 gfs2: Fix NULL pointer dereference in gfs2_log_flush
-date:   3 months ago
+commit: 4c585af7180c147062c636a927a2fc2b6a7072f5 x86/boot/32: Temporarily map initrd for microcode loading
+date:   8 months ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 3 months ago
-config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406250943.QhOuua0F-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+:::::: commit date: 8 months ago
+config: i386-randconfig-r131-20240624 (https://download.01.org/0day-ci/archive/20240625/202406250927.m1ZXud60-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240625/202406250927.m1ZXud60-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406250943.QhOuua0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406250927.m1ZXud60-lkp@intel.com/
 
-smatch warnings:
-fs/gfs2/log.c:1158 gfs2_log_flush() error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1111)
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kernel/head32.c:33:26: sparse: sparse: symbol 'initrd_start_early' was not declared. Should it be static?
+>> arch/x86/kernel/head32.c:152:14: sparse: sparse: invalid access below 'boot_params' (-2147483108 4096)
+   arch/x86/kernel/head32.c:152:43: sparse: sparse: invalid access below 'boot_params' (-2147483112 4096)
 
-vim +1158 fs/gfs2/log.c
+vim +/boot_params +152 arch/x86/kernel/head32.c
 
-462582b99b6079 Bob Peterson        2020-08-21  1031  
-b3b94faa5fe596 David Teigland      2006-01-16  1032  /**
-b09e593d799560 Steven Whitehouse   2006-04-07  1033   * gfs2_log_flush - flush incore transaction(s)
-c551f66c5dfefd Lee Jones           2021-03-30  1034   * @sdp: The filesystem
-b3b94faa5fe596 David Teigland      2006-01-16  1035   * @gl: The glock structure to flush.  If NULL, flush the whole incore log
-805c090750a315 Bob Peterson        2018-01-08  1036   * @flags: The log header flags: GFS2_LOG_HEAD_FLUSH_* and debug flags
-b3b94faa5fe596 David Teigland      2006-01-16  1037   *
-b3b94faa5fe596 David Teigland      2006-01-16  1038   */
-b3b94faa5fe596 David Teigland      2006-01-16  1039  
-c1696fb85d3319 Bob Peterson        2018-01-17  1040  void gfs2_log_flush(struct gfs2_sbd *sdp, struct gfs2_glock *gl, u32 flags)
-b3b94faa5fe596 David Teigland      2006-01-16  1041  {
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1042  	struct gfs2_trans *tr = NULL;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1043  	unsigned int reserved_blocks = 0, used_blocks = 0;
-5432af15f8772d Andreas Gruenbacher 2022-08-18  1044  	bool frozen = test_bit(SDF_FROZEN, &sdp->sd_flags);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1045  	unsigned int first_log_head;
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1046  	unsigned int reserved_revokes = 0;
-b3b94faa5fe596 David Teigland      2006-01-16  1047  
-484adff8a06cb5 Steven Whitehouse   2006-03-29  1048  	down_write(&sdp->sd_log_flush_lock);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1049  	trace_gfs2_log_flush(sdp, 1, flags);
-b3b94faa5fe596 David Teigland      2006-01-16  1050  
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1051  repeat:
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1052  	/*
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1053  	 * Do this check while holding the log_flush_lock to prevent new
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1054  	 * buffers from being added to the ail via gfs2_pin()
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1055  	 */
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1056  	if (gfs2_withdrawing_or_withdrawn(sdp) ||
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1057  	    !test_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags))
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1058  		goto out;
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1059  
-2bcd610d2fdea6 Steven Whitehouse   2007-11-08  1060  	/* Log might have been flushed while we waited for the flush lock */
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1061  	if (gl && !test_bit(GLF_LFLUSH, &gl->gl_flags))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1062  		goto out;
-f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1063  
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1064  	first_log_head = sdp->sd_log_head;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1065  	sdp->sd_log_flush_head = first_log_head;
-400ac52e805bb6 Benjamin Marzinski  2015-12-09  1066  
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1067  	tr = sdp->sd_log_tr;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1068  	if (tr || sdp->sd_log_num_revoke) {
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1069  		if (reserved_blocks)
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1070  			gfs2_log_release(sdp, reserved_blocks);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1071  		reserved_blocks = sdp->sd_log_blks_reserved;
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1072  		reserved_revokes = sdp->sd_log_num_revoke;
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1073  		if (tr) {
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1074  			sdp->sd_log_tr = NULL;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1075  			tr->tr_first = first_log_head;
-5432af15f8772d Andreas Gruenbacher 2022-08-18  1076  			if (unlikely(frozen)) {
-ca399c96e96e3f Bob Peterson        2020-01-08  1077  				if (gfs2_assert_withdraw_delayed(sdp,
-ca399c96e96e3f Bob Peterson        2020-01-08  1078  				       !tr->tr_num_buf_new && !tr->tr_num_databuf_new))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1079  					goto out_withdraw;
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1080  			}
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1081  		}
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1082  	} else if (!reserved_blocks) {
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1083  		unsigned int taboo_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1084  
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1085  		reserved_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1086  		if (current == sdp->sd_logd_process)
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1087  			taboo_blocks = 0;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1088  
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1089  		if (!__gfs2_log_try_reserve(sdp, reserved_blocks, taboo_blocks)) {
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1090  			up_write(&sdp->sd_log_flush_lock);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1091  			__gfs2_log_reserve(sdp, reserved_blocks, taboo_blocks);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1092  			down_write(&sdp->sd_log_flush_lock);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1093  			goto repeat;
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1094  		}
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1095  		BUG_ON(sdp->sd_log_num_revoke);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1096  	}
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1097  
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1098  	if (flags & GFS2_LOG_HEAD_FLUSH_SHUTDOWN)
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1099  		clear_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
-f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1100  
-5432af15f8772d Andreas Gruenbacher 2022-08-18  1101  	if (unlikely(frozen))
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1102  		if (gfs2_assert_withdraw_delayed(sdp, !reserved_revokes))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1103  			goto out_withdraw;
-b3b94faa5fe596 David Teigland      2006-01-16  1104  
-d7b616e252b125 Steven Whitehouse   2007-09-02  1105  	gfs2_ordered_write(sdp);
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1106  	if (gfs2_withdrawing_or_withdrawn(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1107  		goto out_withdraw;
-d69a3c6561362a Steven Whitehouse   2014-02-21  1108  	lops_before_commit(sdp, tr);
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1109  	if (gfs2_withdrawing_or_withdrawn(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1110  		goto out_withdraw;
-35264909e9d197 Andreas Gruenbacher 2024-03-11 @1111  	if (sdp->sd_jdesc)
-82218943058d5e Bob Peterson        2021-01-21  1112  		gfs2_log_submit_bio(&sdp->sd_jdesc->jd_log_bio, REQ_OP_WRITE);
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1113  	if (gfs2_withdrawing_or_withdrawn(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1114  		goto out_withdraw;
-d7b616e252b125 Steven Whitehouse   2007-09-02  1115  
-34cc1781c2ae92 Steven Whitehouse   2012-03-09  1116  	if (sdp->sd_log_head != sdp->sd_log_flush_head) {
-c1696fb85d3319 Bob Peterson        2018-01-17  1117  		log_write_header(sdp, flags);
-5cb738b5fbd2f3 Andreas Gruenbacher 2020-12-19  1118  	} else if (sdp->sd_log_tail != sdp->sd_log_flush_tail && !sdp->sd_log_idle) {
-c1696fb85d3319 Bob Peterson        2018-01-17  1119  		log_write_header(sdp, flags);
-2332c4435bb733 Robert Peterson     2007-06-18  1120  	}
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1121  	if (gfs2_withdrawing_or_withdrawn(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1122  		goto out_withdraw;
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1123  	lops_after_commit(sdp, tr);
-b09e593d799560 Steven Whitehouse   2006-04-07  1124  
-fe1a698ffef5af Steven Whitehouse   2006-10-11  1125  	gfs2_log_lock(sdp);
-faa31ce85f626d Steven Whitehouse   2006-09-13  1126  	sdp->sd_log_blks_reserved = 0;
-b3b94faa5fe596 David Teigland      2006-01-16  1127  
-d6a079e82efd5f Dave Chinner        2011-03-11  1128  	spin_lock(&sdp->sd_ail_lock);
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1129  	if (tr && !list_empty(&tr->tr_ail1_list)) {
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1130  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
-16ca9412d80181 Benjamin Marzinski  2013-04-05  1131  		tr = NULL;
-b3b94faa5fe596 David Teigland      2006-01-16  1132  	}
-d6a079e82efd5f Dave Chinner        2011-03-11  1133  	spin_unlock(&sdp->sd_ail_lock);
-b3b94faa5fe596 David Teigland      2006-01-16  1134  	gfs2_log_unlock(sdp);
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1135  
-c1696fb85d3319 Bob Peterson        2018-01-17  1136  	if (!(flags & GFS2_LOG_HEAD_FLUSH_NORMAL)) {
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1137  		if (!sdp->sd_log_idle) {
-d5dc3d9677394d Bob Peterson        2020-05-22  1138  			empty_ail1_list(sdp);
-4d927b03a68846 Andreas Gruenbacher 2023-12-20  1139  			if (gfs2_withdrawing_or_withdrawn(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1140  				goto out_withdraw;
-c1696fb85d3319 Bob Peterson        2018-01-17  1141  			log_write_header(sdp, flags);
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1142  		}
-c1696fb85d3319 Bob Peterson        2018-01-17  1143  		if (flags & (GFS2_LOG_HEAD_FLUSH_SHUTDOWN |
-c1696fb85d3319 Bob Peterson        2018-01-17  1144  			     GFS2_LOG_HEAD_FLUSH_FREEZE))
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1145  			gfs2_log_shutdown(sdp);
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1146  	}
-24972557b12ce8 Benjamin Marzinski  2014-05-01  1147  
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1148  out_end:
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1149  	used_blocks = log_distance(sdp, sdp->sd_log_flush_head, first_log_head);
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1150  	reserved_revokes += atomic_read(&sdp->sd_log_revokes_available);
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1151  	atomic_set(&sdp->sd_log_revokes_available, sdp->sd_ldptrs);
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1152  	gfs2_assert_withdraw(sdp, reserved_revokes % sdp->sd_inptrs == sdp->sd_ldptrs);
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1153  	if (reserved_revokes > sdp->sd_ldptrs)
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1154  		reserved_blocks += (reserved_revokes - sdp->sd_ldptrs) / sdp->sd_inptrs;
-30fe70a85a909a Bob Peterson        2019-11-13  1155  out:
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1156  	if (used_blocks != reserved_blocks) {
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1157  		gfs2_assert_withdraw_delayed(sdp, used_blocks < reserved_blocks);
-fe3e397668775e Andreas Gruenbacher 2020-12-10 @1158  		gfs2_log_release(sdp, reserved_blocks - used_blocks);
-2129b4288852cf Andreas Gruenbacher 2020-12-17  1159  	}
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1160  	up_write(&sdp->sd_log_flush_lock);
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1161  	gfs2_trans_free(sdp, tr);
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1162  	if (gfs2_withdrawing(sdp))
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1163  		gfs2_withdraw(sdp);
-fe3e397668775e Andreas Gruenbacher 2020-12-10  1164  	trace_gfs2_log_flush(sdp, 0, flags);
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1165  	return;
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1166  
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1167  out_withdraw:
-462582b99b6079 Bob Peterson        2020-08-21  1168  	trans_drain(tr);
-58e08e8d83ab03 Bob Peterson        2020-06-09  1169  	/**
-58e08e8d83ab03 Bob Peterson        2020-06-09  1170  	 * If the tr_list is empty, we're withdrawing during a log
-58e08e8d83ab03 Bob Peterson        2020-06-09  1171  	 * flush that targets a transaction, but the transaction was
-58e08e8d83ab03 Bob Peterson        2020-06-09  1172  	 * never queued onto any of the ail lists. Here we add it to
-58e08e8d83ab03 Bob Peterson        2020-06-09  1173  	 * ail1 just so that ail_drain() will find and free it.
-58e08e8d83ab03 Bob Peterson        2020-06-09  1174  	 */
-58e08e8d83ab03 Bob Peterson        2020-06-09  1175  	spin_lock(&sdp->sd_ail_lock);
-58e08e8d83ab03 Bob Peterson        2020-06-09  1176  	if (tr && list_empty(&tr->tr_list))
-58e08e8d83ab03 Bob Peterson        2020-06-09  1177  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
-58e08e8d83ab03 Bob Peterson        2020-06-09  1178  	spin_unlock(&sdp->sd_ail_lock);
-2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1179  	tr = NULL;
-5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1180  	goto out_end;
-b3b94faa5fe596 David Teigland      2006-01-16  1181  }
-b3b94faa5fe596 David Teigland      2006-01-16  1182  
-
-:::::: The code at line 1158 was first introduced by commit
-:::::: fe3e397668775e20ad0962459733158838b926af gfs2: Rework the log space allocation logic
-
-:::::: TO: Andreas Gruenbacher <agruenba@redhat.com>
-:::::: CC: Andreas Gruenbacher <agruenba@redhat.com>
+a4c81cf6843507 Yinghai Lu                 2008-05-18   31  
+4c585af7180c14 Thomas Gleixner            2023-10-17   32  #ifdef CONFIG_MICROCODE_INITRD32
+4c585af7180c14 Thomas Gleixner            2023-10-17  @33  unsigned long __initdata initrd_start_early;
+4c585af7180c14 Thomas Gleixner            2023-10-17   34  static pte_t __initdata *initrd_pl2p_start, *initrd_pl2p_end;
+4c585af7180c14 Thomas Gleixner            2023-10-17   35  
+4c585af7180c14 Thomas Gleixner            2023-10-17   36  static void zap_early_initrd_mapping(void)
+4c585af7180c14 Thomas Gleixner            2023-10-17   37  {
+4c585af7180c14 Thomas Gleixner            2023-10-17   38  	pte_t *pl2p = initrd_pl2p_start;
+4c585af7180c14 Thomas Gleixner            2023-10-17   39  
+4c585af7180c14 Thomas Gleixner            2023-10-17   40  	for (; pl2p < initrd_pl2p_end; pl2p++) {
+4c585af7180c14 Thomas Gleixner            2023-10-17   41  		*pl2p = (pte_t){ .pte = 0 };
+4c585af7180c14 Thomas Gleixner            2023-10-17   42  
+4c585af7180c14 Thomas Gleixner            2023-10-17   43  		if (!IS_ENABLED(CONFIG_X86_PAE))
+4c585af7180c14 Thomas Gleixner            2023-10-17   44  			*(pl2p + ((PAGE_OFFSET >> PGDIR_SHIFT))) = (pte_t) {.pte = 0};
+4c585af7180c14 Thomas Gleixner            2023-10-17   45  	}
+4c585af7180c14 Thomas Gleixner            2023-10-17   46  }
+4c585af7180c14 Thomas Gleixner            2023-10-17   47  #else
+4c585af7180c14 Thomas Gleixner            2023-10-17   48  static inline void zap_early_initrd_mapping(void) { }
+4c585af7180c14 Thomas Gleixner            2023-10-17   49  #endif
+4c585af7180c14 Thomas Gleixner            2023-10-17   50  
+4208d2d79837ef Josh Poimboeuf             2023-04-12   51  asmlinkage __visible void __init __noreturn i386_start_kernel(void)
+700efc1b9f6afe Eric W. Biederman          2008-02-23   52  {
+9c48c0965b97e1 Thomas Gleixner            2017-10-16   53  	/* Make sure IDT is set up before any exception happens */
+87e81786b13b26 Thomas Gleixner            2017-08-28   54  	idt_setup_early_handler();
+87e81786b13b26 Thomas Gleixner            2017-08-28   55  
+4c585af7180c14 Thomas Gleixner            2023-10-17   56  	/* load_ucode_bsp() */
+4c585af7180c14 Thomas Gleixner            2023-10-17   57  	zap_early_initrd_mapping();
+4c585af7180c14 Thomas Gleixner            2023-10-17   58  
+9c48c0965b97e1 Thomas Gleixner            2017-10-16   59  	cr4_init_shadow();
+9c48c0965b97e1 Thomas Gleixner            2017-10-16   60  
+5dcd14ecd41ea2 H. Peter Anvin             2013-01-29   61  	sanitize_boot_params(&boot_params);
+5dcd14ecd41ea2 H. Peter Anvin             2013-01-29   62  
+8d152e7a5c7537 Luis R. Rodriguez          2016-04-13   63  	x86_early_init_platform_quirks();
+8d152e7a5c7537 Luis R. Rodriguez          2016-04-13   64  
+47a3d5da70f411 Thomas Gleixner            2009-08-29   65  	/* Call the subarch specific early setup function */
+47a3d5da70f411 Thomas Gleixner            2009-08-29   66  	switch (boot_params.hdr.hardware_subarch) {
+712b6aa8731a7e Kuppuswamy Sathyanarayanan 2013-10-17   67  	case X86_SUBARCH_INTEL_MID:
+712b6aa8731a7e Kuppuswamy Sathyanarayanan 2013-10-17   68  		x86_intel_mid_early_setup();
+3f4110a48a749a Thomas Gleixner            2009-08-29   69  		break;
+c751e17b5371ad Thomas Gleixner            2010-11-09   70  	case X86_SUBARCH_CE4100:
+c751e17b5371ad Thomas Gleixner            2010-11-09   71  		x86_ce4100_early_setup();
+c751e17b5371ad Thomas Gleixner            2010-11-09   72  		break;
+47a3d5da70f411 Thomas Gleixner            2009-08-29   73  	default:
+47a3d5da70f411 Thomas Gleixner            2009-08-29   74  		i386_default_early_setup();
+47a3d5da70f411 Thomas Gleixner            2009-08-29   75  		break;
+47a3d5da70f411 Thomas Gleixner            2009-08-29   76  	}
+a4c81cf6843507 Yinghai Lu                 2008-05-18   77  
+700efc1b9f6afe Eric W. Biederman          2008-02-23   78  	start_kernel();
+700efc1b9f6afe Eric W. Biederman          2008-02-23   79  }
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   80  
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   81  /*
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   82   * Initialize page tables.  This creates a PDE and a set of page
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   83   * tables, which are located immediately beyond __brk_base.  The variable
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   84   * _brk_end is set up to point to the first "safe" location.
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   85   * Mappings are created both at virtual address 0 (identity mapping)
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   86   * and PAGE_OFFSET for up to _end.
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   87   *
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   88   * In PAE mode initial_page_table is statically defined to contain
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   89   * enough entries to cover the VMSPLIT option (that is the top 1, 2 or 3
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   90   * entries). The identity mapping is handled by pointing two PGD entries
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   91   * to the first kernel PMD. Note the upper half of each PMD or PTE are
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   92   * always zero at this stage.
+1e620f9b23e598 Boris Ostrovsky            2016-12-08   93   */
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   94  #ifdef CONFIG_X86_PAE
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   95  typedef pmd_t			pl2_t;
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   96  #define pl2_base		initial_pg_pmd
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   97  #define SET_PL2(val)		{ .pmd = (val), }
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   98  #else
+a62f4ca106fd25 Thomas Gleixner            2023-10-17   99  typedef pgd_t			pl2_t;
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  100  #define pl2_base		initial_page_table
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  101  #define SET_PL2(val)		{ .pgd = (val), }
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  102  #endif
+242db7589460ca Thomas Gleixner            2023-10-02  103  
+69ba866db281c7 Thomas Gleixner            2023-10-17  104  static __init __no_stack_protector pte_t init_map(pte_t pte, pte_t **ptep, pl2_t **pl2p,
+69ba866db281c7 Thomas Gleixner            2023-10-17  105  						  const unsigned long limit)
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  106  {
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  107  	while ((pte.pte & PTE_PFN_MASK) < limit) {
+69ba866db281c7 Thomas Gleixner            2023-10-17  108  		pl2_t pl2 = SET_PL2((unsigned long)*ptep | PDE_IDENT_ATTR);
+69ba866db281c7 Thomas Gleixner            2023-10-17  109  		int i;
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  110  
+69ba866db281c7 Thomas Gleixner            2023-10-17  111  		**pl2p = pl2;
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  112  		if (!IS_ENABLED(CONFIG_X86_PAE)) {
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  113  			/* Kernel PDE entry */
+69ba866db281c7 Thomas Gleixner            2023-10-17  114  			*(*pl2p + ((PAGE_OFFSET >> PGDIR_SHIFT))) = pl2;
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  115  		}
+a62f4ca106fd25 Thomas Gleixner            2023-10-17  116  
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  117  		for (i = 0; i < PTRS_PER_PTE; i++) {
+69ba866db281c7 Thomas Gleixner            2023-10-17  118  			**ptep = pte;
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  119  			pte.pte += PAGE_SIZE;
+69ba866db281c7 Thomas Gleixner            2023-10-17  120  			(*ptep)++;
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  121  		}
+69ba866db281c7 Thomas Gleixner            2023-10-17  122  		(*pl2p)++;
+69ba866db281c7 Thomas Gleixner            2023-10-17  123  	}
+69ba866db281c7 Thomas Gleixner            2023-10-17  124  	return pte;
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  125  }
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  126  
+69ba866db281c7 Thomas Gleixner            2023-10-17  127  void __init __no_stack_protector mk_early_pgtbl_32(void)
+69ba866db281c7 Thomas Gleixner            2023-10-17  128  {
+69ba866db281c7 Thomas Gleixner            2023-10-17  129  	/* Enough space to fit pagetables for the low memory linear map */
+4c585af7180c14 Thomas Gleixner            2023-10-17  130  	unsigned long limit = __pa_nodebug(_end) + (PAGE_TABLE_SIZE(LOWMEM_PAGES) << PAGE_SHIFT);
+69ba866db281c7 Thomas Gleixner            2023-10-17  131  	pte_t pte, *ptep = (pte_t *)__pa_nodebug(__brk_base);
+4c585af7180c14 Thomas Gleixner            2023-10-17  132  	struct boot_params __maybe_unused *params;
+69ba866db281c7 Thomas Gleixner            2023-10-17  133  	pl2_t *pl2p = (pl2_t *)__pa_nodebug(pl2_base);
+69ba866db281c7 Thomas Gleixner            2023-10-17  134  	unsigned long *ptr;
+69ba866db281c7 Thomas Gleixner            2023-10-17  135  
+69ba866db281c7 Thomas Gleixner            2023-10-17  136  	pte.pte = PTE_IDENT_ATTR;
+69ba866db281c7 Thomas Gleixner            2023-10-17  137  	pte = init_map(pte, &ptep, &pl2p, limit);
+69ba866db281c7 Thomas Gleixner            2023-10-17  138  
+1e2dd572d2b773 Thomas Gleixner            2023-10-17  139  	ptr = (unsigned long *)__pa_nodebug(&max_pfn_mapped);
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  140  	/* Can't use pte_pfn() since it's a call with CONFIG_PARAVIRT */
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  141  	*ptr = (pte.pte & PTE_PFN_MASK) >> PAGE_SHIFT;
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  142  
+1e2dd572d2b773 Thomas Gleixner            2023-10-17  143  	ptr = (unsigned long *)__pa_nodebug(&_brk_end);
+1e620f9b23e598 Boris Ostrovsky            2016-12-08  144  	*ptr = (unsigned long)ptep + PAGE_OFFSET;
+4c585af7180c14 Thomas Gleixner            2023-10-17  145  
+4c585af7180c14 Thomas Gleixner            2023-10-17  146  #ifdef CONFIG_MICROCODE_INITRD32
+4c585af7180c14 Thomas Gleixner            2023-10-17  147  	/* Running on a hypervisor? */
+4c585af7180c14 Thomas Gleixner            2023-10-17  148  	if (native_cpuid_ecx(1) & BIT(31))
+4c585af7180c14 Thomas Gleixner            2023-10-17  149  		return;
+4c585af7180c14 Thomas Gleixner            2023-10-17  150  
+4c585af7180c14 Thomas Gleixner            2023-10-17  151  	params = (struct boot_params *)__pa_nodebug(&boot_params);
+4c585af7180c14 Thomas Gleixner            2023-10-17 @152  	if (!params->hdr.ramdisk_size || !params->hdr.ramdisk_image)
 
 -- 
 0-DAY CI Kernel Test Service
