@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418CF12B93
-	for <oe-kbuild@lists.linux.dev>; Tue, 25 Jun 2024 03:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64155C15B
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Jun 2024 01:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719284882; cv=none; b=fBHL7sY8oagAA47tqtwZD29jOECk6DdcM3q6R0XBtdRf08aVhCcvNZgsFAV0I3Zz3mEqMT/sxlkaIFDIKzco/iIakVRHRzwkFBLQD9EQz/L7oBms8Xp5xkoLN/pcjgmDPe6u8FH+9AJ8CteBa47dWi6ox0mf+G2Y5mpeZv2hsDA=
+	t=1719365144; cv=none; b=CBN+aTqfqKKZlOSFB0RjkgIatenmIPjPTZzFS9xrSwkoLW1bigNr0uPFeOgGOCwIpsug32etwZytKuiw0SNNzSahLSDAtWCE2rhGPXqb955qNouGcHS+a3iTGs+BEIdOLIr2MFOp1iEDkzoqtvW4W9vpsa9DEbKTd7JykBdLccs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719284882; c=relaxed/simple;
-	bh=9nwqfFizAX/fhv5thptnRkBqxmg3yKUTF01yRfmHVTc=;
+	s=arc-20240116; t=1719365144; c=relaxed/simple;
+	bh=Mf9Jj988QiqaBzrsBlPy1qQ5YRkBYtVf122gTWqvXhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZLBkXIrpop7Q8kJYDOK4ymVRPye/VmHBC4p+WRSUgR0GC6V5bep0rUAwRfOFi4hxUqlgoPVlbnAh/yndh0frJEJk3fkADlEg+99pHI5IXEAmQ+NSTHieHSBr2+krhX9DvIKAXnY1Ldn+mK2RFcdY3dK8tJ0lsmb9xbzljI5BvDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCg5feO7; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=lM6Z9FNNXAmEpkjNWortjKm+U5Wy5iYvtuIVj+T3q2825vRlcCAUo8NTeop+JCKekyC28eSsDQ/ZDTZ1qUSNS5I96zQAaxdCCty7be5FE//jppE9y68RuJ5nzX7NQBE5rvYjUL8vIDu4jsH8Deuru+9rFCvi4TrbbRfEmmkSrbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKBF7SFJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCg5feO7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKBF7SFJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719284880; x=1750820880;
+  t=1719365142; x=1750901142;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9nwqfFizAX/fhv5thptnRkBqxmg3yKUTF01yRfmHVTc=;
-  b=TCg5feO7mGhIlCKYkoTBafOA+q+FW6Hnsg64CH1nHm4la1y3Qi73OCGx
-   tSswck7RIwsRkpCW4nSjvrM8JoFBq9rHmsPoDQYJC+bhubyd9ulRIQXXx
-   62fCbB7YkTWEaZ8MvA+3RcQvZwp+Gv5unVg+fHv2YxGioD6Avw9QoAKwh
-   RWVu4B8amJVk/pChqBmBkEzKf3UwDXxdB8R/k/eZMMkPK9qyON6Ll+e1W
-   I5DR4H6BrsxZ0pKBsQp59WjpevBZrZQWrmn49e/aegNsOydSuZZK46JSF
-   cNAwLDmlKWmWbFxCsjI/dgOBw/55KEjx9MSMo7C01Jn6cxdRpkTwCDrQN
+  bh=Mf9Jj988QiqaBzrsBlPy1qQ5YRkBYtVf122gTWqvXhw=;
+  b=jKBF7SFJ9UO2qgjEHU3ipFppRrMGZwohHUOfZpDKWBwnfduR/W5K1sUd
+   2BZDVhxIm+/MuEhtMJcKa2iFGmj2507vBqpecczXP1F0M1niS9yQ7QyJ6
+   rZKySA6C2MTKBtNe+yL1DkbjyeDMCFIZhfsyJhHpiTwUeUUJSgdx6/rwV
+   h6/ETwfNTwOMEkKD2j4ig433XyUtPWc0zeoMSghr/CAw4EstgaJ3JqSq2
+   SfQ64J0BY751pB8wJjHL8wKYTf1Jwk49nGQBKR2FtpXoW76IalmuiIkCz
+   BVSP/SY3xnOODyfwzTlpnL6pd8naRU8J4O6ml5uifZtvqQ5TlY4nS4xZn
    Q==;
-X-CSE-ConnectionGUID: KZSkWd9GQ3iuOGH4hd6qKw==
-X-CSE-MsgGUID: vvHhsIUTS++2AFhhdGWRtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11113"; a="20161848"
-X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="20161848"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2024 20:07:59 -0700
-X-CSE-ConnectionGUID: 0IKtFuNxTPCXiLe4u+gzlA==
-X-CSE-MsgGUID: +yNR9rVIQuKirr2agTj7eg==
+X-CSE-ConnectionGUID: MVxQxlRDRP+9og1W3G2c3A==
+X-CSE-MsgGUID: nQrrQ7dkSsSwpS4R+FmYtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="20223193"
+X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
+   d="scan'208";a="20223193"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 18:25:42 -0700
+X-CSE-ConnectionGUID: cDma8UzRRLSmxQqHGwgL9Q==
+X-CSE-MsgGUID: aSUuoW+1SRWMRjFgCi0c9g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,263,1712646000"; 
-   d="scan'208";a="43570924"
+X-IronPort-AV: E=Sophos;i="6.08,265,1712646000"; 
+   d="scan'208";a="48283280"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Jun 2024 20:07:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jun 2024 18:25:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sLwXE-000Dxu-0z;
-	Tue, 25 Jun 2024 03:07:56 +0000
-Date: Tue, 25 Jun 2024 11:07:44 +0800
+	id 1sMHPm-000Es6-1c;
+	Wed, 26 Jun 2024 01:25:38 +0000
+Date: Wed, 26 Jun 2024 09:25:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 6602/7397] mm/damon/paddr.c:360
- __damon_pa_migrate_folio_list() error: uninitialized symbol 'nr_succeeded'.
-Message-ID: <202406251102.GE07hqfQ-lkp@intel.com>
+Subject: Re: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and
+ Makefile
+Message-ID: <202406260926.bfyJ84yf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,65 +64,85 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Honggyu Kim <honggyu.kim@sk.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Hyeongtak Ji <hyeongtak.ji@sk.com>
-CC: SeongJae Park <sj@kernel.org>
+In-Reply-To: <20240621082053.638952-8-pavitrakumarm@vayavyalabs.com>
+References: <20240621082053.638952-8-pavitrakumarm@vayavyalabs.com>
+TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+TO: herbert@gondor.apana.org.au
+TO: linux-crypto@vger.kernel.org
+CC: Ruud.Derwig@synopsys.com
+CC: manjunath.hadli@vayavyalabs.com
+CC: bhoomikak@vayavyalabs.com
+CC: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   62c97045b8f720c2eac807a5f38e26c9ed512371
-commit: 5311c0a2eee34fd8f4e17382a5f653b95a940ca5 [6602/7397] mm/damon/paddr: introduce DAMOS_MIGRATE_COLD action for demotion
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 days ago
-config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406251102.GE07hqfQ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+Hi Pavitrakumar,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1dcf865d3bf5bff45e93cb2410911b3428dacb78]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-Skcipher-support/20240625-184208
+base:   1dcf865d3bf5bff45e93cb2410911b3428dacb78
+patch link:    https://lore.kernel.org/r/20240621082053.638952-8-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and Makefile
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260926.bfyJ84yf-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406251102.GE07hqfQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406260926.bfyJ84yf-lkp@intel.com/
 
-smatch warnings:
-mm/damon/paddr.c:360 __damon_pa_migrate_folio_list() error: uninitialized symbol 'nr_succeeded'.
+New smatch warnings:
+drivers/crypto/dwc-spacc/spacc_core.c:1029 fixup_sg() error: we previously assumed 'sg' could be null (see line 1008)
 
-vim +/nr_succeeded +360 mm/damon/paddr.c
+Old smatch warnings:
+drivers/crypto/dwc-spacc/spacc_core.c:1417 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
+drivers/crypto/dwc-spacc/spacc_core.c:1422 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
+drivers/crypto/dwc-spacc/spacc_core.c:2018 spacc_open() warn: inconsistent indenting
 
-99cdc2cd180a7a SeongJae Park 2022-06-13  330  
-5311c0a2eee34f Honggyu Kim   2024-06-14  331  static unsigned int __damon_pa_migrate_folio_list(
-5311c0a2eee34f Honggyu Kim   2024-06-14  332  		struct list_head *migrate_folios, struct pglist_data *pgdat,
-5311c0a2eee34f Honggyu Kim   2024-06-14  333  		int target_nid)
-5311c0a2eee34f Honggyu Kim   2024-06-14  334  {
-5311c0a2eee34f Honggyu Kim   2024-06-14  335  	unsigned int nr_succeeded;
-5311c0a2eee34f Honggyu Kim   2024-06-14  336  	nodemask_t allowed_mask = NODE_MASK_NONE;
-5311c0a2eee34f Honggyu Kim   2024-06-14  337  	struct migration_target_control mtc = {
-5311c0a2eee34f Honggyu Kim   2024-06-14  338  		/*
-5311c0a2eee34f Honggyu Kim   2024-06-14  339  		 * Allocate from 'node', or fail quickly and quietly.
-5311c0a2eee34f Honggyu Kim   2024-06-14  340  		 * When this happens, 'page' will likely just be discarded
-5311c0a2eee34f Honggyu Kim   2024-06-14  341  		 * instead of migrated.
-5311c0a2eee34f Honggyu Kim   2024-06-14  342  		 */
-5311c0a2eee34f Honggyu Kim   2024-06-14  343  		.gfp_mask = (GFP_HIGHUSER_MOVABLE & ~__GFP_RECLAIM) |
-5311c0a2eee34f Honggyu Kim   2024-06-14  344  			__GFP_NOWARN | __GFP_NOMEMALLOC | GFP_NOWAIT,
-5311c0a2eee34f Honggyu Kim   2024-06-14  345  		.nid = target_nid,
-5311c0a2eee34f Honggyu Kim   2024-06-14  346  		.nmask = &allowed_mask
-5311c0a2eee34f Honggyu Kim   2024-06-14  347  	};
-5311c0a2eee34f Honggyu Kim   2024-06-14  348  
-5311c0a2eee34f Honggyu Kim   2024-06-14  349  	if (pgdat->node_id == target_nid || target_nid == NUMA_NO_NODE)
-5311c0a2eee34f Honggyu Kim   2024-06-14  350  		return 0;
-5311c0a2eee34f Honggyu Kim   2024-06-14  351  
-5311c0a2eee34f Honggyu Kim   2024-06-14  352  	if (list_empty(migrate_folios))
-5311c0a2eee34f Honggyu Kim   2024-06-14  353  		return 0;
-5311c0a2eee34f Honggyu Kim   2024-06-14  354  
-5311c0a2eee34f Honggyu Kim   2024-06-14  355  	/* Migration ignores all cpuset and mempolicy settings */
-5311c0a2eee34f Honggyu Kim   2024-06-14  356  	migrate_pages(migrate_folios, alloc_migrate_folio, NULL,
-5311c0a2eee34f Honggyu Kim   2024-06-14  357  		      (unsigned long)&mtc, MIGRATE_ASYNC, MR_DAMON,
-5311c0a2eee34f Honggyu Kim   2024-06-14  358  		      &nr_succeeded);
-5311c0a2eee34f Honggyu Kim   2024-06-14  359  
-5311c0a2eee34f Honggyu Kim   2024-06-14 @360  	return nr_succeeded;
-5311c0a2eee34f Honggyu Kim   2024-06-14  361  }
-5311c0a2eee34f Honggyu Kim   2024-06-14  362  
+vim +/sg +1029 drivers/crypto/dwc-spacc/spacc_core.c
+
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1001  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1002  /* Prepare the SG for DMA mapping.  Returns the number of SG entries. */
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1003  static int fixup_sg(struct scatterlist *sg, int nbytes)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1004  {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1005  	int sg_nents = 0;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1006  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1007  	while (nbytes > 0) {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1008  		if (sg && sg->length) {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1009  			++sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1010  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1011  			if (sg->length > nbytes)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1012  				return sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1013  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1014  			nbytes -= sg->length;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1015  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1016  			sg = sg_next(sg);
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1017  			if (!sg)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1018  				break;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1019  			/* WARNING: sg->length may be > nbytes */
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1020  		} else {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1021  			/*
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1022  			 * The Linux crypto system uses its own SG chaining
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1023  			 * method which is slightly incompatible with the
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1024  			 * generic SG chaining. In particular, dma_map_sg does
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1025  			 * not support this method. Turn them into proper
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1026  			 * chained SGs here (which dma_map_sg does
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1027  			 * support) as a workaround.
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1028  			 */
+8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1029  			spacc_sg_chain(sg, 1, sg_chain_ptr(sg));
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1030  			sg = sg_chain_ptr(sg);
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1031  			if (!sg)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1032  				break;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1033  		}
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1034  	}
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1035  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1036  	return sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1037  }
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1038  
 
 -- 
 0-DAY CI Kernel Test Service
