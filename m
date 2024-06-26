@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7782173338
-	for <oe-kbuild@lists.linux.dev>; Wed, 26 Jun 2024 23:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC4A1940AB
+	for <oe-kbuild@lists.linux.dev>; Wed, 26 Jun 2024 23:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719445348; cv=none; b=hZCtdd6wvvdkPZtVkfRwNRIatM6AkKzBvbzg+4EVyBC+wNeNVQv3/ulb8N/GObtAi4ibru/ytGkBHGo9RGOh1M0djsRLQgtHPP7oWAFmea6vXAcB+gjDbOVgvLtnMeFRGAF2va1X0yorkzFd6RjM6SdxU0jI6xeG39zOL8cVhBs=
+	t=1719446085; cv=none; b=gfTMi6k2X+0oNFgx6+WSxu0k8Eb/BXMD7gw//xwhOL4RQkCkKs7BZVJnZBt1q+++19r4SaqIpZzXWCLDAnF2Z+24tLX5ZwvmnDhjg9lTd8PBQu8RBGyOo+zf9A5+p9gX+0o2CSQd7aeyuICDCUtsssurU+arbJcn4xd21j2xExM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719445348; c=relaxed/simple;
-	bh=JXoB/YMmcIabU9WJNufaMLFUHUQzMRh/PHiXIAKsuLY=;
+	s=arc-20240116; t=1719446085; c=relaxed/simple;
+	bh=32gk5VN7rCTjDFvkRRkwFjiwhAxxc3nzwjTkcA4gTvU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A1WBcx7ni+FLxWxN105qbOXq6TWJo5+/PB4jSm76MUHftTG5Lrgima28lx3X/nQJKXVBdph5ykGrHRTZagD+6QiQh4/sLpXNJZf6K7mlSe1+SlbzU0jyWthi5GAW1cA51AgZzMxXcKLikr7CeoAGCGzi25a5hIhUs7p62ct+5iM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apUzdxU/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=EwdE9szlQaNTSi0ucKIJWsbNZx1xiQ3ilVPSoZo4JiRQqptYDk7KqKhGgL0LjGHo1ufKBEplIY9BP7yrwJrZYg0yCZrYqWAxW5fBk/tAfYxZ6aWf4zETt311T+cPxACFc93kdXA1w6/AP30hPivu5nGKZywj5XZ2319GhAZpEbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVBFdtA4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apUzdxU/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVBFdtA4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719445347; x=1750981347;
+  t=1719446083; x=1750982083;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JXoB/YMmcIabU9WJNufaMLFUHUQzMRh/PHiXIAKsuLY=;
-  b=apUzdxU/PpqCjF2zMROmIUcEEswrfR0Bcqcwq0rF6dYUHMylBlJNd9ws
-   OGHwCtP5QiBXsUGHSeIF0DKlkcadYbPNvdLRGdZ29J7+6kJ+egFlJgg4j
-   7yk8a+jL1kC3AEyY0N3dO5QDLMA1M4+yPOXx7h9nT4+r7ko1X/ZZqEUZF
-   y0fm2p1qBHE5xTMKcLH5yAq4gGyz3jCY9hAb8jHqOGUgT3enbebyZLr4r
-   Pgy7l/Gt9EzYHXFwVsTa3/cb2Su04NBGqkIcHtU0Rs5jxJb+tYNFaOK81
-   NYHM8gep51l8bgfn08xV+eowZcSITjFrYYI87WOq/dfTqcLCE2rrbqydl
-   A==;
-X-CSE-ConnectionGUID: b9anGAieSJKJTHkY7W4TNg==
-X-CSE-MsgGUID: BB0VGrUmTRmZJo8oKMakdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="16385680"
+  bh=32gk5VN7rCTjDFvkRRkwFjiwhAxxc3nzwjTkcA4gTvU=;
+  b=KVBFdtA4CMHnav/Tj9xwf/RIozMP0TDB4a/Jywt1A6qVTMmw/2Dg2F+F
+   lI98lDb6rf7Y+t0PT3QJH94nOCTXlygR7NQvWzR+0MFa80rkVTlOXxx2T
+   0T1cueei8U6PveX27c8sMr/urWtEDigIbln39Cu2BPajGf43WbheZAGz1
+   L8nVYemfA0sriVTKVMUYwzLeb37ieMbzlgVqCmYN9tKBF5RrICdAQvhrL
+   kMdTTDiWyuw4LUI6FFBA6p3L3mdSj29SZTNTaokYa4f4N7q5YHfcLaQDm
+   iMlt4B7m6Wt+DKMUE4mC2HH7Asrr4UmlniaASzl4pD7VWmOzGzOT7wQHw
+   g==;
+X-CSE-ConnectionGUID: 6qKtnVEOQrOXGeMM+gLGdA==
+X-CSE-MsgGUID: bSMMcCN1TJuzlncl2Kb+aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="20370884"
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="16385680"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 16:42:25 -0700
-X-CSE-ConnectionGUID: ZN/xEnd+S2ynJwGkj54JJg==
-X-CSE-MsgGUID: osoaWx9PQg+hheV/I1snrg==
+   d="scan'208";a="20370884"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 16:54:42 -0700
+X-CSE-ConnectionGUID: bQ255m0SQfa6Fyatr0soOg==
+X-CSE-MsgGUID: kfK8ggP7RUic+wz95kV+qQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="44301867"
+   d="scan'208";a="48793033"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jun 2024 16:42:24 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jun 2024 16:54:40 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMcHN-000Ffm-2p;
-	Wed, 26 Jun 2024 23:42:21 +0000
-Date: Thu, 27 Jun 2024 07:41:43 +0800
+	id 1sMcTG-000FgO-1e;
+	Wed, 26 Jun 2024 23:54:38 +0000
+Date: Thu, 27 Jun 2024 07:54:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 7944/8232] mm/hugetlb.c:2677
- gather_surplus_pages() error: uninitialized symbol 'folio'.
-Message-ID: <202406270727.F4yNrBsh-lkp@intel.com>
+Subject: [linux-next:master 1767/8719] drivers/gpu/drm/xe/xe_drm_client.c:254
+ show_run_ticks() warn: iterator 'i' not incremented
+Message-ID: <202406270727.YvprTAi4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,132 +65,99 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Aristeu Rozanski <aris@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: 1cb6271d927cdb448a6a2794291c5405f1effa76 [7944/8232] hugetlb: force allocating surplus hugepages on mempolicy allowed nodes
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270727.F4yNrBsh-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+commit: 45bb564de0a6f87e9f502ceb4ff4d9f936365c85 [1767/8719] drm/xe: Use run_ticks instead of runtime for client stats
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-141-20240626 (https://download.01.org/0day-ci/archive/20240627/202406270727.YvprTAi4-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406270727.F4yNrBsh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406270727.YvprTAi4-lkp@intel.com/
 
-smatch warnings:
-mm/hugetlb.c:2677 gather_surplus_pages() error: uninitialized symbol 'folio'.
+New smatch warnings:
+drivers/gpu/drm/xe/xe_drm_client.c:254 show_run_ticks() warn: iterator 'i' not incremented
 
-vim +/folio +2677 mm/hugetlb.c
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_drm_client.c:272 show_run_ticks() error: uninitialized symbol 'hwe'.
+drivers/gpu/drm/xe/xe_drm_client.c:292 show_run_ticks() error: uninitialized symbol 'gpu_timestamp'.
 
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2639  
-e4e574b767ba63 Adam Litke              2007-10-16  2640  /*
-25985edcedea63 Lucas De Marchi         2011-03-30  2641   * Increase the hugetlb pool such that it can accommodate a reservation
-e4e574b767ba63 Adam Litke              2007-10-16  2642   * of size 'delta'.
-e4e574b767ba63 Adam Litke              2007-10-16  2643   */
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2644  static int gather_surplus_pages(struct hstate *h, long delta)
-1b2a1e7bb9ce99 Jules Irenge            2020-04-06  2645  	__must_hold(&hugetlb_lock)
-e4e574b767ba63 Adam Litke              2007-10-16  2646  {
-3466534131b28e Miaohe Lin              2022-09-01  2647  	LIST_HEAD(surplus_list);
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2648) 	struct folio *folio, *tmp;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2649  	int ret;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2650  	long i;
-0a4f3d1bb91cac Liu Xiang               2020-12-14  2651  	long needed, allocated;
-28073b02bfaaed Hillf Danton            2012-03-21  2652  	bool alloc_ok = true;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2653  	int node;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2654  	nodemask_t *mbind_nodemask = policy_mbind_nodemask(htlb_alloc_mask(h));
-e4e574b767ba63 Adam Litke              2007-10-16  2655  
-9487ca60fd7fa2 Mike Kravetz            2021-05-04  2656  	lockdep_assert_held(&hugetlb_lock);
-a5516438959d90 Andi Kleen              2008-07-23  2657  	needed = (h->resv_huge_pages + delta) - h->free_huge_pages;
-ac09b3a15154af Adam Litke              2008-03-04  2658  	if (needed <= 0) {
-a5516438959d90 Andi Kleen              2008-07-23  2659  		h->resv_huge_pages += delta;
-e4e574b767ba63 Adam Litke              2007-10-16  2660  		return 0;
-ac09b3a15154af Adam Litke              2008-03-04  2661  	}
-e4e574b767ba63 Adam Litke              2007-10-16  2662  
-e4e574b767ba63 Adam Litke              2007-10-16  2663  	allocated = 0;
-e4e574b767ba63 Adam Litke              2007-10-16  2664  
-e4e574b767ba63 Adam Litke              2007-10-16  2665  	ret = -ENOMEM;
-e4e574b767ba63 Adam Litke              2007-10-16  2666  retry:
-db71ef79b59bb2 Mike Kravetz            2021-05-04  2667  	spin_unlock_irq(&hugetlb_lock);
-e4e574b767ba63 Adam Litke              2007-10-16  2668  	for (i = 0; i < needed; i++) {
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2669  		for_each_node_mask(node, cpuset_current_mems_allowed) {
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2670  			if (!mbind_nodemask || node_isset(node, *mbind_nodemask)) {
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13  2671  				folio = alloc_surplus_hugetlb_folio(h, htlb_alloc_mask(h),
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2672  						node, NULL);
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2673  				if (folio)
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2674  					break;
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2675  			}
-1cb6271d927cdb Aristeu Rozanski        2024-06-21  2676  		}
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13 @2677  		if (!folio) {
-28073b02bfaaed Hillf Danton            2012-03-21  2678  			alloc_ok = false;
-28073b02bfaaed Hillf Danton            2012-03-21  2679  			break;
-28073b02bfaaed Hillf Danton            2012-03-21  2680  		}
-3a740e8bb56ef7 Sidhartha Kumar         2023-01-13  2681  		list_add(&folio->lru, &surplus_list);
-69ed779a1454d9 David Rientjes          2017-07-10  2682  		cond_resched();
-e4e574b767ba63 Adam Litke              2007-10-16  2683  	}
-28073b02bfaaed Hillf Danton            2012-03-21  2684  	allocated += i;
-e4e574b767ba63 Adam Litke              2007-10-16  2685  
-e4e574b767ba63 Adam Litke              2007-10-16  2686  	/*
-e4e574b767ba63 Adam Litke              2007-10-16  2687  	 * After retaking hugetlb_lock, we need to recalculate 'needed'
-e4e574b767ba63 Adam Litke              2007-10-16  2688  	 * because either resv_huge_pages or free_huge_pages may have changed.
-e4e574b767ba63 Adam Litke              2007-10-16  2689  	 */
-db71ef79b59bb2 Mike Kravetz            2021-05-04  2690  	spin_lock_irq(&hugetlb_lock);
-a5516438959d90 Andi Kleen              2008-07-23  2691  	needed = (h->resv_huge_pages + delta) -
-a5516438959d90 Andi Kleen              2008-07-23  2692  			(h->free_huge_pages + allocated);
-28073b02bfaaed Hillf Danton            2012-03-21  2693  	if (needed > 0) {
-28073b02bfaaed Hillf Danton            2012-03-21  2694  		if (alloc_ok)
-e4e574b767ba63 Adam Litke              2007-10-16  2695  			goto retry;
-28073b02bfaaed Hillf Danton            2012-03-21  2696  		/*
-28073b02bfaaed Hillf Danton            2012-03-21  2697  		 * We were not able to allocate enough pages to
-28073b02bfaaed Hillf Danton            2012-03-21  2698  		 * satisfy the entire reservation so we free what
-28073b02bfaaed Hillf Danton            2012-03-21  2699  		 * we've allocated so far.
-28073b02bfaaed Hillf Danton            2012-03-21  2700  		 */
-28073b02bfaaed Hillf Danton            2012-03-21  2701  		goto free;
-28073b02bfaaed Hillf Danton            2012-03-21  2702  	}
-e4e574b767ba63 Adam Litke              2007-10-16  2703  	/*
-e4e574b767ba63 Adam Litke              2007-10-16  2704  	 * The surplus_list now contains _at_least_ the number of extra pages
-25985edcedea63 Lucas De Marchi         2011-03-30  2705  	 * needed to accommodate the reservation.  Add the appropriate number
-e4e574b767ba63 Adam Litke              2007-10-16  2706  	 * of pages to the hugetlb pool and free the extras back to the buddy
-ac09b3a15154af Adam Litke              2008-03-04  2707  	 * allocator.  Commit the entire reservation here to prevent another
-ac09b3a15154af Adam Litke              2008-03-04  2708  	 * process from stealing the pages as they are added to the pool but
-ac09b3a15154af Adam Litke              2008-03-04  2709  	 * before they are reserved.
-e4e574b767ba63 Adam Litke              2007-10-16  2710  	 */
-e4e574b767ba63 Adam Litke              2007-10-16  2711  	needed += allocated;
-a5516438959d90 Andi Kleen              2008-07-23  2712  	h->resv_huge_pages += delta;
-e4e574b767ba63 Adam Litke              2007-10-16  2713  	ret = 0;
-a9869b837c0987 Naoya Horiguchi         2010-09-08  2714  
-19fc3f0acde326 Adam Litke              2008-04-28  2715  	/* Free the needed pages to the hugetlb pool */
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2716) 	list_for_each_entry_safe(folio, tmp, &surplus_list, lru) {
-19fc3f0acde326 Adam Litke              2008-04-28  2717  		if ((--needed) < 0)
-19fc3f0acde326 Adam Litke              2008-04-28  2718  			break;
-b65a4edae11ecd Mike Kravetz            2021-09-02  2719  		/* Add the page to the hugetlb allocator */
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2720) 		enqueue_hugetlb_folio(h, folio);
-19fc3f0acde326 Adam Litke              2008-04-28  2721  	}
-28073b02bfaaed Hillf Danton            2012-03-21  2722  free:
-db71ef79b59bb2 Mike Kravetz            2021-05-04  2723  	spin_unlock_irq(&hugetlb_lock);
-19fc3f0acde326 Adam Litke              2008-04-28  2724  
-b65a4edae11ecd Mike Kravetz            2021-09-02  2725  	/*
-b65a4edae11ecd Mike Kravetz            2021-09-02  2726  	 * Free unnecessary surplus pages to the buddy allocator.
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2727) 	 * Pages have no ref count, call free_huge_folio directly.
-b65a4edae11ecd Mike Kravetz            2021-09-02  2728  	 */
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2729) 	list_for_each_entry_safe(folio, tmp, &surplus_list, lru)
-454a00c40a21c5 Matthew Wilcox (Oracle  2023-08-16  2730) 		free_huge_folio(folio);
-db71ef79b59bb2 Mike Kravetz            2021-05-04  2731  	spin_lock_irq(&hugetlb_lock);
-e4e574b767ba63 Adam Litke              2007-10-16  2732  
-e4e574b767ba63 Adam Litke              2007-10-16  2733  	return ret;
-e4e574b767ba63 Adam Litke              2007-10-16  2734  }
-e4e574b767ba63 Adam Litke              2007-10-16  2735  
+vim +/i +254 drivers/gpu/drm/xe/xe_drm_client.c
 
-:::::: The code at line 2677 was first introduced by commit
-:::::: 3a740e8bb56ef7ee6b9098b694caabab843be067 mm/hugetlb: convert alloc_surplus_huge_page() to folios
+0845233388f8a2 Tejas Upadhyay        2023-09-15  239  
+45bb564de0a6f8 Umesh Nerlige Ramappa 2024-05-24  240  static void show_run_ticks(struct drm_printer *p, struct drm_file *file)
+188ced1e0ff892 Lucas De Marchi       2024-05-17  241  {
+188ced1e0ff892 Lucas De Marchi       2024-05-17  242  	unsigned long class, i, gt_id, capacity[XE_ENGINE_CLASS_MAX] = { };
+188ced1e0ff892 Lucas De Marchi       2024-05-17  243  	struct xe_file *xef = file->driver_priv;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  244  	struct xe_device *xe = xef->xe;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  245  	struct xe_gt *gt;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  246  	struct xe_hw_engine *hwe;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  247  	struct xe_exec_queue *q;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  248  	u64 gpu_timestamp;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  249  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  250  	xe_pm_runtime_get(xe);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  251  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  252  	/* Accumulate all the exec queues from this client */
+188ced1e0ff892 Lucas De Marchi       2024-05-17  253  	mutex_lock(&xef->exec_queue.lock);
+188ced1e0ff892 Lucas De Marchi       2024-05-17 @254  	xa_for_each(&xef->exec_queue.xa, i, q)
+45bb564de0a6f8 Umesh Nerlige Ramappa 2024-05-24  255  		xe_exec_queue_update_run_ticks(q);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  256  	mutex_unlock(&xef->exec_queue.lock);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  257  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  258  	/* Get the total GPU cycles */
+188ced1e0ff892 Lucas De Marchi       2024-05-17  259  	for_each_gt(gt, xe, gt_id) {
+188ced1e0ff892 Lucas De Marchi       2024-05-17  260  		hwe = xe_gt_any_hw_engine(gt);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  261  		if (!hwe)
+188ced1e0ff892 Lucas De Marchi       2024-05-17  262  			continue;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  263  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  264  		xe_force_wake_get(gt_to_fw(gt), XE_FW_GT);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  265  		gpu_timestamp = xe_hw_engine_read_timestamp(hwe);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  266  		xe_force_wake_put(gt_to_fw(gt), XE_FW_GT);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  267  		break;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  268  	}
+188ced1e0ff892 Lucas De Marchi       2024-05-17  269  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  270  	xe_pm_runtime_put(xe);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  271  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  272  	if (unlikely(!hwe))
+188ced1e0ff892 Lucas De Marchi       2024-05-17  273  		return;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  274  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  275  	for (class = 0; class < XE_ENGINE_CLASS_MAX; class++) {
+188ced1e0ff892 Lucas De Marchi       2024-05-17  276  		const char *class_name;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  277  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  278  		for_each_gt(gt, xe, gt_id)
+188ced1e0ff892 Lucas De Marchi       2024-05-17  279  			capacity[class] += gt->user_engines.instances_per_class[class];
+188ced1e0ff892 Lucas De Marchi       2024-05-17  280  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  281  		/*
+188ced1e0ff892 Lucas De Marchi       2024-05-17  282  		 * Engines may be fused off or not exposed to userspace. Don't
+188ced1e0ff892 Lucas De Marchi       2024-05-17  283  		 * return anything if this entire class is not available
+188ced1e0ff892 Lucas De Marchi       2024-05-17  284  		 */
+188ced1e0ff892 Lucas De Marchi       2024-05-17  285  		if (!capacity[class])
+188ced1e0ff892 Lucas De Marchi       2024-05-17  286  			continue;
+188ced1e0ff892 Lucas De Marchi       2024-05-17  287  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  288  		class_name = xe_hw_engine_class_to_str(class);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  289  		drm_printf(p, "drm-cycles-%s:\t%llu\n",
+45bb564de0a6f8 Umesh Nerlige Ramappa 2024-05-24  290  			   class_name, xef->run_ticks[class]);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  291  		drm_printf(p, "drm-total-cycles-%s:\t%llu\n",
+188ced1e0ff892 Lucas De Marchi       2024-05-17  292  			   class_name, gpu_timestamp);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  293  
+188ced1e0ff892 Lucas De Marchi       2024-05-17  294  		if (capacity[class] > 1)
+188ced1e0ff892 Lucas De Marchi       2024-05-17  295  			drm_printf(p, "drm-engine-capacity-%s:\t%lu\n",
+188ced1e0ff892 Lucas De Marchi       2024-05-17  296  				   class_name, capacity[class]);
+188ced1e0ff892 Lucas De Marchi       2024-05-17  297  	}
+188ced1e0ff892 Lucas De Marchi       2024-05-17  298  }
+188ced1e0ff892 Lucas De Marchi       2024-05-17  299  
 
-:::::: TO: Sidhartha Kumar <sidhartha.kumar@oracle.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+:::::: The code at line 254 was first introduced by commit
+:::::: 188ced1e0ff892f0948f20480e2e0122380ae46d drm/xe/client: Print runtime to fdinfo
+
+:::::: TO: Lucas De Marchi <lucas.demarchi@intel.com>
+:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
