@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1513C9CA
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 11:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C4719A292
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 17:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719487165; cv=none; b=MxRtRNTkujtknZjlZojZOtM5+Wkv4rXn2AgBrpCAuVt/ifSTQMxEtShECKcZFuxhJCaV76K3nRI+klTHVjz2FOfSCbLU1hH+d6CCS7pcKfSrugItmxD1JHxRyhEdNeJCis4E5J8fsVHsq8SUyaHEJtXSWnDJ+eHUnB9fGEpSFMM=
+	t=1719508883; cv=none; b=PKLe+Cb+VQSAGkBLnZ5PUYmYPqkBsuCXS4jG2mQ8eYbE8qT2U4YtRSFlCBKY786bBRgnNPDGcSwgJkBjU1YKUN8pTzhmlnfTBwAcm9+UEFJI/cGq9xI/w4O/9FvDIlQsVQJrkh0pYXeLT02EF190UrrhbAozff4bcrktK8KySoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719487165; c=relaxed/simple;
-	bh=3Bup+y56Plnzf622H36s/DHZUbdZl1nd8Vu+cXhsGMs=;
+	s=arc-20240116; t=1719508883; c=relaxed/simple;
+	bh=R29UO79NGxBOIxuMRQqFfM0NX5BkgnKtSkZ2/qQpNno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PYmachvU0RPMGdBK2iruYO+gG6uehkVCbhAqaHPpwAkjQcPuKx5uGXAXDiCAhhFQQbZUyxNghkJzQOvGLzLEagsoICS+wLd+oeenB9hiQSHnuGLwtiMy0mVg3T8cAZArQiNvrat9xwxmOP457vQYPzuFarl3XFtviAHnpNLPNXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btPwx7/o; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=uC6EusTs5xS1DtdGGUWQsnzlC4CXoQTCZ9UqXMMOftT7SJ4Z/Eov5Qx+JEsoDI+PllEj4RgBsAn5EWap7CKyZbFJ+ZXe8ygn4eTwTVuFop7+HGirE1nY75tvEgzKbT8B9A7Sm6YlkyOCnE3RWzLQI56D4RpVLUwZParpgkyIkNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zwt11k9V; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btPwx7/o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zwt11k9V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719487163; x=1751023163;
+  t=1719508881; x=1751044881;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3Bup+y56Plnzf622H36s/DHZUbdZl1nd8Vu+cXhsGMs=;
-  b=btPwx7/o1yHxFNpWDA3vjKEal+J6YqSZjuxFaBC511B25H4Arv17r5Ko
-   K1RTZa4DICUq3NztlYhPqJrfzfB3RbvZNgco/Kwxz9Rc9cdJDUz5yEpPK
-   Zy/7r9j78bM6wz0T6O0sSmGD1PoXAzEeHt4hgES9IfvPtLUFjUczM6jRJ
-   lsRssAKAA2BbDIKdoVnATb6Qj01YD+c7wkHOei/Htn+YNGDKubGkA1U+K
-   /8iuzvpSloMqPQlsiAldigkWENoRTUQB9zbO/KEPI0BDFY5aQezrPPMyU
-   6JducsEshwBvG01+59pXrU6udMMHo0cNx3+Qzr0H+HjM1Za8NGpau2rBr
-   g==;
-X-CSE-ConnectionGUID: FmAxFJpwQdCiM17ckj24sA==
-X-CSE-MsgGUID: Ol4miCfnToCqfb8mHmdg2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="12280111"
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="12280111"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 04:19:22 -0700
-X-CSE-ConnectionGUID: JE5HJ4HOT1e7r/opfxfCWQ==
-X-CSE-MsgGUID: c9FLv8LES0O35NYuzIrP3w==
+  bh=R29UO79NGxBOIxuMRQqFfM0NX5BkgnKtSkZ2/qQpNno=;
+  b=Zwt11k9VrnLuVlFjG3GQZJ0nOKvPtqYPeHv3W/3uaDf6qsIyqEAEDKGU
+   tJmbnGSUXu9sRvoFw/snAwbYQngyvtRzCY2itUST5VLhgIwLFZ5rbJjIy
+   gvPXX2C0HgEKq++zLJCZg4AVOgahjjxHdF+0Vv8GZZQKjDiYeC17vERqk
+   c5BZJFOTRezkZutoFvyBrl2D401NgFJjAvQcoQh84YY09UX3St9qTQJ6v
+   rD1FcOmi5YoTL5znG+RpoIv2PxeIHeblC0InWP95s/L1CHVgsbArYtscB
+   bUjw/odOgiINseeom4EvWT0uTF3+3aR/33Z7WuYxjMVOoJLG1yB1Pt8dZ
+   A==;
+X-CSE-ConnectionGUID: DA8LhepSSMmONmr2x//ATA==
+X-CSE-MsgGUID: HmHAY08eTpGVv/2KNYq7kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16784352"
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
+   d="scan'208";a="16784352"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 10:21:21 -0700
+X-CSE-ConnectionGUID: PgwGc+PLSAa5F3K52yuJmQ==
+X-CSE-MsgGUID: 60/RK42eRGOosuIZWqsDHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
-   d="scan'208";a="44408706"
+X-IronPort-AV: E=Sophos;i="6.09,166,1716274800"; 
+   d="scan'208";a="44575347"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Jun 2024 04:19:21 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2024 10:21:21 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMn9r-000G9O-2H;
-	Thu, 27 Jun 2024 11:19:19 +0000
-Date: Thu, 27 Jun 2024 19:19:04 +0800
+	id 1sMsoA-000GNa-1D;
+	Thu, 27 Jun 2024 17:21:18 +0000
+Date: Fri, 28 Jun 2024 01:20:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 7931/8719] statmount_test_ns.c:27:17: warning:
- format not a string literal and no format arguments
-Message-ID: <202406271913.5Vxny2Tc-lkp@intel.com>
+Subject: arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: trng@760000:
+ compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng',
+ 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
+Message-ID: <202406280113.H5R4jgxV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,73 +64,76 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Josef Bacik <josef@toxicpanda.com>
-CC: Christian Brauner <brauner@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Elad Nachman <enachman@marvell.com>
+CC: Gregory CLEMENT <gregory.clement@bootlin.com>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: f0f1033dd078339a6588b571fe1243e2a2c5e519 [7931/8719] selftests: add a test for the foreign mnt ns extensions
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   afcd48134c58d6af45fb3fdb648f1260b20f2326
+commit: c11e7732a90c21155de8db40dbba84f043520821 arm64: dts: cn913x: add device trees for COM Express boards
+date:   7 months ago
 :::::: branch date: 16 hours ago
-:::::: commit date: 2 days ago
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271913.5Vxny2Tc-lkp@intel.com/reproduce)
+:::::: commit date: 7 months ago
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406280113.H5R4jgxV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev2+g3b69bad
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280113.H5R4jgxV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406271913.5Vxny2Tc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406280113.H5R4jgxV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   statmount_test_ns.c: In function 'handle_result':
->> statmount_test_ns.c:27:17: warning: format not a string literal and no format arguments [-Wformat-security]
-      27 |                 ksft_test_result_pass(testname);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c:29:17: warning: format not a string literal and no format arguments [-Wformat-security]
-      29 |                 ksft_test_result_fail(testname);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c:31:17: warning: format not a string literal and no format arguments [-Wformat-security]
-      31 |                 ksft_exit_fail_msg(testname);
-         |                 ^~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c:33:17: warning: format not a string literal and no format arguments [-Wformat-security]
-      33 |                 ksft_test_result_skip(testname);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c: In function 'test_listmount_ns':
->> statmount_test_ns.c:322:17: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-     322 |                 write(child_ready_pipe[1], &nr_mounts, sizeof(nr_mounts));
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> statmount_test_ns.c:323:17: warning: ignoring return value of 'read' declared with attribute 'warn_unused_result' [-Wunused-result]
-     323 |                 read(parent_ready_pipe[0], &cval, sizeof(cval));
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c:331:9: warning: ignoring return value of 'read' declared with attribute 'warn_unused_result' [-Wunused-result]
-     331 |         read(child_ready_pipe[0], &nr_mounts, sizeof(nr_mounts));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   statmount_test_ns.c:335:9: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
-     335 |         write(parent_ready_pipe[1], &pval, sizeof(pval));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +27 tools/testing/selftests/filesystems/statmount/statmount_test_ns.c
-
-f0f1033dd07833 Josef Bacik 2024-06-24  23  
-f0f1033dd07833 Josef Bacik 2024-06-24  24  static void handle_result(int ret, const char *testname)
-f0f1033dd07833 Josef Bacik 2024-06-24  25  {
-f0f1033dd07833 Josef Bacik 2024-06-24  26  	if (ret == NSID_PASS)
-f0f1033dd07833 Josef Bacik 2024-06-24 @27  		ksft_test_result_pass(testname);
-f0f1033dd07833 Josef Bacik 2024-06-24  28  	else if (ret == NSID_FAIL)
-f0f1033dd07833 Josef Bacik 2024-06-24  29  		ksft_test_result_fail(testname);
-f0f1033dd07833 Josef Bacik 2024-06-24  30  	else if (ret == NSID_ERROR)
-f0f1033dd07833 Josef Bacik 2024-06-24  31  		ksft_exit_fail_msg(testname);
-f0f1033dd07833 Josef Bacik 2024-06-24  32  	else
-f0f1033dd07833 Josef Bacik 2024-06-24  33  		ksft_test_result_skip(testname);
-f0f1033dd07833 Josef Bacik 2024-06-24  34  }
-f0f1033dd07833 Josef Bacik 2024-06-24  35  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: pca953x@21: 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: pca9555@21: 'pinctrl-0' is a dependency of 'pinctrl-names'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
+>> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
+   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
+>> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
+   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/crypto@800000: failed to match any schema with compatible: ['inside-secure,safexcel-eip197b']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/pcie@f2600000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/pcie@f2620000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/pcie@f2640000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: ap0_sd_vccq@0: 'gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/regulator/gpio-regulator.yaml#
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: cp0_usb3_phy@0: '#phy-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/usb-nop-xceiv.yaml#
+--
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
+   	'phys' is a required property
+   	'target-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
+>> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
+   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
+>> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
+   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/crypto@800000: failed to match any schema with compatible: ['inside-secure,safexcel-eip197b']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/pcie@f4600000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/pcie@f4620000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/pcie@f4640000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
 
 -- 
 0-DAY CI Kernel Test Service
