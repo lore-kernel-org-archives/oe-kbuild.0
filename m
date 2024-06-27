@@ -1,58 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2671BF3A
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 07:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E1E481BA
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 10:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719472907; cv=none; b=OM+AZmgnzBnJ7O6mSY6z8hJhDWzZaCnaurkubo9iYbMSU4kKKoHmrshNYn+5h2lnv8HZN7Sfxw7/c9RoH5ba09r0Zklr8UYLHT180KwaZq6sNlA5dCsvUjSOI2S4ckQWdI+XEGGj8rgEMEXEHp2ywMrpN+CzKw/ldZrS/ZuSHoM=
+	t=1719483375; cv=none; b=CyC6ampQLLvM1ZzdF4rW15CotDibf3v2ARNgndSGQfNyHRwk97kiDl5S2sjnCYTG9csPlNj3CI9kQUV/Ei1lVEWYtFJw7MWlijqQsf7KaRWdog0kzt4AXQOIeXYFrGLBVDRHnsBniq8zTCC2AjHRGtXwnzqua6HwyOz0dNY4J7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719472907; c=relaxed/simple;
-	bh=P+VzldfZd7GgSXjs19KzGhdU5qRTsecUf2Hjremj2AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bjFupc2sgEBo4YB0dyQ+uNP9aFF3tQJYOz2n83lRfVGFG6DsTPaiI46impBu4MHN7oRGYoxvB318K0feCb41rtxzGpTikVXSlYuRsvn6z03jG5kSTpc1QxLNSc6AF6DrHUJxk/uwWghLhbK876q1FAfc+/VcRiT7evk0zCSpzMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNYxbBr4; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719483375; c=relaxed/simple;
+	bh=M5aOzevzog3Sdh8n1ineWNFAdQA+Buob90ID5nBGIyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I0wI8OxAiLB21c5p4RSZuVy1t4wx4zkE3PPggDU+u4s8mbPivPIkjh1YUldoEGQNAyt/U+Z0yJVj/L5oFSDx6oVKluTaUsjCnV3aX6mPKmhlfpK98NfWW1oDjvL7IEAAkQNaLxqS0qk658A8IufdsGNL9gTShYBPi7VhJtZ1iHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEQ/ILek; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNYxbBr4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719472903; x=1751008903;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P+VzldfZd7GgSXjs19KzGhdU5qRTsecUf2Hjremj2AA=;
-  b=WNYxbBr4XcBlR/53bIcGpE74hVmMPVzOVltXmYZHpTxgD70LRcKViM9O
-   N0gWrv4uzJ4/C77//8glZHUu7kvQ3Xt2FErGf5zFzyjYxG7cgTTmG+JcK
-   PJAoLHXv2mMovVLetNJvW1nC/84AbU8mG2u3vpZZo8qw3OWEajUjI721h
-   4mfhJAL9uEq6RBx1P3/9r060fB+OrFCMUxdAWBW8LjY7HSRdPrDV73tAM
-   FuM78/o4uxW/S16RrDJanFb9HFZoCarAcL/sqHO4wZ1CbT0G/uDTRv9cq
-   e0Za1AY7FSd4exdKmRSIKAlLnXV/cNMzSiC9vHLeTjOFAf1e3monV4d9h
-   Q==;
-X-CSE-ConnectionGUID: Hy0LxkyoRlGCw0WUaYQcdg==
-X-CSE-MsgGUID: J40l2FYsTvKkdAejlPSrkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27717363"
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="27717363"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 00:21:43 -0700
-X-CSE-ConnectionGUID: m2OQcnppQ5y7Wvff2R5GyQ==
-X-CSE-MsgGUID: Wp243y/xS9CnIhnja0kJnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="45030899"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2024 00:21:44 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sMjRs-000G0i-26;
-	Thu, 27 Jun 2024 07:21:40 +0000
-Date: Thu, 27 Jun 2024 15:21:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha
- extension
-Message-ID: <202406271442.V29TPfzy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEQ/ILek"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C334C2BBFC;
+	Thu, 27 Jun 2024 10:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719483374;
+	bh=M5aOzevzog3Sdh8n1ineWNFAdQA+Buob90ID5nBGIyA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aEQ/ILekHEhwCkULEc9z7qFKLLR5E1c3cNN6Lhx7r2kiKEjJ1rNHFHcHT/yxINvoH
+	 szge1F8qfegeOhC7O75Cf1mnG2a1t2F2kMf4WDQsJwUZssaBXhlYsj6TWYWTkEdhgU
+	 Zuqz4jmJUyxV26o8SJE9xBz5Z43iHSgsv8h5xLqGMOeuIu6gBLb8QZfekdzSLaCP2l
+	 QsVvSWUT9wPjrtDxkSzCSkD9kgJwIr9Wbbxd0hnVnli79zt9lPHgJL9wwCZR/R1r95
+	 Ctot9o10SkSkkHd+Pgcn22GppDR/8iCecJ1KfCLZ7ouDbeKGtO0fAAiYUqisyPflfO
+	 rcmcFFW7VECRA==
+Date: Thu, 27 Jun 2024 12:16:10 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+Subject: Re: [linux-next:master 5089/8719]
+ drivers/hid/bpf/hid_bpf_dispatch.c:65 dispatch_hid_bpf_device_event() error:
+ uninitialized symbol 'ret'.
+Message-ID: <rhupqfzvrlx4mrn4vnhl5fh74ccp7cgdmlogkkzaso6ufvasea@iqhr22bbeycd>
+References: <202406270910.5QNY606G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,93 +43,98 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202406270910.5QNY606G-lkp@intel.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On Jun 27 2024, kernel test robot wrote:
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: Linux Memory Management List <linux-mm@kvack.org>
+> TO: Benjamin Tissoires <bentiss@kernel.org>
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   df9574a57d02b265322e77fb8628d4d33641dda9
+> commit: 4a86220e046da009bef0948e9f51d1d26d68f93c [5089/8719] HID: bpf: remove tracing HID-BPF capability
+> :::::: branch date: 6 hours ago
+> :::::: commit date: 13 days ago
+> config: i386-randconfig-141-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270910.5QNY606G-lkp@intel.com/config)
+> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202406270910.5QNY606G-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/hid/bpf/hid_bpf_dispatch.c:65 dispatch_hid_bpf_device_event() error: uninitialized symbol 'ret'.
+> 
+> vim +/ret +65 drivers/hid/bpf/hid_bpf_dispatch.c
+> 
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  24  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  25  u8 *
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  26  dispatch_hid_bpf_device_event(struct hid_device *hdev, enum hid_report_type type, u8 *data,
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  27  			      u32 *size, int interrupt)
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  28  {
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  29  	struct hid_bpf_ctx_kern ctx_kern = {
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  30  		.ctx = {
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  31  			.hid = hdev,
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  32  			.allocated_size = hdev->bpf.allocated_data,
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  33  			.size = *size,
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  34  		},
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  35  		.data = hdev->bpf.device_data,
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  36  	};
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  37  	struct hid_bpf_ops *e;
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  38  	int ret;
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  39  
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  40  	if (type >= HID_REPORT_TYPES)
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  41  		return ERR_PTR(-EINVAL);
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  42  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  43  	/* no program has been attached yet */
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  44  	if (!hdev->bpf.device_data)
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  45  		return data;
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  46  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  47  	memset(ctx_kern.data, 0, hdev->bpf.allocated_data);
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  48  	memcpy(ctx_kern.data, data, *size);
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  49  
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  50  	rcu_read_lock();
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  51  	list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  52  		if (e->hid_device_event) {
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  53  			ret = e->hid_device_event(&ctx_kern.ctx, type);
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  54  			if (ret < 0) {
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  55  				rcu_read_unlock();
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  56  				return ERR_PTR(ret);
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  57  			}
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  58  
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  59  			if (ret)
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  60  				ctx_kern.ctx.retval = ret;
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  61  		}
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  62  	}
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  63  	rcu_read_unlock();
+> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  64  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03 @65  	if (ret) {
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  66  		if (ret > ctx_kern.ctx.allocated_size)
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  67  			return ERR_PTR(-EINVAL);
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  68  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  69  		*size = ret;
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  70  	}
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  71  
+> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  72  	return ctx_kern.data;
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  73  }
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  74  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
+> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  75  
+> 
+> :::::: The code at line 65 was first introduced by commit
+> :::::: 658ee5a64fcfbbf758447fa3af425729eaabb0dc HID: bpf: allocate data memory for device_event BPF programs
+> 
+> :::::: TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> :::::: CC: Jiri Kosina <jkosina@suse.cz>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240626130347.520750-11-alexghiti@rivosinc.com>
-References: <20240626130347.520750-11-alexghiti@rivosinc.com>
-TO: Alexandre Ghiti <alexghiti@rivosinc.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Paul Walmsley <paul.walmsley@sifive.com>
-TO: Palmer Dabbelt <palmer@dabbelt.com>
-TO: Albert Ou <aou@eecs.berkeley.edu>
-TO: Andrea Parri <parri.andrea@gmail.com>
-TO: Nathan Chancellor <nathan@kernel.org>
-TO: Peter Zijlstra <peterz@infradead.org>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Will Deacon <will@kernel.org>
-TO: Waiman Long <longman@redhat.com>
-TO: Boqun Feng <boqun.feng@gmail.com>
-TO: Arnd Bergmann <arnd@arndb.de>
-TO: Leonardo Bras <leobras@redhat.com>
-TO: Guo Ren <guoren@kernel.org>
-TO: linux-doc@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-TO: linux-riscv@lists.infradead.org
-TO: linux-arch@vger.kernel.org
-CC: Alexandre Ghiti <alexghiti@rivosinc.com>
+Already fixed in ebae0b2a6f4b3b949f30f076fbc65d3b0bb04785
 
-Hi Alexandre,
+Cheers,
+Benjamin
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on linus/master v6.10-rc5]
-[cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core next-20240626]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20240626130347.520750-11-alexghiti%40rivosinc.com
-patch subject: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha extension
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406271442.V29TPfzy-lkp@intel.com/
-
-includecheck warnings: (new ones prefixed by >>)
->> arch/riscv/include/asm/spinlock.h: asm/ticket_spinlock.h is included more than once.
-
-vim +10 arch/riscv/include/asm/spinlock.h
-
-     8	
-     9	#define __no_arch_spinlock_redefine
-  > 10	#include <asm/ticket_spinlock.h>
-    11	#include <asm/qspinlock.h>
-    12	#include <asm/alternative.h>
-    13	
-    14	DECLARE_STATIC_KEY_TRUE(qspinlock_key);
-    15	
-    16	#define SPINLOCK_BASE_DECLARE(op, type, type_lock)			\
-    17	static __always_inline type arch_spin_##op(type_lock lock)		\
-    18	{									\
-    19		if (static_branch_unlikely(&qspinlock_key))			\
-    20			return queued_spin_##op(lock);				\
-    21		return ticket_spin_##op(lock);					\
-    22	}
-    23	
-    24	SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-    25	SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-    26	SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-    27	SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-    28	SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-    29	SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-    30	
-    31	#else
-    32	
-  > 33	#include <asm/ticket_spinlock.h>
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
