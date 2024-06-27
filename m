@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D7E2139CE
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 03:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2671BF3A
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 07:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719459981; cv=none; b=G/gc9/yEhqglKnudB7O8JYXM80lcXRqGj8YDmGMSjOl8xKRk+Uu4QWRj8WZz0Pl+hFwJZkGgWqgp29D55Rh22s/1Pu847X9Am5JeWShpbBlHzavOyPDSaj57VnS698iVxpzm0BYkGO6xttsx0ZHtT9BCh05KBW0KJsne5E94lFc=
+	t=1719472907; cv=none; b=OM+AZmgnzBnJ7O6mSY6z8hJhDWzZaCnaurkubo9iYbMSU4kKKoHmrshNYn+5h2lnv8HZN7Sfxw7/c9RoH5ba09r0Zklr8UYLHT180KwaZq6sNlA5dCsvUjSOI2S4ckQWdI+XEGGj8rgEMEXEHp2ywMrpN+CzKw/ldZrS/ZuSHoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719459981; c=relaxed/simple;
-	bh=zrByUsQ/51htRxMitDvo+Mf0Dda+uRJogc+iS90R4uw=;
+	s=arc-20240116; t=1719472907; c=relaxed/simple;
+	bh=P+VzldfZd7GgSXjs19KzGhdU5qRTsecUf2Hjremj2AA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mbK3TKPRmSBrlfhOKcBg6P0E8W7cZ0lvkKdb/vERxwJqq+C+hzRO/ecK2a3RbKto/J2ZTfRVpx4vzYg2N21OYmqdHFuXH3fCHdPnbGN4Xa7WqqYcOqO2KeFfrbeORBruWaUi7pHQzPHLQdfaWW6jNaHnqTIS+c1wb8Dtceyu/oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2biJxEl; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=bjFupc2sgEBo4YB0dyQ+uNP9aFF3tQJYOz2n83lRfVGFG6DsTPaiI46impBu4MHN7oRGYoxvB318K0feCb41rtxzGpTikVXSlYuRsvn6z03jG5kSTpc1QxLNSc6AF6DrHUJxk/uwWghLhbK876q1FAfc+/VcRiT7evk0zCSpzMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNYxbBr4; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2biJxEl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNYxbBr4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719459980; x=1750995980;
+  t=1719472903; x=1751008903;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zrByUsQ/51htRxMitDvo+Mf0Dda+uRJogc+iS90R4uw=;
-  b=l2biJxElaiUEzUhT5TfQpYh5zf+d18y4xircURvzZbS+90WFMEGpESWp
-   iZUr5FKBwghDYr8+ix2QnUS1may1aWUvM3a6/XF8QEB59t71+Cf/VvUHL
-   zkUc54VmVbdXHC1OzaPFopgtApC+eQEYuSBijYkoVP9ar1QqNxfe7M688
-   fu7MOWFrYSXXQ2zhcdRKrdVBOr9RQj4jsNHk7vEsDIUu2IqOsPYaPjt2y
-   lJ8MlCC9hs0c6plQsry7VOqgXBHbMHmllTXoqfiqbnvSkdUSO5+sDR51S
-   4jRvW3myyKWc509UQyD9cq7iuMNsWfSvuNW0JiV8X4T5sJxwM/UdePVoa
+  bh=P+VzldfZd7GgSXjs19KzGhdU5qRTsecUf2Hjremj2AA=;
+  b=WNYxbBr4XcBlR/53bIcGpE74hVmMPVzOVltXmYZHpTxgD70LRcKViM9O
+   N0gWrv4uzJ4/C77//8glZHUu7kvQ3Xt2FErGf5zFzyjYxG7cgTTmG+JcK
+   PJAoLHXv2mMovVLetNJvW1nC/84AbU8mG2u3vpZZo8qw3OWEajUjI721h
+   4mfhJAL9uEq6RBx1P3/9r060fB+OrFCMUxdAWBW8LjY7HSRdPrDV73tAM
+   FuM78/o4uxW/S16RrDJanFb9HFZoCarAcL/sqHO4wZ1CbT0G/uDTRv9cq
+   e0Za1AY7FSd4exdKmRSIKAlLnXV/cNMzSiC9vHLeTjOFAf1e3monV4d9h
    Q==;
-X-CSE-ConnectionGUID: 8mTnkOdPRgyFvqlWKGhZBw==
-X-CSE-MsgGUID: SUbAmG9iST2++XIIHaOMGw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="19454507"
+X-CSE-ConnectionGUID: Hy0LxkyoRlGCw0WUaYQcdg==
+X-CSE-MsgGUID: J40l2FYsTvKkdAejlPSrkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27717363"
 X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="19454507"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 20:46:19 -0700
-X-CSE-ConnectionGUID: 90Br7HViR5SzRf14pmXXhg==
-X-CSE-MsgGUID: Eqgh77X2RiCm3zD9jAEadw==
+   d="scan'208";a="27717363"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 00:21:43 -0700
+X-CSE-ConnectionGUID: m2OQcnppQ5y7Wvff2R5GyQ==
+X-CSE-MsgGUID: Wp243y/xS9CnIhnja0kJnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
-   d="scan'208";a="48699892"
+   d="scan'208";a="45030899"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Jun 2024 20:46:17 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2024 00:21:44 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMg5P-000Fqw-2O;
-	Thu, 27 Jun 2024 03:46:15 +0000
-Date: Thu, 27 Jun 2024 11:45:16 +0800
+	id 1sMjRs-000G0i-26;
+	Thu, 27 Jun 2024 07:21:40 +0000
+Date: Thu, 27 Jun 2024 15:21:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5978/8719] drivers/gpu/drm/xe/xe_perf.c:40
- (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression :
- perf_ctl_table[1]->procname
-Message-ID: <202406271102.PGADVcMb-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha
+ extension
+Message-ID: <202406271442.V29TPfzy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,46 +62,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
-CC: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+In-Reply-To: <20240626130347.520750-11-alexghiti@rivosinc.com>
+References: <20240626130347.520750-11-alexghiti@rivosinc.com>
+TO: Alexandre Ghiti <alexghiti@rivosinc.com>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: Paul Walmsley <paul.walmsley@sifive.com>
+TO: Palmer Dabbelt <palmer@dabbelt.com>
+TO: Albert Ou <aou@eecs.berkeley.edu>
+TO: Andrea Parri <parri.andrea@gmail.com>
+TO: Nathan Chancellor <nathan@kernel.org>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Will Deacon <will@kernel.org>
+TO: Waiman Long <longman@redhat.com>
+TO: Boqun Feng <boqun.feng@gmail.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+TO: Leonardo Bras <leobras@redhat.com>
+TO: Guo Ren <guoren@kernel.org>
+TO: linux-doc@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-riscv@lists.infradead.org
+TO: linux-arch@vger.kernel.org
+CC: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: fe8929bdf83512ed7e413a28e543c725bf536354 [5978/8719] drm/xe/perf/uapi: Add perf_stream_paranoid sysctl
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-141-20240626 (https://download.01.org/0day-ci/archive/20240627/202406271102.PGADVcMb-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hi Alexandre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on linus/master v6.10-rc5]
+[cannot apply to arnd-asm-generic/master robh/for-next tip/locking/core next-20240626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Implement-cmpxchg32-64-using-Zacas/20240627-034946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20240626130347.520750-11-alexghiti%40rivosinc.com
+patch subject: [PATCH v2 10/10] riscv: Add qspinlock support based on Zabha extension
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406271102.PGADVcMb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406271442.V29TPfzy-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_perf.c:40 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : perf_ctl_table[1]->procname
-drivers/gpu/drm/xe/xe_perf.c:40 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : perf_ctl_table[1]->proc_handler
+includecheck warnings: (new ones prefixed by >>)
+>> arch/riscv/include/asm/spinlock.h: asm/ticket_spinlock.h is included more than once.
 
-vim +40 drivers/gpu/drm/xe/xe_perf.c
+vim +10 arch/riscv/include/asm/spinlock.h
 
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  39  
-fe8929bdf83512 Ashutosh Dixit 2024-06-17 @40  static struct ctl_table perf_ctl_table[] = {
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  41  	{
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  42  	 .procname = "perf_stream_paranoid",
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  43  	 .data = &xe_perf_stream_paranoid,
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  44  	 .maxlen = sizeof(xe_perf_stream_paranoid),
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  45  	 .mode = 0644,
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  46  	 .proc_handler = proc_dointvec_minmax,
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  47  	 .extra1 = SYSCTL_ZERO,
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  48  	 .extra2 = SYSCTL_ONE,
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  49  	 },
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  50  	{}
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  51  };
-fe8929bdf83512 Ashutosh Dixit 2024-06-17  52  
+     8	
+     9	#define __no_arch_spinlock_redefine
+  > 10	#include <asm/ticket_spinlock.h>
+    11	#include <asm/qspinlock.h>
+    12	#include <asm/alternative.h>
+    13	
+    14	DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+    15	
+    16	#define SPINLOCK_BASE_DECLARE(op, type, type_lock)			\
+    17	static __always_inline type arch_spin_##op(type_lock lock)		\
+    18	{									\
+    19		if (static_branch_unlikely(&qspinlock_key))			\
+    20			return queued_spin_##op(lock);				\
+    21		return ticket_spin_##op(lock);					\
+    22	}
+    23	
+    24	SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
+    25	SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
+    26	SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
+    27	SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
+    28	SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
+    29	SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
+    30	
+    31	#else
+    32	
+  > 33	#include <asm/ticket_spinlock.h>
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
