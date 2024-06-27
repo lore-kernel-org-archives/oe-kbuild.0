@@ -1,40 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E1E481BA
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 10:16:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1513C9CA
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 11:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719483375; cv=none; b=CyC6ampQLLvM1ZzdF4rW15CotDibf3v2ARNgndSGQfNyHRwk97kiDl5S2sjnCYTG9csPlNj3CI9kQUV/Ei1lVEWYtFJw7MWlijqQsf7KaRWdog0kzt4AXQOIeXYFrGLBVDRHnsBniq8zTCC2AjHRGtXwnzqua6HwyOz0dNY4J7Q=
+	t=1719487165; cv=none; b=MxRtRNTkujtknZjlZojZOtM5+Wkv4rXn2AgBrpCAuVt/ifSTQMxEtShECKcZFuxhJCaV76K3nRI+klTHVjz2FOfSCbLU1hH+d6CCS7pcKfSrugItmxD1JHxRyhEdNeJCis4E5J8fsVHsq8SUyaHEJtXSWnDJ+eHUnB9fGEpSFMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719483375; c=relaxed/simple;
-	bh=M5aOzevzog3Sdh8n1ineWNFAdQA+Buob90ID5nBGIyA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I0wI8OxAiLB21c5p4RSZuVy1t4wx4zkE3PPggDU+u4s8mbPivPIkjh1YUldoEGQNAyt/U+Z0yJVj/L5oFSDx6oVKluTaUsjCnV3aX6mPKmhlfpK98NfWW1oDjvL7IEAAkQNaLxqS0qk658A8IufdsGNL9gTShYBPi7VhJtZ1iHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEQ/ILek; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719487165; c=relaxed/simple;
+	bh=3Bup+y56Plnzf622H36s/DHZUbdZl1nd8Vu+cXhsGMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PYmachvU0RPMGdBK2iruYO+gG6uehkVCbhAqaHPpwAkjQcPuKx5uGXAXDiCAhhFQQbZUyxNghkJzQOvGLzLEagsoICS+wLd+oeenB9hiQSHnuGLwtiMy0mVg3T8cAZArQiNvrat9xwxmOP457vQYPzuFarl3XFtviAHnpNLPNXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btPwx7/o; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEQ/ILek"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C334C2BBFC;
-	Thu, 27 Jun 2024 10:16:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719483374;
-	bh=M5aOzevzog3Sdh8n1ineWNFAdQA+Buob90ID5nBGIyA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aEQ/ILekHEhwCkULEc9z7qFKLLR5E1c3cNN6Lhx7r2kiKEjJ1rNHFHcHT/yxINvoH
-	 szge1F8qfegeOhC7O75Cf1mnG2a1t2F2kMf4WDQsJwUZssaBXhlYsj6TWYWTkEdhgU
-	 Zuqz4jmJUyxV26o8SJE9xBz5Z43iHSgsv8h5xLqGMOeuIu6gBLb8QZfekdzSLaCP2l
-	 QsVvSWUT9wPjrtDxkSzCSkD9kgJwIr9Wbbxd0hnVnli79zt9lPHgJL9wwCZR/R1r95
-	 Ctot9o10SkSkkHd+Pgcn22GppDR/8iCecJ1KfCLZ7ouDbeKGtO0fAAiYUqisyPflfO
-	 rcmcFFW7VECRA==
-Date: Thu, 27 Jun 2024 12:16:10 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
-Subject: Re: [linux-next:master 5089/8719]
- drivers/hid/bpf/hid_bpf_dispatch.c:65 dispatch_hid_bpf_device_event() error:
- uninitialized symbol 'ret'.
-Message-ID: <rhupqfzvrlx4mrn4vnhl5fh74ccp7cgdmlogkkzaso6ufvasea@iqhr22bbeycd>
-References: <202406270910.5QNY606G-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btPwx7/o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1719487163; x=1751023163;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3Bup+y56Plnzf622H36s/DHZUbdZl1nd8Vu+cXhsGMs=;
+  b=btPwx7/o1yHxFNpWDA3vjKEal+J6YqSZjuxFaBC511B25H4Arv17r5Ko
+   K1RTZa4DICUq3NztlYhPqJrfzfB3RbvZNgco/Kwxz9Rc9cdJDUz5yEpPK
+   Zy/7r9j78bM6wz0T6O0sSmGD1PoXAzEeHt4hgES9IfvPtLUFjUczM6jRJ
+   lsRssAKAA2BbDIKdoVnATb6Qj01YD+c7wkHOei/Htn+YNGDKubGkA1U+K
+   /8iuzvpSloMqPQlsiAldigkWENoRTUQB9zbO/KEPI0BDFY5aQezrPPMyU
+   6JducsEshwBvG01+59pXrU6udMMHo0cNx3+Qzr0H+HjM1Za8NGpau2rBr
+   g==;
+X-CSE-ConnectionGUID: FmAxFJpwQdCiM17ckj24sA==
+X-CSE-MsgGUID: Ol4miCfnToCqfb8mHmdg2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="12280111"
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
+   d="scan'208";a="12280111"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 04:19:22 -0700
+X-CSE-ConnectionGUID: JE5HJ4HOT1e7r/opfxfCWQ==
+X-CSE-MsgGUID: c9FLv8LES0O35NYuzIrP3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,270,1716274800"; 
+   d="scan'208";a="44408706"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 27 Jun 2024 04:19:21 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sMn9r-000G9O-2H;
+	Thu, 27 Jun 2024 11:19:19 +0000
+Date: Thu, 27 Jun 2024 19:19:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 7931/8719] statmount_test_ns.c:27:17: warning:
+ format not a string literal and no format arguments
+Message-ID: <202406271913.5Vxny2Tc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -43,98 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202406270910.5QNY606G-lkp@intel.com>
 
-On Jun 27 2024, kernel test robot wrote:
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> CC: Linux Memory Management List <linux-mm@kvack.org>
-> TO: Benjamin Tissoires <bentiss@kernel.org>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   df9574a57d02b265322e77fb8628d4d33641dda9
-> commit: 4a86220e046da009bef0948e9f51d1d26d68f93c [5089/8719] HID: bpf: remove tracing HID-BPF capability
-> :::::: branch date: 6 hours ago
-> :::::: commit date: 13 days ago
-> config: i386-randconfig-141-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270910.5QNY606G-lkp@intel.com/config)
-> compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202406270910.5QNY606G-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hid/bpf/hid_bpf_dispatch.c:65 dispatch_hid_bpf_device_event() error: uninitialized symbol 'ret'.
-> 
-> vim +/ret +65 drivers/hid/bpf/hid_bpf_dispatch.c
-> 
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  24  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  25  u8 *
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  26  dispatch_hid_bpf_device_event(struct hid_device *hdev, enum hid_report_type type, u8 *data,
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  27  			      u32 *size, int interrupt)
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  28  {
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  29  	struct hid_bpf_ctx_kern ctx_kern = {
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  30  		.ctx = {
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  31  			.hid = hdev,
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  32  			.allocated_size = hdev->bpf.allocated_data,
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  33  			.size = *size,
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  34  		},
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  35  		.data = hdev->bpf.device_data,
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  36  	};
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  37  	struct hid_bpf_ops *e;
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  38  	int ret;
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  39  
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  40  	if (type >= HID_REPORT_TYPES)
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  41  		return ERR_PTR(-EINVAL);
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  42  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  43  	/* no program has been attached yet */
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  44  	if (!hdev->bpf.device_data)
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  45  		return data;
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  46  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  47  	memset(ctx_kern.data, 0, hdev->bpf.allocated_data);
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  48  	memcpy(ctx_kern.data, data, *size);
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  49  
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  50  	rcu_read_lock();
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  51  	list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  52  		if (e->hid_device_event) {
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  53  			ret = e->hid_device_event(&ctx_kern.ctx, type);
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  54  			if (ret < 0) {
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  55  				rcu_read_unlock();
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  56  				return ERR_PTR(ret);
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  57  			}
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  58  
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  59  			if (ret)
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  60  				ctx_kern.ctx.retval = ret;
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  61  		}
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  62  	}
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  63  	rcu_read_unlock();
-> ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  64  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03 @65  	if (ret) {
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  66  		if (ret > ctx_kern.ctx.allocated_size)
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  67  			return ERR_PTR(-EINVAL);
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  68  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  69  		*size = ret;
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  70  	}
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  71  
-> 658ee5a64fcfbb Benjamin Tissoires 2022-11-03  72  	return ctx_kern.data;
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  73  }
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  74  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
-> f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  75  
-> 
-> :::::: The code at line 65 was first introduced by commit
-> :::::: 658ee5a64fcfbbf758447fa3af425729eaabb0dc HID: bpf: allocate data memory for device_event BPF programs
-> 
-> :::::: TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> :::::: CC: Jiri Kosina <jkosina@suse.cz>
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
 
-Already fixed in ebae0b2a6f4b3b949f30f076fbc65d3b0bb04785
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: Christian Brauner <brauner@kernel.org>
 
-Cheers,
-Benjamin
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   df9574a57d02b265322e77fb8628d4d33641dda9
+commit: f0f1033dd078339a6588b571fe1243e2a2c5e519 [7931/8719] selftests: add a test for the foreign mnt ns extensions
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 days ago
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240627/202406271913.5Vxny2Tc-lkp@intel.com/reproduce)
 
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202406271913.5Vxny2Tc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   statmount_test_ns.c: In function 'handle_result':
+>> statmount_test_ns.c:27:17: warning: format not a string literal and no format arguments [-Wformat-security]
+      27 |                 ksft_test_result_pass(testname);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c:29:17: warning: format not a string literal and no format arguments [-Wformat-security]
+      29 |                 ksft_test_result_fail(testname);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c:31:17: warning: format not a string literal and no format arguments [-Wformat-security]
+      31 |                 ksft_exit_fail_msg(testname);
+         |                 ^~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c:33:17: warning: format not a string literal and no format arguments [-Wformat-security]
+      33 |                 ksft_test_result_skip(testname);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c: In function 'test_listmount_ns':
+>> statmount_test_ns.c:322:17: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
+     322 |                 write(child_ready_pipe[1], &nr_mounts, sizeof(nr_mounts));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> statmount_test_ns.c:323:17: warning: ignoring return value of 'read' declared with attribute 'warn_unused_result' [-Wunused-result]
+     323 |                 read(parent_ready_pipe[0], &cval, sizeof(cval));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c:331:9: warning: ignoring return value of 'read' declared with attribute 'warn_unused_result' [-Wunused-result]
+     331 |         read(child_ready_pipe[0], &nr_mounts, sizeof(nr_mounts));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   statmount_test_ns.c:335:9: warning: ignoring return value of 'write' declared with attribute 'warn_unused_result' [-Wunused-result]
+     335 |         write(parent_ready_pipe[1], &pval, sizeof(pval));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +27 tools/testing/selftests/filesystems/statmount/statmount_test_ns.c
+
+f0f1033dd07833 Josef Bacik 2024-06-24  23  
+f0f1033dd07833 Josef Bacik 2024-06-24  24  static void handle_result(int ret, const char *testname)
+f0f1033dd07833 Josef Bacik 2024-06-24  25  {
+f0f1033dd07833 Josef Bacik 2024-06-24  26  	if (ret == NSID_PASS)
+f0f1033dd07833 Josef Bacik 2024-06-24 @27  		ksft_test_result_pass(testname);
+f0f1033dd07833 Josef Bacik 2024-06-24  28  	else if (ret == NSID_FAIL)
+f0f1033dd07833 Josef Bacik 2024-06-24  29  		ksft_test_result_fail(testname);
+f0f1033dd07833 Josef Bacik 2024-06-24  30  	else if (ret == NSID_ERROR)
+f0f1033dd07833 Josef Bacik 2024-06-24  31  		ksft_exit_fail_msg(testname);
+f0f1033dd07833 Josef Bacik 2024-06-24  32  	else
+f0f1033dd07833 Josef Bacik 2024-06-24  33  		ksft_test_result_skip(testname);
+f0f1033dd07833 Josef Bacik 2024-06-24  34  }
+f0f1033dd07833 Josef Bacik 2024-06-24  35  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
