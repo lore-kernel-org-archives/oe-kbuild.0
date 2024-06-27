@@ -1,125 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300C922F1C
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 19:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277F014D6EB
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 20:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719518375; cv=none; b=neiCKGP356TP5PFFuh0iLVYlU1RZSTgsBMFzNSYwT5nBT/Q+zAfz9V82VSBS/zvaZRlHAw1rkt1DVihWgBnRLFxOuJAJPQyAqJ5vc/ZLB9AwyUwfxfYDa+El2OpEJlD6KinCup0dehlPwSO+SlH2RxqVpODig/2DsKSOZ2Zs54k=
+	t=1719520500; cv=none; b=fxtm7W3Zai+qUJVQLE8YSiogha1aF7+WF06SOuuqyN3kBY2fmVsmMThBjxUDqQUtYAb1sanlItoFOjMaCAE5F4RSNaXlNPPlE8rwPM5sOUPhlxxAYBSvU7YV4quVTQRdZqCUv2kt/HjMu+VbN7rqxOPHBwtXLNN5oBBHZhGHo7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719518375; c=relaxed/simple;
-	bh=n95GyirTPSve7hlU03MFbmZpk/KXZK7jEVQfzwtdWKk=;
+	s=arc-20240116; t=1719520500; c=relaxed/simple;
+	bh=N5adhVOZ1C/pHVsYVlruWOQ0DMeBnLaRFuWjd+5GSxo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JWXQu+gD0affZ2eeRWyp4tIkiOkAo4rUxXeFtIZb1gOW39fjQS9YskSCPGD7JpFKIiIviqj1p7uzJthktUyJgkAnvEs+OQuxNMMhsUajVlm+hNDtcWIn19s2f4fyYCf/6GZOkj3G/ZwOdbHiuni2s8HpfVUXN6jM242wQpQFSsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1JYlOGA; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=CF0l153mf81DvzqZfqG9WaQVf2j3R4nLQMBT4joKZEq4r/LYp79UkqRUZzp5KFs8Nu7cuuA9LHNF4lnAgUHnd2yIJ6PyvchuykHxbZZuDTLHtIgpwbvKtocIi9v0XwtRwcAU5lVkroYhpSGuTSJl0Irwdlpqx6RYiNmQGEl/FsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEuYgr8h; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1JYlOGA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEuYgr8h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719518373; x=1751054373;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=n95GyirTPSve7hlU03MFbmZpk/KXZK7jEVQfzwtdWKk=;
-  b=P1JYlOGAZ5KwjiHR/3rYLiW7NJZl7foDSfNUUT86UvDCkJ938mrU1gqm
-   zcnKLHj4gFyV7EyW+gW+yIc2tB2mHYju0XTqkfAI6EzSKjnw6CWFkFsbb
-   xODcdvnW9JtjF3DrS8+pNvRdSgfnHQwcOb5jH+1T/6rMEQdGkFMPp+AbE
-   PGjgzUIIhObsAXEU+JF1S11a4nBsTmB6/J3Y6i3CJgWzYRo/hUerU28oy
-   pXhIArS7R05tOXVH2GFTy/qdrhAafJDUq4ZkABNjklFcJmKaDEgsH2L/F
-   2tlI66GGob0sEjxKVHjgivKvIWOl528C0HOZbTMLY3o+5lZAJKGJxuOkC
-   g==;
-X-CSE-ConnectionGUID: 1FF139FZRv6HA9rdOUEM1A==
-X-CSE-MsgGUID: VQX/sAWCQhedYKTDTuFwcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16498157"
+  t=1719520498; x=1751056498;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=N5adhVOZ1C/pHVsYVlruWOQ0DMeBnLaRFuWjd+5GSxo=;
+  b=IEuYgr8h9W3FMuGGW01FY4xtxkCAFwIjsfvyYbkP7lMQGSERndGRkA8B
+   hxFxELGrG8j/cPIGET35CwLMTuscd6V+xo5VvTedCCSQUFkRY7O+ehnhZ
+   CFZO6GOcSQNx6wLX8bRwN+ZH4lElSNjqs4BlAO8UA3ZW50T6GdQtkyAOg
+   sFVLFCV48WgX7vVfoAvGSh2ZapQkYf62BoF4cisL0Do5fsIGhRZZ1gLzB
+   /j2iD8pVBGwB4H+otYE5aR7xJYK4mVFtMR09kUqEnPcpQSLPea2Jp1xVu
+   s+tAezsVTs4v839us8wMtX5cvEoOAhjeY4XkCrABp6J0xDY/GgfJEHaeo
+   w==;
+X-CSE-ConnectionGUID: tCacuKQeSRWsbQ2w6LevlQ==
+X-CSE-MsgGUID: 8pyquUyhSDimqk6KJAGe/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="39198191"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16498157"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 12:59:33 -0700
-X-CSE-ConnectionGUID: Tl9Vd9SBTjSP7FTKBXYG0Q==
-X-CSE-MsgGUID: hxGd2g5kQG+dZHE34JPHrA==
+   d="scan'208";a="39198191"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 13:34:58 -0700
+X-CSE-ConnectionGUID: o0XADLr/TwC+62JacFkt0g==
+X-CSE-MsgGUID: OQnv6l+IQZyEOYqqvbuCSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="75699634"
+   d="scan'208";a="44345197"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Jun 2024 12:59:31 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Jun 2024 13:34:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMvHE-000GUo-2v;
-	Thu, 27 Jun 2024 19:59:28 +0000
-Date: Fri, 28 Jun 2024 03:58:55 +0800
+	id 1sMvpW-000GVp-0m;
+	Thu, 27 Jun 2024 20:34:54 +0000
+Date: Fri, 28 Jun 2024 04:34:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/input/keyboard/applespi.c:1833 applespi_drain_writes() warn:
- mixing irqsave and irq
-Message-ID: <202406280337.1Av9qm8V-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dtb: thermal-sensor@4a9000:
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202406280455.q9pFQTIe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: "Ronald Tschalär" <ronald@innovation.ch>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Mantas Pucka <mantas@8devices.com>
+CC: Bjorn Andersson <andersson@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6d6444ba82053c716fb5ac83346202659023044e
-commit: 038b1a05eae6666b731920e46f47d8e2332e07ff Input: add Apple SPI keyboard and trackpad driver
-date:   4 years, 11 months ago
+commit: 0b17197055b528da22e9385200e61b847b499d48 arm64: dts: qcom: ipq6018: add tsens node
+date:   5 months ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 4 years, 11 months ago
-config: x86_64-randconfig-161-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280337.1Av9qm8V-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406280455.q9pFQTIe-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev2+g3b69bad
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280455.q9pFQTIe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406280337.1Av9qm8V-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406280455.q9pFQTIe-lkp@intel.com/
 
-smatch warnings:
-drivers/input/keyboard/applespi.c:1833 applespi_drain_writes() warn: mixing irqsave and irq
-drivers/input/keyboard/applespi.c:1845 applespi_drain_reads() warn: mixing irqsave and irq
-
-vim +1833 drivers/input/keyboard/applespi.c
-
-038b1a05eae666 Ronald Tschalär 2019-07-15  1825  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1826  static void applespi_drain_writes(struct applespi_data *applespi)
-038b1a05eae666 Ronald Tschalär 2019-07-15  1827  {
-038b1a05eae666 Ronald Tschalär 2019-07-15  1828  	unsigned long flags;
-038b1a05eae666 Ronald Tschalär 2019-07-15  1829  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1830  	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1831  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1832  	applespi->drain = true;
-038b1a05eae666 Ronald Tschalär 2019-07-15 @1833  	wait_event_lock_irq(applespi->drain_complete, !applespi->write_active,
-038b1a05eae666 Ronald Tschalär 2019-07-15  1834  			    applespi->cmd_msg_lock);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1835  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1836  	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1837  }
-038b1a05eae666 Ronald Tschalär 2019-07-15  1838  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1839  static void applespi_drain_reads(struct applespi_data *applespi)
-038b1a05eae666 Ronald Tschalär 2019-07-15  1840  {
-038b1a05eae666 Ronald Tschalär 2019-07-15  1841  	unsigned long flags;
-038b1a05eae666 Ronald Tschalär 2019-07-15  1842  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1843  	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1844  
-038b1a05eae666 Ronald Tschalär 2019-07-15 @1845  	wait_event_lock_irq(applespi->drain_complete, !applespi->read_active,
-038b1a05eae666 Ronald Tschalär 2019-07-15  1846  			    applespi->cmd_msg_lock);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1847  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1848  	applespi->suspended = true;
-038b1a05eae666 Ronald Tschalär 2019-07-15  1849  
-038b1a05eae666 Ronald Tschalär 2019-07-15  1850  	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
-038b1a05eae666 Ronald Tschalär 2019-07-15  1851  }
-038b1a05eae666 Ronald Tschalär 2019-07-15  1852  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dtb: qusb@59000: 'vdd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dtb: qusb@59000: 'vdda-pll-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+   arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dtb: qusb@59000: 'vdda-phy-dpdm-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,qusb2-phy.yaml#
+>> arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dtb: thermal-sensor@4a9000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,ipq6018-tsens', 'qcom,ipq8074-tsens'] is too long
+   	'qcom,ipq6018-tsens' is not one of ['qcom,ipq8064-tsens', 'qcom,msm8960-tsens']
+   	'qcom,ipq6018-tsens' is not one of ['qcom,mdm9607-tsens', 'qcom,msm8226-tsens', 'qcom,msm8909-tsens', 'qcom,msm8916-tsens', 'qcom,msm8939-tsens', 'qcom,msm8974-tsens']
+   	'qcom,ipq6018-tsens' is not one of ['qcom,msm8956-tsens', 'qcom,msm8976-tsens', 'qcom,qcs404-tsens']
+   	'qcom,ipq6018-tsens' is not one of ['qcom,msm8953-tsens', 'qcom,msm8996-tsens', 'qcom,msm8998-tsens', 'qcom,qcm2290-tsens', 'qcom,sa8775p-tsens', 'qcom,sc7180-tsens', 'qcom,sc7280-tsens', 'qcom,sc8180x-tsens', 'qcom,sc8280xp-tsens', 'qcom,sdm630-tsens', 'qcom,sdm845-tsens', 'qcom,sm6115-tsens', 'qcom,sm6350-tsens', 'qcom,sm6375-tsens', 'qcom,sm8150-tsens', 'qcom,sm8250-tsens', 'qcom,sm8350-tsens', 'qcom,sm8450-tsens', 'qcom,sm8550-tsens', 'qcom,sm8650-tsens']
+   	'qcom,ipq6018-tsens' is not one of ['qcom,ipq8074-tsens']
+   	'qcom,ipq6018-tsens' is not one of ['qcom,ipq9574-tsens']
+   	'qcom,tsens-v0_1' was expected
+   	'qcom,tsens-v1' was expected
+   	'qcom,tsens-v2' was expected
 
 -- 
 0-DAY CI Kernel Test Service
