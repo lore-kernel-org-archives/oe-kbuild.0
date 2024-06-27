@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F707F6
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 01:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D7E2139CE
+	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 03:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719451161; cv=none; b=lhnXZQAB0AD7k+jHWxnslFPTagXRIleoOUVx3i9G9h4M9yJI0dCcQuRLAhGXhP034dPm/TOVdzlP5wodgY9h6cHOvMU37Iz836FzpadD+2ZYzUYKBjUtSqfQWdXBxphIoCdYEgwf0G/O/t7rTaPtUR1MT5AllmzYM0lrMlmxscU=
+	t=1719459981; cv=none; b=G/gc9/yEhqglKnudB7O8JYXM80lcXRqGj8YDmGMSjOl8xKRk+Uu4QWRj8WZz0Pl+hFwJZkGgWqgp29D55Rh22s/1Pu847X9Am5JeWShpbBlHzavOyPDSaj57VnS698iVxpzm0BYkGO6xttsx0ZHtT9BCh05KBW0KJsne5E94lFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719451161; c=relaxed/simple;
-	bh=Q1YObi6LBorKdOlGT6GGRu9JSJYS5+SQqQlMy9qdibA=;
+	s=arc-20240116; t=1719459981; c=relaxed/simple;
+	bh=zrByUsQ/51htRxMitDvo+Mf0Dda+uRJogc+iS90R4uw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nmwmD5EhQymlWAVnDNguebLvgiuO4GBlGzWx3o7WchHKWV58mBoLtLgbgPJ2YC0JuYz223r+4te3N4jtRC/azKQlfteZIivSqEBN08uXwnLQBjHltb1k7z7nO18VatqZCLM5aKc6JXUwOhdqUsQulDjF5QscTe//Rob1thgbP00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XsxSYxlr; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=mbK3TKPRmSBrlfhOKcBg6P0E8W7cZ0lvkKdb/vERxwJqq+C+hzRO/ecK2a3RbKto/J2ZTfRVpx4vzYg2N21OYmqdHFuXH3fCHdPnbGN4Xa7WqqYcOqO2KeFfrbeORBruWaUi7pHQzPHLQdfaWW6jNaHnqTIS+c1wb8Dtceyu/oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2biJxEl; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XsxSYxlr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2biJxEl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719451159; x=1750987159;
+  t=1719459980; x=1750995980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Q1YObi6LBorKdOlGT6GGRu9JSJYS5+SQqQlMy9qdibA=;
-  b=XsxSYxlrysmge6tq3efFLkKsOOGROyAJ1N1P2sSOrkucEFXS0MHsF9jn
-   eTOQ6VGWzV/1cnaTKShuYNTvFgne7dE+W+AIImXu4ufHtny0EdvMpqjqu
-   1E8COCb0QAtRYQ+nhP2R9couf5fpr4wGJHPNVihMa4ePnRF270llVNahp
-   QZFpZ1nirvNMF4DaFDkvJgNn5zRb1ahOSe8389dYjMsguoKZaH0fEZRP5
-   lfa2odpNSFoqTVG2q4yNFBJEhVDCGQI+er3nzADtNyddlH+wdRszLkX/R
-   +ShdFLpQB/6JswZlmUknVtl/ANL4yBW/fChCBZSX//BoZFXeZr2jbOjIk
-   w==;
-X-CSE-ConnectionGUID: LFl8acjWRIiLOTtXsqVVww==
-X-CSE-MsgGUID: +zbj2ItqTVG4WGF18t9k8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="27145257"
-X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="27145257"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 18:19:18 -0700
-X-CSE-ConnectionGUID: Q9poF1ESTie7j+unqEonxw==
-X-CSE-MsgGUID: XLgmJia/RUGjZfQdJSHj0Q==
+  bh=zrByUsQ/51htRxMitDvo+Mf0Dda+uRJogc+iS90R4uw=;
+  b=l2biJxElaiUEzUhT5TfQpYh5zf+d18y4xircURvzZbS+90WFMEGpESWp
+   iZUr5FKBwghDYr8+ix2QnUS1may1aWUvM3a6/XF8QEB59t71+Cf/VvUHL
+   zkUc54VmVbdXHC1OzaPFopgtApC+eQEYuSBijYkoVP9ar1QqNxfe7M688
+   fu7MOWFrYSXXQ2zhcdRKrdVBOr9RQj4jsNHk7vEsDIUu2IqOsPYaPjt2y
+   lJ8MlCC9hs0c6plQsry7VOqgXBHbMHmllTXoqfiqbnvSkdUSO5+sDR51S
+   4jRvW3myyKWc509UQyD9cq7iuMNsWfSvuNW0JiV8X4T5sJxwM/UdePVoa
+   Q==;
+X-CSE-ConnectionGUID: 8mTnkOdPRgyFvqlWKGhZBw==
+X-CSE-MsgGUID: SUbAmG9iST2++XIIHaOMGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11115"; a="19454507"
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="19454507"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2024 20:46:19 -0700
+X-CSE-ConnectionGUID: 90Br7HViR5SzRf14pmXXhg==
+X-CSE-MsgGUID: Eqgh77X2RiCm3zD9jAEadw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,268,1712646000"; 
-   d="scan'208";a="44943597"
+X-IronPort-AV: E=Sophos;i="6.08,269,1712646000"; 
+   d="scan'208";a="48699892"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Jun 2024 18:19:18 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jun 2024 20:46:17 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMdn8-000FjM-2k;
-	Thu, 27 Jun 2024 01:19:14 +0000
-Date: Thu, 27 Jun 2024 09:19:11 +0800
+	id 1sMg5P-000Fqw-2O;
+	Thu, 27 Jun 2024 03:46:15 +0000
+Date: Thu, 27 Jun 2024 11:45:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5089/8719] drivers/hid/bpf/hid_bpf_dispatch.c:65
- dispatch_hid_bpf_device_event() error: uninitialized symbol 'ret'.
-Message-ID: <202406270910.5QNY606G-lkp@intel.com>
+Subject: [linux-next:master 5978/8719] drivers/gpu/drm/xe/xe_perf.c:40
+ (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression :
+ perf_ctl_table[1]->procname
+Message-ID: <202406271102.PGADVcMb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,85 +66,43 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Benjamin Tissoires <bentiss@kernel.org>
+TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+CC: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   df9574a57d02b265322e77fb8628d4d33641dda9
-commit: 4a86220e046da009bef0948e9f51d1d26d68f93c [5089/8719] HID: bpf: remove tracing HID-BPF capability
-:::::: branch date: 6 hours ago
-:::::: commit date: 13 days ago
-config: i386-randconfig-141-20240627 (https://download.01.org/0day-ci/archive/20240627/202406270910.5QNY606G-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+commit: fe8929bdf83512ed7e413a28e543c725bf536354 [5978/8719] drm/xe/perf/uapi: Add perf_stream_paranoid sysctl
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-141-20240626 (https://download.01.org/0day-ci/archive/20240627/202406271102.PGADVcMb-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406270910.5QNY606G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406271102.PGADVcMb-lkp@intel.com/
 
 smatch warnings:
-drivers/hid/bpf/hid_bpf_dispatch.c:65 dispatch_hid_bpf_device_event() error: uninitialized symbol 'ret'.
+drivers/gpu/drm/xe/xe_perf.c:40 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : perf_ctl_table[1]->procname
+drivers/gpu/drm/xe/xe_perf.c:40 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : perf_ctl_table[1]->proc_handler
 
-vim +/ret +65 drivers/hid/bpf/hid_bpf_dispatch.c
+vim +40 drivers/gpu/drm/xe/xe_perf.c
 
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  24  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  25  u8 *
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  26  dispatch_hid_bpf_device_event(struct hid_device *hdev, enum hid_report_type type, u8 *data,
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  27  			      u32 *size, int interrupt)
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  28  {
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  29  	struct hid_bpf_ctx_kern ctx_kern = {
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  30  		.ctx = {
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  31  			.hid = hdev,
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  32  			.allocated_size = hdev->bpf.allocated_data,
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  33  			.size = *size,
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  34  		},
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  35  		.data = hdev->bpf.device_data,
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  36  	};
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  37  	struct hid_bpf_ops *e;
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  38  	int ret;
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  39  
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  40  	if (type >= HID_REPORT_TYPES)
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  41  		return ERR_PTR(-EINVAL);
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  42  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  43  	/* no program has been attached yet */
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  44  	if (!hdev->bpf.device_data)
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  45  		return data;
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  46  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  47  	memset(ctx_kern.data, 0, hdev->bpf.allocated_data);
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  48  	memcpy(ctx_kern.data, data, *size);
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  49  
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  50  	rcu_read_lock();
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  51  	list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  52  		if (e->hid_device_event) {
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  53  			ret = e->hid_device_event(&ctx_kern.ctx, type);
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  54  			if (ret < 0) {
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  55  				rcu_read_unlock();
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  56  				return ERR_PTR(ret);
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  57  			}
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  58  
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  59  			if (ret)
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  60  				ctx_kern.ctx.retval = ret;
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  61  		}
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  62  	}
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  63  	rcu_read_unlock();
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  64  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03 @65  	if (ret) {
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  66  		if (ret > ctx_kern.ctx.allocated_size)
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  67  			return ERR_PTR(-EINVAL);
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  68  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  69  		*size = ret;
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  70  	}
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  71  
-658ee5a64fcfbb Benjamin Tissoires 2022-11-03  72  	return ctx_kern.data;
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  73  }
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  74  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
-f5c27da4e3c8a2 Benjamin Tissoires 2022-11-03  75  
-
-:::::: The code at line 65 was first introduced by commit
-:::::: 658ee5a64fcfbbf758447fa3af425729eaabb0dc HID: bpf: allocate data memory for device_event BPF programs
-
-:::::: TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-:::::: CC: Jiri Kosina <jkosina@suse.cz>
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  39  
+fe8929bdf83512 Ashutosh Dixit 2024-06-17 @40  static struct ctl_table perf_ctl_table[] = {
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  41  	{
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  42  	 .procname = "perf_stream_paranoid",
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  43  	 .data = &xe_perf_stream_paranoid,
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  44  	 .maxlen = sizeof(xe_perf_stream_paranoid),
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  45  	 .mode = 0644,
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  46  	 .proc_handler = proc_dointvec_minmax,
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  47  	 .extra1 = SYSCTL_ZERO,
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  48  	 .extra2 = SYSCTL_ONE,
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  49  	 },
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  50  	{}
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  51  };
+fe8929bdf83512 Ashutosh Dixit 2024-06-17  52  
 
 -- 
 0-DAY CI Kernel Test Service
