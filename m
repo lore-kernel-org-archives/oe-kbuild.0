@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFD31CCCC4
-	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jun 2024 17:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752751C8FAB
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jun 2024 18:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719596212; cv=none; b=p+bL3BExUcV5HnLgsfy8ziyacwoAUwl0hWxKfaXpqm6rFa5g3sviMyCVyuHI3qzb26e6qcpi6Gb/aueHKVFJcSSjr7F9MZPbP2kyuRvQP+fuYvp5gfCDWSvVoBsRmtr7klolAAV75qbpuXWQnByUaAOijerCOZ06RumNJ3iV3EY=
+	t=1719600145; cv=none; b=LZpBNQrgtk+VboOWr+TtCtsqyH5W0W8y53kiW5YCmXMOgiQ+GSEYMmoa3rV9PI/RO0BoYX+Hst8et7zvXilIOkpPwh+OQFrBPPxfVFFSGMh95LiwIpyTCDB9ZCwCota12M5IItESDzdEiFU3He/lVxAq0dr+nLNSs8A81UYSfxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719596212; c=relaxed/simple;
-	bh=UxAb1C0JF03S41BL9+3dHblj9pByn08ABLPKpj4jVoQ=;
+	s=arc-20240116; t=1719600145; c=relaxed/simple;
+	bh=YMTB4EwlwsI7FI3SNimVHIpBEOmvXq0SSaFy/GACL/s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k5yd3DBRSC9cawIX0O+qewYc9et0wixK/K5QtVM/QKmQ1a6RDdIFddMaYrw3dOvupcnr1ILU5q46qacDWE7JA5vm3XFUo1AoP0Tfm7rIZSU4h0ijWXa+D8ATH2TeCKaDblacz/1xwXX8eadgTa3A7C0d0c4jV4659lKo3UVdPI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YliNw/ss; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Wu94WWMmRpxWNNcwsQ88Od7L0jXR1qxKXXUuVDSCRHZVQ9nvbBZWTZwuS6226ixCF9zvgEL9i9kXTTS2vydp53xwmnNKUwTZ6R4yN0pJ1aG6DwJNbaDIXWiJIarqf3ac0YzXILrcZrEgsa015RixFKDr0s3d/tJeifQAUk2sPOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AaKEQUP+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YliNw/ss"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AaKEQUP+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719596211; x=1751132211;
+  t=1719600141; x=1751136141;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UxAb1C0JF03S41BL9+3dHblj9pByn08ABLPKpj4jVoQ=;
-  b=YliNw/ssjJaWAa3PG72Vur3SvP3SvcMrojwFdqAZ7hCmNN+XQOiXRzJP
-   mhUND1w4dsdZuSYqIwHWZd3oBLiEKs8ixY0OkitI8A0E92dGNmpRPbcjg
-   AhEK4eTE9NaxA5pCbzHjOEMO9F3KVZnPq2T+V+llJqz6rdoAnRLnna7yH
-   I9mWo3MQGvcWmTJ0vEhwe1+Gm+cOatqNgLxhEJxr0dIGEVolS0vyUadRk
-   hUgLA6ErCtivVKc+vjBdN4neQ4r1OsYuMaf8+5/O1+Mr/sdv7zu9Kpgkt
-   RQ23PfH/NxaLoEMUMqmaKB8N0qptAnFJmXi0NSy408T0JSBKV9LYiubhF
-   g==;
-X-CSE-ConnectionGUID: 11XPL0sNT1iNaPLeTL++EA==
-X-CSE-MsgGUID: zpycUtJ4RsCaBnNYUg7ggQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16526101"
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="16526101"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 10:36:50 -0700
-X-CSE-ConnectionGUID: Q7ZUWyyaR3aGiN523skyCQ==
-X-CSE-MsgGUID: qfTrIUMPR7uu1RN0stFcqw==
+  bh=YMTB4EwlwsI7FI3SNimVHIpBEOmvXq0SSaFy/GACL/s=;
+  b=AaKEQUP+9UHyLBPXqSK/2ivHjQmgkKCTFWP0rGL793otWHgbNrWUaWXl
+   IxCOuho74o8tUsxBxPz5+V081gdrNf6EpT45Bn1Y37f01QM0J8RlwANTY
+   QKG6IoUE7HeBzTobZUbCu3VEMxfa/dgrz8H/zcOqpvvWV79GZyX8DjbUe
+   5Qw56oyjIfl+N+lkbkAD2jF6Z8hhPm/qyVY3Ox74mnxb9nTmdX2hS+Vvr
+   myGickcbmi9LV6cvPEmDDlvwha8xulG+J3cmgulzifOHwWT2qgI4hA5bF
+   fPAkNRqjcGr68jsCO7jRnIN3xk8Gy30mqwFWrKFOcLkUF0B0cyt7s6QL2
+   Q==;
+X-CSE-ConnectionGUID: aH/k+51HSVWnpOIf7qZJXQ==
+X-CSE-MsgGUID: gpy6+jO5TGuq/S0jnD3PAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11117"; a="16930038"
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="16930038"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2024 11:42:20 -0700
+X-CSE-ConnectionGUID: h3r8nfo7QcKXBw5xZ4HsGw==
+X-CSE-MsgGUID: 8usukFY0SpKSwNAaoWn1qg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,169,1716274800"; 
-   d="scan'208";a="49276417"
+X-IronPort-AV: E=Sophos;i="6.09,170,1716274800"; 
+   d="scan'208";a="44802034"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2024 10:36:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jun 2024 11:42:18 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sNFWh-000Hco-0k;
-	Fri, 28 Jun 2024 17:36:47 +0000
-Date: Sat, 29 Jun 2024 01:36:33 +0800
+	id 1sNGY3-000Hji-39;
+	Fri, 28 Jun 2024 18:42:15 +0000
+Date: Sat, 29 Jun 2024 02:41:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn:
- iterator 'i' not incremented
-Message-ID: <202406290125.t2IaRAav-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port
+ print_ids
+Message-ID: <202406290221.VULCV6Lt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,61 +64,93 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Reinette Chatre <reinette.chatre@intel.com>
-CC: Alex Williamson <alex.williamson@redhat.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>
+In-Reply-To: <20240626180031.4050226-26-cassel@kernel.org>
+References: <20240626180031.4050226-26-cassel@kernel.org>
+TO: Niklas Cassel <cassel@kernel.org>
+TO: Damien Le Moal <dlemoal@kernel.org>
+TO: Niklas Cassel <cassel@kernel.org>
+CC: linux-scsi@vger.kernel.org
+CC: John Garry <john.g.garry@oracle.com>
+CC: Jason Yan <yanaijie@huawei.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+CC: linux-ide@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5bbd9b249880dba032bffa002dd9cd12cd5af09c
-commit: b156e48fffa9f1caea490e4812a1451adb5c0ef4 vfio/pci: Use xarray for interrupt context storage
-date:   1 year, 1 month ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: alpha-randconfig-r081-20240624 (https://download.01.org/0day-ci/archive/20240629/202406290125.t2IaRAav-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
+Hi Niklas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.10-rc5 next-20240627]
+[cannot apply to mkp-scsi/for-next jejb-scsi/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Niklas-Cassel/ata-libata-core-Fix-null-pointer-dereference-on-error/20240627-123023
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240626180031.4050226-26-cassel%40kernel.org
+patch subject: [PATCH v2 11/13] ata: libata-core: Reuse available ata_port print_ids
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-101-20240628 (https://download.01.org/0day-ci/archive/20240629/202406290221.VULCV6Lt-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202406290125.t2IaRAav-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202406290221.VULCV6Lt-lkp@intel.com/
 
-smatch warnings:
-drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn: iterator 'i' not incremented
+cocci warnings: (new ones prefixed by >>)
+>> drivers/ata/libata-core.c:5467:5-17: WARNING: Unsigned expression compared with zero: ap -> print_id < 0
 
-vim +/i +509 drivers/vfio/pci/vfio_pci_intrs.c
+vim +5467 drivers/ata/libata-core.c
 
-89e1f7d4c66d85 Alex Williamson   2012-07-31  501  
-536475109c8284 Max Gurtovoy      2021-08-26  502  static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
-89e1f7d4c66d85 Alex Williamson   2012-07-31  503  {
-89e1f7d4c66d85 Alex Williamson   2012-07-31  504  	struct pci_dev *pdev = vdev->pdev;
-d977e0f7663961 Reinette Chatre   2023-05-11  505  	struct vfio_pci_irq_ctx *ctx;
-b156e48fffa9f1 Reinette Chatre   2023-05-11  506  	unsigned long i;
-abafbc551fdded Alex Williamson   2020-04-22  507  	u16 cmd;
-89e1f7d4c66d85 Alex Williamson   2012-07-31  508  
-b156e48fffa9f1 Reinette Chatre   2023-05-11 @509  	xa_for_each(&vdev->ctx, i, ctx) {
-d977e0f7663961 Reinette Chatre   2023-05-11  510  		vfio_virqfd_disable(&ctx->unmask);
-d977e0f7663961 Reinette Chatre   2023-05-11  511  		vfio_virqfd_disable(&ctx->mask);
-a65f35cfd504e5 Reinette Chatre   2023-05-11  512  		vfio_msi_set_vector_signal(vdev, i, -1, msix);
-89e1f7d4c66d85 Alex Williamson   2012-07-31  513  	}
-89e1f7d4c66d85 Alex Williamson   2012-07-31  514  
-abafbc551fdded Alex Williamson   2020-04-22  515  	cmd = vfio_pci_memory_lock_and_enable(vdev);
-61771468e0a567 Christoph Hellwig 2016-09-11  516  	pci_free_irq_vectors(pdev);
-abafbc551fdded Alex Williamson   2020-04-22  517  	vfio_pci_memory_unlock_and_restore(vdev, cmd);
-89e1f7d4c66d85 Alex Williamson   2012-07-31  518  
-c93a97ee0583cd Alex Williamson   2016-09-26  519  	/*
-c93a97ee0583cd Alex Williamson   2016-09-26  520  	 * Both disable paths above use pci_intx_for_msi() to clear DisINTx
-c93a97ee0583cd Alex Williamson   2016-09-26  521  	 * via their shutdown paths.  Restore for NoINTx devices.
-c93a97ee0583cd Alex Williamson   2016-09-26  522  	 */
-c93a97ee0583cd Alex Williamson   2016-09-26  523  	if (vdev->nointx)
-c93a97ee0583cd Alex Williamson   2016-09-26  524  		pci_intx(pdev, 0);
-c93a97ee0583cd Alex Williamson   2016-09-26  525  
-89e1f7d4c66d85 Alex Williamson   2012-07-31  526  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
-89e1f7d4c66d85 Alex Williamson   2012-07-31  527  	vdev->num_ctx = 0;
-89e1f7d4c66d85 Alex Williamson   2012-07-31  528  }
-89e1f7d4c66d85 Alex Williamson   2012-07-31  529  
+4fb37a25b976e8 drivers/ata/libata-core.c  Tejun Heo       2007-08-06  5443  
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5444  /**
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5445   *	ata_port_alloc - allocate and initialize basic ATA port resources
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5446   *	@host: ATA host this allocated port belongs to
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5447   *
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5448   *	Allocate and initialize basic ATA port resources.
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5449   *
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5450   *	RETURNS:
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5451   *	Allocate ATA port on success, NULL on failure.
+0cba632b737fc2 drivers/scsi/libata-core.c Jeff Garzik     2005-05-30  5452   *
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5453   *	LOCKING:
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5454   *	Inherited from calling layer (may sleep).
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5455   */
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5456  struct ata_port *ata_port_alloc(struct ata_host *host)
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5457  {
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5458  	struct ata_port *ap;
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5459  
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5460  	ap = kzalloc(sizeof(*ap), GFP_KERNEL);
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5461  	if (!ap)
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5462  		return NULL;
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5463  
+7b3a24c57d2eed drivers/ata/libata-core.c  Maxime Bizon    2011-03-16  5464  	ap->pflags |= ATA_PFLAG_INITIALIZING | ATA_PFLAG_FROZEN;
+cca3974e48607c drivers/ata/libata-core.c  Jeff Garzik     2006-08-24  5465  	ap->lock = &host->lock;
+94908a6170de20 drivers/ata/libata-core.c  Niklas Cassel   2024-06-26  5466  	ap->print_id = ida_alloc_min(&ata_ida, 1, GFP_KERNEL);
+94908a6170de20 drivers/ata/libata-core.c  Niklas Cassel   2024-06-26 @5467  	if (ap->print_id < 0) {
+94908a6170de20 drivers/ata/libata-core.c  Niklas Cassel   2024-06-26  5468  		kfree(ap);
+94908a6170de20 drivers/ata/libata-core.c  Niklas Cassel   2024-06-26  5469  		return NULL;
+94908a6170de20 drivers/ata/libata-core.c  Niklas Cassel   2024-06-26  5470  	}
+cca3974e48607c drivers/ata/libata-core.c  Jeff Garzik     2006-08-24  5471  	ap->host = host;
+f31871951b38da drivers/ata/libata-core.c  Tejun Heo       2007-04-17  5472  	ap->dev = host->dev;
+bd5d825c9434b8 drivers/scsi/libata-core.c Borislav Petkov 2006-06-11  5473  
+ad72cf9885c536 drivers/ata/libata-core.c  Tejun Heo       2010-07-02  5474  	mutex_init(&ap->scsi_scan_mutex);
+65f27f38446e19 drivers/ata/libata-core.c  David Howells   2006-11-22  5475  	INIT_DELAYED_WORK(&ap->hotplug_task, ata_scsi_hotplug);
+6aa0365a3c8512 drivers/ata/libata-core.c  Damien Le Moal  2023-06-15  5476  	INIT_DELAYED_WORK(&ap->scsi_rescan_task, ata_scsi_dev_rescan);
+a72ec4ce6d3ae9 drivers/scsi/libata-core.c Tejun Heo       2006-01-23  5477  	INIT_LIST_HEAD(&ap->eh_done_q);
+c6cf9e99d1de5c drivers/scsi/libata-core.c Tejun Heo       2006-05-31  5478  	init_waitqueue_head(&ap->eh_wait_q);
+45fabbb77bd95a drivers/ata/libata-core.c  Elias Oltmanns  2008-09-21  5479  	init_completion(&ap->park_req_pending);
+b93ab338f7f0e3 drivers/ata/libata-core.c  Kees Cook       2017-10-16  5480  	timer_setup(&ap->fastdrain_timer, ata_eh_fastdrain_timerfn,
+b93ab338f7f0e3 drivers/ata/libata-core.c  Kees Cook       2017-10-16  5481  		    TIMER_DEFERRABLE);
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5482  
+838df6284c5444 drivers/scsi/libata-core.c Tejun Heo       2006-05-15  5483  	ap->cbl = ATA_CBL_NONE;
+838df6284c5444 drivers/scsi/libata-core.c Tejun Heo       2006-05-15  5484  
+8989805d6d176a drivers/ata/libata-core.c  Tejun Heo       2007-08-06  5485  	ata_link_init(ap, &ap->link, 0);
+^1da177e4c3f41 drivers/scsi/libata-core.c Linus Torvalds  2005-04-16  5486  
 
 -- 
 0-DAY CI Kernel Test Service
