@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8F713F00A
-	for <oe-kbuild@lists.linux.dev>; Thu, 27 Jun 2024 23:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964C448788
+	for <oe-kbuild@lists.linux.dev>; Fri, 28 Jun 2024 01:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719529463; cv=none; b=AHRueyZQlg20+0Js1i/gmxpSyGc4PbzuJAwWts/X5kFUAeH04tnBfJ/LIcwA5BAffevOtllKah2FNJC99kTFhYce8sx53wwsKNkz6bXX3NGG+z6uVql1dL+fWbawPSldxZamRkUEoK7coZMF/TwmZhVcaGeXQsGkFplLiXCFqss=
+	t=1719536862; cv=none; b=kNDodU6Df9IMA6JzmEiREoCPq88YAz28JbfrfJkhOWtaHCghmKX8wd8Pw1PmLqAvUBP1w2umNq7CqvYWVpEvTQUbjq6MKv6+TuRsWJfhBik41y/LB41FILHpuZob6JTUYZoXlprXJdIX6X3/aZ4RcNNOF5e4Zrnqwz+fawJZEng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719529463; c=relaxed/simple;
-	bh=HPOAZmEPijdzM/i4ZyPK5yvKq6Uw0piS3Jfy4FRzxho=;
+	s=arc-20240116; t=1719536862; c=relaxed/simple;
+	bh=J5TtFIMXQRgKUvdEadpx6EMQ8faXDXNgDL88yMeZOrM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UeqEoj5huo23ujGbaQXO5Kzo+7TxIAHzBC1pQ+YrW9Q7yn0WwzSWKIBr5nJIYAh9LOY/y+25t/8yMtL9OHmbaRIN5omk0tRdYkT6/iXgyBUPqMKpYe6cO/H5ih9mKctq44GXJG2mHrFPmI6uMl1PrFEj224TKRZZW+B5c6d0Lkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MhHGI2mF; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=Jp273mzRPYcCxqcAhOeQ3pINm9As2PQXwxqigj9tTo8TEhKUk7BsHRC+w5c8QMbmOJskLWb3X32cafG381k8kftnkSpPyzSrtJvv5MbcYHbBnKN8BP851xp9y08zXlagfo9D/JpFPrmlZc0Yp7d8b+95OFIQvOGuGrWwR4xhA6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7lfNsCT; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MhHGI2mF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7lfNsCT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719529462; x=1751065462;
+  t=1719536860; x=1751072860;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HPOAZmEPijdzM/i4ZyPK5yvKq6Uw0piS3Jfy4FRzxho=;
-  b=MhHGI2mFVBJG4vuaNsU27GFYJzZVRYGYrM6mwQO/U5z14R6cA+t31m+4
-   gd90n0ub2rBZuwG51Gv67qRgrOLjMh9OvfY5KCPTk7HSMYwCsRpNLwdKU
-   ffJIvuKSRX+zddmKdGQDggIV3jLXmh62z2cWMiBxdsOeoIyGoHJ7NE+Hm
-   WbXnv3jaKlYq05Vcs8sY8CSMGg1l8aWJgUTLQjdH6cHpXUSVtHHnmlr7K
-   W4votjvz00++u7ZEiFBrXY/P38XHFehjJ304Z1hTx0GwS/m48hvLV+CoY
-   DGwvoE5K1zKOvNq5YWNtNl/3LoH+Bl1lCKtoyNN4VH1vn0VPEK+uhMU+X
-   A==;
-X-CSE-ConnectionGUID: Efy4VYcdSVa3WHJzFhfOWA==
-X-CSE-MsgGUID: nwWgFq2NRUCOloRAQZZrpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="16528727"
+  bh=J5TtFIMXQRgKUvdEadpx6EMQ8faXDXNgDL88yMeZOrM=;
+  b=W7lfNsCTgNwDAN0DCg/XzsFjwE/aOtV2NZed5pzuPUbyjGWdFiRrr9fO
+   WhKkDsXeu38mAsL/vU66+zTk0Xb2k0zCUQxuCW20cXF0z990sX2dikY+Y
+   8PcOtI1RWrbfI157RuBTV0l1CpKSua8JXFev+SjsDQ7nOG7Hhz15fWBw3
+   SQHE1oGlT4a6fwObC2MwIK2kGvO8h/SkjCQlL6ExZJSq5uJYkxsxiJY+4
+   TiT9sLiH3NfTdGt53FfnciYAh8ujE1m0WAFfVtj2/jdALEjWAkmh0daeY
+   lNntzSLY6VG260Dvm1ncxMU6uUCyXpnJBMiNlbBVZ0K+p7skwp0UsMOx/
+   g==;
+X-CSE-ConnectionGUID: JbKkEFWoSpy0CDk8qZ9dMw==
+X-CSE-MsgGUID: GrXoo3lrQaO51O7K4+p0NA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11116"; a="42122690"
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="16528727"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 16:04:22 -0700
-X-CSE-ConnectionGUID: VJbratSWS3ybQv+GQt2B/Q==
-X-CSE-MsgGUID: HSDI5E8IRg20nS1cAQMPqw==
+   d="scan'208";a="42122690"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2024 18:07:40 -0700
+X-CSE-ConnectionGUID: gIGOiiADRX6Ymjs7gJfDow==
+X-CSE-MsgGUID: 3Pw0wvjSQAGttuyjDLL77Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,167,1716274800"; 
-   d="scan'208";a="44950065"
+   d="scan'208";a="44665149"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2024 16:04:20 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Jun 2024 18:07:38 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sMyA6-000Gbm-0W;
-	Thu, 27 Jun 2024 23:04:18 +0000
-Date: Fri, 28 Jun 2024 07:03:50 +0800
+	id 1sN05Q-000GgU-2j;
+	Fri, 28 Jun 2024 01:07:36 +0000
+Date: Fri, 28 Jun 2024 09:06:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: timer@10008000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202406280621.ek0cRhbq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn:
+ iterator 'i' not incremented
+Message-ID: <202406280959.mgXnW3W6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,60 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-CC: Rob Herring <robh@kernel.org>
+TO: Reinette Chatre <reinette.chatre@intel.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Kevin Tian <kevin.tian@intel.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6d6444ba82053c716fb5ac83346202659023044e
-commit: 5d3d723470996d3b9050a89427d9fc72cd0241e9 dt-bindings: timer: mediatek: Convert to json-schema
-date:   4 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-051-20240627 (https://download.01.org/0day-ci/archive/20240628/202406280621.ek0cRhbq-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev2+g3b69bad
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240628/202406280621.ek0cRhbq-lkp@intel.com/reproduce)
+commit: b156e48fffa9f1caea490e4812a1451adb5c0ef4 vfio/pci: Use xarray for interrupt context storage
+date:   1 year, 1 month ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: alpha-randconfig-r081-20240624 (https://download.01.org/0day-ci/archive/20240628/202406280959.mgXnW3W6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202406280621.ek0cRhbq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202406280959.mgXnW3W6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: syscon@10006000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: timer@10008000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6795-timer', 'mediatek,mt6577-timer'] is too long
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
-   	'mediatek,mt6765-timer' was expected
-   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6795-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: intpol-controller@10200620: $nodename:0: 'intpol-controller@10200620' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/mediatek,mt6577-sysirq.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: iommu@10205000: 'mediatek,infracfg' is a required property
---
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: timer@10008000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6795-timer', 'mediatek,mt6577-timer'] is too long
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
-   	'mediatek,mt6765-timer' was expected
-   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6795-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pwrap@1000d000: 'mt6331' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/mediatek/mediatek,pwrap.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/pwrap@1000d000/mt6331: failed to match any schema with compatible: ['mediatek,mt6331']
+smatch warnings:
+drivers/vfio/pci/vfio_pci_intrs.c:509 vfio_msi_disable() warn: iterator 'i' not incremented
+
+vim +/i +509 drivers/vfio/pci/vfio_pci_intrs.c
+
+89e1f7d4c66d85 Alex Williamson   2012-07-31  501  
+536475109c8284 Max Gurtovoy      2021-08-26  502  static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
+89e1f7d4c66d85 Alex Williamson   2012-07-31  503  {
+89e1f7d4c66d85 Alex Williamson   2012-07-31  504  	struct pci_dev *pdev = vdev->pdev;
+d977e0f7663961 Reinette Chatre   2023-05-11  505  	struct vfio_pci_irq_ctx *ctx;
+b156e48fffa9f1 Reinette Chatre   2023-05-11  506  	unsigned long i;
+abafbc551fdded Alex Williamson   2020-04-22  507  	u16 cmd;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  508  
+b156e48fffa9f1 Reinette Chatre   2023-05-11 @509  	xa_for_each(&vdev->ctx, i, ctx) {
+d977e0f7663961 Reinette Chatre   2023-05-11  510  		vfio_virqfd_disable(&ctx->unmask);
+d977e0f7663961 Reinette Chatre   2023-05-11  511  		vfio_virqfd_disable(&ctx->mask);
+a65f35cfd504e5 Reinette Chatre   2023-05-11  512  		vfio_msi_set_vector_signal(vdev, i, -1, msix);
+89e1f7d4c66d85 Alex Williamson   2012-07-31  513  	}
+89e1f7d4c66d85 Alex Williamson   2012-07-31  514  
+abafbc551fdded Alex Williamson   2020-04-22  515  	cmd = vfio_pci_memory_lock_and_enable(vdev);
+61771468e0a567 Christoph Hellwig 2016-09-11  516  	pci_free_irq_vectors(pdev);
+abafbc551fdded Alex Williamson   2020-04-22  517  	vfio_pci_memory_unlock_and_restore(vdev, cmd);
+89e1f7d4c66d85 Alex Williamson   2012-07-31  518  
+c93a97ee0583cd Alex Williamson   2016-09-26  519  	/*
+c93a97ee0583cd Alex Williamson   2016-09-26  520  	 * Both disable paths above use pci_intx_for_msi() to clear DisINTx
+c93a97ee0583cd Alex Williamson   2016-09-26  521  	 * via their shutdown paths.  Restore for NoINTx devices.
+c93a97ee0583cd Alex Williamson   2016-09-26  522  	 */
+c93a97ee0583cd Alex Williamson   2016-09-26  523  	if (vdev->nointx)
+c93a97ee0583cd Alex Williamson   2016-09-26  524  		pci_intx(pdev, 0);
+c93a97ee0583cd Alex Williamson   2016-09-26  525  
+89e1f7d4c66d85 Alex Williamson   2012-07-31  526  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  527  	vdev->num_ctx = 0;
+89e1f7d4c66d85 Alex Williamson   2012-07-31  528  }
+89e1f7d4c66d85 Alex Williamson   2012-07-31  529  
 
 -- 
 0-DAY CI Kernel Test Service
