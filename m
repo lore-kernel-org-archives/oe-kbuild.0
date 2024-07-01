@@ -1,112 +1,118 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E00126F1E
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD631EB2A;
+	Mon,  1 Jul 2024 16:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719849268; cv=none; b=eZHqvEnH5KXlEE73eWps3TxQRhtRgReJeToQk0ydVRgD80DdBHxmt+u6oKqCDd8MssHtqG2YpioImjzlDHBH2ySbk4snouDYdVVU35lktX0jNqoWy9ZmSlOiaZawB/ZTq8dc22mooay3LyQAVw7Z78J8QEua2tntVE3fNNqbGcI=
+	t=1719849843; cv=none; b=gzgLED+3EqPxtiGvNY0USsUbOapx9b49M5KyNaGJgynvBExZYNnxYqedCfRVQKzJWoS4v5L40PEUkvUf6gO9jWVp07AxDY7cY/6F9Sjg2T3DIARSLQZfc9PpoF6E+lU+69BvZ1rzufZIn2O8WTAd8pPepmK+QSjc8O4z7sY52zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719849268; c=relaxed/simple;
-	bh=JNdJrXWtWcZkPHjamD5v8fTHqAwrFBBTQ484HlJQPhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BlBZ0LokSVUKQl7+LuwVoCJwp8WhmA/ZuJBMGPEAnG+/YvbTkZscRs7SxFEYWcnRKqMAGR1Z2mv7uCz9f7nA9aSWJs90EvywRIRoQVM8RDBCOrKOh7P5oPqvZ1cn4XOpluzhnRur4ZoXCzloFBa9DVYAwl78fm6VWRvs1eewAwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QpYUT4nL; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1719849843; c=relaxed/simple;
+	bh=Ncc2u0dfi/qZXgqjjWXijDTJpzD6N6PXFjDszPiRG6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WFUWi8h+lOiEiboPTlYgOEsji5MGI2z8ihbSecVDwAzra99VAbau0B7Umyv26gC+g8rcehUHZ1bm50dyhQRBWWUsa8fFhLs8GT/LI9um7RB5rPK4gnuYv0W2FgKbTHUBkt2EZbv1tW/Xcfc41/XGQNzbyNW3TdOwBk0pe+gOFPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOxBDd1v; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QpYUT4nL"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-701ef03185fso1817324a34.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:54:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOxBDd1v"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7527afa23cso139851766b.2;
+        Mon, 01 Jul 2024 09:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719849265; x=1720454065; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=gmail.com; s=20230601; t=1719849840; x=1720454640; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=inKe0gpccZBgzMijx9pxHCKKEV+WntLBxDDl6NG8580=;
-        b=QpYUT4nLw61/nBh9UlRsmZIFJO8V7OR1mbFxr7kpj5G9EHrWrwkXNBHrre+9cPzbB+
-         QRVpXqJbYnSUyTKe3nq9Qz7sNaiHhfIixedq4L2diDFoku6y2GPaqRFzB39oT/hOvHD9
-         Tz0qOeMWy0jqudA0P6k7xWzFxsiydIUUH23MxZD2C+yKsLxkkCVw9T/cmvEpVYA4Cd5k
-         Ppp2vYj64PKKhtjDdtsi+W9wrJT7t33jr3s/m6FTq8G8zRW3IRo6onpTIN/i7Pz++rAW
-         UMKDN3icsh4KGAcqL1A3zmZ/hiUzd2modCTD35nPMfV25XwRGG5okmGin2uGhyZCIf31
-         LI5A==
+        bh=/SrMxtrz7LAQuY8vI7PqlKykLRpuSLQicS/UxKRRXTs=;
+        b=SOxBDd1vF4aXVdHyywyHEOIdhOKqK3LhqaIN/D9g1buUFntq8gJhn/w2E6zCmfBsCV
+         xaF/kUJBTcwUoSrpLSse97ZQFDorYrj2Bz3OJEtsEJc5yMt1fsz8blGhh0+dU/IMLQHm
+         sRJiXr6UgOIgfGf39NmCXzRkdVRotzg2cMQ6oauSr/HecCexiano9RNlI5FO4wFkpT2V
+         KAN5grMRkUzZH2H247veJhiDyV7Efk64mQISXqMeKgNLEeoU7Uwa+3XddeGo8u55Q1Hr
+         3BmCiantqKl3jj4A8q71GxLe+YDFyIGEyQQMCMWV5XRGFo2KgGwjv/psmspp253Fc9Jz
+         eltw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719849265; x=1720454065;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1719849840; x=1720454640;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=inKe0gpccZBgzMijx9pxHCKKEV+WntLBxDDl6NG8580=;
-        b=wHMf3cvEDpHu810mJaQxQoRm4D302tDAztBGDkPkC4RGk5E/H8p2B9rIcdYCVrAdtr
-         0ypzgc9fpJSpb26x3Wbv4/Vmmo7JexS6XY73T7f0gzbIM/iYGznM0uKQ7IEGUT5FqEq6
-         liTWsV7/keo95qhbtkdokFJHJjKFU+dcJ70EHTrXjzbM06O5NeIc36zz1ADL052lfHJW
-         tqxprRw0Qx6bqCRVG3XsaqiHVbO2mDcTlCyqmOZT7BspBCtg8eKgC7ELJdK3JUNEyMkG
-         HF/ByLz/vZ1pOB3nrM7oqJV2zD9FfV0iFIBvmVUOa9VcNJR0C9j3+UcZdol7ah1tEQ9z
-         YLDg==
-X-Gm-Message-State: AOJu0YxE66frB5ByTSWmaegwH1LmSfECMKntO3ubGXjS7sYbPfKt9MsK
-	T4mBdCeUlaEho1uo4Tb9BqZfDNX1qg3s5jgFNOrX4sBuFGNlDN4X1N1vY3G6VR4EuER/Gyc+zt3
-	P
-X-Google-Smtp-Source: AGHT+IH/5NacSQigA3BVXrUsBYR+sgs0GU45+bLwXIZoiraKUNm9btupAKR1PoLq0slAixB/ETs5mQ==
-X-Received: by 2002:a05:6870:ec9f:b0:254:8bb9:d0bf with SMTP id 586e51a60fabf-25db3428fbcmr5907324fac.32.1719849265682;
-        Mon, 01 Jul 2024 08:54:25 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25d8deb56f9sm1806844fac.0.2024.07.01.08.54.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:54:24 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:54:23 +0200
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Shivamurthy Shastri <shivamurthy.shastri@linutronix.de>
-Subject: [robh:for-kernelci 14/21] drivers/irqchip/irq-msi-lib.c:133
- msi_lib_irq_domain_select() warn: variable dereferenced before check 'ops'
- (see line 130)
-Message-ID: <86549955-085a-4c36-ae52-f7138cc0b49d@suswa.mountain>
+        bh=/SrMxtrz7LAQuY8vI7PqlKykLRpuSLQicS/UxKRRXTs=;
+        b=TpYPeAkRJUQlzBpEfKcH+r7rMn72XG/Mso5+ycpXqdIV7DzyggF0BJJlAba3GIaV9A
+         qxKO3Xa6xZQThlJYex0ncmhn0ftG93Svf2xwxcQvXLs8ZlIr4V/VTRMf7D0yxr9f92Co
+         GkYRRznc+kwQ6+y7k7oXGqHLi2taP5hv/Ptx283o99Fi6V8A14tnhfdyHIlsGwbGW2Lb
+         2qKxDMfOnmDzIx8L4Jh6vf2o3ecZ0r5iUv5m/IWsGgrR0xcAAwByzUv0iLoB3yxbko7W
+         4dlePzg5ajLSEn9b9qG6yy9zBeGKWyl1HWWDBW2gBC9H6ycSRTTS92YfSZjell1aolfC
+         ss8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWbViO/jOp4cyyYNvjSSLBHviNAGpukdp7By/XRtniM6jQL3RB5rAZnzSBt6woZHvNWxVhX9Ep20tCcJp3og2n87sQUEMDrmRZajjenkdkISnXzDAj0fPDPA1geWR5b8zyQVUDz8Wi6+Q==
+X-Gm-Message-State: AOJu0YyvUpWq5WgbBrI778KTgEOtbMcQb6XVV7VOAACgCOnbFqnTaGBR
+	TUI9QCN3B4LivCRXLf9Ya68OKOdX0wKpWH7d+ZLhMfkXcw2m5Y6w7Auguw==
+X-Google-Smtp-Source: AGHT+IEerM11FXLEKylsNAc6/LcsY2zGyQ51sYzOG5kRO6EQmEM18njKFk6jbiEzBXIrL1EQPukqWw==
+X-Received: by 2002:a17:907:d15:b0:a6f:ad2f:ac4b with SMTP id a640c23a62f3a-a7514467831mr558160266b.2.1719849840268;
+        Mon, 01 Jul 2024 09:04:00 -0700 (PDT)
+Received: from [192.168.42.242] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1cfc8sm348500166b.15.2024.07.01.09.03.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jul 2024 09:03:59 -0700 (PDT)
+Message-ID: <4d20aa4e-a542-48f0-a93c-0fc7aca4dbc3@gmail.com>
+Date: Mon, 1 Jul 2024 17:04:10 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [isilence:zcrx/next-6.10-rebase 30/35] io_uring/zcrx.c:812
+ io_zcrx_recv_skb() warn: check likely/unlikely parentheses
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <75318c18-bf2a-427d-b9bb-aa54fa3e0a3c@suswa.mountain>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <75318c18-bf2a-427d-b9bb-aa54fa3e0a3c@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-kernelci
-head:   0abda6ec2f639084d6dd4a568683e0b1b70f604d
-commit: 3bb490967f4f337c9c1724b5442a1e09fde1d195 [14/21] irqchip/imx-mu-msi: Switch to MSI parent
-config: powerpc-randconfig-r081-20240629
-compiler: powerpc-linux-gcc (GCC) 13.2.0
+On 7/1/24 16:44, Dan Carpenter wrote:
+> tree:   https://github.com/isilence/linux zcrx/next-6.10-rebase
+> head:   1bc9807cd5e670cbc5f1a650daf7470d33fb94d7
+> commit: 217b71934ad9ee4fffd5eb975aae285911a16052 [30/35] io_uring/zcrx: prevent endless unresponsive execution
+> config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406261243.sPJ6xyvQ-lkp@intel.com/config)
+> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202406261243.sPJ6xyvQ-lkp@intel.com/
+> 
+> smatch warnings:
+> io_uring/zcrx.c:812 io_zcrx_recv_skb() warn: check likely/unlikely parentheses
+> 
+> vim +812 io_uring/zcrx.c
+> 
+> f9ab1c1cb8fd3a David Wei      2024-03-05  800  static int
+> f9ab1c1cb8fd3a David Wei      2024-03-05  801  io_zcrx_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
+> f9ab1c1cb8fd3a David Wei      2024-03-05  802  		 unsigned int offset, size_t len)
+> f9ab1c1cb8fd3a David Wei      2024-03-05  803  {
+> f9ab1c1cb8fd3a David Wei      2024-03-05  804  	struct io_zcrx_args *args = desc->arg.data;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  805  	struct io_zcrx_ifq *ifq = args->ifq;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  806  	struct io_kiocb *req = args->req;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  807  	struct sk_buff *frag_iter;
+> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  808  	unsigned start, start_off = offset;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  809  	int i, copy, end, off;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  810  	int ret = 0;
+> f9ab1c1cb8fd3a David Wei      2024-03-05  811
+> 217b71934ad9ee Pavel Begunkov 2024-04-17 @812  	if (unlikely(args->nr_skbs++) > IO_SKBS_PER_CALL_LIMIT)
+>                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+> unlikely() returns true/false.  Surprised checkpatch doesn't catch this.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406291820.O1SulCwh-lkp@intel.com/
+Hah, no wonder throttling stopped working, thanks!
 
-smatch warnings:
-drivers/irqchip/irq-msi-lib.c:133 msi_lib_irq_domain_select() warn: variable dereferenced before check 'ops' (see line 130)
 
-vim +/ops +133 drivers/irqchip/irq-msi-lib.c
-
-b8577a042dce35 Thomas Gleixner 2024-06-14  120  int msi_lib_irq_domain_select(struct irq_domain *d, struct irq_fwspec *fwspec,
-b8577a042dce35 Thomas Gleixner 2024-06-14  121  			      enum irq_domain_bus_token bus_token)
-b8577a042dce35 Thomas Gleixner 2024-06-14  122  {
-b8577a042dce35 Thomas Gleixner 2024-06-14  123  	const struct msi_parent_ops *ops = d->msi_parent_ops;
-b8577a042dce35 Thomas Gleixner 2024-06-14  124  	u32 busmask = BIT(bus_token);
-b8577a042dce35 Thomas Gleixner 2024-06-14  125  
-b8577a042dce35 Thomas Gleixner 2024-06-14  126  	if (fwspec->fwnode != d->fwnode || fwspec->param_count != 0)
-b8577a042dce35 Thomas Gleixner 2024-06-14  127  		return 0;
-b8577a042dce35 Thomas Gleixner 2024-06-14  128  
-b8577a042dce35 Thomas Gleixner 2024-06-14  129  	/* Handle pure domain searches */
-b8577a042dce35 Thomas Gleixner 2024-06-14 @130  	if (bus_token == ops->bus_select_token)
-                                                                         ^^^^^
-Dereference
-
-b8577a042dce35 Thomas Gleixner 2024-06-14  131  		return 1;
-b8577a042dce35 Thomas Gleixner 2024-06-14  132  
-b8577a042dce35 Thomas Gleixner 2024-06-14 @133  	return ops && !!(ops->bus_select_mask & busmask);
-                                                               ^^^
-Check is too late.
+> 217b71934ad9ee Pavel Begunkov 2024-04-17  813  		return -EAGAIN;
+> 217b71934ad9ee Pavel Begunkov 2024-04-17  814
+> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  815  	if (unlikely(offset < skb_headlen(skb))) {
+> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  816  		ssize_t copied;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Pavel Begunkov
