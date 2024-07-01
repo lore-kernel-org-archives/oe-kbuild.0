@@ -1,118 +1,144 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD631EB2A;
-	Mon,  1 Jul 2024 16:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E7414D2AC
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 16:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719849843; cv=none; b=gzgLED+3EqPxtiGvNY0USsUbOapx9b49M5KyNaGJgynvBExZYNnxYqedCfRVQKzJWoS4v5L40PEUkvUf6gO9jWVp07AxDY7cY/6F9Sjg2T3DIARSLQZfc9PpoF6E+lU+69BvZ1rzufZIn2O8WTAd8pPepmK+QSjc8O4z7sY52zs=
+	t=1719851445; cv=none; b=fQH82UnT4pDDl9LyHul/NVSkf1Rp96s2vueuGGpYTEUNwpJSu31ofC96zrF/BbwbeMc6fAorgcuX7qyXzmOgTLKOwHQnEqPt20ympg9KSs9lvNZWVnxXy2O5IebZAJ+JqjL9jEoYXIO6FYdkB6+ycq0N5LQk1dDIEFKKz3T2HNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719849843; c=relaxed/simple;
-	bh=Ncc2u0dfi/qZXgqjjWXijDTJpzD6N6PXFjDszPiRG6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WFUWi8h+lOiEiboPTlYgOEsji5MGI2z8ihbSecVDwAzra99VAbau0B7Umyv26gC+g8rcehUHZ1bm50dyhQRBWWUsa8fFhLs8GT/LI9um7RB5rPK4gnuYv0W2FgKbTHUBkt2EZbv1tW/Xcfc41/XGQNzbyNW3TdOwBk0pe+gOFPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOxBDd1v; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1719851445; c=relaxed/simple;
+	bh=cyBZIZOlVW0uFuDers68bdrFwZZWvwcsCmsyVCP3NT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qdHTEnVK39p9gDbK9t97t/4zt/V6xkfbUsG+TjGBgIt4106akBXcbgC2ea+92E9nqnQStD0MYJSBbDOwYYYZ4XXGP36zE62PKf3BFnYvK0fulTj2fiOnEgh1O85Hfrf7aRYLeI9cjr2h8ggAdP27usTfn4IDahQI1esB3N7K0OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SLYeN8qE; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOxBDd1v"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a7527afa23cso139851766b.2;
-        Mon, 01 Jul 2024 09:04:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SLYeN8qE"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3d55db7863bso2176513b6e.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 09:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719849840; x=1720454640; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/SrMxtrz7LAQuY8vI7PqlKykLRpuSLQicS/UxKRRXTs=;
-        b=SOxBDd1vF4aXVdHyywyHEOIdhOKqK3LhqaIN/D9g1buUFntq8gJhn/w2E6zCmfBsCV
-         xaF/kUJBTcwUoSrpLSse97ZQFDorYrj2Bz3OJEtsEJc5yMt1fsz8blGhh0+dU/IMLQHm
-         sRJiXr6UgOIgfGf39NmCXzRkdVRotzg2cMQ6oauSr/HecCexiano9RNlI5FO4wFkpT2V
-         KAN5grMRkUzZH2H247veJhiDyV7Efk64mQISXqMeKgNLEeoU7Uwa+3XddeGo8u55Q1Hr
-         3BmCiantqKl3jj4A8q71GxLe+YDFyIGEyQQMCMWV5XRGFo2KgGwjv/psmspp253Fc9Jz
-         eltw==
+        d=linaro.org; s=google; t=1719851442; x=1720456242; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xG/yczWNA3S6agDnft2zlqDhiY2xh8cwDya0vX2WWTc=;
+        b=SLYeN8qEJimvREr2kJ0/4CRyjDrjY7ZeC6FQBJJOg34MduoIP5Cmlb+V+87OwtGdLD
+         QGRQuJBBJgMybUoEF2DDNjn+Vw9C2uPV7q+ppe9sqVw6Ra2zFpB7EIsGWqOcWMnxW+8L
+         +UJhE7tBsFVJi0rCCB0EPgiWWkVMUDPNQK97EpkBnyaNrG/toBmybZavbTn61LBQv+yd
+         xVk2crNFY4JU7t4ObRi33wHCJymZ7tPka8a7BFj1YRuYSiyNrQOMTBqs19umxbCbX6ut
+         rSYYMe/uzmQcNUHpe84dgyHyrno4XTgEGoQd/EvAfIQBufYiKbGx2mLg5IhgVYSOijiH
+         jSCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719849840; x=1720454640;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/SrMxtrz7LAQuY8vI7PqlKykLRpuSLQicS/UxKRRXTs=;
-        b=TpYPeAkRJUQlzBpEfKcH+r7rMn72XG/Mso5+ycpXqdIV7DzyggF0BJJlAba3GIaV9A
-         qxKO3Xa6xZQThlJYex0ncmhn0ftG93Svf2xwxcQvXLs8ZlIr4V/VTRMf7D0yxr9f92Co
-         GkYRRznc+kwQ6+y7k7oXGqHLi2taP5hv/Ptx283o99Fi6V8A14tnhfdyHIlsGwbGW2Lb
-         2qKxDMfOnmDzIx8L4Jh6vf2o3ecZ0r5iUv5m/IWsGgrR0xcAAwByzUv0iLoB3yxbko7W
-         4dlePzg5ajLSEn9b9qG6yy9zBeGKWyl1HWWDBW2gBC9H6ycSRTTS92YfSZjell1aolfC
-         ss8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWbViO/jOp4cyyYNvjSSLBHviNAGpukdp7By/XRtniM6jQL3RB5rAZnzSBt6woZHvNWxVhX9Ep20tCcJp3og2n87sQUEMDrmRZajjenkdkISnXzDAj0fPDPA1geWR5b8zyQVUDz8Wi6+Q==
-X-Gm-Message-State: AOJu0YyvUpWq5WgbBrI778KTgEOtbMcQb6XVV7VOAACgCOnbFqnTaGBR
-	TUI9QCN3B4LivCRXLf9Ya68OKOdX0wKpWH7d+ZLhMfkXcw2m5Y6w7Auguw==
-X-Google-Smtp-Source: AGHT+IEerM11FXLEKylsNAc6/LcsY2zGyQ51sYzOG5kRO6EQmEM18njKFk6jbiEzBXIrL1EQPukqWw==
-X-Received: by 2002:a17:907:d15:b0:a6f:ad2f:ac4b with SMTP id a640c23a62f3a-a7514467831mr558160266b.2.1719849840268;
-        Mon, 01 Jul 2024 09:04:00 -0700 (PDT)
-Received: from [192.168.42.242] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72aaf1cfc8sm348500166b.15.2024.07.01.09.03.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 09:03:59 -0700 (PDT)
-Message-ID: <4d20aa4e-a542-48f0-a93c-0fc7aca4dbc3@gmail.com>
-Date: Mon, 1 Jul 2024 17:04:10 +0100
+        d=1e100.net; s=20230601; t=1719851442; x=1720456242;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xG/yczWNA3S6agDnft2zlqDhiY2xh8cwDya0vX2WWTc=;
+        b=eepR6B9zymkWLqJikw5Zt3ummIrjJbFmEu+gHP7+R8Ei7WrVHfgAmOqtAoaZFfQsI7
+         GkVOhnDvpb/Xxj2FA64TO1sp/PVKT6eH5rOTwJt/Cq1ys3mTAju3toBygoswu7z1Akj2
+         IkGtNm+OPwWr8Cy+3UY2Zwk4G84YjsZapSoSVxSkzG6X+5CwenymJDH63GMcBwGzIuxt
+         ZCiP9rCwP7g23lS2M0EHKRXxWpdkYVWBjTO+2oQnxJMli0BkEHGMztlh13XNmKZNu3wF
+         k4mtLdXMlLo0ZmkVTd89ZKyUKqIy7TpD5JycNWAoEJmFAjexASgTBfLrV0ZTB+z8TW28
+         vVTw==
+X-Gm-Message-State: AOJu0YwU1DXWaMt6fydWnxL73/RZgZnFWDuGju7sH8jbTlZyckGjNw7C
+	DVLjGU41IO0nYKXeZ6b2NrexeKMymAXxQdlXTBiEmTTQKdUC52wlsLO3cbhQgvbM5r8hODUz3Ll
+	y
+X-Google-Smtp-Source: AGHT+IGtjpg0CTkGUOVUT8tVr1x56kkLv8fO3EHB0uCgBbInRDqjQByQEmG74LyP6w9zbLghuwHLtQ==
+X-Received: by 2002:a05:6808:2288:b0:3d5:63f0:ee9e with SMTP id 5614622812f47-3d6b32e3fd9mr8133239b6e.20.1719851442481;
+        Mon, 01 Jul 2024 09:30:42 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d62fa39edfsm1420328b6e.37.2024.07.01.09.30.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jul 2024 09:30:41 -0700 (PDT)
+Date: Mon, 1 Jul 2024 18:30:38 +0200
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: drivers/input/keyboard/applespi.c:1833 applespi_drain_writes() warn:
+ mixing irqsave and irq
+Message-ID: <3e789ab9-ebfc-40a2-b90d-b8b55e0cfaac@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [isilence:zcrx/next-6.10-rebase 30/35] io_uring/zcrx.c:812
- io_zcrx_recv_skb() warn: check likely/unlikely parentheses
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <75318c18-bf2a-427d-b9bb-aa54fa3e0a3c@suswa.mountain>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <75318c18-bf2a-427d-b9bb-aa54fa3e0a3c@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 7/1/24 16:44, Dan Carpenter wrote:
-> tree:   https://github.com/isilence/linux zcrx/next-6.10-rebase
-> head:   1bc9807cd5e670cbc5f1a650daf7470d33fb94d7
-> commit: 217b71934ad9ee4fffd5eb975aae285911a16052 [30/35] io_uring/zcrx: prevent endless unresponsive execution
-> config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406261243.sPJ6xyvQ-lkp@intel.com/config)
-> compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202406261243.sPJ6xyvQ-lkp@intel.com/
-> 
-> smatch warnings:
-> io_uring/zcrx.c:812 io_zcrx_recv_skb() warn: check likely/unlikely parentheses
-> 
-> vim +812 io_uring/zcrx.c
-> 
-> f9ab1c1cb8fd3a David Wei      2024-03-05  800  static int
-> f9ab1c1cb8fd3a David Wei      2024-03-05  801  io_zcrx_recv_skb(read_descriptor_t *desc, struct sk_buff *skb,
-> f9ab1c1cb8fd3a David Wei      2024-03-05  802  		 unsigned int offset, size_t len)
-> f9ab1c1cb8fd3a David Wei      2024-03-05  803  {
-> f9ab1c1cb8fd3a David Wei      2024-03-05  804  	struct io_zcrx_args *args = desc->arg.data;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  805  	struct io_zcrx_ifq *ifq = args->ifq;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  806  	struct io_kiocb *req = args->req;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  807  	struct sk_buff *frag_iter;
-> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  808  	unsigned start, start_off = offset;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  809  	int i, copy, end, off;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  810  	int ret = 0;
-> f9ab1c1cb8fd3a David Wei      2024-03-05  811
-> 217b71934ad9ee Pavel Begunkov 2024-04-17 @812  	if (unlikely(args->nr_skbs++) > IO_SKBS_PER_CALL_LIMIT)
->                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-> unlikely() returns true/false.  Surprised checkpatch doesn't catch this.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6d6444ba82053c716fb5ac83346202659023044e
+commit: 038b1a05eae6666b731920e46f47d8e2332e07ff Input: add Apple SPI keyboard and trackpad driver
+config: x86_64-randconfig-161-20240628 (https://download.01.org/0day-ci/archive/20240628/202406280337.1Av9qm8V-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
-Hah, no wonder throttling stopped working, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202406280337.1Av9qm8V-lkp@intel.com/
 
+smatch warnings:
+drivers/input/keyboard/applespi.c:1833 applespi_drain_writes() warn: mixing irqsave and irq
+drivers/input/keyboard/applespi.c:1845 applespi_drain_reads() warn: mixing irqsave and irq
 
-> 217b71934ad9ee Pavel Begunkov 2024-04-17  813  		return -EAGAIN;
-> 217b71934ad9ee Pavel Begunkov 2024-04-17  814
-> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  815  	if (unlikely(offset < skb_headlen(skb))) {
-> 4eb3e10e62f790 Pavel Begunkov 2024-03-05  816  		ssize_t copied;
+vim +1833 drivers/input/keyboard/applespi.c
+
+038b1a05eae666 Ronald Tschalär 2019-07-15  1826  static void applespi_drain_writes(struct applespi_data *applespi)
+038b1a05eae666 Ronald Tschalär 2019-07-15  1827  {
+038b1a05eae666 Ronald Tschalär 2019-07-15  1828  	unsigned long flags;
+038b1a05eae666 Ronald Tschalär 2019-07-15  1829  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1830  	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
+
+_irqsave() sort of implies that potentially the caller has disabled IRQs,
+otherwise we would use spin_lock_irq() if we knew they hadn't disabled
+IRQs.
+
+038b1a05eae666 Ronald Tschalär 2019-07-15  1831  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1832  	applespi->drain = true;
+038b1a05eae666 Ronald Tschalär 2019-07-15 @1833  	wait_event_lock_irq(applespi->drain_complete, !applespi->write_active,
+038b1a05eae666 Ronald Tschalär 2019-07-15  1834  			    applespi->cmd_msg_lock);
+
+This will renable IRQs briefly and then disable them again.
+
+038b1a05eae666 Ronald Tschalär 2019-07-15  1835  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1836  	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+
+This will set them back to how they were at the start of the function.
+
+The issue is that if the caller really wanted IRQs disabled, then it's
+not necessarilly a good idea to enable them at all in the
+wait_event_lock_irq() macro.  I suspect that in real life no callers
+disable IRQs so it's not an issue.  But anyway, that's what the warning
+is about.
+
+I suspect that kbuild-bot has a 5 year cut off for warnings and if this
+had been a month older then kbuild-bot would have ignored it.  :P
+
+038b1a05eae666 Ronald Tschalär 2019-07-15  1837  }
+038b1a05eae666 Ronald Tschalär 2019-07-15  1838  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1839  static void applespi_drain_reads(struct applespi_data *applespi)
+038b1a05eae666 Ronald Tschalär 2019-07-15  1840  {
+038b1a05eae666 Ronald Tschalär 2019-07-15  1841  	unsigned long flags;
+038b1a05eae666 Ronald Tschalär 2019-07-15  1842  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1843  	spin_lock_irqsave(&applespi->cmd_msg_lock, flags);
+038b1a05eae666 Ronald Tschalär 2019-07-15  1844  
+038b1a05eae666 Ronald Tschalär 2019-07-15 @1845  	wait_event_lock_irq(applespi->drain_complete, !applespi->read_active,
+038b1a05eae666 Ronald Tschalär 2019-07-15  1846  			    applespi->cmd_msg_lock);
+038b1a05eae666 Ronald Tschalär 2019-07-15  1847  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1848  	applespi->suspended = true;
+038b1a05eae666 Ronald Tschalär 2019-07-15  1849  
+038b1a05eae666 Ronald Tschalär 2019-07-15  1850  	spin_unlock_irqrestore(&applespi->cmd_msg_lock, flags);
+038b1a05eae666 Ronald Tschalär 2019-07-15  1851  }
 
 -- 
-Pavel Begunkov
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
