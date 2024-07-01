@@ -1,63 +1,63 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73D816D301
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AC816CD2A
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848170; cv=none; b=H0RWpy2LPXdNqFOEih+MuVjPDgdMDtAvjUUOnDuF6mfy/BZzRFXRl02RflRXX7dtb8U5VOvYhNwdCSnKkhwwgwwNol4OcaTTVlU5+umJbrxUUY2E+7HAD0OWUX/kfsJ2GltTz5QSqkzhpeL3HLb3Ac36z7+le+xUO1VrX8vfHEs=
+	t=1719848333; cv=none; b=B5TS1qFwcuGMQjMTRrp5MqXjTiJrGAzaGEn4HdprPwJ0cWU2xiU5LToS92iPAeXwNFxuNSlCPAnYcWzxh/WSMdwxTxyIgffVfGa6pGCeDAfQlaK9FVTJb3DqxecVBKruqK7p6NWB3cE7d51DdyGVDyfgM1YPIaiISiOLIydLrHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848170; c=relaxed/simple;
-	bh=IFMo+EgxtM+B2OQnWyCmG01tIkkhCDQlN5GI66q6Bq0=;
+	s=arc-20240116; t=1719848333; c=relaxed/simple;
+	bh=pbAYGwLE28gr9TrbbRP3f1it1/8qq5WYo0QBVGXRCWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XBr8+cNdnzyTzetV4ZveF6YvmTldARsXdZqRFUonCL7V3luVIvP0GsiN6f4GB4ihDQnvctAeBngKKZIlC5dunobos1MUe5DgdgUBHRUK0Pu7GpBhw1ycizeIumCY/h+uPW/f2fcgkRoc+UkbpdY0JpGWu9lvw8tjTailIgAyc4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uo/E78ZA; arc=none smtp.client-ip=209.85.210.41
+	 Content-Disposition; b=lOqgjN9eBCNcyS5YqsukviTE+6wrBL5p/K9eo3IWx7VsToTfOiYIttW2oNUhta2xhQMZd2b4/GDiWrffL5+0BWrqUxi1W1tNKey+KgjW0dT6MJNtftxfdqD5YIwrLzsGTSlLsTfhL8k0FiVv49pALeYo0FmtkkTMj3TLoOR1k1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kkJZW3Gp; arc=none smtp.client-ip=209.85.210.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uo/E78ZA"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-701ef03185fso1807483a34.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:36:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kkJZW3Gp"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-700d1721dd9so2143100a34.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719848167; x=1720452967; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1719848330; x=1720453130; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=K5bvCJAQ/Xchffz3t2J6NQaiVKI3Au7zTH9UDbhEV2c=;
-        b=uo/E78ZAuNoHiaNJREGt2lEpezbF+xobL2NrOU9LaJ02hEbarEQWD70JGihjsYLZ8O
-         RBHwCEjfyqXWhCzhwGXczSZsUtsvavjsOhnsxGxyO7w0GjoG8Z+hbjUmYug47uB0iyg1
-         IewiNsCL5XYZ5XKHtSFXnWIJVxCT5LoddIFaR3ML9xv7bR/XhWD9Y7RWQRkTpOygryM1
-         OjnOZqDLCFSz8a5sMNAltxs/QyoIzLNB2H9IbUYGL3jyIYj69N/0Rdx7S5Y6NCGMPKkK
-         xv/p710vvAttZk6lNCnbD4tVAvrWJ3pE4oltnyQ8K37XDJPgJWOlxCJ++epJgOVKS0bV
-         AlTQ==
+        bh=GXUwAGiGhOwC1MFGaBHZYnH2eCKcomc9xabHa+31ciY=;
+        b=kkJZW3Gp1H85rz72YruFMui2YcULfIncRoWXX1A7cekIQ7jPLTewDKdAweTKohUMT8
+         /KsvRPYBuHGqEMycsE+qpevSbAVAW5dDT5XWHa93A38npZYBGJT3x/qS5QaF2i0WgCmU
+         a57lgBjzdA+347esilG0oh03NgPPq/RImpLVlunb7brSRx+En4hmg8nfPJUqgmpdjmwC
+         Jex/4/hKsHib2IDBOKQ12d44QEAX+e/y0HM1w/rBDfnQGzE2AA0zzT/o1AxjEcwTYjR1
+         mfE6EWDRrq+RSGWEeye4Lmaz+FWRQEA0+BXMkaV5U9HLERvQ8eJuFA1vPja2RDc/FLAu
+         pCJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719848167; x=1720452967;
+        d=1e100.net; s=20230601; t=1719848330; x=1720453130;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K5bvCJAQ/Xchffz3t2J6NQaiVKI3Au7zTH9UDbhEV2c=;
-        b=wbGknXCvByrgi1lKrA7jwd0WLcjLYQrNkejmg46vo/HfyWn3gyg8kGZ0uBZf35YrqC
-         nn94LzHipy/q/T4NsZwNkLP/MlUWEkhAhnoLmItaS3IlI93qqVBunwIX64WA1dmWDnuL
-         m0gJjECc7sy7MhRHxhf+deAEVbtzc8NpBoRFBAmHcQqCDCQLcdfP/TWoUEPm9qrga5KE
-         CN2yM0cmzVLve94ZqLqYMbBotmRiUFpzKwfdsvmwYf4uH4h/y1S9ITJNRF5808X5vWXK
-         LWGd2aeVah7Ik2x+zrTXFICAjRYR/fJZt9Avu/ilmPO6nooPHRy+EHqUki9xckUoidox
-         e70Q==
-X-Gm-Message-State: AOJu0Yyz5m+8ACsJ5teaQbX2wZhzz4pq7IJCIvj/MB4PhUZFN2f/EwF8
-	wCrSYP1GYYrw03vDclVVNyrf6QTzRaKp7VLbvFSGn7tut5nsVHulvRYR3oWVY+QLEUhGMddmEGq
-	b
-X-Google-Smtp-Source: AGHT+IFKq9w04b6QdUgSzMjtv3hGAqE/wViwGiHvkXfxi+QBNbw7E5hSpyBFPmF7DTfZhjYDni0mXA==
-X-Received: by 2002:a05:6830:4a:b0:700:cf09:f512 with SMTP id 46e09a7af769-702075be678mr6912139a34.1.1719848167370;
-        Mon, 01 Jul 2024 08:36:07 -0700 (PDT)
+        bh=GXUwAGiGhOwC1MFGaBHZYnH2eCKcomc9xabHa+31ciY=;
+        b=nW9sOn9jhOsBgOTaLoo4w1WhQXQvIrmZccOTWPqsMuxBJy2ftoFeUMBxk8CNwA2F0F
+         Q5t5jn6laDsMHScXehmrfwwF+AeMWw7PcPAkdziWRAu9xhnVMsQtJd6Fel5OA7yFXgbV
+         bdKypeXfMb5nxe+VQOo8P3Du1A9G1URvoGkvwfZsCgRUqQ42MsPvVFUARwLRHwbvtruw
+         lu0xFhA1iBpAX7lZZULNJIBnoz4hm5ngboMMjeg3OMniyDWdLrJxTqgV/M8dNDPuVDAM
+         6MWtt3Z5I5xZRnIHWHs3Oewkh7PnRWaUNtuXYL8C+R/bXcZOhOO0V4iQGeAQIZyjmhNa
+         dNRw==
+X-Gm-Message-State: AOJu0Yx9RLD0c27a/6tI3ovXHTieJSZm8e2QPof99Pwe+H50GPonH5HR
+	k8oaTwfRx/El1zao3McACbG24nKE+bs+YqsiWRJjVEBqXF1S75jVaK3NDjo36kkaPEGXiiqG61d
+	9
+X-Google-Smtp-Source: AGHT+IH2RZ/mNHf0OSJ/upQaUsA6zNyNbfJvqFRCnyP+riRpPNyhbZZNFy45+vCDbGN1vOGnwT6Y8g==
+X-Received: by 2002:a9d:6956:0:b0:700:d3ec:3633 with SMTP id 46e09a7af769-70207650f3emr7791302a34.8.1719848329647;
+        Mon, 01 Jul 2024 08:38:49 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7b3926fsm1325289a34.74.2024.07.01.08.36.06
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7a98ab2sm1292101a34.9.2024.07.01.08.38.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:36:06 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:36:05 +0200
+        Mon, 01 Jul 2024 08:38:48 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:38:47 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Filipe Manana <fdmanana@suse.com>
+To: oe-kbuild@lists.linux.dev, Andreas Gruenbacher <agruenba@redhat.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>
-Subject: fs/btrfs/ctree.c:612 btrfs_force_cow_block() error: we previously
- assumed 'parent' could be null (see line 548)
-Message-ID: <96f65252-854d-4de4-a375-8f974a8bb884@suswa.mountain>
+	linux-kernel@vger.kernel.org
+Subject: fs/gfs2/log.c:1158 gfs2_log_flush() error: we previously assumed
+ 'sdp->sd_jdesc' could be null (see line 1111)
+Message-ID: <151ef3e4-abee-4627-9669-038b1d95c2d3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,163 +69,169 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
-commit: 95f93bc4cbcac6121a5ee85cd5019ee8e7447e0b btrfs: rename and export __btrfs_cow_block()
-config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406250719.jidL6tVI-lkp@intel.com/config)
+commit: 35264909e9d1973ab9aaa2a1b07cda70f12bb828 gfs2: Fix NULL pointer dereference in gfs2_log_flush
+config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406250943.QhOuua0F-lkp@intel.com/config)
 compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406250719.jidL6tVI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406250943.QhOuua0F-lkp@intel.com/
 
-New smatch warnings:
-fs/btrfs/ctree.c:612 btrfs_force_cow_block() error: we previously assumed 'parent' could be null (see line 548)
+smatch warnings:
+fs/gfs2/log.c:1158 gfs2_log_flush() error: we previously assumed 'sdp->sd_jdesc' could be null (see line 1111)
 
-vim +/parent +612 fs/btrfs/ctree.c
-95f93bc4cbcac6 Filipe Manana             2023-09-27  513  int btrfs_force_cow_block(struct btrfs_trans_handle *trans,
-5f39d397dfbe14 Chris Mason               2007-10-15  514  			  struct btrfs_root *root,
-5f39d397dfbe14 Chris Mason               2007-10-15  515  			  struct extent_buffer *buf,
-5f39d397dfbe14 Chris Mason               2007-10-15  516  			  struct extent_buffer *parent, int parent_slot,
-5f39d397dfbe14 Chris Mason               2007-10-15  517  			  struct extent_buffer **cow_ret,
-9631e4cc1a030a Josef Bacik               2020-08-20  518  			  u64 search_start, u64 empty_size,
-9631e4cc1a030a Josef Bacik               2020-08-20  519  			  enum btrfs_lock_nesting nest)
-02217ed299c634 Chris Mason               2007-03-02  520  {
-0b246afa62b0cf Jeff Mahoney              2016-06-22  521  	struct btrfs_fs_info *fs_info = root->fs_info;
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  522  	struct btrfs_disk_key disk_key;
-5f39d397dfbe14 Chris Mason               2007-10-15  523  	struct extent_buffer *cow;
-be1a5564fd39fa Mark Fasheh               2011-08-08  524  	int level, ret;
-f0486c68e4bd9a Yan, Zheng                2010-05-16  525  	int last_ref = 0;
-925baeddc5b076 Chris Mason               2008-06-25  526  	int unlock_orig = 0;
-0f5053eb90f58c Goldwyn Rodrigues         2016-09-22  527  	u64 parent_start = 0;
-60ea105a0f9fd3 Boris Burkov              2023-06-21  528  	u64 reloc_src_root = 0;
-7bb86316c3961d Chris Mason               2007-12-11  529  
-925baeddc5b076 Chris Mason               2008-06-25  530  	if (*cow_ret == buf)
-925baeddc5b076 Chris Mason               2008-06-25  531  		unlock_orig = 1;
-925baeddc5b076 Chris Mason               2008-06-25  532  
-49d0c6424cf13a Filipe Manana             2021-09-22  533  	btrfs_assert_tree_write_locked(buf);
-925baeddc5b076 Chris Mason               2008-06-25  534  
-92a7cc4252231d Qu Wenruo                 2020-05-15  535  	WARN_ON(test_bit(BTRFS_ROOT_SHAREABLE, &root->state) &&
-0b246afa62b0cf Jeff Mahoney              2016-06-22  536  		trans->transid != fs_info->running_transaction->transid);
-92a7cc4252231d Qu Wenruo                 2020-05-15  537  	WARN_ON(test_bit(BTRFS_ROOT_SHAREABLE, &root->state) &&
-27cdeb7096b86f Miao Xie                  2014-04-02  538  		trans->transid != root->last_trans);
-5f39d397dfbe14 Chris Mason               2007-10-15  539  
-7bb86316c3961d Chris Mason               2007-12-11  540  	level = btrfs_header_level(buf);
-31840ae1a6b433 Zheng Yan                 2008-09-23  541  
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  542  	if (level == 0)
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  543  		btrfs_item_key(buf, &disk_key, 0);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  544  	else
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  545  		btrfs_node_key(buf, &disk_key, 0);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  546  
-60ea105a0f9fd3 Boris Burkov              2023-06-21  547  	if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID) {
-60ea105a0f9fd3 Boris Burkov              2023-06-21 @548  		if (parent)
-                                                                            ^^^^^^
-The NULL checking in this function is not very consistent.  This warning
-is possibly a false positive, but I expect that parent can't actually be
-NULL and the NULL checks can be deleted.
+vim +1158 fs/gfs2/log.c
 
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  549  			parent_start = parent->start;
-60ea105a0f9fd3 Boris Burkov              2023-06-21  550  		reloc_src_root = btrfs_header_owner(buf);
-60ea105a0f9fd3 Boris Burkov              2023-06-21  551  	}
-79bd37120b1495 Filipe Manana             2021-06-29  552  	cow = btrfs_alloc_tree_block(trans, root, parent_start,
-79bd37120b1495 Filipe Manana             2021-06-29  553  				     root->root_key.objectid, &disk_key, level,
-60ea105a0f9fd3 Boris Burkov              2023-06-21  554  				     search_start, empty_size, reloc_src_root, nest);
-54aa1f4dfdacd6 Chris Mason               2007-06-22  555  	if (IS_ERR(cow))
-54aa1f4dfdacd6 Chris Mason               2007-06-22  556  		return PTR_ERR(cow);
-6702ed490ca0bb Chris Mason               2007-08-07  557  
-b4ce94de9b4d64 Chris Mason               2009-02-04  558  	/* cow is set to blocking by btrfs_init_new_buffer */
-b4ce94de9b4d64 Chris Mason               2009-02-04  559  
-58e8012cc12b3c David Sterba              2016-11-08  560  	copy_extent_buffer_full(cow, buf);
-db94535db75e67 Chris Mason               2007-10-15  561  	btrfs_set_header_bytenr(cow, cow->start);
-5f39d397dfbe14 Chris Mason               2007-10-15  562  	btrfs_set_header_generation(cow, trans->transid);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  563  	btrfs_set_header_backref_rev(cow, BTRFS_MIXED_BACKREF_REV);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  564  	btrfs_clear_header_flag(cow, BTRFS_HEADER_FLAG_WRITTEN |
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  565  				     BTRFS_HEADER_FLAG_RELOC);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  566  	if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID)
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  567  		btrfs_set_header_flag(cow, BTRFS_HEADER_FLAG_RELOC);
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  568  	else
-5f39d397dfbe14 Chris Mason               2007-10-15  569  		btrfs_set_header_owner(cow, root->root_key.objectid);
-6702ed490ca0bb Chris Mason               2007-08-07  570  
-de37aa513105f8 Nikolay Borisov           2018-10-30  571  	write_extent_buffer_fsid(cow, fs_info->fs_devices->metadata_uuid);
-2b82032c34ec40 Yan Zheng                 2008-11-17  572  
-be1a5564fd39fa Mark Fasheh               2011-08-08  573  	ret = update_ref_for_cow(trans, root, buf, cow, &last_ref);
-b68dc2a93e794c Mark Fasheh               2011-08-29  574  	if (ret) {
-572c83acdcdafe Josef Bacik               2020-09-29  575  		btrfs_tree_unlock(cow);
-572c83acdcdafe Josef Bacik               2020-09-29  576  		free_extent_buffer(cow);
-66642832f06a43 Jeff Mahoney              2016-06-10  577  		btrfs_abort_transaction(trans, ret);
-b68dc2a93e794c Mark Fasheh               2011-08-29  578  		return ret;
-b68dc2a93e794c Mark Fasheh               2011-08-29  579  	}
-1a40e23b95da45 Zheng Yan                 2008-09-26  580  
-92a7cc4252231d Qu Wenruo                 2020-05-15  581  	if (test_bit(BTRFS_ROOT_SHAREABLE, &root->state)) {
-83d4cfd4da57b6 Josef Bacik               2013-08-30  582  		ret = btrfs_reloc_cow_block(trans, root, buf, cow);
-93314e3b64fd2e Zhaolei                   2015-08-06  583  		if (ret) {
-572c83acdcdafe Josef Bacik               2020-09-29  584  			btrfs_tree_unlock(cow);
-572c83acdcdafe Josef Bacik               2020-09-29  585  			free_extent_buffer(cow);
-66642832f06a43 Jeff Mahoney              2016-06-10  586  			btrfs_abort_transaction(trans, ret);
-83d4cfd4da57b6 Josef Bacik               2013-08-30  587  			return ret;
-83d4cfd4da57b6 Josef Bacik               2013-08-30  588  		}
-93314e3b64fd2e Zhaolei                   2015-08-06  589  	}
-3fd0a5585eb98e Yan, Zheng                2010-05-16  590  
-02217ed299c634 Chris Mason               2007-03-02  591  	if (buf == root->node) {
-925baeddc5b076 Chris Mason               2008-06-25  592  		WARN_ON(parent && parent != buf);
+c1696fb85d3319 Bob Peterson        2018-01-17  1040  void gfs2_log_flush(struct gfs2_sbd *sdp, struct gfs2_glock *gl, u32 flags)
+b3b94faa5fe596 David Teigland      2006-01-16  1041  {
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1042  	struct gfs2_trans *tr = NULL;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1043  	unsigned int reserved_blocks = 0, used_blocks = 0;
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1044  	bool frozen = test_bit(SDF_FROZEN, &sdp->sd_flags);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1045  	unsigned int first_log_head;
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1046  	unsigned int reserved_revokes = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1047  
+484adff8a06cb5 Steven Whitehouse   2006-03-29  1048  	down_write(&sdp->sd_log_flush_lock);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1049  	trace_gfs2_log_flush(sdp, 1, flags);
+b3b94faa5fe596 David Teigland      2006-01-16  1050  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1051  repeat:
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1052  	/*
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1053  	 * Do this check while holding the log_flush_lock to prevent new
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1054  	 * buffers from being added to the ail via gfs2_pin()
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1055  	 */
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1056  	if (gfs2_withdrawing_or_withdrawn(sdp) ||
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1057  	    !test_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags))
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1058  		goto out;
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1059  
+2bcd610d2fdea6 Steven Whitehouse   2007-11-08  1060  	/* Log might have been flushed while we waited for the flush lock */
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1061  	if (gl && !test_bit(GLF_LFLUSH, &gl->gl_flags))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1062  		goto out;
+f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1063  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1064  	first_log_head = sdp->sd_log_head;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1065  	sdp->sd_log_flush_head = first_log_head;
+400ac52e805bb6 Benjamin Marzinski  2015-12-09  1066  
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1067  	tr = sdp->sd_log_tr;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1068  	if (tr || sdp->sd_log_num_revoke) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1069  		if (reserved_blocks)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1070  			gfs2_log_release(sdp, reserved_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1071  		reserved_blocks = sdp->sd_log_blks_reserved;
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1072  		reserved_revokes = sdp->sd_log_num_revoke;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1073  		if (tr) {
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1074  			sdp->sd_log_tr = NULL;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1075  			tr->tr_first = first_log_head;
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1076  			if (unlikely(frozen)) {
+ca399c96e96e3f Bob Peterson        2020-01-08  1077  				if (gfs2_assert_withdraw_delayed(sdp,
+ca399c96e96e3f Bob Peterson        2020-01-08  1078  				       !tr->tr_num_buf_new && !tr->tr_num_databuf_new))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1079  					goto out_withdraw;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1080  			}
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1081  		}
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1082  	} else if (!reserved_blocks) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1083  		unsigned int taboo_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1084  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1085  		reserved_blocks = GFS2_LOG_FLUSH_MIN_BLOCKS;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1086  		if (current == sdp->sd_logd_process)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1087  			taboo_blocks = 0;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1088  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1089  		if (!__gfs2_log_try_reserve(sdp, reserved_blocks, taboo_blocks)) {
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1090  			up_write(&sdp->sd_log_flush_lock);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1091  			__gfs2_log_reserve(sdp, reserved_blocks, taboo_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1092  			down_write(&sdp->sd_log_flush_lock);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1093  			goto repeat;
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1094  		}
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1095  		BUG_ON(sdp->sd_log_num_revoke);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1096  	}
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1097  
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1098  	if (flags & GFS2_LOG_HEAD_FLUSH_SHUTDOWN)
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1099  		clear_bit(SDF_JOURNAL_LIVE, &sdp->sd_flags);
+f55ab26a8f92a2 Steven Whitehouse   2006-02-21  1100  
+5432af15f8772d Andreas Gruenbacher 2022-08-18  1101  	if (unlikely(frozen))
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1102  		if (gfs2_assert_withdraw_delayed(sdp, !reserved_revokes))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1103  			goto out_withdraw;
+b3b94faa5fe596 David Teigland      2006-01-16  1104  
+d7b616e252b125 Steven Whitehouse   2007-09-02  1105  	gfs2_ordered_write(sdp);
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1106  	if (gfs2_withdrawing_or_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1107  		goto out_withdraw;
+d69a3c6561362a Steven Whitehouse   2014-02-21  1108  	lops_before_commit(sdp, tr);
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1109  	if (gfs2_withdrawing_or_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1110  		goto out_withdraw;
+35264909e9d197 Andreas Gruenbacher 2024-03-11 @1111  	if (sdp->sd_jdesc)
 
-Checked here as well.
+Is this check really required?
 
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  593  		if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID ||
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  594  		    btrfs_header_backref_rev(buf) < BTRFS_MIXED_BACKREF_REV)
-5d4f98a28c7d33 Yan Zheng                 2009-06-10  595  			parent_start = buf->start;
-925baeddc5b076 Chris Mason               2008-06-25  596  
-406808ab2f0ba3 Filipe Manana             2021-03-11  597  		ret = btrfs_tree_mod_log_insert_root(root->node, cow, true);
-40b0a749388517 Filipe Manana             2023-06-08  598  		if (ret < 0) {
-40b0a749388517 Filipe Manana             2023-06-08  599  			btrfs_tree_unlock(cow);
-40b0a749388517 Filipe Manana             2023-06-08  600  			free_extent_buffer(cow);
-40b0a749388517 Filipe Manana             2023-06-08  601  			btrfs_abort_transaction(trans, ret);
-40b0a749388517 Filipe Manana             2023-06-08  602  			return ret;
-40b0a749388517 Filipe Manana             2023-06-08  603  		}
-40b0a749388517 Filipe Manana             2023-06-08  604  		atomic_inc(&cow->refs);
-240f62c8756df2 Chris Mason               2011-03-23  605  		rcu_assign_pointer(root->node, cow);
-925baeddc5b076 Chris Mason               2008-06-25  606  
-7a1636089acfee Filipe Manana             2021-12-13  607  		btrfs_free_tree_block(trans, btrfs_root_id(root), buf,
-7a1636089acfee Filipe Manana             2021-12-13  608  				      parent_start, last_ref);
-5f39d397dfbe14 Chris Mason               2007-10-15  609  		free_extent_buffer(buf);
-0b86a832a1f38a Chris Mason               2008-03-24  610  		add_root_to_dirty_list(root);
-02217ed299c634 Chris Mason               2007-03-02  611  	} else {
-5d4f98a28c7d33 Yan Zheng                 2009-06-10 @612  		WARN_ON(trans->transid != btrfs_header_generation(parent));
-                                                                                                                          ^^^^^^
-No check for NULL.
+82218943058d5e Bob Peterson        2021-01-21  1112  		gfs2_log_submit_bio(&sdp->sd_jdesc->jd_log_bio, REQ_OP_WRITE);
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1113  	if (gfs2_withdrawing_or_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1114  		goto out_withdraw;
+d7b616e252b125 Steven Whitehouse   2007-09-02  1115  
+34cc1781c2ae92 Steven Whitehouse   2012-03-09  1116  	if (sdp->sd_log_head != sdp->sd_log_flush_head) {
+c1696fb85d3319 Bob Peterson        2018-01-17  1117  		log_write_header(sdp, flags);
+5cb738b5fbd2f3 Andreas Gruenbacher 2020-12-19  1118  	} else if (sdp->sd_log_tail != sdp->sd_log_flush_tail && !sdp->sd_log_idle) {
+c1696fb85d3319 Bob Peterson        2018-01-17  1119  		log_write_header(sdp, flags);
+2332c4435bb733 Robert Peterson     2007-06-18  1120  	}
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1121  	if (gfs2_withdrawing_or_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1122  		goto out_withdraw;
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1123  	lops_after_commit(sdp, tr);
+b09e593d799560 Steven Whitehouse   2006-04-07  1124  
+fe1a698ffef5af Steven Whitehouse   2006-10-11  1125  	gfs2_log_lock(sdp);
+faa31ce85f626d Steven Whitehouse   2006-09-13  1126  	sdp->sd_log_blks_reserved = 0;
+b3b94faa5fe596 David Teigland      2006-01-16  1127  
+d6a079e82efd5f Dave Chinner        2011-03-11  1128  	spin_lock(&sdp->sd_ail_lock);
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1129  	if (tr && !list_empty(&tr->tr_ail1_list)) {
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1130  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
+16ca9412d80181 Benjamin Marzinski  2013-04-05  1131  		tr = NULL;
+b3b94faa5fe596 David Teigland      2006-01-16  1132  	}
+d6a079e82efd5f Dave Chinner        2011-03-11  1133  	spin_unlock(&sdp->sd_ail_lock);
+b3b94faa5fe596 David Teigland      2006-01-16  1134  	gfs2_log_unlock(sdp);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1135  
+c1696fb85d3319 Bob Peterson        2018-01-17  1136  	if (!(flags & GFS2_LOG_HEAD_FLUSH_NORMAL)) {
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1137  		if (!sdp->sd_log_idle) {
+d5dc3d9677394d Bob Peterson        2020-05-22  1138  			empty_ail1_list(sdp);
+4d927b03a68846 Andreas Gruenbacher 2023-12-20  1139  			if (gfs2_withdrawing_or_withdrawn(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1140  				goto out_withdraw;
+c1696fb85d3319 Bob Peterson        2018-01-17  1141  			log_write_header(sdp, flags);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1142  		}
+c1696fb85d3319 Bob Peterson        2018-01-17  1143  		if (flags & (GFS2_LOG_HEAD_FLUSH_SHUTDOWN |
+c1696fb85d3319 Bob Peterson        2018-01-17  1144  			     GFS2_LOG_HEAD_FLUSH_FREEZE))
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1145  			gfs2_log_shutdown(sdp);
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1146  	}
+24972557b12ce8 Benjamin Marzinski  2014-05-01  1147  
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1148  out_end:
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1149  	used_blocks = log_distance(sdp, sdp->sd_log_flush_head, first_log_head);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1150  	reserved_revokes += atomic_read(&sdp->sd_log_revokes_available);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1151  	atomic_set(&sdp->sd_log_revokes_available, sdp->sd_ldptrs);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1152  	gfs2_assert_withdraw(sdp, reserved_revokes % sdp->sd_inptrs == sdp->sd_ldptrs);
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1153  	if (reserved_revokes > sdp->sd_ldptrs)
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1154  		reserved_blocks += (reserved_revokes - sdp->sd_ldptrs) / sdp->sd_inptrs;
+30fe70a85a909a Bob Peterson        2019-11-13  1155  out:
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1156  	if (used_blocks != reserved_blocks) {
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1157  		gfs2_assert_withdraw_delayed(sdp, used_blocks < reserved_blocks);
+fe3e397668775e Andreas Gruenbacher 2020-12-10 @1158  		gfs2_log_release(sdp, reserved_blocks - used_blocks);
+                                                                                 ^^^
+Because gfs2_log_release() dereferences sdp->sd_jdesc without checking.
 
-d09c51521f22f9 Filipe Manana             2023-06-08  613  		ret = btrfs_tree_mod_log_insert_key(parent, parent_slot,
-33cff222faffef Filipe Manana             2022-10-14  614  						    BTRFS_MOD_LOG_KEY_REPLACE);
-d09c51521f22f9 Filipe Manana             2023-06-08  615  		if (ret) {
-d09c51521f22f9 Filipe Manana             2023-06-08  616  			btrfs_tree_unlock(cow);
-d09c51521f22f9 Filipe Manana             2023-06-08  617  			free_extent_buffer(cow);
-d09c51521f22f9 Filipe Manana             2023-06-08  618  			btrfs_abort_transaction(trans, ret);
-d09c51521f22f9 Filipe Manana             2023-06-08  619  			return ret;
-d09c51521f22f9 Filipe Manana             2023-06-08  620  		}
-5f39d397dfbe14 Chris Mason               2007-10-15  621  		btrfs_set_node_blockptr(parent, parent_slot,
-db94535db75e67 Chris Mason               2007-10-15  622  					cow->start);
-74493f7a59bfd4 Chris Mason               2007-12-11  623  		btrfs_set_node_ptr_generation(parent, parent_slot,
-74493f7a59bfd4 Chris Mason               2007-12-11  624  					      trans->transid);
-50564b651d01c1 Filipe Manana             2023-09-12  625  		btrfs_mark_buffer_dirty(trans, parent);
-5de865eebb8330 Filipe David Borba Manana 2013-12-20  626  		if (last_ref) {
-f3a84ccd28d0b0 Filipe Manana             2021-03-11  627  			ret = btrfs_tree_mod_log_free_eb(buf);
-5de865eebb8330 Filipe David Borba Manana 2013-12-20  628  			if (ret) {
-572c83acdcdafe Josef Bacik               2020-09-29  629  				btrfs_tree_unlock(cow);
-572c83acdcdafe Josef Bacik               2020-09-29  630  				free_extent_buffer(cow);
-66642832f06a43 Jeff Mahoney              2016-06-10  631  				btrfs_abort_transaction(trans, ret);
-5de865eebb8330 Filipe David Borba Manana 2013-12-20  632  				return ret;
-5de865eebb8330 Filipe David Borba Manana 2013-12-20  633  			}
-5de865eebb8330 Filipe David Borba Manana 2013-12-20  634  		}
-7a1636089acfee Filipe Manana             2021-12-13  635  		btrfs_free_tree_block(trans, btrfs_root_id(root), buf,
-7a1636089acfee Filipe Manana             2021-12-13  636  				      parent_start, last_ref);
-02217ed299c634 Chris Mason               2007-03-02  637  	}
-925baeddc5b076 Chris Mason               2008-06-25  638  	if (unlock_orig)
-925baeddc5b076 Chris Mason               2008-06-25  639  		btrfs_tree_unlock(buf);
-3083ee2e18b701 Josef Bacik               2012-03-09  640  	free_extent_buffer_stale(buf);
-50564b651d01c1 Filipe Manana             2023-09-12  641  	btrfs_mark_buffer_dirty(trans, cow);
-2c90e5d658424b Chris Mason               2007-04-02  642  	*cow_ret = cow;
-02217ed299c634 Chris Mason               2007-03-02  643  	return 0;
-02217ed299c634 Chris Mason               2007-03-02  644  }
+2129b4288852cf Andreas Gruenbacher 2020-12-17  1159  	}
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1160  	up_write(&sdp->sd_log_flush_lock);
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1161  	gfs2_trans_free(sdp, tr);
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1162  	if (gfs2_withdrawing(sdp))
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1163  		gfs2_withdraw(sdp);
+fe3e397668775e Andreas Gruenbacher 2020-12-10  1164  	trace_gfs2_log_flush(sdp, 0, flags);
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1165  	return;
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1166  
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1167  out_withdraw:
+462582b99b6079 Bob Peterson        2020-08-21  1168  	trans_drain(tr);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1169  	/**
+58e08e8d83ab03 Bob Peterson        2020-06-09  1170  	 * If the tr_list is empty, we're withdrawing during a log
+58e08e8d83ab03 Bob Peterson        2020-06-09  1171  	 * flush that targets a transaction, but the transaction was
+58e08e8d83ab03 Bob Peterson        2020-06-09  1172  	 * never queued onto any of the ail lists. Here we add it to
+58e08e8d83ab03 Bob Peterson        2020-06-09  1173  	 * ail1 just so that ail_drain() will find and free it.
+58e08e8d83ab03 Bob Peterson        2020-06-09  1174  	 */
+58e08e8d83ab03 Bob Peterson        2020-06-09  1175  	spin_lock(&sdp->sd_ail_lock);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1176  	if (tr && list_empty(&tr->tr_list))
+58e08e8d83ab03 Bob Peterson        2020-06-09  1177  		list_add(&tr->tr_list, &sdp->sd_ail1_list);
+58e08e8d83ab03 Bob Peterson        2020-06-09  1178  	spin_unlock(&sdp->sd_ail_lock);
+2ca0c2fbf3ed7f Bob Peterson        2019-11-13  1179  	tr = NULL;
+5a61ae1402f152 Andreas Gruenbacher 2020-08-28  1180  	goto out_end;
+b3b94faa5fe596 David Teigland      2006-01-16  1181  }
 
 -- 
 0-DAY CI Kernel Test Service
