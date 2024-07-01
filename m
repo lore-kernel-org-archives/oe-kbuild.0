@@ -1,65 +1,67 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEB716CD3B
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B412A16D32E
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719848515; cv=none; b=WadbfSpmTEzIfmDHDFwH9XhYod63739GjAyaatlfgUZhlHQtaaAqIyq0p9+uyMRTy/NOt4/50frcFl5Yock9/1FA6Gks3gD+XwjlWvkwfs5NQbrBleVskzjVvu79EP5q2aObzAdEFvRkFUVCgOZhVwYMVreV7mJW2u7wBhqkHD8=
+	t=1719848619; cv=none; b=ZNNB7nhC7MhOLTAVUf4NugazYfSP56I7nWyRp4CvDDVNXmLfgHM8/wUX5KCzv3QV/t98l7IArOF3ZBFCESbz56+LN7PrRxWxfsQhZGDYzlXtyUovzHaDzu0MvMdKzi/dWsImtByLXnXF9EUuWZRIDa5w2CDnjfiPcN6OszMHiYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719848515; c=relaxed/simple;
-	bh=dAZtxyryjHx+ok3FVSLXoyOpY2xOhNBc0xl7cnK1dj0=;
+	s=arc-20240116; t=1719848619; c=relaxed/simple;
+	bh=zDEkERNJE/MSnzMdn8TBJ7WRg9m6LCkM9RUeIIHLeFU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sr68Yh0gnUSRuez5rVZiWppgCQkWwrB9KMabep9C9bCi71gK/5e4lDCiyXCRf49IwuX5r9nYg8iiAggzYczcyukV5ZzqGgABeVxk8GShz31QZjPliIwIsNGOb3E9coR9Vq26nLWmltGL9mxtA5uaisj0AKQzWtU3IQ75cGg44To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DWjRp8ui; arc=none smtp.client-ip=209.85.210.52
+	 Content-Disposition:In-Reply-To; b=k14xpBgV/l+GN55G5hdQkXdPu5yYbDOmf3AikxErN3xWYFOXjBZercAntJ4q9iQZduojwLHakDTf4X0kQa2GRHQisLnCld5u9lFfVTLRlFnk+idxVGKd6deP8KYBf3mnnvJomQkXMS57zHxPa2HEOH2QOr5+3I2pfzNd/zQ80Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CRUxMNa7; arc=none smtp.client-ip=209.85.161.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DWjRp8ui"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6f8ffe1b65dso1378097a34.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:41:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CRUxMNa7"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5b9778bb7c8so1723279eaf.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719848512; x=1720453312; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FcRgdb1N1Ixh8Rt0DgQuUj8sKC1k52f8CssF6eYhWFw=;
-        b=DWjRp8uiW8e+s4WhEA98mvXn5gsHqqR/MQxa+XY2ISKvgW44YSsMX5L3x2IDVbRovY
-         2TaTAsKTwDnIVIo3gx5whPPjvLvpgaO6bZuJmiwInJpNSTBEKmyr77EFsKCCKk+kdXZP
-         1U3QBjoK7HyVj+QdgRVXmwra5vzbjcxfAguS5Exn/rYcl+4n8zk9bX7OIbp7RVoUuo3R
-         4aa83lwXDEX0JokelGU0Sk86WAKJcVrMMnJTfa7CFnS4cq3PcKLR1KVbzg/sfYrN2SBi
-         +gZoPuQ9lPzMhb3KLCa68bdIPOQvDgPgUxM/JSvl3ugASyWNxY+lF8+yIFzEgXPrhnSw
-         CEUw==
+        d=linaro.org; s=google; t=1719848616; x=1720453416; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9jzIOafebewEo1ZZHJ4C0Fr72HpACHosWsaCca63y70=;
+        b=CRUxMNa7VbMu+hNjoffFboY8A5JIACh76Og04ADNW92u8fbh0/PZ4TAfW+I2OjVoCJ
+         t3GEFWo9Q0zrH9ErObJ1MVdMmZha+GLSrWgRit4Aw11uP/hyxsgN0I8/liBGINqOwcpm
+         Xidyxd9s6PfimCTKT5Z7nwM4qicxPMHiq6ntwOq3GZB2XxbXxMPe+e/2GIcyZdBndkK5
+         VEGW191T+THzLrMheZpASH/kagZyn2tZF8hDrqlsUNXm4AGsq1FBFZH9EZcshbnQBC00
+         x1cS84faroKO+AW50nmmwTPwih1BfGvXjl8yWOc+pVV4qnD66oOk08t79UV7swOdxrKF
+         nLBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719848512; x=1720453312;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FcRgdb1N1Ixh8Rt0DgQuUj8sKC1k52f8CssF6eYhWFw=;
-        b=ELP5G+sBW8x2u9DBpMDfLvEvVD3vRk2u5zol0FzEom/GRPJMs265pcAHjyvzOaPJid
-         kJwwLyIEBhmjpTQk0qHATBzrHPp08e/0ahHsE9t+BhHUCPEjVueBOUnHKXzbsNI6ehKT
-         0GZqq8peUzelROeASv0EmID5auO0o56zIs+6f4JpbE38MGhr5dsqvZRdSBsLLqrrU0f7
-         z1EBRzjnfzjdCOZ1KlIIiTIFLz+SlESdu++OLFLaDY9uWNrkHuSSZiyqcI67fvbWke2z
-         +9ye4yf+yd+hZ/69+RT1dnJyts9Rp5RBOPh9h68A691r9gnrUO8CbvohqFNq1qf6tSW3
-         gGuQ==
-X-Gm-Message-State: AOJu0Yylfw/j9UYEHdMJFEecPkxYh3OkEa85xiFXBXGLIvYjLIkWW/Ec
-	E7DNzS24CoOeWYoqZsywNnFvDTMY+efV923NHkexrBMKnp+tJaI6Ncf+APrIVXVk4xuQp4fGIAz
-	p
-X-Google-Smtp-Source: AGHT+IF4xwTQAAIF+HTSMFVlghXvKZ890wJoqnsgyX6S0YI1F4fPpKVuYEQzS+5iSMs676vt/yqaqQ==
-X-Received: by 2002:a05:6830:111:b0:700:d567:531c with SMTP id 46e09a7af769-701faad3827mr4547333a34.10.1719848512330;
-        Mon, 01 Jul 2024 08:41:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1719848616; x=1720453416;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9jzIOafebewEo1ZZHJ4C0Fr72HpACHosWsaCca63y70=;
+        b=o2kDVYj/7wQqyF4xwOHObUUQclWxS8fHDnYnTU51hMWxSFFErIdUTjYpKJW3YdfF11
+         V4omoFgwfMis1r2yu7VjTG14dtDDwyd4ZeWJqkVbSrZD1BT0fPbNONE8hJQZc1i3h318
+         WdKtlmu6iPGJ02ryE0CVUvTrJRhsFD5/yZysaaV0UPgeOa/0MMMvQwUByQsCkae/O21T
+         JWhJvZ0+ZrKF41afL99Qm1dIIq/MpzsvzNVAWp2uRBrInraDQnBDsfu4h8stA3MX5vHh
+         LEKEOQoQSREuCTNohmJlTpOUaznON+vmMDv8MQYJbq4U/PnzjlRLKEL/dmoETRogZWj0
+         zMeA==
+X-Gm-Message-State: AOJu0YzNpniPEZ2xFW3UWj8r/Zi6fhkauDM8pz3ifxhIxT6qAU5f0qlj
+	mkxxthd5AJCSbAPj8xA3pkPeIaSWEXMVPgTlLqf/XgueDkQX/UlAkdhG0yVngMx4FpxncpEDR1e
+	H
+X-Google-Smtp-Source: AGHT+IHDxWKHqbKggeW5m/UHELJJsSAkUbSHIz5mdvPHuItb+51Qna7y7RwAeJL+Khg+Wsc2oO72Kw==
+X-Received: by 2002:a4a:5842:0:b0:5c4:2eef:d39 with SMTP id 006d021491bc7-5c439257c35mr5388343eaf.8.1719848616260;
+        Mon, 01 Jul 2024 08:43:36 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7b20a00sm1278976a34.63.2024.07.01.08.41.51
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c41480bfa1sm1016306eaf.4.2024.07.01.08.43.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:41:51 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:41:50 +0200
+        Mon, 01 Jul 2024 08:43:35 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:43:34 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Honggyu Kim <honggyu.kim@sk.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Hyeongtak Ji <hyeongtak.ji@sk.com>, SeongJae Park <sj@kernel.org>
-Subject: [linux-next:master 6602/7397] mm/damon/paddr.c:360
- __damon_pa_migrate_folio_list() error: uninitialized symbol 'nr_succeeded'.
-Message-ID: <1d0db7b1-74eb-4582-be17-e7dbce3e36bb@suswa.mountain>
+To: oe-kbuild@lists.linux.dev,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>,
+	herbert@gondor.apana.org.au, linux-crypto@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Ruud.Derwig@synopsys.com,
+	manjunath.hadli@vayavyalabs.com, bhoomikak@vayavyalabs.com,
+	Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
+Subject: Re: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and
+ Makefile
+Message-ID: <dcca1eff-48eb-411d-aef8-e206e241f3e1@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,59 +70,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240621082053.638952-8-pavitrakumarm@vayavyalabs.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   62c97045b8f720c2eac807a5f38e26c9ed512371
-commit: 5311c0a2eee34fd8f4e17382a5f653b95a940ca5 [6602/7397] mm/damon/paddr: introduce DAMOS_MIGRATE_COLD action for demotion
-config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406251102.GE07hqfQ-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
+Hi Pavitrakumar,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-Skcipher-support/20240625-184208
+base:   1dcf865d3bf5bff45e93cb2410911b3428dacb78
+patch link:    https://lore.kernel.org/r/20240621082053.638952-8-pavitrakumarm%40vayavyalabs.com
+patch subject: [PATCH v5 7/7] Enable Driver compilation in crypto Kconfig and Makefile
+config: x86_64-randconfig-161-20240626 (https://download.01.org/0day-ci/archive/20240626/202406260926.bfyJ84yf-lkp@intel.com/config)
+compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406251102.GE07hqfQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406260926.bfyJ84yf-lkp@intel.com/
 
-smatch warnings:
-mm/damon/paddr.c:360 __damon_pa_migrate_folio_list() error: uninitialized symbol 'nr_succeeded'.
+New smatch warnings:
+drivers/crypto/dwc-spacc/spacc_core.c:1029 fixup_sg() error: we previously assumed 'sg' could be null (see line 1008)
 
-vim +/nr_succeeded +360 mm/damon/paddr.c
+Old smatch warnings:
+drivers/crypto/dwc-spacc/spacc_core.c:1417 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
+drivers/crypto/dwc-spacc/spacc_core.c:1422 spacc_isenabled() error: buffer overflow 'spacc->config.modes' 81 <= 81
+drivers/crypto/dwc-spacc/spacc_core.c:2018 spacc_open() warn: inconsistent indenting
 
-5311c0a2eee34f Honggyu Kim   2024-06-14  331  static unsigned int __damon_pa_migrate_folio_list(
-5311c0a2eee34f Honggyu Kim   2024-06-14  332  		struct list_head *migrate_folios, struct pglist_data *pgdat,
-5311c0a2eee34f Honggyu Kim   2024-06-14  333  		int target_nid)
-5311c0a2eee34f Honggyu Kim   2024-06-14  334  {
-5311c0a2eee34f Honggyu Kim   2024-06-14  335  	unsigned int nr_succeeded;
-5311c0a2eee34f Honggyu Kim   2024-06-14  336  	nodemask_t allowed_mask = NODE_MASK_NONE;
-5311c0a2eee34f Honggyu Kim   2024-06-14  337  	struct migration_target_control mtc = {
-5311c0a2eee34f Honggyu Kim   2024-06-14  338  		/*
-5311c0a2eee34f Honggyu Kim   2024-06-14  339  		 * Allocate from 'node', or fail quickly and quietly.
-5311c0a2eee34f Honggyu Kim   2024-06-14  340  		 * When this happens, 'page' will likely just be discarded
-5311c0a2eee34f Honggyu Kim   2024-06-14  341  		 * instead of migrated.
-5311c0a2eee34f Honggyu Kim   2024-06-14  342  		 */
-5311c0a2eee34f Honggyu Kim   2024-06-14  343  		.gfp_mask = (GFP_HIGHUSER_MOVABLE & ~__GFP_RECLAIM) |
-5311c0a2eee34f Honggyu Kim   2024-06-14  344  			__GFP_NOWARN | __GFP_NOMEMALLOC | GFP_NOWAIT,
-5311c0a2eee34f Honggyu Kim   2024-06-14  345  		.nid = target_nid,
-5311c0a2eee34f Honggyu Kim   2024-06-14  346  		.nmask = &allowed_mask
-5311c0a2eee34f Honggyu Kim   2024-06-14  347  	};
-5311c0a2eee34f Honggyu Kim   2024-06-14  348  
-5311c0a2eee34f Honggyu Kim   2024-06-14  349  	if (pgdat->node_id == target_nid || target_nid == NUMA_NO_NODE)
-5311c0a2eee34f Honggyu Kim   2024-06-14  350  		return 0;
-5311c0a2eee34f Honggyu Kim   2024-06-14  351  
-5311c0a2eee34f Honggyu Kim   2024-06-14  352  	if (list_empty(migrate_folios))
-5311c0a2eee34f Honggyu Kim   2024-06-14  353  		return 0;
-5311c0a2eee34f Honggyu Kim   2024-06-14  354  
-5311c0a2eee34f Honggyu Kim   2024-06-14  355  	/* Migration ignores all cpuset and mempolicy settings */
-5311c0a2eee34f Honggyu Kim   2024-06-14  356  	migrate_pages(migrate_folios, alloc_migrate_folio, NULL,
-5311c0a2eee34f Honggyu Kim   2024-06-14  357  		      (unsigned long)&mtc, MIGRATE_ASYNC, MR_DAMON,
-5311c0a2eee34f Honggyu Kim   2024-06-14  358  		      &nr_succeeded);
-5311c0a2eee34f Honggyu Kim   2024-06-14  359  
-5311c0a2eee34f Honggyu Kim   2024-06-14 @360  	return nr_succeeded;
+vim +/sg +1029 drivers/crypto/dwc-spacc/spacc_core.c
 
-This can be compiled with CONFIG_MIGRATION disabled so migrate_pages()
-is a no-op that returns -ENOSYS.
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1003  static int fixup_sg(struct scatterlist *sg, int nbytes)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1004  {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1005  	int sg_nents = 0;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1006  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1007  	while (nbytes > 0) {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1008  		if (sg && sg->length) {
 
-5311c0a2eee34f Honggyu Kim   2024-06-14  361  }
+Can we really pass a NULL sg?
+
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1009  			++sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1010  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1011  			if (sg->length > nbytes)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1012  				return sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1013  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1014  			nbytes -= sg->length;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1015  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1016  			sg = sg_next(sg);
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1017  			if (!sg)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1018  				break;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1019  			/* WARNING: sg->length may be > nbytes */
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1020  		} else {
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1021  			/*
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1022  			 * The Linux crypto system uses its own SG chaining
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1023  			 * method which is slightly incompatible with the
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1024  			 * generic SG chaining. In particular, dma_map_sg does
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1025  			 * not support this method. Turn them into proper
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1026  			 * chained SGs here (which dma_map_sg does
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1027  			 * support) as a workaround.
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1028  			 */
+8e3d92f71646e6 Pavitrakumar M 2024-06-21 @1029  			spacc_sg_chain(sg, 1, sg_chain_ptr(sg));
+                                                                                       ^^^                 ^^
+Because if so, we're toast.
+
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1030  			sg = sg_chain_ptr(sg);
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1031  			if (!sg)
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1032  				break;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1033  		}
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1034  	}
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1035  
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1036  	return sg_nents;
+8e3d92f71646e6 Pavitrakumar M 2024-06-21  1037  }
 
 -- 
 0-DAY CI Kernel Test Service
