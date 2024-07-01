@@ -1,65 +1,63 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37453AC
-	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73D816D301
+	for <oe-kbuild@lists.linux.dev>; Mon,  1 Jul 2024 15:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719847862; cv=none; b=LXKtRa+wyXWtBDwPmvY1vB7SnrgI/6PVUjZNl9g2RErLdweSput5FG1CuvzXy6Wiz1EYSQj6RPauyGLdYh7sMZ41uZfs5+GUirXHnkfL+E7StGYzvG9SoK7ErscYnlZpHi5Dp6VpSTT6TpSly0cYuaQSveBI7XSwTOT6Op1pAQs=
+	t=1719848170; cv=none; b=H0RWpy2LPXdNqFOEih+MuVjPDgdMDtAvjUUOnDuF6mfy/BZzRFXRl02RflRXX7dtb8U5VOvYhNwdCSnKkhwwgwwNol4OcaTTVlU5+umJbrxUUY2E+7HAD0OWUX/kfsJ2GltTz5QSqkzhpeL3HLb3Ac36z7+le+xUO1VrX8vfHEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719847862; c=relaxed/simple;
-	bh=sGliP2PiutYk5UYF6bYNEwM49QCLkeArGIK/hFCEjPo=;
+	s=arc-20240116; t=1719848170; c=relaxed/simple;
+	bh=IFMo+EgxtM+B2OQnWyCmG01tIkkhCDQlN5GI66q6Bq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h/M6n+buu1eSNGUxmvDWpw7Xvsri96ixpJ2ETfrTFU7f/C747jO+gFa/FfFIsACGa2IwyGaerGfqyN1miRGhoRMk3Y/vzkpJ4XkSDyFcYaOZRrkeqc3X1XisnsRzrqQsqYv5Bjc/dQmB+cFNVQ0OqwioQchxswUl09p1SNkMQNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jmbgrW1k; arc=none smtp.client-ip=209.85.167.171
+	 Content-Disposition; b=XBr8+cNdnzyTzetV4ZveF6YvmTldARsXdZqRFUonCL7V3luVIvP0GsiN6f4GB4ihDQnvctAeBngKKZIlC5dunobos1MUe5DgdgUBHRUK0Pu7GpBhw1ycizeIumCY/h+uPW/f2fcgkRoc+UkbpdY0JpGWu9lvw8tjTailIgAyc4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uo/E78ZA; arc=none smtp.client-ip=209.85.210.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jmbgrW1k"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3d6301e7279so2051709b6e.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uo/E78ZA"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-701ef03185fso1807483a34.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 01 Jul 2024 08:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1719847859; x=1720452659; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1719848167; x=1720452967; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8SJQGMb1lhp3kAJHh+M64U8L5B7nXxJSfmzMAMcWq94=;
-        b=jmbgrW1kLH2VhZDhMmWjQFbClCzeAQ6qAS+b+e8+pE8p8ZmmJifPi7EHnHFZxPq1aa
-         G+0BoVEYOlNKVYNDhnpnBvy+cuHIRgd6sAqD7AWxR8GeJ3EgjLAE7ywIO3eHc8SDGc3p
-         67RvO7SgLbylamiI2AkenW/uf3HSSvMlFKxDmd1f1lsMwHBd1QBUFZW0JFmjV8fLI+oL
-         c6WDKct/xi3q2LUpQKjHLF6Q0R/XB+ykXMYzIAreFbSZDOO492jzynMbwKN1YctqRwXD
-         E4p6K4Zpwkze02oqqtLUdLJ528rr9U24ID1LrBsyGtKKwJf5E8Bb8ytgLbw7cKsVP8yw
-         mXYg==
+        bh=K5bvCJAQ/Xchffz3t2J6NQaiVKI3Au7zTH9UDbhEV2c=;
+        b=uo/E78ZAuNoHiaNJREGt2lEpezbF+xobL2NrOU9LaJ02hEbarEQWD70JGihjsYLZ8O
+         RBHwCEjfyqXWhCzhwGXczSZsUtsvavjsOhnsxGxyO7w0GjoG8Z+hbjUmYug47uB0iyg1
+         IewiNsCL5XYZ5XKHtSFXnWIJVxCT5LoddIFaR3ML9xv7bR/XhWD9Y7RWQRkTpOygryM1
+         OjnOZqDLCFSz8a5sMNAltxs/QyoIzLNB2H9IbUYGL3jyIYj69N/0Rdx7S5Y6NCGMPKkK
+         xv/p710vvAttZk6lNCnbD4tVAvrWJ3pE4oltnyQ8K37XDJPgJWOlxCJ++epJgOVKS0bV
+         AlTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719847859; x=1720452659;
+        d=1e100.net; s=20230601; t=1719848167; x=1720452967;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8SJQGMb1lhp3kAJHh+M64U8L5B7nXxJSfmzMAMcWq94=;
-        b=dgs929jDzhU3ZYhFvtpG9DqAxJDM36liaRRpKUjIjnbPVPJ/a37+nsIiHFQ/W7PQi7
-         RNYI9RaALeTo65mMhbT3TPSA17Jj/hx6RDLwEud54AagJyQhNjtxh3HKeGzCB7t4ZJoH
-         1ywHBsK3t3ljLrq3D3d+I/+crPqP1R9RWH5wfxQbrhC1XFdz1n/x5+vXOD0oh8nSSVsk
-         yxillIr7y0XD5oqF61bSdQKusxcVSJahEmCXDwKImZxCtc7y7vFEbxWkzDJcwmR0Wbc5
-         oKUXnuCRgbZi8Ym3FGkIXjYzqOTY50CGq3Ytgvyid2453JK/GWJfCPkTeM2AnoSX5u3X
-         BPPg==
-X-Gm-Message-State: AOJu0YwDqH8GzGi8kLjunUgMJZwDAw9qFaf3N9VFd37SOVsLba4rKcTk
-	GwNydffxGpjtgF3UmbuCPR/PITs1mC3M+Qr5Xv8wiLUbD5FJVPW2onDAdKXeteCnzwkBEcMtZfI
-	z
-X-Google-Smtp-Source: AGHT+IFAJ3sCecZ4Bn8KHUEDezD9VITNLcyFj8w+fAhxbQ+50cybl0b+iSfkW5/nBtkUFNfnYnspEg==
-X-Received: by 2002:a05:6808:1789:b0:3d5:670f:baa5 with SMTP id 5614622812f47-3d6b4de2d0amr8859832b6e.44.1719847859102;
-        Mon, 01 Jul 2024 08:30:59 -0700 (PDT)
+        bh=K5bvCJAQ/Xchffz3t2J6NQaiVKI3Au7zTH9UDbhEV2c=;
+        b=wbGknXCvByrgi1lKrA7jwd0WLcjLYQrNkejmg46vo/HfyWn3gyg8kGZ0uBZf35YrqC
+         nn94LzHipy/q/T4NsZwNkLP/MlUWEkhAhnoLmItaS3IlI93qqVBunwIX64WA1dmWDnuL
+         m0gJjECc7sy7MhRHxhf+deAEVbtzc8NpBoRFBAmHcQqCDCQLcdfP/TWoUEPm9qrga5KE
+         CN2yM0cmzVLve94ZqLqYMbBotmRiUFpzKwfdsvmwYf4uH4h/y1S9ITJNRF5808X5vWXK
+         LWGd2aeVah7Ik2x+zrTXFICAjRYR/fJZt9Avu/ilmPO6nooPHRy+EHqUki9xckUoidox
+         e70Q==
+X-Gm-Message-State: AOJu0Yyz5m+8ACsJ5teaQbX2wZhzz4pq7IJCIvj/MB4PhUZFN2f/EwF8
+	wCrSYP1GYYrw03vDclVVNyrf6QTzRaKp7VLbvFSGn7tut5nsVHulvRYR3oWVY+QLEUhGMddmEGq
+	b
+X-Google-Smtp-Source: AGHT+IFKq9w04b6QdUgSzMjtv3hGAqE/wViwGiHvkXfxi+QBNbw7E5hSpyBFPmF7DTfZhjYDni0mXA==
+X-Received: by 2002:a05:6830:4a:b0:700:cf09:f512 with SMTP id 46e09a7af769-702075be678mr6912139a34.1.1719848167370;
+        Mon, 01 Jul 2024 08:36:07 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e8c6:2364:637f:c70e])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d62f9b8d32sm1398227b6e.10.2024.07.01.08.30.58
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7b3926fsm1325289a34.74.2024.07.01.08.36.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jul 2024 08:30:58 -0700 (PDT)
-Date: Mon, 1 Jul 2024 17:30:57 +0200
+        Mon, 01 Jul 2024 08:36:06 -0700 (PDT)
+Date: Mon, 1 Jul 2024 17:36:05 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dumitru Ceclan <dumitru.ceclan@analog.com>
+To: oe-kbuild@lists.linux.dev, Filipe Manana <fdmanana@suse.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Nuno Sa <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>
-Subject: [jic23-iio:testing 15/61] drivers/iio/adc/ad7173.c:1254
- ad7173_fw_parse_channel_config() error: uninitialized symbol
- 'is_current_chan'.
-Message-ID: <fc29cd12-378f-420f-b076-92a1833907e5@suswa.mountain>
+	linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>
+Subject: fs/btrfs/ctree.c:612 btrfs_force_cow_block() error: we previously
+ assumed 'parent' could be null (see line 548)
+Message-ID: <96f65252-854d-4de4-a375-8f974a8bb884@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,156 +67,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   e2afe21f9b0bfa3f188cd5a60940b07a85d65e9a
-commit: cfc4c76b75ab68a95976e0db725baff385c4136d [15/61] iio: adc: ad7173: Add support for AD411x devices
-config: x86_64-randconfig-161-20240623 (https://download.01.org/0day-ci/archive/20240623/202406232046.DKfBJq6o-lkp@intel.com/config)
-compiler: gcc-11 (Ubuntu 11.4.0-4ubuntu1) 11.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   55027e689933ba2e64f3d245fb1ff185b3e7fc81
+commit: 95f93bc4cbcac6121a5ee85cd5019ee8e7447e0b btrfs: rename and export __btrfs_cow_block()
+config: um-randconfig-r071-20240623 (https://download.01.org/0day-ci/archive/20240625/202406250719.jidL6tVI-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad79a14c9e5ec4a369eed4adf567c22cc029863f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202406232046.DKfBJq6o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202406250719.jidL6tVI-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/adc/ad7173.c:1254 ad7173_fw_parse_channel_config() error: uninitialized symbol 'is_current_chan'.
+New smatch warnings:
+fs/btrfs/ctree.c:612 btrfs_force_cow_block() error: we previously assumed 'parent' could be null (see line 548)
 
-vim +/is_current_chan +1254 drivers/iio/adc/ad7173.c
+vim +/parent +612 fs/btrfs/ctree.c
+95f93bc4cbcac6 Filipe Manana             2023-09-27  513  int btrfs_force_cow_block(struct btrfs_trans_handle *trans,
+5f39d397dfbe14 Chris Mason               2007-10-15  514  			  struct btrfs_root *root,
+5f39d397dfbe14 Chris Mason               2007-10-15  515  			  struct extent_buffer *buf,
+5f39d397dfbe14 Chris Mason               2007-10-15  516  			  struct extent_buffer *parent, int parent_slot,
+5f39d397dfbe14 Chris Mason               2007-10-15  517  			  struct extent_buffer **cow_ret,
+9631e4cc1a030a Josef Bacik               2020-08-20  518  			  u64 search_start, u64 empty_size,
+9631e4cc1a030a Josef Bacik               2020-08-20  519  			  enum btrfs_lock_nesting nest)
+02217ed299c634 Chris Mason               2007-03-02  520  {
+0b246afa62b0cf Jeff Mahoney              2016-06-22  521  	struct btrfs_fs_info *fs_info = root->fs_info;
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  522  	struct btrfs_disk_key disk_key;
+5f39d397dfbe14 Chris Mason               2007-10-15  523  	struct extent_buffer *cow;
+be1a5564fd39fa Mark Fasheh               2011-08-08  524  	int level, ret;
+f0486c68e4bd9a Yan, Zheng                2010-05-16  525  	int last_ref = 0;
+925baeddc5b076 Chris Mason               2008-06-25  526  	int unlock_orig = 0;
+0f5053eb90f58c Goldwyn Rodrigues         2016-09-22  527  	u64 parent_start = 0;
+60ea105a0f9fd3 Boris Burkov              2023-06-21  528  	u64 reloc_src_root = 0;
+7bb86316c3961d Chris Mason               2007-12-11  529  
+925baeddc5b076 Chris Mason               2008-06-25  530  	if (*cow_ret == buf)
+925baeddc5b076 Chris Mason               2008-06-25  531  		unlock_orig = 1;
+925baeddc5b076 Chris Mason               2008-06-25  532  
+49d0c6424cf13a Filipe Manana             2021-09-22  533  	btrfs_assert_tree_write_locked(buf);
+925baeddc5b076 Chris Mason               2008-06-25  534  
+92a7cc4252231d Qu Wenruo                 2020-05-15  535  	WARN_ON(test_bit(BTRFS_ROOT_SHAREABLE, &root->state) &&
+0b246afa62b0cf Jeff Mahoney              2016-06-22  536  		trans->transid != fs_info->running_transaction->transid);
+92a7cc4252231d Qu Wenruo                 2020-05-15  537  	WARN_ON(test_bit(BTRFS_ROOT_SHAREABLE, &root->state) &&
+27cdeb7096b86f Miao Xie                  2014-04-02  538  		trans->transid != root->last_trans);
+5f39d397dfbe14 Chris Mason               2007-10-15  539  
+7bb86316c3961d Chris Mason               2007-12-11  540  	level = btrfs_header_level(buf);
+31840ae1a6b433 Zheng Yan                 2008-09-23  541  
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  542  	if (level == 0)
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  543  		btrfs_item_key(buf, &disk_key, 0);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  544  	else
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  545  		btrfs_node_key(buf, &disk_key, 0);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  546  
+60ea105a0f9fd3 Boris Burkov              2023-06-21  547  	if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID) {
+60ea105a0f9fd3 Boris Burkov              2023-06-21 @548  		if (parent)
+                                                                            ^^^^^^
+The NULL checking in this function is not very consistent.  This warning
+is possibly a false positive, but I expect that parent can't actually be
+NULL and the NULL checks can be deleted.
 
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1184  static int ad7173_fw_parse_channel_config(struct iio_dev *indio_dev)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1185  {
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1186  	struct ad7173_channel *chans_st_arr, *chan_st_priv;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1187  	struct ad7173_state *st = iio_priv(indio_dev);
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1188  	struct device *dev = indio_dev->dev.parent;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1189  	struct iio_chan_spec *chan_arr, *chan;
-87477bf7433028 Dumitru Ceclan   2024-06-07  1190  	unsigned int ain[AD7173_NO_AINS_PER_CHANNEL], chan_index = 0;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1191  	int ref_sel, ret, is_current_chan, num_channels;
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1192  
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1193  	num_channels = device_get_child_node_count(dev);
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1194  
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1195  	if (st->info->has_temp)
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1196  		num_channels++;
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1197  
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1198  	if (num_channels == 0)
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1199  		return dev_err_probe(dev, -ENODATA, "No channels specified\n");
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1200  
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1201  	if (num_channels > st->info->num_channels)
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1202  		return dev_err_probe(dev, -EINVAL,
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1203  			"Too many channels specified. Maximum is %d, not including temperature channel if supported.\n",
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1204  			st->info->num_channels);
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1205  
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1206  	indio_dev->num_channels = num_channels;
-51d5a38b21113a Dumitru Ceclan   2024-06-07  1207  	st->num_channels = num_channels;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1208  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1209  	chan_arr = devm_kcalloc(dev, sizeof(*indio_dev->channels),
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1210  				st->num_channels, GFP_KERNEL);
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1211  	if (!chan_arr)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1212  		return -ENOMEM;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1213  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1214  	chans_st_arr = devm_kcalloc(dev, st->num_channels, sizeof(*st->channels),
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1215  				    GFP_KERNEL);
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1216  	if (!chans_st_arr)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1217  		return -ENOMEM;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1218  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1219  	indio_dev->channels = chan_arr;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1220  	st->channels = chans_st_arr;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1221  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1222  	if (st->info->has_temp) {
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1223  		chan_arr[chan_index] = ad7173_temp_iio_channel_template;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1224  		chan_st_priv = &chans_st_arr[chan_index];
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1225  		chan_st_priv->ain =
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1226  			AD7173_CH_ADDRESS(chan_arr[chan_index].channel,
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1227  					  chan_arr[chan_index].channel2);
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1228  		chan_st_priv->cfg.bipolar = false;
-ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1229  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1230  		chan_st_priv->cfg.ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1231  		st->adc_mode |= AD7173_ADC_MODE_REF_EN;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1232  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1233  		chan_index++;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1234  	}
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1235  
-cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1236  	device_for_each_child_node_scoped(dev, child) {
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1237  		chan = &chan_arr[chan_index];
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1238  		*chan = ad7173_channel_template;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1239  		chan_st_priv = &chans_st_arr[chan_index];
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1240  		ret = fwnode_property_read_u32_array(child, "diff-channels",
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1241  						     ain, ARRAY_SIZE(ain));
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1242  		if (ret) {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1243  			ret = fwnode_property_read_u32(child, "single-channel",
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1244  						       ain);
-cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1245  			if (ret)
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1246  				return dev_err_probe(dev, ret,
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1247  					"Channel must define one of diff-channels or single-channel.\n");
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1248  
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1249  			is_current_chan = fwnode_property_read_bool(child, "adi,current-channel");
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1250  		} else {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1251  			chan->differential = true;
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  549  			parent_start = parent->start;
+60ea105a0f9fd3 Boris Burkov              2023-06-21  550  		reloc_src_root = btrfs_header_owner(buf);
+60ea105a0f9fd3 Boris Burkov              2023-06-21  551  	}
+79bd37120b1495 Filipe Manana             2021-06-29  552  	cow = btrfs_alloc_tree_block(trans, root, parent_start,
+79bd37120b1495 Filipe Manana             2021-06-29  553  				     root->root_key.objectid, &disk_key, level,
+60ea105a0f9fd3 Boris Burkov              2023-06-21  554  				     search_start, empty_size, reloc_src_root, nest);
+54aa1f4dfdacd6 Chris Mason               2007-06-22  555  	if (IS_ERR(cow))
+54aa1f4dfdacd6 Chris Mason               2007-06-22  556  		return PTR_ERR(cow);
+6702ed490ca0bb Chris Mason               2007-08-07  557  
+b4ce94de9b4d64 Chris Mason               2009-02-04  558  	/* cow is set to blocking by btrfs_init_new_buffer */
+b4ce94de9b4d64 Chris Mason               2009-02-04  559  
+58e8012cc12b3c David Sterba              2016-11-08  560  	copy_extent_buffer_full(cow, buf);
+db94535db75e67 Chris Mason               2007-10-15  561  	btrfs_set_header_bytenr(cow, cow->start);
+5f39d397dfbe14 Chris Mason               2007-10-15  562  	btrfs_set_header_generation(cow, trans->transid);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  563  	btrfs_set_header_backref_rev(cow, BTRFS_MIXED_BACKREF_REV);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  564  	btrfs_clear_header_flag(cow, BTRFS_HEADER_FLAG_WRITTEN |
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  565  				     BTRFS_HEADER_FLAG_RELOC);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  566  	if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID)
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  567  		btrfs_set_header_flag(cow, BTRFS_HEADER_FLAG_RELOC);
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  568  	else
+5f39d397dfbe14 Chris Mason               2007-10-15  569  		btrfs_set_header_owner(cow, root->root_key.objectid);
+6702ed490ca0bb Chris Mason               2007-08-07  570  
+de37aa513105f8 Nikolay Borisov           2018-10-30  571  	write_extent_buffer_fsid(cow, fs_info->fs_devices->metadata_uuid);
+2b82032c34ec40 Yan Zheng                 2008-11-17  572  
+be1a5564fd39fa Mark Fasheh               2011-08-08  573  	ret = update_ref_for_cow(trans, root, buf, cow, &last_ref);
+b68dc2a93e794c Mark Fasheh               2011-08-29  574  	if (ret) {
+572c83acdcdafe Josef Bacik               2020-09-29  575  		btrfs_tree_unlock(cow);
+572c83acdcdafe Josef Bacik               2020-09-29  576  		free_extent_buffer(cow);
+66642832f06a43 Jeff Mahoney              2016-06-10  577  		btrfs_abort_transaction(trans, ret);
+b68dc2a93e794c Mark Fasheh               2011-08-29  578  		return ret;
+b68dc2a93e794c Mark Fasheh               2011-08-29  579  	}
+1a40e23b95da45 Zheng Yan                 2008-09-26  580  
+92a7cc4252231d Qu Wenruo                 2020-05-15  581  	if (test_bit(BTRFS_ROOT_SHAREABLE, &root->state)) {
+83d4cfd4da57b6 Josef Bacik               2013-08-30  582  		ret = btrfs_reloc_cow_block(trans, root, buf, cow);
+93314e3b64fd2e Zhaolei                   2015-08-06  583  		if (ret) {
+572c83acdcdafe Josef Bacik               2020-09-29  584  			btrfs_tree_unlock(cow);
+572c83acdcdafe Josef Bacik               2020-09-29  585  			free_extent_buffer(cow);
+66642832f06a43 Jeff Mahoney              2016-06-10  586  			btrfs_abort_transaction(trans, ret);
+83d4cfd4da57b6 Josef Bacik               2013-08-30  587  			return ret;
+83d4cfd4da57b6 Josef Bacik               2013-08-30  588  		}
+93314e3b64fd2e Zhaolei                   2015-08-06  589  	}
+3fd0a5585eb98e Yan, Zheng                2010-05-16  590  
+02217ed299c634 Chris Mason               2007-03-02  591  	if (buf == root->node) {
+925baeddc5b076 Chris Mason               2008-06-25  592  		WARN_ON(parent && parent != buf);
 
-is_current_chan not initialized on this path.
+Checked here as well.
 
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1252  		}
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1253  
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07 @1254  		if (is_current_chan) {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1255  			ret = ad4111_validate_current_ain(st, ain);
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1256  			if (ret)
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1257  				return ret;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1258  		} else {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1259  			if (!chan->differential) {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1260  				ret = fwnode_property_read_u32(child,
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1261  					"common-mode-channel", ain + 1);
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1262  				if (ret)
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1263  					return dev_err_probe(dev, ret,
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1264  						"common-mode-channel must be defined for single-ended channels.\n");
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1265  			}
-87477bf7433028 Dumitru Ceclan   2024-06-07  1266  			ret = ad7173_validate_voltage_ain_inputs(st, ain[0], ain[1]);
-87477bf7433028 Dumitru Ceclan   2024-06-07  1267  			if (ret)
-87477bf7433028 Dumitru Ceclan   2024-06-07  1268  				return ret;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1269  		}
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1270  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1271  		ret = fwnode_property_match_property_string(child,
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1272  							    "adi,reference-select",
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1273  							    ad7173_ref_sel_str,
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1274  							    ARRAY_SIZE(ad7173_ref_sel_str));
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1275  		if (ret < 0)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1276  			ref_sel = AD7173_SETUP_REF_SEL_INT_REF;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1277  		else
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1278  			ref_sel = ret;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1279  
-87477bf7433028 Dumitru Ceclan   2024-06-07  1280  		ret = ad7173_validate_reference(st, ref_sel);
-87477bf7433028 Dumitru Ceclan   2024-06-07  1281  		if (ret)
-87477bf7433028 Dumitru Ceclan   2024-06-07  1282  			return ret;
-cf84f1e0a8fd23 Jonathan Cameron 2024-03-30  1283  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1284  		if (ref_sel == AD7173_SETUP_REF_SEL_INT_REF)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1285  			st->adc_mode |= AD7173_ADC_MODE_REF_EN;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1286  		chan_st_priv->cfg.ref_sel = ref_sel;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1287  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1288  		chan->address = chan_index;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1289  		chan->scan_index = chan_index;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1290  		chan->channel = ain[0];
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1291  		chan_st_priv->chan_reg = chan_index;
-ab6f0ab1781371 Dumitru Ceclan   2024-05-21  1292  		chan_st_priv->cfg.input_buf = st->info->has_input_buf;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1293  		chan_st_priv->cfg.odr = 0;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1294  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1295  		chan_st_priv->cfg.bipolar = fwnode_property_read_bool(child, "bipolar");
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1296  		if (chan_st_priv->cfg.bipolar)
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1297  			chan->info_mask_separate |= BIT(IIO_CHAN_INFO_OFFSET);
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1298  
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1299  		if (is_current_chan) {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1300  			chan->type = IIO_CURRENT;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1301  			chan->differential = false;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1302  			chan->channel2 = 0;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1303  			chan_st_priv->ain = ad4111_current_channel_config[ain[0]];
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1304  		} else {
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1305  			chan_st_priv->cfg.input_buf = st->info->has_input_buf;
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1306  			chan->channel2 = ain[1];
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1307  			chan_st_priv->ain = AD7173_CH_ADDRESS(ain[0], ain[1]);
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1308  		}
-cfc4c76b75ab68 Dumitru Ceclan   2024-06-07  1309  
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1310  		chan_index++;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1311  	}
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1312  	return 0;
-76a1e6a4280211 Dumitru Ceclan   2024-02-28  1313  }
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  593  		if (root->root_key.objectid == BTRFS_TREE_RELOC_OBJECTID ||
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  594  		    btrfs_header_backref_rev(buf) < BTRFS_MIXED_BACKREF_REV)
+5d4f98a28c7d33 Yan Zheng                 2009-06-10  595  			parent_start = buf->start;
+925baeddc5b076 Chris Mason               2008-06-25  596  
+406808ab2f0ba3 Filipe Manana             2021-03-11  597  		ret = btrfs_tree_mod_log_insert_root(root->node, cow, true);
+40b0a749388517 Filipe Manana             2023-06-08  598  		if (ret < 0) {
+40b0a749388517 Filipe Manana             2023-06-08  599  			btrfs_tree_unlock(cow);
+40b0a749388517 Filipe Manana             2023-06-08  600  			free_extent_buffer(cow);
+40b0a749388517 Filipe Manana             2023-06-08  601  			btrfs_abort_transaction(trans, ret);
+40b0a749388517 Filipe Manana             2023-06-08  602  			return ret;
+40b0a749388517 Filipe Manana             2023-06-08  603  		}
+40b0a749388517 Filipe Manana             2023-06-08  604  		atomic_inc(&cow->refs);
+240f62c8756df2 Chris Mason               2011-03-23  605  		rcu_assign_pointer(root->node, cow);
+925baeddc5b076 Chris Mason               2008-06-25  606  
+7a1636089acfee Filipe Manana             2021-12-13  607  		btrfs_free_tree_block(trans, btrfs_root_id(root), buf,
+7a1636089acfee Filipe Manana             2021-12-13  608  				      parent_start, last_ref);
+5f39d397dfbe14 Chris Mason               2007-10-15  609  		free_extent_buffer(buf);
+0b86a832a1f38a Chris Mason               2008-03-24  610  		add_root_to_dirty_list(root);
+02217ed299c634 Chris Mason               2007-03-02  611  	} else {
+5d4f98a28c7d33 Yan Zheng                 2009-06-10 @612  		WARN_ON(trans->transid != btrfs_header_generation(parent));
+                                                                                                                          ^^^^^^
+No check for NULL.
+
+d09c51521f22f9 Filipe Manana             2023-06-08  613  		ret = btrfs_tree_mod_log_insert_key(parent, parent_slot,
+33cff222faffef Filipe Manana             2022-10-14  614  						    BTRFS_MOD_LOG_KEY_REPLACE);
+d09c51521f22f9 Filipe Manana             2023-06-08  615  		if (ret) {
+d09c51521f22f9 Filipe Manana             2023-06-08  616  			btrfs_tree_unlock(cow);
+d09c51521f22f9 Filipe Manana             2023-06-08  617  			free_extent_buffer(cow);
+d09c51521f22f9 Filipe Manana             2023-06-08  618  			btrfs_abort_transaction(trans, ret);
+d09c51521f22f9 Filipe Manana             2023-06-08  619  			return ret;
+d09c51521f22f9 Filipe Manana             2023-06-08  620  		}
+5f39d397dfbe14 Chris Mason               2007-10-15  621  		btrfs_set_node_blockptr(parent, parent_slot,
+db94535db75e67 Chris Mason               2007-10-15  622  					cow->start);
+74493f7a59bfd4 Chris Mason               2007-12-11  623  		btrfs_set_node_ptr_generation(parent, parent_slot,
+74493f7a59bfd4 Chris Mason               2007-12-11  624  					      trans->transid);
+50564b651d01c1 Filipe Manana             2023-09-12  625  		btrfs_mark_buffer_dirty(trans, parent);
+5de865eebb8330 Filipe David Borba Manana 2013-12-20  626  		if (last_ref) {
+f3a84ccd28d0b0 Filipe Manana             2021-03-11  627  			ret = btrfs_tree_mod_log_free_eb(buf);
+5de865eebb8330 Filipe David Borba Manana 2013-12-20  628  			if (ret) {
+572c83acdcdafe Josef Bacik               2020-09-29  629  				btrfs_tree_unlock(cow);
+572c83acdcdafe Josef Bacik               2020-09-29  630  				free_extent_buffer(cow);
+66642832f06a43 Jeff Mahoney              2016-06-10  631  				btrfs_abort_transaction(trans, ret);
+5de865eebb8330 Filipe David Borba Manana 2013-12-20  632  				return ret;
+5de865eebb8330 Filipe David Borba Manana 2013-12-20  633  			}
+5de865eebb8330 Filipe David Borba Manana 2013-12-20  634  		}
+7a1636089acfee Filipe Manana             2021-12-13  635  		btrfs_free_tree_block(trans, btrfs_root_id(root), buf,
+7a1636089acfee Filipe Manana             2021-12-13  636  				      parent_start, last_ref);
+02217ed299c634 Chris Mason               2007-03-02  637  	}
+925baeddc5b076 Chris Mason               2008-06-25  638  	if (unlock_orig)
+925baeddc5b076 Chris Mason               2008-06-25  639  		btrfs_tree_unlock(buf);
+3083ee2e18b701 Josef Bacik               2012-03-09  640  	free_extent_buffer_stale(buf);
+50564b651d01c1 Filipe Manana             2023-09-12  641  	btrfs_mark_buffer_dirty(trans, cow);
+2c90e5d658424b Chris Mason               2007-04-02  642  	*cow_ret = cow;
+02217ed299c634 Chris Mason               2007-03-02  643  	return 0;
+02217ed299c634 Chris Mason               2007-03-02  644  }
 
 -- 
 0-DAY CI Kernel Test Service
