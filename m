@@ -1,116 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13721BB68D
-	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jul 2024 15:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFB41BB69D
+	for <oe-kbuild@lists.linux.dev>; Tue,  2 Jul 2024 15:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719933345; cv=none; b=U6y/B6GfmB2d9U6AtCSxuPRH3bE4kX53UFmvq496f9fuDxOyOzlnMfRw0sSJjzNfdD9/mDHOPAkTVuQ7ZA3l/JUdHKIpfjQsfLsPO6UJa6jRfMR3d6dJYrCM2eSqdFD6/N6VpMDCcUMvefxpr87H/9RJElH4L+5ZzkHJdGPIkyQ=
+	t=1719933546; cv=none; b=cobj/wF7LyyRMj0T0iH8APp0ZJZVOt0alZ8e1mGFDNJDhJ292xmaW2Yo3ZvGtFjVaOBDIwanSPRhziK0iX0hY00bqP0jEq+nhX3xM13gRZxZarxU3UantXgMtbLmSWgAJqhrLA5gz0Bp5UpeSKcB+zTiBUjN/krbr43IZTpFcI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719933345; c=relaxed/simple;
-	bh=4f+/X0V+ULggu0FM5ghf7ejycIq4q5ejEumu51ALfK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dutav2oFT7evStfAb0aO39F9Gwr2f5RyjdPW15YHTCVi5l/mMf41EnPdsFdq5ZpCDY/DX0ycgK4ZVMmgRIJIHjXPxtI4Ik9Pb7fC6+NUZ0eEk1Jd105O/95Od2aAqaDoq6qOjT2lZzTmcLQMIN0DjHNLhxx7RQdzdMb5GJXVIb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0V4MpO6; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1719933546; c=relaxed/simple;
+	bh=s2VSoMks5SQueQp0joxL4SlPtg1GfkMy5ebMQtcXUQE=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
+	 Message-ID:Content-Type; b=W5jfeIvcjFnJod7aOCmv82UkBQf9C+YXVYA8LfxIU0mgQ/Ev8kMi9Z2wt6B1v2OleVFBJuF1aj8jeoe2wZrIFY7OzbeUg8wsfuwlNimr+oHZaGZbUsv2KqjSsrfSdCCz1/TZ1vD0li+530bJGlAACLCGcYCot+MmkJ/auGpjwuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZtvSGTg+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0V4MpO6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1719933344; x=1751469344;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4f+/X0V+ULggu0FM5ghf7ejycIq4q5ejEumu51ALfK4=;
-  b=O0V4MpO6scWer9qnkMCtmr7QqrhrgTU91I3yx0pG05cYlgRnfbp3MvuN
-   zlYz3VT4D6LcmUs812CQ4TZkuo3mo38t66CaPPsR0siSvR1H8ciMr9RUf
-   bifbnPHd12ODUAVEpxjYuRuT6eEUwlj0Yd06bqJknoOh3A3bpt0z5wIdF
-   NNUSvXMRRIg+pZZUEzy161x6oFkdJJ1JYjazmNElJHGsLFhxx6xaC8mXi
-   Z6k/GPZrSfgegHT5sc/pYGqKMnp2Zizoj+4edlfg57XR4/Mr2bSiDMz6R
-   YiHv6M8PZYMRxnro7+C182tvyIA1jyB206NYt0ujbYSwxrEQB9fNBMw/5
-   w==;
-X-CSE-ConnectionGUID: 0q80n+uwSXyO84XEP8YnMQ==
-X-CSE-MsgGUID: 9BoGUwoBSVewPAbW+2IX5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11121"; a="28248685"
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="28248685"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2024 08:15:42 -0700
-X-CSE-ConnectionGUID: H5abxUuxQx+I1lUPtn0ypQ==
-X-CSE-MsgGUID: RTLrw/skQqy/l68y7Q6xag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,178,1716274800"; 
-   d="scan'208";a="46003163"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jul 2024 08:15:41 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sOfEJ-000OK8-1S;
-	Tue, 02 Jul 2024 15:15:39 +0000
-Date: Tue, 2 Jul 2024 23:15:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/powerpc/kexec/ranges.c:564 get_crash_memory_ranges() warn:
- iterator 'i' not incremented
-Message-ID: <202407022313.HxA5KNM3-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZtvSGTg+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1719933544;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A0goqABedANdI2n1Lg1r6zTQrqyYse9lOsb94DmQdRA=;
+	b=ZtvSGTg+vfC3cnCvKlLmSNzuJBHHoba09rrLSUra2Fi3duyO1etzgyJ52KogTuXYqXEecW
+	LEn6xjxRlVK0/8PCcZjdse+q9azKmHyOP7WLIoEbtGnm5G+CieFHWuy+Z2YHT2oXDvzVva
+	PW2UHVZYca79+cr4pwMMJBjZFHR79gs=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-527-L0W69OYwNFC4lEqtEl4dWQ-1; Tue,
+ 02 Jul 2024 11:19:00 -0400
+X-MC-Unique: L0W69OYwNFC4lEqtEl4dWQ-1
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 53BAC195608C;
+	Tue,  2 Jul 2024 15:18:59 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.111])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 99D9D1956048;
+	Tue,  2 Jul 2024 15:18:57 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <4c2dd2d5-1360-4611-b2a6-d63013104a8c@suswa.mountain>
+References: <4c2dd2d5-1360-4611-b2a6-d63013104a8c@suswa.mountain>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-writeback 17/17] fs/netfs/buffered_read.c:280 netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Tue, 02 Jul 2024 16:18:56 +0100
+Message-ID: <3043603.1719933536@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3043602.1719933536.1@warthog.procyon.org.uk>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Sourabh Jain <sourabhjain@linux.ibm.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-Hi Sourabh,
+> ... 240  		if (source == NETFS_DOWNLOAD_FROM_SERVER) {
+> ... 241  			if (subreq->start >= ictx->zero_point) {
+> ... 242  				subreq->source = source = NETFS_FILL_WITH_ZEROES;
+> ... 243  				goto fill_with_zeroes;
+> 
+> source == NETFS_DOWNLOAD_FROM_SERVER and we hit this goto
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+But we change "source" right before the goto to NETFS_FILL_WITH_ZEROES.  The
+goto then jumps to here:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1dfe225e9af5bd3399a1dbc6a4df6a6041ff9c23
-commit: f5f0da5a7b18fab383bac92044fd8f4f288c9d38 powerpc/kexec: move *_memory_ranges functions to ranges.c
-date:   2 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 months ago
-config: powerpc-randconfig-r081-20240701 (https://download.01.org/0day-ci/archive/20240702/202407022313.HxA5KNM3-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+> ... 258  	fill_with_zeroes:
+> ... 259  		if (source == NETFS_FILL_WITH_ZEROES) {
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407022313.HxA5KNM3-lkp@intel.com/
+and we match the if-condition.  slice is then set:
 
-smatch warnings:
-arch/powerpc/kexec/ranges.c:564 get_crash_memory_ranges() warn: iterator 'i' not incremented
+> ... 260  			subreq->source = NETFS_FILL_WITH_ZEROES;
+> ... 261  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
+> ... 262  			netfs_stat(&netfs_n_rh_zero);
+> ... 263  			slice = subreq->len;
 
-vim +/i +564 arch/powerpc/kexec/ranges.c
+Is the problem that smatch thinks we can fall through to done is source isn't
+any of those four values?  (There are three other source values in the enum
+that apply to the write side)
 
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  547  
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  548  #ifdef CONFIG_CRASH_DUMP
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  549  /**
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  550   * get_crash_memory_ranges - Get crash memory ranges. This list includes
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  551   *                           first/crashing kernel's memory regions that
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  552   *                           would be exported via an elfcore.
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  553   * @mem_ranges:              Range list to add the memory ranges to.
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  554   *
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  555   * Returns 0 on success, negative errno on error.
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  556   */
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  557  int get_crash_memory_ranges(struct crash_mem **mem_ranges)
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  558  {
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  559  	phys_addr_t base, end;
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  560  	struct crash_mem *tmem;
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  561  	u64 i;
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  562  	int ret;
-f5f0da5a7b18fab Sourabh Jain 2024-03-26  563  
-f5f0da5a7b18fab Sourabh Jain 2024-03-26 @564  	for_each_mem_range(i, &base, &end) {
+David
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
