@@ -1,53 +1,63 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF44113A25B
-	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jul 2024 13:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=209.85.210.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720012845; cv=fail; b=E/FR/zNVblZIcrR/d7LehjliRpmFrsZRc55LSJV9r43jWzYHGtek910LgdpWHO4HL1/SSRSU7SmXoHX+B3wx4EDvqKeZOgGCcMefdid98CwFnuIwsnbY9mk7jJ5a3NSpDOc6/POYePd0Ok5ou3nW1zlFtaMi2M3WUwIbEZC/KJM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720012845; c=relaxed/simple;
-	bh=DDu3U1nKbmxN8nKfISX+oMT6zBHqPMnyQQK5I4d4amU=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00604176ADB
+	for <oe-kbuild@lists.linux.dev>; Wed,  3 Jul 2024 14:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1720016454; cv=none; b=uVW2qleG4dUUvET3LGadLAcV3jl5Jvc7eC1+L0GE+xCWU9a98bKHZZbh62tZ2oUd/lvFCvZAUi50WG2YtJ3255loqWQ/c6Mve8Yqw8b7vl2DGLJ1QtFFO0vkSMSQDoK/mOgBMwM5Idr2o+55hrXaQOudTNuIWKJ+e6QiXN6iOyg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1720016454; c=relaxed/simple;
+	bh=lqCvilgHnv+7FohAQ4T1vjFpZ3+Zam8pAgCND10TAT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=leoF19rpXESHRG/T+fP0nHxnO4ZwaxYyhxQd4crTuFWfheYdL6Gm1s0Ox8gYG6q+SAJlbUci0AtJ4vxHptF8cKsGFT3HH+5h1zq0jAVtpGb7M5l0LFcBqGeVz3vf2x1UtExJIhST4MraDDTxOp2lFgEQ7xJ0+DajqYjea+ft4mw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=fail (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaAT9usg reason="signature verification failed"; arc=fail smtp.client-ip=209.85.210.41
+	 Content-Disposition; b=OaCxlEFB9BmMaUGDTYzdgUkSOhTMt7h7TMsSghQYwi+RofhdrKWUBT9WzXLGfPJg1FBfQ38UaE1lEJFLsoadOQpqTDGw8Z3kLVYwpdOqRPlgkIm1CY7xE6G2UkNbdCxKtMwAFcrB8a0K/I2kqQQjJt5EAjqIlpZ9T9SRpQw/XkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qw57uERR; arc=none smtp.client-ip=209.85.160.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaAT9usg"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-700cd2b7729so314595a34.1
-        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jul 2024 06:20:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qw57uERR"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-250c0555a63so2732337fac.1
+        for <oe-kbuild@lists.linux.dev>; Wed, 03 Jul 2024 07:20:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1720016452; x=1720621252; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
+        b=qw57uERR3flKehXZV0GLQ2BdupDy6BEuzb4Rg49hUaLyGpNgw41E5U2FDfL2dUnUe6
+         51w0FODfWpAcPo3YUCeq7iQs7O+lJrvJ8/C6BpuVT4aSoCwy3AjmdhprYJZEKl9HUs9c
+         jpnNOrk1XziBFa4w97+EMea6FxDO6JbqMn+7iPr0rYuqBldCeJFrjPU7KFw1Eo0Tk5l/
+         9wizcHDN9reXRVNBXtUjQ6TL41P7R+bPXrpQSC5THuDbuFm1AfwL+GPxVTjw3TTMpLXe
+         laSPYeMqdnbPFTacQ2RLl+9XVYwzgQem7ijLxE1HncX0THagWBPNuXsNUsmEADGwr+iE
+         vZXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720012842; x=1720617642;
-        h=dkim-signature:content-disposition:mime-version:message-id:subject
-         :cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KbQShHhaB6uK5KbPgT1pMNF8rTXtKbrDBdhgMopql3E=;
-        b=aqk8DCjxh8MwQVouHuGb/DPsdMcOmU6llkJmzTOlhuz4H4D0J1eHbVcOV6A1esXiIp
-         /2SC+Szfg9XnqxC/nHjWntrOl77GqM9VQ2DsZ5zSCrUK7iG/kPHUIs1QqxAeXJ1T0npc
-         EKbpqrMjHGE+9+VjfQkTxh2P72WxoJLgrX3x5BqlBW9HgMtCxtCCEI/q0dVS/a4hdKGn
-         78TKOIBQNm/oPQunh02MwpEZFkTv4miAdrx//lmeRlLAFGHYfZeZSb1ecDVHq1dlMffR
-         +l3Jhy9vkQQJg5Ml95mGm/IRp6td4l9bWaWpK3wP2E4OvKo/e0jGZhNSSvUEDTTf5NYg
-         exuQ==
-X-Gm-Message-State: AOJu0YzTxT5+chsffhLayATxC0onFh6DynXgPtGgIPpxoV2kBKI8pyDN
-	gvmZHNUbsE75uFg8igOzxdj5loglvJNz7Gi/Yqry2n29yQkPK9M7LD8mPmdGBgLY5gSbQ+zsGoI
+        d=1e100.net; s=20230601; t=1720016452; x=1720621252;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7L1UJO5CVf+ex11YQP3BKJRqwMEMyOp7WQL5pl4QQg=;
+        b=i208tC9jepC7sdMx0ZAD5uo0/wvZC3yGLHr1l+t3Tu+qE6V8iKh1gvjCHCHzb+pblk
+         LqoWICCHb3WZ1IXx9hWc8Vko+RO9bvD5bc6iaAwuYfVIZilegPe/I1fzixUjrzg2SnTE
+         D+LBqEjL62mSIA5ArvLmP8t4/y3rQ5WAkxup2OynA5lhZYvudxPCqv55OPcNhYXAmWMe
+         4PADstUB1N1f9PUbslx4VOWyYU9qE5c2H+tnrdD29bzOrVyaF+HXHYQ4xr4UrF5aZqIt
+         53FN92nWFNY6KmuNCkkjJGUsvRqC1DlVbIImfjXHS5rduSbPP/TF9B5eNIa4GED0GuGk
+         ubxw==
+X-Gm-Message-State: AOJu0YyxuZdENLfoDILIqa6KxYeWeNSLc3R0gYGjm8J+THVgEi//atnq
+	8M1DD/XSqddiApqMZxNNA2ICh0j1ov6yIl2cSIxsuFm360skUV1To/CJCcD+QlxnIEEyM8XC3FD
 	M
-X-Google-Smtp-Source: AGHT+IFp1dLhrSR5uzqFv3Uax2zk5IoJDPEg8W94m0sV5DHb6mcpw8dr3bmRKhoOPOTyGiZScjSGIg==
-X-Received: by 2002:a05:6830:3087:b0:6f9:d203:8d13 with SMTP id 46e09a7af769-7022931995dmr793447a34.0.1720012842444;
-        Wed, 03 Jul 2024 06:20:42 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:a6f1:b7be:4c8c:bf62])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-701f7b20a7fsm1969040a34.59.2024.07.03.06.20.41
+X-Google-Smtp-Source: AGHT+IHpgd9xHebwYRYsECSEOPMLy6oRLK2ztQA5kLhWR35q3B7a+UhtHgAzMPXDJr9RIzDvDjvu6w==
+X-Received: by 2002:a05:6870:8a0c:b0:25e:12b9:be40 with SMTP id 586e51a60fabf-25e12b9e979mr1303575fac.25.1720016451691;
+        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:5b79:ebe0:e3cb:2ba6])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25e036fd73csm564136fac.26.2024.07.03.07.20.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 06:20:41 -0700 (PDT)
-Date: Wed, 3 Jul 2024 15:20:39 +0200
+        Wed, 03 Jul 2024 07:20:51 -0700 (PDT)
+Date: Wed, 3 Jul 2024 16:20:49 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [anna-maria-devel:timers/misc 5/8] kernel/time/timer_migration.c:539
- __walk_groups() warn: variable dereferenced before check 'group' (see line
- 538)
-Message-ID: <c458d575-de51-406d-beed-a1c0dafef738@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:netfs-writeback 16/17] fs/netfs/read_collect.c:170
+ netfs_consume_read_data() error: we previously assumed 'folioq' could be
+ null (see line 110)
+Message-ID: <6cc43674-4d95-49b6-a279-4b0c7f7f4ceb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -56,112 +66,123 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received: from imap.gmail.com ([2607:f8b0:4023:1009::6c]:993) by suswa with
- IMAP4-SSL getmail6 msgid:674269650/302469; 03 Jul 2024 03:38:09 -0000
-Received: by 2002:a5d:414f:0:b0:367:91bd:d0dc with SMTP id c15csp176515wrq;
- Tue, 2 Jul 2024 20:37:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2;
- AJvYcCU6P33VWZF6d4kU/ltUYkf1Pn/zcJAGBHT21GWLdF4GBBOJX+i2JoTlkc4JzAp6+GEHO3V73uvuQOSZLRqnjXu4ug==
-X-Received: by 2002:ac8:7f0f:0:b0:444:c25f:b017 with SMTP id
- d75a77b69052e-447bf662df4mr7348641cf.2.1719977846069;        Tue, 02 Jul
- 2024 20:37:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719977846; cv=none;        d=google.com;
- s=arc-20160816;
- b=eJrzuJMteeNzUR70+uyvZESP40NfKe7yyYXwpdQtdIDomA+xaRuqZZSSsgyK9nR/dO
- QJH+ibJfKzfBwYbMVmYvEcgwKYh/m14Vuoubp85XAeWMuCIkGjOK9SPDeCf0haQIqUt2
- qQdZrjHRBEUtr6uL+DkLy4zBriiZF0jQKfH8/xDoZ3QK+JCRHjPW/wNplhn9yfP0WBWb
- h9gQcLd6FybJLqTZefpVOtWl3ZgzuPkU8fggNEF4NksQ7kF6KDMnKX7MkFO6t+ONMkLG
- bukaUXBtpcMDAKkH5vVE3Gse9ioxwY9yg+tCr9cDH7tlBMbeoyTfQhnI4mlAX7p+rlRM psyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com;
- s=arc-20160816;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :dkim-signature; bh=nh7PImwmAn2Ap5B0zJPKzA54WlJf7N6OhphWCdGuR5w=;
- fh=STwU/6nAwSVI2oUzRWkoH/BhmoKW+LI2Ifd8kl7IM00=;
- b=NV6sKWD0Swj0ymoP99sF9rU5fi1GWAJruYRYdL5Ym5QUXUnsQWKl9TPhitykTzbhCZ
- nie0TYha7iN1YTqNCLWHtAT29tQmtBSuQMusenjMU33ZK+DcKn7N8YShVmJGJXoyZ5vP
- uvE2TrH/znkhSgJUkA/J11JFq9++5aGzcqQa/xYbstAOwn8ufOstdpgcwNWVyM8EdxTl
- f4vhKEaGBbGFIjN/X2nxgdPyQenxYI9UqJwgBaxEHqpBugWm+jRBXymq46h9zuR+RSmj
- wTLOwFhl7fNRwFm+/9+7WCdfg6VGYX8Bay56sXVbU+NNwp+1mjy9t5y4GryaBnWCysMa OGbA==;
- dara=google.com
-ARC-Authentication-Results: i=1; mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=kaAT9usg;       spf=pass
- (google.com: domain of lkp@intel.com designates 198.175.65.18 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.18]) by
- mx.google.com with ESMTPS id
- d75a77b69052e-446513e5072si118837321cf.181.2024.07.02.20.37.25        for
- <dan.carpenter@linaro.org>        (version=TLS1_2
- cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);        Tue, 02 Jul 2024
- 20:37:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates
- 198.175.65.18 as permitted sender) client-ip=198.175.65.18;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;  d=intel.com;
- i=@intel.com; q=dns/txt; s=Intel;  t=1719977846; x=1751513846;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=rHcj1Kcq9By3ux2PDlMkBMhkOsjBt8zBjfEYBPmBhpc=;
- b=kaAT9usgVt1KEItTNrXYNWy5h72l0ezRMwaHCcd2p6FaEysbQJDS8c/k
- wnszB6eH+QUijsUWkVhUGehZm18zTu0h3bBiVmaqyk8qV0Fa8tYVpNFGr
- +7DkaLU0jUIRLaBBcbDKGN7hkP6YkLw2A0KOBZA4EPLGN3bF2DYU3KfaU
- UwFhgYfEu1mMN/Pxv1RFcTfOmCsgU0DoyB9XlE2ngiWtafdBeiGgdksE+
- Pui10uwZIxJp/FObquamyrLhD+JcLsbVJxmEviFNPlTlI3szPt0QmVUzN
- Ed1At2EUQLdIV9RpAJ1wcX31YVAq8fOqT+7DDTq/hyUlHuwk7fUbS3dNo   g==;
-X-CSE-ConnectionGUID: YgKb5HDfQqqXwVrUra9CCQ==
-X-CSE-MsgGUID: OdxmyPxKTimXbwolzeNzbw==
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])  by
- orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul
- 2024 20:37:24 -0700
-X-CSE-ConnectionGUID: IwPoW7WZRZ6BAKqrpcuPIA==
-X-CSE-MsgGUID: 1AkQ2h/5Q0KsT4UhziROMw==
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b)
- ([10.239.97.150])  by fmviesa001.fm.intel.com with ESMTP; 02 Jul 2024
- 20:37:24 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96) (envelope-from
- <lkp@intel.com>) id 1sOqo5-000PDn-1M; Wed, 03 Jul 2024 03:37:21 +0000
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Anna-Maria Behnsen" <anna-maria@linutronix.de>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/anna-maria/linux-devel.git timers/misc
-head:   a75487ea30d064b9ff2bb081ff82696ae9e97014
-commit: 7566dd71b07f51730aec154322a3426784a17478 [5/8] timers/migration: Read childmask and parent pointer in a single place
-config: x86_64-randconfig-161-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031108.pd47N271-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   87ff2bfa2eb1cac0a80d376b99b244e96f582721
+commit: 5a2bec0ed38eec31673fd7c48b558c29db922e1a [16/17] netfs: Speed up buffered reading
+config: i386-randconfig-141-20240703 (https://download.01.org/0day-ci/archive/20240703/202407031405.z0FPKCLr-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407031108.pd47N271-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407031405.z0FPKCLr-lkp@intel.com/
 
 smatch warnings:
-kernel/time/timer_migration.c:539 __walk_groups() warn: variable dereferenced before check 'group' (see line 538)
+fs/netfs/read_collect.c:170 netfs_consume_read_data() error: we previously assumed 'folioq' could be null (see line 110)
 
-vim +/group +539 kernel/time/timer_migration.c
+vim +/folioq +170 fs/netfs/read_collect.c
 
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  525  static void __walk_groups(up_f up, struct tmigr_walk *data,
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  526  			  struct tmigr_cpu *tmc)
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  527  {
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  528  	struct tmigr_group *child = NULL, *group = tmc->tmgroup;
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  529  
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  530  	do {
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  531  		WARN_ON_ONCE(group->level >= tmigr_hierarchy_levels);
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  532  
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  533  		if (up(group, child, data))
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  534  			break;
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  535  
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  536  		child = group;
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  537  		group = group->parent;
-7566dd71b07f517 Anna-Maria Behnsen 2024-06-25 @538  		data->childmask = group->childmask;
-                                                                                  ^^^^^^^^^^^^^^^^^
-Dereference
+5a2bec0ed38eec David Howells 2024-07-02   81  static bool netfs_consume_read_data(struct netfs_io_subrequest *subreq, bool was_async)
+5a2bec0ed38eec David Howells 2024-07-02   82  {
+5a2bec0ed38eec David Howells 2024-07-02   83  	struct netfs_io_subrequest *prev, *next;
+5a2bec0ed38eec David Howells 2024-07-02   84  	struct netfs_io_request *rreq = subreq->rreq;
+5a2bec0ed38eec David Howells 2024-07-02   85  	struct folio_queue *folioq = subreq->curr_folioq;
+5a2bec0ed38eec David Howells 2024-07-02   86  	size_t avail, prev_donated, next_donated, fsize, part, excess;
+5a2bec0ed38eec David Howells 2024-07-02   87  	loff_t fpos, start;
+5a2bec0ed38eec David Howells 2024-07-02   88  	loff_t fend;
+5a2bec0ed38eec David Howells 2024-07-02   89  	int slot = subreq->curr_folioq_slot;
+5a2bec0ed38eec David Howells 2024-07-02   90  
+5a2bec0ed38eec David Howells 2024-07-02   91  	if (WARN(subreq->transferred > subreq->len,
+5a2bec0ed38eec David Howells 2024-07-02   92  		 "Subreq overread: R%x[%x] %zu > %zu",
+5a2bec0ed38eec David Howells 2024-07-02   93  		 rreq->debug_id, subreq->debug_index,
+5a2bec0ed38eec David Howells 2024-07-02   94  		 subreq->transferred, subreq->len))
+5a2bec0ed38eec David Howells 2024-07-02   95  		subreq->transferred = subreq->len;
+5a2bec0ed38eec David Howells 2024-07-02   96  
+5a2bec0ed38eec David Howells 2024-07-02   97  next_folio:
+5a2bec0ed38eec David Howells 2024-07-02   98  	fsize = PAGE_SIZE << subreq->curr_folio_order;
+5a2bec0ed38eec David Howells 2024-07-02   99  	fpos = round_down(subreq->start + subreq->consumed, fsize);
+5a2bec0ed38eec David Howells 2024-07-02  100  	fend = fpos + fsize;
+5a2bec0ed38eec David Howells 2024-07-02  101  
+5a2bec0ed38eec David Howells 2024-07-02  102  	if (WARN_ON_ONCE(!folioq) ||
 
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25 @539  	} while (group);
-                                                                 ^^^^^
-Check for NULL after a dereference
+Presumably we're never going to trigger this warning...
 
-8d3c19ba160fa10 Anna-Maria Behnsen 2024-06-25  540  }
+5a2bec0ed38eec David Howells 2024-07-02  103  	    WARN_ON_ONCE(!folioq_folio(folioq, slot)) ||
+5a2bec0ed38eec David Howells 2024-07-02  104  	    WARN_ON_ONCE(folioq_folio(folioq, slot)->index != fpos / PAGE_SIZE)) {
+5a2bec0ed38eec David Howells 2024-07-02  105  		pr_err("R=%08x[%x] s=%llx-%llx ctl=%zx/%zx/%zx sl=%u\n",
+5a2bec0ed38eec David Howells 2024-07-02  106  		       rreq->debug_id, subreq->debug_index,
+5a2bec0ed38eec David Howells 2024-07-02  107  		       subreq->start, subreq->start + subreq->transferred,
+5a2bec0ed38eec David Howells 2024-07-02  108  		       subreq->consumed, subreq->transferred, subreq->len,
+5a2bec0ed38eec David Howells 2024-07-02  109  		       slot);
+5a2bec0ed38eec David Howells 2024-07-02 @110  		if (folioq) {
+5a2bec0ed38eec David Howells 2024-07-02  111  			struct folio *folio = folioq_folio(folioq, slot);
+5a2bec0ed38eec David Howells 2024-07-02  112  
+5a2bec0ed38eec David Howells 2024-07-02  113  			pr_err("folioq: %02x%02x%02x%02x\n",
+5a2bec0ed38eec David Howells 2024-07-02  114  			       folioq->orders[0], folioq->orders[1],
+5a2bec0ed38eec David Howells 2024-07-02  115  			       folioq->orders[2], folioq->orders[3]);
+5a2bec0ed38eec David Howells 2024-07-02  116  			if (folio)
+5a2bec0ed38eec David Howells 2024-07-02  117  				pr_err("folio: %llx-%llx ix=%llx o=%u qo=%u\n",
+5a2bec0ed38eec David Howells 2024-07-02  118  				       fpos, fend - 1, folio_pos(folio), folio_order(folio),
+5a2bec0ed38eec David Howells 2024-07-02  119  				       folioq_folio_order(folioq, slot));
+5a2bec0ed38eec David Howells 2024-07-02  120  		}
+5a2bec0ed38eec David Howells 2024-07-02  121  	}
+5a2bec0ed38eec David Howells 2024-07-02  122  
+5a2bec0ed38eec David Howells 2024-07-02  123  donation_changed:
+5a2bec0ed38eec David Howells 2024-07-02  124  	/* Try to consume the current folio if we've hit or passed the end of
+5a2bec0ed38eec David Howells 2024-07-02  125  	 * it.  There's a possibility that this subreq doesn't start at the
+5a2bec0ed38eec David Howells 2024-07-02  126  	 * beginning of the folio, in which case we need to donate to/from the
+5a2bec0ed38eec David Howells 2024-07-02  127  	 * preceding subreq.
+5a2bec0ed38eec David Howells 2024-07-02  128  	 *
+5a2bec0ed38eec David Howells 2024-07-02  129  	 * We also need to include any potential donation back from the
+5a2bec0ed38eec David Howells 2024-07-02  130  	 * following subreq.
+5a2bec0ed38eec David Howells 2024-07-02  131  	 */
+5a2bec0ed38eec David Howells 2024-07-02  132  	prev_donated = READ_ONCE(subreq->prev_donated);
+5a2bec0ed38eec David Howells 2024-07-02  133  	next_donated =  READ_ONCE(subreq->next_donated);
+5a2bec0ed38eec David Howells 2024-07-02  134  	if (prev_donated || next_donated) {
+5a2bec0ed38eec David Howells 2024-07-02  135  		spin_lock(&rreq->lock);
+5a2bec0ed38eec David Howells 2024-07-02  136  		prev_donated = subreq->prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  137  		next_donated =  subreq->next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  138  		subreq->start -= prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  139  		subreq->len += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  140  		subreq->transferred += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  141  		prev_donated = subreq->prev_donated = 0;
+5a2bec0ed38eec David Howells 2024-07-02  142  		if (subreq->transferred == subreq->len) {
+5a2bec0ed38eec David Howells 2024-07-02  143  			subreq->len += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  144  			subreq->transferred += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  145  			next_donated = subreq->next_donated = 0;
+5a2bec0ed38eec David Howells 2024-07-02  146  		}
+5a2bec0ed38eec David Howells 2024-07-02  147  		trace_netfs_sreq(subreq, netfs_sreq_trace_add_donations);
+5a2bec0ed38eec David Howells 2024-07-02  148  		spin_unlock(&rreq->lock);
+5a2bec0ed38eec David Howells 2024-07-02  149  	}
+5a2bec0ed38eec David Howells 2024-07-02  150  
+5a2bec0ed38eec David Howells 2024-07-02  151  	avail = subreq->transferred;
+5a2bec0ed38eec David Howells 2024-07-02  152  	if (avail == subreq->len)
+5a2bec0ed38eec David Howells 2024-07-02  153  		avail += next_donated;
+5a2bec0ed38eec David Howells 2024-07-02  154  	start = subreq->start;
+5a2bec0ed38eec David Howells 2024-07-02  155  	if (subreq->consumed == 0) {
+5a2bec0ed38eec David Howells 2024-07-02  156  		start -= prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  157  		avail += prev_donated;
+5a2bec0ed38eec David Howells 2024-07-02  158  	} else {
+5a2bec0ed38eec David Howells 2024-07-02  159  		start += subreq->consumed;
+5a2bec0ed38eec David Howells 2024-07-02  160  		avail -= subreq->consumed;
+5a2bec0ed38eec David Howells 2024-07-02  161  	}
+5a2bec0ed38eec David Howells 2024-07-02  162  	part = umin(avail, fsize);
+5a2bec0ed38eec David Howells 2024-07-02  163  
+5a2bec0ed38eec David Howells 2024-07-02  164  	trace_netfs_progress(subreq, start, avail, part);
+5a2bec0ed38eec David Howells 2024-07-02  165  
+5a2bec0ed38eec David Howells 2024-07-02  166  	if (start + avail >= fend) {
+5a2bec0ed38eec David Howells 2024-07-02  167  		if (fpos == start) {
+5a2bec0ed38eec David Howells 2024-07-02  168  			/* Flush, unlock and mark for caching any folio we've just read. */
+5a2bec0ed38eec David Howells 2024-07-02  169  			subreq->consumed = fend - subreq->start;
+5a2bec0ed38eec David Howells 2024-07-02 @170  			netfs_unlock_read_folio(subreq, rreq, folioq_folio(folioq, slot));
+                                                                                                                   ^^^^^^
+Unchecked dereference.
+
+5a2bec0ed38eec David Howells 2024-07-02  171  			folioq_mark2(folioq, slot);
+5a2bec0ed38eec David Howells 2024-07-02  172  			if (subreq->consumed >= subreq->len)
+5a2bec0ed38eec David Howells 2024-07-02  173  				goto remove_subreq;
 
 -- 
 0-DAY CI Kernel Test Service
