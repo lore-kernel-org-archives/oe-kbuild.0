@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17941AED3D
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 12:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5441A81
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 14:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720097080; cv=none; b=pDZWrldewzi9oIIue+zfiYUiAzXkyG5jnjTch12bHzgifW/eKSORYLA3FMgUj50z6nyMuoWl5aAklBsfUqOcttCMfag4103hrTIQILScaKCvbbv/f6r6mZCefgSPVGUGvj7ylMzFVQB4ITMni7+lAU2IztEQy72W+L92mU2fNLI=
+	t=1720101979; cv=none; b=HzA1Yit5yBWMHzBeuGZTneT+hNA16Sop01EVrpHd10yJAoMe4wOXiAzwJW4DpcL0rol0G7TlhR6hAWuRwFrgCvQIK1rzuMOpwko305bhWyaj5wydlfGkzh0bI59RkpgPrwtCHBC5/wL+kdlaIHtpeTso5qPz8b/Qg6E5DkmgmzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720097080; c=relaxed/simple;
-	bh=Er+cDSxUGwlocny0ECNVwgx6m76eJc6q51bAtZ/qWYI=;
+	s=arc-20240116; t=1720101979; c=relaxed/simple;
+	bh=vkjrA6Lv2boj5WbRicmwVKYXpES23S+7VFxJCv/tZnY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J+brpqsSwq8gXHBp7Up5/N1rh9XbDsBToNW5voo/84rE2GUO7xvHwx7E7+qzGgloKY3+wnAGRcTmZyDpLJ+UkEpxcTIB3XC/JIUWjWx8ckj432+7VKkQJqaL8OE5P8FCBda6kzcS8W0i3urCPgBsSb3DB4x6rCH06nFdeNeAemo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kytD76Tg; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=MYxOA46OWYXPj59c+QK0chYBdJG30YMnv365vsoPu3PL3rQOeK5gZnCR+3M43RAjdeKeqXLlCSR6th9dLbFiZGnbWb0Okr/Ld9VtVAUo8XnolgjrCKNLp2gRMO19ZCDREWx3tua8OlvUqHz8eZKK50kLIYkMWKoUtLGp9bZ/SmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JoNw0VfX; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kytD76Tg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoNw0VfX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720097078; x=1751633078;
+  t=1720101977; x=1751637977;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Er+cDSxUGwlocny0ECNVwgx6m76eJc6q51bAtZ/qWYI=;
-  b=kytD76TgL+F5HMmGGqmsP+Paq5xu6OpTUaCAot9zd6Vsa+1W35Ez51MA
-   +ta9mYp3cj1lu7gScOAylq3zv37g7qIbCFuTLSDfzNRibxiWlNenwptwF
-   BnlO6H9lVYiA6OYFbsRxzBjOIIDZS2+ug7vdualMclupFkCPRn8VJ8woj
-   8EjWPgtx8H9K6I5+2nJPlAhB4e3K2yuKHoRu4vgFqmvlRjFF5TLnQWwnH
-   jAwGzqTd2opgwWmWPQM4Ny1NzJWguqEMSsk5QNLYonCdJn2lv6iqo7MSd
-   B7AimywFiWKxB82u35LFSJOzpiHED99JV/xnGjS3WNXDNIfEco+yKnK5B
-   w==;
-X-CSE-ConnectionGUID: 2/4A25KQRheBaR8NWbvJXA==
-X-CSE-MsgGUID: 5wyslWAfQ5qShWRTMQmflA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="17211753"
+  bh=vkjrA6Lv2boj5WbRicmwVKYXpES23S+7VFxJCv/tZnY=;
+  b=JoNw0VfXCnqt77YRdJ5WretLmHvdNR26y7+aysOW6QtAfgNEIlbivBbn
+   C/w9u0BwOJFz8KhSMva7JtNVpuUtjQvFLVdVNUF9uht5vZipc/DIQz/Rs
+   n+L6vAPNlbS0GMO3H6KwjWF8nq6EE6SD7IdH0/KLqWvtUnviCFeKymK1S
+   fvInD3y1yubThAwNUOvNm2hvHYrNO/rxYfJoSYjn1NILmNXt5Llkw3Gyb
+   UiInFBv1ZQteCZn+9oaHg+xWMmSJb9kLzYwxqh/Kpa23I3jMm5Gskz96b
+   gESzli8Zkf8AW0PTv2HOh7mlKbhr5iLrfXGaGsp1bi6UtSDtK2yO4qndp
+   Q==;
+X-CSE-ConnectionGUID: Z7cGK6/XTdSY2csoQp6Crw==
+X-CSE-MsgGUID: AXjNja5/REaxVsQ466/IPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="27999723"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17211753"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 05:44:38 -0700
-X-CSE-ConnectionGUID: ATSaUPgnRVW7PP+qm9nLQg==
-X-CSE-MsgGUID: iN4u1jUzQzCSadKrevoBTw==
+   d="scan'208";a="27999723"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 07:06:17 -0700
+X-CSE-ConnectionGUID: yIK8+FLJTNO41amOXkbrmg==
+X-CSE-MsgGUID: K7koY8DWTpG7lxP4PHftKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="69789281"
+   d="scan'208";a="51470864"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2024 05:44:36 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Jul 2024 07:06:16 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPLpC-000Qzi-21;
-	Thu, 04 Jul 2024 12:44:34 +0000
-Date: Thu, 4 Jul 2024 20:44:03 +0800
+	id 1sPN6D-000R4I-14;
+	Thu, 04 Jul 2024 14:06:13 +0000
+Date: Thu, 4 Jul 2024 22:05:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [paulmckrcu:dev 42/49] kernel/smp.c:251 csd_lock_wait_toolong()
- warn: variable dereferenced before check 'nmessages' (see line 251)
-Message-ID: <202407042011.FX2T2Rea-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4 2/8] arm64: dts: imx8qm: add lvds subsystem
+Message-ID: <202407042157.njTc6T21-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,109 +61,157 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+In-Reply-To: <20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6@nxp.com>
+References: <20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6@nxp.com>
+TO: Frank Li <Frank.Li@nxp.com>
 
-tree:   https://github.com/paulmckrcu/linux dev
-head:   98800981bc4f02066887d7f0bd41cb7070fbcc94
-commit: feca218cf89f7ff46d90ac4e0bd126ecfc423fd2 [42/49] locking/csd-lock: Use backoff for repeated reports of same incident
-:::::: branch date: 13 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240704 (https://download.01.org/0day-ci/archive/20240704/202407042011.FX2T2Rea-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9db27bc55bd8363570c5a259ff4dc77bd6a0b2cd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/arm64-dts-imx8-add-basic-lvds0-and-lvds1-subsystem/20240702-000741
+base:   9db27bc55bd8363570c5a259ff4dc77bd6a0b2cd
+patch link:    https://lore.kernel.org/r/20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6%40nxp.com
+patch subject: [PATCH v4 2/8] arm64: dts: imx8qm: add lvds subsystem
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20240702 (https://download.01.org/0day-ci/archive/20240704/202407042157.njTc6T21-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407042157.njTc6T21-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407042011.FX2T2Rea-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407042157.njTc6T21-lkp@intel.com/
 
-smatch warnings:
-kernel/smp.c:251 csd_lock_wait_toolong() warn: variable dereferenced before check 'nmessages' (see line 251)
-
-vim +/nmessages +251 kernel/smp.c
-
-24f4724edcdc91 Paul E. McKenney 2024-07-01  222  
-35feb60474bf4f Paul E. McKenney 2020-06-30  223  /*
-35feb60474bf4f Paul E. McKenney 2020-06-30  224   * Complain if too much time spent waiting.  Note that only
-35feb60474bf4f Paul E. McKenney 2020-06-30  225   * the CSD_TYPE_SYNC/ASYNC types provide the destination CPU,
-35feb60474bf4f Paul E. McKenney 2020-06-30  226   * so waiting on other types gets much less information.
-35feb60474bf4f Paul E. McKenney 2020-06-30  227   */
-feca218cf89f7f Paul E. McKenney 2024-07-02  228  static bool csd_lock_wait_toolong(call_single_data_t *csd, u64 ts0, u64 *ts1, int *bug_id, unsigned long *nmessages)
-35feb60474bf4f Paul E. McKenney 2020-06-30  229  {
-35feb60474bf4f Paul E. McKenney 2020-06-30  230  	int cpu = -1;
-35feb60474bf4f Paul E. McKenney 2020-06-30  231  	int cpux;
-35feb60474bf4f Paul E. McKenney 2020-06-30  232  	bool firsttime;
-35feb60474bf4f Paul E. McKenney 2020-06-30  233  	u64 ts2, ts_delta;
-35feb60474bf4f Paul E. McKenney 2020-06-30  234  	call_single_data_t *cpu_cur_csd;
-545b8c8df41f9e Peter Zijlstra   2020-06-15  235  	unsigned int flags = READ_ONCE(csd->node.u_flags);
-3791a22374715b Paul E. McKenney 2022-02-28  236  	unsigned long long csd_lock_timeout_ns = csd_lock_timeout * NSEC_PER_MSEC;
-35feb60474bf4f Paul E. McKenney 2020-06-30  237  
-35feb60474bf4f Paul E. McKenney 2020-06-30  238  	if (!(flags & CSD_FLAG_LOCK)) {
-35feb60474bf4f Paul E. McKenney 2020-06-30  239  		if (!unlikely(*bug_id))
-35feb60474bf4f Paul E. McKenney 2020-06-30  240  			return true;
-35feb60474bf4f Paul E. McKenney 2020-06-30  241  		cpu = csd_lock_wait_getcpu(csd);
-35feb60474bf4f Paul E. McKenney 2020-06-30  242  		pr_alert("csd: CSD lock (#%d) got unstuck on CPU#%02d, CPU#%02d released the lock.\n",
-35feb60474bf4f Paul E. McKenney 2020-06-30  243  			 *bug_id, raw_smp_processor_id(), cpu);
-24f4724edcdc91 Paul E. McKenney 2024-07-01  244  		atomic_dec(&n_csd_lock_stuck);
-35feb60474bf4f Paul E. McKenney 2020-06-30  245  		return true;
-35feb60474bf4f Paul E. McKenney 2020-06-30  246  	}
-35feb60474bf4f Paul E. McKenney 2020-06-30  247  
-35feb60474bf4f Paul E. McKenney 2020-06-30  248  	ts2 = sched_clock();
-94b3f0b5af2c7a Rik van Riel     2023-08-21  249  	/* How long since we last checked for a stuck CSD lock.*/
-35feb60474bf4f Paul E. McKenney 2020-06-30  250  	ts_delta = ts2 - *ts1;
-feca218cf89f7f Paul E. McKenney 2024-07-02 @251  	if (likely(ts_delta <= csd_lock_timeout_ns * (*nmessages + 1) *
-feca218cf89f7f Paul E. McKenney 2024-07-02  252  			       (!nmessages ? 1 : (ilog2(num_online_cpus()) / 2 + 1)) ||
-feca218cf89f7f Paul E. McKenney 2024-07-02  253  		   csd_lock_timeout_ns == 0))
-35feb60474bf4f Paul E. McKenney 2020-06-30  254  		return false;
-35feb60474bf4f Paul E. McKenney 2020-06-30  255  
-35feb60474bf4f Paul E. McKenney 2020-06-30  256  	firsttime = !*bug_id;
-35feb60474bf4f Paul E. McKenney 2020-06-30  257  	if (firsttime)
-35feb60474bf4f Paul E. McKenney 2020-06-30  258  		*bug_id = atomic_inc_return(&csd_bug_count);
-35feb60474bf4f Paul E. McKenney 2020-06-30  259  	cpu = csd_lock_wait_getcpu(csd);
-35feb60474bf4f Paul E. McKenney 2020-06-30  260  	if (WARN_ONCE(cpu < 0 || cpu >= nr_cpu_ids, "%s: cpu = %d\n", __func__, cpu))
-35feb60474bf4f Paul E. McKenney 2020-06-30  261  		cpux = 0;
-35feb60474bf4f Paul E. McKenney 2020-06-30  262  	else
-35feb60474bf4f Paul E. McKenney 2020-06-30  263  		cpux = cpu;
-35feb60474bf4f Paul E. McKenney 2020-06-30  264  	cpu_cur_csd = smp_load_acquire(&per_cpu(cur_csd, cpux)); /* Before func and info. */
-94b3f0b5af2c7a Rik van Riel     2023-08-21  265  	/* How long since this CSD lock was stuck. */
-94b3f0b5af2c7a Rik van Riel     2023-08-21  266  	ts_delta = ts2 - ts0;
-a0897399e4ce39 Paul E. McKenney 2024-07-01  267  	pr_alert("csd: %s non-responsive CSD lock (#%d) on CPU#%d, waiting %lld ns for CPU#%02d %pS(%ps).\n",
-a0897399e4ce39 Paul E. McKenney 2024-07-01  268  		 firsttime ? "Detected" : "Continued", *bug_id, raw_smp_processor_id(), (s64)ts_delta,
-35feb60474bf4f Paul E. McKenney 2020-06-30  269  		 cpu, csd->func, csd->info);
-feca218cf89f7f Paul E. McKenney 2024-07-02  270  	(*nmessages)++;
-24f4724edcdc91 Paul E. McKenney 2024-07-01  271  	if (firsttime)
-24f4724edcdc91 Paul E. McKenney 2024-07-01  272  		atomic_dec(&n_csd_lock_stuck);
-94b3f0b5af2c7a Rik van Riel     2023-08-21  273  	/*
-94b3f0b5af2c7a Rik van Riel     2023-08-21  274  	 * If the CSD lock is still stuck after 5 minutes, it is unlikely
-94b3f0b5af2c7a Rik van Riel     2023-08-21  275  	 * to become unstuck. Use a signed comparison to avoid triggering
-94b3f0b5af2c7a Rik van Riel     2023-08-21  276  	 * on underflows when the TSC is out of sync between sockets.
-94b3f0b5af2c7a Rik van Riel     2023-08-21  277  	 */
-94b3f0b5af2c7a Rik van Riel     2023-08-21  278  	BUG_ON(panic_on_ipistall > 0 && (s64)ts_delta > ((s64)panic_on_ipistall * NSEC_PER_MSEC));
-35feb60474bf4f Paul E. McKenney 2020-06-30  279  	if (cpu_cur_csd && csd != cpu_cur_csd) {
-35feb60474bf4f Paul E. McKenney 2020-06-30  280  		pr_alert("\tcsd: CSD lock (#%d) handling prior %pS(%ps) request.\n",
-35feb60474bf4f Paul E. McKenney 2020-06-30  281  			 *bug_id, READ_ONCE(per_cpu(cur_csd_func, cpux)),
-35feb60474bf4f Paul E. McKenney 2020-06-30  282  			 READ_ONCE(per_cpu(cur_csd_info, cpux)));
-35feb60474bf4f Paul E. McKenney 2020-06-30  283  	} else {
-35feb60474bf4f Paul E. McKenney 2020-06-30  284  		pr_alert("\tcsd: CSD lock (#%d) %s.\n",
-35feb60474bf4f Paul E. McKenney 2020-06-30  285  			 *bug_id, !cpu_cur_csd ? "unresponsive" : "handling this request");
-35feb60474bf4f Paul E. McKenney 2020-06-30  286  	}
-35feb60474bf4f Paul E. McKenney 2020-06-30  287  	if (cpu >= 0) {
-0d3a00b370424f Imran Khan       2023-05-09  288  		if (atomic_cmpxchg_acquire(&per_cpu(trigger_backtrace, cpu), 1, 0))
-35feb60474bf4f Paul E. McKenney 2020-06-30  289  			dump_cpu_task(cpu);
-35feb60474bf4f Paul E. McKenney 2020-06-30  290  		if (!cpu_cur_csd) {
-35feb60474bf4f Paul E. McKenney 2020-06-30  291  			pr_alert("csd: Re-sending CSD lock (#%d) IPI from CPU#%02d to CPU#%02d\n", *bug_id, raw_smp_processor_id(), cpu);
-35feb60474bf4f Paul E. McKenney 2020-06-30  292  			arch_send_call_function_single_ipi(cpu);
-35feb60474bf4f Paul E. McKenney 2020-06-30  293  		}
-35feb60474bf4f Paul E. McKenney 2020-06-30  294  	}
-5bd00f6db012f7 Imran Khan       2023-05-09  295  	if (firsttime)
-35feb60474bf4f Paul E. McKenney 2020-06-30  296  		dump_stack();
-35feb60474bf4f Paul E. McKenney 2020-06-30  297  	*ts1 = ts2;
-35feb60474bf4f Paul E. McKenney 2020-06-30  298  
-35feb60474bf4f Paul E. McKenney 2020-06-30  299  	return false;
-35feb60474bf4f Paul E. McKenney 2020-06-30  300  }
-35feb60474bf4f Paul E. McKenney 2020-06-30  301  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+--
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+>> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
+   	'fsl,imx-irqsteer' was expected
+   	'fsl,imx8m-irqsteer' was expected
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
+   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
 
 -- 
 0-DAY CI Kernel Test Service
