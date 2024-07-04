@@ -1,37 +1,60 @@
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011CE171A7
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 03:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5A32208E
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 06:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720065341; cv=none; b=Y5IkrAZqVrfe2UB3fTHFmIUot8khZ6jNTOiLZVdZAdlH7iXSafmWrq7mibH/tbQczxjGeCoIzhdslorGh0eC5LUQzFsXnUYntMJSjJz9wnJ+ArOvYGqDl7buP65meYlHsT3rC4Q68284y734kPFOJ+AWZFzcjceHJN9dKR4RnTY=
+	t=1720074726; cv=none; b=gJYQx/J+lGBG5l2zYwk0Mkr7MZI3927MEcpzYoRjlkA8hFFqKNlYCTBNmJxwD7voIvq+TUnUCpEoXbLEpzbGa+OLhfCyPY5i3gybG1dmWRpf/d4xUF6n/XwM6bw+FFAlK/Xt2VXHRPq27LC8wp5yLH6FPOvxn8mttS78xJoJo2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720065341; c=relaxed/simple;
-	bh=laa069NPYIRy6qdM3BQdN7QRDS/S3P+6GLm9TuHvYJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=REJNHN+p2VWWe7rKVzV4C3B66yMp0Y9c3iyzsqAOXQeXGgbfip6/uQHBi8bn6qXROUxFvDTS4bcv1P7dq8+Mc4K3Re/lh2cKXHAZBFtzJX8lEZiF+5sjBhomYQ0npCC5sK3a3HiwamNMPM0O/zG6vPPMmIcDc00NJR0+cWKxBp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 0DB2B3000A46C;
-	Thu,  4 Jul 2024 05:55:29 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id E9D8053D9B; Thu,  4 Jul 2024 05:55:28 +0200 (CEST)
-Date: Thu, 4 Jul 2024 05:55:28 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>
-Subject: Re: [l1k:cma_v2 16/18] lib/spdm/req-sysfs.c:561 (null)() warn:
- (struct ctl_table)->procname cannot be NULL. Expression :
- spdm_ctl_table[1]->procname
-Message-ID: <ZoYdMA1I8MStYcwE@wunner.de>
-References: <202407030953.sCqcnOH7-lkp@intel.com>
+	s=arc-20240116; t=1720074726; c=relaxed/simple;
+	bh=wrkELsyDcrJ2//0MIkms4c9nXKsuz5mDdw6+ROXAV28=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AcL3UBeH+TONtQVUXcMVrh5DnFKO43/7nxDZBQn+CB5YFFUGsyB6poePQWpey/8o6wy91BBj7e6nqLoDQ0ZfruFSv8sz3y16h0bXCnYiuZeYrioD6NsjJMOvQbN3XzrYMQnuu01239d4OnR9o/CM/LsBNcr9aFtfFsptx/s5wNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/40nBm+; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/40nBm+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720074726; x=1751610726;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wrkELsyDcrJ2//0MIkms4c9nXKsuz5mDdw6+ROXAV28=;
+  b=R/40nBm+oYz9PlcliRH9R6Sx4vRCbnlzM2nGUwQTHZ8ZEaFegtBZj+ke
+   utIRP6KiH78QTi/NRhA1Tp2whu5vtrqCbZXz4xQt5HzVhvsLVGf3HRVP+
+   ub9NCKSNT0xfxHRkoLcsz+kswSOkbGQeJgCBzhz9Pv7VHTNbXv//ne5Xm
+   idc2Ci4xkjMyc55u+N9Q+UVhUx3QHoUryxOBpa9F+pYlO/7/QJ8TmNSvm
+   reHXqZ1dX+Gs/2FCscypl7+kX6UfpdX1h+MZd/EU/85xHOhxbsei2zAEX
+   jn89v4Q1v/5Vid+cCsjL3jJg/cPmpjZhlHZMBlm3B1c9TdxWZ0VyZDO33
+   Q==;
+X-CSE-ConnectionGUID: 3vRgGXYFRRy361UE9S6VoQ==
+X-CSE-MsgGUID: UVgqi1kiQ+mrYbqz1R+guQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11122"; a="39852318"
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="39852318"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2024 23:32:05 -0700
+X-CSE-ConnectionGUID: 9VoGnqIeQayXWE8b4xJxVQ==
+X-CSE-MsgGUID: j4vlhkalTsSvQmmXT9nh2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
+   d="scan'208";a="51359972"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 03 Jul 2024 23:32:04 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sPG0e-000QfA-2e;
+	Thu, 04 Jul 2024 06:32:00 +0000
+Date: Thu, 4 Jul 2024 14:31:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [linux-next:master 7978/10451]
+ arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtb: gpio@27:
+ 'vin0_adv7612_en' does not match any of the regexes:
+ '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+Message-ID: <202407041432.YIUId3gg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -40,26 +63,45 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202407030953.sCqcnOH7-lkp@intel.com>
 
-On Wed, Jul 03, 2024 at 10:08:59AM +0800, kernel test robot wrote:
-> smatch warnings:
-> lib/spdm/req-sysfs.c:561 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : spdm_ctl_table[1]->procname
-> lib/spdm/req-sysfs.c:561 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : spdm_ctl_table[1]->proc_handler
-[...]
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22 @561  static struct ctl_table spdm_ctl_table[] = {
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22  562  	{
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22  563  		.procname	= "max_signatures_size",
-[...]
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22  574  	},
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22  575  	{ }
-> 2e6ee6670a5d45 Lukas Wunner 2024-06-22  576  };
+:::::: 
+:::::: Manual check reason: "only scripts/Makefile.* file changed"
+:::::: 
 
-Understood, no sentinel needed anymore since commit 53f3811dfd5e
-("sysctl: Use ctl_table_size as stopping criteria for list").
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-I'll amend my development branch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0b58e108042b0ed28a71cd7edf5175999955b233
+commit: afbd730d0f3ec9ec01dad32b3aed5e00ffe5b22b [7978/10451] kbuild: verify dtoverlay files against schema
+:::::: branch date: 24 hours ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-051-20240704 (https://download.01.org/0day-ci/archive/20240704/202407041432.YIUId3gg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407041432.YIUId3gg-lkp@intel.com/reproduce)
 
-Thanks,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202407041432.YIUId3gg-lkp@intel.com/
 
-Lukas
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtb: gpio@27: 'vin0_adv7612_en' does not match any of the regexes: '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-pca95xx.yaml#
+>> arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtb: vin0_adv7612_en: $nodename:0: 'vin0_adv7612_en' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
+   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
+--
+>> arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: panel: data-mapping:0: 'jeida-24' was expected
+   	from schema $id: http://devicetree.org/schemas/display/panel/mitsubishi,aa104xd12.yaml#
+>> arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: panel: 'backlight' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/panel/mitsubishi,aa104xd12.yaml#
+>> arch/arm64/boot/dts/renesas/r8a77990-ebisu-panel-aa104xd12.dtb: panel: 'vcc-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/panel/mitsubishi,aa104xd12.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
