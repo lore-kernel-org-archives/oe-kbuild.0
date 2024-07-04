@@ -1,218 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5441A81
-	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 14:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631E61B0112
+	for <oe-kbuild@lists.linux.dev>; Thu,  4 Jul 2024 14:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720101979; cv=none; b=HzA1Yit5yBWMHzBeuGZTneT+hNA16Sop01EVrpHd10yJAoMe4wOXiAzwJW4DpcL0rol0G7TlhR6hAWuRwFrgCvQIK1rzuMOpwko305bhWyaj5wydlfGkzh0bI59RkpgPrwtCHBC5/wL+kdlaIHtpeTso5qPz8b/Qg6E5DkmgmzQ=
+	t=1720103100; cv=none; b=hrsneElHVmUaGBYoXIEsfR0b6yOIeftIqEl2P7YsNBGra3eHR5yRTPEb93ld7305EWmpZ3tIVmqXauSNS0dcriMHCaDuoQT87ihZk1z5wA0LzRmQh1qQD1ms9h8meBuyul3ATjuQ2KkCybm1ICf3MJDP3KFuZWK1LlORK53oSWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720101979; c=relaxed/simple;
-	bh=vkjrA6Lv2boj5WbRicmwVKYXpES23S+7VFxJCv/tZnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MYxOA46OWYXPj59c+QK0chYBdJG30YMnv365vsoPu3PL3rQOeK5gZnCR+3M43RAjdeKeqXLlCSR6th9dLbFiZGnbWb0Okr/Ld9VtVAUo8XnolgjrCKNLp2gRMO19ZCDREWx3tua8OlvUqHz8eZKK50kLIYkMWKoUtLGp9bZ/SmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JoNw0VfX; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1720103100; c=relaxed/simple;
+	bh=Oqc1kIvawjDD3JjU/rwE9hsGmIBdWcUho5wv1EzGPUc=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:Date:
+	 Message-ID:Content-Type; b=A2NQh8Oo8NkHQgKRaTMMlUoTefGCXqZayDGCUk1A1jlzYkVJeWv/Dh+PkHc6BZWCLvpywy7RJujMkJmlfCoeHs10TVL46f6EltrAzAOS+aVgmPnnXpqruuaihcGC9bY1THxvpUPkbb+PNg54yVfsz1ETx3vetpQhfyzc46vSpho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UKGGSnYR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoNw0VfX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720101977; x=1751637977;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vkjrA6Lv2boj5WbRicmwVKYXpES23S+7VFxJCv/tZnY=;
-  b=JoNw0VfXCnqt77YRdJ5WretLmHvdNR26y7+aysOW6QtAfgNEIlbivBbn
-   C/w9u0BwOJFz8KhSMva7JtNVpuUtjQvFLVdVNUF9uht5vZipc/DIQz/Rs
-   n+L6vAPNlbS0GMO3H6KwjWF8nq6EE6SD7IdH0/KLqWvtUnviCFeKymK1S
-   fvInD3y1yubThAwNUOvNm2hvHYrNO/rxYfJoSYjn1NILmNXt5Llkw3Gyb
-   UiInFBv1ZQteCZn+9oaHg+xWMmSJb9kLzYwxqh/Kpa23I3jMm5Gskz96b
-   gESzli8Zkf8AW0PTv2HOh7mlKbhr5iLrfXGaGsp1bi6UtSDtK2yO4qndp
-   Q==;
-X-CSE-ConnectionGUID: Z7cGK6/XTdSY2csoQp6Crw==
-X-CSE-MsgGUID: AXjNja5/REaxVsQ466/IPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="27999723"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="27999723"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 07:06:17 -0700
-X-CSE-ConnectionGUID: yIK8+FLJTNO41amOXkbrmg==
-X-CSE-MsgGUID: K7koY8DWTpG7lxP4PHftKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51470864"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 04 Jul 2024 07:06:16 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sPN6D-000R4I-14;
-	Thu, 04 Jul 2024 14:06:13 +0000
-Date: Thu, 4 Jul 2024 22:05:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v4 2/8] arm64: dts: imx8qm: add lvds subsystem
-Message-ID: <202407042157.njTc6T21-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UKGGSnYR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720103098;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Viy8HdaN4+40puNKdYZufZ+ZXeaWYcdygO3ONj2dCJ8=;
+	b=UKGGSnYRMKJ2AFXzByASMz6QDl5pC/Oo0XloiVNddY8ccTXnynoJ/bqRiHzP/kD9W7aVu5
+	4qi4fBuIVsuQnQYBRGa+bN0DJlaa6h/74J/NrAnRRecIIaoXVSPwiY5kp4HtAhdWuwozr3
+	Vyk3+9aSutjlQn1jOR0Ym8515PZrD60=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-328-7My1DXewOoyl3hrRXAtX8g-1; Thu,
+ 04 Jul 2024 10:24:54 -0400
+X-MC-Unique: 7My1DXewOoyl3hrRXAtX8g-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E29681955F44;
+	Thu,  4 Jul 2024 14:24:52 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.111])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5CA851956046;
+	Thu,  4 Jul 2024 14:24:51 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <8386790b-e941-4cb3-b966-fcc10d2b9e6e@suswa.mountain>
+References: <8386790b-e941-4cb3-b966-fcc10d2b9e6e@suswa.mountain> <4c2dd2d5-1360-4611-b2a6-d63013104a8c@suswa.mountain> <3043603.1719933536@warthog.procyon.org.uk>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dhowells@redhat.com, oe-kbuild@lists.linux.dev, lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev
+Subject: Re: [dhowells-fs:netfs-writeback 17/17] fs/netfs/buffered_read.c:280 netfs_read_to_pagecache() error: uninitialized symbol 'slice'.
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Thu, 04 Jul 2024 15:24:50 +0100
+Message-ID: <3302713.1720103090@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3302712.1720103090.1@warthog.procyon.org.uk>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6@nxp.com>
-References: <20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6@nxp.com>
-TO: Frank Li <Frank.Li@nxp.com>
+> > Is the problem that smatch thinks we can fall through to done is source
+> > isn't any of those four values?  (There are three other source values in
+> > the enum that apply to the write side)
+> 
+> Yes.  That's the issue.  The kbuild-bot can't use cross function
+> information so it doesn't know the return values from
+> netfs_cache_prepare_read().  Probably this warning goes away if you have
+> the cross function database built.
 
-Hi Frank,
+I'll think about adding a catchall or something.
 
-kernel test robot noticed the following build warnings:
+> Sorry for the noise.
 
-[auto build test WARNING on 9db27bc55bd8363570c5a259ff4dc77bd6a0b2cd]
+Better the noise now than a bug report later ;-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/arm64-dts-imx8-add-basic-lvds0-and-lvds1-subsystem/20240702-000741
-base:   9db27bc55bd8363570c5a259ff4dc77bd6a0b2cd
-patch link:    https://lore.kernel.org/r/20240701-imx8qm-dts-usb-v4-2-03cdbc8c44b6%40nxp.com
-patch subject: [PATCH v4 2/8] arm64: dts: imx8qm: add lvds subsystem
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-051-20240702 (https://download.01.org/0day-ci/archive/20240704/202407042157.njTc6T21-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240704/202407042157.njTc6T21-lkp@intel.com/reproduce)
+David
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407042157.njTc6T21-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
---
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@56240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@56240000/interrupt-controller@56240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer'] is too long
-   	'fsl,imx-irqsteer' was expected
-   	'fsl,imx8m-irqsteer' was expected
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: interrupt-controller@57240000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/interrupt-controller/fsl,irqsteer.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: /bus@57240000/interrupt-controller@57240000: failed to match any schema with compatible: ['fsl,imx8qm-irqsteer', 'fsl,imx-irqsteer']
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
