@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C75465B
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jul 2024 04:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF6C3A8CB
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jul 2024 05:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720154310; cv=none; b=M7+SRuQuygnMOePqNbrJmK03zUlj7M2altLzgUVy1qEgrQBcf3cVBJeyyTSfhKGZZSDLhobqPOxGevfr82qsuN4jXztJCsMPunf1lA4g2CWSrRLZjxlTrG6FDY3s2Qxr7U/gSuDAafhrIErUmDPr5APAFjbgKe6Uy/l8SXiGcDY=
+	t=1720156441; cv=none; b=JcPHIokpZ+f1nJoerruxMzxQeL6u9AWyE8LdcEWbinnTAoHLp390fK0DARtbFetbtWnfBlNxdc7GFA18cy503LXnD5Lnwf6r3gxIaG6U2TUTKGXOrWGreE7Cowya2ubp4s70sdbbeJDQyEZqSw6zok6xy/BP2z90TliHnt+v8GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720154310; c=relaxed/simple;
-	bh=cgsXYtyMzdeOsgP11TMQVr8H5VX/zHdurepmc/JglUI=;
+	s=arc-20240116; t=1720156441; c=relaxed/simple;
+	bh=40nr4WmmoDOOcGFXymJ12XnBKSY7yheQ34I3OG6/0q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jp0pGBjQmlvhI6RU/JRc4uahY82qKoTp37+YNlkEkR1JJ0095N80BbuCtaNjRlLk6N7U5VYJbmJlqPWGEQD0tHvlyWPSHX0c9fm7C2pTX+BOWooyiKTjAqbPa3dEZRt7Bw6Llb0KL00tM5JItUt2kNoPrrZathnsPs6oRWTp/VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsvg/MTU; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=vBv2diwC0Pzx2ZbXdFa4LJptyPeeipt/PnO3jjyK1n36hyNOlaM+qya3iVDD8/bA1M3C8NoxIoxNbKnudH0rS2hL7aqLh/bdFAX0Y5zRyaYZQ6x+HnKZ0xnVv7PkoAafwtndnpo/MNQNOvmejuabu6b3zMM755hnUeqSOLPDp14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4jNSuJs; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsvg/MTU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4jNSuJs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720154308; x=1751690308;
+  t=1720156440; x=1751692440;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cgsXYtyMzdeOsgP11TMQVr8H5VX/zHdurepmc/JglUI=;
-  b=lsvg/MTUgZz5LDVDMg59SqoECLul6CAdh0A2rOURG8ozZpBcQXn/SOPa
-   srrwWekRp5moOvpA1PcowrSTCRjJS98DE2Yd+D/PKp9IQo+dXrPlzvtSI
-   SX0F0TNeTVw0/bbmQ7cCZgdqxhwJnwGePz0D9VLcdoTQ5OiwCEfJIJOPg
-   J81dKv7l3e0MF1+kKmctZASrVYlSloPenGSmIuqhnN8dsFNzUIEoBaw8L
-   1Y2qO2XdATnQHIlNwLQVEayQZoP4YQLrLgjZMoICRDoWBRkbdHhk3yyc0
-   lLGlQ5HkWdDQw/B7H2MOn7sXSZJv9FikCQEYOujWn5Nz58+II+C6hsbpN
-   g==;
-X-CSE-ConnectionGUID: 50jaigyxTzud8yGT3ic3cA==
-X-CSE-MsgGUID: 6egHuPmmTYiT2l4Ax9a8tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="28051311"
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="28051311"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:38:28 -0700
-X-CSE-ConnectionGUID: paZI1a9oS0GF61yhbBu8uw==
-X-CSE-MsgGUID: 9nvXVmqXRQKCp6n/A45/SA==
+  bh=40nr4WmmoDOOcGFXymJ12XnBKSY7yheQ34I3OG6/0q0=;
+  b=m4jNSuJs6IRPHI5UZ55JSG87w8BNm0+fIPcNp5LMyxn/9Zt2MsFdk/o9
+   ebYMY4/CgSE7gySHzxwZpmRh9c75dAEVZ9BPI/jn98nI7IXAqYqdG7I3T
+   4+Edzf77NBCOOqYXsVfLr1Az4Jy2CFDvRJrV0hi5o5drHvqhPrBcx8PXN
+   Akz7Z7OK7lS5lfotu/ZtRYDDWBUMFNvq9INvlmr9c4bMPlJpHfh8m0nes
+   D2N8UWcmcuNXssGuLFLljBTz38dgAkq8lunUM5fL914xOwQLgtY4X4p5Z
+   Z1Ta3HXs/XJeBhPZjExXNDEuBWpGErYjnXOiJWizA1ZzFtyFRoi38ulNV
+   w==;
+X-CSE-ConnectionGUID: kwN5WPDKQBa2gV6OGjA4Kw==
+X-CSE-MsgGUID: fCfmU4r6QjmusPWqClGPRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42861788"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="42861788"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 22:13:59 -0700
+X-CSE-ConnectionGUID: WopfsDeORAuZNGALuWxu3Q==
+X-CSE-MsgGUID: rTcNgHH/RmCt1kNJdJhDuA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51370207"
+X-IronPort-AV: E=Sophos;i="6.09,184,1716274800"; 
+   d="scan'208";a="69976615"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Jul 2024 21:38:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2024 22:13:58 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPaiH-000Rum-0J;
-	Fri, 05 Jul 2024 04:38:25 +0000
-Date: Fri, 5 Jul 2024 12:37:56 +0800
+	id 1sPbGe-000RxC-0F;
+	Fri, 05 Jul 2024 05:13:56 +0000
+Date: Fri, 5 Jul 2024 13:12:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] arm64: dts: rockchip: add rock5 itx board
-Message-ID: <202407051236.ppudG83Y-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.10-rc 30/35]
+ arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800:
+ compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+Message-ID: <202407051340.InjHPlPp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,67 +68,56 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240703210524.776455-3-heiko@sntech.de>
-References: <20240703210524.776455-3-heiko@sntech.de>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: heiko@sntech.de
-CC: robh@kernel.org
-CC: krzk+dt@kernel.org
-CC: conor+dt@kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-Hi Heiko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on soc/for-next next-20240703]
-[cannot apply to robh/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next shawnguo/for-next linus/master v6.10-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-arm-rockchip-Add-Rock-5-ITX-board/20240705-012253
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20240703210524.776455-3-heiko%40sntech.de
-patch subject: [PATCH 2/2] arm64: dts: rockchip: add rock5 itx board
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: arm64-randconfig-002-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051236.ppudG83Y-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051236.ppudG83Y-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.10-rc
+head:   16e22ff9e6052ffcab043b33e1ed0de08cdd2c64
+commit: ddb26b11d3984899b8b64b737154427c66a2a528 [30/35] arm64: dts: mt7622: fix sata
+:::::: branch date: 13 hours ago
+:::::: commit date: 7 days ago
+config: arm64-randconfig-051-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051340.InjHPlPp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051340.InjHPlPp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407051236.ppudG83Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407051340.InjHPlPp-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5itx.dts:1013.7-1021.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-
-vim +1013 arch/arm64/boot/dts/rockchip/rk3588-rock-5itx.dts
-
-792bbd3af10923 Heiko Stuebner 2024-07-03  1008  
-792bbd3af10923 Heiko Stuebner 2024-07-03  1009  &usb_host0_xhci {
-792bbd3af10923 Heiko Stuebner 2024-07-03  1010  	usb-role-switch;
-792bbd3af10923 Heiko Stuebner 2024-07-03  1011  	status = "okay";
-792bbd3af10923 Heiko Stuebner 2024-07-03  1012  
-792bbd3af10923 Heiko Stuebner 2024-07-03 @1013  	port {
-792bbd3af10923 Heiko Stuebner 2024-07-03  1014  		#address-cells = <1>;
-792bbd3af10923 Heiko Stuebner 2024-07-03  1015  		#size-cells = <0>;
-792bbd3af10923 Heiko Stuebner 2024-07-03  1016  
-792bbd3af10923 Heiko Stuebner 2024-07-03  1017  		dwc3_0_role_switch: endpoint@0 {
-792bbd3af10923 Heiko Stuebner 2024-07-03  1018  			reg = <0>;
-792bbd3af10923 Heiko Stuebner 2024-07-03  1019  			remote-endpoint = <&usbc0_role_sw>;
-792bbd3af10923 Heiko Stuebner 2024-07-03  1020  		};
-792bbd3af10923 Heiko Stuebner 2024-07-03  1021  	};
-792bbd3af10923 Heiko Stuebner 2024-07-03  1022  };
-792bbd3af10923 Heiko Stuebner 2024-07-03  1023  
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000: audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0], [37, 46], [37, 17], [37, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800: compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /pcie@1a143000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /pcie@1a145000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+--
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@1a100800: compatible: ['mediatek,mt7622-pciesys', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a143000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a145000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: switch@1f: 'interrupts' is a dependency of 'interrupt-controller'
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
