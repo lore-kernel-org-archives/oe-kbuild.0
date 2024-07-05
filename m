@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EA469D31
-	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jul 2024 04:02:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934C75465B
+	for <oe-kbuild@lists.linux.dev>; Fri,  5 Jul 2024 04:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720152169; cv=none; b=Irpbt6xmf3/hZgEZTFhwqUxujbgLJBgPEbh/zchwFy6BuTNp5bm5EHo2lHIh0Er5zKZsz33ye68HT6XmQMytT9ULjt925JPVa+K1fgHWT4wOpiRZ9fpFAb1QOX3ta1TgpFvKmb8XEk7Hotao4QVsOQtLJMuEhYiPz5bBDs7anMs=
+	t=1720154310; cv=none; b=M7+SRuQuygnMOePqNbrJmK03zUlj7M2altLzgUVy1qEgrQBcf3cVBJeyyTSfhKGZZSDLhobqPOxGevfr82qsuN4jXztJCsMPunf1lA4g2CWSrRLZjxlTrG6FDY3s2Qxr7U/gSuDAafhrIErUmDPr5APAFjbgKe6Uy/l8SXiGcDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720152169; c=relaxed/simple;
-	bh=es0D7lpczNfyKx2aFO7T/jzGG5vwh8XL/oRgTiFfxyE=;
+	s=arc-20240116; t=1720154310; c=relaxed/simple;
+	bh=cgsXYtyMzdeOsgP11TMQVr8H5VX/zHdurepmc/JglUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U7CV11KtDpqg8GENIk0DgvHMc+JKM/WGTDaEsOvzLRWN6HshlFma/k2UOq7+DTBLxAhNRiKWgn/NjUBCatWBaghE44R3gb6clUZcMKljdPrsG4sL2eW1QQi1Tjcs+SJpQAURGOthkxXMF9VMJJWrNgWIWw1Oq7T5M2XfMzY49BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tie25XBN; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=jp0pGBjQmlvhI6RU/JRc4uahY82qKoTp37+YNlkEkR1JJ0095N80BbuCtaNjRlLk6N7U5VYJbmJlqPWGEQD0tHvlyWPSHX0c9fm7C2pTX+BOWooyiKTjAqbPa3dEZRt7Bw6Llb0KL00tM5JItUt2kNoPrrZathnsPs6oRWTp/VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsvg/MTU; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tie25XBN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsvg/MTU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720152168; x=1751688168;
+  t=1720154308; x=1751690308;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=es0D7lpczNfyKx2aFO7T/jzGG5vwh8XL/oRgTiFfxyE=;
-  b=Tie25XBNwJe0D+j64Br0RQC2R1j5WjqtfSgUxcF59NR+TQiCJZSaWEtm
-   VUL7fdcp0BneQcS50P+yd1lPdZztkxBB63t4oLO923NMXI1RLrA39Ttb9
-   ZT9m8UiKGPdlT2/4+P1PC6K6Z70Y9gOt5VuH9cScvO3wGlaBKEVtpnN/Z
-   bnARUhsmpvT7qnxa3ihVHbUlKSTaeMNbIm8SikbD/68TG76UHL325BpG9
-   JnpRXaBm9cl+2Rnzq5Rvt53/oEivRCT0LT9FchopsAGoM2/Kky4rHapSb
-   V0ow0WlvhTVnmMDd2YOMTTSE0PNP9zJxCrzBZ0jZRvO7NH+t71Q8SammY
-   w==;
-X-CSE-ConnectionGUID: AC2hWh7DQySSX+GPzX2j4A==
-X-CSE-MsgGUID: 8Ky60YNjRY6qZncnb4UXLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17081658"
+  bh=cgsXYtyMzdeOsgP11TMQVr8H5VX/zHdurepmc/JglUI=;
+  b=lsvg/MTUgZz5LDVDMg59SqoECLul6CAdh0A2rOURG8ozZpBcQXn/SOPa
+   srrwWekRp5moOvpA1PcowrSTCRjJS98DE2Yd+D/PKp9IQo+dXrPlzvtSI
+   SX0F0TNeTVw0/bbmQ7cCZgdqxhwJnwGePz0D9VLcdoTQ5OiwCEfJIJOPg
+   J81dKv7l3e0MF1+kKmctZASrVYlSloPenGSmIuqhnN8dsFNzUIEoBaw8L
+   1Y2qO2XdATnQHIlNwLQVEayQZoP4YQLrLgjZMoICRDoWBRkbdHhk3yyc0
+   lLGlQ5HkWdDQw/B7H2MOn7sXSZJv9FikCQEYOujWn5Nz58+II+C6hsbpN
+   g==;
+X-CSE-ConnectionGUID: 50jaigyxTzud8yGT3ic3cA==
+X-CSE-MsgGUID: 6egHuPmmTYiT2l4Ax9a8tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="28051311"
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="17081658"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:02:48 -0700
-X-CSE-ConnectionGUID: LiWmFmwvRymxvOUFXjtLEQ==
-X-CSE-MsgGUID: Zq2Jp7N7SzCXrfeB3H/8xQ==
+   d="scan'208";a="28051311"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2024 21:38:28 -0700
+X-CSE-ConnectionGUID: paZI1a9oS0GF61yhbBu8uw==
+X-CSE-MsgGUID: 9nvXVmqXRQKCp6n/A45/SA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,183,1716274800"; 
-   d="scan'208";a="51091750"
+   d="scan'208";a="51370207"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Jul 2024 21:02:46 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 04 Jul 2024 21:38:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPa9k-000Rt2-17;
-	Fri, 05 Jul 2024 04:02:44 +0000
-Date: Fri, 5 Jul 2024 12:02:34 +0800
+	id 1sPaiH-000Rum-0J;
+	Fri, 05 Jul 2024 04:38:25 +0000
+Date: Fri, 5 Jul 2024 12:37:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/intel/ice/ice_eswitch_br.c:115
- ice_eswitch_br_ports_flush() warn: iterator 'i' not incremented
-Message-ID: <202407051251.iPfJDbwu-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/2] arm64: dts: rockchip: add rock5 itx board
+Message-ID: <202407051236.ppudG83Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,44 +61,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wojciech Drewek <wojciech.drewek@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Simon Horman <simon.horman@corigine.com>
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   661e504db04c6b7278737ee3a9116738536b4ed4
-commit: f6e8fb55e5af9a506d2e50d1079a231ce95ca215 ice: Implement basic eswitch bridge setup
-date:   12 months ago
+BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240703210524.776455-3-heiko@sntech.de>
+References: <20240703210524.776455-3-heiko@sntech.de>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: heiko@sntech.de
+CC: robh@kernel.org
+CC: krzk+dt@kernel.org
+CC: conor+dt@kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on soc/for-next next-20240703]
+[cannot apply to robh/for-next arm/for-next arm/fixes arm64/for-next/core clk/clk-next kvmarm/next shawnguo/for-next linus/master v6.10-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-arm-rockchip-Add-Rock-5-ITX-board/20240705-012253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20240703210524.776455-3-heiko%40sntech.de
+patch subject: [PATCH 2/2] arm64: dts: rockchip: add rock5 itx board
 :::::: branch date: 11 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-141-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051251.iPfJDbwu-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+:::::: commit date: 11 hours ago
+config: arm64-randconfig-002-20240705 (https://download.01.org/0day-ci/archive/20240705/202407051236.ppudG83Y-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240705/202407051236.ppudG83Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407051251.iPfJDbwu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407051236.ppudG83Y-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/intel/ice/ice_eswitch_br.c:115 ice_eswitch_br_ports_flush() warn: iterator 'i' not incremented
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5itx.dts:1013.7-1021.4: Warning (graph_child_address): /usb@fc000000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
 
-vim +/i +115 drivers/net/ethernet/intel/ice/ice_eswitch_br.c
+vim +1013 arch/arm64/boot/dts/rockchip/rk3588-rock-5itx.dts
 
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  108  
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  109  static void
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  110  ice_eswitch_br_ports_flush(struct ice_esw_br *bridge)
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  111  {
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  112  	struct ice_esw_br_port *port;
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  113  	unsigned long i;
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  114  
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12 @115  	xa_for_each(&bridge->ports, i, port)
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  116  		ice_eswitch_br_port_deinit(bridge, port);
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  117  }
-f6e8fb55e5af9a Wojciech Drewek 2023-07-12  118  
+792bbd3af10923 Heiko Stuebner 2024-07-03  1008  
+792bbd3af10923 Heiko Stuebner 2024-07-03  1009  &usb_host0_xhci {
+792bbd3af10923 Heiko Stuebner 2024-07-03  1010  	usb-role-switch;
+792bbd3af10923 Heiko Stuebner 2024-07-03  1011  	status = "okay";
+792bbd3af10923 Heiko Stuebner 2024-07-03  1012  
+792bbd3af10923 Heiko Stuebner 2024-07-03 @1013  	port {
+792bbd3af10923 Heiko Stuebner 2024-07-03  1014  		#address-cells = <1>;
+792bbd3af10923 Heiko Stuebner 2024-07-03  1015  		#size-cells = <0>;
+792bbd3af10923 Heiko Stuebner 2024-07-03  1016  
+792bbd3af10923 Heiko Stuebner 2024-07-03  1017  		dwc3_0_role_switch: endpoint@0 {
+792bbd3af10923 Heiko Stuebner 2024-07-03  1018  			reg = <0>;
+792bbd3af10923 Heiko Stuebner 2024-07-03  1019  			remote-endpoint = <&usbc0_role_sw>;
+792bbd3af10923 Heiko Stuebner 2024-07-03  1020  		};
+792bbd3af10923 Heiko Stuebner 2024-07-03  1021  	};
+792bbd3af10923 Heiko Stuebner 2024-07-03  1022  };
+792bbd3af10923 Heiko Stuebner 2024-07-03  1023  
 
 -- 
 0-DAY CI Kernel Test Service
