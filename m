@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18FB4C3D0
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 13:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AE25336B
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 16:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720274153; cv=none; b=M0h5bk/nozttcKeUcn7HlmINZS168W1GZEXuosKvk1kGP0lMSYV0IUVW+eKDn9ytbyksIQEa59GeoYF3E3HxOJ4kxUOO0v9MERsqmvsh3BZTzUBs6HpnvXdx4upKQgsEDZmeuLSfF6fVA2v8KJs5V4x8qyBfMqi94nmEDxFlUlw=
+	t=1720283046; cv=none; b=fPz59YZhpH0XSqcvrqcT5YFqTJAKpU+yu1mT43r49IA1xpJ8nMgk9yAUHoJwFgO0rSY87GTzBe9J3Qp2wt1WYoIj8hNPsoc287HrYaM0XnhM0KPq0xEWP/e/TkGYkP9v4ExYHgvT4oV6ndTxKBkQOzl0a/TJumfejCaSuBkgF1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720274153; c=relaxed/simple;
-	bh=gC3p0uI8stbqqCNHFGTnQ7xtwRepbiInkspXBr3gyLU=;
+	s=arc-20240116; t=1720283046; c=relaxed/simple;
+	bh=vdgAf7s/BynzNl/zuKMLPf77hKnWMltMYdqf4HfnpWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LJcJsch/ZQLZo1NAwaFwEGQ5xBRgJ1k8SE/4Mzd4/rPt+82Tc4zL69cGooLWds8G6VPlPQZOIH8UU+O7l3Q6FlxKMToCrCyZCL70fAaLMcXpxUKPKTapPOiDjLD9qazyQROqpilegqsKo1G9s1GYf/Iwn4hOrC0hvFQpWxb8jtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jls1K8vn; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=UDdhZ12VBEBOBgIMXEkljptRWNcFm7GZ/5a3urIlpgfRleSdnnUIAj8bv4eSZ7G4mAKcpUzGslxDTaRMEtGLP+htBs1RsYxJxqDRusNyb7CzWlY4LB9wohXtcBGFAgp75NOBxJM4nFk734cx/VvW4z5R6t6FM7yme4/zzTTxHCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESrPd2Lx; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jls1K8vn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESrPd2Lx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720274152; x=1751810152;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gC3p0uI8stbqqCNHFGTnQ7xtwRepbiInkspXBr3gyLU=;
-  b=Jls1K8vnNmDT/FJiExKdINtSF+9/liflMXHINeMko/EsHu5jTeH+OcwZ
-   UzkRYroLVzLgMXIBDwAKOY6nZR1IpLKh9/zBSoae9picvGaoODSovQiwB
-   xEWVm9NQax6iGrCt0GB+Zj6qCxeY2WPeq8D4JRwqgnoMah2BSlwLRl0no
-   e+6ZMniyXRe9ZmB8N9CjBmkKkVSEoG+dXSZ+rW2GpDkoo+02HiA49Ec3B
-   ILUUnmBNXkaio5oL6Z5jMws68dj1LQELU3DoQoLXkW7ZoSHMmpBI76i5G
-   /mKVbTS5RvWUs0D4twtPacpCEgx1634A8NjhWrc3MN7q0xepcQMKLcAsS
-   w==;
-X-CSE-ConnectionGUID: +BbI6PJyTeCezZwBZ1dOnA==
-X-CSE-MsgGUID: ITXyG0xYQw6zyd4zqFtKtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="12416598"
+  t=1720283044; x=1751819044;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vdgAf7s/BynzNl/zuKMLPf77hKnWMltMYdqf4HfnpWw=;
+  b=ESrPd2LxAr8+pTeLbKNgfk+f4MBRlOXczGAIXak3XyogH/nmVT++KAa7
+   T+fKtLxRuIxHacb6YiigJcFlNqdIJCEpFUJnt3iYioJxSixE1nnlD48I1
+   DHRVGK14a5/LMb5CKHkJvIT8DfgpWK7mXWzOs+4T4/fOTo4ybVL57yhAf
+   WaaPwLT+VXK9SlKHIzOE4O4wG2nEkK/gNmdkFzbhXizARbXzz9DvYjU+U
+   3EdXW/P/y/aXLJB/FH6IL7eqlyASdsbWR9EO4QFx4rtb/5KVhUcHKETdu
+   LBVE07spO6QXrrmQhl4ungmdx1oyg/h7WNGgRx1/5BuUvcVy8XuDEcKpN
+   Q==;
+X-CSE-ConnectionGUID: wW0jPlBjQ0a7diHTJYjLqA==
+X-CSE-MsgGUID: 6ERemPaBSKmNrcmKu1VDhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="21352021"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="12416598"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 06:55:51 -0700
-X-CSE-ConnectionGUID: ZD36H4jIS6u7zlniqFRWCg==
-X-CSE-MsgGUID: cxLUzhIwT3KXTG23oypbHg==
+   d="scan'208";a="21352021"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 09:24:03 -0700
+X-CSE-ConnectionGUID: DAEe49PVQUywEFvq5DM1NQ==
+X-CSE-MsgGUID: ZcZiWtd4REGhxTMYVBoEoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="51512676"
+   d="scan'208";a="47223977"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Jul 2024 06:55:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Jul 2024 09:24:02 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ5tE-000TrS-00;
-	Sat, 06 Jul 2024 13:55:48 +0000
-Date: Sat, 6 Jul 2024 21:55:42 +0800
+	id 1sQ8Cd-000U1U-11;
+	Sat, 06 Jul 2024 16:23:59 +0000
+Date: Sun, 7 Jul 2024 00:22:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [wireless-next:main 8/21]
- drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1764 iwl_pcie_get_page_hdr()
- error: uninitialized symbol 'ret'.
-Message-ID: <202407062135.NNjnmMdR-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH net-next] dt-bindings: net: Define properties at top-level
+Message-ID: <202407070041.Kik6MNcp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,112 +61,737 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Johannes Berg <johannes@sipsolutions.net>
-CC: Kalle Valo <kvalo@kernel.org>
-CC: linux-wireless@vger.kernel.org
-TO: Benjamin Berg <benjamin.berg@intel.com>
-CC: Johannes Berg <johannes.berg@intel.com>
-CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+In-Reply-To: <20240625215442.190557-2-robh@kernel.org>
+References: <20240625215442.190557-2-robh@kernel.org>
+TO: "Rob Herring (Arm)" <robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   1b431ba4ef9a760e7643d6fbc53bf522d59650f3
-commit: adc902ceada26add77ad75426805e973a7c67f01 [8/21] wifi: iwlwifi: keep the TSO and workaround pages mapped
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240706/202407062135.NNjnmMdR-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hi Rob,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring-Arm/dt-b=
+indings-net-Define-properties-at-top-level/20240626-091748
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240625215442.190557-2-robh%40ker=
+nel.org
+patch subject: [PATCH net-next] dt-bindings: net: Define properties at top-=
+level
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-051-20240626 (https://download.01.org/0day-ci/archiv=
+e/20240707/202407070041.Kik6MNcp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240707/202407070041.Kik6MNcp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407062135.NNjnmMdR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407070041.Kik6MNcp-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1764 iwl_pcie_get_page_hdr() error: uninitialized symbol 'ret'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: pcie@0,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: pcie@1,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: ethernet@1b100000: comp=
+atible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: ethernet@1b100000: cloc=
+ks: [[16, 110], [50, 2], [50, 4], [50, 3], [3, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: ethernet@1b100000: cloc=
+k-names: ['ethif', 'esw', 'gp1', 'gp2', 'trgpll'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+>> arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: ethernet@1b100000: Unev=
+aluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: ethernet@1b100000: rese=
+ts: [[50, 6], [50, 23], [50, 31]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: /crypto@1b240000: faile=
+d to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+--
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: pcie@0,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: pcie@1,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: ethernet@1b100000: comp=
+atible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: ethernet@1b100000: cloc=
+ks: [[16, 110], [48, 2], [48, 4], [48, 3], [3, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: ethernet@1b100000: cloc=
+k-names: ['ethif', 'esw', 'gp1', 'gp2', 'trgpll'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+>> arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: ethernet@1b100000: Unev=
+aluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: ethernet@1b100000: rese=
+ts: [[48, 6], [48, 23], [48, 31]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: /crypto@1b240000: faile=
+d to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623a-rfb-nand.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+--
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: pcie@0,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: pcie@1,0: 'device_type'=
+ is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: ethernet@1b100000: comp=
+atible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: ethernet@1b100000: cloc=
+ks: [[16, 110], [54, 2], [54, 4], [54, 3], [3, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: ethernet@1b100000: cloc=
+k-names: ['ethif', 'esw', 'gp1', 'gp2', 'trgpll'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+>> arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: ethernet@1b100000: Unev=
+aluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: ethernet@1b100000: rese=
+ts: [[54, 6], [54, 23], [54, 31]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /crypto@1b240000: faile=
+d to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@1c000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'mediatek=
+,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@13000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek=
+,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@13000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'mediatek=
+,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@15000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek=
+,mt2701-imgsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-rfb-emmc.dtb: /syscon@15000000: faile=
+d to match any schema with compatible: ['mediatek,mt7623-imgsys', 'mediatek=
+,mt2701-imgsys', 'syscon']
+--
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: pcie@0,0: 'devic=
+e_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: pcie@1,0: 'devic=
+e_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: ethernet@1b10000=
+0: compatible: ['mediatek,mt7623-eth', 'mediatek,mt2701-eth', 'syscon'] is =
+too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: ethernet@1b10000=
+0: clocks: [[16, 110], [52, 2], [52, 4], [52, 3], [3, 8]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: ethernet@1b10000=
+0: clock-names: ['ethif', 'esw', 'gp1', 'gp2', 'trgpll'] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+>> arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: ethernet@1b10000=
+0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: ethernet@1b10000=
+0: resets: [[52, 6], [52, 23], [52, 31]] is too long
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /crypto@1b240000=
+: failed to match any schema with compatible: ['mediatek,eip97-crypto']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@1c000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'm=
+ediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@1c000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-bdpsys', 'm=
+ediatek,mt2701-bdpsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@13000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'm=
+ediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@13000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-g3dsys', 'm=
+ediatek,mt2701-g3dsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@15000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'm=
+ediatek,mt2701-imgsys', 'syscon']
+   arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dtb: /syscon@15000000=
+: failed to match any schema with compatible: ['mediatek,mt7623-imgsys', 'm=
+ediatek,mt2701-imgsys', 'syscon']
+--
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: amba: $nodename:0: 'amba'=
+ does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)=
+?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: syscon@1bb00000: compatib=
+le: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: /soc/sata@29000000: faile=
+d to match any schema with compatible: ['qcom,ipq806x-ahci', 'generic-ahci']
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: ethernet@37000000: snps,p=
+bl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: ethernet@37200000: snps,p=
+bl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: ethernet@37400000: snps,p=
+bl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: ethernet@37600000: snps,p=
+bl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-ap148.dtb: leds: led-0:linux,default=
+-trigger: 'oneOf' conditional failed, one must be fixed:
+   	'usbdev' is not one of ['backlight', 'default-on', 'heartbeat', 'disk-a=
+ctivity', 'disk-read', 'disk-write', 'timer', 'pattern', 'audio-micmute', '=
+audio-mute', 'bluetooth-power', 'flash', 'kbd-capslock', 'mtd', 'nand-disk'=
+, 'none', 'torch', 'usb-gadget', 'usb-host', 'usbport']
+   	'usbdev' does not match '^cpu[0-9]*$'
+--
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: amba: $nodename:0: 'amba=
+' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+=
+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: syscon@1bb00000: compati=
+ble: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: /soc/sata@29000000: fail=
+ed to match any schema with compatible: ['qcom,ipq806x-ahci', 'generic-ahci=
+']
+>> arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: ethernet@37000000: snps,=
+pbl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: ethernet@37200000: snps,=
+pbl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: ethernet@37400000: snps,=
+pbl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/qcom/qcom-ipq8064-rb3011.dtb: ethernet@37600000: snps,=
+pbl: False schema does not allow [[32]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+--
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/lpc@8787000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/lpc@8788000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/spifsm@9022000: failed to m=
+atch any schema with compatible: ['st,spi-fsm']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/sata@9b20000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/sata@9b28000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dwc3@8f94000: failed to mat=
+ch any schema with compatible: ['st,stih407-dwc3']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/pwm@9810000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/pwm@9510000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: dwmac@9630000: $nodename:0: 'dwm=
+ac@9630000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm/boot/dts/st/stih407-b2120.dtb: dwmac@9630000: snps,pbl: False s=
+chema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dwmac@9630000: failed to ma=
+tch any schema with compatible: ['st,stih407-dwmac', 'snps,dwmac', 'snps,dw=
+mac-3.710']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/sti-uni-player@8d80000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-hdmi']
+   arch/arm/boot/dts/st/stih407-b2120.dtb: /soc/sti-uni-player@8d81000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-pcm-out']
+--
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/lpc@8787000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/lpc@8788000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/spifsm@9022000: failed to m=
+atch any schema with compatible: ['st,spi-fsm']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/sata@9b20000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/sata@9b28000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dwc3@8f94000: failed to mat=
+ch any schema with compatible: ['st,stih407-dwc3']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/pwm@9810000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/pwm@9510000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: dwmac@9630000: $nodename:0: 'dwm=
+ac@9630000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm/boot/dts/st/stih410-b2120.dtb: dwmac@9630000: snps,pbl: False s=
+chema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dwmac@9630000: failed to ma=
+tch any schema with compatible: ['st,stih407-dwmac', 'snps,dwmac', 'snps,dw=
+mac-3.710']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/sti-uni-player@8d80000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-hdmi']
+   arch/arm/boot/dts/st/stih410-b2120.dtb: /soc/sti-uni-player@8d81000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-pcm-out']
+--
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/lpc@8787000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/lpc@8788000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/spifsm@9022000: failed to m=
+atch any schema with compatible: ['st,spi-fsm']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/sata@9b20000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/sata@9b28000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dwc3@8f94000: failed to mat=
+ch any schema with compatible: ['st,stih407-dwc3']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/pwm@9810000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/pwm@9510000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: dwmac@9630000: $nodename:0: 'dwm=
+ac@9630000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm/boot/dts/st/stih410-b2260.dtb: dwmac@9630000: snps,pbl: False s=
+chema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dwmac@9630000: failed to ma=
+tch any schema with compatible: ['st,stih407-dwmac', 'snps,dwmac', 'snps,dw=
+mac-3.710']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/sti-uni-player@8d80000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-hdmi']
+   arch/arm/boot/dts/st/stih410-b2260.dtb: /soc/sti-uni-player@8d81000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-pcm-out']
+--
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/lpc@8787000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/lpc@8788000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/spifsm@9022000: failed to m=
+atch any schema with compatible: ['st,spi-fsm']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/sata@9b20000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/sata@9b28000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dwc3@8f94000: failed to mat=
+ch any schema with compatible: ['st,stih407-dwc3']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/pwm@9810000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/pwm@9510000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: dwmac@9630000: $nodename:0: 'dwm=
+ac@9630000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm/boot/dts/st/stih418-b2199.dtb: dwmac@9630000: snps,pbl: False s=
+chema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dwmac@9630000: failed to ma=
+tch any schema with compatible: ['st,stih407-dwmac', 'snps,dwmac', 'snps,dw=
+mac-3.710']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/sti-uni-player@8d80000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-hdmi']
+   arch/arm/boot/dts/st/stih418-b2199.dtb: /soc/sti-uni-player@8d81000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-pcm-out']
+--
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/lpc@8787000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/lpc@8788000: failed to matc=
+h any schema with compatible: ['st,stih407-lpc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/spifsm@9022000: failed to m=
+atch any schema with compatible: ['st,spi-fsm']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/sata@9b20000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/sata@9b28000: failed to mat=
+ch any schema with compatible: ['st,ahci']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dwc3@8f94000: failed to mat=
+ch any schema with compatible: ['st,stih407-dwc3']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/pwm@9810000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/pwm@9510000: failed to matc=
+h any schema with compatible: ['st,sti-pwm']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: dwmac@9630000: $nodename:0: 'dwm=
+ac@9630000' does not match '^ethernet(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm/boot/dts/st/stih418-b2264.dtb: dwmac@9630000: snps,pbl: False s=
+chema does not allow [[8]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dwmac@9630000: failed to ma=
+tch any schema with compatible: ['st,stih407-dwmac', 'snps,dwmac', 'snps,dw=
+mac-3.710']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e20000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-11', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e40000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-12', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/dma-controller@8e60000: fai=
+led to match any schema with compatible: ['st,stih407-fdma-mpe31-13', 'st,s=
+lim-rproc']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/sti-uni-player@8d80000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-hdmi']
+   arch/arm/boot/dts/st/stih418-b2264.dtb: /soc/sti-uni-player@8d81000: fai=
+led to match any schema with compatible: ['st,stih407-uni-player-pcm-out']
+--
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: mmcsd@40004000: clock-names:=
+0: 'biu' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: mmcsd@40004000: clock-names:=
+1: 'ciu' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: mmcsd@40004000: $nodename:0:=
+ 'mmcsd@40004000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/memory-controller@40005=
+000: failed to match any schema with compatible: ['arm,pl172', 'arm,primece=
+ll']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: lcd-controller@40008000: 're=
+sets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/eeprom@4000e000: failed=
+ to match any schema with compatible: ['nxp,lpc1857-eeprom']
+>> arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: ethernet@40010000: snps,pbl:=
+ False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/ethernet@40010000: fail=
+ed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,dwmac-3=
+=2E611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/ethernet@40010000: fail=
+ed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,dwmac-3=
+=2E611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/syscon@40043000: failed=
+ to match any schema with compatible: ['nxp,lpc1850-creg', 'syscon', 'simpl=
+e-mfd']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/syscon@40043000/clock-c=
+ontroller: failed to match any schema with compatible: ['nxp,lpc1850-creg-c=
+lk']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/syscon@40043000/phy: fa=
+iled to match any schema with compatible: ['nxp,lpc1850-usb-otg-phy']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: /soc/syscon@40043000/dma-mux=
+: failed to match any schema with compatible: ['nxp,lpc1850-dmamux']
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: rtc@40046000: compatible:0: =
+'nxp,lpc1788-rtc' was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,lpc1788-rtc.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4337-ciaa.dtb: rtc@40046000: compatible: ['=
+nxp,lpc1850-rtc', 'nxp,lpc1788-rtc'] is too long
+--
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/memory-controller=
+@40005000: failed to match any schema with compatible: ['arm,pl172', 'arm,p=
+rimecell']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: sram@2,0: '#address-ce=
+lls' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: sram@2,0: '#size-cells=
+' is a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: sram@2,0: 'ranges' is =
+a required property
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: lcd-controller@4000800=
+0: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/eeprom@4000e000: =
+failed to match any schema with compatible: ['nxp,lpc1857-eeprom']
+>> arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: ethernet@40010000: snp=
+s,pbl: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/ethernet@40010000=
+: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,d=
+wmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/ethernet@40010000=
+: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,d=
+wmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/syscon@40043000: =
+failed to match any schema with compatible: ['nxp,lpc1850-creg', 'syscon', =
+'simple-mfd']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/syscon@40043000/c=
+lock-controller: failed to match any schema with compatible: ['nxp,lpc1850-=
+creg-clk']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/syscon@40043000/p=
+hy: failed to match any schema with compatible: ['nxp,lpc1850-usb-otg-phy']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: /soc/syscon@40043000/d=
+ma-mux: failed to match any schema with compatible: ['nxp,lpc1850-dmamux']
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: rtc@40046000: compatib=
+le:0: 'nxp,lpc1788-rtc' was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,lpc1788-rtc.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4350-hitex-eval.dtb: rtc@40046000: compatib=
+le: ['nxp,lpc1850-rtc', 'nxp,lpc1788-rtc'] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: mmcsd@40004000: $no=
+dename:0: 'mmcsd@40004000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: mmcsd@40004000: Une=
+valuated properties are not allowed ('bus-width', 'clock-names', 'resets', =
+'vmmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/memory-control=
+ler@40005000: failed to match any schema with compatible: ['arm,pl172', 'ar=
+m,primecell']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/memory-control=
+ler@40005000/cs2/gpio@2,0: failed to match any schema with compatible: ['ti=
+,7416374']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: lcd-controller@4000=
+8000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/eeprom@4000e00=
+0: failed to match any schema with compatible: ['nxp,lpc1857-eeprom']
+>> arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: ethernet@40010000: =
+snps,pbl: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/ethernet@40010=
+000: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snp=
+s,dwmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/ethernet@40010=
+000: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snp=
+s,dwmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/syscon@4004300=
+0: failed to match any schema with compatible: ['nxp,lpc1850-creg', 'syscon=
+', 'simple-mfd']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/syscon@4004300=
+0/clock-controller: failed to match any schema with compatible: ['nxp,lpc18=
+50-creg-clk']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/syscon@4004300=
+0/phy: failed to match any schema with compatible: ['nxp,lpc1850-usb-otg-ph=
+y']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: /soc/syscon@4004300=
+0/dma-mux: failed to match any schema with compatible: ['nxp,lpc1850-dmamux=
+']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: rtc@40046000: compa=
+tible:0: 'nxp,lpc1788-rtc' was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,lpc1788-rtc.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-ea4357-devkit.dtb: rtc@40046000: compa=
+tible: ['nxp,lpc1850-rtc', 'nxp,lpc1788-rtc'] is too long
+--
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: mmcsd@40004000: clock=
+-names:1: 'ciu' was expected
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: mmcsd@40004000: $node=
+name:0: 'mmcsd@40004000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: mmcsd@40004000: Uneva=
+luated properties are not allowed ('bus-width', 'clock-names', 'resets', 'v=
+mmc-supply' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/synopsys-dw-mshc.yam=
+l#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/memory-controlle=
+r@40005000: failed to match any schema with compatible: ['arm,pl172', 'arm,=
+primecell']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: lcd-controller@400080=
+00: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/arm,pl11x.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/eeprom@4000e000:=
+ failed to match any schema with compatible: ['nxp,lpc1857-eeprom']
+>> arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: ethernet@40010000: sn=
+ps,pbl: False schema does not allow [[4]]
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/ethernet@4001000=
+0: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,=
+dwmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/ethernet@4001000=
+0: failed to match any schema with compatible: ['nxp,lpc1850-dwmac', 'snps,=
+dwmac-3.611', 'snps,dwmac']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/syscon@40043000:=
+ failed to match any schema with compatible: ['nxp,lpc1850-creg', 'syscon',=
+ 'simple-mfd']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/syscon@40043000/=
+clock-controller: failed to match any schema with compatible: ['nxp,lpc1850=
+-creg-clk']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/syscon@40043000/=
+phy: failed to match any schema with compatible: ['nxp,lpc1850-usb-otg-phy']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: /soc/syscon@40043000/=
+dma-mux: failed to match any schema with compatible: ['nxp,lpc1850-dmamux']
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: rtc@40046000: compati=
+ble:0: 'nxp,lpc1788-rtc' was expected
+   	from schema $id: http://devicetree.org/schemas/rtc/nxp,lpc1788-rtc.yaml#
+   arch/arm/boot/dts/nxp/lpc/lpc4357-myd-lpc4357.dtb: rtc@40046000: compati=
+ble: ['nxp,lpc1850-rtc', 'nxp,lpc1788-rtc'] is too long
 
-Old smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/tx.c:719 iwl_pcie_txq_alloc() warn: check sign expansion for 'slots_num'
-drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1777 iwl_pcie_get_page_hdr() error: uninitialized symbol 'ret'.
-
-vim +/ret +1764 drivers/net/wireless/intel/iwlwifi/pcie/tx.c
-
-3a0b2a4225ede9 Emmanuel Grumbach 2015-10-14  1733  
-6eb5e529d7e3bf Emmanuel Grumbach 2015-10-18  1734  #ifdef CONFIG_INET
-7f5e3038f02902 Benjamin Berg     2024-07-03  1735  static void *iwl_pcie_get_page_hdr(struct iwl_trans *trans,
-49101078be769e Johannes Berg     2024-06-05  1736  				   size_t len, struct sk_buff *skb)
-49101078be769e Johannes Berg     2024-06-05  1737  {
-49101078be769e Johannes Berg     2024-06-05  1738  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
-49101078be769e Johannes Berg     2024-06-05  1739  	struct iwl_tso_hdr_page *p = this_cpu_ptr(trans_pcie->txqs.tso_hdr_page);
-adc902ceada26a Benjamin Berg     2024-07-03  1740  	struct iwl_tso_page_info *info;
-49101078be769e Johannes Berg     2024-06-05  1741  	struct page **page_ptr;
-adc902ceada26a Benjamin Berg     2024-07-03  1742  	dma_addr_t phys;
-d023a228e927c1 Benjamin Berg     2024-07-03  1743  	void *ret;
-49101078be769e Johannes Berg     2024-06-05  1744  
-49101078be769e Johannes Berg     2024-06-05  1745  	page_ptr = (void *)((u8 *)skb->cb + trans_pcie->txqs.page_offs);
-49101078be769e Johannes Berg     2024-06-05  1746  
-49101078be769e Johannes Berg     2024-06-05  1747  	if (WARN_ON(*page_ptr))
-49101078be769e Johannes Berg     2024-06-05  1748  		return NULL;
-49101078be769e Johannes Berg     2024-06-05  1749  
-49101078be769e Johannes Berg     2024-06-05  1750  	if (!p->page)
-49101078be769e Johannes Berg     2024-06-05  1751  		goto alloc;
-49101078be769e Johannes Berg     2024-06-05  1752  
-49101078be769e Johannes Berg     2024-06-05  1753  	/*
-49101078be769e Johannes Berg     2024-06-05  1754  	 * Check if there's enough room on this page
-49101078be769e Johannes Berg     2024-06-05  1755  	 *
-49101078be769e Johannes Berg     2024-06-05  1756  	 * Note that we put a page chaining pointer *last* in the
-49101078be769e Johannes Berg     2024-06-05  1757  	 * page - we need it somewhere, and if it's there then we
-49101078be769e Johannes Berg     2024-06-05  1758  	 * avoid DMA mapping the last bits of the page which may
-49101078be769e Johannes Berg     2024-06-05  1759  	 * trigger the 32-bit boundary hardware bug.
-49101078be769e Johannes Berg     2024-06-05  1760  	 *
-49101078be769e Johannes Berg     2024-06-05  1761  	 * (see also get_workaround_page() in tx-gen2.c)
-49101078be769e Johannes Berg     2024-06-05  1762  	 */
-adc902ceada26a Benjamin Berg     2024-07-03  1763  	if (((unsigned long)p->pos & ~PAGE_MASK) + len < IWL_TSO_PAGE_DATA_SIZE) {
-adc902ceada26a Benjamin Berg     2024-07-03 @1764  		info = IWL_TSO_PAGE_INFO(page_address(ret));
-49101078be769e Johannes Berg     2024-06-05  1765  		goto out;
-adc902ceada26a Benjamin Berg     2024-07-03  1766  	}
-49101078be769e Johannes Berg     2024-06-05  1767  
-49101078be769e Johannes Berg     2024-06-05  1768  	/* We don't have enough room on this page, get a new one. */
-adc902ceada26a Benjamin Berg     2024-07-03  1769  	iwl_pcie_free_and_unmap_tso_page(trans, p->page);
-49101078be769e Johannes Berg     2024-06-05  1770  
-49101078be769e Johannes Berg     2024-06-05  1771  alloc:
-49101078be769e Johannes Berg     2024-06-05  1772  	p->page = alloc_page(GFP_ATOMIC);
-49101078be769e Johannes Berg     2024-06-05  1773  	if (!p->page)
-49101078be769e Johannes Berg     2024-06-05  1774  		return NULL;
-49101078be769e Johannes Berg     2024-06-05  1775  	p->pos = page_address(p->page);
-adc902ceada26a Benjamin Berg     2024-07-03  1776  
-adc902ceada26a Benjamin Berg     2024-07-03  1777  	info = IWL_TSO_PAGE_INFO(page_address(ret));
-adc902ceada26a Benjamin Berg     2024-07-03  1778  
-49101078be769e Johannes Berg     2024-06-05  1779  	/* set the chaining pointer to NULL */
-adc902ceada26a Benjamin Berg     2024-07-03  1780  	info->next = NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1781  
-adc902ceada26a Benjamin Berg     2024-07-03  1782  	/* Create a DMA mapping for the page */
-adc902ceada26a Benjamin Berg     2024-07-03  1783  	phys = dma_map_page_attrs(trans->dev, p->page, 0, PAGE_SIZE,
-adc902ceada26a Benjamin Berg     2024-07-03  1784  				  DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
-adc902ceada26a Benjamin Berg     2024-07-03  1785  	if (unlikely(dma_mapping_error(trans->dev, phys))) {
-adc902ceada26a Benjamin Berg     2024-07-03  1786  		__free_page(p->page);
-adc902ceada26a Benjamin Berg     2024-07-03  1787  		p->page = NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1788  
-adc902ceada26a Benjamin Berg     2024-07-03  1789  		return NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1790  	}
-adc902ceada26a Benjamin Berg     2024-07-03  1791  
-adc902ceada26a Benjamin Berg     2024-07-03  1792  	/* Store physical address and set use count */
-adc902ceada26a Benjamin Berg     2024-07-03  1793  	info->dma_addr = phys;
-adc902ceada26a Benjamin Berg     2024-07-03  1794  	refcount_set(&info->use_count, 1);
-49101078be769e Johannes Berg     2024-06-05  1795  out:
-49101078be769e Johannes Berg     2024-06-05  1796  	*page_ptr = p->page;
-adc902ceada26a Benjamin Berg     2024-07-03  1797  	/* Return an internal reference for the caller */
-adc902ceada26a Benjamin Berg     2024-07-03  1798  	refcount_inc(&info->use_count);
-d023a228e927c1 Benjamin Berg     2024-07-03  1799  	ret = p->pos;
-d023a228e927c1 Benjamin Berg     2024-07-03  1800  	p->pos += len;
-d023a228e927c1 Benjamin Berg     2024-07-03  1801  
-d023a228e927c1 Benjamin Berg     2024-07-03  1802  	return ret;
-49101078be769e Johannes Berg     2024-06-05  1803  }
-49101078be769e Johannes Berg     2024-06-05  1804  
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
