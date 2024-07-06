@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2B777102
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 12:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED40132492
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 13:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720268330; cv=none; b=Ieodapdugwktf+H90zawpLO1XkrUEmHNu1pgFNcaXCpvNIJEM/mjkI9gEPk/fyKNTGnxsiKAAnOqWVtnOmwXiCsvdTZovh1rOVjdYToCg64YFLSLmuPBt2ftFomssyjlUN6vy1+b2QWJ8eM6Q9ZVLTL7vXLqP/3X51bE+kbWXyY=
+	t=1720272175; cv=none; b=J05Mlt3Z7jQOKXHxZSvIUev32YhwhZjfIDvnZeRw9JcQlFJoVl1h9aq+j+c0l+tQlvnrTcceOp5NmcHfvJHGFRoDZPLzmWWh+L/gE6cHULM7CTsqvWWmkaothbf5ZEpf1NnbJoAqEJORzHg+q9MRx5xodDo/xP8qgxW6jb2BDu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720268330; c=relaxed/simple;
-	bh=a0jZri1wdZzLmX6zQEisYNhlCCDfp3kLIrrfuvurL3w=;
+	s=arc-20240116; t=1720272175; c=relaxed/simple;
+	bh=95bIMxSU5n6y+kAjqsuMuFMhEtQXOZm2/u2l1H3cZpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lj1IcxNnIivl+kF+mhIKk4aqf+0nRi2okMJsEx96sIo1pDjr6dPoeZmrIt0xkWmEa0MrGui4njOD6rPDakDIg296SEfM814KXT6buF1uhK3cYiO6IKbj7KaJkRIHyrghXO9LE6zb5OmPdW25YG6SK2ngwKI/K6ImrCHrB/ayFo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxP1zN74; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=pxvBfYa9BdVZ0FoK3C6DsyteWW6hQrR4AbKSt64oqBrpMZoJuZ+NH9FqQ+Ds39UvHu5x7eLlPdTg/g5Cz6W4oTaom7BMsE0iU+7LyT9MThdIzd8v196OtT7irw06O3M2DyftkKQihtzk2TY9tm6PkvdqaRtgYxzLoAHcgPAQ1ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iq3r0kYu; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxP1zN74"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iq3r0kYu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720268329; x=1751804329;
+  t=1720272171; x=1751808171;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a0jZri1wdZzLmX6zQEisYNhlCCDfp3kLIrrfuvurL3w=;
-  b=cxP1zN74nqRqZh9DYCvRdGY4OljtgyR+Ba1yWE7EX5nUSP6pG7yTVARS
-   NMSSKvNCY58QePhz3+ydV1IOJ79XpruKYFAXbj990pCtNRUfbNARF18Jw
-   t40IWjpdZoWY4DZUk6Tg3GdRam/WtK0GXtXH88v32xJN89roASB0I7Zhk
-   57SY/TSZDTXvm5/hcysknPzdp4l1s2a33Bzs3q00r7A8t0EzSzBSnSrog
-   SZRHH5BTXMM6MTg7x2axEN8TmJHHqaHpgndRDX3uigxP7mbwmYTlwAIrS
-   ZoAR6WbOPLRtGMqW6rRJP2pb+sjVL5DcPncnwFH1LXQ7rijB6QOlLLFEe
-   A==;
-X-CSE-ConnectionGUID: cwzldB25SkS1MXvY70CaIQ==
-X-CSE-MsgGUID: E+UUcm3mTm2HOj764PNpeA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="17740379"
+  bh=95bIMxSU5n6y+kAjqsuMuFMhEtQXOZm2/u2l1H3cZpE=;
+  b=iq3r0kYufHaIj7moTzPb8GA7UuUCpYcvkf/GRHPU5h7Me9tc4gyQbRpd
+   MsVDaNEO9cq5tppwqE6bxg38ynUgMjS5QfqX/o2fqnT+vVWODCay+P7tq
+   48g5G2fYLuWdZPM03Z8EZ0Q3CBJsUVTQOFqghHRklNmYxGM45zJJ4ONnC
+   cjAoeYA/LcDz+olYkFXTJyPb1RN5m0qwTNnEiUo0l8QIaeBlZ4JwS+unY
+   8+QEzaBDeJlD+s5G/08+yky3cTbitL3AC0JW5s/iwwSwhXluRL4XzlzQG
+   DAuvEA/t2D8A6KFPGjiqUCEU4nojcH6sJOIQUDsmzsqmYmelqcaQCbKgS
+   Q==;
+X-CSE-ConnectionGUID: Ltd5zt3iTqaBx0BZXVjVGg==
+X-CSE-MsgGUID: wmJsQV7SQ525uxQLGAQUfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="28924236"
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="17740379"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 05:18:48 -0700
-X-CSE-ConnectionGUID: O/C/gEVOS6iFM8aU0oZ6dQ==
-X-CSE-MsgGUID: ROOHIyM1RHaStGvpMbySFw==
+   d="scan'208";a="28924236"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 06:22:50 -0700
+X-CSE-ConnectionGUID: +TC2RbvSSF2e64gIJMe47w==
+X-CSE-MsgGUID: 8LWE7HiHQCmhNiEfX5rAlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="46847116"
+   d="scan'208";a="70277772"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jul 2024 05:18:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jul 2024 06:22:48 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ4NI-000TlW-11;
-	Sat, 06 Jul 2024 12:18:44 +0000
-Date: Sat, 6 Jul 2024 20:18:03 +0800
+	id 1sQ5NG-000TpA-1w;
+	Sat, 06 Jul 2024 13:22:46 +0000
+Date: Sat, 6 Jul 2024 21:22:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5300/10451] drivers/infiniband/hw/mlx5/umr.c:153
- mlx5r_umr_resource_init() warn: missing error code 'ret'
-Message-ID: <202407062041.Mf6y04U0-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 138/187]
+ arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a: Unevaluated properties
+ are not allowed ('SDZ-supply', 'compatible' were unexpected)
+Message-ID: <202407062124.CCrEZLFV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,96 +63,634 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jianbo Liu <jianbol@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+TO: James Calligeros <jcalligeros99@gmail.com>
+CC: Janne Grunau <j@jannau.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0b58e108042b0ed28a71cd7edf5175999955b233
-commit: 638420115cc4ad6c3a2683bf46a052b505abb202 [5300/10451] IB/mlx5: Create UMR QP just before first reg_mr occurs
-:::::: branch date: 3 days ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240706/202407062041.Mf6y04U0-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: c40308be533a638e7b79e2ca0a7abebb8eb5ee1f [138/187] arm64: dts: apple: describe shared SDZ GPIO for tas2764
+:::::: branch date: 3 weeks ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240706/202407062124.CCrEZLFV-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407062124.CCrEZLFV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407062041.Mf6y04U0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407062124.CCrEZLFV-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn: missing error code 'ret'
-
-vim +/ret +153 drivers/infiniband/hw/mlx5/umr.c
-
-04876c12c19e94 Aharon Landau 2022-04-12  134  
-04876c12c19e94 Aharon Landau 2022-04-12  135  int mlx5r_umr_resource_init(struct mlx5_ib_dev *dev)
-04876c12c19e94 Aharon Landau 2022-04-12  136  {
-04876c12c19e94 Aharon Landau 2022-04-12  137  	struct ib_qp_init_attr init_attr = {};
-04876c12c19e94 Aharon Landau 2022-04-12  138  	struct ib_cq *cq;
-04876c12c19e94 Aharon Landau 2022-04-12  139  	struct ib_qp *qp;
-638420115cc4ad Jianbo Liu    2024-06-03  140  	int ret = 0;
-04876c12c19e94 Aharon Landau 2022-04-12  141  
-638420115cc4ad Jianbo Liu    2024-06-03  142  
-638420115cc4ad Jianbo Liu    2024-06-03  143  	/*
-638420115cc4ad Jianbo Liu    2024-06-03  144  	 * UMR qp is set once, never changed until device unload.
-638420115cc4ad Jianbo Liu    2024-06-03  145  	 * Avoid taking the mutex if initialization is already done.
-638420115cc4ad Jianbo Liu    2024-06-03  146  	 */
-638420115cc4ad Jianbo Liu    2024-06-03  147  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03  148  		return 0;
-638420115cc4ad Jianbo Liu    2024-06-03  149  
-638420115cc4ad Jianbo Liu    2024-06-03  150  	mutex_lock(&dev->umrc.init_lock);
-638420115cc4ad Jianbo Liu    2024-06-03  151  	/* First user allocates the UMR resources. Skip if already allocated. */
-638420115cc4ad Jianbo Liu    2024-06-03  152  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03 @153  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  154  
-04876c12c19e94 Aharon Landau 2022-04-12  155  	cq = ib_alloc_cq(&dev->ib_dev, NULL, 128, 0, IB_POLL_SOFTIRQ);
-04876c12c19e94 Aharon Landau 2022-04-12  156  	if (IS_ERR(cq)) {
-04876c12c19e94 Aharon Landau 2022-04-12  157  		mlx5_ib_dbg(dev, "Couldn't create CQ for sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  158  		ret = PTR_ERR(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  159  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  160  	}
-04876c12c19e94 Aharon Landau 2022-04-12  161  
-04876c12c19e94 Aharon Landau 2022-04-12  162  	init_attr.send_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  163  	init_attr.recv_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  164  	init_attr.sq_sig_type = IB_SIGNAL_ALL_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  165  	init_attr.cap.max_send_wr = MAX_UMR_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  166  	init_attr.cap.max_send_sge = 1;
-04876c12c19e94 Aharon Landau 2022-04-12  167  	init_attr.qp_type = MLX5_IB_QPT_REG_UMR;
-04876c12c19e94 Aharon Landau 2022-04-12  168  	init_attr.port_num = 1;
-638420115cc4ad Jianbo Liu    2024-06-03  169  	qp = ib_create_qp(dev->umrc.pd, &init_attr);
-04876c12c19e94 Aharon Landau 2022-04-12  170  	if (IS_ERR(qp)) {
-04876c12c19e94 Aharon Landau 2022-04-12  171  		mlx5_ib_dbg(dev, "Couldn't create sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  172  		ret = PTR_ERR(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  173  		goto destroy_cq;
-04876c12c19e94 Aharon Landau 2022-04-12  174  	}
-04876c12c19e94 Aharon Landau 2022-04-12  175  
-04876c12c19e94 Aharon Landau 2022-04-12  176  	ret = mlx5r_umr_qp_rst2rts(dev, qp);
-04876c12c19e94 Aharon Landau 2022-04-12  177  	if (ret)
-04876c12c19e94 Aharon Landau 2022-04-12  178  		goto destroy_qp;
-04876c12c19e94 Aharon Landau 2022-04-12  179  
-04876c12c19e94 Aharon Landau 2022-04-12  180  	dev->umrc.cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  181  
-04876c12c19e94 Aharon Landau 2022-04-12  182  	sema_init(&dev->umrc.sem, MAX_UMR_WR);
-158e71bb69e368 Aharon Landau 2022-05-15  183  	mutex_init(&dev->umrc.lock);
-9b7d4be967f16f Maor Gottlieb 2022-08-29  184  	dev->umrc.state = MLX5_UMR_STATE_ACTIVE;
-638420115cc4ad Jianbo Liu    2024-06-03  185  	dev->umrc.qp = qp;
-04876c12c19e94 Aharon Landau 2022-04-12  186  
-638420115cc4ad Jianbo Liu    2024-06-03  187  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  188  	return 0;
-04876c12c19e94 Aharon Landau 2022-04-12  189  
-04876c12c19e94 Aharon Landau 2022-04-12  190  destroy_qp:
-04876c12c19e94 Aharon Landau 2022-04-12  191  	ib_destroy_qp(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  192  destroy_cq:
-04876c12c19e94 Aharon Landau 2022-04-12  193  	ib_free_cq(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  194  unlock:
-638420115cc4ad Jianbo Liu    2024-06-03  195  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  196  	return ret;
-04876c12c19e94 Aharon Landau 2022-04-12  197  }
-04876c12c19e94 Aharon Landau 2022-04-12  198  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j314s.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6000', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6000', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6000-j314s.dtb: /soc/isp@384000000: failed to match any schema with compatible: ['apple,t6000-isp', 'apple,isp']
+--
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j314', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j314c.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6001', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6001', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6001-j314c.dtb: /soc/isp@384000000: failed to match any schema with compatible: ['apple,t6000-isp', 'apple,isp']
+--
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6000-j316s.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6000', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6000', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6000-j316s.dtb: /soc/isp@384000000: failed to match any schema with compatible: ['apple,t6000-isp', 'apple,isp']
+--
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000: failed to match any schema with compatible: ['apple,t6000-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/dcp@38bc00000/panel: failed to match any schema with compatible: ['apple,panel-j316', 'apple,panel-mini-led', 'apple,panel']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6001-j316c.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000: failed to match any schema with compatible: ['apple,t6000-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/spi@39b10c000/hid-transport@0: failed to match any schema with compatible: ['apple,spi-hid-transport']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6001', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/gpu@406400000: failed to match any schema with compatible: ['apple,agx-t6001', 'apple,agx-g13x']
+   arch/arm64/boot/dts/apple/t6001-j316c.dtb: /soc/isp@384000000: failed to match any schema with compatible: ['apple,t6000-isp', 'apple,isp']
+--
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j415', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j415', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@235014000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@235014000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j415.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000: power-controller@2c0: 'apple,externally-clocked' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t8112-j415.dtb: power-management@23b700000: power-controller@2c8: 'apple,externally-clocked' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8112-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j493', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j493', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@235014000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@235014000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t8112-j493.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/i2c@23501c000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@235104000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000: failed to match any schema with compatible: ['apple,t8112-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000/touchbar@0: failed to match any schema with compatible: ['apple,j493-touchbar', 'apple,z2-touchbar', 'apple,z2-multitouch']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000/touchbar@0: failed to match any schema with compatible: ['apple,j493-touchbar', 'apple,z2-touchbar', 'apple,z2-multitouch']
+   arch/arm64/boot/dts/apple/t8112-j493.dtb: /soc/spi@23510c000/touchbar@0: failed to match any schema with compatible: ['apple,j493-touchbar', 'apple,z2-touchbar', 'apple,z2-multitouch']
+--
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b044000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b044000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b048000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b048000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b04c000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b04c000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b050000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: i2c@39b054000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+--
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b044000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b044000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b048000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b048000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b04c000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b04c000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b050000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: i2c@39b054000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+--
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b044000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b044000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b048000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b048000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b04c000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b04c000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b050000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: i2c@39b054000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+--
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b040000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b044000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b044000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b044000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3a: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3a: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3a: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b044000/codec@3a: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@38: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@38: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@38: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b044000/codec@38: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@39: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@39: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@39: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b044000/codec@39: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b048000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b048000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b048000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b048000/codec@4b: failed to match any schema with compatible: ['cirrus,cs42l84']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b04c000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b04c000: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b04c000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3d: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3d: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3d: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b04c000/codec@3d: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3b: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3b: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3b: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-force-zero-mask' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b04c000/codec@3b: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3c: compatible:0: 'ti,sn012776' is not one of ['ti,tas2764', 'ti,tas2780']
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3c: compatible: ['ti,sn012776', 'ti,tas2764'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: codec@3c: Unevaluated properties are not allowed ('SDZ-supply', 'compatible' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas27xx.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b04c000/codec@3c: failed to match any schema with compatible: ['ti,sn012776', 'ti,tas2764']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b050000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b050000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: i2c@39b054000: compatible:0: 'apple,t6020-i2c' is not one of ['apple,t8103-i2c', 'apple,t8112-i2c', 'apple,t6000-i2c']
+   	from schema $id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/i2c@39b054000: failed to match any schema with compatible: ['apple,t6020-i2c', 'apple,i2c']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/spi@39b104000: failed to match any schema with compatible: ['apple,t6020-spi', 'apple,spi']
 
 -- 
 0-DAY CI Kernel Test Service
