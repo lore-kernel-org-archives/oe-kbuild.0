@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6ED7D3FB
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 16:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF681367
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 19:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720284246; cv=none; b=D59qJ9FhB1xc0upADg3tlJuJ6oPB1RuQpRd+0YU1C1BDtnJK47W5byLMaSjplzGgKzPfH2fKONZzZRCnIFkGs/BcXqI48DnEwQsCQaAanH3svxRYFVbCBW/yH/qEe7dQSxFXXU/PNlr+FYEUFrH9kdpeSQj3bxderfznC4e7xKw=
+	t=1720293011; cv=none; b=nDzdUU9t4aYvMwGC3Xc2gSHWdWqLR82/CUkUpf1MY3B+ZQTd5Xa8S1iA+vOzirRBUPnaqKiyu/iYzyyjJF+W952//N0K991Byj5toBwHXLV35WCeksWmMkrbSPA3geXltd7QE79RL5E/HmrptP7ESrffnpWZwhhJwargFeUJOa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720284246; c=relaxed/simple;
-	bh=cn4yITjYI9ZN/b1UP/RHdNpDeI7f0QzwQwNKG1nNVro=;
+	s=arc-20240116; t=1720293011; c=relaxed/simple;
+	bh=GNvGxJeajiDXvATPubZi58UZczRW3qcpzOFn4UMDOxc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IMwwfI/nYUbyNBk7MKDhATXISg/oNbPWm5by5fnVD2KPwPXqI1LsoPPcrGplGeeqxymS+LWed3KZxjBEtOxVmqhXlzsgrhib62zCouVfXCWi6lMiO56xfNP2p4s6LBelQ2ErlC0eMfinI1rRcjbGPJ5rSgPqRYTNVyQjNcdDa0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBaqlg8d; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=JN3EhfQAcURpT4saJnGKG57nRiiRRq6dnN7oo+R91Nas8w7XGaYzsfAEEq/MAI4DnNQkhSoI1g2r75ZE0sUujZkPvECtIvJEIfvikJuzeQxBALv53FFYL7kfe2Yw9w1x989YbtKEIhFjw0OzZK6SdPaNucOokyVSs/uJ5RuZRhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUY1DqHM; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBaqlg8d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUY1DqHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720284244; x=1751820244;
+  t=1720293009; x=1751829009;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cn4yITjYI9ZN/b1UP/RHdNpDeI7f0QzwQwNKG1nNVro=;
-  b=XBaqlg8dHtb66W/jr7irunCVrB+ZYd3T6FYXPjFC0qSVOAyZ/u+ilPR6
-   7JtBeM0M1tJWnXNfhaXT49wAS0DdQ7a/CZqrfwSQ/+FDWFp49+WdYXI2i
-   1UB920a36Pa/mCmRudgDLW3BoMABugkJA8Xbs1jyVP/KS/Z61jkXR4v3R
-   y+4Ia4gz3IeQWIyeH/q0iAOATA3DUBA8nP9FMNtOPwmAbIrZiBt3ruJKJ
-   FPfXXPpnbVv0jBbyuFSM47vv0BxKbNLSStHYh3aDjzcdNVGRUkIfbfJyt
-   gQu4MAXvRNzz9mU8SnY/G6wxF8Md9ZbpsE9/QOv3kpaBy58j51523VcrT
-   g==;
-X-CSE-ConnectionGUID: T9n63XFCREOYPCt2Tw8eIQ==
-X-CSE-MsgGUID: DrG79rUDQIKE4yrfXZWMvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="17356030"
-X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="17356030"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 09:44:03 -0700
-X-CSE-ConnectionGUID: V8UM72JmQoaN+JtDZVMrcw==
-X-CSE-MsgGUID: Sdcecxl3S2OmnHVhXVqI6g==
+  bh=GNvGxJeajiDXvATPubZi58UZczRW3qcpzOFn4UMDOxc=;
+  b=NUY1DqHMOpl0U1I3s2r5GgHLDQ21swpGAPoEcQLsA3p6hKolL+EOhpxX
+   DJ1gR5pUdJnloG9fgcBaHOa2wPvkU743yKRIJLej3nhaXKRVmta2bQQDo
+   bAtCnfOMWE5M1dvu2VIFZWn0Wpe/Ds3Ox+HHh7b3tQs5rxIa85Bm1NVsL
+   XOIeKCd7O6H1A4QSsWGjMT165SQ226rNod5DMGDKpZvHgjRJMXUkxytHo
+   HXzPAoHsUWV9cJu52kccswo9j9WuX9aaRjtTQqs39HkujRCOTXLjBz2l9
+   bRYibeF73b7SNDixQPNzdrCIFrCUzmYkubmDNshtOsZ3mMhmKV3ZjRRTw
+   A==;
+X-CSE-ConnectionGUID: g5qG3oo7TzqlI4rYWo3TGw==
+X-CSE-MsgGUID: aIQMauiqQiq5f7SKK1vI/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="28696724"
+X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
+   d="scan'208";a="28696724"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 12:10:08 -0700
+X-CSE-ConnectionGUID: IqpHhy//R4K11kOOX+mPcw==
+X-CSE-MsgGUID: JXujuUsFQUSaOPr5z1je4g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,187,1716274800"; 
-   d="scan'208";a="84652049"
+X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
+   d="scan'208";a="47784681"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Jul 2024 09:44:03 -0700
+  by orviesa007.jf.intel.com with ESMTP; 06 Jul 2024 12:10:08 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQ8W0-000U3B-0y;
-	Sat, 06 Jul 2024 16:44:00 +0000
-Date: Sun, 7 Jul 2024 00:43:41 +0800
+	id 1sQAnN-000U9U-1J;
+	Sat, 06 Jul 2024 19:10:05 +0000
+Date: Sun, 7 Jul 2024 03:09:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 1/3] dt-bindings: iio: pressure: Add Sensirion SDP500
-Message-ID: <202407070030.GI9XWacQ-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 139/187]
+ arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31: Unevaluated properties
+ are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no' were
+ unexpected)
+Message-ID: <202407070355.WfYd8OZ6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,52 +70,53 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240702-mainline_sdp500-v3-1-0902047b3eee@gmail.com>
-References: <20240702-mainline_sdp500-v3-1-0902047b3eee@gmail.com>
-TO: Petar Stoykov via B4 Relay <devnull+pd.pstoykov.gmail.com@kernel.org>
-TO: linux-iio@vger.kernel.org
-TO: Jonathan Cameron <jic23@kernel.org>
-TO: "Lars-Peter Clausen" <lars@metafoo.de>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Petar Stoykov <pd.pstoykov@gmail.com>
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+TO: Hector Martin <marcan@marcan.st>
+CC: Janne Grunau <j@jannau.net>
 
-Hi Petar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ab27740f76654ed58dd32ac0ba0031c18a6dea3b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Petar-Stoykov-via-B4-Relay/dt-bindings-iio-pressure-Add-Sensirion-SDP500/20240702-235054
-base:   ab27740f76654ed58dd32ac0ba0031c18a6dea3b
-patch link:    https://lore.kernel.org/r/20240702-mainline_sdp500-v3-1-0902047b3eee%40gmail.com
-patch subject: [PATCH v3 1/3] dt-bindings: iio: pressure: Add Sensirion SDP500
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arc-randconfig-051-20240702 (https://download.01.org/0day-ci/archive/20240707/202407070030.GI9XWacQ-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: 93efee59313f37779f22067e6cfa7ad69170ee24 [139/187] arm64: dts: apple: j293: Model SDZ GPIO as a regulator
+:::::: branch date: 3 weeks ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240707/202407070355.WfYd8OZ6-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070030.GI9XWacQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070355.WfYd8OZ6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407070030.GI9XWacQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407070355.WfYd8OZ6-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/iio/pressure/sensirion,sdp500.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
-   $id: http://devicetree.org/schemas/iio/pressure/sdp500.yaml
-   file: Documentation/devicetree/bindings/iio/pressure/sensirion,sdp500.yaml
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   hint: Standard unit suffix properties don't need a type $ref
-   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   hint: Standard unit suffix properties don't need a type $ref
-   from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8103-dcp', 'apple,dcp']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j293', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j293', 'apple,panel']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/isp@22a000000: failed to match any schema with compatible: ['apple,t8103-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/isp@22a000000: failed to match any schema with compatible: ['apple,t8103-isp', 'apple,isp']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31: compatible:0: 'ti,tas5770l' is not one of ['ti,tas2770']
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31: compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@31: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/i2c@235014000/codec@31: failed to match any schema with compatible: ['ti,tas5770l', 'ti,tas2770']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32: compatible:0: 'ti,tas5770l' is not one of ['ti,tas2770']
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32: compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+>> arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@32: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,pdm-slot-no', 'ti,sdout-pull-down' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: /soc/i2c@235014000/codec@32: failed to match any schema with compatible: ['ti,tas5770l', 'ti,tas2770']
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48: 'VP-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48: 'VCP-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48: 'VD_FILT-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
+   arch/arm64/boot/dts/apple/t8103-j293.dtb: codec@48: 'VL-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/cirrus,cs42l42.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
