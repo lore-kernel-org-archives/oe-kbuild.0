@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E3933FD
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 02:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A286134AC
+	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 03:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720233926; cv=none; b=RhNBU/uoKMqTYib4XTk8yuCqvdgPYq7PjDOHVp2Bqni+f0QDPrTsS8L/VYc3LVgjoG8kSF8gOFDN9T9ADDO8ZHxRAKdKLxFPUpo/esPW3O8Ed+PmDuXWORFwWnWYTt6T9JPLIYptRdCjOKTVMn0r/bWlZ6EUO/ScdHJjNWGyZ3k=
+	t=1720237769; cv=none; b=dkeNsFvsjLgmLm+Avpwj8kXK3nFw+6nB9EJNrEAN/vAHVBSWgRgDbY2jIuqrnuDuxz3nhBxpcCiXgAtv6OnaTaAp4juv7Vvi1POILPGTN/Y2BvwRzXpThQ7i0nS8rvrKiFWJLqV9NfMN8YNad/fGOr3X+i8dPoireAfV0xxOA/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720233926; c=relaxed/simple;
-	bh=DGEyqRDEPTkTrjs1uU03yDeErLv/5l6EXICejQ6akB0=;
+	s=arc-20240116; t=1720237769; c=relaxed/simple;
+	bh=cgp+Op5e1EPA67z9hrw1+r137ylBmB0W38LasrueXzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DTQyPjaGojFxlkDgHn4jlHAOfxZk3qOvMfTi9EO97D5kuJ/va+hOM1kJj7MZQ0gs5lBEy+7DiZ24yIbNlPs0Sx2Mz2Xh/+MPiodzvcN7elhfnmDTQyL9FsvxUWjoP7WtjGXpfS/S04tkZi5lo/OJYW23qxgs6yusV5pMkLe84SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RsRCLhRw; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Ik7R26v/5AYTlFx5VJb4whLSgICpzwFztP8kFYqMnzFDaD8jnRmmoXUVsyk/19lNtegXmn5CXTiuTrz8UgSrkmVJF8B5noXhZThor3p765rXI706DKc2ub/NVvcc6OeMY4EMmvo6SGDTIJc++CpAXWdOZNJj94G0DTrIV6WCfqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0cbMY3k; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RsRCLhRw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0cbMY3k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720233924; x=1751769924;
+  t=1720237768; x=1751773768;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DGEyqRDEPTkTrjs1uU03yDeErLv/5l6EXICejQ6akB0=;
-  b=RsRCLhRw99cf8b2PF6DPEDgJQsqj7OATfWcRy5+hl4aWYmIgNNxGgqg9
-   XSY/yaRRfotr0tc/9076loTULW6BUE9w8ifZf+FJffJphsBs0Rzj9+uei
-   AJCulGfTp+KQVY/HS8VOahiOK/qcqPUztR93tA7Yp44ysbWxkSASlVEFN
-   r2hOcxyihTgLQVGvMkGSPq885IGlkJRvJRHQrU0PMjS69hc6eCD3O1XWE
-   RnGqPOxmaewo2cKfO/I58eXh0vDX62EyqF1mhNNnO1ysffubKHenYQAMx
-   qE7Z4EYM29o3BKY/a8oLHdEpOcjDro5oHETEUDbQw62Go+bA3Pk7CFFEf
-   Q==;
-X-CSE-ConnectionGUID: 7fWcPtNfSXGxLXo7T7u7EA==
-X-CSE-MsgGUID: rzg7wktDRdyn6wXhvyYQnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="21386184"
+  bh=cgp+Op5e1EPA67z9hrw1+r137ylBmB0W38LasrueXzk=;
+  b=n0cbMY3kGrtkPv+cNrhwPtpLHRuBctHJSz688FWIEyia3iapBOS+bckh
+   inb4i5kV6QHQrkfXYqiUTWKTUIoYKCU+scK/Elv/FTmBmKDOWgbzVbZ3t
+   HPXGXyRXqYaWHseOyB81IOXzn2+Kds5/iuFApVSjG2L7gpnKb7tXKkoh4
+   Vop5lxrKOtTC3ebrzZerrvg7W/lq1M6IwKipDdVW/q7kOVe05CIUSBwC2
+   3PhnLcmIFkh/MQsJZif5rJT3M1zoHiaFK3PChjymrsYn7unKV7vYmIkiF
+   GsXQ3LVM2oySqKoPix1ZnWT8iiSc2V//fLKOvC3aT+0ZvhdCqlz9R0VLN
+   g==;
+X-CSE-ConnectionGUID: JnKHJeW3Qe2/Z4vIR4HFrA==
+X-CSE-MsgGUID: FzAQLsWCTBGbb239KTcuEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11123"; a="42941409"
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="21386184"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 19:45:23 -0700
-X-CSE-ConnectionGUID: ld69hmcxSeecfSAKOzNtxQ==
-X-CSE-MsgGUID: Gc3zc8EDQKu34rsPlz/R6w==
+   d="scan'208";a="42941409"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2024 20:49:27 -0700
+X-CSE-ConnectionGUID: UndC/OgjR/ule5h8O4jTOg==
+X-CSE-MsgGUID: SSPRHZNLRaSTjmij0DTUSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,186,1716274800"; 
-   d="scan'208";a="51959182"
+   d="scan'208";a="77754407"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Jul 2024 19:45:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 05 Jul 2024 20:49:26 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sPvQN-000TEW-0D;
-	Sat, 06 Jul 2024 02:45:19 +0000
-Date: Sat, 6 Jul 2024 10:45:06 +0800
+	id 1sPwQN-000THg-0l;
+	Sat, 06 Jul 2024 03:49:23 +0000
+Date: Sat, 6 Jul 2024 11:48:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v7 5/5] arm64: dts: add description for solidrun cn9132
- cex7 module and clearfog board
-Message-ID: <202407061008.MIKJdMGw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305
+ mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
+Message-ID: <202407061142.Go8yrIpO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,201 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240704-cn9130-som-v7-5-eea606ba5faa@solid-run.com>
-References: <20240704-cn9130-som-v7-5-eea606ba5faa@solid-run.com>
-TO: Josua Mayer <josua@solid-run.com>
+CC: linux-kernel@vger.kernel.org
+TO: Maher Sanalla <msanalla@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Tariq Toukan <tariqt@nvidia.com>
+CC: Simon Horman <horms@kernel.org>
 
-Hi Josua,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/dt-bindings-arm64-marvell-add-solidrun-cn9130-som-based-boards/20240705-135940
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240704-cn9130-som-v7-5-eea606ba5faa%40solid-run.com
-patch subject: [PATCH v7 5/5] arm64: dts: add description for solidrun cn9132 cex7 module and clearfog board
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-randconfig-051-20240705 (https://download.01.org/0day-ci/archive/20240706/202407061008.MIKJdMGw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240706/202407061008.MIKJdMGw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1dd28064d4164a4dc9096fd1a7990d2de15f2bb6
+commit: 0f06228d4a2dcc1fca5b3ddb0eefa09c05b102c4 net/mlx5: Reload only IB representors upon lag disable/enable
+date:   8 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240706/202407061142.Go8yrIpO-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407061008.MIKJdMGw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407061142.Go8yrIpO-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/armada-cp11x.dtsi:256.24-275.6: Warning (unit_address_vs_reg): /cp1/config-space@f4000000/system-controller@440000/gpio@140: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/marvell/armada-cp11x.dtsi:235.24-254.6: Warning (unit_address_vs_reg): /cp2/config-space@f6000000/system-controller@440000/gpio@100: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/marvell/armada-cp11x.dtsi:256.24-275.6: Warning (unit_address_vs_reg): /cp2/config-space@f6000000/system-controller@440000/gpio@140: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/marvell/armada-ap80x.dtsi:125.10-131.6: Warning (simple_bus_reg): /ap807/config-space@f0000000/timer: missing or empty reg/ranges property
-   arch/arm64/boot/dts/marvell/armada-ap80x.dtsi:133.8-137.6: Warning (simple_bus_reg): /ap807/config-space@f0000000/pmu: missing or empty reg/ranges property
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: ap807: $nodename:0: 'ap807' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f0000000: $nodename:0: 'config-space@f0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f0000000: pmu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f0000000: timer: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/odmi@300000: failed to match any schema with compatible: ['marvell,odmi-controller']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/gicp@3f0040: failed to match any schema with compatible: ['marvell,ap806-gicp']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/interrupt-controller@3f0100: failed to match any schema with compatible: ['marvell,armada-8k-pic']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/interrupt-controller@3f0200: failed to match any schema with compatible: ['marvell,ap806-sei']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@400000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@400000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@420000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@420000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@440000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@440000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@460000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/xor@460000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/spi@510600: failed to match any schema with compatible: ['marvell,armada-380-spi']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: mmc@6e0000: clocks: [[4, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: mmc@6e0000: clock-names: ['core'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: mmc@6e0000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@6f4000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/system-controller@6f4000/pinctrl: failed to match any schema with compatible: ['marvell,ap806-pinctrl']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@1040: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/system-controller@6f4000/clock: failed to match any schema with compatible: ['marvell,ap807-clock']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@6f8000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/system-controller@6f8000/thermal-sensor@80: failed to match any schema with compatible: ['marvell,armada-ap807-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /ap807/config-space@f0000000/system-controller@6f8000/clock-cpu: failed to match any schema with compatible: ['marvell,ap807-cpu-clock']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: cp0: $nodename:0: 'cp0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f2000000: $nodename:0: 'config-space@f2000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000: failed to match any schema with compatible: ['marvell,cp110-icu']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@10: failed to match any schema with compatible: ['marvell,cp110-icu-nsr']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges', 'pwm-tacho-irq-hog' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: utmi@580000: 'swap-dx-lanes' does not match any of the regexes: '^usb-phy@[0|1]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/i2c@701100/i2c-mux@77/i2c@3/adc@48: failed to match any schema with compatible: ['ti,tla2021']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: mmc@780000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/pcie@f2600000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/pcie@f2620000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp0/pcie@f2640000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: cp1: $nodename:0: 'cp1' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f4000000: $nodename:0: 'config-space@f4000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000: failed to match any schema with compatible: ['marvell,cp110-icu']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@10: failed to match any schema with compatible: ['marvell,cp110-icu-nsr']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: utmi@580000: 'swap-dx-lanes' does not match any of the regexes: '^usb-phy@[0|1]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/config-space@f4000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/pcie@f4600000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/pcie@f4620000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp1/pcie@f4640000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: cp2: $nodename:0: 'cp2' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: config-space@f6000000: $nodename:0: 'config-space@f6000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/phy@120000: failed to match any schema with compatible: ['marvell,comphy-cp110']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/interrupt-controller@1e0000: failed to match any schema with compatible: ['marvell,cp110-icu']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/interrupt-controller@1e0000/interrupt-controller@10: failed to match any schema with compatible: ['marvell,cp110-icu-nsr']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges', 'm2-wwan-reset-hog' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/config-space@f6000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/pcie@f6600000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/pcie@f6620000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
->> arch/arm64/boot/dts/marvell/cn9132-clearfog.dtb: /cp2/pcie@f6640000: failed to match any schema with compatible: ['marvell,armada8k-pcie', 'snps,dw-pcie']
+New smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305 mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
+
+Old smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2210 mlx5_eswitch_inline_mode_get() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2388 esw_offloads_cleanup_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2401 esw_offloads_init_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2528 __unload_reps_all_vport() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2885 mlx5_esw_offloads_rep_event_unpair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2919 mlx5_esw_offloads_pair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3190 esw_offloads_metadata_uninit() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3203 esw_offloads_metadata_init() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4047 mlx5_eswitch_register_vport_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4065 mlx5_eswitch_unregister_vport_reps() warn: iterator 'i' not incremented
+
+vim +/i +3305 drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
+
+184867373d8c6b Eli Britstein 2019-03-04  3287  
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3288  int mlx5_eswitch_reload_ib_reps(struct mlx5_eswitch *esw)
+db202995f5035f Mark Bloch    2021-08-03  3289  {
+db202995f5035f Mark Bloch    2021-08-03  3290  	struct mlx5_eswitch_rep *rep;
+db202995f5035f Mark Bloch    2021-08-03  3291  	unsigned long i;
+db202995f5035f Mark Bloch    2021-08-03  3292  	int ret;
+db202995f5035f Mark Bloch    2021-08-03  3293  
+db202995f5035f Mark Bloch    2021-08-03  3294  	if (!esw || esw->mode != MLX5_ESWITCH_OFFLOADS)
+db202995f5035f Mark Bloch    2021-08-03  3295  		return 0;
+db202995f5035f Mark Bloch    2021-08-03  3296  
+db202995f5035f Mark Bloch    2021-08-03  3297  	rep = mlx5_eswitch_get_rep(esw, MLX5_VPORT_UPLINK);
+db202995f5035f Mark Bloch    2021-08-03  3298  	if (atomic_read(&rep->rep_data[REP_ETH].state) != REP_LOADED)
+db202995f5035f Mark Bloch    2021-08-03  3299  		return 0;
+db202995f5035f Mark Bloch    2021-08-03  3300  
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3301  	ret = __esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f Mark Bloch    2021-08-03  3302  	if (ret)
+db202995f5035f Mark Bloch    2021-08-03  3303  		return ret;
+db202995f5035f Mark Bloch    2021-08-03  3304  
+db202995f5035f Mark Bloch    2021-08-03 @3305  	mlx5_esw_for_each_rep(esw, i, rep) {
+db202995f5035f Mark Bloch    2021-08-03  3306  		if (atomic_read(&rep->rep_data[REP_ETH].state) == REP_LOADED)
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3307  			__esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f Mark Bloch    2021-08-03  3308  	}
+db202995f5035f Mark Bloch    2021-08-03  3309  
+db202995f5035f Mark Bloch    2021-08-03  3310  	return 0;
+db202995f5035f Mark Bloch    2021-08-03  3311  }
+db202995f5035f Mark Bloch    2021-08-03  3312  
+
+:::::: The code at line 3305 was first introduced by commit
+:::::: db202995f5035f13a11df48a0af05edbb3720659 net/mlx5: E-Switch, add logic to enable shared FDB
+
+:::::: TO: Mark Bloch <mbloch@nvidia.com>
+:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
