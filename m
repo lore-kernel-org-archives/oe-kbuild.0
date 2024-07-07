@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F76A17FE
-	for <oe-kbuild@lists.linux.dev>; Sat,  6 Jul 2024 22:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7CAA55
+	for <oe-kbuild@lists.linux.dev>; Sun,  7 Jul 2024 00:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720305202; cv=none; b=Ie4KOTDRGnR2srn+2pVIGInxDyPFi8beazxk9zoP5RaO5v5QZwym6hpL88XRcMFGuNwjGZpqn0sVUMMuFHjN636/3wiCV+w2LR4Dy8uFJw7s/3iEE81HVfSdM2i59aTGPkyhQWYe6QT75ye2/ulHvOPqPDTpWBHBarzDHmubI00=
+	t=1720312228; cv=none; b=Z84UIUykEKCwGCIZXKZ83ZyuOPtOOPLmhbuUea6NmUBQX1cFNhDO72JkNXG8AO0uEQGL58M8siKXSoiWUD2iGozI2+gQ/b0XA+HC5otB1verCGr8dlKwL1qkFG93sLemWYP11nkMyDCiNTPrr8xLUByhYJ+1tJT4hs4cw7x1S5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720305202; c=relaxed/simple;
-	bh=1GSJSeT0MSlShDrBWH+3F9xV08qrQKKnCTqpdCRQav8=;
+	s=arc-20240116; t=1720312228; c=relaxed/simple;
+	bh=RjSF9NSguymYI9UvAIsC8bZr6ffb7PyB7FpWUzVxPM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uh+IyxxEot+gAIm3uLFN+NZpQRQ6ZNZMIp/ahw0TsyEmyYDOdkMnyMQ71ghzt+nIvuW10u1Ltul24jTlxhnhah+xNaGt8XU0w/4RyGU1SyTU9y3km9sHFoqdKpwcoLbXUtMfpekgGxUSI+kKpxOSLJVoQ2WRVWoxzXU9YlPlkzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hl9eI/KH; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=Jgg7//21pPtfYE+vn49/UCCDAWGSV9MIp9/CabNsfBvYCYSaPVbHvx5rU7yTbU6Reb4Grl88SuA8KJqkHRFNJdsuKoG8c/qDWp3lSz/zO2d59IKGweXf6yhQtJugFSYrb5iD7svMIOlW8bcK2VoIVyDNVMSdIsEZqTpHqcubHVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcdoL+Uj; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hl9eI/KH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcdoL+Uj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720305201; x=1751841201;
+  t=1720312226; x=1751848226;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1GSJSeT0MSlShDrBWH+3F9xV08qrQKKnCTqpdCRQav8=;
-  b=hl9eI/KHMqQOdptjYY02+vBszkMxKso2sgZrS5ODUWNuNX8/7pPMsncv
-   o9IzVd5SyLJ24hYDnFESAGQd8mUyYy1mwZOYVyc9zeE0jza9DztiVy6AI
-   8UCXcOcnBTNXn0TyzMTthtTJT5MRQaqgDR86lbhvLt6Y06Ej+0xcJKmV4
-   Kf5r+9vJo0Di7iFKD1sVJZtD8pm10wcBBf/OEXrjzkaCmZ4CDljtjtljg
-   3U0OgsXeKd0HwgMgb4a7S5Rm1FXfouZ+kMvc3wCqxT/fEUecSxr71CZ2X
-   fedaMUWZKMZJQcAtAZJlCEG5wp/KqYMwglELxvdKSPznT+5m4KQKKqhQz
-   Q==;
-X-CSE-ConnectionGUID: Yl7U3K13TwiWzBBkgcsHPQ==
-X-CSE-MsgGUID: d0jpbikFRrmRpJHc3bM3oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="28944845"
+  bh=RjSF9NSguymYI9UvAIsC8bZr6ffb7PyB7FpWUzVxPM0=;
+  b=gcdoL+UjvZYwnQ3b9Ru7iZuHpioCnvtPJ4kjBjZAoUp8acckfoHs48s/
+   3JX7dobR9aBnr83tRMjkXLJNIDG9+LvlYtI/SG3oHLeQXApsaZo/O/6mo
+   g9BrTJ12yYnnyCEUL8WIVjiNbHjKvGvmAn8J84c4gSl8kB7JzpYmtmgYK
+   k9dFHjjTk0Rv7+wRklLTn5f/ktC6trmi/QPiFy7M1VPEcc0wKx0fHfkvR
+   VxxPr0GIP8FsKgr9IiL78cMpWSmVdsGuDqNYS/qhl+Xy8Jy57RFY/wtuT
+   AKCd0A0tRVoyJMWK54bsgrnbUE1ValmHDJztcwgSZgKkxIAKw932bz24A
+   g==;
+X-CSE-ConnectionGUID: Gm5t8yWcQZuxR4CwwsDgNw==
+X-CSE-MsgGUID: 7gfYVPnmS1GYXQBBgFvfUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11125"; a="17654451"
 X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
-   d="scan'208";a="28944845"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 15:33:20 -0700
-X-CSE-ConnectionGUID: NBmb9mVZTzis8JN/3Sa2/Q==
-X-CSE-MsgGUID: 9imcT8m+Q2meWIU1Hb+IEQ==
+   d="scan'208";a="17654451"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2024 17:30:26 -0700
+X-CSE-ConnectionGUID: LaIJnk4jTtKDFjurY1CWPg==
+X-CSE-MsgGUID: 1ipJO9HtQ82ohl64cUNh/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,188,1716274800"; 
-   d="scan'208";a="46925406"
+   d="scan'208";a="51591191"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jul 2024 15:33:18 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 06 Jul 2024 17:30:24 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQDy0-000ULU-01;
-	Sat, 06 Jul 2024 22:33:16 +0000
-Date: Sun, 7 Jul 2024 06:32:34 +0800
+	id 1sQFnK-000UR6-1H;
+	Sun, 07 Jul 2024 00:30:22 +0000
+Date: Sun, 7 Jul 2024 08:29:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:bits/000-devicetree 140/187]
- arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31: Unevaluated properties
- are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-zero-fill' were
- unexpected)
-Message-ID: <202407070644.dCptwzby-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [efi:next 3/6] drivers/firmware/efi/libstub/smbios.c:45
+ efi_get_smbios_record() error: uninitialized symbol 'smbios'.
+Message-ID: <202407070813.G9K0kZc6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,52 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Hector Martin <marcan@marcan.st>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-efi@vger.kernel.org
+TO: Ard Biesheuvel <ardb@kernel.org>
+CC: Lukas Wunner <lukas@wunner.de>
 
-tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
-head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
-commit: ea605381505ae86d87b148231b14f8a416c21197 [140/187] arm64: dts: apple: j313: Model SDZ GPIO as a regulator
-:::::: branch date: 3 weeks ago
-:::::: commit date: 8 weeks ago
-config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240707/202407070644.dCptwzby-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
-dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240707/202407070644.dCptwzby-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+head:   f06ecac98e56e2d6c8cb04da732dc6709f7e3fef
+commit: 84810a21ecab70568586217f185998bcf34b450e [3/6] x86/efistub: Enable SMBIOS protocol handling for x86
+:::::: branch date: 3 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20240707 (https://download.01.org/0day-ci/archive/20240707/202407070813.G9K0kZc6-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407070644.dCptwzby-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407070813.G9K0kZc6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dcp@231c00000: failed to match any schema with compatible: ['apple,t8103-dcp', 'apple,dcp']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j313', 'apple,panel']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/dcp@231c00000/panel: failed to match any schema with compatible: ['apple,panel-j313', 'apple,panel']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['apple,display-subsystem']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/isp@22a000000: failed to match any schema with compatible: ['apple,t8103-isp', 'apple,isp']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/isp@22a000000: failed to match any schema with compatible: ['apple,t8103-isp', 'apple,isp']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31: compatible:0: 'ti,tas5770l' is not one of ['ti,tas2770']
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31: compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
->> arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@31: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/i2c@235014000/codec@31: failed to match any schema with compatible: ['ti,tas5770l', 'ti,tas2770']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34: compatible:0: 'ti,tas5770l' is not one of ['ti,tas2770']
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34: compatible: ['ti,tas5770l', 'ti,tas2770'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@34: Unevaluated properties are not allowed ('SDZ-supply', 'compatible', 'ti,sdout-zero-fill' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/tas2770.yaml#
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: /soc/i2c@23501c000/codec@34: failed to match any schema with compatible: ['ti,tas5770l', 'ti,tas2770']
-   arch/arm64/boot/dts/apple/t8103-j313.dtb: codec@48: 'VP-supply' is a required property
+smatch warnings:
+drivers/firmware/efi/libstub/smbios.c:45 efi_get_smbios_record() error: uninitialized symbol 'smbios'.
+
+vim +/smbios +45 drivers/firmware/efi/libstub/smbios.c
+
+550b33cfd44529 Ard Biesheuvel 2022-11-10  35  
+eb684408f3ea48 Ard Biesheuvel 2023-02-28  36  const struct efi_smbios_record *efi_get_smbios_record(u8 type)
+550b33cfd44529 Ard Biesheuvel 2022-11-10  37  {
+550b33cfd44529 Ard Biesheuvel 2022-11-10  38  	struct efi_smbios_record *record;
+550b33cfd44529 Ard Biesheuvel 2022-11-10  39  	efi_smbios_protocol_t *smbios;
+550b33cfd44529 Ard Biesheuvel 2022-11-10  40  	efi_status_t status;
+550b33cfd44529 Ard Biesheuvel 2022-11-10  41  	u16 handle = 0xfffe;
+550b33cfd44529 Ard Biesheuvel 2022-11-10  42  
+550b33cfd44529 Ard Biesheuvel 2022-11-10  43  	status = efi_bs_call(locate_protocol, &EFI_SMBIOS_PROTOCOL_GUID, NULL,
+550b33cfd44529 Ard Biesheuvel 2022-11-10  44  			     (void **)&smbios) ?:
+550b33cfd44529 Ard Biesheuvel 2022-11-10 @45  		 efi_call_proto(smbios, get_next, &handle, &type, &record, NULL);
+550b33cfd44529 Ard Biesheuvel 2022-11-10  46  	if (status != EFI_SUCCESS)
+550b33cfd44529 Ard Biesheuvel 2022-11-10  47  		return NULL;
+eb684408f3ea48 Ard Biesheuvel 2023-02-28  48  	return record;
+eb684408f3ea48 Ard Biesheuvel 2023-02-28  49  }
+eb684408f3ea48 Ard Biesheuvel 2023-02-28  50  
+
+:::::: The code at line 45 was first introduced by commit
+:::::: 550b33cfd445296868a478e8413ffb2e963eed32 arm64: efi: Force the use of SetVirtualAddressMap() on Altra machines
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
