@@ -1,67 +1,70 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C904B1E536
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 15:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F7143C74
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 15:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720453496; cv=none; b=KZtCqxOOTAg76bwRhh8H+IGzgThSSPhkY2EeflA8UD3JqVPOy7IMosOl+wxYWf0P710wnixWUf2p9nFG6oF7UFmUXN5WNTrveqftMZ4HKZAnSMyK8BVNa7mEYmnezeEMNYEdo1LUxmL8pR5b7C1mZzwt8MWfMKrK3HoepGmfrTg=
+	t=1720454119; cv=none; b=bbiOJ0rbPpSWm/RAJCveRcmnJoO3TVfcOKVqfJKJ/2n/fdAMLGuC3RijRTwIaG1YTcXwRHtp+JE4K+FuX7jrwpu6Who20tdQ2SfS9MWP+FzrsKD7hxefzEVvjSOvDhZrLabYyPMJQQJz7GAmCpEAWHXU8TuGk+hYlF1Ig9UY1Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720453496; c=relaxed/simple;
-	bh=OJe5lZmJr3fF2OsfUfCTsvxehv+Bw7Ry/VIAoY0f60k=;
+	s=arc-20240116; t=1720454119; c=relaxed/simple;
+	bh=cvBWKng3YeJPwbCLrAjHXr8nxo5lDxnqr7GqSHo/A44=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JdUvu6UBY2iVthp8ftlLE/HnrcZIFKhDMQ+gYOUm+JDIU1Wqw3DHa0tmnxf59/bY1JRbHs1eXf8ztf4scJvcc/FOuYKF2qY5HkAbTvKwMxBsIEgllQKI4CKa6v23j74SmLQmUnzUXpwDQzjQoiWXFVwJlX6W/o2jv9EyYqbKRCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZQ/zScX8; arc=none smtp.client-ip=209.85.161.44
+	 Content-Disposition:In-Reply-To; b=IQFjEtGt6+Tqft7ZOJNAOM5K8YOdf3b0bCy23Qkro7MORUWpoujeY7/NhwMJudrkwAFpzxMCTpByqcczZ3WkaSlvCq6G/jDlfZ/PA07hNOIzt50VABTwvOKeDUn2UXieqa0+kRN+kGJSLfljzgjOEbhwDgkng4CJm1pD4b7qHk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l3MdqgeN; arc=none smtp.client-ip=209.85.160.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQ/zScX8"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5c661519bc2so1413748eaf.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 08 Jul 2024 08:44:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l3MdqgeN"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-25e3d8db819so1833068fac.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 08 Jul 2024 08:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720453493; x=1721058293; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PwNSfE3htJIzmC6/CCUDkYytjUdGt1k8Nd1suzoQTKg=;
-        b=ZQ/zScX8zFVDjTJFyzPEWGEszjgvnDYKc2pv7M3jtIZwyhyRq8OYnvonGcuocLGODm
-         KCb2UxhQHoQH2arhtx6QiFvHOXlIjiMXTHoqRfT3RlIKHDfrw51WgE1PGjn7A7AjdkTN
-         Ea/LDDKrTxCrf7BMkdxdzZCdedtT9srvYb8OBf4DEjsO1f/nT6WV1MdgUEc5OpPtfxyJ
-         Algw5nZxWyfa5/hzQ8Zpse3pafPPogqPlsiwzz4PRj4h8U2H0QYGppdFyLQDY7gDsQka
-         Tno/13fbauyPD+IsnmVBTf3tw1Eh/pnvsTd8K9O4LEZiog0Nym9Ptiux3WrQNKjT3egv
-         lazg==
+        d=linaro.org; s=google; t=1720454116; x=1721058916; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BJuaMngDvL/ozTXoGo0oV92KGi7PV5ovmEPBZpZiQRY=;
+        b=l3MdqgeNZCUehWZeHVcxTPlRaO65fJwARBaZvQT09mgICqza5FHgkUGb+f2+gDrvnB
+         6Aypgwy8Yn+T8hZfInbl7lR9blKXpbE+tfChVuy5ZdUqfBPCaQUlV8LnGGsc3f/zW/1z
+         1l/sfMm3qz3PaRhUusg5jjD3hT2yo61lLOY8VVfFgoGq7bnH8t39VlYE30sjcBkRVHFJ
+         3jpOWDOUraCkUMgMncenKONULNstypr88uCeDL/nUViy4OIrK0GJSU+T8iNV1yotmAgh
+         kMqg2SOSRQW7r6GJgR4rjhLFzykPbX8bPEN3ArrtXFvVrP9FE7MFVNRltaD1/zIGJsjo
+         Tn6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720453493; x=1721058293;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PwNSfE3htJIzmC6/CCUDkYytjUdGt1k8Nd1suzoQTKg=;
-        b=fmoxIXqg8RyaAhiEOtzEcH3QqXme/ZyTp8xm0V21VGsyNhWUo6l1xmYpnH5pXxkLhG
-         w5hM0Ai7Fabipdb4b3ofXhgktH1DpW880OWkqiJAAx7DKl5kAMng91w+zBY2CJXz00T1
-         FiY8LSMNoGOv8JdNNytnMtvBRFtPd4XXvtQS+KwTSqN2JOm7zEjcZIv6M7DbIuEetis6
-         7sGBAT10Xy83kUIuDmIXLygD48C4Qe75058ocbBmGol7Fe1ROkHl9nkewIU14leEXQ3P
-         S9XG6z8wy9wdFYECrpZjXEgoAYd2zh/yI2ZlYahkCZBKlWLygFsIu86hfuXYqiB/mr2a
-         XADg==
-X-Gm-Message-State: AOJu0YxusExM2HxgV5fodBo0SZV0BJO/a2g2KPAtbCEIr4/+BjAOt1ll
-	u/qyQC13WObLxVDNUWeS/LObV79U7LpgtZXoaO0iJV6kdmkSMKseU+yKCvSAc/x3Qxqzj1tr7NZ
-	q
-X-Google-Smtp-Source: AGHT+IE7nJP+NtLHrpFcQ2SszrSOQHs94OdysPr9VxCzpwzZvlkoGvdFNx2DKUNXfaOVsznZ4A+ZvQ==
-X-Received: by 2002:a4a:de4f:0:b0:5c6:6029:b1cd with SMTP id 006d021491bc7-5c66029b48dmr7456031eaf.8.1720453493515;
-        Mon, 08 Jul 2024 08:44:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720454116; x=1721058916;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BJuaMngDvL/ozTXoGo0oV92KGi7PV5ovmEPBZpZiQRY=;
+        b=ozfjWO4xKdZOGZJi9cyJdlbjbNy2lpYty0BId0LSlJj0yobqK1hN6vJ/ARe3f77UdZ
+         1kmloHKCwiZnGa+yhdnqtk/ZrvEvhRKncOVLKt6oLEVDmtRfPR2aJDeujj8xSd4gTtAG
+         amG0wIzGc+UMcwxdqm2z2zhtMBE3Rh5DMe+6vSvuOaFhyMuc3fzPLl4k++eIT0Lm7TfM
+         JWGd50nN2IzFanYB/p48wpmAFNyRs+oPB0lW4UUxZJ8MFG1JUu1y97F6o2CQLjSllqX9
+         9vQvll61gUbH5JDmVpuk2M6in7l0VjrAfi4dDEy8gp0DYeaXrGcZFYvWFmeF5h6qcpmF
+         JThg==
+X-Gm-Message-State: AOJu0YzcyVmaVgMqLuJgRoTapbAwPzfCx4K0Mfe0ouCcNrprY439AcEx
+	FT4QB3BANIlbh6oFTVPs9gQYzozDv57R0J1ZXLFuMn+NOip3PU2NnauR0FBwj5ZIrxVlSWio/ZO
+	I
+X-Google-Smtp-Source: AGHT+IG6B3+NMl1Hiaxxb/+k2s6LmYwoH7OVJEFQUH5dePCXbN3KkTq+YCAQZ0+N/4FRlQumpJ6Ocw==
+X-Received: by 2002:a05:6870:b50b:b0:25d:fab0:b6f3 with SMTP id 586e51a60fabf-25e2bf6358fmr9556896fac.59.1720454115970;
+        Mon, 08 Jul 2024 08:55:15 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:6fc:b7f5:4853:aff3])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c68cdfce18sm14132eaf.40.2024.07.08.08.44.53
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25ea9feb5a5sm45381fac.19.2024.07.08.08.55.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 08:44:53 -0700 (PDT)
-Date: Mon, 8 Jul 2024 17:44:52 +0200
+        Mon, 08 Jul 2024 08:55:15 -0700 (PDT)
+Date: Mon, 8 Jul 2024 17:55:13 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Junfeng Guo <junfeng.guo@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Marcin Szycik <marcin.szycik@linux.intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>
-Subject: [tnguy-next-queue:dev-queue 12/92]
- drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875
- ice_vc_fdir_parse_raw() warn: missing error code 'status'
-Message-ID: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, yskelg@gmail.com,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, shjy180909@gmail.com,
+	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yunseong Kim <yskelg@gmail.com>
+Subject: Re: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
+Message-ID: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,98 +73,87 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240623120147.35554-3-yskelg@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   d051d5283b530af3f9627c8e600aa581bc6c1958
-commit: 23eb6f4d18624231cd3f57f322814591f38b3837 [12/92] ice: enable FDIR filters from raw binary patterns for VFs
-config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240707/202407070634.aTz9Naa1-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/yskelg-gmail-com/s390-zcrypt-optimize-memory-allocation-in-online_show/20240626-071004
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+patch link:    https://lore.kernel.org/r/20240623120147.35554-3-yskelg%40gmail.com
+patch subject: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
+config: s390-randconfig-r081-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071714.4AUEoeUD-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407070634.aTz9Naa1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407071714.4AUEoeUD-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875 ice_vc_fdir_parse_raw() warn: missing error code 'status'
+drivers/s390/crypto/zcrypt_card.c:103 online_store() warn: iterator used outside loop: 'zq'
 
-vim +/status +875 drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c
+vim +/zq +103 drivers/s390/crypto/zcrypt_card.c
 
-23eb6f4d186242 Junfeng Guo 2024-05-27  831  static int
-23eb6f4d186242 Junfeng Guo 2024-05-27  832  ice_vc_fdir_parse_raw(struct ice_vf *vf,
-23eb6f4d186242 Junfeng Guo 2024-05-27  833  		      struct virtchnl_proto_hdrs *proto,
-23eb6f4d186242 Junfeng Guo 2024-05-27  834  		      struct virtchnl_fdir_fltr_conf *conf)
-23eb6f4d186242 Junfeng Guo 2024-05-27  835  {
-23eb6f4d186242 Junfeng Guo 2024-05-27  836  	u8 *pkt_buf, *msk_buf __free(kfree);
-23eb6f4d186242 Junfeng Guo 2024-05-27  837  	struct ice_parser_result rslt;
-23eb6f4d186242 Junfeng Guo 2024-05-27  838  	struct ice_pf *pf = vf->pf;
-23eb6f4d186242 Junfeng Guo 2024-05-27  839  	struct ice_parser *psr;
-23eb6f4d186242 Junfeng Guo 2024-05-27  840  	int status = -ENOMEM;
-23eb6f4d186242 Junfeng Guo 2024-05-27  841  	struct ice_hw *hw;
-23eb6f4d186242 Junfeng Guo 2024-05-27  842  	u16 udp_port = 0;
-23eb6f4d186242 Junfeng Guo 2024-05-27  843  
-23eb6f4d186242 Junfeng Guo 2024-05-27  844  	pkt_buf = kzalloc(proto->raw.pkt_len, GFP_KERNEL);
-23eb6f4d186242 Junfeng Guo 2024-05-27  845  	msk_buf = kzalloc(proto->raw.pkt_len, GFP_KERNEL);
-23eb6f4d186242 Junfeng Guo 2024-05-27  846  	if (!pkt_buf || !msk_buf)
-23eb6f4d186242 Junfeng Guo 2024-05-27  847  		goto err_mem_alloc;
-23eb6f4d186242 Junfeng Guo 2024-05-27  848  
-23eb6f4d186242 Junfeng Guo 2024-05-27  849  	memcpy(pkt_buf, proto->raw.spec, proto->raw.pkt_len);
-23eb6f4d186242 Junfeng Guo 2024-05-27  850  	memcpy(msk_buf, proto->raw.mask, proto->raw.pkt_len);
-23eb6f4d186242 Junfeng Guo 2024-05-27  851  
-23eb6f4d186242 Junfeng Guo 2024-05-27  852  	hw = &pf->hw;
-23eb6f4d186242 Junfeng Guo 2024-05-27  853  
-23eb6f4d186242 Junfeng Guo 2024-05-27  854  	/* Get raw profile info via Parser Lib */
-23eb6f4d186242 Junfeng Guo 2024-05-27  855  	psr = ice_parser_create(hw);
-23eb6f4d186242 Junfeng Guo 2024-05-27  856  	if (IS_ERR(psr)) {
-23eb6f4d186242 Junfeng Guo 2024-05-27  857  		status = PTR_ERR(psr);
-23eb6f4d186242 Junfeng Guo 2024-05-27  858  		goto err_mem_alloc;
-23eb6f4d186242 Junfeng Guo 2024-05-27  859  	}
-23eb6f4d186242 Junfeng Guo 2024-05-27  860  
-23eb6f4d186242 Junfeng Guo 2024-05-27  861  	ice_parser_dvm_set(psr, ice_is_dvm_ena(hw));
-23eb6f4d186242 Junfeng Guo 2024-05-27  862  
-23eb6f4d186242 Junfeng Guo 2024-05-27  863  	if (ice_get_open_tunnel_port(hw, &udp_port, TNL_VXLAN))
-23eb6f4d186242 Junfeng Guo 2024-05-27  864  		ice_parser_vxlan_tunnel_set(psr, udp_port, true);
-23eb6f4d186242 Junfeng Guo 2024-05-27  865  
-23eb6f4d186242 Junfeng Guo 2024-05-27  866  	status = ice_parser_run(psr, pkt_buf, proto->raw.pkt_len, &rslt);
-23eb6f4d186242 Junfeng Guo 2024-05-27  867  	if (status)
-23eb6f4d186242 Junfeng Guo 2024-05-27  868  		goto err_parser_destroy;
-23eb6f4d186242 Junfeng Guo 2024-05-27  869  
-23eb6f4d186242 Junfeng Guo 2024-05-27  870  	if (hw->debug_mask & ICE_DBG_PARSER)
-23eb6f4d186242 Junfeng Guo 2024-05-27  871  		ice_parser_result_dump(hw, &rslt);
-23eb6f4d186242 Junfeng Guo 2024-05-27  872  
-23eb6f4d186242 Junfeng Guo 2024-05-27  873  	conf->prof = kzalloc(sizeof(*conf->prof), GFP_KERNEL);
-23eb6f4d186242 Junfeng Guo 2024-05-27  874  	if (!conf->prof)
-23eb6f4d186242 Junfeng Guo 2024-05-27 @875  		goto err_parser_destroy;
+ac2b96f351d7d2 Harald Freudenberger 2018-08-17   60  static ssize_t online_store(struct device *dev,
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   61  			    struct device_attribute *attr,
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   62  			    const char *buf, size_t count)
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   63  {
+b5adbbf896d837 Julian Wiedmann      2021-06-07   64  	struct zcrypt_card *zc = dev_get_drvdata(dev);
+4f2fcccdb547b0 Harald Freudenberger 2020-07-02   65  	struct ap_card *ac = to_ap_card(dev);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   66  	struct zcrypt_queue *zq;
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   67  	int online, id, i = 0, maxzqs = 0;
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   68  	struct zcrypt_queue **zq_uelist = NULL;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   69  
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   70  	if (sscanf(buf, "%d\n", &online) != 1 || online < 0 || online > 1)
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   71  		return -EINVAL;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   72  
+cfaef6516e9ac6 Ingo Franzki         2023-10-26   73  	if (online && (!ac->config || ac->chkstop))
+4f2fcccdb547b0 Harald Freudenberger 2020-07-02   74  		return -ENODEV;
+4f2fcccdb547b0 Harald Freudenberger 2020-07-02   75  
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   76  	zc->online = online;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   77  	id = zc->card->id;
+cccd85bfb7bf67 Harald Freudenberger 2016-11-24   78  
+3f74eb5f78198a Harald Freudenberger 2021-10-15   79  	ZCRYPT_DBF_INFO("%s card=%02x online=%d\n", __func__, id, online);
+cccd85bfb7bf67 Harald Freudenberger 2016-11-24   80  
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   81  	ap_send_online_uevent(&ac->ap_dev, online);
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   82  
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   83  	spin_lock(&zcrypt_list_lock);
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   84  	/*
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   85  	 * As we are in atomic context here, directly sending uevents
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   86  	 * does not work. So collect the zqueues in a dynamic array
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   87  	 * and process them after zcrypt_list_lock release. As we get/put
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   88  	 * the zqueue objects, we make sure they exist after lock release.
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   89  	 */
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   90  	list_for_each_entry(zq, &zc->zqueues, list)
+2ff6be56a27c2d Yunseong Kim         2024-06-23   91  		if (!!zq->online != !!online)
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   92  			maxzqs++;
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   93  	if (maxzqs > 0)
+2ff6be56a27c2d Yunseong Kim         2024-06-23   94  		zq_uelist = kcalloc(maxzqs, sizeof(*zq_uelist), GFP_ATOMIC);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   95  	list_for_each_entry(zq, &zc->zqueues, list)
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   96  		if (zcrypt_queue_force_online(zq, online))
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   97  			if (zq_uelist) {
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   98  				zcrypt_queue_get(zq);
+df6f508c68dbc6 Harald Freudenberger 2021-04-13   99  				zq_uelist[i++] = zq;
+df6f508c68dbc6 Harald Freudenberger 2021-04-13  100  			}
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  101  	spin_unlock(&zcrypt_list_lock);
+2ff6be56a27c2d Yunseong Kim         2024-06-23  102  	while (i--) {
+df6f508c68dbc6 Harald Freudenberger 2021-04-13 @103  		ap_send_online_uevent(&zq->queue->ap_dev, online);
+                                                                                       ^^
+zq is an invalid pointer here.  It's an offset off the list head.
+There used to be a "zq = zq_uelist[i];" before this function call but
+the patch deleted it.
 
-status = -ENOMEM;
-
-23eb6f4d186242 Junfeng Guo 2024-05-27  876  
-23eb6f4d186242 Junfeng Guo 2024-05-27  877  	status = ice_parser_profile_init(&rslt, pkt_buf, msk_buf,
-23eb6f4d186242 Junfeng Guo 2024-05-27  878  					 proto->raw.pkt_len, ICE_BLK_FD,
-23eb6f4d186242 Junfeng Guo 2024-05-27  879  					 conf->prof);
-23eb6f4d186242 Junfeng Guo 2024-05-27  880  	if (status)
-23eb6f4d186242 Junfeng Guo 2024-05-27  881  		goto err_parser_profile_init;
-23eb6f4d186242 Junfeng Guo 2024-05-27  882  
-23eb6f4d186242 Junfeng Guo 2024-05-27  883  	if (hw->debug_mask & ICE_DBG_PARSER)
-23eb6f4d186242 Junfeng Guo 2024-05-27  884  		ice_parser_profile_dump(hw, conf->prof);
-23eb6f4d186242 Junfeng Guo 2024-05-27  885  
-23eb6f4d186242 Junfeng Guo 2024-05-27  886  	/* Store raw flow info into @conf */
-23eb6f4d186242 Junfeng Guo 2024-05-27  887  	conf->pkt_len = proto->raw.pkt_len;
-23eb6f4d186242 Junfeng Guo 2024-05-27  888  	conf->pkt_buf = pkt_buf;
-23eb6f4d186242 Junfeng Guo 2024-05-27  889  	conf->parser_ena = true;
-23eb6f4d186242 Junfeng Guo 2024-05-27  890  
-23eb6f4d186242 Junfeng Guo 2024-05-27  891  	ice_parser_destroy(psr);
-23eb6f4d186242 Junfeng Guo 2024-05-27  892  	return 0;
-23eb6f4d186242 Junfeng Guo 2024-05-27  893  
-23eb6f4d186242 Junfeng Guo 2024-05-27  894  err_parser_profile_init:
-23eb6f4d186242 Junfeng Guo 2024-05-27  895  	kfree(conf->prof);
-23eb6f4d186242 Junfeng Guo 2024-05-27  896  err_parser_destroy:
-23eb6f4d186242 Junfeng Guo 2024-05-27  897  	ice_parser_destroy(psr);
-23eb6f4d186242 Junfeng Guo 2024-05-27  898  err_mem_alloc:
-23eb6f4d186242 Junfeng Guo 2024-05-27  899  	kfree(pkt_buf);
-23eb6f4d186242 Junfeng Guo 2024-05-27  900  	return status;
-23eb6f4d186242 Junfeng Guo 2024-05-27  901  }
+2ff6be56a27c2d Yunseong Kim         2024-06-23  104  		zcrypt_queue_put(zq_uelist[i]);
+df6f508c68dbc6 Harald Freudenberger 2021-04-13  105  	}
+df6f508c68dbc6 Harald Freudenberger 2021-04-13  106  	kfree(zq_uelist);
+df6f508c68dbc6 Harald Freudenberger 2021-04-13  107  
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  108  	return count;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  109  }
 
 -- 
 0-DAY CI Kernel Test Service
