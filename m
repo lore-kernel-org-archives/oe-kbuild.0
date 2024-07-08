@@ -1,67 +1,67 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ED71411E7
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 15:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C904B1E536
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 15:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720453442; cv=none; b=h/U4436+HJNcB5J3VJ2lHeNnYXVOHHyGbjR2UMLjSZMuYnY44WQJzqWa+SRUNzCDaUrtVSaz4LNCGN/12GH/q5OmGAElPAPN0V8pT9uYEW/rtBcdIrQqwV+vpTasH0pKQQRxZP1fJ9EbBdzif7WNUqpCpGTDFl2fFuROk962yTM=
+	t=1720453496; cv=none; b=KZtCqxOOTAg76bwRhh8H+IGzgThSSPhkY2EeflA8UD3JqVPOy7IMosOl+wxYWf0P710wnixWUf2p9nFG6oF7UFmUXN5WNTrveqftMZ4HKZAnSMyK8BVNa7mEYmnezeEMNYEdo1LUxmL8pR5b7C1mZzwt8MWfMKrK3HoepGmfrTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720453442; c=relaxed/simple;
-	bh=7sGcaMRkW3mnjgFZzQavnnGKfYAyfhfoQFMU+0im/fo=;
+	s=arc-20240116; t=1720453496; c=relaxed/simple;
+	bh=OJe5lZmJr3fF2OsfUfCTsvxehv+Bw7Ry/VIAoY0f60k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MP66xhNd3jwLNhWsGnmiW26kjKONlIw0fv4wmm3+bQ6yH/8ZH2cLGr9lWlDxPvTzmlJFNBgl8vQ5XTfnpxRLnBTaDeotjvMq/YE3azfsASettqVmjoGT5ywd/PUJDqONnS2B4fbT8NV+eWO05W4ks2F/1QtWbc6QqY9P/h4tbg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YEJmGJoT; arc=none smtp.client-ip=209.85.210.53
+	 Content-Disposition; b=JdUvu6UBY2iVthp8ftlLE/HnrcZIFKhDMQ+gYOUm+JDIU1Wqw3DHa0tmnxf59/bY1JRbHs1eXf8ztf4scJvcc/FOuYKF2qY5HkAbTvKwMxBsIEgllQKI4CKa6v23j74SmLQmUnzUXpwDQzjQoiWXFVwJlX6W/o2jv9EyYqbKRCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZQ/zScX8; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YEJmGJoT"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-703631c4930so1092089a34.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 08 Jul 2024 08:44:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQ/zScX8"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5c661519bc2so1413748eaf.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 08 Jul 2024 08:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720453438; x=1721058238; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1720453493; x=1721058293; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=eQ3Mopfr9OFP/Lm4g5Jv5/xOzl15GckJDaSdKSDrqmA=;
-        b=YEJmGJoTfUat8fS0Du4wNFk8ic0ez1v6bW6JMERWbRS8P2BDv29gTdmTGU7lnvs2Fj
-         AO9JcGUdlNcdWbCK0ID+J+tGm37gyhx39fnAMJdymgnEFs5id9V5Yb79l0yer2AFVXRK
-         VjzICFpcEC6/Yt26R+JHeB5ihkFn0op0mROW/OJj9PgqNUrLEFZ2cW2pOL1bEbnC5UwZ
-         genOfXoQLh2SfTeiryhkxQPyLglXwKFZGWKEoD0LkZrqdBjKzIiwCzpnySKtri0UvKUL
-         iLVaxgqCy/VlpdFG3sOTOeVsixZkp6UpfVcH+6jW/bnHebvMsqhCswXJrnKJ5kqUbvhC
-         9JTw==
+        bh=PwNSfE3htJIzmC6/CCUDkYytjUdGt1k8Nd1suzoQTKg=;
+        b=ZQ/zScX8zFVDjTJFyzPEWGEszjgvnDYKc2pv7M3jtIZwyhyRq8OYnvonGcuocLGODm
+         KCb2UxhQHoQH2arhtx6QiFvHOXlIjiMXTHoqRfT3RlIKHDfrw51WgE1PGjn7A7AjdkTN
+         Ea/LDDKrTxCrf7BMkdxdzZCdedtT9srvYb8OBf4DEjsO1f/nT6WV1MdgUEc5OpPtfxyJ
+         Algw5nZxWyfa5/hzQ8Zpse3pafPPogqPlsiwzz4PRj4h8U2H0QYGppdFyLQDY7gDsQka
+         Tno/13fbauyPD+IsnmVBTf3tw1Eh/pnvsTd8K9O4LEZiog0Nym9Ptiux3WrQNKjT3egv
+         lazg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720453438; x=1721058238;
+        d=1e100.net; s=20230601; t=1720453493; x=1721058293;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eQ3Mopfr9OFP/Lm4g5Jv5/xOzl15GckJDaSdKSDrqmA=;
-        b=MVoLOCQKIiSvcrbht5Inn+W86DcbvuTHBl+0oZtZdjlDeDa+bhLr6T16qyi3uKlk52
-         7EknFbM5cH9SMNoYFzYtEQPz+vmOkVPoxln31DtR6UlA+gI1mRYCRd5bD0W1Bg9wZMTz
-         Gi48DMvwKF3gpW10lbT1ldiQxggEMvYzca7vCBZbVqe+baoDhBh3jnAYICEIGuBbK0F7
-         YoeHltKmCKGfmILjBB+IxaCD7+sW1egdDpvENTdk6M2aOi0Jqyd81cYmnd83BDIuz57V
-         C5iN7d+3xc9SUSxH/VZdpAKi6qgIOYhDUFGl6wWDb4dacaOWAK8SJ0RMgmW2IsS0OY0/
-         5wqw==
-X-Gm-Message-State: AOJu0Ywojm78i3ZjcEeU1zO0R0rRzG42aQvrsc9t8t/ckNSYJveP1Sdl
-	2KmmZEtMbwt22o2xb7TiMCESOjRFiaFd+YsY9hMWs6XK/qNmBzBayuvNSdZ4ZQ8xDngn28hzELQ
-	/
-X-Google-Smtp-Source: AGHT+IHB1nTp59rphE0KubXaXngHOqlZNMnZ5LaiKC9tdS8+9G4fsgSB9j/29Qgmh1c3wXrXU94ZDg==
-X-Received: by 2002:a9d:561a:0:b0:703:668f:3228 with SMTP id 46e09a7af769-703668f33damr5737309a34.38.1720453438421;
-        Mon, 08 Jul 2024 08:43:58 -0700 (PDT)
+        bh=PwNSfE3htJIzmC6/CCUDkYytjUdGt1k8Nd1suzoQTKg=;
+        b=fmoxIXqg8RyaAhiEOtzEcH3QqXme/ZyTp8xm0V21VGsyNhWUo6l1xmYpnH5pXxkLhG
+         w5hM0Ai7Fabipdb4b3ofXhgktH1DpW880OWkqiJAAx7DKl5kAMng91w+zBY2CJXz00T1
+         FiY8LSMNoGOv8JdNNytnMtvBRFtPd4XXvtQS+KwTSqN2JOm7zEjcZIv6M7DbIuEetis6
+         7sGBAT10Xy83kUIuDmIXLygD48C4Qe75058ocbBmGol7Fe1ROkHl9nkewIU14leEXQ3P
+         S9XG6z8wy9wdFYECrpZjXEgoAYd2zh/yI2ZlYahkCZBKlWLygFsIu86hfuXYqiB/mr2a
+         XADg==
+X-Gm-Message-State: AOJu0YxusExM2HxgV5fodBo0SZV0BJO/a2g2KPAtbCEIr4/+BjAOt1ll
+	u/qyQC13WObLxVDNUWeS/LObV79U7LpgtZXoaO0iJV6kdmkSMKseU+yKCvSAc/x3Qxqzj1tr7NZ
+	q
+X-Google-Smtp-Source: AGHT+IE7nJP+NtLHrpFcQ2SszrSOQHs94OdysPr9VxCzpwzZvlkoGvdFNx2DKUNXfaOVsznZ4A+ZvQ==
+X-Received: by 2002:a4a:de4f:0:b0:5c6:6029:b1cd with SMTP id 006d021491bc7-5c66029b48dmr7456031eaf.8.1720453493515;
+        Mon, 08 Jul 2024 08:44:53 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:6fc:b7f5:4853:aff3])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70374f78d35sm34537a34.23.2024.07.08.08.43.57
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5c68cdfce18sm14132eaf.40.2024.07.08.08.44.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 08:43:57 -0700 (PDT)
-Date: Mon, 8 Jul 2024 17:43:56 +0200
+        Mon, 08 Jul 2024 08:44:53 -0700 (PDT)
+Date: Mon, 8 Jul 2024 17:44:52 +0200
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Benjamin Berg <benjamin.berg@intel.com>
+To: oe-kbuild@lists.linux.dev, Junfeng Guo <junfeng.guo@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Kalle Valo <kvalo@kernel.org>, linux-wireless@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Subject: [wireless-next:main 8/21]
- drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1764 iwl_pcie_get_page_hdr()
- error: uninitialized symbol 'ret'.
-Message-ID: <07991b96-08f5-482f-98dd-93f426a57e4f@suswa.mountain>
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Marcin Szycik <marcin.szycik@linux.intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>
+Subject: [tnguy-next-queue:dev-queue 12/92]
+ drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875
+ ice_vc_fdir_parse_raw() warn: missing error code 'status'
+Message-ID: <51190ea3-51d2-4559-b382-0fa823d4cc86@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,98 +71,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-head:   1b431ba4ef9a760e7643d6fbc53bf522d59650f3
-commit: adc902ceada26add77ad75426805e973a7c67f01 [8/21] wifi: iwlwifi: keep the TSO and workaround pages mapped
-config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240706/202407062135.NNjnmMdR-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   d051d5283b530af3f9627c8e600aa581bc6c1958
+commit: 23eb6f4d18624231cd3f57f322814591f38b3837 [12/92] ice: enable FDIR filters from raw binary patterns for VFs
+config: x86_64-randconfig-161-20240706 (https://download.01.org/0day-ci/archive/20240707/202407070634.aTz9Naa1-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407062135.NNjnmMdR-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407070634.aTz9Naa1-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1764 iwl_pcie_get_page_hdr() error: uninitialized symbol 'ret'.
+smatch warnings:
+drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c:875 ice_vc_fdir_parse_raw() warn: missing error code 'status'
 
-vim +/ret +1764 drivers/net/wireless/intel/iwlwifi/pcie/tx.c
+vim +/status +875 drivers/net/ethernet/intel/ice/ice_virtchnl_fdir.c
 
-7f5e3038f02902 Benjamin Berg     2024-07-03  1735  static void *iwl_pcie_get_page_hdr(struct iwl_trans *trans,
-49101078be769e Johannes Berg     2024-06-05  1736  				   size_t len, struct sk_buff *skb)
-49101078be769e Johannes Berg     2024-06-05  1737  {
-49101078be769e Johannes Berg     2024-06-05  1738  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
-49101078be769e Johannes Berg     2024-06-05  1739  	struct iwl_tso_hdr_page *p = this_cpu_ptr(trans_pcie->txqs.tso_hdr_page);
-adc902ceada26a Benjamin Berg     2024-07-03  1740  	struct iwl_tso_page_info *info;
-49101078be769e Johannes Berg     2024-06-05  1741  	struct page **page_ptr;
-adc902ceada26a Benjamin Berg     2024-07-03  1742  	dma_addr_t phys;
-d023a228e927c1 Benjamin Berg     2024-07-03  1743  	void *ret;
-49101078be769e Johannes Berg     2024-06-05  1744  
-49101078be769e Johannes Berg     2024-06-05  1745  	page_ptr = (void *)((u8 *)skb->cb + trans_pcie->txqs.page_offs);
-49101078be769e Johannes Berg     2024-06-05  1746  
-49101078be769e Johannes Berg     2024-06-05  1747  	if (WARN_ON(*page_ptr))
-49101078be769e Johannes Berg     2024-06-05  1748  		return NULL;
-49101078be769e Johannes Berg     2024-06-05  1749  
-49101078be769e Johannes Berg     2024-06-05  1750  	if (!p->page)
-49101078be769e Johannes Berg     2024-06-05  1751  		goto alloc;
-49101078be769e Johannes Berg     2024-06-05  1752  
-49101078be769e Johannes Berg     2024-06-05  1753  	/*
-49101078be769e Johannes Berg     2024-06-05  1754  	 * Check if there's enough room on this page
-49101078be769e Johannes Berg     2024-06-05  1755  	 *
-49101078be769e Johannes Berg     2024-06-05  1756  	 * Note that we put a page chaining pointer *last* in the
-49101078be769e Johannes Berg     2024-06-05  1757  	 * page - we need it somewhere, and if it's there then we
-49101078be769e Johannes Berg     2024-06-05  1758  	 * avoid DMA mapping the last bits of the page which may
-49101078be769e Johannes Berg     2024-06-05  1759  	 * trigger the 32-bit boundary hardware bug.
-49101078be769e Johannes Berg     2024-06-05  1760  	 *
-49101078be769e Johannes Berg     2024-06-05  1761  	 * (see also get_workaround_page() in tx-gen2.c)
-49101078be769e Johannes Berg     2024-06-05  1762  	 */
-adc902ceada26a Benjamin Berg     2024-07-03  1763  	if (((unsigned long)p->pos & ~PAGE_MASK) + len < IWL_TSO_PAGE_DATA_SIZE) {
-adc902ceada26a Benjamin Berg     2024-07-03 @1764  		info = IWL_TSO_PAGE_INFO(page_address(ret));
+23eb6f4d186242 Junfeng Guo 2024-05-27  831  static int
+23eb6f4d186242 Junfeng Guo 2024-05-27  832  ice_vc_fdir_parse_raw(struct ice_vf *vf,
+23eb6f4d186242 Junfeng Guo 2024-05-27  833  		      struct virtchnl_proto_hdrs *proto,
+23eb6f4d186242 Junfeng Guo 2024-05-27  834  		      struct virtchnl_fdir_fltr_conf *conf)
+23eb6f4d186242 Junfeng Guo 2024-05-27  835  {
+23eb6f4d186242 Junfeng Guo 2024-05-27  836  	u8 *pkt_buf, *msk_buf __free(kfree);
+23eb6f4d186242 Junfeng Guo 2024-05-27  837  	struct ice_parser_result rslt;
+23eb6f4d186242 Junfeng Guo 2024-05-27  838  	struct ice_pf *pf = vf->pf;
+23eb6f4d186242 Junfeng Guo 2024-05-27  839  	struct ice_parser *psr;
+23eb6f4d186242 Junfeng Guo 2024-05-27  840  	int status = -ENOMEM;
+23eb6f4d186242 Junfeng Guo 2024-05-27  841  	struct ice_hw *hw;
+23eb6f4d186242 Junfeng Guo 2024-05-27  842  	u16 udp_port = 0;
+23eb6f4d186242 Junfeng Guo 2024-05-27  843  
+23eb6f4d186242 Junfeng Guo 2024-05-27  844  	pkt_buf = kzalloc(proto->raw.pkt_len, GFP_KERNEL);
+23eb6f4d186242 Junfeng Guo 2024-05-27  845  	msk_buf = kzalloc(proto->raw.pkt_len, GFP_KERNEL);
+23eb6f4d186242 Junfeng Guo 2024-05-27  846  	if (!pkt_buf || !msk_buf)
+23eb6f4d186242 Junfeng Guo 2024-05-27  847  		goto err_mem_alloc;
+23eb6f4d186242 Junfeng Guo 2024-05-27  848  
+23eb6f4d186242 Junfeng Guo 2024-05-27  849  	memcpy(pkt_buf, proto->raw.spec, proto->raw.pkt_len);
+23eb6f4d186242 Junfeng Guo 2024-05-27  850  	memcpy(msk_buf, proto->raw.mask, proto->raw.pkt_len);
+23eb6f4d186242 Junfeng Guo 2024-05-27  851  
+23eb6f4d186242 Junfeng Guo 2024-05-27  852  	hw = &pf->hw;
+23eb6f4d186242 Junfeng Guo 2024-05-27  853  
+23eb6f4d186242 Junfeng Guo 2024-05-27  854  	/* Get raw profile info via Parser Lib */
+23eb6f4d186242 Junfeng Guo 2024-05-27  855  	psr = ice_parser_create(hw);
+23eb6f4d186242 Junfeng Guo 2024-05-27  856  	if (IS_ERR(psr)) {
+23eb6f4d186242 Junfeng Guo 2024-05-27  857  		status = PTR_ERR(psr);
+23eb6f4d186242 Junfeng Guo 2024-05-27  858  		goto err_mem_alloc;
+23eb6f4d186242 Junfeng Guo 2024-05-27  859  	}
+23eb6f4d186242 Junfeng Guo 2024-05-27  860  
+23eb6f4d186242 Junfeng Guo 2024-05-27  861  	ice_parser_dvm_set(psr, ice_is_dvm_ena(hw));
+23eb6f4d186242 Junfeng Guo 2024-05-27  862  
+23eb6f4d186242 Junfeng Guo 2024-05-27  863  	if (ice_get_open_tunnel_port(hw, &udp_port, TNL_VXLAN))
+23eb6f4d186242 Junfeng Guo 2024-05-27  864  		ice_parser_vxlan_tunnel_set(psr, udp_port, true);
+23eb6f4d186242 Junfeng Guo 2024-05-27  865  
+23eb6f4d186242 Junfeng Guo 2024-05-27  866  	status = ice_parser_run(psr, pkt_buf, proto->raw.pkt_len, &rslt);
+23eb6f4d186242 Junfeng Guo 2024-05-27  867  	if (status)
+23eb6f4d186242 Junfeng Guo 2024-05-27  868  		goto err_parser_destroy;
+23eb6f4d186242 Junfeng Guo 2024-05-27  869  
+23eb6f4d186242 Junfeng Guo 2024-05-27  870  	if (hw->debug_mask & ICE_DBG_PARSER)
+23eb6f4d186242 Junfeng Guo 2024-05-27  871  		ice_parser_result_dump(hw, &rslt);
+23eb6f4d186242 Junfeng Guo 2024-05-27  872  
+23eb6f4d186242 Junfeng Guo 2024-05-27  873  	conf->prof = kzalloc(sizeof(*conf->prof), GFP_KERNEL);
+23eb6f4d186242 Junfeng Guo 2024-05-27  874  	if (!conf->prof)
+23eb6f4d186242 Junfeng Guo 2024-05-27 @875  		goto err_parser_destroy;
 
-ret is uninitialized
+status = -ENOMEM;
 
-49101078be769e Johannes Berg     2024-06-05  1765  		goto out;
-adc902ceada26a Benjamin Berg     2024-07-03  1766  	}
-49101078be769e Johannes Berg     2024-06-05  1767  
-49101078be769e Johannes Berg     2024-06-05  1768  	/* We don't have enough room on this page, get a new one. */
-adc902ceada26a Benjamin Berg     2024-07-03  1769  	iwl_pcie_free_and_unmap_tso_page(trans, p->page);
-49101078be769e Johannes Berg     2024-06-05  1770  
-49101078be769e Johannes Berg     2024-06-05  1771  alloc:
-49101078be769e Johannes Berg     2024-06-05  1772  	p->page = alloc_page(GFP_ATOMIC);
-49101078be769e Johannes Berg     2024-06-05  1773  	if (!p->page)
-49101078be769e Johannes Berg     2024-06-05  1774  		return NULL;
-49101078be769e Johannes Berg     2024-06-05  1775  	p->pos = page_address(p->page);
-adc902ceada26a Benjamin Berg     2024-07-03  1776  
-adc902ceada26a Benjamin Berg     2024-07-03  1777  	info = IWL_TSO_PAGE_INFO(page_address(ret));
-
-Here too
-
-adc902ceada26a Benjamin Berg     2024-07-03  1778  
-49101078be769e Johannes Berg     2024-06-05  1779  	/* set the chaining pointer to NULL */
-adc902ceada26a Benjamin Berg     2024-07-03  1780  	info->next = NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1781  
-adc902ceada26a Benjamin Berg     2024-07-03  1782  	/* Create a DMA mapping for the page */
-adc902ceada26a Benjamin Berg     2024-07-03  1783  	phys = dma_map_page_attrs(trans->dev, p->page, 0, PAGE_SIZE,
-adc902ceada26a Benjamin Berg     2024-07-03  1784  				  DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
-adc902ceada26a Benjamin Berg     2024-07-03  1785  	if (unlikely(dma_mapping_error(trans->dev, phys))) {
-adc902ceada26a Benjamin Berg     2024-07-03  1786  		__free_page(p->page);
-adc902ceada26a Benjamin Berg     2024-07-03  1787  		p->page = NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1788  
-adc902ceada26a Benjamin Berg     2024-07-03  1789  		return NULL;
-adc902ceada26a Benjamin Berg     2024-07-03  1790  	}
-adc902ceada26a Benjamin Berg     2024-07-03  1791  
-adc902ceada26a Benjamin Berg     2024-07-03  1792  	/* Store physical address and set use count */
-adc902ceada26a Benjamin Berg     2024-07-03  1793  	info->dma_addr = phys;
-adc902ceada26a Benjamin Berg     2024-07-03  1794  	refcount_set(&info->use_count, 1);
-49101078be769e Johannes Berg     2024-06-05  1795  out:
-49101078be769e Johannes Berg     2024-06-05  1796  	*page_ptr = p->page;
-adc902ceada26a Benjamin Berg     2024-07-03  1797  	/* Return an internal reference for the caller */
-adc902ceada26a Benjamin Berg     2024-07-03  1798  	refcount_inc(&info->use_count);
-d023a228e927c1 Benjamin Berg     2024-07-03  1799  	ret = p->pos;
-d023a228e927c1 Benjamin Berg     2024-07-03  1800  	p->pos += len;
-d023a228e927c1 Benjamin Berg     2024-07-03  1801  
-d023a228e927c1 Benjamin Berg     2024-07-03  1802  	return ret;
-49101078be769e Johannes Berg     2024-06-05  1803  }
+23eb6f4d186242 Junfeng Guo 2024-05-27  876  
+23eb6f4d186242 Junfeng Guo 2024-05-27  877  	status = ice_parser_profile_init(&rslt, pkt_buf, msk_buf,
+23eb6f4d186242 Junfeng Guo 2024-05-27  878  					 proto->raw.pkt_len, ICE_BLK_FD,
+23eb6f4d186242 Junfeng Guo 2024-05-27  879  					 conf->prof);
+23eb6f4d186242 Junfeng Guo 2024-05-27  880  	if (status)
+23eb6f4d186242 Junfeng Guo 2024-05-27  881  		goto err_parser_profile_init;
+23eb6f4d186242 Junfeng Guo 2024-05-27  882  
+23eb6f4d186242 Junfeng Guo 2024-05-27  883  	if (hw->debug_mask & ICE_DBG_PARSER)
+23eb6f4d186242 Junfeng Guo 2024-05-27  884  		ice_parser_profile_dump(hw, conf->prof);
+23eb6f4d186242 Junfeng Guo 2024-05-27  885  
+23eb6f4d186242 Junfeng Guo 2024-05-27  886  	/* Store raw flow info into @conf */
+23eb6f4d186242 Junfeng Guo 2024-05-27  887  	conf->pkt_len = proto->raw.pkt_len;
+23eb6f4d186242 Junfeng Guo 2024-05-27  888  	conf->pkt_buf = pkt_buf;
+23eb6f4d186242 Junfeng Guo 2024-05-27  889  	conf->parser_ena = true;
+23eb6f4d186242 Junfeng Guo 2024-05-27  890  
+23eb6f4d186242 Junfeng Guo 2024-05-27  891  	ice_parser_destroy(psr);
+23eb6f4d186242 Junfeng Guo 2024-05-27  892  	return 0;
+23eb6f4d186242 Junfeng Guo 2024-05-27  893  
+23eb6f4d186242 Junfeng Guo 2024-05-27  894  err_parser_profile_init:
+23eb6f4d186242 Junfeng Guo 2024-05-27  895  	kfree(conf->prof);
+23eb6f4d186242 Junfeng Guo 2024-05-27  896  err_parser_destroy:
+23eb6f4d186242 Junfeng Guo 2024-05-27  897  	ice_parser_destroy(psr);
+23eb6f4d186242 Junfeng Guo 2024-05-27  898  err_mem_alloc:
+23eb6f4d186242 Junfeng Guo 2024-05-27  899  	kfree(pkt_buf);
+23eb6f4d186242 Junfeng Guo 2024-05-27  900  	return status;
+23eb6f4d186242 Junfeng Guo 2024-05-27  901  }
 
 -- 
 0-DAY CI Kernel Test Service
