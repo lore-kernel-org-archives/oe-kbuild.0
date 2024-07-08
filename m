@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BFB249F9
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 09:15:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D567F48C
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 10:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720430156; cv=none; b=OFFGreItloHZQdxmNE6TwpFTck8hJiZZtkPah2N8zwW2o7ynnjLq5UoAWqA2jFBu1lhiaAsro/54R/7rB1VbbTzNwl3R56MQXBh5WGNY04ViMZ1VIyPyBNdayI3qvuc5+MItzJAY/hVyLNwfnj5gurBWn7QZgk76MZZd411fKl8=
+	t=1720434478; cv=none; b=GqI1cug03smsNfmsQssXhEaCBkjX6gzpVg7hTi4GW0sV5/L3ttNIX5DjmkCCPFU/nQ0NSNJyToFJ79G+26J36DcxNGKUZ0OamUgevqLIlCTgKhYTZEJ2M6EA3g6xL0VfX520tKj0vfW0EnY6xkarwlDFoAbbz0uqqz/HqZQc2i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720430156; c=relaxed/simple;
-	bh=Pyui2EPQP4UOMXCoZT/dhVm0DipCTb15QenRATJAV/I=;
+	s=arc-20240116; t=1720434478; c=relaxed/simple;
+	bh=e80qYUy3hUCHMXvuuCuEBTM0SjuFMzYulQ0OR8c0hoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=szDRAmUwXcuQiFRTWpSZ2QR83miKK6rvq38hbjMW8IoWjd6pWCUa+ymTN5lQIFLDJDFIpHTl64h0UmzU0HFUijtQynQ5LPOCp4YjvsL1hzG6j8ImC+CXm0KzyW0WEaXvbohBsm7voVTVlYehEyCR355S9apTS3HikKh7DoKg7lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E485pc9b; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ajdqF7w+hN5kAqjEYQJygHzzWAZ2Qd9JWqkJwc3mgpRJlNrN048JhbWIidtDw67EbrN225fGfbHAL80EamJv4HJ71a8y0Vqr79UN6EoccycgM/hBeu0xD3C75vZaPzyBYwq7+tmY0/pEVKW3P7Lx6YZsIhrqn1YvPvedV3FJX4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=li15IyVN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E485pc9b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="li15IyVN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720430155; x=1751966155;
+  t=1720434476; x=1751970476;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pyui2EPQP4UOMXCoZT/dhVm0DipCTb15QenRATJAV/I=;
-  b=E485pc9bdLlwGhxu6XVqza0bFt0gg4uExaBVF9B1XhjztzySpOChmeeP
-   0f4/MwdaP02GR133z84jH0QN9sMOWCVR5oPY+AyodEzkFyyBBq5GPMhbJ
-   X7aiGNgUDZdqafzTvzj4R6LihuhhVJk+7z50J2pq52Oc4T1oBSI/agQCf
-   Z+/dLdqCudYEYAOEuuIFbrbIsFbM4Jd2pD9BZia+wJ4lOxzskSrXLhE5S
-   RlXvJ5Bu4FMB2LSwzSA4ypIttRfmd8YSJTNOOE96CaaoxBmop9UE+C+n/
-   75QuCJJHJkgkbB/oRAdisqY0oisdgIWtwuGzxpYO/NwBo+82IfXyPVGoI
-   Q==;
-X-CSE-ConnectionGUID: 6zY0zlFATVmlRuwZhvwKPg==
-X-CSE-MsgGUID: 8EJBLMbeQAKAPRLO15NFWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17437017"
+  bh=e80qYUy3hUCHMXvuuCuEBTM0SjuFMzYulQ0OR8c0hoo=;
+  b=li15IyVNMOAvQ16lrPfH0/I3/OchUhpnO74/t4W8waLjVruofel4obCd
+   mj/ajjIJWxGc5nXl8D6MxaokJq34R2fP3rW1Zn2FuC1hrVJnPW/1f4k4q
+   j9BGstcNd12owKEZNP1PKVspyVMdnAEIAUztx5b3AU5PTKuKGeF3ON6DW
+   RhAGKj8jxBSc/wyoT/qv25p1JouwSkIcyKdpAIGyreuBIhnqrUt/1rVXn
+   708mklhnOMpoCG5q8po3aA5/CKB7FpePPesn98pLp9egT1ABPgPLJL1X0
+   h6RafRgCK0a9u71/BPi6d5TO/+i2VNsQyVU8I/224Vbt+0mR/Xjd5Qi6X
+   w==;
+X-CSE-ConnectionGUID: ROfRFISgTMSWXnujx2iF8Q==
+X-CSE-MsgGUID: MLgf0JPrRMS1LNuZQIEmUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17266228"
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="17437017"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 02:15:54 -0700
-X-CSE-ConnectionGUID: QuqWMEWpQtKHBccQshUbGA==
-X-CSE-MsgGUID: xgaqDE5bQ/CHRe2SIQwIoA==
+   d="scan'208";a="17266228"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 03:27:55 -0700
+X-CSE-ConnectionGUID: myU8DxMSToelrQMDSjWSjQ==
+X-CSE-MsgGUID: w+VMKM5qQs6sRQ5npSLyNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="70652140"
+   d="scan'208";a="47385917"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Jul 2024 02:15:52 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Jul 2024 03:27:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQkTO-000Ve2-08;
-	Mon, 08 Jul 2024 09:15:50 +0000
-Date: Mon, 8 Jul 2024 17:15:42 +0800
+	id 1sQlb5-000Vfk-0f;
+	Mon, 08 Jul 2024 10:27:51 +0000
+Date: Mon, 8 Jul 2024 18:27:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:openEuler-1.0-LTS 20772/23259] drivers/block/loop.c:1338
- loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-Message-ID: <202407081747.vO35K9tI-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [asahilinux:bits/000-devicetree 170/187]
+ arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@2a9408000: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202407081812.pj1o6mup-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,165 +63,205 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yongqiang Liu <duanzi@zju.edu.cn>
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d127ee13b4d5627947830da5f044541d1144dc44
-commit: 1472bb0a05bd28cae465d19e9ab40c13c8f2a716 [20772/23259] loop: Check for overflow while configuring loop
-:::::: branch date: 2 days ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-161-20240430 (https://download.01.org/0day-ci/archive/20240708/202407081747.vO35K9tI-lkp@intel.com/config)
-compiler: clang version 18.1.4 (https://github.com/llvm/llvm-project e6c3289804a67ea0bb6a86fadbe454dd93b8d855)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: 5275c05ac59e528701bf40a9c2bbf97a28ebdaec [170/187] fixup! arm64: dts: apple: Add MTP nodes to t6020x
+:::::: branch date: 3 weeks ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240708/202407081812.pj1o6mup-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407081812.pj1o6mup-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407081747.vO35K9tI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407081812.pj1o6mup-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/loop.c:1338 loop_set_status() warn: inconsistent returns '&loop_ctl_mutex'.
-
-Old smatch warnings:
-drivers/block/loop.c:785 loop_attr_backing_file_show() warn: passing zero to 'PTR_ERR'
-drivers/block/loop.c:2019 loop_add() warn: passing zero to 'PTR_ERR'
-
-vim +1338 drivers/block/loop.c
-
-04799b3a91ea37 Jan Kara          2018-11-08  1216  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1217  static int
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1218  loop_set_status(struct loop_device *lo, const struct loop_info64 *info)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1219  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1220  	int err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1221  	struct loop_func_table *xfer;
-e4849737f76c87 Eric W. Biederman 2012-02-11  1222  	kuid_t uid = current_uid();
-2a7d0112997407 Jan Kara          2018-11-08  1223  	struct block_device *bdev;
-2a7d0112997407 Jan Kara          2018-11-08  1224  	bool partscan = false;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1225  
-afa528900c5f5c Jan Kara          2018-11-08  1226  	err = mutex_lock_killable(&loop_ctl_mutex);
-cb26630f042408 Jan Kara          2018-11-08  1227  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1228  		return err;
-b0fafa816ece00 David Howells     2008-11-14  1229  	if (lo->lo_encrypt_key_size &&
-e4849737f76c87 Eric W. Biederman 2012-02-11  1230  	    !uid_eq(lo->lo_key_owner, uid) &&
-cb26630f042408 Jan Kara          2018-11-08  1231  	    !capable(CAP_SYS_ADMIN)) {
-cb26630f042408 Jan Kara          2018-11-08  1232  		err = -EPERM;
-cb26630f042408 Jan Kara          2018-11-08  1233  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1234  	}
-cb26630f042408 Jan Kara          2018-11-08  1235  	if (lo->lo_state != Lo_bound) {
-cb26630f042408 Jan Kara          2018-11-08  1236  		err = -ENXIO;
-cb26630f042408 Jan Kara          2018-11-08  1237  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1238  	}
-cb26630f042408 Jan Kara          2018-11-08  1239  	if ((unsigned int) info->lo_encrypt_key_size > LO_KEY_SIZE) {
-cb26630f042408 Jan Kara          2018-11-08  1240  		err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1241  		goto out_unlock;
-cb26630f042408 Jan Kara          2018-11-08  1242  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1243  
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1244  	if (lo->lo_offset != info->lo_offset ||
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1245  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1246  		sync_blockdev(lo->lo_device);
-2476d843de4788 Zheng Bin         2020-09-22  1247  		invalidate_bdev(lo->lo_device);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1248  	}
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1249  
-ecdd09597a5725 Ming Lei          2017-02-11  1250  	/* I/O need to be drained during transfer transition */
-ecdd09597a5725 Ming Lei          2017-02-11  1251  	blk_mq_freeze_queue(lo->lo_queue);
-ecdd09597a5725 Ming Lei          2017-02-11  1252  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1253  	err = loop_release_xfer(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1254  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1255  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1256  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1257  	if (info->lo_encrypt_type) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1258  		unsigned int type = info->lo_encrypt_type;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1259  
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1260  		if (type >= MAX_LO_CRYPT) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1261  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1262  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1263  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1264  		xfer = xfer_funcs[type];
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1265  		if (xfer == NULL) {
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1266  			err = -EINVAL;
-cb26630f042408 Jan Kara          2018-11-08  1267  			goto out_unfreeze;
-1e047eaab3bb55 Tetsuo Handa      2018-04-06  1268  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1269  	} else
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1270  		xfer = NULL;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1271  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1272  	err = loop_init_xfer(lo, xfer, info);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1273  	if (err)
-cb26630f042408 Jan Kara          2018-11-08  1274  		goto out_unfreeze;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1275  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1276  	if (lo->lo_offset != info->lo_offset ||
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1277  	    lo->lo_sizelimit != info->lo_sizelimit) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1278  		/* kill_bdev should have truncated all the pages */
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1279  		if (lo->lo_device->bd_inode->i_mapping->nrpages) {
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1280  			err = -EAGAIN;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1281  			pr_warn("%s: loop%d (%s) has still dirty pages (nrpages=%lu)\n",
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1282  				__func__, lo->lo_number, lo->lo_file_name,
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1283  				lo->lo_device->bd_inode->i_mapping->nrpages);
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1284  			goto out_unfreeze;
-5aa6c2bd16d797 Jaegeuk Kim       2019-01-09  1285  		}
-1e6ec9ea89d307 Omar Sandoval     2017-08-23  1286  		if (figure_loop_size(lo, info->lo_offset, info->lo_sizelimit)) {
-ecdd09597a5725 Ming Lei          2017-02-11  1287  			err = -EFBIG;
-cb26630f042408 Jan Kara          2018-11-08  1288  			goto out_unfreeze;
-ecdd09597a5725 Ming Lei          2017-02-11  1289  		}
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1290  		/* loff_t vars have been assigned __u64 */
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1291  		if (lo->lo_offset < 0 || lo->lo_sizelimit < 0)
-1472bb0a05bd28 Siddh Raman Pant  2023-07-07  1292  			return -EOVERFLOW;
-b040ad9cf6a169 Arnd Bergmann     2017-06-09  1293  	}
-541c742a7559eb Guo Chao          2013-02-21  1294  
-dfaa2ef68e80c3 Lukas Czerner     2011-08-19  1295  	loop_config_discard(lo);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1296  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1297  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1298  	memcpy(lo->lo_crypt_name, info->lo_crypt_name, LO_NAME_SIZE);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1299  	lo->lo_file_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1300  	lo->lo_crypt_name[LO_NAME_SIZE-1] = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1301  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1302  	if (!xfer)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1303  		xfer = &none_funcs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1304  	lo->transfer = xfer->transfer;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1305  	lo->ioctl = xfer->ioctl;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1306  
-96c5865559cee0 David Woodhouse   2008-02-06  1307  	if ((lo->lo_flags & LO_FLAGS_AUTOCLEAR) !=
-96c5865559cee0 David Woodhouse   2008-02-06  1308  	     (info->lo_flags & LO_FLAGS_AUTOCLEAR))
-96c5865559cee0 David Woodhouse   2008-02-06  1309  		lo->lo_flags ^= LO_FLAGS_AUTOCLEAR;
-96c5865559cee0 David Woodhouse   2008-02-06  1310  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1311  	lo->lo_encrypt_key_size = info->lo_encrypt_key_size;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1312  	lo->lo_init[0] = info->lo_init[0];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1313  	lo->lo_init[1] = info->lo_init[1];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1314  	if (info->lo_encrypt_key_size) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1315  		memcpy(lo->lo_encrypt_key, info->lo_encrypt_key,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1316  		       info->lo_encrypt_key_size);
-b0fafa816ece00 David Howells     2008-11-14  1317  		lo->lo_key_owner = uid;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1318  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1319  
-2e5ab5f379f96a Ming Lei          2015-08-17  1320  	/* update dio if lo_offset or transfer is changed */
-2e5ab5f379f96a Ming Lei          2015-08-17  1321  	__loop_update_dio(lo, lo->use_dio);
-2e5ab5f379f96a Ming Lei          2015-08-17  1322  
-cb26630f042408 Jan Kara          2018-11-08  1323  out_unfreeze:
-ecdd09597a5725 Ming Lei          2017-02-11  1324  	blk_mq_unfreeze_queue(lo->lo_queue);
-e02898b423802b Omar Sandoval     2017-03-01  1325  
-e02898b423802b Omar Sandoval     2017-03-01  1326  	if (!err && (info->lo_flags & LO_FLAGS_PARTSCAN) &&
-e02898b423802b Omar Sandoval     2017-03-01  1327  	     !(lo->lo_flags & LO_FLAGS_PARTSCAN)) {
-e02898b423802b Omar Sandoval     2017-03-01  1328  		lo->lo_flags |= LO_FLAGS_PARTSCAN;
-e02898b423802b Omar Sandoval     2017-03-01  1329  		lo->lo_disk->flags &= ~GENHD_FL_NO_PART_SCAN;
-2a7d0112997407 Jan Kara          2018-11-08  1330  		bdev = lo->lo_device;
-2a7d0112997407 Jan Kara          2018-11-08  1331  		partscan = true;
-e02898b423802b Omar Sandoval     2017-03-01  1332  	}
-cb26630f042408 Jan Kara          2018-11-08  1333  out_unlock:
-cb26630f042408 Jan Kara          2018-11-08  1334  	mutex_unlock(&loop_ctl_mutex);
-2a7d0112997407 Jan Kara          2018-11-08  1335  	if (partscan)
-2a7d0112997407 Jan Kara          2018-11-08  1336  		loop_reread_partitions(lo, bdev);
-e02898b423802b Omar Sandoval     2017-03-01  1337  
-ecdd09597a5725 Ming Lei          2017-02-11 @1338  	return err;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1339  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1340  
-
-:::::: The code at line 1338 was first introduced by commit
-:::::: ecdd09597a57251323b0de50e3d45e69298c4a83 block/loop: fix race between I/O and set_status
-
-:::::: TO: Ming Lei <tom.leiming@gmail.com>
-:::::: CC: Jens Axboe <axboe@fb.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@2a2408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/smc@2a2400000: failed to match any schema with compatible: ['apple,t6020-smc', 'apple,smc']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@2a2820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pinctrl@2a2820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mtp@2a9400000: failed to match any schema with compatible: ['apple,t6020-mtp', 'apple,t6020-rtk-helper-asc4', 'apple,mtp', 'apple,rtk-helper-asc4']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@2a9408000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@2a9408000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@2a9808000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
