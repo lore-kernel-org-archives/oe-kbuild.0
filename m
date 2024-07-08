@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A572C3C0C
-	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 02:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C187BA4B
+	for <oe-kbuild@lists.linux.dev>; Mon,  8 Jul 2024 05:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720405196; cv=none; b=teBskyfUCzJ3aCJKBpD5YbwrKsbNyGdC+DLL2Spq8J24bzhdOWNyyhUsvfUyunIIv9yfhvnXsPqe9bX3q+fzXcM/E1hVV93KBmRZgC9XX+HB4hFvU75fAkjYVcKAsxYnRTsD4+S2+gSWlNe2t73o4DFbey+7sTLzeo8ht8ZWlJQ=
+	t=1720416128; cv=none; b=Pac62FwpY3J2PCYpldZYzLTH7hiac3yITLNiFW5gVillFdbTdvpIsaP5t7XsDSe37veTDC7Li8TBIEaB/jrxldjOqQXd5WjUZ2pSqTx2fBaBc/cAg7l6HB2fXDc5SCZ7By309zT6Ruh8Nc7s+i/t4EV+UvgPA9XsuewHnzUMdt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720405196; c=relaxed/simple;
-	bh=bYvk70cHngiak67HsGMrEjmquuhDw/qKpSzjU3gr7vs=;
+	s=arc-20240116; t=1720416128; c=relaxed/simple;
+	bh=QyAv6ihk9mNtoHUV1KNnowOICflB609pv70Fmq0IILU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F00rgA92bRXIU3ujpCos16+x5lXNpV76sB9n63iFYkSvM8VNPD+UGd3uWTypDmY64QYqMFqxtWzN551Q/uqfuhWtttQXF3R+va6HjikEoOSl6HAAudd1SH2Pg+b8P/DpPTjYVq0NFDPxe6QQd0Vh/PUyiMSVbyvLa0f7O9n9Eug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LW3kmclA; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Dc74gb+FgO32h3y+hH0aZlQVeQreV0Rd6Cz/R+Vy4jp95l4QBVEMBJYK/EkMPKQUf/YknRYybXjtEfmQkptUxwNXs5JlvEkGFeInpApZ4zLiMbjCFaezlIgOjl8pK5t7CAxj0TRUJk1kjCGHUvkvsVxhjdF7rx+RJbVTu+W9j5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SlX6J+3Q; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LW3kmclA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SlX6J+3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720405193; x=1751941193;
+  t=1720416123; x=1751952123;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bYvk70cHngiak67HsGMrEjmquuhDw/qKpSzjU3gr7vs=;
-  b=LW3kmclAwUdQDTL0U5H+FyPROQ32XJ1zdGnsNdjVgR9KdsZqMMH64n+d
-   4/2RU49oPmrSsPbSZo1ii7iIJecuCJmkVgu2U6fbqd3YyPAujEQEGAn6M
-   6QGcVQhL2K01YQlYNSdsAi7O47UIS7T+lMZi68rAHfAQYyoXjq/oyqIHm
-   5qRAAUe1WwlY87smVXZ1RUoCgWzgGYARm28/ABOkxXANps/dXu+ydomUo
-   CgLKpXQtIEHPNfPojTj6AiaSiRqK+Y5wld/M7cPjOHTFu//xxx1vvaxg5
-   12ddmNuxfbqIU+CRtAol+5MyLYo7bm/k55aYREEK2q++9eZ3sJ+mD8tCX
-   g==;
-X-CSE-ConnectionGUID: gcyPOgq/TdqG7TgxH2b4Tw==
-X-CSE-MsgGUID: p844P1o+QZ+bhwGgDTLFbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17464305"
+  bh=QyAv6ihk9mNtoHUV1KNnowOICflB609pv70Fmq0IILU=;
+  b=SlX6J+3QI2WwooyvyfN92s/lBs8lqpbRdW+0Nvq6T3m8hB/9nUsHPBB0
+   AQ2nM2IKCmYAwgQtOmkxhgg+pC9BTsCoayGu5J9SY77eq0+i3KniWQ1Hv
+   J4E6nnAuCsCyuIwmmqvZC8gKeey99SFZEzGDGrg3f64iAV7g25FW8TF/X
+   mU5CultivC9ct3aB+pXxo+vyLkxT9KeKkgSss3jSImQT2mn3yY90w5yyk
+   xw57bfR5LmTdLQ1k9EC+0EdK8CmV5uwLCIbThaCOfOzTB0PHrC0+PRQeu
+   9hyhOS1/bzA3pJU5xpeRnTEwmYK2Jj8XFLQ9MOASwxp+8PC8vtNX88J8Z
+   A==;
+X-CSE-ConnectionGUID: OiGFO/iERLmGRwM56X+ccA==
+X-CSE-MsgGUID: Jx5lWqX4TEuRquXclQ8tcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11126"; a="17730912"
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="17464305"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 19:19:52 -0700
-X-CSE-ConnectionGUID: nORcOM/1Q0eD7G+DcEWaUg==
-X-CSE-MsgGUID: ATUgxmOtR/S0uidzUmzfNw==
+   d="scan'208";a="17730912"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2024 22:22:03 -0700
+X-CSE-ConnectionGUID: ao9dISJzQ0eX/lNcvNZ8bw==
+X-CSE-MsgGUID: rzNnx8kQT02kqgpP08jGIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,191,1716274800"; 
-   d="scan'208";a="47248009"
+   d="scan'208";a="52338454"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jul 2024 19:19:51 -0700
+  by orviesa005.jf.intel.com with ESMTP; 07 Jul 2024 22:22:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sQdyn-000VSC-1w;
-	Mon, 08 Jul 2024 02:19:49 +0000
-Date: Mon, 8 Jul 2024 10:19:35 +0800
+	id 1sQgp4-000VWo-2X;
+	Mon, 08 Jul 2024 05:21:58 +0000
+Date: Mon, 8 Jul 2024 13:21:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [openeuler:OLK-6.6 6865/10596]
- drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse:
- invalid bitfield specifier for type restricted __le16.
-Message-ID: <202407081028.X8nBI09C-lkp@intel.com>
+Subject: [asahilinux:bits/000-devicetree 151/187]
+ arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@28930c000: compatible:0:
+ 'apple,t6020-dart' is not one of ['apple,t8103-dart',
+ 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+Message-ID: <202407081303.uEaCXMbc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,159 +65,714 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16."
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Dong Yibo <dong100@mucse.com>
+TO: Janne Grunau <j@jannau.net>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3b421b6002e287e38790cbdad4a3e08baf7e1bc4
-commit: 6adab536d69347a10c2366aaf6b86de963d5994b [6865/10596] drivers: initial support for rnpvf drivers from Mucse Technology
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-config: loongarch-randconfig-r132-20240707 (https://download.01.org/0day-ci/archive/20240708/202407081028.X8nBI09C-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20240708/202407081028.X8nBI09C-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/000-devicetree
+head:   1f815c7efb1b452e1f6f3aaaa42b958383f44076
+commit: 28ed9b57a101dee9754ff1cefd30ee5e84eefe49 [151/187] arm64: dts: apple: t602x: Add t6020 dispext device nodes
+:::::: branch date: 3 weeks ago
+:::::: commit date: 8 weeks ago
+config: arm64-randconfig-051-20240629 (https://download.01.org/0day-ci/archive/20240708/202407081303.uEaCXMbc-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 326ba38a991250a8587a399a260b0f7af2c9166a)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240708/202407081303.uEaCXMbc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407081028.X8nBI09C-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407081303.uEaCXMbc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_sysfs.c: note: in included file (through drivers/net/ethernet/mucse/rnpvf/vf.h, drivers/net/ethernet/mucse/rnpvf/rnpvf.h):
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:69:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+dtcheck warnings: (new ones prefixed by >>)
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
 --
-   drivers/net/ethernet/mucse/rnpvf/mbx.c: note: in included file (through drivers/net/ethernet/mucse/rnpvf/vf.h, drivers/net/ethernet/mucse/rnpvf/mbx.h):
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:69:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j414s.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j414s.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
 --
-   drivers/net/ethernet/mucse/rnpvf/vf.c: note: in included file (through drivers/net/ethernet/mucse/rnpvf/vf.h):
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:69:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
->> drivers/net/ethernet/mucse/rnpvf/vf.c:233:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/vf.c:233:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/vf.c:233:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/vf.c:235:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/vf.c:235:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/vf.c:235:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/vf.c:236:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/vf.c:236:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/vf.c:236:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/vf.c:237:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/vf.c:237:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/vf.c:237:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/vf.c:238:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/vf.c:238:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/vf.c:238:9: sparse:    void *
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
 --
-   drivers/net/ethernet/mucse/rnpvf/ethtool.c: note: in included file (through drivers/net/ethernet/mucse/rnpvf/vf.h, drivers/net/ethernet/mucse/rnpvf/rnpvf.h):
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:69:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j414c.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j414c.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
 --
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c: note: in included file (through drivers/net/ethernet/mucse/rnpvf/vf.h, drivers/net/ethernet/mucse/rnpvf/rnpvf.h):
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:68:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h:69:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
->> drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:119:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:119:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:119:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2120:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2120:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2120:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2180:17: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2180:17: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:2180:17: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3283:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3283:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3283:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3326:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3326:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3326:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3403:25: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3403:25: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3403:25: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3543:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3543:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3543:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3547:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3547:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3547:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3619:17: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3619:17: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3619:17: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3657:17: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3657:17: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:3657:17: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4231:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4231:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4231:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4235:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4235:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4235:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4341:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4341:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4341:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4345:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4345:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4345:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4489:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4489:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4489:9: sparse:    void *
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4579:9: sparse: sparse: incompatible types in conditional expression (different types):
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4579:9: sparse:    void
-   drivers/net/ethernet/mucse/rnpvf/rnpvf_main.c:4579:9: sparse:    void *
-
-vim +68 drivers/net/ethernet/mucse/rnpvf/rnpvf_defines.h
-
-6adab536d69347 Dong Yibo 2024-03-21  55  
-6adab536d69347 Dong Yibo 2024-03-21  56  /* Transmit Descriptor - Advanced */
-6adab536d69347 Dong Yibo 2024-03-21  57  struct rnp_tx_desc {
-6adab536d69347 Dong Yibo 2024-03-21  58  	union {
-6adab536d69347 Dong Yibo 2024-03-21  59  		__le64 pkt_addr; /* Packet buffer address */
-6adab536d69347 Dong Yibo 2024-03-21  60  		struct {
-6adab536d69347 Dong Yibo 2024-03-21  61  			__le32 adr_lo;
-6adab536d69347 Dong Yibo 2024-03-21  62  			__le32 adr_hi;
-6adab536d69347 Dong Yibo 2024-03-21  63  		};
-6adab536d69347 Dong Yibo 2024-03-21  64  	};
-6adab536d69347 Dong Yibo 2024-03-21  65  	__le16 blen;
-6adab536d69347 Dong Yibo 2024-03-21  66  	union {
-6adab536d69347 Dong Yibo 2024-03-21  67  		struct {
-6adab536d69347 Dong Yibo 2024-03-21 @68  			__le16 ip_len : 9;
-6adab536d69347 Dong Yibo 2024-03-21  69  			__le16 mac_len : 7;
-6adab536d69347 Dong Yibo 2024-03-21  70  		};
-6adab536d69347 Dong Yibo 2024-03-21  71  		__le16 mac_ip_len; /* used only in  tso & csum */
-6adab536d69347 Dong Yibo 2024-03-21  72  	};
-6adab536d69347 Dong Yibo 2024-03-21  73  	__le16 vlan;
-6adab536d69347 Dong Yibo 2024-03-21  74  #define RNP_TXD_FLAGS_VLAN_PRIO_MASK 0xe000
-6adab536d69347 Dong Yibo 2024-03-21  75  #define RNP_TX_FLAGS_VLAN_PRIO_SHIFT 13
-6adab536d69347 Dong Yibo 2024-03-21  76  #define RNP_TX_FLAGS_VLAN_CFI_SHIFT 12
-6adab536d69347 Dong Yibo 2024-03-21  77  
-6adab536d69347 Dong Yibo 2024-03-21  78  	__le16 cmd;
-6adab536d69347 Dong Yibo 2024-03-21  79  #define RNP_TXD_VLAN_VALID (0x1 << 15)
-6adab536d69347 Dong Yibo 2024-03-21  80  #define RNP_TXD_SVLAN_TYPE (0x1 << 14)
-6adab536d69347 Dong Yibo 2024-03-21  81  #define RNP_TXD_VLAN_CTRL_NOP (0x00 << 13)
-6adab536d69347 Dong Yibo 2024-03-21  82  #define RNP_TXD_VLAN_CTRL_RM_VLAN (0x01 << 13)
-6adab536d69347 Dong Yibo 2024-03-21  83  #define RNP_TXD_VLAN_CTRL_INSERT_VLAN (0x02 << 13)
-6adab536d69347 Dong Yibo 2024-03-21  84  #define RNP_TXD_L4_CSUM (0x1 << 12) /* udp tcp sctp csum */
-6adab536d69347 Dong Yibo 2024-03-21  85  #define RNP_TXD_IP_CSUM (0x1 << 11)
-6adab536d69347 Dong Yibo 2024-03-21  86  #define RNP_TXD_TUNNEL_MASK (0x3000000)
-6adab536d69347 Dong Yibo 2024-03-21  87  #define RNP_TXD_TUNNEL_VXLAN (0x01 << 8)
-6adab536d69347 Dong Yibo 2024-03-21  88  #define RNP_TXD_TUNNEL_NVGRE (0x02 << 8)
-6adab536d69347 Dong Yibo 2024-03-21  89  #define RNP_TXD_L4_TYPE_UDP (0x03 << 6)
-6adab536d69347 Dong Yibo 2024-03-21  90  #define RNP_TXD_L4_TYPE_TCP (0x01 << 6)
-6adab536d69347 Dong Yibo 2024-03-21  91  #define RNP_TXD_L4_TYPE_SCTP (0x02 << 6)
-6adab536d69347 Dong Yibo 2024-03-21  92  #define RNP_TXD_FLAG_IPv4 (0 << 5)
-6adab536d69347 Dong Yibo 2024-03-21  93  #define RNP_TXD_FLAG_IPv6 (0x1 << 5)
-6adab536d69347 Dong Yibo 2024-03-21  94  #define RNP_TXD_FLAG_TSO (0x1 << 4)
-6adab536d69347 Dong Yibo 2024-03-21  95  #define RNP_TXD_CMD_RS (0x1 << 2)
-6adab536d69347 Dong Yibo 2024-03-21  96  #define RNP_TXD_STAT_DD (0x1 << 1)
-6adab536d69347 Dong Yibo 2024-03-21  97  #define RNP_TXD_CMD_EOP (0x1 << 0)
-6adab536d69347 Dong Yibo 2024-03-21  98  } __packed;
-6adab536d69347 Dong Yibo 2024-03-21  99  
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j416s.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j416s.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j416c.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j416c.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6020-j474s.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6020-j474s.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6021-j475c.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: pinctrl@39b028000: 'usb_hub_oe-hog', 'usb_hub_rst-hog' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: /soc/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6021-j475c.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+--
+   	'apple,t6020-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
+   	'apple,t6000-cluster-cpufreq' was expected
+   	'apple,cluster-cpufreq' was expected
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@200000000/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t6020-cluster-cpufreq' is not one of ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']
+   	'apple,t6000-cluster-cpufreq' was expected
+   	'apple,cluster-cpufreq' was expected
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j475d.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: /soc@2200000000/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j475d.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@200000000/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+--
+   	'apple,t8103-cluster-cpufreq' was expected
+   	from schema $id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/cpufreq@212e20000: failed to match any schema with compatible: ['apple,t6020-cluster-cpufreq', 'apple,t8112-cluster-cpufreq', 'apple,cluster-cpufreq']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@289304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@289304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@28930c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@28930c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@289c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@289c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/mbox@289c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/dcp@289c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: power-controller@100:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@28e080000: power-controller@108:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+--
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@2a6820000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/pinctrl@2a6820000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@315304000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@315304000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: compatible:0: 'apple,t6020-dart' is not one of ['apple,t8103-dart', 'apple,t8103-usb4-dart', 'apple,t8110-dart', 'apple,t6000-dart']
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: compatible: ['apple,t6020-dart', 'apple,t8110-dart'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: iommu@31530c000: 'apple,dma-range' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/iommu/apple,dart.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/iommu@31530c000: failed to match any schema with compatible: ['apple,t6020-dart', 'apple,t8110-dart']
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@315c08000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-asc-mailbox', 'apple,t8112-asc-mailbox', 'apple,t6000-asc-mailbox']
+   	'apple,t6020-asc-mailbox' is not one of ['apple,t8103-m3-mailbox', 'apple,t8112-m3-mailbox', 'apple,t6000-m3-mailbox']
+   	'apple,m3-mailbox-v2' was expected
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+>> arch/arm64/boot/dts/apple/t6022-j180d.dtb: mbox@315c08000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mailbox/apple,mailbox.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/mbox@315c08000: failed to match any schema with compatible: ['apple,t6020-asc-mailbox', 'apple,asc-mailbox-v4']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/dcp@315c00000: failed to match any schema with compatible: ['apple,t6020-dcpext', 'apple,dcpext']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: pinctrl@39b028000: compatible:0: 'apple,t6020-pinctrl' is not one of ['apple,t8103-pinctrl', 'apple,t8112-pinctrl', 'apple,t6000-pinctrl']
+   	from schema $id: http://devicetree.org/schemas/pinctrl/apple,pinctrl.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: /soc@2200000000/pinctrl@39b028000: failed to match any schema with compatible: ['apple,t6020-pinctrl', 'apple,pinctrl']
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@404e80000: compatible:0: 'apple,t6020-pmgr' is not one of ['apple,t8103-pmgr', 'apple,t8112-pmgr', 'apple,t6000-pmgr']
+   	from schema $id: http://devicetree.org/schemas/arm/apple/apple,pmgr.yaml#
+   arch/arm64/boot/dts/apple/t6022-j180d.dtb: power-management@404e80000: power-controller@0:compatible:0: 'apple,t6020-pmgr-pwrstate' is not one of ['apple,t8103-pmgr-pwrstate', 'apple,t8112-pmgr-pwrstate', 'apple,t6000-pmgr-pwrstate']
 
 -- 
 0-DAY CI Kernel Test Service
