@@ -1,147 +1,106 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5FD14E2F6;
-	Mon,  8 Jul 2024 22:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BE040855
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 02:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720479118; cv=none; b=EJ02YVrKlOcJkJ7gqzQ1rdOsd17Go7rNvE+EnLfetYMMG7CfwIKzGNBZ9Y8tFVimAYKlFoDRzPw9OgPKE36fPW7ryusb0GPFzxacN/mdhm57fMlAykGUUvwIIdKR+i6Hb78YXe7O3isVn9FtOSDUhfhfelxzfiw4ykcXkywihVg=
+	t=1720492141; cv=none; b=fmkbcbagRzEIDOm7+ZKzQSko0mzltnC+7YyTpgj7t++AxMpU7uF2RVogVKiio+J2BkY5/ChrM7FYub6y2/FvEONXxRybt1qTXQ5dUrV/v+AmpT8RGS8WI0JdqToIn0/YsR6Z5mY7+2vyNBgb1luss64LFzhhCty2XoDTozDk+5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720479118; c=relaxed/simple;
-	bh=BaeSK8VL0osIikIB9i5thgSjcGWi7CWbmFZlyc7yXoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qyWNQeRnABKDDVHQEw7l0FozOQJnjjWSzNkYCb638DQHOG14WFg1KdN6zCNLv8YbAn5GZRL6QGs4T0hGDKQ5JckrbWfFmxiwL1diFWciT8Xgn5P4dW8MUZxtQ4a2oj7pBuODSgZnO6eMo/dJHb609jm2tY/yZWMDkYvNFz97I5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVWmoHMJ; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1720492141; c=relaxed/simple;
+	bh=1sxaWi3pnZP9bbqa0ER7Hj7/I4DKgwVEWnOjOP5aHNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JSNZGXh40XzSyuXd+r3XiaOskQ8pB1HNUqTcrvvk1DipGbRqvNx0ZSFuf05wNv3b57LNXAj+gO7z0nuR9AVZh55p+kze8x3s5y+izeoNk0BQ+1BvBK60lz7ay2KnZhcp0s4lvZGsKgj+a8qefrHe/lMlDwUQ5G0EKYD3zmxNHDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LssjeNpI; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVWmoHMJ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1fb4a807708so35471755ad.2;
-        Mon, 08 Jul 2024 15:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720479116; x=1721083916; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8srVywQNWWPgpGI5XryznETXjclcLlACCGDSu9pPwTw=;
-        b=eVWmoHMJ/uFjCD1HPAzSCqWzojxfQs1la0UA4rq1E/1lt20cWIf88P7hQYuP/u+gEC
-         QDMb32v8EJGXWaqPMxT/UT4EsDhAlS2IZO4Fw+nBdqYNsPGLPc1RNTOxqnxOAfihifDB
-         A9v7EnuvVNm/atrYPvTxRkGLo2eEUtguy5BbmwotE7fwphycXy0N+qvF2ab2J8G3+b2+
-         tOyi+3rWIoc+joRqYAC/fcnQJYIioM+3pchmyY6d7/cF3d3T+iMkzUAUHx9OfDQ7p2QA
-         AfkMI+jFOBjD/ZDuI1OsJCaNWMzaOPLMWIyfqmZyINvwaPxhKGWckC16IpDSmTTLeN2a
-         dvCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720479116; x=1721083916;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8srVywQNWWPgpGI5XryznETXjclcLlACCGDSu9pPwTw=;
-        b=PVtMycmdM4E/0vLJnzNo8kKwW7z0Zr6l4fw5zWVHxhIaEV+cxyfYjlYZPFbOElhWZp
-         mtMbYJs+IJpch4o0jUQ53xgkM3TV9a6uzK2t/qyJT+oq+y8xDpZFXLeQnhh6LLvvqB9O
-         MrauSC/pDGeMhlipNqgcHFFje3H3/b5FrfaPomhs4YbEXKUja0pXhKxcAL+FxrdTEo5Q
-         cLDwTumKmxDj2OY/XaJKp2xXGsAKQMGFpM4g1ZSdx6jlsWLt2Sgfv3f+Cb81LZ7EbFk0
-         +mKTeL8ONGBxnHKxRU5QGanketmH2R9zdewz6grF5a6Z+8eUf8hPOAgCFT6x9QQj1oSn
-         V5TA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXcVe5wR78pZN/vDBOQMM9kFef22z2i+FmPBTgdNEzqDlf4wdUbD7mkf5GwKmluAWFnjsl/HhM07rktCxZaQPfLPVRM5KERsI4KYdhhymK4xvZPuX2+u13Eea16sg8bvKvfH4zYw/SEg==
-X-Gm-Message-State: AOJu0Yy1oEBUSwDXmlRO0671EhN2tR3+PPBCrcAdP+9QxeNRqFE4aesA
-	KB4sskVWKR2/JdETvgvptEAlthk1UrC7m3L7q5LpexDFar069mY+
-X-Google-Smtp-Source: AGHT+IE4gALPYWza3/xf9ND9sKmPMlgPWyMMwEpsRiHkm4yhjH+VkTr6mvBRquiS6avJMGz+Qs4CRw==
-X-Received: by 2002:a17:902:c40e:b0:1fb:80cb:f577 with SMTP id d9443c01a7336-1fbb6d23bdamr5769945ad.5.1720479116408;
-        Mon, 08 Jul 2024 15:51:56 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a11890sm3823825ad.7.2024.07.08.15.51.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jul 2024 15:51:56 -0700 (PDT)
-Message-ID: <56d2ff54-3c3a-4fb3-8006-72e183faa8bc@gmail.com>
-Date: Tue, 9 Jul 2024 07:51:51 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LssjeNpI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720492138; x=1752028138;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1sxaWi3pnZP9bbqa0ER7Hj7/I4DKgwVEWnOjOP5aHNQ=;
+  b=LssjeNpIDijThPaMQfY69uy27tfpfh3qYuTVrdR1puGHm5PvWn1BU5z0
+   /ijVV4ki4m87dwln8UCy58L5R0E12QbpufbD/Qf31MjoPoUZYrPMtr1S1
+   JaVrc4NtXWBkn85fz74P8ohOz13RsmYQUaUn9HuRCgEm7u/VpVvcMCt7G
+   Bl3Y6XEKrDb54Tc+8Of+60nnLGhulyjXUphXER04FHJPKUpVF+muYQa/B
+   c9a1SujQ/wquP0/k6wvMHsQv5aF7h5hRx2p/+bf0nrEaL5rnDzvV/MyBf
+   OWaVhqb+eC6QTqZ2/ctZ0hgZG4F+53HftI8E1f/VI92L4DQoC4M7noCG4
+   g==;
+X-CSE-ConnectionGUID: pUiC37pUSSaXXBqIKCNong==
+X-CSE-MsgGUID: E5pRVgiASu63To/IYwbsmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="28390431"
+X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
+   d="scan'208";a="28390431"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 19:28:57 -0700
+X-CSE-ConnectionGUID: FhG46MezTxy3ru2my07LJg==
+X-CSE-MsgGUID: dKg88kLAQpCvdxs+T6/PRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
+   d="scan'208";a="52883719"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Jul 2024 19:28:57 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sR0b8-000WFS-0L;
+	Tue, 09 Jul 2024 02:28:54 +0000
+Date: Tue, 9 Jul 2024 10:28:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [cip:linux-6.1.y-cip 38/44]
+ arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator0: Unevaluated
+ properties are not allowed ('gpios' was unexpected)
+Message-ID: <202407091011.Dw1ju2PB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Harald Freudenberger <freude@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, shjy180909@gmail.com,
- linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <ebe44c83-19bd-43e9-8999-99e3ccc7b417@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-On 7/9/24 12:55 오전, Dan Carpenter wrote:
-> Hi,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/yskelg-gmail-com/s390-zcrypt-optimize-memory-allocation-in-online_show/20240626-071004
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-> patch link:    https://lore.kernel.org/r/20240623120147.35554-3-yskelg%40gmail.com
-> patch subject: [PATCH] s390/zcrypt: optimize memory allocation in online_show()
-> config: s390-randconfig-r081-20240707 (https://download.01.org/0day-ci/archive/20240707/202407071714.4AUEoeUD-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 13.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202407071714.4AUEoeUD-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/s390/crypto/zcrypt_card.c:103 online_store() warn: iterator used outside loop: 'zq'
-> 
-> vim +/zq +103 drivers/s390/crypto/zcrypt_card.c
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+TO: Pavel Machek <pavel@denx.de>
 
-Thank you for the review. I decided not to work on my patch anymore
-after the review because my patch was problematic and not useful.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip
+head:   36ec072fc37c836df41fdb600a933321aa4804bd
+commit: 9d64838c5957d823f961e9a4427b304559e862ad [38/44] arm64: dts: renesas: Add initial device tree for RZ/G3S SMARC EVK board
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-051-20240708 (https://download.01.org/0day-ci/archive/20240709/202407091011.Dw1ju2PB-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091011.Dw1ju2PB-lkp@intel.com/reproduce)
 
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   90  	list_for_each_entry(zq, &zc->zqueues, list)
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23   91  		if (!!zq->online != !!online)
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   92  			maxzqs++;
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   93  	if (maxzqs > 0)
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23   94  		zq_uelist = kcalloc(maxzqs, sizeof(*zq_uelist), GFP_ATOMIC);
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25   95  	list_for_each_entry(zq, &zc->zqueues, list)
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   96  		if (zcrypt_queue_force_online(zq, online))
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   97  			if (zq_uelist) {
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   98  				zcrypt_queue_get(zq);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13   99  				zq_uelist[i++] = zq;
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  100  			}
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  101  	spin_unlock(&zcrypt_list_lock);
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23  102  	while (i--) {
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13 @103  		ap_send_online_uevent(&zq->queue->ap_dev, online);
->                                                                                        ^^
-> zq is an invalid pointer here.  It's an offset off the list head.
-> There used to be a "zq = zq_uelist[i];" before this function call but
-> the patch deleted it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202407091011.Dw1ju2PB-lkp@intel.com/
 
-My patch doesn't mean much to me at this point, but if it needed to be
-fixed, I think it should have been.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: /: memory@48000000: 'device-type' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: /: memory@48000000: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/memory.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+   arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: Unevaluated properties are not allowed ('cache-size', 'cache-unified' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: regulator0: Unevaluated properties are not allowed ('gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fixed-regulator.yaml#
 
-> 2ff6be56a27c2d Yunseong Kim         2024-06-23  104  		zcrypt_queue_put(zq_uelist[i]);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  105  	}
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  106  	kfree(zq_uelist);
-> df6f508c68dbc6 Harald Freudenberger 2021-04-13  107  
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  108  	return count;
-> e28d2af43614eb Ingo Tuchscherer     2016-08-25  109  }
-
-
-I've been doing some Linux kernel research on the IBM Cloud s390x VPC
-and running syzkaller and Linux kernel tests tools to send out useful
-patches. :)
-
-
-Warm regards,
-
-Yunseong kim
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
