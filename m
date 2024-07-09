@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731C0158A25
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 14:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C3D43147
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 15:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720535556; cv=none; b=gewomIbe7ojxcpRHN4L81yz0O/orOLqPztNSLODKCN67rVHGLpBRyvP4TygBLthMzI2kJHWRducxhVdVadHEyNzGzBrzhKFH7FocykFso6icR6oy6yWDnaFULgQCW9fJIIlI4FHGe8zINa3cGLTDWTl3JHBm0XcIgpOW1gafNLU=
+	t=1720538739; cv=none; b=IXmwGItou621pGwkmpbKlpPCknQHx2yMOXSqABWA85vFTOLLs5hPsS9XPm/gZlrc7UEvlUjCwpilA/1zSgYWZKAzhXztS9XqgCR+0rEE+vN/tDzcwbp5tFrB+WI8SvM08Rgd11ciOAM3Ft5pIxh4f6mYgpNZMYZ7OIz9gfJhsAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720535556; c=relaxed/simple;
-	bh=06emTu/T/AwaawrqQKjy/KhhdYUa1Jpo5MAmrwP00iw=;
+	s=arc-20240116; t=1720538739; c=relaxed/simple;
+	bh=74i4lRA+ch1rTbBen/u0NOu6yfqptOg8O1BHdMU5A68=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pOnq6xCyU3lkC+BuNcIVNBlAELdkfdIKBul9jyi36ZsdAUB3od60m9205eC9WSlZEGaK84He3aZs8P2NF/Ff67uQFDek6aTUau0E1cW3NSB8AhzGNGDx0J3zJmWzTk/R8mAEV5fNTpR0KriWWC4os7zkZMqIiVN2004uGzHAJXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fRspfVUD; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=UqDupzEhlupidlmyxWgawsWd+TVCdYLdoYdN4eUR+lfP285lvyK2tqziDKYg5u5QkBtxBR0lqa7eSWAum1tCugPLPYw1xPbUpvOH0rsooG0ebN7tJyPpnLVio94dptznlcvkXkVB/MOCrUSAzuerUOm5eaHegLGOT82Zq8nuEF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ji6JF1Cj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fRspfVUD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ji6JF1Cj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720535554; x=1752071554;
+  t=1720538737; x=1752074737;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=06emTu/T/AwaawrqQKjy/KhhdYUa1Jpo5MAmrwP00iw=;
-  b=fRspfVUDV9RYM69ljjQ36iiUc/MfwY/f2oHfMqXXURrHB93emCP4bSfn
-   k/2yXaUf4zOOKdqXph2fjfjIskqxPM+8fT0hksG+cdH51WwD1dTPtbAAK
-   Em/V0bEZ5ZXE+vhbeen3jTFQJt7PfTgaKRqQlagaE4jTQ0d2H1m1fh4uo
-   xJfILN8YuOHXbY7EbiWXOWi/sGviCUiDNeuytTj48BilRvktqFsg/jaoz
-   lXg62rjZ08ygLpebAHAXjEYc3GbzbP5rzyPIuf1K4KhcHiN79XSx6ToIK
-   CyGTndbSFBcNUAwV3n30YK07EQq+rVjM1lEKHpz0JF2pdk9ZEjWrojWPQ
-   A==;
-X-CSE-ConnectionGUID: LlsevAN6SICDyAbKbkxvcQ==
-X-CSE-MsgGUID: dqLTEcbRRRWsU7brDAsDwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="12453750"
+  bh=74i4lRA+ch1rTbBen/u0NOu6yfqptOg8O1BHdMU5A68=;
+  b=Ji6JF1CjMwyn47qOoQ3avNAlPrhTkN+y31IkGwUDnIjfr4+S/t1rEW6Z
+   s+12QXcwawGkkajxSGIjn7CpKdc5c/69MZpoMUvz60UHES3MBwq/FWVf6
+   SL+8BYhXzEACiAerJ4nODbJA6T/+NU2WjOipx7NOnPRU53tunQ0p+lBKu
+   NTs85qpZeRNxtsrOPYig7Ifxfxu55dUeEE2JTcDHQFjDtgHOKAf3lxh5a
+   WtYCdRFzg76btFD3whr5CTS3D4gzkDRgYxZiLl56BWgdkpRDmsFc25gL9
+   BBqBznrG94rJ3I/wBrg0nMIENHCuwU+zYubMlrsd6OMdFCzPxidVfDDz1
+   g==;
+X-CSE-ConnectionGUID: slHqYrfaRsWtHGBzeXVJ8A==
+X-CSE-MsgGUID: VeeUQg3QT5mhGBj4c5byVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11128"; a="17758526"
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="12453750"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 07:32:34 -0700
-X-CSE-ConnectionGUID: 64h1C43GSeCSX5KHNAsG3A==
-X-CSE-MsgGUID: Fq9CTUL4Q+iu8F8b0f98Tw==
+   d="scan'208";a="17758526"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 08:25:36 -0700
+X-CSE-ConnectionGUID: aE4FKdYARDeeOBdhenDjbg==
+X-CSE-MsgGUID: elRte4AdRyukymfgAqBvUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,195,1716274800"; 
-   d="scan'208";a="48319345"
+   d="scan'208";a="52291236"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2024 07:32:33 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Jul 2024 08:25:35 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRBtN-000Wl8-3B;
-	Tue, 09 Jul 2024 14:32:29 +0000
-Date: Tue, 9 Jul 2024 22:32:24 +0800
+	id 1sRCij-000WnS-1f;
+	Tue, 09 Jul 2024 15:25:33 +0000
+Date: Tue, 9 Jul 2024 23:25:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [brgl:gpio/for-next 13/39] arch/powerpc/boot/dts/mpc8308_p1m.dtb:
- gpio@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202407092214.C5XQz670-lkp@intel.com>
+Subject: [ti:ti-rt-linux-6.6.y-cicd 13/14]
+ arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: video-codec@30210000:
+ 'operating-points-v2', 'opp-table', 'sram-size' do not match any of the
+ regexes: 'pinctrl-[0-9]+'
+Message-ID: <202407092323.5wnoy7gy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,189 +70,41 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-gpio@vger.kernel.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: vigneshr@ti.com
+CC: nm@ti.com
+TO: Brandon Brnich <b-brnich@ti.com>
+CC: Praneeth Bajjuri <praneeth@ti.com>
+CC: Prasanth Babu Mantena <p-mantena@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   337049890b8cbbb4fb527c58976ea19f4dc747a0
-commit: 77e1ea9e9913df8c23ac102c9c2b7c49a5d224da [13/39] dt-bindings: gpio: mpc8xxx: Convert to yaml format
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 weeks ago
-config: powerpc-randconfig-051-20240708 (https://download.01.org/0day-ci/archive/20240709/202407092214.C5XQz670-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.6.y-cicd
+head:   32fb3aae72f286cd0d023455b5fc9e4c6b9859f5
+commit: d8ade9d10bac6dc2f0658aa8e60a8378fafe187c [13/14] arm64: dts: ti: k3-am62a-main: Add OPP table to the VPU codec node
+:::::: branch date: 17 hours ago
+:::::: commit date: 18 hours ago
+config: arm64-randconfig-051-20240709 (https://download.01.org/0day-ci/archive/20240709/202407092323.5wnoy7gy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092214.C5XQz670-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407092323.5wnoy7gy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407092214.C5XQz670-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407092323.5wnoy7gy-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	'fsl,ns16550' is not one of ['nuvoton,npcm845-uart']
-   	'fsl,ns16550' is not one of ['ralink,mt7620a-uart', 'ralink,rt3052-uart', 'ralink,rt3883-uart']
-   	'fsl,ns16550' is not one of ['mediatek,mt7622-btif', 'mediatek,mt7623-btif']
-   	'mrvl,mmp-uart' was expected
-   	'fsl,ns16550' is not one of ['nvidia,tegra30-uart', 'nvidia,tegra114-uart', 'nvidia,tegra124-uart', 'nvidia,tegra210-uart', 'nvidia,tegra186-uart', 'nvidia,tegra194-uart', 'nvidia,tegra234-uart']
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/powerpc/boot/dts/mpc8308_p1m.dtb: gpio@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8308-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8308-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8308-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: /immr@e0000000/gpio@c00: failed to match any schema with compatible: ['fsl,mpc8308-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: /immr@e0000000/timer@500: failed to match any schema with compatible: ['fsl,mpc8308-gtm', 'fsl,gtm']
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: /immr@e0000000/timer@500: failed to match any schema with compatible: ['fsl,mpc8308-gtm', 'fsl,gtm']
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
-   arch/powerpc/boot/dts/mpc8308_p1m.dtb: /immr@e0000000/ipic-msi@7c0: failed to match any schema with compatible: ['fsl,ipic-msi']
---
-   	'fsl,ns16550' is not one of ['nuvoton,npcm845-uart']
-   	'fsl,ns16550' is not one of ['ralink,mt7620a-uart', 'ralink,rt3052-uart', 'ralink,rt3883-uart']
-   	'fsl,ns16550' is not one of ['mediatek,mt7622-btif', 'mediatek,mt7623-btif']
-   	'mrvl,mmp-uart' was expected
-   	'fsl,ns16550' is not one of ['nvidia,tegra30-uart', 'nvidia,tegra114-uart', 'nvidia,tegra124-uart', 'nvidia,tegra210-uart', 'nvidia,tegra186-uart', 'nvidia,tegra194-uart', 'nvidia,tegra234-uart']
-   	'ralink,rt2880-uart' was expected
-   	'mediatek,mtk-btif' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: serial@4600: Unevaluated properties are not allowed ('cell-index', 'compatible', 'device_type' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/powerpc/boot/dts/mpc8308rdb.dtb: gpio@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8308-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8308-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8308-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
->> arch/powerpc/boot/dts/mpc8308rdb.dtb: gpio@c00: 'device_type' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/gpio@c00: failed to match any schema with compatible: ['fsl,mpc8308-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/interrupt-controller@700: failed to match any schema with compatible: ['fsl,ipic']
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/ipic-msi@7c0: failed to match any schema with compatible: ['fsl,ipic-msi']
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /immr@e0000000/dma@2c000: failed to match any schema with compatible: ['fsl,mpc8308-dma']
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8308-pcie', 'fsl,mpc8314-pcie']
-   arch/powerpc/boot/dts/mpc8308rdb.dtb: /pcie@e0009000: failed to match any schema with compatible: ['fsl,mpc8308-pcie', 'fsl,mpc8314-pcie']
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: localbus@e0005000: flash@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8377-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8377-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8377-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8377-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: immr@e0000000: $nodename:0: 'immr@e0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/wdt@200: failed to match any schema with compatible: ['mpc83xx_wdt']
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: gpio-controller@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8377-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8377-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/gpio-controller@c00: failed to match any schema with compatible: ['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio']
->> arch/powerpc/boot/dts/mpc8377_rdb.dtb: gpio-controller@d00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8377-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8377-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: /immr@e0000000/gpio-controller@d00: failed to match any schema with compatible: ['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: sleep-nexus: $nodename:0: 'sleep-nexus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_rdb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
---
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /: failed to match any schema with compatible: ['fsl,mpc8377wlan']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: localbus@e0005000: flash@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8377-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8377-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: immr@e0000000: $nodename:0: 'immr@e0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/wdt@200: failed to match any schema with compatible: ['mpc83xx_wdt']
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: gpio-controller@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8377-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8377-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/gpio-controller@c00: failed to match any schema with compatible: ['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio']
->> arch/powerpc/boot/dts/mpc8377_wlan.dtb: gpio-controller@d00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8377-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8377-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: /immr@e0000000/gpio-controller@d00: failed to match any schema with compatible: ['fsl,mpc8377-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: sleep-nexus: $nodename:0: 'sleep-nexus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8377_wlan.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: localbus@e0005000: flash@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8378-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8378-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8378-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8378-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: immr@e0000000: $nodename:0: 'immr@e0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /immr@e0000000/wdt@200: failed to match any schema with compatible: ['mpc83xx_wdt']
->> arch/powerpc/boot/dts/mpc8378_rdb.dtb: gpio-controller@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8378-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8378-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8378-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /immr@e0000000/gpio-controller@c00: failed to match any schema with compatible: ['fsl,mpc8378-gpio', 'fsl,mpc8349-gpio']
->> arch/powerpc/boot/dts/mpc8378_rdb.dtb: gpio-controller@d00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8378-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8378-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8378-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: /immr@e0000000/gpio-controller@d00: failed to match any schema with compatible: ['fsl,mpc8378-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: sleep-nexus: $nodename:0: 'sleep-nexus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8378_rdb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
---
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: localbus@e0005000: flash@0,0: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8379-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /localbus@e0005000: failed to match any schema with compatible: ['fsl,mpc8379-elbc', 'fsl,elbc', 'simple-bus']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8379-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /localbus@e0005000/nand@1,0: failed to match any schema with compatible: ['fsl,mpc8379-fcm-nand', 'fsl,elbc-fcm-nand']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: immr@e0000000: $nodename:0: 'immr@e0000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/wdt@200: failed to match any schema with compatible: ['mpc83xx_wdt']
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: gpio-controller@c00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8379-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8379-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8379-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/gpio-controller@c00: failed to match any schema with compatible: ['fsl,mpc8379-gpio', 'fsl,mpc8349-gpio']
->> arch/powerpc/boot/dts/mpc8379_rdb.dtb: gpio-controller@d00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,mpc8379-gpio', 'fsl,mpc8349-gpio'] is too long
-   	'fsl,mpc8379-gpio' is not one of ['fsl,mpc5121-gpio', 'fsl,mpc5125-gpio', 'fsl,mpc8349-gpio', 'fsl,mpc8572-gpio', 'fsl,mpc8610-gpio', 'fsl,pq3-gpio']
-   	'fsl,mpc8379-gpio' is not one of ['fsl,ls1021a-gpio', 'fsl,ls1028a-gpio', 'fsl,ls1043a-gpio', 'fsl,ls1088a-gpio', 'fsl,ls2080a-gpio']
-   	'fsl,qoriq-gpio' was expected
-   	from schema $id: http://devicetree.org/schemas/gpio/fsl,qoriq-gpio.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: /immr@e0000000/gpio-controller@d00: failed to match any schema with compatible: ['fsl,mpc8379-gpio', 'fsl,mpc8349-gpio']
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: sleep-nexus: $nodename:0: 'sleep-nexus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/powerpc/boot/dts/mpc8379_rdb.dtb: i2c@3000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl-i2c'] is too short
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: pinctrl@f4000: 'interrupts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: Unevaluated properties are not allowed ('interrupt-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[27]], 'interrupts-extended': [[1, 0, 178, 4], [28, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[129]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/serial/8250_omap.yaml#
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: serial@2800000: {'compatible': ['ti,am64-uart', 'ti,am654-uart'], 'reg': [[0, 41943040, 0, 256]], 'interrupts': [[0, 178, 4]], 'power-domains': [[3, 146, 1]], 'clocks': [[2, 146, 0]], 'clock-names': ['fclk'], 'status': ['okay'], 'pinctrl-names': ['default'], 'pinctrl-0': [[27]], 'interrupts-extended': [[1, 0, 178, 4], [28, 456]], 'interrupt-names': ['irq', 'wakeup'], 'phandle': [[129]], '$nodename': ['serial@2800000']} is valid under each of {'required': ['interrupts-extended']}, {'required': ['interrupts']}
+   	from schema $id: http://devicetree.org/schemas/interrupts.yaml#
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: pinctrl@a40000: 'cpsw-cpts' does not match any of the regexes: '-pins(-[0-9]+)?$|-pin$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: video-codec@30210000: 'operating-points-v2', 'opp-table', 'sram-size' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/cnm,wave521c.yaml#
+   arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: /reserved-memory/edgeai_shared-memories: failed to match any schema with compatible: ['dma-heap-carveout']
 
 -- 
 0-DAY CI Kernel Test Service
