@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DEB3D966
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 03:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6215C84DF5
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 04:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720494667; cv=none; b=PypFKWPFBTYb37ZXN+g1XOIvlkyGYd1zfVNIc398Tpp60kOSR6wbP0Fzup7XJFzs4ZOEuRGbR7/6bu82mAebLgcoaCIuYDxPtReFzpIri9PRQ4eccLqGL7+tKdpEXqqf8sINaTBwZcF3arODIPUeWKFTUn8GLEF+ygOnc1RgFFs=
+	t=1720499468; cv=none; b=VGEtHnhPHMi4ZHoocfvrezUWXhluXlUddNklu6zeW27xdfm/D0CIonisC3l0f6APuaI8F5EI78AbTvrdSaEbsuNOpg+3lYIfOy1j4aGI8zFJZHmtBm5du9mkHS8+3wH5a09+i3KlBoZbnqX1xnUszjdUm3l1aBAqo0Acl87bo/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720494667; c=relaxed/simple;
-	bh=l7GFuZmRqFA6uSSQaOi1ikYqkGzjfF2Ybe3qRDzGSXM=;
+	s=arc-20240116; t=1720499468; c=relaxed/simple;
+	bh=Vyle5hiVhTr4Z6x7ZdJS9GoAQTMCLbd1dOU8THzM2ko=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qhz4+22RGYB7d8PydlAcMSOKIdTi+A/xIcuto9IzhHVPC6LJ45RDJ74VsTDAaX1Qd0POhzOdN+1qW5z8Mz7v4+jsIEo6CCUHWAkDmi+UmEulhpuF3y+BIB5NQm/UBZe5yoIE7dR7U7+eauks+/SfuZitF397mlGlJZLEC/mWtPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FAJvwqYN; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=WOfJY8KKiQ8eKRXsNYXnwaWSYQuWkWBrzsjjt5XBIFo6Hxdix+GP5ORLm0L38UWXKZSkpDbB8pqOSvteZfqDrm6Y6QELFPyL2pivcQ36vQxqUK5zaZsZsRraIPUg175QjTNkyQJ6qylQWbkV0UA5KhZt99tjdjhl4OVsw560RdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WOUgOEvY; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FAJvwqYN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WOUgOEvY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720494665; x=1752030665;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l7GFuZmRqFA6uSSQaOi1ikYqkGzjfF2Ybe3qRDzGSXM=;
-  b=FAJvwqYNhnc3qd9XZNjKP+lO1k5nrvL2+kMePz2FyNXIrdWu82MaboER
-   dRB3gV1LgdIjQPgRyMCMJt+M8lrHsodwcao2vv/Js1nqistwgiUZ7VMk8
-   C9IdRqF5ZpX+6YS/H6wGlrA9FknUeTHlmw4J2FhWC7/XnnMaqi6pvRTSy
-   BDOzuNfBDpXFvwV4B6GKtBUprLgY1Ec5opDCM2YqqzUQ9RJbFywyokZHu
-   cDA8xt+36ICqcAUWxSYs5UaY5e3ZSrD0xj2mDJqVWU7qVIjNcHHxf4RUe
-   OhTxwV8uQHFraeiTStAGkpdydze4vWYuXfIDN9mArKr8Og1Ylqq7Fqd1i
+  t=1720499465; x=1752035465;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Vyle5hiVhTr4Z6x7ZdJS9GoAQTMCLbd1dOU8THzM2ko=;
+  b=WOUgOEvYliHfpgsqRGp14DV/50OAeax+IpBxoQJYaReuIO5+QNFE76WV
+   Bi+t5ys3qqrHA7rSlyxZUhvdtV5/VnVnS8YRdLNlqxcu+wqF38HVmirwj
+   JQEgW+CiKKygA0uWtdKKcLaThT7rgvoUSW63N4lkMEogpW6sQNZdTxdEl
+   oOReYlE11V1GSk23IkRnOtU93LnnN61rrQNIKedfDf3n3wR1/eN9O/tys
+   zaII8FnC6s6M3KrpEsSEy0kT776p+8g4aHIDZShvgaZnbwpBnJ/WpLJI+
+   bH0AMX7Vw1LEP7S9468mpv1Yw3+K6GliAB5Xz/+uxnWwdXaMuV8RUgGQw
    Q==;
-X-CSE-ConnectionGUID: yP6eIwKgRTuRnG492Tg0JQ==
-X-CSE-MsgGUID: zo29+E+STryIIzEYgQvrqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="43146343"
-X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="43146343"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 20:11:05 -0700
-X-CSE-ConnectionGUID: 5wuoivQkRNikHxIZnDRrGw==
-X-CSE-MsgGUID: WjZU+Q6pQ8OSq4ky4g9eCQ==
+X-CSE-ConnectionGUID: 2WjQvKDgQUeinSy0V2bqUg==
+X-CSE-MsgGUID: DzYc/7qQQkSy9qqTg5EVQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="28330311"
+X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
+   d="scan'208";a="28330311"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2024 21:31:04 -0700
+X-CSE-ConnectionGUID: rHVyyJtlTc6tlBHCBHTRhQ==
+X-CSE-MsgGUID: UgImle5sS6OnYGq/Dt0gcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,193,1716274800"; 
-   d="scan'208";a="52503155"
+X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
+   d="scan'208";a="47687275"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Jul 2024 20:11:03 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 08 Jul 2024 21:31:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sR1Fr-000WHe-2y;
-	Tue, 09 Jul 2024 03:10:59 +0000
-Date: Tue, 9 Jul 2024 11:10:00 +0800
+	id 1sR2VI-000WJi-2z;
+	Tue, 09 Jul 2024 04:31:00 +0000
+Date: Tue, 9 Jul 2024 12:30:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [crng-random:master 1/4] mm/mlock.c:488 mlock_fixup() warn: bitwise
- AND condition is false here
-Message-ID: <202407091145.c9ZzNDVh-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [soc:qcom/arm32 24/24]
+ arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: /: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202407091247.zZWRKruY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,90 +63,114 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: zx2c4@kernel.org
-TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: arm@kernel.org
+TO: Raymond Hackley <raymondhackley@protonmail.com>
+CC: Bjorn Andersson <andersson@kernel.org>
+CC: Luca Weiss <luca@lucaweiss.eu>
+CC: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/crng/random.git master
-head:   3d5dc4882706f0a39be74eac173ef994ce18e1f3
-commit: 7b1ed736b8f70a962a7d1f4768a4db385ac3bf35 [1/4] mm: add MAP_DROPPABLE for designating always lazily freeable mappings
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: i386-randconfig-141-20240709 (https://download.01.org/0day-ci/archive/20240709/202407091145.c9ZzNDVh-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git qcom/ar=
+m32
+head:   2a5454d0fe5684855581f8ad958afbcdc476fd64
+commit: 2a5454d0fe5684855581f8ad958afbcdc476fd64 [24/24] ARM: dts: qcom: qc=
+om-msm8226-samsung-ms013g: Add initial device tree
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm-randconfig-051-20240709 (https://download.01.org/0day-ci/archiv=
+e/20240709/202407091247.zZWRKruY-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c=
+6b8aef853eedaa0980f07c0a502a5a8a9740e)
+dtschema version: 2024.6.dev3+g650bf2d
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20240709/202407091247.zZWRKruY-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407091145.c9ZzNDVh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407091247.zZWRKruY-lkp@intel.com/
 
-smatch warnings:
-mm/mlock.c:488 mlock_fixup() warn: bitwise AND condition is false here
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:950.28-1001.6: Warning (avoid_u=
+nnecessary_addr_size): /soc/display-subsystem@fd900000/dsi@fd922800: unnece=
+ssary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:654.27-657.6: Warning (unique_u=
+nit_address_if_enabled): /soc/efuse@fc4bc000/s1-p1@1c4: duplicate unit-addr=
+ess (also used in node /soc/efuse@fc4bc000/s2-p1@1c4)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:689.27-692.6: Warning (unique_u=
+nit_address_if_enabled): /soc/efuse@fc4bc000/s0-p2@1cd: duplicate unit-addr=
+ess (also used in node /soc/efuse@fc4bc000/s1-p2@1cd)
+   arch/arm/boot/dts/qcom/qcom-msm8226.dtsi:937.11-947.7: Warning (graph_ch=
+ild_address): /soc/display-subsystem@fd900000/display-controller@fd900000/p=
+orts: graph node has single child node 'port@0', #address-cells/#size-cells=
+ are not necessary
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: /: compatible: '=
+oneOf' conditional failed, one must be fixed:
+   	['samsung,ms013g', 'qcom,msm8226'] is too short
+   	'samsung,ms013g' is not one of ['qcom,apq8016-sbc']
+   	'samsung,ms013g' is not one of ['asus,sparrow', 'huawei,sturgeon', 'lg,=
+lenok', 'samsung,matisse-wifi']
+   	'samsung,ms013g' is not one of ['asus,nexus7-flo', 'lg,nexus4-mako', 's=
+ony,xperia-yuga', 'qcom,apq8064-cm-qs600', 'qcom,apq8064-ifc6410']
+   	'samsung,ms013g' is not one of ['qcom,apq8074-dragonboard']
+   	'samsung,ms013g' is not one of ['qcom,apq8060-dragonboard', 'qcom,msm86=
+60-surf']
+   	'samsung,ms013g' is not one of ['qcom,apq8084-mtp', 'qcom,apq8084-sbc']
+   	'samsung,ms013g' is not one of ['microsoft,dempsey', 'microsoft,makepea=
+ce', 'microsoft,moneypenny', 'motorola,falcon', 'samsung,s3ve3g']
+   	'samsung,ms013g' is not one of ['htc,memul', 'microsoft,superman-lte', =
+'microsoft,tesla', 'motorola,peregrine', 'samsung,matisselte']
+   	'samsung,ms013g' is not one of ['huawei,kiwi', 'longcheer,l9100', 'sams=
+ung,a7', 'sony,kanuti-tulip', 'square,apq8039-t2']
+--
+   	'qcom,sm7125' was expected
+   	'qcom,sm7225' was expected
+   	'qcom,sm8150' was expected
+   	'qcom,sm8250' was expected
+   	'qcom,sm8350' was expected
+   	'qcom,sm8450' was expected
+   	'qcom,sm8550' was expected
+   	'qcom,sm8650' was expected
+   	'qcom,x1e80100' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/qcom.yaml#
+>> arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: /: failed to mat=
+ch any schema with compatible: ['samsung,ms013g', 'qcom,msm8226']
+   arch/arm/boot/dts/qcom/qcom-msm8226-samsung-ms013g.dtb: syscon@f9011000:=
+ compatible: 'anyOf' conditional failed, one must be fixed:
+   	['syscon'] is too short
+   	'syscon' is not one of ['allwinner,sun8i-a83t-system-controller', 'allw=
+inner,sun8i-h3-system-controller', 'allwinner,sun8i-v3s-system-controller',=
+ 'allwinner,sun50i-a64-system-controller', 'altr,sdr-ctl', 'amd,pensando-el=
+ba-syscon', 'apm,xgene-csw', 'apm,xgene-efuse', 'apm,xgene-mcb', 'apm,xgene=
+-rb', 'apm,xgene-scu', 'brcm,cru-clkset', 'brcm,sr-cdru', 'brcm,sr-mhb', 'f=
+reecom,fsg-cs2-system-controller', 'fsl,imx93-aonmix-ns-syscfg', 'fsl,imx93=
+-wakeupmix-syscfg', 'fsl,ls1088a-reset', 'hisilicon,dsa-subctrl', 'hisilico=
+n,hi6220-sramctrl', 'hisilicon,pcie-sas-subctrl', 'hisilicon,peri-subctrl',=
+ 'hpe,gxp-sysreg', 'intel,lgm-syscon', 'loongson,ls1b-syscon', 'loongson,ls=
+1c-syscon', 'marvell,armada-3700-cpu-misc', 'marvell,armada-3700-nb-pm', 'm=
+arvell,armada-3700-avs', 'marvell,armada-3700-usb2-host-misc', 'mediatek,mt=
+2712-pctl-a-syscfg', 'mediatek,mt6397-pctl-pmic-syscfg', 'mediatek,mt8135-p=
+ctl-a-syscfg', 'mediatek,mt8135-pctl-b-syscfg', 'mediatek,mt8173-pctl-a-sys=
+cfg', 'mediatek,mt8365-syscfg', 'microchip,lan966x-cpu-syscon', 'microchip,=
+sparx5-cpu-syscon', 'mstar,msc313-pmsleep', 'nuvoton,ma35d1-sys', 'nuvoton,=
+wpcm450-shm', 'rockchip,px30-qos', 'rockchip,rk3036-qos', 'rockchip,rk3066-=
+qos', 'rockchip,rk3128-qos', 'rockchip,rk3228-qos', 'rockchip,rk3288-qos', =
+'rockchip,rk3368-qos', 'rockchip,rk3399-qos', 'rockchip,rk3568-qos', 'rockc=
+hip,rk3588-qos', 'rockchip,rv1126-qos', 'starfive,jh7100-sysmain', 'ti,am62=
+-usb-phy-ctrl', 'ti,am62p-cpsw-mac-efuse', 'ti,am654-dss-oldi-io-ctrl', 'ti=
+,am654-serdes-ctrl', 'ti,j784s4-pcie-ctrl']
+   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
 
-vim +488 mm/mlock.c
-
-b291f000393f5a Nicholas Piggin    2008-10-18  467  
-b291f000393f5a Nicholas Piggin    2008-10-18  468  /*
-b291f000393f5a Nicholas Piggin    2008-10-18  469   * mlock_fixup  - handle mlock[all]/munlock[all] requests.
-b291f000393f5a Nicholas Piggin    2008-10-18  470   *
-b291f000393f5a Nicholas Piggin    2008-10-18  471   * Filters out "special" vmas -- VM_LOCKED never gets set for these, and
-b291f000393f5a Nicholas Piggin    2008-10-18  472   * munlock is a no-op.  However, for some special vmas, we go ahead and
-cea10a19b7972a Michel Lespinasse  2013-02-22  473   * populate the ptes.
-b291f000393f5a Nicholas Piggin    2008-10-18  474   *
-b291f000393f5a Nicholas Piggin    2008-10-18  475   * For vmas that pass the filters, merge/split as appropriate.
-b291f000393f5a Nicholas Piggin    2008-10-18  476   */
-37598f5a9d8b63 Liam R. Howlett    2023-01-20  477  static int mlock_fixup(struct vma_iterator *vmi, struct vm_area_struct *vma,
-37598f5a9d8b63 Liam R. Howlett    2023-01-20  478  	       struct vm_area_struct **prev, unsigned long start,
-37598f5a9d8b63 Liam R. Howlett    2023-01-20  479  	       unsigned long end, vm_flags_t newflags)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  480  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  481  	struct mm_struct *mm = vma->vm_mm;
-b291f000393f5a Nicholas Piggin    2008-10-18  482  	int nr_pages;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  483  	int ret = 0;
-34b6792380ce4f Hugh Dickins       2022-02-14  484  	vm_flags_t oldflags = vma->vm_flags;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  485  
-34b6792380ce4f Hugh Dickins       2022-02-14  486  	if (newflags == oldflags || (oldflags & VM_SPECIAL) ||
-e1fb4a0864958f Dave Jiang         2018-08-17  487  	    is_vm_hugetlb_page(vma) || vma == get_gate_vma(current->mm) ||
-7b1ed736b8f70a Jason A. Donenfeld 2022-12-08 @488  	    vma_is_dax(vma) || vma_is_secretmem(vma) || (oldflags & VM_DROPPABLE))
-b0f205c2a3082d Eric B Munson      2015-11-05  489  		/* don't set VM_LOCKED or VM_LOCKONFAULT and don't count */
-b0f205c2a3082d Eric B Munson      2015-11-05  490  		goto out;
-b291f000393f5a Nicholas Piggin    2008-10-18  491  
-94d7d923395129 Lorenzo Stoakes    2023-10-11  492  	vma = vma_modify_flags(vmi, *prev, vma, start, end, newflags);
-94d7d923395129 Lorenzo Stoakes    2023-10-11  493  	if (IS_ERR(vma)) {
-94d7d923395129 Lorenzo Stoakes    2023-10-11  494  		ret = PTR_ERR(vma);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  495  		goto out;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  496  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  497  
-b291f000393f5a Nicholas Piggin    2008-10-18  498  	/*
-b291f000393f5a Nicholas Piggin    2008-10-18  499  	 * Keep track of amount of locked VM.
-b291f000393f5a Nicholas Piggin    2008-10-18  500  	 */
-b291f000393f5a Nicholas Piggin    2008-10-18  501  	nr_pages = (end - start) >> PAGE_SHIFT;
-34b6792380ce4f Hugh Dickins       2022-02-14  502  	if (!(newflags & VM_LOCKED))
-b291f000393f5a Nicholas Piggin    2008-10-18  503  		nr_pages = -nr_pages;
-34b6792380ce4f Hugh Dickins       2022-02-14  504  	else if (oldflags & VM_LOCKED)
-b155b4fde5bdde Simon Guo          2016-10-07  505  		nr_pages = 0;
-b291f000393f5a Nicholas Piggin    2008-10-18  506  	mm->locked_vm += nr_pages;
-b291f000393f5a Nicholas Piggin    2008-10-18  507  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  508  	/*
-c1e8d7c6a7a682 Michel Lespinasse  2020-06-08  509  	 * vm_flags is protected by the mmap_lock held in write mode.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  510  	 * It's okay if try_to_unmap_one unmaps a page just after we
-fc05f566210fa5 Kirill A. Shutemov 2015-04-14  511  	 * set VM_LOCKED, populate_vma_page_range will bring it back.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  512  	 */
-34b6792380ce4f Hugh Dickins       2022-02-14  513  	if ((newflags & VM_LOCKED) && (oldflags & VM_LOCKED)) {
-34b6792380ce4f Hugh Dickins       2022-02-14  514  		/* No work to do, and mlocking twice would be wrong */
-60081bf19b0ec8 Suren Baghdasaryan 2023-08-04  515  		vma_start_write(vma);
-1c71222e5f2393 Suren Baghdasaryan 2023-01-26  516  		vm_flags_reset(vma, newflags);
-34b6792380ce4f Hugh Dickins       2022-02-14  517  	} else {
-34b6792380ce4f Hugh Dickins       2022-02-14  518  		mlock_vma_pages_range(vma, start, end, newflags);
-34b6792380ce4f Hugh Dickins       2022-02-14  519  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  520  out:
-b291f000393f5a Nicholas Piggin    2008-10-18  521  	*prev = vma;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  522  	return ret;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  523  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  524  
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
