@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B9E143752
-	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 08:27:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BF21527AF
+	for <oe-kbuild@lists.linux.dev>; Tue,  9 Jul 2024 08:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720513644; cv=none; b=CAjYEhCYj/qN5JE4gA3EAJHflxjg8ExbDPlv6t/fwXF2YWP1RR4Metph37YYl0npsoCz/M1S9PKM9daVyyQyiuBSXyUOkhkZlfpYG3qT65tZiiaM28sniq4f/DIgTCTiO1XwUWYiZXU2zHYHVmb8f6/iimZxGP8OGGIoMLEHrrw=
+	t=1720514963; cv=none; b=FVzZy29q2c20u/9zzm5yxH0ivTL63xKTuHz6yrcnxLBJL+evz/B1Atnqi7M1OOcJz1ifc/y5/PMyaMJTt10JxtvDuqNwuMR0pH0mqWSGsk40OpAY1P9NE+Uc7PJN3bW0H2wUPa5vETjwuQDSdV8n2hK46MVDyUq2qC+zBAvC3mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720513644; c=relaxed/simple;
-	bh=6GTqlObPbAMj0kXhfAxOqEmc9sQTe5eTptdvMFSQJCc=;
+	s=arc-20240116; t=1720514963; c=relaxed/simple;
+	bh=WU4uWSD0TLu4UqKuAp/SWEIR5Y6rYVTsmYwLe26sW6Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iEzn1jKo7isCj4WTYfGvblyYMjsEIqUx573HaYBlEY+Ec1qxyKFFjrtzJxhZc+5aPf8yUuPWYTo73djg6qFinM7EDzPuxt+JTmTmWk2a+aSPxXbLY9yzcG9vzhdKTX81dHQ/AB7U02c//VmIsJoE6YdjbwQhQ1IMs+XCS2qCOM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmuMrBlO; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=J3k6zMUEOLUVy+ipYcmmyzuVs1UCml/bmFGqd5mFT34pTvF2l6SIA2pS+hon5jRnjO9l8O1Jnp/5xdPGolFZZowwTpBdNVI+HKji1ddHnLxdK0u0rXdH5jU4oiY9cin+VNmI1PavnCNCJRS2wyE4vN3UVfINk3ejklmC98WK8OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwBIbxdt; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmuMrBlO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwBIbxdt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720513642; x=1752049642;
+  t=1720514962; x=1752050962;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6GTqlObPbAMj0kXhfAxOqEmc9sQTe5eTptdvMFSQJCc=;
-  b=NmuMrBlOozeW/FuUvkDjgrb94gBGB9qs17DwXFFwGRWxFt6APaFO30oz
-   QzI+M6R5zqWx9w56+HZvKwdSYGnaFBF/J4l6KL7ayPOGqy2J4Qhonll7G
-   ZkYT7hJFXmgKxtUCH6McB4to8G1rtraPddZ4FnitaqBeHYU9fkxPTeZZx
-   wrxR59fN3lpblww6EFkYCl5IlyQjaNYhp2f1TE/rbQXJ7+ZOrh0YUTIGG
-   5Oopwnga1IkguvyQOIIBEd8S5IHST0VCd6Z7zmJ+uc2PXUcyben622iNI
-   Fl0ihp3B7aU0RYsXmhL8oeRv7M3Gee/nqK7/Qy/4pj07w2IV2Nd5iIuhK
-   A==;
-X-CSE-ConnectionGUID: LeY8Ah5gRimVSaNSAFd0VQ==
-X-CSE-MsgGUID: UAuYdepbTIS2/ZAVvpehPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="29147095"
+  bh=WU4uWSD0TLu4UqKuAp/SWEIR5Y6rYVTsmYwLe26sW6Q=;
+  b=fwBIbxdt/DN12/XXXO1+3k2FJ7VdPPjLrKnRIncoDIpuG8EaFbTTlXSG
+   lR9PlgOiaYjf0jHm9SGlAHrlpoudNAVvHZz6P5ivDeQbfwxtTXP8nkgfF
+   //PXwuzhxpWa8Bgc9LnDUWEgKtsFlqCtX3ajWuxW+p2G1YhhnZwUjBlFU
+   WGYY5PpHrxGgCARowd980oHNQaHqI9jKDlVNzvCjduU/lzk5giYS4VuD3
+   WDtw9ch08wMluU6B7V5ICTynoMAoeeU0XhKBT7e3FxZVdCOs0FbAoM6he
+   CYCmzr0dE2fML2S2DQoJhrMNvhRUuG4+BZfoSm1p/ackGPeoGftIJ2sar
+   g==;
+X-CSE-ConnectionGUID: 7SsQUYERTeanycIZxV2MmQ==
+X-CSE-MsgGUID: zYhHsO0dSoG7+aGGxncXbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11127"; a="21519675"
 X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
-   d="scan'208";a="29147095"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 01:27:20 -0700
-X-CSE-ConnectionGUID: d5Eyo6axTS2MIgOZxeFDxw==
-X-CSE-MsgGUID: 0+jic0D3THWvAkQ+YyiQrQ==
+   d="scan'208";a="21519675"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2024 01:49:21 -0700
+X-CSE-ConnectionGUID: s3w94rUbR2uBRo0kNo/txA==
+X-CSE-MsgGUID: qmQdB6UNRr+hSr3NR8sT7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,194,1716274800"; 
-   d="scan'208";a="47872955"
+   d="scan'208";a="47569387"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2024 01:27:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Jul 2024 01:49:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sR6Bx-000WTS-06;
-	Tue, 09 Jul 2024 08:27:17 +0000
-Date: Tue, 9 Jul 2024 16:27:14 +0800
+	id 1sR6XF-000WUI-22;
+	Tue, 09 Jul 2024 08:49:17 +0000
+Date: Tue, 9 Jul 2024 16:48:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [robh:for-next 42/43]
- arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: uqe@2400000: si@700:
- '#address-cells', '#size-cells' do not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202407091607.Y5w2TuIH-lkp@intel.com>
+Subject: [clk:clk-mediatek 2/9] arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb:
+ clock-controller@1a100800: compatible: 'oneOf' conditional failed, one must
+ be fixed:
+Message-ID: <202407091606.BCjtQxFr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,126 +69,63 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Li <Frank.Li@nxp.com>
-CC: "Rob Herring (Arm)" <robh@kernel.org>
+CC: linux-clk@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+TO: Christian Marangi <ansuelsmth@gmail.com>
+CC: Stephen Boyd <sboyd@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-head:   011e6a719ead0cbafc1447074e2a7005b18b6071
-commit: 716be628d1dbce1241f5de0ab519203c45c5c48e [42/43] dt-bindings: soc: fsl: cpm_qe: convert to yaml format
-:::::: branch date: 9 hours ago
-:::::: commit date: 16 hours ago
-config: arm64-randconfig-051-20240709 (https://download.01.org/0day-ci/archive/20240709/202407091607.Y5w2TuIH-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-mediatek
+head:   58c53d43142f222221e5a76a7016c4d8f3b84b97
+commit: 9f7809c6a8824b7147595b3c36e633ffc81fe2ab [2/9] dt-bindings: clock: mediatek: add syscon compatible for mt7622 pciesys
+:::::: branch date: 11 hours ago
+:::::: commit date: 14 hours ago
+config: arm64-randconfig-051-20240709 (https://download.01.org/0day-ci/archive/20240709/202407091606.BCjtQxFr-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 13.2.0
 dtschema version: 2024.6.dev3+g650bf2d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091607.Y5w2TuIH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240709/202407091606.BCjtQxFr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407091607.Y5w2TuIH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407091606.BCjtQxFr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: i2c@21b0000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: uqe@2400000: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: uqe@2400000: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: uqe@2400000: $nodename:0: 'uqe@2400000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: uqe@2400000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'qeic@80', 'ucc@2000', 'ucc@2200' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: qeic@80: '#address-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-ic.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-si.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-siram.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian', 'clock-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: aux_bus: $nodename:0: 'aux_bus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3400000: fsl,pcie-scfg:0: [23, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-qds.dtb: pcie@3500000: fsl,pcie-scfg:0: [23, 1] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000: audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@11220000: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [37, 8], [37, 9], [37, 10], [37, 11], [37, 4], [37, 5], [37, 6], [37, 7], [37, 14], [37, 15], [37, 39], [37, 40], [37, 0], [37, 46], [37, 17], [37, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: clock-controller@1a100800: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7622-pciesys'] is too short
+   	'mediatek,mt7629-pciesys' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /pcie@1a143000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-rfb1.dtb: /pcie@1a145000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
 --
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: i2c@21b0000: clock-names:0: 'ipg' was expected
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: uqe@2400000: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: uqe@2400000: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: uqe@2400000: $nodename:0: 'uqe@2400000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: uqe@2400000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'qeic@80', 'ucc@2000', 'ucc@2200' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: qeic@80: '#address-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-ic.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-si.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-siram.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe@2400000/ucc@2000: failed to match any schema with compatible: ['fsl,ucc-hdlc']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian', 'clock-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: aux_bus: $nodename:0: 'aux_bus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3400000: fsl,pcie-scfg:0: [22, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3500000: fsl,pcie-scfg:0: [22, 1] is too long
---
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: i2c@21b0000: Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-imx.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2300000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2310000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2320000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/gpio@2330000: failed to match any schema with compatible: ['fsl,ls1043a-gpio', 'fsl,qoriq-gpio']
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: uqe@2400000: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: uqe@2400000: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: uqe@2400000: $nodename:0: 'uqe@2400000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: uqe@2400000: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'qeic@80', 'ucc@2000', 'ucc@2200' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: qeic@80: '#address-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-ic.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: si@700: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-si.yaml#
->> arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: siram@1000: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/fsl/cpm_qe/fsl,qe-siram.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian', 'clock-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: aux_bus: $nodename:0: 'aux_bus' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: /soc/aux_bus/sata@3200000: failed to match any schema with compatible: ['fsl,ls1043a-ahci']
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3400000: fsl,pcie-scfg:0: [25, 0] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
-   arch/arm64/boot/dts/freescale/fsl-ls1043a-tqmls1043a-mbls10xxa.dtb: pcie@3500000: fsl,pcie-scfg:0: [25, 1] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller:clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@11220000: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,audsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: clocks: [[2, 2], [18, 80], [18, 81], [18, 107], [18, 108], [18, 89], [18, 90], [18, 91], [18, 92], [18, 95], [18, 96], [18, 97], [18, 98], [18, 103], [18, 104], [18, 105], [18, 106], [38, 8], [38, 9], [38, 10], [38, 11], [38, 4], [38, 5], [38, 6], [38, 7], [38, 14], [38, 15], [38, 39], [38, 40], [38, 0], [38, 46], [38, 17], [38, 18]] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: clock-names: ['infra_sys_audio_clk', 'top_audio_mux1_sel', 'top_audio_mux2_sel', 'top_audio_a1sys_hp', 'top_audio_a2sys_hp', 'i2s0_src_sel', 'i2s1_src_sel', 'i2s2_src_sel', 'i2s3_src_sel', 'i2s0_src_div', 'i2s1_src_div', 'i2s2_src_div', 'i2s3_src_div', 'i2s0_mclk_en', 'i2s1_mclk_en', 'i2s2_mclk_en', 'i2s3_mclk_en', 'i2so0_hop_ck', 'i2so1_hop_ck', 'i2so2_hop_ck', 'i2so3_hop_ck', 'i2si0_hop_ck', 'i2si1_hop_ck', 'i2si2_hop_ck', 'i2si3_hop_ck', 'asrc0_out_ck', 'asrc1_out_ck', 'asrc2_out_ck', 'asrc3_out_ck', 'audio_afe_pd', 'audio_afe_conn_pd', 'audio_a1sys_pd', 'audio_a2sys_pd'] is too short
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: audio-controller: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mediatek,mt2701-audio.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: clock-controller@1a100800: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7622-pciesys'] is too short
+   	'mediatek,mt7629-pciesys' was expected
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt7622-pciesys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a143000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: /pcie@1a145000: failed to match any schema with compatible: ['mediatek,mt7622-pcie']
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dtb: switch@0: 'interrupts' is a dependency of 'interrupt-controller'
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
