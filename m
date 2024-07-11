@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74F78479
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 15:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33E616CD31
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 15:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720712794; cv=none; b=PRAdLtC8mBDt18K93TEx3qUkpLgcCivrICIbOsHSuOsDg/kK0VUj/2+1eEVaLPKbYFneOjjXVj0iRrRs1Se8YxFrMwb03ikQN9XPXNxBDbLjW5kQ663OankdlQWfSRsFtDrBPruOcdKjtfPyduO4NiW5rHuhLYrA/2zJQUh062c=
+	t=1720713455; cv=none; b=apOsQLaGfQ2bpPq8VmkxLkYReIUXJTHjRSxiN+cSp7jZ+I4oyTIGxEE93zPDyqumFhrOaXCrUkg1n6MCli1+C1NI3fdZnwrS3glzejTLGF8+xPJf1vmdE4h5hR+pg/dV3HWPJ+SS4KnPiB2aDOqDchU/ZFODrqbhhv5qGa18neg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720712794; c=relaxed/simple;
-	bh=FtcbNkQ0Jd9Eo00BTyCYneYHpsGGScRradd/XnaSQhE=;
+	s=arc-20240116; t=1720713455; c=relaxed/simple;
+	bh=I8+AhPQLA9ls0gWmik3FbSxuvCKKvP+CZMnEDQIM/A0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SxSe3xEwL/NS6K4VxOhWmHG0sopIQFIadKJdLEtlcNVLODOCB6MgES7DAIKdrv2Sr6MfBz9jUtHve8TOiAYu9tw+2ypHIAiwZQ2BNSDceD9b0/x/D8WSCXcKps1ueQg/5Q2HaqvjSNpKi14b0pcHeXuJ2vPbAcu9slz5SmVEvrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I//pP55s; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ElUgoKcUpIyjJAdc9VcPX2zaZFEqDj2aFbmuZvcyYY0WA0wXqObLicnxeKDN7U8gN+uqZHAw343kA511dpiDXzso0upZx+yyaQSqBFaVLGYgqOOsKZxhSUjC0f0Uz0XKsQ7g4Cbqw443X67XEqiGIS/4P+Gu/Z0k2Uo8pIZWC8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MKdWwipm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I//pP55s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MKdWwipm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720712792; x=1752248792;
+  t=1720713454; x=1752249454;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=FtcbNkQ0Jd9Eo00BTyCYneYHpsGGScRradd/XnaSQhE=;
-  b=I//pP55scmNi1vkHh2WfrHNuMEaixmrUdpAabccfBGoFRhbVBozy2FKT
-   ah6VGR992nh8uOY/zys34qo/wIkg4fHJX0RHVeEWGFwYxKI+n9tmfeUQP
-   VNWGn7RM++jKdQsS4EsqZnBPqsajoeMaPPJEkn9Z1+ckPGwHmfBIqC6su
-   fN19X3ZY8pJJOVBvR57Js5r1eQfffIxfV87/epZQcjhcHlrZ+kLRptM3C
-   Dk3OHwf3APvmJ13+pBCHxeKhb1xvxGUe9NrYcmVMmc1aaj+b5lXswQqF1
-   TohWElJEfChj3W+Jq1e20v1BJAyqP8AYx0GvQrPC2bOLgSEDkMuk+l+nW
-   g==;
-X-CSE-ConnectionGUID: mIh2nkTGRcGEUaiuCjcIJw==
-X-CSE-MsgGUID: lwdRYu9cQl+gbRvVw6NI7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17924803"
+  bh=I8+AhPQLA9ls0gWmik3FbSxuvCKKvP+CZMnEDQIM/A0=;
+  b=MKdWwipmB+KEj1ccYFq1hHvm6vrvKv7mCfqoRFud5wEQwYJ8pLESeXkk
+   Mnj8XaKA7d4UCigCnh0UqOHKdKdo722ZJSovJrtVhH/QMguhDq7O8LhYI
+   GvhDzQNq+wAelV68FkIhpJKv7S5+ViVDXbBePLqCL/RnDfgSpaDUWYTjW
+   xJotSu6NZ3Gz0e0dHhWymyyhWbuPRkOA/bLSpuvhckUgyyGtgPFzj3EEZ
+   ouTNbd7ysRtD9LWVOXJfOgZBllsKLAybiBuohUFP+/8o71HXU7vaBFxVs
+   5hoD9VbMOzy6FQJYucGDiC9jVsgaHTZBHbQnIiPhKAl9qaeHhp8wUraKQ
+   w==;
+X-CSE-ConnectionGUID: ifARTzr3SASLDKW1ATGMnQ==
+X-CSE-MsgGUID: Mz7xe/VFSba/oDzOQzCS6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="29258527"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="17924803"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 08:46:31 -0700
-X-CSE-ConnectionGUID: hK4uYLWmRP+XenlvcrXwew==
-X-CSE-MsgGUID: TzoXfKJHRMmbIeRHjzyguQ==
+   d="scan'208";a="29258527"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 08:57:32 -0700
+X-CSE-ConnectionGUID: wnQt46/NQuKuf6wZzaVnFg==
+X-CSE-MsgGUID: eqLS/soESqegtqsA69BhHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="52916286"
+   d="scan'208";a="52992696"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Jul 2024 08:46:30 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jul 2024 08:57:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRw04-000ZS1-0U;
-	Thu, 11 Jul 2024 15:46:28 +0000
-Date: Thu, 11 Jul 2024 23:46:10 +0800
+	id 1sRwAi-000ZSQ-1M;
+	Thu, 11 Jul 2024 15:57:28 +0000
+Date: Thu, 11 Jul 2024 23:56:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
 Subject: Re: [PATCH v6 3/6] dt-bindings: iio: dac: Generalize DAC common
  properties
-Message-ID: <202407112353.CAZ5Jz40-lkp@intel.com>
+Message-ID: <202407112348.tg60bZme-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -101,58 +101,43 @@ patch link:    https://lore.kernel.org/r/20240711114221.62386-4-kimseer.paller%4
 patch subject: [PATCH v6 3/6] dt-bindings: iio: dac: Generalize DAC common properties
 :::::: branch date: 2 hours ago
 :::::: commit date: 2 hours ago
-config: arm-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112353.CAZ5Jz40-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+config: arm64-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112348.tg60bZme-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project a0c6b8aef853eedaa0980f07c0a502a5a8a9740e)
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112353.CAZ5Jz40-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112348.tg60bZme-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407112353.CAZ5Jz40-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407112348.tg60bZme-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/bus@1e78a000/interrupt-controller@0: failed to match any schema with compatible: ['aspeed,ast2500-i2c-ic']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:81.11-90.6: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r9a07g043u.dtsi:116.11-125.6: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
    	'output-range-microamp' is a required property
    	'output-range-microvolt' is a required property
    	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
    	'output-range-microamp' is a required property
    	'output-range-microvolt' is a required property
    	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@2: 'oneOf' conditional failed, one must be fixed:
-   	'output-range-microamp' is a required property
-   	'output-range-microvolt' is a required property
+   arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dtb: mmc@11c00000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['renesas,sdhi-r9a07g043', 'renesas,rcar-gen3-sdhi'] is too long
+   	'renesas,sdhi-r9a07g043' is not one of ['renesas,sdhi-mmc-r8a77470', 'renesas,sdhi-r7s72100', 'renesas,sdhi-r7s9210', 'renesas,sdhi-r8a73a4', 'renesas,sdhi-r8a7740', 'renesas,sdhi-sh73a0']
 --
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/interrupt-controller@0: failed to match any schema with compatible: ['aspeed,ast2500-i2c-ic']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/i2c-bus@100/power-supply@58: failed to match any schema with compatible: ['pmbus']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/i2c-bus@100/power-supply@59: failed to match any schema with compatible: ['pmbus']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:712.12-720.7: Warning (graph_child_address): /soc/video@10830000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:722.12-731.7: Warning (graph_child_address): /soc/video@10830000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/renesas/r9a07g044.dtsi:757.12-766.7: Warning (graph_child_address): /soc/csi2@10830400/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
    	'output-range-microamp' is a required property
    	'output-range-microvolt' is a required property
    	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
    	'output-range-microamp' is a required property
    	'output-range-microvolt' is a required property
    	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
-   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@2: 'oneOf' conditional failed, one must be fixed:
+   arch/arm64/boot/dts/renesas/r9a07g044l2-smarc.dtb: channel@2: 'oneOf' conditional failed, one must be fixed:
    	'output-range-microamp' is a required property
    	'output-range-microvolt' is a required property
 
