@@ -1,145 +1,138 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569011607A1
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 13:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2FF16132B
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 14:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720705544; cv=none; b=f+8bTdZ6SUafv0ngro/xovwLUvQNjmL+PmXNLa++M8N4P/dfHAZru27dwPMYGSyXu9mTGbOcgVzYEJMp/ATvsGSuwEDE3dUJyhs0x4GIuyFIWWMrX0hWYi/KLNjwQA6sgye5J+Hu3viupdAQnYWrm903pVghQOnEeLIjZfl/VVI=
+	t=1720706912; cv=none; b=fuRB04d2sjlCCAiDMAsNB66NzY5qzdkQK99RGakF92ccMwDtz4/h3aB7eVDEf76mDeKkVn4+PSCclgcaDw/8rIoINQWj62iHU97+7V9LEO8Tf6E390Piv28P5qOUQ/amheFU6u8Id5Ch3Qw+l6muglYADzDbqiYeaGOi6slKIlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720705544; c=relaxed/simple;
-	bh=+Iln7HlV/GOtTEfShLuR5S0RfTCYfT7FF7RGjj6Tpk0=;
+	s=arc-20240116; t=1720706912; c=relaxed/simple;
+	bh=DoHQXQ88g4EvNkEMu3q7DNXFrK+oavVv0DBTkrnDTHA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ipftjegzT9YFeK9TP/sXkOUIduhTJkN1YIz7I0ct19R+074lo+wvkKf17IrLmpC8Dgixm0QgVC4THDuRNcsnIeanaItZzitJAI/6njwUfYvYLPzbWOfBoANjPyq0OsX/jHupaqV4B9LFh6lSuI5ai3lw1eIHqH0VfjiuHA51UD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WdhiuuvY; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qAsuXvz5llJZgjfEwa8d+UukZQjgblQFUDCV8DSITHz3SaFiEwFHIJvrr9/SAJyPh8fBn3Gfrrt0bYRyCB8+mpxItQlR7Hi7n0R63oE/NBN62eU3Lq3J6hiKWygY2hynEeP4Qy3a3D45GMbDKHGue5+0luXWxvXVEIlEwCRRDfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N24X9nCU; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WdhiuuvY"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c9cc681e4fso480101b6e.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 06:45:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720705542; x=1721310342; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
-        b=WdhiuuvYdKACU62ejpt6Nx/6BqcfsEsVZ8wp6qsRNJk6h0BoaopU0VL7hWBgV5WJlH
-         R5BsfvXqQLpCTsF93Z1IAoHpxUYt/k5ZySGmLjduNeWbXvW3KrzpSM5l5ZCsrzLpvRgB
-         PTsrMhL08ucvDD/byoxtP6BBKxPFKRla2bpVVKeG9un/6JSzfryZ6anGngZR5ySZIDcF
-         +ALQjuY+bQEXburxI22m9wYThYYkXPRmt2yupbVhVnXUjpLxc4dw9JBRJzBGNgr3LBc9
-         4yF7R5c1pOeRrkQVcB9KE0QrwexSD+4ODcFUZKK0j37hPaynH9M7vojHB6JosLdB+oze
-         w9wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720705542; x=1721310342;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9pw18vyJbqNAo1pIzaMMMtkVUEAEszNwURxGl/x8r70=;
-        b=aMW2AapRd0U+2uIML3DIaiU7AhrWwodqB6xFxZ0cEu5+FHPF+5ZRGhQb0w/2kLG2T7
-         V+XN4HFtpJL3TdupH16V5j4gAug/YcNZUA3qpUtCe8p3ynXwm9jpXTPVEgvQ28CwHc/o
-         WF2SqJMr0CAQ0XwAe5drG4CHjKrlsXSpnnHTJXGP0A8VwTtVAEADm5vagbn/zFbbSOlY
-         XI1uE9aBKOGNxxeefhHDRwzEMFlTNmA79g9pWr11FylUneocep2C2+dJbsefQYHWb7IU
-         RDWrEbv/hsaq1C3C7gzfJB/cBlMZYW3J99xIP05TdQFS5kBATxkuH1WmXy8NTy+HzH3A
-         k6bg==
-X-Gm-Message-State: AOJu0YzJ/qk5xHVcF/y4D94h59AGuCxe6xj4GPKlMErq65IxAWI1JOz8
-	PdYzWJrR33ZjzTQ9raJK2nV53SRvvfj0U2yxb8raIlgKdzN8vZKMwW+WQbJfQc+O/yrg87zbtZy
-	Z
-X-Google-Smtp-Source: AGHT+IHuSStKyv1vw4rebrVR41VqJjg4gYw0bG9v8vovrkdDDfnPzTbo9SMxFA2uD7kTzQ26icTzAg==
-X-Received: by 2002:a05:6808:30a2:b0:3d9:245c:422e with SMTP id 5614622812f47-3d93c00f60fmr8805699b6e.21.1720705541942;
-        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:931f:6bae:9ea3:382e])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d93ad13711sm1080412b6e.17.2024.07.11.06.45.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 06:45:41 -0700 (PDT)
-Date: Thu, 11 Jul 2024 08:45:40 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with
- shared upstream link
-Message-ID: <1da3d82d-aff3-41b0-9a88-772280794f54@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N24X9nCU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1720706910; x=1752242910;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DoHQXQ88g4EvNkEMu3q7DNXFrK+oavVv0DBTkrnDTHA=;
+  b=N24X9nCU1BrDmI9iiHmj3MjXeuV7K+iOBf4cWasWq44MLJV6lGoSILxu
+   CjM1QoBkVrcktx4Mek/U6rUUvP9ZkdMLMqkvR2EILUENAPJ+7fwA+dTo+
+   4ARb7z64H1/VXWnVAbU2Fj/J109JpxWfJYGnoT7qtTYCBiNIcHYp7EQL0
+   WAFME1pa4eyhs6Hkgta4sc18AksEbd46fmOlIRYZBcp7r0/ug+7HkRpkU
+   E7gTmtXKKkcY1yuA4nSwOOAghV/ulAAfYBKp9XaaKjzmsbG6Wld1qP+xw
+   +5xtgBP1hMsH6B7ztUKI2mr+VP5UdXU9IUHE90TJgZiMngx0gnd7Ta94r
+   g==;
+X-CSE-ConnectionGUID: 84bzATlmQRSvUwJpCWta5g==
+X-CSE-MsgGUID: ZcQpU2urR4SqfS8fxktqgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18294502"
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="18294502"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:08:28 -0700
+X-CSE-ConnectionGUID: 6YmzAOfZThiAIoYfD5vL9w==
+X-CSE-MsgGUID: a6py20wgTxyO3cSK5VfIGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
+   d="scan'208";a="53161524"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2024 07:08:27 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sRuTA-000ZM6-39;
+	Thu, 11 Jul 2024 14:08:24 +0000
+Date: Thu, 11 Jul 2024 22:07:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [gustavoars:testing/wfamnae-next20240710-cbc 1/13]
+ drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible
+ array member is not at the end of another structure
+Message-ID: <202407112258.ZvWw5uJq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240710222716.797267-3-dave.jiang@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+:::::: 
+:::::: Manual check reason: "only Makefile file changed"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+CC: LKML <linux-kernel@vger.kernel.org>
+TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-Preserve-the-CDAT-access_coordinate-for-an-endpoint/20240711-092210
-base:   v6.10-rc6
-patch link:    https://lore.kernel.org/r/20240710222716.797267-3-dave.jiang%40intel.com
-patch subject: [PATCH v7 2/3] cxl: Calculate region bandwidth of targets with shared upstream link
-config: i386-randconfig-141-20240711 (https://download.01.org/0day-ci/archive/20240711/202407111927.7Q2PF9i0-lkp@intel.com/config)
-compiler: gcc-10 (Ubuntu 10.5.0-1ubuntu1) 10.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240710-cbc
+head:   73efb8d9b6a2ba4b07021861a1760ec742ddf432
+commit: d692eacf807861f523e66bd7d1c60f5dc254f4c6 [1/13] Makefile: Enable -Wflex-array-member-not-at-end globally
+:::::: branch date: 8 hours ago
+:::::: commit date: 9 hours ago
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240711/202407112258.ZvWw5uJq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112258.ZvWw5uJq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407111927.7Q2PF9i0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407112258.ZvWw5uJq-lkp@intel.com/
 
-smatch warnings:
-drivers/cxl/core/cdat.c:785 cxl_switch_gather_bandwidth() error: uninitialized symbol 'is_root'.
+All warnings (new ones prefixed by >>):
 
-vim +/is_root +785 drivers/cxl/core/cdat.c
+   drivers/leds/leds-cros_ec.c: In function 'cros_ec_led_send_cmd':
+>> drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+      70 |                 struct cros_ec_command msg;
+         |                                        ^~~
 
-dfbcea34995e70 Dave Jiang 2024-07-10  749  static struct xarray *cxl_switch_gather_bandwidth(struct cxl_region *cxlr,
-dfbcea34995e70 Dave Jiang 2024-07-10  750  						  struct xarray *input_xa,
-dfbcea34995e70 Dave Jiang 2024-07-10  751  						  bool *gp_is_root)
-dfbcea34995e70 Dave Jiang 2024-07-10  752  {
-dfbcea34995e70 Dave Jiang 2024-07-10  753  	struct xarray *res_xa __free(free_perf_xa) =
-dfbcea34995e70 Dave Jiang 2024-07-10  754  		kzalloc(sizeof(*res_xa), GFP_KERNEL);
-dfbcea34995e70 Dave Jiang 2024-07-10  755  	struct access_coordinate coords[ACCESS_COORDINATE_MAX];
-dfbcea34995e70 Dave Jiang 2024-07-10  756  	struct cxl_perf_ctx *ctx, *us_ctx;
-dfbcea34995e70 Dave Jiang 2024-07-10  757  	unsigned long index, us_index;
-dfbcea34995e70 Dave Jiang 2024-07-10  758  	int dev_count = 0;
-dfbcea34995e70 Dave Jiang 2024-07-10  759  	int gp_count = 0;
-dfbcea34995e70 Dave Jiang 2024-07-10  760  	void *ptr;
-dfbcea34995e70 Dave Jiang 2024-07-10  761  	int rc;
-dfbcea34995e70 Dave Jiang 2024-07-10  762  
-dfbcea34995e70 Dave Jiang 2024-07-10  763  	if (!res_xa)
-dfbcea34995e70 Dave Jiang 2024-07-10  764  		return ERR_PTR(-ENOMEM);
-dfbcea34995e70 Dave Jiang 2024-07-10  765  	xa_init(res_xa);
-dfbcea34995e70 Dave Jiang 2024-07-10  766  
-dfbcea34995e70 Dave Jiang 2024-07-10  767  	xa_for_each(input_xa, index, ctx) {
-dfbcea34995e70 Dave Jiang 2024-07-10  768  		struct device *dev = (struct device *)index;
-dfbcea34995e70 Dave Jiang 2024-07-10  769  		struct cxl_port *port = ctx->port;
-dfbcea34995e70 Dave Jiang 2024-07-10  770  		struct cxl_port *parent_port = to_cxl_port(port->dev.parent);
-dfbcea34995e70 Dave Jiang 2024-07-10  771  		struct cxl_port *gp_port = to_cxl_port(parent_port->dev.parent);
-dfbcea34995e70 Dave Jiang 2024-07-10  772  		struct cxl_dport *dport = port->parent_dport;
-dfbcea34995e70 Dave Jiang 2024-07-10  773  		bool is_root;
 
-needs to be initialized to false
+vim +70 drivers/leds/leds-cros_ec.c
 
-dfbcea34995e70 Dave Jiang 2024-07-10  774  
-dfbcea34995e70 Dave Jiang 2024-07-10  775  		dev_count++;
-dfbcea34995e70 Dave Jiang 2024-07-10  776  		if (is_cxl_root(gp_port)) {
-dfbcea34995e70 Dave Jiang 2024-07-10  777  			is_root = true;
-dfbcea34995e70 Dave Jiang 2024-07-10  778  			gp_count++;
-dfbcea34995e70 Dave Jiang 2024-07-10  779  		}
-dfbcea34995e70 Dave Jiang 2024-07-10  780  
-dfbcea34995e70 Dave Jiang 2024-07-10  781  		/*
-dfbcea34995e70 Dave Jiang 2024-07-10  782  		 * If the grandparent is cxl root, then index is the root port,
-dfbcea34995e70 Dave Jiang 2024-07-10  783  		 * otherwise it's the parent switch upstream device.
-dfbcea34995e70 Dave Jiang 2024-07-10  784  		 */
-dfbcea34995e70 Dave Jiang 2024-07-10 @785  		if (is_root)
-dfbcea34995e70 Dave Jiang 2024-07-10  786  			us_index = (unsigned long)port->parent_dport->dport_dev;
-dfbcea34995e70 Dave Jiang 2024-07-10  787  		else
-dfbcea34995e70 Dave Jiang 2024-07-10  788  			us_index = (unsigned long)parent_port->uport_dev;
-dfbcea34995e70 Dave Jiang 2024-07-10  789  
-dfbcea34995e70 Dave Jiang 2024-07-10  790  		us_ctx = xa_load(res_xa, us_index);
-dfbcea34995e70 Dave Jiang 2024-07-10  791  		if (!us_ctx) {
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  64  
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  65  static int cros_ec_led_send_cmd(struct cros_ec_device *cros_ec,
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  66  				union cros_ec_led_cmd_data *arg)
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  67  {
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  68  	int ret;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  69  	struct {
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13 @70  		struct cros_ec_command msg;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  71  		union cros_ec_led_cmd_data data;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  72  	} __packed buf = {
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  73  		.msg = {
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  74  			.version = 1,
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  75  			.command = EC_CMD_LED_CONTROL,
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  76  			.insize  = sizeof(arg->resp),
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  77  			.outsize = sizeof(arg->req),
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  78  		},
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  79  		.data.req = arg->req
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  80  	};
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  81  
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  82  	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  83  	if (ret < 0)
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  84  		return ret;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  85  
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  86  	arg->resp = buf.data.resp;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  87  
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  88  	return 0;
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  89  }
+8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  90  
+
+:::::: The code at line 70 was first introduced by commit
+:::::: 8d6ce6f3ec9d5f384e3eac92e43cfeac7a36e6b1 leds: Add ChromeOS EC driver
+
+:::::: TO: Thomas Weiﬂschuh <linux@weissschuh.net>
+:::::: CC: Lee Jones <lee@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
