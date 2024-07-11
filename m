@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73D58801
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 01:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA57E383
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 01:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720659966; cv=none; b=gzEk8vCE1+8/zlsGWVqb5m21/i8ImyT+VMTfphcypdAp7nXdRKlMy69qM7JiRvqVMKZjRI0B8YnqCVNcXjypMZjH/cEmniz37tU4hHYAoMWEPbbrdA9JRtD7T8CMabIxjcm4a6vVyjtjkuSxFcTt3toerafrQuXLS2qAqTYVRgQ=
+	t=1720660619; cv=none; b=mz/Gh2Y7jAKCemB67OfW8V/OslLjdwG6gC32GLBiwl+KZpFSILkkrKwkDfp6f6kPaXT4oqVXZwZxvtXnQuWsvKI3Warey2RxXc18Kxkmxmxx6+tWCElCoLgyH76E3j8B0UsAsoWsx9Z7JENmhbgbwXTrfGSYUczmU0HjtQAfygg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720659966; c=relaxed/simple;
-	bh=+DWjc1IISHspEKBZIxrVQNZxAMsqiTf3VejRN3Eaq1E=;
+	s=arc-20240116; t=1720660619; c=relaxed/simple;
+	bh=L9x/7qvvoIP3toVsWFb56QqH1tKzlMraThdZkUHtM/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FhH/taHdCf6CTp3GxqAeyYV6NABgk0hy6qaIO3UINTe4zNbhUggiq0KvbWwOuX11Kp9GXt7XgYdiXbrW3H2RghVdjca61LTAG/NmO+OKouDLNmFYK8ZcMhS2hCgTRf/yzBnIeOFpG9Twh0FYtf+OqmXQTJGO1D5yfZBWX2pqzqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ndZiM2Cm; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=j+ej1p7iqFt/xxOXHMCucdwYcT91WN7BGtYMbVBk2nfKghVYSFyaadesAipWJdvSRd+F+t0Di1kZlun8h5sjjYIWxA5BACssEk9HVU9+ZhI52rh7kPY9JtwteFTMSr1vxb2gsnCpSH3ebKIppkJHT5wxyfAcSEohs2SZe3d/LqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ewh+6m46; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ndZiM2Cm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ewh+6m46"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720659964; x=1752195964;
+  t=1720660618; x=1752196618;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+DWjc1IISHspEKBZIxrVQNZxAMsqiTf3VejRN3Eaq1E=;
-  b=ndZiM2CmrPzmT4YNg+RBPft3qkcNzYZZB/N57ausM5UFy1PmM6HrRIt0
-   ic3rv/vJKp/n/iZHTaUru7ZZHE/LEDo06Kj7HfN0Yui/SStpzaBVxFTlp
-   sH2rwgHU65TL/yRtNlSqzM0J5Z0BEeapeES3rv6J/V1H7mJCsNV6DkjAF
-   L29uhxompyOmJEmY4sXCa1gbGh4f/y6XTXtpr7afIy/8xvgcklFdRbAj0
-   W3FM/VrnwSFCv9mg3OxrnsXMcipjVqy9O5ei2Np2wBgV3/MDNlqTR59P9
-   kXWjU+dlPaDtkPx03XmW4CjTLe4nJQpF7M8QuXaesfV/PqC5+gieCKvk/
-   A==;
-X-CSE-ConnectionGUID: OsAd3W1IR7q8ip+qM98vOw==
-X-CSE-MsgGUID: DCRlHAWrRRSEvcJ9kViCdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="17835377"
+  bh=L9x/7qvvoIP3toVsWFb56QqH1tKzlMraThdZkUHtM/A=;
+  b=Ewh+6m46XlEZR7ZgLvhqYY8tcK4vQJ42VjrS2puyW4nqUj4wnuZW2vji
+   3BODEfpxTxQ2hcCMYL5pUjgWnmjcRrH9hNpcHYlRC5OS8SIbAf+tIMmGD
+   ICrpBSLIBf99Zk4740RyvRlN5yM+Bw+LoHizNgyxeLbVkzRboivAsjGH1
+   lzo990sV0N1QBBe5388sgmld2JR1hLIt3MpbEiIODwwHXlOsLCYRmUN8H
+   gYnizF/wQWTagyrZCyChATW9q7kBLbGYR0is8J6qgsxrsjdV3/PP1asLA
+   7wWlbXNekpwQlHEw8CXNPp9nLmx6exhpNWNcJBq9Cuhe3mDkr84weIR1g
+   g==;
+X-CSE-ConnectionGUID: vBWsSMuORueFOAwccevkJQ==
+X-CSE-MsgGUID: uo8CstAdRqmBtkP0m+Hpyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11129"; a="35555909"
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="17835377"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:05:58 -0700
-X-CSE-ConnectionGUID: GXsR3Kn5T86HFvUV/IzcLg==
-X-CSE-MsgGUID: zlUEqknzRHGWzvejHMitqw==
+   d="scan'208";a="35555909"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2024 18:16:57 -0700
+X-CSE-ConnectionGUID: r55Xi5ltRAal1t9va2RiWw==
+X-CSE-MsgGUID: cUDa+KurTxWsAMdUIkmEyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,198,1716274800"; 
-   d="scan'208";a="85893178"
+   d="scan'208";a="48394221"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Jul 2024 18:05:57 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Jul 2024 18:16:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRiFu-000YZ4-0D;
-	Thu, 11 Jul 2024 01:05:54 +0000
-Date: Thu, 11 Jul 2024 09:05:48 +0800
+	id 1sRiQY-000YZu-1d;
+	Thu, 11 Jul 2024 01:16:54 +0000
+Date: Thu, 11 Jul 2024 09:16:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [freescale-fslc:6.6-2.0.x-imx 11267/11381]
- Documentation/devicetree/bindings/phy/ti,ds125df111.yaml: title: 'TI
- DS125DF111 Retimer PHY binding' should not be valid under {'pattern':
- '([Bb]inding| [Ss]chema)'}
-Message-ID: <202407110859.rhACSp9M-lkp@intel.com>
+Subject: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb:
+ i2c-mux@70: idle-state: [0] is not of type 'integer'
+Message-ID: <202407110931.S4axppJr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,36 +63,55 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Otavio Salvador <otavio@ossystems.com.br>
+CC: linux-kernel@vger.kernel.org
+TO: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+CC: Joel Stanley <joel@jms.id.au>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ee366aa641d84d61e265cd4f571394aa4e7d4e6d
-commit: 48678b6fd03e459a0000e23fed8ae8f4c664c2d7 [11267/11381] dt-bindings: phy: add PHY bindings for the TI DS125DF111 Retimer PHY
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 months ago
-config: arc-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110859.rhACSp9M-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d9a2f29aefdadc86e450308ff056017a209c755
+commit: 2b8d94f4b4a4765dcbe4a48cb0d58b266c158a10 ARM: dts: aspeed: yosemite4: add Facebook Yosemite 4 BMC
+date:   11 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407110931.S4axppJr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110859.rhACSp9M-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407110931.S4axppJr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407110859.rhACSp9M-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407110931.S4axppJr-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   Documentation/devicetree/bindings/mfd/nxp,imx8ulp-sim.yaml: title: 'NXP i.MX8ulp System Integration Module Bindings' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/phy/ti,ds125df111.yaml: title: 'TI DS125DF111 Retimer PHY binding' should not be valid under {'pattern': '([Bb]inding| [Ss]chema)'}
-   hint: Everything is a binding/schema, no need to say it. Describe what hardware the binding is for.
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
-   Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml: ^(DCDC_REG[1-4]|LDO_REG[1-8]|SWITCH_REG[1-2])$: Missing additionalProperties/unevaluatedProperties constraint
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@280: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@300: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@380: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@400: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@480: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@70: idle-state: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@70: Unevaluated properties are not allowed ('idle-state' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@500: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@71: idle-state: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-mux@71: Unevaluated properties are not allowed ('idle-state' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@580: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/aspeed,i2c.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite4.dtb: i2c-bus@600: Unevaluated properties are not allowed ('#interrupt-cells' was unexpected)
 
 -- 
 0-DAY CI Kernel Test Service
