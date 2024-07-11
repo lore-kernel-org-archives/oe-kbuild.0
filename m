@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2FF16132B
-	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 14:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74F78479
+	for <oe-kbuild@lists.linux.dev>; Thu, 11 Jul 2024 15:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720706912; cv=none; b=fuRB04d2sjlCCAiDMAsNB66NzY5qzdkQK99RGakF92ccMwDtz4/h3aB7eVDEf76mDeKkVn4+PSCclgcaDw/8rIoINQWj62iHU97+7V9LEO8Tf6E390Piv28P5qOUQ/amheFU6u8Id5Ch3Qw+l6muglYADzDbqiYeaGOi6slKIlg=
+	t=1720712794; cv=none; b=PRAdLtC8mBDt18K93TEx3qUkpLgcCivrICIbOsHSuOsDg/kK0VUj/2+1eEVaLPKbYFneOjjXVj0iRrRs1Se8YxFrMwb03ikQN9XPXNxBDbLjW5kQ663OankdlQWfSRsFtDrBPruOcdKjtfPyduO4NiW5rHuhLYrA/2zJQUh062c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720706912; c=relaxed/simple;
-	bh=DoHQXQ88g4EvNkEMu3q7DNXFrK+oavVv0DBTkrnDTHA=;
+	s=arc-20240116; t=1720712794; c=relaxed/simple;
+	bh=FtcbNkQ0Jd9Eo00BTyCYneYHpsGGScRradd/XnaSQhE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qAsuXvz5llJZgjfEwa8d+UukZQjgblQFUDCV8DSITHz3SaFiEwFHIJvrr9/SAJyPh8fBn3Gfrrt0bYRyCB8+mpxItQlR7Hi7n0R63oE/NBN62eU3Lq3J6hiKWygY2hynEeP4Qy3a3D45GMbDKHGue5+0luXWxvXVEIlEwCRRDfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N24X9nCU; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=SxSe3xEwL/NS6K4VxOhWmHG0sopIQFIadKJdLEtlcNVLODOCB6MgES7DAIKdrv2Sr6MfBz9jUtHve8TOiAYu9tw+2ypHIAiwZQ2BNSDceD9b0/x/D8WSCXcKps1ueQg/5Q2HaqvjSNpKi14b0pcHeXuJ2vPbAcu9slz5SmVEvrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I//pP55s; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N24X9nCU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I//pP55s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720706910; x=1752242910;
+  t=1720712792; x=1752248792;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=DoHQXQ88g4EvNkEMu3q7DNXFrK+oavVv0DBTkrnDTHA=;
-  b=N24X9nCU1BrDmI9iiHmj3MjXeuV7K+iOBf4cWasWq44MLJV6lGoSILxu
-   CjM1QoBkVrcktx4Mek/U6rUUvP9ZkdMLMqkvR2EILUENAPJ+7fwA+dTo+
-   4ARb7z64H1/VXWnVAbU2Fj/J109JpxWfJYGnoT7qtTYCBiNIcHYp7EQL0
-   WAFME1pa4eyhs6Hkgta4sc18AksEbd46fmOlIRYZBcp7r0/ug+7HkRpkU
-   E7gTmtXKKkcY1yuA4nSwOOAghV/ulAAfYBKp9XaaKjzmsbG6Wld1qP+xw
-   +5xtgBP1hMsH6B7ztUKI2mr+VP5UdXU9IUHE90TJgZiMngx0gnd7Ta94r
+  bh=FtcbNkQ0Jd9Eo00BTyCYneYHpsGGScRradd/XnaSQhE=;
+  b=I//pP55scmNi1vkHh2WfrHNuMEaixmrUdpAabccfBGoFRhbVBozy2FKT
+   ah6VGR992nh8uOY/zys34qo/wIkg4fHJX0RHVeEWGFwYxKI+n9tmfeUQP
+   VNWGn7RM++jKdQsS4EsqZnBPqsajoeMaPPJEkn9Z1+ckPGwHmfBIqC6su
+   fN19X3ZY8pJJOVBvR57Js5r1eQfffIxfV87/epZQcjhcHlrZ+kLRptM3C
+   Dk3OHwf3APvmJ13+pBCHxeKhb1xvxGUe9NrYcmVMmc1aaj+b5lXswQqF1
+   TohWElJEfChj3W+Jq1e20v1BJAyqP8AYx0GvQrPC2bOLgSEDkMuk+l+nW
    g==;
-X-CSE-ConnectionGUID: 84bzATlmQRSvUwJpCWta5g==
-X-CSE-MsgGUID: ZcQpU2urR4SqfS8fxktqgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="18294502"
+X-CSE-ConnectionGUID: mIh2nkTGRcGEUaiuCjcIJw==
+X-CSE-MsgGUID: lwdRYu9cQl+gbRvVw6NI7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11130"; a="17924803"
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="18294502"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 07:08:28 -0700
-X-CSE-ConnectionGUID: 6YmzAOfZThiAIoYfD5vL9w==
-X-CSE-MsgGUID: a6py20wgTxyO3cSK5VfIGg==
+   d="scan'208";a="17924803"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2024 08:46:31 -0700
+X-CSE-ConnectionGUID: hK4uYLWmRP+XenlvcrXwew==
+X-CSE-MsgGUID: TzoXfKJHRMmbIeRHjzyguQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,200,1716274800"; 
-   d="scan'208";a="53161524"
+   d="scan'208";a="52916286"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Jul 2024 07:08:27 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 11 Jul 2024 08:46:30 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sRuTA-000ZM6-39;
-	Thu, 11 Jul 2024 14:08:24 +0000
-Date: Thu, 11 Jul 2024 22:07:55 +0800
+	id 1sRw04-000ZS1-0U;
+	Thu, 11 Jul 2024 15:46:28 +0000
+Date: Thu, 11 Jul 2024 23:46:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [gustavoars:testing/wfamnae-next20240710-cbc 1/13]
- drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible
- array member is not at the end of another structure
-Message-ID: <202407112258.ZvWw5uJq-lkp@intel.com>
+Subject: Re: [PATCH v6 3/6] dt-bindings: iio: dac: Generalize DAC common
+ properties
+Message-ID: <202407112353.CAZ5Jz40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,72 +65,96 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "only Makefile file changed"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-CC: LKML <linux-kernel@vger.kernel.org>
-TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+In-Reply-To: <20240711114221.62386-4-kimseer.paller@analog.com>
+References: <20240711114221.62386-4-kimseer.paller@analog.com>
+TO: Kim Seer Paller <kimseer.paller@analog.com>
+TO: linux-kernel@vger.kernel.org
+TO: linux-iio@vger.kernel.org
+TO: devicetree@vger.kernel.org
+CC: Jonathan Cameron <jic23@kernel.org>
+CC: David Lechner <dlechner@baylibre.com>
+CC: "Lars-Peter Clausen" <lars@metafoo.de>
+CC: Liam Girdwood <lgirdwood@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Dimitri Fedrau <dima.fedrau@gmail.com>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Rob Herring <robh@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Michael Hennerich <michael.hennerich@analog.com>
+CC: "Nuno S·" <noname.nuno@gmail.com>
+CC: Kim Seer Paller <kimseer.paller@analog.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20240710-cbc
-head:   73efb8d9b6a2ba4b07021861a1760ec742ddf432
-commit: d692eacf807861f523e66bd7d1c60f5dc254f4c6 [1/13] Makefile: Enable -Wflex-array-member-not-at-end globally
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 hours ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240711/202407112258.ZvWw5uJq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112258.ZvWw5uJq-lkp@intel.com/reproduce)
+Hi Kim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1ebab783647a9e3bf357002d5c4ff060c8474a0a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kim-Seer-Paller/iio-ABI-Generalize-ABI-documentation-for-DAC/20240711-214749
+base:   1ebab783647a9e3bf357002d5c4ff060c8474a0a
+patch link:    https://lore.kernel.org/r/20240711114221.62386-4-kimseer.paller%40analog.com
+patch subject: [PATCH v6 3/6] dt-bindings: iio: dac: Generalize DAC common properties
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+config: arm-randconfig-051-20240711 (https://download.01.org/0day-ci/archive/20240711/202407112353.CAZ5Jz40-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240711/202407112353.CAZ5Jz40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407112258.ZvWw5uJq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407112353.CAZ5Jz40-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/leds/leds-cros_ec.c: In function 'cros_ec_led_send_cmd':
->> drivers/leds/leds-cros_ec.c:70:40: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-      70 |                 struct cros_ec_command msg;
-         |                                        ^~~
-
-
-vim +70 drivers/leds/leds-cros_ec.c
-
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  64  
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  65  static int cros_ec_led_send_cmd(struct cros_ec_device *cros_ec,
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  66  				union cros_ec_led_cmd_data *arg)
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  67  {
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  68  	int ret;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  69  	struct {
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13 @70  		struct cros_ec_command msg;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  71  		union cros_ec_led_cmd_data data;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  72  	} __packed buf = {
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  73  		.msg = {
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  74  			.version = 1,
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  75  			.command = EC_CMD_LED_CONTROL,
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  76  			.insize  = sizeof(arg->resp),
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  77  			.outsize = sizeof(arg->req),
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  78  		},
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  79  		.data.req = arg->req
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  80  	};
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  81  
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  82  	ret = cros_ec_cmd_xfer_status(cros_ec, &buf.msg);
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  83  	if (ret < 0)
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  84  		return ret;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  85  
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  86  	arg->resp = buf.data.resp;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  87  
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  88  	return 0;
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  89  }
-8d6ce6f3ec9d5f Thomas Weiﬂschuh 2024-06-13  90  
-
-:::::: The code at line 70 was first introduced by commit
-:::::: 8d6ce6f3ec9d5f384e3eac92e43cfeac7a36e6b1 leds: Add ChromeOS EC driver
-
-:::::: TO: Thomas Weiﬂschuh <linux@weissschuh.net>
-:::::: CC: Lee Jones <lee@kernel.org>
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@28: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: /ahb/apb/bus@1e78a000/interrupt-controller@0: failed to match any schema with compatible: ['aspeed,ast2500-i2c-ic']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
+   	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
+   	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s7106.dtb: channel@2: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
+--
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: kcs@2c: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: kcs@114: 'clocks' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/ipmi/aspeed,ast2400-kcs-bmc.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2500-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2500-ibt-bmc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/interrupt-controller@0: failed to match any schema with compatible: ['aspeed,ast2500-i2c-ic']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/i2c-bus@100/power-supply@58: failed to match any schema with compatible: ['pmbus']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: /ahb/apb/bus@1e78a000/i2c-bus@100/power-supply@59: failed to match any schema with compatible: ['pmbus']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@0: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
+   	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@1: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
+   	from schema $id: http://devicetree.org/schemas/iio/dac/dac.yaml#
+   arch/arm/boot/dts/aspeed/aspeed-bmc-tyan-s8036.dtb: channel@2: 'oneOf' conditional failed, one must be fixed:
+   	'output-range-microamp' is a required property
+   	'output-range-microvolt' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
