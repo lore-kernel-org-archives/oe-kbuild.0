@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F83F47A62
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 08:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C727745023
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 11:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720860677; cv=none; b=Klr7TO7pE8L32ZGtJExtUxuJt75VL4CP0LVShGW1UskYjGTXV+lAcCpz1VeMZP+ZfryALlVUJv7qDdbvUvTigRVV0Uw503J5lXmbJKYDjMH83MHL2PPSQTSnfvoRskSi+cVOONQTnJlpVWu9xJ4R4ctZj5G2W100lEu0MWTFqkk=
+	t=1720870759; cv=none; b=gHqb/Ju4h+enyW/Itgoc8RBHLen7C/NPR9m6U0o8ojwLAnIO2/6lXTXJK1di4qHX1iRE7WullG5TtdyQ0nfwMUf6ZzfK69ug705DqWHNDyHwMBCF5K6/mOoftlD2Fm6NjHnDx7wJ6Ly1aWqUdsnpknDqOZ060I6niF3koOaNspY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720860677; c=relaxed/simple;
-	bh=dfxGiiT2tvfhoj3yF/IfTpfvXK20Oh44nxFzFuB/uXo=;
+	s=arc-20240116; t=1720870759; c=relaxed/simple;
+	bh=B2MwSLkXUmWLLQQkICCnqPZ5vQjriHn6pccso76532Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AUtDMabWigkCK8LgcLDxmDif0B1MFpKgf6TmJSQDNaS1ZuduB5w8R3edyOkiTmhmRBrSSHe2RKT2KkQWIRPk/bndShWmM5IWJDfbLTH6SYZncbpm2Q08WHZ8NZm7WAHgNE4LKM01M9SWo6mHH+1kwSI+tMUe+SDdmxjbNSNDbnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YF09kEKs; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Q9hDnGRwwiDC1l1rroKqDmRu4ZCZhWSj0gZMFpzTG7CNG9YsnkASX3/NuJnbjhA5E27uRFASEgFOBtMdbi/NXk+Xg33h71VRbHVHpPD4G1a8UfYmUkxGMcxxGJcTsq0+973lDe30uygfcwL84hzV8dOhbL6t0fHqmVArhlkpekM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBfG/zCD; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YF09kEKs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBfG/zCD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720860675; x=1752396675;
+  t=1720870757; x=1752406757;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dfxGiiT2tvfhoj3yF/IfTpfvXK20Oh44nxFzFuB/uXo=;
-  b=YF09kEKsZh8xTOhOXrhUZPMETUe2JzvSuq0wB7sn87DktnaF9uDkdctA
-   cP4008xXaLSIo8rjcEHxt9OQH+9pthC38B/BaFwyAGcjeq3HR+oxwmy9n
-   rLOviTzNGHImALgypTa8JCGJoJxyKuH8I0odsb+ta4J1yXqchtMqcr2iA
-   3dKgPzbrOGWSImSlkLtleFAZkFF8NLhO+jp40nXwyDGDhLPiPdatk5bYN
-   QKLx3b1zpqpC1hZjjp3zp64bfGELpj0/JMWr1wHfdgHYWY640mIhze9X0
-   p9ECFYmqp/FPh4f66E5UQYyrW942Eud1WgGMKwMXshveX4bIe/n/u7p5J
-   A==;
-X-CSE-ConnectionGUID: bQqt17tmRa69bbgFUG7sog==
-X-CSE-MsgGUID: BMyoaYNnTU+rsUy+bgtYZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="18175584"
+  bh=B2MwSLkXUmWLLQQkICCnqPZ5vQjriHn6pccso76532Y=;
+  b=fBfG/zCDf2VtFyFEUS/gU+oSrXim3PeQ7dtVKzI0dUjlCVZrqcL5gFET
+   9VKgyDub01T/iGF+pqE99mhEEKEPlY/ni/565e/+QEMz7YDumSrzECA5o
+   uH0gnrrtowj8Yf7uhJoWuj5vdcT3/4m73OxPsgUu2dVhykTej1ddxM+qq
+   5NOLVGMX7RJyhcXU5O6QA7TYMPIb18TK3g7K5Zvef2eOXIcWE/t6Pj9M9
+   PnzX+WM3U63CoRgb5IlPLMRpBtRpDjBHx9uiWHe6Red77+RtULgJYOoe0
+   u9nzgmfucXS8p7qXxGvZduEKKLnfSU7I3mIpVIdJrsg/6x8EC2IxEjXHj
+   Q==;
+X-CSE-ConnectionGUID: iPH3RNw3Siau4FdMNtxfgA==
+X-CSE-MsgGUID: BXsrfrrfTHORq+S4iQit9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28985497"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="18175584"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 01:51:12 -0700
-X-CSE-ConnectionGUID: dPGyh9xySJKPUVwxwhgf8Q==
-X-CSE-MsgGUID: /Ijz8GQRSNeHtQGcjB6gbw==
+   d="scan'208";a="28985497"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 04:39:16 -0700
+X-CSE-ConnectionGUID: vACYqPvJTIevGpwEnl9HMw==
+X-CSE-MsgGUID: ZoDNPyKuS4SA9RHPBr5Edw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="54317319"
+   d="scan'208";a="86665985"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Jul 2024 01:51:10 -0700
+  by orviesa001.jf.intel.com with ESMTP; 13 Jul 2024 04:36:17 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSYTE-000btc-0a;
-	Sat, 13 Jul 2024 08:51:08 +0000
-Date: Sat, 13 Jul 2024 16:50:19 +0800
+	id 1sSb31-000c1K-00;
+	Sat, 13 Jul 2024 11:36:15 +0000
+Date: Sat, 13 Jul 2024 19:35:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [vbabka:slub-percpu-sheaves-v1r0 8/12] mm/slub.c:5029
- free_to_pcs_bulk() error: uninitialized symbol 'i'.
-Message-ID: <202407131609.zTNeF569-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [chrome-os:chromeos-5.15 14/14]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:57.35-61.6: Warning
+ (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/trip-point@0: node
+ has a unit name, but no reg or ranges property
+Message-ID: <202407131951.OB2QHc8z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,122 +64,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Vlastimil Babka <vbabka@suse.cz>
+TO: cros-kernel-buildreports@googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git slub-percpu-sheaves-v1r0
-head:   9cb4096680ee90fe6be1b22ff3961174fa8e3ee4
-commit: 6912a14dbbe63891a545d4cd35b60bcd3dee3d40 [8/12] mm/slub: add opt-in caching layer of percpu sheaves
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: m68k-randconfig-r071-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131609.zTNeF569-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   9982b53bf389c6dfe6a73336380c64f5d0dd41d6
+commit: 9982b53bf389c6dfe6a73336380c64f5d0dd41d6 [14/14] CHROMIUM: arm64: dts: mt8186-wugtrio: Add thermal limitation for pmic-ntc
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131951.OB2QHc8z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131951.OB2QHc8z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407131609.zTNeF569-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407131951.OB2QHc8z-lkp@intel.com/
 
-smatch warnings:
-mm/slub.c:5029 free_to_pcs_bulk() error: uninitialized symbol 'i'.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1510.24-1512.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/data1: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1514.26-1516.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/data1-1: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1518.27-1520.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/calib: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1522.27-1525.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/volt-bin: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:431.16-437.4: Warning (unit_address_vs_reg): /soc/mali@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:439.16-442.4: Warning (unit_address_vs_reg): /soc/mali@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2184.30-2188.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2190.23-2194.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2196.35-2200.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:57.35-61.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/trip-point@0: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:63.31-67.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/target@1: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:69.35-73.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/pmic-ntc-crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:81.37-86.4: Warning (unit_address_vs_reg): /fixedregulator@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:88.34-93.4: Warning (unit_address_vs_reg): /fixedregulator@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1006.35-1011.5: Warning (simple_bus_reg): /soc/mailbox@10686000: simple-bus unit address format error, expected "10686100"
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1013.35-1018.5: Warning (simple_bus_reg): /soc/mailbox@10687000: simple-bus unit address format error, expected "10687100"
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1907.23-1929.5: Warning (simple_bus_reg): /soc/venc@17000000: simple-bus unit address format error, expected "17020000"
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2053.30-2174.5: Warning (simple_bus_reg): /soc/opp-table-3: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2176.32-2293.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-it6505.dtsi:43.28-118.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@1100f000/it6505dptx@5c: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-vim +/i +5029 mm/slub.c
+vim +57 arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi
 
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5013  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5014  /*
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5015   * Bulk free objects to the percpu sheaves.
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5016   * Unlike free_to_pcs() this has includes the calls to all necessary hooks
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5017   * and the fallback to freeing to slab pages.
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5018   */
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5019  static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5020  {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5021  	struct slub_percpu_sheaves *pcs;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5022  	struct slab_sheaf *main;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5023  	unsigned long flags;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5024  	unsigned batch, i;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5025  	bool init;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5026  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5027  	init = slab_want_init_on_free(s);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5028  
-6912a14dbbe638 Vlastimil Babka 2023-11-15 @5029  	while (i < size) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5030  		struct slab *slab = virt_to_slab(p[i]);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5031  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5032  		memcg_slab_free_hook(s, slab, p[i], 1);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5033  		alloc_tagging_slab_free_hook(s, slab, p[i], 1);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5034  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5035  		if (unlikely(!slab_free_hook(s, p[i], init))) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5036  			p[i] = p[--size];
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5037  			if (!size)
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5038  				return;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5039  			continue;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5040  		}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5041  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5042  		i++;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5043  	}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5044  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5045  next_batch:
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5046  	local_lock_irqsave(&s->cpu_sheaves->lock, flags);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5047  	pcs = this_cpu_ptr(s->cpu_sheaves);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5048  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5049  	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5050  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5051  		struct slab_sheaf *empty;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5052  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5053  		if (!pcs->spare) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5054  			empty = barn_get_empty_sheaf(pcs->barn);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5055  			if (empty) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5056  				pcs->spare = pcs->main;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5057  				pcs->main = empty;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5058  				goto do_free;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5059  			}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5060  			goto no_empty;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5061  		}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5062  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5063  		if (pcs->spare->size < s->sheaf_capacity) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5064  			stat(s, SHEAF_SWAP);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5065  			swap(pcs->main, pcs->spare);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5066  			goto do_free;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5067  		}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5068  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5069  		empty = barn_replace_full_sheaf(pcs->barn, pcs->main);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5070  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5071  		if (!IS_ERR(empty)) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5072  			pcs->main = empty;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5073  			goto do_free;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5074  		}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5075  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5076  no_empty:
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5077  		local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5078  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5079  		/*
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5080  		 * if we depleted all empty sheafs in the barn or there are to
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5081  		 * many full sheafs, free the rest to slab pages
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5082  		 */
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5083  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5084  		__kmem_cache_free_bulk(s, size, p);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5085  		return;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5086  	}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5087  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5088  do_free:
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5089  	main = pcs->main;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5090  	batch = min(size, s->sheaf_capacity - main->size);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5091  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5092  	memcpy(main->objects + main->size, p, batch * sizeof(void *));
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5093  	main->size += batch;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5094  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5095  	local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5096  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5097  	stat_add(s, FREE_PCS, batch);
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5098  
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5099  	if (batch < size) {
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5100  		p += batch;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5101  		size -= batch;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5102  		goto next_batch;
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5103  	}
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5104  }
-6912a14dbbe638 Vlastimil Babka 2023-11-15  5105  
+8aa0b3ed2564db lvzhaoxiong  2024-04-01   48  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   49  &thermal_zones {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   50  	tboard2 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   51  		polling-delay = <1000>; /* milliseconds */
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   52  		polling-delay-passive = <50>; /* milliseconds */
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   53  		thermal-sensors = <&tboard_thermistor2>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   54  		sustainable-power = <1000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   55  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   56  		trips {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @57  			pmic_temp_alert0: trip-point@0 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   58  				temperature = <50000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   59  				hysteresis = <2000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   60  				type = "passive";
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   61  			};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   62  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @63  			pmic_temp_alert1: target@1 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   64  				temperature = <60000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   65  				hysteresis = <2000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   66  				type = "passive";
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   67  			};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   68  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @69  			pmic_ntc_crit: pmic-ntc-crit@0 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   70  				temperature = <80000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   71  				hysteresis = <2000>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   72  				type = "critical";
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   73  			};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   74  		};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   75  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   76  		cooling-maps {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   77  			map0 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   78  				trip = <&pmic_temp_alert1>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   79  				cooling-device = <&cpu0
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   80  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   81  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   82  						<&cpu1
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   83  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   84  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   85  						<&cpu2
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   86  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   87  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   88  						<&cpu3
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   89  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   90  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   91  						<&cpu4
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   92  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   93  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   94  						<&cpu5
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   95  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   96  					THERMAL_NO_LIMIT>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   97  				contribution = <4096>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   98  			};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10   99  
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  100  			map1 {
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  101  				trip = <&pmic_temp_alert1>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  102  				cooling-device = <&cpu6
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  103  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  104  					THERMAL_NO_LIMIT>,
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  105  						<&cpu7
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  106  					THERMAL_NO_LIMIT
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  107  					THERMAL_NO_LIMIT>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  108  				contribution = <1024>;
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  109  			};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  110  		};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  111  	};
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  112  };
+9982b53bf389c6 Zhaoxiong Lv 2024-07-10  113  
 
 -- 
 0-DAY CI Kernel Test Service
