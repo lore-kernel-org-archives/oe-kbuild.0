@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227B87344A
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 11:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC6213049E
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 14:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720870761; cv=none; b=bksDCgsKghqL1M2CxJpOVSZnhrIhsvO2ZKYNxezsSDWUbzGVmGjld8x+N4bjrU59sVcnNO3qs+sigO31eh+Qr5P4WmKVx5ZDBN4mZ/osqrQjadXdfREdz+dD+axx7TeVka9nS92KAaMWHGGAZI3oKwDxx6Sng6zDycY48Az6MG4=
+	t=1720881571; cv=none; b=RQdA7iGVMINv9H8A7KkAGUtrVV33Z4WKH2iVuspqge72BxlhwbR34KzYMXcpfUYgerzBunrTR1ZcfUVL9RXw8XlgC0hJUjzUHd1s7vtppvl5snF1MDR57s99dKGNvUTRn2rznDR8mx5GZM6jmAtnad2Zc1Gt1uJdjtSrWxwtV6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720870761; c=relaxed/simple;
-	bh=qoCaLakiGjOyAZJsrqbqbHtah3UQrHDYP3+ZG+7BQwQ=;
+	s=arc-20240116; t=1720881571; c=relaxed/simple;
+	bh=UgY/+CwkYLldtC9bGDAECQ2Rh72C5gh1smljH0gqJdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NTSQOlrRLgz7I+R970oKeqLK8r1e94cmyptetSOiic8weeJPc3dcJ177ff9ueAzRd46TQ7rxF301zDmqECyXaWb6ImcCLIUtI0c5cCpgWa7Onoqrst6azmsD/2OiM7ytrnemgqOwinvgkNmxdfBah/dVAWMLVHfow4NBTad8u9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQLNIYZW; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=HdjRyNAOU5XLzvoqhkQui9Ism2z0GZPBNcADEWqVShQozVSzuurjRKjApA75KGZYK6OoB4gyrRu8mH5R8eP6MQXo+44ibKAAeMADPiW2Baco9Azw0l30dmrX3Hr3dXFIMCN4C+0qoBkrWDgtmMai+1/lb6yva8cdjtdkk2XCpgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DmpZoSAd; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQLNIYZW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DmpZoSAd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720870759; x=1752406759;
+  t=1720881569; x=1752417569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qoCaLakiGjOyAZJsrqbqbHtah3UQrHDYP3+ZG+7BQwQ=;
-  b=hQLNIYZWGo38z7yPONxG5nrb9Tow2BpQPp3cet+3RB6DC9aegJKjMPsn
-   APnc86zC1hjkMh7tPI51KXj/+F3G0AhJHMpsFxInbHXncW5IKHE1oqK/0
-   y9l+bZv6nSsZD5khWbbBXbF0U+0tijzCuBbXHP+R6H6HYRMGufiUWVrnh
-   IJoLdkFW1SoBoz0ufKZhgu7wFAMEYEb/QbFaIfYi2gs15cyM2js3pmYSq
-   4yiIyS1IhF4mFFgxnjA8Lk1Mx8A0KREnot/LCnOdbz9QIaVWe/Oo8gaI4
-   utO9N9DWg3Xq0YTMHP9OckztTxI5GX3SW17UTJjF3DqqA3GBFrDktMSF4
-   w==;
-X-CSE-ConnectionGUID: OhqDReIzTMO9U7DolMGu0w==
-X-CSE-MsgGUID: 1rbQ7qKISpiVN6dzyGsJIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28985500"
-X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="28985500"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 04:39:16 -0700
-X-CSE-ConnectionGUID: roxDSZ6+Tqq/t2scGn8r8w==
-X-CSE-MsgGUID: nqlNnem/SmSOBnYhB9//LQ==
+  bh=UgY/+CwkYLldtC9bGDAECQ2Rh72C5gh1smljH0gqJdc=;
+  b=DmpZoSAd4CIDuq2RG1oYuzoBlFyNkwhLFvOm3V3fk5xCRgKyQUdsZCPa
+   RhBpYl01W5jKdp1N4yRXcV040O/0+sHP12BlVNTrwwi4JsX9N/RWb6ylt
+   HSq4PDWA10kgtuPqPZQup3Uv55y7W+4wKakbCdgBwVJhemlVrDjhH7PFA
+   WlauXCv8RA6RsdDsk9Mc/nPzagVIeyljUaIBuhud152XtRl8/EZYuusvh
+   Y8wADSjG30QLK9Fj9rB0D3Q4Ou+2X7ypxr5FiPDJiYGURBafK/Cd2u2HX
+   7Aw0rgCep4V4/21usXheXeU57vQ8Sh86YcE15C2lVYMcCTiHmOsggh5Qa
+   g==;
+X-CSE-ConnectionGUID: Y8POjyEJQMOC/JutSoBC3g==
+X-CSE-MsgGUID: QgtEPb6YTkaW41DJp0QlMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="22130203"
+X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
+   d="scan'208";a="22130203"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 07:39:28 -0700
+X-CSE-ConnectionGUID: 8hjcORIqQB61fn/TbzW/Fw==
+X-CSE-MsgGUID: j/ZQV0TaTj6RfMucp/DieA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="86665986"
+X-IronPort-AV: E=Sophos;i="6.09,206,1716274800"; 
+   d="scan'208";a="49175355"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Jul 2024 04:36:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Jul 2024 07:39:27 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSb31-000c1O-0C;
-	Sat, 13 Jul 2024 11:36:15 +0000
-Date: Sat, 13 Jul 2024 19:36:00 +0800
+	id 1sSduG-000cGg-32;
+	Sat, 13 Jul 2024 14:39:24 +0000
+Date: Sat, 13 Jul 2024 22:38:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [groeck-staging:hwmon-staging 111/143] drivers/hwmon/lm95234.c:223
- lm95234_temp_read() error: uninitialized symbol 'ret'.
-Message-ID: <202407131905.rNPAD1Ac-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [soc:soc/dt 28/42]
+ arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-nslu2.dtb: /pwm: failed to
+ match any schema with compatible: ['pwm-gpio']
+Message-ID: <202407132220.lJYy3dYv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,97 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-hwmon@vger.kernel.org
-TO: Guenter Roeck <linux@roeck-us.net>
+CC: linux-arm-kernel@lists.infradead.org
+CC: arm@kernel.org
+TO: Linus Walleij <linus.walleij@linaro.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-staging
-head:   80e45111b670e9c913398f5ad54196a99a739497
-commit: 85a6f963ad7f3657dff782c3e3ac40ab6c95f62c [111/143] hwmon: (lm9534) Convert to with_info hwmon API
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131905.rNPAD1Ac-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git soc/dt
+head:   48d2245586452b8279a854970ce82f43477669d3
+commit: 8b5d415c4f9cc5a147c791d0300ee0b0cd8deae0 [28/42] ARM: dts: ixp4xx: nslu2: beeper uses PWM
+:::::: branch date: 3 days ago
+:::::: commit date: 5 days ago
+config: arm-randconfig-051-20240712 (https://download.01.org/0day-ci/archive/20240713/202407132220.lJYy3dYv-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407132220.lJYy3dYv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407131905.rNPAD1Ac-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407132220.lJYy3dYv-lkp@intel.com/
 
-New smatch warnings:
-drivers/hwmon/lm95234.c:223 lm95234_temp_read() error: uninitialized symbol 'ret'.
-
-Old smatch warnings:
-drivers/hwmon/lm95234.c:231 lm95234_temp_read() error: uninitialized symbol 'ret'.
-
-vim +/ret +223 drivers/hwmon/lm95234.c
-
-e1eb49063b301f Guenter Roeck 2013-03-10  177  
-85a6f963ad7f36 Guenter Roeck 2024-07-10  178  static int lm95234_temp_read(struct device *dev, u32 attr, int channel, long *val)
-e1eb49063b301f Guenter Roeck 2013-03-10  179  {
-9d86bd6ba3ba2f Guenter Roeck 2013-09-04  180  	struct lm95234_data *data = dev_get_drvdata(dev);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  181  	struct regmap *regmap = data->regmap;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  182  	u32 regval, mask;
-efae967d04e36c Guenter Roeck 2024-07-07  183  	int ret;
-e1eb49063b301f Guenter Roeck 2013-03-10  184  
-85a6f963ad7f36 Guenter Roeck 2024-07-10  185  	switch (attr) {
-85a6f963ad7f36 Guenter Roeck 2024-07-10  186  	case hwmon_temp_input:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  187  		return lm95234_read_temp(regmap, channel, val);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  188  	case hwmon_temp_max_alarm:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  189  		ret =  regmap_read(regmap, lm95234_alarm_reg(channel), &regval);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  190  		if (ret)
-e1eb49063b301f Guenter Roeck 2013-03-10  191  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  192  		*val = !!(regval & BIT(channel));
-85a6f963ad7f36 Guenter Roeck 2024-07-10  193  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  194  	case hwmon_temp_crit_alarm:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  195  		ret =  regmap_read(regmap, LM95234_REG_STS_TCRIT1, &regval);
-efae967d04e36c Guenter Roeck 2024-07-07  196  		if (ret)
-efae967d04e36c Guenter Roeck 2024-07-07  197  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  198  		*val = !!(regval & BIT(channel));
-85a6f963ad7f36 Guenter Roeck 2024-07-10  199  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  200  	case hwmon_temp_crit_hyst:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  201  		return lm95234_hyst_get(data, LM95234_REG_TCRIT1(channel), val);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  202  	case hwmon_temp_type:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  203  		ret = regmap_read(regmap, LM95234_REG_REM_MODEL, &regval);
-efae967d04e36c Guenter Roeck 2024-07-07  204  		if (ret)
-85a6f963ad7f36 Guenter Roeck 2024-07-10  205  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  206  		*val = (regval & BIT(channel)) ? 1 : 2;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  207  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  208  	case hwmon_temp_offset:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  209  		ret = regmap_read(regmap, LM95234_REG_OFFSET(channel - 1), &regval);
-efae967d04e36c Guenter Roeck 2024-07-07  210  		if (ret)
-efae967d04e36c Guenter Roeck 2024-07-07  211  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  212  		*val = sign_extend32(regval, 7) * 500;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  213  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  214  	case hwmon_temp_fault:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  215  		ret = regmap_read(regmap, LM95234_REG_STS_FAULT, &regval);
-efae967d04e36c Guenter Roeck 2024-07-07  216  		if (ret)
-efae967d04e36c Guenter Roeck 2024-07-07  217  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  218  		mask = (BIT(0) | BIT(1)) << ((channel - 1) << 1);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  219  		*val = !!(regval & mask);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  220  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  221  	case hwmon_temp_max:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  222  		regmap_read(regmap, lm95234_crit_reg(channel), &regval);
-85a6f963ad7f36 Guenter Roeck 2024-07-10 @223  		if (ret)
-e1eb49063b301f Guenter Roeck 2013-03-10  224  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  225  		*val = regval * 1000;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  226  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  227  	case hwmon_temp_max_hyst:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  228  		return lm95234_hyst_get(data, lm95234_crit_reg(channel), val);
-85a6f963ad7f36 Guenter Roeck 2024-07-10  229  	case hwmon_temp_crit:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  230  		regmap_read(regmap, LM95234_REG_TCRIT1(channel), &regval);
-efae967d04e36c Guenter Roeck 2024-07-07  231  		if (ret)
-efae967d04e36c Guenter Roeck 2024-07-07  232  			return ret;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  233  		*val = regval * 1000;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  234  		break;
-85a6f963ad7f36 Guenter Roeck 2024-07-10  235  	default:
-85a6f963ad7f36 Guenter Roeck 2024-07-10  236  		return -EOPNOTSUPP;
-e1eb49063b301f Guenter Roeck 2013-03-10  237  	}
-85a6f963ad7f36 Guenter Roeck 2024-07-10  238  	return 0;
-e1eb49063b301f Guenter Roeck 2013-03-10  239  }
-e1eb49063b301f Guenter Roeck 2013-03-10  240  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-nslu2.dtb: ethernet@c800c000: 'intel,npe' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/intel,ixp4xx-ethernet.yaml#
+   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-nslu2.dtb: /soc/usb@c800b000: failed to match any schema with compatible: ['intel,ixp4xx-udc']
+   arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-nslu2.dtb: /i2c/rtc@6f: failed to match any schema with compatible: ['xicor,x1205']
+>> arch/arm/boot/dts/intel/ixp/intel-ixp42x-linksys-nslu2.dtb: /pwm: failed to match any schema with compatible: ['pwm-gpio']
 
 -- 
 0-DAY CI Kernel Test Service
