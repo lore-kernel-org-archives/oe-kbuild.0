@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BA58BE0
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 00:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DC033C0
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 02:32:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720830900; cv=none; b=cJemXtnkaA1zxHc69Ds1+IUF/x3YgpV/AN2AUweXumkNwVX88o3IdDH4kAekacc+Z4+W3AvUkwSsp1q6hOtVOWvXLJBZZQD0Q6SdmXm+lxZtiL3HWNJCjabAJK6hmB7SSYMGb95G7sjbjF7cXuniXECXrbzSrS2iVnmCDhjTiDg=
+	t=1720837922; cv=none; b=fQ+bM9eJikbE7i693bt10he9S+RHUqHT7BtR6+Tu50XKB/9g6mpzEy602HypYJNsMT1fJDigw0tkytIHwNsK219heBOND5pjyBPUQxDNVOZocuUN7FX5RZdjSmVHBht960J77Z8gXmyXsjxuQGyq52eD7kIpxanA9SHd7Jnk9BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720830900; c=relaxed/simple;
-	bh=g/POdK6sxcAa+r5Rm8Dz77SMCxJWa/vL3qNohNY/BJk=;
+	s=arc-20240116; t=1720837922; c=relaxed/simple;
+	bh=tVj1EuuG/HDXsRiV6pa3ZVYtBTDC85AZip937idnazk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eOLjYSWHLKvREpsx+lBEMasM3/ewmOX8wwW8quOfZ+BxMEqNtkO20H2O8LudjztcMORAwp7urqHX+YFINqFiW/9uO69JbGhLWTXfA1XcJdom+0HxFkU/UwX9EQpyab6YCEyQuiq7geKe6qbgHOHUaCIwAaKUWtBeePQve0d0z2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8BBg/1Y; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=omq6FWaI0cSw+68WL0/eBnLMKhbw5UqBDX58N7IYXX3eyhLpVNcGeO13eo8oZBUMHTobengGcUDzcBhpdc1QGdhoYGRwReYmuFgKEaHgKY+xXRb8dhtY0FY9xDFqeYjrhai4S3aQUQLDFW7pH/cTDnciErnVyKH6VnM+j4jiifE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bz0J2E4n; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8BBg/1Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bz0J2E4n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720830898; x=1752366898;
+  t=1720837920; x=1752373920;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g/POdK6sxcAa+r5Rm8Dz77SMCxJWa/vL3qNohNY/BJk=;
-  b=K8BBg/1YQ2+8cMrToaelhrDY//AQ4DarodoZxUTU4WeaVygMEKcREh0C
-   bW2cdHecNxiFgSaj/H43wbE/t04265bV29qt9o4pDpa9/I/aq/ug6Tc49
-   fL0fSHp3GPYw6RB4wEOvuZngKBeX6Zbcm97JEpiZUUx5XWrRgGMualf5f
-   snOsKenTBBUY2/1zG/Y4Xdu566zXw4ZeNRB1IylISZmvu2/pQrYZFtzGq
-   kHfXRW/PDMfzCiCJnNwEyNWS6LhrX7bsLSZq9/6LvnR+/HXZRGVrcMIka
-   k4ypq1rPMEdDHUkuh92ttQyL6L48v/JCWNc/J6EhU5Fa2EUcn1lT0TFLN
-   w==;
-X-CSE-ConnectionGUID: ASmSldWhRMm2C4ceoTRaMQ==
-X-CSE-MsgGUID: 9CBDQkhDQmuJqYP+vK6xbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="35833060"
+  bh=tVj1EuuG/HDXsRiV6pa3ZVYtBTDC85AZip937idnazk=;
+  b=bz0J2E4nBwOUAQPma3zcOS0bCNfDQ7cRv7A/JVthxLZ98REqbKpAPhNy
+   7eSAOJcvMT8u0gj0NqIu8iDQZTTnon3KAuNCNKaVUg5PWAy24ET1TVIpK
+   NgrIjU57kjvEZ9e6NsMLI1ih3D+OXJ68rDKKTgU06HB6uEnUoV50Z5ny9
+   33qO5O20OZ8/qYOk+7K6QQ20vtymQhc00RM2Ie2mzeuBikWXdz1jiIc7h
+   alxdj8JDgl+AAmIFHT8yKrZgZrkU59mdo9OibqXPrw4Xa7FMybdQo7DDa
+   zIaCuLQ3hy4lcxpk8+suffC0Tm29x3nUp0fC910r1rtVUBFxGu44/OZR5
+   g==;
+X-CSE-ConnectionGUID: jLDHOzX3Tce+Kg4zHJaZeQ==
+X-CSE-MsgGUID: bmd2hNvfSyidVeyvRqgZYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="17912053"
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="35833060"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 17:34:57 -0700
-X-CSE-ConnectionGUID: d0X5iBJXRI2K0vFFCOVlBw==
-X-CSE-MsgGUID: 2iMVvID6RHqqxCJFF6K+Kg==
+   d="scan'208";a="17912053"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2024 19:32:00 -0700
+X-CSE-ConnectionGUID: g02/hr49RzSNTeaq4dEYyw==
+X-CSE-MsgGUID: tpmpDZqsRESF2TRwxJUsow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,204,1716274800"; 
-   d="scan'208";a="48954437"
+   d="scan'208";a="49482364"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jul 2024 17:34:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 12 Jul 2024 19:31:59 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSQiz-000bUA-12;
-	Sat, 13 Jul 2024 00:34:53 +0000
-Date: Sat, 13 Jul 2024 08:34:27 +0800
+	id 1sSSYG-000bZa-1o;
+	Sat, 13 Jul 2024 02:31:56 +0000
+Date: Sat, 13 Jul 2024 10:31:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/3] arm64: dts: qcom: msm8916-wingtech-wt865x8: Add
- Lenovo A6000/A6010
-Message-ID: <202407130829.vpvTae8o-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 2/2]
+ arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: tas2563@4f: reg:
+ [[79], [76]] is too long
+Message-ID: <202407131006.uLEaI5y3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,87 +69,124 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240712-msm89xx-wingtech-init-v1-2-64f4aa1870bd@trvn.ru>
-References: <20240712-msm89xx-wingtech-init-v1-2-64f4aa1870bd@trvn.ru>
-TO: Nikita Travkin <nikita@trvn.ru>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konrad.dybcio@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: ~postmarketos/upstreaming@lists.sr.ht
-CC: Nikita Travkin <nikita@trvn.ru>
-CC: Anton Bambura <jenneron@postmarketos.org>
-CC: Stephan Gerhold <stephan@gerhold.net>
+TO: cros-kernel-buildreports@googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-Hi Nikita,
+Hi Rui,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on 3fe121b622825ff8cc995a1e6b026181c48188db]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Travkin/dt-bindings-arm-qcom-Add-msm8916-39-based-Lenovo-devices/20240713-001903
-base:   3fe121b622825ff8cc995a1e6b026181c48188db
-patch link:    https://lore.kernel.org/r/20240712-msm89xx-wingtech-init-v1-2-64f4aa1870bd%40trvn.ru
-patch subject: [PATCH 2/3] arm64: dts: qcom: msm8916-wingtech-wt865x8: Add Lenovo A6000/A6010
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407130829.vpvTae8o-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   09072f31c4d2e6269ded7224e5af1964fbe0f481
+commit: 09072f31c4d2e6269ded7224e5af1964fbe0f481 [2/2] CHROMIUM: arm64: dts: mediatek: mt8188-geralt-ciri: Modify tas2563 address channel
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131006.uLEaI5y3-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407130829.vpvTae8o-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131006.uLEaI5y3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407130829.vpvTae8o-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407131006.uLEaI5y3-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: pmic@0: mpps@a000:mpp4-state: 'oneOf' conditional failed, one must be fixed:
-   	'function', 'output-low', 'pins', 'power-source', 'qcom,dtest' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	[1] is not of type 'integer'
-   	[1] is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: mpps@a000: mpp4-state: 'oneOf' conditional failed, one must be fixed:
-   	'function', 'output-low', 'pins', 'power-source', 'qcom,dtest' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	[1] is not of type 'integer'
-   	[1] is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,pmic-mpp.yaml#
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86518.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-acc']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: rt5682s@1a: #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: rt5682s@1a: 'AVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: rt5682s@1a: 'MICVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: rt5682s@1a: 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: rt5682s@1a: 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: tas2563@4f: reg: [[79], [76]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: tas2563@4f: Unevaluated properties are not allowed ('reg', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pcie@112f0000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pcie@112f0000: Unevaluated properties are not allowed ('dsc-reset-gpios', 'pcie1v8-supply', 'pcie3v3-supply', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pcie@0,0: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pcie@0,0: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: pcie@1,0: 'device_type' is a required property
 --
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1582.27-1630.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a98000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:462.26-465.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/base1@d0: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s0-p1@d0)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:477.26-480.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s1-p1@d2: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s1-p2@d2)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:490.26-493.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s2-p2@d4: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s4-p1@d4)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:502.26-505.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@5c000/s4-p2@d5: duplicate unit-address (also used in node /soc@0/qfprom@5c000/s5-p1@d5)
-   arch/arm64/boot/dts/qcom/msm8916.dtsi:1569.11-1579.7: Warning (graph_child_address): /soc@0/display-subsystem@1a00000/display-controller@1a01000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: pmic@0: mpps@a000:mpp4-state: 'oneOf' conditional failed, one must be fixed:
-   	'function', 'output-low', 'pins', 'power-source', 'qcom,dtest' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	[1] is not of type 'integer'
-   	[1] is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/mfd/qcom,spmi-pmic.yaml#
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: mpps@a000: mpp4-state: 'oneOf' conditional failed, one must be fixed:
-   	'function', 'output-low', 'pins', 'power-source', 'qcom,dtest' do not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
-   	[1] is not of type 'integer'
-   	[1] is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/qcom,pmic-mpp.yaml#
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: /soc@0/power-manager@b088000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: /soc@0/power-manager@b098000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: /soc@0/power-manager@b0a8000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: /soc@0/power-manager@b0b8000: failed to match any schema with compatible: ['qcom,msm8916-acc']
->> arch/arm64/boot/dts/qcom/msm8916-wingtech-wt86528.dtb: /usb-id: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: hid_hx_common_spi@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: hid_hx_common_spi@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: hid_hx_common_spi@0: 'himax,firmware-name', 'himax,pid', 'himax_gpio_irq', 'irq_flag' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/thermal-sensor@11278000: failed to match any schema with compatible: ['mediatek,mt8188-lvts-mcu']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: es8326@19: 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8326.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: tas2563@4f: reg: [[79], [76]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: tas2563@4f: Unevaluated properties are not allowed ('reg', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pcie@112f0000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pcie@112f0000: Unevaluated properties are not allowed ('dsc-reset-gpios', 'pcie1v8-supply', 'pcie3v3-supply', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pcie@0,0: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pcie@0,0: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: pcie@1,0: 'device_type' is a required property
+--
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: hid_hx_common_spi@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: hid_hx_common_spi@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: hid_hx_common_spi@0: 'himax,firmware-name', 'himax,pid', 'himax_gpio_irq', 'irq_flag' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/thermal-sensor@11278000: failed to match any schema with compatible: ['mediatek,mt8188-lvts-mcu']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: es8326@19: 'interrupt-parent', 'interrupts' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8326.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: tas2563@4f: reg: [[79], [76]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: tas2563@4f: Unevaluated properties are not allowed ('reg', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pcie@112f0000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pcie@112f0000: Unevaluated properties are not allowed ('dsc-reset-gpios', 'pcie1v8-supply', 'pcie3v3-supply', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pcie@0,0: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pcie@0,0: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: pcie@1,0: 'device_type' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: rt5682s@1a: #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: rt5682s@1a: 'AVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: rt5682s@1a: 'MICVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: rt5682s@1a: 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: rt5682s@1a: 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: tas2563@4f: reg: [[79], [76]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: tas2563@4f: Unevaluated properties are not allowed ('reg', 'reset-gpios' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/tas2562.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pcie@112f0000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pcie@112f0000: Unevaluated properties are not allowed ('dsc-reset-gpios', 'pcie1v8-supply', 'pcie3v3-supply', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/pci/mediatek-pcie-gen3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pcie@0,0: 'device_type' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pcie@0,0: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: pcie@1,0: 'device_type' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
