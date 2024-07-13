@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C727745023
-	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 11:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227B87344A
+	for <oe-kbuild@lists.linux.dev>; Sat, 13 Jul 2024 11:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720870759; cv=none; b=gHqb/Ju4h+enyW/Itgoc8RBHLen7C/NPR9m6U0o8ojwLAnIO2/6lXTXJK1di4qHX1iRE7WullG5TtdyQ0nfwMUf6ZzfK69ug705DqWHNDyHwMBCF5K6/mOoftlD2Fm6NjHnDx7wJ6Ly1aWqUdsnpknDqOZ060I6niF3koOaNspY=
+	t=1720870761; cv=none; b=bksDCgsKghqL1M2CxJpOVSZnhrIhsvO2ZKYNxezsSDWUbzGVmGjld8x+N4bjrU59sVcnNO3qs+sigO31eh+Qr5P4WmKVx5ZDBN4mZ/osqrQjadXdfREdz+dD+axx7TeVka9nS92KAaMWHGGAZI3oKwDxx6Sng6zDycY48Az6MG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720870759; c=relaxed/simple;
-	bh=B2MwSLkXUmWLLQQkICCnqPZ5vQjriHn6pccso76532Y=;
+	s=arc-20240116; t=1720870761; c=relaxed/simple;
+	bh=qoCaLakiGjOyAZJsrqbqbHtah3UQrHDYP3+ZG+7BQwQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q9hDnGRwwiDC1l1rroKqDmRu4ZCZhWSj0gZMFpzTG7CNG9YsnkASX3/NuJnbjhA5E27uRFASEgFOBtMdbi/NXk+Xg33h71VRbHVHpPD4G1a8UfYmUkxGMcxxGJcTsq0+973lDe30uygfcwL84hzV8dOhbL6t0fHqmVArhlkpekM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBfG/zCD; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=NTSQOlrRLgz7I+R970oKeqLK8r1e94cmyptetSOiic8weeJPc3dcJ177ff9ueAzRd46TQ7rxF301zDmqECyXaWb6ImcCLIUtI0c5cCpgWa7Onoqrst6azmsD/2OiM7ytrnemgqOwinvgkNmxdfBah/dVAWMLVHfow4NBTad8u9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hQLNIYZW; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBfG/zCD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hQLNIYZW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720870757; x=1752406757;
+  t=1720870759; x=1752406759;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B2MwSLkXUmWLLQQkICCnqPZ5vQjriHn6pccso76532Y=;
-  b=fBfG/zCDf2VtFyFEUS/gU+oSrXim3PeQ7dtVKzI0dUjlCVZrqcL5gFET
-   9VKgyDub01T/iGF+pqE99mhEEKEPlY/ni/565e/+QEMz7YDumSrzECA5o
-   uH0gnrrtowj8Yf7uhJoWuj5vdcT3/4m73OxPsgUu2dVhykTej1ddxM+qq
-   5NOLVGMX7RJyhcXU5O6QA7TYMPIb18TK3g7K5Zvef2eOXIcWE/t6Pj9M9
-   PnzX+WM3U63CoRgb5IlPLMRpBtRpDjBHx9uiWHe6Red77+RtULgJYOoe0
-   u9nzgmfucXS8p7qXxGvZduEKKLnfSU7I3mIpVIdJrsg/6x8EC2IxEjXHj
-   Q==;
-X-CSE-ConnectionGUID: iPH3RNw3Siau4FdMNtxfgA==
-X-CSE-MsgGUID: BXsrfrrfTHORq+S4iQit9Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28985497"
+  bh=qoCaLakiGjOyAZJsrqbqbHtah3UQrHDYP3+ZG+7BQwQ=;
+  b=hQLNIYZWGo38z7yPONxG5nrb9Tow2BpQPp3cet+3RB6DC9aegJKjMPsn
+   APnc86zC1hjkMh7tPI51KXj/+F3G0AhJHMpsFxInbHXncW5IKHE1oqK/0
+   y9l+bZv6nSsZD5khWbbBXbF0U+0tijzCuBbXHP+R6H6HYRMGufiUWVrnh
+   IJoLdkFW1SoBoz0ufKZhgu7wFAMEYEb/QbFaIfYi2gs15cyM2js3pmYSq
+   4yiIyS1IhF4mFFgxnjA8Lk1Mx8A0KREnot/LCnOdbz9QIaVWe/Oo8gaI4
+   utO9N9DWg3Xq0YTMHP9OckztTxI5GX3SW17UTJjF3DqqA3GBFrDktMSF4
+   w==;
+X-CSE-ConnectionGUID: OhqDReIzTMO9U7DolMGu0w==
+X-CSE-MsgGUID: 1rbQ7qKISpiVN6dzyGsJIw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11131"; a="28985500"
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="28985497"
+   d="scan'208";a="28985500"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2024 04:39:16 -0700
-X-CSE-ConnectionGUID: vACYqPvJTIevGpwEnl9HMw==
-X-CSE-MsgGUID: ZoDNPyKuS4SA9RHPBr5Edw==
+X-CSE-ConnectionGUID: roxDSZ6+Tqq/t2scGn8r8w==
+X-CSE-MsgGUID: nqlNnem/SmSOBnYhB9//LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,205,1716274800"; 
-   d="scan'208";a="86665985"
+   d="scan'208";a="86665986"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 13 Jul 2024 04:36:17 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sSb31-000c1K-00;
+	id 1sSb31-000c1O-0C;
 	Sat, 13 Jul 2024 11:36:15 +0000
-Date: Sat, 13 Jul 2024 19:35:59 +0800
+Date: Sat, 13 Jul 2024 19:36:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [chrome-os:chromeos-5.15 14/14]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:57.35-61.6: Warning
- (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/trip-point@0: node
- has a unit name, but no reg or ranges property
-Message-ID: <202407131951.OB2QHc8z-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [groeck-staging:hwmon-staging 111/143] drivers/hwmon/lm95234.c:223
+ lm95234_temp_read() error: uninitialized symbol 'ret'.
+Message-ID: <202407131905.rNPAD1Ac-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,120 +62,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-hwmon@vger.kernel.org
+TO: Guenter Roeck <linux@roeck-us.net>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   9982b53bf389c6dfe6a73336380c64f5d0dd41d6
-commit: 9982b53bf389c6dfe6a73336380c64f5d0dd41d6 [14/14] CHROMIUM: arm64: dts: mt8186-wugtrio: Add thermal limitation for pmic-ntc
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: arm64-randconfig-051-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131951.OB2QHc8z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240713/202407131951.OB2QHc8z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-staging
+head:   80e45111b670e9c913398f5ad54196a99a739497
+commit: 85a6f963ad7f3657dff782c3e3ac40ab6c95f62c [111/143] hwmon: (lm9534) Convert to with_info hwmon API
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240713 (https://download.01.org/0day-ci/archive/20240713/202407131905.rNPAD1Ac-lkp@intel.com/config)
+compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407131951.OB2QHc8z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407131905.rNPAD1Ac-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1510.24-1512.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/data1: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1514.26-1516.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/data1-1: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1518.27-1520.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/calib: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1522.27-1525.6: Warning (unit_address_vs_reg): /soc/efuse@11cb0000/volt-bin: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:431.16-437.4: Warning (unit_address_vs_reg): /soc/mali@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:439.16-442.4: Warning (unit_address_vs_reg): /soc/mali@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2184.30-2188.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2190.23-2194.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2196.35-2200.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:57.35-61.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/trip-point@0: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:63.31-67.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/target@1: node has a unit name, but no reg or ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi:69.35-73.6: Warning (unit_address_vs_reg): /soc/thermal-zones/tboard2/trips/pmic-ntc-crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:81.37-86.4: Warning (unit_address_vs_reg): /fixedregulator@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:88.34-93.4: Warning (unit_address_vs_reg): /fixedregulator@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1006.35-1011.5: Warning (simple_bus_reg): /soc/mailbox@10686000: simple-bus unit address format error, expected "10686100"
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1013.35-1018.5: Warning (simple_bus_reg): /soc/mailbox@10687000: simple-bus unit address format error, expected "10687100"
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:1907.23-1929.5: Warning (simple_bus_reg): /soc/venc@17000000: simple-bus unit address format error, expected "17020000"
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2053.30-2174.5: Warning (simple_bus_reg): /soc/opp-table-3: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2176.32-2293.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-it6505.dtsi:43.28-118.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@1100f000/it6505dptx@5c: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+New smatch warnings:
+drivers/hwmon/lm95234.c:223 lm95234_temp_read() error: uninitialized symbol 'ret'.
 
-vim +57 arch/arm64/boot/dts/mediatek/mt8186-corsola-wugtrio.dtsi
+Old smatch warnings:
+drivers/hwmon/lm95234.c:231 lm95234_temp_read() error: uninitialized symbol 'ret'.
 
-8aa0b3ed2564db lvzhaoxiong  2024-04-01   48  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   49  &thermal_zones {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   50  	tboard2 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   51  		polling-delay = <1000>; /* milliseconds */
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   52  		polling-delay-passive = <50>; /* milliseconds */
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   53  		thermal-sensors = <&tboard_thermistor2>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   54  		sustainable-power = <1000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   55  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   56  		trips {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @57  			pmic_temp_alert0: trip-point@0 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   58  				temperature = <50000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   59  				hysteresis = <2000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   60  				type = "passive";
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   61  			};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   62  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @63  			pmic_temp_alert1: target@1 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   64  				temperature = <60000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   65  				hysteresis = <2000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   66  				type = "passive";
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   67  			};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   68  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  @69  			pmic_ntc_crit: pmic-ntc-crit@0 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   70  				temperature = <80000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   71  				hysteresis = <2000>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   72  				type = "critical";
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   73  			};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   74  		};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   75  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   76  		cooling-maps {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   77  			map0 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   78  				trip = <&pmic_temp_alert1>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   79  				cooling-device = <&cpu0
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   80  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   81  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   82  						<&cpu1
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   83  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   84  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   85  						<&cpu2
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   86  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   87  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   88  						<&cpu3
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   89  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   90  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   91  						<&cpu4
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   92  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   93  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   94  						<&cpu5
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   95  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   96  					THERMAL_NO_LIMIT>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   97  				contribution = <4096>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   98  			};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10   99  
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  100  			map1 {
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  101  				trip = <&pmic_temp_alert1>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  102  				cooling-device = <&cpu6
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  103  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  104  					THERMAL_NO_LIMIT>,
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  105  						<&cpu7
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  106  					THERMAL_NO_LIMIT
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  107  					THERMAL_NO_LIMIT>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  108  				contribution = <1024>;
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  109  			};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  110  		};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  111  	};
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  112  };
-9982b53bf389c6 Zhaoxiong Lv 2024-07-10  113  
+vim +/ret +223 drivers/hwmon/lm95234.c
+
+e1eb49063b301f Guenter Roeck 2013-03-10  177  
+85a6f963ad7f36 Guenter Roeck 2024-07-10  178  static int lm95234_temp_read(struct device *dev, u32 attr, int channel, long *val)
+e1eb49063b301f Guenter Roeck 2013-03-10  179  {
+9d86bd6ba3ba2f Guenter Roeck 2013-09-04  180  	struct lm95234_data *data = dev_get_drvdata(dev);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  181  	struct regmap *regmap = data->regmap;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  182  	u32 regval, mask;
+efae967d04e36c Guenter Roeck 2024-07-07  183  	int ret;
+e1eb49063b301f Guenter Roeck 2013-03-10  184  
+85a6f963ad7f36 Guenter Roeck 2024-07-10  185  	switch (attr) {
+85a6f963ad7f36 Guenter Roeck 2024-07-10  186  	case hwmon_temp_input:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  187  		return lm95234_read_temp(regmap, channel, val);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  188  	case hwmon_temp_max_alarm:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  189  		ret =  regmap_read(regmap, lm95234_alarm_reg(channel), &regval);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  190  		if (ret)
+e1eb49063b301f Guenter Roeck 2013-03-10  191  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  192  		*val = !!(regval & BIT(channel));
+85a6f963ad7f36 Guenter Roeck 2024-07-10  193  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  194  	case hwmon_temp_crit_alarm:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  195  		ret =  regmap_read(regmap, LM95234_REG_STS_TCRIT1, &regval);
+efae967d04e36c Guenter Roeck 2024-07-07  196  		if (ret)
+efae967d04e36c Guenter Roeck 2024-07-07  197  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  198  		*val = !!(regval & BIT(channel));
+85a6f963ad7f36 Guenter Roeck 2024-07-10  199  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  200  	case hwmon_temp_crit_hyst:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  201  		return lm95234_hyst_get(data, LM95234_REG_TCRIT1(channel), val);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  202  	case hwmon_temp_type:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  203  		ret = regmap_read(regmap, LM95234_REG_REM_MODEL, &regval);
+efae967d04e36c Guenter Roeck 2024-07-07  204  		if (ret)
+85a6f963ad7f36 Guenter Roeck 2024-07-10  205  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  206  		*val = (regval & BIT(channel)) ? 1 : 2;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  207  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  208  	case hwmon_temp_offset:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  209  		ret = regmap_read(regmap, LM95234_REG_OFFSET(channel - 1), &regval);
+efae967d04e36c Guenter Roeck 2024-07-07  210  		if (ret)
+efae967d04e36c Guenter Roeck 2024-07-07  211  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  212  		*val = sign_extend32(regval, 7) * 500;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  213  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  214  	case hwmon_temp_fault:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  215  		ret = regmap_read(regmap, LM95234_REG_STS_FAULT, &regval);
+efae967d04e36c Guenter Roeck 2024-07-07  216  		if (ret)
+efae967d04e36c Guenter Roeck 2024-07-07  217  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  218  		mask = (BIT(0) | BIT(1)) << ((channel - 1) << 1);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  219  		*val = !!(regval & mask);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  220  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  221  	case hwmon_temp_max:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  222  		regmap_read(regmap, lm95234_crit_reg(channel), &regval);
+85a6f963ad7f36 Guenter Roeck 2024-07-10 @223  		if (ret)
+e1eb49063b301f Guenter Roeck 2013-03-10  224  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  225  		*val = regval * 1000;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  226  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  227  	case hwmon_temp_max_hyst:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  228  		return lm95234_hyst_get(data, lm95234_crit_reg(channel), val);
+85a6f963ad7f36 Guenter Roeck 2024-07-10  229  	case hwmon_temp_crit:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  230  		regmap_read(regmap, LM95234_REG_TCRIT1(channel), &regval);
+efae967d04e36c Guenter Roeck 2024-07-07  231  		if (ret)
+efae967d04e36c Guenter Roeck 2024-07-07  232  			return ret;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  233  		*val = regval * 1000;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  234  		break;
+85a6f963ad7f36 Guenter Roeck 2024-07-10  235  	default:
+85a6f963ad7f36 Guenter Roeck 2024-07-10  236  		return -EOPNOTSUPP;
+e1eb49063b301f Guenter Roeck 2013-03-10  237  	}
+85a6f963ad7f36 Guenter Roeck 2024-07-10  238  	return 0;
+e1eb49063b301f Guenter Roeck 2013-03-10  239  }
+e1eb49063b301f Guenter Roeck 2013-03-10  240  
 
 -- 
 0-DAY CI Kernel Test Service
