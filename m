@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CED63C8
-	for <oe-kbuild@lists.linux.dev>; Sun, 14 Jul 2024 14:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245D5BA2B
+	for <oe-kbuild@lists.linux.dev>; Sun, 14 Jul 2024 16:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720967059; cv=none; b=rAehQtpVE0odceE2HIZnWrt9gDvmmcucPpUFoNymZp3JjfnxRhSBRjaPrddeYxTdsTtSMPeuqu4i7doxKlnSGGZfXLzk22HktEqAVt+vyjF0ylKNlvVxtwRS0N/443fqJIe3/dm4rQcjnGXDzW+uh9fXuRW2Pt5rookfmE0r3Oc=
+	t=1720975166; cv=none; b=c5FFl2phPmDCAr5HA3t2okXbtuL4brtS3nO3JSbhSDAQVOH/tAZ5RJt5torBPu7/ua58V63XzY+ok2z1ITn2cD2gacl6uTzr78Q7y2/KG6DEi2uOCKyaO+YhxEF2nOkOXt3zFSw9nZ+8dUWoS/XZAUVhpZRNRIMENwGp2KswaDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720967059; c=relaxed/simple;
-	bh=0uumgDQLR4TB+baqxML290HqrOg8+z1izCaG22t9tKE=;
+	s=arc-20240116; t=1720975166; c=relaxed/simple;
+	bh=PDgGaiAxJYha/9grKweqp+JD7cW+6dG2TSZqX0LO2xY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bIIDtgxyNSrTY+XzKEIYKNVcDKiyFNpgpAQBub9cwPI0aKJ2+iIbfXOdr7FBquqeCfhuSmTZRCqYAKh+I2GzHBy8umdvpUq6G1zToanilQRlNObMuGCojyaehw4qnUtyqV4oQHfgYTLu36qOOmz8r9kB2iwoZp/az3alTPG5SBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSRWQED5; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Pk9eM5VHQEM4jS1u+8KhOmHz2tDcb10daYGRyrc0d95+mDowiD8ZconIbOuDgm/dSptlH8ASuOA3hZvutZulIUzvfCHpCpc+8P3IRsfMS9cH14memCSukkbcVmEW0N3NkJNbc7mN6o5ZjTx9QhK5ARHJ7I6i40Lr2c5HRajKwVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UBtED+wt; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSRWQED5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBtED+wt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1720967058; x=1752503058;
+  t=1720975164; x=1752511164;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0uumgDQLR4TB+baqxML290HqrOg8+z1izCaG22t9tKE=;
-  b=QSRWQED5ZwrWF/WPeu9eDvXVwF2/AOQumWECwfiDea5PydGKEL7HYwOC
-   k/NltZHARJ0VclVNTZwNSXZ+RO2m6PEHv8oKRID+/RBNwC95wCFNEo6nc
-   9gVIPtVYpb+TkhKIEWUzvS6xCEE+HYg9peeVWQsqEtxKbFVyMO7UVyn2x
-   9ilwdpcvswWXYdfTVi4knZcggg8/0tbAfo54vfIe3e+FRIy/9i8GPXCJh
-   U0xbYxWzJ9OMlnrS++oE166xUoJMpOzjV+BWPkdDJMH3iT5YD8nccm/JI
-   39N+g0hJKfAK4y60pvthpFVLvu76HK/XJUifmmbfjy5WskqOf2jhi0mT5
-   A==;
-X-CSE-ConnectionGUID: q4eDXN63TfKOHGHzYv9R6A==
-X-CSE-MsgGUID: QQhAmW5+SZG1CnNIBfGo5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="12542836"
+  bh=PDgGaiAxJYha/9grKweqp+JD7cW+6dG2TSZqX0LO2xY=;
+  b=UBtED+wtbmVtYL1Ub+rjFJAGMP1ADh94FYePaLAZQb832XIrSlucqEVO
+   cS4SsOngtSHYFeuW8wIq1e1z2cen6UPHyB3t1xrg61yEdlZMKVLNc2YEB
+   +zka2JKYimpmIcw2u/mZnburC7rj+yyqzZK4UlbS37BEaClnoSUcmX4f8
+   7PO1v1lx850gdafi15+mVzWfLVwtfEYMm+vr8qi5qzVAuOYan++MjE1KF
+   oEw58EIPOCFRU3Q96PFgKMc7jJ7MEkPyMk26NKmYnP9RuKsfP4FOaFVVU
+   O7Qty6CSnERp1ONC/2KpUL3oOxKYKUE7lpmYTTNPWtbgoRCilXB4XMFjT
+   g==;
+X-CSE-ConnectionGUID: Bh5GrjcoQQuO2Yd3RwZsYw==
+X-CSE-MsgGUID: K4PlpNqsR6agvUs7Pr9Jaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="17971749"
 X-IronPort-AV: E=Sophos;i="6.09,208,1716274800"; 
-   d="scan'208";a="12542836"
+   d="scan'208";a="17971749"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 07:24:17 -0700
-X-CSE-ConnectionGUID: B6DV+9eoTWurPfLfG5I1IA==
-X-CSE-MsgGUID: nzvnKy1KTjuGS+o/5dFEag==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 09:39:23 -0700
+X-CSE-ConnectionGUID: 5o/XRS2cRJebI2cNEgxcDg==
+X-CSE-MsgGUID: rkrEGV8sQEK43vDvu6UaDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,208,1716274800"; 
-   d="scan'208";a="54207030"
+   d="scan'208";a="54226286"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2024 07:24:16 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2024 09:39:22 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sT097-000dUI-0u;
-	Sun, 14 Jul 2024 14:24:13 +0000
-Date: Sun, 14 Jul 2024 22:23:46 +0800
+	id 1sT2Fr-000das-3B;
+	Sun, 14 Jul 2024 16:39:19 +0000
+Date: Mon, 15 Jul 2024 00:38:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [cip:linux-4.19.y-cip-rt-rebase 96/9999] kernel/softirq.c:973
- __tasklet_schedule_common() warn: inconsistent returns 'flags'.
-Message-ID: <202407142205.22hVCdHd-lkp@intel.com>
+Subject: [cip:linux-4.19.y-cip-rt-rebase 3529/9999] kernel/ptrace.c:205
+ ptrace_unfreeze_traced() warn: mixing irq and irqsave
+Message-ID: <202407150032.OnfFrSgT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,77 +69,52 @@ TO: Pavel Machek <pavel@denx.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
 head:   642e819a3c30d3536e6d66a631b761886a0316e7
-commit: 62d0a2a30cd01fabc7f6555df2cfae7dd3d9fad8 [96/9999] tasklet: Address a race resulting in double-enqueue
+commit: 7103517ca97f4d7eeb361aec644e6ed7afce5ff3 [3529/9999] ptrace: fix ptrace_unfreeze_traced() race with rt-lock
 :::::: branch date: 2 days ago
-:::::: commit date: 4 years, 3 months ago
-config: i386-randconfig-141-20240714 (https://download.01.org/0day-ci/archive/20240714/202407142205.22hVCdHd-lkp@intel.com/config)
+:::::: commit date: 3 years, 8 months ago
+config: i386-randconfig-141-20240714 (https://download.01.org/0day-ci/archive/20240715/202407150032.OnfFrSgT-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407142205.22hVCdHd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407150032.OnfFrSgT-lkp@intel.com/
 
 smatch warnings:
-kernel/softirq.c:973 __tasklet_schedule_common() warn: inconsistent returns 'flags'.
+kernel/ptrace.c:205 ptrace_unfreeze_traced() warn: mixing irq and irqsave
 
-vim +/flags +973 kernel/softirq.c
+vim +205 kernel/ptrace.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  928  
-6498ddad301c7a Ingo Molnar    2018-02-27  929  static void __tasklet_schedule_common(struct tasklet_struct *t,
-6498ddad301c7a Ingo Molnar    2018-02-27  930  				      struct tasklet_head __percpu *headp,
-6498ddad301c7a Ingo Molnar    2018-02-27  931  				      unsigned int softirq_nr)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  932  {
-6498ddad301c7a Ingo Molnar    2018-02-27  933  	struct tasklet_head *head;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  934  	unsigned long flags;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  935  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  936  	local_irq_save(flags);
-4a8c8d729198e3 Ingo Molnar    2011-11-29  937  	if (!tasklet_trylock(t)) {
-4a8c8d729198e3 Ingo Molnar    2011-11-29  938  		local_irq_restore(flags);
-4a8c8d729198e3 Ingo Molnar    2011-11-29  939  		return;
-4a8c8d729198e3 Ingo Molnar    2011-11-29  940  	}
-4a8c8d729198e3 Ingo Molnar    2011-11-29  941  
-6498ddad301c7a Ingo Molnar    2018-02-27  942  	head = this_cpu_ptr(headp);
-4a8c8d729198e3 Ingo Molnar    2011-11-29  943  again:
-4a8c8d729198e3 Ingo Molnar    2011-11-29  944  	/* We may have been preempted before tasklet_trylock
-4a8c8d729198e3 Ingo Molnar    2011-11-29  945  	 * and __tasklet_action may have already run.
-4a8c8d729198e3 Ingo Molnar    2011-11-29  946  	 * So double check the sched bit while the takslet
-4a8c8d729198e3 Ingo Molnar    2011-11-29  947  	 * is locked before adding it to the list.
-4a8c8d729198e3 Ingo Molnar    2011-11-29  948  	 */
-4a8c8d729198e3 Ingo Molnar    2011-11-29  949  	if (test_bit(TASKLET_STATE_SCHED, &t->state)) {
-62d0a2a30cd01f Zhang Xiao     2020-03-17  950  		if (test_and_set_bit(TASKLET_STATE_CHAINED, &t->state)) {
-62d0a2a30cd01f Zhang Xiao     2020-03-17  951  			tasklet_unlock(t);
-62d0a2a30cd01f Zhang Xiao     2020-03-17  952  			return;
-62d0a2a30cd01f Zhang Xiao     2020-03-17  953  		}
-48f20a9a9488c4 Olof Johansson 2008-03-04  954  		t->next = NULL;
-6498ddad301c7a Ingo Molnar    2018-02-27  955  		*head->tail = t;
-6498ddad301c7a Ingo Molnar    2018-02-27  956  		head->tail = &(t->next);
-6498ddad301c7a Ingo Molnar    2018-02-27  957  		raise_softirq_irqoff(softirq_nr);
-4a8c8d729198e3 Ingo Molnar    2011-11-29  958  		tasklet_unlock(t);
-4a8c8d729198e3 Ingo Molnar    2011-11-29  959  	} else {
-4a8c8d729198e3 Ingo Molnar    2011-11-29  960  		/* This is subtle. If we hit the corner case above
-4a8c8d729198e3 Ingo Molnar    2011-11-29  961  		 * It is possible that we get preempted right here,
-4a8c8d729198e3 Ingo Molnar    2011-11-29  962  		 * and another task has successfully called
-4a8c8d729198e3 Ingo Molnar    2011-11-29  963  		 * tasklet_schedule(), then this function, and
-4a8c8d729198e3 Ingo Molnar    2011-11-29  964  		 * failed on the trylock. Thus we must be sure
-4a8c8d729198e3 Ingo Molnar    2011-11-29  965  		 * before releasing the tasklet lock, that the
-4a8c8d729198e3 Ingo Molnar    2011-11-29  966  		 * SCHED_BIT is clear. Otherwise the tasklet
-4a8c8d729198e3 Ingo Molnar    2011-11-29  967  		 * may get its SCHED_BIT set, but not added to the
-4a8c8d729198e3 Ingo Molnar    2011-11-29  968  		 * list
-4a8c8d729198e3 Ingo Molnar    2011-11-29  969  		 */
-4a8c8d729198e3 Ingo Molnar    2011-11-29  970  		if (!tasklet_tryunlock(t))
-4a8c8d729198e3 Ingo Molnar    2011-11-29  971  			goto again;
-4a8c8d729198e3 Ingo Molnar    2011-11-29  972  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @973  	local_irq_restore(flags);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  974  }
-6498ddad301c7a Ingo Molnar    2018-02-27  975  
-
-:::::: The code at line 973 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+9899d11f654474 Oleg Nesterov      2013-01-21  191  
+9899d11f654474 Oleg Nesterov      2013-01-21  192  static void ptrace_unfreeze_traced(struct task_struct *task)
+9899d11f654474 Oleg Nesterov      2013-01-21  193  {
+7103517ca97f4d Oleg Nesterov      2020-11-03  194  	unsigned long flags;
+7103517ca97f4d Oleg Nesterov      2020-11-03  195  	bool frozen = true;
+9899d11f654474 Oleg Nesterov      2013-01-21  196  
+9899d11f654474 Oleg Nesterov      2013-01-21  197  	WARN_ON(!task->ptrace || task->parent != current);
+9899d11f654474 Oleg Nesterov      2013-01-21  198  
+5402e97af667e3 bsegall@google.com 2017-04-07  199  	/*
+5402e97af667e3 bsegall@google.com 2017-04-07  200  	 * PTRACE_LISTEN can allow ptrace_trap_notify to wake us up remotely.
+5402e97af667e3 bsegall@google.com 2017-04-07  201  	 * Recheck state under the lock to close this race.
+5402e97af667e3 bsegall@google.com 2017-04-07  202  	 */
+9899d11f654474 Oleg Nesterov      2013-01-21  203  	spin_lock_irq(&task->sighand->siglock);
+7103517ca97f4d Oleg Nesterov      2020-11-03  204  
+7103517ca97f4d Oleg Nesterov      2020-11-03 @205  	raw_spin_lock_irqsave(&task->pi_lock, flags);
+7103517ca97f4d Oleg Nesterov      2020-11-03  206  	if (task->state == __TASK_TRACED)
+9899d11f654474 Oleg Nesterov      2013-01-21  207  		task->state = TASK_TRACED;
+7103517ca97f4d Oleg Nesterov      2020-11-03  208  	else if (task->saved_state == __TASK_TRACED)
+7103517ca97f4d Oleg Nesterov      2020-11-03  209  		task->saved_state = TASK_TRACED;
+7103517ca97f4d Oleg Nesterov      2020-11-03  210  	else
+7103517ca97f4d Oleg Nesterov      2020-11-03  211  		frozen = false;
+7103517ca97f4d Oleg Nesterov      2020-11-03  212  	raw_spin_unlock_irqrestore(&task->pi_lock, flags);
+7103517ca97f4d Oleg Nesterov      2020-11-03  213  
+7103517ca97f4d Oleg Nesterov      2020-11-03  214  	if (frozen && __fatal_signal_pending(task))
+7103517ca97f4d Oleg Nesterov      2020-11-03  215  		wake_up_state(task, __TASK_TRACED);
+7103517ca97f4d Oleg Nesterov      2020-11-03  216  
+9899d11f654474 Oleg Nesterov      2013-01-21  217  	spin_unlock_irq(&task->sighand->siglock);
+9899d11f654474 Oleg Nesterov      2013-01-21  218  }
+9899d11f654474 Oleg Nesterov      2013-01-21  219  
 
 -- 
 0-DAY CI Kernel Test Service
