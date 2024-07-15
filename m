@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A14B4C6D
-	for <oe-kbuild@lists.linux.dev>; Mon, 15 Jul 2024 01:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B703618C181
+	for <oe-kbuild@lists.linux.dev>; Mon, 15 Jul 2024 14:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721008141; cv=none; b=I5Mc1pPCUfLrOYvQQNAs2weUtUutwW/UKHUF1huiW0gglQnnGj/eVuFye4yDxFAhbydYEm51SYTOnvBkLhRVITxac1m7znZFl4N2VX7MFqrdXIFEoGTC0gmMvVjEwdecarju1JhjblMqygexf16qCTXPZennTCTlXzbmoVez484=
+	t=1721055078; cv=none; b=o9s1vj1qXJ9Qut3lvu6Xadf76/RtUTw/WmchpgktCa3wcQkb22253CBdtxhanyR59jADxLn/ifJ5PPV3iwgQz14BcpRkRYxdb9dCHODUjJuCb0bI9IIRmonyBvfxMAg9kpebKWQsyWlUeKW2NJE/qz6BMDFhtI2Z/bXzV6mGprY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721008141; c=relaxed/simple;
-	bh=ct9l7SvN0cTPklTOlAeWdwJ8RnQwfpDBlTbr5o6yX+U=;
+	s=arc-20240116; t=1721055078; c=relaxed/simple;
+	bh=nthuvQD+DNGmn3aJ3BKSgc2MSJnyBKZM1mG1UKU/w/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=adRP3PvL2Ew70awlYA37OdbG41fXXiIGwyjYb1smkPZkIOti3TgxCqGaVmBGcYKJPCD5WlYVkL1uo+Qk1rufobC0FkhBsco1gbi7ZTRQTXDbyKZjgqo67/DW1zj/gWtfXdE04jilGK47SiLbYFF0TbaQxAgHbAeNPhzJ67ECBmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FmV56EUT; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=cWU3bAqkpx6qZRn7/mDE/mFFyjSQ+8d6iFZJSh+RgunXGtQ2Slg1NY6UmyT/g5Q0S/3hN7dChxlspIlGkrc17eYpMxrW6HQGrjLuIIX5kDrEwF/9Goo00HyKn5B9AdXBJRIzUx66xJCBJhWYERwQfVJPiknvdmfguIwb5wlP0ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zj+o+cHV; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FmV56EUT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721008139; x=1752544139;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ct9l7SvN0cTPklTOlAeWdwJ8RnQwfpDBlTbr5o6yX+U=;
-  b=FmV56EUTsas7uIXLNAck1esK7Tk2Vp6HN7B9uFQ8ysD6zotKSIW2bvzS
-   kbHEDnIEKEdhzpUlvz7hdp8eXXQDJ1/t7CwoUnETnYHdksfzp1+H05cMp
-   MRnybSVXRgaY93ejSercfn1SFnMDyVqRbQTc25Z2pJwk+p6IQOSsLj6iG
-   +EWBgpCe045dW9CThFqcCEsgHljd+P3zhteCHEBrCD+zt+wKwfV7oS8/Y
-   /jRGQb+kg12TLMaxla8DoW/hMDWXCu2CHF2ezlXBMIESqG9r6W6YxHNT5
-   IIA/DG1EPmb8rUJVX9G+DmDFYO664ZJVKsuL60DA341byL1/71c+ETyeA
-   g==;
-X-CSE-ConnectionGUID: mTMRvdFPSRmVWPOe1QItzQ==
-X-CSE-MsgGUID: IUFxMzgBSRGm5fhDfbZilg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11133"; a="28976286"
-X-IronPort-AV: E=Sophos;i="6.09,209,1716274800"; 
-   d="scan'208";a="28976286"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2024 18:48:58 -0700
-X-CSE-ConnectionGUID: hI+HWqePSuugCdPlM5enjg==
-X-CSE-MsgGUID: WusGLoT1QRSkudYZzpbk1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,209,1716274800"; 
-   d="scan'208";a="54388757"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Jul 2024 18:48:58 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTApj-000drm-0W;
-	Mon, 15 Jul 2024 01:48:55 +0000
-Date: Mon, 15 Jul 2024 09:48:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [akpm-mm:mm-nonmm-unstable 35/38] lib/math/div64.c:219:25: sparse:
- sparse: division by zero
-Message-ID: <202407150910.Xp56C1Ju-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zj+o+cHV"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-25dfb580d1fso2384029fac.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 15 Jul 2024 07:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721055075; x=1721659875; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gu064F1bhvLoivqP+zAON1vMmCh6ajwHL4a1oHeOk5s=;
+        b=zj+o+cHVPdcbbAOe08HE4JPqNgFrtFtx5O6ZhlaZycZcqRrf7JtLowZnPOI/WOOxrG
+         0Yn55UHsUm0+oVHO24Kzks6qHtWy4riCj5eo2VzrGIoZ2Y79cXe6wFTTBsjCJTJMrcKE
+         WXMTWH6VUo6AvdgY/VnocNpRZXMC00OxKtX9kiRd+XMf2wyegmELSezliWM7ogxrYxwC
+         rlJmZSLUCcaz80p+ixg7kpkW4DR0RPVo46DUqshtpR7Telbbwwf45BtuBv9l19Ko1opi
+         buO5VPgHp17I7tR6EvZoQgtsT8+irx84KcuH23CXDVk+tPhHyVCJdom9e3zK5erAQoBc
+         nh5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721055075; x=1721659875;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gu064F1bhvLoivqP+zAON1vMmCh6ajwHL4a1oHeOk5s=;
+        b=BF04RPnSD2ruzpxjXquTwGrk+KXnYSybHeCg42pg2b7g+fH2prxBghBAbQEqEcP6ST
+         U8BdzdFaLa940k35/TdVDcNHbYMlBWWYDjjb+yhyCztnHln5nkeYIUbX0+psvMrfXjLT
+         Lz6proRvgjduYM9Lc+vzCd/JcHv1kx5RO+z8NVLpVrFrBMR1QzZjAqhW9XJVyFudVLWV
+         UHiw0t2QJPwV/yhc4WHlgc0n44RhPNrtSjR9pV5Jbe4kW/LpTMmkceJODwfLMabPrweP
+         LJ0lsbLMX/R2xtaBGi1w1BaHMtE7cYMB/N2nPV8hsyYFo57RRMtrrXt1+l2old/fY60T
+         RvJQ==
+X-Gm-Message-State: AOJu0YzzMD/Nag6kaS9rT+dQ4R9f064sNFLYUDsswYypn+HGVoajTOwp
+	NuGl4hkmWygCiFbpexVVDwi/i23nfLEgUpP8MrXCfjaLsq2MOR5Fl8dGoqvwcPWIxigUFkcMcFY
+	h
+X-Google-Smtp-Source: AGHT+IHC09C2ayNn5u/5ImSq6J/hrehHZqOfFx+yCGOG8vTQzi86OTIznWoaY+enChGNOpbxlBa/FQ==
+X-Received: by 2002:a05:6870:b14e:b0:24f:e100:ba2d with SMTP id 586e51a60fabf-25eaec603f4mr17218889fac.54.1721055074969;
+        Mon, 15 Jul 2024 07:51:14 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:358f:3413:c118:4021])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-26075176a08sm964764fac.33.2024.07.15.07.51.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 07:51:14 -0700 (PDT)
+Date: Mon, 15 Jul 2024 09:51:12 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Pavel Machek <pavel@denx.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [cip:linux-4.19.y-cip-rt-rebase 96/9999] kernel/softirq.c:973
+ __tasklet_schedule_common() warn: inconsistent returns 'flags'.
+Message-ID: <694a631c-8998-4a84-9ed9-f722e9efbbe4@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,42 +68,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: lib/math/div64.c:219:25: sparse: sparse: division by zero"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Nicolas Pitre <npitre@baylibre.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   8f9dade5906a8da18aa33bb35aff52f619a1b7aa
-commit: 79276c254b6ca4e064431027eb3d62dd62e26d19 [35/38] mul_u64_u64_div_u64: avoid undefined shift value
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-061-20240714 (https://download.01.org/0day-ci/archive/20240715/202407150910.Xp56C1Ju-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240715/202407150910.Xp56C1Ju-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt-rebase
+head:   642e819a3c30d3536e6d66a631b761886a0316e7
+commit: 62d0a2a30cd01fabc7f6555df2cfae7dd3d9fad8 [96/9999] tasklet: Address a race resulting in double-enqueue
+config: i386-randconfig-141-20240714 (https://download.01.org/0day-ci/archive/20240714/202407142205.22hVCdHd-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407150910.Xp56C1Ju-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407142205.22hVCdHd-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/math/div64.c:219:25: sparse: sparse: division by zero
+smatch warnings:
+kernel/softirq.c:973 __tasklet_schedule_common() warn: inconsistent returns 'flags'.
 
-vim +219 lib/math/div64.c
+vim +/flags +973 kernel/softirq.c
 
-e4e9f524e7b1a8 Nicolas Pitre 2024-07-07  214  
-79276c254b6ca4 Nicolas Pitre 2024-07-12  215  	/* make sure c is not zero, trigger exception otherwise */
-79276c254b6ca4 Nicolas Pitre 2024-07-12  216  #pragma GCC diagnostic push
-79276c254b6ca4 Nicolas Pitre 2024-07-12  217  #pragma GCC diagnostic ignored "-Wdiv-by-zero"
-79276c254b6ca4 Nicolas Pitre 2024-07-12  218  	if (unlikely(c == 0))
-79276c254b6ca4 Nicolas Pitre 2024-07-12 @219  		return 1/0;
+6498ddad301c7a Ingo Molnar    2018-02-27  929  static void __tasklet_schedule_common(struct tasklet_struct *t,
+6498ddad301c7a Ingo Molnar    2018-02-27  930  				      struct tasklet_head __percpu *headp,
+6498ddad301c7a Ingo Molnar    2018-02-27  931  				      unsigned int softirq_nr)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  932  {
+6498ddad301c7a Ingo Molnar    2018-02-27  933  	struct tasklet_head *head;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  934  	unsigned long flags;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  935  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  936  	local_irq_save(flags);
+4a8c8d729198e3 Ingo Molnar    2011-11-29  937  	if (!tasklet_trylock(t)) {
+4a8c8d729198e3 Ingo Molnar    2011-11-29  938  		local_irq_restore(flags);
+4a8c8d729198e3 Ingo Molnar    2011-11-29  939  		return;
+4a8c8d729198e3 Ingo Molnar    2011-11-29  940  	}
+4a8c8d729198e3 Ingo Molnar    2011-11-29  941  
+6498ddad301c7a Ingo Molnar    2018-02-27  942  	head = this_cpu_ptr(headp);
+4a8c8d729198e3 Ingo Molnar    2011-11-29  943  again:
+4a8c8d729198e3 Ingo Molnar    2011-11-29  944  	/* We may have been preempted before tasklet_trylock
+4a8c8d729198e3 Ingo Molnar    2011-11-29  945  	 * and __tasklet_action may have already run.
+4a8c8d729198e3 Ingo Molnar    2011-11-29  946  	 * So double check the sched bit while the takslet
+4a8c8d729198e3 Ingo Molnar    2011-11-29  947  	 * is locked before adding it to the list.
+4a8c8d729198e3 Ingo Molnar    2011-11-29  948  	 */
+4a8c8d729198e3 Ingo Molnar    2011-11-29  949  	if (test_bit(TASKLET_STATE_SCHED, &t->state)) {
+62d0a2a30cd01f Zhang Xiao     2020-03-17  950  		if (test_and_set_bit(TASKLET_STATE_CHAINED, &t->state)) {
+62d0a2a30cd01f Zhang Xiao     2020-03-17  951  			tasklet_unlock(t);
+
+local_irq_restore(flags);
+
+62d0a2a30cd01f Zhang Xiao     2020-03-17  952  			return;
+62d0a2a30cd01f Zhang Xiao     2020-03-17  953  		}
+48f20a9a9488c4 Olof Johansson 2008-03-04  954  		t->next = NULL;
+6498ddad301c7a Ingo Molnar    2018-02-27  955  		*head->tail = t;
+6498ddad301c7a Ingo Molnar    2018-02-27  956  		head->tail = &(t->next);
+6498ddad301c7a Ingo Molnar    2018-02-27  957  		raise_softirq_irqoff(softirq_nr);
+4a8c8d729198e3 Ingo Molnar    2011-11-29  958  		tasklet_unlock(t);
+4a8c8d729198e3 Ingo Molnar    2011-11-29  959  	} else {
+4a8c8d729198e3 Ingo Molnar    2011-11-29  960  		/* This is subtle. If we hit the corner case above
+4a8c8d729198e3 Ingo Molnar    2011-11-29  961  		 * It is possible that we get preempted right here,
+4a8c8d729198e3 Ingo Molnar    2011-11-29  962  		 * and another task has successfully called
+4a8c8d729198e3 Ingo Molnar    2011-11-29  963  		 * tasklet_schedule(), then this function, and
+4a8c8d729198e3 Ingo Molnar    2011-11-29  964  		 * failed on the trylock. Thus we must be sure
+4a8c8d729198e3 Ingo Molnar    2011-11-29  965  		 * before releasing the tasklet lock, that the
+4a8c8d729198e3 Ingo Molnar    2011-11-29  966  		 * SCHED_BIT is clear. Otherwise the tasklet
+4a8c8d729198e3 Ingo Molnar    2011-11-29  967  		 * may get its SCHED_BIT set, but not added to the
+4a8c8d729198e3 Ingo Molnar    2011-11-29  968  		 * list
+4a8c8d729198e3 Ingo Molnar    2011-11-29  969  		 */
+4a8c8d729198e3 Ingo Molnar    2011-11-29  970  		if (!tasklet_tryunlock(t))
+4a8c8d729198e3 Ingo Molnar    2011-11-29  971  			goto again;
+4a8c8d729198e3 Ingo Molnar    2011-11-29  972  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @973  	local_irq_restore(flags);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  974  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
