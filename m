@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F9019DF71
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jul 2024 16:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F8019DF6D
+	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jul 2024 16:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721146572; cv=none; b=oFcFyIU43SAw4Nntjm8dx8AfjSNLVET8rtM6WY8drzvI4P7B4l46QMKLREIX19k0jW1KR86BgAcueZFuenBpQds5MNfOnccScSF3QWzc8z4xGs8xCp3zMs06tfkrcw2yxyInfGWJzXdXHwXv16rK+tzkELM9UjHiaHDqSZb7xA8=
+	t=1721149035; cv=none; b=LR+GTdKUDFXTpRRjO80WcggNJtx/RwKPRhd6XAaIDEl8yJjD8wT/UA2ZvrIdedGrM7/stko5Er4fujWc5W71bjliEeLXYqFnuflnO0mVJHnK8A4tvWjMalkBd0MyrMF/KUe6F5dZ1rZqysKSGDDwYBRdzfWsBw2vTymUAsx/yog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721146572; c=relaxed/simple;
-	bh=hRCtLVlgJzksLVOY8g2N23pfwMicTvKWqpQeOl2xqu0=;
+	s=arc-20240116; t=1721149035; c=relaxed/simple;
+	bh=+WEwJtQmNFz6Fgf2o32vnZLHKWv4UEs9o7rEqZx7nUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=quqLrtzG/S6QowS7KTKO7FD0RDSDHNuZeRp/SwFjpRkDMmAcizHdqWigWavH769epnwaqzSE/wxXMY35XAKrV7FItBK3GoJeqYWPRa+AA5MNVdBiT3YjhM6EmsB8SNVQ9tcd8DyCXMcFSPhv17+LfY+n39ybypW4nuHELv4cbe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SPrsXqdi; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=Wf0w3C06Zyb1p45q//9XE/md4Sa2jze3Jx06OUDPwssL4Cokl40pliqnmBIiX68IbRDWGe9hpPxeu/K9z9cAKhKVOU93jEvOFh5osiYd+TaG8dDm2iKaLc5vVw+ftpfLACoWh9aV/mE5QR3+q3J/PVWpdUnsH0Iu19DDd94npco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E0Jqhf0A; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SPrsXqdi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721146570; x=1752682570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hRCtLVlgJzksLVOY8g2N23pfwMicTvKWqpQeOl2xqu0=;
-  b=SPrsXqdiRg3rqG1E7bCvAg8UfrzUS8JL8e2JSvBfplM7+0aXs3p+avEs
-   zO7lIS2nCZFzPePmQVgWP9jsVkbG5hbZfGwHh5eQOxye9eplDqSACtWKo
-   1pi54TdSz6H0nlPKcCpMAGVIR4iM4GDF8mVVpk3VA1qSpa2epBxL5pph7
-   nXqbNcmk/lzSZhmSeIof1wemf6DRTHxBI+08uiZa1dmBj6Ad/Bz/WH/hF
-   Z7Fz9IzPBr09/Vm55PPk2rnc6GfQ+INIWLeczqsFQBdPwZ6hgovx2tfGu
-   y5/2+6Ww3/e1UfPdnUz/tdFvKmJmUHy7D4lAkHz98ZwCG2v+uN4xDcgzO
-   w==;
-X-CSE-ConnectionGUID: uaRwUkgiT9KVn8yibweSNw==
-X-CSE-MsgGUID: hWUUAXZiTrm05mPfMcCRwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="29985363"
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="29985363"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 09:16:07 -0700
-X-CSE-ConnectionGUID: LK8HPRGkSOqRKAociQU7QQ==
-X-CSE-MsgGUID: Eb9vnvpiSD+IUP/pcfRq5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="73288209"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Jul 2024 09:16:04 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sTkqR-000fQy-1j;
-	Tue, 16 Jul 2024 16:16:03 +0000
-Date: Wed, 17 Jul 2024 00:15:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E0Jqhf0A"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-70360eeb7d2so3429022a34.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 16 Jul 2024 09:57:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1721149032; x=1721753832; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjkM0fbgW4Xibz/XMDT5sJRhMp7xdz/ejU4/CeTrp3w=;
+        b=E0Jqhf0AeYPC/rGj7c93IYU4V3KwwoSjYLRJj39KerM5PaAyUq+H5Sesy5HSsGs6p1
+         JXrjw0Iq+S5uvF9loSOFyW/0PcH1/Tb7QA5S/ARTA2nTmL+/m9H/QTCVgeZXI7aR4ppL
+         fX8WymYMT3EVAB8dsbsBKBpaY0xvuFhlP8Zrkiqut2iDozE1l5Ns2EojE1Zsyerq/rDI
+         WfBkZ8e7Vm/jy6IPQCMpuIlNeRS2s4QJHDrJykjXtHsjoxuaeSbj+xv9kMktQEgO6LRH
+         ku+ftIsZjOZ0N+qvehQZZrcffyiAVXxtKdcMV586UV2RK1Z/R3quHHjo5l7rgPRBKT+T
+         +FvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721149032; x=1721753832;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HjkM0fbgW4Xibz/XMDT5sJRhMp7xdz/ejU4/CeTrp3w=;
+        b=TgyYYGGWpQc5BctVpkgmOb2b+ltr0ym7S8+rZnYGMKzuybG1IsMEe+c1aa4n9FeoGZ
+         PSaYcXWpjzyFtPGsNz7coO28TBcc3tis9UhENHT/JIBfPKv1Nbt4T+kM32n4eIVW4fnC
+         NeeI8aQev1xC8IEbY07HcnvZAWq9gobZLqG0y4vZYSDQybmWDzr9iTszQ04V5OF/Kkty
+         WQhxi9sbIjVagVP6Yii/QnGv+hyHxRB3MO6sFHTT9G+fXdd49cJivnSoBdPs5A8NdeUn
+         kBZQCIZyqAiYpmRFV7LiMbVXJgsMxFJjjwA82Kk7K6geTx7tYjHqXH4rnlsABGn1Rxf5
+         I8Ng==
+X-Gm-Message-State: AOJu0YzagQeOBuJJn96hd7xr8NrIudunTcFA9ECMj8ey/Pnsi+L8/zWT
+	qECwGqlKh05uuh2lGmD7BBF5bldwdq43v2WSwMydS8gdbDMnesghFwgnp/Dq7LaUbHI7/kdhmEg
+	c
+X-Google-Smtp-Source: AGHT+IHwHuHUEtahEJi2/XAfyKDCh1Uvg+qhHUpEpDPGVV6h8gOsQvlPHHyM2YgDYy98evYFe+e56A==
+X-Received: by 2002:a05:6830:6b04:b0:708:b334:de64 with SMTP id 46e09a7af769-708d9950cfamr4208306a34.13.1721149032176;
+        Tue, 16 Jul 2024 09:57:12 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:b5d2:9b28:de1e:aebb])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708c0d29022sm1363431a34.73.2024.07.16.09.57.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jul 2024 09:57:11 -0700 (PDT)
+Date: Tue, 16 Jul 2024 11:57:09 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Michael Chan <michael.chan@broadcom.com>,
+	davem@davemloft.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	pavan.chebbi@broadcom.com, andrew.gospodarek@broadcom.com,
+	Hongguang Gao <hongguang.gao@broadcom.com>,
+	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+	Somnath Kotur <somnath.kotur@broadcom.com>
 Subject: Re: [PATCH net-next 4/9] bnxt_en: Deprecate support for legacy INTX
  mode
-Message-ID: <202407162324.caSQMdc3-lkp@intel.com>
+Message-ID: <48cd9096-7f25-4a89-bd10-f5124abac4af@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,42 +72,23 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240713234339.70293-5-michael.chan@broadcom.com>
-References: <20240713234339.70293-5-michael.chan@broadcom.com>
-TO: Michael Chan <michael.chan@broadcom.com>
-TO: davem@davemloft.net
-CC: netdev@vger.kernel.org
-CC: edumazet@google.com
-CC: kuba@kernel.org
-CC: pabeni@redhat.com
-CC: pavan.chebbi@broadcom.com
-CC: andrew.gospodarek@broadcom.com
-CC: Hongguang Gao <hongguang.gao@broadcom.com>
-CC: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
-CC: Somnath Kotur <somnath.kotur@broadcom.com>
 
 Hi Michael,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Chan/bnxt_en-add-support-for-storing-crash-dump-into-host-memory/20240714-074731
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20240713234339.70293-5-michael.chan%40broadcom.com
 patch subject: [PATCH net-next 4/9] bnxt_en: Deprecate support for legacy INTX mode
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
 config: i386-randconfig-141-20240716 (https://download.01.org/0day-ci/archive/20240716/202407162324.caSQMdc3-lkp@intel.com/config)
 compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202407162324.caSQMdc3-lkp@intel.com/
 
 New smatch warnings:
@@ -104,14 +96,9 @@ drivers/net/ethernet/broadcom/bnxt/bnxt.c:15950 bnxt_init_one() warn: 'dev' from
 
 Old smatch warnings:
 drivers/net/ethernet/broadcom/bnxt/bnxt.c:769 bnxt_start_xmit() error: we previously assumed 'ptp' could be null (see line 514)
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:769 bnxt_start_xmit() error: uninitialized symbol 'txts_prod'.
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:9862 bnxt_accumulate_all_stats() error: uninitialized symbol 'ring0_stats'.
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:9987 bnxt_hwrm_port_qstats_ext() warn: missing error code? 'rc'
-drivers/net/ethernet/broadcom/bnxt/bnxt.c:10922 bnxt_request_irq() warn: iterator 'j' not incremented
 
 vim +/dev +15950 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-c7dd4a5b0a155c4 Edwin Peer          2021-10-29  15680  
 c0c050c58d84099 Michael Chan        2015-10-22  15681  static int bnxt_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
 c0c050c58d84099 Michael Chan        2015-10-22  15682  {
 f42822f22b1c5f7 Michael Chan        2024-02-05  15683  	struct bnxt_hw_resc *hw_resc;
@@ -151,6 +138,11 @@ c0c050c58d84099 Michael Chan        2015-10-22  15712
 5c11f6d07a2994d Michael Chan        2024-07-13  15717  	if (!pdev->msix_cap) {
 5c11f6d07a2994d Michael Chan        2024-07-13  15718  		dev_err(&pdev->dev, "MSIX capability not found, aborting\n");
 5c11f6d07a2994d Michael Chan        2024-07-13  15719  		return -ENODEV;
+
+
+	rc = -ENODEV;
+	goto init_err_free;
+
 5c11f6d07a2994d Michael Chan        2024-07-13  15720  	}
 c0c050c58d84099 Michael Chan        2015-10-22  15721  
 c0c050c58d84099 Michael Chan        2015-10-22  15722  	rc = bnxt_init_board(pdev, dev);
@@ -383,8 +375,8 @@ c0c050c58d84099 Michael Chan        2015-10-22  15948  init_err_free:
 c0c050c58d84099 Michael Chan        2015-10-22  15949  	free_netdev(dev);
 c0c050c58d84099 Michael Chan        2015-10-22 @15950  	return rc;
 c0c050c58d84099 Michael Chan        2015-10-22  15951  }
-c0c050c58d84099 Michael Chan        2015-10-22  15952  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
