@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC1E2E64A
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Jul 2024 11:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C55181302
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Jul 2024 14:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721215454; cv=none; b=u/LPQtquEOoWJ8N2Qz2Fth+1cJ/xcdrXOmlHxPQLWXVawl2Olq3NCLF+WvFZe5n1NGEYlVT8PsK243uI5ktpT5IFV10q+mK5mF4CB22E7OA78RWCcHGaK/X2AoN7bDMX3TkraMZUhSKVX/8CTLNQTUSMim796kNMVKnnUJ/+cjM=
+	t=1721225538; cv=none; b=eJ4YgJuMUoj7XJ7NGNUgd4Z8Khth26P+qVfg3YdLyE/kcFhnOPRHicfSpxoin0vfSEAqfQj72g4wWaaJIZIeu+QJXDZGF9uQbrVn2MqyxIIEDjat3UpHGsqMoxGydbKhhgaaUHDW4HTEY+Wyx6FSkFySccZU05AuuP4CnrdqZv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721215454; c=relaxed/simple;
-	bh=FR09iHoz+6dHZi0BhJpjMGNQLWk7ySInbv9Ng0I3QyY=;
+	s=arc-20240116; t=1721225538; c=relaxed/simple;
+	bh=/sNMp2lDRwJ2JQqtUcMD3rN+Zu3keBcj8OsU7BMUKNg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J4dey1qHDQFIfbzIHs4Bt/5J/FFeyg0mpTiydjuCC7gcbE3XebHoIxFvgCvM1/ONhznNdYdIDf8VBc3BDqd34o8smajGC6m6fWdxj9d9m/YsFDrrTsAbZxVgSmi8Rs4W8X3WmEX4lT9PLtP+iCjyBrj4yfFda5AE4ZfQ2fSneUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fliirhw2; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=KWMxwTxIe7Q94FYlJlEBvyB+INTuxiF1Sjxdo8C5aHXa9xPHu6JpTFLAQqbIwDDlryjaAD9q6ojWppMXvvBG840gBS6qPYRl82Ng30Ou+ylD1+kSGcU6O44fP8ZizgUfe/tb+FDPIoTncQeyb/OKB6eEyHcyfnTuKGo3S1gA14o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VB7nz2oP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fliirhw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VB7nz2oP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721215450; x=1752751450;
+  t=1721225536; x=1752761536;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FR09iHoz+6dHZi0BhJpjMGNQLWk7ySInbv9Ng0I3QyY=;
-  b=fliirhw2VzJwfs6AVEFW4FIshP76mhrx9fdh1hdUAUZp+IxmHS9/aUER
-   DOKlvR1Ci1NeJOi3MOlcXP2K/9rsQRLz2l5UEQdZyHQMLkTYrzHU1nZaa
-   tsYDhS2imyerREbagXhRvFnwg3Mai6SBi6PCliGlOke5OErIvy3exZMZz
-   uJfZGPsJYphFGfefqaLyMUmiSPqEnGwd6H16wdSlcpyJssb4M0D6YP4ys
-   wAoKLnpSeo+/QNzHGaf4vy8ZqSl+MnskIZvbIMTPYste2vi87fXyILEr5
-   vIZGmI+aU2jtNouSmSeY4j0dGJ6yeNIVxKUTQ5icWXg7N1vyjubvqqlBx
-   g==;
-X-CSE-ConnectionGUID: s1IYM12mQ8eS8RnHVgQm8A==
-X-CSE-MsgGUID: JMaMY5WqR3Sa0rqZTGW0lw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="12587428"
+  bh=/sNMp2lDRwJ2JQqtUcMD3rN+Zu3keBcj8OsU7BMUKNg=;
+  b=VB7nz2oP+Ml6CKNL2XofliIt4rDeKt1e0GhKvQsVu78J5YItM1mxH1nI
+   fN8EyBlfipmwE6DEgZT7dHalb2DFyazvPbTDtbV+8Jp7mqT3yZu/s4R5O
+   cX4w+NVPDFnMHeId1tJ0t6aoPz0OMC+8MSgqP3cUOgzeCoEJqFV4pp4Dr
+   j+he3gkM+QXNYDPLCrVE/p1ee1tEXh1tHXOlIeFOCddOx5VzpfxGPngPa
+   cqMiFN6QhPgb1t2tUmJhNmTTQ7IOKc88cvQjxj9ZV4zJ9amcwA54fxeRH
+   b/RXAYPJl3W6fRSMZW0qCIgELucFNWq5XJp6LI94A2wPGobZWdhtPn6ni
+   A==;
+X-CSE-ConnectionGUID: 6ddIeMtNQvGTMFXOC/ka4Q==
+X-CSE-MsgGUID: Ntaxw1cTSoefzwdlWNlt7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18869666"
 X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
-   d="scan'208";a="12587428"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 04:24:09 -0700
-X-CSE-ConnectionGUID: UOJqdZ1ZTre49zmsNYu4zw==
-X-CSE-MsgGUID: 46UkE9HETa6VqzHftDhItA==
+   d="scan'208";a="18869666"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 07:12:15 -0700
+X-CSE-ConnectionGUID: T4d3xd7xSWuZ+HbSO9tXyA==
+X-CSE-MsgGUID: OIXhadV7R6CRnQkh53o7Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
-   d="scan'208";a="87835744"
+   d="scan'208";a="50460367"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Jul 2024 04:24:07 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Jul 2024 07:12:15 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sU2lR-000gHa-1X;
-	Wed, 17 Jul 2024 11:24:05 +0000
-Date: Wed, 17 Jul 2024 19:23:32 +0800
+	id 1sU5O8-000gNG-1W;
+	Wed, 17 Jul 2024 14:12:12 +0000
+Date: Wed, 17 Jul 2024 22:11:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH RFC v2 1/4] dt-bindings: phy: cp110-utmi-phy: add
- compatible string for armada-38x
-Message-ID: <202407171907.RczdXFAQ-lkp@intel.com>
+Subject: [tobetter:odroid-6.6.y 47/74]
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /: compatible: 'oneOf'
+ conditional failed, one must be fixed:
+Message-ID: <202407172205.TkaTYXhh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,610 +64,71 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240716-a38x-utmi-phy-v2-1-dae3a9c6ca3e@solid-run.com>
-References: <20240716-a38x-utmi-phy-v2-1-dae3a9c6ca3e@solid-run.com>
-TO: Josua Mayer <josua@solid-run.com>
+TO: Dongjin Kim <tobetter@gmail.com>
 
-Hi Josua,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Josua-Mayer/dt-bindings-phy-cp110-utmi-phy-add-compatible-string-for-armada-38x/20240717-150210
-base:   1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
-patch link:    https://lore.kernel.org/r/20240716-a38x-utmi-phy-v2-1-dae3a9c6ca3e%40solid-run.com
-patch subject: [PATCH RFC v2 1/4] dt-bindings: phy: cp110-utmi-phy: add compatible string for armada-38x
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240717/202407171907.RczdXFAQ-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   fdb4709395deb4bfd668475eec2c0d482f12e1e1
+commit: c00978529119701b9f4401a706df1448fcba2228 [47/74] ODROID-M1S: arm64: dts: rockchip: Add Hardkernel's ODROID-M1S board
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240717/202407172205.TkaTYXhh-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407171907.RczdXFAQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407172205.TkaTYXhh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407171907.RczdXFAQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407172205.TkaTYXhh-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-7k-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-7040-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rk3566-odroid-m1s', 'rockchip,rk3566'] is too short
+   	'vamrs,ficus' was expected
+   	'vamrs,rock960' was expected
+   	'amarula,vyasa-rk3288' was expected
+   	'anbernic,rg351m' was expected
+   	'anbernic,rg353p' was expected
+   	'anbernic,rg353ps' was expected
+   	'anbernic,rg353v' was expected
+   	'anbernic,rg353vs' was expected
+   	'anbernic,rg503' was expected
 --
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-7k-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: sata@540000: sata-port@0:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: sata@540000: sata-port@0: Unevaluated properties are not allowed ('phy-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
---
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: lte_reset: $nodename:0: 'lte_reset' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: wlan_disable: $nodename:0: 'wlan_disable' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: lte_disable: $nodename:0: 'lte_disable' does not match '^(hog-[0-9]+|.+-hog(-[0-9]+)?)$'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
---
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata@540000: sata-port@1: Unevaluated properties are not allowed ('phy-names' was unexpected)
---
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
---
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@0:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@0: Unevaluated properties are not allowed ('phy-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@1: Unevaluated properties are not allowed ('phy-names' was unexpected)
---
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
---
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@0:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@0: Unevaluated properties are not allowed ('phy-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@1: Unevaluated properties are not allowed ('phy-names' was unexpected)
---
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: sata@540000: sata-port@0:phy-names:0: 'sata-phy' was expected
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: sata@540000: sata-port@0: Unevaluated properties are not allowed ('phy-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: sata@540000: sata-port@1:phy-names:0: 'sata-phy' was expected
---
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/interrupt-controller@1e0000/interrupt-controller@50: failed to match any schema with compatible: ['marvell,cp110-icu-sei']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@440000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp1/config-space@f4000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9130-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-db-B.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9131-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9131-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9131-db.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9131-db-B.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp2/config-space@f6000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp2/config-space@f6000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp2/config-space@f6000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: sata@540000: sata-port@1: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db.dtb: /cp2/config-space@f6000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp2/config-space@f6000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp2/config-space@f6000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp2/config-space@f6000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: sata@540000: sata-port@1: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9132-db-B.dtb: /cp2/config-space@f6000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@500000: 'phys' is a dependency of 'phy-names'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: usb@510000: 'phys' is a dependency of 'phy-names'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-consumer.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-A.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: sata@540000: sata-port@1: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/cn9130-crb-B.dtb: /cp0/config-space@f2000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: usb@500000: 'phys' is a dependency of 'phy-names'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-consumer.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: usb@510000: 'phys' is a dependency of 'phy-names'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-consumer.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/system-controller@440000/clock: failed to match any schema with compatible: ['marvell,cp110-clock']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: gpio@100: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,cp115-standalone-pinctrl']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
->> arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: utmi@580000: reg: [[5767168, 8192]] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/marvell,armada-cp110-utmi-phy.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6a0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
-   arch/arm64/boot/dts/marvell/ac5x-rd-carrier-cn9131.dtb: /cp1/config-space@f4000000/xor@6c0000: failed to match any schema with compatible: ['marvell,armada-7k-xor', 'marvell,xor-v2']
+   	'vamrs,rk3288-vmarc-som' was expected
+   	'vamrs,rk3399pro-vmarc-som' was expected
+   	'rockchip,rk3036' was expected
+   	'rockchip,px3' was expected
+   	'rockchip,px30' was expected
+   	'rockchip,px5' was expected
+   	'rockchip,rk3128' was expected
+   	'rockchip,rk3228' was expected
+   	'rockchip,rk3318' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /: failed to match any schema with compatible: ['rockchip,rk3566-odroid-m1s', 'rockchip,rk3566']
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: tcs4525@1c: Unevaluated properties are not allowed ('regulator-compatible', 'regulator-init-microvolt' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: i2s@fe410000: Unevaluated properties are not allowed ('rockchip,clk-trcm' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: phy@fe830000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: usb2phy@fe8a0000: otg-port: 'vbus-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: leds: 'blue', 'red' do not match any of the regexes: '(^led-[0-9a-f]$|led)', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/leds/leds-gpio.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
