@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B17956B7C
-	for <oe-kbuild@lists.linux.dev>; Tue, 16 Jul 2024 22:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48C7210EC
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Jul 2024 09:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721167223; cv=none; b=iH4Ntjy+o6zqkNzFdBOSP7k0di/TFjFeUR9J8L6ka3YZErGCo918DGFEk+my1D8z6TrwvCpN2revtUpcT+v6LjuVGCkIFPT6vAxE9fw2r/1Z6yxAUbdqlyNpH8LFl8S6wZ2a8I+1FPhzzIIOGKEGeTqxOkJruc4oZuoefDbEP6c=
+	t=1721209748; cv=none; b=PJvbzv8k9vbjrz9PKKX2e7SMdW+s16D/3V2x9P5wlUTrVhXLyTnFOhlej7uY+3dPnj+2/aGxGnGmlqLdytG0NODip6Iy8AqErS9Pm6pBZdONZdf/5+s4B7+IZEuCrMmSYWBmKKTZC4AqhksiZXE+/HeHieTw4xyhJbqqVm63gVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721167223; c=relaxed/simple;
-	bh=oo2AT8VFL+nQsJJs1Q0F8Pkw7+1Jk6X1taowzVph1Tg=;
+	s=arc-20240116; t=1721209748; c=relaxed/simple;
+	bh=0HCax6lnXkLwXyD3RvirLPaSGCbJkcAFuY1Qu0sKqNY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j7tUDR0WKVNnVfSi3fUfkwRgMJaVU+lQmey5pXdWE6dLsNoZ/hCv5HjcAjkCF61HvQnMgk+X4K+bvo1dULHBV2XRp67NgMscMz/KdoALuznDKUcyuO5uKaMYeuLtZLGRM6gypT+zBLPczaRganQjNx8OzucgTq3IysvLz+RtsTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kw2Nrqw9; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=VUwumbgBjyX0od63UYqC7I+iWw2TejpcQ4uXQXvDezTWCt1nFMUeeWgW7PNXG6QtIEbLlhxzjs1MAkNgQWaz1jM83A5S/FaIoy7rR6bxn+JUAoNtWxPMHoyILQiHZs9zMJQlH98Gv/kZg+4TI/FS6/SEStJQ9iOMbsg8w4A9t00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBqbsGPX; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kw2Nrqw9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBqbsGPX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721167221; x=1752703221;
+  t=1721209746; x=1752745746;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oo2AT8VFL+nQsJJs1Q0F8Pkw7+1Jk6X1taowzVph1Tg=;
-  b=kw2Nrqw9LWNJUmNUTzkhss+Ndw7yhr6j7QA/3slOHaXhLRiHoRtXpw6K
-   /oXwJgn9/PBsUoDHPyDZw3b/lGXYumfMgmxbiEmlqsIqdFZWmvkvTx2a8
-   p4Ef1E8seh+dv7Wv7xkMuDcfjmTJZVvE7Ostl/+FZHEKLYuKJhb/eLB11
-   3ccVQ5dkxjEv2aW2An6w0v/S1KYvXR6FGkxjYD3sImEQemsfKiF5q12Jb
-   L5aI6Bi8Sqjy0EcwNah9v5sX/B/BgNBSQ2LiLwB0BMJtm3dVSfOuzwXf9
-   vCmT2AtO9YhiFxvorkdomRl6WFRhIwzUKYftrkePOoAYT5EobMPRie7rV
-   g==;
-X-CSE-ConnectionGUID: q46YlgXYRaaWyFu52yNk/w==
-X-CSE-MsgGUID: NOFuTyUGRZqP1xXM/a2RrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="29312242"
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="29312242"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 15:00:19 -0700
-X-CSE-ConnectionGUID: x1Nd1dnDRweVBHD3WT7MHQ==
-X-CSE-MsgGUID: IMtt87DzRM2N6fEWDqhbqA==
+  bh=0HCax6lnXkLwXyD3RvirLPaSGCbJkcAFuY1Qu0sKqNY=;
+  b=IBqbsGPXmQ9Thl8SHEHKMjn5eE18wvQGvgkBJc1Wu4Uw3JDfd6mdlpB8
+   sUPdSH6ckq/1NN4hzQ9KNnU7wggxbt8Q/KjTdvZomhOcALelZXi3f9Zd6
+   5NPdRfeoAipogNrQIQprL2zQQ8eTEPdRzXEDEB+A8eo4Jp56kDSouHZvi
+   KxOV8TkH6R6TG+/Pi8aidYXkF5uODwWpHsgbSI+WarAEkoe2LhmV6CN2q
+   /TXsN1bQp6ermyO0DmZryqNSsTXqrfCTNO2wRe7MTlB1I76ngLXBGzHDh
+   YdbyyIvJiWx70aEmkZA3j0jcivP5UTwTK82X1N+sMbPMNhuBID6rgNbu0
+   w==;
+X-CSE-ConnectionGUID: baCJdW5GSha421Ac+YyVWg==
+X-CSE-MsgGUID: dchFbBp5RkuQ9bMp4vmNBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="18839153"
+X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
+   d="scan'208";a="18839153"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 02:49:05 -0700
+X-CSE-ConnectionGUID: QVKdMFR0S72EWViLSnDT/Q==
+X-CSE-MsgGUID: d3q/CcO+TRu6vcWDmLWOew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
-   d="scan'208";a="50901289"
+X-IronPort-AV: E=Sophos;i="6.09,214,1716274800"; 
+   d="scan'208";a="50275080"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Jul 2024 15:00:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 Jul 2024 02:49:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sTqDX-000fi2-3D;
-	Tue, 16 Jul 2024 22:00:15 +0000
-Date: Wed, 17 Jul 2024 05:59:39 +0800
+	id 1sU1HR-000gDi-2N;
+	Wed, 17 Jul 2024 09:49:01 +0000
+Date: Wed, 17 Jul 2024 17:48:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 2/2] arm64: dts: rockchip: add Firefly CORE PX30 JD4
-Message-ID: <202407170524.Pc8MMP6B-lkp@intel.com>
+Subject: [tobetter:odroid-6.6.y 42/74]
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /rk3568-gpiomem: failed
+ to match any schema with compatible: ['rockchip,rk3568-gpiomem']
+Message-ID: <202407171745.EmJimf66-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,91 +64,42 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240716-rockchip-px30-firefly-v1-2-60cdad3023a3@collabora.com>
-References: <20240716-rockchip-px30-firefly-v1-2-60cdad3023a3@collabora.com>
-TO: Christopher Obbard <chris.obbard@collabora.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Kever Yang <kever.yang@rock-chips.com>
-CC: Christopher Obbard <chris.obbard@collabora.com>
+TO: Steve Jeong <how2soft@gmail.com>
+CC: Dongjin Kim <tobetter@gmail.com>
 
-Hi Christopher,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d67978318827d06f1c0fa4c31343a279e9df6fde]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christopher-Obbard/dt-bindings-arm-rockchip-add-Firefly-CORE-PX30-JD4/20240717-042608
-base:   d67978318827d06f1c0fa4c31343a279e9df6fde
-patch link:    https://lore.kernel.org/r/20240716-rockchip-px30-firefly-v1-2-60cdad3023a3%40collabora.com
-patch subject: [PATCH 2/2] arm64: dts: rockchip: add Firefly CORE PX30 JD4
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240717/202407170524.Pc8MMP6B-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   fdb4709395deb4bfd668475eec2c0d482f12e1e1
+commit: 905d94c26ec85e35bcc9d727a5c49130603afbb9 [42/74] ODROID-M1: Add /dev/gpiomem device
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240717/202407171745.EmJimf66-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170524.Pc8MMP6B-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407171745.EmJimf66-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407170524.Pc8MMP6B-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407171745.EmJimf66-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/px30.dtsi:351.26-371.4: Warning (avoid_unnecessary_addr_size): /syscon@ff010000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/px30.dtsi:453.23-497.4: Warning (avoid_unnecessary_addr_size): /syscon@ff140000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/rockchip/px30-firefly-core-px30-jd4.dts:142.9-153.5: Warning (graph_child_address): /dsi@ff450000/panel@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/px30-firefly-core-px30-jd4.dtb: /dsi@ff450000/panel@0: failed to match any schema with compatible: ['sitronix,st7703']
-
-vim +142 arch/arm64/boot/dts/rockchip/px30-firefly-core-px30-jd4.dts
-
-28e7b005c693279 Christopher Obbard 2024-07-16  121  
-28e7b005c693279 Christopher Obbard 2024-07-16  122  &dsi {
-28e7b005c693279 Christopher Obbard 2024-07-16  123  	status = "okay";
-28e7b005c693279 Christopher Obbard 2024-07-16  124  
-28e7b005c693279 Christopher Obbard 2024-07-16  125  	ports {
-28e7b005c693279 Christopher Obbard 2024-07-16  126  		mipi_out: port@1 {
-28e7b005c693279 Christopher Obbard 2024-07-16  127  			reg = <1>;
-28e7b005c693279 Christopher Obbard 2024-07-16  128  
-28e7b005c693279 Christopher Obbard 2024-07-16  129  			mipi_out_panel: endpoint {
-28e7b005c693279 Christopher Obbard 2024-07-16  130  				remote-endpoint = <&mipi_in_panel>;
-28e7b005c693279 Christopher Obbard 2024-07-16  131  			};
-28e7b005c693279 Christopher Obbard 2024-07-16  132  		};
-28e7b005c693279 Christopher Obbard 2024-07-16  133  	};
-28e7b005c693279 Christopher Obbard 2024-07-16  134  
-28e7b005c693279 Christopher Obbard 2024-07-16  135  	panel@0 {
-28e7b005c693279 Christopher Obbard 2024-07-16  136  		compatible = "sitronix,st7703";
-28e7b005c693279 Christopher Obbard 2024-07-16  137  		reg = <0>;
-28e7b005c693279 Christopher Obbard 2024-07-16  138  		backlight = <&backlight>;
-28e7b005c693279 Christopher Obbard 2024-07-16  139  		iovcc-supply = <&vcc_1v8>;
-28e7b005c693279 Christopher Obbard 2024-07-16  140  		vci-supply = <&vcc3v3_lcd>;
-28e7b005c693279 Christopher Obbard 2024-07-16  141  
-28e7b005c693279 Christopher Obbard 2024-07-16 @142  		ports {
-28e7b005c693279 Christopher Obbard 2024-07-16  143  			#address-cells = <1>;
-28e7b005c693279 Christopher Obbard 2024-07-16  144  			#size-cells = <0>;
-28e7b005c693279 Christopher Obbard 2024-07-16  145  
-28e7b005c693279 Christopher Obbard 2024-07-16  146  			port@0 {
-28e7b005c693279 Christopher Obbard 2024-07-16  147  				reg = <0>;
-28e7b005c693279 Christopher Obbard 2024-07-16  148  
-28e7b005c693279 Christopher Obbard 2024-07-16  149  				mipi_in_panel: endpoint {
-28e7b005c693279 Christopher Obbard 2024-07-16  150  					remote-endpoint = <&mipi_out_panel>;
-28e7b005c693279 Christopher Obbard 2024-07-16  151  				};
-28e7b005c693279 Christopher Obbard 2024-07-16  152  			};
-28e7b005c693279 Christopher Obbard 2024-07-16  153  		};
-28e7b005c693279 Christopher Obbard 2024-07-16  154  	};
-28e7b005c693279 Christopher Obbard 2024-07-16  155  };
-28e7b005c693279 Christopher Obbard 2024-07-16  156  
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: phy@fe830000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: phy@fe820000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-naneng-combphy.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /rk3568-gpiomem: failed to match any schema with compatible: ['rockchip,rk3568-gpiomem']
 
 -- 
 0-DAY CI Kernel Test Service
