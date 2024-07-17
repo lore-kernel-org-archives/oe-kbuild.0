@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBE2ED8
-	for <oe-kbuild@lists.linux.dev>; Wed, 17 Jul 2024 15:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DE5183083
+	for <oe-kbuild@lists.linux.dev>; Wed, 17 Jul 2024 17:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721229921; cv=none; b=P+fbpxlbIgEATv3SNT0WqPVIohK76zntpruGq1ukOQnRPqerY2hJIFfj0HKQ2MO/TXTjXeW3APtT3hvAnIPJQvjXWZHXR1gdsBD6PutVbG54jCBW4lHxDyDizcV5tcDrDg6OD4AWlfrwCpF/aokQ0VxevSOZ1tQtG/Kqg+ctg9k=
+	t=1721236707; cv=none; b=ky+M8kbqJTye84qCkRDWIUfMer8YU5nOIwnEQbzhwwIIm8dE7CxGmmW7O/dxJpFV9LPXggGNhoa8VWB6mB6YXzzLc3F9ICjiNbkk6W/ksqJjWUXh5xW/lxvKQrkFlK6KJA7b4ERGUFf4xcwyV1TADEUXoaJNx0RgPjU91O3A24M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721229921; c=relaxed/simple;
-	bh=jPDuouD2pu66ZprpgHWwjFt29OlcRo2kapZ1JSmh1iI=;
+	s=arc-20240116; t=1721236707; c=relaxed/simple;
+	bh=3vP1kyv4aYssEqkQiOHN0q9nxReJ5Yo35fM+JhmiSpQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UU0bPXvNXCz5xrixxSGJtO85r0aR2ucMTY6xks/8ZrySovIX/POxuVZ8QKb8J6ofz29C+85pBDvFDkAl797UPQBak3/9W2uu/N4XCrOvNA9nkmkHMlYXtB/zJbnmsFKrxi+5pSmNclCS3wyNXMuMUqu4npIItNiee21Z2HKt9eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R46xiTv0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=c5xqsXovrK3wHMgBe/7zyxOpgreUpHGXL43czGUNfhQr/V5Yzbny/6n+IIWN+BfKt7c+Iyujb3xyjYcCZj3fTeYCw5E02YTc8Rh0P2Q7NMKO/vt7/Okbck1+AOYYlNtW5h4Jr1mgLBLYg4gGupe/nYJJQgl5nk9IYOOnO4ZCOmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ji0LUUlg; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R46xiTv0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ji0LUUlg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721229918; x=1752765918;
+  t=1721236705; x=1752772705;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jPDuouD2pu66ZprpgHWwjFt29OlcRo2kapZ1JSmh1iI=;
-  b=R46xiTv0WWoHV2JAuZHdBJEK7OL733KgxBy3ma4JhfeZ3/lNagmUFq7d
-   hWITp4UfmAMm5sxfcsVj8kIYOj3xMD7yDzVJXBp1hWGKvpFVEcXhZD7AH
-   2lsyHDIzl6TayBC9QaAVaHNMCSdOopyhK2c7MuYjT7WycL+lBp0/ZANFx
-   Hm8152798AkFO0EPIrBY1mkZFTitle+ZhkREQBKaHqaDc/d+zEsymB1o9
-   hnV17QopCOnaoc77WFQmplHPv+/DrNXxMvL2+EzgG8swhYs5cvHiyDiJe
-   vd10sBSGS0ZSN3P0zZndT/8BMqYDykAvrNlYiPzO44T7HYuGxxs+iUeYD
-   g==;
-X-CSE-ConnectionGUID: M9fmx8KrRPOLffI60rz1FQ==
-X-CSE-MsgGUID: 7p25lxalSGSNiiUPCHEy1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18695091"
+  bh=3vP1kyv4aYssEqkQiOHN0q9nxReJ5Yo35fM+JhmiSpQ=;
+  b=ji0LUUlgTByDhxpbD75oz+TMVGLWc1TmuHM0mkvkAuwG/pEwCQjz0MVl
+   Ez4Nhd7p21ffhHflw/c11ngXb1PG1DIC8pPtK/oFn5/uvUAa1XDL8VAtT
+   NMHl1xwDhCNe9mqkGAJitLD+p/HQcisO9xMVryt611LfT3pxXysF9dJKD
+   7qpKT+PnEZIjagMIVyUYxXvcWfT9qTRN2OoHzFQk8b1o2PyCJ/eI0Q2tf
+   fsLXjIPG6SZSZuQvTjEBfHTzy7PTHjYJOrd1l3pTgakWNnQGIlIDMqY0d
+   3mjPu+gDRi3jGmJy1I3RCL4AwRsrbJKbWpQfHHFOJ327iszJMFj84otdQ
+   Q==;
+X-CSE-ConnectionGUID: pWNRfcPfTTi3iKU1YeTs/w==
+X-CSE-MsgGUID: 9t6oNoTFTc+XDvo+ldMI2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11136"; a="18372755"
 X-IronPort-AV: E=Sophos;i="6.09,215,1716274800"; 
-   d="scan'208";a="18695091"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 08:25:18 -0700
-X-CSE-ConnectionGUID: AzQkap7wT/uD8iykw95asw==
-X-CSE-MsgGUID: Pnt5sZubTEy+WNwvlDBeJg==
+   d="scan'208";a="18372755"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2024 10:18:24 -0700
+X-CSE-ConnectionGUID: Up/uLmTLQC6sO6+dPbusjQ==
+X-CSE-MsgGUID: oimXXHHkSb+drcyf3BVURg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,215,1716274800"; 
-   d="scan'208";a="50378769"
+   d="scan'208";a="50786783"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Jul 2024 08:25:17 -0700
+  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2024 10:18:23 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sU6Wo-000gQz-2z;
-	Wed, 17 Jul 2024 15:25:14 +0000
-Date: Wed, 17 Jul 2024 23:24:15 +0800
+	id 1sU8IH-000gXW-0x;
+	Wed, 17 Jul 2024 17:18:21 +0000
+Date: Thu, 18 Jul 2024 01:18:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tobetter:odroid-6.1.y 14/91]
- arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated
- properties are not allowed ('power-domains' was unexpected)
-Message-ID: <202407172352.WLHY80vy-lkp@intel.com>
+Subject: [tobetter:odroid-6.6.y 48/74]
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: pmic@20:
+ '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks',
+ 'clock-names', 'clocks', 'codec' do not match any of the regexes:
+ 'pinctrl-[0-9]+'
+Message-ID: <202407180139.AwgtxPuL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,53 +72,46 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dongjin Kim <tobetter@gmail.com>
+TO: ckkim <changkon12@gmail.com>
+CC: Dongjin Kim <tobetter@gmail.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   33e59e3417fd2b46d422206b92040e1fe5b6c38d
-commit: af52052e79e286b72d81618e6bc9ea37cb2ec2fb [14/91] arm64: dts: rockchip: Add Hardkernel ODROID-M1 board
-:::::: branch date: 11 hours ago
-:::::: commit date: 1 year, 6 months ago
-config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240717/202407172352.WLHY80vy-lkp@intel.com/config)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   fdb4709395deb4bfd668475eec2c0d482f12e1e1
+commit: cde511105ecc0476398434a06b2bf08f4c3a9ddb [48/74] ODROID-M1S: arm64/dts: add rk809 audio codec support
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240718/202407180139.AwgtxPuL-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407172352.WLHY80vy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240718/202407180139.AwgtxPuL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407172352.WLHY80vy-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407180139.AwgtxPuL-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('dr_mode', 'extcon', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('dr_mode', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /i2c@fdd40000/regulator@1c: failed to match any schema with compatible: ['tcs,tcs4525']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	'rockchip,px3' was expected
+   	'rockchip,px30' was expected
+   	'rockchip,px5' was expected
+   	'rockchip,rk3128' was expected
+   	'rockchip,rk3228' was expected
+   	'rockchip,rk3318' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/rockchip.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: /: failed to match any schema with compatible: ['rockchip,rk3566-odroid-m1s', 'rockchip,rk3566']
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: tcs4525@1c: Unevaluated properties are not allowed ('regulator-compatible', 'regulator-init-microvolt' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/fcs,fan53555.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
    	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
    	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
    	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb2phy@fe8a0000: otg-port: 'vbus-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-inno-usb2.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: ethernet@fe2a0000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: i2s@fe410000: Unevaluated properties are not allowed ('rockchip,clk-trcm' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+   	from schema $id: http://devicetree.org/schemas/sound/rockchip,i2s-tdm.yaml#
+   arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dtb: phy@fe830000: 'phy-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
