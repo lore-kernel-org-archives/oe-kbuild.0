@@ -1,65 +1,58 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE9612C474
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jul 2024 15:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E338C06
+	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jul 2024 17:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721316481; cv=none; b=t6iblHXbs0E18NCyDPFlAX8VxWfwEehRdfMLc4OlPl9BoF8BzEglKHAfF5kyCzNociLjwg0mDzVWoT5j3NlvusTESn07TiaN37w+6eSBQUTFzG0vNDTg16v7/RZjY4L3KGVYH0w47GPwg+CjukEkN2/2m73Jvk7WpS/PcaDRXr4=
+	t=1721323311; cv=none; b=B0Bpfaivr376tImTr4MBQDT91GN4TH94mjvbmiYTPgZYQzrAxptXnUcY/DkosbI5P4+wxrouWBbxdVrSBUnc7xBu6aZJireM+L7NRUyYF2aSqxZVEqCmUnS3og9tRKLIGtBfoSu53axvMUurV8eCrULg5P0T37+kCNH6vNc6m9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721316481; c=relaxed/simple;
-	bh=7cZHQP8fAzCKT+FJhLCwqT+lLrJaF8iBu/6hNmogy3E=;
+	s=arc-20240116; t=1721323311; c=relaxed/simple;
+	bh=SVw8bUSFTBvEFp/8YSB/2K1Oyh/yhwO72ea+iOzBVZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pDimQ5v1/Cl3TgMe/6juK0ZeNxF2+wqMXYtlXOXtkj6nFCD0zSj90Y+o2VyxmZGY3Wbm/GIfBCoeCJvNc6Tft6/HZk42aefDDqnml0tVTYHE3xI06v2LChkXuGzQ2usQmDF/xNt4nQDhsX2Qqm4/vSbVJL+iapLF4z+EJSjFcAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=STJA0d0m; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=FKA9Rs8HSRhWk89NduFG7D4UO+ywhMCPK64ZNxW0qR6wHxw4lGnqcExhfpVeyU89QDN8KqHSgQdvDCAMCkG0L0rgKh3wV5GzOz0OF0DDhJ/nRUCvzanB6XY6WpU7YWK6/idAkT17c2yVaLFNlDJ6KXQgoH738UcSeVL+N5l7B+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGl8Fj5M; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="STJA0d0m"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-706dea920f3so406417a34.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 18 Jul 2024 08:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721316478; x=1721921278; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AFuoeTzLjl2+sNJgRuxCQvYdNiIGR6RuZRBzqWfCJQQ=;
-        b=STJA0d0mG33Naw7wE6CDT8ef+pxvMX3nVuSqf9XsVVkZnWeGWlXgpvj05k7jKqy592
-         1NtwoASS3qaJxVEsCUAK56OzOrp7oEbHAMRkwaUx6Zkidaihk/RWUKHw+etEgutxm7pa
-         NR+fCoSpwnRH2kpGfsYXtoMixjpitfiEXiwH+F7tzwjgzOpAnDG7NBStUFwHvGCgVRnP
-         pP5lfqdHKewhsVbiWXNwxmfXGdhR9lOxQ/HZxx34orjETTJDAysDkihWx79tZYWrfnKm
-         usMnv2hBXIG6Vgxe7STFHKLgxw3gFyiTxxYXSKggQ/dZD62cgVvCU4Bz33fpVfqt44aN
-         /qCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721316478; x=1721921278;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AFuoeTzLjl2+sNJgRuxCQvYdNiIGR6RuZRBzqWfCJQQ=;
-        b=O6AQDrcUkC5M80l5HtDEKodG1gbeTn5F4Ew7JnsbSVjNJIF1XImU4ch6Bp2HpXBjSx
-         YJRAuSFs5BV4ws1ZbgBpeQfnIiC0qLkRc6S/GLOdrfZy1OyIddA0zHRq1ZxPx12KJtTL
-         5tL4onz9Y7CGjuwA0MThtxWLksv9f1KoWltCcqbLlVD4RGYTGEQigRLlp3G1mnMbxjkY
-         kRLHP6hpOUTbLkDQ+9WoCCr5/9IQ9ffyetdagG/BE55obEiscnm9bZj0W6MB4sE4ixf9
-         COWtCa5DMeoJL6pd5Dju9kc6AzV3HYi6Zp0VDsXeJKlgQfwa3Qu/mrueEB+jBBdkw3FN
-         rpGw==
-X-Gm-Message-State: AOJu0Yw9WaWnk8Rxj0pPzUGy2kB+SCEfgXnaxuBVw07ssLyTRElOCJMe
-	Un7HngueITfWFK7sA/MCFUBKTIzq2fFPLrY1FKU9eVnRJygq2NJeer+Mv1GG6oofUAshvQa3/8O
-	Y
-X-Google-Smtp-Source: AGHT+IECRzrkp2OK2/9kQbAk6sEa0OvgiXvImrg/fRA1kUBl73W5L+d6uMpxtPD+FT6kVOA+0ts7iw==
-X-Received: by 2002:a05:6830:610f:b0:703:59e5:b083 with SMTP id 46e09a7af769-708ea0ed71dmr2005019a34.17.1721316477806;
-        Thu, 18 Jul 2024 08:27:57 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:1a6d:d3d6:98e4:34e1])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-708e79013absm471194a34.73.2024.07.18.08.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jul 2024 08:27:57 -0700 (PDT)
-Date: Thu, 18 Jul 2024 10:27:55 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Mikulas Patocka <mpatocka@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Mike Snitzer <snitzer@kernel.org>
-Subject: [linux-next:master 12153/13432] drivers/md/dm-integrity.c:4559
- dm_integrity_ctr() warn: impossible condition '(bi->tuple_size > ((1) << 12)
- / 2) => (0-255 > 2048)'
-Message-ID: <70e61f94-d4c6-4ef6-9e72-d65017a745bd@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGl8Fj5M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721323309; x=1752859309;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SVw8bUSFTBvEFp/8YSB/2K1Oyh/yhwO72ea+iOzBVZI=;
+  b=nGl8Fj5MKm76DDsr39Ydyv4LIfWdHN17oeaNlx3385zhA/t2Qa+4lRIO
+   hwQmjnDGTAg3vc1TkWTENd6zjIvERjuyUA6tIu+0fhCOl03ObaTadI/RX
+   avUFu89QgEUr6CsRgbjTN30rTiSscXpyOtMtkWqkkD1Yjenn0vXq44v4J
+   G9XFRFqQA2I1IbUS6HDMaQyZHAL4yhE50owdYI2gJeZnBngHSh96CcH6H
+   mCs6Sd6cJ429RyvbJZ3mhYMi7xu6XJlIlG29wCTlKJl5iCuslf/BDxWYO
+   FjE5Ltlq3TSZUXQUWzGaNx5fi+BBwyFya+nPf6hreN01QyKnvAqsKSSFn
+   w==;
+X-CSE-ConnectionGUID: //q3KAMbRVOsFUJF1m48Jw==
+X-CSE-MsgGUID: I5P8A37SRoKRga/w7jgJMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12612820"
+X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
+   d="scan'208";a="12612820"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 10:21:48 -0700
+X-CSE-ConnectionGUID: RRpOkjXuQcyUq1cXPMYFqg==
+X-CSE-MsgGUID: X2wvRW8qTnSb6AzjKL3F3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
+   d="scan'208";a="81865919"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Jul 2024 10:21:48 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sUUp7-000hT4-2k;
+	Thu, 18 Jul 2024 17:21:45 +0000
+Date: Fri, 19 Jul 2024 01:21:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [arnd-asm-generic:syscall-tbl-6.11 57/98]
+ arch/parisc/kernel/sys_parisc.c: linux/mm.h is included more than once.
+Message-ID: <202407190136.aEBZ4oyY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,71 +62,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   73399b58e5e5a1b28a04baf42e321cfcfc663c2f
-commit: b40cdccafe29f2192807b44130cf5099337ebf8f [12153/13432] dm-integrity: introduce the Inline mode
-config: i386-randconfig-141-20240718 (https://download.01.org/0day-ci/archive/20240718/202407182211.faX85HCP-lkp@intel.com/config)
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-arch@vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
+head:   9a99991d90521113a738c2a4761a4147fe4b31ca
+commit: 6dd7c7b7b787ca6273ef9ce283af778a15c25ff8 [57/98] parisc SYSCALL_DEFINE
+:::::: branch date: 6 days ago
+:::::: commit date: 13 days ago
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407182211.faX85HCP-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407190136.aEBZ4oyY-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/dm-integrity.c:4559 dm_integrity_ctr() warn: impossible condition '(bi->tuple_size > ((1) << 12) / 2) => (0-255 > 2048)'
+includecheck warnings: (new ones prefixed by >>)
+>> arch/parisc/kernel/sys_parisc.c: linux/mm.h is included more than once.
 
-vim +4559 drivers/md/dm-integrity.c
+vim +17 arch/parisc/kernel/sys_parisc.c
 
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4525  	if (ic->mode == 'I') {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4526  		struct blk_integrity *bi;
-
-bi->tuple_size is a u8
-
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4527  		if (ic->meta_dev) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4528  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4529  			ti->error = "Metadata device not supported in inline mode";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4530  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4531  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4532  		if (!ic->internal_hash_alg.alg_string) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4533  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4534  			ti->error = "Internal hash not set in inline mode";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4535  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4536  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4537  		if (ic->journal_crypt_alg.alg_string || ic->journal_mac_alg.alg_string) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4538  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4539  			ti->error = "Journal crypt not supported in inline mode";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4540  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4541  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4542  		if (ic->discard) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4543  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4544  			ti->error = "Discards not supported in inline mode";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4545  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4546  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4547  		bi = blk_get_integrity(ic->dev->bdev->bd_disk);
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4548  		if (!bi || bi->csum_type != BLK_INTEGRITY_CSUM_NONE) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4549  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4550  			ti->error = "Integrity profile not supported";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4551  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4552  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4553  		/*printk("tag_size: %u, tuple_size: %u\n", bi->tag_size, bi->tuple_size);*/
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4554  		if (bi->tuple_size < ic->tag_size) {
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4555  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4556  			ti->error = "The integrity profile is smaller than tag size";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4557  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4558  		}
-b40cdccafe29f2 Mikulas Patocka    2024-07-10 @4559  		if (bi->tuple_size > PAGE_SIZE / 2) {
-                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-PAGE_SIZE is never going to be less than 4k and 255 is lot less than
-PAGE_SIZE / 2.  Was something else intended here?
-
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4560  			r = -EINVAL;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4561  			ti->error = "Too big tuple size";
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4562  			goto bad;
-b40cdccafe29f2 Mikulas Patocka    2024-07-10  4563  		}
+     2	
+     3	/*
+     4	 *    PARISC specific syscalls
+     5	 *
+     6	 *    Copyright (C) 1999-2003 Matthew Wilcox <willy at parisc-linux.org>
+     7	 *    Copyright (C) 2000-2003 Paul Bame <bame at parisc-linux.org>
+     8	 *    Copyright (C) 2001 Thomas Bogendoerfer <tsbogend at parisc-linux.org>
+     9	 *    Copyright (C) 1999-2020 Helge Deller <deller@gmx.de>
+    10	 */
+    11	
+    12	#include <linux/uaccess.h>
+    13	#include <asm/elf.h>
+    14	#include <linux/file.h>
+    15	#include <linux/fs.h>
+    16	#include <linux/linkage.h>
+  > 17	#include <linux/mm.h>
+    18	#include <linux/mman.h>
+    19	#include <linux/sched/signal.h>
+    20	#include <linux/sched/mm.h>
+    21	#include <linux/shm.h>
+    22	#include <linux/syscalls.h>
+    23	#include <linux/utsname.h>
+    24	#include <linux/personality.h>
+    25	#include <linux/random.h>
+    26	#include <linux/compat.h>
+    27	#include <linux/elf-randomize.h>
+  > 28	#include <linux/mm.h>
+    29	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
