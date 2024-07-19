@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBDF4C6B
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 15:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A47A1459FA
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 16:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721403751; cv=none; b=DwF3f1DDI5jxppi4Sn08RIZ2ew6No6YjpFJ0hJEobPfOtkHXP/7DNGCKpi2f/u3ZWyXNgL8+oijBpohjzpeKQ1gln3T7J0eVb/qzDUBwx9nfcHVsn9liUizdifk7gBJ2krYywQOM11s5uONJTfX4mr4Yz4u5IdQtK/dKow7VP34=
+	t=1721406338; cv=none; b=GSIyVjP90rOKAlDgvI6t5HfaCKvyqYzMmyKsCPmvZ4ieUt00Pa7hPviYR7SFcO6cLOmj0RI8BbC4P7MWecuzIYg8+1lZm2SQ1geo/5DfnAMh1Ih5Rq+yzalR+d3CQKvQdCyJ5ngEG8f68fJiD/WgX9iaSutyqCeVug85clVvAI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721403751; c=relaxed/simple;
-	bh=Yj9koRZ6Us4EmhtuI+L3uFjZ89NADwJ44uNMcEMT+ho=;
+	s=arc-20240116; t=1721406338; c=relaxed/simple;
+	bh=6yH00IoA6ospUFT1ky8HUewRLnCkGcaGxFvl341bTFM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MhohsX3JyVO0X2J0VDQ4m6e57yq7zMJMZ7dckGfUydVndgN/HxsRSp39h51lslstpW+RjNn6OnEsJsisMPekk7a0cNqNVRNZ5o2S1xSQIs9fBYohZQJ2AzqYBX5A0sXmUdbRJx2D5nB5kmX2O/5FEWnOUdi9hrXoEQtAHPEHIkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JufQHDKE; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=UPVBCFcaCPqP0MmC1T5qfQgtDtB19T9IwjsROhrGp6YWaKVEmOI1vNVpD2Vyz13aeDCXzg5eHJZXOkfUWHDMXouzY84X8yJ450HRk+EGqoT8M2tr3/VtBJ31RJXB6mWPSg02pNr4L2lYDRr9VdY+33V3YCnl5oZj/8vgowEywTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J0v+j85A; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JufQHDKE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J0v+j85A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721403750; x=1752939750;
+  t=1721406336; x=1752942336;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yj9koRZ6Us4EmhtuI+L3uFjZ89NADwJ44uNMcEMT+ho=;
-  b=JufQHDKEcUZOYbVAxjsWW+Ni4vC30XHDAR2rvff0atw+YkJ5i4ZtmDc8
-   c7YrK71UH3WhwXyrn7oG6zB/7dNFLkWjCT/Umf/X8s+bWox7V7VYhrIT3
-   /15vuOdj+zynNt7eq+39uJ9z5tnSboDz5eVuAvHwO/a0LzLTKHgYBgmq0
-   2vay1EZysJB+A0dSj4+8q932wlhJkWF5/hU6Ti6AiteL8GMlIlBIdvA1U
-   BAEr6qc5HHD4Ba4cMxYXo4RTm+EN7HNu6GAC+Jz6OxHGsrstSeqNDFZ/a
-   MHU1e32nMDtLB7P+6eK0kEkhYddaADTm5HiBL7ScuMg68yvj2g8QxeAyt
+  bh=6yH00IoA6ospUFT1ky8HUewRLnCkGcaGxFvl341bTFM=;
+  b=J0v+j85AMnQ2x8jxCV3blLXDxhUvSR39kynFOCKYkG8szPsYx7LcpKYd
+   5NNxHMRYlqmHAXII7HnAcO9cL2C8+7AJz/PaFwtVG7Wx2QJQYwpHQ7Jvg
+   Xj2AgSnKL9U1MQfbP2DNHfTXlCliqSjO/kmzUCJnHuqq5m9M5eAwnNgjg
+   8cICw7LOypZ/9aVjc/Ys2FqZtZAwa6EzFOHzoiPrRUf+GuDkVz2xX/X8h
+   U2Q/HgDCenrgATozNawMDNchCWOy3Jw9HMYKDVFIx1ghkfzgpLs5BhGMk
+   CPAwlVTxbQu0LzXfYy6dqE05NFoS0f5HPyi8NV+Ex7CLBjtOCptw02plH
    A==;
-X-CSE-ConnectionGUID: f3dLBnvRQ8GJElOkHCvijw==
-X-CSE-MsgGUID: wKdv8y42TVyaPo8NhT94yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="30445629"
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="30445629"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 08:42:29 -0700
-X-CSE-ConnectionGUID: eHLAgfg0SdKQu94GNmqtGg==
-X-CSE-MsgGUID: +SCWoXFGRxiIGUtAohJbQw==
+X-CSE-ConnectionGUID: KxMYkMZ5QdeZCY0Cuzle/Q==
+X-CSE-MsgGUID: jkyLEELJQYmYdimX/YuEGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11138"; a="19175982"
+X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; 
+   d="scan'208";a="19175982"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 09:25:33 -0700
+X-CSE-ConnectionGUID: 7aBszBr8S3WRyZyUzNpCeQ==
+X-CSE-MsgGUID: AzCdTLAIRAyKvWb8pzOajA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="55348979"
+X-IronPort-AV: E=Sophos;i="6.09,221,1716274800"; 
+   d="scan'208";a="56007047"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Jul 2024 08:42:27 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Jul 2024 09:25:32 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUpkX-000iJD-2k;
-	Fri, 19 Jul 2024 15:42:25 +0000
-Date: Fri, 19 Jul 2024 23:42:02 +0800
+	id 1sUqQD-000iNF-2m;
+	Fri, 19 Jul 2024 16:25:29 +0000
+Date: Sat, 20 Jul 2024 00:25:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [morimoto:sound-msiof-2024-07-17 14/15]
- arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts:48.18-54.4: Warning
- (spi_bus_reg): /soc/spi@e6e90000/port: missing or empty reg property
-Message-ID: <202407192300.jWDxktAp-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 3/4] clk: samsung: clk-pll: Add support for pll_531x
+Message-ID: <202407200028.5AADGhmj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,80 +61,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240707231331.3433340-4-sunyeal.hong@samsung.com>
+References: <20240707231331.3433340-4-sunyeal.hong@samsung.com>
+TO: Sunyeal Hong <sunyeal.hong@samsung.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Sylwester Nawrocki <s.nawrocki@samsung.com>
+TO: Chanwoo Choi <cw00.choi@samsung.com>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-samsung-soc@vger.kernel.org
+CC: linux-clk@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: Sunyeal Hong <sunyeal.hong@samsung.com>
 
-tree:   https://github.com/morimoto/linux sound-msiof-2024-07-17
-head:   50e1ad525e8d7f5da20d264b4b3d30cc2409c320
-commit: 9f6ea8e3503ec37d383e076b09cc56918c6deb49 [14/15] msiof
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-001-20240719 (https://download.01.org/0day-ci/archive/20240719/202407192300.jWDxktAp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407192300.jWDxktAp-lkp@intel.com/reproduce)
+Hi Sunyeal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on pinctrl-samsung/for-next krzk-dt/for-next linus/master v6.10 next-20240719]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sunyeal-Hong/dt-bindings-clock-add-Exynos-Auto-v920-SoC-CMU-bindings/20240708-072150
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20240707231331.3433340-4-sunyeal.hong%40samsung.com
+patch subject: [PATCH v2 3/4] clk: samsung: clk-pll: Add support for pll_531x
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: arc-randconfig-r071-20240719 (https://download.01.org/0day-ci/archive/20240720/202407200028.5AADGhmj-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407192300.jWDxktAp-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407200028.5AADGhmj-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts:48.18-54.4: Warning (spi_bus_reg): /soc/spi@e6e90000/port: missing or empty reg property
->> arch/arm64/boot/dts/renesas/r8a77960.dtsi:1436.24-1453.5: Warning (avoid_unnecessary_addr_size): /soc/spi@e6e90000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts:33.8-42.4: Warning (avoid_unnecessary_addr_size): /dummy: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+smatch warnings:
+drivers/clk/samsung/clk-pll.c:1292 samsung_pll531x_recalc_rate() warn: mask and shift to zero: expr='fdiv >> 31'
 
-vim +48 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts
+vim +1292 drivers/clk/samsung/clk-pll.c
 
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  12  
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  13  / {
-83772e1b44231e arch/arm64/boot/dts/renesas/r8a77960-m3ulcb.dts Geert Uytterhoeven 2019-12-11  14  	model = "Renesas M3ULCB board based on r8a77960";
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  15  	compatible = "renesas,m3ulcb", "renesas,r8a7796";
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  16  
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  17  	memory@48000000 {
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  18  		device_type = "memory";
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  19  		/* first 128MB is reserved for secure area. */
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  20  		reg = <0x0 0x48000000 0x0 0x38000000>;
-d9b1c753878310 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  21  	};
-811a0d07e68ed3 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  22  
-2a3ee629ed8b2f arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2017-01-26  23  	memory@600000000 {
-2a3ee629ed8b2f arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2017-01-26  24  		device_type = "memory";
-2a3ee629ed8b2f arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2017-01-26  25  		reg = <0x6 0x00000000 0x0 0x40000000>;
-2a3ee629ed8b2f arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2017-01-26  26  	};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  27  
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  28  	msiof_sound: msiof_sound {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  29  		compatible = "audio-graph-card2";
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  30  		links = <&msiof_snd>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  31  	};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  32  
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17 @33  	dummy {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  34  		#address-cells = <1>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  35  		#size-cells = <0>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  36  		compatible = "test-codec";
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  37  		port {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  38  			dummy: endpoint {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  39  				remote-endpoint = <&msiof>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  40  			};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  41  		};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  42  	};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  43  };
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  44  
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  45  &msiof0 {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  46  	#address-cells = <1>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  47  	#size-cells = <0>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17 @48  	msiof_snd: port {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  49  		msiof: endpoint {
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  50  			remote-endpoint = <&dummy>;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  51  			bitclock-master;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  52  			frame-master;
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  53  		};
-9f6ea8e3503ec3 arch/arm64/boot/dts/renesas/r8a77960-ulcb.dts   Kuninori Morimoto  2024-07-17  54  	};
-31e12cb663b039 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2016-11-03  55  };
-d6e381673d8762 arch/arm64/boot/dts/renesas/r8a7796-m3ulcb.dts  Vladimir Barinov   2017-07-07  56  
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1276  
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1277  static unsigned long samsung_pll531x_recalc_rate(struct clk_hw *hw,
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1278  						 unsigned long parent_rate)
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1279  {
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1280  	struct samsung_clk_pll *pll = to_clk_pll(hw);
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1281  	u32 mdiv, pdiv, sdiv, pll_con0, pll_con8;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1282  	s32 fdiv;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1283  	u64 fout = parent_rate;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1284  
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1285  	pll_con0 = readl_relaxed(pll->con_reg);
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1286  	pll_con8 = readl_relaxed(pll->con_reg + 20);
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1287  	mdiv = (pll_con0 >> PLL531X_MDIV_SHIFT) & PLL531X_MDIV_MASK;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1288  	pdiv = (pll_con0 >> PLL531X_PDIV_SHIFT) & PLL531X_PDIV_MASK;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1289  	sdiv = (pll_con0 >> PLL531X_SDIV_SHIFT) & PLL531X_SDIV_MASK;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1290  	fdiv = (s32)(pll_con8 & PLL531X_FDIV_MASK);
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1291  
+5c788df7a25de7 Sunyeal Hong 2024-07-08 @1292  	if (fdiv >> 31)
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1293  		mdiv--;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1294  
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1295  	fout *= ((u64)mdiv << 24) + (fdiv >> 8);
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1296  	do_div(fout, (pdiv << sdiv));
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1297  	fout >>= 24;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1298  
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1299  	return (unsigned long)fout;
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1300  }
+5c788df7a25de7 Sunyeal Hong 2024-07-08  1301  
 
 -- 
 0-DAY CI Kernel Test Service
