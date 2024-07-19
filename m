@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E338C06
-	for <oe-kbuild@lists.linux.dev>; Thu, 18 Jul 2024 17:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D247815CB
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 02:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721323311; cv=none; b=B0Bpfaivr376tImTr4MBQDT91GN4TH94mjvbmiYTPgZYQzrAxptXnUcY/DkosbI5P4+wxrouWBbxdVrSBUnc7xBu6aZJireM+L7NRUyYF2aSqxZVEqCmUnS3og9tRKLIGtBfoSu53axvMUurV8eCrULg5P0T37+kCNH6vNc6m9w=
+	t=1721356626; cv=none; b=bUSMjSDzFiJD87sVu8eDcU26Oqauk3IvYP+awzWc2cRLb8saA0w98Rb7rq+ttuxKulzxfr/T9YYBEjBp0gtsdtb8eStumlzgRqQeb4kePQLgF4v29dAofeSeZ10KPBV8lpA9fffC8gN4T9QfsOccf4RvTUuGn8jrr4OYnwBquBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721323311; c=relaxed/simple;
-	bh=SVw8bUSFTBvEFp/8YSB/2K1Oyh/yhwO72ea+iOzBVZI=;
+	s=arc-20240116; t=1721356626; c=relaxed/simple;
+	bh=rDvH0VmF79A+l8UBLwiut5qHF7slq7HYHPVDx/Kh6ng=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FKA9Rs8HSRhWk89NduFG7D4UO+ywhMCPK64ZNxW0qR6wHxw4lGnqcExhfpVeyU89QDN8KqHSgQdvDCAMCkG0L0rgKh3wV5GzOz0OF0DDhJ/nRUCvzanB6XY6WpU7YWK6/idAkT17c2yVaLFNlDJ6KXQgoH738UcSeVL+N5l7B+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGl8Fj5M; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=Im6JSp8zGmfcNDykZFJ+Se4MySWa7Cn8BcfenFIXghS2LZaqzLOGqCsr0ZeVgZ+fBF2SasIReTAjHvkgKWCamZihrRumSg1uV6usQhuhOyTsR5Eai4CYN/Db2WRZtiWgVUUcH2i3VdBJoQ7r9yXA6u1X/k5iGwoy4qOa+To6zEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ItPOxvTH; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGl8Fj5M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ItPOxvTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721323309; x=1752859309;
+  t=1721356624; x=1752892624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SVw8bUSFTBvEFp/8YSB/2K1Oyh/yhwO72ea+iOzBVZI=;
-  b=nGl8Fj5MKm76DDsr39Ydyv4LIfWdHN17oeaNlx3385zhA/t2Qa+4lRIO
-   hwQmjnDGTAg3vc1TkWTENd6zjIvERjuyUA6tIu+0fhCOl03ObaTadI/RX
-   avUFu89QgEUr6CsRgbjTN30rTiSscXpyOtMtkWqkkD1Yjenn0vXq44v4J
-   G9XFRFqQA2I1IbUS6HDMaQyZHAL4yhE50owdYI2gJeZnBngHSh96CcH6H
-   mCs6Sd6cJ429RyvbJZ3mhYMi7xu6XJlIlG29wCTlKJl5iCuslf/BDxWYO
-   FjE5Ltlq3TSZUXQUWzGaNx5fi+BBwyFya+nPf6hreN01QyKnvAqsKSSFn
-   w==;
-X-CSE-ConnectionGUID: //q3KAMbRVOsFUJF1m48Jw==
-X-CSE-MsgGUID: I5P8A37SRoKRga/w7jgJMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="12612820"
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="12612820"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 10:21:48 -0700
-X-CSE-ConnectionGUID: RRpOkjXuQcyUq1cXPMYFqg==
-X-CSE-MsgGUID: X2wvRW8qTnSb6AzjKL3F3A==
+  bh=rDvH0VmF79A+l8UBLwiut5qHF7slq7HYHPVDx/Kh6ng=;
+  b=ItPOxvTHas1fevOzONTKFrF8fWlZ1MlqZUAtyEHi8dkyIUgeIQ7qC25r
+   4D5Y/mHK3XjUWElTEaIplltVjhewCwGDTBtPvttamRdXVXx36ZNBinu7s
+   oNBUt7NCShIFqwMUGPFtt3sWyBYXSeO+rRXo5IAWSOvXxfXeQLrzhJ508
+   HuXum0DQLV31F2d8vTkt90N6VGTEEhI5JzLU2sDS7BJJGPaXq0QYaLTa4
+   3d6Bo/ADLFUhc+XOjjQ8YnbsFN4arwVcHyA494eXevWDQC9Y1p6Rhxwsr
+   zFayupbRoXqBI2JlesySCCo64cZ3bKx/zfN1HnII7vbXevcDpBXPhfSEJ
+   Q==;
+X-CSE-ConnectionGUID: Ss7akJNjTx6aofIQl9fTjQ==
+X-CSE-MsgGUID: nbT/peU8TEGrA2ik/n2bsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="21858921"
+X-IronPort-AV: E=Sophos;i="6.09,219,1716274800"; 
+   d="scan'208";a="21858921"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 19:37:03 -0700
+X-CSE-ConnectionGUID: iH5ydydJRwqYp9EkKQoiow==
+X-CSE-MsgGUID: Mgf/1ZHaTPSc+oyJYW5eJw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,218,1716274800"; 
-   d="scan'208";a="81865919"
+X-IronPort-AV: E=Sophos;i="6.09,219,1716274800"; 
+   d="scan'208";a="55162927"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Jul 2024 10:21:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jul 2024 19:37:02 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUUp7-000hT4-2k;
-	Thu, 18 Jul 2024 17:21:45 +0000
-Date: Fri, 19 Jul 2024 01:21:14 +0800
+	id 1sUdUR-000hlm-2Q;
+	Fri, 19 Jul 2024 02:36:59 +0000
+Date: Fri, 19 Jul 2024 10:36:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arnd-asm-generic:syscall-tbl-6.11 57/98]
- arch/parisc/kernel/sys_parisc.c: linux/mm.h is included more than once.
-Message-ID: <202407190136.aEBZ4oyY-lkp@intel.com>
+Subject: ./rust/exports_core_generated.h:497:1: sparse: sparse: '##' failed:
+ concatenation is not a valid token
+Message-ID: <202407191050.yaRGZUPZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,59 +63,103 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check first_new_problem: ./rust/exports_core_generated.h:497:1: sparse: sparse: '##' failed: concatenation is not a valid token"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arch@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+CC: linux-kernel@vger.kernel.org
+TO: Miguel Ojeda <ojeda@kernel.org>
+CC: Palmer Dabbelt <palmer@rivosinc.com>
+CC: Gary Guo <gary@garyguo.net>
+CC: Conor Dooley <conor.dooley@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   9a99991d90521113a738c2a4761a4147fe4b31ca
-commit: 6dd7c7b7b787ca6273ef9ce283af778a15c25ff8 [57/98] parisc SYSCALL_DEFINE
-:::::: branch date: 6 days ago
-:::::: commit date: 13 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   720261cfc7329406a50c2a8536e0039b9dd9a4e5
+commit: 70a57b247251aabadd67795c3097c0fcc616e533 RISC-V: enable building 64-bit kernels with rust support
+date:   3 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 3 months ago
+config: riscv-randconfig-r121-20240719 (https://download.01.org/0day-ci/archive/20240719/202407191050.yaRGZUPZ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20240719/202407191050.yaRGZUPZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407190136.aEBZ4oyY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407191050.yaRGZUPZ-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/parisc/kernel/sys_parisc.c: linux/mm.h is included more than once.
-
-vim +17 arch/parisc/kernel/sys_parisc.c
-
-     2	
-     3	/*
-     4	 *    PARISC specific syscalls
-     5	 *
-     6	 *    Copyright (C) 1999-2003 Matthew Wilcox <willy at parisc-linux.org>
-     7	 *    Copyright (C) 2000-2003 Paul Bame <bame at parisc-linux.org>
-     8	 *    Copyright (C) 2001 Thomas Bogendoerfer <tsbogend at parisc-linux.org>
-     9	 *    Copyright (C) 1999-2020 Helge Deller <deller@gmx.de>
-    10	 */
-    11	
-    12	#include <linux/uaccess.h>
-    13	#include <asm/elf.h>
-    14	#include <linux/file.h>
-    15	#include <linux/fs.h>
-    16	#include <linux/linkage.h>
-  > 17	#include <linux/mm.h>
-    18	#include <linux/mman.h>
-    19	#include <linux/sched/signal.h>
-    20	#include <linux/sched/mm.h>
-    21	#include <linux/shm.h>
-    22	#include <linux/syscalls.h>
-    23	#include <linux/utsname.h>
-    24	#include <linux/personality.h>
-    25	#include <linux/random.h>
-    26	#include <linux/compat.h>
-    27	#include <linux/elf-randomize.h>
-  > 28	#include <linux/mm.h>
-    29	
+sparse warnings: (new ones prefixed by >>)
+   rust/exports.c: note: in included file:
+>> ./rust/exports_core_generated.h:497:1: sparse: sparse: '##' failed: concatenation is not a valid token
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:37:1: sparse: sparse: got b_36
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: got _
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: got _
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:38:1: sparse: sparse: got _37
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: got olduNCINvNvB3r_12try_for_each4callcINtNtBb_6result6ResultuNtNtBb_3fmt5ErrorENCNvXs1Z_B2u_NtB2u_11EscapeDebugNtB53_7Display3fmt0E0B4E_EBb_
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: got olduNCINvNvB3r_12try_for_each4callcINtNtBb_6result6ResultuNtNtBb_3fmt5ErrorENCNvXs1Z_B2u_NtB2u_11EscapeDebugNtB53_7Display3fmt0E0B4E_EBb_
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:116:1: sparse: sparse: got olduNCINvNvB3r_12try_for_each4callcINtNtBb_6result6ResultuNtNtBb_3fmt5ErrorENCNvXs1Z_B2u_NtB2u_11EscapeDebugNtB53_7Display3fmt0E0B4E_EBb_115
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: got buguINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2K_B2X_B1R_8try_fold7flattenB3J_uB49_NCINvNvB1R_12try_for_each4callcB49_NCNvXs1Z_BZ_NtBZ_11EscapeDebugNtB4y_7Display3fmt0E0E0E0B49_EBc_
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: got buguINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2K_B2X_B1R_8try_fold7flattenB3J_uB49_NCINvNvB1R_12try_for_each4callcB49_NCNvXs1Z_BZ_NtBZ_11EscapeDebugNtB4y_7Display3fmt0E0E0E0B49_EBc_
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:118:1: sparse: sparse: got buguINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2K_B2X_B1R_8try_fold7flattenB3J_uB49_NCINvNvB1R_12try_for_each4callcB49_NCNvXs1Z_BZ_NtBZ_11EscapeDebugNtB4y_7Display3fmt0E0E0E0B49_EBc_117
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: got faultuINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2J_B2W_B1Q_8try_fold7flattenB3I_uB4b_NCINvNvB1Q_12try_for_each4callhB4b_NCNvXs2_B1r_NtB1r_11EscapeAsciiNtB4A_7Display3fmt0E0E0E0B4b_EBc_
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: got faultuINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2J_B2W_B1Q_8try_fold7flattenB3I_uB4b_NCINvNvB1Q_12try_for_each4callhB4b_NCNvXs2_B1r_NtB1r_11EscapeAsciiNtB4A_7Display3fmt0E0E0E0B4b_EBc_
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:132:1: sparse: sparse: got faultuINtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2J_B2W_B1Q_8try_fold7flattenB3I_uB4b_NCINvNvB1Q_12try_for_each4callhB4b_NCNvXs2_B1r_NtB1r_11EscapeAsciiNtB4A_7Display3fmt0E0E0E0B4b_EBc_131
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs22_BZ_NtBZ_13EscapeDefaultNtB4u_7Display3fmt0E0E0E0B45_EBc_
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs22_BZ_NtBZ_13EscapeDefaultNtB4u_7Display3fmt0E0E0E0B45_EBc_
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:134:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs22_BZ_NtBZ_13EscapeDefaultNtB4u_7Display3fmt0E0E0E0B45_EBc_133
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs25_BZ_NtBZ_13EscapeUnicodeNtB4u_7Display3fmt0E0E0E0B45_EBc_
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs25_BZ_NtBZ_13EscapeUnicodeNtB4u_7Display3fmt0E0E0E0B45_EBc_
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:135:1: sparse: sparse: got INtNtBc_6result6ResultuNtNtBc_3fmt5ErrorENCINvNvXsx_B2E_B2R_B1L_8try_fold7flattenB3D_uB45_NCINvNvB1L_12try_for_each4callcB45_NCNvXs25_BZ_NtBZ_13EscapeUnicodeNtB4u_7Display3fmt0E0E0E0B45_EBc_134
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: got 5accumjNtB3Z_3Sum3sumBN_E0EBc_
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: got 5accumjNtB3Z_3Sum3sumBN_E0EBc_
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:136:1: sparse: sparse: got 5accumjNtB3Z_3Sum3sumBN_E0EBc_135
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: got c_
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: got c_
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:365:1: sparse: sparse: got c_364
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:493:1: sparse: sparse: got b_492
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: Expected ) after typeof
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: got b_
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:494:1: sparse: sparse: got b_493
+   ./rust/exports_core_generated.h:497:1: sparse: sparse: Expected ; at end of declaration
+   ./rust/exports_core_generated.h:497:1: sparse: sparse: got __addressable__RINvYINtNtNtNtCsd7thgd03LAQ_4core4iter8adapters3map3MapINtNtNtBc_5slice4iter4IterhENCINvNvXs0_NtB8_6filterINtB1u_6FilterppENtNtNtBa_6traits8iterator8Iterator5count8to_usizeRhNCNvNtNtBc_3str5count23char_count_general_case0E0EB1X_3sumjEBc_496
 
 -- 
 0-DAY CI Kernel Test Service
