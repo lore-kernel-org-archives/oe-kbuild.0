@@ -1,122 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088A93EA6C
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 06:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6A557C8D
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 07:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721371692; cv=none; b=i9FvchOg0u8lFeidBfQAdfuSbZE15fzqumqC981PYjRJgREvXX9JfTZdOZLR5BBREqU1fhRzyNAis4SVg6NSjvS9xi3hLlOQQjZ0fgWXgvqSoFHizCzsqqNoHe6JP4iHv0md4SMcvXL6P1RQwI+B8k5VceshTMomQz6vWHh/tdE=
+	t=1721375475; cv=none; b=HDnAhBXxDTcg51r0PwhmH5xzmyiQK7g7iotIELIUstflIZEK1rKpcOkQZcHvrLWDjgXvQAslx0773GVmps843zK5Avl5K/9FWSpVu2gyvt/NkCGTzlI27X4QW97iGj1J/5JjQgti42wHqqsnJSRvRu0ElYJmQYwRA7pRTO+2gv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721371692; c=relaxed/simple;
-	bh=A/6YVAmNdtpfEX8vw7vWEODr6N6JSSHz2HLCUMfeaf4=;
+	s=arc-20240116; t=1721375475; c=relaxed/simple;
+	bh=jUG8KHueFJVezPfwggJHhDFZEspcf9hgjhil6IanCGE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ugzo2WnjK0sJHSFeIEkF9NNjCiSNxxRTNhsuj3mhotF/aonblfrZ3FcYRvRWc4rieGb+C2xPL5b5W8InaW6MmyEuxqe8JTz777i5LNnRIjuJYv3w5evbI00REso0eRYFyrnghxwoA9DA8c5V7Li1qEfJWIktIOa/9W9kSqjdtl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4uiIuhe; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=RKz9lAN6PI/qs55UUtHIK3ZzK2Xt8Teb0/K1Q16T+i+pQaq8MKiolC9WR1D8jO0IH6jqdZh0NOi5UeEfmYrAEhpVHUqQA5ty8OM6kE63fFM0eqbNJJie8apRsYhwn6SyLk2/JUs2nqEqcgIJ+jKKYONz4w7mnH0W60+ze1Octxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKNMMBTf; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4uiIuhe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKNMMBTf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721371691; x=1752907691;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A/6YVAmNdtpfEX8vw7vWEODr6N6JSSHz2HLCUMfeaf4=;
-  b=H4uiIuhej+w5xj/xmKOhS7nvN4g791foLsw7G5+e6m6xfqoLQ5ytByH0
-   pVGAD43TOqBzMYWf7H244pJ+mK78WrDQdRyxQUpobgzYmkh4EGwLmGnF4
-   uE7WjmDFPQA5LaZ2ojFXdfYI14skuBLTpwT1EpYSPdoUeung33ouWzrYV
-   Tc4uMvWyIw3z4SFNQ1WeW3/252E1nTyheL+Bjjke9Aan7SOQ6gN5IaqpE
-   2JwY6taGzzwlUPqnAdJLvu+dC0f/KkwIsmTO/pUdhRk1lnUQJ4Lpj63nf
-   nTukJGJSlv74gsb9RIB42IbqGl33859ZgqMYYMdLqXDkHrhMInlqiIFMe
-   w==;
-X-CSE-ConnectionGUID: CABWROUmSDmHjt+c4tqSfQ==
-X-CSE-MsgGUID: Jh0Fxw6JTiKZaiwRZFmckQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="21873873"
+  t=1721375473; x=1752911473;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jUG8KHueFJVezPfwggJHhDFZEspcf9hgjhil6IanCGE=;
+  b=HKNMMBTf2j/FJOydtijEJWpq5GqOiuqNUyVphP3hLNkq3YAIvTVOO2X7
+   MzZUrf2oVI8V+vVXbLryjpjErVaUaFzLO/T5NZ5d/htz3IAMCmLVQVPDa
+   TSfixTyVfniLuHpFGp3W9EXXqY7YKiWX+0ykwrLTLZqQbrIK5dllhN1Uq
+   +fAGDLGiJ5UAra0wiK4rDW8Kh30tT663IHkurGhLHIBkGAFc98nk4vzUB
+   fL4S676phMVg4kB/KOQSHnbB+GnEBiBZyZlApnmdvz8RYUYpdTZbkQXTO
+   HotyMgsRtR8tUENSsvdIbDjHUckxd/pYt5XALAbnRfjMsPmr1AQmohYsn
+   g==;
+X-CSE-ConnectionGUID: MEiZUJepQ0Wz9uIo8SlKHA==
+X-CSE-MsgGUID: dbB1NPJKRhCI3Xu70AsLzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="22784292"
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="21873873"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2024 23:48:10 -0700
-X-CSE-ConnectionGUID: yW0x8ZhmRtq8dNifoL1iyw==
-X-CSE-MsgGUID: 22mf3PK8T8ekTagb+07qTA==
+   d="scan'208";a="22784292"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 00:51:11 -0700
+X-CSE-ConnectionGUID: 9lCy/T9LQbW+ABZ67keGGQ==
+X-CSE-MsgGUID: WfLB0FdmT+CV/pKv+DSB1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="88520162"
+   d="scan'208";a="51057784"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2024 23:48:08 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Jul 2024 00:51:09 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUhPS-000hwN-0O;
-	Fri, 19 Jul 2024 06:48:06 +0000
-Date: Fri, 19 Jul 2024 14:47:40 +0800
+	id 1sUiOQ-000hy6-2q;
+	Fri, 19 Jul 2024 07:51:06 +0000
+Date: Fri, 19 Jul 2024 15:50:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [arnd-asm-generic:syscall-tbl-6.11 81/98]
- arch/powerpc/kernel/systbl.c: asm/syscall_table_64.h is included more than
- once.
-Message-ID: <202407191441.ju1QSbU8-lkp@intel.com>
+Subject: Re: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+Message-ID: <202407191502.ZETraOLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/gpd-fan.c:545:17: sparse: sparse: not in switch scope"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arch@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+In-Reply-To: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
+References: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
+TO: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
+TO: Jean Delvare <jdelvare@suse.com>
+TO: Guenter Roeck <linux@roeck-us.net>
+TO: Cryolitia PukNgae <Cryolitia@gmail.com>
+TO: Jonathan Corbet <corbet@lwn.net>
+CC: linux-kernel@vger.kernel.org
+CC: linux-hwmon@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+CC: Celeste Liu <CoelacanthusHex@gmail.com>
+CC: Yao Zi <ziyao@disroot.org>
+CC: "Marcin Strągowski" <marcin@stragowski.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git syscall-tbl-6.11
-head:   9a99991d90521113a738c2a4761a4147fe4b31ca
-commit: 895267a916ccea4816ebf852ee2fd278a705a18e [81/98] powerpc: use non-conflicting syscall function names
-:::::: branch date: 7 days ago
-:::::: commit date: 13 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Cryolitia,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d67978318827d06f1c0fa4c31343a279e9df6fde]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/hwmon-add-GPD-devices-sensor-driver/20240718-104420
+base:   d67978318827d06f1c0fa4c31343a279e9df6fde
+patch link:    https://lore.kernel.org/r/20240718-gpd_fan-v4-1-116e5431a9fe%40gmail.com
+patch subject: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: i386-randconfig-061-20240719 (https://download.01.org/0day-ci/archive/20240719/202407191502.ZETraOLX-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191502.ZETraOLX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407191441.ju1QSbU8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407191502.ZETraOLX-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
-   arch/powerpc/kernel/systbl.c: asm/syscall_table_32.h is included more than once.
->> arch/powerpc/kernel/systbl.c: asm/syscall_table_64.h is included more than once.
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/gpd-fan.c:496:25: sparse: sparse: typename in expression
+   drivers/hwmon/gpd-fan.c:496:29: sparse: sparse: Expected ; at end of statement
+   drivers/hwmon/gpd-fan.c:496:29: sparse: sparse: got ret
+   drivers/hwmon/gpd-fan.c:513:25: sparse: sparse: typename in expression
+   drivers/hwmon/gpd-fan.c:513:29: sparse: sparse: Expected ; at end of statement
+   drivers/hwmon/gpd-fan.c:513:29: sparse: sparse: got ret
+   drivers/hwmon/gpd-fan.c:541:25: sparse: sparse: typename in expression
+   drivers/hwmon/gpd-fan.c:541:28: sparse: sparse: Expected ; at end of statement
+   drivers/hwmon/gpd-fan.c:541:28: sparse: sparse: got var
+   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: Expected ; at end of statement
+   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: got )
+   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: Expected ; at end of statement
+   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: got )
+>> drivers/hwmon/gpd-fan.c:545:17: sparse: sparse: not in switch scope
+   drivers/hwmon/gpd-fan.c:548:9: sparse: sparse: Expected ; at the end of type declaration
+   drivers/hwmon/gpd-fan.c:548:9: sparse: sparse: got }
+   drivers/hwmon/gpd-fan.c:550:1: sparse: sparse: Expected ; at the end of type declaration
+   drivers/hwmon/gpd-fan.c:550:1: sparse: sparse: got }
+   drivers/hwmon/gpd-fan.c:496:25: sparse: sparse: undefined identifier 's32'
+   drivers/hwmon/gpd-fan.c:498:29: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:499:40: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:501:32: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:513:25: sparse: sparse: undefined identifier 's16'
+   drivers/hwmon/gpd-fan.c:515:29: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:516:40: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:518:32: sparse: sparse: undefined identifier 'ret'
+   drivers/hwmon/gpd-fan.c:541:25: sparse: sparse: undefined identifier 'u8'
+   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: undefined identifier '__UNIQUE_ID___val306'
+   drivers/hwmon/gpd-fan.c:543:43: sparse: sparse: undefined identifier 'var'
+   drivers/hwmon/gpd-fan.c:544:61: sparse: sparse: undefined identifier 'var'
+   drivers/hwmon/gpd-fan.c:564:20: sparse: sparse: undefined identifier 'gpd_fan_ops'
 
-vim +25 arch/powerpc/kernel/systbl.c
+vim +545 drivers/hwmon/gpd-fan.c
 
-    20	
-    21	#undef __SYSCALL
-    22	#ifdef CONFIG_ARCH_HAS_SYSCALL_WRAPPER
-    23	#define __SYSCALL(nr, entry)      asmlinkage long __powerpc_##entry(const struct pt_regs *);
-    24	#ifdef CONFIG_PPC64
-  > 25	#include <asm/syscall_table_64.h>
-    26	#else
-    27	#include <asm/syscall_table_32.h>
-    28	#endif
-    29	#undef __SYSCALL
-    30	#define __SYSCALL(nr, entry) [nr] = __powerpc_##entry,
-    31	#else
-    32	/*
-    33	 * Coerce syscall handlers with arbitrary parameters to common type
-    34	 * requires cast to void* to avoid -Wcast-function-type.
-    35	 */
-    36	#define __SYSCALL(nr, entry) [nr] = (void *) entry,
-    37	#endif
-    38	
-    39	const syscall_fn sys_call_table[] = {
-    40	#ifdef CONFIG_PPC64
-  > 41	#include <asm/syscall_table_64.h>
-    42	#else
-    43	#include <asm/syscall_table_32.h>
-    44	#endif
-    45	};
-    46	
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  526  
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  527  static int gpd_fan_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  528  			       u32 attr, __always_unused int channel, long val)
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  529  {
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  530  	struct gpd_driver_priv *data = dev_get_drvdata(dev);
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  531  
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  532  	if (type == hwmon_pwm) {
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  533  		switch (attr) {
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  534  		case hwmon_pwm_enable:
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  535  			if (!in_range(val, 0, 3))
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  536  				return -EINVAL;
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  537  			data->pwm_enable = val;
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  538  			return data->quirk->set_pwm_enable(data,
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  539  							   data->pwm_enable);
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  540  		case hwmon_pwm_input:
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  541  			u8 var = clamp_val(val, 0, 255);
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  542  
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  543  			data->pwm_value = var;
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  544  			return data->quirk->write_pwm(data, var);
+4f5f74416861bb Cryolitia PukNgae 2024-07-18 @545  		default:
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  546  			return -EOPNOTSUPP;
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  547  		}
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  548  	}
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  549  	return -EOPNOTSUPP;
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  550  }
+4f5f74416861bb Cryolitia PukNgae 2024-07-18  551  
 
 -- 
 0-DAY CI Kernel Test Service
