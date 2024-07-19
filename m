@@ -1,170 +1,1530 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6A557C8D
-	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 07:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDE1548E1
+	for <oe-kbuild@lists.linux.dev>; Fri, 19 Jul 2024 09:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721375475; cv=none; b=HDnAhBXxDTcg51r0PwhmH5xzmyiQK7g7iotIELIUstflIZEK1rKpcOkQZcHvrLWDjgXvQAslx0773GVmps843zK5Avl5K/9FWSpVu2gyvt/NkCGTzlI27X4QW97iGj1J/5JjQgti42wHqqsnJSRvRu0ElYJmQYwRA7pRTO+2gv0=
+	t=1721382444; cv=none; b=pZZs6ZpexpeIP0PPPkhs6CpVO2pRkvt2nfjcRgKd0fe7fhY9Y3UOcnSECj06ZfnnY9Z/mIx7FdnPQhIKVvDjnhYMgUJqt1HSL8amp68f5CEcfFJq2BNrPzAEQidSTrntiaKnjuNwl6kMkXhO0rqWfqvlhFRPSfSG0V1q4s/5TU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721375475; c=relaxed/simple;
-	bh=jUG8KHueFJVezPfwggJHhDFZEspcf9hgjhil6IanCGE=;
+	s=arc-20240116; t=1721382444; c=relaxed/simple;
+	bh=v9zhv/jQ+bMjJE+jnrnQ6/ihD6lirDy/Ln/CpmR85dM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RKz9lAN6PI/qs55UUtHIK3ZzK2Xt8Teb0/K1Q16T+i+pQaq8MKiolC9WR1D8jO0IH6jqdZh0NOi5UeEfmYrAEhpVHUqQA5ty8OM6kE63fFM0eqbNJJie8apRsYhwn6SyLk2/JUs2nqEqcgIJ+jKKYONz4w7mnH0W60+ze1Octxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKNMMBTf; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=SeuH3rVdU2oCLDKOrM7Ktf7FWJXFVdFQnYlmVJBtKWi10gS2zDkfX91ixUqeUfbqgDL06dlK1VSGg+vdF9ez9bMNsQY30V8tRmA2bFvmDqtdKGpmLFEFr8uh7OqUnDMLbrXaCkIg6Urlr+Ees1P6h5F48v0NaliJxyafznyQ3e8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DoEW1uDL; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKNMMBTf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoEW1uDL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721375473; x=1752911473;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jUG8KHueFJVezPfwggJHhDFZEspcf9hgjhil6IanCGE=;
-  b=HKNMMBTf2j/FJOydtijEJWpq5GqOiuqNUyVphP3hLNkq3YAIvTVOO2X7
-   MzZUrf2oVI8V+vVXbLryjpjErVaUaFzLO/T5NZ5d/htz3IAMCmLVQVPDa
-   TSfixTyVfniLuHpFGp3W9EXXqY7YKiWX+0ykwrLTLZqQbrIK5dllhN1Uq
-   +fAGDLGiJ5UAra0wiK4rDW8Kh30tT663IHkurGhLHIBkGAFc98nk4vzUB
-   fL4S676phMVg4kB/KOQSHnbB+GnEBiBZyZlApnmdvz8RYUYpdTZbkQXTO
-   HotyMgsRtR8tUENSsvdIbDjHUckxd/pYt5XALAbnRfjMsPmr1AQmohYsn
-   g==;
-X-CSE-ConnectionGUID: MEiZUJepQ0Wz9uIo8SlKHA==
-X-CSE-MsgGUID: dbB1NPJKRhCI3Xu70AsLzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="22784292"
+  t=1721382435; x=1752918435;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v9zhv/jQ+bMjJE+jnrnQ6/ihD6lirDy/Ln/CpmR85dM=;
+  b=DoEW1uDLlApM9lrYm4mwWTQW9gjHiiDMDPNT80qBgaxdClaRUjum2gZo
+   OJpnvMNybOa85HgROmZObkCxhLn2ELMA8K+f5LF2I+uG/5IJM3ZedmVJg
+   ciRScLHwhjsDa1YlUeIu+daY2W+XHxBiuMAgknxZRWHwlq+74eG52agKu
+   NElGMXpTOMILeW0dHR98cuR6JN5HnYcVgson0HcVWan2xBEqMRdvf/z0t
+   Z+PZZqrhelhd5bIioP6v3dCYdMm3+mxxuKO0qYyS1+QLkyjVAt/SnQtky
+   cFk0ZkOoboChSvRs3XFbNTJtxh1C/nKn6ga0AyMECLmJ0ghX/pOnu+L7J
+   A==;
+X-CSE-ConnectionGUID: It2nMUhcSI+PYD8zbQOvhg==
+X-CSE-MsgGUID: Oxscnu0WT0mrPk1XxZkgcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11137"; a="18610840"
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="22784292"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 00:51:11 -0700
-X-CSE-ConnectionGUID: 9lCy/T9LQbW+ABZ67keGGQ==
-X-CSE-MsgGUID: WfLB0FdmT+CV/pKv+DSB1Q==
+   d="scan'208";a="18610840"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2024 02:47:14 -0700
+X-CSE-ConnectionGUID: CXfQJMspQuKnlYkF8vvQvA==
+X-CSE-MsgGUID: cLunHmoqR2+p8jNjryYqvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,220,1716274800"; 
-   d="scan'208";a="51057784"
+   d="scan'208";a="56202246"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 19 Jul 2024 00:51:09 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 Jul 2024 02:47:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sUiOQ-000hy6-2q;
-	Fri, 19 Jul 2024 07:51:06 +0000
-Date: Fri, 19 Jul 2024 15:50:30 +0800
+	id 1sUkCj-000i2Y-3A;
+	Fri, 19 Jul 2024 09:47:09 +0000
+Date: Fri, 19 Jul 2024 17:46:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
-Message-ID: <202407191502.ZETraOLX-lkp@intel.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 2524/11383]
+ arch/powerpc/boot/dts/fsl/b4420qds.dtb:
+ /soc@ffe000000/fman@400000/port@88000: failed to match any schema with
+ compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+Message-ID: <202407191740.dd3mbu0O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence static check warning: drivers/hwmon/gpd-fan.c:545:17: sparse: sparse: not in switch scope"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
-References: <20240718-gpd_fan-v4-1-116e5431a9fe@gmail.com>
-TO: Cryolitia PukNgae via B4 Relay <devnull+Cryolitia.gmail.com@kernel.org>
-TO: Jean Delvare <jdelvare@suse.com>
-TO: Guenter Roeck <linux@roeck-us.net>
-TO: Cryolitia PukNgae <Cryolitia@gmail.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-CC: linux-kernel@vger.kernel.org
-CC: linux-hwmon@vger.kernel.org
-CC: linux-doc@vger.kernel.org
-CC: Celeste Liu <CoelacanthusHex@gmail.com>
-CC: Yao Zi <ziyao@disroot.org>
-CC: "Marcin Strągowski" <marcin@stragowski.com>
+TO: Otavio Salvador <otavio@ossystems.com.br>
 
-Hi Cryolitia,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d67978318827d06f1c0fa4c31343a279e9df6fde]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cryolitia-PukNgae-via-B4-Relay/hwmon-add-GPD-devices-sensor-driver/20240718-104420
-base:   d67978318827d06f1c0fa4c31343a279e9df6fde
-patch link:    https://lore.kernel.org/r/20240718-gpd_fan-v4-1-116e5431a9fe%40gmail.com
-patch subject: [PATCH v4 1/2] hwmon: add GPD devices sensor driver
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: i386-randconfig-061-20240719 (https://download.01.org/0day-ci/archive/20240719/202407191502.ZETraOLX-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191502.ZETraOLX-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   a9adc0280d6e8fde5718caf259e89692ba67a9ea
+commit: dac644b33acc7d706d40a698c7a4c1557114b2cc [2524/11383] sdk: ppc: dts: accumulated DPAA1 updates to existing files
+:::::: branch date: 8 days ago
+:::::: commit date: 9 months ago
+config: powerpc-randconfig-051-20240712 (https://download.01.org/0day-ci/archive/20240719/202407191740.dd3mbu0O-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240719/202407191740.dd3mbu0O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407191502.ZETraOLX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407191740.dd3mbu0O-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/hwmon/gpd-fan.c:496:25: sparse: sparse: typename in expression
-   drivers/hwmon/gpd-fan.c:496:29: sparse: sparse: Expected ; at end of statement
-   drivers/hwmon/gpd-fan.c:496:29: sparse: sparse: got ret
-   drivers/hwmon/gpd-fan.c:513:25: sparse: sparse: typename in expression
-   drivers/hwmon/gpd-fan.c:513:29: sparse: sparse: Expected ; at end of statement
-   drivers/hwmon/gpd-fan.c:513:29: sparse: sparse: got ret
-   drivers/hwmon/gpd-fan.c:541:25: sparse: sparse: typename in expression
-   drivers/hwmon/gpd-fan.c:541:28: sparse: sparse: Expected ; at end of statement
-   drivers/hwmon/gpd-fan.c:541:28: sparse: sparse: got var
-   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: Expected ; at end of statement
-   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: got )
-   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: Expected ; at end of statement
-   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: got )
->> drivers/hwmon/gpd-fan.c:545:17: sparse: sparse: not in switch scope
-   drivers/hwmon/gpd-fan.c:548:9: sparse: sparse: Expected ; at the end of type declaration
-   drivers/hwmon/gpd-fan.c:548:9: sparse: sparse: got }
-   drivers/hwmon/gpd-fan.c:550:1: sparse: sparse: Expected ; at the end of type declaration
-   drivers/hwmon/gpd-fan.c:550:1: sparse: sparse: got }
-   drivers/hwmon/gpd-fan.c:496:25: sparse: sparse: undefined identifier 's32'
-   drivers/hwmon/gpd-fan.c:498:29: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:499:40: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:501:32: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:513:25: sparse: sparse: undefined identifier 's16'
-   drivers/hwmon/gpd-fan.c:515:29: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:516:40: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:518:32: sparse: sparse: undefined identifier 'ret'
-   drivers/hwmon/gpd-fan.c:541:25: sparse: sparse: undefined identifier 'u8'
-   drivers/hwmon/gpd-fan.c:541:34: sparse: sparse: undefined identifier '__UNIQUE_ID___val306'
-   drivers/hwmon/gpd-fan.c:543:43: sparse: sparse: undefined identifier 'var'
-   drivers/hwmon/gpd-fan.c:544:61: sparse: sparse: undefined identifier 'var'
-   drivers/hwmon/gpd-fan.c:564:20: sparse: sparse: undefined identifier 'gpd_fan_ops'
-
-vim +545 drivers/hwmon/gpd-fan.c
-
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  526  
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  527  static int gpd_fan_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  528  			       u32 attr, __always_unused int channel, long val)
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  529  {
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  530  	struct gpd_driver_priv *data = dev_get_drvdata(dev);
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  531  
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  532  	if (type == hwmon_pwm) {
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  533  		switch (attr) {
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  534  		case hwmon_pwm_enable:
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  535  			if (!in_range(val, 0, 3))
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  536  				return -EINVAL;
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  537  			data->pwm_enable = val;
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  538  			return data->quirk->set_pwm_enable(data,
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  539  							   data->pwm_enable);
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  540  		case hwmon_pwm_input:
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  541  			u8 var = clamp_val(val, 0, 255);
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  542  
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  543  			data->pwm_value = var;
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  544  			return data->quirk->write_pwm(data, var);
-4f5f74416861bb Cryolitia PukNgae 2024-07-18 @545  		default:
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  546  			return -EOPNOTSUPP;
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  547  		}
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  548  	}
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  549  	return -EOPNOTSUPP;
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  550  }
-4f5f74416861bb Cryolitia PukNgae 2024-07-18  551  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,b4420-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4420qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+--
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: mdio@fd000: 'xaui-phy@slot1', 'xaui-phy@slot2' do not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@e8000: Unevaluated properties are not allowed ('phy-connection-type', 'phy-handle' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+--
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@f2000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@f2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@f2000: Unevaluated properties are not allowed ('phy-connection-type', 'phy-handle' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@f2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: ethernet@f2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,b4860-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/b4860qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+--
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/raideng@320000/raideng_jq1@2000/jr@400: failed to match any schema with compatible: ['fsl,raideng-v1.0-job-ring', 'fsl,raideng-v1.0-lp-ring']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /soc@ffe000000/ptp-timer@4fe000: failed to match any schema with compatible: ['fsl,fman-ptp-timer']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /rapidio@ffe0c0000: failed to match any schema with compatible: ['fsl,srio']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: /localbus@ffe124000: failed to match any schema with compatible: ['fsl,p5020-elbc', 'fsl,elbc', 'simple-bus']
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: pcie@ffe200000: pcie@0:interrupts:0:0: 16 is not one of [1, 2, 3, 4]
+   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
+   arch/powerpc/boot/dts/fsl/cyrus_p5020.dtb: pcie@ffe200000: pcie@0:interrupts:0: [16, 2, 1, 15] is too long
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/kmcent2.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/kmcoge4.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/bman@31a000: failed to match any schema with compatible: ['fsl,bman']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/ptp-timer@4fe000: failed to match any schema with compatible: ['fsl,fman-ptp-timer']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/oca4080.dtb: /soc@ffe000000/fman@500000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p2041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+   arch/powerpc/boot/dts/fsl/p2041rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p3041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p3041-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+   arch/powerpc/boot/dts/fsl/p3041ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p4080ds.dtb: /soc@ffe000000/fman@500000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p5020-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,p5020-l3-cache-controller', 'fsl,p4080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet1-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+   arch/powerpc/boot/dts/fsl/p5020ds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@e1120: failed to match any schema with compatible: ['fsl,fman-mdio']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@e3120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@e5120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@e7120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@e9120: failed to match any schema with compatible: ['fsl,fman-mdio']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v2-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v2-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: ethernet@f0000: 'ptp-timer' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/port@81000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/port@82000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/port@83000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/port@84000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+   arch/powerpc/boot/dts/fsl/p5040ds.dtb: /soc@ffe000000/fman@500000/port@85000: failed to match any schema with compatible: ['fsl,fman-v2-port-oh']
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1023-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+   arch/powerpc/boot/dts/fsl/t1023rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/ptp-timer@4fe000: failed to match any schema with compatible: ['fsl,fman-ptp-timer']
+   arch/powerpc/boot/dts/fsl/t1024qds.dtb: /soc@ffe000000/display@180000: failed to match any schema with compatible: ['fsl,t1024-diu', 'fsl,diu']
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1023-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+   arch/powerpc/boot/dts/fsl/t1024rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e2000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e6000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: /soc@ffe000000/ptp-timer@4fe000: failed to match any schema with compatible: ['fsl,fman-ptp-timer']
+   arch/powerpc/boot/dts/fsl/t1040d4rdb.dtb: pcie@ffe240000: pcie@0:interrupts:0:0: 20 is not one of [1, 2, 3, 4]
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040rdb-rev-a.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1040rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042d4rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: ethernet@e4000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t1040-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t1042rdb_pi.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic', 'chrp,open-pic']
+--
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t2080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2080qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+--
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@e8000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@ea000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@ea000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: ethernet@ea000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/ethernet-controller.yaml#
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t2080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2080rdb.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+--
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/soc-sram-error: failed to match any schema with compatible: ['fsl,soc-sram-error']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/corenet-law@0: failed to match any schema with compatible: ['fsl,corenet-law']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/l3-cache-controller@10000: failed to match any schema with compatible: ['fsl,t2080-l3-cache-controller', 'cache']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/corenet-cf@18000: failed to match any schema with compatible: ['fsl,corenet2-cf', 'fsl,corenet-cf']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/iommu@20000: failed to match any schema with compatible: ['fsl,pamu-v1.0', 'fsl,pamu']
+   arch/powerpc/boot/dts/fsl/t2081qds.dtb: /soc@ffe000000/pic@40000: failed to match any schema with compatible: ['fsl,mpic']
+--
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/muram@0: failed to match any schema with compatible: ['fsl,fman-muram']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@500000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@500000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@500000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@500000/port@86000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: /soc@ffe000000/fman@500000/port@87000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: ethernet@e0000: Unevaluated properties are not allowed ('phy-connection-type', 'phy-handle' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t4240qds.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+--
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@82000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@83000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@84000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@85000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@86000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@87000: failed to match any schema with compatible: ['fsl,fman-v3-port-oh']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@fc000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@fd000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@88000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@a8000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@89000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@a9000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8a000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@aa000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e5000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8b000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ab000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e7000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8c000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ac000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@e9000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@8d000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-1g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@ad000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-1g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@eb000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@90000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@b0000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@f1000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@91000: failed to match any schema with compatible: ['fsl,fman-v3-port-rx', 'fsl,fman-port-10g-rx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+>> arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/port@b1000: failed to match any schema with compatible: ['fsl,fman-v3-port-tx', 'fsl,fman-port-10g-tx']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@400000/mdio@f3000: failed to match any schema with compatible: ['fsl,fman-memac-mdio', 'fsl,fman-xmdio']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: /soc@ffe000000/fman@500000: failed to match any schema with compatible: ['fsl,fman']
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: ethernet@e0000: Unevaluated properties are not allowed ('phy-connection-type', 'phy-handle' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
+   	from schema $id: http://devicetree.org/schemas/net/fsl,fman-dtsec.yaml#
+   arch/powerpc/boot/dts/fsl/t4240rdb.dtb: ethernet@e0000: 'pcs-handle' is a dependency of 'pcs-handle-names'
 
 -- 
 0-DAY CI Kernel Test Service
