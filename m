@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB6313D628
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 19:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0198913BAD5
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 23:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721763354; cv=none; b=dnQEWBLsti63xQ24RfkOG0hIIGl/yNJqr7OxBFqx/4NEMQT4reYNHvZfJgXyUW2XKiyo06Tw/yLxG91ISkJ2hgrArzPE3IJ1tA9tSKYk7xN7sctPp7QPlJvXKxmFhdZzZfYJeNMILR9FgfmJITSdvtHTS9w7Gsqugx6Fe32WD44=
+	t=1721778179; cv=none; b=fpu/4/mo2UkFV0D7S4snKubm8DzEgEyCcW6Bzo+0jxVn5wJLgDUj/it0znAfXNegXg+xQZy+jDA1Ei1VGj4kpCNPkY+sGdortyEe8eNhgvuG9FYda7RENRutELe2eo3Ffy/MYUtQM5skBtAPUclB7ub6RWpOiPXC2MWiwoC+H6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721763354; c=relaxed/simple;
-	bh=nXkiyl/mrjQVViediKVipYCTs37q12Bd5sxMCL1adug=;
+	s=arc-20240116; t=1721778179; c=relaxed/simple;
+	bh=v7wVQqDh5i9Es4SQRTKO1TRD2PJlEGoQDRgRzohIv3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aT15zMFUAyXKBc2NoRlwCSALb9wDCr7vON0H/6OeWWkXDvHn8LhqkgAXhuR+fUZbG7wIzmUbrJEpbiTL2gILZJxjVvFivwwYKrjaytwXGrRzS5vibZgQTdIMglTgCyhQxOmXdlZnk7xQqLwP0s1Ecpg5y7HrG3yA/aaZmOfngcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QslmPyUR; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=A+G1TANzY/P/+ns3701YksGHKOKz/iW5Migz7Xt/Zv8bOCwgbGamI4/zxDTe2K+6Lcn5OkSIx9Dt4hjVwiHsIvrvYnoHBxDd6lN4/nDaDvWYM5paEMm4zzq4wOQ8/DUKMRQP/BNX0TSd7NZv5SMYDISGl6Y9xLM7KH5NYNudrzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+VigvDT; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QslmPyUR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+VigvDT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721763352; x=1753299352;
+  t=1721778177; x=1753314177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nXkiyl/mrjQVViediKVipYCTs37q12Bd5sxMCL1adug=;
-  b=QslmPyURzN2jF86oMU9FXPqJSlogELTZ6aXOMYUL1Qg/ZSBj70IAz8VX
-   de4JNJiZgdWyB8AKThJMHQQhY9UID9WVS7vhOt6/1lAjWbqSdEUGCGXEm
-   fwlBw+4TO+nD6S5pUBPR5CtbcIxY34CSvXOeV1Y1LwKkMzoHJaLXEUN45
-   mzC5QG8Y8cJ+yArCZeGh34H07KzGQTUhAAhs0+ls8dQ3zx7UaIB4qVwZp
-   8rPQslyODk2gFT9J7io3V1qMI8xIrT9yudX6TKv7cTot652ZZUZCjzriN
-   nV+C67Xcbb6evTDa0oYlqqlAVpZCQdwO+2rnkAi7ZzSPhPIzvY6hRDRSg
-   w==;
-X-CSE-ConnectionGUID: cjj4e5H1QWuI0iJQ9Rxi4w==
-X-CSE-MsgGUID: 1M5qaUvQSBy+Gb9rWwkW0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="44833991"
+  bh=v7wVQqDh5i9Es4SQRTKO1TRD2PJlEGoQDRgRzohIv3A=;
+  b=b+VigvDTI1JcwUidwGjoNDi17x8aB4lRFIWlMNdH9PdcBt9L1oNyoAzo
+   KU9WbDIr8m7Qaym234dhpqlmvPTTDBOGlrs7/qiFZ6ja/jEVrg5KBlMxW
+   SjAxlhNHxlgm5t2eMhnhiUDLxFFkYOlxUAdewJSmht6px9Wa3EQ87lk1B
+   /BmnJm/yh0APuKJk3t//xAOGlDy9GKFj0yWC6+jPAor2rWW5/3umQlR7Q
+   jr+iR5qqB6j+955tT3X+LhoDqH2ioTARiwAA2CxqyR301R4En+oRzyFTP
+   xZDGN49xWosdG5KzHMxvW2s3oEGZrxlPXVkBGYYOcXBUsw7Z9B9P3M/so
+   A==;
+X-CSE-ConnectionGUID: xUIzPLMpSki4qxgtBeawBA==
+X-CSE-MsgGUID: uPq3ebu6SGiPdU2fHr2XGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19306057"
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="44833991"
+   d="scan'208";a="19306057"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 12:35:51 -0700
-X-CSE-ConnectionGUID: DkCrXJeMTaqYSYmlu8mRtg==
-X-CSE-MsgGUID: WrlIkgHbQImNJVwUIkkyhA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 16:42:56 -0700
+X-CSE-ConnectionGUID: pybNmBY0QXyDSUCUuP+mHw==
+X-CSE-MsgGUID: ZLi4HraXTSilL0uBxvgQOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="83353567"
+   d="scan'208";a="83406513"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Jul 2024 12:35:50 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 Jul 2024 16:42:55 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWLIa-000mJ0-0N;
-	Tue, 23 Jul 2024 19:35:48 +0000
-Date: Wed, 24 Jul 2024 03:35:02 +0800
+	id 1sWP9h-000mSg-1f;
+	Tue, 23 Jul 2024 23:42:53 +0000
+Date: Wed, 24 Jul 2024 07:42:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/comedi/drivers/cb_das16_cs.c:203 das16cs_ao_insn_write()
- warn: iterator 'i' not incremented
-Message-ID: <202407240308.zUjuRkXo-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [jmondi:imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls-v2+fix
+ 25/79] arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000:
+ rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+Message-ID: <202407240703.4roBaKWN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,89 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ian Abbott <abbotti@mev.co.uk>
+TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   28bbe4ea686a023929d907cc168430b61094811c
-commit: 98a15816636044f25be4644db2a3e09fad68aaf7 Revert "comedi: add HAS_IOPORT dependencies"
-date:   11 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 11 months ago
-config: parisc-randconfig-r071-20240723 (https://download.01.org/0day-ci/archive/20240724/202407240308.zUjuRkXo-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls-v2+fix
+head:   c9e9794a6644f6f903b0a867783d4d1c49e2dbeb
+commit: e3a052ed7a909d2f9d7f52992b1ee842745c9347 [25/79] arm64: dts: freescale: Add Au-Zone Maivin Starter Kit
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: arm64-randconfig-051-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240703.4roBaKWN-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240703.4roBaKWN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407240308.zUjuRkXo-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407240703.4roBaKWN-lkp@intel.com/
 
-smatch warnings:
-drivers/comedi/drivers/cb_das16_cs.c:203 das16cs_ao_insn_write() warn: iterator 'i' not incremented
-
-vim +/i +203 drivers/comedi/drivers/cb_das16_cs.c
-
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  190  
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  191  static int das16cs_ao_insn_write(struct comedi_device *dev,
-0a85b6f0ab0d2e drivers/staging/comedi/drivers/cb_das16_cs.c Mithlesh Thukral   2009-06-08  192  				 struct comedi_subdevice *s,
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  193  				 struct comedi_insn *insn,
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  194  				 unsigned int *data)
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  195  {
-16a8cdfc135269 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2012-06-25  196  	struct das16cs_private *devpriv = dev->private;
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  197  	unsigned int chan = CR_CHAN(insn->chanspec);
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  198  	unsigned int val = s->readback[chan];
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  199  	unsigned short misc1;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  200  	int bit;
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  201  	int i;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  202  
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18 @203  	for (i = 0; i < insn->n; i++) {
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  204  		val = data[i];
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  205  
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  206  		outw(devpriv->misc1, dev->iobase + DAS16CS_MISC1_REG);
-5f74ea14c07fee drivers/staging/comedi/drivers/cb_das16_cs.c Greg Kroah-Hartman 2009-04-27  207  		udelay(1);
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  208  
-6f2e618c3bd58d drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  209  		/* raise the DACxCS line for the non-selected channel */
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  210  		misc1 = devpriv->misc1 & ~DAS16CS_MISC1_DAC_MASK;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  211  		if (chan)
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  212  			misc1 |= DAS16CS_MISC1_DAC0CS;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  213  		else
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  214  			misc1 |= DAS16CS_MISC1_DAC1CS;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  215  
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  216  		outw(misc1, dev->iobase + DAS16CS_MISC1_REG);
-5f74ea14c07fee drivers/staging/comedi/drivers/cb_das16_cs.c Greg Kroah-Hartman 2009-04-27  217  		udelay(1);
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  218  
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  219  		for (bit = 15; bit >= 0; bit--) {
-6f2e618c3bd58d drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  220  			if ((val >> bit) & 0x1)
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  221  				misc1 |= DAS16CS_MISC1_DACSD;
-6f2e618c3bd58d drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  222  			else
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  223  				misc1 &= ~DAS16CS_MISC1_DACSD;
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  224  			outw(misc1, dev->iobase + DAS16CS_MISC1_REG);
-5f74ea14c07fee drivers/staging/comedi/drivers/cb_das16_cs.c Greg Kroah-Hartman 2009-04-27  225  			udelay(1);
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  226  			outw(misc1 | DAS16CS_MISC1_DACCLK,
-2845efb967ed9d drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  227  			     dev->iobase + DAS16CS_MISC1_REG);
-5f74ea14c07fee drivers/staging/comedi/drivers/cb_das16_cs.c Greg Kroah-Hartman 2009-04-27  228  			udelay(1);
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  229  		}
-0a77678cae47fb drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2012-06-25  230  		/*
-0a77678cae47fb drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2012-06-25  231  		 * Make both DAC0CS and DAC1CS high to load
-0a77678cae47fb drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2012-06-25  232  		 * the new data and update analog the output
-0a77678cae47fb drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2012-06-25  233  		 */
-944fd0c92ab764 drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  234  		outw(misc1 | DAS16CS_MISC1_DAC0CS | DAS16CS_MISC1_DAC1CS,
-6f2e618c3bd58d drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2015-10-12  235  		     dev->iobase + DAS16CS_MISC1_REG);
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  236  	}
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  237  	s->readback[chan] = val;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  238  
-6b00f53e9175ab drivers/staging/comedi/drivers/cb_das16_cs.c H Hartley Sweeten  2014-08-25  239  	return insn->n;
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  240  }
-f0922ec52c3f57 drivers/staging/comedi/drivers/cb_das16_cs.c David Schleef      2009-02-18  241  
-
-:::::: The code at line 203 was first introduced by commit
-:::::: f0922ec52c3f575aef2860b52dbb246274aec03f Staging: comedi: add cb_das16_cs driver
-
-:::::: TO: David Schleef <ds@schleef.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1717.11-1728.7: Warning (graph_child_address): /soc@0/bus@32c00000/dsi@32e60000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'nvmem-cell-names', 'nvmem-cells', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
