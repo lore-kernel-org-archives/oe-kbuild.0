@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725944655D
-	for <oe-kbuild@lists.linux.dev>; Mon, 22 Jul 2024 23:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A8A2F32
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 02:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721690890; cv=none; b=ncHLO11sEwO7NBLmn4YG7bn+TlS/DHKutNzggMZO/ICqYm8e49UlfZkIGhtoKcCuFhhiUoC93LsgHzd5ACZySb0lMqMfihVlJ628Ke1NLvVRZUCZBY5tQJ+mrydi53v2vF+Mn4kDiW68DfKtT35K7pckKr6qw0bLip8lxfieBUA=
+	t=1721703434; cv=none; b=MZW9qT/xORkTvLmuJxBMrQwEbFeFNrhEcNgh7DV2iFl2iJrtXunWIwB63+cNGEXV0ABGDV+MO5yjmRMUJtBteCcKCumDmnJw2NvoCSl545SbTwwOh0K+vZACk7JMcNIxTCTlvou6Nddq2bTpmlxYeE3bpHQ/Z04VLfaSn+FvRYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721690890; c=relaxed/simple;
-	bh=R5MwoNqHeo+Q8BcdTJ1OMPQa7vfa7aSB26IQgEfIvOY=;
+	s=arc-20240116; t=1721703434; c=relaxed/simple;
+	bh=1ysLOxv7ewhY2f7fNUxuA1bqLEUDl7ew6wlFGGhNGc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i2EZcB682Zz0aaPneqHG//fkf8AniIrRvngr7Jypx8quRJhlAhBYKubtuyutISq23AtCudUSF1+vAtjTAGtFTeJgj69f3Sg6BClR1uUFz91xrwpxLnfQ7TRK5e7pdNoGSEPB0GQTwYBCa2Q2pF4KqFP2w+RCx3PeipUMn6xLI5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vd66TTky; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=M3YQhQUVqxW4SsPwaiP3odxUuwuB5HWWWK1wyQxv46RXJILwHmALvdC4BFa175sF9KYSQQn91BSu9VCbvPYtvQkxM4o/VlnASNOzU2uUU8MSsycolI9jEHR/caGIbHaELNK6fKqwX6s6gM4y5i8KOKACubi5D7/6LueMJcxHOjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TxGm+pgY; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vd66TTky"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TxGm+pgY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721690887; x=1753226887;
+  t=1721703432; x=1753239432;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R5MwoNqHeo+Q8BcdTJ1OMPQa7vfa7aSB26IQgEfIvOY=;
-  b=Vd66TTkyG7dV9QJm5RCfJLGKaxouwP5VWVGN2Q63ManRfZ5uiYgG6ob9
-   VQME4qu+81YFX+GBijxWp8r2iiyDjY+odtgXoF8HbIIcNQySv99XmFDHy
-   3eFSLSQ2wdNwAmRr8aO5m8q7QsQ08oiAxQobUHlXBDdYAP9h+te2N85Mi
-   higxR+Uf7YvDkXN7e5KAet8BMZ2mK/KYp5CW7nirUgrdU2PPO3FRGh5RG
-   5s4QsWbPqM95RiK2BJF7oUHMD3TaDcaPFd7ifXyjOyhBeZQFMSKSaibRr
-   3e75pC/3atZL6iyeYvBNjyH61hW8Nxb5FbB6ZGLkQuFlVWAMiluVyd+ny
-   w==;
-X-CSE-ConnectionGUID: hVpjbgBeSF+QOYGz+PNByw==
-X-CSE-MsgGUID: XrAG/RUfRjmIZl3QU6fYrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="19420621"
+  bh=1ysLOxv7ewhY2f7fNUxuA1bqLEUDl7ew6wlFGGhNGc8=;
+  b=TxGm+pgYWr6aeekGQXI4x6iiKrO+ta1KyPFRzMp9R2Nkfq+t9K/Czk0P
+   P1GhZrCUEBKEX9jI6+fD8PvCkdHCHrjS2+lkLuzPFdtmQcvRdA3N8Mnu1
+   Bm4VZCyda1ggMvlXFqfNj2x00oL2bTQBoaAuhtDS7ZZe4gxPIJYkeZeKj
+   B228DHxA5yoWpEP1S9DWnbHUX4N7Pvjr+5ehhTm9mJoqm0Jlmw6/Iai75
+   Ecez3NQlYCl9jvLJdvCOq9jQWryXVQL3qkYmjsVI9shkReRzsMu5MpSuN
+   Ep2qMnqmIj008MmXSHCU7TpESu1g+OA9YjFM/isW2T/bdT4c+vpLdQMRq
+   A==;
+X-CSE-ConnectionGUID: SVc5dP/ZREq1iy9zy7nImg==
+X-CSE-MsgGUID: ZdXbxgMoSR6IqwPedNMUEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11141"; a="30692146"
 X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
-   d="scan'208";a="19420621"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 16:28:07 -0700
-X-CSE-ConnectionGUID: ZhHWYZm4TRqk+5VSA5Z4CA==
-X-CSE-MsgGUID: 2yzi6ERmQNG9EcHWrCTLVA==
+   d="scan'208";a="30692146"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2024 19:57:11 -0700
+X-CSE-ConnectionGUID: XcJCG3H2Scu5+9SSZZydMQ==
+X-CSE-MsgGUID: KYUMVoAESZylJKWydcOzOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,229,1716274800"; 
-   d="scan'208";a="82667800"
+   d="scan'208";a="56376636"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Jul 2024 16:28:06 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Jul 2024 19:57:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sW2Rn-000lTE-1V;
-	Mon, 22 Jul 2024 23:28:03 +0000
-Date: Tue, 23 Jul 2024 07:27:40 +0800
+	id 1sW5i8-000la8-00;
+	Tue, 23 Jul 2024 02:57:08 +0000
+Date: Tue, 23 Jul 2024 10:56:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [esmil:visionfive 29/30]
- arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202407230720.I7dsM4a7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 13298/13495]
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:183 send_tlb_invalidation()
+ warn: variable dereferenced before check 'fence' (see line 178)
+Message-ID: <202407231049.esig0Fkb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,211 +63,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Emil Renner Berthing <kernel@esmil.dk>
-CC: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Stephen L Arnold <nerdboy@gentoo.org>
-CC: Drew Fustini <drew@beagleboard.org>
-CC: Jianlong Huang <jianlong.huang@starfivetech.com>
-CC: Jonas Hahnfeld <hahnjo@hahnjo.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Matthew Brost <matthew.brost@intel.com>
+CC: Nirmoy Das <nirmoy.das@intel.com>
 
-tree:   https://github.com/esmil/linux visionfive
-head:   37087c6cd7f818990c3c37d2e3cb01b05fc8bb69
-commit: e07b775c4065d00802feea619ae15c70139babb9 [29/30] riscv: dts: Add full JH7100, Starlight and VisionFive support
-:::::: branch date: 23 hours ago
-:::::: commit date: 24 hours ago
-config: riscv-randconfig-051-20240723 (https://download.01.org/0day-ci/archive/20240723/202407230720.I7dsM4a7-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240723/202407230720.I7dsM4a7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   dee7f101b64219f512bb2f842227bd04c14efe30
+commit: 61ac035361ae555ee5a17a7667fe96afdde3d59a [13298/13495] drm/xe: Drop xe_gt_tlb_invalidation_wait
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20240722 (https://download.01.org/0day-ci/archive/20240723/202407231049.esig0Fkb-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407230720.I7dsM4a7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407231049.esig0Fkb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:843.10-844.6: Warning (unit_address_vs_reg): /soc/xrp@f0000000/dsp@0: node has a unit name, but no reg or ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:398.40-401.5: Warning (simple_bus_reg): /soc/spdif-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:403.34-406.5: Warning (simple_bus_reg): /soc/spdif-receiver: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:408.36-411.5: Warning (simple_bus_reg): /soc/pwmdac-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:413.20-416.5: Warning (simple_bus_reg): /soc/dmic: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:418.19-440.5: Warning (simple_bus_reg): /soc/snd-card: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:671.30-675.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:677.28-680.5: Warning (simple_bus_reg): /soc/display-encoder: missing or empty reg/ranges property
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	'beagle,beaglev-starlight-jh7100-a1' is not one of ['beagle,beaglev-starlight-jh7100-r0', 'starfive,visionfive-v1']
-   	'beagle,beaglev-starlight-jh7100-a1' is not one of ['milkv,mars', 'starfive,visionfive-2-v1.2a', 'starfive,visionfive-2-v1.3b']
-   	'starfive,jh7110' was expected
-   	from schema $id: http://devicetree.org/schemas/riscv/starfive.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /: failed to match any schema with compatible: ['beagle,beaglev-starlight-jh7100-a1', 'starfive,jh7100']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: cpu@0: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: cpu@1: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: display-encoder: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: dmic: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: snd-card: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: spdif-receiver: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: spdif-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: pwmdac-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: soc: display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/dtim@1000000: failed to match any schema with compatible: ['starfive,dtim0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/itim@1808000: failed to match any schema with compatible: ['starfive,itim0']
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/itim@1820000: failed to match any schema with compatible: ['starfive,itim0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/dma-controller@100b0000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/crypto@100d0000: failed to match any schema with compatible: ['starfive,vic-sec']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/i2sadc0@10400000: failed to match any schema with compatible: ['snps,designware-i2sadc0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/i2svad@10420000: failed to match any schema with compatible: ['starfive,sf-i2svad']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/pwmdac@10440000: failed to match any schema with compatible: ['starfive,pwmdac']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/i2sdac0@10450000: failed to match any schema with compatible: ['snps,designware-i2sdac0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/i2sdac1@10460000: failed to match any schema with compatible: ['snps,designware-i2sdac1']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/i2sdac16k@10470000: failed to match any schema with compatible: ['snps,designware-i2sdac16k']
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/spdif-receiver: failed to match any schema with compatible: ['linux,spdif-dir']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/pwmdac-transmitter: failed to match any schema with compatible: ['linux,pwmdac-dit']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/syscon@104a0000: failed to match any schema with compatible: ['starfive,jh7100-sysaudio', 'syscon']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/usb@104c0000: failed to match any schema with compatible: ['starfive,jh7100-usb']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/dma-controller@10500000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/otp@11810000: failed to match any schema with compatible: ['starfive,fu740-otp']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/spi@11860000/nor-flash@0: failed to match any schema with compatible: ['spi-flash']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/spi@11860000/nand-flash@1: failed to match any schema with compatible: ['spi-flash-nand']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/trng@118d0000: failed to match any schema with compatible: ['starfive,vic-rng']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/vpu_enc@118e0000: failed to match any schema with compatible: ['cm,cm521-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: vpu_dec@118f0000: compatible:0: 'c&m,cm511-vpu' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/vpu_dec@118f0000: failed to match any schema with compatible: ['c&m,cm511-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/coadj12@11900000: failed to match any schema with compatible: ['cm,codaj12-jpu-1']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/nvdla@11940000: failed to match any schema with compatible: ['nvidia,nvdla_os_initial']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['starfive,display-subsystem']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/display-encoder: failed to match any schema with compatible: ['starfive,display-encoder']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/crtc@12000000: failed to match any schema with compatible: ['starfive,jh7100-crtc']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight-a1.dtb: /soc/xrp@f0000000: failed to match any schema with compatible: ['cdns,xrp']
---
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:843.10-844.6: Warning (unit_address_vs_reg): /soc/xrp@f0000000/dsp@0: node has a unit name, but no reg or ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:398.40-401.5: Warning (simple_bus_reg): /soc/spdif-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:403.34-406.5: Warning (simple_bus_reg): /soc/spdif-receiver: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:408.36-411.5: Warning (simple_bus_reg): /soc/pwmdac-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:413.20-416.5: Warning (simple_bus_reg): /soc/dmic: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:418.19-440.5: Warning (simple_bus_reg): /soc/snd-card: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:671.30-675.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:677.28-680.5: Warning (simple_bus_reg): /soc/display-encoder: missing or empty reg/ranges property
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@0: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@1: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: spdif-receiver: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: display-encoder: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: snd-card: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: pwmdac-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: spdif-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: soc: dmic: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/dtim@1000000: failed to match any schema with compatible: ['starfive,dtim0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/itim@1808000: failed to match any schema with compatible: ['starfive,itim0']
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/itim@1820000: failed to match any schema with compatible: ['starfive,itim0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/dma-controller@100b0000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/crypto@100d0000: failed to match any schema with compatible: ['starfive,vic-sec']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/i2sadc0@10400000: failed to match any schema with compatible: ['snps,designware-i2sadc0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/i2svad@10420000: failed to match any schema with compatible: ['starfive,sf-i2svad']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/pwmdac@10440000: failed to match any schema with compatible: ['starfive,pwmdac']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/i2sdac0@10450000: failed to match any schema with compatible: ['snps,designware-i2sdac0']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/i2sdac1@10460000: failed to match any schema with compatible: ['snps,designware-i2sdac1']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/i2sdac16k@10470000: failed to match any schema with compatible: ['snps,designware-i2sdac16k']
-   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/spdif-receiver: failed to match any schema with compatible: ['linux,spdif-dir']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/pwmdac-transmitter: failed to match any schema with compatible: ['linux,pwmdac-dit']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/syscon@104a0000: failed to match any schema with compatible: ['starfive,jh7100-sysaudio', 'syscon']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/usb@104c0000: failed to match any schema with compatible: ['starfive,jh7100-usb']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/dma-controller@10500000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/otp@11810000: failed to match any schema with compatible: ['starfive,fu740-otp']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/spi@11860000/nor-flash@0: failed to match any schema with compatible: ['spi-flash']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/spi@11860000/nand-flash@1: failed to match any schema with compatible: ['spi-flash-nand']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/trng@118d0000: failed to match any schema with compatible: ['starfive,vic-rng']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/vpu_enc@118e0000: failed to match any schema with compatible: ['cm,cm521-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: vpu_dec@118f0000: compatible:0: 'c&m,cm511-vpu' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/vpu_dec@118f0000: failed to match any schema with compatible: ['c&m,cm511-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/coadj12@11900000: failed to match any schema with compatible: ['cm,codaj12-jpu-1']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/nvdla@11940000: failed to match any schema with compatible: ['nvidia,nvdla_os_initial']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['starfive,display-subsystem']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/display-encoder: failed to match any schema with compatible: ['starfive,display-encoder']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/crtc@12000000: failed to match any schema with compatible: ['starfive,jh7100-crtc']
->> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: /soc/xrp@f0000000: failed to match any schema with compatible: ['cdns,xrp']
---
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:843.10-844.6: Warning (unit_address_vs_reg): /soc/xrp@f0000000/dsp@0: node has a unit name, but no reg or ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:398.40-401.5: Warning (simple_bus_reg): /soc/spdif-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:403.34-406.5: Warning (simple_bus_reg): /soc/spdif-receiver: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:408.36-411.5: Warning (simple_bus_reg): /soc/pwmdac-transmitter: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:413.20-416.5: Warning (simple_bus_reg): /soc/dmic: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:418.19-440.5: Warning (simple_bus_reg): /soc/snd-card: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:671.30-675.5: Warning (simple_bus_reg): /soc/display-subsystem: missing or empty reg/ranges property
-   arch/riscv/boot/dts/starfive/jh7100.dtsi:677.28-680.5: Warning (simple_bus_reg): /soc/display-encoder: missing or empty reg/ranges property
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@0: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
-   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@1: Unevaluated properties are not allowed ('starfive,itim' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: pwmdac-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: display-subsystem: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: spdif-receiver: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: snd-card: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: dmic: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: display-encoder: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: soc: spdif-transmitter: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/dtim@1000000: failed to match any schema with compatible: ['starfive,dtim0']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/itim@1808000: failed to match any schema with compatible: ['starfive,itim0']
-   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/itim@1820000: failed to match any schema with compatible: ['starfive,itim0']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/dma-controller@100b0000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/crypto@100d0000: failed to match any schema with compatible: ['starfive,vic-sec']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/i2sadc0@10400000: failed to match any schema with compatible: ['snps,designware-i2sadc0']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/i2svad@10420000: failed to match any schema with compatible: ['starfive,sf-i2svad']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/pwmdac@10440000: failed to match any schema with compatible: ['starfive,pwmdac']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/i2sdac0@10450000: failed to match any schema with compatible: ['snps,designware-i2sdac0']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/i2sdac1@10460000: failed to match any schema with compatible: ['snps,designware-i2sdac1']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/i2sdac16k@10470000: failed to match any schema with compatible: ['snps,designware-i2sdac16k']
-   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/spdif-receiver: failed to match any schema with compatible: ['linux,spdif-dir']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/pwmdac-transmitter: failed to match any schema with compatible: ['linux,pwmdac-dit']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/syscon@104a0000: failed to match any schema with compatible: ['starfive,jh7100-sysaudio', 'syscon']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/usb@104c0000: failed to match any schema with compatible: ['starfive,jh7100-usb']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/dma-controller@10500000: failed to match any schema with compatible: ['starfive,jh7100-axi-dma']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/otp@11810000: failed to match any schema with compatible: ['starfive,fu740-otp']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/spi@11860000/nor-flash@0: failed to match any schema with compatible: ['spi-flash']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/spi@11860000/nand-flash@1: failed to match any schema with compatible: ['spi-flash-nand']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/trng@118d0000: failed to match any schema with compatible: ['starfive,vic-rng']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/vpu_enc@118e0000: failed to match any schema with compatible: ['cm,cm521-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: vpu_dec@118f0000: compatible:0: 'c&m,cm511-vpu' does not match '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._/]+$'
-   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/vpu_dec@118f0000: failed to match any schema with compatible: ['c&m,cm511-vpu']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/coadj12@11900000: failed to match any schema with compatible: ['cm,codaj12-jpu-1']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/nvdla@11940000: failed to match any schema with compatible: ['nvidia,nvdla_os_initial']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/display-subsystem: failed to match any schema with compatible: ['starfive,display-subsystem']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/display-encoder: failed to match any schema with compatible: ['starfive,display-encoder']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/crtc@12000000: failed to match any schema with compatible: ['starfive,jh7100-crtc']
->> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: /soc/xrp@f0000000: failed to match any schema with compatible: ['cdns,xrp']
+New smatch warnings:
+drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:183 send_tlb_invalidation() warn: variable dereferenced before check 'fence' (see line 178)
+
+Old smatch warnings:
+drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:204 send_tlb_invalidation() warn: variable dereferenced before check 'fence' (see line 178)
+
+vim +/fence +183 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
+
+35c8a964398e1c Matthew Auld         2023-07-10  158  
+fc108a8b759f52 Matthew Brost        2023-01-17  159  static int send_tlb_invalidation(struct xe_guc *guc,
+332dd0116c82a7 Matthew Brost        2023-01-24  160  				 struct xe_gt_tlb_invalidation_fence *fence,
+332dd0116c82a7 Matthew Brost        2023-01-24  161  				 u32 *action, int len)
+a9351846d94568 Matthew Brost        2023-01-17  162  {
+a9351846d94568 Matthew Brost        2023-01-17  163  	struct xe_gt *gt = guc_to_gt(guc);
+501c4255c40935 Radhakrishna Sripada 2024-06-07  164  	struct xe_device *xe = gt_to_xe(gt);
+a9351846d94568 Matthew Brost        2023-01-17  165  	int seqno;
+a9351846d94568 Matthew Brost        2023-01-17  166  	int ret;
+a9351846d94568 Matthew Brost        2023-01-17  167  
+61ac035361ae55 Matthew Brost        2024-07-19  168  	xe_gt_assert(gt, fence);
+61ac035361ae55 Matthew Brost        2024-07-19  169  
+a9351846d94568 Matthew Brost        2023-01-17  170  	/*
+a9351846d94568 Matthew Brost        2023-01-17  171  	 * XXX: The seqno algorithm relies on TLB invalidation being processed
+a9351846d94568 Matthew Brost        2023-01-17  172  	 * in order which they currently are, if that changes the algorithm will
+a9351846d94568 Matthew Brost        2023-01-17  173  	 * need to be updated.
+a9351846d94568 Matthew Brost        2023-01-17  174  	 */
+565ce72e1c2d54 Matthew Auld         2023-05-24  175  
+a9351846d94568 Matthew Brost        2023-01-17  176  	mutex_lock(&guc->ct.lock);
+62ad062150c2ab Matthew Brost        2023-01-17  177  	seqno = gt->tlb_invalidation.seqno;
+fc108a8b759f52 Matthew Brost        2023-01-17 @178  	fence->seqno = seqno;
+501c4255c40935 Radhakrishna Sripada 2024-06-07  179  	trace_xe_gt_tlb_invalidation_fence_send(xe, fence);
+a9351846d94568 Matthew Brost        2023-01-17  180  	action[1] = seqno;
+332dd0116c82a7 Matthew Brost        2023-01-24  181  	ret = xe_guc_ct_send_locked(&guc->ct, action, len,
+a9351846d94568 Matthew Brost        2023-01-17  182  				    G2H_LEN_DW_TLB_INVALIDATE, 1);
+38224c00d9c284 Matthew Brost        2023-01-24 @183  	if (!ret && fence) {
+35c8a964398e1c Matthew Auld         2023-07-10  184  		spin_lock_irq(&gt->tlb_invalidation.pending_lock);
+35c8a964398e1c Matthew Auld         2023-07-10  185  		/*
+35c8a964398e1c Matthew Auld         2023-07-10  186  		 * We haven't actually published the TLB fence as per
+35c8a964398e1c Matthew Auld         2023-07-10  187  		 * pending_fences, but in theory our seqno could have already
+35c8a964398e1c Matthew Auld         2023-07-10  188  		 * been written as we acquired the pending_lock. In such a case
+35c8a964398e1c Matthew Auld         2023-07-10  189  		 * we can just go ahead and signal the fence here.
+35c8a964398e1c Matthew Auld         2023-07-10  190  		 */
+35c8a964398e1c Matthew Auld         2023-07-10  191  		if (tlb_invalidation_seqno_past(gt, seqno)) {
+501c4255c40935 Radhakrishna Sripada 2024-06-07  192  			__invalidation_fence_signal(xe, fence);
+35c8a964398e1c Matthew Auld         2023-07-10  193  		} else {
+38224c00d9c284 Matthew Brost        2023-01-24  194  			fence->invalidation_time = ktime_get();
+35c8a964398e1c Matthew Auld         2023-07-10  195  			list_add_tail(&fence->link,
+35c8a964398e1c Matthew Auld         2023-07-10  196  				      &gt->tlb_invalidation.pending_fences);
+35c8a964398e1c Matthew Auld         2023-07-10  197  
+35c8a964398e1c Matthew Auld         2023-07-10  198  			if (list_is_singular(&gt->tlb_invalidation.pending_fences))
+38224c00d9c284 Matthew Brost        2023-01-24  199  				queue_delayed_work(system_wq,
+38224c00d9c284 Matthew Brost        2023-01-24  200  						   &gt->tlb_invalidation.fence_tdr,
+eb523ec3826988 Nirmoy Das           2024-06-28  201  						   tlb_timeout_jiffies(gt));
+38224c00d9c284 Matthew Brost        2023-01-24  202  		}
+35c8a964398e1c Matthew Auld         2023-07-10  203  		spin_unlock_irq(&gt->tlb_invalidation.pending_lock);
+35c8a964398e1c Matthew Auld         2023-07-10  204  	} else if (ret < 0 && fence) {
+501c4255c40935 Radhakrishna Sripada 2024-06-07  205  		__invalidation_fence_signal(xe, fence);
+35c8a964398e1c Matthew Auld         2023-07-10  206  	}
+4803f6e26f1678 Matthew Auld         2023-07-10  207  	if (!ret) {
+4803f6e26f1678 Matthew Auld         2023-07-10  208  		gt->tlb_invalidation.seqno = (gt->tlb_invalidation.seqno + 1) %
+4803f6e26f1678 Matthew Auld         2023-07-10  209  			TLB_INVALIDATION_SEQNO_MAX;
+4803f6e26f1678 Matthew Auld         2023-07-10  210  		if (!gt->tlb_invalidation.seqno)
+4803f6e26f1678 Matthew Auld         2023-07-10  211  			gt->tlb_invalidation.seqno = 1;
+4803f6e26f1678 Matthew Auld         2023-07-10  212  	}
+a9351846d94568 Matthew Brost        2023-01-17  213  	mutex_unlock(&guc->ct.lock);
+a9351846d94568 Matthew Brost        2023-01-17  214  
+a9351846d94568 Matthew Brost        2023-01-17  215  	return ret;
+a9351846d94568 Matthew Brost        2023-01-17  216  }
+a9351846d94568 Matthew Brost        2023-01-17  217  
+
+:::::: The code at line 183 was first introduced by commit
+:::::: 38224c00d9c284030d60be83571e5f1bd5fc79c6 drm/xe: Add TDR for invalidation fence timeout cleanup
+
+:::::: TO: Matthew Brost <matthew.brost@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
