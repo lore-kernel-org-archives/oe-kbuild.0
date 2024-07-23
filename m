@@ -1,66 +1,67 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FCE13D8A6
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 19:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B95913E88C
+	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 19:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721761574; cv=none; b=Lhk5DVT3m6/xzjvJHqNRH9KO0esLOOWwaxr/B8fzyD6g0z9yVIw603Dy4p1VYB2xjHExWvtEhcgDRvuBkZCAqEF0fqUOh1zDfM48+KU2lgGS4dl35sGWdD8hvvknUcNLfxSjWcyodaGVYiCbeODydHy/S1DMJ/YS43b/1c7zn8U=
+	t=1721762747; cv=none; b=Wge5SrQOPkjGRiayXZTaoUJh6p29eZ+AZCOoYxC37dEQ+fbaUpuPIRMvxXnKsdJcDGRRQ7Eo9F9Hd+U2aLL9RRqmprVHzfiTAEOuEJHKPzQuIFjAU8SsBsbLmt7x6oSbrlRACMf7fLikAGQ/Q7sXIa77fihMBrz2rBTM5hAdh30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721761574; c=relaxed/simple;
-	bh=NDNM6wT1Qb0x90f56VW7IWqTeqw8LjOyDvIsTtRuuj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SL1fgfdDz2TyjLNQf+gN34En5xKejH7OHKd3A0heaeF0C1Hfc7Lvldg3WmLLs2gq346xwqY0tXCz4MqTTdCVbFfq+u2B2chKEdGdxeMU670rBsmiPc01gHjXcw5vbyeEFRKcdqvg3o63iy1gpr64hm39mkhYPhXAHzh0knFRUVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ppiNZYTf; arc=none smtp.client-ip=209.85.161.51
+	s=arc-20240116; t=1721762747; c=relaxed/simple;
+	bh=HZt9krHOqkOGg3ksIsiY4ea2bMM2lQ6nwNkNyW7U4GE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nAi/f92dW2lp1pHxiFjA4N+xvcsHj4n7bJnbUCk/XX8ta7wcXPzO6IWP6rvb66BFEBq3NDMQi6185C+HBFU17m27G0QDb4BSibCMrwf3no5NKP0p0hde4/CslPQMStu7v6bmqaG3wadJkzw2R064NKIzpLLupk2lJ2bNqsrBF4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PELlLQHd; arc=none smtp.client-ip=209.85.161.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ppiNZYTf"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5ce739c2650so3197783eaf.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 12:06:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PELlLQHd"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5d31ef2c73cso3196882eaf.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 12:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1721761571; x=1722366371; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I+86VtlUVCmljtpKp+rPOXez6QpSLolX4c53iPAG0Nw=;
-        b=ppiNZYTf9w63TFtbwnLZ/WEM2Y2tW6LjUGyqI1+HCE/jzPSanozX14vEcNMd5+AwZL
-         s2vrRpDBlXlfzXgZz5TJvEOusbb4Hgjd5xCnIhTKe4S9YKFuvVejDH/YuRYmJKW28eRv
-         vDYSmMHVa/u/hfH0pjVd20+gStfkZ3gSEJfwLRv4+i2zgt0Z+wckxcVmxTHeK5d4CdEp
-         tGI4ZvpKrCWROtrAqGnMlcx1DuAOhzP4/Ju2aM2pISH0G8kZXoYnpNM0j90d9i8NQh9R
-         UaMLgaY2r5dlJ8Ywzn98peG9u54dP16MZdysh1X/AenncmWIKF6K4RgEOzrXLXQMN+WY
-         C4gw==
+        d=linaro.org; s=google; t=1721762745; x=1722367545; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pui+9x9FoZL7DPEwk7OsZErD91Sf56G6xXu9R9mUzZw=;
+        b=PELlLQHdZN9OOmP+Xku+BZNdU24bQ0Mk3UlhX3OLvBiEJAtax42+8jGqAM1/UYcGw6
+         34fBgyqHXGJwFjtWJg1N12ioHy5k4TAf202bSk5xMFwW5pxMlzVP1kjWSx3jaqVrQAdj
+         McL2E6uQ/VtJr8DhdsOwr+eyWeqoJSgiKibBgz9HyWQYtbprveTuS6lEVEoowRB0iEMb
+         6GynkIVa+0PFyytyppt5m1CM1+9DUxP4lyEPqQMBhUcCJ70AupQQDGHrPXrL7xiJONkV
+         8N9Sw+4s2blxFfsK/UfKoaLAhFfaMIm6Sdab1CFww/xMWXNZlXAXhadc0NvAu3l9x4qx
+         M/cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721761571; x=1722366371;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+86VtlUVCmljtpKp+rPOXez6QpSLolX4c53iPAG0Nw=;
-        b=puGhhwhSb7nf5yZg9sjzY8VdB0AoTMUl2ww/2dcKwvM5Z+wsyIPEe11LYHj3AFors/
-         VvNE9/tCxqYJLcfU4e5lxom2CZ2jarCvmrd7Ev0v/YyTk4e9JI8aGh05C5m3jOiY3D7V
-         HStauff92DJRI5X0D91gBj/NsdumUywmqHLEYDpxJH8/DW5nSzDI9S6RLKox77/8i7lh
-         jW81UwyAbHraRKCWLCyX3u4jI3G1A4PM5eYThLj6d4SiLn+aU9D6gbYknTI0FMRd1dEw
-         cZl061Am7oVo/7Jrd0LjKB/Sna1ahWwPvpxXipqZC/4//f+sOFvWW8uBnraj0GPRwu6R
-         hQWg==
-X-Gm-Message-State: AOJu0Ywhr4ydvBFksB/dwL8wqftfw2GX/L6r/u3RuXslg5w810+WOjXI
-	vCbTitFCCeF13007zkNp5SaQItBhfVfJM39t4rDtsS1RMFN932Fs0M4h3Cip2cJtNXiaYGYwI1U
-	VDKU=
-X-Google-Smtp-Source: AGHT+IF03pQG1mVlnnnHQg7+hLEYB9j0xbyR2EwRX7P/CoLSoX+EX/woiQBVwE12L38j+u7NWqKs4w==
-X-Received: by 2002:a4a:ee83:0:b0:5c4:5cbc:b1b5 with SMTP id 006d021491bc7-5d564cfc26dmr14110778eaf.0.1721761571397;
-        Tue, 23 Jul 2024 12:06:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721762745; x=1722367545;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pui+9x9FoZL7DPEwk7OsZErD91Sf56G6xXu9R9mUzZw=;
+        b=HYs56rFhEfexwO7qkG97pby/4hJMlTrz5f0VLAT38JrfLi3O8f5gxlizFmVCM6xZKp
+         +IzSA0ZpZMqf7K/3Vgnm+MVxJR58gZbyU+cxLvs8VBq6oNp5VG/pKCRtqV9ViA0tve3u
+         G9i2lIak47nN+YSHJMK5wcyofNo6aXqMwDbZLtUz7/T+kMkXyPMKCEPDAUu2L8cOMHqk
+         sxeQn0FzqPQPTLI2jgO+SO2ci/z5ffkcmNduVBp3uw86rZkTfwl6dOS/S/CKMRhGh77P
+         hTpEMbZe/ewqOwhwcjNbjLBeI/pIjlQ2986YwULLfz+D4wv0za5MCKLxqlurZt64A9bl
+         CkVw==
+X-Gm-Message-State: AOJu0Yzy9wTPPgn33C6Wos59ZwqTTY2JBoGHe1kAVwhT7iSY/Sni25qm
+	hoa+VJL3WGj4wDIg/zIivPABkXTJsbfy9mjPiRMQaYEelqkP1SSUQcdLhW3j394=
+X-Google-Smtp-Source: AGHT+IFK35cPinVU5a7QDczHk9xYaa/R1+E1cVI6qxjtLLNfAtfgGOQT0RHMXouRLR5H17+aGJtHcg==
+X-Received: by 2002:a05:6870:8327:b0:261:1f7d:cf61 with SMTP id 586e51a60fabf-2638dee771dmr10166241fac.9.1721762745086;
+        Tue, 23 Jul 2024 12:25:45 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:eca3:bb93:d28d:1005])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5d59ee0e903sm25950eaf.8.2024.07.23.12.06.10
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2610c76c74asm2308306fac.19.2024.07.23.12.25.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jul 2024 12:06:10 -0700 (PDT)
-Date: Tue, 23 Jul 2024 14:06:08 -0500
+        Tue, 23 Jul 2024 12:25:44 -0700 (PDT)
+Date: Tue, 23 Jul 2024 14:25:42 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Matthew Auld <matthew.auld@intel.com>,
 	Nirmoy Das <nirmoy.das@intel.com>
-Subject: [linux-next:master 13299/13550]
- drivers/gpu/drm/xe/xe_guc_submit.c:1417 guc_exec_queue_process_msg() error:
- dereferencing freed memory 'msg'
-Message-ID: <69198958-f351-48f5-8b94-2f0098c1c7b8@suswa.mountain>
+Subject: Re: [linux-next:master 13298/13495]
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:183 send_tlb_invalidation()
+ warn: variable dereferenced before check 'fence' (see line 178)
+Message-ID: <c8fd832d-c52e-4bfb-8448-b3bc4c5d8187@suswa.mountain>
+References: <c8d58c8d-4e89-471b-853c-49d365d7f4d4@suswa.mountain>
+ <Zp/9e5rwvQNvk2hg@DUT025-TGLU.fm.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,55 +70,54 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Zp/9e5rwvQNvk2hg@DUT025-TGLU.fm.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2347b4c79f5e6cd3f4996e80c2d3c15f53006bf5
-commit: d930c19fdff3109e97b610fa10943b7602efcabd [13299/13550] drm/xe: Build PM into GuC CT layer
-config: i386-randconfig-141-20240722 (https://download.01.org/0day-ci/archive/20240723/202407231445.rpisd1vA-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+On Tue, Jul 23, 2024 at 06:59:07PM +0000, Matthew Brost wrote:
+> On Tue, Jul 23, 2024 at 01:52:46PM -0500, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   dee7f101b64219f512bb2f842227bd04c14efe30
+> > commit: 61ac035361ae555ee5a17a7667fe96afdde3d59a [13298/13495] drm/xe: Drop xe_gt_tlb_invalidation_wait
+> > config: i386-randconfig-141-20240722 (https://download.01.org/0day-ci/archive/20240723/202407231049.esig0Fkb-lkp@intel.com/config)
+> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202407231049.esig0Fkb-lkp@intel.com/
+> > 
+> > New smatch warnings:
+> > drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c:183 send_tlb_invalidation() warn: variable dereferenced before check 'fence' (see line 178)
+> > 
+> > vim +/fence +183 drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
+> > 
+> > fc108a8b759f52 Matthew Brost        2023-01-17  159  static int send_tlb_invalidation(struct xe_guc *guc,
+> > 332dd0116c82a7 Matthew Brost        2023-01-24  160  				 struct xe_gt_tlb_invalidation_fence *fence,
+> > 332dd0116c82a7 Matthew Brost        2023-01-24  161  				 u32 *action, int len)
+> > a9351846d94568 Matthew Brost        2023-01-17  162  {
+> > a9351846d94568 Matthew Brost        2023-01-17  163  	struct xe_gt *gt = guc_to_gt(guc);
+> > 501c4255c40935 Radhakrishna Sripada 2024-06-07  164  	struct xe_device *xe = gt_to_xe(gt);
+> > a9351846d94568 Matthew Brost        2023-01-17  165  	int seqno;
+> > a9351846d94568 Matthew Brost        2023-01-17  166  	int ret;
+> > a9351846d94568 Matthew Brost        2023-01-17  167  
+> > 61ac035361ae55 Matthew Brost        2024-07-19  168  	xe_gt_assert(gt, fence);
+> 
+> We assert the fence is not NULL here. It is invalid call with a NULL fence.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202407231445.rpisd1vA-lkp@intel.com/
+This assert just does a drm_WARN().  It doesn't call called BUG() or
+do anything that affects flow analysis.  These type of asserts are
+deliberately ignored by Smatch.
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_guc_submit.c:1417 guc_exec_queue_process_msg() error: dereferencing freed memory 'msg'
+With Smatch, I generally try not to print warnings about inconsistent
+NULL checking when I know the extra checks are harmless.  If you had
+cross function analysis enabled then possibly that would silence the
+warning.  (This code is too new for me to have tested it on my own
+system yet so I can't be sure if Smatch parses the callers correctly).
 
-vim +/msg +1417 drivers/gpu/drm/xe/xe_guc_submit.c
+Unfortunately, cross function stuff doesn't scale well enough so we
+can't use it on in the kbuild bot.
 
-9b9529ce379a08 Francois Dugast 2023-07-31  1396  static void guc_exec_queue_process_msg(struct xe_sched_msg *msg)
-dd08ebf6c3525a Matthew Brost   2023-03-30  1397  {
-dd08ebf6c3525a Matthew Brost   2023-03-30  1398  	trace_xe_sched_msg_recv(msg);
-dd08ebf6c3525a Matthew Brost   2023-03-30  1399  
-dd08ebf6c3525a Matthew Brost   2023-03-30  1400  	switch (msg->opcode) {
-dd08ebf6c3525a Matthew Brost   2023-03-30  1401  	case CLEANUP:
-9b9529ce379a08 Francois Dugast 2023-07-31  1402  		__guc_exec_queue_process_msg_cleanup(msg);
-dd08ebf6c3525a Matthew Brost   2023-03-30  1403  		break;
-dd08ebf6c3525a Matthew Brost   2023-03-30  1404  	case SET_SCHED_PROPS:
-9b9529ce379a08 Francois Dugast 2023-07-31  1405  		__guc_exec_queue_process_msg_set_sched_props(msg);
-                                                                                                             ^^^
-Freed
-
-dd08ebf6c3525a Matthew Brost   2023-03-30  1406  		break;
-dd08ebf6c3525a Matthew Brost   2023-03-30  1407  	case SUSPEND:
-9b9529ce379a08 Francois Dugast 2023-07-31  1408  		__guc_exec_queue_process_msg_suspend(msg);
-dd08ebf6c3525a Matthew Brost   2023-03-30  1409  		break;
-dd08ebf6c3525a Matthew Brost   2023-03-30  1410  	case RESUME:
-9b9529ce379a08 Francois Dugast 2023-07-31  1411  		__guc_exec_queue_process_msg_resume(msg);
-dd08ebf6c3525a Matthew Brost   2023-03-30  1412  		break;
-dd08ebf6c3525a Matthew Brost   2023-03-30  1413  	default:
-99fea682887938 Francois Dugast 2023-07-27  1414  		XE_WARN_ON("Unknown message type");
-dd08ebf6c3525a Matthew Brost   2023-03-30  1415  	}
-d930c19fdff310 Matthew Brost   2024-07-19  1416  
-d930c19fdff310 Matthew Brost   2024-07-19 @1417  	xe_pm_runtime_put(guc_to_xe(exec_queue_to_guc(msg->private_data)));
-                                                                                                      ^^^
-Use after free
-
-dd08ebf6c3525a Matthew Brost   2023-03-30  1418  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
