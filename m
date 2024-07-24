@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0198913BAD5
-	for <oe-kbuild@lists.linux.dev>; Tue, 23 Jul 2024 23:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E494FC138
+	for <oe-kbuild@lists.linux.dev>; Wed, 24 Jul 2024 01:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721778179; cv=none; b=fpu/4/mo2UkFV0D7S4snKubm8DzEgEyCcW6Bzo+0jxVn5wJLgDUj/it0znAfXNegXg+xQZy+jDA1Ei1VGj4kpCNPkY+sGdortyEe8eNhgvuG9FYda7RENRutELe2eo3Ffy/MYUtQM5skBtAPUclB7ub6RWpOiPXC2MWiwoC+H6g=
+	t=1721785930; cv=none; b=sQK2dDLLwAe68QgpwJ35MHTauAqgd3r7EOMYDI6nXH/T6Kbk3RnHRciO25N8qWFgxIhEGo6bjagTjiYZk/MhFuQlc/TY77iaQpOJ70esm3fqTmTk0eMOkyDqHQsNrxz8GIXbU9TMEhHhLbzvRnYbqsydx9UltzwuBl8qVfeWbUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721778179; c=relaxed/simple;
-	bh=v7wVQqDh5i9Es4SQRTKO1TRD2PJlEGoQDRgRzohIv3A=;
+	s=arc-20240116; t=1721785930; c=relaxed/simple;
+	bh=IFgYzUymzzhWcx0PJWo0IyWRbCLPhM/4oOMBdw/OIcM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A+G1TANzY/P/+ns3701YksGHKOKz/iW5Migz7Xt/Zv8bOCwgbGamI4/zxDTe2K+6Lcn5OkSIx9Dt4hjVwiHsIvrvYnoHBxDd6lN4/nDaDvWYM5paEMm4zzq4wOQ8/DUKMRQP/BNX0TSd7NZv5SMYDISGl6Y9xLM7KH5NYNudrzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b+VigvDT; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=l2V8TvHbD/K3H365CBWsP1iBiYTkTUgFX45wIpGNqp41O49rxsvjO4+5Iqj/yQMros35SGPwV90edH7ensD0I20FC+I1cEl4RvAuYcF8tYzvhj1SpSjHMZE04NXYvfKOxw6rttgHI/VW09apKLgduDCRix1usdeRVRdZeZPo2QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DEJ3SCZW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b+VigvDT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DEJ3SCZW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721778177; x=1753314177;
+  t=1721785927; x=1753321927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v7wVQqDh5i9Es4SQRTKO1TRD2PJlEGoQDRgRzohIv3A=;
-  b=b+VigvDTI1JcwUidwGjoNDi17x8aB4lRFIWlMNdH9PdcBt9L1oNyoAzo
-   KU9WbDIr8m7Qaym234dhpqlmvPTTDBOGlrs7/qiFZ6ja/jEVrg5KBlMxW
-   SjAxlhNHxlgm5t2eMhnhiUDLxFFkYOlxUAdewJSmht6px9Wa3EQ87lk1B
-   /BmnJm/yh0APuKJk3t//xAOGlDy9GKFj0yWC6+jPAor2rWW5/3umQlR7Q
-   jr+iR5qqB6j+955tT3X+LhoDqH2ioTARiwAA2CxqyR301R4En+oRzyFTP
-   xZDGN49xWosdG5KzHMxvW2s3oEGZrxlPXVkBGYYOcXBUsw7Z9B9P3M/so
-   A==;
-X-CSE-ConnectionGUID: xUIzPLMpSki4qxgtBeawBA==
-X-CSE-MsgGUID: uPq3ebu6SGiPdU2fHr2XGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19306057"
-X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="19306057"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 16:42:56 -0700
-X-CSE-ConnectionGUID: pybNmBY0QXyDSUCUuP+mHw==
-X-CSE-MsgGUID: ZLi4HraXTSilL0uBxvgQOg==
+  bh=IFgYzUymzzhWcx0PJWo0IyWRbCLPhM/4oOMBdw/OIcM=;
+  b=DEJ3SCZWROU4EtydxPFU+6rBsuGjLkqwNnRVtaSCOpBoeH0oBLgebnG8
+   cffHSIk08FEWA6lT+LPmZdjymzqOYTMXABJ0eAVv1/Rgy5prLbE5E1sRt
+   K6VKQS1pMPOPtdzikqO4KoI6A/Hk+uOm6RRbsE6vB9XIymudASua3LugZ
+   L2F8Mfsika9yJ9RQ0q9rdR7gWZO061mVgfv8cyn2P4SX6uxdMrLp01xB6
+   Ij7xtg4h8orNqjt5au7lAvex36mg8x8HZPkRNEE0qB+s0QOt5hIa0LMyi
+   75wcJ526zIghl0x2t1bPjwuIYCx3I4auZi7lU/zquyjYQfnap7PDd+DUG
+   g==;
+X-CSE-ConnectionGUID: aTfcuL3IQ3OUf5KH2JDg4g==
+X-CSE-MsgGUID: KrpHyx5kQPGsQoI9zUOR1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11142"; a="19402412"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="19402412"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2024 18:52:02 -0700
+X-CSE-ConnectionGUID: XZYBr/j0T9afyApxzlklJA==
+X-CSE-MsgGUID: jV3aWBO/QdS/LeAgLxvPHQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,231,1716274800"; 
-   d="scan'208";a="83406513"
+X-IronPort-AV: E=Sophos;i="6.09,232,1716274800"; 
+   d="scan'208";a="83057977"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Jul 2024 16:42:55 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Jul 2024 18:52:01 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWP9h-000mSg-1f;
-	Tue, 23 Jul 2024 23:42:53 +0000
-Date: Wed, 24 Jul 2024 07:42:51 +0800
+	id 1sWRAc-000mXy-0t;
+	Wed, 24 Jul 2024 01:51:58 +0000
+Date: Wed, 24 Jul 2024 09:51:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jmondi:imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls-v2+fix
- 25/79] arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000:
- rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-Message-ID: <202407240703.4roBaKWN-lkp@intel.com>
+Subject: [atishp04:b4/counter_delegation 13/29]
+ arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@0: False schema does
+ not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'],
+ 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128,
+ 'i-cache-size': 16384, 'reg': [[0]], 'ri...
+Message-ID: <202407240901.KPX67E44-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,73 +66,175 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Atish Patra <Atish.Patra@wdc.com>
+TO: Atish Patra <atishp@rivosinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git imx8mp/iob-gitlab/v6.9/extensible-format-v6+bls-v2+fix
-head:   c9e9794a6644f6f903b0a867783d4d1c49e2dbeb
-commit: e3a052ed7a909d2f9d7f52992b1ee842745c9347 [25/79] arm64: dts: freescale: Add Au-Zone Maivin Starter Kit
-:::::: branch date: 9 hours ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-051-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240703.4roBaKWN-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project ad154281230d83ee551e12d5be48bb956ef47ed3)
+tree:   https://github.com/atishp04/linux b4/counter_delegation
+head:   7c313ded7ebcafdfdd7760200cc9d4add51916d9
+commit: 70b4b06eeb606cf4b245e1d9cad708fbe78b2980 [13/29] dt-bindings: riscv: add Sxcsrind ISA extension description
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 days ago
+config: riscv-randconfig-051-20240724 (https://download.01.org/0day-ci/archive/20240724/202407240901.KPX67E44-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240703.4roBaKWN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240724/202407240901.KPX67E44-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407240703.4roBaKWN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407240901.KPX67E44-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/freescale/imx8mp.dtsi:1717.11-1728.7: Warning (graph_child_address): /soc@0/bus@32c00000/dsi@32e60000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: Unevaluated properties are not allowed ('interrupt-names', 'interrupts', 'mdio', 'nvmem-cell-names', 'nvmem-cells', 'phy-handle', 'phy-mode', 'reg', 'rx-queues-config', 'snps,force_thresh_dma_mode', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/nxp,dwmac-imx.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: rx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue1:snps,priority: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue2:snps,priority: [4] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue3:snps,priority: [8] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
->> arch/arm64/boot/dts/freescale/imx8mp-maivin.dtb: ethernet@30bf0000: tx-queues-config:queue4:snps,priority: [240] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 2, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 3, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 7}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 2, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 3, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 7}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
 
 -- 
 0-DAY CI Kernel Test Service
