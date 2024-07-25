@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7F319D880
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jul 2024 15:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F91B7172F
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jul 2024 19:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721920218; cv=none; b=VWrjDCYd71s2ZUlEAnEQ12AItBLgtb9NnD4Levc0hdIJpfFv6584fOvJWB6bZuiZ/8c67rrlbz1xUVDmL4aoPgThOjhgtK5Uwk9NxwEDR9G3AP3y5TV1vKDFXvfbIStN7ZNrRhV0EIRDMCb/b+vrd1GbHuW1vdHAdQ+FI3wydjA=
+	t=1721935764; cv=none; b=Bx4BouJSRiZOT49s3REZfbqf1jEwHHAjb2e4SldPx7oVi7mx4Vsvw+rVd+avk9MLcbrnXedzwYRfsZ1xRMoZIZk61sfVOE9lA1D7vrPKXDGOyCB8vrkpX+JpBtFa/5/3tWLebw/XdAha3BVVJSrzgK5pfv3mf2GosoGSx8B+2fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721920218; c=relaxed/simple;
-	bh=uWBdqxRmiMrw4FQLHmzcB5zDoVJvV5KhpjyAFVgaJ54=;
+	s=arc-20240116; t=1721935764; c=relaxed/simple;
+	bh=HPqB3GkVwb3O5ua+fPNbDutPB+XamgrX1kzi6wkbFWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lwjPee/IUGENaXhBRPfLXu23xm/VF5UwnlvtmeAKhzQCoqVUQZ7Zl/2OC84s78w34jB1lPWXU7xPqoaVRwG9TLuXTqJjUvm4kytuNsdQsBnRX3Ga3JfVV4d0Bf3WBWcQbP4tp78zi+UdwbuQuIVqQx7ctsti44BBHd9nYWWXX44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTt0Cprf; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=GY4Q/3+ED4OhhSIiVqu/NoNTh5YZlsouF4th05y8rE4lDgOMnIIGAZyK3ZebfmsB3XZyT0kenAdzFVOiS5BTPhlX3602+/LzN4KnJtoPxCFSffVheD0Oc4JFdCoJK6pYJssVMABqodsJWRdsoUGRwV9hp+Y65NQndNJ6nKX8lcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3nIGw0o; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTt0Cprf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3nIGw0o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721920216; x=1753456216;
+  t=1721935763; x=1753471763;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uWBdqxRmiMrw4FQLHmzcB5zDoVJvV5KhpjyAFVgaJ54=;
-  b=aTt0Cprfp5611BZFGg1JXzYrGcuvDfnpIhT2qPCydGtNn3izMHDdE3La
-   qYIS2Ir0AHKwZiKwr47H4pWAPigxwp/ycS3BR6wyMBmwDhaeM2vki/AI7
-   FYKwiGLO4MN754wklyM282nKfrC6zYxiZ2zVPDTBgXd1BymHOJPPB0eZD
-   W/ik11OfSpJa0/kIAiaRpn0utOkbiVFd2SiRx+S70qwLk2ZtQcLOguJ1Z
-   iqGIak5knd1yEIO6V5gB6+rcWbmeoBAO354vemfY6OLFbMpUnJZ1OpY8J
-   bDJo4VzQ9dlRsFGS5dykjiu4WetM0jgoox2i+foDy/2tLAyP1ekcCbLn2
-   w==;
-X-CSE-ConnectionGUID: sSJdJRT3Rp6yYpes3RuUCA==
-X-CSE-MsgGUID: bGDiE0TXQ6iaKrLa/ZR+tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="23422979"
+  bh=HPqB3GkVwb3O5ua+fPNbDutPB+XamgrX1kzi6wkbFWI=;
+  b=A3nIGw0o1263XJT1iNQjh3KgcECxF3x90bd6mXvdFboBFGvlVk+18nxY
+   G3Tmqp+4xms+4NkvA0SdTCByAIfzxZNM0M4jTG/tGzLcMk6obpt08IJhG
+   lKDFGIQmOhOMxkADpnTh6GpstpRM6FMDYSeuPCd8bdw+wwIzn/ZziWIMb
+   AO9OWeS79i4IV3reCpI0ZwA3w5tMqLdfA//J/uXjJ6Zs2zLJRt7jMk06i
+   4kL6cvMVjG6lIsCsr7e3XVpkDqpIUq3MPiWz0FCZLgBA+L05x8aGbGryr
+   Uk1Q9swT0eXCm2tdKjxoJSPRSANeSywwqSfqmx6LEJp9xFHatJX/gYNSA
+   A==;
+X-CSE-ConnectionGUID: dvqYRJd/Tf25YGePjMmZEg==
+X-CSE-MsgGUID: EnUgbmSvT7W2JaSJG8/r1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="31087877"
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="23422979"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 08:10:12 -0700
-X-CSE-ConnectionGUID: u7uoV374Re2wJSqGNkAS8w==
-X-CSE-MsgGUID: 95JHl72CQ5KAhcPNJuoA2w==
+   d="scan'208";a="31087877"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 12:29:22 -0700
+X-CSE-ConnectionGUID: leZJohq2RSW/R092h+OLPg==
+X-CSE-MsgGUID: xXqR1lY6SDqqg7Llw/08yQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="53043147"
+   d="scan'208";a="57312391"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jul 2024 08:10:10 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 25 Jul 2024 12:29:20 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sX06a-000oCW-28;
-	Thu, 25 Jul 2024 15:10:08 +0000
-Date: Thu, 25 Jul 2024 23:09:55 +0800
+	id 1sX49O-000oOo-0v;
+	Thu, 25 Jul 2024 19:29:18 +0000
+Date: Fri, 26 Jul 2024 03:28:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tobetter:odroid-6.1.y 14/91]
- arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated
- properties are not allowed ('power-domains' was unexpected)
-Message-ID: <202407252246.LBRzBLII-lkp@intel.com>
+Subject: Re: [PATCH 4/7] minmax: Simplify signedness check
+Message-ID: <202407260319.rmgaXdIl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,59 +62,96 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm64/kvm/hyp/nvhe/page_alloc.c:121:21: sparse: sparse: bad integer constant expression"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dongjin Kim <tobetter@gmail.com>
+In-Reply-To: <03601661326c4efba4e618ead15fa0e2@AcuMS.aculab.com>
+References: <03601661326c4efba4e618ead15fa0e2@AcuMS.aculab.com>
+TO: David Laight <David.Laight@ACULAB.COM>
+TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
+TO: "'Linus Torvalds'" <torvalds@linuxfoundation.org>
+CC: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
+CC: "'Christoph Hellwig'" <hch@infradead.org>
+CC: "'Andrew Morton'" <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
+CC: "'Dan Carpenter'" <dan.carpenter@linaro.org>
+CC: "'Arnd Bergmann'" <arnd@kernel.org>
+CC: "'Jason@zx2c4.com'" <Jason@zx2c4.com>
+CC: "'pedro.falcato@gmail.com'" <pedro.falcato@gmail.com>
+CC: "'Mateusz Guzik'" <mjguzik@gmail.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   33e59e3417fd2b46d422206b92040e1fe5b6c38d
-commit: af52052e79e286b72d81618e6bc9ea37cb2ec2fb [14/91] arm64: dts: rockchip: Add Hardkernel ODROID-M1 board
-:::::: branch date: 8 days ago
-:::::: commit date: 1 year, 7 months ago
-config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240725/202407252246.LBRzBLII-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407252246.LBRzBLII-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master v6.10 next-20240725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240724-224832
+base:   linux/master
+patch link:    https://lore.kernel.org/r/03601661326c4efba4e618ead15fa0e2%40AcuMS.aculab.com
+patch subject: [PATCH 4/7] minmax: Simplify signedness check
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: arm64-randconfig-r132-20240725 (https://download.01.org/0day-ci/archive/20240726/202407260319.rmgaXdIl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240726/202407260319.rmgaXdIl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407252246.LBRzBLII-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407260319.rmgaXdIl-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('dr_mode', 'extcon', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('dr_mode', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /i2c@fdd40000/regulator@1c: failed to match any schema with compatible: ['tcs,tcs4525']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
-   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb2phy@fe8a0000: otg-port: 'vbus-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-inno-usb2.yaml#
->> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: ethernet@fe2a0000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/page_alloc.c:121:21: sparse: sparse: bad integer constant expression
+>> arch/arm64/kvm/hyp/nvhe/page_alloc.c:121:21: sparse: sparse: static assertion failed: "min(p, buddy) signedness error, fix types or consider umin() before min_t()"
+
+vim +121 arch/arm64/kvm/hyp/nvhe/page_alloc.c
+
+914cde58a03cc5 Quentin Perret     2021-06-08   92  
+8e17c66249e9ea Quentin Perret     2021-03-19   93  static void __hyp_attach_page(struct hyp_pool *pool,
+8e17c66249e9ea Quentin Perret     2021-03-19   94  			      struct hyp_page *p)
+8e17c66249e9ea Quentin Perret     2021-03-19   95  {
+72a5bc0f153ce8 Quentin Perret     2022-11-10   96  	phys_addr_t phys = hyp_page_to_phys(p);
+87ec0606733e1a Quentin Perret     2021-06-08   97  	unsigned short order = p->order;
+8e17c66249e9ea Quentin Perret     2021-03-19   98  	struct hyp_page *buddy;
+8e17c66249e9ea Quentin Perret     2021-03-19   99  
+8e17c66249e9ea Quentin Perret     2021-03-19  100  	memset(hyp_page_to_virt(p), 0, PAGE_SIZE << p->order);
+8e17c66249e9ea Quentin Perret     2021-03-19  101  
+72a5bc0f153ce8 Quentin Perret     2022-11-10  102  	/* Skip coalescing for 'external' pages being freed into the pool. */
+72a5bc0f153ce8 Quentin Perret     2022-11-10  103  	if (phys < pool->range_start || phys >= pool->range_end)
+72a5bc0f153ce8 Quentin Perret     2022-11-10  104  		goto insert;
+72a5bc0f153ce8 Quentin Perret     2022-11-10  105  
+8e17c66249e9ea Quentin Perret     2021-03-19  106  	/*
+8e17c66249e9ea Quentin Perret     2021-03-19  107  	 * Only the first struct hyp_page of a high-order page (otherwise known
+8e17c66249e9ea Quentin Perret     2021-03-19  108  	 * as the 'head') should have p->order set. The non-head pages should
+8e17c66249e9ea Quentin Perret     2021-03-19  109  	 * have p->order = HYP_NO_ORDER. Here @p may no longer be the head
+21ea457842759a Julia Lawall       2022-03-18  110  	 * after coalescing, so make sure to mark it HYP_NO_ORDER proactively.
+8e17c66249e9ea Quentin Perret     2021-03-19  111  	 */
+8e17c66249e9ea Quentin Perret     2021-03-19  112  	p->order = HYP_NO_ORDER;
+23baf831a32c04 Kirill A. Shutemov 2023-03-15  113  	for (; (order + 1) <= pool->max_order; order++) {
+8e17c66249e9ea Quentin Perret     2021-03-19  114  		buddy = __find_buddy_avail(pool, p, order);
+8e17c66249e9ea Quentin Perret     2021-03-19  115  		if (!buddy)
+8e17c66249e9ea Quentin Perret     2021-03-19  116  			break;
+8e17c66249e9ea Quentin Perret     2021-03-19  117  
+21ea457842759a Julia Lawall       2022-03-18  118  		/* Take the buddy out of its list, and coalesce with @p */
+914cde58a03cc5 Quentin Perret     2021-06-08  119  		page_remove_from_list(buddy);
+8e17c66249e9ea Quentin Perret     2021-03-19  120  		buddy->order = HYP_NO_ORDER;
+8e17c66249e9ea Quentin Perret     2021-03-19 @121  		p = min(p, buddy);
+8e17c66249e9ea Quentin Perret     2021-03-19  122  	}
+8e17c66249e9ea Quentin Perret     2021-03-19  123  
+72a5bc0f153ce8 Quentin Perret     2022-11-10  124  insert:
+8e17c66249e9ea Quentin Perret     2021-03-19  125  	/* Mark the new head, and insert it */
+8e17c66249e9ea Quentin Perret     2021-03-19  126  	p->order = order;
+914cde58a03cc5 Quentin Perret     2021-06-08  127  	page_add_to_list(p, &pool->free_area[order]);
+8e17c66249e9ea Quentin Perret     2021-03-19  128  }
+8e17c66249e9ea Quentin Perret     2021-03-19  129  
 
 -- 
 0-DAY CI Kernel Test Service
