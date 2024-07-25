@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D571D19CD0F
-	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jul 2024 14:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7F319D880
+	for <oe-kbuild@lists.linux.dev>; Thu, 25 Jul 2024 15:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721918364; cv=none; b=nbutMGcASSsGSoMSMcGvo0MsKLvYiAtxaxi6pEUh7JwMDNo6/RO7MQAXdaO6zJm6bkxkK/YGip2tQaMD+rtkZ5ohwoeziKuF30/41wuQX5CibHSgbcV/2mRhO77w/eht/lS/sJUYAtRx8sxvZcqf3cN4Lsk9FtlGRfyMKnDWBpc=
+	t=1721920218; cv=none; b=VWrjDCYd71s2ZUlEAnEQ12AItBLgtb9NnD4Levc0hdIJpfFv6584fOvJWB6bZuiZ/8c67rrlbz1xUVDmL4aoPgThOjhgtK5Uwk9NxwEDR9G3AP3y5TV1vKDFXvfbIStN7ZNrRhV0EIRDMCb/b+vrd1GbHuW1vdHAdQ+FI3wydjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721918364; c=relaxed/simple;
-	bh=TzLDsp0DIaVF9w3PGdkyc4uEfAWWbjV8JH5Vbsc3vEg=;
+	s=arc-20240116; t=1721920218; c=relaxed/simple;
+	bh=uWBdqxRmiMrw4FQLHmzcB5zDoVJvV5KhpjyAFVgaJ54=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nzHzHI//J6pLXarS+/bWBSeoJCSngTI6p+VPoYxzidTJhJLy/54RKMVH+0ZHs/b6ib8kuhpKnmJoa6fMGiDh2sbKuqoMQdfTQMGsjV2wjn1u/PKYjsXyFy1KH5LvWGwQfCyt72CMESNVe7opjmgpxmCeIvdf0qwxc8YgOSxt974=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CG/gjwCi; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=lwjPee/IUGENaXhBRPfLXu23xm/VF5UwnlvtmeAKhzQCoqVUQZ7Zl/2OC84s78w34jB1lPWXU7xPqoaVRwG9TLuXTqJjUvm4kytuNsdQsBnRX3Ga3JfVV4d0Bf3WBWcQbP4tp78zi+UdwbuQuIVqQx7ctsti44BBHd9nYWWXX44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTt0Cprf; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CG/gjwCi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTt0Cprf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721918362; x=1753454362;
+  t=1721920216; x=1753456216;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TzLDsp0DIaVF9w3PGdkyc4uEfAWWbjV8JH5Vbsc3vEg=;
-  b=CG/gjwCijMJ3aK+AvnmvskR9vuEdebmZh/MoESmD7EY5P+ky0kROJ8BS
-   unGS27wJVdMgcjZ+AAHI8FO58Q46sCfSD5kMavh7lbmUJ9Vsir4+VX1kH
-   JgXZ/lbD/VCTZ0fTZHwCzOVnpc/qh2yuKdQjFZZMu8+6Je6OhuFRFwfKX
-   rQmGta703F2bDPAUtkuH92yExlx7QLSYr4b4p/H1HkIPI1MvcRrdVywDX
-   ZL1UYNMR2oaUPdsVVdgHbBJXCUwIAPXS6DFKoid5wN2f78UlBgJziQRzi
-   EZKffxUrUbQWYXQhjfqSLgiW0vO3A2+hF7iL5h3P9a4Did/e35FuPL5tQ
-   Q==;
-X-CSE-ConnectionGUID: nTFClxsSRsi+ZljHaUvX5w==
-X-CSE-MsgGUID: pPtX6tnAQfuIpxhLyiUYRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="19811767"
+  bh=uWBdqxRmiMrw4FQLHmzcB5zDoVJvV5KhpjyAFVgaJ54=;
+  b=aTt0Cprfp5611BZFGg1JXzYrGcuvDfnpIhT2qPCydGtNn3izMHDdE3La
+   qYIS2Ir0AHKwZiKwr47H4pWAPigxwp/ycS3BR6wyMBmwDhaeM2vki/AI7
+   FYKwiGLO4MN754wklyM282nKfrC6zYxiZ2zVPDTBgXd1BymHOJPPB0eZD
+   W/ik11OfSpJa0/kIAiaRpn0utOkbiVFd2SiRx+S70qwLk2ZtQcLOguJ1Z
+   iqGIak5knd1yEIO6V5gB6+rcWbmeoBAO354vemfY6OLFbMpUnJZ1OpY8J
+   bDJo4VzQ9dlRsFGS5dykjiu4WetM0jgoox2i+foDy/2tLAyP1ekcCbLn2
+   w==;
+X-CSE-ConnectionGUID: sSJdJRT3Rp6yYpes3RuUCA==
+X-CSE-MsgGUID: bGDiE0TXQ6iaKrLa/ZR+tA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="23422979"
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="19811767"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 07:38:45 -0700
-X-CSE-ConnectionGUID: ls8zV5G1RJCwzqzTaFzHnA==
-X-CSE-MsgGUID: yi9JK6sfSH6b4UkqXRnLlA==
+   d="scan'208";a="23422979"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2024 08:10:12 -0700
+X-CSE-ConnectionGUID: u7uoV374Re2wJSqGNkAS8w==
+X-CSE-MsgGUID: 95JHl72CQ5KAhcPNJuoA2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,236,1716274800"; 
-   d="scan'208";a="52864075"
+   d="scan'208";a="53043147"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Jul 2024 07:38:10 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 25 Jul 2024 08:10:10 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sWzbc-000oBV-0F;
-	Thu, 25 Jul 2024 14:38:08 +0000
-Date: Thu, 25 Jul 2024 22:37:45 +0800
+	id 1sX06a-000oCW-28;
+	Thu, 25 Jul 2024 15:10:08 +0000
+Date: Thu, 25 Jul 2024 23:09:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 3/7] compiler.h: Add __if_constexpr(expr, if_const,
- if_not_const)
-Message-ID: <202407252226.jrsGK9nO-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [tobetter:odroid-6.1.y 14/91]
+ arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated
+ properties are not allowed ('power-domains' was unexpected)
+Message-ID: <202407252246.LBRzBLII-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,104 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <9751d18defea406fa698630637d8e7db@AcuMS.aculab.com>
-References: <9751d18defea406fa698630637d8e7db@AcuMS.aculab.com>
-TO: David Laight <David.Laight@ACULAB.COM>
-TO: "'linux-kernel@vger.kernel.org'" <linux-kernel@vger.kernel.org>
-TO: "'Linus Torvalds'" <torvalds@linuxfoundation.org>
-CC: "'Matthew Wilcox (Oracle)'" <willy@infradead.org>
-CC: "'Christoph Hellwig'" <hch@infradead.org>
-CC: "'Andrew Morton'" <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: "'Andy Shevchenko'" <andriy.shevchenko@linux.intel.com>
-CC: "'Dan Carpenter'" <dan.carpenter@linaro.org>
-CC: "'Arnd Bergmann'" <arnd@kernel.org>
-CC: "'Jason@zx2c4.com'" <Jason@zx2c4.com>
-CC: "'pedro.falcato@gmail.com'" <pedro.falcato@gmail.com>
-CC: "'Mateusz Guzik'" <mjguzik@gmail.com>
+TO: Dongjin Kim <tobetter@gmail.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linux/master]
-[also build test WARNING on linus/master v6.10 next-20240725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-Put-all-the-clamp-definitions-together/20240724-224832
-base:   linux/master
-patch link:    https://lore.kernel.org/r/9751d18defea406fa698630637d8e7db%40AcuMS.aculab.com
-patch subject: [PATCH 3/7] compiler.h: Add __if_constexpr(expr, if_const, if_not_const)
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-141-20240725 (https://download.01.org/0day-ci/archive/20240725/202407252226.jrsGK9nO-lkp@intel.com/config)
-compiler: gcc-12 (Ubuntu 12.3.0-9ubuntu2) 12.3.0
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   33e59e3417fd2b46d422206b92040e1fe5b6c38d
+commit: af52052e79e286b72d81618e6bc9ea37cb2ec2fb [14/91] arm64: dts: rockchip: Add Hardkernel ODROID-M1 board
+:::::: branch date: 8 days ago
+:::::: commit date: 1 year, 7 months ago
+config: arm64-randconfig-051-20240717 (https://download.01.org/0day-ci/archive/20240725/202407252246.LBRzBLII-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240725/202407252246.LBRzBLII-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202407252226.jrsGK9nO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407252246.LBRzBLII-lkp@intel.com/
 
-smatch warnings:
-net/ipv4/ip_tunnel.c:248 __ip_tunnel_create() error: strcpy() 'ops->kind' too large for 'name' (1010102 vs 16)
-mm/memcontrol.c:1565 mem_cgroup_get_max() warn: unsigned 'swap' is never less than zero.
-mm/memcontrol.c:1569 mem_cgroup_get_max() warn: unsigned '(null)' is never less than zero.
-
-vim +248 net/ipv4/ip_tunnel.c
-
-c5441932145563 Pravin B Shelar   2013-03-25  230  
-c5441932145563 Pravin B Shelar   2013-03-25  231  static struct net_device *__ip_tunnel_create(struct net *net,
-c5441932145563 Pravin B Shelar   2013-03-25  232  					     const struct rtnl_link_ops *ops,
-117aef12a7b1b7 Alexander Lobakin 2024-03-27  233  					     struct ip_tunnel_parm_kern *parms)
-c5441932145563 Pravin B Shelar   2013-03-25  234  {
-c5441932145563 Pravin B Shelar   2013-03-25  235  	int err;
-c5441932145563 Pravin B Shelar   2013-03-25  236  	struct ip_tunnel *tunnel;
-c5441932145563 Pravin B Shelar   2013-03-25  237  	struct net_device *dev;
-c5441932145563 Pravin B Shelar   2013-03-25  238  	char name[IFNAMSIZ];
-c5441932145563 Pravin B Shelar   2013-03-25  239  
-c5441932145563 Pravin B Shelar   2013-03-25  240  	err = -E2BIG;
-9cb726a212a82c Eric Dumazet      2018-04-05  241  	if (parms->name[0]) {
-9cb726a212a82c Eric Dumazet      2018-04-05  242  		if (!dev_valid_name(parms->name))
-9cb726a212a82c Eric Dumazet      2018-04-05  243  			goto failed;
-512b2dc48e8b01 XueBing Chen      2022-07-11  244  		strscpy(name, parms->name, IFNAMSIZ);
-9cb726a212a82c Eric Dumazet      2018-04-05  245  	} else {
-9cb726a212a82c Eric Dumazet      2018-04-05  246  		if (strlen(ops->kind) > (IFNAMSIZ - 3))
-c5441932145563 Pravin B Shelar   2013-03-25  247  			goto failed;
-000ade8016400d Sultan Alsawaf    2018-06-06 @248  		strcpy(name, ops->kind);
-000ade8016400d Sultan Alsawaf    2018-06-06  249  		strcat(name, "%d");
-c5441932145563 Pravin B Shelar   2013-03-25  250  	}
-c5441932145563 Pravin B Shelar   2013-03-25  251  
-c5441932145563 Pravin B Shelar   2013-03-25  252  	ASSERT_RTNL();
-c835a677331495 Tom Gundersen     2014-07-14  253  	dev = alloc_netdev(ops->priv_size, name, NET_NAME_UNKNOWN, ops->setup);
-c5441932145563 Pravin B Shelar   2013-03-25  254  	if (!dev) {
-c5441932145563 Pravin B Shelar   2013-03-25  255  		err = -ENOMEM;
-c5441932145563 Pravin B Shelar   2013-03-25  256  		goto failed;
-c5441932145563 Pravin B Shelar   2013-03-25  257  	}
-c5441932145563 Pravin B Shelar   2013-03-25  258  	dev_net_set(dev, net);
-c5441932145563 Pravin B Shelar   2013-03-25  259  
-c5441932145563 Pravin B Shelar   2013-03-25  260  	dev->rtnl_link_ops = ops;
-c5441932145563 Pravin B Shelar   2013-03-25  261  
-c5441932145563 Pravin B Shelar   2013-03-25  262  	tunnel = netdev_priv(dev);
-c5441932145563 Pravin B Shelar   2013-03-25  263  	tunnel->parms = *parms;
-5e6700b3bf98fe Nicolas Dichtel   2013-06-26  264  	tunnel->net = net;
-c5441932145563 Pravin B Shelar   2013-03-25  265  
-c5441932145563 Pravin B Shelar   2013-03-25  266  	err = register_netdevice(dev);
-c5441932145563 Pravin B Shelar   2013-03-25  267  	if (err)
-c5441932145563 Pravin B Shelar   2013-03-25  268  		goto failed_free;
-c5441932145563 Pravin B Shelar   2013-03-25  269  
-c5441932145563 Pravin B Shelar   2013-03-25  270  	return dev;
-c5441932145563 Pravin B Shelar   2013-03-25  271  
-c5441932145563 Pravin B Shelar   2013-03-25  272  failed_free:
-c5441932145563 Pravin B Shelar   2013-03-25  273  	free_netdev(dev);
-c5441932145563 Pravin B Shelar   2013-03-25  274  failed:
-c5441932145563 Pravin B Shelar   2013-03-25  275  	return ERR_PTR(err);
-c5441932145563 Pravin B Shelar   2013-03-25  276  }
-c5441932145563 Pravin B Shelar   2013-03-25  277  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: sata@fc800000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/ata/snps,dwc-ahci.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('extcon', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fcc00000: Unevaluated properties are not allowed ('dr_mode', 'extcon', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/snps,dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb@fd000000: Unevaluated properties are not allowed ('dr_mode', 'phy-names', 'phy_type', 'phys', 'snps,dis_u2_susphy_quirk' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /i2c@fdd40000/regulator@1c: failed to match any schema with compatible: ['tcs,tcs4525']
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: pmic@20: '#sound-dai-cells', 'assigned-clock-parents', 'assigned-clocks', 'clock-names', 'clocks', 'codec' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/rockchip,rk809.yaml#
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: video-codec@fdea0400: 'interrupt-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe060000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: /dsi@fe070000: failed to match any schema with compatible: ['rockchip,rk3568-mipi-dsi', 'snps,dw-mipi-dsi']
+   arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: hdmi@fe0a0000: Unevaluated properties are not allowed ('#sound-dai-cells', 'power-domains' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: usb2phy@fe8a0000: otg-port: 'vbus-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-rockchip-inno-usb2.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3568-odroid-m1.dtb: ethernet@fe2a0000: Unevaluated properties are not allowed ('rx-queues-config', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
