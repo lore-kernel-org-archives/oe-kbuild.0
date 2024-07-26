@@ -1,43 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2E91F5E6;
-	Fri, 26 Jul 2024 20:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67430FC1F
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jul 2024 20:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722025550; cv=none; b=PFcEzmsB5TxckXsPmRqUkkybpkR5bPrHfKMcMRSJ0/5KD3k3XP0wnghS5AgVZGdSMevc4wXvQcx0DiLQE89UkR37oekX/R4Yxh4OpVqQGnZL9gOsuNhyAFk57oxvD8QYP7SZmn7Iv248TolpkM62lnhIYP0ArbkkCElKqw/UL9Q=
+	t=1722027490; cv=none; b=ox4C4mPILKW1LTv4OHMGcecZ1EdYEb7YxvNeKp9EwJmqjwOjG50eOr2bl7eKpNKqAXck5ICLU/50yoh3CvGdZ1B5P6SlMnv2qRq/JZMEtd2+PXSjkaUKWd72+lyvA0hJjcogOlIpvUP6BSrnmjeW/erludCG4Gyi3kWXXcEZM50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722025550; c=relaxed/simple;
-	bh=jCKUo0Ns0Gg547+NLmsmMBrISuavmKFIfArGutmqqto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D0yXuG3QPFuW/hzG3nf7DrZ5vVO7laTI3UYjDLnIrRgNSzC5qBIjOt82ALR0AbiucuhGWb9Zwxzn29V6CsH5kcplRQpu5LQy4/mq2hZBBbEYNRdTdNrqcmVNB/4nRacMBJrcXXa5IdRSdP0UyO9awjgItn3wO4qy/Vcy9xixrEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ey+Je/+r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1722027490; c=relaxed/simple;
+	bh=eCmjaAixZg4TR/CfkLD3Ap8+DYIw3TXtFu+em3v6NNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=acuHymPDsYWrMi+sutmu20MliT6DrbykQFRtymeAukdWeR9EiCXD0wLeNgCs/NPrP/WB0uZ8um9xD2OYN7nlhl6bt6AcAnjvpaCbSdPU6QWGkmOHel3mdAVL/GdGkiBpux3pzUeLvvKmyaKY7/gW4sThVtTx+yZhsHuhjTcppik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dvjcc6gJ; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ey+Je/+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47064C32782;
-	Fri, 26 Jul 2024 20:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722025550;
-	bh=jCKUo0Ns0Gg547+NLmsmMBrISuavmKFIfArGutmqqto=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=Ey+Je/+roaURFCO8t8/3ywVUxLo9rQOIXQ+2xdaAjwzmkGCdV0cv9EWkQ6NMONS4H
-	 uEvUdGDN1QS63eD9EO+n5Ler4o/JcfOHGKZ5BM3vyq0QoX/B405cSrEvAr+QSF/KjX
-	 XrGSe/JOvnZNx63M3RykgF20vkNg2TsOqu4yrMldT/1f7C7sLn0EQSymnsv9DuTPN0
-	 xMr3SWm2026fKWe5Rtu0TJ4b/DCEr0F/irJngVLMd1KJ/rUJ02mtrI+LU2tMHjGaWg
-	 yJDgqQsH3hV+C+WP1ORG+Os+aN2RLwXIlubbhgSIejG1YYO11f87mXz+5vyfmuxewX
-	 HG95WtpgT6SyQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id E2E97CE0B34; Fri, 26 Jul 2024 13:25:49 -0700 (PDT)
-Date: Fri, 26 Jul 2024 13:25:49 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2024.07.18b 23/89] kernel/rcu/rcutorture.c:1502
- rcu_torture_writer() error: we previously assumed 'cur_ops->get_comp_state'
- could be null (see line 1436)
-Message-ID: <9f5341af-95e4-466b-918b-5d137c6d635b@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <f5816862-4a9d-4861-b250-3fa8b69aa092@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dvjcc6gJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722027489; x=1753563489;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eCmjaAixZg4TR/CfkLD3Ap8+DYIw3TXtFu+em3v6NNk=;
+  b=Dvjcc6gJ0wx5g8FprLLeZsiMBihx+7Uidtr/hn1yzFXpeej1EdQ7SFRp
+   TCpH6KyNwuo1+BMY66EdDu9WM1DDxdeCbLzY/7IDNW8M5tpidnwlq6xd2
+   kNpYSFKnff72HVUoUrjxnjE9++/mgXkboZCj+alNWp0x7Eh+yiRaPS4Sz
+   a0JpZNUxtxuy/K7o89Q7+qS4hZBe/Q/7zsdhEpL/IntkzoBjExJwF8bAf
+   zkgkrPads4qH9pAZxW8MLW/ONTGvPjmgC06vPa+UVfEHwwQGfDKFWnBxU
+   PLqu7tK2ZS1raDBm6oefMQ+QJns5kHQjZcY+lC/gmwFvRtWiq/TVGVmuj
+   Q==;
+X-CSE-ConnectionGUID: GHl00Q0dRNudwxghWncoUg==
+X-CSE-MsgGUID: lraW0cC2SOaD/BvdKEuH7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="12737629"
+X-IronPort-AV: E=Sophos;i="6.09,239,1716274800"; 
+   d="scan'208";a="12737629"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 13:58:08 -0700
+X-CSE-ConnectionGUID: sn1Dy7adQciVciWJk3S8AA==
+X-CSE-MsgGUID: 9jUX4m1pTeS+ExcnRVAxXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,239,1716274800"; 
+   d="scan'208";a="53377974"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 26 Jul 2024 13:58:06 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sXS0p-000pOm-38;
+	Fri, 26 Jul 2024 20:58:03 +0000
+Date: Sat, 27 Jul 2024 04:57:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [chrome-os:chromeos-5.4 4/10] drivers/usb/cdns3/core.c:251
+ cdsn3_hw_role_state_machine() error: uninitialized symbol 'role'.
+Message-ID: <202407270415.fEG8fBb7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -46,215 +61,98 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f5816862-4a9d-4861-b250-3fa8b69aa092@suswa.mountain>
 
-On Fri, Jul 26, 2024 at 11:07:47AM -0500, Dan Carpenter wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2024.07.18b
-> head:   a6c7779283d67a409b81616a5b485ac21637d7e7
-> commit: 45e1c92f5e5c4b6c18ae06f075daf4b0471bb80a [23/89] rcutorture: Remove redundant rcu_torture_ops get_gp_completed fields
-> config: i386-randconfig-141-20240726 (https://download.01.org/0day-ci/archive/20240726/202407261510.wlO5jrpo-lkp@intel.com/config)
-> compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202407261510.wlO5jrpo-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/rcu/rcutorture.c:1502 rcu_torture_writer() error: we previously assumed 'cur_ops->get_comp_state' could be null (see line 1436)
-> kernel/rcu/rcutorture.c:1522 rcu_torture_writer() error: we previously assumed 'cur_ops->get_comp_state_full' could be null (see line 1451)
-> 
-> vim +1502 kernel/rcu/rcutorture.c
-> 
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1401  	do {
-> ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1402  		rcu_torture_writer_state = RTWS_FIXED_DELAY;
-> 1eba0ef981fd3b kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1403  		torture_hrtimeout_us(500, 1000, &rand);
-> a71fca58b7f4ab kernel/rcutorture.c     Paul E. McKenney   2009-09-18  1404  		rp = rcu_torture_alloc();
-> a71fca58b7f4ab kernel/rcutorture.c     Paul E. McKenney   2009-09-18  1405  		if (rp == NULL)
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1406  			continue;
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1407  		rp->rtort_pipe_count = 0;
-> c507e195016ccc kernel/rcu/rcutorture.c Paul E. McKenney   2024-03-06  1408  		ASSERT_EXCLUSIVE_WRITER(rp->rtort_pipe_count);
-> ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1409  		rcu_torture_writer_state = RTWS_DELAY;
-> 51b1130eb5823d kernel/rcu/rcutorture.c Paul E. McKenney   2014-01-27  1410  		udelay(torture_random(&rand) & 0x3ff);
-> ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1411  		rcu_torture_writer_state = RTWS_REPLACE;
-> 0ddea0ead2ced9 kernel/rcutorture.c     Paul E. McKenney   2010-09-19  1412  		old_rp = rcu_dereference_check(rcu_torture_current,
-> 0ddea0ead2ced9 kernel/rcutorture.c     Paul E. McKenney   2010-09-19  1413  					       current == writer_task);
-> 996417d2c4eb58 kernel/rcutorture.c     Paul E. McKenney   2005-11-18  1414  		rp->rtort_mbtest = 1;
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1415  		rcu_assign_pointer(rcu_torture_current, rp);
-> 9b2619aff0332e kernel/rcutorture.c     Paul E. McKenney   2009-09-23  1416  		smp_wmb(); /* Mods to old_rp must follow rcu_assign_pointer() */
-> c8e5b163101c5d kernel/rcutorture.c     Josh Triplett      2007-05-08  1417  		if (old_rp) {
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1418  			i = old_rp->rtort_pipe_count;
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1419  			if (i > RCU_TORTURE_PIPE_LEN)
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1420  				i = RCU_TORTURE_PIPE_LEN;
-> a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1421  			atomic_inc(&rcu_torture_wcount[i]);
-> 202489101f2e6c kernel/rcu/rcutorture.c Paul E. McKenney   2019-12-21  1422  			WRITE_ONCE(old_rp->rtort_pipe_count,
-> 202489101f2e6c kernel/rcu/rcutorture.c Paul E. McKenney   2019-12-21  1423  				   old_rp->rtort_pipe_count + 1);
-> c507e195016ccc kernel/rcu/rcutorture.c Paul E. McKenney   2024-03-06  1424  			ASSERT_EXCLUSIVE_WRITER(old_rp->rtort_pipe_count);
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1425  
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1426  			// Make sure readers block polled grace periods.
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1427  			if (cur_ops->get_gp_state && cur_ops->poll_gp_state) {
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1428  				idx = cur_ops->readlock();
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1429  				cookie = cur_ops->get_gp_state();
-> 37d6ade31cf833 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1430  				WARN_ONCE(cur_ops->poll_gp_state(cookie),
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1431  					  "%s: Cookie check 1 failed %s(%d) %lu->%lu\n",
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1432  					  __func__,
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1433  					  rcu_torture_writer_state_getname(),
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1434  					  rcu_torture_writer_state,
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1435  					  cookie, cur_ops->get_gp_state());
-> 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14 @1436  				if (cur_ops->get_comp_state) {
-> 
-> Can ->get_comp_state be NULL?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-Yes, in the case where RTWS_POLL_GET has not been added to the
-list of things to run.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.4
+head:   24f95d0e9b1707db180c68181603937d90783fd9
+commit: 1a36f8033bac1979c6bb6c2166a6c143f2113f97 [4/10] BACKPORT: usb: cdns3: make signed 1 bit bitfields unsigned
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20240727 (https://download.01.org/0day-ci/archive/20240727/202407270415.fEG8fBb7-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
-> 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14  1437  					cookie = cur_ops->get_comp_state();
-> d0eac20f9909de kernel/rcu/rcutorture.c Paul E. McKenney   2022-04-13  1438  					WARN_ON_ONCE(!cur_ops->poll_gp_state(cookie));
-> d0eac20f9909de kernel/rcu/rcutorture.c Paul E. McKenney   2022-04-13  1439  				}
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1440  				cur_ops->readunlock(idx);
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1441  			}
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1442  			if (cur_ops->get_gp_state_full && cur_ops->poll_gp_state_full) {
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1443  				idx = cur_ops->readlock();
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1444  				cur_ops->get_gp_state_full(&cookie_full);
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1445  				WARN_ONCE(cur_ops->poll_gp_state_full(&cookie_full),
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1446  					  "%s: Cookie check 5 failed %s(%d) online %*pbl\n",
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1447  					  __func__,
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1448  					  rcu_torture_writer_state_getname(),
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1449  					  rcu_torture_writer_state,
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1450  					  cpumask_pr_args(cpu_online_mask));
-> 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14 @1451  				if (cur_ops->get_comp_state_full) {
-> 
-> Or ->get_comp_state_full?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202407270415.fEG8fBb7-lkp@intel.com/
 
-Ditto, but for RTWS_POLL_GET_FULL.
+smatch warnings:
+drivers/usb/cdns3/core.c:251 cdsn3_hw_role_state_machine() error: uninitialized symbol 'role'.
 
-> 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14  1452  					cur_ops->get_comp_state_full(&cookie_full);
-> 91a967fd6934ab kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-28  1453  					WARN_ON_ONCE(!cur_ops->poll_gp_state_full(&cookie_full));
-> 91a967fd6934ab kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-28  1454  				}
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1455  				cur_ops->readunlock(idx);
-> d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1456  			}
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1457  			switch (synctype[torture_random(&rand) % nsynctypes]) {
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1458  			case RTWS_DEF_FREE:
-> ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1459  				rcu_torture_writer_state = RTWS_DEF_FREE;
-> 0acc512cb1a296 kernel/rcutorture.c     Paul E. McKenney   2009-06-25  1460  				cur_ops->deferred_free(old_rp);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1461  				break;
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1462  			case RTWS_EXP_SYNC:
-> ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1463  				rcu_torture_writer_state = RTWS_EXP_SYNC;
-> ccb42229fb34bc kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-29  1464  				do_rtws_sync(&rand, cur_ops->exp_sync);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1465  				rcu_torture_pipe_update(old_rp);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1466  				break;
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1467  			case RTWS_COND_GET:
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1468  				rcu_torture_writer_state = RTWS_COND_GET;
-> fd56f64b4e3b9c kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1469  				gp_snap = cur_ops->get_gp_state();
-> ea31fd9ca87399 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1470  				torture_hrtimeout_jiffies(torture_random(&rand) % 16, &rand);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1471  				rcu_torture_writer_state = RTWS_COND_SYNC;
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1472  				cur_ops->cond_sync(gp_snap);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1473  				rcu_torture_pipe_update(old_rp);
-> a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1474  				break;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1475  			case RTWS_COND_GET_EXP:
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1476  				rcu_torture_writer_state = RTWS_COND_GET_EXP;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1477  				gp_snap = cur_ops->get_gp_state_exp();
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1478  				torture_hrtimeout_jiffies(torture_random(&rand) % 16, &rand);
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1479  				rcu_torture_writer_state = RTWS_COND_SYNC_EXP;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1480  				cur_ops->cond_sync_exp(gp_snap);
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1481  				rcu_torture_pipe_update(old_rp);
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1482  				break;
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1483  			case RTWS_COND_GET_FULL:
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1484  				rcu_torture_writer_state = RTWS_COND_GET_FULL;
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1485  				cur_ops->get_gp_state_full(&gp_snap_full);
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1486  				torture_hrtimeout_jiffies(torture_random(&rand) % 16, &rand);
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1487  				rcu_torture_writer_state = RTWS_COND_SYNC_FULL;
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1488  				cur_ops->cond_sync_full(&gp_snap_full);
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1489  				rcu_torture_pipe_update(old_rp);
-> b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1490  				break;
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1491  			case RTWS_COND_GET_EXP_FULL:
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1492  				rcu_torture_writer_state = RTWS_COND_GET_EXP_FULL;
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1493  				cur_ops->get_gp_state_full(&gp_snap_full);
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1494  				torture_hrtimeout_jiffies(torture_random(&rand) % 16, &rand);
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1495  				rcu_torture_writer_state = RTWS_COND_SYNC_EXP_FULL;
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1496  				cur_ops->cond_sync_exp_full(&gp_snap_full);
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1497  				rcu_torture_pipe_update(old_rp);
-> 8df13f01608ea4 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1498  				break;
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1499  			case RTWS_POLL_GET:
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1500  				rcu_torture_writer_state = RTWS_POLL_GET;
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1501  				for (i = 0; i < ARRAY_SIZE(ulo); i++)
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25 @1502  					ulo[i] = cur_ops->get_comp_state();
-> 
-> These don't check
+vim +/role +251 drivers/usb/cdns3/core.c
 
-This is because the function rcu_torture_write_types() does
-not add RTWS_POLL_GET to the list of scenarios to run unless:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  194  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  195  /**
+7733f6c32e36ff Pawel Laszczak 2019-08-26  196   * cdsn3_hw_role_state_machine  - role switch state machine based on hw events.
+7733f6c32e36ff Pawel Laszczak 2019-08-26  197   * @cdns: Pointer to controller structure.
+7733f6c32e36ff Pawel Laszczak 2019-08-26  198   *
+7733f6c32e36ff Pawel Laszczak 2019-08-26  199   * Returns next role to be entered based on hw events.
+7733f6c32e36ff Pawel Laszczak 2019-08-26  200   */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  201  static enum usb_role cdsn3_hw_role_state_machine(struct cdns3 *cdns)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  202  {
+7733f6c32e36ff Pawel Laszczak 2019-08-26  203  	enum usb_role role;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  204  	int id, vbus;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  205  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  206  	if (cdns->dr_mode != USB_DR_MODE_OTG)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  207  		goto not_otg;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  208  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  209  	id = cdns3_get_id(cdns);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  210  	vbus = cdns3_get_vbus(cdns);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  211  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  212  	/*
+7733f6c32e36ff Pawel Laszczak 2019-08-26  213  	 * Role change state machine
+7733f6c32e36ff Pawel Laszczak 2019-08-26  214  	 * Inputs: ID, VBUS
+7733f6c32e36ff Pawel Laszczak 2019-08-26  215  	 * Previous state: cdns->role
+7733f6c32e36ff Pawel Laszczak 2019-08-26  216  	 * Next state: role
+7733f6c32e36ff Pawel Laszczak 2019-08-26  217  	 */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  218  	role = cdns->role;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  219  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  220  	switch (role) {
+7733f6c32e36ff Pawel Laszczak 2019-08-26  221  	case USB_ROLE_NONE:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  222  		/*
+7733f6c32e36ff Pawel Laszczak 2019-08-26  223  		 * Driver treats USB_ROLE_NONE synonymous to IDLE state from
+7733f6c32e36ff Pawel Laszczak 2019-08-26  224  		 * controller specification.
+7733f6c32e36ff Pawel Laszczak 2019-08-26  225  		 */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  226  		if (!id)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  227  			role = USB_ROLE_HOST;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  228  		else if (vbus)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  229  			role = USB_ROLE_DEVICE;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  230  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  231  	case USB_ROLE_HOST: /* from HOST, we can only change to NONE */
+7733f6c32e36ff Pawel Laszczak 2019-08-26  232  		if (id)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  233  			role = USB_ROLE_NONE;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  234  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  235  	case USB_ROLE_DEVICE: /* from GADGET, we can only change to NONE*/
+7733f6c32e36ff Pawel Laszczak 2019-08-26  236  		if (!vbus)
+7733f6c32e36ff Pawel Laszczak 2019-08-26  237  			role = USB_ROLE_NONE;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  238  		break;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  239  	}
+7733f6c32e36ff Pawel Laszczak 2019-08-26  240  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  241  	dev_dbg(cdns->dev, "role %d -> %d\n", cdns->role, role);
+7733f6c32e36ff Pawel Laszczak 2019-08-26  242  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  243  	return role;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  244  
+7733f6c32e36ff Pawel Laszczak 2019-08-26  245  not_otg:
+7733f6c32e36ff Pawel Laszczak 2019-08-26  246  	if (cdns3_is_host(cdns))
+7733f6c32e36ff Pawel Laszczak 2019-08-26  247  		role = USB_ROLE_HOST;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  248  	if (cdns3_is_device(cdns))
+7733f6c32e36ff Pawel Laszczak 2019-08-26  249  		role = USB_ROLE_DEVICE;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  250  
+7733f6c32e36ff Pawel Laszczak 2019-08-26 @251  	return role;
+7733f6c32e36ff Pawel Laszczak 2019-08-26  252  }
+7733f6c32e36ff Pawel Laszczak 2019-08-26  253  
 
-	cur_ops->get_comp_state && cur_ops->same_gp_state &&
-	cur_ops->start_gp_poll && cur_ops->poll_gp_state
+:::::: The code at line 251 was first introduced by commit
+:::::: 7733f6c32e36ff9d7adadf40001039bf219b1cbe usb: cdns3: Add Cadence USB3 DRD Driver
 
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1503  				gp_snap = cur_ops->start_gp_poll();
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1504  				rcu_torture_writer_state = RTWS_POLL_WAIT;
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1505  				while (!cur_ops->poll_gp_state(gp_snap)) {
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1506  					gp_snap1 = cur_ops->get_gp_state();
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1507  					for (i = 0; i < ARRAY_SIZE(ulo); i++)
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1508  						if (cur_ops->poll_gp_state(ulo[i]) ||
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1509  						    cur_ops->same_gp_state(ulo[i], gp_snap1)) {
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1510  							ulo[i] = gp_snap1;
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1511  							break;
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1512  						}
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1513  					WARN_ON_ONCE(i >= ARRAY_SIZE(ulo));
-> ea31fd9ca87399 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1514  					torture_hrtimeout_jiffies(torture_random(&rand) % 16,
-> ea31fd9ca87399 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1515  								  &rand);
-> 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1516  				}
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1517  				rcu_torture_pipe_update(old_rp);
-> 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1518  				break;
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1519  			case RTWS_POLL_GET_FULL:
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1520  				rcu_torture_writer_state = RTWS_POLL_GET_FULL;
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1521  				for (i = 0; i < ARRAY_SIZE(rgo); i++)
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25 @1522  					cur_ops->get_comp_state_full(&rgo[i]);
-> 
-> Same
+:::::: TO: Pawel Laszczak <pawell@cadence.com>
+:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
 
-And there is a similar check gating addition of RTWS_POLL_GET_FULL
-to the list of scenarios to run.
-
-Or am I missing something subtle here?
-
-							Thanx, Paul
-
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1523  				cur_ops->start_gp_poll_full(&gp_snap_full);
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1524  				rcu_torture_writer_state = RTWS_POLL_WAIT_FULL;
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1525  				while (!cur_ops->poll_gp_state_full(&gp_snap_full)) {
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1526  					cur_ops->get_gp_state_full(&gp_snap1_full);
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1527  					for (i = 0; i < ARRAY_SIZE(rgo); i++)
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1528  						if (cur_ops->poll_gp_state_full(&rgo[i]) ||
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1529  						    cur_ops->same_gp_state_full(&rgo[i],
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1530  										&gp_snap1_full)) {
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1531  							rgo[i] = gp_snap1_full;
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1532  							break;
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1533  						}
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1534  					WARN_ON_ONCE(i >= ARRAY_SIZE(rgo));
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1535  					torture_hrtimeout_jiffies(torture_random(&rand) % 16,
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1536  								  &rand);
-> 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1537  				}
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1538  				rcu_torture_pipe_update(old_rp);
-> 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1539  				break;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1540  			case RTWS_POLL_GET_EXP:
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1541  				rcu_torture_writer_state = RTWS_POLL_GET_EXP;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1542  				gp_snap = cur_ops->start_gp_poll_exp();
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1543  				rcu_torture_writer_state = RTWS_POLL_WAIT_EXP;
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1544  				while (!cur_ops->poll_gp_state_exp(gp_snap))
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1545  					torture_hrtimeout_jiffies(torture_random(&rand) % 16,
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1546  								  &rand);
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1547  				rcu_torture_pipe_update(old_rp);
-> 11d62f0f43a35d kernel/rcu/rcutorture.c Paul E. McKenney   2022-02-01  1548  				break;
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1549  			case RTWS_POLL_GET_EXP_FULL:
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1550  				rcu_torture_writer_state = RTWS_POLL_GET_EXP_FULL;
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1551  				cur_ops->start_gp_poll_exp_full(&gp_snap_full);
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1552  				rcu_torture_writer_state = RTWS_POLL_WAIT_EXP_FULL;
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1553  				while (!cur_ops->poll_gp_state_full(&gp_snap_full))
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1554  					torture_hrtimeout_jiffies(torture_random(&rand) % 16,
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1555  								  &rand);
-> 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1556  				rcu_torture_pipe_update(old_rp);
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
