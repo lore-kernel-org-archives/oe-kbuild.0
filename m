@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946BD17625B
-	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jul 2024 07:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5C017CA09
+	for <oe-kbuild@lists.linux.dev>; Fri, 26 Jul 2024 16:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721979827; cv=none; b=pMdVfaENxafmxHcsPoIn21UiXDDztGLPg9+2vY/5ShpS0y+34IVbxbcXhco4KbvdTllegNnMxHoc8qU6T3y9wAnU41ns8/nvoI4oRB5jrMhV9rSKrrR7dkFm95TVqssLcAGL4wYVLG2S/wcx/7K2OsbMtplS0eFV4Rj2uwrQxL4=
+	t=1722010072; cv=none; b=a6TL2F3/oPR9nx8QjCJ2NynXNs5DXBUGMzv17ep+cV7ypbw+ZFaVFJzidjdHRIgiA6eSK3tnDvRCoXXZ/1DXKs7d3K645QoyI3jh6qfA0f9cEd4nC0CRiORqWCA0EcYpzzrfuiyA9ce2ec5qwmJk615aT32LgbClOgx/BpwgTdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721979827; c=relaxed/simple;
-	bh=x/hghes+dVIBdZGXNpGaG+1v17KtLPhhrJa0uOkFs/w=;
+	s=arc-20240116; t=1722010072; c=relaxed/simple;
+	bh=+b5eHldBdXoIQmya1EbgVXgWZfV7H2mjF2BLM92WqxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W++jNXmZ2hNXcY32GDHovjRc4nS5dlOEp068sPaSunXITcVRE4aCS5J4tTyGGkeX4Y//Y3UGHx37ishMpzbd/mrdHqujOwqRKw+PYTJu5Nzg4iiv0jpZo9UwYnAJl4y983OYkuItdjrArtPJItl6XXE1otlks2EGvnoEhZSjpW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1qYM84r; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=G2wLbNShAmqfqmhsJA3Kt8dp927qO50HFtIice4tag0Wu1SHl8nmUznSN2ufXeki/egjLyVNVJANIhYRrOOCFRJ6qr4E95x9n92uaBH7VQmiy51GQ9ZE9+Uh65aJuGBXdBQDfXjbzREt+2f08jLHM1r8LVWGY/ajUwl3G3FWWGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M33VbBk4; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1qYM84r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1721979825; x=1753515825;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x/hghes+dVIBdZGXNpGaG+1v17KtLPhhrJa0uOkFs/w=;
-  b=j1qYM84rsd9SbQVzM063J9FJCgF4NmPB57d5iuogB2jozLk7WDhsqbv1
-   7fm8fMxecApvpWsb22LViSxNyUNoKjbz6TjjBKKTbGDGaNNTJ3fSz0i0D
-   feLAn1I5ju/an7J5jYCCLFKGmJP/6D+8lyBeyvaOVDwbNF1qxx6WXzFMG
-   IagWKwuPiXJBpOkJfZuRIuDHWwYoZ8GY1l7T76QEvfq6d/ICrN/Z0+Ull
-   cY8O5XdMCRwA6dLvU59wJGCjMwHreGSg8jT5xXLzI4SIdfRQKcEO2BC1P
-   7VaOVO6xRpdi52AmDRKskeDL0KzXGnLqrrSVXAkSUbFEN72Y9B3jwI6qB
-   w==;
-X-CSE-ConnectionGUID: D7AvH2VCSvumu1cT8ERdQw==
-X-CSE-MsgGUID: tiAV/iwxRMq+t5NXG5rW6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11144"; a="42290231"
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
-   d="scan'208";a="42290231"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 00:43:43 -0700
-X-CSE-ConnectionGUID: Se7cl1SFRryXDrrqZ8rBIg==
-X-CSE-MsgGUID: QefFYmgjSeeRnwsdrn08AA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,238,1716274800"; 
-   d="scan'208";a="53121179"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Jul 2024 00:43:41 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sXFc3-000ot2-1T;
-	Fri, 26 Jul 2024 07:43:39 +0000
-Date: Fri, 26 Jul 2024 15:42:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M33VbBk4"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-709339c91f9so528818a34.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 26 Jul 2024 09:07:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722010069; x=1722614869; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nqF601Ls/ZCZ6RgbuqKdnwEFjCBMLdevjlgvmIymbbo=;
+        b=M33VbBk4+T6DMVeSjqXpe2mgpFRw+7KWMbTZtg8U/fajLfg+ZuA5UQyx7trt9Muw7A
+         UNTcGyZ5kR9KffwkDtOcsEtr3JJvk8XqWpOq/9ikkaJdFBR0NwAPGEqp4GHdtQAK4GyY
+         a3K5oy27nTvZq3gPgdUUxx+OY4KRikbyq8HIJPpwWU9ioFSt1V1CBxTJpvcyJLlV0HmV
+         6lbxhWLDwcSPOFM1cqP+7YxL/Q9bdffRldurqhSv3jt63ZsIDNhieaZbbjPRha5TvAiA
+         BZmKQFzkuYFcPa1ltr69D5cxs+L0DfMMbE8udq2rET8OcHAF+kgiycwdThNnvDQH8Zy9
+         tZtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722010069; x=1722614869;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nqF601Ls/ZCZ6RgbuqKdnwEFjCBMLdevjlgvmIymbbo=;
+        b=b0D4K87u1qSQJw6upmOsPVP2CWIt/FWWJy0cwwNF08CgDZCDdKfqs1jAJaPL/5ja/q
+         6lhdV22JTNfbbKbKwP0m7StDOW0x1yJw2UKF/LCfwSGY3ioHUhLXD4+G9CciWtY+G5QN
+         DmHN2iy2l1KGse1Lr92kxcFNvoc7HAa9Y0WezpGB9PhpQkhjfvF3q0nFCa7xO+eZxXB2
+         yZJF+oD+LAKoUmkDQiiGwVDs5ReM6CIY1S06NrP/3CiOaPlrylDpcoAtzS5tNn/EKsHE
+         i5op4UnGyjEttI+vBtrZU3/zY6RBuvuN/eSqkwe44/Pqx8ZSp6k4Oy4eyYNlMaC/ywH5
+         AQxg==
+X-Gm-Message-State: AOJu0YyWcV5+rSsjpzvnP3/Q7FV3+soCQTCmbAYinPaQtoTatBYDgQQN
+	gKtVPhZpvobyc8j1WQ0W2QsEC59AWKXHigPaiuKc7vvcTStiiE31UiFgXa7O4qIDNZOydQ6p+vd
+	nOkA=
+X-Google-Smtp-Source: AGHT+IEyHym/WNFw6ux66/fq0LNrsA34DJJRNfWMb29xkOiA7AAf4zSI1IoLgO95S4T6tdYPqnQ/4w==
+X-Received: by 2002:a05:6830:6f0a:b0:703:651b:382f with SMTP id 46e09a7af769-70940bfe06amr82942a34.3.1722010069322;
+        Fri, 26 Jul 2024 09:07:49 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:928f:fdbe:c604:7b3f])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70930722531sm786585a34.38.2024.07.26.09.07.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 09:07:48 -0700 (PDT)
+Date: Fri, 26 Jul 2024 11:07:47 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [paulmckrcu:dev.2024.07.18b 23/89] kernel/rcu/rcutorture.c:1502
  rcu_torture_writer() error: we previously assumed 'cur_ops->get_comp_state'
  could be null (see line 1436)
-Message-ID: <202407261510.wlO5jrpo-lkp@intel.com>
+Message-ID: <f5816862-4a9d-4861-b250-3fa8b69aa092@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Paul E. McKenney" <paulmck@kernel.org>
-
 tree:   https://github.com/paulmckrcu/linux dev.2024.07.18b
 head:   a6c7779283d67a409b81616a5b485ac21637d7e7
 commit: 45e1c92f5e5c4b6c18ae06f075daf4b0471bb80a [23/89] rcutorture: Remove redundant rcu_torture_ops get_gp_completed fields
-:::::: branch date: 16 hours ago
-:::::: commit date: 2 weeks ago
 config: i386-randconfig-141-20240726 (https://download.01.org/0day-ci/archive/20240726/202407261510.wlO5jrpo-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202407261510.wlO5jrpo-lkp@intel.com/
 
 smatch warnings:
@@ -87,55 +85,6 @@ kernel/rcu/rcutorture.c:1522 rcu_torture_writer() error: we previously assumed '
 
 vim +1502 kernel/rcu/rcutorture.c
 
-ccb42229fb34bc kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-29  1352  
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1353  /*
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1354   * RCU torture writer kthread.  Repeatedly substitutes a new structure
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1355   * for that pointed to by rcu_torture_current, freeing the old structure
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1356   * after a series of grace periods (the "pipeline").
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1357   */
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1358  static int
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1359  rcu_torture_writer(void *arg)
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1360  {
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1361  	bool boot_ended;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1362  	bool can_expedite = !rcu_gp_is_expedited() && !rcu_gp_is_normal();
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1363  	unsigned long cookie;
-91a967fd6934ab kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-28  1364  	struct rcu_gp_oldstate cookie_full;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1365  	int expediting = 0;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1366  	unsigned long gp_snap;
-1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1367  	unsigned long gp_snap1;
-76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1368  	struct rcu_gp_oldstate gp_snap_full;
-1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1369  	struct rcu_gp_oldstate gp_snap1_full;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1370  	int i;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1371  	int idx;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1372  	int oldnice = task_nice(current);
-1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1373  	struct rcu_gp_oldstate rgo[NUM_ACTIVE_RCU_POLL_FULL_OLDSTATE];
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1374  	struct rcu_torture *rp;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1375  	struct rcu_torture *old_rp;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1376  	static DEFINE_TORTURE_RANDOM(rand);
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1377  	unsigned long stallsdone = jiffies;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1378  	bool stutter_waited;
-1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1379  	unsigned long ulo[NUM_ACTIVE_RCU_POLL_OLDSTATE];
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1380  
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1381  	// If a new stall test is added, this must be adjusted.
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1382  	if (stall_cpu_holdoff + stall_gp_kthread + stall_cpu)
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1383  		stallsdone += (stall_cpu_holdoff + stall_gp_kthread + stall_cpu + 60) * HZ;
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1384  	VERBOSE_TOROUT_STRING("rcu_torture_writer task started");
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1385  	if (!can_expedite)
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1386  		pr_alert("%s" TORTURE_FLAG
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1387  			 " GP expediting controlled from boot/sysfs for %s.\n",
-18fbf307b7319a kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1388  			 torture_type, cur_ops->name);
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1389  	if (WARN_ONCE(nsynctypes == 0,
-80dcee69514325 kernel/rcu/rcutorture.c David Vernet       2022-03-07  1390  		      "%s: No update-side primitives.\n", __func__)) {
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1391  		/*
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1392  		 * No updates primitives, so don't try updating.
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1393  		 * The resulting test won't be testing much, hence the
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1394  		 * above WARN_ONCE().
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1395  		 */
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1396  		rcu_torture_writer_state = RTWS_STOPPING;
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1397  		torture_kthread_stopping("rcu_torture_writer");
-80dcee69514325 kernel/rcu/rcutorture.c David Vernet       2022-03-07  1398  		return 0;
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1399  	}
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1400  
 a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1401  	do {
 ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1402  		rcu_torture_writer_state = RTWS_FIXED_DELAY;
 1eba0ef981fd3b kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1403  		torture_hrtimeout_us(500, 1000, &rand);
@@ -172,6 +121,9 @@ d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1426  			/
 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1434  					  rcu_torture_writer_state,
 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1435  					  cookie, cur_ops->get_gp_state());
 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14 @1436  				if (cur_ops->get_comp_state) {
+
+Can ->get_comp_state be NULL?
+
 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14  1437  					cookie = cur_ops->get_comp_state();
 d0eac20f9909de kernel/rcu/rcutorture.c Paul E. McKenney   2022-04-13  1438  					WARN_ON_ONCE(!cur_ops->poll_gp_state(cookie));
 d0eac20f9909de kernel/rcu/rcutorture.c Paul E. McKenney   2022-04-13  1439  				}
@@ -187,6 +139,9 @@ d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1448  				
 d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1449  					  rcu_torture_writer_state,
 d594231aa50a0f kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-01  1450  					  cpumask_pr_args(cpu_online_mask));
 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14 @1451  				if (cur_ops->get_comp_state_full) {
+
+Or ->get_comp_state_full?
+
 45e1c92f5e5c4b kernel/rcu/rcutorture.c Paul E. McKenney   2024-06-14  1452  					cur_ops->get_comp_state_full(&cookie_full);
 91a967fd6934ab kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-28  1453  					WARN_ON_ONCE(!cur_ops->poll_gp_state_full(&cookie_full));
 91a967fd6934ab kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-28  1454  				}
@@ -238,6 +193,9 @@ b6fe4917ae4353 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-04  1490  				
 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1500  				rcu_torture_writer_state = RTWS_POLL_GET;
 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1501  				for (i = 0; i < ARRAY_SIZE(ulo); i++)
 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25 @1502  					ulo[i] = cur_ops->get_comp_state();
+
+These don't check
+
 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1503  				gp_snap = cur_ops->start_gp_poll();
 0fd0548db13346 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-13  1504  				rcu_torture_writer_state = RTWS_POLL_WAIT;
 1324d95b1c22d1 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1505  				while (!cur_ops->poll_gp_state(gp_snap)) {
@@ -258,6 +216,9 @@ ea31fd9ca87399 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1515  				
 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1520  				rcu_torture_writer_state = RTWS_POLL_GET_FULL;
 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1521  				for (i = 0; i < ARRAY_SIZE(rgo); i++)
 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25 @1522  					cur_ops->get_comp_state_full(&rgo[i]);
+
+Same
+
 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1523  				cur_ops->start_gp_poll_full(&gp_snap_full);
 76ea364161e72b kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-02  1524  				rcu_torture_writer_state = RTWS_POLL_WAIT_FULL;
 1d5ebc351f0100 kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-25  1525  				while (!cur_ops->poll_gp_state_full(&gp_snap_full)) {
@@ -292,77 +253,8 @@ ea31fd9ca87399 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-17  1515  				
 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1554  					torture_hrtimeout_jiffies(torture_random(&rand) % 16,
 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1555  								  &rand);
 6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1556  				rcu_torture_pipe_update(old_rp);
-6c502b14ba66da kernel/rcu/rcutorture.c Paul E. McKenney   2022-08-03  1557  				break;
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1558  			case RTWS_SYNC:
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1559  				rcu_torture_writer_state = RTWS_SYNC;
-ccb42229fb34bc kernel/rcu/rcutorture.c Paul E. McKenney   2022-07-29  1560  				do_rtws_sync(&rand, cur_ops->sync);
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1561  				rcu_torture_pipe_update(old_rp);
-f0bf8fab4f311c kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-21  1562  				break;
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1563  			default:
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1564  				WARN_ON_ONCE(1);
-a48f3fad4f97fe kernel/rcu/rcutorture.c Paul E. McKenney   2014-03-18  1565  				break;
-2ec1f2d9875229 kernel/rcutorture.c     Paul E. McKenney   2013-06-12  1566  			}
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1567  		}
-1b27291b1ea4f1 kernel/rcu/rcutorture.c Paul E. McKenney   2018-07-18  1568  		WRITE_ONCE(rcu_torture_current_version,
-1b27291b1ea4f1 kernel/rcu/rcutorture.c Paul E. McKenney   2018-07-18  1569  			   rcu_torture_current_version + 1);
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1570  		/* Cycle through nesting levels of rcu_expedite_gp() calls. */
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1571  		if (can_expedite &&
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1572  		    !(torture_random(&rand) & 0xff & (!!expediting - 1))) {
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1573  			WARN_ON_ONCE(expediting == 0 && rcu_gp_is_expedited());
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1574  			if (expediting >= 0)
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1575  				rcu_expedite_gp();
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1576  			else
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1577  				rcu_unexpedite_gp();
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1578  			if (++expediting > 3)
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1579  				expediting = -expediting;
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1580  		} else if (!can_expedite) { /* Disabled during boot, recheck. */
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1581  			can_expedite = !rcu_gp_is_expedited() &&
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1582  				       !rcu_gp_is_normal();
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1583  		}
-ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1584  		rcu_torture_writer_state = RTWS_STUTTER;
-12a910e3cd3d11 kernel/rcu/rcutorture.c Paul E. McKenney   2020-11-16  1585  		boot_ended = rcu_inkernel_boot_has_ended();
-ab1b7880dec86b kernel/rcu/rcutorture.c Paul E. McKenney   2020-09-22  1586  		stutter_waited = stutter_wait("rcu_torture_writer");
-ab1b7880dec86b kernel/rcu/rcutorture.c Paul E. McKenney   2020-09-22  1587  		if (stutter_waited &&
-e22ef8df415d92 kernel/rcu/rcutorture.c Paul E. McKenney   2021-12-17  1588  		    !atomic_read(&rcu_fwd_cb_nodelay) &&
-3432d765c59ba0 kernel/rcu/rcutorture.c Paul E. McKenney   2019-04-15  1589  		    !cur_ops->slow_gps &&
-59ee0326ccf712 kernel/rcu/rcutorture.c Paul E. McKenney   2019-11-28  1590  		    !torture_must_stop() &&
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1591  		    boot_ended &&
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1592  		    time_after(jiffies, stallsdone))
-474e59b476b339 kernel/rcu/rcutorture.c Paul E. McKenney   2018-08-07  1593  			for (i = 0; i < ARRAY_SIZE(rcu_tortures); i++)
-e8516c64fe97e2 kernel/rcu/rcutorture.c Paul E. McKenney   2019-04-09  1594  				if (list_empty(&rcu_tortures[i].rtort_free) &&
-fd2a749d3f4f7f kernel/rcu/rcutorture.c Paul E. McKenney   2024-01-03  1595  				    rcu_access_pointer(rcu_torture_current) != &rcu_tortures[i]) {
-14c0017c19ead1 kernel/rcu/rcutorture.c Anna-Maria Behnsen 2022-04-11  1596  					tracing_off();
-e38bf06d509a90 kernel/rcu/rcutorture.c Zqiang             2024-03-15  1597  					if (cur_ops->gp_kthread_dbg)
-e38bf06d509a90 kernel/rcu/rcutorture.c Zqiang             2024-03-15  1598  						cur_ops->gp_kthread_dbg();
-e8516c64fe97e2 kernel/rcu/rcutorture.c Paul E. McKenney   2019-04-09  1599  					WARN(1, "%s: rtort_pipe_count: %d\n", __func__, rcu_tortures[i].rtort_pipe_count);
-14c0017c19ead1 kernel/rcu/rcutorture.c Anna-Maria Behnsen 2022-04-11  1600  					rcu_ftrace_dump(DUMP_ALL);
-34aa34b818407b kernel/rcu/rcutorture.c Paul E. McKenney   2019-05-16  1601  				}
-ab1b7880dec86b kernel/rcu/rcutorture.c Paul E. McKenney   2020-09-22  1602  		if (stutter_waited)
-ab1b7880dec86b kernel/rcu/rcutorture.c Paul E. McKenney   2020-09-22  1603  			sched_set_normal(current, oldnice);
-36970bb91d8961 kernel/rcu/rcutorture.c Paul E. McKenney   2014-01-30  1604  	} while (!torture_must_stop());
-cae7cc6ba5bad3 kernel/rcu/rcutorture.c Paul E. McKenney   2020-04-26  1605  	rcu_torture_current = NULL;  // Let stats task know that we are done.
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1606  	/* Reset expediting back to unexpedited. */
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1607  	if (expediting > 0)
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1608  		expediting = -expediting;
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1609  	while (can_expedite && expediting++ < 0)
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1610  		rcu_unexpedite_gp();
-4bb3c5f4142a35 kernel/rcu/rcutorture.c Paul E. McKenney   2015-02-18  1611  	WARN_ON_ONCE(can_expedite && rcu_gp_is_expedited());
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1612  	if (!can_expedite)
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1613  		pr_alert("%s" TORTURE_FLAG
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1614  			 " Dynamic grace-period expediting was disabled.\n",
-f7c0e6ad4bb1ab kernel/rcu/rcutorture.c Paul E. McKenney   2017-12-08  1615  			 torture_type);
-ad0dc7f94dbf41 kernel/rcu/rcutorture.c Paul E. McKenney   2014-02-19  1616  	rcu_torture_writer_state = RTWS_STOPPING;
-7fafaac5b9ce22 kernel/rcu/rcutorture.c Paul E. McKenney   2014-01-31  1617  	torture_kthread_stopping("rcu_torture_writer");
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1618  	return 0;
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1619  }
-a241ec65aeac3d kernel/rcutorture.c     Paul E. McKenney   2005-10-30  1620  
-
-:::::: The code at line 1502 was first introduced by commit
-:::::: 1324d95b1c22d1c50d0c710dd5a8e2104d097cfc rcutorture: Verify NUM_ACTIVE_RCU_POLL_OLDSTATE
-
-:::::: TO: Paul E. McKenney <paulmck@kernel.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
