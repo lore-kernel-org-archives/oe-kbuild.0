@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBAB61B86F7
-	for <oe-kbuild@lists.linux.dev>; Sat, 27 Jul 2024 06:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81BF181D1F
+	for <oe-kbuild@lists.linux.dev>; Sat, 27 Jul 2024 15:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722063201; cv=none; b=D+uxMIMtukYgCRrY8cKq8iwsy/xVprg2A6yxhcXqAbXHSKdITrA50ILTc7eUhA/KyXGt8CkaSIeUiGcRW5uIHi/t+RgeS/aL+I4x4ga8S/C+FX/lqnUnBrds8Yh44wMctmqB2wJGMzxU2EkIz9H7MRQWcbpZitoxxZHX+xId/Ao=
+	t=1722095675; cv=none; b=SyEeHrzWmRkMZg/jIQXDltFNJ7+WH9PP8q0A1anbFiBXL/Exe6ZST/t3nKPRXxiGEgx5AUERiKC/k/nonnwgM3T/AdkBAvKKsGBoOs52KZlzubDSHAtr6Ng6PeiM90S/idqavYRwF3rHLuZ9Mi5+dTod7Fr+YTfrwZAWbprQ1AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722063201; c=relaxed/simple;
-	bh=NNChucCM539MnmUO7TM/u7u9CCUpM42xUWQgDjMWYFA=;
+	s=arc-20240116; t=1722095675; c=relaxed/simple;
+	bh=mKTQGWbGxAgRH6wjVSrzgfDEtKc3JYzelSmV7erbCi8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LQsiZRdf6zTkH4lt67vmKOx5K4X2A4i/QexkLthcyneY4CvC9AapmL5Bmxi4qpS9tXTq4v/XQDQr174BxH5ISM0uz5h3igM5gw0K9AV2Pjyn2KlwGGDI9rGn+hybHMNOiexlyUauOTZRRJvvULufhzwHLinzn+hlTH7xV2GKp1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5xHVeKy; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=JWz0lRiE1pxrFylfUr3Dbbx5scphrL0WUBYJJo+UTGEBFdiJrd42etPGYdKiO3Ra9Hu9hhfAPTYqXXdn+baDuaYAOtT0jccVNqe+gxrteFiMKkux2so5Twvtj5EnfuBs0hyoDlKt0WbXECwiZQhEaAQjc/DENEnfQrkA7X4LKfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QleO3LCX; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5xHVeKy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QleO3LCX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722063199; x=1753599199;
+  t=1722095671; x=1753631671;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NNChucCM539MnmUO7TM/u7u9CCUpM42xUWQgDjMWYFA=;
-  b=d5xHVeKyUx7HcPYh1FAYwtxa2SnuMwRSXj5SqoBqK7M3UVh4n8p4Ajoq
-   gQLk+PYvgwAGdWc5NZjjJEhkJ0Q7WRMe76og4KAIgFw26eO+lrDhDIhc8
-   6FFT5opcsQ82Xq6/8MPgIAP21H9ML+OpbCDNzYowgZj6uf2WKzQ/JPGJn
-   Jhbgwq4TRJMao/8gLHDxargvUAgzliL7wN7fX0byXsrG+urpgc35ukxze
-   S4gjltjTx19YigL3kFCgjqsJUxEZ0lNt5wa5TBaiNPwfiNR87O3jm2dMY
-   NV7o94ir3to0lv40TUgyQP6FgoTMKru+YSpdjoEIMyaekq/p2SPwj1fZ0
+  bh=mKTQGWbGxAgRH6wjVSrzgfDEtKc3JYzelSmV7erbCi8=;
+  b=QleO3LCXch24wo/uoZDO+oVG1AEw0/lP67UvAWIbTWw/z7EyAH4Dg9IS
+   Zp6WTQ40hPZX1Mgp5JL0vkEtqDEoPR5wiP2KjEEwf0MRiaUxROkY7KKkr
+   OkH+BRNVQ9EIg6wH7UDvnDt49EsPXgNXjzNpg7p6YgTwa5fM/dnGxzcmX
+   b43p2ZZ2AfV4M/3fmk3pTuxx8mOGmoIjyqkH6f7Kiyy4BtM5lZvTFDsht
+   XqutnBRTtvz7+LKPwl9OBYdKdUSvzkeokd97LvLjoLXnKlWK0TcUakT/O
+   QYnONbPdw+/l5dUbZ/C4FtS5C7gV+t6sMEJ5RahDEGJcyRmVN9xBaNtRg
    A==;
-X-CSE-ConnectionGUID: KYsYo+ISSN2AeaM11tyT4Q==
-X-CSE-MsgGUID: BQNS7nPhSqO0Kyn5PN7Smg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11145"; a="30472779"
-X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="30472779"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2024 23:53:18 -0700
-X-CSE-ConnectionGUID: cQtFI2/OQzGQdfaYlY918g==
-X-CSE-MsgGUID: GDUv7PhTSMyT7sWt/nztfg==
+X-CSE-ConnectionGUID: N/a2iuxSThOHet3ReBBZ3Q==
+X-CSE-MsgGUID: 6eO0lTGLT8aLXzItpR4Czg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="31282485"
+X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
+   d="scan'208";a="31282485"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 08:54:30 -0700
+X-CSE-ConnectionGUID: gpKu4XYIR2CSfPX48mzTyw==
+X-CSE-MsgGUID: 1IgB3/AVSPmbW6MrVK/AKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,240,1716274800"; 
-   d="scan'208";a="53146124"
+X-IronPort-AV: E=Sophos;i="6.09,241,1716274800"; 
+   d="scan'208";a="58122792"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Jul 2024 23:53:17 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jul 2024 08:54:29 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXbIp-000pgy-1M;
-	Sat, 27 Jul 2024 06:53:15 +0000
-Date: Sat, 27 Jul 2024 14:53:10 +0800
+	id 1sXjkZ-000q1n-0G;
+	Sat, 27 Jul 2024 15:54:27 +0000
+Date: Sat, 27 Jul 2024 23:54:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [jcmvbkbc-xtensa:xtensa-6.10-esp32-usb 48/49]
- arch/xtensa/boot/dts/esp32s3.dtsi:68.20-73.5: Warning (simple_bus_reg):
- /clocks/usb_clk: missing or empty reg/ranges property
-Message-ID: <202407271428.hVW68FTV-lkp@intel.com>
+Subject: [akpm-mm:mm-unstable 36/78] test_memcontrol.c:201:6: warning:
+ variable 'fd4_closed' is used uninitialized whenever 'if' condition is true
+Message-ID: <202407272301.bBC2CidR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,110 +63,575 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Max Filippov <jcmvbkbc@gmail.com>
+TO: David Finkel <davidf@vimeo.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.10-esp32-usb
-head:   7eabc7d5f773ecd9e67d9dd3f9a283348d723de0
-commit: 21db4c435519f4dec37d72f82c963b14979d7fc4 [48/49] WIP: xtensa: esp32s3: add USB host controller to dts
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   b39b3892d20a337489c55806f91af581474f3943
+commit: f2db5cca8182337f4ad485ebfd532b1a2d1c223a [36/78] mm, memcg: cg2 memory{.swap,}.peak write tests
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20240727/202407271428.hVW68FTV-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407271428.hVW68FTV-lkp@intel.com/reproduce)
+:::::: commit date: 3 days ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240727/202407272301.bBC2CidR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407271428.hVW68FTV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407272301.bBC2CidR-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/xtensa/boot/dts/esp32s3.dtsi:150.19-156.5: Warning (unit_address_vs_reg): /soc/syscon@60008000: node has a unit name, but no reg or ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:36.24-41.5: Warning (simple_bus_reg): /clocks/uart0_clk: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:42.24-47.5: Warning (simple_bus_reg): /clocks/uart1_clk: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:48.24-53.5: Warning (simple_bus_reg): /clocks/uart2_clk: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:55.22-60.5: Warning (simple_bus_reg): /clocks/spi2_clk: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:61.22-66.5: Warning (simple_bus_reg): /clocks/spi3_clk: missing or empty reg/ranges property
->> arch/xtensa/boot/dts/esp32s3.dtsi:68.20-73.5: Warning (simple_bus_reg): /clocks/usb_clk: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:150.19-156.5: Warning (simple_bus_reg): /soc/syscon@60008000: missing or empty reg/ranges property
-   arch/xtensa/boot/dts/esp32s3.dtsi:167.27-174.5: Warning (simple_bus_reg): /soc/pinctrl@60009000: simple-bus unit address format error, expected "60009004"
-   arch/xtensa/boot/dts/esp32s3.dtsi:291.23-301.5: Warning (simple_bus_reg): /soc/intc@600c2000: simple-bus unit address format error, expected "600c2800"
-   arch/xtensa/boot/dts/esp32s3.dtsi:31.9-74.4: Warning (avoid_unnecessary_addr_size): /clocks: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/xtensa/boot/dts/esp32s3.dtsi:93.18-105.5: Warning (avoid_unnecessary_addr_size): /soc/flash@42000000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/xtensa/boot/dts/esp32s3.dtsi:145.21-148.5: Warning (unique_unit_address_if_enabled): /soc/lpm@60008000: duplicate unit-address (also used in node /soc/syscon@60008000)
+All warnings (new ones prefixed by >>):
 
-vim +68 arch/xtensa/boot/dts/esp32s3.dtsi
+>> test_memcontrol.c:201:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     201 |         if (peak_fd == -1)
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:201:2: note: remove the 'if' if its condition is always false
+     201 |         if (peak_fd == -1)
+         |         ^~~~~~~~~~~~~~~~~~
+     202 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:191:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     191 |         if (peak < MB(50))
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:191:2: note: remove the 'if' if its condition is always false
+     191 |         if (peak < MB(50))
+         |         ^~~~~~~~~~~~~~~~~~
+     192 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:187:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:187:2: note: remove the 'if' if its condition is always false
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     188 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:184:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     184 |         if (peak != 0)
+         |             ^~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:184:2: note: remove the 'if' if its condition is always false
+     184 |         if (peak != 0)
+         |         ^~~~~~~~~~~~~~
+     185 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:180:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     180 |         if (current != 0)
+         |             ^~~~~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:180:2: note: remove the 'if' if its condition is always false
+     180 |         if (current != 0)
+         |         ^~~~~~~~~~~~~~~~~
+     181 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:176:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     176 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:176:2: note: remove the 'if' if its condition is always false
+     176 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     177 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:173:6: warning: variable 'fd4_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     173 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:283:7: note: uninitialized use occurs here
+     283 |         if (!fd4_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:173:2: note: remove the 'if' if its condition is always false
+     173 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     174 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:204:2: note: variable 'fd4_closed' is declared here
+     204 |         bool fd2_closed = false, fd3_closed = false, fd4_closed = false;
+         |         ^
+   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdbool.h:20:14: note: expanded from macro 'bool'
+      20 | #define bool _Bool
+         |              ^
+>> test_memcontrol.c:201:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     201 |         if (peak_fd == -1)
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:201:2: note: remove the 'if' if its condition is always false
+     201 |         if (peak_fd == -1)
+         |         ^~~~~~~~~~~~~~~~~~
+     202 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:191:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     191 |         if (peak < MB(50))
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:191:2: note: remove the 'if' if its condition is always false
+     191 |         if (peak < MB(50))
+         |         ^~~~~~~~~~~~~~~~~~
+     192 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:187:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:187:2: note: remove the 'if' if its condition is always false
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     188 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:184:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     184 |         if (peak != 0)
+         |             ^~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:184:2: note: remove the 'if' if its condition is always false
+     184 |         if (peak != 0)
+         |         ^~~~~~~~~~~~~~
+     185 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:180:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     180 |         if (current != 0)
+         |             ^~~~~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:180:2: note: remove the 'if' if its condition is always false
+     180 |         if (current != 0)
+         |         ^~~~~~~~~~~~~~~~~
+     181 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:176:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     176 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:176:2: note: remove the 'if' if its condition is always false
+     176 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     177 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:173:6: warning: variable 'fd3_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     173 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:281:7: note: uninitialized use occurs here
+     281 |         if (!fd3_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:173:2: note: remove the 'if' if its condition is always false
+     173 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     174 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:204:2: note: variable 'fd3_closed' is declared here
+     204 |         bool fd2_closed = false, fd3_closed = false, fd4_closed = false;
+         |         ^
+   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdbool.h:20:14: note: expanded from macro 'bool'
+      20 | #define bool _Bool
+         |              ^
+>> test_memcontrol.c:191:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     191 |         if (peak < MB(50))
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:191:2: note: remove the 'if' if its condition is always false
+     191 |         if (peak < MB(50))
+         |         ^~~~~~~~~~~~~~~~~~
+     192 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:187:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:187:2: note: remove the 'if' if its condition is always false
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     188 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:184:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     184 |         if (peak != 0)
+         |             ^~~~~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:184:2: note: remove the 'if' if its condition is always false
+     184 |         if (peak != 0)
+         |         ^~~~~~~~~~~~~~
+     185 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:180:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     180 |         if (current != 0)
+         |             ^~~~~~~~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:180:2: note: remove the 'if' if its condition is always false
+     180 |         if (current != 0)
+         |         ^~~~~~~~~~~~~~~~~
+     181 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:176:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     176 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:176:2: note: remove the 'if' if its condition is always false
+     176 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     177 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:173:6: warning: variable 'peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     173 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:278:8: note: uninitialized use occurs here
+     278 |         close(peak_fd);
+         |               ^~~~~~~
+   test_memcontrol.c:173:2: note: remove the 'if' if its condition is always false
+     173 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     174 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:199:2: note: variable 'peak_fd' is declared here
+     199 |         int peak_fd = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+         |         ^
+>> test_memcontrol.c:201:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     201 |         if (peak_fd == -1)
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:201:2: note: remove the 'if' if its condition is always false
+     201 |         if (peak_fd == -1)
+         |         ^~~~~~~~~~~~~~~~~~
+     202 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:191:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     191 |         if (peak < MB(50))
+         |             ^~~~~~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:191:2: note: remove the 'if' if its condition is always false
+     191 |         if (peak < MB(50))
+         |         ^~~~~~~~~~~~~~~~~~
+     192 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:187:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:187:2: note: remove the 'if' if its condition is always false
+     187 |         if (cg_run(memcg, alloc_anon_50M_check, NULL))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     188 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:184:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     184 |         if (peak != 0)
+         |             ^~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:184:2: note: remove the 'if' if its condition is always false
+     184 |         if (peak != 0)
+         |         ^~~~~~~~~~~~~~
+     185 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:180:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     180 |         if (current != 0)
+         |             ^~~~~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:180:2: note: remove the 'if' if its condition is always false
+     180 |         if (current != 0)
+         |         ^~~~~~~~~~~~~~~~~
+     181 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:176:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     176 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:176:2: note: remove the 'if' if its condition is always false
+     176 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     177 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:173:6: warning: variable 'fd2_closed' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     173 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:279:7: note: uninitialized use occurs here
+     279 |         if (!fd2_closed)
+         |              ^~~~~~~~~~
+   test_memcontrol.c:173:2: note: remove the 'if' if its condition is always false
+     173 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     174 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:204:2: note: variable 'fd2_closed' is declared here
+     204 |         bool fd2_closed = false, fd3_closed = false, fd4_closed = false;
+         |         ^
+   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdbool.h:20:14: note: expanded from macro 'bool'
+      20 | #define bool _Bool
+         |              ^
+>> test_memcontrol.c:934:6: warning: variable 'swap_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     934 |         if (cg_read_long(memcg, "memory.swap.current")) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:1083:12: note: uninitialized use occurs here
+    1083 |         if (close(swap_peak_fd))
+         |                   ^~~~~~~~~~~~
+   test_memcontrol.c:934:2: note: remove the 'if' if its condition is always false
+     934 |         if (cg_read_long(memcg, "memory.swap.current")) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     935 |                 ret = KSFT_SKIP;
+         |                 ~~~~~~~~~~~~~~~~
+     936 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~~
+     937 |         }
+         |         ~
+   test_memcontrol.c:931:6: warning: variable 'swap_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     931 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:1083:12: note: uninitialized use occurs here
+    1083 |         if (close(swap_peak_fd))
+         |                   ^~~~~~~~~~~~
+   test_memcontrol.c:931:2: note: remove the 'if' if its condition is always false
+     931 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     932 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:928:6: warning: variable 'swap_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     928 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:1083:12: note: uninitialized use occurs here
+    1083 |         if (close(swap_peak_fd))
+         |                   ^~~~~~~~~~~~
+   test_memcontrol.c:928:2: note: remove the 'if' if its condition is always false
+     928 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     929 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:939:2: note: variable 'swap_peak_fd' is declared here
+     939 |         int swap_peak_fd = cg_open(memcg, "memory.swap.peak",
+         |         ^
+>> test_memcontrol.c:942:6: warning: variable 'mem_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     942 |         if (swap_peak_fd == -1)
+         |             ^~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:1081:12: note: uninitialized use occurs here
+    1081 |         if (close(mem_peak_fd))
+         |                   ^~~~~~~~~~~
+   test_memcontrol.c:942:2: note: remove the 'if' if its condition is always false
+     942 |         if (swap_peak_fd == -1)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+     943 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:934:6: warning: variable 'mem_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     934 |         if (cg_read_long(memcg, "memory.swap.current")) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   test_memcontrol.c:1081:12: note: uninitialized use occurs here
+    1081 |         if (close(mem_peak_fd))
+         |                   ^~~~~~~~~~~
+   test_memcontrol.c:934:2: note: remove the 'if' if its condition is always false
+     934 |         if (cg_read_long(memcg, "memory.swap.current")) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     935 |                 ret = KSFT_SKIP;
+         |                 ~~~~~~~~~~~~~~~~
+     936 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~~
+     937 |         }
+         |         ~
+   test_memcontrol.c:931:6: warning: variable 'mem_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     931 |         if (cg_create(memcg))
+         |             ^~~~~~~~~~~~~~~~
+   test_memcontrol.c:1081:12: note: uninitialized use occurs here
+    1081 |         if (close(mem_peak_fd))
+         |                   ^~~~~~~~~~~
+   test_memcontrol.c:931:2: note: remove the 'if' if its condition is always false
+     931 |         if (cg_create(memcg))
+         |         ^~~~~~~~~~~~~~~~~~~~~
+     932 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:928:6: warning: variable 'mem_peak_fd' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     928 |         if (!memcg)
+         |             ^~~~~~
+   test_memcontrol.c:1081:12: note: uninitialized use occurs here
+    1081 |         if (close(mem_peak_fd))
+         |                   ^~~~~~~~~~~
+   test_memcontrol.c:928:2: note: remove the 'if' if its condition is always false
+     928 |         if (!memcg)
+         |         ^~~~~~~~~~~
+     929 |                 goto cleanup;
+         |                 ~~~~~~~~~~~~
+   test_memcontrol.c:945:2: note: variable 'mem_peak_fd' is declared here
+     945 |         int mem_peak_fd = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+         |         ^
+   34 warnings generated.
 
-81e0c4f14b8fdad Max Filippov 2019-12-15   3  
-81e0c4f14b8fdad Max Filippov 2019-12-15   4  / {
-81e0c4f14b8fdad Max Filippov 2019-12-15   5  	compatible = "esp32s3";
-81e0c4f14b8fdad Max Filippov 2019-12-15   6  	#address-cells = <1>;
-81e0c4f14b8fdad Max Filippov 2019-12-15   7  	#size-cells = <1>;
-81e0c4f14b8fdad Max Filippov 2019-12-15   8  	interrupt-parent = <&pic>;
-81e0c4f14b8fdad Max Filippov 2019-12-15   9  
-81e0c4f14b8fdad Max Filippov 2019-12-15  10  	chosen {
-81e0c4f14b8fdad Max Filippov 2019-12-15  11  		bootargs = "earlycon=esp32s3uart,mmio32,0x60000000,115200n8,40000000 console=ttyS0,115200n8 debug rw root=mtd:rootfs no_hash_pointers ";
-81e0c4f14b8fdad Max Filippov 2019-12-15  12  	};
-81e0c4f14b8fdad Max Filippov 2019-12-15  13  
-81e0c4f14b8fdad Max Filippov 2019-12-15  14  	aliases {
-81e0c4f14b8fdad Max Filippov 2019-12-15  15  		serial0 = "/soc/serial@60000000";
-81e0c4f14b8fdad Max Filippov 2019-12-15  16  		serial1 = "/soc/serial@60010000";
-81e0c4f14b8fdad Max Filippov 2019-12-15  17  		serial2 = "/soc/serial@6002e000";
-81e0c4f14b8fdad Max Filippov 2019-12-15  18  		serial3 = "/soc/acm@60038000";
-81e0c4f14b8fdad Max Filippov 2019-12-15  19  	};
-81e0c4f14b8fdad Max Filippov 2019-12-15  20  
-81e0c4f14b8fdad Max Filippov 2019-12-15  21  	cpus {
-81e0c4f14b8fdad Max Filippov 2019-12-15  22  		#address-cells = <1>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  23  		#size-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  24  		cpu@0 {
-81e0c4f14b8fdad Max Filippov 2019-12-15  25  			compatible = "cdns,xtensa-cpu";
-81e0c4f14b8fdad Max Filippov 2019-12-15  26  			reg = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  27  			clocks = <&clk 1>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  28  		};
-81e0c4f14b8fdad Max Filippov 2019-12-15  29  	};
-81e0c4f14b8fdad Max Filippov 2019-12-15  30  
-81e0c4f14b8fdad Max Filippov 2019-12-15  31  	clocks {
-81e0c4f14b8fdad Max Filippov 2019-12-15  32  		compatible = "simple-bus";
-81e0c4f14b8fdad Max Filippov 2019-12-15  33  		#address-cells = <1>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  34  		#size-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  35  
-81e0c4f14b8fdad Max Filippov 2019-12-15  36  		uart0_clk: uart0_clk {
-81e0c4f14b8fdad Max Filippov 2019-12-15  37  			#clock-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  38  			compatible = "gpio-gate-clock";
-81e0c4f14b8fdad Max Filippov 2019-12-15  39  			clocks = <&clk 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  40  			enable-gpios = <&clk_gpio0 2 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  41  		};
-81e0c4f14b8fdad Max Filippov 2019-12-15  42  		uart1_clk: uart1_clk {
-81e0c4f14b8fdad Max Filippov 2019-12-15  43  			#clock-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  44  			compatible = "gpio-gate-clock";
-81e0c4f14b8fdad Max Filippov 2019-12-15  45  			clocks = <&clk 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  46  			enable-gpios = <&clk_gpio0 5 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  47  		};
-81e0c4f14b8fdad Max Filippov 2019-12-15  48  		uart2_clk: uart2_clk {
-81e0c4f14b8fdad Max Filippov 2019-12-15  49  			#clock-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  50  			compatible = "gpio-gate-clock";
-81e0c4f14b8fdad Max Filippov 2019-12-15  51  			clocks = <&clk 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  52  			enable-gpios = <&clk_gpio1 9 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  53  		};
-81e0c4f14b8fdad Max Filippov 2019-12-15  54  
-81e0c4f14b8fdad Max Filippov 2019-12-15  55  		spi2_clk: spi2_clk {
-81e0c4f14b8fdad Max Filippov 2019-12-15  56  			#clock-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  57  			compatible = "gpio-gate-clock";
-81e0c4f14b8fdad Max Filippov 2019-12-15  58  			clocks = <&clk 2>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  59  			enable-gpios = <&clk_gpio0 6 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  60  		};
-81e0c4f14b8fdad Max Filippov 2019-12-15  61  		spi3_clk: spi3_clk {
-81e0c4f14b8fdad Max Filippov 2019-12-15  62  			#clock-cells = <0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  63  			compatible = "gpio-gate-clock";
-81e0c4f14b8fdad Max Filippov 2019-12-15  64  			clocks = <&clk 2>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  65  			enable-gpios = <&clk_gpio0 16 0>;
-81e0c4f14b8fdad Max Filippov 2019-12-15  66  		};
-21db4c435519f4d Max Filippov 2024-07-13  67  
-21db4c435519f4d Max Filippov 2024-07-13 @68  		usb_clk: usb_clk {
+
+vim +201 tools/testing/selftests/cgroup/test_memcontrol.c
+
+84092dbcf90176 Roman Gushchin 2018-05-11  160  
+84092dbcf90176 Roman Gushchin 2018-05-11  161  /*
+84092dbcf90176 Roman Gushchin 2018-05-11  162   * This test create a memory cgroup, allocates
+84092dbcf90176 Roman Gushchin 2018-05-11  163   * some anonymous memory and some pagecache
+f2db5cca818233 David Finkel   2024-07-24  164   * and checks memory.current, memory.peak, and some memory.stat values.
+84092dbcf90176 Roman Gushchin 2018-05-11  165   */
+f2db5cca818233 David Finkel   2024-07-24  166  static int test_memcg_current_peak(const char *root)
+84092dbcf90176 Roman Gushchin 2018-05-11  167  {
+84092dbcf90176 Roman Gushchin 2018-05-11  168  	int ret = KSFT_FAIL;
+f2db5cca818233 David Finkel   2024-07-24  169  	long current, peak, peak_reset;
+84092dbcf90176 Roman Gushchin 2018-05-11  170  	char *memcg;
+84092dbcf90176 Roman Gushchin 2018-05-11  171  
+84092dbcf90176 Roman Gushchin 2018-05-11  172  	memcg = cg_name(root, "memcg_test");
+84092dbcf90176 Roman Gushchin 2018-05-11  173  	if (!memcg)
+84092dbcf90176 Roman Gushchin 2018-05-11  174  		goto cleanup;
+84092dbcf90176 Roman Gushchin 2018-05-11  175  
+84092dbcf90176 Roman Gushchin 2018-05-11  176  	if (cg_create(memcg))
+84092dbcf90176 Roman Gushchin 2018-05-11  177  		goto cleanup;
+84092dbcf90176 Roman Gushchin 2018-05-11  178  
+84092dbcf90176 Roman Gushchin 2018-05-11  179  	current = cg_read_long(memcg, "memory.current");
+84092dbcf90176 Roman Gushchin 2018-05-11  180  	if (current != 0)
+84092dbcf90176 Roman Gushchin 2018-05-11  181  		goto cleanup;
+84092dbcf90176 Roman Gushchin 2018-05-11  182  
+f2db5cca818233 David Finkel   2024-07-24  183  	peak = cg_read_long(memcg, "memory.peak");
+f2db5cca818233 David Finkel   2024-07-24  184  	if (peak != 0)
+f2db5cca818233 David Finkel   2024-07-24  185  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  186  
+84092dbcf90176 Roman Gushchin 2018-05-11  187  	if (cg_run(memcg, alloc_anon_50M_check, NULL))
+84092dbcf90176 Roman Gushchin 2018-05-11  188  		goto cleanup;
+84092dbcf90176 Roman Gushchin 2018-05-11  189  
+f2db5cca818233 David Finkel   2024-07-24  190  	peak = cg_read_long(memcg, "memory.peak");
+f2db5cca818233 David Finkel   2024-07-24  191  	if (peak < MB(50))
+f2db5cca818233 David Finkel   2024-07-24  192  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  193  
+f2db5cca818233 David Finkel   2024-07-24  194  	/*
+f2db5cca818233 David Finkel   2024-07-24  195  	 * We'll open a few FDs for the same memory.peak file to exercise the free-path
+f2db5cca818233 David Finkel   2024-07-24  196  	 * We need at least three to be closed in a different order than writes occurred to test
+f2db5cca818233 David Finkel   2024-07-24  197  	 * the linked-list handling.
+f2db5cca818233 David Finkel   2024-07-24  198  	 */
+f2db5cca818233 David Finkel   2024-07-24  199  	int peak_fd = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+f2db5cca818233 David Finkel   2024-07-24  200  
+f2db5cca818233 David Finkel   2024-07-24 @201  	if (peak_fd == -1)
+f2db5cca818233 David Finkel   2024-07-24  202  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  203  
+f2db5cca818233 David Finkel   2024-07-24  204  	bool fd2_closed = false, fd3_closed = false, fd4_closed = false;
+f2db5cca818233 David Finkel   2024-07-24  205  	int peak_fd2 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+f2db5cca818233 David Finkel   2024-07-24  206  
+f2db5cca818233 David Finkel   2024-07-24  207  	if (peak_fd2 == -1)
+f2db5cca818233 David Finkel   2024-07-24  208  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  209  
+f2db5cca818233 David Finkel   2024-07-24  210  	int peak_fd3 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+f2db5cca818233 David Finkel   2024-07-24  211  
+f2db5cca818233 David Finkel   2024-07-24  212  	if (peak_fd3 == -1)
+f2db5cca818233 David Finkel   2024-07-24  213  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  214  
+f2db5cca818233 David Finkel   2024-07-24  215  	static const char reset_string[] = "reset\n";
+f2db5cca818233 David Finkel   2024-07-24  216  
+f2db5cca818233 David Finkel   2024-07-24  217  	peak_reset = write(peak_fd, reset_string, sizeof(reset_string));
+f2db5cca818233 David Finkel   2024-07-24  218  	if (peak_reset != sizeof(reset_string))
+f2db5cca818233 David Finkel   2024-07-24  219  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  220  
+f2db5cca818233 David Finkel   2024-07-24  221  	peak_reset = write(peak_fd2, reset_string, sizeof(reset_string));
+f2db5cca818233 David Finkel   2024-07-24  222  	if (peak_reset != sizeof(reset_string))
+f2db5cca818233 David Finkel   2024-07-24  223  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  224  
+f2db5cca818233 David Finkel   2024-07-24  225  	peak_reset = write(peak_fd3, reset_string, sizeof(reset_string));
+f2db5cca818233 David Finkel   2024-07-24  226  	if (peak_reset != sizeof(reset_string))
+f2db5cca818233 David Finkel   2024-07-24  227  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  228  
+f2db5cca818233 David Finkel   2024-07-24  229  	/* Make sure a completely independent read isn't affected by our  FD-local reset above*/
+f2db5cca818233 David Finkel   2024-07-24  230  	peak = cg_read_long(memcg, "memory.peak");
+f2db5cca818233 David Finkel   2024-07-24  231  	if (peak < MB(50))
+f2db5cca818233 David Finkel   2024-07-24  232  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  233  
+f2db5cca818233 David Finkel   2024-07-24  234  	fd2_closed = true;
+f2db5cca818233 David Finkel   2024-07-24  235  	if (close(peak_fd2))
+f2db5cca818233 David Finkel   2024-07-24  236  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  237  
+f2db5cca818233 David Finkel   2024-07-24  238  	int peak_fd4 = cg_open(memcg, "memory.peak", O_RDWR | O_APPEND | O_CLOEXEC);
+f2db5cca818233 David Finkel   2024-07-24  239  
+f2db5cca818233 David Finkel   2024-07-24  240  	if (peak_fd4 == -1)
+f2db5cca818233 David Finkel   2024-07-24  241  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  242  
+f2db5cca818233 David Finkel   2024-07-24  243  	peak_reset = write(peak_fd4, reset_string, sizeof(reset_string));
+f2db5cca818233 David Finkel   2024-07-24  244  	if (peak_reset != sizeof(reset_string))
+f2db5cca818233 David Finkel   2024-07-24  245  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  246  
+f2db5cca818233 David Finkel   2024-07-24  247  	peak = cg_read_long_fd(peak_fd);
+f2db5cca818233 David Finkel   2024-07-24  248  	if (peak > MB(30) || peak < 0)
+f2db5cca818233 David Finkel   2024-07-24  249  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  250  
+84092dbcf90176 Roman Gushchin 2018-05-11  251  	if (cg_run(memcg, alloc_pagecache_50M_check, NULL))
+84092dbcf90176 Roman Gushchin 2018-05-11  252  		goto cleanup;
+84092dbcf90176 Roman Gushchin 2018-05-11  253  
+f2db5cca818233 David Finkel   2024-07-24  254  	peak = cg_read_long(memcg, "memory.peak");
+f2db5cca818233 David Finkel   2024-07-24  255  	if (peak < MB(50))
+f2db5cca818233 David Finkel   2024-07-24  256  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  257  
+f2db5cca818233 David Finkel   2024-07-24  258  	/* Make sure everything is back to normal */
+f2db5cca818233 David Finkel   2024-07-24  259  	peak = cg_read_long_fd(peak_fd);
+f2db5cca818233 David Finkel   2024-07-24  260  	if (peak < MB(50))
+f2db5cca818233 David Finkel   2024-07-24  261  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  262  
+f2db5cca818233 David Finkel   2024-07-24  263  	peak = cg_read_long_fd(peak_fd4);
+f2db5cca818233 David Finkel   2024-07-24  264  	if (peak < MB(50))
+f2db5cca818233 David Finkel   2024-07-24  265  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  266  
+f2db5cca818233 David Finkel   2024-07-24  267  	fd3_closed = true;
+f2db5cca818233 David Finkel   2024-07-24  268  	if (close(peak_fd3))
+f2db5cca818233 David Finkel   2024-07-24  269  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  270  
+f2db5cca818233 David Finkel   2024-07-24  271  	fd4_closed = true;
+f2db5cca818233 David Finkel   2024-07-24  272  	if (close(peak_fd4))
+f2db5cca818233 David Finkel   2024-07-24  273  		goto cleanup;
+f2db5cca818233 David Finkel   2024-07-24  274  
+84092dbcf90176 Roman Gushchin 2018-05-11  275  	ret = KSFT_PASS;
+84092dbcf90176 Roman Gushchin 2018-05-11  276  
+84092dbcf90176 Roman Gushchin 2018-05-11  277  cleanup:
+f2db5cca818233 David Finkel   2024-07-24  278  	close(peak_fd);
+f2db5cca818233 David Finkel   2024-07-24  279  	if (!fd2_closed)
+f2db5cca818233 David Finkel   2024-07-24  280  		close(peak_fd2);
+f2db5cca818233 David Finkel   2024-07-24  281  	if (!fd3_closed)
+f2db5cca818233 David Finkel   2024-07-24  282  		close(peak_fd3);
+f2db5cca818233 David Finkel   2024-07-24  283  	if (!fd4_closed)
+f2db5cca818233 David Finkel   2024-07-24  284  		close(peak_fd4);
+84092dbcf90176 Roman Gushchin 2018-05-11  285  	cg_destroy(memcg);
+84092dbcf90176 Roman Gushchin 2018-05-11  286  	free(memcg);
+84092dbcf90176 Roman Gushchin 2018-05-11  287  
+84092dbcf90176 Roman Gushchin 2018-05-11  288  	return ret;
+84092dbcf90176 Roman Gushchin 2018-05-11  289  }
+84092dbcf90176 Roman Gushchin 2018-05-11  290  
 
 -- 
 0-DAY CI Kernel Test Service
