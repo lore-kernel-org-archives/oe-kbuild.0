@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815711392
-	for <oe-kbuild@lists.linux.dev>; Sun, 28 Jul 2024 01:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054F63D62
+	for <oe-kbuild@lists.linux.dev>; Sun, 28 Jul 2024 05:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722130191; cv=none; b=pFHaPAepS4jX6zQcawbfllMkzUoqJRa8M1W0lzGRhfrbgoAJu4QKfNAofMNEwMenLJmkkD4dttXBIvLwGDnXdnF5BlVv8Lj7RCLUE8xVnVIFqnQUyB2XCEkDVzQDPJJUQFFg/1rWd7NWhLGScJx1hLZavlLjcdiEEW6/DkF5Hvc=
+	t=1722145257; cv=none; b=ZzYHVUbuJETJi//5UEXq33uXajSxqttAL42k5sfOqCpr0FcaiQHEbRymEBc3yzKADHHLR6XXwgZK5N2Qcfjh7T7tDmoviTKgoiJqHJDKRHtfxK6veERBmNe/4XXfelh83SEmeLBPGU2hT0pWP/WTn67hq81tukneWcN0abUZ68o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722130191; c=relaxed/simple;
-	bh=ZN8/35kQB24gs9VMi8HOLiPrJO1Rt9GL6zl8mt2y6Tk=;
+	s=arc-20240116; t=1722145257; c=relaxed/simple;
+	bh=3MhteQZVJJFGWmGtgMMGHImRj2ugXa2IUiPAXICLoNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h1yRDETavVCueG3z/EVSO7z30yhNN/qa7hnkRLr4UO6gyXdEgT6PYRrCc2qEGgGVzsVjKWdjEEcLSGokvoTjBDr2FeWfIa66rxAr7NGXYzDEJovSJflXR1WcbYDRZMKT+W3inWUBTYTYrWiznN5Jpqn7I8hMIDf7LDk8lZy5JYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKWO1iaE; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=fKAxE4AShKrcFLpCtA3PXUCwmeo33BaiIlRFOmvhAbrgWTx43N/GNxvgKGs+kwXBwlgLXhWx3XzYxX0kD00dCsCKuzVlVUoGLCKtD0WN0q8PYK50AowL1NeX3DrxMAtmfWf905fng6ztcu8yOTYzKOO5Q+shWdQIfjMK7StyEdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4tKiFID; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKWO1iaE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4tKiFID"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722130188; x=1753666188;
+  t=1722145255; x=1753681255;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZN8/35kQB24gs9VMi8HOLiPrJO1Rt9GL6zl8mt2y6Tk=;
-  b=QKWO1iaECG3NqG6h2XhkUysnXoAcrvIApaWAoOyUGYDvCz4h5GKikyuJ
-   SEAPAomowzImYLEzKHyBq8mwNJyQyUAC6653NYyOu//znhMRGXcBZfrix
-   9Eevw54mJPOa7iqdxP7Fyst3y+bQPbzwcY79YMqeSHgNnLPbd8od9LRr8
-   qc16gyr1Wx65tiEzOOwBsGIxWf+XXUfTRd4ZykcG7ER6t+rxvEEHAXGEt
-   sTi4kXGJIY3DkrlpcubQ0fhZrj2pYyl/E4dAdh8FAS3oCt9hLHNfDEkdr
-   w65JBzE1LihIjUccbHM1UZg8jbMXNEn1Se5p6CXRFAd7H6EP/lGGtszem
+  bh=3MhteQZVJJFGWmGtgMMGHImRj2ugXa2IUiPAXICLoNI=;
+  b=X4tKiFID6Jg3E8gsXTXiVM8F+wb4sS0Gcj7TQv0M5bc749ZoSaSvd1KN
+   kz0a5uNUL8V27s5eQr60nnVq6zvjoFln/AFm2PczFfe7Fs0JZr+E9ZWSX
+   SV/nO1+hLoEd1XwMnxfgitaNZaA8kqjHpeGznmGVU33uWg5akmh/2Rlrt
+   XD3OBaoMG1q5nnJbK6hK2NmlTjHUq5XSc1tgucVUyALY05jQ1MJxDHF+F
+   Y7QLQgc2+7tGZ3aHDuCCS6escwUBA188FgvAbEG4lN/B75nVOMII4pUcZ
+   SIZ5+bBpx39fqlj9hKZN4kMk24KNLLpIMkOwDpkSY2tCGr9DKMabYFrzS
    g==;
-X-CSE-ConnectionGUID: fgUJVFDtQBKRxdQS7v4ucQ==
-X-CSE-MsgGUID: boysSY85QAm7ubnwYGwGlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="19587550"
+X-CSE-ConnectionGUID: nonlZZySTEuziXtKzdZIJg==
+X-CSE-MsgGUID: YcesBN27Sd6pf+ljK9yQpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11146"; a="30489993"
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="19587550"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 18:29:48 -0700
-X-CSE-ConnectionGUID: XEbr7pBqTQOfuBk6FE1/hQ==
-X-CSE-MsgGUID: 0Zvhp9ltROidBT4FCX5XeQ==
+   d="scan'208";a="30489993"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2024 22:40:54 -0700
+X-CSE-ConnectionGUID: PeE2nE5iQWmrrmoFsvOmkQ==
+X-CSE-MsgGUID: NOPV45H2RE+sqUTffK4Amg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,243,1716274800"; 
-   d="scan'208";a="53275584"
+   d="scan'208";a="58224285"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jul 2024 18:29:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jul 2024 22:40:53 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sXsjI-000qPk-38;
-	Sun, 28 Jul 2024 01:29:44 +0000
-Date: Sun, 28 Jul 2024 09:29:21 +0800
+	id 1sXweI-000qYg-3B;
+	Sun, 28 Jul 2024 05:40:50 +0000
+Date: Sun, 28 Jul 2024 13:40:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: msm8992-lg-h815: Initial
- support for LG G4 (H815)
-Message-ID: <202407280935.KnJ3mzhG-lkp@intel.com>
+Subject: Re: [PATCH 4/4] selftests: ALSA: Cover userspace-driven timers with
+ test
+Message-ID: <202407281359.vMYdESrT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,58 +63,76 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "low confidence bisect report"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240727201413.114317-3-alexander.reimelt@posteo.de>
-References: <20240727201413.114317-3-alexander.reimelt@posteo.de>
-TO: Alexander Reimelt <alexander.reimelt@posteo.de>
-TO: andersson@kernel.org
-TO: petr.vorel@gmail.com
-TO: konrad.dybcio@linaro.org
-TO: robh+dt@kernel.org
-TO: krzysztof.kozlowski+dt@linaro.org
-TO: conor+dt@kernel.org
-CC: linux-arm-msm@vger.kernel.org
-CC: devicetree@vger.kernel.org
+In-Reply-To: <20240726074750.626671-5-ivan.orlov0322@gmail.com>
+References: <20240726074750.626671-5-ivan.orlov0322@gmail.com>
+TO: Ivan Orlov <ivan.orlov0322@gmail.com>
+TO: perex@perex.cz
+TO: tiwai@suse.com
+TO: corbet@lwn.net
+TO: broonie@kernel.org
+TO: shuah@kernel.org
+CC: Ivan Orlov <ivan.orlov0322@gmail.com>
+CC: linux-kselftest@vger.kernel.org
+CC: linux-doc@vger.kernel.org
+CC: linux-sound@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
+CC: aholzinger@gmx.de
 
-Hi Alexander,
+Hi Ivan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.10 next-20240726]
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.10 next-20240726]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Reimelt/dt-bindings-arm-qcom-Add-LG-G4-h815/20240728-042033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240727201413.114317-3-alexander.reimelt%40posteo.de
-patch subject: [PATCH v3 2/2] arm64: dts: qcom: msm8992-lg-h815: Initial support for LG G4 (H815)
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: arm64-randconfig-051-20240728 (https://download.01.org/0day-ci/archive/20240728/202407280935.KnJ3mzhG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407280935.KnJ3mzhG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/ALSA-aloop-Allow-using-global-timers/20240726-155158
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20240726074750.626671-5-ivan.orlov0322%40gmail.com
+patch subject: [PATCH 4/4] selftests: ALSA: Cover userspace-driven timers with test
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240728/202407281359.vMYdESrT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407280935.KnJ3mzhG-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407281359.vMYdESrT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:132.9-151.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/msm8992-lg-h815.dtb: usb@f92f8800: 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8992-lg-h815.dtb: usb@f92f8800: 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+All warnings (new ones prefixed by >>):
+
+>> utimer-test.c:73:1: warning: non-void function does not return a value [-Wreturn-type]
+      73 | }
+         | ^
+>> utimer-test.c:117:11: warning: enumeration value 'TIMER_NO_EVENT' not handled in switch [-Wswitch]
+     117 |                 switch (parse_timer_output(buf)) {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +73 tools/testing/selftests/alsa/utimer-test.c
+
+5cf58530fa628b Ivan Orlov 2024-07-26  62  
+5cf58530fa628b Ivan Orlov 2024-07-26  63  static void *ticking_func(void *data)
+5cf58530fa628b Ivan Orlov 2024-07-26  64  {
+5cf58530fa628b Ivan Orlov 2024-07-26  65  	int i;
+5cf58530fa628b Ivan Orlov 2024-07-26  66  	int *fd = (int *)data;
+5cf58530fa628b Ivan Orlov 2024-07-26  67  
+5cf58530fa628b Ivan Orlov 2024-07-26  68  	for (i = 0; i < TICKS_COUNT; i++) {
+5cf58530fa628b Ivan Orlov 2024-07-26  69  		/* Well, trigger the timer! */
+5cf58530fa628b Ivan Orlov 2024-07-26  70  		ioctl(*fd, SNDRV_TIMER_IOCTL_TRIGGER, NULL);
+5cf58530fa628b Ivan Orlov 2024-07-26  71  		sleep(TIMER_FREQ_SEC);
+5cf58530fa628b Ivan Orlov 2024-07-26  72  	}
+5cf58530fa628b Ivan Orlov 2024-07-26 @73  }
+5cf58530fa628b Ivan Orlov 2024-07-26  74  
 
 -- 
 0-DAY CI Kernel Test Service
