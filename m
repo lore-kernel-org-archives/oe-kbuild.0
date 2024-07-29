@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA681154C0A
-	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jul 2024 15:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D26158D6A
+	for <oe-kbuild@lists.linux.dev>; Mon, 29 Jul 2024 15:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722266275; cv=none; b=aLK+uveVllIPo0jUIWNQu5L+w0cOcaIEwCCmhOcqQnlzGk0TJs6D8QQtB2FyLqNOhXwS06NaKdBwl1w2eqJAaKKz119P3jNN3jkT3AIDZMipDvu2/0FgaE2gW+PvxRPeoW1jBXfDteOrj/H3c7EU9qtHzMqPPX/1mX4iYcqZeAo=
+	t=1722266911; cv=none; b=KVRXUie3w1vKWzEsvFk7psaZRMILuH2awHWBGKb9p6433D/If54Gd2WcPFbMp7JM9AcXZyXpAxirQIxXacrcf1wiytCJnHVFL+3RLUSc0hjdQR9krzpuwRuS/LsWHA2Sp4FpEMRDlkQnr3bI6kAj9So8PQVIy5o5n11ZVuWXmPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722266275; c=relaxed/simple;
-	bh=X6NYJ8qt9PlsRlziKFIoreMyoBb7CAyGT1ymoVLe04U=;
+	s=arc-20240116; t=1722266911; c=relaxed/simple;
+	bh=2VdueXarTxYaEFkEX0WeN1UrxcchMky9c16EYjnuL+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IXez+unpWX5DRDqzNuWbESSt2N0Dh7KGewrHUIXKDzbWmNuhajBvI7M94H4Jt0eDFLtK4R2jkx0AzuFQA8sH2IXyZQFnG92pirYzk8l+TsHGx4ZLEfJz6I2EADOuLCl1qI8H2szKfofVy6LgS8g3fpOnkbhHoapGk9YbJgwqoj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTfQhgS8; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=MIyBHND5ICchILRQrO2Z2+q3zcqKgSnm3+z/SnjWduEja+SYEIToo1km7OKv5xZk+wb4z8wXM+svFcmW0F+ryzbNVC2PeIbLg/IqRdzB9DFU3W/TmBTh4OcRpsKMLJv0YgeW16wc5C77bdctk/Yexr+XOyw5/C2arEO9fbcWxWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YnHzPbS5; arc=none smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTfQhgS8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722266274; x=1753802274;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X6NYJ8qt9PlsRlziKFIoreMyoBb7CAyGT1ymoVLe04U=;
-  b=aTfQhgS8JL/EJ5D0ITMvGKb7dq3bAGZz6qXBSiO9nxEaw6T6C3nlEMlr
-   lWcvCk0cipYmEdm9CYPPW05aOXhZl6cwaC3RJYB3USZm5UGzYhMoZiBlu
-   RxbUiyw69h4pRBWZUBGunwoDV/Fi6p/pCc0fd/V5qQUiwOx396xy05sLG
-   bFvYqyRQdNaNlW7mK3Nuq8hBtrWsfRYKnbKe2hdr8BFCfkcKdnTmzcA8T
-   zZ53YE5EvAcU4FwjRruo0ZFStbKPNnSV8j91JVJRACe7MPXVtLn4LaDXj
-   6OgfB9Z1gpxn3/nMNKvmHp+3/y1zBTWPpoN/4D8ipk7Hopgyjr3A2eSTU
-   w==;
-X-CSE-ConnectionGUID: n+469CR+Qzuu6P/QYuLccQ==
-X-CSE-MsgGUID: 1i6LDLqyQbG0szD9dOh1ww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="37535649"
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="37535649"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 08:17:53 -0700
-X-CSE-ConnectionGUID: pugUzVoST3aKI25/bvE0WA==
-X-CSE-MsgGUID: nUl9MO6/Rh6VVCcc8nijsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,246,1716274800"; 
-   d="scan'208";a="84648480"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Jul 2024 08:17:51 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sYS8D-000rnx-0o;
-	Mon, 29 Jul 2024 15:17:49 +0000
-Date: Mon, 29 Jul 2024 23:17:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [jic23-iio:testing 81/170] drivers/iio/accel/adxl380.c:1763:8-33:
- WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT
- (unless it is nested IRQ)
-Message-ID: <202407292305.jhqtAUOj-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YnHzPbS5"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5d5af7ae388so1628900eaf.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 29 Jul 2024 08:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722266908; x=1722871708; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
+        b=YnHzPbS5FbVAkk3nJZSUfJh0CjwaMWgIOtuKxMu3SSGc5RtiMT/s/PxW4mibxFhoke
+         aDd060cdMFWbrefjdWQSq8w1CcjlYiUEBdko6RgJkh4a5+A6US0a+4cZbl8izXXvDjG8
+         LM7zgRKqfkbLjLEYpXYK/kUejs/3u4cTddBd5+T61vxHHmnbriIt7vHnOePaImIzQWFz
+         DwrjOIPUyGlKeaLUy8IA71+Xn91zuKeLcjGdx+hj7YIDn0s3jV4ifvlWc4A8w8R26ZPx
+         DgpTd7doy2F8OFdFxATgsGOc6jH6SCEO94W+L13ciYaoY4QvA3r5SxOv1pOQtsb08YCp
+         fpEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722266908; x=1722871708;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5qOQyuNMTZUfyqAbsLwySAm5kqczSgpJeWoIZn9UUJg=;
+        b=jobSVEevkXFbnR5ytEAzzBq7i506UvjYf/RLP4Y7M1RQqLvclUa2QPEvY+mqLdWV59
+         mM4ZM+cBsnMSRu3UiaV3tF69oRfdVWnJCSHlk54LRh6D19LHjpLZ5twqunqH8LezJTcM
+         w85fEtJhZdlWQ0CZPwrsuSlikF75I4FDaa23y/hsGN6kRn9+14v2hPpaw/ywzdB3BaHn
+         6SdDMwyMRliMhDVt/onIvBBDpcICPtkFuW8oXm4hrIKpXxVw4el1d+F2mS3mSNVSyvg6
+         sWkTvtwELdXCJlPQtLGSOW4gocro+wyuWmO4hvWJgocULJvR7sH8lZHcd5GH6YpgVLLY
+         UM7Q==
+X-Gm-Message-State: AOJu0Yya2A69POT+18L8Y5d4WkQQA8ICtlh9mr2DNqGRQke9RW2tJxVE
+	g3Ib09bC+lpIn8MPX1EvtFwNITp+FCs44qsMsdgXf3q7Bv1rH1RWb23sm4hSb6QbNmectdz3dQ5
+	FqQA=
+X-Google-Smtp-Source: AGHT+IFgMh59C0XIlRKMyr8wkfMpGdx8PqeQNsD/YBhsvAs4P5UXJrO02yYCLrR7pKKTwqKAlx2f4Q==
+X-Received: by 2002:a05:6870:d1ca:b0:254:a218:89e6 with SMTP id 586e51a60fabf-267d67046e1mr3886279fac.23.1722266908048;
+        Mon, 29 Jul 2024 08:28:28 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7093050a3d0sm2136596a34.14.2024.07.29.08.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jul 2024 08:28:27 -0700 (PDT)
+Date: Mon, 29 Jul 2024 10:28:21 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, wangshuaijie@awinic.com, jic23@kernel.org,
+	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, waqar.hameed@axis.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, wangshuaijie@awinic.com,
+	liweilei@awinic.com, kangjiajun@awinic.com
+Subject: Re: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x
+ proximity sensor
+Message-ID: <7227ddbf-a851-4997-83ba-b8f8c0fcc722@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,84 +71,60 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240726061312.1371450-3-wangshuaijie@awinic.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Ramona Gradinariu <ramona.gradinariu@analog.com>
+Hi,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   2ef3f47cfc51f2629d4587814f4c8adcf26e6853
-commit: c8f527ed6f92011d4f2891ed11e9d0819c30aae6 [81/170] iio: accel: add ADXL380 driver
-:::::: branch date: 26 hours ago
-:::::: commit date: 2 days ago
-config: alpha-randconfig-r063-20240729 (https://download.01.org/0day-ci/archive/20240729/202407292305.jhqtAUOj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wangshuaijie-awinic-com/dt-bindings-iio-aw9610x-Add-bindings-for-aw9610x-sensor/20240726-141450
+base:   1722389b0d863056d78287a120a1d6cadb8d4f7b
+patch link:    https://lore.kernel.org/r/20240726061312.1371450-3-wangshuaijie%40awinic.com
+patch subject: [PATCH V5 2/2] iio: proximity: aw9610x: Add support for aw9610x proximity sensor
+config: x86_64-randconfig-r071-20240728 (https://download.01.org/0day-ci/archive/20240728/202407282339.D0ICTGHF-lkp@intel.com/config)
+compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202407292305.jhqtAUOj-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202407282339.D0ICTGHF-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/accel/adxl380.c:1763:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+smatch warnings:
+drivers/iio/proximity/aw9610x.c:575 aw9610x_read_chipid() error: uninitialized symbol 'reg_val'.
 
-vim +1763 drivers/iio/accel/adxl380.c
+vim +/reg_val +575 drivers/iio/proximity/aw9610x.c
 
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1717  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1718  static int adxl380_config_irq(struct iio_dev *indio_dev)
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1719  {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1720  	struct adxl380_state *st = iio_priv(indio_dev);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1721  	unsigned long irq_flag;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1722  	struct irq_data *desc;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1723  	u32 irq_type;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1724  	u8 polarity;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1725  	int ret;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1726  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1727  	st->irq = fwnode_irq_get_byname(dev_fwnode(st->dev), "INT0");
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1728  	if (st->irq > 0) {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1729  		st->int_map[0] = ADXL380_INT0_MAP0_REG;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1730  		st->int_map[1] = ADXL380_INT0_MAP1_REG;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1731  	} else {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1732  		st->irq = fwnode_irq_get_byname(dev_fwnode(st->dev), "INT1");
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1733  		if (st->irq > 0)
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1734  			return dev_err_probe(st->dev, -ENODEV,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1735  					     "no interrupt name specified");
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1736  		st->int_map[0] = ADXL380_INT1_MAP0_REG;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1737  		st->int_map[1] = ADXL380_INT1_MAP1_REG;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1738  	}
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1739  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1740  	desc = irq_get_irq_data(st->irq);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1741  	if (!desc)
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1742  		return dev_err_probe(st->dev, -EINVAL, "Could not find IRQ %d\n", st->irq);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1743  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1744  	irq_type = irqd_get_trigger_type(desc);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1745  	if (irq_type == IRQ_TYPE_LEVEL_HIGH) {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1746  		polarity = 0;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1747  		irq_flag = IRQF_TRIGGER_HIGH | IRQF_ONESHOT;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1748  	} else if (irq_type == IRQ_TYPE_LEVEL_LOW) {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1749  		polarity = 1;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1750  		irq_flag = IRQF_TRIGGER_LOW | IRQF_ONESHOT;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1751  	} else {
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1752  		return dev_err_probe(st->dev, -EINVAL,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1753  				     "Invalid interrupt 0x%x. Only level interrupts supported\n",
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1754  				     irq_type);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1755  	}
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1756  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1757  	ret = regmap_update_bits(st->regmap, ADXL380_INT0_REG,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1758  				 ADXL380_INT0_POL_MSK,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1759  				 FIELD_PREP(ADXL380_INT0_POL_MSK, polarity));
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1760  	if (ret)
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1761  		return ret;
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1762  
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08 @1763  	return devm_request_threaded_irq(st->dev, st->irq, NULL,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1764  					 adxl380_irq_handler, irq_flag,
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1765  					 indio_dev->name, indio_dev);
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1766  }
-c8f527ed6f9201 Antoniu Miclaus 2024-07-08  1767  
+1e0a5bf0d81329 shuaijie wang 2024-07-26  558  static int aw9610x_read_chipid(struct aw9610x *aw9610x)
+1e0a5bf0d81329 shuaijie wang 2024-07-26  559  {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  560  	unsigned char cnt = 0;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  561  	u32 reg_val;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  562  	int ret;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  563  
+1e0a5bf0d81329 shuaijie wang 2024-07-26  564  	while (cnt < AW_READ_CHIPID_RETRIES) {
+
+if cnt == AW_READ_CHIPID_RETRIES then reg_value is uninitialized
+
+1e0a5bf0d81329 shuaijie wang 2024-07-26  565  		ret = aw9610x_i2c_read(aw9610x, REG_CHIPID, &reg_val);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  566  		if (ret < 0) {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  567  			cnt++;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  568  			usleep_range(2000, 3000);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  569  		} else {
+1e0a5bf0d81329 shuaijie wang 2024-07-26  570  			reg_val = FIELD_GET(AW9610X_CHIPID_MASK, reg_val);
+1e0a5bf0d81329 shuaijie wang 2024-07-26  571  			break;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  572  		}
+1e0a5bf0d81329 shuaijie wang 2024-07-26  573  	}
+1e0a5bf0d81329 shuaijie wang 2024-07-26  574  
+1e0a5bf0d81329 shuaijie wang 2024-07-26 @575  	if (reg_val == AW9610X_CHIP_ID)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+It's harmless but the checker is correct to warn
+
+1e0a5bf0d81329 shuaijie wang 2024-07-26  576  		return 0;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  577  
+1e0a5bf0d81329 shuaijie wang 2024-07-26  578  	return -EINVAL;
+1e0a5bf0d81329 shuaijie wang 2024-07-26  579  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
