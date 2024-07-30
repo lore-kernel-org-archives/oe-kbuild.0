@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E381A76B2
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 17:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F0F1A76CA
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 18:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722359936; cv=none; b=BqiFA413N0oRCK+rmJgBhoAt7pjJC0zpQEKa55+E1a1H2CuyYmRSHHyiv6NcdJNh5PDbZae36PHInnVulQUswxPhYgDvEGyI9375/mMsR9cQMq7lo+GfuFJ+s5sx5bRien1KdSzQGJ4rHMDEd+DyMef6nlqC07p+J+K+aZoKu/I=
+	t=1722363237; cv=none; b=ZMQ1loBeY28vUuwtVBCwnc/YPMITJMOeqmVSrWbZgIWHnJ4x79OC/Y82bUB5XZQjHUe7XcF4be1vyCNdM+pT5+P8PoommUjC8Rk7ukIhHLYEea+JoNAImyiJAJgdO6IzwOYIAy3WF4dmxAHRcakjsteUvcQlLZZR0t1kCHxVZx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722359936; c=relaxed/simple;
-	bh=nAtEJ43YpDsZPrEHTXsqtRm3KAsQYitcYY2CCr62GKE=;
+	s=arc-20240116; t=1722363237; c=relaxed/simple;
+	bh=CBVNOl0clPxgI7z1gd7CNYhpmokVs8Avrwi252ltMuc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bOGH4jydBOWOJ/G2s6YOHEi843oBHttw5tzxtT7R9HPF5Mmsoai6c/5LFdCGNhlb/oLU2mGRS7pF8ncnIU/hnS0VVRKn4gwPYDM0wa5E2lfLGOp2OMtg0+tpB66IH1M+vFFeQQy6PvckZl/LtyCOQ5gSiMbvoZXU9v1+zUAXTbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsQLrc1L; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=gPZ4BpFT3Kn4/GfmjQS4PzdD2Hfj1T710ipNDpqAmrRulPJUS/QkgzTjHB89wrjdbzpQXw2EhD/ayJUHMcngNWFLeR6nw0jcUMPPERB44Qdwc1lKsixwDQo1c4HIP33gfbKmn7CD7TDXY6wpeXKAgtt+h0PJ4rBvwi3XRBQNtIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leGrVr0r; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsQLrc1L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leGrVr0r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722359935; x=1753895935;
+  t=1722363235; x=1753899235;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nAtEJ43YpDsZPrEHTXsqtRm3KAsQYitcYY2CCr62GKE=;
-  b=JsQLrc1LcjhMatUDQhx5iSaZUKcVl7YMuUuLL+4Nu2el4gagTh9euw7E
-   LVXnyXdggh+R022QsMjWzMLsE/IRmRcRwABYWpOsfXCiy73aB+Rk3sCMj
-   kklvUBPOUWB6c/WBCu5wmAmpRWXYLheIHQP/Ur8M8EHhJWGNfDr5OcpKH
-   RNoSZiHopZ1dM9gav78eipXFCC5Y2wMLKIKc1/sciuWQt7KcmDdu9BfZL
-   ENwmjL5GXzXELE9szEs7NVEvwCzZWb/sVUYD2rR/PkLHD/iTAe7gLCtXe
-   DAx7Cw8v52ENnxqQrjdqLctQGAkBGQ6tccD43bihuh3S4yknciavIKO2K
+  bh=CBVNOl0clPxgI7z1gd7CNYhpmokVs8Avrwi252ltMuc=;
+  b=leGrVr0rTOlgC2UsbT0i1PVxFdNVQpnxFXtle4mK8Sci8yrafJ3fum5e
+   uOxONM1crgBm7nyq8Z0CydeC7RVxoVJML7yBPLiXp2EnWlkKhAtewvIZQ
+   xNgxtv3l2kkDlwX4PRXw8q8WZAoCpGoCsa6zrtDnJqMBQo3osmq2vxjdi
+   BUuMtuHWsLZ6pYI4K2CrMV80wQU2w9HggVEHDXEqJPEexrgx1HasPSxpD
+   TxTgNRItU1uo07FNyeTn3NYtlKcOOU8cAZQYeYn5YHCLyXPsv+2NS7s18
+   cf+TPCwZl07fsL4x33S4MkFLwlz4/wMPPS90VXe9eLbfSEQE+J1foy0qK
    Q==;
-X-CSE-ConnectionGUID: br0MQR5pTcmvnR/sVsLAFg==
-X-CSE-MsgGUID: RmvY6KP5S8+uilmZJqFqig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="20333760"
+X-CSE-ConnectionGUID: hN9lFf3ZSgyByGJPzI6XoA==
+X-CSE-MsgGUID: 0ujzrGsbTZWXk8OEJLJZxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="30869463"
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="20333760"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 10:18:54 -0700
-X-CSE-ConnectionGUID: oUnyyRBHRlGr8AuIQH1r7w==
-X-CSE-MsgGUID: +Xh2EKtKTta2FpKf3o4Myg==
+   d="scan'208";a="30869463"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 11:13:55 -0700
+X-CSE-ConnectionGUID: peyQBthXRTSeYRjDlW0jKw==
+X-CSE-MsgGUID: aslf/ljSRsiWEINCNJ0sPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="55006600"
+   d="scan'208";a="59498711"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Jul 2024 10:18:52 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Jul 2024 11:13:54 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYqUr-000tA8-29;
-	Tue, 30 Jul 2024 17:18:49 +0000
-Date: Wed, 31 Jul 2024 01:18:21 +0800
+	id 1sYrM7-000tEC-2E;
+	Tue, 30 Jul 2024 18:13:51 +0000
+Date: Wed, 31 Jul 2024 02:13:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:6.9-main 37/58]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000:
- compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci',
- 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci',
- 'mediatek,mt7629-xhci', 'mediatek,m...
-Message-ID: <202407310103.nj1yCQwI-lkp@intel.com>
+Subject: [kdave-btrfs-devel:misc-next 32/73] fs/btrfs/extent_io.o: warning:
+ objtool: submit_extent_folio+0x68: unreachable instruction
+Message-ID: <202407310201.0v9T2ivk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,72 +63,47 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.9-main
-head:   959c1ad797a5a85d12c6f551250af0a137f9f248
-commit: d7acb897a81fb93e2c143d15e356a4ef82148c68 [37/58] dts: arm64: mediatek: add MT7988A reference board device tree
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 months ago
-config: arm64-randconfig-051-20240730 (https://download.01.org/0day-ci/archive/20240731/202407310103.nj1yCQwI-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project ccae7b461be339e717d02f99ac857cf0bc7d17fc)
-dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310103.nj1yCQwI-lkp@intel.com/reproduce)
+tree:   https://github.com/kdave/btrfs-devel.git misc-next
+head:   986ec0b4635da5c76d8b8b3b8a5c9f4b09fbab60
+commit: bf5c7b8be44b14b357a380a97b4720d54ae9dec5 [32/73] btrfs: convert submit_extent_page to use a folio
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240731/202407310201.0v9T2ivk-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310201.0v9T2ivk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407310103.nj1yCQwI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407310201.0v9T2ivk-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: spi@11009000: clock-names:3: 'hclk' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11009000: failed to match any schema with compatible: ['mediatek,ipm-spi-quad', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:3: 'dma_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: clock-names:4: 'xhci_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: usb@11190000: #address-cells: 1 was expected
---
-   	'mediatek,mt2712-spi' was expected
-   	'mediatek,mt6765-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: spi@11009000: clock-names:3: 'hclk' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: /soc/spi@11009000: failed to match any schema with compatible: ['mediatek,ipm-spi-quad', 'mediatek,spi-ipm']
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: compatible:0: 'mediatek,mt7988-xhci' is not one of ['mediatek,mt2701-xhci', 'mediatek,mt2712-xhci', 'mediatek,mt7622-xhci', 'mediatek,mt7623-xhci', 'mediatek,mt7629-xhci', 'mediatek,mt7986-xhci', 'mediatek,mt8173-xhci', 'mediatek,mt8183-xhci', 'mediatek,mt8186-xhci', 'mediatek,mt8188-xhci', 'mediatek,mt8192-xhci', 'mediatek,mt8195-xhci', 'mediatek,mt8365-xhci']
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:1: 'ref_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:2: 'mcu_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:3: 'dma_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: clock-names:4: 'xhci_ck' was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-rfb.dtb: usb@11190000: #address-cells: 1 was expected
+All warnings (new ones prefixed by >>):
+
+   fs/btrfs/extent_io.o: warning: objtool: btree_clear_folio_dirty+0x44: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: assert_eb_folio_uptodate+0x48: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: find_lock_delalloc_range+0x90: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: detach_extent_buffer_folio+0x90: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: end_bbio_data_write+0x78: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: attach_eb_folio_to_filemap+0x64: unreachable instruction
+>> fs/btrfs/extent_io.o: warning: objtool: submit_extent_folio+0x68: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: __extent_writepage_io+0x8c: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: end_bbio_data_read+0x70: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: btrfs_do_readpage+0x128: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: extent_write_locked_range+0xec: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x78: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: alloc_extent_buffer+0x1f8: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: write_one_eb+0x22c: unreachable instruction
+
+
+objdump-func vmlinux.o submit_extent_folio:
 
 -- 
 0-DAY CI Kernel Test Service
