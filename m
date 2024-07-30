@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F0F1A76CA
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 18:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7A41AA3DF
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 19:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722363237; cv=none; b=ZMQ1loBeY28vUuwtVBCwnc/YPMITJMOeqmVSrWbZgIWHnJ4x79OC/Y82bUB5XZQjHUe7XcF4be1vyCNdM+pT5+P8PoommUjC8Rk7ukIhHLYEea+JoNAImyiJAJgdO6IzwOYIAy3WF4dmxAHRcakjsteUvcQlLZZR0t1kCHxVZx4=
+	t=1722367859; cv=none; b=rlahhOa1BXoWSlopXksavfMURhEwFb2Ux4/7VSZnVrDB5CJX2rSKTMzRQxWFpADSz+JnH6OcDrUCBxrukrE4w1VJpTEGvhou1YnzSzA+XCkPUCKWdYaYzJI1hNd352ZAeIyQJK0I1hUyjBmFb/qVFA8015aA7PZGfR5RWUH70E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722363237; c=relaxed/simple;
-	bh=CBVNOl0clPxgI7z1gd7CNYhpmokVs8Avrwi252ltMuc=;
+	s=arc-20240116; t=1722367859; c=relaxed/simple;
+	bh=LZue/KfhUgzB7+PM9X1ls/G0pc+Na4M3v2IRROZlv24=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gPZ4BpFT3Kn4/GfmjQS4PzdD2Hfj1T710ipNDpqAmrRulPJUS/QkgzTjHB89wrjdbzpQXw2EhD/ayJUHMcngNWFLeR6nw0jcUMPPERB44Qdwc1lKsixwDQo1c4HIP33gfbKmn7CD7TDXY6wpeXKAgtt+h0PJ4rBvwi3XRBQNtIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=leGrVr0r; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=hj5M+XrSoPGn7lrOK7dh+djoXdwqcgbzO3DDskpB/yrkpe7I7apRPCYZvg6OBylwXm8KJt0koXNlYjoFOj5REuaW0catJ4CLnfY68wCxaqe0VoPgAbrln4KRLjtN3gepKuzBT8zMGvMnJyKqu3ciVURiVETVmibAzBwIFpgMQo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSfviGDv; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="leGrVr0r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSfviGDv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722363235; x=1753899235;
+  t=1722367857; x=1753903857;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CBVNOl0clPxgI7z1gd7CNYhpmokVs8Avrwi252ltMuc=;
-  b=leGrVr0rTOlgC2UsbT0i1PVxFdNVQpnxFXtle4mK8Sci8yrafJ3fum5e
-   uOxONM1crgBm7nyq8Z0CydeC7RVxoVJML7yBPLiXp2EnWlkKhAtewvIZQ
-   xNgxtv3l2kkDlwX4PRXw8q8WZAoCpGoCsa6zrtDnJqMBQo3osmq2vxjdi
-   BUuMtuHWsLZ6pYI4K2CrMV80wQU2w9HggVEHDXEqJPEexrgx1HasPSxpD
-   TxTgNRItU1uo07FNyeTn3NYtlKcOOU8cAZQYeYn5YHCLyXPsv+2NS7s18
-   cf+TPCwZl07fsL4x33S4MkFLwlz4/wMPPS90VXe9eLbfSEQE+J1foy0qK
-   Q==;
-X-CSE-ConnectionGUID: hN9lFf3ZSgyByGJPzI6XoA==
-X-CSE-MsgGUID: 0ujzrGsbTZWXk8OEJLJZxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="30869463"
+  bh=LZue/KfhUgzB7+PM9X1ls/G0pc+Na4M3v2IRROZlv24=;
+  b=CSfviGDvNVAkLSt3WI5LymbpErsAaCvt6T+5/FiztkRKsI5fURtOjUX0
+   FFT9IdjIRJxyfVbWjwfHcrrhGpRDgidCU0u8QZf7oVBgVNd971QskQO68
+   dZw3CTOArulwVKsMjXiAq6L0Jb7N+a888sDnZe75A6AM85DNf8jFAO3DI
+   sQKGtF6bpOLWA02sSbSGNTvEDi44PiP3yoL8UNOVc4OdAfdTnxRqrHWC+
+   uKwQzJIgPD9nQ8T+M5xt2xo1+18Vnf+wxIoX2rx3JQAqy5zglfEowMDI2
+   uDSvNtbAi9fTkD9LYMvcrpjhXZ31DvNz7R3PRvtdgveZI/t3u7dDb7olU
+   g==;
+X-CSE-ConnectionGUID: QBg8/FLVSAuoFnbxZWjAPQ==
+X-CSE-MsgGUID: IXhiRRspS+SCbEit5JzEFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11149"; a="30836602"
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="30869463"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 11:13:55 -0700
-X-CSE-ConnectionGUID: peyQBthXRTSeYRjDlW0jKw==
-X-CSE-MsgGUID: aslf/ljSRsiWEINCNJ0sPQ==
+   d="scan'208";a="30836602"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2024 12:30:57 -0700
+X-CSE-ConnectionGUID: s5hZa4AaTvKh1qN621Uq7Q==
+X-CSE-MsgGUID: qSxUhlXkSBq4W6gApEd2Dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,248,1716274800"; 
-   d="scan'208";a="59498711"
+   d="scan'208";a="54121842"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jul 2024 11:13:54 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Jul 2024 12:30:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYrM7-000tEC-2E;
-	Tue, 30 Jul 2024 18:13:51 +0000
-Date: Wed, 31 Jul 2024 02:13:03 +0800
+	id 1sYsYf-000tGw-1k;
+	Tue, 30 Jul 2024 19:30:53 +0000
+Date: Wed, 31 Jul 2024 03:30:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [kdave-btrfs-devel:misc-next 32/73] fs/btrfs/extent_io.o: warning:
- objtool: submit_extent_folio+0x68: unreachable instruction
-Message-ID: <202407310201.0v9T2ivk-lkp@intel.com>
+Subject: mm/kfence/core.o: warning: objtool: kfence_init_pool+0x230:
+ unreachable instruction
+Message-ID: <202407310358.q2lBcGvR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,42 +68,32 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Josef Bacik <josef@toxicpanda.com>
-CC: David Sterba <dsterba@suse.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/kdave/btrfs-devel.git misc-next
-head:   986ec0b4635da5c76d8b8b3b8a5c9f4b09fbab60
-commit: bf5c7b8be44b14b357a380a97b4720d54ae9dec5 [32/73] btrfs: convert submit_extent_page to use a folio
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240731/202407310201.0v9T2ivk-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   94ede2a3e9135764736221c080ac7c0ad993dc2d
+commit: 46df8e73a4a3f1445f2a8429111e72ede1f4d291 mm: free up PG_slab
+date:   3 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 months ago
+config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240731/202407310358.q2lBcGvR-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310201.0v9T2ivk-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240731/202407310358.q2lBcGvR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407310201.0v9T2ivk-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407310358.q2lBcGvR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/btrfs/extent_io.o: warning: objtool: btree_clear_folio_dirty+0x44: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: assert_eb_folio_uptodate+0x48: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: find_lock_delalloc_range+0x90: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: detach_extent_buffer_folio+0x90: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: end_bbio_data_write+0x78: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: attach_eb_folio_to_filemap+0x64: unreachable instruction
->> fs/btrfs/extent_io.o: warning: objtool: submit_extent_folio+0x68: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: __extent_writepage_io+0x8c: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: end_bbio_data_read+0x70: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: btrfs_do_readpage+0x128: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: extent_write_locked_range+0xec: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x78: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: alloc_extent_buffer+0x1f8: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: write_one_eb+0x22c: unreachable instruction
+>> mm/kfence/core.o: warning: objtool: kfence_init_pool+0x230: unreachable instruction
 
 
-objdump-func vmlinux.o submit_extent_folio:
+objdump-func vmlinux.o kfence_init_pool:
 
 -- 
 0-DAY CI Kernel Test Service
