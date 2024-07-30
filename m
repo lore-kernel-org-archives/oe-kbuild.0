@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9765323D
-	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 00:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037D928EB
+	for <oe-kbuild@lists.linux.dev>; Tue, 30 Jul 2024 01:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722301157; cv=none; b=ggTM4NJ7VlitpzUP4rmxeuKUHFl2B9BuKtV2Jhrfjoxn+U881oL5XX0CHS/Ekuhc+6QbJTUkB5HaWuB8lt9ESmRu48PlFpazaJMdav5enefWRrdmVdjxEZ1ZJCZwHBuPpeEuxZzL3eaZREsVdGzM3NXjemC6gD1/BWpKVQCoP68=
+	t=1722302595; cv=none; b=TkyGUZyTh4W217BctWT1MPQEh126Saa+ZiNmUPSeVExh0lLrcLLCNbFGer9RDZQYmOpYFIDl59mI8y+551Zea3ixl8FafMEqw6DllqQaEnWlbmcmYI7AOWK/Pxq2BSODSv02TACjSbgIQ5H9TSypT2zS/8qwqN//gi0oT+QIFLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722301157; c=relaxed/simple;
-	bh=2cEoWWUYU3p9pn5weqchCJlLTPsJIpajuTSde9sfM6s=;
+	s=arc-20240116; t=1722302595; c=relaxed/simple;
+	bh=GabztT3Nps6G4Hdja95xZM0TC7sSv9ngCTnPIvi0VZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fPEKlGczC4AKV/OJgcVpLVUyCX6ngRrHtp2oH9AfG6lx2uc/ziJosdk/AbyJDPqLEvFPJOgSRFh/OLk81WwPGC0hqEvfwmRa2HCtWBiJBMY1J4yJtIgUu+Z3FORlTjgF3cGHdlqiZdiYQvHcbos7KZf0ZQ2oUEABytqDLe62IjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gfb/TCnk; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=h4yCLwLR468VkyL7bMB8EYu2vM9yRuJ90lXMRWOdJiB/kzin9P6GSfRAjgo3VG8yoNIKSvkK8qCHlP0IyNaFPuoAjAB6Y8B7lz3Q0ZsD/dsNctKskXmW+1jkHVY//sOsPTF4U3zuNLCKjfqcFFgJ89ziLJiR+Y93lHgYD/Yn84o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EO/XHJT9; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gfb/TCnk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EO/XHJT9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722301155; x=1753837155;
+  t=1722302594; x=1753838594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2cEoWWUYU3p9pn5weqchCJlLTPsJIpajuTSde9sfM6s=;
-  b=Gfb/TCnkx6sJ7tYCMPi8STJfMjRKi5m4C0+XqOgnsMI2d/OxwfwCrq/J
-   MdA9EFMnYvwRrCE3FxQXXYG+P/8pLsL4TRnWKyk6XpeVQ6zeY2BikWgRf
-   0FvUKpj1hLhgMm9pgKIorjL/8EKov9dN2ULSIuR0pPFXvG4ccujwp51so
-   UuNqf2ti9oBVSFDbJb90SbzRHgp+8Ym2S3dbAiAm2ca/RxkfOCMw7lwKa
-   qPiQypm6ePhkV33kbdVnOAd4jr7TkjK0Zk6sHKIask07P3g1tSrYlqvQk
-   jmec7ygEeEqYTIZJ9WAchaTq/g6g9vSKI3Cza+87XH+j3BRi5hWgTC+bn
-   w==;
-X-CSE-ConnectionGUID: 9K9+hSMNT7efSfs1YWZPcQ==
-X-CSE-MsgGUID: 55jnPZVaRDSpP+Jpm3UhYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="20041201"
+  bh=GabztT3Nps6G4Hdja95xZM0TC7sSv9ngCTnPIvi0VZU=;
+  b=EO/XHJT9K7M9WMwbX/EGEtB5hLT6Gk2n8ILK0aQ+aKvWOm5gHR/yjOjX
+   vDvvV0N9ivOHD+oScE4w+X7XiGFAFA3iVpAx+F5SI+RMK6+epWdl0i/72
+   D2wklFbmiC47WY44YZznl1UGDRcJORJeBUc6RwvCdXGWJ77QADdUXBgA1
+   TQ7SFNDkJInOdnssS1RieyMw13QyvBrfhNuAPHB3TKVYlh6+AtA0Lu5KQ
+   zVqcFR+B2TJUbsyOc75QCvtvm+UZQ0bYjleESHe/iL8vQuawcXn6LnzoM
+   mGynkcx+2lKrRKBWimKY9GeCziZnRw+qc3CtBtlM3PfSU0wesuKpUe/Ed
+   A==;
+X-CSE-ConnectionGUID: v4XI9i7VTiOOkULTAO3NNw==
+X-CSE-MsgGUID: orXDDXZaSXeU0B+tDsZW8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11148"; a="19977201"
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="20041201"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 17:59:14 -0700
-X-CSE-ConnectionGUID: +BYY/glvTHquZYiomemWEg==
-X-CSE-MsgGUID: CORjSZswSZyfL5gcUFRbZQ==
+   d="scan'208";a="19977201"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2024 18:23:13 -0700
+X-CSE-ConnectionGUID: 9mL1csajR4eIQz9+J5ZHBw==
+X-CSE-MsgGUID: 7qHjGVsISZCczpbbzWZYgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,247,1716274800"; 
-   d="scan'208";a="53878944"
+   d="scan'208";a="58771695"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Jul 2024 17:59:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Jul 2024 18:23:12 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sYbCo-000sHN-0H;
-	Tue, 30 Jul 2024 00:59:10 +0000
-Date: Tue, 30 Jul 2024 08:58:59 +0800
+	id 1sYba2-000sIE-28;
+	Tue, 30 Jul 2024 01:23:10 +0000
+Date: Tue, 30 Jul 2024 09:22:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 1/4] gfs2: Add gfs2_aspace_writepages()
-Message-ID: <202407300812.srUJVVIN-lkp@intel.com>
+Subject: fs/netfs/write_issue.o: warning: objtool:
+ netfs_kill_dirty_pages+0x74: unreachable instruction
+Message-ID: <202407300959.sk7NwIp2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,46 +68,33 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240719175105.788253-2-willy@infradead.org>
-References: <20240719175105.788253-2-willy@infradead.org>
-TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-TO: Andreas Gruenbacher <agruenba@redhat.com>
-CC: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: gfs2@lists.linux.dev
-CC: linux-fsdevel@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+TO: David Howells <dhowells@redhat.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
-Hi Matthew,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on gfs2/for-next]
-[also build test WARNING on linus/master v6.11-rc1 next-20240729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/gfs2-Add-gfs2_aspace_writepages/20240720-015406
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
-patch link:    https://lore.kernel.org/r/20240719175105.788253-2-willy%40infradead.org
-patch subject: [PATCH 1/4] gfs2: Add gfs2_aspace_writepages()
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300812.srUJVVIN-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6b5faec9f564ea627c66064a4a6a5904fe5a07dd
+commit: 288ace2f57c9d06dd2e42bd80d03747d879a4068 netfs: New writeback implementation
+date:   3 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 months ago
+config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240730/202407300959.sk7NwIp2-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300812.srUJVVIN-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240730/202407300959.sk7NwIp2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202407300812.srUJVVIN-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202407300959.sk7NwIp2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/gfs2/meta_io.o: warning: objtool: gfs2_meta_read_endio+0x70: unreachable instruction
->> fs/gfs2/meta_io.o: warning: objtool: gfs2_aspace_write_folio+0x6c: unreachable instruction
+>> fs/netfs/write_collect.o: warning: objtool: folio_detach_private.isra.0+0x44: unreachable instruction
+--
+>> fs/netfs/write_issue.o: warning: objtool: netfs_kill_dirty_pages+0x74: unreachable instruction
 
 
-objdump-func vmlinux.o gfs2_aspace_write_folio:
+objdump-func vmlinux.o netfs_kill_dirty_pages:
 
 -- 
 0-DAY CI Kernel Test Service
