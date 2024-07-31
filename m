@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4190638F83
-	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jul 2024 18:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F0E49625
+	for <oe-kbuild@lists.linux.dev>; Wed, 31 Jul 2024 23:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722450599; cv=none; b=i0b3XP3F2PUbk8ZVleqk3ZFNvggsb+kfqmzFcnS6UTQPS7757zcIrWCPZ1exkUP1YqqiWEzo0sUxh9CdS7JFg6mc6u5SgeKQrWu/PRIBZzUfrWtHvwVoyNY2tlm7AwDU8u36W3yIJLEsVyxrlvz9xUlp3my9kfhTEuTNHSzMOnE=
+	t=1722467289; cv=none; b=IkyeBk8fjiniyIXhRkTZ+yAmVhejZ4bJLSi00lNPVSfbCBe06XQ/1J8ArTs6pb41RanJ31nKfJG5hZ+awelX+UhJW/YfGq7cnioZSWnLHy9WougoQ3qlhlmTEAJ8pRf3AVXSffl3Q8EurFZl5ks8iL5J/f1FUU/wrG9L8rLOINE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722450599; c=relaxed/simple;
-	bh=q4a+tNBpmbPkc4xWtJwkWyfjBuxPUwE7R9gyxQgxJx0=;
+	s=arc-20240116; t=1722467289; c=relaxed/simple;
+	bh=+scYdNaWEKXzBjItFjqzBL+zX58FjeYKEIr7uZ1HPTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gRPY8toYtM++U9hLEeYfQz5NbQNO9D8u8FQaZOJ40wWBnFfbp3NyTdqAQ2qKx6L5EnvAxgMHhTZowZ3Ap3qyYBF6vsJ2QxiYVzcYrZhjlOGsbkCwK55QlVbWfwM8NIbgzxypvRYbZ5DV6/xaUvGZDCfj/pQaZz7xQod2IhTukuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emZHu+4e; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=oCRD1zdbY0cKzPm3upBD97CsB/FmB9/5ThygowEA/NHmIxVmjt12jSL9iCU1h9oFy8Ku64E0f+KMOGWWgoSxsPMwONoMWDxLXWdKzU0pXcghKo5d5AG/6MSBFF2oOQ4J9JEkAojFPlkW1Z5C44YbvJAiMgOdp/ZtBMjl1kYR7R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZsRQxiH; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emZHu+4e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZsRQxiH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722450597; x=1753986597;
+  t=1722467287; x=1754003287;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q4a+tNBpmbPkc4xWtJwkWyfjBuxPUwE7R9gyxQgxJx0=;
-  b=emZHu+4erfC6Uua+sQcimviHsofD2XxOwiwpNHO7hI1ppwqjv0IOnzPY
-   Hw3xTlwUXypolQ1TkqrprYiPQu1CcevgYM3plFHXXWzLHV9CKjLwCxcL3
-   jptJ3rEVFu5xxUJkPI7fn11EgSbp1pcA48K4QFxil/BHklOLf3bNrgmFa
-   Dyt9hcywJY7T/0PYwI5TUSopVIi/N2JlYRLyXHNhww4dNK5NkIxgKReFZ
-   ePSE9UnWRAfLTutZaX3tVSV/VkOmSRdr2sg4mqaQdBsYT01hQ2h+0i9OI
-   GKpM8W9QWPA3homOErHsJt+1JbMvhiafsbMpNnLG3TjwxaTRQ8gVgeV2C
-   Q==;
-X-CSE-ConnectionGUID: bcw1cX5hRoa8RloM90lZ0A==
-X-CSE-MsgGUID: C+8wijMzRUOXXnHIDkoqwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="30984056"
+  bh=+scYdNaWEKXzBjItFjqzBL+zX58FjeYKEIr7uZ1HPTE=;
+  b=RZsRQxiHQgpnmu8fNlFHaACtNhDSaFM89HL46AKJLbzVaKkzlNqNp5o3
+   jy2SkuLNFDrLOhHfov5+FnOGgBr4rFnRF2SzJYWdI/DUqrkwLzRLR2k2f
+   MKbulwXdd95QRTOpAlV2X3SmHsXdb9eV9TQ4nyfo1gSBKLXQ3ycK5IqAm
+   Oa88rNjRS8oMYyKOWWP3vkmzF4s+0i0Ck/cUG2Ij3PuwFwwxMg4qnstHb
+   IjZuJ6ueiGnAGKPChohPXAwd/w8jN218M1fj9gufxv6TtZiTpHLf4D8Zn
+   h77bIPffYDXx6rceodG7dJKaW1yS2zSkCMutqPfe3/jgWtVjJqUJgVJRd
+   A==;
+X-CSE-ConnectionGUID: JmpewTwrTW6EAPpfJdxLSg==
+X-CSE-MsgGUID: N8FiaZIQRsiNYbngBemX3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11150"; a="20228279"
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="30984056"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 11:29:57 -0700
-X-CSE-ConnectionGUID: orKwSaw7SReherfocHc6Pg==
-X-CSE-MsgGUID: paScBs65RhW2xZHY5pZfyA==
+   d="scan'208";a="20228279"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2024 16:08:06 -0700
+X-CSE-ConnectionGUID: R34EWfCwThOUgcH8CSRzoQ==
+X-CSE-MsgGUID: n7+TdYmHRcmcHG0bUPeEhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,251,1716274800"; 
-   d="scan'208";a="58908726"
+   d="scan'208";a="54527651"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Jul 2024 11:29:57 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 31 Jul 2024 16:08:03 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZE5B-000uhs-1t;
-	Wed, 31 Jul 2024 18:29:53 +0000
-Date: Thu, 1 Aug 2024 02:29:32 +0800
+	id 1sZIQL-000uuS-1U;
+	Wed, 31 Jul 2024 23:08:01 +0000
+Date: Thu, 1 Aug 2024 07:07:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [rockchip:v6.11-armsoc/dtsfixes 4/4]
- arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: pinctrl: gpios:
- {'bios-disable-override-hog-pin': {'rockchip,pins': [[3, 29, 0, 188]],
- 'phandle': 183}, 'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 187]],
- 'phandle': 182}} is not of type 'array'
-Message-ID: <202408010214.6AK5dSn9-lkp@intel.com>
+Subject: [mediatek:v6.11-next/dts64 10/11]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb:
+ pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton',
+ 'da7219_pins', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0',
+ 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'pp12...
+Message-ID: <202408010748.MVnmncJG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,39 +71,112 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-TO: Quentin Schulz <quentin.schulz@cherry.de>
-CC: Heiko Stuebner <heiko@sntech.de>
+TO: "Hsin-Te Yuan" <yuanhsinte@chromium.org>
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.11-armsoc/dtsfixes
-head:   741f5ba7ccba5d7ae796dd11c320e28045524771
-commit: 741f5ba7ccba5d7ae796dd11c320e28045524771 [4/4] arm64: dts: rockchip: override BIOS_DISABLE signal via GPIO hog on RK3399 Puma
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-randconfig-051-20240801 (https://download.01.org/0day-ci/archive/20240801/202408010214.6AK5dSn9-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mediatek/linux.git v6.11-next/dts64
+head:   ac90896833b52ff58c81727f57ed3cf9ffb9db86
+commit: 4ba6d1539fdd709ea8e8478c37b014e663cd6894 [10/11] arm64: dts: mt8183: Add kukui-jacuzzi-cerise series boards
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: arm64-randconfig-051-20240801 (https://download.01.org/0day-ci/archive/20240801/202408010748.MVnmncJG-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev4+g23441a4
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010214.6AK5dSn9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240801/202408010748.MVnmncJG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408010214.6AK5dSn9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408010748.MVnmncJG-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: fan@18: '#cooling-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
->> arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: pinctrl: gpios: {'bios-disable-override-hog-pin': {'rockchip,pins': [[3, 29, 0, 188]], 'phandle': 183}, 'q7-thermal-pin': {'rockchip,pins': [[0, 3, 0, 187]], 'phandle': 182}} is not of type 'array'
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-puma-haikou.dtb: /extcon-usb3: failed to match any schema with compatible: ['linux,extcon-usb-gpio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: trackpad-pins: 'trackpad-int' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: volume-button-pins: 'voldn-btn-odl', 'volup-btn-odl' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'da7219_pins', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: dsi@14014000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: trackpad-pins: 'trackpad-int' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: volume-button-pins: 'voldn-btn-odl', 'volup-btn-odl' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: dsi@14014000: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-cerise-rev3.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: trackpad-pins: 'trackpad-int' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: volume-button-pins: 'voldn-btn-odl', 'volup-btn-odl' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'da7219_pins', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern.dtb: dsi@14014000: 'port' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: trackpad-pins: 'trackpad-int' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: volume-button-pins: 'voldn-btn-odl', 'volup-btn-odl' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: pinctrl@10005000: 'audiopins', 'audiotdmoutoff', 'audiotdmouton', 'ec-ap-int-odl', 'gpio-line-names', 'h1-int-od-l', 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'i2c6', 'pp1200-mipibrdg-en', 'pp1800-lcd-en', 'ppvarn-lcd-en', 'ppvarp-lcd-en', 'pwm0-pin-default', 'scp', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5', 'ts3a227e_pins', 'vddio-mipibrdg-en' do not match any of the regexes: '-pins(-[a-z]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: touchscreen@10: 'reset-gpios' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: /soc/syscon@13000000: failed to match any schema with compatible: ['mediatek,mt8183-mfgcfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-stern-rev3.dtb: dsi@14014000: 'port' is a required property
 
 -- 
 0-DAY CI Kernel Test Service
