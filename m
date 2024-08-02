@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA0425632
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Aug 2024 19:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12DE1ABEAF
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Aug 2024 19:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722626957; cv=none; b=i9xTnhrnqFWGcVwmEDpbhdYja7IBTHZZ5D+TzEtNnkaCfJ6vPU602gUk6dXx2RoXJMfXwEAxhJTEECjpwK0Ws/S7+AFotjdEzHje1+4S4QyBCXQNLuNABwdby97Foiu6Pm81rQ5JGm9d4+eq7FHi0jQAl/xU+ual+DgipvSAXe4=
+	t=1722627388; cv=none; b=gEwWR6kM/dUBGT7ydEXJsJg7Jb8gXnJg07izQVcfpJWYh5JtV+MJ9Tx6k19efhabNrXj90BvhBrK1TVToFP25Pkkcd+dgzkSPx312R2WCNiSRr9Xwo6fpAeD+9rNKGFG+DWNjiWECpl/2sH/qMpYmQbyV5+ToNk70VXUd+GR7cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722626957; c=relaxed/simple;
-	bh=G8EPvTGIyIOEdQDwQeNpZ0TaFZcpfleu7Qu4Vin/8cA=;
+	s=arc-20240116; t=1722627388; c=relaxed/simple;
+	bh=45QT20w/pRXzXq4A3dLPNrAFEsTXeF07xH6PFko8DtQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KYbKQ3hbCPM73owU1G49I2HxBoJ+mO4V3C7Antm3pfRMjCdMTPVzQY2dnHwMu8hege83hkee36dj/OcN08u1W88gdwkRtvDi3ZhxsZMjkl0LEJQ8ZOu62oH5Q4TXX+lpBkFl3sof+SD4UcKuA+FMQmrAyjMxwY65GtKloFFPZi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sf2qdgLD; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=HYWgk1DEK72OYcqcDdwjx8C/v06WNlg+9hVtaKr7UxAPheGrRD8tjaW78pYzV6tzZUTZ8cgc4wbxJwqHDwrgPrvV1eESTtW8MWPRtlVl47IMb15CMgoKC83jiCBszYyxBoMtGRdzyNBHSeADWD5tmilJ/gLL32HjlvUjdR8J2hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=no3vtk0n; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sf2qdgLD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722626955; x=1754162955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G8EPvTGIyIOEdQDwQeNpZ0TaFZcpfleu7Qu4Vin/8cA=;
-  b=Sf2qdgLDLV2PiW3Q4T5YGNNXNU9yK4V891TG4SUSnbn2dTD6xthFKF0A
-   S2Hg2whTGqAaBPJRP4ZEwcg2pBnuoOIZ/Z2oIhyAI+P8pBybYd6effF9F
-   ct/pFve5rx6wv0Uuspj7+0AprZKCuXNlq0WRvjnQoUZF19d6uqXTlNGgA
-   9IZqBvOjwmNHVJvzEf8JfdVRons7/ZtDXiQv0gpTO9O3Z57bmCJ+TtNHA
-   VnORhQts0zUPa7GIAG1vwWUzTo+Ns91YE1F04tGLIt4KlmM90pXVSWuhj
-   i5xU4CArA6dDqMlx4UCqw/RSNw1OSWjgwWEXVpd6zFTWqM72nSwPZC8ll
-   g==;
-X-CSE-ConnectionGUID: +0/5woAlRBOrhc0hX8rYkA==
-X-CSE-MsgGUID: +bkCQhqZQsir0pNGCxlcHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="32034413"
-X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
-   d="scan'208";a="32034413"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 12:29:14 -0700
-X-CSE-ConnectionGUID: YkN//2k2RIiQwWqzs7P+tw==
-X-CSE-MsgGUID: I3ddvUcJRT6odqHYOOGjRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,258,1716274800"; 
-   d="scan'208";a="55578404"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Aug 2024 12:29:12 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sZxxe-000xL0-0L;
-	Fri, 02 Aug 2024 19:29:10 +0000
-Date: Sat, 3 Aug 2024 03:28:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="no3vtk0n"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2642cfb2f6aso5443424fac.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 02 Aug 2024 12:36:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1722627385; x=1723232185; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
+        b=no3vtk0nWnNtxpUU+IEGMQSkZq6fUChCwGO/VH5rKTJ4OjgQ5OW/r4bS5bKaCIihLN
+         f/X96+fOSKxoGGe3wKO3V1QcoK5iOIAgWIsJtEeQIULZEDCRM8e67cx5b8ARpapMscrw
+         FCd4aEFRgYKf0AQwY1a3/QXdS2AI2jFfkkvUQIwiJ4Rx6KopChny2B8TtH/uhxW5d+6Y
+         nqai4iyydbtgljZIIm/Y6ZmeIIUv5Rh1sQvc8A7Ayb2E5y/J6pWPOHcirF1c8WJtdfR4
+         V39sEntPK3l+RgqSKmSzBTKkGGMy9b+2+GPblsIELnWoomJu855HWhg30sAkTsOq+WdY
+         1Ygw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722627385; x=1723232185;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
+        b=hm5w7a+j0IVCbunHJqxCGt88q5nKk3M2XD5ku6riNx24r1iYvakas4JcLMnWypyG6I
+         6EzyFOxF8zezMad58G8JX5bWig2JneFL2Ih3rlLRznyWzsfG6o661Lk3X0ChP6z5t8M7
+         D5MtmR85DJGrT9pD/0fiG+SK0mIcwjZN0G+stiGXS3xPaD9Y9ze9Zlg+Wijxhb0+bHoE
+         eHUqpt20yqp90j1JOuksR6WT05509a7iih6STGOM2QWdFqB29+xwR4Btd9QRg3AF2jQO
+         d2Si5//y9pkDFDwV6m37xPROmzyz2Sjo56VULqV+/Otqam9BHDVnmFK9ce+5rQKz14NS
+         YooQ==
+X-Gm-Message-State: AOJu0Yxdr1LOxqa82GIHVuwXXitrWo9JXwxfx9uWrBQEDyjXPHpkVjwi
+	+k/h028Zsgtc2yuWT3m9cU9w2Z7UZRGuK2fAp2mD5fcqsPnJQ61jRQThe+cSwVkRBVCOd6MLWE3
+	W
+X-Google-Smtp-Source: AGHT+IHbZTNCd8KdLG/8uZwbh1D/uLyIhI5I/8nWdFtBEqAAk6Oh9r7V8HDtSSW3MJCLTZc9J+oqwA==
+X-Received: by 2002:a05:6871:582a:b0:261:16da:decb with SMTP id 586e51a60fabf-26891adfa9bmr5306186fac.11.1722627385306;
+        Fri, 02 Aug 2024 12:36:25 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2689a2a8686sm503970fac.6.2024.08.02.12.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Aug 2024 12:36:24 -0700 (PDT)
+Date: Fri, 2 Aug 2024 14:36:22 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [hch-xfs:xfs-per-rtg-bitmap 5/5] fs/xfs/xfs_rtalloc.c:1157
  xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) =>
  (0-u32max > u32max)'
-Message-ID: <202408030320.zYTuPl1H-lkp@intel.com>
+Message-ID: <201b1727-8409-42fc-8ffe-8f27cc067eb2@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,37 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
-
 tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap
 head:   a20a115ce4258bcd890eddb67ff3b15c7a4e9157
 commit: a20a115ce4258bcd890eddb67ff3b15c7a4e9157 [5/5] xfs: use per-RTG bitmaps and summaries
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-161-20240802 (https://download.01.org/0day-ci/archive/20240803/202408030320.zYTuPl1H-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202408030320.zYTuPl1H-lkp@intel.com/
 
 New smatch warnings:
 fs/xfs/xfs_rtalloc.c:1157 xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) => (0-u32max > u32max)'
-fs/xfs/xfs_rtalloc.c:1456 xfs_rtmount_iread_extents() error: uninitialized symbol 'error'.
-
-Old smatch warnings:
-fs/xfs/xfs_rtalloc.c:332 xfs_rtallocate_extent_block() error: uninitialized symbol 'next'.
 
 vim +1157 fs/xfs/xfs_rtalloc.c
 
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1078  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1079  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1080   * Grow the realtime area of the filesystem.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1081   */
 ^1da177e4c3f41 Linus Torvalds      2005-04-16  1082  int
 ^1da177e4c3f41 Linus Torvalds      2005-04-16  1083  xfs_growfs_rt(
 a20a115ce4258b Christoph Hellwig   2024-07-31  1084  	struct xfs_mount	*mp,
@@ -101,6 +91,9 @@ a20a115ce4258b Christoph Hellwig   2024-07-31  1085  	struct xfs_growfs_rt	*in)
 ^1da177e4c3f41 Linus Torvalds      2005-04-16  1086  {
 a20a115ce4258b Christoph Hellwig   2024-07-31  1087  	xfs_rgnumber_t		last_rgno = mp->m_sb.sb_rgcount - 1;
 a20a115ce4258b Christoph Hellwig   2024-07-31  1088  	unsigned int		new_rgcount = 1;
+
+Should this be a u64?
+
 a20a115ce4258b Christoph Hellwig   2024-07-31  1089  	xfs_rtxnum_t		nrextents;
 a20a115ce4258b Christoph Hellwig   2024-07-31  1090  	struct xfs_rtgroup	*rtg;
 a20a115ce4258b Christoph Hellwig   2024-07-31  1091  	xfs_rgnumber_t		rgno;
@@ -170,97 +163,16 @@ d40c00393d9cf8 Darrick J. Wong     2024-05-28  1154  	 */
 d40c00393d9cf8 Darrick J. Wong     2024-05-28  1155  	if (xfs_has_rtgroups(mp)) {
 d40c00393d9cf8 Darrick J. Wong     2024-05-28  1156  		new_rgcount = howmany_64(nrextents, mp->m_sb.sb_rgextents);
 d40c00393d9cf8 Darrick J. Wong     2024-05-28 @1157  		if (new_rgcount > XFS_MAX_RGNUMBER)
+
+howmany_64() returns a u64.
+
 d40c00393d9cf8 Darrick J. Wong     2024-05-28  1158  			return -EINVAL;
 d40c00393d9cf8 Darrick J. Wong     2024-05-28  1159  
 a20a115ce4258b Christoph Hellwig   2024-07-31  1160  		/*
 a20a115ce4258b Christoph Hellwig   2024-07-31  1161  		 * Set up the realtime superblock if we're adding a new rt
 a20a115ce4258b Christoph Hellwig   2024-07-31  1162  		 * section.
-a20a115ce4258b Christoph Hellwig   2024-07-31  1163  		 */
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1164  		if (xfs_has_rtsb(mp) && mp->m_sb.sb_rblocks == 0) {
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1165  			error = xfs_growfs_rt_init_super(mp);
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1166  			if (error)
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1167  				return error;
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1168  		}
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1169  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1170  		/* Make sure the /rtgroups dir has been created */
-a20a115ce4258b Christoph Hellwig   2024-07-31  1171  		if (!mp->m_rtdirip) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1172  			struct xfs_trans	*tp;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1173  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1174  			error = xfs_trans_alloc_empty(mp, &tp);
-1050c71e2925ab Christoph Hellwig   2011-02-13  1175  			if (error)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1176  				return error;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1177  			error = xfs_rtginode_load_parent(tp);
-a20a115ce4258b Christoph Hellwig   2024-07-31  1178  			xfs_trans_cancel(tp);
-a20a115ce4258b Christoph Hellwig   2024-07-31  1179  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1180  			if (error == -ENOENT)
-a20a115ce4258b Christoph Hellwig   2024-07-31  1181  				error = xfs_rtginode_mkdir_parent(mp);
-1050c71e2925ab Christoph Hellwig   2011-02-13  1182  			if (error)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1183  				return error;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1184  		}
-a20a115ce4258b Christoph Hellwig   2024-07-31  1185  	}
-65eed012d1f2d0 Omar Sandoval       2018-12-21  1186  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1187  	error = xfs_initialize_rtgroups(mp, new_rgcount);
-4da78a3598bec4 Christoph Hellwig   2024-07-30  1188  	if (error)
-4da78a3598bec4 Christoph Hellwig   2024-07-30  1189  		return error;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1190  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1191  	/*
-a20a115ce4258b Christoph Hellwig   2024-07-31  1192  	 * If the last RT group is completely full we can skip it.
-a20a115ce4258b Christoph Hellwig   2024-07-31  1193  	 */
-a20a115ce4258b Christoph Hellwig   2024-07-31  1194  	if (xfs_rtgroup_extents(mp, last_rgno) == mp->m_sb.sb_rgextents)
-a20a115ce4258b Christoph Hellwig   2024-07-31  1195  		last_rgno++;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1196  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1197  	for_each_rtgroup_range(mp, last_rgno, new_rgcount - 1, rtg) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1198  		unsigned int	i;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1199  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1200  		for (i = 0; i < XFS_RTG_MAX; i++) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1201  			error = xfs_rtginode_ensure(rtg, i);
-a20a115ce4258b Christoph Hellwig   2024-07-31  1202  			if (error) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1203  				xfs_rtgroup_rele(rtg);
-a20a115ce4258b Christoph Hellwig   2024-07-31  1204  				goto out_free;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1205  			}
-4da78a3598bec4 Christoph Hellwig   2024-07-30  1206  		}
-65eed012d1f2d0 Omar Sandoval       2018-12-21  1207  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1208  		error = xfs_growfs_rtg(rtg, in->newblocks, in->extsize);
-a20a115ce4258b Christoph Hellwig   2024-07-31  1209  		if (error) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1210  			xfs_rtgroup_rele(rtg);
-7249c95a3fd72c Darrick J. Wong     2020-10-07  1211  			goto out_free;
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1212  		}
-a20a115ce4258b Christoph Hellwig   2024-07-31  1213  	}
-7249c95a3fd72c Darrick J. Wong     2020-10-07  1214  
-7249c95a3fd72c Darrick J. Wong     2020-10-07  1215  	/* Update secondary superblocks now the physical grow has completed */
-7249c95a3fd72c Darrick J. Wong     2020-10-07  1216  	error = xfs_update_secondary_sbs(mp);
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1217  	if (error)
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1218  		goto out_free;
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1219  
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1220  	/* Reset the rt metadata btree space reservations. */
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1221  	xfs_rt_resv_free(mp);
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1222  	error = xfs_rt_resv_init(mp);
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1223  	if (error == -ENOSPC)
-440d1b20a3bcdd Darrick J. Wong     2024-05-28  1224  		error = 0;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1225  	if (error)
-a20a115ce4258b Christoph Hellwig   2024-07-31  1226  		goto out_free;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1227  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1228  	return 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1229  
-7249c95a3fd72c Darrick J. Wong     2020-10-07  1230  out_free:
-a20a115ce4258b Christoph Hellwig   2024-07-31  1231  	rgno = mp->m_sb.sb_rgcount + 1;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1232  	for_each_rtgroup_range(mp, rgno, new_rgcount - 1, rtg) {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1233  		for (i = 0; i < XFS_RTG_MAX; i++)
-a20a115ce4258b Christoph Hellwig   2024-07-31  1234  			xfs_rtginode_irele(&rtg->rtg_inodes[i]);
-65eed012d1f2d0 Omar Sandoval       2018-12-21  1235  	}
-65eed012d1f2d0 Omar Sandoval       2018-12-21  1236  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1237  	xfs_free_unused_rtgroup_range(mp, mp->m_sb.sb_rgcount + 1,
-a20a115ce4258b Christoph Hellwig   2024-07-31  1238  			new_rgcount - 1);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1239  	return error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1240  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1241  
-
-:::::: The code at line 1157 was first introduced by commit
-:::::: d40c00393d9cf8cbb1731c2a9caefde5f015e6a1 xfs: grow the realtime section when realtime groups are enabled
-
-:::::: TO: Darrick J. Wong <djwong@kernel.org>
-:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
