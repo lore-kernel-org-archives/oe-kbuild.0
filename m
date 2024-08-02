@@ -1,63 +1,58 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12DE1ABEAF
-	for <oe-kbuild@lists.linux.dev>; Fri,  2 Aug 2024 19:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB18F65E20
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Aug 2024 23:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722627388; cv=none; b=gEwWR6kM/dUBGT7ydEXJsJg7Jb8gXnJg07izQVcfpJWYh5JtV+MJ9Tx6k19efhabNrXj90BvhBrK1TVToFP25Pkkcd+dgzkSPx312R2WCNiSRr9Xwo6fpAeD+9rNKGFG+DWNjiWECpl/2sH/qMpYmQbyV5+ToNk70VXUd+GR7cA=
+	t=1722640024; cv=none; b=KQ1IkTb4w0e4Z5U5LwQCumbV/MFFyQXXjxAdeIZEw2ZY/QTX3ObPumQTbUU+EZOYHrimP4sceZfTNtYzYHhKjY9pACJuTV3To+F7YwtVMxtR6CBD/TdKatBCcpOm6YU53Nss5ex5QfhNYGKLCAZKqqICln15khzAgoOspT9LIok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722627388; c=relaxed/simple;
-	bh=45QT20w/pRXzXq4A3dLPNrAFEsTXeF07xH6PFko8DtQ=;
+	s=arc-20240116; t=1722640024; c=relaxed/simple;
+	bh=cncQpkP7/3tQ/JCkejG5QLNtVFRYZG5Fn891DDDTmEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HYWgk1DEK72OYcqcDdwjx8C/v06WNlg+9hVtaKr7UxAPheGrRD8tjaW78pYzV6tzZUTZ8cgc4wbxJwqHDwrgPrvV1eESTtW8MWPRtlVl47IMb15CMgoKC83jiCBszYyxBoMtGRdzyNBHSeADWD5tmilJ/gLL32HjlvUjdR8J2hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=no3vtk0n; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=nFKYo2a99NWPrnXuvoeFQ/VO564Mf13T0nM+2WRoTnQ1OxcuEWuT21kiJjI7hEq+iUbnv2VkLtgOT+DYlDjJ130JER+Xa2gp5DqiAhZIXwsKR82uaGhubkITNkMZ8bSfo7iwdpEIfXMULLqUPn9xTbDZbYyhUsFyWfFemABwHes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9a2xRSD; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="no3vtk0n"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2642cfb2f6aso5443424fac.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 02 Aug 2024 12:36:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1722627385; x=1723232185; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
-        b=no3vtk0nWnNtxpUU+IEGMQSkZq6fUChCwGO/VH5rKTJ4OjgQ5OW/r4bS5bKaCIihLN
-         f/X96+fOSKxoGGe3wKO3V1QcoK5iOIAgWIsJtEeQIULZEDCRM8e67cx5b8ARpapMscrw
-         FCd4aEFRgYKf0AQwY1a3/QXdS2AI2jFfkkvUQIwiJ4Rx6KopChny2B8TtH/uhxW5d+6Y
-         nqai4iyydbtgljZIIm/Y6ZmeIIUv5Rh1sQvc8A7Ayb2E5y/J6pWPOHcirF1c8WJtdfR4
-         V39sEntPK3l+RgqSKmSzBTKkGGMy9b+2+GPblsIELnWoomJu855HWhg30sAkTsOq+WdY
-         1Ygw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722627385; x=1723232185;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HhUEcss2GSTxaoo3P+vXB/LuQ1LDYqGsHE+/If8i+3U=;
-        b=hm5w7a+j0IVCbunHJqxCGt88q5nKk3M2XD5ku6riNx24r1iYvakas4JcLMnWypyG6I
-         6EzyFOxF8zezMad58G8JX5bWig2JneFL2Ih3rlLRznyWzsfG6o661Lk3X0ChP6z5t8M7
-         D5MtmR85DJGrT9pD/0fiG+SK0mIcwjZN0G+stiGXS3xPaD9Y9ze9Zlg+Wijxhb0+bHoE
-         eHUqpt20yqp90j1JOuksR6WT05509a7iih6STGOM2QWdFqB29+xwR4Btd9QRg3AF2jQO
-         d2Si5//y9pkDFDwV6m37xPROmzyz2Sjo56VULqV+/Otqam9BHDVnmFK9ce+5rQKz14NS
-         YooQ==
-X-Gm-Message-State: AOJu0Yxdr1LOxqa82GIHVuwXXitrWo9JXwxfx9uWrBQEDyjXPHpkVjwi
-	+k/h028Zsgtc2yuWT3m9cU9w2Z7UZRGuK2fAp2mD5fcqsPnJQ61jRQThe+cSwVkRBVCOd6MLWE3
-	W
-X-Google-Smtp-Source: AGHT+IHbZTNCd8KdLG/8uZwbh1D/uLyIhI5I/8nWdFtBEqAAk6Oh9r7V8HDtSSW3MJCLTZc9J+oqwA==
-X-Received: by 2002:a05:6871:582a:b0:261:16da:decb with SMTP id 586e51a60fabf-26891adfa9bmr5306186fac.11.1722627385306;
-        Fri, 02 Aug 2024 12:36:25 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2689a2a8686sm503970fac.6.2024.08.02.12.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 12:36:24 -0700 (PDT)
-Date: Fri, 2 Aug 2024 14:36:22 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-per-rtg-bitmap 5/5] fs/xfs/xfs_rtalloc.c:1157
- xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) =>
- (0-u32max > u32max)'
-Message-ID: <201b1727-8409-42fc-8ffe-8f27cc067eb2@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9a2xRSD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1722640023; x=1754176023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cncQpkP7/3tQ/JCkejG5QLNtVFRYZG5Fn891DDDTmEU=;
+  b=K9a2xRSDlwyn1LG2Ayck1lAlHwBCt/ykIBqgg/UC/2QI1ahGcnlUDkZx
+   HerSRP7lGhsmCoJhyqr/xBKFUG/cGqExrcajxkV5i7uqHaFwvHtl17Dcy
+   MwUvgmqsyFgcgEUt0gH1AWBncmRCokgrQuOIPQmyQlpoH6981pRDUU/pW
+   o3SaLg6sLUU75BMnXI74OAWWmFQKUiwEIQf2JNqklpdgiA2x+jhd1XoWD
+   9GDITI55fvOfk8Zb/XboYUz+p/3WUMGT8yzMdJPUea3D6k3Nqx/rZkPto
+   D3UFlg5ynDumlojfd7FnnJ1gcVWL+gNtx4p3+vCe0F9Ft8JBFKrO2SM5c
+   A==;
+X-CSE-ConnectionGUID: BCS0ucseSmaAdIho464UPA==
+X-CSE-MsgGUID: l753YPw1Q++BJ6H8uOHUnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11152"; a="20812014"
+X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
+   d="scan'208";a="20812014"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2024 16:05:56 -0700
+X-CSE-ConnectionGUID: OqEcbQ5ARGWSVLKmIfdx+g==
+X-CSE-MsgGUID: 0vi0CukzSmW5jp7+5U9gIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,259,1716274800"; 
+   d="scan'208";a="60396345"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 02 Aug 2024 16:05:55 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sa1LM-000xX2-0I;
+	Fri, 02 Aug 2024 23:05:52 +0000
+Date: Sat, 3 Aug 2024 07:05:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 2/3] interconnect: qcom: Add SM4450 interconnect
+ provider driver
+Message-ID: <202408030616.IhRcAnMm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,112 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap
-head:   a20a115ce4258bcd890eddb67ff3b15c7a4e9157
-commit: a20a115ce4258bcd890eddb67ff3b15c7a4e9157 [5/5] xfs: use per-RTG bitmaps and summaries
-config: x86_64-randconfig-161-20240802 (https://download.01.org/0day-ci/archive/20240803/202408030320.zYTuPl1H-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20240801-sm4450_interconnect-v3-2-8e364d0faa99@quicinc.com>
+References: <20240801-sm4450_interconnect-v3-2-8e364d0faa99@quicinc.com>
+TO: Tengfei Fan <quic_tengfan@quicinc.com>
+TO: Georgi Djakov <djakov@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Catalin Marinas <catalin.marinas@arm.com>
+TO: Will Deacon <will@kernel.org>
+CC: kernel@quicinc.com
+CC: linux-arm-msm@vger.kernel.org
+CC: linux-pm@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: Tengfei Fan <quic_tengfan@quicinc.com>
+
+Hi Tengfei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 048d8cb65cde9fe7534eb4440bcfddcf406bb49c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tengfei-Fan/dt-bindings-interconnect-Add-Qualcomm-SM4450/20240802-194900
+base:   048d8cb65cde9fe7534eb4440bcfddcf406bb49c
+patch link:    https://lore.kernel.org/r/20240801-sm4450_interconnect-v3-2-8e364d0faa99%40quicinc.com
+patch subject: [PATCH v3 2/3] interconnect: qcom: Add SM4450 interconnect provider driver
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408030320.zYTuPl1H-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408030616.IhRcAnMm-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_rtalloc.c:1157 xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) => (0-u32max > u32max)'
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/interconnect/qcom/sm4450.c: icc-rpmh.h is included more than once.
 
-vim +1157 fs/xfs/xfs_rtalloc.c
+vim +16 drivers/interconnect/qcom/sm4450.c
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1082  int
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1083  xfs_growfs_rt(
-a20a115ce4258b Christoph Hellwig   2024-07-31  1084  	struct xfs_mount	*mp,
-a20a115ce4258b Christoph Hellwig   2024-07-31  1085  	struct xfs_growfs_rt	*in)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1086  {
-a20a115ce4258b Christoph Hellwig   2024-07-31  1087  	xfs_rgnumber_t		last_rgno = mp->m_sb.sb_rgcount - 1;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1088  	unsigned int		new_rgcount = 1;
-
-Should this be a u64?
-
-a20a115ce4258b Christoph Hellwig   2024-07-31  1089  	xfs_rtxnum_t		nrextents;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1090  	struct xfs_rtgroup	*rtg;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1091  	xfs_rgnumber_t		rgno;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1092  	struct xfs_buf		*bp;
-a20a115ce4258b Christoph Hellwig   2024-07-31  1093  	int			error;	
-a20a115ce4258b Christoph Hellwig   2024-07-31  1094  	unsigned int		i;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1095  
-743bb4650da9e2 sandeen@sandeen.net 2008-11-25  1096  	if (!capable(CAP_SYS_ADMIN))
-2451337dd04390 Dave Chinner        2014-06-25  1097  		return -EPERM;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1098  
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1099  	/* Needs to have been mounted with an rt device. */
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1100  	if (!XFS_IS_REALTIME_MOUNT(mp))
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1101  		return -EINVAL;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1102  
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1103  	/* Shrink not supported. */
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1104  	if (in->newblocks <= mp->m_sb.sb_rblocks)
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1105  		return -EINVAL;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1106  
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1107  	/* Can only change rt extent size when adding rt volume. */
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1108  	if (mp->m_sb.sb_rblocks > 0 && in->extsize != mp->m_sb.sb_rextsize)
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1109  		return -EINVAL;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1110  
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1111  	/* Range check the extent size. */
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1112  	if (XFS_FSB_TO_B(mp, in->extsize) > XFS_MAX_RTEXTSIZE ||
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1113  	    XFS_FSB_TO_B(mp, in->extsize) < XFS_MIN_RTEXTSIZE)
-2451337dd04390 Dave Chinner        2014-06-25  1114  		return -EINVAL;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1115  
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1116  	/* Unsupported realtime features. */
-bb88dce9eeb696 Darrick J. Wong     2024-05-28  1117  	if (!xfs_has_rtgroups(mp) && (xfs_has_rmapbt(mp) || xfs_has_reflink(mp)))
-bb88dce9eeb696 Darrick J. Wong     2024-05-28  1118  		return -EOPNOTSUPP;
-bb88dce9eeb696 Darrick J. Wong     2024-05-28  1119  	if (xfs_has_quota(mp))
-a7b6869effc4eb Darrick J. Wong     2024-05-28  1120  		return -EOPNOTSUPP;
-bb88dce9eeb696 Darrick J. Wong     2024-05-28  1121  	if (xfs_has_reflink(mp) && in->extsize != 1)
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1122  		return -EOPNOTSUPP;
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1123  
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1124  	error = xfs_sb_validate_fsb_count(&mp->m_sb, in->newblocks);
-0e2af9296f4f9c Darrick J. Wong     2021-07-12  1125  	if (error)
-4cc929ee305c69 Nathan Scott        2007-05-14  1126  		return error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1127  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1128  	 * Read in the last block of the device, make sure it exists.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1129  	 */
-ba3726742c1712 Dave Chinner        2014-10-02  1130  	error = xfs_buf_read_uncached(mp->m_rtdev_targp,
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1131  				XFS_FSB_TO_BB(mp, in->newblocks - 1),
-ba3726742c1712 Dave Chinner        2014-10-02  1132  				XFS_FSB_TO_BB(mp, 1), 0, &bp, NULL);
-ba3726742c1712 Dave Chinner        2014-10-02  1133  	if (error)
-eab4e63368b4cf Dave Chinner        2012-11-12  1134  		return error;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1135  	xfs_buf_relse(bp);
-1922c949c59f93 Dave Chinner        2010-09-22  1136  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1137  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1138  	 * Calculate new parameters.  These are the final values to be reached.
-^1da177e4c3f41 Linus Torvalds      2005-04-16  1139  	 */
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1140  	nrextents = div_u64(in->newblocks, in->extsize);
-5bb69dac440d87 Christoph Hellwig   2024-07-30  1141  	if (nrextents == 0)
-e14293803f4e84 Darrick J. Wong     2023-12-01  1142  		return -EINVAL;
-6cb9e23fdae7c1 Christoph Hellwig   2024-07-30  1143  
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1144  	/* Make sure the new fs size won't cause problems with the log. */
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1145  	error = xfs_growfs_check_rtgeom(mp, mp->m_sb.sb_dblocks, in->newblocks,
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1146  			in->extsize);
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1147  	if (error)
-31e8765dfb1353 Darrick J. Wong     2024-05-28  1148  		return error;
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1149  
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1150  	/*
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1151  	 * Compute the new number of rt groups.  Changing the rtgroup size is
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1152  	 * not allowed (even if the rt volume hasn't yet been initialized)
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1153  	 * because the userspace ABI doesn't support it.
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1154  	 */
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1155  	if (xfs_has_rtgroups(mp)) {
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1156  		new_rgcount = howmany_64(nrextents, mp->m_sb.sb_rgextents);
-d40c00393d9cf8 Darrick J. Wong     2024-05-28 @1157  		if (new_rgcount > XFS_MAX_RGNUMBER)
-
-howmany_64() returns a u64.
-
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1158  			return -EINVAL;
-d40c00393d9cf8 Darrick J. Wong     2024-05-28  1159  
-a20a115ce4258b Christoph Hellwig   2024-07-31  1160  		/*
-a20a115ce4258b Christoph Hellwig   2024-07-31  1161  		 * Set up the realtime superblock if we're adding a new rt
-a20a115ce4258b Christoph Hellwig   2024-07-31  1162  		 * section.
+    14	
+    15	#include "bcm-voter.h"
+  > 16	#include "icc-rpmh.h"
+  > 17	#include "icc-rpmh.h"
+    18	#include "sm4450.h"
+    19	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
