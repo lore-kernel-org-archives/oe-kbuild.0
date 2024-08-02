@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF5714D6E7
-	for <oe-kbuild@lists.linux.dev>; Thu,  1 Aug 2024 23:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B9BBE4F
+	for <oe-kbuild@lists.linux.dev>; Fri,  2 Aug 2024 01:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722555020; cv=none; b=gs9vEYCplU1XK51MspxaAzN7yRJ0o8w083f1H9Ax25kA5IphWeQYC4VqzDn/Kqh6jRVQW5/s9E7p8AxgAml5hJcZTjIUmo184m3i9oE1vzdmomRaaXwX3eTOXb3OcL7uSjXasm37IMUh2Jsu0dQFfR3BU/tpxRp4hITE5o+S2bE=
+	t=1722562981; cv=none; b=LJEdRDvMcnFmA27yi+wwnGYH0YYODTEBn6nyMRPMUxRdFGQFf+FAyA71EHGGI/Vxv2Y9DXxdSI/Kkuz5ilVexxuDwO8uizHGXoF51RXBXklS02njiMfEc4c/WjBXwG+3bexaq5sBlfSDfmY10NBRodR/eicD5GXSCa/fQpNYjEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722555020; c=relaxed/simple;
-	bh=wQM6NH4frHW72RcoWT2UWPQIFw+4MfEF9NoNMhbsx2w=;
+	s=arc-20240116; t=1722562981; c=relaxed/simple;
+	bh=gj8a5TrEjnssUnu3Iknnel3QZ7ChRRPUCa7f97qpEMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hhl0xlYUVrRA4fO9g3FVAOGBhHBOrFyLc5wZYg4jXXXuUqaAeJ/SCEjLbXvCMRddtwxXQOsaaIaiK88rh9ebecwWto2CPaIxkfZKWLP0EVMpJDE5cDGiZbx9wEZdIVqNNi61jqbIKmsimLjMoLW24ioJyHQkr/WpN0/v+dyQhPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L3Oc0+Jp; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=deL4WxFI9PYtAvVD9JQetfLr2wSpvCApxw44xztHm81yP0fC5EbA42yBSpstE1tfLCGo7y1b8U45kWIff/WxU8ugwYnLUJdJHvaP1GchTKt3TZrocS76Yl9skG9YPB8btMelhcqF+YXuIiTYOD26+C/kUy6yz/ugiOUg0Z0BDsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SaHzpE/I; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3Oc0+Jp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SaHzpE/I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722555018; x=1754091018;
+  t=1722562978; x=1754098978;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wQM6NH4frHW72RcoWT2UWPQIFw+4MfEF9NoNMhbsx2w=;
-  b=L3Oc0+JpIhKRnr1swWpeC/g2usm8czs0TtSLkD+/v/69kuMjWZU7qVi+
-   ccDiYWQVfsV1bSwo2v0N6RQbIcD89fhG9giKF5dYm3JDZSXdfX60I5285
-   f7f7oAiFAwf8QoF0u97TFEsCmRKdkNbjNUMSNyMvwRTktGpMxcDS//HYB
-   lyqUwdDGTPmSR9fFae+5aMqZAkvtdQa4er3JY+IiJmfRohaSrTu8GVyx+
-   debt26WMfj1qMDYNDHLsCyKmEM0BKWd/3EfqiZoUbDTAKNkN6oyZh2rOB
-   tnVrFBJBa7otnZqkCnytWNhmMOsTHwessyEyA1v6QGMQ9JtuD1D5rN/a+
-   A==;
-X-CSE-ConnectionGUID: yW+tldxORKeEMkjeFE92/Q==
-X-CSE-MsgGUID: 0iZDNVynSnmZNywqVWWAnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20437473"
+  bh=gj8a5TrEjnssUnu3Iknnel3QZ7ChRRPUCa7f97qpEMM=;
+  b=SaHzpE/I0JAYAd8s44nY5RAR3gIsEPdzUqzC2KnQhViMzUlpI9JbH572
+   Mnon14DNd+TGYIJjdonHGeQBoZMEhyiBeIfbsjnVbw4zPWve8kIDgduAM
+   lYijRtKk14TYmaUyoduxWQaWOs0kDUTvwxPwwi5tc6F7bunxQz1G+lgOY
+   CN1zmcZFd6Zpi3VMbccI0mFm3THsc2K23CKPhv9ae0O9npa4rOI33nSX2
+   QmlIDGm7X7lbnlzxIryH8DSD66aTNXcC5XWMwgoZjKl3PSsivYkuLI36P
+   6A4xYVL+1vXHoKR7apDwCN7w+qDpcY3+A5GjTHAEI7hrUGbpwCbwZJ4gl
+   g==;
+X-CSE-ConnectionGUID: I1Y4M2RRSU65HCcKDgOF4A==
+X-CSE-MsgGUID: GIo1f0qbR6CSqLBAxWNEUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11151"; a="20144589"
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="20437473"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 16:29:55 -0700
-X-CSE-ConnectionGUID: 2wSE/Q89R/6Ea2DCPypXaQ==
-X-CSE-MsgGUID: hPMZEbrgR9elxaNFqiXPQg==
+   d="scan'208";a="20144589"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2024 18:42:58 -0700
+X-CSE-ConnectionGUID: weHMJe25SRCnucLxQiQc0Q==
+X-CSE-MsgGUID: 86tQNvrgQHCZhdtjtprnkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,256,1716274800"; 
-   d="scan'208";a="60050929"
+   d="scan'208";a="60261946"
 Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Aug 2024 16:29:54 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Aug 2024 18:42:56 -0700
 Received: from kbuild by 68891e0c336b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sZfF1-000w8C-1g;
-	Thu, 01 Aug 2024 23:29:51 +0000
-Date: Fri, 2 Aug 2024 07:29:45 +0800
+	id 1sZhJm-000wDM-1M;
+	Fri, 02 Aug 2024 01:42:54 +0000
+Date: Fri, 2 Aug 2024 09:42:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: mm/page_alloc.o: warning: objtool: free_unref_page+0xa0: unreachable
- instruction
-Message-ID: <202408020755.36Mt8Xoa-lkp@intel.com>
+Subject: [sunxi:sunxi/for-next 3/4]
+ arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34:
+ regulators: 'boost' does not match any of the regexes:
+ '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$',
+ 'pinctrl-[0-9]+'
+Message-ID: <202408020905.CDsHnmKW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,61 +66,42 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johannes Weiner <hannes@cmpxchg.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Vlastimil Babka <vbabka@suse.cz>
+TO: Chris Morgan <macromorgan@hotmail.com>
+CC: "Chen-Yu Tsai" <wens@csie.org>
+CC: Andre Przywara <andre.przywara@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c0ecd6388360d930440cc5554026818895199923
-commit: 17edeb5d3f761c20fd28f6002f5a9faa53c0a0d8 mm: page_alloc: remove pcppage migratetype caching
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: loongarch-randconfig-001-20240730 (https://download.01.org/0day-ci/archive/20240802/202408020755.36Mt8Xoa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020755.36Mt8Xoa-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+head:   2873085a8cd52a55ed6ae80f94032f912a3f9a91
+commit: c712e5d0985628b1df13930489b49b740e610a2b [3/4] arm64: dts: allwinner: h616: Change RG35XX Series from r_rsb to r_i2c
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arm64-randconfig-051-20240802 (https://download.01.org/0day-ci/archive/20240802/202408020905.CDsHnmKW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev4+g23441a4
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240802/202408020905.CDsHnmKW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408020755.36Mt8Xoa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408020905.CDsHnmKW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:30,
-                    from mm/page_alloc.c:19:
-   include/linux/swapops.h: In function 'swp_entry_to_pmd':
-   arch/loongarch/include/asm/pgtable.h:290:34: warning: missing braces around initializer [-Wmissing-braces]
-     290 | #define __swp_entry_to_pmd(x)   ((pmd_t) { (x).val | _PAGE_HUGE })
-         |                                  ^
-   include/linux/swapops.h:556:16: note: in expansion of macro '__swp_entry_to_pmd'
-     556 |         return __swp_entry_to_pmd(arch_entry);
-         |                ^~~~~~~~~~~~~~~~~~
-   mm/page_alloc.o: warning: objtool: const_folio_flags+0x30: unreachable instruction
-   mm/page_alloc.o: warning: objtool: set_page_refcounted+0x34: unreachable instruction
-   mm/page_alloc.o: warning: objtool: split_page+0x40: unreachable instruction
-   mm/page_alloc.o: warning: objtool: del_page_from_free_list+0x2c: unreachable instruction
-   mm/page_alloc.o: warning: objtool: __free_one_page+0x84: unreachable instruction
-   mm/page_alloc.o: warning: objtool: __free_pages_ok+0xb0: unreachable instruction
-   mm/page_alloc.o: warning: objtool: move_freepages+0xbc: unreachable instruction
-   mm/page_alloc.o: warning: objtool: free_pages_prepare+0x8c: unreachable instruction
-   mm/page_alloc.o: warning: objtool: __free_pages_core+0xbc: unreachable instruction
-   mm/page_alloc.o: warning: objtool: rmqueue+0x410: unreachable instruction
->> mm/page_alloc.o: warning: objtool: free_unref_page+0xa0: unreachable instruction
->> mm/page_alloc.o: warning: objtool: free_unref_folios+0xd8: unreachable instruction
-   mm/page_alloc.o: warning: objtool: __folio_alloc_noprof+0x48: unreachable instruction
-   mm/page_alloc.o: warning: objtool: free_reserved_area+0xa8: unreachable instruction
-
-
-objdump-func vmlinux.o free_unref_page:
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
