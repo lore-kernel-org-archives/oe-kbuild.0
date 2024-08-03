@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C724614D447
-	for <oe-kbuild@lists.linux.dev>; Sat,  3 Aug 2024 12:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17801078B
+	for <oe-kbuild@lists.linux.dev>; Sat,  3 Aug 2024 18:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722688132; cv=none; b=AwpBdQzafirpGs7WcER+hWa00eP45idBR+Oe0cOKcw1afC2RXu5wnqIVnFI1CrnvYHfG50umA9yS/odKMlJGuUYbs7HoJzDK4dpnA45Xa4cdhSv2cyd2gHMkob0vRcI7kOyQwlL8Xh6o5QbECxJ6Ddxvd9i08A//+4KaC8MRa64=
+	t=1722708008; cv=none; b=gouJFhCd4bRkOx02slnA62g1QgIOipZTG2TOA7u8VU2Kv/eAKHIIlBQLzwTd61RKnsXz66SEW8kuAH/HUppIn3g9JOFzQvT7nXIEc8IhHog6Fc8cPRivI1zqSmO/0/QO7s6VA1GGnYJmgIVd/d7d9wy/rFhTdwH58fgyK3S9mKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722688132; c=relaxed/simple;
-	bh=wZ0SSA/dyoLqGh6lezrcRzgN4Kr8iiiE4czUDEQ3mKc=;
+	s=arc-20240116; t=1722708008; c=relaxed/simple;
+	bh=XSd6ngNToxEgDesUuzNwj7+1E2lIEjniBnVaJLxXAyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C9KyOzdA4uA4nXoGlTTCM7KsUFKn733m6zsQX1Ereu8j7Qw8bZefU8CnDGxbG97oroZCX5sKGPtbcOdFiNOiXz/59GLGNOL7mYJCJqRCmjGFNGTkvoVv8ujWRO5d77pbwv80skTrdg3U1X84sQ7N0/EZrMQhqW7EggysEpxBbB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JmsawO3o; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=nUdmYM9xcAxtMbin6/BcWE3QTJm5DToGhTRV3BZHWK5rCwsl04HAysizo3QGsF7ojVsB72doJSU2YqqJc+EAhf+xPNBZxgwLpYB+yY/tfqcOR1SEWP776LAnqv770rQG6qF5695zlHo0U78CLMQ3a8o3oqI2MYB1VySdhJzvMtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLlX0I6Q; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmsawO3o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLlX0I6Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722688130; x=1754224130;
+  t=1722708007; x=1754244007;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wZ0SSA/dyoLqGh6lezrcRzgN4Kr8iiiE4czUDEQ3mKc=;
-  b=JmsawO3o2jgOTpv0xtqIGzlIrVk5Yu6YSOAR4A/15EnIjo7S3QBOpDNl
-   CqPe0LmcV9uUV2a0toIaXLx3u/6MwfYRqKJhnrNVIr70Cd0X1PlFpZU/I
-   UIukHGyYJnJb8Cdgmknh/gCKc5BslebEhYcAsjeQcaqManw6BFfELvgMK
-   ThAK8IRxx0vWNo7Ie9mLBdfoRp/utoSby9Qlg3n5Ap1I+FeZfoOKUQp35
-   nGjFQfZle+bQE/tLNDHQOimgc6zrtucC8mmRzRlCDM2D3S3nZwvXrWBhL
-   K0E1aQn5SNKAyjE0kUpjrdZLMox1Bd39XqsEKTznso/N75lbyuc2xxMOI
-   g==;
-X-CSE-ConnectionGUID: TjKVz4HbQqWVVivW3NcMXQ==
-X-CSE-MsgGUID: GECvCsrXR+OnzUGE/ss2pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="20853105"
-X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="20853105"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 05:28:49 -0700
-X-CSE-ConnectionGUID: +bJ3LcV+RBmtFK7fFpYXHg==
-X-CSE-MsgGUID: u/b7dnKUSLKIpxB2GYbe9w==
+  bh=XSd6ngNToxEgDesUuzNwj7+1E2lIEjniBnVaJLxXAyk=;
+  b=eLlX0I6QX5qZR/zE4JChzvq6bOlF/KuOpum07qNpaIUyuMbEgUYhGZaT
+   kTSLBAPw4NJI+UcBkjcGefFNtVvFkzhcyja2q/jL7GQIi6yRmtKfX6qgE
+   26S0JU04g1oqMElwGYiMk54Q0OhHf+PkWSwILYyS5b35Xshd2uupZGcag
+   vKaF/6rZIoGDkOPKKo7Rbyjn391yfngu97IsW/IbfDVh9XurZkiVLyO0J
+   +l6rH3BiXc7yFSWhsAmQLi49K8bktrnKyahZSaraIwfHyGZe4DO0FFx3+
+   AXaujqNYSbQNM1tJs4gcBUR2NX0bxAwyG503+gyeAZN4XPd8zcVjD3AU+
+   A==;
+X-CSE-ConnectionGUID: qPABfFoLQJC1vcG01ZeDPA==
+X-CSE-MsgGUID: 8NxcsgnqT0+h7lUUUzJm2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11153"; a="46113792"
+X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
+   d="scan'208";a="46113792"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2024 11:00:06 -0700
+X-CSE-ConnectionGUID: HtMSLtzXSpyIT8M+K+zgNw==
+X-CSE-MsgGUID: hP2KuTqPQhWZSbJUBWi/EA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,260,1716274800"; 
-   d="scan'208";a="60512694"
+X-IronPort-AV: E=Sophos;i="6.09,261,1716274800"; 
+   d="scan'208";a="56500638"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 03 Aug 2024 05:28:48 -0700
+  by orviesa008.jf.intel.com with ESMTP; 03 Aug 2024 11:00:05 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saDsF-0000RI-2G;
-	Sat, 03 Aug 2024 12:28:41 +0000
-Date: Sat, 3 Aug 2024 20:27:45 +0800
+	id 1saJ2w-0000pG-2X;
+	Sat, 03 Aug 2024 18:00:02 +0000
+Date: Sun, 4 Aug 2024 01:59:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [geert-renesas-drivers:renesas-clk-for-v6.12 28/29]
- drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn:
- passing zero to 'PTR_ERR'
-Message-ID: <202408032025.ve2JMaoV-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v7 3/5] arm64: dts: rockchip: Add AP6275P wireless
+ support to Khadas Edge 2
+Message-ID: <202408040138.y36TbnRC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,85 +62,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-renesas-soc@vger.kernel.org
-TO: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20240802025715.2360456-4-jacobe.zang@wesion.com>
+References: <20240802025715.2360456-4-jacobe.zang@wesion.com>
+TO: Jacobe Zang <jacobe.zang@wesion.com>
+TO: robh@kernel.org
+TO: krzk+dt@kernel.org
+TO: heiko@sntech.de
+TO: kvalo@kernel.org
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: conor+dt@kernel.org
+TO: arend.vanspriel@broadcom.com
+CC: efectn@protonmail.com
+CC: dsimic@manjaro.org
+CC: jagan@edgeble.ai
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: arend@broadcom.com
+CC: linux-wireless@vger.kernel.org
+CC: netdev@vger.kernel.org
+CC: megi@xff.cz
+CC: duoming@zju.edu.cn
+CC: bhelgaas@google.com
+CC: minipli@grsecurity.net
+CC: brcm80211@lists.linux.dev
+CC: brcm80211-dev-list.pdl@broadcom.com
+CC: nick@khadas.com
+CC: Jacobe Zang <jacobe.zang@wesion.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.12
-head:   42b54d52ecb7a81998592c2b40f8a963e82ed02e
-commit: dd22e56217495e2d392ded86a1e11a908e424e64 [28/29] clk: renesas: Add family-specific clock driver for RZ/V2H(P)
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: parisc-randconfig-r081-20240803 (https://download.01.org/0day-ci/archive/20240803/202408032025.ve2JMaoV-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+Hi Jacobe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.10]
+[also build test WARNING on linus/master next-20240802]
+[cannot apply to wireless-next/main wireless/main rockchip/for-next robh/for-next v6.11-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacobe-Zang/dt-bindings-net-wireless-brcm4329-fmac-add-pci14e4-449d/20240803-064705
+base:   v6.10
+patch link:    https://lore.kernel.org/r/20240802025715.2360456-4-jacobe.zang%40wesion.com
+patch subject: [PATCH v7 3/5] arm64: dts: rockchip: Add AP6275P wireless support to Khadas Edge 2
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: arm64-randconfig-051-20240803 (https://download.01.org/0day-ci/archive/20240804/202408040138.y36TbnRC-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240804/202408040138.y36TbnRC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408032025.ve2JMaoV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408040138.y36TbnRC-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/renesas/rzv2h-cpg.c:269 rzv2h_cpg_register_core_clk() warn: passing zero to 'PTR_ERR'
-
-vim +/PTR_ERR +269 drivers/clk/renesas/rzv2h-cpg.c
-
-dd22e56217495e Lad Prabhakar 2024-07-29  219  
-dd22e56217495e Lad Prabhakar 2024-07-29  220  static void __init
-dd22e56217495e Lad Prabhakar 2024-07-29  221  rzv2h_cpg_register_core_clk(const struct cpg_core_clk *core,
-dd22e56217495e Lad Prabhakar 2024-07-29  222  			    struct rzv2h_cpg_priv *priv)
-dd22e56217495e Lad Prabhakar 2024-07-29  223  {
-dd22e56217495e Lad Prabhakar 2024-07-29  224  	struct clk *clk = ERR_PTR(-EOPNOTSUPP), *parent;
-dd22e56217495e Lad Prabhakar 2024-07-29  225  	unsigned int id = core->id, div = core->div;
-dd22e56217495e Lad Prabhakar 2024-07-29  226  	struct device *dev = priv->dev;
-dd22e56217495e Lad Prabhakar 2024-07-29  227  	const char *parent_name;
-dd22e56217495e Lad Prabhakar 2024-07-29  228  	struct clk_hw *clk_hw;
-dd22e56217495e Lad Prabhakar 2024-07-29  229  
-dd22e56217495e Lad Prabhakar 2024-07-29  230  	WARN_DEBUG(id >= priv->num_core_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  231  	WARN_DEBUG(PTR_ERR(priv->clks[id]) != -ENOENT);
-dd22e56217495e Lad Prabhakar 2024-07-29  232  
-dd22e56217495e Lad Prabhakar 2024-07-29  233  	switch (core->type) {
-dd22e56217495e Lad Prabhakar 2024-07-29  234  	case CLK_TYPE_IN:
-dd22e56217495e Lad Prabhakar 2024-07-29  235  		clk = of_clk_get_by_name(priv->dev->of_node, core->name);
-dd22e56217495e Lad Prabhakar 2024-07-29  236  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  237  	case CLK_TYPE_FF:
-dd22e56217495e Lad Prabhakar 2024-07-29  238  		WARN_DEBUG(core->parent >= priv->num_core_clks);
-dd22e56217495e Lad Prabhakar 2024-07-29  239  		parent = priv->clks[core->parent];
-dd22e56217495e Lad Prabhakar 2024-07-29  240  		if (IS_ERR(parent)) {
-dd22e56217495e Lad Prabhakar 2024-07-29  241  			clk = parent;
-dd22e56217495e Lad Prabhakar 2024-07-29  242  			goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  243  		}
-dd22e56217495e Lad Prabhakar 2024-07-29  244  
-dd22e56217495e Lad Prabhakar 2024-07-29  245  		parent_name = __clk_get_name(parent);
-dd22e56217495e Lad Prabhakar 2024-07-29  246  		clk_hw = devm_clk_hw_register_fixed_factor(dev, core->name,
-dd22e56217495e Lad Prabhakar 2024-07-29  247  							   parent_name, CLK_SET_RATE_PARENT,
-dd22e56217495e Lad Prabhakar 2024-07-29  248  							   core->mult, div);
-dd22e56217495e Lad Prabhakar 2024-07-29  249  		if (IS_ERR(clk_hw))
-dd22e56217495e Lad Prabhakar 2024-07-29  250  			clk = ERR_CAST(clk_hw);
-dd22e56217495e Lad Prabhakar 2024-07-29  251  		else
-dd22e56217495e Lad Prabhakar 2024-07-29  252  			clk = clk_hw->clk;
-dd22e56217495e Lad Prabhakar 2024-07-29  253  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  254  	case CLK_TYPE_PLL:
-dd22e56217495e Lad Prabhakar 2024-07-29  255  		clk = rzv2h_cpg_pll_clk_register(core, priv, &rzv2h_cpg_pll_ops);
-dd22e56217495e Lad Prabhakar 2024-07-29  256  		break;
-dd22e56217495e Lad Prabhakar 2024-07-29  257  	default:
-dd22e56217495e Lad Prabhakar 2024-07-29  258  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  259  	}
-dd22e56217495e Lad Prabhakar 2024-07-29  260  
-dd22e56217495e Lad Prabhakar 2024-07-29  261  	if (IS_ERR_OR_NULL(clk))
-dd22e56217495e Lad Prabhakar 2024-07-29  262  		goto fail;
-dd22e56217495e Lad Prabhakar 2024-07-29  263  
-dd22e56217495e Lad Prabhakar 2024-07-29  264  	dev_dbg(dev, "Core clock %pC at %lu Hz\n", clk, clk_get_rate(clk));
-dd22e56217495e Lad Prabhakar 2024-07-29  265  	priv->clks[id] = clk;
-dd22e56217495e Lad Prabhakar 2024-07-29  266  	return;
-dd22e56217495e Lad Prabhakar 2024-07-29  267  
-dd22e56217495e Lad Prabhakar 2024-07-29  268  fail:
-dd22e56217495e Lad Prabhakar 2024-07-29 @269  	dev_err(dev, "Failed to register core clock %s: %ld\n",
-dd22e56217495e Lad Prabhakar 2024-07-29  270  		core->name, PTR_ERR(clk));
-dd22e56217495e Lad Prabhakar 2024-07-29  271  }
-dd22e56217495e Lad Prabhakar 2024-07-29  272  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: wifi@0,0: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['brcm,bcm4329-fmac', 'pci14e4,449d'] is too long
+   	'brcm,bcm4329-fmac' was expected
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: wifi@0,0: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
