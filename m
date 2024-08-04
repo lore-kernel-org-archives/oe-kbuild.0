@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20B46FB9
-	for <oe-kbuild@lists.linux.dev>; Sun,  4 Aug 2024 21:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DD412E4A
+	for <oe-kbuild@lists.linux.dev>; Sun,  4 Aug 2024 22:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722808235; cv=none; b=s/9i/StTbhFH3Ccev5mIXYCLp4ZrgRRdvXSfLxI7T3W0tv8PxVIYvZeLKFCBxFUy5kdE3pJj5OV0Lfb3KjU137K/s/wE8NZ0gdqvNLLxvNc/C0yB8obJXI7tDT/c/rJ7NSb2UrrQmo2h/IA4TMkfqk35mefRhUARSEu07ojU9SY=
+	t=1722811307; cv=none; b=TpyUYdpcZGjAWLmZ47h5gi+O6vXsj4Q+QnN/Vb55tovTNu48G7155APJn5EwKbisYKbYjFHcJPgH7P/J/8TM9PQlA7eXhRfq284NM9lM3RdHiEcEct9M2nz25MUQUhyzifIO68PGEVxyi9VhfGskPb09KiuCBSkozuJ5SH/6l88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722808235; c=relaxed/simple;
-	bh=Thc7SSXKhRVntTAQL4SSUDFrVvqb6RvVW5r4g2lCgLc=;
+	s=arc-20240116; t=1722811307; c=relaxed/simple;
+	bh=wEurwrKJn1VAKLhjL7EbECREfLxU18mT3if6pfQSFjc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kll/X5GYePqijohVEI2EiNZa63sPZjKnPoLgY4U3nbkPLNDE9cWCeg2uDkA6+U/8AFR0rtxbhlXLK+ahdKc3Z9KzGiZGdS9lUPwvuhovfeSeRnTd/59O89iO8IwTxxNi6KHvljqEEq7dyjr5SfCidH8gfEh0khTWOWmNtlm4L5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FLExOFVw; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=CDSTYtPl5KgV2XxvFJa+CTzODK2RsNOTvAX1WDLxbAzofCVhwA3+PrzqGD6Jdsf6QfwzGngr46D/OyHe+Kq5GHuTb/4Awm7rhfy/QsyKFVXyeyjtePCj6bKpWAmqYLyTJyvgkKR1mdC6Q3mEsEDnp0UChSJit85A7YXIPkPHEyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHN1gDUr; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FLExOFVw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHN1gDUr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722808232; x=1754344232;
+  t=1722811305; x=1754347305;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Thc7SSXKhRVntTAQL4SSUDFrVvqb6RvVW5r4g2lCgLc=;
-  b=FLExOFVwbuaePw6RQTSJnohrRqcHRT9sWcAXWXsjkD//ZoSWi4PDiWfH
-   NmVvxiJaA8mSNtjV0raL7fNIzzT7uykA0QcW7nxVCbyiRnqolMGf7jMZo
-   vEwwDgd7tJqxXmWGvkz64jK16aiIcHJnRXgIlNK+YDSimgSWPECbqDkgq
-   nRMpz8X4D/edZpFgXmcP2A0AF5raXz7rZvXKEXsY7uBDfmEJMMRGOwPql
-   kQnHRbMeueKT/85LN1F1DuJFjAhmzwppku6qXG4vax1Rq1CUFU360Urtb
-   ySbIWevwJR93Wb9/B/r4Vy4bQSWYXhgDG9boeAQQCo/P3Nvz4zs9aVBpC
-   g==;
-X-CSE-ConnectionGUID: xIyBWvqSTxGfHmORKdnAOQ==
-X-CSE-MsgGUID: fe0NQUpXQZm7x5wo7A5VEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="43279452"
+  bh=wEurwrKJn1VAKLhjL7EbECREfLxU18mT3if6pfQSFjc=;
+  b=WHN1gDUr1CoDKvzgo8lOZmKAI8nGJO2RSzolfilsfzeLunsUGCsiqZlP
+   DjF3vTkKjSd4o0nyIhZi4O1RtOJENwpfpfBuDVVPDF0npII+WF4OQu5LM
+   m6vcDjeHZ/0ijVCs/aFoyZEZfELLXcupAbkDeNi0CG3+T0RrpdVjGGnWT
+   viZnZLE4wxTQgZ3pCrz8yfAEMFAbuMdG2tDBixqXX0vT6zztyYDIp9yt6
+   8KYp8bPBol9G9rL6zXCFfSOsxvMVHSyB3DHPRmATtmCrIGgooWwiFpOLQ
+   W228ys2iwsaF9R9NA4jGgk0XpyR8RK7VLeScfl4lAD5IyMgnM11adTZjm
+   w==;
+X-CSE-ConnectionGUID: /4J56RpfSGWFmKzAxbMj6Q==
+X-CSE-MsgGUID: WEfvwECNRvKrKKDbcuu9Gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="31386635"
 X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="43279452"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 14:50:30 -0700
-X-CSE-ConnectionGUID: rkGou2JWQ9StYONtKYgx/A==
-X-CSE-MsgGUID: /uqcK9sYS5KpfU00+jexyA==
+   d="scan'208";a="31386635"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 15:41:44 -0700
+X-CSE-ConnectionGUID: z1hksNEARbuKastSv5l5Dg==
+X-CSE-MsgGUID: Tz2ibaiPSFmjJAsnGKo2Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="79240576"
+   d="scan'208";a="60811076"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Aug 2024 14:50:29 -0700
+  by orviesa005.jf.intel.com with ESMTP; 04 Aug 2024 15:41:43 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1saj7S-0001ce-2h;
-	Sun, 04 Aug 2024 21:50:26 +0000
-Date: Mon, 5 Aug 2024 05:50:16 +0800
+	id 1sajv2-0001dQ-30;
+	Sun, 04 Aug 2024 22:41:40 +0000
+Date: Mon, 5 Aug 2024 06:41:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: kernel/seccomp.o: warning: objtool: seccomp_sync_threads+0x50:
- unreachable instruction
-Message-ID: <202408050512.CRRcyM29-lkp@intel.com>
+Subject: [linux-next:master 2700/2947] mm/userfaultfd.o: warning: objtool:
+ userfaultfd_register_range+0x148: unreachable instruction
+Message-ID: <202408050641.2r2fDoTL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,33 +68,38 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Andrei Vagin <avagin@google.com>
-CC: Kees Cook <kees@kernel.org>
-CC: Oleg Nesterov <oleg@redhat.com>
-CC: Tycho Andersen <tandersen@netflix.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Vlastimil Babka <vbabka@suse.cz>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   17712b7ea0756799635ba159cc773082230ed028
-commit: bfafe5efa9754ebc991750da0bcca2a6694f3ed3 seccomp: release task filters when the task exits
-date:   5 weeks ago
-:::::: branch date: 2 days ago
-:::::: commit date: 5 weeks ago
-config: loongarch-randconfig-r112-20240802 (https://download.01.org/0day-ci/archive/20240805/202408050512.CRRcyM29-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f524a5e4dfb75b277c9a5ad819ca5f035f490f14
+commit: d9e65bcf28d4f9c071a086398ab1c48c590bbe12 [2700/2947] userfaultfd: move core VMA manipulation logic to mm/userfaultfd.c
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: loongarch-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20240805/202408050641.2r2fDoTL-lkp@intel.com/config)
 compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20240805/202408050512.CRRcyM29-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050641.2r2fDoTL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408050512.CRRcyM29-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408050641.2r2fDoTL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/seccomp.o: warning: objtool: seccomp_sync_threads+0x50: unreachable instruction
+   mm/userfaultfd.o: warning: objtool: mfill_atomic_copy+0x6c: unreachable instruction
+   mm/userfaultfd.o: warning: objtool: mfill_atomic_zeropage+0x64: unreachable instruction
+   mm/userfaultfd.o: warning: objtool: mfill_atomic_continue+0x6c: unreachable instruction
+   mm/userfaultfd.o: warning: objtool: mfill_atomic_poison+0x68: unreachable instruction
+   mm/userfaultfd.o: warning: objtool: mwriteprotect_range+0x94: unreachable instruction
+>> mm/userfaultfd.o: warning: objtool: userfaultfd_register_range+0x148: unreachable instruction
 
 
-objdump-func vmlinux.o seccomp_sync_threads:
+objdump-func vmlinux.o userfaultfd_register_range:
 
 -- 
 0-DAY CI Kernel Test Service
