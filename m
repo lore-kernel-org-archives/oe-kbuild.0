@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C022746F
-	for <oe-kbuild@lists.linux.dev>; Mon,  5 Aug 2024 00:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66392EDC
+	for <oe-kbuild@lists.linux.dev>; Mon,  5 Aug 2024 03:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722818699; cv=none; b=mbE1+OiL78SE07wOiRHpMJ+GhFg9stkEflRWhWEQoj8eCpHG4Nx1MOtMn4hfdDwSncEzLpJrpMRaHWJxhg7mKxH+mc0wSc6lsVvl8nL5t7wKodQ5etHe5pNa5upjzUDXRfA8FEfo2tLWnFhgvF+wKJU3bLg4hh/2dsuM/J2GtX8=
+	t=1722827830; cv=none; b=URA+xBEgxur/Pz/0v9nH/1fPQ87HEPMF+d5klwEjGx0d+tu5ZdomU/PJMVK1nWSy2hbGFaNKTEK7Z73gkFxk/9KONuxwXYibCtmAh3b/6+MNCCOKUQz4U0gEeUY55qLmj5e7KN7PgiwYZsxQatuIZgoGCezwe2NO4zauNQGt5+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722818699; c=relaxed/simple;
-	bh=iUsu6liZwuKiBUdZw6id4JBpTBpP6erWjfWdbq2NhVM=;
+	s=arc-20240116; t=1722827830; c=relaxed/simple;
+	bh=3oJxDcpeQyiDuZFNd2kX76UV2eR0+8c6xX5wIfuEyVQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XOSa1qYV/JMM34oxivQMIRPpR0eaYIadOChESKV8Ji768Qy4r+AP1X8tjek/cPn5aXPVsn5lG7sU+Agw9i+0N6ygd/MVWxd0/tLAW5VMlDBZb50zDSrqsb2hEQzwb9PW+/vSwV0M0nyh0hCYlXgwr/r54LcFGaEV3bIw4vsju0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a2IGkZPb; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=tDVheCFMwZtl3UWm8JiqQuU0CGcZQ4hGNbihRQv8eEZ/ct8tnk7/Vncr/AfAb3Dp4Jr/Qtrzrjow42UxLoodvwHz9z1jyD+rb89PIoDNpql0yiUcAuJHsPtfoDLdrhX3jGq/4O7e7k5U/zHunq1JABI+PwyPEJ8oRId5G5NjE3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OwHLyuCn; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a2IGkZPb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OwHLyuCn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722818697; x=1754354697;
+  t=1722827828; x=1754363828;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iUsu6liZwuKiBUdZw6id4JBpTBpP6erWjfWdbq2NhVM=;
-  b=a2IGkZPbwhxOeCddn7fUDb1tPGMY+Cmnt1Ytp5GA6eZdCbvwR0uCmrWJ
-   L7PhDK+JAXDPhlxPXeyN/syWlTg2T4gIux1ouJin1zcELopvB/wmZN1ah
-   oDnr0fjdgI9cZhoD0i/fMezoMWpZOjdPPy/wJmd11ImrCKwxEHJTsvUXz
-   jQqPqvGg6ftribPq801F5uR6nKiGZHZJBncOKBW0yAjxfdfHIYqat0pz2
-   aIlF59D8ru8Gb4qXWM7+EkpqjmJ3zgd/Ak2m5gpkBhBb+niW2dpOZml6A
-   m9xauiY+raKfhuHIJe2EUhoJR8WjnPowvfm4o7oXTv6kYfabEfSZlhWwI
+  bh=3oJxDcpeQyiDuZFNd2kX76UV2eR0+8c6xX5wIfuEyVQ=;
+  b=OwHLyuCngJQFWz3q2lWameFCI+kIUq6aujznGEA5fEQJSYDZ0oEUUUgZ
+   DWZZoRxhZ1Sq7B+/BSjtA9+9rh4umESWQERI+Vvi9i/R8tYHHrI1d/PuJ
+   7vHGLy0DXdr+4YubcaF3yhWUhOrCwr3LqNDBrtFH2Va+k13AjfuZ+Z73w
+   Q1XH3srlq/gz61dEa4RvX314xbzaY+pIR/O2HgMj207VvUHkNT8pRknOI
+   eFvRTzZPji3vy5tOVLRbaB8UxKSmSVDZSYWDGwU0d/LY+RNKLNROVEEB3
+   b9Nox7yD57h1Rr3Lkoj97fpqNiHL/nB+pClvTdspapI0W1Jw77973Abcr
    g==;
-X-CSE-ConnectionGUID: woxgTZeOQg6ktfO5tHKxMw==
-X-CSE-MsgGUID: 9iusnboWTFmniVhD0KHvcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="43285605"
+X-CSE-ConnectionGUID: HxFi2RWuSl2R68bFDcD26g==
+X-CSE-MsgGUID: 4W2DnLiRQDuJypwyBvuUMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11154"; a="20651258"
 X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="43285605"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 17:44:56 -0700
-X-CSE-ConnectionGUID: a9X31HH/Sf+Cx+whRyBYiw==
-X-CSE-MsgGUID: OSTcgw04Q52jBwUszLS08A==
+   d="scan'208";a="20651258"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2024 20:17:07 -0700
+X-CSE-ConnectionGUID: lfnp8BG5SpaKIVvHzThgpA==
+X-CSE-MsgGUID: M35BrDcVQ4u3NuSCHorEAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,263,1716274800"; 
-   d="scan'208";a="55666486"
+   d="scan'208";a="86588564"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Aug 2024 17:44:55 -0700
+  by orviesa002.jf.intel.com with ESMTP; 04 Aug 2024 20:17:06 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1salqH-0001ee-06;
-	Mon, 05 Aug 2024 00:44:53 +0000
-Date: Mon, 5 Aug 2024 08:44:24 +0800
+	id 1saoDY-0001gW-1k;
+	Mon, 05 Aug 2024 03:17:04 +0000
+Date: Mon, 5 Aug 2024 11:16:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 2703/2947] mm/vma.o: warning: objtool:
- do_vmi_align_munmap+0x26c: unreachable instruction
-Message-ID: <202408050808.qX4iKxgL-lkp@intel.com>
+Subject: Re: [PATCH v2 04/10] arm64: dts: fsl-ls1043a: change uqe to uqe-bus
+ and remove #address-cells
+Message-ID: <202408051035.zphJ26SU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,40 +63,68 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Vlastimil Babka <vbabka@suse.cz>
-CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+In-Reply-To: <20240729-ls_warning_all-v2-4-942d80ddd441@nxp.com>
+References: <20240729-ls_warning_all-v2-4-942d80ddd441@nxp.com>
+TO: Frank Li <Frank.Li@nxp.com>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: Frank Li <Frank.Li@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f524a5e4dfb75b277c9a5ad819ca5f035f490f14
-commit: 64ce446c0c5b1b69bc2ba902161f4b3da0193171 [2703/2947] mm: move internal core VMA manipulation functions to own file
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: loongarch-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20240805/202408050808.qX4iKxgL-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408050808.qX4iKxgL-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/arm64-dts-layerscape-rename-aux-bus-to-bus/20240730-031018
+base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+patch link:    https://lore.kernel.org/r/20240729-ls_warning_all-v2-4-942d80ddd441%40nxp.com
+patch subject: [PATCH v2 04/10] arm64: dts: fsl-ls1043a: change uqe to uqe-bus and remove #address-cells
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arm64-randconfig-051-20240804 (https://download.01.org/0day-ci/archive/20240805/202408051035.zphJ26SU-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240805/202408051035.zphJ26SU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408050808.qX4iKxgL-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408051035.zphJ26SU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> mm/vma.o: warning: objtool: do_vmi_align_munmap+0x26c: unreachable instruction
->> mm/vma.o: warning: objtool: mm_drop_all_locks+0x90: unreachable instruction
->> mm/vma.o: warning: objtool: mm_take_all_locks+0x1b8: unreachable instruction
-
-
-objdump-func vmlinux.o do_vmi_align_munmap:
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: thermal-zones: 'core-cluster-thermal' does not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/nand@1,0: failed to match any schema with compatible: ['fsl,ifc-nand']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/memory-controller@1530000/board-control@2,0: failed to match any schema with compatible: ['fsl,ls1043ardb-cpld']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: mmc@1560000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/fsl,esdhc.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: memory-controller@1080000: 'big-endian' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/fsl/fsl,ddr.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/spi@2100000/slic@2: failed to match any schema with compatible: ['maxim,ds26522']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/spi@2100000/slic@3: failed to match any schema with compatible: ['maxim,ds26522']
+>> arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: /soc/uqe-bus@2400000/ucc@2000: failed to match any schema with compatible: ['fsl,ucc-hdlc']
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: watchdog@2ad0000: Unevaluated properties are not allowed ('big-endian' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3400000: fsl,pcie-scfg:0: [22, 0] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3500000: fsl,pcie-scfg:0: [22, 1] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: pcie@3600000: fsl,pcie-scfg:0: [22, 2] is too long
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,layerscape-pcie.yaml#
+   arch/arm64/boot/dts/freescale/fsl-ls1043a-rdb.dtb: dma-controller@8380000: compatible: ['fsl,ls1021a-qdma', 'fsl,ls1043a-qdma'] is too long
+   	from schema $id: http://devicetree.org/schemas/dma/fsl-qdma.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
