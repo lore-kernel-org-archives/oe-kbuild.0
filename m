@@ -1,57 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC05EADC
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Aug 2024 04:21:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38D729A1
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Aug 2024 05:02:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722918103; cv=none; b=a/khWMP67vuaXLkkcNnTrL4/XKPQDHezuhpluyEUHw23wg/hI37oGK37gdW9fzVXsYfsE3Ywm456bXsfa984MrsKd2SUbpyAJRm7Kfw2ba88lLiAsYS2yihmvUoqRZr+8PbyQsfmgzpuhs1w8LAltsbdOiSgttvN6oK/hrfHmPI=
+	t=1722920569; cv=none; b=LFnZLaVc3bZiOPd69CXyLrrmUWxe05stA2YYOIJZ+00AZEc/jkwYgX0nAmpAmLv0gveNtwkvf9UUKFTrnh2MTByHwrrqmFyLur07d559JeVlESLzIe05zlWuQ7nhbOu3bAyZd43gqNwrHjaxzs/M6jVPq6trSB69DU5rS3Ag9BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722918103; c=relaxed/simple;
-	bh=KmbjpdhXo2tPboLk9nWgF+WLCc/iMlOiKWGlSBXiIP8=;
+	s=arc-20240116; t=1722920569; c=relaxed/simple;
+	bh=zAr2RtYR8YYNXNt9LinXfEAv1YVqexqfnsTn++/M23Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F/xpuZKhUHpWR4uUa9Nu+gnTHZzeM3UrJQhUmlbnjU4lZM9sBQvP3W8IdequlzLxWKRuSX+FzlZlWjyNWYKh41FYFw++syWbp5l04EOFSl29g627paN2QzonvktGfyqV+PBhPG4zz+Ybvsn9c9wsCO0tw60V8x9vXO7bUrNBGb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cdFBOleu; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=S2Mh32eh+biBkK/dgH0QJgNOlpSJlQBWIGkPBcvkTSwPuvPb5C6pRTnFr0eYefjUv/0R/Z4zSYiNWy5LEzcdrTpAgkdFGmrApHBQRp/XT+wJjvb7leDCzr7nB7pRKJJ0QWOXnBLAq9EWA8CS2SojkwoTHD6JJ7FZftjkjWAJA+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9rVdTQc; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cdFBOleu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9rVdTQc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722918101; x=1754454101;
+  t=1722920568; x=1754456568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KmbjpdhXo2tPboLk9nWgF+WLCc/iMlOiKWGlSBXiIP8=;
-  b=cdFBOleun/aFLvUsoH9pxXyn0lsEv8AULckgeb8eCToDf7Vcvdj6Bean
-   COGDyT0KJciSAiL5S25Ga9t3PlRjm7csNAyXzoI/TTSTYTceJr8AjuPi6
-   wMEcrMe/GyqqVL3xBW4IlrrIUw7I23nLJqAn3YFwJ+hHYCnyYpeXuEkWh
-   mUgfrkyxij4DE9PqU2NCrb7f/HY/y9gK27yiB/jUi1ptbQYC0mZHzUD/Y
-   PvxxDybDomFaG7lIwBEhc2KBCS58Vx17jtf9zEKkUIY4CDdF4tUraHB0K
-   ofNO4ipmDU+Pi1gBa3QLz9Sn1IJ43zFjXJvIWY/rd6DXWaU97sdaulqWe
-   w==;
-X-CSE-ConnectionGUID: xji/vO9BRRWi2gEbLztsdA==
-X-CSE-MsgGUID: n/fAM1BFQfeyozXxtflpcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20788685"
+  bh=zAr2RtYR8YYNXNt9LinXfEAv1YVqexqfnsTn++/M23Q=;
+  b=M9rVdTQchIWrFrB9FgtYxOr0c7EcXrDXtbRecoW7osBSKBD1Ez/7k963
+   7FUuEf1EGt/EeXgtr1X9LK3t5asqCCY/CQycdN6Du0c7l7ByJk6GV9sT0
+   6sU/89GjR2RZOxLvAQCiWCMFwASZHOWQHy7jYeuFrImiewGMSDxUyHcwJ
+   eYim9jzcIghU+KZGIdibjqBV7UhJHFHIgG/G9mlfVnmbtEova7lf+zuPT
+   xPbtEprtFHRmLPJYI5vpYpFyHx9CVjPeXcucA8G9ZTKbG9sW8XRPByFB7
+   m2z0KlZ2G+2UKUXf1n1AOj4daslxkCUKN6iSYmKynSMztaTwaFQ6zC9P/
+   Q==;
+X-CSE-ConnectionGUID: eLf8M9CYTZK5VPLPPvW12g==
+X-CSE-MsgGUID: bf7dhVtDQ+SYcOUtOc1yFA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="20790901"
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="20788685"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 21:21:40 -0700
-X-CSE-ConnectionGUID: FSuKAxe9SCK5nIpkfaHUQA==
-X-CSE-MsgGUID: mUHHKhovSrq70V1Rr0Y4tQ==
+   d="scan'208";a="20790901"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 22:02:47 -0700
+X-CSE-ConnectionGUID: rCkGYy/RQNiz/bbB9bxwaA==
+X-CSE-MsgGUID: Ou0/tAMOR3yaLJkbWaucnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="57082197"
+   d="scan'208";a="61244200"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 05 Aug 2024 21:21:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 05 Aug 2024 22:02:46 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbBhY-00048m-2I;
-	Tue, 06 Aug 2024 04:21:36 +0000
-Date: Tue, 6 Aug 2024 12:21:28 +0800
+	id 1sbCLL-0004AG-1y;
+	Tue, 06 Aug 2024 05:02:43 +0000
+Date: Tue, 6 Aug 2024 13:02:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] PCI: limit pci bridge and subsystem speed to 2.5GT/s
-Message-ID: <202408061210.KkFwGezF-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH] arm64: dts: freescale: imx8mp-phyboard-pollux: Add and
+ enable TPM
+Message-ID: <202408061206.3x1m8mWP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,89 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240805092010.82986-1-412574090@163.com>
-References: <20240805092010.82986-1-412574090@163.com>
-TO: 412574090@163.com
-TO: corbet@lwn.net
-TO: bhelgaas@google.com
-CC: linux-doc@vger.kernel.org
+In-Reply-To: <20240805-imx8mp-tpm-v1-1-1e89f0268999@phytec.de>
+References: <20240805-imx8mp-tpm-v1-1-1e89f0268999@phytec.de>
+TO: Benjamin Hahn <B.Hahn@phytec.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Shawn Guo <shawnguo@kernel.org>
+TO: Sascha Hauer <s.hauer@pengutronix.de>
+TO: Pengutronix Kernel Team <kernel@pengutronix.de>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Teresa Remmet <t.remmet@phytec.de>
+CC: devicetree@vger.kernel.org
+CC: imx@lists.linux.dev
+CC: linux-arm-kernel@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-pci@vger.kernel.org
-CC: xiongxin@kylinos.cn
-CC: weiyufeng <weiyufeng@kylinos.cn>
+CC: Benjamin Hahn <B.Hahn@phytec.de>
 
-Hi,
+Hi Benjamin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.11-rc2 next-20240805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 17712b7ea0756799635ba159cc773082230ed028]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/412574090-163-com/PCI-limit-pci-bridge-and-subsystem-speed-to-2-5GT-s/20240805-173637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240805092010.82986-1-412574090%40163.com
-patch subject: [PATCH] PCI: limit pci bridge and subsystem speed to 2.5GT/s
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-161-20240805 (https://download.01.org/0day-ci/archive/20240806/202408061210.KkFwGezF-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Hahn/arm64-dts-freescale-imx8mp-phyboard-pollux-Add-and-enable-TPM/20240805-213729
+base:   17712b7ea0756799635ba159cc773082230ed028
+patch link:    https://lore.kernel.org/r/20240805-imx8mp-tpm-v1-1-1e89f0268999%40phytec.de
+patch subject: [PATCH] arm64: dts: freescale: imx8mp-phyboard-pollux: Add and enable TPM
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arm64-randconfig-051-20240806 (https://download.01.org/0day-ci/archive/20240806/202408061206.3x1m8mWP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061206.3x1m8mWP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408061210.KkFwGezF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408061206.3x1m8mWP-lkp@intel.com/
 
-smatch warnings:
-drivers/pci/probe.c:1874 pcie_retrain_downstream_2_5g() error: uninitialized symbol 'ret'.
-
-vim +/ret +1874 drivers/pci/probe.c
-
-11eb0e0e8dea8b Sinan Kaya 2018-06-04  1848  
-fcaa56be5f1d45 weiyufeng  2024-08-05  1849  static void pcie_retrain_downstream_2_5g(struct pci_dev *pdev)
-fcaa56be5f1d45 weiyufeng  2024-08-05  1850  {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1851  	u16 lnkctl2;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1852  	const char *p;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1853  	int ret;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1854  
-fcaa56be5f1d45 weiyufeng  2024-08-05  1855  	p = pci_speed_2_5g;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1856  	while (*p) {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1857  		ret = pci_dev_str_match(pdev, p, &p);
-fcaa56be5f1d45 weiyufeng  2024-08-05  1858  		if (ret < 0) {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1859  			pr_info_once("PCI: Can't parse pci_speed_2_5g parameter: %s\n",
-fcaa56be5f1d45 weiyufeng  2024-08-05  1860  				pci_speed_2_5g);
-fcaa56be5f1d45 weiyufeng  2024-08-05  1861  			break;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1862  		} else if (ret == 1) {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1863  			/* Found a match */
-fcaa56be5f1d45 weiyufeng  2024-08-05  1864  			break;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1865  		}
-fcaa56be5f1d45 weiyufeng  2024-08-05  1866  
-fcaa56be5f1d45 weiyufeng  2024-08-05  1867  		if (*p != ';' && *p != ',') {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1868  			/* End of param or invalid format */
-fcaa56be5f1d45 weiyufeng  2024-08-05  1869  			break;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1870  		}
-fcaa56be5f1d45 weiyufeng  2024-08-05  1871  		p++;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1872  	}
-fcaa56be5f1d45 weiyufeng  2024-08-05  1873  
-fcaa56be5f1d45 weiyufeng  2024-08-05 @1874  	if (ret != 1)
-fcaa56be5f1d45 weiyufeng  2024-08-05  1875  		return;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1876  
-fcaa56be5f1d45 weiyufeng  2024-08-05  1877  	pci_info(pdev, "set downstream link at 2.5GT/s\n");
-fcaa56be5f1d45 weiyufeng  2024-08-05  1878  	pcie_capability_read_word(pdev, PCI_EXP_LNKCTL2, &lnkctl2);
-fcaa56be5f1d45 weiyufeng  2024-08-05  1879  	lnkctl2 &= ~PCI_EXP_LNKCTL2_TLS;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1880  	lnkctl2 |= PCI_EXP_LNKCTL2_TLS_2_5GT;
-fcaa56be5f1d45 weiyufeng  2024-08-05  1881  	pcie_capability_write_word(pdev, PCI_EXP_LNKCTL2, lnkctl2);
-fcaa56be5f1d45 weiyufeng  2024-08-05  1882  
-fcaa56be5f1d45 weiyufeng  2024-08-05  1883  	if (pcie_retrain_link(pdev, true)) {
-fcaa56be5f1d45 weiyufeng  2024-08-05  1884  		pci_info(pdev, "retraining failed\n");
-fcaa56be5f1d45 weiyufeng  2024-08-05  1885  	}
-fcaa56be5f1d45 weiyufeng  2024-08-05  1886  }
-fcaa56be5f1d45 weiyufeng  2024-08-05  1887  
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: tpm_tis@0: $nodename:0: 'tpm_tis@0' does not match '^tpm(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/tpm/tcg,tpm_tis-spi.yaml#
+   arch/arm64/boot/dts/freescale/imx8mp-phyboard-pollux-rdk.dtb: clock-controller@30e20000: '#reset-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/clock/imx8mp-audiomix.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
