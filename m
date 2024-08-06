@@ -1,101 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643FD33F6
-	for <oe-kbuild@lists.linux.dev>; Tue,  6 Aug 2024 06:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4A51662F1
+	for <oe-kbuild@lists.linux.dev>; Tue,  6 Aug 2024 08:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722925598; cv=none; b=WHfmuw8OqJIG3Jnkp3I8S9tWkG4W0089J9FvmW8Dd7TVlCsO/OO+LlrSD9Y51CvYX6XTKVgm1/L5V+hXcLuXAzJz7T/aUS5fGntWpcvudAASKc/US5RcQKA7K8+PBkfyPMZgzub7NahppfJixwephHOdNuHp6Prc7W6fyfIQ4Go=
+	t=1722933029; cv=none; b=ixrA+ilbArNhJOdy/POutOqJLOC/WIoIBim8m6MVDGzcu4Nb5tOMhVIRO9XR+ovmG65m7lSWS8/y+4xa+UtG0o8R/wHJ6MTi0rLEGCrpvqhKhE9q6Se44l2lTCfsmxWzbaTzDms1YvLfnTHIF4fGw/N4TB0F7uXs9CUzMv+K5zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722925598; c=relaxed/simple;
-	bh=n7aHq3wjdOUemx/lCYz+jD5pdrQohmGEHO3jMMbN8ZA=;
+	s=arc-20240116; t=1722933029; c=relaxed/simple;
+	bh=uK4ggZZ5zdHPeumOwM3Ls/S9Z7ej5UTJQwE9HQaDvuE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KtrZICVzxHVgFQE4v/nxVQyAIdGErsdu7ekApkxsDr+cxhgBAzjLsYlmXmu9FPWFyGcgnCACgSZlvJI2a78lXH08wN3Xa+rjtAkgSf54FCiVDi8ZsYDUfFe43jz1iBS85421ucAZHY1SvA09+XCkCyCvXTypyo/DnPL/xSm/P8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USZ2gJoo; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=b3W9YP5+EOuNloVsg4IYBkis+Ff8BDE94iU4wn+ncVkyOmWyUOeuildap3bHxzyWiZQDr1RiUgjij5xeGRVOdTOJEEhFHM0bzSmRo+clu0N0eU4qfPyxQWqNJBGuk769gzhevHrhWDRfEphXU/dfYNvRIzNtP/quND20D9Ffvgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFze+2xz; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USZ2gJoo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFze+2xz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722925597; x=1754461597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n7aHq3wjdOUemx/lCYz+jD5pdrQohmGEHO3jMMbN8ZA=;
-  b=USZ2gJoo2XNwXRsZXvG9Yh79Erf6vKin33tbPUCv0DjvLppUJx7RS4BW
-   pzhePPEfIFxKXjEQLP+L4GE/RNTiWh5lRYBqVfWZVTjhUXnN/lwwH0E8/
-   dE6tTHqkdOy4fY8ZrcP0a34KMNN5ZlAkHxXMTP1Y3OBQCuh6/v4/eLB5K
-   X/l91RTemVEMKKdDdALolNYEsRKmuuFwKqZR4oMPWVsuGqKFiSCKA7T6u
-   bVVSuYzl9Lrv+FDuF4ynw/98WQBDXnH+EJqjqV+sxUdKrQ2/is4s3RyMg
-   8uiWiaa1IIk6OmzctTF1gztjyQFflkR7bIuZUpjx4MWzB+iRdMLwbFbdU
-   g==;
-X-CSE-ConnectionGUID: x//XxcXPQXqHkXZIAYTLKQ==
-X-CSE-MsgGUID: L7Ez0jlxR92DeO1//DTAwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="43447562"
-X-IronPort-AV: E=Sophos;i="6.09,266,1716274800"; 
-   d="scan'208";a="43447562"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2024 23:26:36 -0700
-X-CSE-ConnectionGUID: SAQYTbrQTh+ohQ8N9KfIyw==
-X-CSE-MsgGUID: 5NCc2iiKS6CTIqNp8Sv05g==
+  t=1722933028; x=1754469028;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uK4ggZZ5zdHPeumOwM3Ls/S9Z7ej5UTJQwE9HQaDvuE=;
+  b=eFze+2xzSINaCEN6P5IPlqHISh/mnuRa5zWCgRMiLEQ+ZauGa3FU8ArH
+   Ohtgn0rZG0Vh8zeeaOjjx8DPrMnaGnH0EekkdD5k/rW1NOzFPdZzvcbpy
+   mx4ELaDwHFanMSDTwpiiJgBabF02j+uoTX/7y1qzg+rgBXGxRvDXlGpvx
+   jQRtMjulN6tW7ZoVQtbcJrFWeYhma/BUQr7jDY79E/mHCZJ6y5XA7n0Ud
+   4GDMYmBJTJ58SAEgOzAHUrBJdiCkklvNuXm7mpKqUqCeGnNHuytbaolSU
+   UnKlu1OBFRt06UnqIybgwZB/jMpDpNaS+I5Lo9Lu7vBxpQ3dszv0F/ko1
+   Q==;
+X-CSE-ConnectionGUID: Hf6eziSgRayHIDo8WgmnXQ==
+X-CSE-MsgGUID: ruti3hfZQM+lvXM8C3FFCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11155"; a="46336287"
+X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
+   d="scan'208";a="46336287"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 01:30:27 -0700
+X-CSE-ConnectionGUID: GRwn0Qg1RMapy4UHtlDKvQ==
+X-CSE-MsgGUID: ONzBv+w4TLyLaSwEJWvYZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,267,1716274800"; 
-   d="scan'208";a="93935610"
+   d="scan'208";a="61405860"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Aug 2024 23:26:28 -0700
+  by orviesa004.jf.intel.com with ESMTP; 06 Aug 2024 01:30:26 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbDeJ-0004Dc-19;
-	Tue, 06 Aug 2024 06:26:24 +0000
-Date: Tue, 6 Aug 2024 14:25:28 +0800
+	id 1sbFaI-0004JC-2q;
+	Tue, 06 Aug 2024 08:30:22 +0000
+Date: Tue, 6 Aug 2024 16:29:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [hch-xfs:xfs-per-rtg-bitmap-rebase 56/60] fs/xfs/scrub/bmap.c:
- xfs_rtgroup.h is included more than once.
-Message-ID: <202408061420.OpRtP2oI-lkp@intel.com>
+Subject: Re: [PATCH v11 11/12] arm64: dts: Add DTS for Marvell PXA1908 and
+ samsung,coreprimevelte
+Message-ID: <202408061625.Gnlmw4sd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20240730-pxa1908-lkml-v11-11-21dbb3e28793@skole.hr>
+References: <20240730-pxa1908-lkml-v11-11-21dbb3e28793@skole.hr>
+TO: "Duje Mihanović via B4 Relay" <devnull+duje.mihanovic.skole.hr@kernel.org>
+TO: Michael Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: Linus Walleij <linus.walleij@linaro.org>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Tony Lindgren <tony@atomide.com>
+TO: Haojian Zhuang <haojian.zhuang@linaro.org>
+TO: "Duje Mihanović" <duje.mihanovic@skole.hr>
+TO: Lubomir Rintel <lkundrak@v3.sk>
+TO: Catalin Marinas <catalin.marinas@arm.com>
+TO: Will Deacon <will@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+CC: phone-devel@vger.kernel.org
+CC: ~postmarketos/upstreaming@lists.sr.ht
+CC: Karel Balej <balejk@matfyz.cz>
+CC: David Wronek <david@mainlining.org>
+CC: linux-clk@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-gpio@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap-rebase
-head:   556815df77c3443419163e1deccade141c065289
-commit: b586f162ed8a92a3c49d905ee0b71d4eb9a3dc55 [56/60] xfs: don't coalesce file mappings that cross allocation group boundaries
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 hours ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Duje,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8400291e289ee6b2bf9779ff1c83a291501f017b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi-via-B4-Relay/clk-mmp-Switch-to-use-struct-u32_fract-instead-of-custom-one/20240730-204129
+base:   8400291e289ee6b2bf9779ff1c83a291501f017b
+patch link:    https://lore.kernel.org/r/20240730-pxa1908-lkml-v11-11-21dbb3e28793%40skole.hr
+patch subject: [PATCH v11 11/12] arm64: dts: Add DTS for Marvell PXA1908 and samsung,coreprimevelte
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm64-randconfig-051-20240806 (https://download.01.org/0day-ci/archive/20240806/202408061625.Gnlmw4sd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240806/202408061625.Gnlmw4sd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408061420.OpRtP2oI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408061625.Gnlmw4sd-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> fs/xfs/scrub/bmap.c: xfs_rtgroup.h is included more than once.
-
-vim +22 fs/xfs/scrub/bmap.c
-
-  > 22	#include "xfs_rtgroup.h"
-    23	#include "xfs_health.h"
-    24	#include "xfs_ag.h"
-  > 25	#include "xfs_rtgroup.h"
-    26	#include "scrub/scrub.h"
-    27	#include "scrub/common.h"
-    28	#include "scrub/btree.h"
-    29	#include "scrub/health.h"
-    30	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dts:38.9-41.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 0]]}
+   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
+>> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: board-pins-0:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: board-pins-2:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: uart0-pins:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: gpio-keys-pins:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: i2c-muic-pins:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+>> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: sdh0-pins-0:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: sdh0-pins-1:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: pinmux@1e000: sdh0-pins-2:pinctrl-single,input-schmitt: [64, 0, 64, 112] is too long
+   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-single.yaml#
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: mmc@80000: pinctrl-names: ['default'] is too short
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: mmc@80000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
