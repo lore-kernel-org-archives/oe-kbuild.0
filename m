@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA7E18D63E
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 07:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000DF2868D
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 08:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723015059; cv=none; b=lrfNJIlfoo8mm4yaT+Aand9HVjqQy1YGHyLJpMVU3x56hlJEJWT95Qr4vEsiBCeXnb9GjLSr0gxQSqKJz4HTC9m8eOGyUSZj7lpIQT2oQ1jtG3pqrpXoYGuH+JAQCPJYP7HeNiH9YVJjODIUBBubA45xjkOLndUJGPJ6hd/gUOQ=
+	t=1723018138; cv=none; b=SFivSc1dvIL9wgYmq2BeK+WWNsamkUdzrw2biMpNSvJHMOL6xItxom3lYfaOF+aGFYWEX8zwP1FSZyGRmbXmqd9aLB89lh/rGZMockn9nPJa3KeqEvPnbXnXmQeg527hgJern+P+bMeblAW5H7qO4e+IH0fRzoaYSm2txVibY+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723015059; c=relaxed/simple;
-	bh=LlWcxfB1KG9oujN0SKc8Dom0vhC3gXQRRFOIuP8sxlc=;
+	s=arc-20240116; t=1723018138; c=relaxed/simple;
+	bh=wy1AXFpWJ5eBEJPfJU333bNBfbq/gsdVzgRZKIlO8dw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XfaAReDBtsDY3leun2JAWJf6JCbkVMfL3L3eHs8Rp0ZmBrlqqR9C5901Mr0ZOuM/j9T+kNj3JNUvYa+VB3ttkVYOTJs2W+Pcuefwf0zCOMpu4TKa0xLpBvCxs4Ei2ckNFMyGVbgk3eXZVR5deL611rc6oi0P7eEbFunZ5wmbr40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LvKey5CX; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=IFBSubLjuJNp8RUFnCfMcSdWcYd+MxPo8BcHLm1fUju3ptiopxbyoMt5gyC8WHXehuCfkor3ExeOqWIW+gL+2W9Luk2ZwmpwlpihWYaFnY85nuyu3O+L8J90V3kuU42wQox0fLkdAvzJHRCS7tH63lWOSB4dB2UuWT6XR+hB2Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XeHA0fS9; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LvKey5CX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XeHA0fS9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723015058; x=1754551058;
+  t=1723018137; x=1754554137;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LlWcxfB1KG9oujN0SKc8Dom0vhC3gXQRRFOIuP8sxlc=;
-  b=LvKey5CXUX3GQ9mA164373mwkeY1g4dhWiQ/M7moBHjDMPlZ3mEDRHV1
-   VaRmHX0yudhHEM5T3wWR76JL/rXBscYK93jf1tJSATbErFPfqir+Fn2gX
-   CWW7GGsiYbAWppovWkOOi8eLvPNHQZOY/1crudj4TtGlNwoTXJL9v9zqf
-   atYtMGSOIecdDI5Y/+5o+pVN8fmzYhodCHJn0cQm4Otr4C1eDyvxXB2Xy
-   v2Mj4CStqsMjnub8EtcKgt1w7uXxTnFKd/qEl6gxn0PIS52+RAXuN6jER
-   QgdkIqXdgOMQEPDQfa0jqTyIWd9wzWmI0XDS9sXgvNjHRjOr89DntmARg
-   A==;
-X-CSE-ConnectionGUID: jupg0bCLTRyp3Oh2e3uGzA==
-X-CSE-MsgGUID: Bdr9SUmaTICU5jx+BhqTIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38578063"
+  bh=wy1AXFpWJ5eBEJPfJU333bNBfbq/gsdVzgRZKIlO8dw=;
+  b=XeHA0fS9VJBmV7yQG5teOsgOH0YIWlsXyjEPhkIOWBSUIeBjp1SUhGEa
+   EJpysuMgEcpBgzPrEMVgtnVRPbi/85+c7hG1tOtTmGjDVfxX9C7Rj3lTh
+   ZH2Z1tK0RuJQOjQdoP8Pbp+Os7h7t1IY3Zim8dMUpSh/tS4weXroOmeOp
+   mybjN9A64fl0YMVAWbeN/Xv3hm9y0UlCHUY7dTQUx7xw7w27pZX9eCc5N
+   9TtljlHXxM1FEQvj+4xz7mLU6m/hrdQTy0Gcy/XCn3VkB7XdhDomTfzZT
+   HB4D486sx6zwiYsSUKhleMAQ0JDBdo+29JXkHpviqvYKMPZpUtu7e+RJ5
+   w==;
+X-CSE-ConnectionGUID: k4t8HBBRQ4yyiR/VEKGvcA==
+X-CSE-MsgGUID: i7WBkjcpSn6euElW/BXZdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38530995"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="38578063"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 00:17:37 -0700
-X-CSE-ConnectionGUID: bCD7lbSaQzKc7TMTWb10RQ==
-X-CSE-MsgGUID: 3Nj8XfEvSNOabRjqY5+XvA==
+   d="scan'208";a="38530995"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:08:56 -0700
+X-CSE-ConnectionGUID: O6iYkJAaRXW4Ec3DXCIBhQ==
+X-CSE-MsgGUID: /CF0GFB4R7CvDFlpwHYDag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="57456731"
+   d="scan'208";a="56646299"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 07 Aug 2024 00:17:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2024 01:08:56 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbavN-0005CW-1l;
-	Wed, 07 Aug 2024 07:17:33 +0000
-Date: Wed, 7 Aug 2024 15:16:55 +0800
+	id 1sbbj2-0005EK-2f;
+	Wed, 07 Aug 2024 08:08:52 +0000
+Date: Wed, 7 Aug 2024 16:08:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-Message-ID: <202408071452.6SCU404X-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [plbossart-sound:sdw/fix-bool-properties 16/19]
+ sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error:
+ uninitialized symbol 'string'.
+Message-ID: <202408071524.CplRSiTF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,72 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240806115557.4750-1-zhangtianyang@loongson.cn>
-References: <20240806115557.4750-1-zhangtianyang@loongson.cn>
-TO: Tianyang Zhang <zhangtianyang@loongson.cn>
-TO: corbet@lwn.net
-TO: alexs@kernel.org
-TO: siyanteng@loongson.cn
-TO: chenhuacai@kernel.org
-TO: kernel@xen0n.name
-TO: tglx@linutronix.de
-TO: jiaxun.yang@flygoat.com
-TO: gaoliang@loongson.cn
-TO: wangliupu@loongson.cn
-TO: lvjianmin@loongson.cn
-TO: zhangtianyang@loongson.cn
-TO: yijun@loongson.cn
-TO: mhocko@suse.com
-TO: akpm@linux-foundation.org
-TO: dianders@chromium.org
-TO: maobibo@loongson.cn
-TO: xry111@xry111.site
-TO: zhaotianrui@loongson.cn
-TO: nathan@kernel.org
-TO: yangtiezhu@loongson.cn
-TO: zhoubinbin@loongson.cn
-CC: loongarch@lists.linux.dev
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Huacai Chen <chenhuacai@loongson.cn>
+TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
-Hi Tianyang,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on tip/x86/core tip/smp/core linus/master v6.11-rc2 next-20240806]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/irqchip-loongarch-avec-Add-AVEC-irqchip-support/20240806-195922
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20240806115557.4750-1-zhangtianyang%40loongson.cn
-patch subject: [PATCH V8 2/2] irqchip/loongarch-avec: Add AVEC irqchip support
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: loongarch-randconfig-001-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071452.6SCU404X-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071452.6SCU404X-lkp@intel.com/reproduce)
+tree:   https://github.com/plbossart/sound sdw/fix-bool-properties
+head:   cc66cbd8eb2728b3b654f29c0a44009826c7a108
+commit: 98ab12fb50b6f367cd21ac2c59898574a0a6297c [16/19] ASoC: SOF: debug-dsp-ops: Add a debugfs entry to read current FW status
+:::::: branch date: 24 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-161-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071524.CplRSiTF-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408071452.6SCU404X-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408071524.CplRSiTF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error: uninitialized symbol 'string'.
 
->> kernel/irq/matrix.o: warning: objtool: irq_matrix_assign_system+0x16c: unreachable instruction
+vim +/string +174 sound/soc/sof/debug-dsp-ops.c
 
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  141  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  142  static ssize_t sof_dsp_ops_tester_dfs_read(struct file *file, char __user *buffer,
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  143  					   size_t count, loff_t *ppos)
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  144  {
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  145  	struct snd_sof_dfsentry *dfse = file->private_data;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  146  	struct snd_sof_dev *sdev = dfse->sdev;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  147  	struct dentry *dentry;
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  148  	const char *string;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  149  	size_t size_ret;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  150  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  151  	/* return the FW filename or path */
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  152  	dentry = file->f_path.dentry;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  153  	if (!strcmp(dentry->d_name.name, "fw_filename")) {
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  154  		string = sdev->test_profile.fw_name;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  155  	} else if (!strcmp(dentry->d_name.name, "fw_path")) {
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  156  		string = sdev->test_profile.fw_path;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  157  	} else if (!strcmp(dentry->d_name.name, "dsp_power_state")) {
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  158  		switch (sdev->dsp_power_state.state) {
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  159  		case SOF_DSP_PM_D0:
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  160  			string = "D0\n";
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  161  			break;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  162  		case SOF_DSP_PM_D3:
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  163  			string = "D3\n";
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  164  			break;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  165  		default:
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  166  			break;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  167  		}
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  168  	} else if (!strcmp(dentry->d_name.name, "fw_state")) {
+98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  169  		return sof_dsp_ops_fw_state_read(sdev, buffer, count, ppos);
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  170  	} else {
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  171  		return 0;
+b5d1176eefb868 Ranjani Sridharan 2024-03-25  172  	}
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  173  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21 @174  	if (*ppos || !string)
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  175  		return 0;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  176  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  177  	count = min_t(size_t, count, strlen(string));
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  178  	size_ret = copy_to_user(buffer, string, count);
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  179  	if (size_ret)
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  180  		return -EFAULT;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  181  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  182  	*ppos += count;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  183  
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  184  	return count;
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  185  }
+0858d83e4c4122 Ranjani Sridharan 2024-03-21  186  
 
-objdump-func vmlinux.o irq_matrix_assign_system:
+:::::: The code at line 174 was first introduced by commit
+:::::: 0858d83e4c4122a7b23357b4f3194b798093b7c4 ASoC: SOF: debug: Add debugfs entries for testing DSP ops
+
+:::::: TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
