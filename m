@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 000DF2868D
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 08:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0B81C8FAF
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 10:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723018138; cv=none; b=SFivSc1dvIL9wgYmq2BeK+WWNsamkUdzrw2biMpNSvJHMOL6xItxom3lYfaOF+aGFYWEX8zwP1FSZyGRmbXmqd9aLB89lh/rGZMockn9nPJa3KeqEvPnbXnXmQeg527hgJern+P+bMeblAW5H7qO4e+IH0fRzoaYSm2txVibY+w=
+	t=1723028002; cv=none; b=Hj3TmEdPB/Xhl35rVlf2pIie3KDsuya8bc7I2OFwP60Jz1lnECLciRiU+Bjbw/p0CtBLIdRuaBgnKfWll7rN+YoakvZcT+aZFvdqqe50onVkQ5VBNpXjrIGPFzXiA1Lioe7pevljCb5ZurA6S08GXQ2qcpbJB6IwedruncmhCng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723018138; c=relaxed/simple;
-	bh=wy1AXFpWJ5eBEJPfJU333bNBfbq/gsdVzgRZKIlO8dw=;
+	s=arc-20240116; t=1723028002; c=relaxed/simple;
+	bh=6R80V4mYH1tQNyBpAqLkeX1BtsF9hSGTULiKsH/0FFo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IFBSubLjuJNp8RUFnCfMcSdWcYd+MxPo8BcHLm1fUju3ptiopxbyoMt5gyC8WHXehuCfkor3ExeOqWIW+gL+2W9Luk2ZwmpwlpihWYaFnY85nuyu3O+L8J90V3kuU42wQox0fLkdAvzJHRCS7tH63lWOSB4dB2UuWT6XR+hB2Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XeHA0fS9; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=bBsYjvL3MG4nHvClhTfZPSYCIoCJEQXOkN2fJUPPZ6ckEDTJk9RamsAbky+g/65ZjEnN16ZDagUiUJDAzMcarbFZ4qrlFjtTnbdI3HZLXcN50XlLMN6xOamvrJq7Ias6IQBMOQCV7QD5TYGng0oVgCFd9BeN+cp2zBtcUxDuP6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PWzHaOQs; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XeHA0fS9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PWzHaOQs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723018137; x=1754554137;
+  t=1723028000; x=1754564000;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wy1AXFpWJ5eBEJPfJU333bNBfbq/gsdVzgRZKIlO8dw=;
-  b=XeHA0fS9VJBmV7yQG5teOsgOH0YIWlsXyjEPhkIOWBSUIeBjp1SUhGEa
-   EJpysuMgEcpBgzPrEMVgtnVRPbi/85+c7hG1tOtTmGjDVfxX9C7Rj3lTh
-   ZH2Z1tK0RuJQOjQdoP8Pbp+Os7h7t1IY3Zim8dMUpSh/tS4weXroOmeOp
-   mybjN9A64fl0YMVAWbeN/Xv3hm9y0UlCHUY7dTQUx7xw7w27pZX9eCc5N
-   9TtljlHXxM1FEQvj+4xz7mLU6m/hrdQTy0Gcy/XCn3VkB7XdhDomTfzZT
-   HB4D486sx6zwiYsSUKhleMAQ0JDBdo+29JXkHpviqvYKMPZpUtu7e+RJ5
+  bh=6R80V4mYH1tQNyBpAqLkeX1BtsF9hSGTULiKsH/0FFo=;
+  b=PWzHaOQsqkSx6Z4xVW+e+YjxGWJF8IoMl4BxdSkedl4g57rZUxQntRLs
+   Rrx90ozDoLrFzIbJK3INrGcnE6PgzfoQOO0NspQJwx8Act5NRvISi5zg7
+   eetvOZIAYhpG/pPm4Wq3olos+HsnaeK48QpAq7bD2CjDxu/Uuk03lHY8U
+   CZYE/hBmnxxrpOwRm91NepiXx322o8Kh3+/j0G2ZU7zYo92YdH3T4O5P1
+   TmBxx08JJ8IrLLeH5IU4Lp6OgCsYToPtgd2BFLsW/W44LHQ7C2IGKCWGN
+   U0OZaLXNm5VZsA1Z17j8Aif0pux2qU5xginkmPqvNvqPAiN6yp+WvbSGY
    w==;
-X-CSE-ConnectionGUID: k4t8HBBRQ4yyiR/VEKGvcA==
-X-CSE-MsgGUID: i7WBkjcpSn6euElW/BXZdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="38530995"
+X-CSE-ConnectionGUID: X4WBNqG2TMW+xBwlOfxabQ==
+X-CSE-MsgGUID: LO+TTYeQRKC+xvhngFFl1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31719719"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="38530995"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:08:56 -0700
-X-CSE-ConnectionGUID: O6iYkJAaRXW4Ec3DXCIBhQ==
-X-CSE-MsgGUID: /CF0GFB4R7CvDFlpwHYDag==
+   d="scan'208";a="31719719"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 03:52:41 -0700
+X-CSE-ConnectionGUID: oxB5V+QeTya4NOjqdiqxnA==
+X-CSE-MsgGUID: 4EzlZtrITzyXVf1OT8U+uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="56646299"
+   d="scan'208";a="57365135"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 07 Aug 2024 01:08:56 -0700
+  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2024 03:52:40 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbbj2-0005EK-2f;
-	Wed, 07 Aug 2024 08:08:52 +0000
-Date: Wed, 7 Aug 2024 16:08:16 +0800
+	id 1sbeHV-0005Iy-20;
+	Wed, 07 Aug 2024 10:52:37 +0000
+Date: Wed, 7 Aug 2024 18:51:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [plbossart-sound:sdw/fix-bool-properties 16/19]
- sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error:
- uninitialized symbol 'string'.
-Message-ID: <202408071524.CplRSiTF-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 4/4] arm64: dts: qcom: sdm670: add camss and cci
+Message-ID: <202408071831.yZQeDjRA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,82 +61,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <20240806224219.71623-11-mailingradian@gmail.com>
+References: <20240806224219.71623-11-mailingradian@gmail.com>
+TO: Richard Acayan <mailingradian@gmail.com>
+TO: Loic Poulain <loic.poulain@linaro.org>
+TO: Robert Foss <rfoss@kernel.org>
+TO: Andi Shyti <andi.shyti@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Todor Tomov <todor.too@gmail.com>
+TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media@vger.kernel.org
+TO: Bjorn Andersson <andersson@kernel.org>
+TO: Konrad Dybcio <konrad.dybcio@linaro.org>
+TO: linux-i2c@vger.kernel.org
+TO: linux-arm-msm@vger.kernel.org
+TO: devicetree@vger.kernel.org
+CC: Richard Acayan <mailingradian@gmail.com>
 
-tree:   https://github.com/plbossart/sound sdw/fix-bool-properties
-head:   cc66cbd8eb2728b3b654f29c0a44009826c7a108
-commit: 98ab12fb50b6f367cd21ac2c59898574a0a6297c [16/19] ASoC: SOF: debug-dsp-ops: Add a debugfs entry to read current FW status
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-161-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071524.CplRSiTF-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Richard,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on andi-shyti/i2c/i2c-host]
+[also build test WARNING on media-tree/master robh/for-next linus/master v6.11-rc2 next-20240807]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Acayan/dt-bindings-i2c-qcom-cci-Document-SDM670-compatible/20240807-070044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20240806224219.71623-11-mailingradian%40gmail.com
+patch subject: [PATCH 4/4] arm64: dts: qcom: sdm670: add camss and cci
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: arm64-randconfig-051-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071831.yZQeDjRA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071831.yZQeDjRA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408071524.CplRSiTF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408071831.yZQeDjRA-lkp@intel.com/
 
-smatch warnings:
-sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error: uninitialized symbol 'string'.
-
-vim +/string +174 sound/soc/sof/debug-dsp-ops.c
-
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  141  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  142  static ssize_t sof_dsp_ops_tester_dfs_read(struct file *file, char __user *buffer,
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  143  					   size_t count, loff_t *ppos)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  144  {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  145  	struct snd_sof_dfsentry *dfse = file->private_data;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  146  	struct snd_sof_dev *sdev = dfse->sdev;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  147  	struct dentry *dentry;
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  148  	const char *string;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  149  	size_t size_ret;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  150  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  151  	/* return the FW filename or path */
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  152  	dentry = file->f_path.dentry;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  153  	if (!strcmp(dentry->d_name.name, "fw_filename")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  154  		string = sdev->test_profile.fw_name;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  155  	} else if (!strcmp(dentry->d_name.name, "fw_path")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  156  		string = sdev->test_profile.fw_path;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  157  	} else if (!strcmp(dentry->d_name.name, "dsp_power_state")) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  158  		switch (sdev->dsp_power_state.state) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  159  		case SOF_DSP_PM_D0:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  160  			string = "D0\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  161  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  162  		case SOF_DSP_PM_D3:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  163  			string = "D3\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  164  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  165  		default:
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  166  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  167  		}
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  168  	} else if (!strcmp(dentry->d_name.name, "fw_state")) {
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  169  		return sof_dsp_ops_fw_state_read(sdev, buffer, count, ppos);
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  170  	} else {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  171  		return 0;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  172  	}
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  173  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21 @174  	if (*ppos || !string)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  175  		return 0;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  176  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  177  	count = min_t(size_t, count, strlen(string));
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  178  	size_ret = copy_to_user(buffer, string, count);
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  179  	if (size_ret)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  180  		return -EFAULT;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  181  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  182  	*ppos += count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  183  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  184  	return count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  185  }
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  186  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 0858d83e4c4122a7b23357b4f3194b798093b7c4 ASoC: SOF: debug: Add debugfs entries for testing DSP ops
-
-:::::: TO: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-:::::: CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/pm660.dtsi:219.9-228.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sdm670.dtsi:1792.27-1844.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:0: 'csid0' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:1: 'csid1' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:2: 'csid2' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:4: 'csiphy0' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:6: 'csiphy1' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+>> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:8: 'csiphy2' was expected
+   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
