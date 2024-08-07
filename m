@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0B81C8FAF
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 10:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09941C9DC9
+	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 11:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723028002; cv=none; b=Hj3TmEdPB/Xhl35rVlf2pIie3KDsuya8bc7I2OFwP60Jz1lnECLciRiU+Bjbw/p0CtBLIdRuaBgnKfWll7rN+YoakvZcT+aZFvdqqe50onVkQ5VBNpXjrIGPFzXiA1Lioe7pevljCb5ZurA6S08GXQ2qcpbJB6IwedruncmhCng=
+	t=1723028591; cv=none; b=Pq8aTMG1qOTx0Zljk4bY5baJqfusFOmhrGztO2gamquxrG0G7kx5UdoViKCEYiYthHqeO+u8M0sHh2Ir+CwKQODhrQcQCJ78OpieoDH1B9LzDdMKGfrx22ByVy5OX739ud0bT0c9MB3i8fx+aMs9hNkxIKp9viOHF4CzLdLtcj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723028002; c=relaxed/simple;
-	bh=6R80V4mYH1tQNyBpAqLkeX1BtsF9hSGTULiKsH/0FFo=;
+	s=arc-20240116; t=1723028591; c=relaxed/simple;
+	bh=2BZ4W1rSB88pBhd7jSTHxEYrqIueGAjUecORj0YxNbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bBsYjvL3MG4nHvClhTfZPSYCIoCJEQXOkN2fJUPPZ6ckEDTJk9RamsAbky+g/65ZjEnN16ZDagUiUJDAzMcarbFZ4qrlFjtTnbdI3HZLXcN50XlLMN6xOamvrJq7Ias6IQBMOQCV7QD5TYGng0oVgCFd9BeN+cp2zBtcUxDuP6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PWzHaOQs; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=jgGMTcgATdORw9su55BM858I/Q3d2xUYIEWO5wTcZuIcQSWvEWQ0jMnXHB1AEhJhED4HHEnB/ERzO5BjCDqEZ3JkGhI9jL1NytLeRHp2pkFnJSXORADxaOPGvLlgJ3h3dw4vDHJ6dTkADTf8GSkIKOPCQwtug4xQ0t9m95rWFuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWsMKyWe; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PWzHaOQs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWsMKyWe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723028000; x=1754564000;
+  t=1723028590; x=1754564590;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6R80V4mYH1tQNyBpAqLkeX1BtsF9hSGTULiKsH/0FFo=;
-  b=PWzHaOQsqkSx6Z4xVW+e+YjxGWJF8IoMl4BxdSkedl4g57rZUxQntRLs
-   Rrx90ozDoLrFzIbJK3INrGcnE6PgzfoQOO0NspQJwx8Act5NRvISi5zg7
-   eetvOZIAYhpG/pPm4Wq3olos+HsnaeK48QpAq7bD2CjDxu/Uuk03lHY8U
-   CZYE/hBmnxxrpOwRm91NepiXx322o8Kh3+/j0G2ZU7zYo92YdH3T4O5P1
-   TmBxx08JJ8IrLLeH5IU4Lp6OgCsYToPtgd2BFLsW/W44LHQ7C2IGKCWGN
-   U0OZaLXNm5VZsA1Z17j8Aif0pux2qU5xginkmPqvNvqPAiN6yp+WvbSGY
-   w==;
-X-CSE-ConnectionGUID: X4WBNqG2TMW+xBwlOfxabQ==
-X-CSE-MsgGUID: LO+TTYeQRKC+xvhngFFl1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31719719"
+  bh=2BZ4W1rSB88pBhd7jSTHxEYrqIueGAjUecORj0YxNbA=;
+  b=GWsMKyWe9H5d5jH7SoO3+I4AUHLDmMAv69Z5Mz9CcQEvpbJZDfiu0Vk7
+   Fd+CC01gzmkHJ3bz4vs3Ydbv1Ls2zXafNYDuUpqq6zNF+8bszlDF2xIQ6
+   EFxJ6dMv5DE8u4Pune1LDEHeCzQGXoLz3s6ZYIdgVkAr2Mkyg6GqTXtQf
+   oeAjYBLmdSMiNQoWDB9XfrB0J6boB76ukkBzGXHUOZyn/Q8w2+N9L5JJJ
+   5b6u7MWsCdecIzSpSjqJTxjtl9qChbThsXgylX7V2rorh89cW0KicKMvN
+   Ma43mv4Xq0aTgPWGkgzSbTjk3EH8LYOUwrEsUG87fx9/A8hmlkfKKKilA
+   A==;
+X-CSE-ConnectionGUID: a3tejG0qTGq/HJmsd9XnHA==
+X-CSE-MsgGUID: 22bR+6Q2TYeKukR0Ou2lMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="24967147"
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="31719719"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 03:52:41 -0700
-X-CSE-ConnectionGUID: oxB5V+QeTya4NOjqdiqxnA==
-X-CSE-MsgGUID: 4EzlZtrITzyXVf1OT8U+uA==
+   d="scan'208";a="24967147"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 04:03:09 -0700
+X-CSE-ConnectionGUID: E7h+nig0QWmqcRmZyFNJkg==
+X-CSE-MsgGUID: S/kG2gKbS8K8WHYnElePcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="57365135"
+   d="scan'208";a="56483487"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 07 Aug 2024 03:52:40 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2024 04:03:09 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbeHV-0005Iy-20;
-	Wed, 07 Aug 2024 10:52:37 +0000
-Date: Wed, 7 Aug 2024 18:51:58 +0800
+	id 1sbeRe-0005JI-0e;
+	Wed, 07 Aug 2024 11:03:06 +0000
+Date: Wed, 7 Aug 2024 19:02:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/4] arm64: dts: qcom: sdm670: add camss and cci
-Message-ID: <202408071831.yZQeDjRA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [hch-xfs:xfs-per-rtg-bitmap-rebase 48/60] fs/xfs/xfs_rtalloc.c:1157
+ xfs_growfs_rt_prep_rtgs() error: uninitialized symbol 'error'.
+Message-ID: <202408071825.AfsI6d6W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,73 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240806224219.71623-11-mailingradian@gmail.com>
-References: <20240806224219.71623-11-mailingradian@gmail.com>
-TO: Richard Acayan <mailingradian@gmail.com>
-TO: Loic Poulain <loic.poulain@linaro.org>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Andi Shyti <andi.shyti@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Todor Tomov <todor.too@gmail.com>
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konrad.dybcio@linaro.org>
-TO: linux-i2c@vger.kernel.org
-TO: linux-arm-msm@vger.kernel.org
-TO: devicetree@vger.kernel.org
-CC: Richard Acayan <mailingradian@gmail.com>
+TO: Christoph Hellwig <hch@lst.de>
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on media-tree/master robh/for-next linus/master v6.11-rc2 next-20240807]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Acayan/dt-bindings-i2c-qcom-cci-Document-SDM670-compatible/20240807-070044
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20240806224219.71623-11-mailingradian%40gmail.com
-patch subject: [PATCH 4/4] arm64: dts: qcom: sdm670: add camss and cci
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: arm64-randconfig-051-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071831.yZQeDjRA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240807/202408071831.yZQeDjRA-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-per-rtg-bitmap-rebase
+head:   a6af886fd0b4ff036a3e9fcc4b9cb0b8db41a36c
+commit: fd68ff6669695c8885e8bea955960c089bbefd49 [48/60] xfs: grow the realtime section when realtime groups are enabled
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: x86_64-randconfig-161-20240807 (https://download.01.org/0day-ci/archive/20240807/202408071825.AfsI6d6W-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408071831.yZQeDjRA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408071825.AfsI6d6W-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/pm660.dtsi:219.9-228.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@c440000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/sdm670.dtsi:1792.27-1844.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:0: 'csid0' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:1: 'csid1' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:2: 'csid2' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:4: 'csiphy0' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:6: 'csiphy1' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
->> arch/arm64/boot/dts/qcom/sdm670-google-sargo.dtb: camera-controller@ac65000: reg-names:8: 'csiphy2' was expected
-   	from schema $id: http://devicetree.org/schemas/media/qcom,sdm670-camss.yaml#
+New smatch warnings:
+fs/xfs/xfs_rtalloc.c:1157 xfs_growfs_rt_prep_rtgs() error: uninitialized symbol 'error'.
+
+Old smatch warnings:
+fs/xfs/xfs_rtalloc.c:328 xfs_rtallocate_extent_block() error: uninitialized symbol 'next'.
+fs/xfs/xfs_rtalloc.c:1237 xfs_growfs_rt() warn: impossible condition '(new_rgcount > ((-1))) => (0-u32max > u32max)'
+
+vim +/error +1157 fs/xfs/xfs_rtalloc.c
+
+c15015f912ca17 Christoph Hellwig 2024-08-04  1121  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1122  /*
+fd68ff6669695c Darrick J. Wong   2024-08-04  1123   * Compute the new number of rt groups.
+fd68ff6669695c Darrick J. Wong   2024-08-04  1124   *
+fd68ff6669695c Darrick J. Wong   2024-08-04  1125   * Changing the rtgroup size is not allowed (even if the rt volume hasn't yet
+fd68ff6669695c Darrick J. Wong   2024-08-04  1126   * been initialized) because the userspace ABI doesn't support it.
+fd68ff6669695c Darrick J. Wong   2024-08-04  1127   */
+fd68ff6669695c Darrick J. Wong   2024-08-04  1128  static int
+fd68ff6669695c Darrick J. Wong   2024-08-04  1129  xfs_growfs_rt_prep_rtgs(
+fd68ff6669695c Darrick J. Wong   2024-08-04  1130  	struct xfs_mount	*mp,
+fd68ff6669695c Darrick J. Wong   2024-08-04  1131  	xfs_rfsblock_t		rblocks,
+fd68ff6669695c Darrick J. Wong   2024-08-04  1132  	xfs_extlen_t		rextsize)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1133  {
+fd68ff6669695c Darrick J. Wong   2024-08-04  1134  	int			error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1135  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1136  	/* Set up the realtime superblock if we're adding a new rt section. */
+fd68ff6669695c Darrick J. Wong   2024-08-04  1137  	if (xfs_has_rtsb(mp) && mp->m_sb.sb_rblocks == 0) {
+fd68ff6669695c Darrick J. Wong   2024-08-04  1138  		error = xfs_growfs_rt_init_super(mp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1139  		if (error)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1140  			return error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1141  	}
+fd68ff6669695c Darrick J. Wong   2024-08-04  1142  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1143  	/* Make sure the /rtgroups dir has been created */
+fd68ff6669695c Darrick J. Wong   2024-08-04  1144  	if (!mp->m_rtdirip) {
+fd68ff6669695c Darrick J. Wong   2024-08-04  1145  		struct xfs_trans	*tp;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1146  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1147  		error = xfs_trans_alloc_empty(mp, &tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1148  		if (error)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1149  			return error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1150  		error = xfs_rtginode_load_parent(tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1151  		xfs_trans_cancel(tp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1152  
+fd68ff6669695c Darrick J. Wong   2024-08-04  1153  		if (error == -ENOENT)
+fd68ff6669695c Darrick J. Wong   2024-08-04  1154  			error = xfs_rtginode_mkdir_parent(mp);
+fd68ff6669695c Darrick J. Wong   2024-08-04  1155  	}
+fd68ff6669695c Darrick J. Wong   2024-08-04  1156  
+fd68ff6669695c Darrick J. Wong   2024-08-04 @1157  	return error;
+fd68ff6669695c Darrick J. Wong   2024-08-04  1158  }
+fd68ff6669695c Darrick J. Wong   2024-08-04  1159  
 
 -- 
 0-DAY CI Kernel Test Service
