@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71EF14262C
-	for <oe-kbuild@lists.linux.dev>; Wed,  7 Aug 2024 22:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9C78821
+	for <oe-kbuild@lists.linux.dev>; Thu,  8 Aug 2024 00:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723071028; cv=none; b=YTEcksjwWfE42WKVyaYcgHJd5zs2+Azsr56isLIO6j2AsJ8dy4tpXlabASmc963dkXfdTqYk6Me2qljrszNb3god+xb//w02KiBfa8d0zDUblm729ppgSExu835nQWIonuq4vDitLObFNFVFTHkAmqArG3wiflG+iD8eD+eReYg=
+	t=1723075286; cv=none; b=MNnMvggTUMLg78ckpfh4sEkUiD+yUgib4RRRRd/DQKz883qh1/sPgRP95Fl/UjasjfX2ALxV0hELvlVywVYh+zAWnIwfpNPoT7zpLb+LGyp6F2eOuEGTmTZclLTUuVNt7yRmeZ3N1omWcKexa9k4oCo9iVUty4Rg+5hvXfDtKoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723071028; c=relaxed/simple;
-	bh=snGSaexeEYehvKPiiGQA+4yx6jdaFlsVB3uLveTbeGM=;
+	s=arc-20240116; t=1723075286; c=relaxed/simple;
+	bh=/YCSgPEu15DwaccthzrQKyYYZruf8XLTSql9UxMeF8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mywEkZr8ACaymNWBnMNwkAfXJcffcF4qie0vCnBd8n/q3QuyUFBz3ZaxQNCfHuKzCAQQEKZa8R2YAweEI0DpbwPkCi72I6vyNquMmmPM3KOvjR4TPw11ZQb8jHLB+/Pr4insV7E+AgIKV5ut7lvD91W+g3JCI6ncH5PiLwdAH54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hwern7g3; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=k0FE1P8Yv1lqgyTvgi5NDA2gTzLvU8EbuNmJZ7cjXeCG4o6vqDhAQsrqWZhRP+D3W6cI1CwuakSR+MoW32HKFndLsI34IVgjzxCE+zOjrsyDn+Kn2aC5lnaxumXE8HqwDc/rFqC3ffhqk1qFQlTeVRBF8HZegzJQJC3YdhHkm7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PktXB99/; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hwern7g3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PktXB99/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723071027; x=1754607027;
+  t=1723075284; x=1754611284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=snGSaexeEYehvKPiiGQA+4yx6jdaFlsVB3uLveTbeGM=;
-  b=hwern7g3Nnm7mhERuj/5rV/UvcS3Aoi1rxKt8IKqsYKJaqJYCIlqSVab
-   1QQzGNtFYuMC63iNl5GmU6PAwrF+wO/pAX8MpONie5tXv2HW95DyVOvGH
-   amIWKZtntD/drwoNIwFEeoKSpOW0OTghbKuaH7k7jKAuzITgSd1qArjOf
-   lRbjCt2HIIB09CVLCC75h5v4JnAZsaITMljB87AhqutmoRzDbX4lyu55C
-   h8PBJHydvOQaRL6I/gVUgotuOn1HIBWLeRcHHCPGWsZnAPt5sFGvgoPlz
-   /Vq/YDLULJnR5s/qboCdClE/lw4jZGVoVoqfttSzPRjBfvaDvLAT+l3UE
-   g==;
-X-CSE-ConnectionGUID: s3qB0iShTnuS8+qm50Fisg==
-X-CSE-MsgGUID: ajSIp0c4S+6IOVzMvCyM6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="20833768"
+  bh=/YCSgPEu15DwaccthzrQKyYYZruf8XLTSql9UxMeF8M=;
+  b=PktXB99//ABGKvJMOXgMdvkeyBeJrglVgNhf91u6f5dVsd7bLQbHdbND
+   fe9PayQNGhZLmKq8X92jSsqNqpPaJl4TjnFyd46f1igZ4gcLnU9rjJ4xd
+   v800D5xUWw8x8JcYTXUD+bqZ0NeVwxVmVWInEGmOWCX6dWoy8h5vqvJv+
+   sBjOU9WvVap5d/Uh7kr8GwwhReUNtJc8js9+Ar5ci/hxcdZYVQpWDh1BY
+   eCC2DBqfOQxvMz1xVtyatuc2KgTTKqZcDmQu4hhU6YOzy8kHOKHhMFKCa
+   Fo7R10uF1R0v+/73GiCL+BeyrmTtLuHAt1RobvimCNycSgPGR0iFeyR2h
+   w==;
+X-CSE-ConnectionGUID: K+fskSRgQgaIo+kf0qpk1A==
+X-CSE-MsgGUID: ZTWBCAlSQz+FohO76RYKhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="31848435"
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="20833768"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 15:50:25 -0700
-X-CSE-ConnectionGUID: MSJoZsXKSk2/kfaysSlrUQ==
-X-CSE-MsgGUID: IC0euH7kRFiQgFrztPrmjQ==
+   d="scan'208";a="31848435"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 17:01:23 -0700
+X-CSE-ConnectionGUID: uCmwxSFfTTWGU41y2mHezg==
+X-CSE-MsgGUID: IHxd/dpyQxO6xPLDqXmDOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="94574769"
+   d="scan'208";a="56980010"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 07 Aug 2024 15:50:24 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 07 Aug 2024 17:01:22 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sbpU5-0005lk-3C;
-	Wed, 07 Aug 2024 22:50:21 +0000
-Date: Thu, 8 Aug 2024 06:49:43 +0800
+	id 1sbqam-0005o8-0S;
+	Thu, 08 Aug 2024 00:01:20 +0000
+Date: Thu, 8 Aug 2024 08:01:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [krzk-github:wip/debug/soundwire-wsa884x-interrupts 29885/30000]
- drivers/media/platform/qcom/iris/platform/common/src/msm_vidc_platform.c:
- msm_vidc_debug.h is included more than once.
-Message-ID: <202408080641.cAl7MiYA-lkp@intel.com>
+Subject: Re: [PATCH 2/3] dt-bindings: usb: microchip,usb2514: add support for
+ port vbus-supply
+Message-ID: <202408080755.icJLopyd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,49 +63,53 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dikshita Agarwal <quic_dikshita@quicinc.com>
-CC: Abel Vesa <abel.vesa@linaro.org>
-CC: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-2-f33ce21353c9@pengutronix.de>
+References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-2-f33ce21353c9@pengutronix.de>
+TO: Marco Felsch <m.felsch@pengutronix.de>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Matthias Kaehlcke <mka@chromium.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Fabio Estevam <festevam@gmail.com>
+TO: Liam Girdwood <lgirdwood@gmail.com>
+TO: Mark Brown <broonie@kernel.org>
+CC: kernel@pengutronix.de
+CC: linux-usb@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: Marco Felsch <m.felsch@pengutronix.de>
 
-tree:   https://github.com/krzk/linux wip/debug/soundwire-wsa884x-interrupts
-head:   77aa965762ad9c8711d005628b5c471007e0df82
-commit: a0588374098c498ccdcf05756c30a461fdc13442 [29885/30000] iris: platform: add platform files
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 months ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Marco,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0c3836482481200ead7b416ca80c68a29cfdaabd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/usb-hub-add-infrastructure-to-pass-onboard_dev-port-features/20240807-224100
+base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+patch link:    https://lore.kernel.org/r/20240807-b4-v6-10-topic-usb-onboard-dev-v1-2-f33ce21353c9%40pengutronix.de
+patch subject: [PATCH 2/3] dt-bindings: usb: microchip,usb2514: add support for port vbus-supply
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: arc-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240808/202408080755.icJLopyd-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+dtschema version: 2024.6.dev8+gf13c181
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408080755.icJLopyd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408080641.cAl7MiYA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408080755.icJLopyd-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/media/platform/qcom/iris/platform/common/src/msm_vidc_platform.c: msm_vidc_debug.h is included more than once.
-
-vim +14 drivers/media/platform/qcom/iris/platform/common/src/msm_vidc_platform.c
-
-     9	
-    10	#include "hfi_packet.h"
-    11	#include "hfi_property.h"
-    12	#include "msm_vidc_control.h"
-    13	#include "msm_vidc_core.h"
-  > 14	#include "msm_vidc_debug.h"
-  > 15	#include "msm_vidc_debug.h"
-    16	#include "msm_vidc_driver.h"
-    17	#include "msm_vidc_internal.h"
-    18	#include "msm_vidc_iris3.h"
-    19	#include "msm_vidc_sm8550.h"
-    20	#include "msm_vidc_memory.h"
-    21	#include "msm_vidc_platform.h"
-    22	#include "msm_vidc_v4l2.h"
-    23	#include "msm_vidc_vb2.h"
-    24	#include "venus_hfi.h"
-    25	
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/usb/microchip,usb2514.yaml: ignoring, error parsing file
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
 
 -- 
 0-DAY CI Kernel Test Service
