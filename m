@@ -1,196 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0214D2B5
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Aug 2024 15:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394CA446A2
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Aug 2024 21:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723303208; cv=none; b=Lrh9IoIrkY1OrB+qqsMURuZdG052POfMb4AbngdIjlCRFjRu7ECQgR+uHnJuEjf/F5bw9DILRHdWsM6TxKG+6xaRQaktdLOKXaw/5WfpjHk5iWq8VKl5P+5uYoyP12HzFRYcPVmW73TfGPtJUGGLKePb5smEQof6ctvGVi+NBkg=
+	t=1723324694; cv=none; b=QfRlWEXsCAtAGnctAEwqyUmTsKyLlWr19AA2mtyCVBUZqbTofb/X27jNEC4BpFiOEW1kwpw0uA9E2n8O9YDy4AfCjD18f7lrD61BovzBItzU4Z2R+UlpSiaaSS0WobFxnWZvvUGZ01muQSMvVdijvCeGEtYExionvvtpdGBzZHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723303208; c=relaxed/simple;
-	bh=sTFoCOr6Z0gBQHkgAAXOttYK3ZYbzPyubj3GT7Q8RbI=;
+	s=arc-20240116; t=1723324694; c=relaxed/simple;
+	bh=/dgnm5zTIZG/QUV+WtVCzl+RTWPTeSF0mXIDBvu4F54=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IPEr5fAOT9wQJElAf2nsYC9MD3WPgMI7ETeb9BgdguvoQOjUVZP5CIA7bFxB6XbKSSdsCMuVXdcbTKsnXVqg4VceISpz7f9AV3TrFvrMRrCfFuicc8+ge2rmQpNCA2C41yxOWJ++MzMmffF9X+v4eiXGDABTKbkIUVwZcOXKvfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lAVRcjEi; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=t+LUVuQbWDPSQg/L2xf8KpoPclp2F2RgYC7g55cpRjqzkDDgvtIa4dm8zEg+67S+kRwY7IDGle3CmA27NLByllEhqObXmJ00jaiS75uZDLUsb98eUSJjLmzJqPiVrbTHBR0/qMdvD/3OAjhqr03Vwom/wRpk3WkMh8AzVsCwa8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jl3SHfcr; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAVRcjEi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jl3SHfcr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723303207; x=1754839207;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sTFoCOr6Z0gBQHkgAAXOttYK3ZYbzPyubj3GT7Q8RbI=;
-  b=lAVRcjEiNddXuvJ/eityFRjaXjBDCjyM38dq65iPbtSp2hAE/1mMnTKJ
-   JVXjW904ZlHi5AdbExOy82CCYGec+KLfUm496VUoQK0mq1XcFj53cMVPl
-   UOhiaV5+42zs76RjFVKTjgfPZQXVvuSpm+BAQXiTU/x3Cxalo062cfof1
-   bWC3U8nsZtS9GO/pXGpdLcWot/2a65sL01210qakrPdoUlCa4jCz2I4rN
-   jyWXguSOh4qG5Em4Y5i9f6Qah2Pe0JyhozJiTK9uTiXSa7f17MDeL5FmA
-   9dla92EosW9tihloaLAWS2XhENlH9I971OTVnwxls9O2UOHjJ26ya0WfL
-   A==;
-X-CSE-ConnectionGUID: ekLET89wQHG4HXbkuroNqg==
-X-CSE-MsgGUID: YFVj1DO6SPyyISjw9S9xnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="32856852"
-X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="32856852"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 08:20:06 -0700
-X-CSE-ConnectionGUID: lkP4NUk2T2Ssn1vfiOMnBg==
-X-CSE-MsgGUID: hVqyw/9BRviq5GaakXArSA==
+  t=1723324693; x=1754860693;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/dgnm5zTIZG/QUV+WtVCzl+RTWPTeSF0mXIDBvu4F54=;
+  b=Jl3SHfcrRZpiKJZN454XbJHc4EzsxmxoQZuCHWMYqc9dtoa7DqndWLka
+   0JZgGhgmzswdU9K/H7Ne0Do0OnZtte1X2EuSGAXUXTdLt88rtTcEt3GMh
+   PTXu79aybBIvqgH5E9o3yFxUoiE3vK8Gz0lHqLRFN7eLMZoH/hTPNgZxP
+   ctdsOhPyvh7TdSbxb7J16en119y9Vm0qowQvtiQckcPZcFhwHYRVJ2xkJ
+   7b87sNvo2F7skJvYYyBTK3J/jnJiIoZirwpVUsaUICF8vvXgs0ikD3vUD
+   +lxTHTqQDuZo9xml6PiStPG3PFPd7utvwp2Bm/rX9BskEheuNnmrpbUwF
+   w==;
+X-CSE-ConnectionGUID: JPEt4aoFRQ2ZTBb/IbGNVg==
+X-CSE-MsgGUID: naqe/ZjWQaOThEEojxUrzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="21329625"
+X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
+   d="scan'208";a="21329625"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 14:18:12 -0700
+X-CSE-ConnectionGUID: O/y/Y2YnR+SojBgNeY8MRQ==
+X-CSE-MsgGUID: JoCf30QQQU6Se9O08LI1rA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
-   d="scan'208";a="95364188"
+X-IronPort-AV: E=Sophos;i="6.09,280,1716274800"; 
+   d="scan'208";a="62723619"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 10 Aug 2024 08:20:04 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Aug 2024 14:18:10 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1scnsw-000A3D-1o;
-	Sat, 10 Aug 2024 15:20:02 +0000
-Date: Sat, 10 Aug 2024 23:19:40 +0800
+	id 1sctTQ-000AJ1-1C;
+	Sat, 10 Aug 2024 21:18:05 +0000
+Date: Sun, 11 Aug 2024 05:17:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [herbert-cryptodev-2.6:master 16/24]
- drivers/crypto/dwc-spacc/spacc_interrupt.c:118:1-7: preceding lock on line
- 97
-Message-ID: <202408102305.aBrlHkBD-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 2/3] crypto: api - Do not wait for tests during
+ registration
+Message-ID: <202408110413.vKk2q3qN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <ZrbTfOViUr3S4V7X@gondor.apana.org.au>
+References: <ZrbTfOViUr3S4V7X@gondor.apana.org.au>
+TO: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Linus Torvalds <torvalds@linux-foundation.org>
+CC: LKML <linux-kernel@vger.kernel.org>
+CC: "Russell King (Oracle)" <linux@armlinux.org.uk>
+CC: "Horia Geantă" <horia.geanta@nxp.com>
+CC: Ard Biesheuvel <ardb@kernel.org>
 CC: linux-crypto@vger.kernel.org
-TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Bhoomika K <bhoomikak@vayavyalabs.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-head:   001412493e74d89166d2441b622eeaea00511bdc
-commit: fc61c658c94cb7405ca6946d8f2a2b71cef49845 [16/24] crypto: spacc - Enable Driver compilation in crypto Kconfig and Makefile
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: i386-randconfig-054-20240810 (https://download.01.org/0day-ci/archive/20240810/202408102305.aBrlHkBD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Herbert,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linux/master linus/master v6.11-rc2 next-20240809]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-api-Do-not-wait-for-tests-during-registration/20240810-160343
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/ZrbTfOViUr3S4V7X%40gondor.apana.org.au
+patch subject: [PATCH 2/3] crypto: api - Do not wait for tests during registration
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-161-20240811 (https://download.01.org/0day-ci/archive/20240811/202408110413.vKk2q3qN-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202408102305.aBrlHkBD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408110413.vKk2q3qN-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/crypto/dwc-spacc/spacc_interrupt.c:118:1-7: preceding lock on line 97
+smatch warnings:
+crypto/algapi.c:396 crypto_alg_tested() error: uninitialized symbol 'test'.
 
-vim +118 drivers/crypto/dwc-spacc/spacc_interrupt.c
+vim +/test +396 crypto/algapi.c
 
-c8981d9230d808 Pavitrakumar M 2024-07-29   25  
-c8981d9230d808 Pavitrakumar M 2024-07-29   26  static int spacc_pop_packets_ex(struct spacc_device *spacc, int *num_popped,
-c8981d9230d808 Pavitrakumar M 2024-07-29   27  				unsigned long *lock_flag)
-c8981d9230d808 Pavitrakumar M 2024-07-29   28  {
-c8981d9230d808 Pavitrakumar M 2024-07-29   29  	int jobs;
-c8981d9230d808 Pavitrakumar M 2024-07-29   30  	int ret = -EINPROGRESS;
-c8981d9230d808 Pavitrakumar M 2024-07-29   31  	struct spacc_job *job = NULL;
-c8981d9230d808 Pavitrakumar M 2024-07-29   32  	u32 cmdstat, swid, spacc_errcode = SPACC_OK;
-c8981d9230d808 Pavitrakumar M 2024-07-29   33  
-c8981d9230d808 Pavitrakumar M 2024-07-29   34  	*num_popped = 0;
-c8981d9230d808 Pavitrakumar M 2024-07-29   35  
-c8981d9230d808 Pavitrakumar M 2024-07-29   36  	while ((jobs = _spacc_get_stat_cnt(spacc))) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   37  		while (jobs-- > 0) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   38  			/* write the pop register to get the next job */
-c8981d9230d808 Pavitrakumar M 2024-07-29   39  			writel(1, spacc->regmap + SPACC_REG_STAT_POP);
-c8981d9230d808 Pavitrakumar M 2024-07-29   40  			cmdstat = readl(spacc->regmap + SPACC_REG_STATUS);
-c8981d9230d808 Pavitrakumar M 2024-07-29   41  
-c8981d9230d808 Pavitrakumar M 2024-07-29   42  			swid = SPACC_STATUS_SW_ID_GET(cmdstat);
-c8981d9230d808 Pavitrakumar M 2024-07-29   43  
-c8981d9230d808 Pavitrakumar M 2024-07-29   44  			if (spacc->job_lookup[swid] == SPACC_JOB_IDX_UNUSED) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   45  				ret = -EIO;
-c8981d9230d808 Pavitrakumar M 2024-07-29   46  				goto ERR;
-c8981d9230d808 Pavitrakumar M 2024-07-29   47  			}
-c8981d9230d808 Pavitrakumar M 2024-07-29   48  
-c8981d9230d808 Pavitrakumar M 2024-07-29   49  			/* find the associated job with popped swid */
-c8981d9230d808 Pavitrakumar M 2024-07-29   50  			if (swid < 0 || swid >= SPACC_MAX_JOBS)
-c8981d9230d808 Pavitrakumar M 2024-07-29   51  				job = NULL;
-c8981d9230d808 Pavitrakumar M 2024-07-29   52  			else
-c8981d9230d808 Pavitrakumar M 2024-07-29   53  				job = &spacc->job[spacc->job_lookup[swid]];
-c8981d9230d808 Pavitrakumar M 2024-07-29   54  
-c8981d9230d808 Pavitrakumar M 2024-07-29   55  			if (!job) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   56  				ret = -EIO;
-c8981d9230d808 Pavitrakumar M 2024-07-29   57  				goto ERR;
-c8981d9230d808 Pavitrakumar M 2024-07-29   58  			}
-c8981d9230d808 Pavitrakumar M 2024-07-29   59  
-c8981d9230d808 Pavitrakumar M 2024-07-29   60  			/* mark job as done */
-c8981d9230d808 Pavitrakumar M 2024-07-29   61  			job->job_done = 1;
-c8981d9230d808 Pavitrakumar M 2024-07-29   62  			spacc->job_lookup[swid] = SPACC_JOB_IDX_UNUSED;
-c8981d9230d808 Pavitrakumar M 2024-07-29   63  			spacc_errcode = SPACC_GET_STATUS_RET_CODE(cmdstat);
-c8981d9230d808 Pavitrakumar M 2024-07-29   64  
-c8981d9230d808 Pavitrakumar M 2024-07-29   65  			switch (spacc_errcode) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   66  			case SPACC_ICVFAIL:
-c8981d9230d808 Pavitrakumar M 2024-07-29   67  				ret = -EBADMSG;
-c8981d9230d808 Pavitrakumar M 2024-07-29   68  				break;
-c8981d9230d808 Pavitrakumar M 2024-07-29   69  			case SPACC_MEMERR:
-c8981d9230d808 Pavitrakumar M 2024-07-29   70  				ret = -EINVAL;
-c8981d9230d808 Pavitrakumar M 2024-07-29   71  				break;
-c8981d9230d808 Pavitrakumar M 2024-07-29   72  			case SPACC_BLOCKERR:
-c8981d9230d808 Pavitrakumar M 2024-07-29   73  				ret = -EINVAL;
-c8981d9230d808 Pavitrakumar M 2024-07-29   74  				break;
-c8981d9230d808 Pavitrakumar M 2024-07-29   75  			case SPACC_SECERR:
-c8981d9230d808 Pavitrakumar M 2024-07-29   76  				ret = -EIO;
-c8981d9230d808 Pavitrakumar M 2024-07-29   77  				break;
-c8981d9230d808 Pavitrakumar M 2024-07-29   78  			case SPACC_OK:
-c8981d9230d808 Pavitrakumar M 2024-07-29   79  				ret = CRYPTO_OK;
-c8981d9230d808 Pavitrakumar M 2024-07-29   80  				break;
-c8981d9230d808 Pavitrakumar M 2024-07-29   81  			default:
-c8981d9230d808 Pavitrakumar M 2024-07-29   82  				pr_debug("Invalid SPAcc Error");
-c8981d9230d808 Pavitrakumar M 2024-07-29   83  			}
-c8981d9230d808 Pavitrakumar M 2024-07-29   84  
-c8981d9230d808 Pavitrakumar M 2024-07-29   85  			job->job_err = ret;
-c8981d9230d808 Pavitrakumar M 2024-07-29   86  
-c8981d9230d808 Pavitrakumar M 2024-07-29   87  			/*
-c8981d9230d808 Pavitrakumar M 2024-07-29   88  			 * We're done touching the SPAcc hw, so release the
-c8981d9230d808 Pavitrakumar M 2024-07-29   89  			 * lock across the job callback.  It must be reacquired
-c8981d9230d808 Pavitrakumar M 2024-07-29   90  			 * before continuing to the next iteration.
-c8981d9230d808 Pavitrakumar M 2024-07-29   91  			 */
-c8981d9230d808 Pavitrakumar M 2024-07-29   92  
-c8981d9230d808 Pavitrakumar M 2024-07-29   93  			if (job->cb) {
-c8981d9230d808 Pavitrakumar M 2024-07-29   94  				spin_unlock_irqrestore(&spacc->lock,
-c8981d9230d808 Pavitrakumar M 2024-07-29   95  							*lock_flag);
-c8981d9230d808 Pavitrakumar M 2024-07-29   96  				job->cb(spacc, job->cbdata);
-c8981d9230d808 Pavitrakumar M 2024-07-29  @97  				spin_lock_irqsave(&spacc->lock,
-c8981d9230d808 Pavitrakumar M 2024-07-29   98  							*lock_flag);
-c8981d9230d808 Pavitrakumar M 2024-07-29   99  			}
-c8981d9230d808 Pavitrakumar M 2024-07-29  100  
-c8981d9230d808 Pavitrakumar M 2024-07-29  101  			(*num_popped)++;
-c8981d9230d808 Pavitrakumar M 2024-07-29  102  		}
-c8981d9230d808 Pavitrakumar M 2024-07-29  103  	}
-c8981d9230d808 Pavitrakumar M 2024-07-29  104  
-c8981d9230d808 Pavitrakumar M 2024-07-29  105  	if (!*num_popped)
-c8981d9230d808 Pavitrakumar M 2024-07-29  106  		pr_debug("   Failed to pop a single job\n");
-c8981d9230d808 Pavitrakumar M 2024-07-29  107  
-c8981d9230d808 Pavitrakumar M 2024-07-29  108  ERR:
-c8981d9230d808 Pavitrakumar M 2024-07-29  109  	spacc_process_jb(spacc);
-c8981d9230d808 Pavitrakumar M 2024-07-29  110  
-c8981d9230d808 Pavitrakumar M 2024-07-29  111  	/* reset the WD timer to the original value*/
-c8981d9230d808 Pavitrakumar M 2024-07-29  112  	if (spacc->op_mode == SPACC_OP_MODE_WD)
-c8981d9230d808 Pavitrakumar M 2024-07-29  113  		spacc_set_wd_count(spacc, spacc->config.wd_timer);
-c8981d9230d808 Pavitrakumar M 2024-07-29  114  
-c8981d9230d808 Pavitrakumar M 2024-07-29  115  	if (*num_popped && spacc->spacc_notify_jobs)
-c8981d9230d808 Pavitrakumar M 2024-07-29  116  		spacc->spacc_notify_jobs(spacc);
-c8981d9230d808 Pavitrakumar M 2024-07-29  117  
-c8981d9230d808 Pavitrakumar M 2024-07-29 @118  	return ret;
-c8981d9230d808 Pavitrakumar M 2024-07-29  119  }
-c8981d9230d808 Pavitrakumar M 2024-07-29  120  
-
-:::::: The code at line 118 was first introduced by commit
-:::::: c8981d9230d808e62c65349d0b255c7f4b9087d6 crypto: spacc - Add SPAcc Skcipher support
-
-:::::: TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+73d3864a4823ab Herbert Xu     2008-08-03  349  
+73d3864a4823ab Herbert Xu     2008-08-03  350  void crypto_alg_tested(const char *name, int err)
+73d3864a4823ab Herbert Xu     2008-08-03  351  {
+73d3864a4823ab Herbert Xu     2008-08-03  352  	struct crypto_larval *test;
+73d3864a4823ab Herbert Xu     2008-08-03  353  	struct crypto_alg *alg;
+73d3864a4823ab Herbert Xu     2008-08-03  354  	struct crypto_alg *q;
+73d3864a4823ab Herbert Xu     2008-08-03  355  	LIST_HEAD(list);
+73d3864a4823ab Herbert Xu     2008-08-03  356  
+73d3864a4823ab Herbert Xu     2008-08-03  357  	down_write(&crypto_alg_sem);
+73d3864a4823ab Herbert Xu     2008-08-03  358  	list_for_each_entry(q, &crypto_alg_list, cra_list) {
+b8e15992b420d0 Herbert Xu     2009-01-28  359  		if (crypto_is_moribund(q) || !crypto_is_larval(q))
+73d3864a4823ab Herbert Xu     2008-08-03  360  			continue;
+73d3864a4823ab Herbert Xu     2008-08-03  361  
+73d3864a4823ab Herbert Xu     2008-08-03  362  		test = (struct crypto_larval *)q;
+73d3864a4823ab Herbert Xu     2008-08-03  363  
+73d3864a4823ab Herbert Xu     2008-08-03  364  		if (!strcmp(q->cra_driver_name, name))
+73d3864a4823ab Herbert Xu     2008-08-03  365  			goto found;
+73d3864a4823ab Herbert Xu     2008-08-03  366  	}
+73d3864a4823ab Herbert Xu     2008-08-03  367  
+c72358571aaadf Karim Eshapa   2017-05-13  368  	pr_err("alg: Unexpected test result for %s: %d\n", name, err);
+73d3864a4823ab Herbert Xu     2008-08-03  369  	goto unlock;
+73d3864a4823ab Herbert Xu     2008-08-03  370  
+73d3864a4823ab Herbert Xu     2008-08-03  371  found:
+b8e15992b420d0 Herbert Xu     2009-01-28  372  	q->cra_flags |= CRYPTO_ALG_DEAD;
+73d3864a4823ab Herbert Xu     2008-08-03  373  	alg = test->adult;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  374  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  375  	if (list_empty(&alg->cra_list))
+73d3864a4823ab Herbert Xu     2008-08-03  376  		goto complete;
+73d3864a4823ab Herbert Xu     2008-08-03  377  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  378  	if (err == -ECANCELED)
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  379  		alg->cra_flags |= CRYPTO_ALG_FIPS_INTERNAL;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  380  	else if (err)
+73d3864a4823ab Herbert Xu     2008-08-03  381  		goto complete;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  382  	else
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  383  		alg->cra_flags &= ~CRYPTO_ALG_FIPS_INTERNAL;
+73d3864a4823ab Herbert Xu     2008-08-03  384  
+73d3864a4823ab Herbert Xu     2008-08-03  385  	alg->cra_flags |= CRYPTO_ALG_TESTED;
+73d3864a4823ab Herbert Xu     2008-08-03  386  
+103961609b0935 Herbert Xu     2024-08-10  387  	crypto_alg_finish_registration(alg, &list);
+cce9e06d100df1 Herbert Xu     2006-08-21  388  
+73d3864a4823ab Herbert Xu     2008-08-03  389  complete:
+862e4618d9321e Herbert Xu     2024-08-10  390  	list_del_init(&test->alg.cra_list);
+73d3864a4823ab Herbert Xu     2008-08-03  391  	complete_all(&test->completion);
+2825982d9d66eb Herbert Xu     2006-08-06  392  
+73d3864a4823ab Herbert Xu     2008-08-03  393  unlock:
+73d3864a4823ab Herbert Xu     2008-08-03  394  	up_write(&crypto_alg_sem);
+2825982d9d66eb Herbert Xu     2006-08-06  395  
+862e4618d9321e Herbert Xu     2024-08-10 @396  	crypto_alg_put(&test->alg);
+73d3864a4823ab Herbert Xu     2008-08-03  397  	crypto_remove_final(&list);
+cce9e06d100df1 Herbert Xu     2006-08-21  398  }
+73d3864a4823ab Herbert Xu     2008-08-03  399  EXPORT_SYMBOL_GPL(crypto_alg_tested);
+4cc7720cd16527 Herbert Xu     2006-08-06  400  
 
 -- 
 0-DAY CI Kernel Test Service
