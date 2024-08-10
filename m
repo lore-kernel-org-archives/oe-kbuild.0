@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD4E2F2A
-	for <oe-kbuild@lists.linux.dev>; Sat, 10 Aug 2024 09:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C80428DCB
+	for <oe-kbuild@lists.linux.dev>; Sat, 10 Aug 2024 10:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723280431; cv=none; b=TohkqDD9/WddfPPYYFvlEinq6lvMkEv3YRMyKluBU3bt+Zcu2sZj/b0mLSlmHDtbSZhgrYYhzuipvEE8oNEUyCobQbd4fSNtVXvUXlfL7OYVP2bsSsuwWugn8mgXAdIHH5a6qHD9Gk004PwdQKnoeUFc1EIXFiofOwHoJn4X04A=
+	t=1723287166; cv=none; b=eA6mI02dSf+ftHygPmVdx9OP0KzAga3yyBl4shU8h/g02Eb/K5iD5JD/4CWSU5p7TdEtQaMrfknfiJl4XpMidNs0vPT/DIZdNKwb4KAYrrK//XuVlMcmUmqjtFpVKX5j/DsguEJR5RFT8gRHH15XVYAqt+YUtboPFQ3rMql5aDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723280431; c=relaxed/simple;
-	bh=xYy/1iApsSY9+BNej/x1mzvuQT8qhVi72Uq5pc1dq04=;
+	s=arc-20240116; t=1723287166; c=relaxed/simple;
+	bh=JDHAapXSbsMUlfk9LhFRPSHnt75nXe7nJvfGMekg/KY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A1MbRQ0MHUUGKFlyZYWuJwgUz+VTbWgfQ85EIzc6mDjla8WZMH0cFSz2mfONqSVaz5joGIJxPNv3xgmdxEVx8vKx1lASDYHGHotzYyCWa+lpiT2ckJYua7l9BnZfqn6RnvBq6uy4WDb/vnLpH0/oYeLw+Re3wkrBfcJ721woNLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mn9PUIJB; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=H00NxIzUHhTbPOTrzjuGQbDVp3Is5dHUEkTrPvkhMxHgUTCHX4RFo3Msuyv5rwx67ACD0p7dcNDVcHf+pI2AYaz/2FacjocJ9r3hPPm9kPcaFj6DqB9yhAR29FowTCHsGIb2mYzrx/tNC9+43jIQAzvAgj4rR2V60ER/4uX6bqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXsN7UXU; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mn9PUIJB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXsN7UXU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723280429; x=1754816429;
+  t=1723287164; x=1754823164;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xYy/1iApsSY9+BNej/x1mzvuQT8qhVi72Uq5pc1dq04=;
-  b=mn9PUIJBq+saVM/v3XvxWq+n/nvCXDFD8GjyORh+y9xT0AS52WtRoVfQ
-   lZaBePmvrCCTB1lkI2Sk0GZfG2f+219MS8rlQiOnz69ywT4Nz0RvTt6bZ
-   8qr6bhU66S5QXve9sabXsMg+35DN6HZlv8GTGrdKY0nDmkD+A6CmGkotj
-   bS9VqXxODdYJfV2e8pVTq2AnUkJH7BearBBqm59bhAb6BTABQoX6Zx0Rr
-   HDnjJ2L0POsQ2ydUx5lJpBD5Uhb0neui4ZRM0dl6iRk3Mtja1jHifOQav
-   +9jwpRnvRf18qFTbAeMk9XuYuozJJtYAJr8DjOlIVV9guRUP5zcFLycqx
-   g==;
-X-CSE-ConnectionGUID: GfjP5bWlTkedjXAcqSv7ig==
-X-CSE-MsgGUID: 6KbTuZGKSCqhMfNA5oYlhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="38904382"
-X-IronPort-AV: E=Sophos;i="6.09,278,1716274800"; 
-   d="scan'208";a="38904382"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 02:00:28 -0700
-X-CSE-ConnectionGUID: sdv0yuoXQjGhvb3v1Xks5g==
-X-CSE-MsgGUID: TFWSpg6BSXCp2l3vK2+j1w==
+  bh=JDHAapXSbsMUlfk9LhFRPSHnt75nXe7nJvfGMekg/KY=;
+  b=hXsN7UXUf4S/hvfixOv02iwygHFl88YqTkNmXZyHXQtGE8KA/ujT2sDz
+   Xdhx0Evn4ieTbPeaN24Gsz1+KiUGmErUbWWOW2moN+x1GjhHw4uQqApsT
+   MnWscApc+AAmGPM9nBNO1zuEhoht7BaMP1wVXRyJcoT6L5jziXwmsgkc7
+   vOVOTGqD1Bhd/qSQsqMrKVGpkDydeefk3di6feWnMdLDJYMFYo3iXyrYL
+   SOe1xI6zgIRzJE68CmIp41BALu77haYPC5L5m+JMBe/1BlMqB2SWxulj2
+   OIn6Cbxm81wlFnPidkAz1lihFUD3VkSHNNWtxXoAYs0IkBEPU86oj65b6
+   Q==;
+X-CSE-ConnectionGUID: WauWhPuYQFWbylyNOoFybQ==
+X-CSE-MsgGUID: ywhyDXJTSBiny9NG0tI1aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11159"; a="32604341"
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
+   d="scan'208";a="32604341"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2024 03:52:43 -0700
+X-CSE-ConnectionGUID: u3ACaw/oToioVll494Tp3w==
+X-CSE-MsgGUID: ehbDAbc2Te2we7pl9xfVhQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,278,1716274800"; 
-   d="scan'208";a="57736451"
+X-IronPort-AV: E=Sophos;i="6.09,279,1716274800"; 
+   d="scan'208";a="57771494"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Aug 2024 02:00:26 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Aug 2024 03:52:41 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1schxY-0009md-2K;
-	Sat, 10 Aug 2024 09:00:24 +0000
-Date: Sat, 10 Aug 2024 17:00:20 +0800
+	id 1scjiA-0009rH-0L;
+	Sat, 10 Aug 2024 10:52:38 +0000
+Date: Sat, 10 Aug 2024 18:52:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [tobetter:odroid-6.6.y 32/78]
- arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000:
- amlogic,tx-delay-ns: [2] is not of type 'integer'
-Message-ID: <202408101640.09Yjlgxw-lkp@intel.com>
+Subject: [tobetter:odroid-6.1.y 23/91]
+ arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level'
+ is a required property
+Message-ID: <202408101815.KMf8Wrqk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,69 +72,87 @@ BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 TO: Dongjin Kim <tobetter@gmail.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.6.y
-head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
-commit: 7ac7a6e2dac16d26212911a91515a49a08a10371 [32/78] ODROID-HC4: arm64/dts: add 'meson64_odroidhc4.dts' for compability
+tree:   https://github.com/tobetter/linux odroid-6.1.y
+head:   2a5f985c90ffd8f4e2de3a2fd76f00c3e322aa6f
+commit: 5e5c31f1c11458aabfa51021f3e0319bb051330e [23/91] ODROID-C2: arm64/dts: add 'meson64_odroidc2.dts' for compability
 :::::: branch date: 3 days ago
-:::::: commit date: 5 months ago
-config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240810/202408101640.09Yjlgxw-lkp@intel.com/config)
+:::::: commit date: 1 year, 7 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240810/202408101815.KMf8Wrqk-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.6.dev8+gf13c181
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101640.09Yjlgxw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240810/202408101815.KMf8Wrqk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408101640.09Yjlgxw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408101815.KMf8Wrqk-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:252.29-257.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (unit_address_vs_reg): /soc/bus@c8834000/rng: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (unit_address_vs_reg): /soc/bus@c8834000/pinctrl@4b0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
+   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (simple_bus_reg): /soc/bus@c8834000/rng: simple-bus unit address format error, expected "0"
+   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (simple_bus_reg): /soc/bus@c8834000/pinctrl@4b0: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-unified' is a required property
+   	from schema $id: http://devicetree.org/schemas/cache.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: scpi: clocks: 'scpi_clocks@0' does not match any of the regexes: '^clocks-[0-9a-f]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/firmware/arm,scpi.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/clock-measure@8758: failed to match any schema with compatible: ['amlogic,meson-gx-clk-measure']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0: failed to match any schema with compatible: ['amlogic,meson-gx-ao-sysctrl', 'simple-mfd', 'syscon']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pinctrl@14: failed to match any schema with compatible: ['amlogic,meson-gxbb-aobus-pinctrl']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: bus@c8834000: rng: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8834000/pinctrl@4b0: failed to match any schema with compatible: ['amlogic,meson-gxbb-periphs-pinctrl']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0: failed to match any schema with compatible: ['amlogic,meson-gx-hhi-sysctrl', 'simple-mfd', 'syscon']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0/clock-controller: failed to match any schema with compatible: ['amlogic,gxbb-clkc']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: amlogic,tx-delay-ns: [2] is not of type 'integer'
    	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
    	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-0:sound-dai: [[57], [0], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:sound-dai: [[57], [0], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:codec-0:sound-dai: [[57], [1], [0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-2:sound-dai: [[57], [1], [2]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^dai-link-[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'anyOf' conditional failed, one must be fixed:
    	'clocks' is a required property
    	'#clock-cells' is a required property
    	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidhc4.dtb: pwm-fan: 'pulses-per-revolutions' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
