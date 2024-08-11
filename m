@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4C71757D
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 11:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD565148838
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 13:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723376828; cv=none; b=hq/xYE/vTRPTq+FgRBlwjaA5SglvHwL+BK9OV8DwI0ORkYf6LMOqka53chlZ26n6qnmHwwzw1iNU5qGnabRO1MI3vddGT/6N5uhPVTiHzXdQIEhX1E2mMGA5rbihGUTWmg2tMGLZbb2u4QGlZAzsxJETCl7Q64+77/6W/Y21QRk=
+	t=1723383021; cv=none; b=d4X+NYff3tUoOtnYvxh6Vda8sS+r1BIqHBFKQByu0kbcH1l7b6P/A6n++sg33+NFWTZPZpWb7l+Wq9GhVijcY3IkjWWNU7GE35VHaaJhTGp3JZlJY6BDAmOha0+9yXYfER7AsA6i9w6BZqVzv/CxRFL1pdDmH+jovk+cQnTFdKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723376828; c=relaxed/simple;
-	bh=RsUs1woPa39zIf0FPPs9BcOrqbKfkcFf+jp0wcookQY=;
+	s=arc-20240116; t=1723383021; c=relaxed/simple;
+	bh=WI32aLDXzMX73NHJX889i+Bmg8NKd4/36nuecSsCIeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q2u8vCRPmpliWbwbDc/pChA1boyDjZnkmPPc0HeGlduztt/odUGHs7yDN4Ajw2bya6dd4uqDlruIiaVOJ95PiXNzYmG1vfjPj6V/JJrX8DcbHqiUkGn0YxnlbCkqwGAP9eHx6yrmRXpUIEtzyxpmZzubX2BfXALGsX8Z6CsDTYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZevPdyvu; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=BY7keXkshMtjLSIk4uKpLTzm6lAZh7N2j7Bi/zOO1qzP7ljejSHb8jqxUPW+pOVpQMapckbGEyjJJGHqZi5QHwwvQue+TWaqvCuHCvZyvl1HMeV3EKbRA6ZZV/8tPSVUUFIJxYC0p5OLXn9UU96CKGetlgPL5EoTIIIlnuP83PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LoHfMJHM; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZevPdyvu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723376826; x=1754912826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RsUs1woPa39zIf0FPPs9BcOrqbKfkcFf+jp0wcookQY=;
-  b=ZevPdyvu4fl5oMENsGzruaf1jxw8t6J5rBqXqPErnrNxyi+zFfwAez8r
-   PxYGw41EqjQDOm/TcZT3XsjVKt6tl0ABJoCmzaE2nvySWKmiOQ77Ja8kk
-   k1XwZAYSc1mT7hAnRznDXiedN2W1iWRb0PTBco7GTE5T8x6eaHC1xtUnk
-   CIUvOh0zgguewjBzKgh0UU3EPTo6HfwumPuW06BOQqn0+UhnR9f4srSq1
-   /mgO6BSAedInPO2CkXbcRcszx0Rgiu6gVMjcV/3PKC6yFdPhe4zg5KdTs
-   k2n8WGi5XPDjiuaTOMrJa5q6ygdwrD+hGG3WjvT/js4NFgdIEqseBXEiH
-   w==;
-X-CSE-ConnectionGUID: 53GfvqqXTISjCYMEC8U9mg==
-X-CSE-MsgGUID: gsmgT/PjQ1CzYqsGm9LE0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11160"; a="21635475"
-X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="21635475"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 04:47:05 -0700
-X-CSE-ConnectionGUID: N9yI3k3sT96apostO47i8g==
-X-CSE-MsgGUID: K7Emb142TKKwGgfo+3xMhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="58566554"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 11 Aug 2024 04:47:04 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sd72F-000Anr-2z;
-	Sun, 11 Aug 2024 11:46:56 +0000
-Date: Sun, 11 Aug 2024 19:46:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [tobetter:odroid-6.1.y 23/91]
- arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level'
- is a required property
-Message-ID: <202408111926.kpiEbWCi-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LoHfMJHM"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-530e2235688so3761497e87.3
+        for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 06:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1723383017; x=1723987817; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ophunq+irD/RQYGfTe1EmvYis9lTBIa/JcdniZkh3wo=;
+        b=LoHfMJHM4xeNt7pmBQGzc+muAVlvmBE64wIRB5lBcqni+1v1g0yiXs35uD/nT2ygJW
+         MRceVWCFSIvERBzqgtAYroOYIczZ/Y5Y4JVIwvX55l5GKq93s5tN17BmhWs2u8Ad6Fyy
+         FY/7scEc4OqglqJF+5/6m5oW2G3kqORnSZrdmkKVcLDcvQKhq5bAJj/7nFFhBgi/4XQ+
+         pHHEsGAl40TQa2ZoINfj7Q1/OKPlxycD/8n2jGYpBf6RMO2il3witxWyTBra6SU0DQQm
+         /vfZsB+0pjV7r+QGHEx3x9/qVgazLSsLH2ldCDa43hWDj3DmlTYoU924xPjiV/3kxxSl
+         tAfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723383017; x=1723987817;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ophunq+irD/RQYGfTe1EmvYis9lTBIa/JcdniZkh3wo=;
+        b=XfMBFqpwgWdxBZp39po/Pbd6jHChV6mX3Hyu33PXd/5e+gbj9yk09cuU7wT8xDe6a8
+         bibbWN5lJnOxPMG8lHjr1yRT1Pcas0RfBLmHMwwcLNlQdB4O7WbCLIvL8FA7RTLg38U3
+         vVT42TH0+wwXFGFsGg8+YkmEJD/zkM66LlcF9/X+42IhOl8hWnxmBheMN+0n9Hnm66ti
+         KSxLFOiruQDK0Kmq9J72tnBLWTXbfnr7bCvIq/icG83isoVKb0ghgRiwdwklU2ThaQc2
+         9m4OFVHg5t3w/CQ8/ct4By7rl17isCaGbzs+yr0D7H/0ySxg2hlfREsYbpWfvPxm3Xk5
+         xBMg==
+X-Gm-Message-State: AOJu0YyTO5tRXg0h8BDysUMzbzczPX1KuxxuLdQYpegk9JwCdBMs04i/
+	HMOGgxTlbxZqfNw60MnLJP7n9Pfmzib2VkPDdJ8dyUdLQ81OT5a6enmFEUwitMMxoYp2L2tunkL
+	h
+X-Google-Smtp-Source: AGHT+IH3NE04N2VqidGut2ih4Aovg/6zbgyk+VvQdaiI3UDBTeO6TYI7TA1F0AtaoaJGPhUsVrHPRg==
+X-Received: by 2002:a05:6512:b96:b0:52c:d84b:eee6 with SMTP id 2adb3069b0e04-530eea25013mr5295040e87.38.1723383016894;
+        Sun, 11 Aug 2024 06:30:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb212e32sm146603566b.166.2024.08.11.06.30.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 06:30:16 -0700 (PDT)
+Date: Sun, 11 Aug 2024 16:30:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	LKML <linux-kernel@vger.kernel.org>,
+	"Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+	Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 2/3] crypto: api - Do not wait for tests during
+ registration
+Message-ID: <34069b9d-3731-4d0c-b317-bcbc61df7e9d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,98 +71,92 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZrbTfOViUr3S4V7X@gondor.apana.org.au>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Hi Herbert,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Dongjin Kim <tobetter@gmail.com>
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   2a5f985c90ffd8f4e2de3a2fd76f00c3e322aa6f
-commit: 5e5c31f1c11458aabfa51021f3e0319bb051330e [23/91] ODROID-C2: arm64/dts: add 'meson64_odroidc2.dts' for compability
-:::::: branch date: 4 days ago
-:::::: commit date: 1 year, 7 months ago
-config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240811/202408111926.kpiEbWCi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev10+ge5d88ac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240811/202408111926.kpiEbWCi-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herbert-Xu/crypto-api-Do-not-wait-for-tests-during-registration/20240810-160343
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/ZrbTfOViUr3S4V7X%40gondor.apana.org.au
+patch subject: [PATCH 2/3] crypto: api - Do not wait for tests during registration
+config: x86_64-randconfig-161-20240811 (https://download.01.org/0day-ci/archive/20240811/202408110413.vKk2q3qN-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408111926.kpiEbWCi-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408110413.vKk2q3qN-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:252.29-257.6: Warning (unit_address_vs_reg): /scpi/clocks/scpi_clocks@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (unit_address_vs_reg): /soc/bus@c8100000/pinctrl@14: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (unit_address_vs_reg): /soc/bus@c8834000/rng: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (unit_address_vs_reg): /soc/bus@c8834000/pinctrl@4b0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:88.28-265.4: Warning (simple_bus_reg): /soc/bus@c8100000/pinctrl@14: missing or empty reg/ranges property
-   arch/arm64/boot/dts/amlogic/meson-gx.dtsi:534.15-537.6: Warning (simple_bus_reg): /soc/bus@c8834000/rng: simple-bus unit address format error, expected "0"
-   arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi:361.31-719.4: Warning (simple_bus_reg): /soc/bus@c8834000/pinctrl@4b0: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-level' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: l2-cache0: 'cache-unified' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /firmware/secure-monitor: failed to match any schema with compatible: ['amlogic,meson-gx-sm', 'amlogic,meson-gxbb-sm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /efuse: failed to match any schema with compatible: ['amlogic,meson-gx-efuse', 'amlogic,meson-gxbb-efuse']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: scpi: clocks: 'scpi_clocks@0' does not match any of the regexes: '^clocks-[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/firmware/arm,scpi.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/interrupt-controller@9880: failed to match any schema with compatible: ['amlogic,meson-gpio-intc', 'amlogic,meson-gxbb-gpio-intc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8550: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@8650: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/pwm@86c0: failed to match any schema with compatible: ['amlogic,meson-gx-pwm', 'amlogic,meson-gxbb-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c1100000/clock-measure@8758: failed to match any schema with compatible: ['amlogic,meson-gx-clk-measure']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0: failed to match any schema with compatible: ['amlogic,meson-gx-ao-sysctrl', 'simple-mfd', 'syscon']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/sys-ctrl@0/clock-controller: failed to match any schema with compatible: ['amlogic,meson-gxbb-aoclkc', 'amlogic,meson-gx-aoclkc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pwm@550: failed to match any schema with compatible: ['amlogic,meson-gx-ao-pwm', 'amlogic,meson-gxbb-ao-pwm']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/ir@580: failed to match any schema with compatible: ['amlogic,meson-gx-ir', 'amlogic,meson-gxbb-ir']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8100000/pinctrl@14: failed to match any schema with compatible: ['amlogic,meson-gxbb-aobus-pinctrl']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: bus@c8834000: rng: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c8834000/pinctrl@4b0: failed to match any schema with compatible: ['amlogic,meson-gxbb-periphs-pinctrl']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0: failed to match any schema with compatible: ['amlogic,meson-gx-hhi-sysctrl', 'simple-mfd', 'syscon']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/bus@c883c000/system-controller@0/clock-controller: failed to match any schema with compatible: ['amlogic,gxbb-clkc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: amlogic,tx-delay-ns: [2] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: ethernet@c9410000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@70000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@72000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: /soc/apb@d0000000/mmc@74000: failed to match any schema with compatible: ['amlogic,meson-gx-mmc', 'amlogic,meson-gxbb-mmc']
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-0:sound-dai: [[57], [0], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:sound-dai: [[57], [0], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-1:codec-0:sound-dai: [[57], [1], [0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: dai-link-2:sound-dai: [[57], [1], [2]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
->> arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^dai-link-[0-9]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/amlogic,gx-sound-card.yaml#
-   arch/arm64/boot/dts/amlogic/meson64_odroidc2.dtb: sound: 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+smatch warnings:
+crypto/algapi.c:396 crypto_alg_tested() error: uninitialized symbol 'test'.
+
+vim +/test +396 crypto/algapi.c
+
+73d3864a4823ab Herbert Xu     2008-08-03  350  void crypto_alg_tested(const char *name, int err)
+73d3864a4823ab Herbert Xu     2008-08-03  351  {
+73d3864a4823ab Herbert Xu     2008-08-03  352  	struct crypto_larval *test;
+73d3864a4823ab Herbert Xu     2008-08-03  353  	struct crypto_alg *alg;
+73d3864a4823ab Herbert Xu     2008-08-03  354  	struct crypto_alg *q;
+73d3864a4823ab Herbert Xu     2008-08-03  355  	LIST_HEAD(list);
+73d3864a4823ab Herbert Xu     2008-08-03  356  
+73d3864a4823ab Herbert Xu     2008-08-03  357  	down_write(&crypto_alg_sem);
+73d3864a4823ab Herbert Xu     2008-08-03  358  	list_for_each_entry(q, &crypto_alg_list, cra_list) {
+b8e15992b420d0 Herbert Xu     2009-01-28  359  		if (crypto_is_moribund(q) || !crypto_is_larval(q))
+73d3864a4823ab Herbert Xu     2008-08-03  360  			continue;
+
+Is it possible for everything to be moribund or larval?
+
+73d3864a4823ab Herbert Xu     2008-08-03  361  
+73d3864a4823ab Herbert Xu     2008-08-03  362  		test = (struct crypto_larval *)q;
+73d3864a4823ab Herbert Xu     2008-08-03  363  
+73d3864a4823ab Herbert Xu     2008-08-03  364  		if (!strcmp(q->cra_driver_name, name))
+73d3864a4823ab Herbert Xu     2008-08-03  365  			goto found;
+73d3864a4823ab Herbert Xu     2008-08-03  366  	}
+73d3864a4823ab Herbert Xu     2008-08-03  367  
+c72358571aaadf Karim Eshapa   2017-05-13  368  	pr_err("alg: Unexpected test result for %s: %d\n", name, err);
+73d3864a4823ab Herbert Xu     2008-08-03  369  	goto unlock;
+
+This calling crypto_alg_put() on the last item in the list seems wrong either
+way.
+
+73d3864a4823ab Herbert Xu     2008-08-03  370  
+73d3864a4823ab Herbert Xu     2008-08-03  371  found:
+b8e15992b420d0 Herbert Xu     2009-01-28  372  	q->cra_flags |= CRYPTO_ALG_DEAD;
+73d3864a4823ab Herbert Xu     2008-08-03  373  	alg = test->adult;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  374  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  375  	if (list_empty(&alg->cra_list))
+73d3864a4823ab Herbert Xu     2008-08-03  376  		goto complete;
+73d3864a4823ab Herbert Xu     2008-08-03  377  
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  378  	if (err == -ECANCELED)
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  379  		alg->cra_flags |= CRYPTO_ALG_FIPS_INTERNAL;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  380  	else if (err)
+73d3864a4823ab Herbert Xu     2008-08-03  381  		goto complete;
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  382  	else
+d6097b8d5d55f2 Nicolai Stange 2022-02-21  383  		alg->cra_flags &= ~CRYPTO_ALG_FIPS_INTERNAL;
+73d3864a4823ab Herbert Xu     2008-08-03  384  
+73d3864a4823ab Herbert Xu     2008-08-03  385  	alg->cra_flags |= CRYPTO_ALG_TESTED;
+73d3864a4823ab Herbert Xu     2008-08-03  386  
+103961609b0935 Herbert Xu     2024-08-10  387  	crypto_alg_finish_registration(alg, &list);
+cce9e06d100df1 Herbert Xu     2006-08-21  388  
+73d3864a4823ab Herbert Xu     2008-08-03  389  complete:
+862e4618d9321e Herbert Xu     2024-08-10  390  	list_del_init(&test->alg.cra_list);
+73d3864a4823ab Herbert Xu     2008-08-03  391  	complete_all(&test->completion);
+2825982d9d66eb Herbert Xu     2006-08-06  392  
+73d3864a4823ab Herbert Xu     2008-08-03  393  unlock:
+73d3864a4823ab Herbert Xu     2008-08-03  394  	up_write(&crypto_alg_sem);
+2825982d9d66eb Herbert Xu     2006-08-06  395  
+862e4618d9321e Herbert Xu     2024-08-10 @396  	crypto_alg_put(&test->alg);
+                                                                ^^^^
+
+73d3864a4823ab Herbert Xu     2008-08-03  397  	crypto_remove_final(&list);
+cce9e06d100df1 Herbert Xu     2006-08-21  398  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
