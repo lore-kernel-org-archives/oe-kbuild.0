@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F8EC8E9
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 16:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF39714A4CC
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 16:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723393383; cv=none; b=VqqHPrSkfdTJ4U+AUUfT0Ar7p0nsHIC1N3EGRmR0SHnlrqInjH0HzZly1rKCnTvsoHGX0DcFFyE+0kT+e5RMxushIl9R2er1CRBWMz5mUCBdTbaipacK659xMcEacquJXtVs+4GtkNyoN+pm3x5xQPt4uWC9t41q4nSVeTTKGwg=
+	t=1723395185; cv=none; b=dOIt6ILKrMWG2m1FpURvh6VnZjCOJ6zkzEZ3B59xhOJu2MM4zJo/TL0ics/w+lf94g7iuPV9ggSxj5gUv9JJERy5rJ0nnHStpEsimHoBCVd/EJeePVYOMdu9YxYqK4YusUwWaa853o28HCsS6aBWC+CHtGffr2jSpJQvco3ZDuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723393383; c=relaxed/simple;
-	bh=mM0b/SFMYt8U6AUTyQcf4clAvottv1EI1nx2vRWyDDE=;
+	s=arc-20240116; t=1723395185; c=relaxed/simple;
+	bh=y/zzx9z+73CNGbiFnWocdDlsunMCDOYo9nxqMzoj/kk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pFptiVc4KDurbGXpXo4EXG46A3QEjcR+gq6gdUfZgZ0Q9miJxmVaAjue3iNtkMBxzf7RBGaohbgrgzFYhp9dtlS3tKLuxM3A+wZ1ifaZD2HlHd3e7nRmW9fKhxnPD344B4XuozZ42U7jCqqHQHxn0DfxpXJwxqaRK1D5sg1P/4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTp90cd+; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=P3k/UGfGwxAOlJFMQns+uevKb9FDjk40H5yIE78XP9/8OOrk+lua38pUu5THhCX0hr+zgElMW1uw8uQOyzF6w3afI/hZt8BQCOPI8+d3N5dJ3pvEe79XoiNTG4YvbXUgW+uiQF4A3xmBjc/w0pvFFtpc2ykTmULl6V3FY55ceiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xk2OqOt6; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTp90cd+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xk2OqOt6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723393381; x=1754929381;
+  t=1723395183; x=1754931183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mM0b/SFMYt8U6AUTyQcf4clAvottv1EI1nx2vRWyDDE=;
-  b=OTp90cd+ognGP3u80GHGXfbFTZY6Q5aTYKUOjutY8SyAOt3Q3uIrJgmE
-   /l8B15+C4ZJdycJrJ6fSilfkm+lMuWyND6jCiGcgw/Aiw9S4uOgF26dCz
-   L2Ys2NtgeIj9RZVWbE2GDgYEypYZXxZib13IoY9Ui6lXwvAa5MZl8osQp
-   kYueNpl+T7h9TJbTnShjomCkbpYDh8Pjc28HM8F7pXuTDTl2+UrYedog5
-   Zdgh7/pujo5Phan4SSmgWJpo9sPeExDnVO4XnmNQWIZ3c34o3ApaFO/g2
-   cOH/l/FtzsuG+MMZ9dwKBDmD86DwwTUuOj+zWkpeYHHD09ePV/x5O0/Ff
+  bh=y/zzx9z+73CNGbiFnWocdDlsunMCDOYo9nxqMzoj/kk=;
+  b=Xk2OqOt6kRIGwZcDH9BgRK4FQAXx1EkUT2bNaLYw855l36Lst+Q10zEL
+   ppTJNkVFIgNvHSUQoL9e1ewoqA6tpbzEoAGx6K4JcKOkWKtUAaAt6fGP0
+   AGI/Mo6X6NgTZnc8EuuCDkBcI+qGZk+YT7/teEumZDMCtl1p68NG3/pvd
+   kg4g5vbtlMgj7/IsbFrW87ABc9xi8LWo1WI1Vgsz/lCtDevKdm4W1Hlkz
+   9NtyRdjB6D5ZI/LIPLIBwKQbjD1OpADAjIT1UvDpw5Wum/9JBrEIcGS/I
+   Vyc5PkloHGI0LmHsfpf/TUKf+DpL9IL4u1eou34PYd2Csw3iLkYBXKiiM
    g==;
-X-CSE-ConnectionGUID: H+9DRRf/QY2lCjIWDrbLOQ==
-X-CSE-MsgGUID: 7R5btXWPQMy6D1KAQdTBwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21385289"
+X-CSE-ConnectionGUID: 1qmoLFL7QsGGLt+hojynSA==
+X-CSE-MsgGUID: aPRBgZGtSp2tXB+iTSFkTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="32081973"
 X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="21385289"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 09:23:00 -0700
-X-CSE-ConnectionGUID: EXbKPwRWR3K4Lj56zp4d8g==
-X-CSE-MsgGUID: NPDjW9AET76EodAwpJG7mg==
+   d="scan'208";a="32081973"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 09:53:02 -0700
+X-CSE-ConnectionGUID: mXMB/KjkS/qGT2ks15/7YQ==
+X-CSE-MsgGUID: xCFG9oAOQva5SfshyfvBJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,281,1716274800"; 
-   d="scan'208";a="62176138"
+   d="scan'208";a="58768242"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Aug 2024 09:22:59 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Aug 2024 09:53:01 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdBLN-000AyN-2Y;
-	Sun, 11 Aug 2024 16:22:57 +0000
-Date: Mon, 12 Aug 2024 00:22:24 +0800
+	id 1sdBoQ-000Azr-1N;
+	Sun, 11 Aug 2024 16:52:58 +0000
+Date: Mon, 12 Aug 2024 00:52:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a pin
-Message-ID: <202408120042.oTNcxcHu-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [tobetter:odroid-6.6.y 30/78]
+ arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: ethernet@ff3f0000:
+ amlogic,tx-delay-ns: [2] is not of type 'integer'
+Message-ID: <202408120044.elPsEMrr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,138 +63,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
-References: <20240808112013.166621-2-arkadiusz.kubalewski@intel.com>
-TO: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-TO: netdev@vger.kernel.org
-CC: vadim.fedorenko@linux.dev
-CC: jiri@resnulli.us
-CC: corbet@lwn.net
-CC: davem@davemloft.net
-CC: edumazet@google.com
-CC: kuba@kernel.org
-CC: pabeni@redhat.com
-CC: donald.hunter@gmail.com
-CC: anthony.l.nguyen@intel.com
-CC: przemyslaw.kitszel@intel.com
-CC: intel-wired-lan@lists.osuosl.org
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+TO: Dongjin Kim <tobetter@gmail.com>
 
-Hi Arkadiusz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arkadiusz-Kubalewski/dpll-add-Embedded-SYNC-feature-for-a-pin/20240808-193618
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240808112013.166621-2-arkadiusz.kubalewski%40intel.com
-patch subject: [PATCH net-next v1 1/2] dpll: add Embedded SYNC feature for a pin
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: powerpc64-randconfig-r071-20240810 (https://download.01.org/0day-ci/archive/20240812/202408120042.oTNcxcHu-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
+commit: 81da8950b9cca078a3a6d8c255e143871e7cf164 [30/78] ODROID-N2PLUS: arm64/dts: add 'meson64_odroidn2_plus.dts' for compability
+:::::: branch date: 4 days ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240812/202408120044.elPsEMrr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev10+ge5d88ac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408120044.elPsEMrr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408120042.oTNcxcHu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408120044.elPsEMrr-lkp@intel.com/
 
-New smatch warnings:
-drivers/dpll/dpll_netlink.c:848 dpll_pin_e_sync_set() warn: iterator 'i' not incremented
-
-Old smatch warnings:
-drivers/dpll/dpll_netlink.c:631 dpll_pin_available() warn: iterator 'i' not incremented
-drivers/dpll/dpll_netlink.c:776 dpll_pin_freq_set() warn: iterator 'i' not incremented
-drivers/dpll/dpll_netlink.c:887 dpll_pin_on_pin_state_set() warn: iterator 'i' not incremented
-drivers/dpll/dpll_netlink.c:1045 dpll_pin_phase_adj_set() warn: iterator 'i' not incremented
-drivers/dpll/dpll_netlink.c:1187 dpll_pin_find() warn: iterator 'i' not incremented
-drivers/dpll/dpll_netlink.c:1390 dpll_device_find() warn: iterator 'i' not incremented
-
-vim +/i +848 drivers/dpll/dpll_netlink.c
-
-9d71b54b65b1fb Vadim Fedorenko      2023-09-13  787  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  788  static int
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  789  dpll_pin_e_sync_set(struct dpll_pin *pin, struct nlattr *a,
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  790  		    struct netlink_ext_ack *extack)
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  791  {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  792  	u64 esync = nla_get_u64(a), old_esync;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  793  	struct dpll_pin_ref *ref, *failed;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  794  	enum dpll_pin_e_sync_pulse pulse;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  795  	struct dpll_pin_frequency range;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  796  	const struct dpll_pin_ops *ops;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  797  	struct dpll_device *dpll;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  798  	unsigned long i;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  799  	int ret;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  800  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  801  	xa_for_each(&pin->dpll_refs, i, ref) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  802  		ops = dpll_pin_ops(ref);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  803  		if (!ops->e_sync_set ||
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  804  		    !ops->e_sync_get) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  805  			NL_SET_ERR_MSG(extack,
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  806  				       "embedded sync feature is not supported by this device");
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  807  			return -EOPNOTSUPP;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  808  		}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  809  	}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  810  	ref = dpll_xa_ref_dpll_first(&pin->dpll_refs);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  811  	ops = dpll_pin_ops(ref);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  812  	dpll = ref->dpll;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  813  	ret = ops->e_sync_get(pin, dpll_pin_on_dpll_priv(dpll, pin), dpll,
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  814  			      dpll_priv(dpll), &old_esync, &range, &pulse, extack);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  815  	if (ret) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  816  		NL_SET_ERR_MSG(extack, "unable to get current embedded sync frequency value");
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  817  		return ret;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  818  	}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  819  	if (esync == old_esync)
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  820  		return 0;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  821  	if (esync > range.max || esync < range.min) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  822  		NL_SET_ERR_MSG_ATTR(extack, a,
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  823  				    "requested embedded sync frequency value is not supported by this device");
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  824  		return -EINVAL;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  825  	}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  826  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  827  	xa_for_each(&pin->dpll_refs, i, ref) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  828  		void *pin_dpll_priv;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  829  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  830  		ops = dpll_pin_ops(ref);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  831  		dpll = ref->dpll;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  832  		pin_dpll_priv = dpll_pin_on_dpll_priv(dpll, pin);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  833  		ret = ops->e_sync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  834  				      esync, extack);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  835  		if (ret) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  836  			failed = ref;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  837  			NL_SET_ERR_MSG_FMT(extack,
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  838  					   "embedded sync frequency set failed for dpll_id:%u",
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  839  					   dpll->id);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  840  			goto rollback;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  841  		}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  842  	}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  843  	__dpll_pin_change_ntf(pin);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  844  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  845  	return 0;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  846  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  847  rollback:
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08 @848  	xa_for_each(&pin->dpll_refs, i, ref) {
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  849  		void *pin_dpll_priv;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  850  
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  851  		if (ref == failed)
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  852  			break;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  853  		ops = dpll_pin_ops(ref);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  854  		dpll = ref->dpll;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  855  		pin_dpll_priv = dpll_pin_on_dpll_priv(dpll, pin);
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  856  		if (ops->e_sync_set(pin, pin_dpll_priv, dpll, dpll_priv(dpll),
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  857  				    old_esync, extack))
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  858  			NL_SET_ERR_MSG(extack, "set embedded sync frequency rollback failed");
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  859  	}
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  860  	return ret;
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  861  }
-a728a5dbbaef46 Arkadiusz Kubalewski 2024-08-08  862  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi:154.23-158.5: Warning (unit_address_vs_reg): /thermal-zones/cpu-thermal/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2.dtsi:159.23-163.5: Warning (unit_address_vs_reg): /thermal-zones/cpu-thermal/trips/trip-point@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: /soc/bus@ff600000/bus@42000/clock-controller@0: failed to match any schema with compatible: ['amlogic,g12a-audio-clkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller@300: compatible: ['amlogic,g12a-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller@340: compatible: ['amlogic,g12a-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller@380: compatible: ['amlogic,g12a-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller@3c0: compatible: ['amlogic,g12a-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: /soc/bus@ff600000/bus@42000/audio-controller@744: failed to match any schema with compatible: ['amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: thermal-zones: cpu-thermal:trips: 'trip-point@0', 'trip-point@1' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-_]{0,63}$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: thermal-zones: cpu-thermal:cooling-maps: 'fan_cooling_map0', 'fan_cooling_map1' do not match any of the regexes: '^map[-a-zA-Z0-9]*$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: audio-controller-2: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: /gpio-fan: failed to match any schema with compatible: ['gpio-fan']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: /odroid-reboot: failed to match any schema with compatible: ['odroid,reboot']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: /pwmgpio: failed to match any schema with compatible: ['pwm-gpio']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidn2_plus.dtb: pwm-fan: 'cooling-max-state', 'cooling-min-state' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
