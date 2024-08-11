@@ -1,64 +1,68 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FF65336B
-	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 13:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A001494A4
+	for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 13:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723383307; cv=none; b=TUoljZxDEoUNVfg8N9NFJi1vWyKkAbd+b3vU0Xflsy4wVh9wsv54T8XLzlXpLDxy+OkuA5f6I3laAVLYlFwplYj1l8wBu2F8x1knve5Ni3wBOqAHjpS8jzCgyp9S4jITDu3v9fFEjF8oVyWFZB49MRIpKxxSq416yNyU46JdWAA=
+	t=1723383417; cv=none; b=DyrEU4x5p2gRgdwN1CDZrMlnQjJFLeBi8zWbWUv5NUZqDhgFGJ0itjTatx6q8vScQRByC3JoUEvZvX7xrveGI5jX+6bsHXDzFT1wydxn3UvknjgQCvGZF/ZMTaePwXFBh8+bOLGGWazvTULCtX9sbrqK9fXMjwr9wsVCOYBGu2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723383307; c=relaxed/simple;
-	bh=VGM568D87wHUovADz9WFHUI7AEwoT2PfWyxmvtOp1P8=;
+	s=arc-20240116; t=1723383417; c=relaxed/simple;
+	bh=AjhSzCCRpwX2SIA54WBYVm8ImmaPiSzWx0ZqwEodCVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b4rCyM8D8mNrRqBRrdHkJslWLEX8SYTBEwSHGX0YiLXOQbPQrZxRrXgCMWYvGTuEaG8s/fxOzP89sH30MZISNUUb7XuMzSPI//HPXIJX2YXei9P50kmtL345tNkVZu/ypdkemKJg83MWl+0GuPlZv0korffiBIGoMYMamcDXzI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=COf4q3xl; arc=none smtp.client-ip=209.85.167.42
+	 Content-Disposition:In-Reply-To; b=YrN9gsdvEdX3ca1421xPXGsXZNoqs9BosYq7KBq/7EG07TfDh0Q/Es+5uC+A0qB0eruZOssbh5xcr/tbFysigeqH4eeYgxte/LfsszlqbDpeiYwfq6Bm8CMrKXyZA0luV2lECT8q2mHAW/+V554gnN8RqyCVohXMzZAjN/HNxXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lqckJ50F; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="COf4q3xl"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52f04b3cb33so7110273e87.0
-        for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 06:35:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lqckJ50F"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52efd8807aaso4505383e87.3
+        for <oe-kbuild@lists.linux.dev>; Sun, 11 Aug 2024 06:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723383303; x=1723988103; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Txou7tBheJ/iWucLdwnnx8un90DmQGpFp4G8nnsqJ4E=;
-        b=COf4q3xlc47IKbJQQd2uOv/sUt2ypfamDN/K7Xd2B9xxcRN3QFSXzFAp99ObxJghe8
-         zfHD9DyPe7c0l0+A1zv5D8QB/Ud3W8k2Tzzx2iGSW2dq+1pANE/wXu7PHLLnICdUHWWl
-         AhFnEUl/9p+6ZGbjxnWhs9aO6cE/XLdjjrTlI2+mrMSjQ7ReDGWtF3PkrH3U+6c1oRnH
-         RxxNpa13pECBUxwnXazGPUbDMJKTncgQsaT5PwZGPotHimOWwe0NAXq6KakKi7ng/xfo
-         2JfcoqxgWUNtPeki6jcHhfh1kfslV6JLSYTp2cGRjSGM0b98raYra1jt3d5GLhfxrceY
-         c2gg==
+        d=linaro.org; s=google; t=1723383414; x=1723988214; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cig1+J77dIPekmdgbTlikcW8VVCG5pt4tWITgQBHG4I=;
+        b=lqckJ50F/Wjd38mtWHJLplPARVswkqZjWZ0AXISwGxPCN15urtDPs/S7GMvmxdsINa
+         Tx3Pt4wO/al9P7vbKc74Y2hSq+rkyzvyF5EtD9v0dhYiUrW4jmxUp/HZ7f36465jTdn7
+         W+pr5tfbiA5XawL39RF/Uh8OzvQjHll5P0gNSGyg0+ErVusMBb74yAS/h8WvBuCqyvNz
+         5zP0IwLxWb00VIlJzfC7kLktDjL6aF4PZ+uooBUACODXoUldJUL/xk1Lu7RcZCV6H0mu
+         0Q+FHgdcFUJ/jy89xoytiF8CMlDlAzBt4aDDPMjeGCHExDJ62Nh9k4OLydFzrItzkt0c
+         kLvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723383303; x=1723988103;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Txou7tBheJ/iWucLdwnnx8un90DmQGpFp4G8nnsqJ4E=;
-        b=gseDpySajj9IrUqN5ukaaGynRrotiU+/nl8myrGuuf3DwkpWj0UctxD+z3VJw1qv/9
-         NjFpaKAj/m+RCC4JXJq4dX7KAj3TfQlBdjTuKUy8dtnZSP5yRGLJL+SiWXi32MLk6SwS
-         MHtlaM2PgQSb/gv4JuBX9ZGfWPPmcxMKRT0VGYBu0Np0lPuJfSWml4Y+yojdXKdcV5Yj
-         GSnRo1IFp98O5Hra+3YDI//rY91um0S1xhEeehup0pKhh/GPBLC7cNEAqOlfak4bhS/S
-         ya7nMqjco81lh6iYrQayOOYfNR+/MKpXqXw4hYtc5tZkfejio8IyUfrtVWCHDDBqThBg
-         T00g==
-X-Gm-Message-State: AOJu0Yw+54LJPsxqLQjmC5FhJJV1hqB95Y1I1eKe4lKAAkexFNE6Hi9Z
-	sfkffIN1XJsZ4AslIo3MNIkbnrkSkPgPBsvhVI5JtFdJbNGC5lbChMh9kTXBTf6rdzCju5K5FW0
-	V
-X-Google-Smtp-Source: AGHT+IE/m0AyJiPG39rL+rPXwSGPTYDkmHzRVEgeVbUFqygplCiPDhNOWE2tDI98kM5r0c3yG6oPvg==
-X-Received: by 2002:a05:6512:6c4:b0:52c:83c7:936a with SMTP id 2adb3069b0e04-530ee9f3555mr5816945e87.42.1723383303025;
-        Sun, 11 Aug 2024 06:35:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723383414; x=1723988214;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cig1+J77dIPekmdgbTlikcW8VVCG5pt4tWITgQBHG4I=;
+        b=quOIPDHJKotV89614OBPMmTlaovYSD8Z9NQHGvns86MBYppfexcRsN/3N6EpQhQmon
+         /LSBimj1DXdZRRGCHt8iDXDXempyCoC883kqlcXW1Ul+jtvj9pBHkkCEnWFjDu/iO45m
+         W9QPfJT5Q33OJ/VuHZf6SjgTdhHZb7ZmZSZ4zt0FsBzNOcOnnF8vjMmIGbE3F51MvPsw
+         Cry36k9Wci0iJWVTOSTiMZj9ub+P++V5KhU/3ul8mpAkMj3iTM7Mj53hiE4TDnoP991j
+         fupCLYpuRXyb4XwdiM864zA24HWnAxt3HHDSHBmTB/tomrLM/R7UE3wxsO0n18cpwS4j
+         24tg==
+X-Gm-Message-State: AOJu0YwpZz1KNf+lM5EOIPnXE/xs6qtX4It/DqM4QrxjtYOencxezuHA
+	2ZYuzwp/0Cn2p7BEg13OPpKQLq1ROu21Atw++XPQgg9QyptAB7Ox5cj54Rq2IueKcrL56L2pwD7
+	a
+X-Google-Smtp-Source: AGHT+IHt33AuHPjxUd4uOwuYX+OCWuwzGXpabOgvFL5h/RJY7EsClSLXTXMTL71IPhLvH3UFICIxFw==
+X-Received: by 2002:a05:6512:3b08:b0:52f:c24b:1767 with SMTP id 2adb3069b0e04-530ee9742f8mr4787738e87.19.1723383413675;
+        Sun, 11 Aug 2024 06:36:53 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb1cce2csm149054066b.98.2024.08.11.06.35.02
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb0e1288sm147807766b.80.2024.08.11.06.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Aug 2024 06:35:02 -0700 (PDT)
-Date: Sun, 11 Aug 2024 16:34:58 +0300
+        Sun, 11 Aug 2024 06:36:53 -0700 (PDT)
+Date: Sun, 11 Aug 2024 16:36:49 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alexander Aring <aahringo@redhat.com>
+To: oe-kbuild@lists.linux.dev, Jan Kiszka <jan.kiszka@siemens.com>,
+	Minda Chen <minda.chen@starfivetech.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Teigland <teigland@redhat.com>
-Subject: [linux-next:master 3779/3984] fs/dlm/main.c:57 init_dlm() warn:
- missing error code 'error'
-Message-ID: <e57a6935-bb99-4136-b181-1c98ba32e172@stanley.mountain>
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] phy: starfive: jh7110-usb: Fix link configuration to
+ controller
+Message-ID: <053d3e9f-ba32-406c-a799-91ea577a0cb9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,78 +71,80 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cd7b125c8c797f9d63440944df7121f9db0a49ad.1722457123.git.jan.kiszka@siemens.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   61c01d2e181adfba02fe09764f9fca1de2be0dbe
-commit: 94e180d6255f5a765bb723e6e8b67f1438ce574b [3779/3984] dlm: async freeing of lockspace resources
-config: x86_64-randconfig-161-20240810 (https://download.01.org/0day-ci/archive/20240811/202408110800.OsoP8TB9-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+Hi Jan,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Kiszka/dt-bindings-phy-jh7110-usb-phy-Add-sys-syscon-property/20240802-101748
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/cd7b125c8c797f9d63440944df7121f9db0a49ad.1722457123.git.jan.kiszka%40siemens.com
+patch subject: [PATCH 3/3] phy: starfive: jh7110-usb: Fix link configuration to controller
+config: microblaze-randconfig-r072-20240810 (https://download.01.org/0day-ci/archive/20240811/202408110917.hE9xidPH-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408110800.OsoP8TB9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408110917.hE9xidPH-lkp@intel.com/
 
 smatch warnings:
-fs/dlm/main.c:57 init_dlm() warn: missing error code 'error'
+drivers/phy/starfive/phy-jh7110-usb.c:148 jh7110_usb_phy_probe() warn: passing zero to 'PTR_ERR'
 
-vim +/error +57 fs/dlm/main.c
+vim +/PTR_ERR +148 drivers/phy/starfive/phy-jh7110-usb.c
 
-e7fd41792fc0ee David Teigland     2006-01-18  27  static int __init init_dlm(void)
-e7fd41792fc0ee David Teigland     2006-01-18  28  {
-e7fd41792fc0ee David Teigland     2006-01-18  29  	int error;
-e7fd41792fc0ee David Teigland     2006-01-18  30  
-e7fd41792fc0ee David Teigland     2006-01-18  31  	error = dlm_memory_init();
-e7fd41792fc0ee David Teigland     2006-01-18  32  	if (error)
-e7fd41792fc0ee David Teigland     2006-01-18  33  		goto out;
-e7fd41792fc0ee David Teigland     2006-01-18  34  
-8b0188b0d60b6f Alexander Aring    2022-11-17  35  	dlm_midcomms_init();
-8b0188b0d60b6f Alexander Aring    2022-11-17  36  
-e7fd41792fc0ee David Teigland     2006-01-18  37  	error = dlm_lockspace_init();
-e7fd41792fc0ee David Teigland     2006-01-18  38  	if (error)
-e7fd41792fc0ee David Teigland     2006-01-18  39  		goto out_mem;
-e7fd41792fc0ee David Teigland     2006-01-18  40  
-e7fd41792fc0ee David Teigland     2006-01-18  41  	error = dlm_config_init();
-e7fd41792fc0ee David Teigland     2006-01-18  42  	if (error)
-e7fd41792fc0ee David Teigland     2006-01-18  43  		goto out_lockspace;
-e7fd41792fc0ee David Teigland     2006-01-18  44  
-a48f9721e6db74 Greg Kroah-Hartman 2019-06-12  45  	dlm_register_debugfs();
-e7fd41792fc0ee David Teigland     2006-01-18  46  
-597d0cae0f99f6 David Teigland     2006-07-12  47  	error = dlm_user_init();
-597d0cae0f99f6 David Teigland     2006-07-12  48  	if (error)
-ac33d071059557 Patrick Caulfield  2006-12-06  49  		goto out_debug;
-597d0cae0f99f6 David Teigland     2006-07-12  50  
-2402211a838928 David Teigland     2008-03-14  51  	error = dlm_plock_init();
-2402211a838928 David Teigland     2008-03-14  52  	if (error)
-01c7a597899320 Alexander Aring    2023-03-06  53  		goto out_user;
-2402211a838928 David Teigland     2008-03-14  54  
-94e180d6255f5a Alexander Aring    2024-08-02  55  	dlm_wq = alloc_workqueue("dlm_wq", 0, 0);
-94e180d6255f5a Alexander Aring    2024-08-02  56  	if (!dlm_wq)
-94e180d6255f5a Alexander Aring    2024-08-02 @57  		goto out_plock;
+16d3a71c20cf2e Minda Chen 2023-06-29  109  static int jh7110_usb_phy_probe(struct platform_device *pdev)
+16d3a71c20cf2e Minda Chen 2023-06-29  110  {
+16d3a71c20cf2e Minda Chen 2023-06-29  111  	struct jh7110_usb2_phy *phy;
+16d3a71c20cf2e Minda Chen 2023-06-29  112  	struct device *dev = &pdev->dev;
+16d3a71c20cf2e Minda Chen 2023-06-29  113  	struct phy_provider *phy_provider;
+0ed73d833230fd Jan Kiszka 2024-07-31  114  	u32 args[1];
+16d3a71c20cf2e Minda Chen 2023-06-29  115  
+16d3a71c20cf2e Minda Chen 2023-06-29  116  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+16d3a71c20cf2e Minda Chen 2023-06-29  117  	if (!phy)
+16d3a71c20cf2e Minda Chen 2023-06-29  118  		return -ENOMEM;
+16d3a71c20cf2e Minda Chen 2023-06-29  119  
+16d3a71c20cf2e Minda Chen 2023-06-29  120  	phy->usb_125m_clk = devm_clk_get(dev, "125m");
+16d3a71c20cf2e Minda Chen 2023-06-29  121  	if (IS_ERR(phy->usb_125m_clk))
+16d3a71c20cf2e Minda Chen 2023-06-29  122  		return dev_err_probe(dev, PTR_ERR(phy->usb_125m_clk),
+16d3a71c20cf2e Minda Chen 2023-06-29  123  			"Failed to get 125m clock\n");
+16d3a71c20cf2e Minda Chen 2023-06-29  124  
+16d3a71c20cf2e Minda Chen 2023-06-29  125  	phy->app_125m = devm_clk_get(dev, "app_125m");
+16d3a71c20cf2e Minda Chen 2023-06-29  126  	if (IS_ERR(phy->app_125m))
+16d3a71c20cf2e Minda Chen 2023-06-29  127  		return dev_err_probe(dev, PTR_ERR(phy->app_125m),
+16d3a71c20cf2e Minda Chen 2023-06-29  128  			"Failed to get app 125m clock\n");
+16d3a71c20cf2e Minda Chen 2023-06-29  129  
+16d3a71c20cf2e Minda Chen 2023-06-29  130  	phy->regs = devm_platform_ioremap_resource(pdev, 0);
+16d3a71c20cf2e Minda Chen 2023-06-29  131  	if (IS_ERR(phy->regs))
+16d3a71c20cf2e Minda Chen 2023-06-29  132  		return dev_err_probe(dev, PTR_ERR(phy->regs),
+16d3a71c20cf2e Minda Chen 2023-06-29  133  			"Failed to map phy base\n");
+16d3a71c20cf2e Minda Chen 2023-06-29  134  
+16d3a71c20cf2e Minda Chen 2023-06-29  135  	phy->phy = devm_phy_create(dev, NULL, &jh7110_usb2_phy_ops);
+16d3a71c20cf2e Minda Chen 2023-06-29  136  	if (IS_ERR(phy->phy))
+16d3a71c20cf2e Minda Chen 2023-06-29  137  		return dev_err_probe(dev, PTR_ERR(phy->phy),
+16d3a71c20cf2e Minda Chen 2023-06-29  138  			"Failed to create phy\n");
+16d3a71c20cf2e Minda Chen 2023-06-29  139  
+16d3a71c20cf2e Minda Chen 2023-06-29  140  	phy_set_drvdata(phy->phy, phy);
+16d3a71c20cf2e Minda Chen 2023-06-29  141  	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
+16d3a71c20cf2e Minda Chen 2023-06-29  142  
+0ed73d833230fd Jan Kiszka 2024-07-31  143  	phy->sys_syscon =
+0ed73d833230fd Jan Kiszka 2024-07-31  144  		syscon_regmap_lookup_by_phandle_args(pdev->dev.of_node,
+0ed73d833230fd Jan Kiszka 2024-07-31  145  						     "starfive,sys-syscon",
+0ed73d833230fd Jan Kiszka 2024-07-31  146  						     1, args);
+0ed73d833230fd Jan Kiszka 2024-07-31  147  	if (IS_ERR(phy->sys_syscon))
+0ed73d833230fd Jan Kiszka 2024-07-31 @148  		return dev_err_probe(dev, PTR_ERR(phy->phy),
 
-error = -ENOMEM;
+Passing the wrong variable.  It should be phy->sys_syscon instead of phy->phy.
 
-94e180d6255f5a Alexander Aring    2024-08-02  58  
-75ce481e15911b Michal Marek       2011-04-01  59  	printk("DLM installed\n");
-e7fd41792fc0ee David Teigland     2006-01-18  60  
-e7fd41792fc0ee David Teigland     2006-01-18  61  	return 0;
-e7fd41792fc0ee David Teigland     2006-01-18  62  
-94e180d6255f5a Alexander Aring    2024-08-02  63   out_plock:
-94e180d6255f5a Alexander Aring    2024-08-02  64  	dlm_plock_exit();
-3ae1acf93a2151 David Teigland     2007-05-18  65   out_user:
-3ae1acf93a2151 David Teigland     2007-05-18  66  	dlm_user_exit();
-e7fd41792fc0ee David Teigland     2006-01-18  67   out_debug:
-e7fd41792fc0ee David Teigland     2006-01-18  68  	dlm_unregister_debugfs();
-e7fd41792fc0ee David Teigland     2006-01-18  69  	dlm_config_exit();
-e7fd41792fc0ee David Teigland     2006-01-18  70   out_lockspace:
-e7fd41792fc0ee David Teigland     2006-01-18  71  	dlm_lockspace_exit();
-e7fd41792fc0ee David Teigland     2006-01-18  72   out_mem:
-8b0188b0d60b6f Alexander Aring    2022-11-17  73  	dlm_midcomms_exit();
-e7fd41792fc0ee David Teigland     2006-01-18  74  	dlm_memory_exit();
-e7fd41792fc0ee David Teigland     2006-01-18  75   out:
-e7fd41792fc0ee David Teigland     2006-01-18  76  	return error;
-e7fd41792fc0ee David Teigland     2006-01-18  77  }
+0ed73d833230fd Jan Kiszka 2024-07-31  149  			"Failed to get sys-syscon\n");
+0ed73d833230fd Jan Kiszka 2024-07-31  150  	phy->sys_phy_connect = args[0];
+0ed73d833230fd Jan Kiszka 2024-07-31  151  
+16d3a71c20cf2e Minda Chen 2023-06-29  152  	return PTR_ERR_OR_ZERO(phy_provider);
+16d3a71c20cf2e Minda Chen 2023-06-29  153  }
 
 -- 
 0-DAY CI Kernel Test Service
