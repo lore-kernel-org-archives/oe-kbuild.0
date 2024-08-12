@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C665D7A13A
-	for <oe-kbuild@lists.linux.dev>; Mon, 12 Aug 2024 02:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C655588F
+	for <oe-kbuild@lists.linux.dev>; Mon, 12 Aug 2024 02:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723429009; cv=none; b=Vgq+oCVEsTBcagXajzBKCdkQBYww5x76OG66ojv5TFKGrXfarSJ3IFYVn2scM7xI/OdjIMmtaKxSVvjFttcJ1QDRSJB/QccU4Sr4cTeSkYw19+RHuvpuCKKzHGby18FeKpxJRTlr3da6nuYzn5c06oW64w7ZjLpAv73t6UTrUSY=
+	t=1723429033; cv=none; b=MzCNc1Iawgk+uDdr1WiGx/AV6R2y5glaSNykHXdT+/MU+73p7FOjfHz7PUdZUUgbUBHv3eIIxNgek174SpHf/X+70rJIBryb7Vgq/p1ttTFhFFq/wiMSMg33vV3EcPkf/r27hMyLVxYFnzmRYY3H9SOFiO16jipt73jnuym83v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723429009; c=relaxed/simple;
-	bh=YDb3geqnxf5aNLyfw151+IJx9JPqvEpS+4VB59U5fZM=;
+	s=arc-20240116; t=1723429033; c=relaxed/simple;
+	bh=MsQdtSYK4jpxWa5gXK9OC3b3md69DDURJgqZ1NJh+o8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ni7Fi9MdNIj/kThw9aIVY4WOvyBa2FHSvI9fXRdTsiv383XHxK0DMmbeg04wgwYDtb8dwdUFP+QJ8/ggrR5G+l16yiwLwsPVsqiSMY0kC+fQ5gp241qfXoeKoMLo6sFpEwPQ++92tsQ711J/7a17jUT1htdSuvekqpNYDCtJR0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wep69sPO; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=QXX/qrwFus53UcyQYYpcVgzJuRAGj1Sptq28UOwD3UPAEa92ohngEnoRCsYY7p6BZn8zAVgaEg9KKb+hRWsTnvinPCOEG2udVe5qNOg50iBRmm8/1qgGunYooObJT8f3/vTe+fHMyw3VemuqWjrYucWI1ma0rl6iNAH5VkLA9JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTRTESSJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wep69sPO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTRTESSJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723429008; x=1754965008;
+  t=1723429032; x=1754965032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YDb3geqnxf5aNLyfw151+IJx9JPqvEpS+4VB59U5fZM=;
-  b=Wep69sPOxeKdxGOGHFJVviQh/PHeEGckBi/bRBBdGjmNOI2iNwCZ3iT5
-   fCbbiYOfFibHlgDznL0l3tFIEGCIcX5CNp1YzowYhdrGqTBkhAuHZ+J4i
-   BNsg29ugVu+vRFUECb3i47FI5rT5vF9bdTipze6cST4UZtmMdCOULEjdr
-   oeIcTPETcNDVIzz4FEJ4/ZJnvGVs/ANES3J2tS0Q2R9LD60E8I9XNq76B
-   X/6mWJpnlGbhQLl/WDYly48S1EOjG5gvKpK766PSWiHtZIinskFnmGPuf
-   vu6DCwmub28139AFnWCOakopuVLqzB2D93YcCNGgsDu6cZLSR8vAsrm+W
-   Q==;
-X-CSE-ConnectionGUID: vWfTuF6DRwaCxTe9uy3M8g==
-X-CSE-MsgGUID: 7zcwc2zASkG8oV5CZkB9Uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="25290345"
+  bh=MsQdtSYK4jpxWa5gXK9OC3b3md69DDURJgqZ1NJh+o8=;
+  b=WTRTESSJF5a2qSlnth8aj7f6PkkeiNxqbCs3qxGbcRTzZG4rPpW63ON1
+   GPuDLR0y6kgDiKClNmT4HJ0z1Yr+3iTkZFhWeWBrw13S8nbHp6En5FvvV
+   aEveBHYbdJZFOn42VOWErc7r7B+K8Y6lJnl5AHJ7lxvBqL6ysFtoiJtWf
+   nNQomvCAt9quXuou6fuirwEc6+Ss7rw5PWd2bClK54IghQiFe639T1NyG
+   uSPyuU5Y4bM+jO6Ez7v+zOCDwk/1PARXybCnGXCCpYceRFhh/nSzpqQNc
+   dQW7sOoxUR8luOW+lVEjRlpire5Qpvy2sIrlZDF/sKzBm2LUxegunx7Qn
+   A==;
+X-CSE-ConnectionGUID: MSSun7//RyqP08qEdMPgRQ==
+X-CSE-MsgGUID: IJc4XjMRRVqyaaqTJVQyMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11161"; a="21178639"
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="25290345"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 19:16:47 -0700
-X-CSE-ConnectionGUID: mUOyd0ZbScGEohDAW7FPBQ==
-X-CSE-MsgGUID: yvZwZVg+SS6iF6+0fszxNg==
+   d="scan'208";a="21178639"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2024 19:17:11 -0700
+X-CSE-ConnectionGUID: L0Ufx/1YRSSjFyt1y+AAMw==
+X-CSE-MsgGUID: 1uWH8Np1TlaQR39ofUP+ZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,282,1716274800"; 
-   d="scan'208";a="58359367"
+   d="scan'208";a="62957333"
 Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 11 Aug 2024 19:16:46 -0700
+  by orviesa005.jf.intel.com with ESMTP; 11 Aug 2024 19:17:10 -0700
 Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdKbs-000BJo-1b;
-	Mon, 12 Aug 2024 02:16:37 +0000
-Date: Mon, 12 Aug 2024 10:15:33 +0800
+	id 1sdKc9-000BJw-1z;
+	Mon, 12 Aug 2024 02:17:02 +0000
+Date: Mon, 12 Aug 2024 10:15:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [hch-xfs:xfs-realtime-rmap-rebase 106/114] fs/xfs/scrub/repair.c:
- xfs_rtbitmap.h is included more than once.
-Message-ID: <202408121059.u6Rj0r8Y-lkp@intel.com>
+Subject: [tobetter:odroid-6.6.y 31/78]
+ arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000:
+ amlogic,tx-delay-ns: [2] is not of type 'integer'
+Message-ID: <202408121052.eSvLq00q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,58 +64,75 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+TO: Dongjin Kim <tobetter@gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-realtime-rmap-rebase
-head:   d327a47f8c6326342d07986675e149353d5ea516
-commit: 8e2ba6732c1c12f6876866642a506ee7c3d304d1 [106/114] xfs: online repair of realtime file bmaps
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://github.com/tobetter/linux odroid-6.6.y
+head:   db2e15a776d1205387db09cc4cd4b3d97c5de1d3
+commit: 81becb0ae3e52ea78f9fe3aba30ccef729a4c343 [31/78] ODROID-C4: arm64/dts: add 'meson64_odroidc4.dts' for compability
+:::::: branch date: 5 days ago
+:::::: commit date: 5 months ago
+config: arm64-randconfig-051-20240808 (https://download.01.org/0day-ci/archive/20240812/202408121052.eSvLq00q-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev10+ge5d88ac
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240812/202408121052.eSvLq00q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408121059.u6Rj0r8Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408121052.eSvLq00q-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> fs/xfs/scrub/repair.c: xfs_rtbitmap.h is included more than once.
-
-vim +24 fs/xfs/scrub/repair.c
-
-  > 24	#include "xfs_rtbitmap.h"
-    25	#include "xfs_extent_busy.h"
-    26	#include "xfs_ag.h"
-    27	#include "xfs_ag_resv.h"
-    28	#include "xfs_quota.h"
-    29	#include "xfs_qm.h"
-    30	#include "xfs_defer.h"
-    31	#include "xfs_errortag.h"
-    32	#include "xfs_error.h"
-    33	#include "xfs_reflink.h"
-    34	#include "xfs_health.h"
-    35	#include "xfs_buf_mem.h"
-    36	#include "xfs_da_format.h"
-    37	#include "xfs_da_btree.h"
-    38	#include "xfs_attr.h"
-    39	#include "xfs_dir2.h"
-    40	#include "xfs_rtrmap_btree.h"
-  > 41	#include "xfs_rtbitmap.h"
-    42	#include "xfs_rtgroup.h"
-    43	#include "scrub/scrub.h"
-    44	#include "scrub/common.h"
-    45	#include "scrub/trace.h"
-    46	#include "scrub/repair.h"
-    47	#include "scrub/bitmap.h"
-    48	#include "scrub/stats.h"
-    49	#include "scrub/xfile.h"
-    50	#include "scrub/attr_repair.h"
-    51	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:266.33-1540.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000: amlogic,tx-delay-ns: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: ethernet@ff3f0000: Unevaluated properties are not allowed ('amlogic,tx-delay-ns' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/amlogic,meson-dwmac.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/clock-controller@0: failed to match any schema with compatible: ['amlogic,sm1-audio-clkc']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@300: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@340: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@380: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller@3c0: compatible: ['amlogic,sm1-tdmin', 'amlogic,axg-tdmin'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-formatters.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /soc/bus@ff600000/bus@60000/audio-controller@744: failed to match any schema with compatible: ['amlogic,sm1-tohdmitx', 'amlogic,g12a-tohdmitx']
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sys-ctrl@0: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/amlogic/amlogic,meson-gx-hhi-sysctrl.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-0: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-1: Unevaluated properties are not allowed ('clock-names' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:0: 'sclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:1: 'lrclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+   arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: audio-controller-2: clock-names:2: 'mclk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-tdm-iface.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sound: Unevaluated properties are not allowed ('assigned-clock-parents', 'assigned-clock-rates', 'assigned-clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/amlogic,axg-sound-card.yaml#
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: sound: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
