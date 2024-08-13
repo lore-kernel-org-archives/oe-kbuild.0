@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E347F8
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 01:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A2C125AC
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 02:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723511573; cv=none; b=fTcxaSRt0Up13UUlBLnqwon7E4RLIqp5nnyhTefjiq83ANs7x6yxGevE3VVJLyEg9PBsGusnNa+1b2LiMyAVBDHHbROaITL34MJbLYADIpEs8uQyNV6shclLX90I5lasqP5AqDXjBorxglos+0vUmGpXX2//VOwjmXPYtFPxWLI=
+	t=1723515242; cv=none; b=qDg93Ga/psdvm+iZVIKHUTnm6qdNP2yIOsBkTC4d7bX9bICUBNgadeoD2Z1Lhe9TOA3hs4+Aryr/MtCeM0Bv6LPX268RHTvibyjAEIdcLNRP0r2CdgPc9Qtg/HFjKcjUduwChsKzdsRPoxWkTrFx4vgNdt1wnx3P81gl7dHhZLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723511573; c=relaxed/simple;
-	bh=PxTN+oaLgmFw2sFRDa0AZkRhUw/OWAdDcc+buLou57E=;
+	s=arc-20240116; t=1723515242; c=relaxed/simple;
+	bh=+LjxXYUyLPdDQdbX3jHA1ffPAerEjaBEIrqbSDBMi8w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mK/u9QZgynyYdAQ92tuy5VTG197svFyAX9W45uCWiVrUbsh7rnTk8i2/U0DbyHhCtqqYvorSic01EXym+AkWaRL2K6ARLq6lWEo5qxeb7hlWc4L5lLsrrlNOV5fjzwJ+vR2/Gd0hpIeKK7cLlH9nv3Nw5UltVczDkX7mfRWlZDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTtONbQL; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=O1vHdq2tiUkLWLZq2h5Ty23+gCtGlzfYmRiO9oS2Qr1c3z6pFIQUewrKBQJG6TEPLMvku7BmSaM/9EN3nM3h0Ax5YnBriOElfb3fkaKlvsuRqgntkO+H1Bpj0Klpe+U/k+9R3GVG5byGGpqSCbnPHugPAZbO+Z//Y4WnHJvkt/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jKyyCsLh; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTtONbQL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jKyyCsLh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723511571; x=1755047571;
+  t=1723515241; x=1755051241;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PxTN+oaLgmFw2sFRDa0AZkRhUw/OWAdDcc+buLou57E=;
-  b=GTtONbQL3yiDJ6iWf4DugictPOUkv7aB10OVS8T6CsvkY4YZMiK/En5S
-   BUPov2gDOG8RS4Ke+AQyzIt2TsOx5/k+NIxcbc1waJzc5//W++UnGyilr
-   JL9xy7TipwU6WdO/cew44HRdM2MXmYNnGNQXvsjZFEdVLgeqUnzOuR06H
-   DQSuvhNxCfVRqhpZ3UfrsmetcWyEaqr4fxm8AlrUVYnkdjiJVrIrVDQeT
-   2mJedX97+qDRT3AROXEi21yP9O3z3/JYE0+0Wd3gifELqWPIRbtt/Czng
-   28LLjbqP2T3ogTe6N9qlrnAceXdwVLNnxIyQrY3xUrtbrIgCqms8ZJ/rd
-   Q==;
-X-CSE-ConnectionGUID: wXjO7Lt+SDq/ZE6Of4pPyQ==
-X-CSE-MsgGUID: y+oE5DSeRFaSCFHJtKT7ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="47056595"
+  bh=+LjxXYUyLPdDQdbX3jHA1ffPAerEjaBEIrqbSDBMi8w=;
+  b=jKyyCsLhaa5fQ25ujwpN8SE0NIxZWCShxseECEgiiasn1JaKLXxa85Ip
+   v8kYOYXhU//TESQ1Y7akKJywBgd3HdLdz6DBvlGI9lqMeP1sATMuBFh65
+   S4oQc9qKHeHa++CyE/vwZ3+icACsQnaxH6J2w0Yp2aTDMmTMSukSwt/LQ
+   7ri9w1b8GI5g44s+fqIH5R4MCfxQhGUT/pjaMQcGSew5a0bW250nsWER3
+   NRpu1D2vCtA2NCwJppwLVRHYGcJRsgOY69xQoqRgkxKw+0rRpq9N7qUc8
+   CkUhXihRDZMQYDq3lhkZwLGEsf9V8FDkAm4Ucbr195Hu4vKvtMq9Hmxgo
+   A==;
+X-CSE-ConnectionGUID: ImsImpABQ2enGLspFiwjKg==
+X-CSE-MsgGUID: YIaUr6o+RLKqsYiFDNs2Bw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21787627"
 X-IronPort-AV: E=Sophos;i="6.09,284,1716274800"; 
-   d="scan'208";a="47056595"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 18:12:47 -0700
-X-CSE-ConnectionGUID: zVpUvSqLRgS2ZWHgMmGleQ==
-X-CSE-MsgGUID: no6tDPxRQPmmxBuhQ8yLyQ==
+   d="scan'208";a="21787627"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2024 19:14:00 -0700
+X-CSE-ConnectionGUID: mmSNQEuKQ7ynXc5HQvO9Pw==
+X-CSE-MsgGUID: sCFfZh9DRViIY8RPTwwGYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,284,1716274800"; 
-   d="scan'208";a="63452380"
-Received: from unknown (HELO b6bf6c95bbab) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 12 Aug 2024 18:12:46 -0700
-Received: from kbuild by b6bf6c95bbab with local (Exim 4.96)
+   d="scan'208";a="58793338"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Aug 2024 19:13:58 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdg5b-000CIB-0e;
-	Tue, 13 Aug 2024 01:12:43 +0000
-Date: Tue, 13 Aug 2024 09:11:45 +0800
+	id 1sdh2p-00001c-30;
+	Tue, 13 Aug 2024 02:13:55 +0000
+Date: Tue, 13 Aug 2024 10:12:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <202408130945.I8wIAYBm-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: mm/hugetlb.o: warning: objtool: remove_hugetlb_folio+0x4c:
+ unreachable instruction
+Message-ID: <202408131022.GlMvGe0A-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,51 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-fsdevel@vger.kernel.org
-TO: Al Viro <viro@zeniv.linux.org.uk>
+CC: linux-kernel@vger.kernel.org
+TO: Yu Zhao <yuzhao@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fdtable
-head:   3f4b0acefd818ec43b68455994ac2bd5166c06ae
-commit: 3f4b0acefd818ec43b68455994ac2bd5166c06ae [13/13] dup_fd(): change calling conventions
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: x86_64-randconfig-161-20240813 (https://download.01.org/0day-ci/archive/20240813/202408130945.I8wIAYBm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d74da846046aeec9333e802f5918bd3261fb5509
+commit: bd225530a4c717714722c3731442b78954c765b3 mm/hugetlb_vmemmap: fix race with speculative PFN walkers
+date:   6 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 weeks ago
+config: loongarch-randconfig-r131-20240809 (https://download.01.org/0day-ci/archive/20240813/202408131022.GlMvGe0A-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240813/202408131022.GlMvGe0A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408130945.I8wIAYBm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408131022.GlMvGe0A-lkp@intel.com/
 
-smatch warnings:
-kernel/fork.c:3242 unshare_fd() warn: passing a valid pointer to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-vim +/PTR_ERR +3242 kernel/fork.c
+   mm/hugetlb.o: warning: objtool: set_vma_resv_flags+0x1c: unreachable instruction
+   mm/hugetlb.o: warning: objtool: set_vma_resv_map+0x1c: unreachable instruction
+   mm/hugetlb.o: warning: objtool: __prep_compound_gigantic_folio+0xf0: unreachable instruction
+   mm/hugetlb.o: warning: objtool: hugetlb_try_dup_anon_rmap+0x80: unreachable instruction
+>> mm/hugetlb.o: warning: objtool: remove_hugetlb_folio+0x4c: unreachable instruction
+   mm/hugetlb.o: warning: objtool: allocate_file_region_entries+0x68: unreachable instruction
+   mm/hugetlb.o: warning: objtool: hugetlb_resv_map_add+0x40: unreachable instruction
+   mm/hugetlb.o: warning: objtool: __vma_reservation_common+0xa8: unreachable instruction
+   mm/hugetlb.o: warning: objtool: free_huge_folio+0x5c: unreachable instruction
+   mm/hugetlb.o: warning: objtool: __unmap_hugepage_range+0x64: unreachable instruction
+   mm/hugetlb.o: warning: objtool: hugetlb_wp+0x140: unreachable instruction
+   mm/hugetlb.o: warning: objtool: hugetlb_change_protection+0x58: unreachable instruction
+   mm/hugetlb.o: warning: objtool: gather_bootmem_prealloc_parallel+0xc8: unreachable instruction
+   mm/hugetlb.o: warning: objtool: hugetlb_add_hstate+0x4c: unreachable instruction
 
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3228  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3229  /*
-a016f3389c0660 JANAK DESAI       2006-02-07  3230   * Unshare file descriptor table if it is being shared
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3231   */
-60997c3d45d9a6 Christian Brauner 2020-06-03  3232  int unshare_fd(unsigned long unshare_flags, unsigned int max_fds,
-60997c3d45d9a6 Christian Brauner 2020-06-03  3233  	       struct files_struct **new_fdp)
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3234  {
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3235  	struct files_struct *fd = current->files;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3236  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3237  	if ((unshare_flags & CLONE_FILES) &&
-a016f3389c0660 JANAK DESAI       2006-02-07  3238  	    (fd && atomic_read(&fd->count) > 1)) {
-3f4b0acefd818e Al Viro           2024-08-06  3239  		*new_fdp = dup_fd(fd, max_fds);
-3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
-3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
-3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
-3f4b0acefd818e Al Viro           2024-08-06  3243  		}
-a016f3389c0660 JANAK DESAI       2006-02-07  3244  	}
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3245  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3246  	return 0;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3247  }
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3248  
+
+objdump-func vmlinux.o remove_hugetlb_folio:
 
 -- 
 0-DAY CI Kernel Test Service
