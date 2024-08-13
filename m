@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA78185606
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 09:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF23419047C
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 10:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723542741; cv=none; b=N6EckLDY55lPnOV0o8E5Ejr/8aUBVbZahNBG8XBhKXCHjMi0e/mgauXe1mYm8QHEBQYNU4hLage3QKacJyxjCWTkzwYL9CMm6XQ2O/bg5o7VyQ+TeMLSKdHFFXzeWj3eVVumqN5OAZOk4NuM5PHJGgZzpiNzDKOfzwV/eXdJpOA=
+	t=1723545803; cv=none; b=okBwyXSXZNvdamtgYsKzZPGNjeov0emZGoqctcv1BQlLv9IGFOcXM7vlfsrRvAe90UjB5vpOp6VKmCxn5M5CSsthC2HlE9FeolYVf2tVD30kUOrgIiQN+49Q+b0q6duDnzuftpkqvp/ynFAOM8yJsslaHR0dWqS65oC3xAp5sTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723542741; c=relaxed/simple;
-	bh=LOp6p6Yjzyy2U1inu0d+S3CeWuIKp7vc5nmR8jDHaxM=;
+	s=arc-20240116; t=1723545803; c=relaxed/simple;
+	bh=HQgTTMKsJtUqA6BHG+eFo3HkBlVfxjFG6Btxz9G2IRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NjK6claEpDuqWS/987FO/AZTDZ4TkbWogmyVSmadPBV7uHWi4HSjcaCKlcMtLC9dgb6YQcdFocmYJlnv5mNt4upAmrMT/JG7QmhWZTUZ52j25yMCuwnUeMEakE7YpcBSQIQQCW7C9q8RWkFRBEt/5yKm/wTvwRw8gNUW5S0RBtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmpo+4Qt; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=fm+j2QCQ2Pa56JitvOMb8qoKw7rgtq6DnQTsBPunw9nwxFlQOStVLdteQIRCjvBVUzjaCfeQsoyyAFV32iqAA2Z7wjFhIRB8jpm9hoM3wEEpEy0gu1q5FbDJx3jA0DvAq9JaNKUszF+dGPkGjzkcx0m/mh9cPRKK+CGtoyErPGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZ1shrRu; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmpo+4Qt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZ1shrRu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723542739; x=1755078739;
+  t=1723545801; x=1755081801;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LOp6p6Yjzyy2U1inu0d+S3CeWuIKp7vc5nmR8jDHaxM=;
-  b=nmpo+4QtkDH/hMnPlRPR0Td0m09G46RLtxMmW29LBxHw8mG1JuxT1CMe
-   n/nslj47e+EnzoDLK/aGCC48lZ7WpMDv2IqGCZ77QP9p5tCalCikwXF+8
-   yvmQ85AuJKRO4wnfQu38PdEa0lPZ38vKZkLVrR3ud34ip7U3HrWn2rB1q
-   oh5JEyWmJZ4w3Ioz8MFYWYGW1qUUXvUPj1DsUlP1c24xIo1iG4bKLnJQt
-   nfXlI3YI31DpL5ffS9qw8Z3x9FThe2tOlBrKbN3SBAFHttIRyNjAIy/IV
-   c4xmQ678OBljwlUJjTSmQ1W6fTZi5oP6OQZHwHVfb9NLhoDNXI00LJ25W
-   w==;
-X-CSE-ConnectionGUID: 18f4G4uAT5qyHIDrM2HXkA==
-X-CSE-MsgGUID: FI3rHFkeRvSndn6Ob3UCBA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21563213"
+  bh=HQgTTMKsJtUqA6BHG+eFo3HkBlVfxjFG6Btxz9G2IRA=;
+  b=bZ1shrRushYFQ5g8A7GwCt2Y2nCZ8AfttJNZlp07Y8CUm4D55DPyU9v0
+   1CvKEoXx6pYUOwWDvsNVsprg4u9ga7aWxxTzcjMbCAaD/UsUEpys8mp6G
+   4wicqBJsZuNzt6mUcb6Qs1rIoCNpHvDsUdmQFcrBJjElsAN+bPETfYx+3
+   HGtaTDlh21+Fsb2OzQqgitNDMUGk2WA3rxqPSYEqVweXrrM16uvRm79eX
+   yth2g+j2TOsDkuNvWq3V7j1TKzgyL0YVgaS/8m8TdxWq15i1swTstR1B8
+   GBekU783DMRuYyuBbdV6cvBCZu5tBhzqIVSPMJ8d7+/AUOiWOT8T9y8Jl
+   Q==;
+X-CSE-ConnectionGUID: 95tFjoL5SWei0kXJ36EU1w==
+X-CSE-MsgGUID: Jh2j/dKvSPGjq4uur9aqKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="32274143"
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="21563213"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 02:52:18 -0700
-X-CSE-ConnectionGUID: 8Z7fULWISM2xnXPTMLsBDw==
-X-CSE-MsgGUID: POWXYMQFRmGaDXe+dTg83g==
+   d="scan'208";a="32274143"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 03:43:20 -0700
+X-CSE-ConnectionGUID: 5VcSQlMqTGOopAdKEphEFw==
+X-CSE-MsgGUID: WkyrGgKRRueLr0gLrAsovQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
-   d="scan'208";a="58298546"
+   d="scan'208";a="63582957"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2024 02:52:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 13 Aug 2024 03:43:19 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sdoCN-0000KE-0Z;
-	Tue, 13 Aug 2024 09:52:15 +0000
-Date: Tue, 13 Aug 2024 17:52:02 +0800
+	id 1sdozk-0000Ln-1c;
+	Tue, 13 Aug 2024 10:43:16 +0000
+Date: Tue, 13 Aug 2024 18:43:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/memory_hotplug.o: warning: objtool:
- mhp_init_memmap_on_memory+0x1bc: unreachable instruction
-Message-ID: <202408131715.s4goZUuA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [leon-rdma:rdma-next 26/38] drivers/infiniband/core/nldev.c:2822
+ rdma_nl_notify_event() warn: missing error code 'ret'
+Message-ID: <202408131838.dAj6f4Cl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,39 +62,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Chiara Meiohas <cmeiohas@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d74da846046aeec9333e802f5918bd3261fb5509
-commit: 503b158fc30f203a1854c87183ca3467c6466001 mm/memory_hotplug: initialize memmap of !ZONE_DEVICE with PageOffline() instead of PageReserved()
-date:   6 weeks ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 6 weeks ago
-config: loongarch-randconfig-002-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131715.s4goZUuA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131715.s4goZUuA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   2419f9d40091e6e94334b3c8df16d266133ddaea
+commit: a4499d4d93fbda92878d7d2aba9e209e110f7756 [26/38] RDMA/nldev: Add support for RDMA monitoring
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131838.dAj6f4Cl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408131715.s4goZUuA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408131838.dAj6f4Cl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/infiniband/core/nldev.c:2822 rdma_nl_notify_event() warn: missing error code 'ret'
 
-   mm/memory_hotplug.o: warning: objtool: do_migrate_range+0x394: unreachable instruction
->> mm/memory_hotplug.o: warning: objtool: mhp_init_memmap_on_memory+0x1bc: unreachable instruction
+vim +/ret +2822 drivers/infiniband/core/nldev.c
 
-
-objdump-func vmlinux.o mhp_init_memmap_on_memory:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2787  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2788  int rdma_nl_notify_event(struct ib_device *device, u32 port_num,
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2789  			  enum rdma_nl_notify_event_type type)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2790  {
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2791  	struct sk_buff *skb;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2792  	struct net *net;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2793  	int ret = 0;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2794  	void *nlh;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2795  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2796  	net = read_pnet(&device->coredev.rdma_net);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2797  	if (!net)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2798  		return -EINVAL;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2799  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2800  	skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2801  	if (!skb)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2802  		return -ENOMEM;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2803  	nlh = nlmsg_put(skb, 0, 0,
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2804  			RDMA_NL_GET_TYPE(RDMA_NL_NLDEV, RDMA_NLDEV_CMD_MONITOR),
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2805  			0, 0);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2806  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2807  	switch (type) {
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2808  	case RDMA_REGISTER_EVENT:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2809  	case RDMA_UNREGISTER_EVENT:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2810  		ret = fill_mon_register(skb, device, net);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2811  		if (ret)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2812  			goto err_free;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2813  		break;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2814  	case RDMA_NETDEV_ATTACH_EVENT:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2815  	case RDMA_NETDEV_DETACH_EVENT:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2816  		ret = fill_mon_netdev_association(skb, device,
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2817  						  port_num, net);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2818  		if (ret)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2819  			goto err_free;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2820  		break;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2821  	default:
+a4499d4d93fbda Chiara Meiohas 2024-07-25 @2822  		goto err_free;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2823  	}
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2824  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2825  	ret = nla_put_u8(skb, RDMA_NLDEV_ATTR_EVENT_TYPE, type);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2826  	if (ret)
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2827  		goto err_free;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2828  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2829  	nlmsg_end(skb, nlh);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2830  	ret = rdma_nl_multicast(net, skb, RDMA_NL_GROUP_NOTIFY, GFP_KERNEL);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2831  	if (ret && ret != -ESRCH) {
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2832  		skb = NULL; /* skb is freed in the netlink send-op handling */
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2833  		goto err_free;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2834  	}
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2835  	return 0;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2836  
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2837  err_free:
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2838  	rdma_nl_notify_err_msg(device, port_num, type);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2839  	nlmsg_free(skb);
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2840  	return ret;
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2841  }
+a4499d4d93fbda Chiara Meiohas 2024-07-25  2842  
 
 -- 
 0-DAY CI Kernel Test Service
