@@ -1,63 +1,58 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903487E0E8
-	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 08:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA78185606
+	for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 09:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723536013; cv=none; b=ONTW5rUrI52geTo8wakb+G3pVuLNHt4hsUMr8AnIICOAw5Fh1yO+pNFtkNAz9Y45Bu6zF2JNBRJzjKWYBcgCYu/bv8HPwGrWaTxzn9+Kc2GraaaZGDMXzffK5feMwaQh8AfpKbHoS3uSWz+5u1LqlZna3IfhGz7pjr4LMjsf2sg=
+	t=1723542741; cv=none; b=N6EckLDY55lPnOV0o8E5Ejr/8aUBVbZahNBG8XBhKXCHjMi0e/mgauXe1mYm8QHEBQYNU4hLage3QKacJyxjCWTkzwYL9CMm6XQ2O/bg5o7VyQ+TeMLSKdHFFXzeWj3eVVumqN5OAZOk4NuM5PHJGgZzpiNzDKOfzwV/eXdJpOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723536013; c=relaxed/simple;
-	bh=ZZNMazY+wB0Qt5QH+bRB/+v1cqkYb6cJ6wHaTsf9QZM=;
+	s=arc-20240116; t=1723542741; c=relaxed/simple;
+	bh=LOp6p6Yjzyy2U1inu0d+S3CeWuIKp7vc5nmR8jDHaxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q7avZeFx8SFzoSiBrGXV07ZLpSGyVRSmxnPtWpHl0P7HLcuVxiobtDZfyE14M1wfYizJ8lQMI4GuUkQ+C5T4nIKCmU/mO45U1mQHZGLP6T9jH/QRXXvfNTDcqAngu+UjUyKLFTgrh5arqtMSvdxxGNECGZOvHS2kSxTjXShcSrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SN5lESIB; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=NjK6claEpDuqWS/987FO/AZTDZ4TkbWogmyVSmadPBV7uHWi4HSjcaCKlcMtLC9dgb6YQcdFocmYJlnv5mNt4upAmrMT/JG7QmhWZTUZ52j25yMCuwnUeMEakE7YpcBSQIQQCW7C9q8RWkFRBEt/5yKm/wTvwRw8gNUW5S0RBtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmpo+4Qt; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SN5lESIB"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5ba43b433beso5466412a12.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 13 Aug 2024 01:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723536009; x=1724140809; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8B4aF2RhoJ87Q6+bPsf2aPZNzfoieuHNYR9HqWY5+FU=;
-        b=SN5lESIBuXPYuj0tu3X1hC83Hds0PBeQa9rp0eU+TdlbHn0ci8LwKFtvjuxnZvLYEm
-         Em8xSulWEb04ztiELRdOFtOzKevHOLTGgCB/+TdIkhOC3Y/RNgIvVj2i+aEWNMAGrU0f
-         DkS8XHCiXwHjUlyHXFJmQXFLV+9qmPiQUr4GLyR3GoLeOpD56zVAQRtW0p2XtDtn4jNY
-         Bu/ABJIFKKiR/EjpONtFA8yzdneZl8wSNmCfP0W12c2cq5fmVLq/iM/FnILnHcz6YLtE
-         g1ZRHT0AnvtncC4IkIKXN8zwyk7CkyZOuGJhHj0FYxFLhbxHKBreS+NLemLL6LNokP8I
-         j2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723536009; x=1724140809;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8B4aF2RhoJ87Q6+bPsf2aPZNzfoieuHNYR9HqWY5+FU=;
-        b=DqloVP9qBAMOp2fc/9JmoegR6ma2FWgYb7uiix323A9ZYwP1J3eiuUrtIANQQDqxfh
-         IM+iZyZa+ruPuBbmpJIYhG2cy3NZGpGCWtpcPAU74Droo8D/IyhHsM3P8pDpiNQ0d5RJ
-         kQulj7xsxXUGJZ5DCd9pbBXkA2wsDLUYyfD1tIP7ilahq8XOdcBjvJlB09zybPiZWzOa
-         +0QgYWKOa9aFBAAEtlwvrVUHl/eEhto/4kS/lSUVH2UGzdlLq/hoVcPf0zXkj9IG/HmM
-         UBND8iA452eKNTgQiaOHXzXIMf7siQAQi3k1xhJXdT5bOeesgqKkvRxNrmmeRKL2548U
-         TPww==
-X-Gm-Message-State: AOJu0YyIxaWtr/EqqhdYZoeNVP6AXdxQm5/50w7pHoBfve4B9J6NmN2X
-	hzwyjV7x+pmraDv4A3igTtzLUAIESkonvlSZEWDxAN/n+Sk+AinN3BXURq5mcx7b5X+OiLf8J59
-	G
-X-Google-Smtp-Source: AGHT+IGIsBAmGDvIqzFfs21L+bkNCMbqJN/sGhkWBbxSO2GOwb7z5+wSnD75VLe0Bjg2n+z2W30cIA==
-X-Received: by 2002:a05:6402:3587:b0:5bb:9ae0:4a46 with SMTP id 4fb4d7f45d1cf-5bd44c0cff8mr2369154a12.5.1723536009102;
-        Tue, 13 Aug 2024 01:00:09 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5bd187f29d0sm2733183a12.2.2024.08.13.01.00.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 01:00:08 -0700 (PDT)
-Date: Tue, 13 Aug 2024 11:00:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Al Viro <viro@zeniv.linux.org.uk>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd() warn:
- passing a valid pointer to 'PTR_ERR'
-Message-ID: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmpo+4Qt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723542739; x=1755078739;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LOp6p6Yjzyy2U1inu0d+S3CeWuIKp7vc5nmR8jDHaxM=;
+  b=nmpo+4QtkDH/hMnPlRPR0Td0m09G46RLtxMmW29LBxHw8mG1JuxT1CMe
+   n/nslj47e+EnzoDLK/aGCC48lZ7WpMDv2IqGCZ77QP9p5tCalCikwXF+8
+   yvmQ85AuJKRO4wnfQu38PdEa0lPZ38vKZkLVrR3ud34ip7U3HrWn2rB1q
+   oh5JEyWmJZ4w3Ioz8MFYWYGW1qUUXvUPj1DsUlP1c24xIo1iG4bKLnJQt
+   nfXlI3YI31DpL5ffS9qw8Z3x9FThe2tOlBrKbN3SBAFHttIRyNjAIy/IV
+   c4xmQ678OBljwlUJjTSmQ1W6fTZi5oP6OQZHwHVfb9NLhoDNXI00LJ25W
+   w==;
+X-CSE-ConnectionGUID: 18f4G4uAT5qyHIDrM2HXkA==
+X-CSE-MsgGUID: FI3rHFkeRvSndn6Ob3UCBA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11162"; a="21563213"
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="21563213"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2024 02:52:18 -0700
+X-CSE-ConnectionGUID: 8Z7fULWISM2xnXPTMLsBDw==
+X-CSE-MsgGUID: POWXYMQFRmGaDXe+dTg83g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,285,1716274800"; 
+   d="scan'208";a="58298546"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 13 Aug 2024 02:52:17 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sdoCN-0000KE-0Z;
+	Tue, 13 Aug 2024 09:52:15 +0000
+Date: Tue, 13 Aug 2024 17:52:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: mm/memory_hotplug.o: warning: objtool:
+ mhp_init_memmap_on_memory+0x1bc: unreachable instruction
+Message-ID: <202408131715.s4goZUuA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,46 +62,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.fdtable
-head:   3f4b0acefd818ec43b68455994ac2bd5166c06ae
-commit: 3f4b0acefd818ec43b68455994ac2bd5166c06ae [13/13] dup_fd(): change calling conventions
-config: x86_64-randconfig-161-20240813 (https://download.01.org/0day-ci/archive/20240813/202408130945.I8wIAYBm-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: David Hildenbrand <david@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d74da846046aeec9333e802f5918bd3261fb5509
+commit: 503b158fc30f203a1854c87183ca3467c6466001 mm/memory_hotplug: initialize memmap of !ZONE_DEVICE with PageOffline() instead of PageReserved()
+date:   6 weeks ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 6 weeks ago
+config: loongarch-randconfig-002-20240813 (https://download.01.org/0day-ci/archive/20240813/202408131715.s4goZUuA-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240813/202408131715.s4goZUuA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408130945.I8wIAYBm-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408131715.s4goZUuA-lkp@intel.com/
 
-smatch warnings:
-kernel/fork.c:3242 unshare_fd() warn: passing a valid pointer to 'PTR_ERR'
+All warnings (new ones prefixed by >>):
 
-vim +/PTR_ERR +3242 kernel/fork.c
+   mm/memory_hotplug.o: warning: objtool: do_migrate_range+0x394: unreachable instruction
+>> mm/memory_hotplug.o: warning: objtool: mhp_init_memmap_on_memory+0x1bc: unreachable instruction
 
-60997c3d45d9a6 Christian Brauner 2020-06-03  3232  int unshare_fd(unsigned long unshare_flags, unsigned int max_fds,
-60997c3d45d9a6 Christian Brauner 2020-06-03  3233  	       struct files_struct **new_fdp)
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3234  {
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3235  	struct files_struct *fd = current->files;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3236  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3237  	if ((unshare_flags & CLONE_FILES) &&
-a016f3389c0660 JANAK DESAI       2006-02-07  3238  	    (fd && atomic_read(&fd->count) > 1)) {
-3f4b0acefd818e Al Viro           2024-08-06  3239  		*new_fdp = dup_fd(fd, max_fds);
-3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
-3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
-3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
-                                                                               ^^^^^^^^^^^^^^^^
-	err = PTR_ERR(*new_fdp);
-	*new_fdp = NULL;
-	return err;
 
-3f4b0acefd818e Al Viro           2024-08-06  3243  		}
-a016f3389c0660 JANAK DESAI       2006-02-07  3244  	}
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3245  
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3246  	return 0;
-cf2e340f4249b7 JANAK DESAI       2006-02-07  3247  }
+objdump-func vmlinux.o mhp_init_memmap_on_memory:
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
