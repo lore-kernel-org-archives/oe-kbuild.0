@@ -1,62 +1,59 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50B41474C5
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Aug 2024 05:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94ADB18D65F
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Aug 2024 06:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723699453; cv=none; b=IXCxElEGW45nrcD+ePMhwkpw+BRgGrdAZxxZBUKwBOslrSovmnAUIVukaZ0vxi7rfD+MbHbSLIjItFsbcDj3GhEn3ocMfzhdDvKcIIxTfz3pJT28oQQuzLlIzGJc/wYflTYqbz2L9jzbT7yeZrBL6tvgkgnYZzjCec+p9f9QZNQ=
+	t=1723701724; cv=none; b=tuzvFx09a2E76Eo5CDjyGK9AAz5oMyhtp50vlK4CGu5e1sPGQI//7Vzdwn2Etu5dDsGVP0Dg4X/u+Gfk13rQJfaEne9pq7JNsAGNBt6bR03Ut1Xe8WBrgAvhQQOb1bGNEHDiceTbtqEPT43PS1Y9FWHAOwMxWRRBflE6YMCb1UI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723699453; c=relaxed/simple;
-	bh=5cFk+IQeKRFkZgLbXaJvzhDjpUxvC+vkysp+Yw19xYE=;
+	s=arc-20240116; t=1723701724; c=relaxed/simple;
+	bh=bB7NUf6EMX6gGkLGeXJaWOm/4qlsTNkuU0+/yKx0peY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gGiNO5L4UH2BnFQVThrXVJK/SfK0u9wqEXhaqXNieIEde6XDpvXti7aaKBVRe/PgYZ/Lolbmdn27N26Q5rRN5ZreREjMXaXIp04jY4y8B57HxWxF6Kgq3jr7HNHR0m2nG8D6RnjWXz4uu0b1eqUNOPNbR1tQrPsg0jnWz3K6WHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=we9qE1fc; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=d19cJGRwYPVzUbTy3tsf4pO7xAHo9SWkSmnQR1AOi4fAgkZfaoix7saOr/4kFWnb0OJSJsp59208HwGPq//W8VmEx5eC6XnS1KlCrzPa3POa7iY56TfeYR2bz3FWpJ7HE6P4hCjISJAouQwfCL/GGeoke7wX4lPVlvdD1T3r9+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UcKH6Ht6; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="we9qE1fc"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2ef2cb7d562so7550341fa.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 14 Aug 2024 22:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723699449; x=1724304249; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EVkeENDC3n0M7WYlixjs2XMWugZmrAJQXbx1umwOZSY=;
-        b=we9qE1fcvfZ5EQRIBZeOozqho6/ToiqtU6TuExxElH768pthodUoKKtfgBoxKH1mJT
-         8MvXtIAWUkt6+NSmfGltx+amnNVvZ4h7ipxqXV7xQtxerwoYrfTy/153zRlwQtMjf9IE
-         0is1LNS866CR6Kn907wO9gsfDDDJwWdDbNGGmjWfBXHCZC2ND50oC+RpIvWTV2VZnRhV
-         7df54jZPQgZsqkLiDjFEKWb6/LNKkXdXA+9hOFOmCDgmB1S3Hm9QtP2ChNdPVMSvl4uy
-         AtNtbdGM6OrpVK1Jh8H2P99lEMrtpc0AWi9Yi4bxD7TSiahkyUf/pabLPBm5+enItDjn
-         i6Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723699449; x=1724304249;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EVkeENDC3n0M7WYlixjs2XMWugZmrAJQXbx1umwOZSY=;
-        b=XEc8BD/dWvGG9vxrQ/WpQhOLTEUc2eQ9chfzuoVaZ1G1binShvqqaDewRuQOeTiscK
-         OmnanMSfxx3ngvI+3sqijbw6bM3oo6rVoyQgbNjIOv3fIzZYTtlCEXHVKRrMPqqN/ltw
-         8YMcnHnZZ85rfOX6xzZYFoYFKALMWBmULifM6SBVhrGNFHFC2McNQu4peh9fm5FWT5aU
-         vw7BDjayyRvYoRhkoWrgHAxEM943DCRCqNVtt6V7NYCCIzwpK4idS5QnAt5ooNlwAwWh
-         TWy4l3jSxC7WFXUcIA3lNo5ACzc7Nx15SDbXMey6It/cR4yluPMD/sFn2aQkAfG7Nd0W
-         /A5w==
-X-Gm-Message-State: AOJu0YxqIxlx1U+zjr1DbOX6JUea4r/oMvOaAJlXXmyl3xQ4XFBCN31/
-	oWO1ehtAXipZTl/yNgH16me3FOpC0g19G6kSRdDal+DsafmZe9SosMYuFRbYWNOY2LnduMIer92
-	b
-X-Google-Smtp-Source: AGHT+IFK4FuJmocBnEt+LcScehPqpiHguHo37SGY6SPbTiK0jAA26KjitWp89+LSgktWCw8zi9/Gug==
-X-Received: by 2002:a2e:6111:0:b0:2ef:284e:1d07 with SMTP id 38308e7fff4ca-2f3aa1a3b2bmr30451531fa.13.1723699448791;
-        Wed, 14 Aug 2024 22:24:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded36a95sm37415885e9.28.2024.08.14.22.24.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 22:24:08 -0700 (PDT)
-Date: Thu, 15 Aug 2024 08:24:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 22/30] mm/vmscan.c:4259
- try_to_inc_max_seq() error: uninitialized symbol 'walk'.
-Message-ID: <d491502b-0759-43ca-9c74-8f8a285b419c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UcKH6Ht6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1723701720; x=1755237720;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bB7NUf6EMX6gGkLGeXJaWOm/4qlsTNkuU0+/yKx0peY=;
+  b=UcKH6Ht62b1kvGOUBhjyE4cJRDrIBfTdCJwBa3kG+cUIqzJcoCjvG7lD
+   0NjKZ4JZU3orZCwW4Rv0BdhC2Ayf5wlzJudgWX4i5248ei9IYToOfmJhq
+   digEaMtySOEoaXg3gAkv1rkMh4xxgwJjp5F//dK/3EYl13lb/wNGHZPqv
+   MkzMZKByFcCanLtXHLBYasO2V3QpKiW3vSnk7HyLQO6c6w5paw5AMXC43
+   esY9GEo5ZFWU25FrIAwT5Mdn+RKHxIflPf/SaXARdosa9W5FyeTr2+n2i
+   wSEY2muRzHPsL/mPDgsLWyKlWoTCCadmzvkMhPGTPNBR2Ik8/3lFMtIO7
+   w==;
+X-CSE-ConnectionGUID: 7okLT0r3R5SxN4s8maDipQ==
+X-CSE-MsgGUID: e1ydwnouTfarbiNJAFkfRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="24851119"
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="24851119"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 23:02:00 -0700
+X-CSE-ConnectionGUID: wWunNp5USJ257KXhLpCQyA==
+X-CSE-MsgGUID: mI4aSZe1TL+sxl2FD8lJFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
+   d="scan'208";a="64091423"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 14 Aug 2024 23:01:58 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1seTYa-0003Fc-0a;
+	Thu, 15 Aug 2024 06:01:56 +0000
+Date: Thu, 15 Aug 2024 14:01:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [openeuler:OLK-6.6 7044/13428]
+ drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse:
+ sparse: invalid bitfield specifier for type restricted __le16.
+Message-ID: <202408151357.KENE3M0T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,93 +63,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   ca3d4c5eb0a6ed652cd1a345584483d564a1fd38
-commit: 1feb0f684d7748b40305c514dda26dac13853d7f [22/30] CHROMIUM: mm/mglru: Split scan seqno from gen seqno
-config: i386-randconfig-141-20240815 (https://download.01.org/0day-ci/archive/20240815/202408151126.WX90QAHA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16."
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: kernel@openeuler.org
+TO: Dong Yibo <dong100@mucse.com>
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   80659f8a805633d663edc260627f7fa51fd8b474
+commit: bf177ad1d8f72824180b44563c09f37562f645de [7044/13428] drivers: initial support for rnpgbevf drivers from Mucse Technology
+:::::: branch date: 23 hours ago
+:::::: commit date: 5 months ago
+config: loongarch-randconfig-r123-20240815 (https://download.01.org/0day-ci/archive/20240815/202408151357.KENE3M0T-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20240815/202408151357.KENE3M0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408151126.WX90QAHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408151357.KENE3M0T-lkp@intel.com/
 
-smatch warnings:
-mm/vmscan.c:4259 try_to_inc_max_seq() error: uninitialized symbol 'walk'.
-mm/vmscan.c:4259 try_to_inc_max_seq() error: we previously assumed 'walk' could be null (see line 4238)
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c: note: in included file (through drivers/net/ethernet/mucse/rnpgbevf/vf.h):
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:65:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+>> drivers/net/ethernet/mucse/rnpgbevf/vf.c:236:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:236:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:236:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:238:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:238:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:238:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:239:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:239:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:239:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:240:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:240:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:240:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:241:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:241:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/vf.c:241:9: sparse:    void *
+--
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_mbx.c: note: in included file (through drivers/net/ethernet/mucse/rnpgbevf/vf.h, drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_mbx.h):
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:65:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+--
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_ethtool.c: note: in included file (through drivers/net/ethernet/mucse/rnpgbevf/vf.h, drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf.h):
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:65:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+--
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_sysfs.c: note: in included file (through drivers/net/ethernet/mucse/rnpgbevf/vf.h, drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf.h):
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:65:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+--
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c: note: in included file (through drivers/net/ethernet/mucse/rnpgbevf/vf.h, drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf.h):
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:64:39: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h:65:40: sparse: sparse: invalid bitfield specifier for type restricted __le16.
+>> drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:111:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:111:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:111:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1969:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1969:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:1969:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2026:17: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2026:17: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:2026:17: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3163:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3163:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3163:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3206:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3206:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3206:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3283:25: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3283:25: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3283:25: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3343:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3343:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3343:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3347:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3347:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3347:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3424:17: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3424:17: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3424:17: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3466:17: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3466:17: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:3466:17: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4031:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4031:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4031:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4035:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4035:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4035:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4133:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4133:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4133:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4137:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4137:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4137:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4277:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4277:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4277:9: sparse:    void *
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4367:9: sparse: sparse: incompatible types in conditional expression (different types):
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4367:9: sparse:    void
+   drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_main.c:4367:9: sparse:    void *
 
-vim +/walk +4259 mm/vmscan.c
+vim +64 drivers/net/ethernet/mucse/rnpgbevf/rnpgbevf_defines.h
 
-43d015dfbf4c2e Yu Zhao       2022-09-18  4208  static bool try_to_inc_max_seq(struct lruvec *lruvec, unsigned long max_seq,
-1feb0f684d7748 David Stevens 2024-06-05  4209  			       unsigned long scan_seq, struct scan_control *sc,
-1feb0f684d7748 David Stevens 2024-06-05  4210  			       bool can_swap, bool force_scan)
-43d015dfbf4c2e Yu Zhao       2022-09-18  4211  {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4212  	bool success;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4213  	struct lru_gen_mm_walk *walk;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4214  	struct mm_struct *mm = NULL;
-a2abc441807f51 Yu Zhao       2022-12-21  4215  	struct lru_gen_page *lrugen = &lruvec->lrugen;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4216  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4217  	VM_WARN_ON_ONCE(max_seq > READ_ONCE(lrugen->max_seq));
-43d015dfbf4c2e Yu Zhao       2022-09-18  4218  
-1feb0f684d7748 David Stevens 2024-06-05  4219  	/* see the comment on SCAN_ITER_FINISHING and in iterate_mm_list() */
-1feb0f684d7748 David Stevens 2024-06-05  4220  	if (scan_seq == SCAN_ITER_FINISHING ||
-1feb0f684d7748 David Stevens 2024-06-05  4221  	    scan_seq < READ_ONCE(lruvec->mm_state.scan_seq)) {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4222  		success = false;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4223  		goto done;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4224  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4225  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4226  	/*
-43d015dfbf4c2e Yu Zhao       2022-09-18  4227  	 * If the hardware doesn't automatically set the accessed bit, fallback
-43d015dfbf4c2e Yu Zhao       2022-09-18  4228  	 * to lru_gen_look_around(), which only clears the accessed bit in a
-43d015dfbf4c2e Yu Zhao       2022-09-18  4229  	 * handful of PTEs. Spreading the work out over a period of time usually
-43d015dfbf4c2e Yu Zhao       2022-09-18  4230  	 * is less efficient, but it avoids bursty page faults.
-43d015dfbf4c2e Yu Zhao       2022-09-18  4231  	 */
-6579994789d90e Yu Zhao       2022-09-18  4232  	if (!force_scan && !(arch_has_hw_pte_young() && get_cap(LRU_GEN_MM_WALK))) {
-1feb0f684d7748 David Stevens 2024-06-05  4233  		success = iterate_mm_list_nowalk(lruvec, scan_seq);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4234  		goto done;
-
-success is set, walk is not
-
-43d015dfbf4c2e Yu Zhao       2022-09-18  4235  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4236  
-784bac21e098dd Yu Zhao       2022-12-21  4237  	walk = set_mm_walk(NULL, true);
-43d015dfbf4c2e Yu Zhao       2022-09-18 @4238  	if (!walk) {
-1feb0f684d7748 David Stevens 2024-06-05  4239  		success = iterate_mm_list_nowalk(lruvec, scan_seq);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4240  		goto done;
-
-success is set, walk is NULL
-
-43d015dfbf4c2e Yu Zhao       2022-09-18  4241  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4242  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4243  	walk->lruvec = lruvec;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4244  	walk->max_seq = max_seq;
-1feb0f684d7748 David Stevens 2024-06-05  4245  	walk->scan_seq = scan_seq;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4246  	walk->can_swap = can_swap;
-6579994789d90e Yu Zhao       2022-09-18  4247  	walk->force_scan = force_scan;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4248  
-43d015dfbf4c2e Yu Zhao       2022-09-18  4249  	do {
-43d015dfbf4c2e Yu Zhao       2022-09-18  4250  		success = iterate_mm_list(lruvec, walk, &mm);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4251  		if (mm)
-43d015dfbf4c2e Yu Zhao       2022-09-18  4252  			walk_mm(lruvec, mm, walk);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4253  	} while (mm);
-43d015dfbf4c2e Yu Zhao       2022-09-18  4254  done:
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4255  	if (success) {
-6579994789d90e Yu Zhao       2022-09-18  4256  		inc_max_seq(lruvec, can_swap, force_scan);
-1feb0f684d7748 David Stevens 2024-06-05  4257  
-1feb0f684d7748 David Stevens 2024-06-05  4258  		VM_WARN_ON_ONCE(lruvec->mm_state.scan_seq != SCAN_ITER_FINISHING);
-1feb0f684d7748 David Stevens 2024-06-05 @4259  		WRITE_ONCE(lruvec->mm_state.scan_seq, walk->scan_seq + 1);
-                                                                                              ^^^^^^^^^^^^^^
-Dereference
-
-1feb0f684d7748 David Stevens 2024-06-05  4260  
-ba7bdcf40461dd Koki Ryu      2022-12-22  4261  		kernfs_notify(lru_gen_admin_node);
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4262  	}
-43d015dfbf4c2e Yu Zhao       2022-09-18  4263  
-3fca93bfccc1c3 Kalesh Singh  2023-04-13  4264  	return success;
-43d015dfbf4c2e Yu Zhao       2022-09-18  4265  }
+bf177ad1d8f728 Dong Yibo 2024-03-22  51  
+bf177ad1d8f728 Dong Yibo 2024-03-22  52  /* Transmit Descriptor - Advanced */
+bf177ad1d8f728 Dong Yibo 2024-03-22  53  struct rnp_tx_desc {
+bf177ad1d8f728 Dong Yibo 2024-03-22  54  	union {
+bf177ad1d8f728 Dong Yibo 2024-03-22  55  		__le64 pkt_addr; /* Packet buffer address */
+bf177ad1d8f728 Dong Yibo 2024-03-22  56  		struct {
+bf177ad1d8f728 Dong Yibo 2024-03-22  57  			__le32 adr_lo;
+bf177ad1d8f728 Dong Yibo 2024-03-22  58  			__le32 adr_hi;
+bf177ad1d8f728 Dong Yibo 2024-03-22  59  		};
+bf177ad1d8f728 Dong Yibo 2024-03-22  60  	};
+bf177ad1d8f728 Dong Yibo 2024-03-22  61  	__le16 blen;
+bf177ad1d8f728 Dong Yibo 2024-03-22  62  	union {
+bf177ad1d8f728 Dong Yibo 2024-03-22  63  		struct {
+bf177ad1d8f728 Dong Yibo 2024-03-22 @64  			__le16 ip_len : 9;
+bf177ad1d8f728 Dong Yibo 2024-03-22  65  			__le16 mac_len : 7;
+bf177ad1d8f728 Dong Yibo 2024-03-22  66  		};
+bf177ad1d8f728 Dong Yibo 2024-03-22  67  		__le16 mac_ip_len; /* used only in  tso & csum */
+bf177ad1d8f728 Dong Yibo 2024-03-22  68  	};
+bf177ad1d8f728 Dong Yibo 2024-03-22  69  	__le16 vlan;
+bf177ad1d8f728 Dong Yibo 2024-03-22  70  #define RNPGBE_TXD_FLAGS_VLAN_PRIO_MASK 0xe000
+bf177ad1d8f728 Dong Yibo 2024-03-22  71  #define RNPGBE_TX_FLAGS_VLAN_PRIO_SHIFT 13
+bf177ad1d8f728 Dong Yibo 2024-03-22  72  #define RNPGBE_TX_FLAGS_VLAN_CFI_SHIFT 12
+bf177ad1d8f728 Dong Yibo 2024-03-22  73  
+bf177ad1d8f728 Dong Yibo 2024-03-22  74  	__le16 cmd;
+bf177ad1d8f728 Dong Yibo 2024-03-22  75  #define RNPGBE_TXD_VLAN_VALID (0x1 << 15)
+bf177ad1d8f728 Dong Yibo 2024-03-22  76  #define RNPGBE_TXD_SVLAN_TYPE (0x1 << 9)
+bf177ad1d8f728 Dong Yibo 2024-03-22  77  #define RNPGBE_TXD_VLAN_CTRL_NOP (0x00 << 13)
+bf177ad1d8f728 Dong Yibo 2024-03-22  78  #define RNPGBE_TXD_VLAN_CTRL_RM_VLAN (0x01 << 13)
+bf177ad1d8f728 Dong Yibo 2024-03-22  79  #define RNPGBE_TXD_VLAN_CTRL_INSERT_VLAN (0x02 << 13)
+bf177ad1d8f728 Dong Yibo 2024-03-22  80  #define RNPGBE_TXD_L4_CSUM (0x1 << 12)
+bf177ad1d8f728 Dong Yibo 2024-03-22  81  #define RNPGBE_TXD_IP_CSUM (0x1 << 11)
+bf177ad1d8f728 Dong Yibo 2024-03-22  82  #define RNPGBE_TXD_TUNNEL_MASK (0x3000000)
+bf177ad1d8f728 Dong Yibo 2024-03-22  83  #define RNPGBE_TXD_TUNNEL_VXLAN (0x01 << 8)
+bf177ad1d8f728 Dong Yibo 2024-03-22  84  #define RNPGBE_TXD_TUNNEL_NVGRE (0x02 << 8)
+bf177ad1d8f728 Dong Yibo 2024-03-22  85  #define RNPGBE_TXD_L4_TYPE_UDP (0x03 << 6)
+bf177ad1d8f728 Dong Yibo 2024-03-22  86  #define RNPGBE_TXD_L4_TYPE_TCP (0x01 << 6)
+bf177ad1d8f728 Dong Yibo 2024-03-22  87  #define RNPGBE_TXD_L4_TYPE_SCTP (0x02 << 6)
+bf177ad1d8f728 Dong Yibo 2024-03-22  88  #define RNPGBE_TXD_FLAG_IPv4 (0x0 << 5)
+bf177ad1d8f728 Dong Yibo 2024-03-22  89  #define RNPGBE_TXD_FLAG_IPv6 (0x1 << 5)
+bf177ad1d8f728 Dong Yibo 2024-03-22  90  #define RNPGBE_TXD_FLAG_TSO (0x1 << 4)
+bf177ad1d8f728 Dong Yibo 2024-03-22  91  #define RNPGBE_TXD_CMD_RS (0x1 << 2)
+bf177ad1d8f728 Dong Yibo 2024-03-22  92  #define RNPGBE_TXD_STAT_DD (0x1 << 1)
+bf177ad1d8f728 Dong Yibo 2024-03-22  93  #define RNPGBE_TXD_CMD_EOP (0x1 << 0)
+bf177ad1d8f728 Dong Yibo 2024-03-22  94  } __packed;
+bf177ad1d8f728 Dong Yibo 2024-03-22  95  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
