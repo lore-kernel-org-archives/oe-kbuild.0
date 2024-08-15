@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F8B17A596
-	for <oe-kbuild@lists.linux.dev>; Thu, 15 Aug 2024 06:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF72433D2
+	for <oe-kbuild@lists.linux.dev>; Thu, 15 Aug 2024 22:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723704785; cv=none; b=kY2Vz5plhASgRMlSg3n883BIcbnde6x0cJhNQo9wsocdp6WiacBMooYxhfc0iSTBk5LwN0F2sLrXLbWrAcJGXkIpY5YJtVCUhKpEyIyW1ekOLj9tm/WT6ChlLoQc2OCWreWyNp+Twa45Go7n2Tn7i2GJOYrYUUTVcyajDGaL22o=
+	t=1723760131; cv=none; b=CyzxvrUEmSjd9WFXhFjLjC1vCW479DXU1gwxSFbX/pKMTr8m8TwvwFdPHmIXwtqC+TWIgzXXGPgs1FMHN/D86PSmi4vd8RA49/Hw1teAxGEQOnozxtmXmLXkCv66s4ONs0UU2ktJ24NRV/ocIzYn6OCXEbJo+29Qu4bUeY8FOcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723704785; c=relaxed/simple;
-	bh=7VHR2ZQ7/NH9Uq66xFdmkuqJR5n2o75mCmUNAB4BHYU=;
+	s=arc-20240116; t=1723760131; c=relaxed/simple;
+	bh=iMuEckow+e7PFOf7H+inm3FrolEYxbLjHq4DoZC7/08=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aCcHme8cYdLboW/N9cUm4QrlcnDA+TVfhcMqn8CapwG39ZdxgVoiMN6h7LjOAqgrdWday/pCbL0UUwMOZEBA5dbNYRqOn3pkzsaOxwo5JfaQ5GTLWsLUomP9DNPDPMigrN/3LCcHr/U3xavOkQKOBJ7qXwJ6o7I3jGhJFLH+BcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eydot/Od; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=BZyyzRLL21RiodG090twVSpMIhti5Ts8slL/Sd1l9ZiyKP0qaDo+iIecVgFIUCLhMKe5hcxarGp0oq/S1yRUkA1PpgxEvv39W0uMn2kMmC1iQwb+66NzxHelRh+h5DfhFyOtJ4hfwCR7YrqJnLwFsSCcO5zKKwk/qN7VMFGzUe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MI6d0HgM; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eydot/Od"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MI6d0HgM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723704783; x=1755240783;
+  t=1723760129; x=1755296129;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7VHR2ZQ7/NH9Uq66xFdmkuqJR5n2o75mCmUNAB4BHYU=;
-  b=eydot/OdHG2ZblXQUzl/ciT3k1YYMwK5fZJ5/9+xQu4P6q3O9/bl36Jn
-   Mc62wTSd/0vbX7TaNadgBTbH2oW4FgoYGmaNqPh/nnr6oS7EckiGu3OeJ
-   yZ5xr/oSc1wcAP7dgMlFmb5q07F0T7IiwSZPpt2oUCOG4b4xu7fX6LNUT
-   Q6ppkluTpDPM99LtqKfAF/5gUJP52DtWrTg4kz9jHWJ/IInmWGhuJoHEn
-   vikB8IQ7x4Zn4rVDEfGfJYzCUpttKnnfO1yMFJubqXJgHGjlCK/iKFvc6
-   Tup+3xoVgoqVOTDT/9zzXrlBqHEhBMSGavzzZcApQISEhR6YE56B/KHhz
-   Q==;
-X-CSE-ConnectionGUID: 4a8IfQeQSWuTcLjBXj3BIw==
-X-CSE-MsgGUID: +O2rWkEZRw+8NT9oXBpmmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11164"; a="33101571"
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="33101571"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2024 23:53:02 -0700
-X-CSE-ConnectionGUID: vqqgH+BRRResvy+XQG5z2A==
-X-CSE-MsgGUID: xasOuqgiTx25bgAp7SnwtQ==
+  bh=iMuEckow+e7PFOf7H+inm3FrolEYxbLjHq4DoZC7/08=;
+  b=MI6d0HgMD0sVfnECEEYDVf1549Y5N04VtrzCY0xjob17qy2Uu2RXdx9B
+   vG94wfk1FgJbbiPD0ob/q2sLVtxapwW8wTxbaKrRsXoxGLxcRJHlo5/xR
+   jjLfqVlrrpcW4ivANPojNwbOek1b6Cg8XPaehrwvpIGdRoyjBMPlagKST
+   D4BpUwiiFOLk1aurQ75AiCi508WYs1cDrbj3+gS6JD15dq3/2WX4GTwog
+   qN8kn8hpx8JzSQVd7Y+bk3mWbD1yv+YQ7tv4btivYLWnZmsAM/U+xvN2A
+   /EsZsYCCJE8KzHhkz6NNzDYG/roD2Q9Zr5Jlw6cryx/acXAzfpqcOkVIh
+   w==;
+X-CSE-ConnectionGUID: c8T8Spm8Tna/5lIAZWYiBw==
+X-CSE-MsgGUID: OP9Fd0j6SoSMLbFHSwbjhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11165"; a="22214610"
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="22214610"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2024 15:15:29 -0700
+X-CSE-ConnectionGUID: ChV41d5hSPCGEjJDJ7XjPA==
+X-CSE-MsgGUID: PogITIoJQIGSd2g3m38j1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,148,1719903600"; 
-   d="scan'208";a="60021944"
+X-IronPort-AV: E=Sophos;i="6.10,150,1719903600"; 
+   d="scan'208";a="59767987"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Aug 2024 23:53:00 -0700
+  by orviesa006.jf.intel.com with ESMTP; 15 Aug 2024 15:15:27 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1seULx-0003I0-2e;
-	Thu, 15 Aug 2024 06:52:57 +0000
-Date: Thu, 15 Aug 2024 14:52:47 +0800
+	id 1seikf-0005gA-0s;
+	Thu, 15 Aug 2024 22:15:25 +0000
+Date: Fri, 16 Aug 2024 06:14:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 417/447] drivers/media/rc/imon.c:975
- vfd_write() warn: potential spectre issue 'ictx->tx.data_buf' [w] (local
- cap)
-Message-ID: <202408151425.XFPBBqEX-lkp@intel.com>
+Subject: [linux-next:master 4185/4951] kernel/bpf/verifier.c:18881
+ add_used_map_from_fd() warn: fd re-used after fget(): 'fd'
+Message-ID: <202408160659.ThC0qtk1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,117 +64,79 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Andrii Nakryiko <andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   77deeeaf6d1b5e7b6f44a9a8f5fe2a3b346e81bb
-commit: 1f1f482faf273d8bc20c64481e2f8fd6142976bc [417/447] media/rc: convert to read/write iterators
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: x86_64-randconfig-161-20240815 (https://download.01.org/0day-ci/archive/20240815/202408151425.XFPBBqEX-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   edd1ec2e3a9f5de7fb267a3af73e4f00e7e052b7
+commit: 535ead44ffd08479212e31729a7118bd4e9ac699 [4185/4951] bpf: factor out fetching bpf_map from FD and adding it to used_maps list
+:::::: branch date: 17 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-141-20240815 (https://download.01.org/0day-ci/archive/20240816/202408160659.ThC0qtk1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408151425.XFPBBqEX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408160659.ThC0qtk1-lkp@intel.com/
 
 smatch warnings:
-drivers/media/rc/imon.c:975 vfd_write() warn: potential spectre issue 'ictx->tx.data_buf' [w] (local cap)
+kernel/bpf/verifier.c:18881 add_used_map_from_fd() warn: fd re-used after fget(): 'fd'
 
-vim +975 drivers/media/rc/imon.c
+vim +/fd +18881 kernel/bpf/verifier.c
 
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   927  
-255940e642387f drivers/media/rc/imon.c Mauro Carvalho Chehab 2017-11-27   928  /*
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   929   * Writes data to the VFD.  The iMON VFD is 2x16 characters
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   930   * and requires data in 5 consecutive USB interrupt packets,
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   931   * each packet but the last carrying 7 bytes.
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   932   *
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   933   * I don't know if the VFD board supports features such as
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   934   * scrolling, clearing rows, blanking, etc. so at
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   935   * the caller must provide a full screen of data.  If fewer
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   936   * than 32 bytes are provided spaces will be appended to
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   937   * generate a full screen.
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   938   */
-1f1f482faf273d drivers/media/rc/imon.c Jens Axboe            2024-04-09   939  static ssize_t vfd_write(struct kiocb *iocb, struct iov_iter *from)
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   940  {
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   941  	int i;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   942  	int offset;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   943  	int seq;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   944  	int retval = 0;
-1f1f482faf273d drivers/media/rc/imon.c Jens Axboe            2024-04-09   945  	struct imon_context *ictx = iocb->ki_filp->private_data;
-c25895c7d6c957 drivers/media/rc/imon.c Colin Ian King        2017-09-05   946  	static const unsigned char vfd_packet6[] = {
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   947  		0x01, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF };
-1f1f482faf273d drivers/media/rc/imon.c Jens Axboe            2024-04-09   948  	size_t n_bytes = iov_iter_count(from);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   949  
-db264d4c66c0fe drivers/media/rc/imon.c Tetsuo Handa          2022-05-02   950  	if (ictx->disconnected)
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   951  		return -ENODEV;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   952  
-813ceef062b53d drivers/media/rc/imon.c Gautam Menghani       2022-10-19   953  	if (mutex_lock_interruptible(&ictx->lock))
-813ceef062b53d drivers/media/rc/imon.c Gautam Menghani       2022-10-19   954  		return -ERESTARTSYS;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   955  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   956  	if (!ictx->dev_present_intf0) {
-47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   957  		pr_err_ratelimited("no iMON device present\n");
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   958  		retval = -ENODEV;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   959  		goto exit;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   960  	}
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   961  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   962  	if (n_bytes <= 0 || n_bytes > 32) {
-47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   963  		pr_err_ratelimited("invalid payload size\n");
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   964  		retval = -EINVAL;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   965  		goto exit;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   966  	}
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   967  
-1f1f482faf273d drivers/media/rc/imon.c Jens Axboe            2024-04-09   968  	if (!copy_from_iter_full(ictx->tx.data_buf, n_bytes, from)) {
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   969  		retval = -EFAULT;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   970  		goto exit;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   971  	}
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   972  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   973  	/* Pad with spaces */
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   974  	for (i = n_bytes; i < 32; ++i)
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  @975  		ictx->tx.data_buf[i] = ' ';
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   976  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   977  	for (i = 32; i < 35; ++i)
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   978  		ictx->tx.data_buf[i] = 0xFF;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   979  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   980  	offset = 0;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   981  	seq = 0;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   982  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   983  	do {
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   984  		memcpy(ictx->usb_tx_buf, ictx->tx.data_buf + offset, 7);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   985  		ictx->usb_tx_buf[7] = (unsigned char) seq;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   986  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   987  		retval = send_packet(ictx);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   988  		if (retval) {
-47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   989  			pr_err_ratelimited("send packet #%d failed\n", seq / 2);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   990  			goto exit;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   991  		} else {
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   992  			seq += 2;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   993  			offset += 7;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   994  		}
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   995  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   996  	} while (offset < 35);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   997  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   998  	/* Send packet #6 */
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   999  	memcpy(ictx->usb_tx_buf, &vfd_packet6, sizeof(vfd_packet6));
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1000  	ictx->usb_tx_buf[7] = (unsigned char) seq;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1001  	retval = send_packet(ictx);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1002  	if (retval)
-47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14  1003  		pr_err_ratelimited("send packet #%d failed\n", seq / 2);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1004  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1005  exit:
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1006  	mutex_unlock(&ictx->lock);
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1007  
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1008  	return (!retval) ? n_bytes : retval;
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1009  }
-21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1010  
-
-:::::: The code at line 975 was first introduced by commit
-:::::: 21677cfc562a27e099719d413287bc8d1d24deb7 V4L/DVB: ir-core: add imon driver
-
-:::::: TO: Jarod Wilson <jarod@redhat.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+b741f1630346de Roman Gushchin  2018-09-28  18867  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18868  /* Add map behind fd to used maps list, if it's not already there, and return
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18869   * its index. Also set *reused to true if this map was already in the list of
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18870   * used maps.
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18871   * Returns <0 on error, or >= 0 index, on success.
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18872   */
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18873  static int add_used_map_from_fd(struct bpf_verifier_env *env, int fd, bool *reused)
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18874  {
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18875  	struct fd f = fdget(fd);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18876  	struct bpf_map *map;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18877  	int i;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18878  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18879  	map = __bpf_map_get(f);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18880  	if (IS_ERR(map)) {
+535ead44ffd084 Andrii Nakryiko 2024-08-06 @18881  		verbose(env, "fd %d is not pointing to valid bpf_map\n", fd);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18882  		return PTR_ERR(map);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18883  	}
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18884  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18885  	/* check whether we recorded this map already */
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18886  	for (i = 0; i < env->used_map_cnt; i++) {
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18887  		if (env->used_maps[i] == map) {
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18888  			*reused = true;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18889  			fdput(f);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18890  			return i;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18891  		}
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18892  	}
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18893  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18894  	if (env->used_map_cnt >= MAX_USED_MAPS) {
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18895  		verbose(env, "The total number of maps per program has reached the limit of %u\n",
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18896  			MAX_USED_MAPS);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18897  		fdput(f);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18898  		return -E2BIG;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18899  	}
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18900  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18901  	if (env->prog->sleepable)
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18902  		atomic64_inc(&map->sleepable_refcnt);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18903  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18904  	/* hold the map. If the program is rejected by verifier,
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18905  	 * the map will be released by release_maps() or it
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18906  	 * will be used by the valid program until it's unloaded
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18907  	 * and all maps are released in bpf_free_used_maps()
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18908  	 */
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18909  	bpf_map_inc(map);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18910  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18911  	*reused = false;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18912  	env->used_maps[env->used_map_cnt++] = map;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18913  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18914  	fdput(f);
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18915  
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18916  	return env->used_map_cnt - 1;
+535ead44ffd084 Andrii Nakryiko 2024-08-06  18917  
 
 -- 
 0-DAY CI Kernel Test Service
