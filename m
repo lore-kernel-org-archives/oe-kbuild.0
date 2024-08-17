@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFA21C5791
-	for <oe-kbuild@lists.linux.dev>; Fri, 16 Aug 2024 21:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6C51E52C
+	for <oe-kbuild@lists.linux.dev>; Sat, 17 Aug 2024 04:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723845141; cv=none; b=Phf2VGrHlQojKC7CcZrxQDH9LzhZN3lAfsJGmVzAuC4c7a3NVZYdfHb653bzmtl5l9vUJq6fzJeZ8FMQ+mCOXSiCFz8rVrbzMM/j9wgO/ovoyzit+Ofdz+EFKWGESFBRJS44vjw+wZKeYAyIWEWwH0U9T2kTgaLP7I2cs4xBFdw=
+	t=1723868971; cv=none; b=mPRbo36V5RP/qiePH6q2an9b3WX4BSQUZKW71vuYDN/+jI5e+Az9+44I3fbUVah9WDy26nXfafhh/QIu4ggWv7Z1hQPIGoOryhOL9DgaLK5QLGF/bjR0ZDsIEkpfVmFC6k4FLSifBZKpiGi18o4+f22iRv8Nz7QfYw75flByxos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723845141; c=relaxed/simple;
-	bh=kD5IGK+Rc2kjwMuSnM9rLILjOLbN7SHvCYD1tvo9xdk=;
+	s=arc-20240116; t=1723868971; c=relaxed/simple;
+	bh=s7KVVBEXlEAwdLppScVht+tUF0bFNIyKXWlmAorfyGg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NEGL3tZweMJl5SVEqm/vJqejZyLfgqzSoNhaHihLo9WwoU1C4qQFQvDleRciVC6Es1kzVtLP+2UVf/jlbFctnXcUsKjDo0Rdhx2HI09sDy2fQQluNcn2kyv2pCWeeqn6QEFioVytHLVZYUcdBePA0JiR/B6yPvEvq4qRy76uUOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUShO98b; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=tqYHFnbqsWR8LZFmTT/cmgmghP90XxNxL9hCaylSzQayDTJ+6UE7psvTb5NdrzmMb5NuQg8CtmJLnm7s5azTYPG2TfJV7uX6cNsTinG62MmCramYYVxRILV2sW5iK0rzXH5pUMwbE/htR4njdbabJCNUHx1ewH+nnFHNMAV5fjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOtxwQVi; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUShO98b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOtxwQVi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1723845140; x=1755381140;
+  t=1723868968; x=1755404968;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kD5IGK+Rc2kjwMuSnM9rLILjOLbN7SHvCYD1tvo9xdk=;
-  b=lUShO98by6Sm5DyapPnBrlzA2FfUzY85kKFXjGwar4uR3xaRl53POcBF
-   xWJK/rYuXznt+47fjlwAFI0VVSwgMFFWAb66xwCtGmXiCypQR8+IGfUO6
-   Ag5rL66mwGBQj1OP1In3edlnp1zXNPjsYSXKj672RsVzEB1ZO7qlJBbrt
-   2Dy11EAk0KNrOPLN0HHWLoPlXeXkM5il2TFwQYB9IYWnAzy8hTNCEO8Xv
-   prN3jV0wQ5G4tzVLyEkKVrm/5MlgJyKll69B6zgBZbLDoRVOAUJGeXjm4
-   MihabW74xUe2e1hJFJL5yQo/6NuiSwUN7+FhxLUmuh486ozwpIO0Gr4HP
-   w==;
-X-CSE-ConnectionGUID: DBHTnEb5SbaTSnH/wBJuIQ==
-X-CSE-MsgGUID: jIv2aoxiRqqmHaEGjMVvuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="22313141"
-X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
-   d="scan'208";a="22313141"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 14:52:17 -0700
-X-CSE-ConnectionGUID: H5C3BjUNQ9WSVHYNXxFkww==
-X-CSE-MsgGUID: GigQ4OflR3uDozfqFt7n3w==
+  bh=s7KVVBEXlEAwdLppScVht+tUF0bFNIyKXWlmAorfyGg=;
+  b=iOtxwQViIUZAoZ3YQaPHWg5zmSrp7Ryg/ENJq1CL4aLV9MuSJYmTUIju
+   ifDZFHuUZObsBqlHs+axRW/CuHx9Uetbqlamh57mlmQz04+ZzwQveQ7/0
+   7dGDAft6O8Y7zJUwNe4HtXcm4zKn33QRW1R6t4AP2x2r6Zvn2U0YSsc+8
+   Ih5JazJG5Ilf+glfyPYU96JmhTL269nabZCDBamyWmQ7gRBMfS2ocKuWI
+   ghKH3SiS2jbrKsADjm+CuHzi966087es8KfAlL/1pdDbAouoE73imtzVy
+   zCwTvkIG1kIvLjq2nH6YrrrWVSb+bPt1vO4vvIyWkevvTMKZLJijveBF+
+   A==;
+X-CSE-ConnectionGUID: YAu3WQ02Q0WL+Sy/NTzSmw==
+X-CSE-MsgGUID: p4JPy8QXT0iSK/QiFKd+kQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11166"; a="13065813"
+X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
+   d="scan'208";a="13065813"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2024 21:29:27 -0700
+X-CSE-ConnectionGUID: 5VLu5QthSM6iPjZiVZl+0g==
+X-CSE-MsgGUID: 79YMkRRqRJmeKs7uI7eyzg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,152,1719903600"; 
-   d="scan'208";a="60568426"
+X-IronPort-AV: E=Sophos;i="6.10,153,1719903600"; 
+   d="scan'208";a="60017327"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Aug 2024 14:52:16 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Aug 2024 21:29:27 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sf4rl-0006xE-39;
-	Fri, 16 Aug 2024 21:52:13 +0000
-Date: Sat, 17 Aug 2024 05:52:00 +0800
+	id 1sfB48-0007BG-15;
+	Sat, 17 Aug 2024 04:29:24 +0000
+Date: Sat, 17 Aug 2024 12:29:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v10] drm/i915: WA context support for L3flush
-Message-ID: <202408170547.2jcHHUAr-lkp@intel.com>
+Subject: Re: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL
+Message-ID: <202408171146.0RjWnTq8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,85 +63,105 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240813061657.925443-1-nitin.r.gote@intel.com>
-References: <20240813061657.925443-1-nitin.r.gote@intel.com>
-TO: Nitin Gote <nitin.r.gote@intel.com>
-TO: intel-gfx@lists.freedesktop.org
-CC: venkata.ramana.nayana@intel.com
-CC: john.c.harrison@intel.com
-CC: chris.p.wilson@intel.com
-CC: tejas.upadhyay@intel.com
-CC: andi.shyti@intel.com
-CC: nitin.r.gote@intel.com
+In-Reply-To: <20240814125525.3917130-2-crwulff@gmail.com>
+References: <20240814125525.3917130-2-crwulff@gmail.com>
+TO: crwulff@gmail.com
+TO: linux-usb@vger.kernel.org
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Konstantin Aladyshev <aladyshev22@gmail.com>
+CC: David Sands <david.sands@biamp.com>
+CC: Jeff Johnson <quic_jjohnson@quicinc.com>
+CC: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: linux-kernel@vger.kernel.org
+CC: Chris Wulff <Chris.Wulff@biamp.com>
 
-Hi Nitin,
+Hi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc3 next-20240816]
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.11-rc3 next-20240816]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nitin-Gote/drm-i915-WA-context-support-for-L3flush/20240814-231915
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240813061657.925443-1-nitin.r.gote%40intel.com
-patch subject: [PATCH v10] drm/i915: WA context support for L3flush
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240816 (https://download.01.org/0day-ci/archive/20240817/202408170547.2jcHHUAr-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/crwulff-gmail-com/USB-gadget-f_hid-Add-GET_REPORT-via-userspace-IOCTL/20240814-225520
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240814125525.3917130-2-crwulff%40gmail.com
+patch subject: [PATCH v4] USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20240817 (https://download.01.org/0day-ci/archive/20240817/202408171146.0RjWnTq8-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408170547.2jcHHUAr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408171146.0RjWnTq8-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:4415 guc_kernel_context_pin() error: uninitialized symbol 'ret'.
+smatch warnings:
+drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsistent returns '&hidg->get_report_spinlock'.
+drivers/usb/gadget/function/f_hid.c:705 f_hidg_get_report() warn: inconsistent returns 'flags'.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:1796 __unwind_incomplete_requests() error: uninitialized symbol 'pl'.
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:1868 wake_up_all_tlb_invalidate() warn: iterator 'i' not incremented
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:5851 guc_create_virtual() warn: assigning (-2) to unsigned variable 've->base.instance'
-drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c:5852 guc_create_virtual() warn: assigning (-2) to unsigned variable 've->base.uabi_instance'
+vim +705 drivers/usb/gadget/function/f_hid.c
 
-vim +/ret +4415 drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-
-209b7955e59e36 drivers/gpu/drm/i915/intel_guc_submission.c       Chris Wilson          2018-07-17  4386  
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4387  static inline int guc_kernel_context_pin(struct intel_guc *guc,
-3a4cdf1982f05d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Matthew Brost         2021-07-21  4388  					 struct intel_context *ce)
-3a4cdf1982f05d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Matthew Brost         2021-07-21  4389  {
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4390  	int ret;
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4391  
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4392  	/*
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4393  	 * Note: we purposefully do not check the returns below because
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4394  	 * the registration can only fail if a reset is just starting.
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4395  	 * This is called at the end of reset so presumably another reset
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4396  	 * isn't happening and even it did this code would be run again.
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4397  	 */
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4398  
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4399  	if (context_guc_id_invalid(ce)) {
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4400  		ret = pin_guc_id(guc, ce);
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4401  
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4402  		if (ret < 0)
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4403  			return ret;
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4404  	}
-58ea7d620c5ebc drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-03-01  4405  
-de51de9672a17e drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-11-02  4406  	if (!test_bit(CONTEXT_GUC_INIT, &ce->flags))
-de51de9672a17e drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-11-02  4407  		guc_context_init(ce);
-de51de9672a17e drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2022-11-02  4408  
-078a89e7d6f60a drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Venkata Ramana Nayana 2024-08-13  4409  	if (!intel_context_is_hidden(ce)) {
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4410  		ret = try_context_registration(ce, true);
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4411  		if (ret)
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4412  			unpin_guc_id(guc, ce);
-078a89e7d6f60a drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Venkata Ramana Nayana 2024-08-13  4413  	}
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17  4414  
-cd414f4f59f64d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c John Harrison         2023-02-17 @4415  	return ret;
-3a4cdf1982f05d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Matthew Brost         2021-07-21  4416  }
-3a4cdf1982f05d drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c Matthew Brost         2021-07-21  4417  
+fce51fb916013b Chris Wulff 2024-08-14  652  
+fce51fb916013b Chris Wulff 2024-08-14  653  static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *buffer)
+fce51fb916013b Chris Wulff 2024-08-14  654  {
+fce51fb916013b Chris Wulff 2024-08-14  655  	struct f_hidg			*hidg = file->private_data;
+fce51fb916013b Chris Wulff 2024-08-14  656  	struct usb_composite_dev	*cdev = hidg->func.config->cdev;
+fce51fb916013b Chris Wulff 2024-08-14  657  	unsigned long	flags;
+fce51fb916013b Chris Wulff 2024-08-14  658  	struct report_entry *entry;
+fce51fb916013b Chris Wulff 2024-08-14  659  	struct report_entry *ptr;
+fce51fb916013b Chris Wulff 2024-08-14  660  	__u8 report_id;
+fce51fb916013b Chris Wulff 2024-08-14  661  
+fce51fb916013b Chris Wulff 2024-08-14  662  	entry = kmalloc(sizeof(*entry), GFP_KERNEL);
+fce51fb916013b Chris Wulff 2024-08-14  663  	if (!entry)
+fce51fb916013b Chris Wulff 2024-08-14  664  		return -ENOMEM;
+fce51fb916013b Chris Wulff 2024-08-14  665  
+fce51fb916013b Chris Wulff 2024-08-14  666  	if (copy_from_user(&entry->report_data, buffer,
+fce51fb916013b Chris Wulff 2024-08-14  667  				sizeof(struct usb_hidg_report))) {
+fce51fb916013b Chris Wulff 2024-08-14  668  		ERROR(cdev, "copy_from_user error\n");
+fce51fb916013b Chris Wulff 2024-08-14  669  		kfree(entry);
+fce51fb916013b Chris Wulff 2024-08-14  670  		return -EINVAL;
+fce51fb916013b Chris Wulff 2024-08-14  671  	}
+fce51fb916013b Chris Wulff 2024-08-14  672  
+fce51fb916013b Chris Wulff 2024-08-14  673  	report_id = entry->report_data.report_id;
+fce51fb916013b Chris Wulff 2024-08-14  674  
+fce51fb916013b Chris Wulff 2024-08-14  675  	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+fce51fb916013b Chris Wulff 2024-08-14  676  	ptr = f_hidg_search_for_report(hidg, report_id);
+fce51fb916013b Chris Wulff 2024-08-14  677  
+fce51fb916013b Chris Wulff 2024-08-14  678  	if (ptr) {
+fce51fb916013b Chris Wulff 2024-08-14  679  		/* Report already exists in list - update it */
+fce51fb916013b Chris Wulff 2024-08-14  680  		if (copy_from_user(&ptr->report_data, buffer,
+fce51fb916013b Chris Wulff 2024-08-14  681  				sizeof(struct usb_hidg_report))) {
+fce51fb916013b Chris Wulff 2024-08-14  682  			ERROR(cdev, "copy_from_user error\n");
+fce51fb916013b Chris Wulff 2024-08-14  683  			kfree(entry);
+fce51fb916013b Chris Wulff 2024-08-14  684  			return -EINVAL;
+fce51fb916013b Chris Wulff 2024-08-14  685  		}
+fce51fb916013b Chris Wulff 2024-08-14  686  		kfree(entry);
+fce51fb916013b Chris Wulff 2024-08-14  687  	} else {
+fce51fb916013b Chris Wulff 2024-08-14  688  		/* Report does not exist in list - add it */
+fce51fb916013b Chris Wulff 2024-08-14  689  		list_add_tail(&entry->node, &hidg->report_list);
+fce51fb916013b Chris Wulff 2024-08-14  690  	}
+fce51fb916013b Chris Wulff 2024-08-14  691  
+fce51fb916013b Chris Wulff 2024-08-14  692  	/* If there is no response pending then do nothing further */
+fce51fb916013b Chris Wulff 2024-08-14  693  	if (hidg->get_report_returned) {
+fce51fb916013b Chris Wulff 2024-08-14  694  		spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+fce51fb916013b Chris Wulff 2024-08-14  695  		return 0;
+fce51fb916013b Chris Wulff 2024-08-14  696  	}
+fce51fb916013b Chris Wulff 2024-08-14  697  
+fce51fb916013b Chris Wulff 2024-08-14  698  	/* If this userspace response serves the current pending report */
+fce51fb916013b Chris Wulff 2024-08-14  699  	if (hidg->get_report_req_report_id == report_id) {
+fce51fb916013b Chris Wulff 2024-08-14  700  		hidg->get_report_returned = true;
+fce51fb916013b Chris Wulff 2024-08-14  701  		wake_up(&hidg->get_queue);
+fce51fb916013b Chris Wulff 2024-08-14  702  	}
+fce51fb916013b Chris Wulff 2024-08-14  703  
+fce51fb916013b Chris Wulff 2024-08-14  704  	spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+fce51fb916013b Chris Wulff 2024-08-14 @705  	return 0;
+fce51fb916013b Chris Wulff 2024-08-14  706  }
+fce51fb916013b Chris Wulff 2024-08-14  707  
 
 -- 
 0-DAY CI Kernel Test Service
