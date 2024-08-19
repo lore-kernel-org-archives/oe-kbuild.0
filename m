@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACE115B111
-	for <oe-kbuild@lists.linux.dev>; Mon, 19 Aug 2024 12:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DDB1BDCF
+	for <oe-kbuild@lists.linux.dev>; Mon, 19 Aug 2024 14:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724070885; cv=none; b=VoPTT+MREarMKp/CRRp7Xm0L1S6rW6lC47ekD3J+irYD5EM7Zoi0gR6mW8Th/A//pXNtJVV/3lnyH2sUXsgj48aOAsogAsxHOO3Jd1If49MLt0ZjgZGi4Mbx//ayhBGvRNviknn1YuRmKMz+lsuP+CZKdTfBH9fXvxnI5CTtqfI=
+	t=1724078870; cv=none; b=e5C2uA5aykc1FFUeyMsavWDCahe8hkym9SO1d0N7TM876UknYgcOA+7Uoa1SMybBhVKXv6zys1LDZxLTF+DhoEAXcq+tvEB7qzg+siuOUzo+YrLg1qx2iN/B/qIzW9eODySgTcihn0baciPJXH3OlfO1OziJhnpUgzhcc976xA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724070885; c=relaxed/simple;
-	bh=H9huRXHQXZW2MiZy9vZ0MZi1qB+4CuaqyDLTnumiM/c=;
+	s=arc-20240116; t=1724078870; c=relaxed/simple;
+	bh=bkoLWN2A/59FjqGMN6uo5PJCOEmHRJ1xdP05wAaiUO8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bVL7zfKN8b94sPeMnYPiHsd74MFMBPpSvwvyABlwJ/tuNfHgULQLJYtTDMSe90s0qehoT/NCeCDbCupXcMFM9YsG5xRPEqzEjrKQn96py/n5veaRE++KHiVkdYVSFXFyzf6kSTFAczh/admuPu9ropwa+3Lq5tZGulHf0VYt3y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALswM+uU; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=GeFKOIT+ki2Tciq84pP7nVhtiad/7iVcEQintaFoMtw6lpCOowICFmGkoizNQic9mrJgMJnkJH8y/L1WKBd1nDNeqQk2Z7F/m4YbrdokSkKpuPRVDv9a3jWb7MBf7n638TJXX0XbGCxxAS1xyovnTLkNaLlbWqNO6qZgcbcSq9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TnneGicD; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALswM+uU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TnneGicD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724070883; x=1755606883;
+  t=1724078868; x=1755614868;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H9huRXHQXZW2MiZy9vZ0MZi1qB+4CuaqyDLTnumiM/c=;
-  b=ALswM+uUei6X4OgS+Xr1P0h09Yr15378GxiQNqNcjuFK2QBthKcUw7Yq
-   UJVSEJG010pFnptPqfQMELyWPK5R0oh5SX5XEWJtIclhwk3aJWr1+0tPk
-   jYcE2HBeN/3FAPNkjjsECjd7Uf1X0FVVAFJ18JRJb3TXEJ6i0LLK/bhzV
-   RAM6NChcEQ29PQEw76fMxjbl/77+nKtiKliPhTETar1UBPw4DG9PlInHK
-   /rovJnHWyyQ/TXF6ea3hBt8Tcaa1rSyg5hUc30CHDJv6PPRaKYSTGcEXp
-   XWHHg2uobHbpGsVOqphqRsfF3lDz+9jlWWfdZw8sLqkAq2yHpZM3UA65C
-   A==;
-X-CSE-ConnectionGUID: HLKlqOKrQlKCuGzO13P0yw==
-X-CSE-MsgGUID: P4DsVlmvTSa+7jnu48/lag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="22450374"
+  bh=bkoLWN2A/59FjqGMN6uo5PJCOEmHRJ1xdP05wAaiUO8=;
+  b=TnneGicDAYIZewVR3xoiQ/hsZyCSOHhYVqfqQgNUoPDqMwiaB13ypFtV
+   W4fzLTXuJiSAWL1Uxj6lWtROvbpq97pQR0KQJurJV80vUamlSUIMfEoQm
+   8EeKPMAkUJ5fd8kPqxTVi58WyKITU57EiiPceBG0b1rGDrPzIlE2vrPVg
+   Uw6JMqdyWo4li47nWdd+0gfOTLQ4Swa7B/kRnXXgJx/xKAJn0a0g/4wIw
+   rQM1ANC6TGgEPM+lgVjgcwINLcduoxIL0y+havtIAjHt2mYosgoaNlK5U
+   dI0tTy1q7k1T2Gmz8sbC8uOZkZFXDkfoTaMCMwya+zGPn9DT7D3X3kw8j
+   w==;
+X-CSE-ConnectionGUID: vH5/qds4SVutYMjLbcYPiQ==
+X-CSE-MsgGUID: IoAE30NqQzm4k382mX0twA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11169"; a="32902442"
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="22450374"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 05:34:43 -0700
-X-CSE-ConnectionGUID: zj89w5JaR26xXOt7hct/fA==
-X-CSE-MsgGUID: d/Um4RANTS69iNc9pkyGqw==
+   d="scan'208";a="32902442"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2024 07:47:48 -0700
+X-CSE-ConnectionGUID: 3uWMXg00RUCLF2uOha1JbA==
+X-CSE-MsgGUID: ZFkXM4jKS6qd+7S8lrP7cA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,159,1719903600"; 
-   d="scan'208";a="65314242"
+   d="scan'208";a="60445615"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Aug 2024 05:34:42 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Aug 2024 07:47:47 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sg1ap-0008ym-19;
-	Mon, 19 Aug 2024 12:34:39 +0000
-Date: Mon, 19 Aug 2024 20:33:55 +0800
+	id 1sg3fc-00095O-2w;
+	Mon, 19 Aug 2024 14:47:44 +0000
+Date: Mon, 19 Aug 2024 22:46:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 7/7] x86/resctrl: Introduce interface to modify SDCIAE
- Capacity Bit Masks
-Message-ID: <202408191942.1CXPbzt8-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v2] lib/math: Add int_pow test suite
+Message-ID: <202408192201.0d5F9l1Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,127 +61,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is too big for long long"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <e8dab641ea14bacbe3847fc1d3fde5be60c4095b.1723824984.git.babu.moger@amd.com>
-References: <e8dab641ea14bacbe3847fc1d3fde5be60c4095b.1723824984.git.babu.moger@amd.com>
-TO: Babu Moger <babu.moger@amd.com>
-TO: corbet@lwn.net
-TO: reinette.chatre@intel.com
-TO: tglx@linutronix.de
-TO: mingo@redhat.com
-TO: bp@alien8.de
-TO: dave.hansen@linux.intel.com
-TO: x86@kernel.org
-CC: fenghua.yu@intel.com
-CC: hpa@zytor.com
-CC: paulmck@kernel.org
-CC: thuth@redhat.com
-CC: xiongwei.song@windriver.com
-CC: ardb@kernel.org
-CC: pawan.kumar.gupta@linux.intel.com
-CC: daniel.sneddon@linux.intel.com
-CC: sandipan.das@amd.com
-CC: kai.huang@intel.com
-CC: peterz@infradead.org
-CC: kan.liang@linux.intel.com
-CC: pbonzini@redhat.com
-CC: xin3.li@intel.com
-CC: babu.moger@amd.com
-CC: ebiggers@google.com
-CC: alexandre.chartre@oracle.com
-CC: perry.yuan@amd.com
-CC: tan.shaopeng@fujitsu.com
-CC: james.morse@arm.com
-CC: tony.luck@intel.com
-CC: maciej.wieczor-retman@intel.com
-CC: linux-doc@vger.kernel.org
+In-Reply-To: <20240819014115.221135-1-luis.hernandez093@gmail.com>
+References: <20240819014115.221135-1-luis.hernandez093@gmail.com>
+TO: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+TO: brendan.higgins@linux.dev
+TO: davidgow@google.com
+TO: rmoar@google.com
+CC: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+CC: linux-kselftest@vger.kernel.org
+CC: kunit-dev@googlegroups.com
+CC: skhan@linuxfoundation.org
+CC: linux-kernel-mentees@lists.linuxfoundation.org
 
-Hi Babu,
+Hi Luis,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/x86/core]
-[also build test WARNING on linus/master v6.11-rc4 next-20240819]
+[auto build test WARNING on v6.11-rc4]
+[also build test WARNING on linus/master next-20240819]
+[cannot apply to akpm-mm/mm-nonmm-unstable]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-cpufeatures-Add-support-for-L3-Smart-Data-Cache-Injection-Allocation-Enforcement/20240817-001948
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/e8dab641ea14bacbe3847fc1d3fde5be60c4095b.1723824984.git.babu.moger%40amd.com
-patch subject: [PATCH 7/7] x86/resctrl: Introduce interface to modify SDCIAE Capacity Bit Masks
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-r073-20240819 (https://download.01.org/0day-ci/archive/20240819/202408191942.1CXPbzt8-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_pow-test-suite/20240819-094252
+base:   v6.11-rc4
+patch link:    https://lore.kernel.org/r/20240819014115.221135-1-luis.hernandez093%40gmail.com
+patch subject: [PATCH v2] lib/math: Add int_pow test suite
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-122-20240819 (https://download.01.org/0day-ci/archive/20240819/202408192201.0d5F9l1Z-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240819/202408192201.0d5F9l1Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408191942.1CXPbzt8-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408192201.0d5F9l1Z-lkp@intel.com/
 
-smatch warnings:
-arch/x86/kernel/cpu/resctrl/rdtgroup.c:2031 resctrl_sdciae_cbm_write() warn: variable dereferenced before check 'buf' (see line 2019)
+sparse warnings: (new ones prefixed by >>)
+>> lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is too big for long long
+   lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
 
-vim +/buf +2031 arch/x86/kernel/cpu/resctrl/rdtgroup.c
+vim +22 lib/math/tests/int_pow_kunit.c
 
-1e87322a9e54f8 Babu Moger 2024-08-16  2008  
-1e87322a9e54f8 Babu Moger 2024-08-16  2009  static ssize_t resctrl_sdciae_cbm_write(struct kernfs_open_file *of,
-1e87322a9e54f8 Babu Moger 2024-08-16  2010  					char *buf, size_t nbytes, loff_t off)
-1e87322a9e54f8 Babu Moger 2024-08-16  2011  {
-1e87322a9e54f8 Babu Moger 2024-08-16  2012  	struct resctrl_schema *s = of->kn->parent->priv;
-1e87322a9e54f8 Babu Moger 2024-08-16  2013  	struct rdt_resource *r = s->res;
-1e87322a9e54f8 Babu Moger 2024-08-16  2014  	u32 sdciae_closid;
-1e87322a9e54f8 Babu Moger 2024-08-16  2015  	char *resname;
-1e87322a9e54f8 Babu Moger 2024-08-16  2016  	int ret = 0;
-1e87322a9e54f8 Babu Moger 2024-08-16  2017  
-1e87322a9e54f8 Babu Moger 2024-08-16  2018  	/* Valid input requires a trailing newline */
-1e87322a9e54f8 Babu Moger 2024-08-16 @2019  	if (nbytes == 0 || buf[nbytes - 1] != '\n')
-1e87322a9e54f8 Babu Moger 2024-08-16  2020  		return -EINVAL;
-1e87322a9e54f8 Babu Moger 2024-08-16  2021  
-1e87322a9e54f8 Babu Moger 2024-08-16  2022  	buf[nbytes - 1] = '\0';
-1e87322a9e54f8 Babu Moger 2024-08-16  2023  
-1e87322a9e54f8 Babu Moger 2024-08-16  2024  	cpus_read_lock();
-1e87322a9e54f8 Babu Moger 2024-08-16  2025  	mutex_lock(&rdtgroup_mutex);
-1e87322a9e54f8 Babu Moger 2024-08-16  2026  
-1e87322a9e54f8 Babu Moger 2024-08-16  2027  	rdt_last_cmd_clear();
-1e87322a9e54f8 Babu Moger 2024-08-16  2028  	rdt_staged_configs_clear();
-1e87322a9e54f8 Babu Moger 2024-08-16  2029  
-1e87322a9e54f8 Babu Moger 2024-08-16  2030  	resname = strim(strsep(&buf, ":"));
-1e87322a9e54f8 Babu Moger 2024-08-16 @2031  	if (!buf) {
-1e87322a9e54f8 Babu Moger 2024-08-16  2032  		rdt_last_cmd_puts("Missing ':'\n");
-1e87322a9e54f8 Babu Moger 2024-08-16  2033  		ret = -EINVAL;
-1e87322a9e54f8 Babu Moger 2024-08-16  2034  		goto out;
-1e87322a9e54f8 Babu Moger 2024-08-16  2035  	}
-1e87322a9e54f8 Babu Moger 2024-08-16  2036  
-1e87322a9e54f8 Babu Moger 2024-08-16  2037  	if (strcmp(resname, "L3")) {
-1e87322a9e54f8 Babu Moger 2024-08-16  2038  		rdt_last_cmd_printf("Unsupported resource name '%s'\n", resname);
-1e87322a9e54f8 Babu Moger 2024-08-16  2039  		ret = -EINVAL;
-1e87322a9e54f8 Babu Moger 2024-08-16  2040  		goto out;
-1e87322a9e54f8 Babu Moger 2024-08-16  2041  	}
-1e87322a9e54f8 Babu Moger 2024-08-16  2042  
-1e87322a9e54f8 Babu Moger 2024-08-16  2043  	if (buf[0] == '\0') {
-1e87322a9e54f8 Babu Moger 2024-08-16  2044  		rdt_last_cmd_printf("Missing '%s' value\n", resname);
-1e87322a9e54f8 Babu Moger 2024-08-16  2045  		ret = -EINVAL;
-1e87322a9e54f8 Babu Moger 2024-08-16  2046  		goto out;
-1e87322a9e54f8 Babu Moger 2024-08-16  2047  	}
-1e87322a9e54f8 Babu Moger 2024-08-16  2048  
-1e87322a9e54f8 Babu Moger 2024-08-16  2049  	ret = resctrl_parse_line(buf, r, s);
-1e87322a9e54f8 Babu Moger 2024-08-16  2050  	if (ret)
-1e87322a9e54f8 Babu Moger 2024-08-16  2051  		goto out;
-1e87322a9e54f8 Babu Moger 2024-08-16  2052  
-1e87322a9e54f8 Babu Moger 2024-08-16  2053  	sdciae_closid = get_sdciae_closid(r);
-1e87322a9e54f8 Babu Moger 2024-08-16  2054  	ret = resctrl_arch_update_domains(r, sdciae_closid);
-1e87322a9e54f8 Babu Moger 2024-08-16  2055  
-1e87322a9e54f8 Babu Moger 2024-08-16  2056  out:
-1e87322a9e54f8 Babu Moger 2024-08-16  2057  	mutex_unlock(&rdtgroup_mutex);
-1e87322a9e54f8 Babu Moger 2024-08-16  2058  	cpus_read_unlock();
-1e87322a9e54f8 Babu Moger 2024-08-16  2059  
-1e87322a9e54f8 Babu Moger 2024-08-16  2060  	return ret ?: nbytes;
-1e87322a9e54f8 Babu Moger 2024-08-16  2061  }
-1e87322a9e54f8 Babu Moger 2024-08-16  2062  
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  12  
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  13  static const struct test_case_params params[] = {
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  14  	{ 64, 0, 1, "Power of zero" },
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  15  	{ 64, 1, 64, "Power of one"},
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  16  	{ 0, 5, 0, "Base zero" },
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  17  	{ 1, 64, 1, "Base one" },
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  18  	{ 2, 2, 4, "Two squared"},
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  19  	{ 2, 3, 8, "Two cubed"},
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  20  	{ 5, 5, 3125, "Five raised to the fith power" },
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  21  	{ U64_MAX, 1, U64_MAX, "Max base" },
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18 @22  	{ 2, 63, 9223372036854775808, "Large result"},
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  23  };
+8e9c35f8cad072 Luis Felipe Hernandez 2024-08-18  24  
 
 -- 
 0-DAY CI Kernel Test Service
