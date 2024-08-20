@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C2018E345
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Aug 2024 16:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F8D1B3F08
+	for <oe-kbuild@lists.linux.dev>; Tue, 20 Aug 2024 16:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724169949; cv=none; b=Yum0HqvdbAJhqeHJIbhKLm1GeRH1WVZQccRnbD53DPgvS1H/Hg8epg2k7zd3XjzaYC5s1ROO0q5hra8PrlqH92SBRdhuUCWQKARBWbNs2bS89Y3aLll5RgE84RmLcj6usIYqK8ZXGSnLC20SUBkEQeLu0fsvjSHswQEVAt6GTHw=
+	t=1724171809; cv=none; b=scCq4074aCNfDhUi9aZVprh5bht3FpnoPfrxPtW37Q8UIZ7AXuiVqeF6DbxIZFL6e/doItAnSMcgZtOJGXZL9KvOL53A8R9MaAT/u9Nv45cD7+yuvvlImXT7CEX6NEKAyUtnQcqyC8WKOKg8kCbFcmmzC2jCUxOAz1+vR4gtrpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724169949; c=relaxed/simple;
-	bh=UwgpuPsWfa1OG8HP53pcUvT+bL89j13oHXJ2xHu4Xas=;
+	s=arc-20240116; t=1724171809; c=relaxed/simple;
+	bh=8e+GGS4BPqGaVLgxBOJMep6vX8T3XBnKi9IxnfxAzuA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=inFBheA6Cna+zeco0Qh89wgkfbY2xQDuG1K592zHel7n/iiQb2S5LnTfv80DO4lochVQVRpiz+QK2HxwOq4RyD40bRTMtsydAwkjo8E7LdtTaRuM8ZjQIUQoIbqsoEdYVJQjquFnd9ba4q5rYikeJxQOE1WDxAD8leh7lKPK4XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bniu5Ctz; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=T/xJf1p+8o9NlW6WMUFPq0pQ7z9jwA37CN5PC0t0tZXCKw4eGi1sWuRSuXEyxbg7HxuOB5k8bvrxL890M8kA9MhKotoJMswR7utTcYPiHxFVVA1ccwS9vwjiRc/yCRp46ykliHlpvaWd/5cJX4HizedDrLsO2EN5Au1u2CCXy18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrhZBPpu; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bniu5Ctz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrhZBPpu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724169946; x=1755705946;
+  t=1724171807; x=1755707807;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UwgpuPsWfa1OG8HP53pcUvT+bL89j13oHXJ2xHu4Xas=;
-  b=Bniu5Ctz2Z5FlCqkK8Sz9C5QiDDncrnlLGn3pOdN30i1ggu5DQw+LqKx
-   KoSPuWQIdqOBJfnFhxmvF2k4DJBIM/qdSGr4rDqGFWrRDAYw3tb5S54Lz
-   4qLwKfNP6wQ8Wnk2p3y8FA1EYsZLxZZD4cIKaXHzbD3+8ztV865o8nxR/
-   1VbNZ6abFacWyhEX4wPm01C0E6vT7JbjBzICe1FCwc1AJNp62UWIL7KwV
-   Lak9sy/ykfYL75dbzg57AurHsM1PmU+JF7JQAbPnyWv9b4wwtA46HBklZ
-   dl+2D7aCLmpC0b76pecW6/lTbN9TN35Kr2NVW2oxjyBqn6IQl3KBbj7Ee
-   w==;
-X-CSE-ConnectionGUID: I5BYVdF5SZ23EUpdibbTgA==
-X-CSE-MsgGUID: 4s63/IDyQvKp1mYqLA8GQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22629607"
+  bh=8e+GGS4BPqGaVLgxBOJMep6vX8T3XBnKi9IxnfxAzuA=;
+  b=TrhZBPpupdnMGaSSjV65loqoKDoLhop+4wL0dPAfxM/nr9KrASAmcPZ1
+   kT65Xba7El0eOmi3yfSFnJxuTWg+uGSEpjxUPC/IFMXEj2+LWsjPlyt2O
+   PPCK5qUjO0VUBzy1EhL4zHobwEHFNUmLShVET8SY7YUGRfk4exLp8SSq8
+   ENjeQbGVP2amDH6fCydpuSvnq28JjkX7Zt/VEqbxTYPbgSU10PszOo2ts
+   4I/FDcFVpj77hpSxmT7/KBMOr9s/lxu+W7okDuDdv+zZhwvMs6ROXpu+r
+   Yb2kjYYfNV2c8Th2tQwc9x184+4LnprUNXsaUHpa1c8m7dyZsxbB6t2kU
+   g==;
+X-CSE-ConnectionGUID: 81SYn/IkSTOL+IruiULuTw==
+X-CSE-MsgGUID: cMUnKZkWRWm/xhxwBpg+GQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="25386503"
 X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="22629607"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 09:05:45 -0700
-X-CSE-ConnectionGUID: tULH51kwRcWa53nvHuKgmw==
-X-CSE-MsgGUID: z1vc/5A1QVuLZlxBmaqCnw==
+   d="scan'208";a="25386503"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 09:36:46 -0700
+X-CSE-ConnectionGUID: j7hFI+l+QHC+5c6QYfb1LQ==
+X-CSE-MsgGUID: altp5CM9RY+DrwVgQshrFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,162,1719903600"; 
-   d="scan'208";a="61550820"
+   d="scan'208";a="91507761"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Aug 2024 09:05:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 20 Aug 2024 09:36:45 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sgRMb-000ANw-2a;
-	Tue, 20 Aug 2024 16:05:41 +0000
-Date: Wed, 21 Aug 2024 00:05:27 +0800
+	id 1sgRqc-000APW-2F;
+	Tue, 20 Aug 2024 16:36:42 +0000
+Date: Wed, 21 Aug 2024 00:35:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 303/447]
- drivers/net/wireless/ath/ath6kl/debug.c:1077 ath6kl_regwrite_write() warn:
- potential spectre issue 'buf' [w]
-Message-ID: <202408202320.4Kc7PlN5-lkp@intel.com>
+Subject: Re: [PATCH dlm/next 10/12] dlm: separate dlm lockspaces per
+ net-namespace
+Message-ID: <202408210031.QCBHr27k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,255 +64,122 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240819183742.2263895-11-aahringo@redhat.com>
+References: <20240819183742.2263895-11-aahringo@redhat.com>
+TO: Alexander Aring <aahringo@redhat.com>
+TO: teigland@redhat.com
+CC: gfs2@lists.linux.dev
+CC: song@kernel.org
+CC: yukuai3@huawei.com
+CC: agruenba@redhat.com
+CC: mark@fasheh.com
+CC: jlbec@evilplan.org
+CC: joseph.qi@linux.alibaba.com
+CC: gregkh@linuxfoundation.org
+CC: rafael@kernel.org
+CC: akpm@linux-foundation.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-raid@vger.kernel.org
+CC: ocfs2-devel@lists.linux.dev
+CC: netdev@vger.kernel.org
+CC: vvidic@valentin-vidic.from.hr
+CC: heming.zhao@suse.com
+CC: lucien.xin@gmail.com
+CC: aahringo@redhat.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   2e5eb501c913b2c9440308f4afe547f0cb6a7678
-commit: dc12b935152047b1e7b1fedab6f1860bd79b7228 [303/447] drivers/net/wireless/ath/ath6kl: convert to read/write iterators
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240820 (https://download.01.org/0day-ci/archive/20240820/202408202320.4Kc7PlN5-lkp@intel.com/config)
+Hi Alexander,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on teigland-dlm/next]
+[also build test WARNING on next-20240820]
+[cannot apply to gfs2/for-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.11-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Aring/dlm-introduce-dlm_find_lockspace_name/20240820-024440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/teigland/linux-dlm.git next
+patch link:    https://lore.kernel.org/r/20240819183742.2263895-11-aahringo%40redhat.com
+patch subject: [PATCH dlm/next 10/12] dlm: separate dlm lockspaces per net-namespace
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: x86_64-randconfig-161-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210031.QCBHr27k-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408202320.4Kc7PlN5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408210031.QCBHr27k-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/ath/ath6kl/debug.c:1077 ath6kl_regwrite_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1227 ath6kl_force_roam_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1258 ath6kl_roam_mode_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1391 ath6kl_create_qos_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1568 ath6kl_delete_qos_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1614 ath6kl_bgscan_int_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1653 ath6kl_listen_int_write() warn: potential spectre issue 'buf' [w]
-drivers/net/wireless/ath/ath6kl/debug.c:1705 ath6kl_power_params_write() warn: potential spectre issue 'buf' [w]
+New smatch warnings:
+fs/dlm/lock.c:4989 dlm_receive_buffer() error: we previously assumed 'ls' could be null (see line 4988)
 
-vim +/buf +1077 drivers/net/wireless/ath/ath6kl/debug.c
+Old smatch warnings:
+fs/dlm/lock.c:5646 dlm_recover_master_copy() error: we previously assumed 'lkb' could be null (see line 5635)
 
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1063  
-dc12b935152047b Jens Axboe                2024-04-08  1064  static ssize_t ath6kl_regwrite_write(struct kiocb *iocb, struct iov_iter *from)
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1065  {
-dc12b935152047b Jens Axboe                2024-04-08  1066  	struct ath6kl *ar = iocb->ki_filp->private_data;
-dc12b935152047b Jens Axboe                2024-04-08  1067  	size_t count = iov_iter_count(from);
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1068  	char buf[32];
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1069  	char *sptr, *token;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1070  	unsigned int len = 0;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1071  	u32 reg_addr, reg_val;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1072  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1073  	len = min(count, sizeof(buf) - 1);
-dc12b935152047b Jens Axboe                2024-04-08  1074  	if (!copy_from_iter_full(buf, len, from))
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1075  		return -EFAULT;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1076  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05 @1077  	buf[len] = '\0';
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1078  	sptr = buf;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1079  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1080  	token = strsep(&sptr, "=");
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1081  	if (!token)
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1082  		return -EINVAL;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1083  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1084  	if (kstrtou32(token, 0, &reg_addr))
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1085  		return -EINVAL;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1086  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1087  	if (!ath6kl_dbg_is_diag_reg_valid(reg_addr))
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1088  		return -EINVAL;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1089  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1090  	if (kstrtou32(sptr, 0, &reg_val))
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1091  		return -EINVAL;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1092  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1093  	ar->debug.diag_reg_addr_wr = reg_addr;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1094  	ar->debug.diag_reg_val_wr = reg_val;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1095  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1096  	if (ath6kl_diag_write32(ar, ar->debug.diag_reg_addr_wr,
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1097  				cpu_to_le32(ar->debug.diag_reg_val_wr)))
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1098  		return -EIO;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1099  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1100  	return count;
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1101  }
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1102  
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1103  static const struct file_operations fops_diag_reg_write = {
-dc12b935152047b Jens Axboe                2024-04-08  1104  	.read_iter = ath6kl_regwrite_read,
-dc12b935152047b Jens Axboe                2024-04-08  1105  	.write_iter = ath6kl_regwrite_write,
-234e34058290121 Stephen Boyd              2012-04-05  1106  	.open = simple_open,
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1107  	.owner = THIS_MODULE,
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1108  	.llseek = default_llseek,
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1109  };
-252c068b9fba574 Vasanthakumar Thiagarajan 2011-09-05  1110  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1111  int ath6kl_debug_roam_tbl_event(struct ath6kl *ar, const void *buf,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1112  				size_t len)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1113  {
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1114  	const struct wmi_target_roam_tbl *tbl;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1115  	u16 num_entries;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1116  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1117  	if (len < sizeof(*tbl))
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1118  		return -EINVAL;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1119  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1120  	tbl = (const struct wmi_target_roam_tbl *) buf;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1121  	num_entries = le16_to_cpu(tbl->num_entries);
-df75786b9233be9 Gustavo A. R. Silva       2019-04-03  1122  	if (struct_size(tbl, info, num_entries) > len)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1123  		return -EINVAL;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1124  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1125  	if (ar->debug.roam_tbl == NULL ||
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1126  	    ar->debug.roam_tbl_len < (unsigned int) len) {
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1127  		kfree(ar->debug.roam_tbl);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1128  		ar->debug.roam_tbl = kmalloc(len, GFP_ATOMIC);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1129  		if (ar->debug.roam_tbl == NULL)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1130  			return -ENOMEM;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1131  	}
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1132  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1133  	memcpy(ar->debug.roam_tbl, buf, len);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1134  	ar->debug.roam_tbl_len = len;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1135  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1136  	if (test_bit(ROAM_TBL_PEND, &ar->flag)) {
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1137  		clear_bit(ROAM_TBL_PEND, &ar->flag);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1138  		wake_up(&ar->event_wq);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1139  	}
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1140  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1141  	return 0;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1142  }
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1143  
-dc12b935152047b Jens Axboe                2024-04-08  1144  static ssize_t ath6kl_roam_table_read(struct kiocb *iocb, struct iov_iter *to)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1145  {
-dc12b935152047b Jens Axboe                2024-04-08  1146  	struct ath6kl *ar = iocb->ki_filp->private_data;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1147  	int ret;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1148  	long left;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1149  	struct wmi_target_roam_tbl *tbl;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1150  	u16 num_entries, i;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1151  	char *buf;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1152  	unsigned int len, buf_len;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1153  	ssize_t ret_cnt;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1154  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1155  	if (down_interruptible(&ar->sem))
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1156  		return -EBUSY;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1157  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1158  	set_bit(ROAM_TBL_PEND, &ar->flag);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1159  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1160  	ret = ath6kl_wmi_get_roam_tbl_cmd(ar->wmi);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1161  	if (ret) {
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1162  		up(&ar->sem);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1163  		return ret;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1164  	}
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1165  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1166  	left = wait_event_interruptible_timeout(
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1167  		ar->event_wq, !test_bit(ROAM_TBL_PEND, &ar->flag), WMI_TIMEOUT);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1168  	up(&ar->sem);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1169  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1170  	if (left <= 0)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1171  		return -ETIMEDOUT;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1172  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1173  	if (ar->debug.roam_tbl == NULL)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1174  		return -ENOMEM;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1175  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1176  	tbl = (struct wmi_target_roam_tbl *) ar->debug.roam_tbl;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1177  	num_entries = le16_to_cpu(tbl->num_entries);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1178  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1179  	buf_len = 100 + num_entries * 100;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1180  	buf = kzalloc(buf_len, GFP_KERNEL);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1181  	if (buf == NULL)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1182  		return -ENOMEM;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1183  	len = 0;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1184  	len += scnprintf(buf + len, buf_len - len,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1185  			 "roam_mode=%u\n\n"
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1186  			 "# roam_util bssid rssi rssidt last_rssi util bias\n",
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1187  			 le16_to_cpu(tbl->roam_mode));
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1188  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1189  	for (i = 0; i < num_entries; i++) {
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1190  		struct wmi_bss_roam_info *info = &tbl->info[i];
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1191  		len += scnprintf(buf + len, buf_len - len,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1192  				 "%d %pM %d %d %d %d %d\n",
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1193  				 a_sle32_to_cpu(info->roam_util), info->bssid,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1194  				 info->rssi, info->rssidt, info->last_rssi,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1195  				 info->util, info->bias);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1196  	}
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1197  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1198  	if (len > buf_len)
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1199  		len = buf_len;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1200  
-dc12b935152047b Jens Axboe                2024-04-08  1201  	ret_cnt = simple_copy_to_iter(buf, &iocb->ki_pos, len, to);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1202  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1203  	kfree(buf);
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1204  	return ret_cnt;
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1205  }
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1206  
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1207  static const struct file_operations fops_roam_table = {
-dc12b935152047b Jens Axboe                2024-04-08  1208  	.read_iter = ath6kl_roam_table_read,
-234e34058290121 Stephen Boyd              2012-04-05  1209  	.open = simple_open,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1210  	.owner = THIS_MODULE,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1211  	.llseek = default_llseek,
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1212  };
-4b28a80dd6713c4 Jouni Malinen             2011-10-11  1213  
-dc12b935152047b Jens Axboe                2024-04-08  1214  static ssize_t ath6kl_force_roam_write(struct kiocb *iocb,
-dc12b935152047b Jens Axboe                2024-04-08  1215  				       struct iov_iter *from)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1216  {
-dc12b935152047b Jens Axboe                2024-04-08  1217  	struct ath6kl *ar = iocb->ki_filp->private_data;
-dc12b935152047b Jens Axboe                2024-04-08  1218  	size_t count = iov_iter_count(from);
-1261875f7a0a22d Jouni Malinen             2011-10-11  1219  	int ret;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1220  	char buf[20];
-1261875f7a0a22d Jouni Malinen             2011-10-11  1221  	size_t len;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1222  	u8 bssid[ETH_ALEN];
-1261875f7a0a22d Jouni Malinen             2011-10-11  1223  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1224  	len = min(count, sizeof(buf) - 1);
-dc12b935152047b Jens Axboe                2024-04-08  1225  	if (!copy_from_iter_full(buf, len, from))
-1261875f7a0a22d Jouni Malinen             2011-10-11  1226  		return -EFAULT;
-1261875f7a0a22d Jouni Malinen             2011-10-11 @1227  	buf[len] = '\0';
-1261875f7a0a22d Jouni Malinen             2011-10-11  1228  
-ade983307453cf6 Andy Shevchenko           2013-04-25  1229  	if (!mac_pton(buf, bssid))
-1261875f7a0a22d Jouni Malinen             2011-10-11  1230  		return -EINVAL;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1231  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1232  	ret = ath6kl_wmi_force_roam_cmd(ar->wmi, bssid);
-1261875f7a0a22d Jouni Malinen             2011-10-11  1233  	if (ret)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1234  		return ret;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1235  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1236  	return count;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1237  }
-1261875f7a0a22d Jouni Malinen             2011-10-11  1238  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1239  static const struct file_operations fops_force_roam = {
-dc12b935152047b Jens Axboe                2024-04-08  1240  	.write_iter = ath6kl_force_roam_write,
-234e34058290121 Stephen Boyd              2012-04-05  1241  	.open = simple_open,
-1261875f7a0a22d Jouni Malinen             2011-10-11  1242  	.owner = THIS_MODULE,
-1261875f7a0a22d Jouni Malinen             2011-10-11  1243  	.llseek = default_llseek,
-1261875f7a0a22d Jouni Malinen             2011-10-11  1244  };
-1261875f7a0a22d Jouni Malinen             2011-10-11  1245  
-dc12b935152047b Jens Axboe                2024-04-08  1246  static ssize_t ath6kl_roam_mode_write(struct kiocb *iocb, struct iov_iter *from)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1247  {
-dc12b935152047b Jens Axboe                2024-04-08  1248  	struct ath6kl *ar = iocb->ki_filp->private_data;
-dc12b935152047b Jens Axboe                2024-04-08  1249  	size_t count = iov_iter_count(from);
-1261875f7a0a22d Jouni Malinen             2011-10-11  1250  	int ret;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1251  	char buf[20];
-1261875f7a0a22d Jouni Malinen             2011-10-11  1252  	size_t len;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1253  	enum wmi_roam_mode mode;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1254  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1255  	len = min(count, sizeof(buf) - 1);
-dc12b935152047b Jens Axboe                2024-04-08  1256  	if (!copy_from_iter_full(buf, len, from))
-1261875f7a0a22d Jouni Malinen             2011-10-11  1257  		return -EFAULT;
-1261875f7a0a22d Jouni Malinen             2011-10-11 @1258  	buf[len] = '\0';
-1261875f7a0a22d Jouni Malinen             2011-10-11  1259  	if (len > 0 && buf[len - 1] == '\n')
-1261875f7a0a22d Jouni Malinen             2011-10-11  1260  		buf[len - 1] = '\0';
-1261875f7a0a22d Jouni Malinen             2011-10-11  1261  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1262  	if (strcasecmp(buf, "default") == 0)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1263  		mode = WMI_DEFAULT_ROAM_MODE;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1264  	else if (strcasecmp(buf, "bssbias") == 0)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1265  		mode = WMI_HOST_BIAS_ROAM_MODE;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1266  	else if (strcasecmp(buf, "lock") == 0)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1267  		mode = WMI_LOCK_BSS_MODE;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1268  	else
-1261875f7a0a22d Jouni Malinen             2011-10-11  1269  		return -EINVAL;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1270  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1271  	ret = ath6kl_wmi_set_roam_mode_cmd(ar->wmi, mode);
-1261875f7a0a22d Jouni Malinen             2011-10-11  1272  	if (ret)
-1261875f7a0a22d Jouni Malinen             2011-10-11  1273  		return ret;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1274  
-1261875f7a0a22d Jouni Malinen             2011-10-11  1275  	return count;
-1261875f7a0a22d Jouni Malinen             2011-10-11  1276  }
-1261875f7a0a22d Jouni Malinen             2011-10-11  1277  
+vim +/ls +4989 fs/dlm/lock.c
 
-:::::: The code at line 1077 was first introduced by commit
-:::::: 252c068b9fba57493940af344b6d92ee3c278941 ath6kl: Add debugfs support to write a chip register
-
-:::::: TO: Vasanthakumar Thiagarajan <vthiagar@qca.qualcomm.com>
-:::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
+c36258b5925e6c David Teigland  2007-09-27  4955  
+c36258b5925e6c David Teigland  2007-09-27  4956  /* This is called by the midcomms layer when something is received for
+c36258b5925e6c David Teigland  2007-09-27  4957     the lockspace.  It could be either a MSG (normal message sent as part of
+c36258b5925e6c David Teigland  2007-09-27  4958     standard locking activity) or an RCOM (recovery message sent as part of
+c36258b5925e6c David Teigland  2007-09-27  4959     lockspace recovery). */
+c36258b5925e6c David Teigland  2007-09-27  4960  
+bde0f4dba584ae Alexander Aring 2024-08-19  4961  void dlm_receive_buffer(struct dlm_net *dn, const union dlm_packet *p,
+bde0f4dba584ae Alexander Aring 2024-08-19  4962  			int nodeid)
+c36258b5925e6c David Teigland  2007-09-27  4963  {
+1151935182b40b Alexander Aring 2023-08-01  4964  	const struct dlm_header *hd = &p->header;
+c36258b5925e6c David Teigland  2007-09-27  4965  	struct dlm_ls *ls;
+c36258b5925e6c David Teigland  2007-09-27  4966  	int type = 0;
+c36258b5925e6c David Teigland  2007-09-27  4967  
+c36258b5925e6c David Teigland  2007-09-27  4968  	switch (hd->h_cmd) {
+c36258b5925e6c David Teigland  2007-09-27  4969  	case DLM_MSG:
+00e99ccde75722 Alexander Aring 2022-04-04  4970  		type = le32_to_cpu(p->message.m_type);
+c36258b5925e6c David Teigland  2007-09-27  4971  		break;
+c36258b5925e6c David Teigland  2007-09-27  4972  	case DLM_RCOM:
+2f9dbeda8dc04b Alexander Aring 2022-04-04  4973  		type = le32_to_cpu(p->rcom.rc_type);
+c36258b5925e6c David Teigland  2007-09-27  4974  		break;
+c36258b5925e6c David Teigland  2007-09-27  4975  	default:
+c36258b5925e6c David Teigland  2007-09-27  4976  		log_print("invalid h_cmd %d from %u", hd->h_cmd, nodeid);
+c36258b5925e6c David Teigland  2007-09-27  4977  		return;
+c36258b5925e6c David Teigland  2007-09-27  4978  	}
+c36258b5925e6c David Teigland  2007-09-27  4979  
+3428785a65dabf Alexander Aring 2022-04-04  4980  	if (le32_to_cpu(hd->h_nodeid) != nodeid) {
+c36258b5925e6c David Teigland  2007-09-27  4981  		log_print("invalid h_nodeid %d from %d lockspace %x",
+3428785a65dabf Alexander Aring 2022-04-04  4982  			  le32_to_cpu(hd->h_nodeid), nodeid,
+3428785a65dabf Alexander Aring 2022-04-04  4983  			  le32_to_cpu(hd->u.h_lockspace));
+c36258b5925e6c David Teigland  2007-09-27  4984  		return;
+c36258b5925e6c David Teigland  2007-09-27  4985  	}
+c36258b5925e6c David Teigland  2007-09-27  4986  
+bde0f4dba584ae Alexander Aring 2024-08-19  4987  	ls = dlm_find_lockspace_global(dn, le32_to_cpu(hd->u.h_lockspace));
+c36258b5925e6c David Teigland  2007-09-27 @4988  	if (!ls) {
+bde0f4dba584ae Alexander Aring 2024-08-19 @4989  		log_limit(ls, "dlm: invalid lockspace %u from %d cmd %d type %d\n",
+3428785a65dabf Alexander Aring 2022-04-04  4990  			  le32_to_cpu(hd->u.h_lockspace), nodeid,
+3428785a65dabf Alexander Aring 2022-04-04  4991  			  hd->h_cmd, type);
+c36258b5925e6c David Teigland  2007-09-27  4992  
+c36258b5925e6c David Teigland  2007-09-27  4993  		if (hd->h_cmd == DLM_RCOM && type == DLM_RCOM_STATUS)
+bde0f4dba584ae Alexander Aring 2024-08-19  4994  			dlm_send_ls_not_ready(dn, nodeid, &p->rcom);
+c36258b5925e6c David Teigland  2007-09-27  4995  		return;
+c36258b5925e6c David Teigland  2007-09-27  4996  	}
+c36258b5925e6c David Teigland  2007-09-27  4997  
+c36258b5925e6c David Teigland  2007-09-27  4998  	/* this rwsem allows dlm_ls_stop() to wait for all dlm_recv threads to
+c36258b5925e6c David Teigland  2007-09-27  4999  	   be inactive (in this ls) before transitioning to recovery mode */
+c36258b5925e6c David Teigland  2007-09-27  5000  
+578acf9a87a875 Alexander Aring 2024-04-02  5001  	read_lock_bh(&ls->ls_recv_active);
+c36258b5925e6c David Teigland  2007-09-27  5002  	if (hd->h_cmd == DLM_MSG)
+eef7d739c218cb Al Viro         2008-01-25  5003  		dlm_receive_message(ls, &p->message, nodeid);
+f45307d395da7a Alexander Aring 2022-08-15  5004  	else if (hd->h_cmd == DLM_RCOM)
+eef7d739c218cb Al Viro         2008-01-25  5005  		dlm_receive_rcom(ls, &p->rcom, nodeid);
+f45307d395da7a Alexander Aring 2022-08-15  5006  	else
+f45307d395da7a Alexander Aring 2022-08-15  5007  		log_error(ls, "invalid h_cmd %d from %d lockspace %x",
+f45307d395da7a Alexander Aring 2022-08-15  5008  			  hd->h_cmd, nodeid, le32_to_cpu(hd->u.h_lockspace));
+578acf9a87a875 Alexander Aring 2024-04-02  5009  	read_unlock_bh(&ls->ls_recv_active);
+c36258b5925e6c David Teigland  2007-09-27  5010  
+c36258b5925e6c David Teigland  2007-09-27  5011  	dlm_put_lockspace(ls);
+c36258b5925e6c David Teigland  2007-09-27  5012  }
+e7fd41792fc0ee David Teigland  2006-01-18  5013  
 
 -- 
 0-DAY CI Kernel Test Service
