@@ -1,169 +1,212 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB392165EE1
-	for <oe-kbuild@lists.linux.dev>; Tue, 20 Aug 2024 22:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5930179CD
+	for <oe-kbuild@lists.linux.dev>; Wed, 21 Aug 2024 06:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724194439; cv=none; b=gbqG4EsIby/QwYPecDYS/51ulAq7UqxZq8BJT+fduOMPXzym3xD5VEy8S8W1fsKPzBvKyBiZO9QPV6JCYLG/zWOJR69RqigVDXIBQrqxN7IwPzx05t2dzeImKUdvfXxrdKXz9GkDkiBiYSTd0lazEDVX2xs1KLA1jEJgApvLV6E=
+	t=1724222334; cv=none; b=Ksrmy939RwM4j3YDI4oTPZh0cowlL1iD4nOZgRz3ZByCHLCA5YUlydhR6s9GvBuZIvbT0eORj7C7VMioyN1M6ZAsb3gMk/77+t/NDpgFKqzfoGgzLMCtRukMIupgXeAAeNCr/5ZKvA/UaetdHTGi+SH+QBsXX/UFgVDGbxyyzVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724194439; c=relaxed/simple;
-	bh=jBEj8kLKdLUHWv9jmrMJ4Y/RWUVSWTpMcEd8G9KA1ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uff/7t0/UhI+aRVG9qj9VtKXm3fVIEz1mDA4DqVB14gMalzUM/LjDQ8Clg40PKDULarUND3UUQEfLWOOpi29O+t+fDzXPRFR7/ztCEen3n2xaDRccktr3iAmN84UVcUI+y6QJfbixHmdSWKqpVN0KpMASntEM8gPRdD4ybgPpQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRJM60fS; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724222334; c=relaxed/simple;
+	bh=NuNotkUpmVr5M7KLQJKFTYO5TR6/3YjlrWws6ZnLBkU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oj9zC0JQe7JCrrW4hetJkwWZS+HVXHUeMNpiEB9NHakrnif/dYKxe+auJG0cbQ81ePkkmzdKh96w7VotGohM2g8kPEWRkuH8I/dYEDaVmotgzSV4m4sYK+e1KT+AgRGvbz0prudDSlf5uAP0Po4FrJV9ezv5tvCCg89whdW3oNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Yq7xK2yz; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRJM60fS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724194438; x=1755730438;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jBEj8kLKdLUHWv9jmrMJ4Y/RWUVSWTpMcEd8G9KA1ys=;
-  b=HRJM60fS2NcCwesyCEhfxy43kMGwH5WGF5NW8dvi3Lu1EWwWq125NlB7
-   DOtxlK0vyhB4HZUKcAFs2Pg3rYgY2CtJy5XPQ0gYvXJtuhiNIy5U+NEFp
-   0Qfax/MY6vKSnpjdFKsHYNv5MTjaxJqcj/wh7R7i36qzS/X87tK/SZ0Ju
-   ThlZgEYc8RyjmAbu4TWorcB2YW+u5fffboK68/J2IdP6b2w1+o1lWJ2mV
-   3xM57keq6AJmxOzllbd94GfWPLLCCY+o0Ml5GUbsCugKV+kuBMa0tWxHy
-   D4ATGinptcz7Zcv+DJw37Y/8IzQw/NJxPleePlsOaPXh3gwJfKV7xD/xc
-   g==;
-X-CSE-ConnectionGUID: zF3jK/xmRGOHjAvA6vslqw==
-X-CSE-MsgGUID: zVKwv/JsQaOYsRQnvitDJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="13121034"
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="13121034"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2024 15:53:57 -0700
-X-CSE-ConnectionGUID: sVodCnz4Qn+QpiUoEkpohw==
-X-CSE-MsgGUID: GpF7/24fTyi1mqCV13fHCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,163,1719903600"; 
-   d="scan'208";a="60593713"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Aug 2024 15:53:56 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgXje-000Afc-0Y;
-	Tue, 20 Aug 2024 22:53:54 +0000
-Date: Wed, 21 Aug 2024 06:53:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net-next 03/13] virtio_ring: packed: harden dma unmap for
- indirect
-Message-ID: <202408210655.dx8v5uRW-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yq7xK2yz"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-710d0995e21so4725243b3a.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 20 Aug 2024 23:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1724222332; x=1724827132; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C2iigsI7hhZq9AkN6DbG2RJZY0TZnZirtCzRxJ73tUk=;
+        b=Yq7xK2yz0c4nXIMyQbavFExWnCwjT51D+1h4CQeJQV3DfccL00+U7VX+rgUm1vDJlQ
+         J+kMGZBkN+ZL6mGc+t6NQXG7r9/UQFqxKrarmrbCCAZO4bnvYrEsPl1J7XrTZTPGEaG3
+         Bh41qJX8WFOsC5kkXycpa5oo1JgaBllGRxbq0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724222332; x=1724827132;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2iigsI7hhZq9AkN6DbG2RJZY0TZnZirtCzRxJ73tUk=;
+        b=j9aZrR+Ms8/+pSa2JGT6QELHQ3RXZXyplpr3eUD3cF2SJUOcnKt2GdaR5gZwEBkqXn
+         wWgrqPMwS/dK4iuxOOfgbXd9jNrFeP8BxmHdmYNrXoLo95jLXwJuT5SLar/+2IpYiKoy
+         /KPXSQ8g0CQHRyuQr09svDNUSV6DDF2bO6FEmVnQHTVR1rI+ISNhbtdkoU9nkp0wyEBI
+         4QaaNwAKC5hUsjDQqLzeme6KKnXz2JGkTaE9EdQYRpKpQsGykuLIWcl/P0cMlBB7g0Zm
+         DwU/7j/MztOPHJGWjNB6M6kGSo1qjUSdeyrJ8NHUdAqwMfI68l8Gw1ZDY+8Jo7oLqP0U
+         Fctg==
+X-Gm-Message-State: AOJu0YxEU7IxxLcGeH5ZBaH7wbxmUbFhf5jITXbiB5n5pr+wRJZCzsJ3
+	J/B8I0D2SkhjCRzbNsdChMAR4B0/4/QMzFOGv3fnq6+LrrWFASkL/nESWFt/Lyg=
+X-Google-Smtp-Source: AGHT+IFRKnIKG1s4rMDH2dGf5FKh9xY5NhSyU51zLqbxWl+SRmpeERecIpIdR4LnXr2e2Ee8rNrJng==
+X-Received: by 2002:a05:6a00:148a:b0:70b:1c97:bbf3 with SMTP id d2e1a72fcca58-714235ab39dmr1864318b3a.28.1724222331500;
+        Tue, 20 Aug 2024 23:38:51 -0700 (PDT)
+Received: from [172.20.0.208] ([218.188.70.188])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714200c3bdfsm990255b3a.195.2024.08.20.23.38.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 23:38:51 -0700 (PDT)
+Message-ID: <7bf93dfd-1536-438c-9ffd-f7dcfce0b3f5@linuxfoundation.org>
+Date: Wed, 21 Aug 2024 00:38:48 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd()
+ warn: passing a valid pointer to 'PTR_ERR'
+To: Al Viro <viro@zeniv.linux.org.uk>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+ <20240813181600.GK13701@ZenIV> <20240814010321.GL13701@ZenIV>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240814010321.GL13701@ZenIV>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240820073330.9161-4-xuanzhuo@linux.alibaba.com>
-References: <20240820073330.9161-4-xuanzhuo@linux.alibaba.com>
-TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-TO: netdev@vger.kernel.org
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>
-CC: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-CC: "Eugenio Pérez" <eperezma@redhat.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
-CC: Jesper Dangaard Brouer <hawk@kernel.org>
-CC: John Fastabend <john.fastabend@gmail.com>
-CC: virtualization@lists.linux.dev
-CC: bpf@vger.kernel.org
+On 8/13/24 19:03, Al Viro wrote:
+> On Tue, Aug 13, 2024 at 07:16:00PM +0100, Al Viro wrote:
+>> On Tue, Aug 13, 2024 at 11:00:04AM +0300, Dan Carpenter wrote:
+>>> 3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
+>>> 3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
+>>> 3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
+>>>                                                                                 ^^^^^^^^^^^^^^^^
+>>> 	err = PTR_ERR(*new_fdp);
+>>> 	*new_fdp = NULL;
+>>> 	return err;
+>>
+>> Argh...  Obvious braino, but what it shows is that failures of that
+>> thing are not covered by anything in e.g. LTP.  Or in-kernel
+>> self-tests, for that matter...
+> 
+> FWIW, this does exercise that codepath, but I would really like to
+> have kselftest folks to comment on the damn thing - I'm pretty sure
+> that it's _not_ a good style for those.
 
-Hi Xuan,
+Looks good to me. Would you be able to send a patch for this new test?
 
-kernel test robot noticed the following build warnings:
+> 
+> diff --git a/tools/testing/selftests/core/Makefile b/tools/testing/selftests/core/Makefile
+> index ce262d097269..8e99f87f5d7c 100644
+> --- a/tools/testing/selftests/core/Makefile
+> +++ b/tools/testing/selftests/core/Makefile
+> @@ -1,7 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   CFLAGS += -g $(KHDR_INCLUDES)
+>   
+> -TEST_GEN_PROGS := close_range_test
+> +TEST_GEN_PROGS := close_range_test unshare_test
+>   
+>   include ../lib.mk
+>   
+> diff --git a/tools/testing/selftests/core/unshare_test.c b/tools/testing/selftests/core/unshare_test.c
+> new file mode 100644
+> index 000000000000..7fec9dfb1b0e
+> --- /dev/null
+> +++ b/tools/testing/selftests/core/unshare_test.c
+> @@ -0,0 +1,94 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#define _GNU_SOURCE
+> +#include <errno.h>
+> +#include <fcntl.h>
+> +#include <linux/kernel.h>
+> +#include <limits.h>
+> +#include <stdbool.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <syscall.h>
+> +#include <unistd.h>
+> +#include <sys/resource.h>
+> +#include <linux/close_range.h>
+> +
+> +#include "../kselftest_harness.h"
+> +#include "../clone3/clone3_selftests.h"
+> +
+> +TEST(unshare_EMFILE)
+> +{
+> +	pid_t pid;
+> +	int status;
+> +	struct __clone_args args = {
+> +		.flags = CLONE_FILES,
+> +		.exit_signal = SIGCHLD,
+> +	};
+> +	int fd;
+> +	ssize_t n, n2;
+> +	static char buf[512], buf2[512];
+> +	struct rlimit rlimit;
+> +	int nr_open;
+> +
+> +	fd = open("/proc/sys/fs/nr_open", O_RDWR);
+> +	ASSERT_GE(fd, 0);
+> +
+> +	n = read(fd, buf, sizeof(buf));
+> +	ASSERT_GT(n, 0);
+> +	ASSERT_EQ(buf[n - 1], '\n');
+> +
+> +	ASSERT_EQ(sscanf(buf, "%d", &nr_open), 1);
+> +
+> +	ASSERT_EQ(0, getrlimit(RLIMIT_NOFILE, &rlimit));
+> +
+> +	/* bump fs.nr_open */
+> +	n2 = sprintf(buf2, "%d\n", nr_open + 1024);
+> +	lseek(fd, 0, SEEK_SET);
+> +	write(fd, buf2, n2);
+> +
+> +	/* bump ulimit -n */
+> +	rlimit.rlim_cur = nr_open + 1024;
+> +	rlimit.rlim_max = nr_open + 1024;
+> +	EXPECT_EQ(0, setrlimit(RLIMIT_NOFILE, &rlimit)) {
+> +		lseek(fd, 0, SEEK_SET);
+> +		write(fd, buf, n);
+> +		exit(EXIT_FAILURE);
+> +	}
+> +
+> +	/* get a descriptor past the old fs.nr_open */
+> +	EXPECT_GE(dup2(2, nr_open + 64), 0) {
+> +		lseek(fd, 0, SEEK_SET);
+> +		write(fd, buf, n);
+> +		exit(EXIT_FAILURE);
+> +	}
+> +
+> +	/* get descriptor table shared */
+> +	pid = sys_clone3(&args, sizeof(args));
+> +	EXPECT_GE(pid, 0) {
+> +		lseek(fd, 0, SEEK_SET);
+> +		write(fd, buf, n);
+> +		exit(EXIT_FAILURE);
+> +	}
+> +
+> +	if (pid == 0) {
+> +		int err;
+> +
+> +		/* restore fs.nr_open */
+> +		lseek(fd, 0, SEEK_SET);
+> +		write(fd, buf, n);
+> +		/* ... and now unshare(CLONE_FILES) must fail with EMFILE */
+> +		err = unshare(CLONE_FILES);
+> +		EXPECT_EQ(err, -1)
+> +			exit(EXIT_FAILURE);
+> +		EXPECT_EQ(errno, EMFILE)
+> +			exit(EXIT_FAILURE);
+> +		exit(EXIT_SUCCESS);
+> +	}
+> +
+> +	EXPECT_EQ(waitpid(pid, &status, 0), pid);
+> +	EXPECT_EQ(true, WIFEXITED(status));
+> +	EXPECT_EQ(0, WEXITSTATUS(status));
+> +}
+> +
+> +TEST_HARNESS_MAIN
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Xuan-Zhuo/virtio_ring-introduce-vring_need_unmap_buffer/20240820-153644
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240820073330.9161-4-xuanzhuo%40linux.alibaba.com
-patch subject: [PATCH net-next 03/13] virtio_ring: packed: harden dma unmap for indirect
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: x86_64-randconfig-161-20240820 (https://download.01.org/0day-ci/archive/20240821/202408210655.dx8v5uRW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408210655.dx8v5uRW-lkp@intel.com/
-
-New smatch warnings:
-drivers/virtio/virtio_ring.c:1634 detach_buf_packed() error: uninitialized symbol 'desc'.
-
-Old smatch warnings:
-drivers/virtio/virtio_ring.c:1508 virtqueue_add_packed() error: uninitialized symbol 'prev'.
-drivers/virtio/virtio_ring.c:1516 virtqueue_add_packed() error: uninitialized symbol 'head_flags'.
-drivers/virtio/virtio_ring.c:636 virtqueue_add_split() error: uninitialized symbol 'prev'.
-
-vim +/desc +1634 drivers/virtio/virtio_ring.c
-
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1593  
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1594  static void detach_buf_packed(struct vring_virtqueue *vq,
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1595  			      unsigned int id, void **ctx)
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1596  {
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1597  	struct vring_desc_state_packed *state = NULL;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1598  	struct vring_packed_desc *desc;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1599  	unsigned int i, curr;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1600  
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1601  	state = &vq->packed.desc_state[id];
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1602  
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1603  	/* Clear data ptr. */
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1604  	state->data = NULL;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1605  
-aeef9b4733c5c2 Jason Wang 2021-06-04  1606  	vq->packed.desc_extra[state->last].next = vq->free_head;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1607  	vq->free_head = id;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1608  	vq->vq.num_free += state->num;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1609  
-d5c0ed17fea60c Xuan Zhuo  2024-02-23  1610  	if (unlikely(vq->use_dma_api)) {
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1611  		curr = id;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1612  		for (i = 0; i < state->num; i++) {
-d80dc15bb6e76a Xuan Zhuo  2022-02-24  1613  			vring_unmap_extra_packed(vq,
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1614  						 &vq->packed.desc_extra[curr]);
-aeef9b4733c5c2 Jason Wang 2021-06-04  1615  			curr = vq->packed.desc_extra[curr].next;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1616  		}
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1617  	}
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1618  
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1619  	if (vq->indirect) {
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1620  		struct vring_desc_extra *extra;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1621  		u32 len;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1622  
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1623  		/* Free the indirect table, if any, now that it's unmapped. */
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1624  		extra = state->indir;
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1625  		if (!extra)
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1626  			return;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1627  
-de6a29c4b4c442 Xuan Zhuo  2024-08-20  1628  		if (vring_need_unmap_buffer(vq)) {
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1629  			len = vq->packed.desc_extra[id].len;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1630  			for (i = 0; i < len / sizeof(struct vring_packed_desc);
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1631  					i++)
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1632  				vring_unmap_extra_packed(vq, &extra[i]);
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1633  		}
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21 @1634  		kfree(desc);
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1635  		state->indir = NULL;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1636  	} else if (ctx) {
-dfcc54f92ab71c Xuan Zhuo  2024-08-20  1637  		*ctx = state->indir;
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1638  	}
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1639  }
-1ce9e6055fa0a9 Tiwei Bie  2018-11-21  1640  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+thanks,
+-- Shuah
