@@ -1,183 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F4A208A7
-	for <oe-kbuild@lists.linux.dev>; Thu, 22 Aug 2024 03:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9AE1CFB9
+	for <oe-kbuild@lists.linux.dev>; Thu, 22 Aug 2024 04:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724298383; cv=none; b=LdV8d3EfpuQrRaIhek/UtOxhk8QjgdQb02Jn4MIkKlflD+aiwMto51fpgdp+1R9tBVf7HCLeO0ij3y+62zrWVYf7rL+LFux7fHnPobqDxevotReLxP5xoPzkbFI4Sty0gLg3gRipsuS/nUYM4gJgi/bcUyBRxu6lPzrAfzHxkrI=
+	t=1724299933; cv=none; b=FdCHyc4jsoHNLF6KLmdoojTybRZ1hnFnC8JrnJqQIZREQz4XzA4ie0UBqXOSwY7l4VpLEUu2Q1+m81SaPI61wflUad7sdRHO9NF6Emog7hlJcg8xWAjITdYkTf7vRoRCGr7lwATrJik44jt4d0hfhGsyD5vnbqYSxAFMRBUr0vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724298383; c=relaxed/simple;
-	bh=MnCHiGdA/bCgw1qiLJp3AQTXS4xxg440JBQsmXAVlyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T3tvIml1QfoX1O9BZ0RiFkwqBdSPyGeYm29xsrYJ5DuWvWyv7/IO/3PBWWwr5CNjWc3bxUCifN5mZy7rn0++L6K4PiJR4T7NVNijsSXq3U5w/cbxEIYQ+fBhnvvBKfsy+hUM7m00/BMUweRDKHy5pu9mQUDMEMye5yEUPLN9dKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CjRQSPsD; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724299933; c=relaxed/simple;
+	bh=xOPhVQYrdJ4/PDoSa4p+l+ZPMJkFYrTiJbXWbEjW7AU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UxEMx2fdQ3rpIVpbxiQLRq4e8u6wCrAH1KPpsZS5ZspFWiNNhFecaNwry9nr13TQH1Bni73F1YUs0/JgsxJIP6Ls9zmUXJIZR66ABLdTxlnmIblRTT4GC1r3IrJzFmnwSrq7b04q9qxdgnn9Tw7CjxMf1KsPLieEdTlkitAbqQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QkWqp0C2; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CjRQSPsD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724298381; x=1755834381;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MnCHiGdA/bCgw1qiLJp3AQTXS4xxg440JBQsmXAVlyw=;
-  b=CjRQSPsDc9KTnEoGONs0d/ApvyVTVpKjVD5Osf2fwPx9ByQTAoxUcAVJ
-   IRlYHJUny9lE12HpheAP+gzI4DjfKX40SV59TDkd3tkSF7/xZDYplDyJv
-   /sU4+BUqnL1jL29RFwzB4Kg8ALD4gB+rni51IvQCRJu0eZfdGsgwTFGSg
-   qTT/Me6ZOTr2mv7nnous4NaQQ2gJm6Zl87NcsxMIAH9P/rS0d09qSgDtP
-   XDn3SDqx+b4OgqMgW/sYRzuNPdsDpm25p8Bw8g3UUGEHoYdyI9US46oH/
-   21arnmj33QW47vITk7ebtIHcKH8GbeNgj4pATtSnBffjGmLzorD+rKUwS
-   g==;
-X-CSE-ConnectionGUID: m3DBDYtARKWCe2Dx6YWJzw==
-X-CSE-MsgGUID: DQIN1bqkS1i0OPJMkm+8Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11171"; a="40203749"
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="40203749"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 20:46:20 -0700
-X-CSE-ConnectionGUID: fNWHy12JRiG1AGZGSowXzQ==
-X-CSE-MsgGUID: N9Rr9hzFRbyyrz+QKvTiAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,165,1719903600"; 
-   d="scan'208";a="61010857"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Aug 2024 20:46:19 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sgym9-000CG8-0I;
-	Thu, 22 Aug 2024 03:46:17 +0000
-Date: Thu, 22 Aug 2024 11:45:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.12 86/89]
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000:
- glink-edge:fastrpc:label:0: 'cdsp1' is not one of ['adsp', 'mdsp', 'sdsp',
- 'cdsp']
-Message-ID: <202408221115.kXnMznxS-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QkWqp0C2"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2021c08b95cso11757235ad.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 21 Aug 2024 21:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1724299931; x=1724904731; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BZ+7VFwj048rHa5sI0hRAyf82MkJTEX7rTgiunMl8Iw=;
+        b=QkWqp0C2jJy9SBXUrEquUO0JQxJVST/Mesn0p2Z28AFem59SZtTwCzQLBvPTVh1Rvh
+         NGOjrxZ6IfeOPsGh1Vdb7R9s8hfF1H1CQb9xXnHXzFGNu7zIaFglzb5CJYV0XTsAXtkJ
+         8FUZYrCVk1Qi2PaFy2JcQIBwFMQ9kMcjZsEUw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724299931; x=1724904731;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BZ+7VFwj048rHa5sI0hRAyf82MkJTEX7rTgiunMl8Iw=;
+        b=ueDGXK2DygzCEnllg6VH1rs/DmMT6s0sAfAFjmoNrE1t/GrIg//aSYnaTkHLOMO6XK
+         xZzRjvCf+6xwkoHPfI5qSHComwBYrt4Ewg4ccTLSIkriAW6zoJaUvy3r6cNTINQGpd/J
+         75KavMQlm8254QEzzL/IEbW57DmFezqI6J4JQyAYQqtt5XwP4lH7qT5DRMItb+ue5MP0
+         qhIYzTlvbWj4pmm6oT+nv/WXWDrQtAN1vBT0AjY7WEqP26JxxOMFwYCEGm2atdV2HGrV
+         5vgPnMBwara1t7FgUjDllCo3z3HSQe4T3mnshlTJp2jgVadyXIY29VRVx0oBqoBYdDqD
+         FAUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWbLDpKybcnxh1u0+Jx/eP7S/UHGhJUuvZzBH8H2Sz1VL/7PIUs22yDrKwfBkkfelet6TrN+V25rT0=@lists.linux.dev
+X-Gm-Message-State: AOJu0YwoXR9GGD85v/dywDZUl9eLUfr/2L6DDwOs6U8BTmS7R16i/YXF
+	kRcTsW35FCVz5ORjyEY+uzNx/H8jewPpQLmVMQWkWC2Cc1+HvlhIQH+lRslM0oI=
+X-Google-Smtp-Source: AGHT+IGRqwd1qSXYME52HuFQ3VHz4GMr/UyGfyWGAuVueXYnT+iXnDJM2JUqBHJcdEIp3PdVneU4RQ==
+X-Received: by 2002:a17:903:230e:b0:202:2e81:27cd with SMTP id d9443c01a7336-2037fe175c4mr29988075ad.26.1724299931002;
+        Wed, 21 Aug 2024 21:12:11 -0700 (PDT)
+Received: from [172.20.0.208] ([218.188.70.188])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dd2ccsm3553645ad.156.2024.08.21.21.12.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 Aug 2024 21:12:10 -0700 (PDT)
+Message-ID: <5633b2e3-d673-4431-90b2-6c2f6b9acd47@linuxfoundation.org>
+Date: Wed, 21 Aug 2024 22:12:07 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [viro-vfs:work.fdtable 13/13] kernel/fork.c:3242 unshare_fd()
+ warn: passing a valid pointer to 'PTR_ERR'
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ Shuah Khan <shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>
+References: <020d5bd0-2fae-481f-bc82-88e71de1137c@stanley.mountain>
+ <20240813181600.GK13701@ZenIV> <20240814010321.GL13701@ZenIV>
+ <7bf93dfd-1536-438c-9ffd-f7dcfce0b3f5@linuxfoundation.org>
+ <20240822001536.GL504335@ZenIV>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240822001536.GL504335@ZenIV>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On 8/21/24 18:15, Al Viro wrote:
+> On Wed, Aug 21, 2024 at 12:38:48AM -0600, Shuah Khan wrote:
+>> On 8/13/24 19:03, Al Viro wrote:
+>>> On Tue, Aug 13, 2024 at 07:16:00PM +0100, Al Viro wrote:
+>>>> On Tue, Aug 13, 2024 at 11:00:04AM +0300, Dan Carpenter wrote:
+>>>>> 3f4b0acefd818e Al Viro           2024-08-06  3240  		if (IS_ERR(*new_fdp)) {
+>>>>> 3f4b0acefd818e Al Viro           2024-08-06  3241  			*new_fdp = NULL;
+>>>>> 3f4b0acefd818e Al Viro           2024-08-06 @3242  			return PTR_ERR(new_fdp);
+>>>>>                                                                                  ^^^^^^^^^^^^^^^^
+>>>>> 	err = PTR_ERR(*new_fdp);
+>>>>> 	*new_fdp = NULL;
+>>>>> 	return err;
+>>>>
+>>>> Argh...  Obvious braino, but what it shows is that failures of that
+>>>> thing are not covered by anything in e.g. LTP.  Or in-kernel
+>>>> self-tests, for that matter...
+>>>
+>>> FWIW, this does exercise that codepath, but I would really like to
+>>> have kselftest folks to comment on the damn thing - I'm pretty sure
+>>> that it's _not_ a good style for those.
+>>
+>> Looks good to me. Would you be able to send a patch for this new test?
+> 
+> Umm...  Send as in "mail somewhere specific", or as "push into vfs.git",
+> or...?
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-CC: Bjorn Andersson <andersson@kernel.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+If you can send the patch to kselftest mailing test, I can take this through
+my tree.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.12
-head:   cad5b06c1fc71fe98272b26031b0560770094970
-commit: b45af698d5114f9b666c7d8b58a9111d0526d7f7 [86/89] arm64: dts: qcom: sa8775p: fix the fastrpc label
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 days ago
-config: arm64-randconfig-053-20240821 (https://download.01.org/0day-ci/archive/20240822/202408221115.kXnMznxS-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
-dtschema version: 2024.6.dev10+ge5d88ac
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240822/202408221115.kXnMznxS-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408221115.kXnMznxS-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:label:0: 'cdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@1:iommus: [[42, 10561, 1184], [42, 10593, 1184], [42, 10625, 1024], [42, 10689, 1184], [42, 10721, 1184], [42, 11585, 1184], [42, 11617, 1184], [42, 11649, 1024], [42, 11713, 1184], [42, 11745, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@2:iommus: [[42, 10562, 1184], [42, 10594, 1184], [42, 10626, 1024], [42, 10690, 1184], [42, 10722, 1184], [42, 11586, 1184], [42, 11618, 1184], [42, 11650, 1024], [42, 11714, 1184], [42, 11746, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@3:iommus: [[42, 10563, 1184], [42, 10595, 1184], [42, 10627, 1024], [42, 10691, 1184], [42, 10723, 1184], [42, 11587, 1184], [42, 11619, 1184], [42, 11651, 1024], [42, 11715, 1184], [42, 11747, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@4:iommus: [[42, 10564, 1184], [42, 10596, 1184], [42, 10628, 1024], [42, 10692, 1184], [42, 10724, 1184], [42, 11588, 1184], [42, 11620, 1184], [42, 11652, 1024], [42, 11716, 1184], [42, 11748, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@5:iommus: [[42, 10565, 1184], [42, 10597, 1184], [42, 10629, 1024], [42, 10693, 1184], [42, 10725, 1184], [42, 11589, 1184], [42, 11621, 1184], [42, 11653, 1024], [42, 11717, 1184], [42, 11749, 1184]] is too long
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@11:iommus: [[42, 10571, 1184], [42, 10603, 1184], [42, 10635, 1024], [42, 10699, 1184], [42, 10731, 1184], [42, 11595, 1184], [42, 11627, 1184], [42, 11659, 1024], [42, 11723, 1184], [42, 11755, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@12:iommus: [[42, 10572, 1184], [42, 10604, 1184], [42, 10636, 1024], [42, 10700, 1184], [42, 10732, 1184], [42, 11596, 1184], [42, 11628, 1184], [42, 11660, 1024], [42, 11724, 1184], [42, 11756, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@13:iommus: [[42, 10573, 1184], [42, 10605, 1184], [42, 10637, 1024], [42, 10701, 1184], [42, 10733, 1184], [42, 11597, 1184], [42, 11629, 1184], [42, 11661, 1024], [42, 11725, 1184], [42, 11757, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: glink-edge: Unevaluated properties are not allowed ('fastrpc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: remoteproc@2a300000: Unevaluated properties are not allowed ('glink-edge', 'interconnects', 'qcom,smem-state-names', 'qcom,smem-states' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: label:0: 'cdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp']
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: compute-cb@1:iommus: [[42, 10561, 1184], [42, 10593, 1184], [42, 10625, 1024], [42, 10689, 1184], [42, 10721, 1184], [42, 11585, 1184], [42, 11617, 1184], [42, 11649, 1024], [42, 11713, 1184], [42, 11745, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: compute-cb@2:iommus: [[42, 10562, 1184], [42, 10594, 1184], [42, 10626, 1024], [42, 10690, 1184], [42, 10722, 1184], [42, 11586, 1184], [42, 11618, 1184], [42, 11650, 1024], [42, 11714, 1184], [42, 11746, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: compute-cb@3:iommus: [[42, 10563, 1184], [42, 10595, 1184], [42, 10627, 1024], [42, 10691, 1184], [42, 10723, 1184], [42, 11587, 1184], [42, 11619, 1184], [42, 11651, 1024], [42, 11715, 1184], [42, 11747, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: compute-cb@4:iommus: [[42, 10564, 1184], [42, 10596, 1184], [42, 10628, 1024], [42, 10692, 1184], [42, 10724, 1184], [42, 11588, 1184], [42, 11620, 1184], [42, 11652, 1024], [42, 11716, 1184], [42, 11748, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: fastrpc: compute-cb@5:iommus: [[42, 10565, 1184], [42, 10597, 1184], [42, 10629, 1024], [42, 10693, 1184], [42, 10725, 1184], [42, 11589, 1184], [42, 11621, 1184], [42, 11653, 1024], [42, 11717, 1184], [42, 11749, 1184]] is too long
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:label:0: 'cdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp']
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@1:iommus: [[42, 10561, 1184], [42, 10593, 1184], [42, 10625, 1024], [42, 10689, 1184], [42, 10721, 1184], [42, 11585, 1184], [42, 11617, 1184], [42, 11649, 1024], [42, 11713, 1184], [42, 11745, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@2:iommus: [[42, 10562, 1184], [42, 10594, 1184], [42, 10626, 1024], [42, 10690, 1184], [42, 10722, 1184], [42, 11586, 1184], [42, 11618, 1184], [42, 11650, 1024], [42, 11714, 1184], [42, 11746, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@3:iommus: [[42, 10563, 1184], [42, 10595, 1184], [42, 10627, 1024], [42, 10691, 1184], [42, 10723, 1184], [42, 11587, 1184], [42, 11619, 1184], [42, 11651, 1024], [42, 11715, 1184], [42, 11747, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@4:iommus: [[42, 10564, 1184], [42, 10596, 1184], [42, 10628, 1024], [42, 10692, 1184], [42, 10724, 1184], [42, 11588, 1184], [42, 11620, 1184], [42, 11652, 1024], [42, 11716, 1184], [42, 11748, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@5:iommus: [[42, 10565, 1184], [42, 10597, 1184], [42, 10629, 1024], [42, 10693, 1184], [42, 10725, 1184], [42, 11589, 1184], [42, 11621, 1184], [42, 11653, 1024], [42, 11717, 1184], [42, 11749, 1184]] is too long
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@11:iommus: [[42, 10571, 1184], [42, 10603, 1184], [42, 10635, 1024], [42, 10699, 1184], [42, 10731, 1184], [42, 11595, 1184], [42, 11627, 1184], [42, 11659, 1024], [42, 11723, 1184], [42, 11755, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@12:iommus: [[42, 10572, 1184], [42, 10604, 1184], [42, 10636, 1024], [42, 10700, 1184], [42, 10732, 1184], [42, 11596, 1184], [42, 11628, 1184], [42, 11660, 1024], [42, 11724, 1184], [42, 11756, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge:fastrpc:compute-cb@13:iommus: [[42, 10573, 1184], [42, 10605, 1184], [42, 10637, 1024], [42, 10701, 1184], [42, 10733, 1184], [42, 11597, 1184], [42, 11629, 1184], [42, 11661, 1024], [42, 11725, 1184], [42, 11757, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: glink-edge: Unevaluated properties are not allowed ('fastrpc' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: remoteproc@2a300000: Unevaluated properties are not allowed ('glink-edge', 'interconnects', 'qcom,smem-state-names', 'qcom,smem-states' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/remoteproc/qcom,sa8775p-pas.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: label:0: 'cdsp1' is not one of ['adsp', 'mdsp', 'sdsp', 'cdsp']
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: compute-cb@1:iommus: [[42, 10561, 1184], [42, 10593, 1184], [42, 10625, 1024], [42, 10689, 1184], [42, 10721, 1184], [42, 11585, 1184], [42, 11617, 1184], [42, 11649, 1024], [42, 11713, 1184], [42, 11745, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: compute-cb@2:iommus: [[42, 10562, 1184], [42, 10594, 1184], [42, 10626, 1024], [42, 10690, 1184], [42, 10722, 1184], [42, 11586, 1184], [42, 11618, 1184], [42, 11650, 1024], [42, 11714, 1184], [42, 11746, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: compute-cb@3:iommus: [[42, 10563, 1184], [42, 10595, 1184], [42, 10627, 1024], [42, 10691, 1184], [42, 10723, 1184], [42, 11587, 1184], [42, 11619, 1184], [42, 11651, 1024], [42, 11715, 1184], [42, 11747, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: compute-cb@4:iommus: [[42, 10564, 1184], [42, 10596, 1184], [42, 10628, 1024], [42, 10692, 1184], [42, 10724, 1184], [42, 11588, 1184], [42, 11620, 1184], [42, 11652, 1024], [42, 11716, 1184], [42, 11748, 1184]] is too long
-   	from schema $id: http://devicetree.org/schemas/misc/qcom,fastrpc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: fastrpc: compute-cb@5:iommus: [[42, 10565, 1184], [42, 10597, 1184], [42, 10629, 1024], [42, 10693, 1184], [42, 10725, 1184], [42, 11589, 1184], [42, 11621, 1184], [42, 11653, 1024], [42, 11717, 1184], [42, 11749, 1184]] is too long
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+thanks,
+-- Shuah
