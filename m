@@ -1,62 +1,58 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1D1147C7D
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Aug 2024 08:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B10E17E01E
+	for <oe-kbuild@lists.linux.dev>; Fri, 23 Aug 2024 10:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724402436; cv=none; b=UPCo93NqVhC18P0Szhz2XDqKVikUr+CkLzOtlQ1xl3vraHvyLT9F3DodvVI+ZbNiFYPQ+QlRPBXIVmy0mrCXxqCECQrgGXz8K5uqILPrIZSze0H7OW4EFe8+hAdR+JDegft7FHBAikpMcg/HEDhRq67l7in4vdDfrnAuyAs2ln0=
+	t=1724409868; cv=none; b=me7tDJxAGB+mSg0syvlEVWdwBmqSmhvBjJIp0oqaQqhmcyQcNkwtl2dA8s7hvXro98XAa7iKW1ClZFQ5f3U/SPVK/DcGUwZMEXUt2M8GAI9p9C0/wDMpcTwfY55mTYUyNutSeIx3hQaP5u55wo2NYSXo9F8mbK0edvPbcNIfInc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724402436; c=relaxed/simple;
-	bh=MPpSvhXKREC/ElYnGUBquMdLOn7YSD6rY0F7dmj//Vo=;
+	s=arc-20240116; t=1724409868; c=relaxed/simple;
+	bh=Pj+27navgtxlVrCSrgMCtRPIpIx8eBfjW2dpfncZR+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eU4KnwirjxsX+Vi24nY1II51zPnmpVhG+VZ5Y6GwmaeNM2tlI4WueMmW0TqLF6jGTLYEs3RyJ7FHZu0VCB2uY/uDzmNdNAlnOimhu/HMBkKkJPRrtpYXHvWygMCszNVbHB//DSnFroqmMhAc22/tACNQcfgwD2Y8OgeYJIoJgsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TkU0RX1f; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=u0h/75DJN9E8WsijJGKzwBRzrGvXyZMDqKEHmxYxXes1gsd1/n5N6+ejRm/BJpXZfMcEBezLlpN+d3DOvc5vUXqFJwcLAz0uEWYKIdQ4jl0tNbngRMdBQ3QyQVxDpTzbguztgLXonZ99rZtDRGNelRW+V+sWGcdN/cGCXpzufow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmeQFYiu; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TkU0RX1f"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a86984e035aso171645566b.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 23 Aug 2024 01:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724402433; x=1725007233; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HkT+F4NQdxWdx9VAgSQrfQE4425V0dbc4KVL3cYctNg=;
-        b=TkU0RX1f0ZYpgXzBER9WU82BTK7IuRhHn8iDXnDS8wsGiGwM7YM0V6mwKK0LR+EKWC
-         JKN3W/sLP1gjECmkm3BNsVvq0VKsAl1EmQnGG6cAwsn5k2Riwx6gTOk2GRzEHZySaG8m
-         qEHxiH++x+7sY473Nsck434q+/IlRs5+/ylQP9J2nK6VCpJoH4eJKMIRiYKFTNfYoFsl
-         CyNPio52AGQLxwYFi7fCNHNmpwenatayfhe7KIjpFnp8NFV3ZGF/B3vUb+QWLi7NhtWS
-         zpajbrLZ5n3I/85MJd/zXKqUelgJihRJlXc/jLRRj4C8Sk/lXwIo33RXTdkouJKBo1lG
-         P7UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724402433; x=1725007233;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HkT+F4NQdxWdx9VAgSQrfQE4425V0dbc4KVL3cYctNg=;
-        b=pr/a3fg9i3e6xAD6nT3YKaF2NQyaHCO1xhAgvacOQ4lPL5Cp9jb8tVh+vCqmMyiz+x
-         3L1n8O+RIS9z/oKIy7NFlVv/IoYtAm92REKjbKM3c0xoFRNe8AmszdYX06EG07JOOAzn
-         LZlDaLDyxCCLZ/hfzRTs4/k9+AhF8U7eHUUOovSA0i0gNtll6DG7vOZ0B+dMWrjUZHSN
-         97j5b4nNgIdyNXNv66mo6slLHS7EV+FLQMjSu3I4Po+jm/KtI1IzDZgFpM+n4siJoeBP
-         FiseH2cEsjw3eCpQhBMbxo0su+zsyQI0It/k88fiW9cZQuyoPY8Jx0G96Qb4xFHQj4gK
-         Osww==
-X-Gm-Message-State: AOJu0YyhmdxKOLTv/Rfl8/zluC0mqDGWO2lx8smXo/kyAt55D2xnvxh0
-	hE6lxMfUISTFsrxU6Exn033NFB6EjrsBX5GyY0E2rzee3lkJkYRsKoZARjTFY1oDA1dZ1h5Vwll
-	g
-X-Google-Smtp-Source: AGHT+IH6IQRUkG0GF5SlfIgB5Ez1oe4Di4eEakTkc8stgAJ46DD67d9s1awHV5WebEgy7keS5wHNLA==
-X-Received: by 2002:a17:907:6d25:b0:a86:a77e:83b1 with SMTP id a640c23a62f3a-a86a77e8669mr80780166b.47.1724402432724;
-        Fri, 23 Aug 2024 01:40:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f21fe5esm228850466b.8.2024.08.23.01.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2024 01:40:32 -0700 (PDT)
-Date: Thu, 22 Aug 2024 21:43:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 5654/6069] drivers/thermal/testing/zone.c:189
- tt_add_tz() error: uninitialized symbol 'tt_work'.
-Message-ID: <a01dc997-2fc8-4057-9cec-14d68cb2f23d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmeQFYiu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724409865; x=1755945865;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Pj+27navgtxlVrCSrgMCtRPIpIx8eBfjW2dpfncZR+o=;
+  b=SmeQFYiusW9KCIZT3Y8AozoWYvN0hrbDxSL8vxPFuqLyGgozSOZWTM+I
+   vSCKhwRFQwJE+/vqVo57QJ1YguU3JdUJVtVLgQOkVxIB6lpiiBckg2BSt
+   2IjE2zQjbvvv40LtJ3kCLvRpXm9kuS5ya6zu2WCoPA8k5kxBS04AWemGK
+   9RUTMkI1aCbDhvJV3hMT+Q80D1xC5mRxVW4vEu9xzSd68uRmSfrHmGN1O
+   eCP1VsUXaYLnBnqXoAhFi898pMnUL6fp+sZ+lcPO/mhQw9LOolBCHbI4k
+   FLce+aXpoRBt2ub3OnJ5YJh4PmPTSdJrPGs0+yk7hn6kMhYbkjJcLbFmI
+   w==;
+X-CSE-ConnectionGUID: J9HE37HpSpuwyXhFs5a0+A==
+X-CSE-MsgGUID: Nr9Zj1yqRduIOLSAveTZgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="33494252"
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="33494252"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 03:44:24 -0700
+X-CSE-ConnectionGUID: lBxoS9r3QTuLKImM2nuONQ==
+X-CSE-MsgGUID: i5BMoZXLTMi2eYQYePF2OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
+   d="scan'208";a="61440745"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Aug 2024 03:44:25 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1shRmI-000Dfk-2T;
+	Fri, 23 Aug 2024 10:44:22 +0000
+Date: Fri, 23 Aug 2024 18:43:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [perf-tools:tmp.perf-tools 1/1] error: command 'clang' failed with
+ exit code 1
+Message-ID: <202408231822.dWGP67uY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,51 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6a7917c89f219f09b1d88d09f376000914a52763
-commit: 707bc0f91a35b7bd0c139e0bf49b2b3d32a6d207 [5654/6069] thermal: Introduce a debugfs-based testing facility
-config: i386-randconfig-141-20240822 (https://download.01.org/0day-ci/archive/20240823/202408230001.FacU2bQ2-lkp@intel.com/config)
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Sedat Dilek <sedat.dilek@gmail.com>
+CC: Namhyung Kim <namhyung@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools.git tmp.perf-tools
+head:   cf36d63d7cc9a9770f69f44a10904e9fb0895fa9
+commit: cf36d63d7cc9a9770f69f44a10904e9fb0895fa9 [1/1] perf tools: Fix a build error with clang 19
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408231822.dWGP67uY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408230001.FacU2bQ2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408231822.dWGP67uY-lkp@intel.com/
 
-smatch warnings:
-drivers/thermal/testing/zone.c:189 tt_add_tz() error: uninitialized symbol 'tt_work'.
-drivers/thermal/testing/zone.c:241 tt_del_tz() error: uninitialized symbol 'tt_work'.
-drivers/thermal/testing/zone.c:337 tt_zone_add_trip() error: uninitialized symbol 'tt_trip'.
-drivers/thermal/testing/zone.c:395 tt_zone_register_tz() error: uninitialized symbol 'trips'.
+All errors (new ones prefixed by >>):
 
-vim +/tt_work +189 drivers/thermal/testing/zone.c
-
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  186  int tt_add_tz(void)
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  187  {
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  188  	struct tt_thermal_zone *tt_zone __free(kfree);
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02 @189  	struct tt_work *tt_work __free(kfree);
-
-These need to be initialized to NULL
-
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  190  	int ret;
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  191  
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  192  	tt_zone = kzalloc(sizeof(*tt_zone), GFP_KERNEL);
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  193  	if (!tt_zone)
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  194  		return -ENOMEM;
-
-Otherwise tt_work is uninitialized on this error path.  The other warnings are
-the same thing.
-
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  195  
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  196  	tt_work = kzalloc(sizeof(*tt_work), GFP_KERNEL);
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  197  	if (!tt_work)
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  198  		return -ENOMEM;
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  199  
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  200  	INIT_LIST_HEAD(&tt_zone->trips);
-707bc0f91a35b7 Rafael J. Wysocki 2024-08-02  201  	mutex_init(&tt_zone->lock);
+   Makefile.config:671: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.11.rc4.gcf36d63d7cc9
+   error: unknown warning option '-Wno-cast-function-type-mismatch'; did you mean '-Wno-cast-function-type-strict'? [-Werror,-Wunknown-warning-option]
+>> error: command 'clang' failed with exit code 1
+>> cp: cannot stat 'tools/perf/python_ext_build/lib/perf*.so': No such file or directory
+   make[5]: *** [Makefile.perf:737: tools/perf/python/perf.cpython-311-x86_64-linux-gnu.so] Error 1
+   make[4]: *** [Makefile.perf:290: sub-make] Error 2
+   make[3]: *** [Makefile:70: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
