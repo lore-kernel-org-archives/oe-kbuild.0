@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0F114D702
-	for <oe-kbuild@lists.linux.dev>; Sat, 24 Aug 2024 10:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA9D1CD31
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Aug 2024 12:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724494205; cv=none; b=Xze+z0LehKMVJLh3GXfifpCuW5ILAV68kGqZdWYlkd6mxEI0hsXyVLSnt90rI3aGmT6b4Yx9vy6AiAUIXxXUCF/TqNzTd4Xjf0EnMEuEZADC1BKrX4jp2ghg2vqjm5wMtZ0cY88ta/6xOM3xFn3pFZAvlwl2lBHx4tatDaS1drw=
+	t=1724500865; cv=none; b=DqfaS7qHPrxlLw65Gj6DsJhMj6VaqWMmd8unZ/pc+4UvQphPxw01WpPomXWnk1hx72gBV1dBHksvpt7N89x20wXz7/MgXF9/0rAuP5Cmyb9KgcAz/NQPCdRKJj8LS7kqRRXsAMegorjgq91g8eWiYX5J4WW/opBk5vv5hwueshE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724494205; c=relaxed/simple;
-	bh=T252jDUn0FEiOkt42So2R38BKfJzLeefq7YWKnobBc8=;
+	s=arc-20240116; t=1724500865; c=relaxed/simple;
+	bh=JzF++jaw/IYxvwmowSIRKaaV5y9UehJJhhRQzg1Mm+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bfM+TGIipVI4EMSP3O1/KikKbbuNB0t9LjVGX+crt7ngm73lgX2ie1OF3pI+kdooOROicN34cCVa94WU7VhAmecEjkUdGA3D6ozGdbkkwj5ED1fDl8QE3m916Njj13BMg7icb1dg4zkr/PvZtPrI0TtMKOHEm0S/qmjIHIEFDpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RHzUeWR/; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Yu7xKZa4IwQR/YZx14m97HEtHRJJh5VEQbbnz2FpphluQQcp5OWgQUN2Kbz3vadu+lgfBr7CNf/McV84acmvjZZR+pYOOP2xDZQOThfIms9dzFxs6/qfSLNdYyTEyBI9wee+g6DU7ce1nJ8j6aWvlzgBwlAozJdUnmvb4KG9gwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ALboOX0x; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHzUeWR/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ALboOX0x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724494204; x=1756030204;
+  t=1724500863; x=1756036863;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T252jDUn0FEiOkt42So2R38BKfJzLeefq7YWKnobBc8=;
-  b=RHzUeWR/UBgdvb+89BjXbyCl5MCk8KQi+zTK/m6HfoxgHNFAgWC5qZnS
-   7Sig4Es+euAF5s3xmaOCC9AMeFDyP2awDEu1dWDJyfetw2Rxywp02R8q0
-   M+9IkMwesmjUlNHyQb6J7ZFCdQN/sBIWiZj6BFgMqNQxFN7/Dk0eC4QiZ
-   29dyDPIbD4L/aHMokKinsbD/tyM1e9ItkX2I2gbWOH9V5mGYuuQCcF58x
-   poTB2NJ5EXcLW8BwjMuytDp35PX4ShNKrwHWKZ5i4iCXnwC4Sgi5srh2w
-   bd+8eRTmf4f05cp6SvHHYfRyn+y+fzRkFmfsZqNmQ2OgCt82es7HgnPmH
-   Q==;
-X-CSE-ConnectionGUID: I8FNJhGoTmm85S/7Pb/siw==
-X-CSE-MsgGUID: LDXZIbvjR2yK72F9N3ACdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="26768114"
+  bh=JzF++jaw/IYxvwmowSIRKaaV5y9UehJJhhRQzg1Mm+Q=;
+  b=ALboOX0xlzRq4e7MWsKySztZcjIVG4Jj2K0ivAshgopJN5WMHw2G6ChK
+   Cm0ojdGeYZYUhf0DCBKQ2X9xAOwD12agPz/zOR8b6j3eKO9v6bo0Am9U5
+   zUrJfosBfM+IXEBH1tTMZtw1RhswoOsQmOJCqwACp0RZEmW8QTM8Frfwa
+   cb7Erd08EvqZn/RTGo5Gya4WPKiMpo2FE57/9c2v2qMCDJvOBO4eVMdNu
+   l7Ub3nCJAh60aRoKicjAG3y8+ssPMIaJwT475K89kc14WHzKIXt+iYciH
+   qHhPdZp6hbgz27WOXf8n4Xtq+h7VbVUmr4gkMB41hf125gwWmr5sTEIoL
+   g==;
+X-CSE-ConnectionGUID: b4vJY7mLRB+w4rxEZC2NeQ==
+X-CSE-MsgGUID: 5ozu6IOXS22cwf1z6N4gwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="33594477"
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="26768114"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 03:10:01 -0700
-X-CSE-ConnectionGUID: IeYeO/7/TQKdu3zem2zgNQ==
-X-CSE-MsgGUID: rqlRXujsTKOKYsLHk4fw1w==
+   d="scan'208";a="33594477"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2024 05:01:02 -0700
+X-CSE-ConnectionGUID: Nz4cPYGTT6eWgb0SoV+SpA==
+X-CSE-MsgGUID: NZkYu9zYQleg38VURvg97A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,173,1719903600"; 
-   d="scan'208";a="61893984"
+   d="scan'208";a="62047378"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Aug 2024 03:10:00 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Aug 2024 05:01:02 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shniX-000EP3-1s;
-	Sat, 24 Aug 2024 10:09:57 +0000
-Date: Sat, 24 Aug 2024 18:08:59 +0800
+	id 1shpRz-000ESJ-2f;
+	Sat, 24 Aug 2024 12:00:59 +0000
+Date: Sat, 24 Aug 2024 20:00:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/5] debugobjects: use list_bl to save memory for hash
- slot spinlocks
-Message-ID: <202408241717.jMYJtsy0-lkp@intel.com>
+Subject: [djwong-xfs:timestats-hoist 100/245] fs/xfs/xfs_rtalloc.c:1193
+ xfs_growfs_rt_prep_groups() warn: impossible condition '(*new_rgcount >
+ ((-1))) => (0-u32max > u32max)'
+Message-ID: <202408241901.LJlWgc9z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,105 +65,69 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240821230539.168107-6-woodyzhang666@gmail.com>
-References: <20240821230539.168107-6-woodyzhang666@gmail.com>
-TO: Woody Zhang <woodyzhang666@gmail.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: linux-kernel@vger.kernel.org
-CC: Woody Zhang <woodyzhang666@gmail.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Woody,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/core/debugobjects]
-[also build test WARNING on akpm-mm/mm-everything linus/master v6.11-rc4 next-20240823]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Woody-Zhang/bit_spinlock-add-irq-variant-for-bit-spinlock-API/20240822-070808
-base:   tip/core/debugobjects
-patch link:    https://lore.kernel.org/r/20240821230539.168107-6-woodyzhang666%40gmail.com
-patch subject: [PATCH 5/5] debugobjects: use list_bl to save memory for hash slot spinlocks
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   2672953f103abef74446981c20b0286f4b3f402f
+commit: 50687b5f73722168fcd203c3ae91fa617c147262 [100/245] xfs: grow the realtime section when realtime groups are enabled
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: arc-randconfig-r073-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241717.jMYJtsy0-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+config: x86_64-randconfig-161-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241901.LJlWgc9z-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408241717.jMYJtsy0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408241901.LJlWgc9z-lkp@intel.com/
 
 New smatch warnings:
-lib/debugobjects.c:326 free_obj_work() warn: inconsistent returns 'flags'.
+fs/xfs/xfs_rtalloc.c:1193 xfs_growfs_rt_prep_groups() warn: impossible condition '(*new_rgcount > ((-1))) => (0-u32max > u32max)'
 
 Old smatch warnings:
-arch/arc/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
+fs/xfs/xfs_rtalloc.c:328 xfs_rtallocate_extent_block() error: uninitialized symbol 'next'.
 
-vim +/flags +326 lib/debugobjects.c
+vim +1193 fs/xfs/xfs_rtalloc.c
 
-3ac7fe5a4aab40 Thomas Gleixner 2008-04-30  275  
-3ac7fe5a4aab40 Thomas Gleixner 2008-04-30  276  /*
-337fff8b5ed057 Thomas Gleixner 2009-03-16  277   * workqueue function to free objects.
-858274b6a13b4d Waiman Long     2017-01-05  278   *
-858274b6a13b4d Waiman Long     2017-01-05  279   * To reduce contention on the global pool_lock, the actual freeing of
-636e1970fd7dea Yang Shi        2018-02-06  280   * debug objects will be delayed if the pool_lock is busy.
-337fff8b5ed057 Thomas Gleixner 2009-03-16  281   */
-337fff8b5ed057 Thomas Gleixner 2009-03-16  282  static void free_obj_work(struct work_struct *work)
-337fff8b5ed057 Thomas Gleixner 2009-03-16  283  {
-5b4850f76f3728 Woody Zhang     2024-08-22  284  	struct hlist_bl_node *tmp, *n;
-36c4ead6f6dfbb Yang Shi        2018-02-06  285  	struct debug_obj *obj;
-337fff8b5ed057 Thomas Gleixner 2009-03-16  286  	unsigned long flags;
-5b4850f76f3728 Woody Zhang     2024-08-22  287  	HLIST_BL_HEAD(tofree);
-337fff8b5ed057 Thomas Gleixner 2009-03-16  288  
-a7344a68a79ab9 Waiman Long     2019-05-20  289  	WRITE_ONCE(obj_freeing, false);
-5b4850f76f3728 Woody Zhang     2024-08-22  290  	if (!hlist_bl_trylock_irqsave(&obj_pool, flags))
-858274b6a13b4d Waiman Long     2017-01-05  291  		return;
-36c4ead6f6dfbb Yang Shi        2018-02-06  292  
-a7344a68a79ab9 Waiman Long     2019-05-20  293  	if (obj_pool_free >= debug_objects_pool_size)
-a7344a68a79ab9 Waiman Long     2019-05-20  294  		goto free_objs;
-a7344a68a79ab9 Waiman Long     2019-05-20  295  
-36c4ead6f6dfbb Yang Shi        2018-02-06  296  	/*
-36c4ead6f6dfbb Yang Shi        2018-02-06  297  	 * The objs on the pool list might be allocated before the work is
-36c4ead6f6dfbb Yang Shi        2018-02-06  298  	 * run, so recheck if pool list it full or not, if not fill pool
-a7344a68a79ab9 Waiman Long     2019-05-20  299  	 * list from the global free list. As it is likely that a workload
-a7344a68a79ab9 Waiman Long     2019-05-20  300  	 * may be gearing up to use more and more objects, don't free any
-a7344a68a79ab9 Waiman Long     2019-05-20  301  	 * of them until the next round.
-36c4ead6f6dfbb Yang Shi        2018-02-06  302  	 */
-36c4ead6f6dfbb Yang Shi        2018-02-06  303  	while (obj_nr_tofree && obj_pool_free < debug_objects_pool_size) {
-5b4850f76f3728 Woody Zhang     2024-08-22  304  		obj = hlist_bl_entry(hlist_bl_first(&obj_to_free), typeof(*obj), node);
-5b4850f76f3728 Woody Zhang     2024-08-22  305  		hlist_bl_del(&obj->node);
-5b4850f76f3728 Woody Zhang     2024-08-22  306  		hlist_bl_add_head(&obj->node, &obj_pool);
-35fd7a637c42bb Marco Elver     2020-01-16  307  		WRITE_ONCE(obj_pool_free, obj_pool_free + 1);
-35fd7a637c42bb Marco Elver     2020-01-16  308  		WRITE_ONCE(obj_nr_tofree, obj_nr_tofree - 1);
-36c4ead6f6dfbb Yang Shi        2018-02-06  309  	}
-5b4850f76f3728 Woody Zhang     2024-08-22  310  	hlist_bl_unlock_irqrestore(&obj_pool, flags);
-a7344a68a79ab9 Waiman Long     2019-05-20  311  	return;
-36c4ead6f6dfbb Yang Shi        2018-02-06  312  
-a7344a68a79ab9 Waiman Long     2019-05-20  313  free_objs:
-36c4ead6f6dfbb Yang Shi        2018-02-06  314  	/*
-36c4ead6f6dfbb Yang Shi        2018-02-06  315  	 * Pool list is already full and there are still objs on the free
-36c4ead6f6dfbb Yang Shi        2018-02-06  316  	 * list. Move remaining free objs to a temporary list to free the
-36c4ead6f6dfbb Yang Shi        2018-02-06  317  	 * memory outside the pool_lock held region.
-36c4ead6f6dfbb Yang Shi        2018-02-06  318  	 */
-36c4ead6f6dfbb Yang Shi        2018-02-06  319  	if (obj_nr_tofree) {
-5b4850f76f3728 Woody Zhang     2024-08-22  320  		hlist_bl_move_list(&obj_to_free, &tofree);
-04148187aa9df3 Arnd Bergmann   2018-02-22  321  		debug_objects_freed += obj_nr_tofree;
-35fd7a637c42bb Marco Elver     2020-01-16  322  		WRITE_ONCE(obj_nr_tofree, 0);
-36c4ead6f6dfbb Yang Shi        2018-02-06  323  	}
-5b4850f76f3728 Woody Zhang     2024-08-22  324  	hlist_bl_unlock_irqrestore(&obj_pool, flags);
-36c4ead6f6dfbb Yang Shi        2018-02-06  325  
-5b4850f76f3728 Woody Zhang     2024-08-22 @326  	hlist_bl_for_each_entry_safe(obj, tmp, n, &tofree, node) {
-5b4850f76f3728 Woody Zhang     2024-08-22  327  		hlist_bl_del(&obj->node);
-36c4ead6f6dfbb Yang Shi        2018-02-06  328  		kmem_cache_free(obj_cache, obj);
-36c4ead6f6dfbb Yang Shi        2018-02-06  329  	}
-337fff8b5ed057 Thomas Gleixner 2009-03-16  330  }
-337fff8b5ed057 Thomas Gleixner 2009-03-16  331  
+cbc2a83deda4f8 Christoph Hellwig 2024-08-15  1176  
+50687b5f737221 Darrick J. Wong   2024-08-15  1177  /*
+50687b5f737221 Darrick J. Wong   2024-08-15  1178   * Compute the new number of rt groups and ensure that /rtgroups exists.
+50687b5f737221 Darrick J. Wong   2024-08-15  1179   *
+50687b5f737221 Darrick J. Wong   2024-08-15  1180   * Changing the rtgroup size is not allowed (even if the rt volume hasn't yet
+50687b5f737221 Darrick J. Wong   2024-08-15  1181   * been initialized) because the userspace ABI doesn't support it.
+50687b5f737221 Darrick J. Wong   2024-08-15  1182   */
+50687b5f737221 Darrick J. Wong   2024-08-15  1183  static int
+50687b5f737221 Darrick J. Wong   2024-08-15  1184  xfs_growfs_rt_prep_groups(
+50687b5f737221 Darrick J. Wong   2024-08-15  1185  	struct xfs_mount	*mp,
+50687b5f737221 Darrick J. Wong   2024-08-15  1186  	xfs_rfsblock_t		rblocks,
+50687b5f737221 Darrick J. Wong   2024-08-15  1187  	xfs_extlen_t		rextsize,
+50687b5f737221 Darrick J. Wong   2024-08-15  1188  	xfs_rgnumber_t		*new_rgcount)
+50687b5f737221 Darrick J. Wong   2024-08-15  1189  {
+50687b5f737221 Darrick J. Wong   2024-08-15  1190  	int			error;
+50687b5f737221 Darrick J. Wong   2024-08-15  1191  
+50687b5f737221 Darrick J. Wong   2024-08-15  1192  	*new_rgcount = howmany_64(rblocks, mp->m_sb.sb_rgextents * rextsize);
+50687b5f737221 Darrick J. Wong   2024-08-15 @1193  	if (*new_rgcount > XFS_MAX_RGNUMBER)
+50687b5f737221 Darrick J. Wong   2024-08-15  1194  		return -EINVAL;
+50687b5f737221 Darrick J. Wong   2024-08-15  1195  
+50687b5f737221 Darrick J. Wong   2024-08-15  1196  	/* Make sure the /rtgroups dir has been created */
+50687b5f737221 Darrick J. Wong   2024-08-15  1197  	if (!mp->m_rtdirip) {
+50687b5f737221 Darrick J. Wong   2024-08-15  1198  		struct xfs_trans	*tp;
+50687b5f737221 Darrick J. Wong   2024-08-15  1199  
+50687b5f737221 Darrick J. Wong   2024-08-15  1200  		error = xfs_trans_alloc_empty(mp, &tp);
+50687b5f737221 Darrick J. Wong   2024-08-15  1201  		if (error)
+50687b5f737221 Darrick J. Wong   2024-08-15  1202  			return error;
+50687b5f737221 Darrick J. Wong   2024-08-15  1203  		error = xfs_rtginode_load_parent(tp);
+50687b5f737221 Darrick J. Wong   2024-08-15  1204  		xfs_trans_cancel(tp);
+50687b5f737221 Darrick J. Wong   2024-08-15  1205  
+50687b5f737221 Darrick J. Wong   2024-08-15  1206  		if (error == -ENOENT)
+50687b5f737221 Darrick J. Wong   2024-08-15  1207  			error = xfs_rtginode_mkdir_parent(mp);
+50687b5f737221 Darrick J. Wong   2024-08-15  1208  		if (error)
+50687b5f737221 Darrick J. Wong   2024-08-15  1209  			return error;
+50687b5f737221 Darrick J. Wong   2024-08-15  1210  	}
+50687b5f737221 Darrick J. Wong   2024-08-15  1211  
+50687b5f737221 Darrick J. Wong   2024-08-15  1212  	return 0;
+50687b5f737221 Darrick J. Wong   2024-08-15  1213  }
+50687b5f737221 Darrick J. Wong   2024-08-15  1214  
 
 -- 
 0-DAY CI Kernel Test Service
