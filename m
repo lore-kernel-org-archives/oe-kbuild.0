@@ -1,233 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8995918028
-	for <oe-kbuild@lists.linux.dev>; Fri, 23 Aug 2024 12:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47A314D708
+	for <oe-kbuild@lists.linux.dev>; Sat, 24 Aug 2024 06:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724417190; cv=none; b=VJ9El18Durp2UzbwTvtr49n0Bk73nbsOpAGpqgV7mQLfP9VPezLGjgtMoXiWTLhGBvk5zX4QSGWwy0Ii7WD+/eiEtirKksvBXfbYtO5uV/zthvfURjNIoqt+i55M7N5YeQ38OnhlZqQeZzjLpW2fdNHjiWZ58QrJ1TAZ8nraOH0=
+	t=1724481720; cv=none; b=tck4Hb1hVX2OQAd1TJt4L3xQtAuw6zLer15MjqTSkZaInZo2W2Uhmng8uJT/hlHgNiPCARbx8GZu3OrYUIsaheiVOeGKxfsO59+cclKOuImURb8MrSyPPJkl5GE3vGuIi+MgOtH1HUaYizTwSHfDoF+GLXv+j5pMe9P5qAgCMkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724417190; c=relaxed/simple;
-	bh=r+2OeUSAB3mysChR/47cObg2ahesJw/knt3QJlbXXpo=;
+	s=arc-20240116; t=1724481720; c=relaxed/simple;
+	bh=jxxfDeVSrjH5Aa0+rVCPkyHWXFN4njP0DKo8II1XOOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZpIOhp9SncPTnWmOyUbPrVuFkBAvbCW8uHrzYq0Ee3F/sr2TWTBlN/uyPdaag69zeZXrEvbT1etLOhWOj6qRD8klBVqAQ3lsU1TO+o3VkFk9uL+Pl3fAx0UGjdiLeT2eOAa6Sxb2AYhzHBnDRzf87lAY8eBGkAxskzanb3Qsj1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U7GzHUeg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=fpgZ1mi8hhY8ZNBVPuW/75ilCucyx1enlQtgtKPyheKkI5spAK9ayEUEaLfkaaK+Rt3pvHCp4N/zUa+LtTN7riBovPbuoTE/F2NftsWpqz/Js4S+2NV6pQT6/dAlOHynPrf4ffg9pCYjMyiHORQKGAVD1P3wg3Xn5u+1PMWp7Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B4STQZjp; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U7GzHUeg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B4STQZjp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724417189; x=1755953189;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=r+2OeUSAB3mysChR/47cObg2ahesJw/knt3QJlbXXpo=;
-  b=U7GzHUegmo4OilGJjSQjSQz/5P/6zfVfUs1qfi0EObQNeEbaT/x8uqmo
-   4lqQPwPYXOHD73MA2S4auzCb9KanDG0j84JxqkuCngEMJ2HB8hF5dcXIo
-   9Hia78hpNlZkmrSLAyqn9+RBniIsYhft5Ue2nTKt5wjbAjuaCOZm55Mam
-   4GMIJQx1yPLPwsBDGOr9pUzNXvfsVa8Dqav8KbrJ5jBJLEnfKYYMtyylw
-   8iDNNEXCrrHYFfL1I8Hkqd7lqxNfzmA7jXNA/xENlg4JCvFpFe/XIircy
-   g7JS1yotOKdW61BP11rLr/h8TvLtwypEN2Wgjbh705BbNkxlknu1HeI2t
-   w==;
-X-CSE-ConnectionGUID: 1K6hJqGGRj+Mr6mo4SmWEQ==
-X-CSE-MsgGUID: /N2H0oCgQLGhCU+4EP5MGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11172"; a="23053109"
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="23053109"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 05:46:28 -0700
-X-CSE-ConnectionGUID: XcRD4WEfT5qNMW6tzkhKzw==
-X-CSE-MsgGUID: XFzhblPMQJa7cZpdhD7gsA==
+  t=1724481718; x=1756017718;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jxxfDeVSrjH5Aa0+rVCPkyHWXFN4njP0DKo8II1XOOc=;
+  b=B4STQZjpRJ+ISxFIgNpBEA1tgtSGHKXYsLwurvtB2lPaJBLTVJa9XgnH
+   vPRt8pv11ktwVMc/A2aQOAe+2/P1muqMQ1fdKqpg2QBlMFPaOEx/titXO
+   ujJAg4PST+geL3/GIO0SzOyTSaRTPhi+7uMeAeOa5XehBf+C+k/lc9yTp
+   +BZ3KzDFodScQ+dxGOkn4Zkid86ap1pWNMN33AaaO++MGqQj201Lb96A0
+   OhpB39Tank3QZczJmK7YU2++JYigxV0UQeeCfvdJxAytsZ3gz3A1ADnG3
+   3nJR95IXitf7yyksGvT4m88vKzA14gVITw4KE7hPHNHbQxP+X0/UyRp0m
+   g==;
+X-CSE-ConnectionGUID: 2m+XeUyDRyWGhN9YO53Xrw==
+X-CSE-MsgGUID: AfY7SGskQ6uUoEc3LnJe+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11173"; a="26762419"
+X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
+   d="scan'208";a="26762419"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2024 23:41:58 -0700
+X-CSE-ConnectionGUID: OUufS/OLTNqARM/DR8hpBg==
+X-CSE-MsgGUID: Ncmm/8TRSwaeg1+pEVZeZQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,170,1719903600"; 
-   d="scan'208";a="66609312"
+X-IronPort-AV: E=Sophos;i="6.10,172,1719903600"; 
+   d="scan'208";a="62725197"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Aug 2024 05:46:26 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Aug 2024 23:41:56 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1shTgO-000DiA-12;
-	Fri, 23 Aug 2024 12:46:24 +0000
-Date: Fri, 23 Aug 2024 20:45:28 +0800
+	id 1shkTB-000EJb-3C;
+	Sat, 24 Aug 2024 06:41:54 +0000
+Date: Sat, 24 Aug 2024 14:41:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 4/5] Add map pgoff to python dictionary based on
- MAPPING_TYPE
-Message-ID: <202408232031.V0CLXEbm-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [djwong-xfs:timestats-hoist 77/245] fs/xfs/xfs_fsmap.c:826
+ xfs_getfsmap_rtdev_rtbitmap() error: uninitialized symbol 'error'.
+Message-ID: <202408241445.ziBTqGS9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <a813c21ee60cd03df02b33bfa92515b659863bf7.1724104248.git.scclevenger@os.amperecomputing.com>
-References: <a813c21ee60cd03df02b33bfa92515b659863bf7.1724104248.git.scclevenger@os.amperecomputing.com>
-TO: Steve Clevenger <scclevenger@os.amperecomputing.com>
-TO: james.clark@arm.com
-TO: mike.leach@linaro.org
-CC: suzuki.poulose@arm.com
-CC: leo.yan@linaro.org
-CC: ilkka@os.ampercomputing.com
-CC: coresight@lists.linaro.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: "steve.c.clevenger.ampere" <scclevenger@os.amperecomputing.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Steve,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/perf/core]
-[also build test ERROR on perf-tools/perf-tools linus/master v6.11-rc4 next-20240823]
-[cannot apply to perf-tools-next/perf-tools-next acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steve-Clevenger/Add-dso__is_pie-call-to-identify-ELF-PIE/20240821-061504
-base:   tip/perf/core
-patch link:    https://lore.kernel.org/r/a813c21ee60cd03df02b33bfa92515b659863bf7.1724104248.git.scclevenger%40os.amperecomputing.com
-patch subject: [PATCH 4/5] Add map pgoff to python dictionary based on MAPPING_TYPE
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   2672953f103abef74446981c20b0286f4b3f402f
+commit: 2f7a595d954c43742bb9dc4259d8cc3c7fed7c6a [77/245] xfs: move RT bitmap and summary information to the rtgroup
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-161-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241445.ziBTqGS9-lkp@intel.com/config)
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240823/202408232031.V0CLXEbm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408232031.V0CLXEbm-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408241445.ziBTqGS9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/xfs/xfs_fsmap.c:826 xfs_getfsmap_rtdev_rtbitmap() error: uninitialized symbol 'error'.
 
-   Makefile.config:656: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-     PERF_VERSION = 6.11.rc1.ge6bc3ac8585c
->> util/scripting-engines/trace-event-python.c:908:36: error: expected ';' after expression
-     908 |                         "symbol", "symoff", "map_pgoff")
-         |                                                         ^
-         |                                                         ;
-   1 error generated.
-   make[8]: *** [tools/build/Makefile.build:106: tools/perf/util/scripting-engines/trace-event-python.o] Error 1
-   make[8]: *** Waiting for unfinished jobs....
-   make[7]: *** [tools/build/Makefile.build:158: scripting-engines] Error 2
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
-   make[5]: *** [Makefile.perf:762: tools/perf/perf-util-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:265: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+vim +/error +826 fs/xfs/xfs_fsmap.c
 
+07d879a6b79484 Darrick J. Wong   2024-08-07  742  
+07d879a6b79484 Darrick J. Wong   2024-08-07  743  /* Execute a getfsmap query against the realtime device rtbitmap. */
+07d879a6b79484 Darrick J. Wong   2024-08-07  744  STATIC int
+07d879a6b79484 Darrick J. Wong   2024-08-07  745  xfs_getfsmap_rtdev_rtbitmap(
+07d879a6b79484 Darrick J. Wong   2024-08-07  746  	struct xfs_trans		*tp,
+07d879a6b79484 Darrick J. Wong   2024-08-07  747  	const struct xfs_fsmap		*keys,
+07d879a6b79484 Darrick J. Wong   2024-08-07  748  	struct xfs_getfsmap_info	*info)
+07d879a6b79484 Darrick J. Wong   2024-08-07  749  {
+07d879a6b79484 Darrick J. Wong   2024-08-07  750  	struct xfs_mount		*mp = tp->t_mountp;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  751  	xfs_rtblock_t			start_rtbno, end_rtbno;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  752  	xfs_rtxnum_t			start_rtx, end_rtx;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  753  	xfs_rgnumber_t			rgno, end_rgno;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  754  	struct xfs_rtgroup		*rtg;
+07d879a6b79484 Darrick J. Wong   2024-08-07  755  	uint64_t			eofs;
+07d879a6b79484 Darrick J. Wong   2024-08-07  756  	int				error;
+07d879a6b79484 Darrick J. Wong   2024-08-07  757  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  758  	eofs = XFS_FSB_TO_BB(mp, mp->m_sb.sb_rblocks);
+07d879a6b79484 Darrick J. Wong   2024-08-07  759  	if (keys[0].fmr_physical >= eofs)
+07d879a6b79484 Darrick J. Wong   2024-08-07  760  		return 0;
+07d879a6b79484 Darrick J. Wong   2024-08-07  761  
+07d879a6b79484 Darrick J. Wong   2024-08-07  762  	info->missing_owner = XFS_FMR_OWN_UNKNOWN;
+07d879a6b79484 Darrick J. Wong   2024-08-07  763  
+07d879a6b79484 Darrick J. Wong   2024-08-07  764  	/* Adjust the low key if we are continuing from where we left off. */
+2f7a595d954c43 Christoph Hellwig 2024-08-15  765  	start_rtbno = xfs_daddr_to_rtb(mp,
+2f7a595d954c43 Christoph Hellwig 2024-08-15  766  			keys[0].fmr_physical + keys[0].fmr_length);
+07d879a6b79484 Darrick J. Wong   2024-08-07  767  	if (keys[0].fmr_length > 0) {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  768  		info->low_daddr = XFS_FSB_TO_BB(mp, start_rtbno);
+07d879a6b79484 Darrick J. Wong   2024-08-07  769  		if (info->low_daddr >= eofs)
+07d879a6b79484 Darrick J. Wong   2024-08-07  770  			return 0;
+07d879a6b79484 Darrick J. Wong   2024-08-07  771  	}
+2f7a595d954c43 Christoph Hellwig 2024-08-15  772  	start_rtx = xfs_rtb_to_rtx(mp, start_rtbno);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  773  	rgno = xfs_rtb_to_rgno(mp, start_rtbno);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  774  	trace_xfs_fsmap_low_key_linear(mp, info->dev, start_rtbno);
+07d879a6b79484 Darrick J. Wong   2024-08-07  775  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  776  	end_rtbno = xfs_daddr_to_rtb(mp, min(eofs - 1, keys[1].fmr_physical));
+2f7a595d954c43 Christoph Hellwig 2024-08-15  777  	end_rgno = xfs_rtb_to_rgno(mp, end_rtbno);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  778  	trace_xfs_fsmap_high_key_linear(mp, info->dev, end_rtbno);
+07d879a6b79484 Darrick J. Wong   2024-08-07  779  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  780  	end_rtx = -1ULL;
+07d879a6b79484 Darrick J. Wong   2024-08-07  781  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  782  	for_each_rtgroup_range(mp, rgno, end_rgno, rtg) {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  783  		if (rgno == end_rgno)
+2f7a595d954c43 Christoph Hellwig 2024-08-15  784  			end_rtx = xfs_rtb_to_rtx(mp,
+2f7a595d954c43 Christoph Hellwig 2024-08-15  785  					end_rtbno + mp->m_sb.sb_rextsize - 1);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  786  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  787  		info->rtg = rtg;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  788  		xfs_rtgroup_lock(rtg, XFS_RTGLOCK_BITMAP_SHARED);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  789  		error = xfs_rtalloc_query_range(rtg, tp, start_rtx, end_rtx,
+2f7a595d954c43 Christoph Hellwig 2024-08-15  790  				xfs_getfsmap_rtdev_rtbitmap_helper, info);
+07d879a6b79484 Darrick J. Wong   2024-08-07  791  		if (error)
+2f7a595d954c43 Christoph Hellwig 2024-08-15  792  			break;
+07d879a6b79484 Darrick J. Wong   2024-08-07  793  
+07d879a6b79484 Darrick J. Wong   2024-08-07  794  		/*
+2f7a595d954c43 Christoph Hellwig 2024-08-15  795  		 * Report any gaps at the end of the rtbitmap by simulating a
+2f7a595d954c43 Christoph Hellwig 2024-08-15  796  		 * zero-length free extent starting at the rtx after the end
+2f7a595d954c43 Christoph Hellwig 2024-08-15  797  		 * of the query range.
+07d879a6b79484 Darrick J. Wong   2024-08-07  798  		 */
+2f7a595d954c43 Christoph Hellwig 2024-08-15  799  		if (rgno == end_rgno) {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  800  			struct xfs_rtalloc_rec	ahigh = {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  801  				.ar_startext	= min(end_rtx + 1,
+2f7a595d954c43 Christoph Hellwig 2024-08-15  802  						      rtg->rtg_extents),
+2f7a595d954c43 Christoph Hellwig 2024-08-15  803  			};
+07d879a6b79484 Darrick J. Wong   2024-08-07  804  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  805  			info->last = true;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  806  			error = xfs_getfsmap_rtdev_rtbitmap_helper(rtg, tp,
+2f7a595d954c43 Christoph Hellwig 2024-08-15  807  					&ahigh, info);
+07d879a6b79484 Darrick J. Wong   2024-08-07  808  			if (error)
+2f7a595d954c43 Christoph Hellwig 2024-08-15  809  				break;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  810  		}
+2f7a595d954c43 Christoph Hellwig 2024-08-15  811  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  812  		xfs_rtgroup_unlock(rtg, XFS_RTGLOCK_BITMAP_SHARED);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  813  		info->rtg = NULL;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  814  		start_rtx = 0;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  815  	}
+2f7a595d954c43 Christoph Hellwig 2024-08-15  816  
+2f7a595d954c43 Christoph Hellwig 2024-08-15  817  	if (info->rtg) {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  818  		xfs_rtgroup_unlock(info->rtg, XFS_RTGLOCK_BITMAP_SHARED);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  819  		xfs_rtgroup_rele(info->rtg);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  820  		info->rtg = NULL;
+2f7a595d954c43 Christoph Hellwig 2024-08-15  821  	} else if (rtg) {
+2f7a595d954c43 Christoph Hellwig 2024-08-15  822  		/* loop termination case */
+2f7a595d954c43 Christoph Hellwig 2024-08-15  823  		xfs_rtgroup_rele(rtg);
+2f7a595d954c43 Christoph Hellwig 2024-08-15  824  	}
+2f7a595d954c43 Christoph Hellwig 2024-08-15  825  
+07d879a6b79484 Darrick J. Wong   2024-08-07 @826  	return error;
+07d879a6b79484 Darrick J. Wong   2024-08-07  827  }
+07d879a6b79484 Darrick J. Wong   2024-08-07  828  #endif /* CONFIG_XFS_RT */
+07d879a6b79484 Darrick J. Wong   2024-08-07  829  
 
-vim +908 tools/perf/util/scripting-engines/trace-event-python.c
+:::::: The code at line 826 was first introduced by commit
+:::::: 07d879a6b79484ba5c403e00abae6c52ac63ad6e xfs: rearrange xfs_fsmap.c a little bit
 
-bee272af78525b Adrian Hunter            2021-05-25  855  
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  856  static PyObject *get_perf_sample_dict(struct perf_sample *sample,
-32dcd021d00403 Jiri Olsa                2019-07-21  857  					 struct evsel *evsel,
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  858  					 struct addr_location *al,
-3f8e009e01c4ed Adrian Hunter            2021-05-25  859  					 struct addr_location *addr_al,
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  860  					 PyObject *callchain)
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  861  {
-48a1f565261d2a Jin Yao                  2018-06-01  862  	PyObject *dict, *dict_sample, *brstack, *brstacksym;
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  863  
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  864  	dict = PyDict_New();
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  865  	if (!dict)
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  866  		Py_FatalError("couldn't create Python dictionary");
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  867  
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  868  	dict_sample = PyDict_New();
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  869  	if (!dict_sample)
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  870  		Py_FatalError("couldn't create Python dictionary");
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  871  
-8ab2e96d8ff188 Arnaldo Carvalho de Melo 2020-04-29  872  	pydict_set_item_string_decref(dict, "ev_name", _PyUnicode_FromString(evsel__name(evsel)));
-1fc632cef4ea13 Jiri Olsa                2019-07-21  873  	pydict_set_item_string_decref(dict, "attr", _PyBytes_FromStringAndSize((const char *)&evsel->core.attr, sizeof(evsel->core.attr)));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  874  
-acfd65c89403f3 Ben Gainey               2024-01-23  875  	pydict_set_item_string_decref(dict_sample, "id",
-acfd65c89403f3 Ben Gainey               2024-01-23  876  			PyLong_FromUnsignedLongLong(sample->id));
-acfd65c89403f3 Ben Gainey               2024-01-23  877  	pydict_set_item_string_decref(dict_sample, "stream_id",
-acfd65c89403f3 Ben Gainey               2024-01-23  878  			PyLong_FromUnsignedLongLong(sample->stream_id));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  879  	pydict_set_item_string_decref(dict_sample, "pid",
-66dfdff03d196e Jaroslav Škarvada        2018-01-19  880  			_PyLong_FromLong(sample->pid));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  881  	pydict_set_item_string_decref(dict_sample, "tid",
-66dfdff03d196e Jaroslav Škarvada        2018-01-19  882  			_PyLong_FromLong(sample->tid));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  883  	pydict_set_item_string_decref(dict_sample, "cpu",
-66dfdff03d196e Jaroslav Škarvada        2018-01-19  884  			_PyLong_FromLong(sample->cpu));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  885  	pydict_set_item_string_decref(dict_sample, "ip",
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  886  			PyLong_FromUnsignedLongLong(sample->ip));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  887  	pydict_set_item_string_decref(dict_sample, "time",
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  888  			PyLong_FromUnsignedLongLong(sample->time));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  889  	pydict_set_item_string_decref(dict_sample, "period",
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  890  			PyLong_FromUnsignedLongLong(sample->period));
-41013f0c095980 Kan Liang                2018-01-04  891  	pydict_set_item_string_decref(dict_sample, "phys_addr",
-41013f0c095980 Kan Liang                2018-01-04  892  			PyLong_FromUnsignedLongLong(sample->phys_addr));
-943f32a0e8a4ea Leo Yan                  2018-05-28  893  	pydict_set_item_string_decref(dict_sample, "addr",
-943f32a0e8a4ea Leo Yan                  2018-05-28  894  			PyLong_FromUnsignedLongLong(sample->addr));
-74ec14f3893c30 Arun Kalyanasundaram     2017-07-21  895  	set_sample_read_in_dict(dict_sample, sample, evsel);
-48a1f565261d2a Jin Yao                  2018-06-01  896  	pydict_set_item_string_decref(dict_sample, "weight",
-48a1f565261d2a Jin Yao                  2018-06-01  897  			PyLong_FromUnsignedLongLong(sample->weight));
-48a1f565261d2a Jin Yao                  2018-06-01  898  	pydict_set_item_string_decref(dict_sample, "transaction",
-48a1f565261d2a Jin Yao                  2018-06-01  899  			PyLong_FromUnsignedLongLong(sample->transaction));
-48a1f565261d2a Jin Yao                  2018-06-01  900  	set_sample_datasrc_in_dict(dict_sample, sample);
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  901  	pydict_set_item_string_decref(dict, "sample", dict_sample);
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  902  
-66dfdff03d196e Jaroslav Škarvada        2018-01-19  903  	pydict_set_item_string_decref(dict, "raw_buf", _PyBytes_FromStringAndSize(
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  904  			(const char *)sample->raw_data, sample->raw_size));
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  905  	pydict_set_item_string_decref(dict, "comm",
-66dfdff03d196e Jaroslav Škarvada        2018-01-19  906  			_PyUnicode_FromString(thread__comm_str(al->thread)));
-c4f462235c0f61 Leo Yan                  2022-05-21  907  	set_sym_in_dict(dict, al, "dso", "dso_bid", "dso_map_start", "dso_map_end",
-e6bc3ac8585c9d steve.c.clevenger.ampere 2024-08-20 @908  			"symbol", "symoff", "map_pgoff")
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  909  
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  910  	pydict_set_item_string_decref(dict, "callchain", callchain);
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  911  
-48a1f565261d2a Jin Yao                  2018-06-01  912  	brstack = python_process_brstack(sample, al->thread);
-48a1f565261d2a Jin Yao                  2018-06-01  913  	pydict_set_item_string_decref(dict, "brstack", brstack);
-48a1f565261d2a Jin Yao                  2018-06-01  914  
-48a1f565261d2a Jin Yao                  2018-06-01  915  	brstacksym = python_process_brstacksym(sample, al->thread);
-48a1f565261d2a Jin Yao                  2018-06-01  916  	pydict_set_item_string_decref(dict, "brstacksym", brstacksym);
-48a1f565261d2a Jin Yao                  2018-06-01  917  
-6de306b7a5304e Adrian Hunter            2022-07-11  918  	if (sample->machine_pid) {
-6de306b7a5304e Adrian Hunter            2022-07-11  919  		pydict_set_item_string_decref(dict_sample, "machine_pid",
-6de306b7a5304e Adrian Hunter            2022-07-11  920  				_PyLong_FromLong(sample->machine_pid));
-6de306b7a5304e Adrian Hunter            2022-07-11  921  		pydict_set_item_string_decref(dict_sample, "vcpu",
-6de306b7a5304e Adrian Hunter            2022-07-11  922  				_PyLong_FromLong(sample->vcpu));
-6de306b7a5304e Adrian Hunter            2022-07-11  923  	}
-6de306b7a5304e Adrian Hunter            2022-07-11  924  
-22cc2f74bbe217 Adrian Hunter            2021-05-25  925  	pydict_set_item_string_decref(dict_sample, "cpumode",
-22cc2f74bbe217 Adrian Hunter            2021-05-25  926  			_PyLong_FromLong((unsigned long)sample->cpumode));
-22cc2f74bbe217 Adrian Hunter            2021-05-25  927  
-3f8e009e01c4ed Adrian Hunter            2021-05-25  928  	if (addr_al) {
-3f8e009e01c4ed Adrian Hunter            2021-05-25  929  		pydict_set_item_string_decref(dict_sample, "addr_correlates_sym",
-3f8e009e01c4ed Adrian Hunter            2021-05-25  930  			PyBool_FromLong(1));
-c4f462235c0f61 Leo Yan                  2022-05-21  931  		set_sym_in_dict(dict_sample, addr_al, "addr_dso", "addr_dso_bid",
-c4f462235c0f61 Leo Yan                  2022-05-21  932  				"addr_dso_map_start", "addr_dso_map_end",
-e6bc3ac8585c9d steve.c.clevenger.ampere 2024-08-20  933  				"addr_symbol", "addr_symoff", "map_pgoff");
-3f8e009e01c4ed Adrian Hunter            2021-05-25  934  	}
-3f8e009e01c4ed Adrian Hunter            2021-05-25  935  
-bee272af78525b Adrian Hunter            2021-05-25  936  	if (sample->flags)
-bee272af78525b Adrian Hunter            2021-05-25  937  		python_process_sample_flags(sample, dict_sample);
-bee272af78525b Adrian Hunter            2021-05-25  938  
-142b05182eaa44 Adrian Hunter            2021-05-25  939  	/* Instructions per cycle (IPC) */
-142b05182eaa44 Adrian Hunter            2021-05-25  940  	if (sample->insn_cnt && sample->cyc_cnt) {
-142b05182eaa44 Adrian Hunter            2021-05-25  941  		pydict_set_item_string_decref(dict_sample, "insn_cnt",
-142b05182eaa44 Adrian Hunter            2021-05-25  942  			PyLong_FromUnsignedLongLong(sample->insn_cnt));
-142b05182eaa44 Adrian Hunter            2021-05-25  943  		pydict_set_item_string_decref(dict_sample, "cyc_cnt",
-142b05182eaa44 Adrian Hunter            2021-05-25  944  			PyLong_FromUnsignedLongLong(sample->cyc_cnt));
-142b05182eaa44 Adrian Hunter            2021-05-25  945  	}
-142b05182eaa44 Adrian Hunter            2021-05-25  946  
-b457c526072aa8 Paran Lee                2023-11-21  947  	if (set_regs_in_dict(dict, sample, evsel))
-b457c526072aa8 Paran Lee                2023-11-21  948  		Py_FatalError("Failed to setting regs in dict");
-48a1f565261d2a Jin Yao                  2018-06-01  949  
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  950  	return dict;
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  951  }
-892e76b2e8c5e8 Arun Kalyanasundaram     2017-07-21  952  
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
