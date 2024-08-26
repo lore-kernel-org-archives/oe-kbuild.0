@@ -1,141 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671FA18D629
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Aug 2024 17:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCA818FC83;
+	Mon, 26 Aug 2024 18:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724695165; cv=none; b=lGkrK7ok27rrjOQVV1WTshDVHb35k74JAFqlb+KqOk+y9nE0pEI+dhmNOsjKLE1J5H81ZFNALCt31/KwY1IeOeqW8T1maCrUjqv2QchjY6+VxP3Fpjc3J9KwMPJ7mFQt1/uPO52vuLeeOVoP629LEkqF93HCsq/eAHGwnNEPDCw=
+	t=1724695561; cv=none; b=Hy9xW4QrdmMQ+Xp1a6z4htpXvW7rWa2yMN5UAsg6vMgQ0WlKDQLmaKEbrf9hIiz/C8n3FU/otaXtESIBfq422L+zsJWPGVzSfPKilVahaAF2/wMpNS7zbTw+9enCuCQSnGxags1UgspDylpsvxxdd/ka6hT8RGs4pJIXrodAsnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724695165; c=relaxed/simple;
-	bh=zyRm/m7bqPyQKhnwZz4M2q4SkK8jSiIO9phzQI7lKOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SGtGteRJXXEtJZ5fpcS3NKSBMG4ilgpoeiJjica91Cdg+159YqkdGfwibtPYqug7N7WLvImvrwi3S26FaVdGP4HYb3Cnmw6nXIhDJ+a2GCj13H+knu/9CLwpuqWjlQDMEJwAUmnWhoy/Tawo2dObIIXOcqYFNi/Mreu0Pd86ucI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FS8DSYJE; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1724695561; c=relaxed/simple;
+	bh=tBE1R9Ug8xlXzfm5VwVI4PjUuyZq8G9eo/PwJWmzBcI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lyvbaXKNTz86BMsqMTIKofc3KTr6MAJ1Uk3ZfEjLnDE07wqcfGakxY0Slm9UR7KF1/KyDkWbUp9L7tKV1zueT/CR3USRL/3TpQ8nlWdldUxJBPU2CK0j3/IjepEWskCIAVBo7hvC5mDK1dFpUHXXx0U6tOaxXkbT/m5ZqceCQp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=oFFZlLS9; arc=none smtp.client-ip=199.89.1.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FS8DSYJE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724695164; x=1756231164;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zyRm/m7bqPyQKhnwZz4M2q4SkK8jSiIO9phzQI7lKOI=;
-  b=FS8DSYJEcRN+Q0xE29+WZtcHHQhAi7b72RQQPkc7FjXVerszwPi8f+Cq
-   NemuzTFWMtE14QR/Bohqa3UJL03MV3U7sjNkh/EMntqq5XSR8mxgRdpmD
-   +Oi1Oflh/o9odlNTwwNuMdWO7VREAPALxcXZ4nlyOKfjzgriqVID4QYyH
-   tOHUKQ87oi1q0QjHWX6ENRHsTjZlvJnv5iKzN3V9meOcojDeR5NUs58aD
-   5yboACIz7oM4uZN0oHZvBXU3sPHh1J4ukQHpirQcFsSIM6NpwGUzwlVZ/
-   DPuEqHGtlXE6QwU8JanMDOgrJPGkcvukvv7c7w6DEUGcue+s6kRV/j7af
-   Q==;
-X-CSE-ConnectionGUID: RUdIWGvhSmqqqpL+zC+6LQ==
-X-CSE-MsgGUID: 2d517znXRfi6vSObhy006Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="23315295"
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="23315295"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 10:59:23 -0700
-X-CSE-ConnectionGUID: dmr0w5thS8KFrDkaA1c9wg==
-X-CSE-MsgGUID: UTO2xqrmRKyJNQYtuC9a2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="62906005"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Aug 2024 10:59:21 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sidzr-000HSA-2X;
-	Mon, 26 Aug 2024 17:59:19 +0000
-Date: Tue, 27 Aug 2024 01:59:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3] arm64: dts: imx8mm-emtop-baseboard: Add Peripherals
- Support
-Message-ID: <202408270122.RS3dMlo8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="oFFZlLS9"
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4WszB93KtnzlgVnf;
+	Mon, 26 Aug 2024 18:05:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1724695550; x=1727287551; bh=tBE1R9Ug8xlXzfm5VwVI4PjU
+	uyZq8G9eo/PwJWmzBcI=; b=oFFZlLS9sq43/soBY5o06QDuemCNYcTcdpbUQPQ8
+	ZNPFZPrNqBL09S2zm9UA2LO4jPZxA2EJrRVuL/QRYgxpPqz3MVq1Azlrhetb69lC
+	yhB6NGPbx/2JeksUvytEK8EQRV265GHM7uhYMSmb4XIBoc5Nst7iU1kztk8Vlm1C
+	QiLlGcafMcnxCLWg5y7LWM87ggXZ8vsSX3vQa+HsbcRxVgWjSOqOdTpeCDDHCCBr
+	bxw99Egsm9UxmjZHNLl3kkWNkb55KtWsWVayO28Lj73KlbgQLTWUYHh1fmM9L6W8
+	QHfjnoA11XvdpPGJrtbf4AYqyj0zDD1Ee1+YC4R82Yv0KQ==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id Gsf3Jt8i6Laa; Mon, 26 Aug 2024 18:05:50 +0000 (UTC)
+Received: from [172.31.110.201] (unknown [216.9.110.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4WszB451SBzlgVnN;
+	Mon, 26 Aug 2024 18:05:48 +0000 (UTC)
+Message-ID: <602421aa-d546-49c2-a08f-6779d3c0f9af@acm.org>
+Date: Mon, 26 Aug 2024 11:05:47 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier
+ to read
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Peter Wang <peter.wang@mediatek.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Avri Altman <avri.altman@wdc.com>, Bean Huo <beanhuo@micron.com>,
+ Andrew Halaney <ahalaney@redhat.com>
+References: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dts:111.20-120.11: ERROR (phandle_references): /soc@0/bus@30800000/spba-bus@30800000/spi@30830000/can@0: Reference to non-existent node or label "pinctrl_canbus""
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+On 8/25/24 11:25 PM, Dan Carpenter wrote:
+> New smatch warnings:
+> drivers/ufs/core/ufshcd.c:5484 ufshcd_uic_cmd_compl() error: we previously assumed 'cmd' could be null (see line 5474)
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240823120158.19294-1-tarang.raval@siliconsignals.io>
-References: <20240823120158.19294-1-tarang.raval@siliconsignals.io>
-TO: Tarang Raval <tarang.raval@siliconsignals.io>
-TO: shawnguo@kernel.org
-TO: krzk+dt@kernel.org
-TO: festevam@gmail.com
-CC: tarang.raval@siliconsignals.io
-CC: Rob Herring <robh@kernel.org>
-CC: Conor Dooley <conor+dt@kernel.org>
-CC: Sascha Hauer <s.hauer@pengutronix.de>
-CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+This smatch warning is a false positive. There are multiple code blocks
+in this functions that are guarded by if-statements. The two code blocks
+this warning applies to are mutually exclusive. Hence, the 'cmd' check
+from one block should not be used to draw conclusions about other code
+blocks. I will consider to introduce the 'else' keyword to suppress this
+false positive.
 
-Hi Tarang,
+Thanks,
 
-kernel test robot noticed the following build warnings:
+Bart.
 
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on next-20240826]
-[cannot apply to linus/master v6.11-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tarang-Raval/arm64-dts-imx8mm-emtop-baseboard-Add-Peripherals-Support/20240826-125744
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20240823120158.19294-1-tarang.raval%40siliconsignals.io
-patch subject: [PATCH v3] arm64: dts: imx8mm-emtop-baseboard: Add Peripherals Support
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240827/202408270122.RS3dMlo8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270122.RS3dMlo8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408270122.RS3dMlo8-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dts:111.20-120.11: ERROR (phandle_references): /soc@0/bus@30800000/spba-bus@30800000/spi@30830000/can@0: Reference to non-existent node or label "pinctrl_canbus"
-
-vim +/pinctrl_canbus +111 arch/arm64/boot/dts/freescale/imx8mm-emtop-baseboard.dts
-
-d957ce2fca01e44 Tarang Raval 2024-08-23  104  
-d957ce2fca01e44 Tarang Raval 2024-08-23  105  /* CAN BUS */
-d957ce2fca01e44 Tarang Raval 2024-08-23  106  &ecspi2 {
-d957ce2fca01e44 Tarang Raval 2024-08-23  107          pinctrl-names = "default";
-d957ce2fca01e44 Tarang Raval 2024-08-23  108          pinctrl-0 = <&pinctrl_ecspi2>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  109          status = "okay";
-d957ce2fca01e44 Tarang Raval 2024-08-23  110  
-d957ce2fca01e44 Tarang Raval 2024-08-23 @111          can: can@0 {
-d957ce2fca01e44 Tarang Raval 2024-08-23  112                  compatible = "microchip,mcp2515";
-d957ce2fca01e44 Tarang Raval 2024-08-23  113                  reg = <0>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  114                  pinctrl-names = "default";
-d957ce2fca01e44 Tarang Raval 2024-08-23  115                  pinctrl-0 = <&pinctrl_canbus>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  116                  clocks = <&osc_can>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  117                  interrupt-parent = <&gpio1>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  118                  interrupts = <14 IRQ_TYPE_LEVEL_HIGH>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  119                  spi-max-frequency = <10000000>;
-d957ce2fca01e44 Tarang Raval 2024-08-23  120          };
-38e93270fd735e6 Tarang Raval 2024-07-25  121  };
-38e93270fd735e6 Tarang Raval 2024-07-25  122  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
