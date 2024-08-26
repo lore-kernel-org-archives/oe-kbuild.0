@@ -1,70 +1,64 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E952113DBA2
-	for <oe-kbuild@lists.linux.dev>; Mon, 26 Aug 2024 06:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0558563E
+	for <oe-kbuild@lists.linux.dev>; Mon, 26 Aug 2024 06:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724653540; cv=none; b=ot0QrH+ep10Taqww8WU8bEWdrOANlGuzq2PxCg67VYUPiZx1rpGRuhlVlqVNlIRzDtgjyAvQH5rmwMwq21HfwBHiUTTRy1Cpw4vjA57kjEch5CptdqjFJsKYUb84MJZOF9X/6Fbnz09iaz7DWxtARLx6kIbOfp2ZBIuC7oRX4ao=
+	t=1724653739; cv=none; b=F4oDh8flvpE0j2MlZNWJ6/j1A3SaAH/5LX92PdUK98jBaNUY4XPu49fYGAtbvDQ9hJM6pbjmpoUCdah15VQNhtsywuFz4k5W1iSqlhjTHa4d9zyzej6qaH/mmvh2AUIztzFVJwfvZ792Ze7WBwnl+cbDeFZksCr50yEjcAZI8Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724653540; c=relaxed/simple;
-	bh=Kyxb3XRB9qny5CjLoAei3cEXcK+1j8EfD2Cpp7gL8zI=;
+	s=arc-20240116; t=1724653739; c=relaxed/simple;
+	bh=okdG2a0qJ8UIOBr5/EkVEr7iuWcYdW0zZQUTNXr3230=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=G6yfqgjFcsCcWLECYiKsvRAwBLCTCGcHr45/DWHImftPyVhPq52iHbgg6SKc42b+XMk/hYp5+F7LZQ5EqDDynsUnZcw0Eyo8bdXQyXs3el2iwWfa7YXRehIL/McLnSOY2O82s4zQ5CLR9rgB0+R/AT3/nApU+ldYiq4lZTL26Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CyrItDcl; arc=none smtp.client-ip=209.85.208.41
+	 Content-Disposition; b=ELP8LIl+tATnCu4PW+ix1Zee+b3lKstXoClT5aUMLUPQSmYEuk52TTLxXnfQqMHW0rZUyRzmw2juudJ6g0fDofgXlX/wGO9xM444Bi/r1UpWpFCpA9QNxS8fD1MJsWJrYRuR8tQOKW52oNJSaY836Lgr2ctIhO93Piubs5Z2WX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OieeHyT/; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CyrItDcl"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5bf01bdaff0so4091662a12.3
-        for <oe-kbuild@lists.linux.dev>; Sun, 25 Aug 2024 23:25:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OieeHyT/"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53349d3071eso4882071e87.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 25 Aug 2024 23:28:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724653537; x=1725258337; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VKDE8lqIxObfC+D7wdf8I4Vpc7UzyVZemX2pQ+G8N7U=;
-        b=CyrItDcllmh80S7Ulw+3xTybewzZf7mhxHMdTkoMQ0KGgwj5zQ/+ZNdSLWeH7pgP2T
-         8/ljU66xI4LcbJ7aiRb49zsjJdPEwa9Bhf2d0sKI7+DKp9RbHE26QqL1ecdvRbiGEQtO
-         kFySSHaYaPQTOZ/8AsJmTp4PisUyysXNEj21GHSagxTG/tmc0gVMNloN3J3aJFFAfo5Y
-         82C5rKzD4JmjRcdUn2+UoxTKS3+MKmXKFN608jm59gYjiCQdzX/Qhp5xU3hxM5tIzARl
-         mbvYXwr7M0ttA5ErLRctMMd7b43uae+y4Qvr6Z3ML/LGDSKn+X2Mdu1SP9dZuWsKY7o4
-         S4wQ==
+        d=linaro.org; s=google; t=1724653735; x=1725258535; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aqiBFey06gKWR64Nykb3hN0RcI8q8smd1b69ocWAqt8=;
+        b=OieeHyT/4Bu24EwVLAWQrIFRAa2ozp384Z47Pwi4mqoL/F0P+66tVSk9ZuXwpABj+h
+         /U2T0y58P/ffq+NmlgNnqL0uNbz1UzcWrfH3iAJvb6kyKui1rXDcrCYJmm6F8asA9opD
+         iXZw8oGoVe7cMZpPdRfXoOSBKrf4vA5JLYMUysoGRyZmtPohWyg9jjQAA5PEW8darJc2
+         J8rZZKTlRH04z9G6CccQnpx7NPxzv3e/jzp/HWzznXpjd5/yY7zSbWNzsninvmu/i9Wl
+         333nNalb9Bel1Fdq1ICe0vqM5eSpYezHmbaESGh5m/3DAeLlYrxlir7+okPMUi4InLSC
+         VUaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724653537; x=1725258337;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VKDE8lqIxObfC+D7wdf8I4Vpc7UzyVZemX2pQ+G8N7U=;
-        b=MDOwkHWul4oDqEKSzbBF70fe1HtGV9s11rWK2DCkSe6fFVFobijc+W5SAthJrvVGTE
-         BQcVzMrjVBJ5v4rOtdHSvf02ApEh5uh375Qc3OVupiEAu0NO/nPHXxVyLf4zekpFPwmO
-         WCJp21sw7Ud5TS+Xev2xG+3w87ZjPw+pMWNsOSc8NmddD1PmB9JqJJmHQ2tmxz4riZxj
-         BhBVA4Z9f/Q438jcrDBsKboMiQ4nbLAmi3tBvVoV4tUeMXU/SZFOReVGOoUSt9UH2k6p
-         Pmz4R6hBi3kB4xON2ZzbxCz1WSqUlznHBXhXkFwW5DWsxf6ax4zWd8cR7fzOG2gphVH8
-         lXlA==
-X-Gm-Message-State: AOJu0YzdQbkt2vDOW2RkvwfVePD1B7blsXbOGD5WIBLFRUcjdd3tOMIc
-	j86Irfc0gfy/SQ9QhTJ2LL7YyCoYeQZSF7pdnVcGAuOBaWp7v18eiACkSjMePYgKhzERBl+v4eG
-	fKS8=
-X-Google-Smtp-Source: AGHT+IG/w8UHs/xfUMPq/NvtL3L02uVeTkqWsJE3WC9fIQKCPLm6xQgAbVr7mHIK83LQON3VnSTPwQ==
-X-Received: by 2002:a17:906:da88:b0:a86:799d:f8d1 with SMTP id a640c23a62f3a-a86a54a991cmr725969866b.47.1724653536994;
-        Sun, 25 Aug 2024 23:25:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724653735; x=1725258535;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aqiBFey06gKWR64Nykb3hN0RcI8q8smd1b69ocWAqt8=;
+        b=gTr4iugnOdcSg0uPLG57ZZsbWVNpuIi8gvXnG0KwMUJv5rwYDcJMTk6BzoLcTYnAiu
+         D7IUnfQ9YtZrHn2LOVtGeeYkPRfgumkaqiKR+tUNrsMTNnPiTx+aC0773/YYJcSF+PZ7
+         YfU5dGXKGk/RRDbAnpCwNLZ8ligoWNbHbDe3SNd4+RwVSqFguMZsMEzhriU0wfrsPsBQ
+         dN4uOz3rWK9kdRRQVzyppDnL+8mJNGfd4gSMsqkRyEzOlbGeSTkcaJ5hMm917fQpXo4z
+         8uT6eIUao5CD1vueCPneYFFVjaCVLk9Ktt/rwXYbctmQwpaRntDf1/WY+FVPcVT+D1RZ
+         wmsQ==
+X-Gm-Message-State: AOJu0Yxy8XqRPP9VHvlhTBk6Pz+yZQDnun+4/kKv3fzGbikbzDiDUoLV
+	fQO+xxm8iK2XROQlzZjE/jUubsUj5ubsX3ifdjJSsBm+tcy/dsJwVcpzp6rcdWlwhkGvdyeju/Q
+	HeW4=
+X-Google-Smtp-Source: AGHT+IGKfB3saQUEIUkONKo/dp49P2vKf80IwyT5VPDbJqnXK30XKYgj+/J5OAL/1sx/3bSdT+jQZQ==
+X-Received: by 2002:a05:6512:3dab:b0:533:1cb8:ec6b with SMTP id 2adb3069b0e04-53438784989mr6168500e87.27.1724653734684;
+        Sun, 25 Aug 2024 23:28:54 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f437971sm628603166b.142.2024.08.25.23.25.35
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a868f47d1c3sm617117966b.169.2024.08.25.23.28.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2024 23:25:36 -0700 (PDT)
-Date: Mon, 26 Aug 2024 09:25:31 +0300
+        Sun, 25 Aug 2024 23:28:54 -0700 (PDT)
+Date: Mon, 26 Aug 2024 09:28:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Bart Van Assche <bvanassche@acm.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-scsi@vger.kernel.org, Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Peter Wang <peter.wang@mediatek.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Avri Altman <avri.altman@wdc.com>, Bean Huo <beanhuo@micron.com>,
-	Andrew Halaney <ahalaney@redhat.com>
-Subject: Re: [PATCH 1/2] scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier
- to read
-Message-ID: <2d3d17c7-c3f9-4596-aa50-3226163242eb@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Thorsten Blum <thorsten.blum@toblux.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Subject: [paragon-software-group-ntfs3:master 2/16]
+ fs/ntfs3/lib/lzx_decompress.c:555 lzx_decompress_block() error:
+ uninitialized symbol 'match_offset'.
+Message-ID: <38752402-3a41-45f0-97ba-4f208d17337b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,73 +67,124 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240821182923.145631-2-bvanassche@acm.org>
 
-Hi Bart,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/scsi-ufs-core-Make-ufshcd_uic_cmd_compl-easier-to-read/20240822-023058
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20240821182923.145631-2-bvanassche%40acm.org
-patch subject: [PATCH 1/2] scsi: ufs: core: Make ufshcd_uic_cmd_compl() easier to read
-config: i386-randconfig-141-20240824 (https://download.01.org/0day-ci/archive/20240824/202408241736.p8Mxizp7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git master
+head:   7529036a025ad8bbd664f3aad8bd726e664a6db7
+commit: 7495ce846bbe4f38d7ea5e023e44ad864b6348ad [2/16] fs/ntfs3: Use swap() to improve code
+config: x86_64-randconfig-161-20240824 (https://download.01.org/0day-ci/archive/20240824/202408242247.tSSqBPqy-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408241736.p8Mxizp7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408242247.tSSqBPqy-lkp@intel.com/
 
-New smatch warnings:
-drivers/ufs/core/ufshcd.c:5484 ufshcd_uic_cmd_compl() error: we previously assumed 'cmd' could be null (see line 5474)
+smatch warnings:
+fs/ntfs3/lib/lzx_decompress.c:555 lzx_decompress_block() error: uninitialized symbol 'match_offset'.
 
-vim +/cmd +5484 drivers/ufs/core/ufshcd.c
+vim +/match_offset +555 fs/ntfs3/lib/lzx_decompress.c
 
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5464  static irqreturn_t ufshcd_uic_cmd_compl(struct ufs_hba *hba, u32 intr_status)
-6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5465  {
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5466  	irqreturn_t retval = IRQ_NONE;
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5467  	struct uic_command *cmd;
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5468  
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5469  	spin_lock(hba->host->host_lock);
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5470  	cmd = hba->active_uic_cmd;
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5471  	if (ufshcd_is_auto_hibern8_error(hba, intr_status))
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5472  		hba->errors |= (UFSHCD_UIC_HIBERN8_MASK & intr_status);
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5473  
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21 @5474  	if (intr_status & UIC_COMMAND_COMPL && cmd) {
-                                                                                                                               ^^^
-cmd checked for NULL here
+522e010b58379f Konstantin Komarov 2021-08-13  471  static int lzx_decompress_block(const struct lzx_decompressor *d,
+522e010b58379f Konstantin Komarov 2021-08-13  472  				struct input_bitstream *is,
+522e010b58379f Konstantin Komarov 2021-08-13  473  				int block_type, u32 block_size,
+522e010b58379f Konstantin Komarov 2021-08-13  474  				u8 * const out_begin, u8 *out_next,
+522e010b58379f Konstantin Komarov 2021-08-13  475  				u32 recent_offsets[])
+522e010b58379f Konstantin Komarov 2021-08-13  476  {
+522e010b58379f Konstantin Komarov 2021-08-13  477  	u8 * const block_end = out_next + block_size;
+522e010b58379f Konstantin Komarov 2021-08-13  478  	u32 ones_if_aligned = 0U - (block_type == LZX_BLOCKTYPE_ALIGNED);
+522e010b58379f Konstantin Komarov 2021-08-13  479  
+522e010b58379f Konstantin Komarov 2021-08-13  480  	do {
+522e010b58379f Konstantin Komarov 2021-08-13  481  		u32 mainsym;
+522e010b58379f Konstantin Komarov 2021-08-13  482  		u32 match_len;
+522e010b58379f Konstantin Komarov 2021-08-13  483  		u32 match_offset;
+522e010b58379f Konstantin Komarov 2021-08-13  484  		u32 offset_slot;
+522e010b58379f Konstantin Komarov 2021-08-13  485  		u32 num_extra_bits;
+522e010b58379f Konstantin Komarov 2021-08-13  486  
+522e010b58379f Konstantin Komarov 2021-08-13  487  		mainsym = read_mainsym(d, is);
+522e010b58379f Konstantin Komarov 2021-08-13  488  		if (mainsym < LZX_NUM_CHARS) {
+522e010b58379f Konstantin Komarov 2021-08-13  489  			/* Literal  */
+522e010b58379f Konstantin Komarov 2021-08-13  490  			*out_next++ = mainsym;
+522e010b58379f Konstantin Komarov 2021-08-13  491  			continue;
+522e010b58379f Konstantin Komarov 2021-08-13  492  		}
+522e010b58379f Konstantin Komarov 2021-08-13  493  
+522e010b58379f Konstantin Komarov 2021-08-13  494  		/* Match  */
+522e010b58379f Konstantin Komarov 2021-08-13  495  
+522e010b58379f Konstantin Komarov 2021-08-13  496  		/* Decode the length header and offset slot.  */
+522e010b58379f Konstantin Komarov 2021-08-13  497  		mainsym -= LZX_NUM_CHARS;
+522e010b58379f Konstantin Komarov 2021-08-13  498  		match_len = mainsym % LZX_NUM_LEN_HEADERS;
+522e010b58379f Konstantin Komarov 2021-08-13  499  		offset_slot = mainsym / LZX_NUM_LEN_HEADERS;
+522e010b58379f Konstantin Komarov 2021-08-13  500  
+522e010b58379f Konstantin Komarov 2021-08-13  501  		/* If needed, read a length symbol to decode the full length. */
+522e010b58379f Konstantin Komarov 2021-08-13  502  		if (match_len == LZX_NUM_PRIMARY_LENS)
+522e010b58379f Konstantin Komarov 2021-08-13  503  			match_len += read_lensym(d, is);
+522e010b58379f Konstantin Komarov 2021-08-13  504  		match_len += LZX_MIN_MATCH_LEN;
+522e010b58379f Konstantin Komarov 2021-08-13  505  
+522e010b58379f Konstantin Komarov 2021-08-13  506  		if (offset_slot < LZX_NUM_RECENT_OFFSETS) {
+522e010b58379f Konstantin Komarov 2021-08-13  507  			/* Repeat offset  */
+522e010b58379f Konstantin Komarov 2021-08-13  508  
+522e010b58379f Konstantin Komarov 2021-08-13  509  			/* Note: This isn't a real LRU queue, since using the R2
+522e010b58379f Konstantin Komarov 2021-08-13  510  			 * offset doesn't bump the R1 offset down to R2.  This
+522e010b58379f Konstantin Komarov 2021-08-13  511  			 * quirk allows all 3 recent offsets to be handled by
+522e010b58379f Konstantin Komarov 2021-08-13  512  			 * the same code.  (For R0, the swap is a no-op.)
+522e010b58379f Konstantin Komarov 2021-08-13  513  			 */
+7495ce846bbe4f Thorsten Blum      2024-07-31  514  			swap(recent_offsets[offset_slot], recent_offsets[0]);
 
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5475  		cmd->argument2 |= ufshcd_get_uic_cmd_result(hba);
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5476  		cmd->argument3 = ufshcd_get_dme_attr_val(hba);
-0f52fcb99ea273 drivers/scsi/ufs/ufshcd.c Can Guo               2020-11-02  5477  		if (!hba->uic_async_done)
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5478  			cmd->cmd_active = 0;
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5479  		complete(&cmd->done);
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5480  		retval = IRQ_HANDLED;
-6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5481  	}
-53b3d9c3fdda94 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-08-31  5482  
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5483  	if (intr_status & UFSHCD_UIC_PWR_MASK && hba->uic_async_done) {
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21 @5484  		cmd->cmd_active = 0;
+match_offset not set on this path
 
-Not checked here.  It could be be that when UFSHCD_UIC_PWR_MASK is set that
-means cmd is valid?
+522e010b58379f Konstantin Komarov 2021-08-13  515  		} else {
+522e010b58379f Konstantin Komarov 2021-08-13  516  			/* Explicit offset  */
+522e010b58379f Konstantin Komarov 2021-08-13  517  
+522e010b58379f Konstantin Komarov 2021-08-13  518  			/* Look up the number of extra bits that need to be read
+522e010b58379f Konstantin Komarov 2021-08-13  519  			 * to decode offsets with this offset slot.
+522e010b58379f Konstantin Komarov 2021-08-13  520  			 */
+522e010b58379f Konstantin Komarov 2021-08-13  521  			num_extra_bits = lzx_extra_offset_bits[offset_slot];
+522e010b58379f Konstantin Komarov 2021-08-13  522  
+522e010b58379f Konstantin Komarov 2021-08-13  523  			/* Start with the offset slot base value.  */
+522e010b58379f Konstantin Komarov 2021-08-13  524  			match_offset = lzx_offset_slot_base[offset_slot];
+522e010b58379f Konstantin Komarov 2021-08-13  525  
+522e010b58379f Konstantin Komarov 2021-08-13  526  			/* In aligned offset blocks, the low-order 3 bits of
+522e010b58379f Konstantin Komarov 2021-08-13  527  			 * each offset are encoded using the aligned offset
+522e010b58379f Konstantin Komarov 2021-08-13  528  			 * code.  Otherwise, all the extra bits are literal.
+522e010b58379f Konstantin Komarov 2021-08-13  529  			 */
+522e010b58379f Konstantin Komarov 2021-08-13  530  
+522e010b58379f Konstantin Komarov 2021-08-13  531  			if ((num_extra_bits & ones_if_aligned) >= LZX_NUM_ALIGNED_OFFSET_BITS) {
+522e010b58379f Konstantin Komarov 2021-08-13  532  				match_offset +=
+522e010b58379f Konstantin Komarov 2021-08-13  533  					bitstream_read_bits(is, num_extra_bits -
+522e010b58379f Konstantin Komarov 2021-08-13  534  								LZX_NUM_ALIGNED_OFFSET_BITS)
+522e010b58379f Konstantin Komarov 2021-08-13  535  							<< LZX_NUM_ALIGNED_OFFSET_BITS;
+522e010b58379f Konstantin Komarov 2021-08-13  536  				match_offset += read_alignedsym(d, is);
+522e010b58379f Konstantin Komarov 2021-08-13  537  			} else {
+522e010b58379f Konstantin Komarov 2021-08-13  538  				match_offset += bitstream_read_bits(is, num_extra_bits);
+522e010b58379f Konstantin Komarov 2021-08-13  539  			}
+522e010b58379f Konstantin Komarov 2021-08-13  540  
+522e010b58379f Konstantin Komarov 2021-08-13  541  			/* Adjust the offset.  */
+522e010b58379f Konstantin Komarov 2021-08-13  542  			match_offset -= (LZX_NUM_RECENT_OFFSETS - 1);
+522e010b58379f Konstantin Komarov 2021-08-13  543  
+522e010b58379f Konstantin Komarov 2021-08-13  544  			/* Update the recent offsets.  */
+522e010b58379f Konstantin Komarov 2021-08-13  545  			recent_offsets[2] = recent_offsets[1];
+522e010b58379f Konstantin Komarov 2021-08-13  546  			recent_offsets[1] = recent_offsets[0];
+522e010b58379f Konstantin Komarov 2021-08-13  547  			recent_offsets[0] = match_offset;
+522e010b58379f Konstantin Komarov 2021-08-13  548  		}
+522e010b58379f Konstantin Komarov 2021-08-13  549  
+522e010b58379f Konstantin Komarov 2021-08-13  550  		/* Validate the match, then copy it to the current position.  */
+522e010b58379f Konstantin Komarov 2021-08-13  551  
+522e010b58379f Konstantin Komarov 2021-08-13  552  		if (match_len > (size_t)(block_end - out_next))
+522e010b58379f Konstantin Komarov 2021-08-13  553  			return -1;
+522e010b58379f Konstantin Komarov 2021-08-13  554  
+522e010b58379f Konstantin Komarov 2021-08-13 @555  		if (match_offset > (size_t)(out_next - out_begin))
+                                                                    ^^^^^^^^^^^^
+Uninitialized.
 
-57d104c153d3d6 drivers/scsi/ufs/ufshcd.c Subhash Jadavani      2014-09-25  5485  		complete(hba->uic_async_done);
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5486  		retval = IRQ_HANDLED;
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5487  	}
-aa5c697988b4c7 drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15  5488  
-aa5c697988b4c7 drivers/scsi/ufs/ufshcd.c Stanley Chu           2020-06-15  5489  	if (retval == IRQ_HANDLED)
-71779e69ba68be drivers/ufs/core/ufshcd.c Bart Van Assche       2024-08-21  5490  		ufshcd_add_uic_command_trace(hba, cmd, UFS_CMD_COMP);
-                                                                                                                                  ^^^
-cmd is not checked for NULL inside this function but it's not dereferenced on
-every path either.
-
-a45f937110fa6b drivers/scsi/ufs/ufshcd.c Can Guo               2021-05-24  5491  	spin_unlock(hba->host->host_lock);
-9333d77573485c drivers/scsi/ufs/ufshcd.c Venkat Gopalakrishnan 2019-11-14  5492  	return retval;
-6ccf44fe4cd7c4 drivers/scsi/ufs/ufshcd.c Seungwon Jeon         2013-06-26  5493  }
+522e010b58379f Konstantin Komarov 2021-08-13  556  			return -1;
+522e010b58379f Konstantin Komarov 2021-08-13  557  
+522e010b58379f Konstantin Komarov 2021-08-13  558  		out_next = lz_copy(out_next, match_len, match_offset,
+522e010b58379f Konstantin Komarov 2021-08-13  559  				   block_end, LZX_MIN_MATCH_LEN);
+522e010b58379f Konstantin Komarov 2021-08-13  560  
+522e010b58379f Konstantin Komarov 2021-08-13  561  	} while (out_next != block_end);
+522e010b58379f Konstantin Komarov 2021-08-13  562  
+522e010b58379f Konstantin Komarov 2021-08-13  563  	return 0;
+522e010b58379f Konstantin Komarov 2021-08-13  564  }
 
 -- 
 0-DAY CI Kernel Test Service
