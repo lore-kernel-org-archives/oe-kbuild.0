@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F178C1D551
-	for <oe-kbuild@lists.linux.dev>; Tue, 27 Aug 2024 14:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEB41CFEDC
+	for <oe-kbuild@lists.linux.dev>; Tue, 27 Aug 2024 19:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724767886; cv=none; b=LxMdJuzcPCNyVPLP84OQpVRaQOlLCHaT+eXONs1VAtW2BS87imsNPqLviJ9ASy/UBmozOZoPhvq0/XLXQylGDtVceb53cv46C62fcPopJ4nksykcONgwvxGs0xqosZfUZBF8gYXvwUAzNaAfnKU0ylpanTiD/k017OATtgrw9CI=
+	t=1724786955; cv=none; b=LsHzmhsdscbMcJAWb2gU/OlRrv5ApWWwzcGWU0ZKFe6itiB/5K76LK+jgqsbSPzCdsa4ew/BxIq5N5T1PuGZrT75MN5rLBrNcoo3Q/c987PYGvRjjCufVyJtMSytL/qOxp7JJvpiHNhVvdu9f2vwxo5TlRsEeX1FfOisZmIceFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724767886; c=relaxed/simple;
-	bh=4NUOP2zZOj+K7UTvamMSS48aUyQt9ktDE97D3edMlC4=;
+	s=arc-20240116; t=1724786955; c=relaxed/simple;
+	bh=QIw58nSUzhydkpNERDnN+ZaJFIo/L20zl4oTYX1MxG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=quNprUJeLUQQXl6BE4kvwiaeayC6LFj7l4hUKmyhQ97mB8iSIid/dGnXcdp3xszILK3bAUQ6bHxMqpgNsPQAE3Y71Fat3edeGqVTyzppX8k34YQDZrFd0fs8pgm8fXlU5uMTFcUgaOUYNLkTOcAahznHmCIVjfGLU+9GI1kHrks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcPNDbld; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=skdlwxLS5rU3ySFtSCrljy9N91/BoaATlUT2906xRcIM8CgQnrzDWIS+oWSkwHEhGlhgu9vpgkZ3h+yxDnwQCUJ8a2sCm7OSeeak1d2J/5mQekGtWJVW80t1kApTUnAzcNaW7CXzdo5G/lF0Ls9pJ87cqnVaLJTx9vToQ2NSFCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gdKTKbD8; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcPNDbld"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gdKTKbD8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724767885; x=1756303885;
+  t=1724786953; x=1756322953;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4NUOP2zZOj+K7UTvamMSS48aUyQt9ktDE97D3edMlC4=;
-  b=LcPNDbld1KtK47HoeE1+62YnY8LnYtIIh8wkkdiV3/F6cbSqGvlFY+HJ
-   FRSXIvBFhp2mJ1t3Zfg42XRHyj7xmW2ujhvjOEqpznQ9x6ax4RED4+Yjf
-   SecDSlrxBahYsqXZwP9K/Jrl2WG6qyJV6f663dHCngW8v2RlRVzAZbCB9
-   jX0H2jUHf6CF1Pej1oOG41ecfo3DGy4YvaWYUaqDHVVpzzfyIpumkLUE3
-   c8HzT7HlMxmH7s/anNaMs5unatzLmJXOypZmoE8SEmm6gTc5JhwbFiy12
-   2ON+u4uzgHdkahgwCPFjzuXzIde36DduSTTgqkm17qukYJkSkshqRlk15
-   Q==;
-X-CSE-ConnectionGUID: 5Nq2alSmQjOtJol+HqiE9g==
-X-CSE-MsgGUID: nnMwvEUHRQmRIh87wB/vOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="27132572"
-X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="27132572"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 07:11:24 -0700
-X-CSE-ConnectionGUID: 8rH8SwRUQHGWatwHS/1OFw==
-X-CSE-MsgGUID: glANb/1fSDK0iJstItTBLg==
+  bh=QIw58nSUzhydkpNERDnN+ZaJFIo/L20zl4oTYX1MxG4=;
+  b=gdKTKbD81c8OtsDSrqqqe3LIca1Q01xltd0qMHxGFIibr2AHmYzordKd
+   VxeeJ3UMMBQe0nGa3sKVdOIS1HNzawcuDH6+QUWFMiJf631qeS7izbtvv
+   63v6sKFmuT8Lw0F8xrPNh8a5uQYnv5B+242fV51Vwuaae2Ahj0FUHzs8U
+   6hAVMUpqk6Y+R3S8P+CspN24wf6lXEvn0F6K+Us+cgpbjrM2nLDhamHK0
+   7PVhlwfybhe+R7cg/v7eGQ/XO/yy84MDxa7gioyXrUSml6HwAe7AUW1Q+
+   OyF3L3mCN4jVbqKFGq80Jv7gijFXVWVr2gu/8/z/yNV3C1UZI5AizdFVM
+   g==;
+X-CSE-ConnectionGUID: ReBfHCa8Sau3oBzmFoC0pw==
+X-CSE-MsgGUID: PwZPVqlgTDCoic20sXfJcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11177"; a="23154668"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="23154668"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2024 12:29:12 -0700
+X-CSE-ConnectionGUID: MmyIcygtQ+moNHQmHDT3IA==
+X-CSE-MsgGUID: UbeZgO97TkWDJcGLiCckjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,180,1719903600"; 
-   d="scan'208";a="100382984"
+X-IronPort-AV: E=Sophos;i="6.10,181,1719903600"; 
+   d="scan'208";a="67669213"
 Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Aug 2024 07:11:24 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Aug 2024 12:29:11 -0700
 Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1siwun-000IjL-1G;
-	Tue, 27 Aug 2024 14:11:21 +0000
-Date: Tue, 27 Aug 2024 22:10:49 +0800
+	id 1sj1sL-000K0N-1z;
+	Tue, 27 Aug 2024 19:29:09 +0000
+Date: Wed, 28 Aug 2024 03:28:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH v1] selftests:tdx:Use min macro
-Message-ID: <202408272101.5KcD2Go4-lkp@intel.com>
+Subject: [opencloudos:next 10/14]
+ drivers/thirdparty/release-drivers/bnxt/tfc_v3/tfc_global_id.c: tfc.h is
+ included more than once.
+Message-ID: <202408280334.QApRMuws-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,69 +69,69 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240822044630.1267500-1-yanzhen@vivo.com>
-References: <20240822044630.1267500-1-yanzhen@vivo.com>
-TO: Yan Zhen <yanzhen@vivo.com>
-TO: shuah@kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: opensource.kernel@vivo.com
-CC: Yan Zhen <yanzhen@vivo.com>
+TO: jasperwang@tencent.com
+TO: kaixuxia@tencent.com
+TO: frankjpliu@tencent.com
+TO: kasong@tencent.com
+TO: sagazchen@tencent.com
+TO: kernelxing@tencent.com
+TO: aurelianliu@tencent.com
+TO: deshengwu@tencent.com
+TO: flyingpeng@tencent.com
+TO: jason.zeng@intel.com
+TO: wu.zheng@intel.com
+TO: yingbao.jia@intel.com
+TO: pei.p.jia@intel.com
 
-Hi Yan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes linus/master v6.11-rc5 next-20240827]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhen/selftests-tdx-Use-min-macro/20240822-125041
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20240822044630.1267500-1-yanzhen%40vivo.com
-patch subject: [PATCH v1] selftests:tdx:Use min macro
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   c99409f7fe0f14dae19af75e7e896e7a17b92946
+commit: 3db1e8157ba7d83cb745e12ed27871d83ed045ce [10/14] drivers/thirdparty: put release-drivers in tree
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 hours ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408272101.5KcD2Go4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408272101.5KcD2Go4-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408280334.QApRMuws-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/thirdparty/release-drivers/bnxt/tfc_v3/tfc_global_id.c: tfc.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/cfa_tcam_mgr_p58.c: cfa_tcam_mgr.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/bnxt_devlink.c: bnxt_ethtool.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/tf_ulp/ulp_tc_rte_flow_gen.c: bnxt_ulp_flow.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/bnxt.c: tfc.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/tf_ulp/ulp_tc_custom_offload.c: ulp_tc_parser.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/hcapi/cfa/hcapi_cfa_defs.h: hcapi_cfa_p58.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/hcapi/cfa/hcapi_cfa_defs.h: hcapi_cfa_p4.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/bnxt_auxbus_compat.h: linux/mod_devicetable.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/tfc_v3/tfc_tcam.c: tfc.h is included more than once.
+--
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_identifier.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_tbl.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_if_tbl.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_tcam.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_em.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: cfa_resource_types.h is included more than once.
+>> drivers/thirdparty/release-drivers/bnxt/tf_core/tf_device_p58.c: tf_device.h is included more than once.
 
-   tdx_guest_test.c: In function 'print_array_hex':
->> tdx_guest_test.c:121:28: warning: implicit declaration of function 'min' [-Wimplicit-function-declaration]
-     121 |                 line_len = min((len - j), rowsize);
-         |                            ^~~
+vim +7 drivers/thirdparty/release-drivers/bnxt/tfc_v3/tfc_global_id.c
 
-
-vim +/min +121 tools/testing/selftests/tdx/tdx_guest_test.c
-
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  111  
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  112  static void print_array_hex(const char *title, const char *prefix_str,
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  113  			    const void *buf, int len)
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  114  {
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  115  	int i, j, line_len, rowsize = HEX_DUMP_SIZE;
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  116  	const __u8 *ptr = buf;
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  117  
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  118  	printf("\t\t%s", title);
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  119  
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  120  	for (j = 0; j < len; j += rowsize) {
-712bf3fd186eafb Yan Zhen                   2024-08-22 @121  		line_len = min((len - j), rowsize);
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  122  		printf("%s%.8x:", prefix_str, j);
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  123  		for (i = 0; i < line_len; i++)
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  124  			printf(" %.2x", ptr[j + i]);
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  125  		printf("\n");
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  126  	}
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  127  
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  128  	printf("\n");
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  129  }
-00e07cfbdf0b232 Kuppuswamy Sathyanarayanan 2022-11-16  130  
+   > 7	#include "tfc.h"
+     8	#include "bnxt_compat.h"
+     9	#include "bnxt.h"
+    10	#include "bnxt_hwrm.h"
+  > 11	#include "tfc.h"
+    12	#include "tfc_msg.h"
+    13	
 
 -- 
 0-DAY CI Kernel Test Service
