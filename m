@@ -1,146 +1,161 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC80918CC00
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 09:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B909418CC1F
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 09:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724923566; cv=none; b=olwrXvf/H9UyGEXcOD6pDAD1zcXP7qd+f/FiBQaD8Zb8zw8kLklthPorHkEs7eixxX5K7h7hipSvZO1kDyaeF6z9XiS0STvwHCRIzC7m8sGmcMB9m5bfyYsKGpPzNOQdELGphNoPAGVZiqUbR1BDwhMAHxqJhDCVfLpi5oq0Tvg=
+	t=1724924994; cv=none; b=Mu20mzeFo74p6mXVzAUecjJyFO6u28tzwrXs4lVCory/5g52XJgkYKwhYp8y+LvKr/j/v8gPNN/aD2FvcvR4HjzsXoPKKpiqijMOUByiitp7WAtsujHdOmxz6ww9BMLG1HaHHl9wS+eHrbalwFDx+Upbvf3Ik8NJnYt6P3JnPFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724923566; c=relaxed/simple;
-	bh=uutYeKyO7LdsKfzYZjAxmuhW/jm/YwmRfv23rebccWo=;
+	s=arc-20240116; t=1724924994; c=relaxed/simple;
+	bh=7Gh5rIZZaUQp/+KXCB7wUzIP4BFWrquNWB5FRNG0+Y0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=HmnrzuqcxIu3cnws5NacgnQQ/e55SctxAJjxeLnghFKVGYfAQmgDMS5tDAetHU2SsqxtLNI9E+L3VLiQXpJPe7wu1zJnHVOzMuxEXXKkF8cJMxto1LP9Hl5ysOthkdwuObk1JQuLgczAxU8Snqrrek/pALdFF6MOa63jmV8llx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WNbl5/q0; arc=none smtp.client-ip=209.85.128.41
+	 Content-Disposition:In-Reply-To; b=nBmG3T0MENs0S//vEoQ1HoF//i1WFx0XFDVQrGjSwbxyM80oEcmOqvEZsQknSjZwhSwwiug8AU1VRHawIDK+xPOFhhfMo8aqqzL8kMXpuh5W5q8Fhc8kYLdzJ/3OcS8HoezOjeQljzXnUcNhwhF3YjaMdgyrRjXxtjLiR6YGCnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jq0OqhqT; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WNbl5/q0"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42bb4f8a4bfso3242865e9.1
-        for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 02:26:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jq0OqhqT"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a86b46c4831so43755866b.1
+        for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 02:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724923562; x=1725528362; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gAvX4nxugzvLLHwzqMBg3PEBh+8hsK2td8y9rNRJjlY=;
-        b=WNbl5/q0NUsN5rmHPKXtotzD/99nZzNHQAzdPg9yOuMCEwT+LHcj4Si6GWQ/Rhev0/
-         OrQKdTEwyR49V548VcHqtwDmKHDZra902TSjTIe1OEyuqWuXcMxolISmq/iex+Y9tUZ4
-         IYYen2LWnXrUqcFPFGXqE8Z+iPAKrZBl+yXGqsRVwe03APaH7LVDjHqb04tRYfas7NA6
-         rYikZDkYDqvg44gJyQqtiFUseRThP5stdtPUBjVz6pxjtCDwUuRayG9VW8ldieEEnmh5
-         HMsyuw4Hx1kH8gvKlD0aTjetwiPY5J8BMHkKSCmYHP5LKucsSius7Va8RUkDS9T4RCkh
-         1SJg==
+        d=linaro.org; s=google; t=1724924991; x=1725529791; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5ijbc1FBmZqLQmOrVie/CTDt0zfKTwvY0WB9RmnQpeQ=;
+        b=jq0OqhqTcwG8Zo+FzlW/La0MTTHxfli7dj3+qW0LNorIwkiDNDz47m+WZpaNnPTLL3
+         Hh7OzR8hOuDqaFHHUoGUPsS0cpSOQarcSpyRQwKBZvxQ4gZXmRKDlIDyTNcQcCvRKphm
+         RzanfLIEEmi9M5mH1efLjDyLy3In3aJUhm2mf5j/hSHRE/oW5lNFAbOrV1KVRxyNh6SO
+         Vt/CGkiKC6UlHMNpOQbmsxl/gS249O9KyU/Q2EMggp3bTQUVpXKF11m+fGfvY3RmbGDJ
+         uBxfp7eMGAkHVRRaO1Xf7Fd/ULRaLnJtWVtogzV/QJpIPb909lgCUWn8tVQeZSkhIzP/
+         xBdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724923562; x=1725528362;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gAvX4nxugzvLLHwzqMBg3PEBh+8hsK2td8y9rNRJjlY=;
-        b=YvYzdoR0fRKDoI5VjiN2o8x+gOYyylCjRu+YDjxTS4FLEiYQTtj/6gw/96g6VGECxm
-         ciAy4lmTTDyQ1jp6pbju08IC6nbLJwkWQpuvhhwk3NALD2MKkj8pB9X+G/ojZWxrlRxb
-         RMcdV4EuZAPSs2i9TkBPuSaOhwbZkend08d2QGgBUSLcM4V87s95/i/iVOo3NeXoXxJ/
-         lfQn11WZGfuqOoeNrSU4E8A2nAAkoTRRKoQbRKLFhHQMhFhBqT32KdS9NbMVi9CJqupj
-         uMEp9HBCMPiPzkDmUxmhKqKDhtU7MMENrh05I4QkJ72Bu+fpx/8Yiy/G/1G0seRCqov3
-         /WmQ==
-X-Gm-Message-State: AOJu0Yw9ue8rvHXVsKScG8wTwG9sYm5DN52l9YDV8lUnbe81qAVPE87D
-	dcVsKzyKNCl24u6uxUTYZ+Qp9yzQ9CURPF7gvnc6y7l/V1TZtkWeZsjBKevTg50faIO6BAF6ZhN
-	s
-X-Google-Smtp-Source: AGHT+IHS0mdsJlWj1rrvXndoz5Oe14EVmdyVaw6esL3Lk15aOpT3/U6xPInumH4Z/7S66CPs1y9WnA==
-X-Received: by 2002:a05:600c:1909:b0:426:526f:4a1f with SMTP id 5b1f17b1804b1-42bb74549a5mr6726015e9.16.1724923561802;
-        Thu, 29 Aug 2024 02:26:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724924991; x=1725529791;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5ijbc1FBmZqLQmOrVie/CTDt0zfKTwvY0WB9RmnQpeQ=;
+        b=CiuoAZSqG6q+EPT1HO7iRAmeLSv7ByyLT5lb+LrxtNoeWv9J0/3ULICOCvsTfWKvIP
+         pm0853KL1SmdfCt7/knmpGgrvTAXBvU77JyOt7J0ntH3Xw5pU88X9XGD8eRrRpFb5J++
+         HcgkHy2eNFjIYMvDrCpx9wsjiZkYor9Hpcx15yvyrrIkhiT6xPtAE6zGm4Com86A7lzC
+         7OH0LajsxBD+FwR/bwZGo4R2Kv18xigtIxWchfe5rlwSFuXUv3yC+kgQtyqFDYLXgi+c
+         HVUJ1OMO7Is77V9kfnqs8FXfDnfXhR5mjG47sA1zLBCojcNLCdjqqv77Y3ZJtoJhr9MA
+         +PFQ==
+X-Gm-Message-State: AOJu0YxM+OlvWDufQVopw1RAb1uS4XzvL88dOzdpdRmTSTF8KP4lAkdo
+	mlFWBxPRh6eiih7c8/5CvAgW+qz2A0IH8R/Gw1zivoduFRJRcccrQ8a5cunVoL1V0zmecN/F6YZ
+	g
+X-Google-Smtp-Source: AGHT+IGqCHgwIkeJ3Y2sXZ8IUAgugHtlAhdcUpgiEZufWlSzBa0418AQyUq1POIX2NuOp3xuZSwusA==
+X-Received: by 2002:a17:906:6a1b:b0:a86:f960:411d with SMTP id a640c23a62f3a-a897f7832dcmr182989366b.2.1724924990682;
+        Thu, 29 Aug 2024 02:49:50 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6396580sm44599855e9.9.2024.08.29.02.26.00
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a898908f62bsm56746466b.91.2024.08.29.02.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 02:26:01 -0700 (PDT)
-Date: Thu, 29 Aug 2024 12:25:57 +0300
+        Thu, 29 Aug 2024 02:49:50 -0700 (PDT)
+Date: Thu, 29 Aug 2024 12:49:46 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Hugh Dickins <hughd@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel-dev@igalia.com, krisman@kernel.org,
-	Daniel Rosenberg <drosen@google.com>, smcv@collabora.com,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH 3/5] tmpfs: Create casefold mount options
-Message-ID: <fc502406-af31-439c-b8fe-94518dd7c800@stanley.mountain>
+To: oe-kbuild@lists.linux.dev, Yan Zhen <yanzhen@vivo.com>,
+	davem@davemloft.net, chuck.lever@oracle.com, jlayton@kernel.org,
+	trondmy@kernel.org, anna@kernel.org, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, neilb@suse.de,
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, opensource.kernel@vivo.com,
+	Yan Zhen <yanzhen@vivo.com>
+Subject: Re: [PATCH v3] sunrpc: Fix error checking for d_hash_and_lookup()
+Message-ID: <a8cb00eb-8b39-49ab-a9d8-a68a7d7f4423@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240823173332.281211-4-andrealmeid@igalia.com>
+In-Reply-To: <20240828044355.590260-1-yanzhen@vivo.com>
 
-Hi André,
+Hi Yan,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/tmpfs-Add-casefold-lookup-support/20240826-135457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20240823173332.281211-4-andrealmeid%40igalia.com
-patch subject: [PATCH 3/5] tmpfs: Create casefold mount options
-config: x86_64-randconfig-161-20240827 (https://download.01.org/0day-ci/archive/20240829/202408290349.lp2Eq74b-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhen/sunrpc-Fix-error-checking-for-d_hash_and_lookup/20240828-124615
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20240828044355.590260-1-yanzhen%40vivo.com
+patch subject: [PATCH v3] sunrpc: Fix error checking for d_hash_and_lookup()
+config: i386-randconfig-141-20240829 (https://download.01.org/0day-ci/archive/20240829/202408290616.Ke1JxTcE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408290349.lp2Eq74b-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408290616.Ke1JxTcE-lkp@intel.com/
 
 smatch warnings:
-mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'maj'.
-mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'min'.
-mm/shmem.c:4307 shmem_parse_opt_casefold() error: uninitialized symbol 'rev'.
+net/sunrpc/rpc_pipe.c:1310 rpc_gssd_dummy_populate() warn: passing zero to 'ERR_CAST'
 
-vim +/maj +4307 mm/shmem.c
+vim +/ERR_CAST +1310 net/sunrpc/rpc_pipe.c
 
-a024e87c2944676 André Almeida 2024-08-23  4291  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param)
-a024e87c2944676 André Almeida 2024-08-23  4292  {
-a024e87c2944676 André Almeida 2024-08-23  4293  	struct shmem_options *ctx = fc->fs_private;
-a024e87c2944676 André Almeida 2024-08-23  4294  	unsigned int maj, min, rev, version_number;
-a024e87c2944676 André Almeida 2024-08-23  4295  	char version[10];
-a024e87c2944676 André Almeida 2024-08-23  4296  	int ret;
-a024e87c2944676 André Almeida 2024-08-23  4297  	struct unicode_map *encoding;
-a024e87c2944676 André Almeida 2024-08-23  4298  
-a024e87c2944676 André Almeida 2024-08-23  4299  	if (strncmp(param->string, "utf8-", 5))
-a024e87c2944676 André Almeida 2024-08-23  4300  		return invalfc(fc, "Only utf8 encondings are supported");
-a024e87c2944676 André Almeida 2024-08-23  4301  	ret = strscpy(version, param->string + 5, sizeof(version));
-a024e87c2944676 André Almeida 2024-08-23  4302  	if (ret < 0)
-a024e87c2944676 André Almeida 2024-08-23  4303  		return invalfc(fc, "Invalid enconding argument: %s",
-a024e87c2944676 André Almeida 2024-08-23  4304  			       param->string);
-a024e87c2944676 André Almeida 2024-08-23  4305  
-a024e87c2944676 André Almeida 2024-08-23  4306  	utf8_parse_version(version, &maj, &min, &rev);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1297  static struct dentry *
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1298  rpc_gssd_dummy_populate(struct dentry *root, struct rpc_pipe *pipe_data)
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1299  {
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1300  	int ret = 0;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1301  	struct dentry *gssd_dentry;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1302  	struct dentry *clnt_dentry = NULL;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1303  	struct dentry *pipe_dentry = NULL;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1304  	struct qstr q = QSTR_INIT(files[RPCAUTH_gssd].name,
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1305  				  strlen(files[RPCAUTH_gssd].name));
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1306  
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1307  	/* We should never get this far if "gssd" doesn't exist */
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-No error checking
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1308  	gssd_dentry = d_hash_and_lookup(root, &q);
+cf4564e657c6275 Yan Zhen      2024-08-28  1309  	if (IS_ERR_OR_NULL(gssd_dentry))
+cf4564e657c6275 Yan Zhen      2024-08-28 @1310  		return ERR_CAST(gssd_dentry);
 
-a024e87c2944676 André Almeida 2024-08-23 @4307  	version_number = UNICODE_AGE(maj, min, rev);
-                                                                                     ^^^^^^^^^^^^^
+The callers are not expecting a NULL return from rpc_gssd_dummy_populate() so
+this will lead to a crash.
 
-a024e87c2944676 André Almeida 2024-08-23  4308  	encoding = utf8_load(version_number);
-a024e87c2944676 André Almeida 2024-08-23  4309  	if (IS_ERR(encoding))
-a024e87c2944676 André Almeida 2024-08-23  4310  		return invalfc(fc, "Invalid utf8 version: %s", version);
-a024e87c2944676 André Almeida 2024-08-23  4311  	pr_info("tmpfs: Using encoding provided by mount options: %s\n",
-a024e87c2944676 André Almeida 2024-08-23  4312  		param->string);
-a024e87c2944676 André Almeida 2024-08-23  4313  	ctx->encoding = encoding;
-a024e87c2944676 André Almeida 2024-08-23  4314  
-a024e87c2944676 André Almeida 2024-08-23  4315  	return 0;
-a024e87c2944676 André Almeida 2024-08-23  4316  }
-a024e87c2944676 André Almeida 2024-08-23  4317  #else
-a024e87c2944676 André Almeida 2024-08-23  4318  static int shmem_parse_opt_casefold(struct fs_context *fc, struct fs_parameter *param)
-a024e87c2944676 André Almeida 2024-08-23  4319  {
-a024e87c2944676 André Almeida 2024-08-23  4320  	return invalfc(fc, "tmpfs: No kernel support for casefold filesystems\n");
-a024e87c2944676 André Almeida 2024-08-23  4321  }
+The comments to d_hash_and_lookup() say it returns NULL if the file doesn't
+exist and the error pointers if the filename is invalid.  Neither one should be
+possible here according to the comments on line 1307.  So we're debating about
+how to handle impossible situations.
+
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1311  
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1312  	ret = rpc_populate(gssd_dentry, gssd_dummy_clnt_dir, 0, 1, NULL);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1313  	if (ret) {
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1314  		pipe_dentry = ERR_PTR(ret);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1315  		goto out;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1316  	}
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1317  
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1318  	q.name = gssd_dummy_clnt_dir[0].name;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1319  	q.len = strlen(gssd_dummy_clnt_dir[0].name);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1320  	clnt_dentry = d_hash_and_lookup(gssd_dentry, &q);
+cf4564e657c6275 Yan Zhen      2024-08-28  1321  	if (IS_ERR_OR_NULL(clnt_dentry)) {
+b7ade38165ca000 Vasily Averin 2020-06-01  1322  		__rpc_depopulate(gssd_dentry, gssd_dummy_clnt_dir, 0, 1);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1323  		pipe_dentry = ERR_PTR(-ENOENT);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1324  		goto out;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1325  	}
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1326  
+e2f0c83a9de331d Jeff Layton   2013-12-05  1327  	ret = rpc_populate(clnt_dentry, gssd_dummy_info_file, 0, 1, NULL);
+e2f0c83a9de331d Jeff Layton   2013-12-05  1328  	if (ret) {
+e2f0c83a9de331d Jeff Layton   2013-12-05  1329  		__rpc_depopulate(gssd_dentry, gssd_dummy_clnt_dir, 0, 1);
+e2f0c83a9de331d Jeff Layton   2013-12-05  1330  		pipe_dentry = ERR_PTR(ret);
+e2f0c83a9de331d Jeff Layton   2013-12-05  1331  		goto out;
+e2f0c83a9de331d Jeff Layton   2013-12-05  1332  	}
+e2f0c83a9de331d Jeff Layton   2013-12-05  1333  
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1334  	pipe_dentry = rpc_mkpipe_dentry(clnt_dentry, "gssd", NULL, pipe_data);
+e2f0c83a9de331d Jeff Layton   2013-12-05  1335  	if (IS_ERR(pipe_dentry)) {
+e2f0c83a9de331d Jeff Layton   2013-12-05  1336  		__rpc_depopulate(clnt_dentry, gssd_dummy_info_file, 0, 1);
+3396f92f8be606e Jeff Layton   2013-12-05  1337  		__rpc_depopulate(gssd_dentry, gssd_dummy_clnt_dir, 0, 1);
+e2f0c83a9de331d Jeff Layton   2013-12-05  1338  	}
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1339  out:
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1340  	dput(clnt_dentry);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1341  	dput(gssd_dentry);
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1342  	return pipe_dentry;
+4b9a445e3eeb8bd Jeff Layton   2013-11-14  1343  }
 
 -- 
 0-DAY CI Kernel Test Service
