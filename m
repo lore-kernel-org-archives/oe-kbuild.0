@@ -1,68 +1,58 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB7F18E75C
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 10:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956121B7912
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 17:33:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724926680; cv=none; b=caTtvo5cR59oP1F3PXRoqLYYxlAUll1DZwzX4upykMeRuUBphI7tFACs6YBkMwNs1brEBVY/qvrbb0LT29CTE5yyGzRVCafdkyhMZokL0V1I6B9Cp1NMo6xvUaRNid8ZAgr0wajTouGXt39OcpV/KqHhqvfslBeFsLtlzIcWIwE=
+	t=1724952816; cv=none; b=cplqSrANzU9TbQAR/Z3g84M8IvPHVpwv02o2lEOIsFUACytXHaklzfEaVL15optk+T8n2Jd6N8xVaunAC6v6FaCAWaf5KxNoKxQJN1Ik+ENywnfuR3CCWKgSoZWADCcLfwCGYr78ntszHy836f2F7aXiRDRqD6uqWqS/qiyy/sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724926680; c=relaxed/simple;
-	bh=jx64PfnZ0P8Maw2epRmW4FNEZO3KTHmGCd5DnUz0FZE=;
+	s=arc-20240116; t=1724952816; c=relaxed/simple;
+	bh=RqNsSyM+Ea3Qb0WZmtc5VD/W9Wju+Ro+6/LvvU+tWs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ghwUshI4DYC7QwIgzk3/kDVK4puuj3m8ivEDeK+YQ1irxllvi4Q6QGbCwfMSJ7fyRqujRmldB/jgp0D19B8b2cSkqKm/g4p+KsRv1U8U50YkbLpwrhmsGYyArLp2M8nl8PK3oC516PGk6KKp3WXqsTyGnLBRiHa52olfFRzDRz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JBBpe3X5; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=RxM9A++Md40vKhTfsTXrVYT7V/axgiKuZDqnMeFLLQIgPFew6tIgVR+9yG1J8N+KhVDxk6qVXQce85PO2QwaB+9+o+WVPW0SSp/sBLTPBBlY/evBc7bx6J0SWAuYOIMf7G0pyEjdxp8Ri0Wq0oS0jYiCp//MgET0VqY+T641IfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/TehQBX; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JBBpe3X5"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-428e0d184b4so3995135e9.2
-        for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 03:17:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724926676; x=1725531476; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cpJAK3u0wNHTYAsOsJ3G+ulHexNJQQgw5rassGX01aE=;
-        b=JBBpe3X5/055SwYwy29oi/GsbXeP+m7xEEPqZTRcERNVuCtTtFmkSqYGC934MOmS4T
-         +YpjoYr4tbu8Umoi/S+9FlOY90/dJi87S2TuRHUFNLQP34xYdTefiidP7rFLD3Lf4riO
-         xJyBjkADHIUqcuNxVKmIxMJY8VexL3wE1UoN+WCrjAMQzT/RgzDkBe+O1xgqE1GUJCtB
-         vnus6uulgXfvkJBFeX87wG+tLBEq9uP42uyARHnl63Y5IdxWJtSTIpmiTrWD9q/4+5t+
-         eP8YcruKDm3mDBPYWkMTKvs6Qm+bDlODRqRNADxupyKCT6b7Nqkyl3gGdQwpMwfMpnE7
-         zPww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724926676; x=1725531476;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cpJAK3u0wNHTYAsOsJ3G+ulHexNJQQgw5rassGX01aE=;
-        b=AnUsUQgFu/sWimfYr2YX3q1Z4QOPIwHH1FEbP8AADlDHJWmgndHjhEnWtbueCXbk7Y
-         wtIufy7L0mchhRWJqZMnb69LWsVWPxDhHNKVF+sSpauR3GPmDsnfT7WetQgscIh5bYhA
-         DLfiZShCZcrMBk9+oNLc1wuuZmBBZ74OJUQaP7fnM5FhttBOKnbF6AOdSFFt35fWiZyV
-         TQop9GED4BTGaQiOrr66ThghjyRfbb+kb0dawPlX26fLqTeW6PxcEliNWCoKQgQl/dMI
-         C2V/rX/IZDy085GdIoWmbVjY0jxHLDtc5eT/3vraVNcI/dOzqT05+k0/UjlNpsHclGRH
-         eQ8w==
-X-Gm-Message-State: AOJu0YxNMotVGCQ1jD9/+Ta+nwj5/0cBxfM5XvZi4wn6HfWF2cY/qdXR
-	lrPuLjrAv2LmpumkkUKncIOzvyvrMKcutTvANKGU8JiSj0GZoFbymM3z8HcZnGjZYPp6u/UNnos
-	5
-X-Google-Smtp-Source: AGHT+IHKHTDFnByEuQrhxWvf5SouAIMF+9fOY83uMUNMpx5WQn1PycSxrrZARYgdc1+Bu9avy5zAFw==
-X-Received: by 2002:a05:600c:4707:b0:426:5b21:97fa with SMTP id 5b1f17b1804b1-42bb27a102cmr18206875e9.29.1724926675727;
-        Thu, 29 Aug 2024 03:17:55 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba6396700sm47212215e9.10.2024.08.29.03.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 03:17:55 -0700 (PDT)
-Date: Thu, 29 Aug 2024 13:17:51 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Huan Yang <link@vivo.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	opensource.kernel@vivo.com, Huan Yang <link@vivo.com>
-Subject: Re: [PATCH v4 4/5] udmabuf: udmabuf_create codestyle cleanup
-Message-ID: <b9946356-3375-4817-92dd-baaf85802462@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/TehQBX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724952814; x=1756488814;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RqNsSyM+Ea3Qb0WZmtc5VD/W9Wju+Ro+6/LvvU+tWs4=;
+  b=A/TehQBXN5nEewHDWRkgYKGOvkBWpePShZjgFRS+L/uoi+1mewR5ej9I
+   TtuZkHtsWgkLzboMfwBqZSlk7fFMc3ORtSzHk5kgGZUIWYhlYgT+aerfH
+   GNjpFTpMi/pmRabWMpAfvkFkqYLdQa82mUgAInvaGl5yHGxqy2+bN5LOD
+   CkJGnqlePpf6twim1LrvpAaKf8oGoq/L1g1OcUZuWjv5TRQEn9/lBbm/c
+   c0gfAzcFvkCROueAnWZsfmNH1O8OPOykr2Wj+8tEB5RNi4lRf5F4ORMz5
+   ndDNi4wPnSBi+PxgsKCGkbe7+qhia6qXqMvJ9CTkkZdxb97xgM1ra2Wl5
+   Q==;
+X-CSE-ConnectionGUID: btC+bU5rSr2LI6xcFdy0eg==
+X-CSE-MsgGUID: 9xASflccT9W5p/fzPEx14w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23727013"
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
+   d="scan'208";a="23727013"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 10:33:34 -0700
+X-CSE-ConnectionGUID: 0FMK/c7RQqmYTrpE0OD7Iw==
+X-CSE-MsgGUID: x74IfZogRVG0nQePtaNz8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
+   d="scan'208";a="67806438"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 29 Aug 2024 10:33:33 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sjj1W-0000Yc-34;
+	Thu, 29 Aug 2024 17:33:30 +0000
+Date: Fri, 30 Aug 2024 01:32:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [akpm-mm:mm-unstable 398/451] mm/damon/tests/vaddr-kunit.h:69:47:
+ sparse: sparse: missing braces around initializer
+Message-ID: <202408300143.LmPl7aci-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,120 +61,103 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240822084342.1574914-5-link@vivo.com>
 
-Hi Huan,
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer"
+:::::: 
 
-kernel test robot noticed the following build warnings:
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Yang/udmabuf-direct-map-pfn-when-first-page-fault/20240826-105359
-base:   6a7917c89f219f09b1d88d09f376000914a52763
-patch link:    https://lore.kernel.org/r/20240822084342.1574914-5-link%40vivo.com
-patch subject: [PATCH v4 4/5] udmabuf: udmabuf_create codestyle cleanup
-config: x86_64-randconfig-161-20240829 (https://download.01.org/0day-ci/archive/20240829/202408291101.WAf552sW-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   9287e4adbc6ab8fa04d25eb82e097fed877a4642
+commit: 8cb59b1b984f3f5a79b8045b1f7c33663624c397 [398/451] mm/damon: move kunit tests to tests/ subdirectory with _kunit suffix
+:::::: branch date: 20 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-r121-20240829 (https://download.01.org/0day-ci/archive/20240830/202408300143.LmPl7aci-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300143.LmPl7aci-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202408291101.WAf552sW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408300143.LmPl7aci-lkp@intel.com/
 
-smatch warnings:
-drivers/dma-buf/udmabuf.c:467 udmabuf_create() error: double free of 'folios'
+sparse warnings: (new ones prefixed by >>)
+   mm/damon/vaddr.c: note: in included file:
+>> mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer
+   mm/damon/vaddr.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h, ...):
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_mkold_pmd_entry' - unexpected unlock
+   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_young_pmd_entry' - unexpected unlock
 
-vim +/folios +467 drivers/dma-buf/udmabuf.c
+vim +69 mm/damon/tests/vaddr-kunit.h
 
-c1bbed66899726 Gurchetan Singh 2019-12-02  396  static long udmabuf_create(struct miscdevice *device,
-c1bbed66899726 Gurchetan Singh 2019-12-02  397  			   struct udmabuf_create_list *head,
-c1bbed66899726 Gurchetan Singh 2019-12-02  398  			   struct udmabuf_create_item *list)
-fbb0de79507819 Gerd Hoffmann   2018-08-27  399  {
-fb2c508270085b Huan Yang       2024-08-22  400  	pgoff_t pgcnt = 0, pglimit, max_ipgcnt = 0;
-fb2c508270085b Huan Yang       2024-08-22  401  	long ret = -EINVAL;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  402  	struct udmabuf *ubuf;
-fb2c508270085b Huan Yang       2024-08-22  403  	struct folio **folios = NULL;
-fb2c508270085b Huan Yang       2024-08-22  404  	u32 i, flags;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  405  
-33f35429fc49c0 Gerd Hoffmann   2018-09-11  406  	ubuf = kzalloc(sizeof(*ubuf), GFP_KERNEL);
-fbb0de79507819 Gerd Hoffmann   2018-08-27  407  	if (!ubuf)
-fbb0de79507819 Gerd Hoffmann   2018-08-27  408  		return -ENOMEM;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  409  
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  410  	INIT_LIST_HEAD(&ubuf->unpin_list);
-dc4716d75154b3 Gerd Hoffmann   2018-09-11  411  	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  412  	for (i = 0; i < head->count; i++) {
-fb2c508270085b Huan Yang       2024-08-22  413  		pgoff_t itempgcnt;
-fb2c508270085b Huan Yang       2024-08-22  414  
-fb2c508270085b Huan Yang       2024-08-22  415  		if (!PAGE_ALIGNED(list[i].offset))
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  416  			goto err;
-fb2c508270085b Huan Yang       2024-08-22  417  		if (!PAGE_ALIGNED(list[i].size))
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  418  			goto err;
-fb2c508270085b Huan Yang       2024-08-22  419  
-fb2c508270085b Huan Yang       2024-08-22  420  		itempgcnt = list[i].size >> PAGE_SHIFT;
-fb2c508270085b Huan Yang       2024-08-22  421  		pgcnt += itempgcnt;
-fb2c508270085b Huan Yang       2024-08-22  422  
-fb2c508270085b Huan Yang       2024-08-22  423  		if (pgcnt > pglimit)
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  424  			goto err;
-fb2c508270085b Huan Yang       2024-08-22  425  
-fb2c508270085b Huan Yang       2024-08-22  426  		max_ipgcnt = max_t(unsigned long, itempgcnt, max_ipgcnt);
-fbb0de79507819 Gerd Hoffmann   2018-08-27  427  	}
-2b6dd600dd7257 Pavel Skripkin  2021-12-30  428  
-fb2c508270085b Huan Yang       2024-08-22  429  	if (!pgcnt)
-2b6dd600dd7257 Pavel Skripkin  2021-12-30  430  		goto err;
-2b6dd600dd7257 Pavel Skripkin  2021-12-30  431  
-fb2c508270085b Huan Yang       2024-08-22  432  	ubuf->folios = kvmalloc_array(pgcnt, sizeof(*ubuf->folios),
-fbb0de79507819 Gerd Hoffmann   2018-08-27  433  				      GFP_KERNEL);
-5e72b2b41a21e5 Vivek Kasireddy 2024-06-23  434  	if (!ubuf->folios) {
-fbb0de79507819 Gerd Hoffmann   2018-08-27  435  		ret = -ENOMEM;
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  436  		goto err;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  437  	}
-fb2c508270085b Huan Yang       2024-08-22  438  
-fb2c508270085b Huan Yang       2024-08-22  439  	ubuf->offsets = kvcalloc(pgcnt, sizeof(*ubuf->offsets), GFP_KERNEL);
-0c8b91ef5100ea Vivek Kasireddy 2024-06-23  440  	if (!ubuf->offsets) {
-0c8b91ef5100ea Vivek Kasireddy 2024-06-23  441  		ret = -ENOMEM;
-0c8b91ef5100ea Vivek Kasireddy 2024-06-23  442  		goto err;
-0c8b91ef5100ea Vivek Kasireddy 2024-06-23  443  	}
-fbb0de79507819 Gerd Hoffmann   2018-08-27  444  
-fb2c508270085b Huan Yang       2024-08-22  445  	folios = kvmalloc_array(max_ipgcnt, sizeof(*folios), GFP_KERNEL);
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  446  	if (!folios) {
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  447  		ret = -ENOMEM;
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  448  		goto err;
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  449  	}
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  450  
-fb2c508270085b Huan Yang       2024-08-22  451  	for (i = 0; i < head->count; i++) {
-fb2c508270085b Huan Yang       2024-08-22  452  		ret = __udmabuf_pin_list_folios(&list[i], ubuf, folios);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  38  
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  39  /*
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  40   * Test __damon_va_three_regions() function
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  41   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  42   * In case of virtual memory address spaces monitoring, DAMON converts the
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  43   * complex and dynamic memory mappings of each target task to three
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  44   * discontiguous regions which cover every mapped areas.  However, the three
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  45   * regions should not include the two biggest unmapped areas in the original
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  46   * mapping, because the two biggest areas are normally the areas between 1)
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  47   * heap and the mmap()-ed regions, and 2) the mmap()-ed regions and stack.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  48   * Because these two unmapped areas are very huge but obviously never accessed,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  49   * covering the region is just a waste.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  50   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  51   * '__damon_va_three_regions() receives an address space of a process.  It
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  52   * first identifies the start of mappings, end of mappings, and the two biggest
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  53   * unmapped areas.  After that, based on the information, it constructs the
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  54   * three regions and returns.  For more detail, refer to the comment of
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  55   * 'damon_init_regions_of()' function definition in 'mm/damon.c' file.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  56   *
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  57   * For example, suppose virtual address ranges of 10-20, 20-25, 200-210,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  58   * 210-220, 300-305, and 307-330 (Other comments represent this mappings in
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  59   * more short form: 10-20-25, 200-210-220, 300-305, 307-330) of a process are
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  60   * mapped.  To cover every mappings, the three regions should start with 10,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  61   * and end with 305.  The process also has three unmapped areas, 25-200,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  62   * 220-300, and 305-307.  Among those, 25-200 and 220-300 are the biggest two
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  63   * unmapped areas, and thus it should be converted to three regions of 10-25,
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  64   * 200-220, and 300-330.
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  65   */
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  66  static void damon_test_three_regions_in_vmas(struct kunit *test)
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  67  {
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  68  	static struct mm_struct mm;
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07 @69  	struct damon_addr_range regions[3] = {0,};
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  70  	/* 10-20-25, 200-210-220, 300-305, 307-330 */
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  71  	struct vm_area_struct vmas[] = {
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  72  		(struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  73  		(struct vm_area_struct) {.vm_start = 20, .vm_end = 25},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  74  		(struct vm_area_struct) {.vm_start = 200, .vm_end = 210},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  75  		(struct vm_area_struct) {.vm_start = 210, .vm_end = 220},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  76  		(struct vm_area_struct) {.vm_start = 300, .vm_end = 305},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  77  		(struct vm_area_struct) {.vm_start = 307, .vm_end = 330},
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  78  	};
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  79  
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  80  	mt_init_flags(&mm.mm_mt, MM_MT_FLAGS);
+34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  81  	if (__link_vmas(&mm.mm_mt, vmas, ARRAY_SIZE(vmas)))
+34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  82  		kunit_skip(test, "Failed to create VMA tree");
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  83  
+d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  84  	__damon_va_three_regions(&mm, regions);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  85  
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  86  	KUNIT_EXPECT_EQ(test, 10ul, regions[0].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  87  	KUNIT_EXPECT_EQ(test, 25ul, regions[0].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  88  	KUNIT_EXPECT_EQ(test, 200ul, regions[1].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  89  	KUNIT_EXPECT_EQ(test, 220ul, regions[1].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  90  	KUNIT_EXPECT_EQ(test, 300ul, regions[2].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  91  	KUNIT_EXPECT_EQ(test, 330ul, regions[2].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  92  }
+17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  93  
 
-There is a kfree(folios) hidden inside this function.  It doesn't belong there.
+:::::: The code at line 69 was first introduced by commit
+:::::: 17ccae8bb5c928946f6f3af14626ec458f74e6ad mm/damon: add kunit tests
 
-fb2c508270085b Huan Yang       2024-08-22  453  		if (ret)
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  454  			goto err;
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  455  	}
-452dc1b0221804 Huan Yang       2024-08-22  456  	kvfree(folios);
-                                                        ^^^^^^^^^^^^^^
-A second free
-
-fbb0de79507819 Gerd Hoffmann   2018-08-27  457  
-5e72b2b41a21e5 Vivek Kasireddy 2024-06-23  458  	flags = head->flags & UDMABUF_FLAGS_CLOEXEC ? O_CLOEXEC : 0;
-5e72b2b41a21e5 Vivek Kasireddy 2024-06-23  459  	ret = export_udmabuf(ubuf, device, flags);
-5e72b2b41a21e5 Vivek Kasireddy 2024-06-23  460  	if (ret < 0)
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  461  		goto err;
-                                                                ^^^^^^^^
-
-fbb0de79507819 Gerd Hoffmann   2018-08-27  462  
-5e72b2b41a21e5 Vivek Kasireddy 2024-06-23  463  	return ret;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  464  
-0d17455ca85ecb Gerd Hoffmann   2018-09-11  465  err:
-c6a3194c05e7e6 Vivek Kasireddy 2024-06-23  466  	unpin_all_folios(&ubuf->unpin_list);
-fb2c508270085b Huan Yang       2024-08-22 @467  	kvfree(folios);
-                                                        ^^^^^^^^^^^^^
-Double free
-
-452dc1b0221804 Huan Yang       2024-08-22  468  	kvfree(ubuf->offsets);
-452dc1b0221804 Huan Yang       2024-08-22  469  	kvfree(ubuf->folios);
-fbb0de79507819 Gerd Hoffmann   2018-08-27  470  	kfree(ubuf);
-fbb0de79507819 Gerd Hoffmann   2018-08-27  471  	return ret;
-fbb0de79507819 Gerd Hoffmann   2018-08-27  472  }
+:::::: TO: SeongJae Park <sjpark@amazon.de>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
