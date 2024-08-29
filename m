@@ -1,162 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956121B7912
-	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 17:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF31E4D59F
+	for <oe-kbuild@lists.linux.dev>; Thu, 29 Aug 2024 18:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724952816; cv=none; b=cplqSrANzU9TbQAR/Z3g84M8IvPHVpwv02o2lEOIsFUACytXHaklzfEaVL15optk+T8n2Jd6N8xVaunAC6v6FaCAWaf5KxNoKxQJN1Ik+ENywnfuR3CCWKgSoZWADCcLfwCGYr78ntszHy836f2F7aXiRDRqD6uqWqS/qiyy/sk=
+	t=1724956539; cv=none; b=dR4QIkfvryMG8aAcdhCMJJRwjzdCGW+D7HVj3QKT91KdJw+RNGvIP2eq8clHDHToz1I5nIyFTyJ9PxlUHd6P95VISPuY9v5K5dw5GmaZkK1RR4lujn4CgGan3J8T3pU/RYmouyn0R3tJPax93FfOVP//5XC5bgw99DWfhqsEUOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724952816; c=relaxed/simple;
-	bh=RqNsSyM+Ea3Qb0WZmtc5VD/W9Wju+Ro+6/LvvU+tWs4=;
+	s=arc-20240116; t=1724956539; c=relaxed/simple;
+	bh=PRcPBxVd40vchlAceDotJMLOuq2J4q87WXSaKl1vROQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RxM9A++Md40vKhTfsTXrVYT7V/axgiKuZDqnMeFLLQIgPFew6tIgVR+9yG1J8N+KhVDxk6qVXQce85PO2QwaB+9+o+WVPW0SSp/sBLTPBBlY/evBc7bx6J0SWAuYOIMf7G0pyEjdxp8Ri0Wq0oS0jYiCp//MgET0VqY+T641IfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/TehQBX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CcFwXoiGMYb7Z9Mv/a7B6ShzA1TXWAT9VVx3j1IebSRxCkxZ3cE4LYKqE1NfODhfNDg1chqMnYTS7w4CCco0jjjKiBmIFU1QYBvrMrEV95huNobL9Eomy/VFF42Vp4NgNeyYrO7FmYQd0qK4KKvPR+D4XEnMx2hwxJ1h8RI8MB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SesPXWfi; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/TehQBX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SesPXWfi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724952814; x=1756488814;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RqNsSyM+Ea3Qb0WZmtc5VD/W9Wju+Ro+6/LvvU+tWs4=;
-  b=A/TehQBXN5nEewHDWRkgYKGOvkBWpePShZjgFRS+L/uoi+1mewR5ej9I
-   TtuZkHtsWgkLzboMfwBqZSlk7fFMc3ORtSzHk5kgGZUIWYhlYgT+aerfH
-   GNjpFTpMi/pmRabWMpAfvkFkqYLdQa82mUgAInvaGl5yHGxqy2+bN5LOD
-   CkJGnqlePpf6twim1LrvpAaKf8oGoq/L1g1OcUZuWjv5TRQEn9/lBbm/c
-   c0gfAzcFvkCROueAnWZsfmNH1O8OPOykr2Wj+8tEB5RNi4lRf5F4ORMz5
-   ndDNi4wPnSBi+PxgsKCGkbe7+qhia6qXqMvJ9CTkkZdxb97xgM1ra2Wl5
+  t=1724956537; x=1756492537;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PRcPBxVd40vchlAceDotJMLOuq2J4q87WXSaKl1vROQ=;
+  b=SesPXWfik1Gj+mnV6kpYfWW+fQ52CLx3Zubh+s5ugv6AL0eEg5BhI00S
+   iGffGOJ/6Dp1HQ/kQCU2Hg0ppK32RXoLZ8CH0Lh3QiPgfiKZn/M6Ue6GN
+   qhAcrTcGUUFrGAvIsCRD5O8GEuzMweoeAO20kLB5WnQhvOVXPmiLYXx4H
+   3m3OyYk2EHqXbOCBbztYfrSyoIq/we4X04aHqQC8790NrIWs8jfHMo4UK
+   P+qgY/fzodW3UB5RYLO4T+r9af9Mq/3MXDmKNjf99UDXmF64UZpGaE8Y1
+   tHiCP1M3779QhlC23d0+VaDQwk5eFiSTszFF3v6EDGuLtV+Qcocl1XQL+
    Q==;
-X-CSE-ConnectionGUID: btC+bU5rSr2LI6xcFdy0eg==
-X-CSE-MsgGUID: 9xASflccT9W5p/fzPEx14w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23727013"
+X-CSE-ConnectionGUID: fp18eJ89Qeu2mSb94OAfpQ==
+X-CSE-MsgGUID: kOwvGuJsQqKex1DVfxk8aw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="23741856"
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="23727013"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 10:33:34 -0700
-X-CSE-ConnectionGUID: 0FMK/c7RQqmYTrpE0OD7Iw==
-X-CSE-MsgGUID: x74IfZogRVG0nQePtaNz8w==
+   d="scan'208";a="23741856"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 11:35:36 -0700
+X-CSE-ConnectionGUID: Obob3wSxTiWCZq//P/mH/Q==
+X-CSE-MsgGUID: g8/gDgGIRt6PZaVo3chBTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,186,1719903600"; 
-   d="scan'208";a="67806438"
+   d="scan'208";a="63361936"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Aug 2024 10:33:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 29 Aug 2024 11:35:35 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjj1W-0000Yc-34;
-	Thu, 29 Aug 2024 17:33:30 +0000
-Date: Fri, 30 Aug 2024 01:32:59 +0800
+	id 1sjjzY-0000c4-2S;
+	Thu, 29 Aug 2024 18:35:32 +0000
+Date: Fri, 30 Aug 2024 02:34:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [akpm-mm:mm-unstable 398/451] mm/damon/tests/vaddr-kunit.h:69:47:
- sparse: sparse: missing braces around initializer
-Message-ID: <202408300143.LmPl7aci-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 4533/7693]
+ drivers/platform/x86/thinkpad_acpi.c:8387 fan_set_enable() error:
+ uninitialized symbol 's'.
+Message-ID: <202408300210.XqvRdmNf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Matthias Fetzer <kontakt@matthias-fetzer.de>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   9287e4adbc6ab8fa04d25eb82e097fed877a4642
-commit: 8cb59b1b984f3f5a79b8045b1f7c33663624c397 [398/451] mm/damon: move kunit tests to tests/ subdirectory with _kunit suffix
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-r121-20240829 (https://download.01.org/0day-ci/archive/20240830/202408300143.LmPl7aci-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b18bbfc14a38b5234e09c2adcf713e38063a7e6e
+commit: 57d0557dfa4940919ec2971245a6d288e5d85aa8 [4533/7693] platform/x86: thinkpad_acpi: Add Thinkpad Edge E531 fan support
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 days ago
+config: i386-randconfig-141-20240829 (https://download.01.org/0day-ci/archive/20240830/202408300210.XqvRdmNf-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240830/202408300143.LmPl7aci-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408300143.LmPl7aci-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408300210.XqvRdmNf-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/damon/vaddr.c: note: in included file:
->> mm/damon/tests/vaddr-kunit.h:69:47: sparse: sparse: missing braces around initializer
-   mm/damon/vaddr.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h, ...):
-   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_mkold_pmd_entry' - unexpected unlock
-   include/linux/rcupdate.h:869:25: sparse: sparse: context imbalance in 'damon_young_pmd_entry' - unexpected unlock
+New smatch warnings:
+drivers/platform/x86/thinkpad_acpi.c:8387 fan_set_enable() error: uninitialized symbol 's'.
 
-vim +69 mm/damon/tests/vaddr-kunit.h
+Old smatch warnings:
+drivers/platform/x86/thinkpad_acpi.c:1205 tpacpi_new_rfkill() warn: 'atp_rfk->rfkill' is an error pointer or valid
+drivers/platform/x86/thinkpad_acpi.c:2642 hotkey_inputdev_close() warn: bitwise AND condition is false here
+drivers/platform/x86/thinkpad_acpi.c:3642 hotkey_notify_hotkey() warn: bitwise AND condition is false here
 
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  38  
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  39  /*
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  40   * Test __damon_va_three_regions() function
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  41   *
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  42   * In case of virtual memory address spaces monitoring, DAMON converts the
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  43   * complex and dynamic memory mappings of each target task to three
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  44   * discontiguous regions which cover every mapped areas.  However, the three
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  45   * regions should not include the two biggest unmapped areas in the original
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  46   * mapping, because the two biggest areas are normally the areas between 1)
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  47   * heap and the mmap()-ed regions, and 2) the mmap()-ed regions and stack.
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  48   * Because these two unmapped areas are very huge but obviously never accessed,
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  49   * covering the region is just a waste.
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  50   *
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  51   * '__damon_va_three_regions() receives an address space of a process.  It
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  52   * first identifies the start of mappings, end of mappings, and the two biggest
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  53   * unmapped areas.  After that, based on the information, it constructs the
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  54   * three regions and returns.  For more detail, refer to the comment of
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  55   * 'damon_init_regions_of()' function definition in 'mm/damon.c' file.
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  56   *
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  57   * For example, suppose virtual address ranges of 10-20, 20-25, 200-210,
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  58   * 210-220, 300-305, and 307-330 (Other comments represent this mappings in
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  59   * more short form: 10-20-25, 200-210-220, 300-305, 307-330) of a process are
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  60   * mapped.  To cover every mappings, the three regions should start with 10,
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  61   * and end with 305.  The process also has three unmapped areas, 25-200,
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  62   * 220-300, and 305-307.  Among those, 25-200 and 220-300 are the biggest two
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  63   * unmapped areas, and thus it should be converted to three regions of 10-25,
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  64   * 200-220, and 300-330.
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  65   */
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  66  static void damon_test_three_regions_in_vmas(struct kunit *test)
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  67  {
-d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  68  	static struct mm_struct mm;
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07 @69  	struct damon_addr_range regions[3] = {0,};
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  70  	/* 10-20-25, 200-210-220, 300-305, 307-330 */
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  71  	struct vm_area_struct vmas[] = {
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  72  		(struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  73  		(struct vm_area_struct) {.vm_start = 20, .vm_end = 25},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  74  		(struct vm_area_struct) {.vm_start = 200, .vm_end = 210},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  75  		(struct vm_area_struct) {.vm_start = 210, .vm_end = 220},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  76  		(struct vm_area_struct) {.vm_start = 300, .vm_end = 305},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  77  		(struct vm_area_struct) {.vm_start = 307, .vm_end = 330},
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  78  	};
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  79  
-d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  80  	mt_init_flags(&mm.mm_mt, MM_MT_FLAGS);
-34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  81  	if (__link_vmas(&mm.mm_mt, vmas, ARRAY_SIZE(vmas)))
-34403fa579514a mm/damon/vaddr-test.h Liam R. Howlett 2023-01-20  82  		kunit_skip(test, "Failed to create VMA tree");
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  83  
-d0cf3dd47f0d5d mm/damon/vaddr-test.h Liam R. Howlett 2022-09-06  84  	__damon_va_three_regions(&mm, regions);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  85  
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  86  	KUNIT_EXPECT_EQ(test, 10ul, regions[0].start);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  87  	KUNIT_EXPECT_EQ(test, 25ul, regions[0].end);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  88  	KUNIT_EXPECT_EQ(test, 200ul, regions[1].start);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  89  	KUNIT_EXPECT_EQ(test, 220ul, regions[1].end);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  90  	KUNIT_EXPECT_EQ(test, 300ul, regions[2].start);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  91  	KUNIT_EXPECT_EQ(test, 330ul, regions[2].end);
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  92  }
-17ccae8bb5c928 mm/damon/vaddr-test.h SeongJae Park   2021-09-07  93  
+vim +/s +8387 drivers/platform/x86/thinkpad_acpi.c
 
-:::::: The code at line 69 was first introduced by commit
-:::::: 17ccae8bb5c928946f6f3af14626ec458f74e6ad mm/damon: add kunit tests
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8318  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8319  static int fan_set_enable(void)
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8320  {
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8321  	u8 s;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8322  	int rc;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8323  
+ecf2a80a97b3d3 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-27  8324  	if (!fan_control_allowed)
+ecf2a80a97b3d3 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-27  8325  		return -EPERM;
+ecf2a80a97b3d3 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-27  8326  
+7646ea88af80a9 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-01-11  8327  	if (mutex_lock_killable(&fan_mutex))
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8328  		return -ERESTARTSYS;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8329  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8330  	switch (fan_control_access_mode) {
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8331  	case TPACPI_FAN_WR_ACPI_FANS:
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8332  	case TPACPI_FAN_WR_TPEC:
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8333  		rc = fan_get_status(&s);
+6060a75e77fb05 drivers/platform/x86/thinkpad_acpi.c Tom Rix                     2022-03-12  8334  		if (rc)
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8335  			break;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8336  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8337  		/* Don't go out of emergency fan mode */
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8338  		if (s != 7) {
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8339  			s &= 0x07;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8340  			s |= TP_EC_FAN_AUTO | 4; /* min fan speed 4 */
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8341  		}
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8342  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8343  		if (!acpi_ec_write(fan_status_offset, s))
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8344  			rc = -EIO;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8345  		else {
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8346  			tp_features.fan_ctrl_status_undef = 0;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8347  			rc = 0;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8348  		}
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8349  		break;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8350  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8351  	case TPACPI_FAN_WR_ACPI_SFAN:
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8352  		rc = fan_get_status(&s);
+6060a75e77fb05 drivers/platform/x86/thinkpad_acpi.c Tom Rix                     2022-03-12  8353  		if (rc)
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8354  			break;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8355  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8356  		s &= 0x07;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8357  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8358  		/* Set fan to at least level 4 */
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8359  		s |= 4;
+fe98a52ce7540f drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-24  8360  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8361  		if (!acpi_evalf(sfan_handle, NULL, NULL, "vd", s))
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8362  			rc = -EIO;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8363  		else
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8364  			rc = 0;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8365  		break;
+fe08bc4b4fd137 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-21  8366  
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8367  	case TPACPI_FAN_WR_ACPI_FANW:
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8368  		if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8106, 0x05)) {
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8369  			rc = -EIO;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8370  			break;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8371  		}
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8372  		if (!acpi_evalf(fanw_handle, NULL, NULL, "vdd", 0x8100, 0x00)) {
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8373  			rc = -EIO;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8374  			break;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8375  		}
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8376  
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8377  		rc = 0;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8378  		break;
+57d0557dfa4940 drivers/platform/x86/thinkpad_acpi.c Matthias Fetzer             2024-08-16  8379  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8380  	default:
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8381  		rc = -ENXIO;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8382  	}
+78f81cc4355c31 drivers/acpi/ibm_acpi.c              Borislav Deianov            2005-08-17  8383  
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8384  	mutex_unlock(&fan_mutex);
+74a60c0f828016 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-04-04  8385  
+74a60c0f828016 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-04-04  8386  	if (!rc)
+74a60c0f828016 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-04-04 @8387  		vdbg_printk(TPACPI_DBG_FAN,
+74a60c0f828016 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-04-04  8388  			"fan control: set fan control register to 0x%02x\n",
+74a60c0f828016 drivers/platform/x86/thinkpad_acpi.c Henrique de Moraes Holschuh 2009-04-04  8389  			s);
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8390  	return rc;
+b21a15f6d065e8 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2008-01-08  8391  }
+5fba344cfdbaa7 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Holschuh 2007-04-21  8392  
 
-:::::: TO: SeongJae Park <sjpark@amazon.de>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: The code at line 8387 was first introduced by commit
+:::::: 74a60c0f828016456fc635feae388ffd12bb3bb9 thinkpad-acpi: enhanced debugging messages for the fan subdriver
+
+:::::: TO: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+:::::: CC: Len Brown <len.brown@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
