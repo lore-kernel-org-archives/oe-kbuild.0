@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B757413D60E
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 Aug 2024 04:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504AA1509AE
+	for <oe-kbuild@lists.linux.dev>; Fri, 30 Aug 2024 16:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724991594; cv=none; b=EaeA5T5V+R96vB4JdY/N/GT20ocpkhMllCjpvrOdHRGs3fV3EUxcXUZm5JccG/NaYjbXd2Z1HFHkehaJSpWR1WyE5lJZoG2ZuKqnU2fWUuCV2i/Ca2vMPu/YtUslJVtZIKPo8lMmBqkvlGBvGygiVn4sxsvwgZPA8qB6BAkZra8=
+	t=1725035423; cv=none; b=X3/JtVziVYEFLh6XU1Rsemp7vDMLQ5vy8sj44f1cimywV6afIYormwlF7mSynYby5qEc5B6TvQRO378AMqCyITtVkaOb7Hqbf1EkXUTjFCxNHKW5J8mCiOwAADovZST6h/zhl2JgaAzlAbZaMgtTWldkhQhUAw3ung6eyGLmLX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724991594; c=relaxed/simple;
-	bh=wymSKxFzAPe0O8CPUIb12HnNiFaDBJeSNfDVwkxBDVU=;
+	s=arc-20240116; t=1725035423; c=relaxed/simple;
+	bh=Xk8uzFF2NZMF+79nExFmGKWT2vnbFLH4F87RbjIYMSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tcGrSRPPtOt7Zm2yLFL3lgoKlFBfzDaRCr3GHPyQNW8ATxpuAdzttYIFyNH0Jnu132aFLh6eXppTBSGk7xDhd763l45LI0JQnOGsIOy3zCmGEqU1GSe4cwyZe1edgfJ2vLMXmC4kEadzLpL6FAe/SEZYPR8Q4Rhc7w9IDZWhp+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvCnD5VZ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=DChJEaCRShG1omxgWp+Or1/MGw0OMgJA+0AyjZEZi66vD9M3RF3vKsik2CUWwDUAhdpCkLL3S1ViJCO3EABBRr5aIkSZwCpslj4wPKHkPOmRE7LlrY+pPJw2d57g5lQEWjBVqn7/XfE7LPsmdwTpMMPv7543GQAWrrd0R7asgDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SP9bEnpD; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvCnD5VZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SP9bEnpD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724991592; x=1756527592;
+  t=1725035419; x=1756571419;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wymSKxFzAPe0O8CPUIb12HnNiFaDBJeSNfDVwkxBDVU=;
-  b=EvCnD5VZnQsklvXhev75Cg58AjRYjyzmRy+vgXtmRnIhyzdBupUf2VMK
-   mIy97VG8ZGvdKcZJJBE3aq+tZ2msIh4Gm5BDp00XZcGWA10iDthZ3gzKb
-   qlQQNHZDP34hiTXJTofSTwN+BpbaEJVpTD2AB13h6UUCmHrl2c5q5l+wL
-   qaSCOPcDEWEISrvr9MwmvQgCYlmKuPjtSGV4JGvbjThmmQbmtJOLpRpNU
-   aSCewnKH4QPLe3pVAdyxenNDLsi2py2w3CM8g5+cwqG5cng5EpIn7WtA7
-   DUZv9+tljiEiQFqXkB+mRTHgV9fOQOX8ynRRL5ZlVkJ+hAqTjlNBzGjwJ
-   A==;
-X-CSE-ConnectionGUID: /tE5fFx9R9mqYs7OJBOR+g==
-X-CSE-MsgGUID: c3QLVO9SRwC61YiYXPSgbw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11179"; a="34236780"
-X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="34236780"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2024 21:19:52 -0700
-X-CSE-ConnectionGUID: xXZxWkeSRBeIfCKD25SlLg==
-X-CSE-MsgGUID: dn4RfimfTPaQKPwzPRVBMw==
+  bh=Xk8uzFF2NZMF+79nExFmGKWT2vnbFLH4F87RbjIYMSw=;
+  b=SP9bEnpDXJl9S9DqwCZBmDoRsgk1EyaFyFXiiHovoAu7nb05wDJ1vJjG
+   djNpfqGJLp+hnveiE2tUwGGb6XE8TeOH+Qi9XFjV9jI7SsQcJ3w74oNo6
+   bHWozHR1zriypP3HkeE5IbYQtXb/R+p+lwqMGo2DXPJXSwCfaJrV8sq19
+   EMJZttXLlEoQfmJZyIKWBNrRDhj+fxypX2QT6zU08UMiB7qJvtblhx2nT
+   3E2or3gH6IGG/UuGD3TFw8A5uYshwsrH9oeVGJYGtJ5eh0PoCVvSb0Fuh
+   lMFlTvKyRtlkKwyb38Aikz/aEd1Mb4ORwsBdzW4ySwFfXTxgckXFHVlXO
+   g==;
+X-CSE-ConnectionGUID: a+JaX0rTSN2w27jcixPzEg==
+X-CSE-MsgGUID: lBl93fMCQJiDMe8MIKCBIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23202333"
+X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
+   d="scan'208";a="23202333"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 09:30:18 -0700
+X-CSE-ConnectionGUID: A4g+8TrlTTykb5B/9sf5gA==
+X-CSE-MsgGUID: ynqxxB8dQ62Phi+jR6WVpg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,187,1719903600"; 
-   d="scan'208";a="64289144"
+X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
+   d="scan'208";a="64137122"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 29 Aug 2024 21:19:50 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Aug 2024 09:30:18 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sjt6y-000122-1L;
-	Fri, 30 Aug 2024 04:19:48 +0000
-Date: Fri, 30 Aug 2024 12:18:50 +0800
+	id 1sk4Vr-0001eP-2i;
+	Fri, 30 Aug 2024 16:30:15 +0000
+Date: Sat, 31 Aug 2024 00:29:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 5051/30000] arch/x86/lib/copy_highpages.c:41
- (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression :
- copy_highpages_table[1]->procname
-Message-ID: <202408301209.L0mF1vFY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 11/11] arm64: dts: rockchip: Add rk3576-armsom-sige5
+ board
+Message-ID: <202408310046.hOeIMEV9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,59 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: In file included from arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts:14:"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
+In-Reply-To: <01020191998abb6d-28177629-d50c-4247-8a27-799ca2f04e56-000000@eu-west-1.amazonses.com>
+References: <01020191998abb6d-28177629-d50c-4247-8a27-799ca2f04e56-000000@eu-west-1.amazonses.com>
+TO: Detlev Casanova <detlev.casanova@collabora.com>
+TO: linux-kernel@vger.kernel.org
+CC: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>
+CC: Heiko Stuebner <heiko@sntech.de>
+CC: David Airlie <airlied@gmail.com>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Andi Shyti <andi.shyti@kernel.org>
+CC: Lee Jones <lee@kernel.org>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Jiri Slaby <jirislaby@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: Wim Van Sebroeck <wim@linux-watchdog.org>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Chris Morgan <macromorgan@hotmail.com>
+CC: Jonas Karlman <jonas@kwiboo.se>
+CC: Tim Lunn <tim@feathertop.org>
+CC: Chukun Pan <amadeus@jmu.edu.cn>
+CC: Muhammed Efe Cetin <efectn@protonmail.com>
+CC: Andy Yan <andyshrk@163.com>
+CC: Jagan Teki <jagan@edgeble.ai>
+CC: Dragan Simic <dsimic@manjaro.org>
+CC: Detlev Casanova <detlev.casanova@collabora.com>
+CC: Ondrej Jirman <megi@xff.cz>
+CC: Jimmy Hon <honyuenkwun@gmail.com>
+CC: Elon Zhang <zhangzj@rock-chips.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   25aa773a110df8d11de2dd52de7a7a3609a0051d
-commit: 50d5bf1b6da9f74bf93f9dec601c09d45d6d8406 [5051/30000] x86: hugepage: use nt copy hugepage to AEP in x86
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 years, 7 months ago
-config: x86_64-randconfig-161-20240829 (https://download.01.org/0day-ci/archive/20240830/202408301209.L0mF1vFY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Detlev,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on rockchip/for-next tty/tty-testing tty/tty-next tty/tty-linus krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.11-rc5]
+[cannot apply to lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/dt-bindings-arm-rockchip-Add-rk3576-compatible-string-to-pmu-yaml/20240828-231452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/01020191998abb6d-28177629-d50c-4247-8a27-799ca2f04e56-000000%40eu-west-1.amazonses.com
+patch subject: [PATCH v3 11/11] arm64: dts: rockchip: Add rk3576-armsom-sige5 board
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240831/202408310046.hOeIMEV9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310046.hOeIMEV9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202408301209.L0mF1vFY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202408310046.hOeIMEV9-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/lib/copy_highpages.c:41 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : copy_highpages_table[1]->procname
-arch/x86/lib/copy_highpages.c:41 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : copy_highpages_table[1]->proc_handler
-arch/x86/lib/copy_highpages.c:54 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : copy_highpages_root_table[0]->proc_handler
-arch/x86/lib/copy_highpages.c:54 (null)() warn: (struct ctl_table)->procname cannot be NULL. Expression : copy_highpages_root_table[1]->procname
-
-Old smatch warnings:
-arch/x86/lib/copy_highpages.c:54 (null)() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : copy_highpages_root_table[1]->proc_handler
-
-vim +41 arch/x86/lib/copy_highpages.c
-
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  40  
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15 @41  static struct ctl_table copy_highpages_table[] = {
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  42          {
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  43                  .procname       = "hugepage_nocache_copy",
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  44                  .data           = NULL,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  45                  .maxlen         = sizeof(unsigned int),
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  46                  .mode           = 0600,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  47                  .proc_handler   = sysctl_hugepage_nocache_copy,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  48                  .extra1         = SYSCTL_ZERO,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  49                  .extra2         = SYSCTL_ONE,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  50          },
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  51          {}
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  52  };
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  53  
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15 @54  static struct ctl_table copy_highpages_root_table[] = {
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  55  	{
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  56  		.procname       = "vm",
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  57  		.mode           = 0555,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  58  		.child          = copy_highpages_table,
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  59  	},
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  60  	{}
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  61  };
-50d5bf1b6da9f7 Kemeng Shi 2022-01-15  62  
+dtcheck warnings: (new ones prefixed by >>)
+>> In file included from arch/arm64/boot/dts/rockchip/rk3576-armsom-sige5.dts:14:
+   arch/arm64/boot/dts/rockchip/rk3576.dtsi:6:10: fatal error: dt-bindings/clock/rockchip,rk3576-cru.h: No such file or directory
+       6 | #include <dt-bindings/clock/rockchip,rk3576-cru.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 -- 
 0-DAY CI Kernel Test Service
