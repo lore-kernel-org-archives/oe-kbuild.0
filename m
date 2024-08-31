@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546EF33EA
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 16:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7969180A81
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 21:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725121996; cv=none; b=k/nN1cThae4PUBIZUAGXYboE4Aszorfy31L08IPuzUd20gBXnUOKxcLBtXyjaJOduX4eFa3FBdgpvnRWE0PuUcr7qD7awLfrX3OeJos5w2yMbX2SMi6peVt6v+RImE7Dt2ioIGenxYrN2jJJLaQloEF8dPHLYZRx9AIMqSgsGKk=
+	t=1725140545; cv=none; b=fs8H6TGPsLjuxaM2cT+05/XZqS73ox23cR2NTM/BkPZ3ZJorJTS/d3vJ+UKQkXNCpWuDq0VSVxmQ+QrRCsSnJlHwY81Tr+UVs0ODIzvfqMQ0tTCRFLYOqfZD1M13uJkgHI9cnUz4DO3msK+kYMA1YQ8qudl5A0nz7XI5cIEIBBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725121996; c=relaxed/simple;
-	bh=4Wk6jOfK5VIaGNDwWoOf71dYs4dYsh/zTqSklHo9lok=;
+	s=arc-20240116; t=1725140545; c=relaxed/simple;
+	bh=YAbLmVRSMjEMKOb7ev2ywCta6rqrjRWdsI1a1R2QoXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ix+faMsreS7eMn+3RIW7nkrhCgVJmuPCkQE2Q1mv4WfZwX44+hqjAg3NxiTOQrjE+nK22NO3VJ+mXYr+xD0AFrOwZg0pEVOOulxb6HMDaHTKDAyW6RrqWEPngSYnpzVZBuLchv+qo2jINBoLpYuP29lHUc8SRLJidO2TKi0PvN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZGgjEuvk; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=QOIf0ULLXnSNiJ6O8jRrhqd+CM5Z/Zc3qBbTcDxNNis7EXn3N5T3ieJtZcHprB2dYw2257Nmrj293N0dFz9BWIEflkWt4iXaBvY7pWKFEvKMkn4z//EuLQs5PlS7WSb2Ztn95kbgxeJ2LF4/AvwdS6fMVHJWWDKQZkD2dzM/bAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MtxtbYkX; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZGgjEuvk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtxtbYkX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725121994; x=1756657994;
+  t=1725140543; x=1756676543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Wk6jOfK5VIaGNDwWoOf71dYs4dYsh/zTqSklHo9lok=;
-  b=ZGgjEuvkNVyalmRXUUrLwgqLnS1xialsDIp9XnffOsk40IGTgnQtWVxw
-   K7oNV9OWoV0M1vf/ndoYVwDUfv1F6L9GKHQwbfHeNkjFswbS8KjFL4MdS
-   a9dmqQ+p2vq4iRY2ncsTva4FV7AGWIrtFCLD8wC15OQDC99rHt9xvUS+K
-   nHxv+AHVeMhD5U0rujKlU/sCB0dWUbvS+S+Lw7TJGfnU8nXjVBHA1mlHF
-   TMuf2bwDCk8LaO1JW/c7s7wjWFx3m5w6GRrnACu6uqv/HPxABxagOSFUI
-   0LzRQYzU4EOgcKoAG0q/IxmKfePrdvtPbhyEfkGPvvIuFgMNogm7eQmJP
-   g==;
-X-CSE-ConnectionGUID: wwnRxOyRQ9u/M7dEeke3Ew==
-X-CSE-MsgGUID: NdgrGvgXSzWU/ZKKrLmf7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34912735"
+  bh=YAbLmVRSMjEMKOb7ev2ywCta6rqrjRWdsI1a1R2QoXY=;
+  b=MtxtbYkXL8ydJO/Hz4n+qfQpSiLBINSDIiOLHg9WHNsZqvLfWXPezfmX
+   Jen4VbIv8N0aAfcfcY0O83W60q619hMll1Wf/OLvelqcMpgX8aKgKcQ92
+   oxlZmpg+frQUweRxig7SP2vMVlB7auxjGIGI0PhSRLenV9bEq5dBCXyyh
+   /FmzwHwePN7qRrH7dgVt8TG8awpQzFoo+JHkWNll7h5BC5osnhk/WkZLI
+   QwMFCCjl53XQtySgj/LPivSB9k2eAO5T1NV/yOwbSEHwk4x7TsB2Y2cL3
+   9n8SgJHhFk9RrbRDIHX+LeiuTmBfMPgmZjtvl4xWgZIzE7PRIzDqdWCbe
+   Q==;
+X-CSE-ConnectionGUID: 6XdiCU1fQcGxKi2/OqgazA==
+X-CSE-MsgGUID: M+Cs/IPCSpuoi6CGt9KpKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="35163899"
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="34912735"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 09:33:14 -0700
-X-CSE-ConnectionGUID: 5NMy1E+uScet+D3/BRo97A==
-X-CSE-MsgGUID: gsw34ptaQ/OaM7e1lIG0UA==
+   d="scan'208";a="35163899"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 14:42:22 -0700
+X-CSE-ConnectionGUID: UjRW6NpyQFqstBWvtp2QEg==
+X-CSE-MsgGUID: PYOpotswQhK1g3do/NG8Lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="64009501"
+   d="scan'208";a="94938109"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2024 09:33:13 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 14:42:21 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skR2E-0002vs-2C;
-	Sat, 31 Aug 2024 16:33:10 +0000
-Date: Sun, 1 Sep 2024 00:33:06 +0800
+	id 1skVrP-00039S-0U;
+	Sat, 31 Aug 2024 21:42:19 +0000
+Date: Sun, 1 Sep 2024 05:42:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [amlogic:v6.12/arm64-dt 9/10]
- arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:65.7-76.4: Warning
- (unit_address_vs_reg): /sram: node has a reg or ranges property, but no unit
- name
-Message-ID: <202409010005.A7tSzgEn-lkp@intel.com>
+Subject: drivers/dma/mv_xor.o: warning: objtool: mv_xor_prep_dma_xor+0x284:
+ unreachable instruction
+Message-ID: <202409010524.hnyDITUw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,87 +63,90 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "loongarch: unreachable instruction"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Xianwei Zhao <xianwei.zhao@amlogic.com>
-CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Tiezhu Yang <yangtiezhu@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: Jinyang He <hejinyang@loongson.cn>
+CC: Youling Tang <tangyouling@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git v6.12/arm64-dt
-head:   d4bd8f3023b68f72431e05ec6cbc793519b449cf
-commit: 520b792e83171efc8ec0b004412b44dabc044de0 [9/10] arm64: dts: amlogic: add some device nodes for C3
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: arm64-randconfig-003-20240831 (https://download.01.org/0day-ci/archive/20240901/202409010005.A7tSzgEn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010005.A7tSzgEn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e8784b0aef62cd6117e1c93c64d060e4c7314a1f
+commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
+date:   6 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 6 months ago
+config: loongarch-randconfig-002-20240829 (https://download.01.org/0day-ci/archive/20240901/202409010524.hnyDITUw-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010524.hnyDITUw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409010005.A7tSzgEn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409010524.hnyDITUw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:65.7-76.4: Warning (unit_address_vs_reg): /sram: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:168.34-413.6: Warning (unit_address_vs_reg): /soc/bus@fe000000/pinctrl@4000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi:168.34-413.6: Warning (simple_bus_reg): /soc/bus@fe000000/pinctrl@4000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/amlogic/amlogic-c3-c302x-aw409.dts:205.9-245.4: Warning (avoid_unnecessary_addr_size): /soc/bus@fe000000/spi@56000/nand@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+All warnings (new ones prefixed by >>):
 
-vim +65 arch/arm64/boot/dts/amlogic/amlogic-c3.dtsi
+>> drivers/dma/mv_xor.o: warning: objtool: mv_xor_prep_dma_xor+0x284: unreachable instruction
+--
+>> drivers/scsi/esp_scsi.o: warning: objtool: esp_free_lun_tag+0x98: unreachable instruction
+--
+>> drivers/net/virtio_net.o: warning: objtool: mergeable_rx_buffer_size_show+0xb8: unreachable instruction
+--
+>> drivers/target/tcm_fc/tfc_io.o: warning: objtool: ft_queue_data_in+0x314: unreachable instruction
+>> drivers/target/tcm_fc/tfc_io.o: warning: objtool: ft_recv_write_data+0x1d0: unreachable instruction
+--
+>> drivers/scsi/bnx2fc/bnx2fc_tgt.o: warning: objtool: bnx2fc_flush_active_ios+0x3cc: unreachable instruction
+--
+   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_setup_tx':
+   drivers/net/ethernet/brocade/bna/bnad.c:1537:51: warning: ' TXQ ' directive writing 5 bytes into a region of size between 1 and 16 [-Wformat-overflow=]
+    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
+         |                                                   ^~~~~
+   In function 'bnad_tx_msix_register',
+       inlined from 'bnad_setup_tx' at drivers/net/ethernet/brocade/bna/bnad.c:1998:9:
+   drivers/net/ethernet/brocade/bna/bnad.c:1537:48: note: using the range [-2147483648, 2147483647] for directive argument
+    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
+         |                                                ^~~~~~~~~~~
+   drivers/net/ethernet/brocade/bna/bnad.c:1537:17: note: 'sprintf' output between 7 and 32 bytes into a destination of size 16
+    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1538 |                                 tx_id + tx_info->tcb[i]->id);
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_setup_rx':
+   drivers/net/ethernet/brocade/bna/bnad.c:1588:59: warning: ' CQ ' directive writing 4 bytes into a region of size between 1 and 16 [-Wformat-overflow=]
+    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
+         |                                                           ^~~~
+   In function 'bnad_rx_msix_register',
+       inlined from 'bnad_setup_rx' at drivers/net/ethernet/brocade/bna/bnad.c:2260:9:
+   drivers/net/ethernet/brocade/bna/bnad.c:1588:56: note: using the range [-2147483648, 2147483647] for directive argument
+    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
+         |                                                        ^~~~~~~~~~
+   drivers/net/ethernet/brocade/bna/bnad.c:1588:17: note: 'sprintf' output between 6 and 31 bytes into a destination of size 16
+    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1589 |                         bnad->netdev->name,
+         |                         ~~~~~~~~~~~~~~~~~~~
+    1590 |                         rx_id + rx_info->rx_ctrl[i].ccb->id);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/brocade/bna/bnad.o: warning: objtool: bnad_cb_tx_resume+0xb4: unreachable instruction
+--
+>> drivers/net/ethernet/brocade/bna/bna_tx_rx.o: warning: objtool: bna_bfi_rx_enet_start.constprop.0+0x248: unreachable instruction
+--
+>> drivers/net/ethernet/brocade/bna/bfa_ioc_ct.o: warning: objtool: bfa_ioc_ct2_pll_init+0x210: unreachable instruction
+--
+>> drivers/scsi/csiostor/csio_rnode.o: warning: objtool: csio_confirm_rnode+0x4c0: unreachable instruction
+--
+>> drivers/scsi/bnx2i/bnx2i_iscsi.o: warning: objtool: bnx2i_task_xmit+0x3ac: unreachable instruction
+--
+>> drivers/net/ethernet/mellanox/mlxsw/core.o: warning: objtool: __mlxsw_item_offset+0xb0: unreachable instruction
+..
 
-02310be6f08007 Xianwei Zhao 2023-05-15  15  
-02310be6f08007 Xianwei Zhao 2023-05-15  16  / {
-02310be6f08007 Xianwei Zhao 2023-05-15  17  	cpus {
-02310be6f08007 Xianwei Zhao 2023-05-15  18  		#address-cells = <2>;
-02310be6f08007 Xianwei Zhao 2023-05-15  19  		#size-cells = <0>;
-02310be6f08007 Xianwei Zhao 2023-05-15  20  
-02310be6f08007 Xianwei Zhao 2023-05-15  21  		cpu0: cpu@0 {
-02310be6f08007 Xianwei Zhao 2023-05-15  22  			device_type = "cpu";
-02310be6f08007 Xianwei Zhao 2023-05-15  23  			compatible = "arm,cortex-a35";
-02310be6f08007 Xianwei Zhao 2023-05-15  24  			reg = <0x0 0x0>;
-02310be6f08007 Xianwei Zhao 2023-05-15  25  			enable-method = "psci";
-02310be6f08007 Xianwei Zhao 2023-05-15  26  		};
-02310be6f08007 Xianwei Zhao 2023-05-15  27  
-02310be6f08007 Xianwei Zhao 2023-05-15  28  		cpu1: cpu@1 {
-02310be6f08007 Xianwei Zhao 2023-05-15  29  			device_type = "cpu";
-02310be6f08007 Xianwei Zhao 2023-05-15  30  			compatible = "arm,cortex-a35";
-02310be6f08007 Xianwei Zhao 2023-05-15  31  			reg = <0x0 0x1>;
-02310be6f08007 Xianwei Zhao 2023-05-15  32  			enable-method = "psci";
-02310be6f08007 Xianwei Zhao 2023-05-15  33  		};
-02310be6f08007 Xianwei Zhao 2023-05-15  34  	};
-02310be6f08007 Xianwei Zhao 2023-05-15  35  
-02310be6f08007 Xianwei Zhao 2023-05-15  36  	timer {
-02310be6f08007 Xianwei Zhao 2023-05-15  37  		compatible = "arm,armv8-timer";
-02310be6f08007 Xianwei Zhao 2023-05-15  38  		interrupts = <GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao 2023-05-15  39  			     <GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao 2023-05-15  40  			     <GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>,
-02310be6f08007 Xianwei Zhao 2023-05-15  41  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_LOW)>;
-02310be6f08007 Xianwei Zhao 2023-05-15  42  	};
-02310be6f08007 Xianwei Zhao 2023-05-15  43  
-02310be6f08007 Xianwei Zhao 2023-05-15  44  	psci {
-02310be6f08007 Xianwei Zhao 2023-05-15  45  		compatible = "arm,psci-1.0";
-02310be6f08007 Xianwei Zhao 2023-05-15  46  		method = "smc";
-02310be6f08007 Xianwei Zhao 2023-05-15  47  	};
-02310be6f08007 Xianwei Zhao 2023-05-15  48  
-02310be6f08007 Xianwei Zhao 2023-05-15  49  	xtal: xtal-clk {
-02310be6f08007 Xianwei Zhao 2023-05-15  50  		compatible = "fixed-clock";
-02310be6f08007 Xianwei Zhao 2023-05-15  51  		clock-frequency = <24000000>;
-02310be6f08007 Xianwei Zhao 2023-05-15  52  		clock-output-names = "xtal";
-02310be6f08007 Xianwei Zhao 2023-05-15  53  		#clock-cells = <0>;
-02310be6f08007 Xianwei Zhao 2023-05-15  54  	};
-02310be6f08007 Xianwei Zhao 2023-05-15  55  
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  56  	sm: secure-monitor {
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  57  		compatible = "amlogic,meson-gxbb-sm";
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  58  
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  59  		pwrc: power-controller {
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  60  			compatible = "amlogic,c3-pwrc";
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  61  			#power-domain-cells = <1>;
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  62  		};
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  63  	};
-22a9b2a488c3f0 Xianwei Zhao 2023-07-07  64  
-520b792e83171e Xianwei Zhao 2024-08-30 @65  	sram {
+
+objdump-func vmlinux.o mv_xor_prep_dma_xor:
 
 -- 
 0-DAY CI Kernel Test Service
