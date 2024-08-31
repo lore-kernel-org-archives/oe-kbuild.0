@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A21D9461
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 15:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65A536B11
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 16:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725119475; cv=none; b=UGh+rsPNvYd+H8oGRnTTv72lG0ecXCuyWsIASMVqRHaBHxlb+J6VpeKZXqZEFnN1gqGXdqf8lCXnaMICOAkRT7bN2eS9JF7SNgEj8pPK5err1pJrClpgxD1VpvpK7RH/CHQk5jAXbZcrnEpZc3aTggLQxEXjdLG3ww7Zy7aYhys=
+	t=1725120339; cv=none; b=HkiW3D+7HOnHCk4DUmDtyT0UA7pSi4Npk/m4eQZPPbceCukMwOZUks2pQ4l78DIbsoom4riuTsksyBvftRH6sG3MPnoSxyuc4uZvx3+L/XmnMDGVcPNO5i9bihNLayku74ffIuvtRoHBRuoTJln1JAl+qQBi+W2fcD1QvGPL28Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725119475; c=relaxed/simple;
-	bh=GRVwzxNtlEP+NOUHxee5QnNPLuNR5krclvuUPrsUfQo=;
+	s=arc-20240116; t=1725120339; c=relaxed/simple;
+	bh=rE0ut2sUqgxU8xov+GdcaHGXlKvhZFI7wcxAcxuYp38=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bVLrqRahpGPN9/hHhhn6axHY4bTl+KdJeC1FTpbLVxz0khqSX64AfWDgPZar/U/vvFfXiTV/JbnCZruV4ZTmeRjD0OYRCJOF+e/1EKW2gHflOMR7sfoEjsjWJ568uCcT2fdSV+7px+sfjxn+TjwHqWchBFkjFuHpz/KEMdW4fWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JwksdseB; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=dPxYMxwdJVc7FK5w55FkVdzgpkSWChVjBAn4giobbGv6GTG2YTGoAhlEQJdOljx8nivyHlz7FEMYeEo7OJ6FuirH3JZMduiLT8/Rf32pCwU5ig2A5N88MIR5Rwr9cJ/Z5AHgJCojj0C7OCva2q9gba/f1FoqRZ8nPt4bZSRybSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CIgXxvYe; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JwksdseB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725119473; x=1756655473;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GRVwzxNtlEP+NOUHxee5QnNPLuNR5krclvuUPrsUfQo=;
-  b=JwksdseBwOVpDv0kptpgiARQ63+RxnYkVLPjgGGSB8LPhnsq6BFMcG3D
-   bSd0KGftYZ/sulpG+SYLzDUGWAoNxrXmMw2iKJ+hd5bxDKQ5HnUQ9Aw8G
-   9D7MYJg/20RkiXo79QQzN+deyF35cL8NdNWTAg89tCjFw46a3+xWV7snf
-   pEWQ/px6ekIP3rACSuyVZ7psFjJD6fTcisaLUuUUQKTHhlKU2sWcal8nN
-   tfZxwFaEP0vmY8WbYvHRB3yV+ooNte97dIK1re6eNE7j5Nct6C2u/8qQy
-   JNy6fvAmmWxZx4SNbm8eCgLM/eROmk+3kPz/8v1cTbX4nKYstU/ZdyRtq
-   w==;
-X-CSE-ConnectionGUID: 5XQXjQMHQJqo+XvSmGh6zQ==
-X-CSE-MsgGUID: sQIFSimyQVCcx5ZMRV/GHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34365932"
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="34365932"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 08:51:12 -0700
-X-CSE-ConnectionGUID: ai7FqQAYTHqvYv8+i9LtoA==
-X-CSE-MsgGUID: SKF0p0fGQiu5IxoX4+Xq/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="64004382"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 Aug 2024 08:51:11 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skQNZ-0002t4-0T;
-	Sat, 31 Aug 2024 15:51:09 +0000
-Date: Sat, 31 Aug 2024 23:51:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CIgXxvYe"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42bbdf7f860so12911045e9.3
+        for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 09:05:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725120334; x=1725725134; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uRYZ1Clj8bSc5EVRMrTevTBI4DXI4o3me3WtcIgUDlI=;
+        b=CIgXxvYesS9g97xWSg41ZayqFJ+68D5jVK+bGDueQLF4cPQL9ZVfTBAsjn6X/CwgTq
+         xIB5X1rfNmLVA4SSY0Urvdikrcu7P9NClPIM/aZEUjNnVWbjND/bj18u2z1+tXTum9Zz
+         ll7dFf3IKEmQhM+Jjp1RVY5tv01xAIGAobX+8b27LjlrraZG/8MGYE4wzVZOPMNzhmBp
+         6lHOGXWMcAWtl6Ym/4tmf4vU/blTNc084qhlge/Pxrnls10wMVnEclJGLu1gTLvO/lyl
+         fT2Flz0GGjd1a/kNIQRcYHahNLYZPND0mTjNwAEYDLYgvwDyli7LYMjBWpXV5OvcCiPq
+         aNFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725120334; x=1725725134;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uRYZ1Clj8bSc5EVRMrTevTBI4DXI4o3me3WtcIgUDlI=;
+        b=qRs+AJg/AIx4b2BNTyNdrybQ8k4wPMNdXxcTtBRs6c+Vy3u/kCiUUJF5kf3Ny0u2IB
+         lputjYOacpNd4aZelSjie76lfnFFbZvyBRLlClMeJ5LITYK6duWBnIZfpad0bZkuo3TT
+         MqC/GMJfKb3cutG8BQf9tnzZl+EjKHOA5eGJHU8B8vwa5vkNxs/aLpYCX4WxccoWcomk
+         dLtjSGBjlHFt0OttFsViKI7ftCmcBZAG3h+c6BJCOYNVkhmbH3d9GUDWjJUSG8JRHfnM
+         vHHiVW+SRNBapwD3MRnQxb0KOd06BV5kqJeXLLk8wEYyQcJTZO+Xk1a6TgzJB2NkciXo
+         X3mw==
+X-Gm-Message-State: AOJu0YxaruMhVK0u9OA5HyHOJlgG7qrjaQn6ClTPQ1JFxLpw2Z6ecbhn
+	ZFqCwyrN2iIPm+XtPCUWt20uBP0ECo2loTqpYEiGUO/bH+Ksy2rY6ggsI9rTEwglI/aV9D9C4Vb
+	X
+X-Google-Smtp-Source: AGHT+IHUSjMb5RuC0+VSxpdufeI4iE6ieLzMX2B6pOFhIZGPfaSr5tdYaNAGfMGB7ROmlJZqGyqKug==
+X-Received: by 2002:adf:e88b:0:b0:374:ba3f:ad08 with SMTP id ffacd0b85a97d-374ba3faf72mr2060074f8f.55.1725120334341;
+        Sat, 31 Aug 2024 09:05:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bb6deb27fsm80143365e9.10.2024.08.31.09.05.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 09:05:33 -0700 (PDT)
+Date: Sat, 31 Aug 2024 19:05:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Billy Tsai <billy_tsai@aspeedtech.com>,
+	linus.walleij@linaro.org, brgl@bgdev.pl, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	BMC-SW@aspeedtech.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware
  access
-Message-ID: <202408312313.HTx2vwvy-lkp@intel.com>
+Message-ID: <50920eea-7fff-4905-839e-7acd88f437cb@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,49 +72,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
-References: <20240830034047.2251482-4-billy_tsai@aspeedtech.com>
-TO: Billy Tsai <billy_tsai@aspeedtech.com>
-TO: linus.walleij@linaro.org
-TO: brgl@bgdev.pl
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: joel@jms.id.au
-TO: andrew@codeconstruct.com.au
-TO: linux-gpio@vger.kernel.org
-TO: devicetree@vger.kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-aspeed@lists.ozlabs.org
-TO: linux-kernel@vger.kernel.org
-TO: BMC-SW@aspeedtech.com
 
 Hi Billy,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brgl/gpio/for-next]
-[also build test WARNING on linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/dt-bindings-gpio-aspeed-ast2400-gpio-Support-ast2700/20240830-114325
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
 patch link:    https://lore.kernel.org/r/20240830034047.2251482-4-billy_tsai%40aspeedtech.com
 patch subject: [PATCH v2 3/4] gpio: aspeed: Create llops to handle hardware access
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: parisc-randconfig-r071-20240831 (https://download.01.org/0day-ci/archive/20240831/202408312313.HTx2vwvy-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202408312313.HTx2vwvy-lkp@intel.com/
 
 smatch warnings:
@@ -117,7 +104,6 @@ drivers/gpio/gpio-aspeed.c:664 aspeed_gpio_reset_tolerance() error: uninitialize
 
 vim +/copro +399 drivers/gpio/gpio-aspeed.c
 
-361b79119a4b7f Joel Stanley           2016-08-30  385  
 361b79119a4b7f Joel Stanley           2016-08-30  386  static void aspeed_gpio_set(struct gpio_chip *gc, unsigned int offset,
 361b79119a4b7f Joel Stanley           2016-08-30  387  			    int val)
 361b79119a4b7f Joel Stanley           2016-08-30  388  {
@@ -128,10 +114,15 @@ a7ca13826e478f Benjamin Herrenschmidt 2018-06-29  391  	bool copro;
 61a7904b6ace99 Iwona Winiarska        2021-12-04  393  	raw_spin_lock_irqsave(&gpio->lock, flags);
 0e6ca482ec6e28 Billy Tsai             2024-08-30  394  	if (gpio->llops->copro_request)
 0e6ca482ec6e28 Billy Tsai             2024-08-30  395  		copro = gpio->llops->copro_request(gpio, offset);
+
+Uninitialized on else  path
+
 361b79119a4b7f Joel Stanley           2016-08-30  396  
 361b79119a4b7f Joel Stanley           2016-08-30  397  	__aspeed_gpio_set(gc, offset, val);
 361b79119a4b7f Joel Stanley           2016-08-30  398  
 0e6ca482ec6e28 Billy Tsai             2024-08-30 @399  	if (copro && gpio->llops->copro_release)
+                                                            ^^^^^
+
 0e6ca482ec6e28 Billy Tsai             2024-08-30  400  		gpio->llops->copro_release(gpio, offset);
 61a7904b6ace99 Iwona Winiarska        2021-12-04  401  	raw_spin_unlock_irqrestore(&gpio->lock, flags);
 361b79119a4b7f Joel Stanley           2016-08-30  402  }
@@ -336,8 +327,8 @@ df561f6688fef7 Gustavo A. R. Silva    2020-08-23  579  		fallthrough;
 361b79119a4b7f Joel Stanley           2016-08-30  601  
 361b79119a4b7f Joel Stanley           2016-08-30  602  	return 0;
 361b79119a4b7f Joel Stanley           2016-08-30  603  }
-361b79119a4b7f Joel Stanley           2016-08-30  604  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
