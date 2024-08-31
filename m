@@ -1,151 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2E814D28F
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 08:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3056A178389
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 08:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725092334; cv=none; b=tdtp3ic258jrfHMU8IdSpq+Oxxa8HbpZHtU+cvG+byCjqRdqjG56DGyvJriq0EbBBhf1EQdAQT1lF8Q5s0lFOe/oUy7jbVj1ppZGyZ+tqAQFfXV209mE0JP+ZMtEjMuczdioTJyUrpEMmE2xQj+dYa8IlGjfThtLq81vw8e+zgM=
+	t=1725093122; cv=none; b=fX8OChblvohyoxzbkCsf2dMIXHEo6twJw/Nc24YFotq9nEDg18/C/9IVaDP1IpkL5Z2HAGCwlrTKdmMbxbmdE6YxEkyWYRC5tJVxI8w/EOTu2DCqbwXTPwjUQJ3eFfBBjAjwVlNH41geZFteujdylfmCyerlvVUkQJQWFJrhb6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725092334; c=relaxed/simple;
-	bh=dLMiOq36JeGMSEUgp7HDKV/Tc9ITSiPcQnpAsDt/WdQ=;
+	s=arc-20240116; t=1725093122; c=relaxed/simple;
+	bh=ygokJ3EuwP2KVqqlmTrJeAJWWdyXSr8sqWsV9WTAHco=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kmA529cTLUl6WSBRoySvw56fwLV0yi8Tc7pMhJKEtCVhwI9V2/esU/jfNEqIYyWfGuwsz9STmJ7anR4Zoql/V9oEciRv/5lb7XHuK2rzrpGg3oa4R4+/ZwlpkdwDXupMYyd0joVyxdz1qWM/gqMAwbuY5eRHQzl9M7NrX+OOjbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uq34WS8c; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=CDnpsC7epdtS2wSbz+dpo0mi7Rh0XdKhzwQQ5cKdfyZSFwBhd2Gmgb3BZO435PzmzbXc6LUsHU5vIQRZ5Pi2CN8BkjP3aYV8c2Nhugm8HcUC7qHntnbKXL1rLodH5TPube5GCdNl6wbXgjMbxDmTLza4ye9R/iBhOgDyGeRq6+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HgxCdzuq; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uq34WS8c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725092333; x=1756628333;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dLMiOq36JeGMSEUgp7HDKV/Tc9ITSiPcQnpAsDt/WdQ=;
-  b=Uq34WS8cshperUVe4Qe7Up5+KTjVNWzkAn4q/JB49OblUgjW7vjdfB9f
-   KCs1ZioJHlmN4yIhJYbtxxfl7gP2c2eYaOQXaNvGoM/GWLk476G1aCgTY
-   x0tjo6lUEn8IJLznxL5hRUYN1GmJqF3C4LqUDwCuVpiRytU/WUd794KwY
-   SbFCzhZJFCwY6KmIGmzn9Z0etMFxW4V4XJ4TCDzXpprvCWLMy6Uj8OJYL
-   Pk7rFgkz4RR6ZJtiFvbMBsnmK3hiYtPHbB2uk+s0JjE/u3O73vT8TyRbu
-   KTvwpOJroKVOQ3GrNyb7ZSlu799VRhV86zJbEuf7pdKV5Ifbty9R0Z9Ow
-   Q==;
-X-CSE-ConnectionGUID: +DQ8B07kT8qdssZb/05QaQ==
-X-CSE-MsgGUID: BO4eTwXMQVSBp94let51PA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="34899127"
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="34899127"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 01:18:52 -0700
-X-CSE-ConnectionGUID: uXxnpq3fRv62pfJMDxyXcw==
-X-CSE-MsgGUID: pklVmu0RSlW6POwzzSM0iA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,191,1719903600"; 
-   d="scan'208";a="87356847"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Aug 2024 01:18:51 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1skJJp-0002S7-0R;
-	Sat, 31 Aug 2024 08:18:49 +0000
-Date: Sat, 31 Aug 2024 16:18:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH] selftests/futex: Create test for robust list
-Message-ID: <202408311654.Me6a2xuF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HgxCdzuq"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3719753d365so1960076f8f.2
+        for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 01:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725093118; x=1725697918; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cYKXU/GRuYajonH8bLwJRIkuKYJn/KULcoZQ/7PWKrE=;
+        b=HgxCdzuqTNcNXd9U52XOlQksGSvvUM9nHl/wdVGg2CVLxOhhwHYX0nRKh61rBVOfsw
+         eJ6Kqx5qnHDq/oGyu1FzcNTkVWjSYh/FH+VrWLd95v7SDEOqnc+fbdCtOZ4T8f3QUhzB
+         OfHFDu/QNOcX6xurXWtaK6i1ZaGTQyZpwusf+pFV5Tob9P6zyy12sqSJgwARm2avFlCM
+         dlUUi3ZqPS+1G9zHLGWOBvK48SHpgO+0kptGNsFTYVRuHjeusjHNR1KzxDq9swcxRdxB
+         QmRrlTAibCIhFYZkvNYHk+UFVW9r7UvavAMRVa1pJ6STGKPEEyAkyw0zWAzNn/rhPr/R
+         QFag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725093118; x=1725697918;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cYKXU/GRuYajonH8bLwJRIkuKYJn/KULcoZQ/7PWKrE=;
+        b=sFanSPDesp3zd5SLUpLfjSyTq7J1tLgYYqUupObsLGtt4/eZjTbMcACgHIVwF5YwUC
+         CcYWAeb5RrvfOPFrEtoBGL7GfZpKhfDcsjXGfheqbZ4bLyei//x79Sip0jFgaJDcG33s
+         UAbJkFNb2qhWYIFkz6lOC2Nx3uS2MtyOSY9l4G3M60TlXVfLuglhjCl6RaFFHuXJHTx9
+         fbXpEjUXKNZuhptXCUsJxK78Rq0R1yWsR28xak126N5WtFBJdvhoBTJgtIOBBXAqOaB0
+         xrWsQDgwBkc6VP0NcgC/ANfvbyLhWCFP4VU5xwYoL8MLwz4xfV1LRsfJns7n/oLxEdmj
+         llLQ==
+X-Gm-Message-State: AOJu0YzYxfDapzU3LrRzk1aWLntS9iUac3t1R15Mwlj5/O41ArkLBTzB
+	1VRC3EazabS+pwi3H36xDcnWOrwbz5Yzq7eXRBZpNjtjNw0uq0zno11PWtLuJzIn2RvVJ28W3hp
+	f
+X-Google-Smtp-Source: AGHT+IEY8B96yyKAmsk7FOyikce6yeIKfN0PQpvR2+w944msLHKH11XTNcpqiCg0x0+w3FqoiWogJA==
+X-Received: by 2002:adf:e5c9:0:b0:374:c2e9:28b8 with SMTP id ffacd0b85a97d-374c2e92d16mr52551f8f.18.1725093118067;
+        Sat, 31 Aug 2024 01:31:58 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c08e07b6sm759594f8f.63.2024.08.31.01.31.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Aug 2024 01:31:57 -0700 (PDT)
+Date: Sat, 31 Aug 2024 11:31:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>
+Subject: Re: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe()
+ usage
+Message-ID: <20dd56f0-78ea-4255-86ac-32151160b83d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240822130722.1261891-3-andriy.shevchenko@linux.intel.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+Hi Andy,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240829183509.446934-1-andrealmeid@igalia.com>
-References: <20240829183509.446934-1-andrealmeid@igalia.com>
-TO: "André Almeida" <andrealmeid@igalia.com>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Ingo Molnar <mingo@redhat.com>
-TO: Peter Zijlstra <peterz@infradead.org>
-TO: Darren Hart <dvhart@infradead.org>
-TO: Davidlohr Bueso <dave@stgolabs.net>
-TO: Shuah Khan <skhan@linuxfoundation.org>
-CC: linux-kernel@vger.kernel.org
-CC: linux-kselftest@vger.kernel.org
-CC: kernel-dev@igalia.com
-CC: "André Almeida" <andrealmeid@igalia.com>
+kernel test robot noticed the following build warnings:
 
-Hi André,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on linus/master v6.11-rc5 next-20240830]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/selftests-futex-Create-test-for-robust-list/20240830-023631
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20240829183509.446934-1-andrealmeid%40igalia.com
-patch subject: [PATCH] selftests/futex: Create test for robust list
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408311654.Me6a2xuF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-Ignore-0-in-dev_err_probe/20240826-113856
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20240822130722.1261891-3-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe() usage
+config: i386-randconfig-141-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310807.sNPe5Mr2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408311654.Me6a2xuF-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202408310807.sNPe5Mr2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() error: uninitialized symbol 'err_msg'.
+drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() warn: passing zero to 'dev_err_probe'
 
->> robust_list.c:53:17: error: use of undeclared identifier 'SYS_futex_wait'; did you mean 'futex_wait'?
-      53 |         return syscall(SYS_futex_wait, futex, val, ~0U, FUTEX2_SIZE_U32, timo, CLOCK_MONOTONIC);
-         |                        ^~~~~~~~~~~~~~
-         |                        futex_wait
-   ../include/futextest.h:78:1: note: 'futex_wait' declared here
-      78 | futex_wait(futex_t *uaddr, futex_t val, struct timespec *timeout, int opflags)
-         | ^
->> robust_list.c:121:6: error: address argument to atomic operation must be a pointer to _Atomic type ('int *' invalid)
-     121 |         if (atomic_compare_exchange_strong(futex, &zero, tid)) {
-         |             ^                              ~~~~~
-   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdatomic.h:144:67: note: expanded from macro 'atomic_compare_exchange_strong'
-     144 | #define atomic_compare_exchange_strong(object, expected, desired) __c11_atomic_compare_exchange_strong(object, expected, desired, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST)
-         |                                                                   ^                                    ~~~~~~
-   robust_list.c:147:9: error: address argument to atomic operation must be a pointer to _Atomic type ('int *' invalid)
-     147 |                 tid = atomic_load(futex);
-         |                       ^           ~~~~~
-   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdatomic.h:138:29: note: expanded from macro 'atomic_load'
-     138 | #define atomic_load(object) __c11_atomic_load(object, __ATOMIC_SEQ_CST)
-         |                             ^                 ~~~~~~
-   robust_list.c:150:3: error: address argument to atomic operation must be a pointer to _Atomic type ('int *' invalid)
-     150 |                 atomic_store(futex, tid);
-         |                 ^            ~~~~~
-   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdatomic.h:135:39: note: expanded from macro 'atomic_store'
-     135 | #define atomic_store(object, desired) __c11_atomic_store(object, desired, __ATOMIC_SEQ_CST)
-         |                                       ^                  ~~~~~~
-   4 errors generated.
+vim +/err_msg +292 drivers/platform/x86/intel/int3472/discrete.c
 
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  270  		case INT3472_GPIO_TYPE_POWER_ENABLE:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  271  			ret = skl_int3472_register_regulator(int3472, gpio);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  272  			if (ret)
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  273  				err_msg = "Failed to map regulator to sensor\n";
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  274  
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  275  			break;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  276  		default: /* Never reached */
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  277  			ret = -EINVAL;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  278  			break;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  279  		}
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  280  		break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  281  	default:
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  282  		dev_warn(int3472->dev,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  283  			 "GPIO type 0x%02x unknown; the sensor may not work\n",
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  284  			 type);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  285  		ret = 1;
+                                                                                                                                ^^^^^^^^
 
-vim +53 tools/testing/selftests/futex/functional/robust_list.c
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  286  		break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  287  	}
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  288  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  289  	int3472->ngpios++;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  290  	ACPI_FREE(obj);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  291  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03 @292  	return dev_err_probe(int3472->dev, ret, err_msg);
 
-3306ef10715f1b André Almeida 2024-08-29  50  
-3306ef10715f1b André Almeida 2024-08-29  51  int futex2_wait(void *futex, int val, struct timespec *timo)
-3306ef10715f1b André Almeida 2024-08-29  52  {
-3306ef10715f1b André Almeida 2024-08-29 @53  	return syscall(SYS_futex_wait, futex, val, ~0U, FUTEX2_SIZE_U32, timo, CLOCK_MONOTONIC);
-3306ef10715f1b André Almeida 2024-08-29  54  }
-3306ef10715f1b André Almeida 2024-08-29  55  
+This is the success path.  "err_msg" is only set for the error path.  "ret" is 1
+so it will use the uninitialized data.  But even if ret were zero, it's illegal
+to pass uninitialized variables to functions which aren't inlined.
+
+1) It's undefined behavior
+2) Linus said so
+3) It causes UBSan warnings at runtime.
+
+regards,
+dan carpenter
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
