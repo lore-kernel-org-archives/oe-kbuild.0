@@ -1,291 +1,252 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E318A15B117
-	for <oe-kbuild@lists.linux.dev>; Fri, 30 Aug 2024 20:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7B51804F
+	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 00:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725050201; cv=none; b=Xp0qWva+Wk/eSOzu5cYFecEQPGKZfVnlOP4vufojM4PqFFVpTe7Kjo3bXCXG45cx55QXaRwRTDzMv1fDueKebr1AEKM1yNZXrFNaDMMufBdm0/8H1J3Ai7LrZbhXnOorELgxobbbSHtUSoNg/6rg68AMPUEmZxrWFOnVDIhuSWU=
+	t=1725065149; cv=none; b=PiBUKvLVstGW1am2cuQKd2Rsa6XKrOIzvLpAe2Ymltg6dJTAXt6kn6xAOxA+U913UTPYA5p0W2MVEYiSyAnM/A34QZnbAQz4k0qDx7553r+g+sWP9A8PWkfhC8h/DBGiWkfvSKSZUmBlbNb2mIQ+lEo1RlHCZhmqI92Cq8MYZbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725050201; c=relaxed/simple;
-	bh=Ud6IfZOyh5z/KGkU/VVp8h0CyrQM6JOyKweIrxxoIHU=;
+	s=arc-20240116; t=1725065149; c=relaxed/simple;
+	bh=2eKu2bnzUA0Vbdcbk1R5GZU3QIBqvSkAHAePrBsNxMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rHrSnEfrNRZ61r0vW8yhMECr4oNIahf4uQ1QASB6tJ0qQMutFWQQau0hvERV7ooHmnHFFMUTR3FT4L7RT82eYdCqyScBsgbt+sFEASwWEx7Ma6QTxXQy1xWQ2jiDNdS8LVpo4bJc5LSYvLsLyK/4SN541r9eRfWXKK3vE4Ucyjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bhkfF5OA; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=sHDfVpU2nYWvyHniT+aohWaWwnSvGwUO6nBbBv93trHQ5ybtOFNiY6IOZYenzYVBpar8s6Rh5HyOtFHnnPvziBNZiNKk1Y2KtzVKVpBqMUZZiUoD6qX7i/PD3yg3oWvbhWk6nPWPffLtfYeLO1EY9tHxAJ5S/6WRDH2K9aPejJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EW1KWHDA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bhkfF5OA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EW1KWHDA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725050199; x=1756586199;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ud6IfZOyh5z/KGkU/VVp8h0CyrQM6JOyKweIrxxoIHU=;
-  b=bhkfF5OA5KqDOcoA9rDV8h9PmCCbzqQP2x08zL9aEtx5W7YSNudxO0C1
-   uPlD/iMuLiCs55StSiWz97aOGtKKpLr53SFGV0i3qnozQiDXGl0I9CAxl
-   B/ThYDOg3oU9+5ZAEvMcA7wZ0tkjYcQ9ci4d3m9OGRqKTbkvqdBU9Y/pQ
-   DmrUKOAIGej6XSO3vI2ESxeVGeFVBaN3hfo//K4X7HnyRK8YT4zqdoUFz
-   Bamw0wKMjnmGC5ftlm7MXdvIir5XmGmea4T6o2YMU7MXxLTKK2AyQ9sC3
-   /TkYwtzpILuBBlad9C+ppvwEV6LX3d0HdeI8ywJrP6k7Pkd+HMdKWfsLs
+  t=1725065147; x=1756601147;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2eKu2bnzUA0Vbdcbk1R5GZU3QIBqvSkAHAePrBsNxMg=;
+  b=EW1KWHDAlQIPyrOTytv8DKjy/TTzhZ2Gc1O8Acv3EgWaBEOMxLY3+UL1
+   NYlEarvmbuSI9yIeWtr2/hvLlg907oG7cG9lmfoi97WBFY48ppiou2/g3
+   eoAAh8nNUi7VOgk4HmhH+JbfRL7onIfEU7nrvLjkcVbHB4fd2t2nL0P9k
+   PsQ+dx1nDMPWn+oG6mrbXi1Q3zh55US17uAOvqrsclePuMuhGOGBmhTGE
+   hvTgYNcf2B3dt7D+IadKxZd26uDOtUVPV9TQRmo+jCR3im5bx63QaMETr
+   W4EoMsF8TLhd74GLY/t0MclRe0BeC9mGoS13n+XFDtGWhM1SCL/Iag4bX
    Q==;
-X-CSE-ConnectionGUID: qAB/NDMzTMGMPuYAVfd0Yw==
-X-CSE-MsgGUID: N+bacvQeTeu0pG7DISsWqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23842773"
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="23842773"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 13:36:38 -0700
-X-CSE-ConnectionGUID: sJInWuiHQEW83Nj77F6lVA==
-X-CSE-MsgGUID: v7zvfhWLRZuLEqnWhqE0YA==
+X-CSE-ConnectionGUID: d7uo6hDJSwy9SrCRA+zNCw==
+X-CSE-MsgGUID: T2IoM5hRRCCnOfybbJuvJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11180"; a="23683416"
+X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
+   d="scan'208";a="23683416"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2024 17:45:46 -0700
+X-CSE-ConnectionGUID: 7MZpwOVCT3G1XSefT+rzvQ==
+X-CSE-MsgGUID: Awu8doEHS5qgITw6yfpzkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,189,1719903600"; 
-   d="scan'208";a="64754733"
+X-IronPort-AV: E=Sophos;i="6.10,190,1719903600"; 
+   d="scan'208";a="68854528"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Aug 2024 13:36:37 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 Aug 2024 17:45:43 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sk8ME-00025G-2q;
-	Fri, 30 Aug 2024 20:36:34 +0000
-Date: Sat, 31 Aug 2024 04:36:13 +0800
+	id 1skCFJ-0002Fh-0D;
+	Sat, 31 Aug 2024 00:45:41 +0000
+Date: Sat, 31 Aug 2024 08:45:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: cfi_probe.c:(.xiptext+0xef): dangerous relocation: windowed longcall
- crosses 1GB boundary; return may fail: memset
-Message-ID: <202408310459.6XOid7BV-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe()
+ usage
+Message-ID: <202408310807.sNPe5Mr2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "xtensa: dangerous relocation"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Max Filippov <jcmvbkbc@gmail.com>
+In-Reply-To: <20240822130722.1261891-3-andriy.shevchenko@linux.intel.com>
+References: <20240822130722.1261891-3-andriy.shevchenko@linux.intel.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Hans de Goede <hdegoede@redhat.com>
+TO: linux-kernel@vger.kernel.org
+TO: platform-driver-x86@vger.kernel.org
+CC: "Rafael J. Wysocki" <rafael@kernel.org>
+CC: Daniel Scally <djrscally@gmail.com>
 
-Hi Max,
+Hi Andy,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fb24560f31f9dff2c97707cfed6029bfebebaf1c
-commit: 03ce34cf8f50e4c62f9a4b62caffdba1165ca977 xtensa: add XIP-aware MTD support
-date:   1 year ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 1 year ago
-config: xtensa-randconfig-s032-20220216 (https://download.01.org/0day-ci/archive/20240831/202408310459.6XOid7BV-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240831/202408310459.6XOid7BV-lkp@intel.com/reproduce)
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.11-rc5 next-20240830]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-Ignore-0-in-dev_err_probe/20240826-113856
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20240822130722.1261891-3-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe() usage
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310807.sNPe5Mr2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202408310459.6XOid7BV-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202408310807.sNPe5Mr2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() error: uninitialized symbol 'err_msg'.
+drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() warn: passing zero to 'dev_err_probe'
 
-   drivers/mtd/chips/cfi_probe.o: in function `cfi_chip_setup':
-   cfi_probe.c:(.xiptext+0xdf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __kmalloc
->> cfi_probe.c:(.xiptext+0xef): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memset
->> cfi_probe.c:(.xiptext+0xff): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
->> cfi_probe.c:(.xiptext+0x2da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_probe.c:(.xiptext+0x2ef): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_probe.c:(.xiptext+0x303): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_probe.c:(.xiptext+0x318): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_probe.c:(.xiptext+0x4ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text.unlikely+0x8)
->> cfi_probe.c:(.xiptext+0x4db): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   drivers/mtd/chips/cfi_probe.o: in function `cfi_probe_chip':
-   cfi_probe.c:(.xiptext+0x537): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_probe.c:(.xiptext+0x550): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_probe.c:(.xiptext+0x62a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_probe.c:(.xiptext+0x692): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_present':
->> cfi_util.c:(.xiptext+0x1c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x30): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x48): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_off':
-   cfi_util.c:(.xiptext+0x10e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x130): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x173): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_qry_mode_on':
-   cfi_util.c:(.xiptext+0x1e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x212): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x244): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x267): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x296): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x2c6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x2f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x322): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x350): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
->> cfi_util.c:(.xiptext+0x37c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_util.c:(.xiptext+0x390): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x3c3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x3eb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_util.c:(.xiptext+0x418): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_util.c:(.xiptext+0x42b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_util.o: in function `cfi_read_pri':
->> cfi_util.c:(.xiptext+0x48f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_util.c:(.xiptext+0x49a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __kmalloc
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_panic_wait':
->> cfi_cmdset_0002.c:(.text+0x7d6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   cfi_cmdset_0002.c:(.text+0x814): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_panic_write_oneword':
-   cfi_cmdset_0002.c:(.text+0x937): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   cfi_cmdset_0002.c:(.text+0x94a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_chip':
-   cfi_cmdset_0002.c:(.text+0xbd7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   cfi_cmdset_0002.c:(.text+0xc9a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_erase_chip':
-   cfi_cmdset_0002.c:(.text+0x10b7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x990)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_ppb_xxlock':
-   cfi_cmdset_0002.c:(.text+0x12a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   cfi_cmdset_0002.c:(.text+0x12d0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x1ec)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_otp_write':
-   cfi_cmdset_0002.c:(.text+0x1a8c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x8f4)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_otp_walk':
->> cfi_cmdset_0002.c:(.text+0x1b77): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_qry_mode_on
->> cfi_cmdset_0002.c:(.text+0x1bdf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_qry_mode_off
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_otp_lock':
-   cfi_cmdset_0002.c:(.text+0x24a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa4)
-   cfi_cmdset_0002.c:(.text+0x24cf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x1ec)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_write_words':
-   cfi_cmdset_0002.c:(.text+0x2714): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x8f4)
-   cfi_cmdset_0002.c:(.text+0x27b3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x8f4)
-   cfi_cmdset_0002.c:(.text+0x2904): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x8f4)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_amdstd_write_buffers':
-   cfi_cmdset_0002.c:(.text+0x29f3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xc70)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `cfi_cmdset_0002':
->> cfi_cmdset_0002.c:(.text+0x2bff): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_read_pri
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_enable':
->> cfi_cmdset_0002.c:(.xiptext+0x1b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_buffer_reset':
->> cfi_cmdset_0002.c:(.xiptext+0x68): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x7c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x92): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `chip_ready':
-   cfi_cmdset_0002.c:(.xiptext+0xc7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xe6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `xip_udelay':
-   cfi_cmdset_0002.c:(.xiptext+0x202): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x25a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x2da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x324): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
->> cfi_cmdset_0002.c:(.xiptext+0x356): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
->> cfi_cmdset_0002.c:(.xiptext+0x35c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __cond_resched
->> cfi_cmdset_0002.c:(.xiptext+0x364): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
->> cfi_cmdset_0002.c:(.xiptext+0x39f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xa34)
->> cfi_cmdset_0002.c:(.xiptext+0x3e6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x3ee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
->> cfi_cmdset_0002.c:(.xiptext+0x3f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
->> cfi_cmdset_0002.c:(.xiptext+0x3ff): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x407): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_buffer_wait':
-   cfi_cmdset_0002.c:(.xiptext+0x49b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __usecs_to_jiffies
-   cfi_cmdset_0002.c:(.xiptext+0x4d6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x4e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x4e9): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   cfi_cmdset_0002.c:(.xiptext+0x4f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x506): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x532): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_cmdset_0002.c:(.xiptext+0x554): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x5e0)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_once':
-   cfi_cmdset_0002.c:(.xiptext+0x5c4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x5db): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x5f2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x64a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x657): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x65d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   cfi_cmdset_0002.c:(.xiptext+0x668): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x67a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x6ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_cmdset_0002.c:(.xiptext+0x6dc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x5e0)
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_retry':
-   cfi_cmdset_0002.c:(.xiptext+0x782): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_done':
-   cfi_cmdset_0002.c:(.xiptext+0x7da): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x7ee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x803): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x817): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x83e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xa90)
-   cfi_cmdset_0002.c:(.xiptext+0x847): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_start':
-   cfi_cmdset_0002.c:(.xiptext+0x870): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x880): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xb7c)
-   cfi_cmdset_0002.c:(.xiptext+0x88e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x8b2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x8c6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x8db): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
-   cfi_cmdset_0002.c:(.xiptext+0xa0c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0xa1a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xb7c)
-   cfi_cmdset_0002.c:(.xiptext+0xa28): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0xa74): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xa8c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xaa3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xaba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xad0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xae6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xb4c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0xb54): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0xb5a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   cfi_cmdset_0002.c:(.xiptext+0xb66): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0xb6e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0xba2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x5e0)
-   cfi_cmdset_0002.c:(.xiptext+0xbc2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_cmdset_0002.c:(.xiptext+0xbdf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xc2e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xa90)
-   cfi_cmdset_0002.c:(.xiptext+0xc36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_buffer':
-   cfi_cmdset_0002.c:(.xiptext+0xc86): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0xc94): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xb7c)
-   cfi_cmdset_0002.c:(.xiptext+0xcca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   cfi_cmdset_0002.c:(.xiptext+0xd20): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xd36): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xd46): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xd74): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xdbf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: memcpy
-   cfi_cmdset_0002.c:(.xiptext+0xe17): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xe72): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xa90)
-   cfi_cmdset_0002.c:(.xiptext+0xe7c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_oneblock':
-   cfi_cmdset_0002.c:(.xiptext+0xf5e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0xf6c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xb7c)
-   cfi_cmdset_0002.c:(.xiptext+0xf7a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0xfcc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xfe4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0xffc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x1014): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x102a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x109c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x10a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   cfi_cmdset_0002.c:(.xiptext+0x10aa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
-   cfi_cmdset_0002.c:(.xiptext+0x10b6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
-   cfi_cmdset_0002.c:(.xiptext+0x10be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock
-   cfi_cmdset_0002.c:(.xiptext+0x10f2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x5e0)
-   cfi_cmdset_0002.c:(.xiptext+0x1113): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
-   cfi_cmdset_0002.c:(.xiptext+0x112e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
-   cfi_cmdset_0002.c:(.xiptext+0x117e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0xa90)
-   cfi_cmdset_0002.c:(.xiptext+0x1186): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `read_pri_intelext':
-   cfi_cmdset_0001.c:(.text+0x722): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_read_pri
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_otp_write':
-   cfi_cmdset_0001.c:(.text+0x1484): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x4c4)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `do_otp_lock':
-   cfi_cmdset_0001.c:(.text+0x17f4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x4c4)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `cfi_intelext_write_words':
-   cfi_cmdset_0001.c:(.text+0x1d3a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x4c4)
-   cfi_cmdset_0001.c:(.text+0x1dd6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x4c4)
-   cfi_cmdset_0001.c:(.text+0x1efe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0x4c4)
-   drivers/mtd/chips/cfi_cmdset_0001.o: in function `cfi_intelext_writev':
-   cfi_cmdset_0001.c:(.text+0x206b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.xiptext+0xa64)
+vim +/err_msg +292 drivers/platform/x86/intel/int3472/discrete.c
+
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  157  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  158  /**
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  159   * skl_int3472_handle_gpio_resources: Map PMIC resources to consuming sensor
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  160   * @ares: A pointer to a &struct acpi_resource
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  161   * @data: A pointer to a &struct int3472_discrete_device
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  162   *
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  163   * This function handles GPIO resources that are against an INT3472
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  164   * ACPI device, by checking the value of the corresponding _DSM entry.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  165   * This will return a 32bit int, where the lowest byte represents the
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  166   * function of the GPIO pin:
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  167   *
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  168   * 0x00 Reset
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  169   * 0x01 Power down
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  170   * 0x0b Power enable
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  171   * 0x0c Clock enable
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  172   * 0x0d Privacy LED
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  173   *
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  174   * There are some known platform specific quirks where that does not quite
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  175   * hold up; for example where a pin with type 0x01 (Power down) is mapped to
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  176   * a sensor pin that performs a reset function or entries in _CRS and _DSM that
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  177   * do not actually correspond to a physical connection. These will be handled
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  178   * by the mapping sub-functions.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  179   *
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  180   * GPIOs will either be mapped directly to the sensor device or else used
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  181   * to create clocks and regulators via the usual frameworks.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  182   *
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  183   * Return:
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  184   * * 1		- To continue the loop
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  185   * * 0		- When all resources found are handled properly.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  186   * * -EINVAL	- If the resource is not a GPIO IO resource
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  187   * * -ENODEV	- If the resource has no corresponding _DSM entry
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  188   * * -Other	- Errors propagated from one of the sub-functions.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  189   */
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  190  static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  191  					     void *data)
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  192  {
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  193  	struct int3472_discrete_device *int3472 = data;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  194  	struct acpi_resource_gpio *agpio;
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  195  	u8 active_value, pin, type;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  196  	union acpi_object *obj;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  197  	struct gpio_desc *gpio;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  198  	const char *err_msg;
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  199  	const char *func;
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  200  	u32 polarity;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  201  	int ret;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  202  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  203  	if (!acpi_gpio_get_io_resource(ares, &agpio))
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  204  		return 1;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  205  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  206  	/*
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  207  	 * ngpios + 2 because the index of this _DSM function is 1-based and
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  208  	 * the first function is just a count.
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  209  	 */
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  210  	obj = acpi_evaluate_dsm_typed(int3472->adev->handle,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  211  				      &int3472_gpio_guid, 0x00,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  212  				      int3472->ngpios + 2,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  213  				      NULL, ACPI_TYPE_INTEGER);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  214  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  215  	if (!obj) {
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  216  		dev_warn(int3472->dev, "No _DSM entry for GPIO pin %u\n",
+719941878bc95a drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Andy Shevchenko 2021-06-18  217  			 agpio->pin_table[0]);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  218  		return 1;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  219  	}
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  220  
+45eaf2e2b8bc9b drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  221  	type = FIELD_GET(INT3472_GPIO_DSM_TYPE, obj->integer.value);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  222  
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  223  	int3472_get_func_and_polarity(type, &func, &polarity);
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  224  
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  225  	pin = FIELD_GET(INT3472_GPIO_DSM_PIN, obj->integer.value);
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  226  	if (pin != agpio->pin_table[0])
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  227  		dev_warn(int3472->dev, "%s %s pin number mismatch _DSM %d resource %d\n",
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  228  			 func, agpio->resource_source.string_ptr, pin,
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  229  			 agpio->pin_table[0]);
+899c7b18ef01bc drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  230  
+45eaf2e2b8bc9b drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-06-16  231  	active_value = FIELD_GET(INT3472_GPIO_DSM_SENSOR_ON_VAL, obj->integer.value);
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  232  	if (!active_value)
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  233  		polarity ^= GPIO_ACTIVE_LOW;
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  234  
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  235  	dev_dbg(int3472->dev, "%s %s pin %d active-%s\n", func,
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  236  		agpio->resource_source.string_ptr, agpio->pin_table[0],
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  237  		(polarity == GPIO_ACTIVE_HIGH) ? "high" : "low");
+7a88de319c8ef9 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  238  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  239  	switch (type) {
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  240  	case INT3472_GPIO_TYPE_RESET:
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  241  	case INT3472_GPIO_TYPE_POWERDOWN:
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  242  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  243  		if (ret)
+9b1785a2e2af52 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  244  			err_msg = "Failed to map GPIO pin to sensor\n";
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  245  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  246  		break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  247  	case INT3472_GPIO_TYPE_CLK_ENABLE:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  248  	case INT3472_GPIO_TYPE_PRIVACY_LED:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  249  	case INT3472_GPIO_TYPE_POWER_ENABLE:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  250  		gpio = skl_int3472_gpiod_get_from_temp_lookup(int3472, agpio, func, polarity);
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  251  		if (IS_ERR(gpio)) {
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  252  			ret = PTR_ERR(gpio);
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  253  			err_msg = "Failed to get GPIO\n";
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  254  			break;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  255  		}
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  256  
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  257  		switch (type) {
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  258  		case INT3472_GPIO_TYPE_CLK_ENABLE:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  259  			ret = skl_int3472_register_gpio_clock(int3472, gpio);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  260  			if (ret)
+8cf0e541c1fd76 drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  261  				err_msg = "Failed to register clock\n";
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  262  
+5ae20a8050d08a drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  263  			break;
+5ae20a8050d08a drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  264  		case INT3472_GPIO_TYPE_PRIVACY_LED:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  265  			ret = skl_int3472_register_pled(int3472, gpio);
+5ae20a8050d08a drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  266  			if (ret)
+5ae20a8050d08a drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  267  				err_msg = "Failed to register LED\n";
+5ae20a8050d08a drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-01-27  268  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  269  			break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  270  		case INT3472_GPIO_TYPE_POWER_ENABLE:
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  271  			ret = skl_int3472_register_regulator(int3472, gpio);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  272  			if (ret)
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  273  				err_msg = "Failed to map regulator to sensor\n";
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  274  
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  275  			break;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  276  		default: /* Never reached */
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  277  			ret = -EINVAL;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  278  			break;
+53c5f7f6e7930f drivers/platform/x86/intel/int3472/discrete.c                   Hans de Goede   2023-10-04  279  		}
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  280  		break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  281  	default:
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  282  		dev_warn(int3472->dev,
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  283  			 "GPIO type 0x%02x unknown; the sensor may not work\n",
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  284  			 type);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  285  		ret = 1;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  286  		break;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  287  	}
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  288  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  289  	int3472->ngpios++;
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  290  	ACPI_FREE(obj);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  291  
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03 @292  	return dev_err_probe(int3472->dev, ret, err_msg);
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  293  }
+5de691bffe57fd drivers/platform/x86/intel-int3472/intel_skl_int3472_discrete.c Daniel Scally   2021-06-03  294  
 
 -- 
 0-DAY CI Kernel Test Service
