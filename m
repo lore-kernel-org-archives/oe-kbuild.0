@@ -1,152 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7969180A81
-	for <oe-kbuild@lists.linux.dev>; Sat, 31 Aug 2024 21:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3081859
+	for <oe-kbuild@lists.linux.dev>; Sun,  1 Sep 2024 01:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725140545; cv=none; b=fs8H6TGPsLjuxaM2cT+05/XZqS73ox23cR2NTM/BkPZ3ZJorJTS/d3vJ+UKQkXNCpWuDq0VSVxmQ+QrRCsSnJlHwY81Tr+UVs0ODIzvfqMQ0tTCRFLYOqfZD1M13uJkgHI9cnUz4DO3msK+kYMA1YQ8qudl5A0nz7XI5cIEIBBk=
+	t=1725154049; cv=none; b=UBbYzQN4/Mn3A57pOgJZaRvJSWXfN1M6Kp/CLMTRXK2AXEp05KXw8pcdbP52EaI8cKnZMVzYCtsvtcW9sF1jAOENIVZHX7KFEXymZuQPfNAJ5gnsZzqUjyuFSHBYq73heIpyi5B/kG2R7phVcFlQKEYDNmv5+RokZ3QqzPu/il0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725140545; c=relaxed/simple;
-	bh=YAbLmVRSMjEMKOb7ev2ywCta6rqrjRWdsI1a1R2QoXY=;
+	s=arc-20240116; t=1725154049; c=relaxed/simple;
+	bh=mP3+x38vlftdok9+Zl/Pw7+MtoNPOkId7Bt21gDjjmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QOIf0ULLXnSNiJ6O8jRrhqd+CM5Z/Zc3qBbTcDxNNis7EXn3N5T3ieJtZcHprB2dYw2257Nmrj293N0dFz9BWIEflkWt4iXaBvY7pWKFEvKMkn4z//EuLQs5PlS7WSb2Ztn95kbgxeJ2LF4/AvwdS6fMVHJWWDKQZkD2dzM/bAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MtxtbYkX; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=I5vJmOFhs9F1yEM8mmlGlvKbFhWkJGVemZRGqV9kokf22gxGqU2f4vKRmfm8gzRpWoBb6rt+Vn02wGAbRg5GkVpXe7CIYRdnvlJ4+OY4JgO/RftmqOuD+hKlkfaxTu8CeCAzrYG9qlRg4D5i8q17wxIIeSnQSeU2L+RIgUU7/08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mzt11AEj; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtxtbYkX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mzt11AEj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725140543; x=1756676543;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YAbLmVRSMjEMKOb7ev2ywCta6rqrjRWdsI1a1R2QoXY=;
-  b=MtxtbYkXL8ydJO/Hz4n+qfQpSiLBINSDIiOLHg9WHNsZqvLfWXPezfmX
-   Jen4VbIv8N0aAfcfcY0O83W60q619hMll1Wf/OLvelqcMpgX8aKgKcQ92
-   oxlZmpg+frQUweRxig7SP2vMVlB7auxjGIGI0PhSRLenV9bEq5dBCXyyh
-   /FmzwHwePN7qRrH7dgVt8TG8awpQzFoo+JHkWNll7h5BC5osnhk/WkZLI
-   QwMFCCjl53XQtySgj/LPivSB9k2eAO5T1NV/yOwbSEHwk4x7TsB2Y2cL3
-   9n8SgJHhFk9RrbRDIHX+LeiuTmBfMPgmZjtvl4xWgZIzE7PRIzDqdWCbe
-   Q==;
-X-CSE-ConnectionGUID: 6XdiCU1fQcGxKi2/OqgazA==
-X-CSE-MsgGUID: M+Cs/IPCSpuoi6CGt9KpKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="35163899"
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="35163899"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 14:42:22 -0700
-X-CSE-ConnectionGUID: UjRW6NpyQFqstBWvtp2QEg==
-X-CSE-MsgGUID: PYOpotswQhK1g3do/NG8Lg==
+  t=1725154047; x=1756690047;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mP3+x38vlftdok9+Zl/Pw7+MtoNPOkId7Bt21gDjjmY=;
+  b=Mzt11AEjevsseRg7jTH3KVrU4M2KBZf36F81Ws2SV3eX6WA6Vo4DcXVd
+   BYtMgCMs2ySkCDv2/HIaqk5OdM/TxM3oMsA+kUL4+YUhd9EI8PdtqKJU0
+   D+mr8sb8pp+M5tBhN4M2Pzo01yyntex9tkL2dCOXdAOBu9D4upTdTUkrA
+   fpFsaL7MKq1BcXwDuS4iUtQqOksn2ASi1velWuQki7XgUGxnlRkOGncUB
+   1ZqfKQGnqWdDuOu9jCayiETQVsBf4NaeePxUevOBUTC2IThPWg6fRh9Rn
+   1zCzah8Z3nprhhrmsU4GQun/ZAa0BdiODgZm1yQfShvUKORb0IuaBfNzz
+   A==;
+X-CSE-ConnectionGUID: 8Tn0hf54R8y6SMVXcweMAw==
+X-CSE-MsgGUID: moRNjovjS8SOiAuy9YTe3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11181"; a="34381415"
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
+   d="scan'208";a="34381415"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2024 18:27:27 -0700
+X-CSE-ConnectionGUID: oYZJuoWPRWSpXZz0RdMqiA==
+X-CSE-MsgGUID: WBINH484SVK81r8eBiqc/Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,192,1719903600"; 
-   d="scan'208";a="94938109"
+X-IronPort-AV: E=Sophos;i="6.10,193,1719903600"; 
+   d="scan'208";a="68910255"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 31 Aug 2024 14:42:21 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 Aug 2024 18:27:25 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1skVrP-00039S-0U;
-	Sat, 31 Aug 2024 21:42:19 +0000
-Date: Sun, 1 Sep 2024 05:42:06 +0800
+	id 1skZND-0003GQ-1H;
+	Sun, 01 Sep 2024 01:27:23 +0000
+Date: Sun, 1 Sep 2024 09:27:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: drivers/dma/mv_xor.o: warning: objtool: mv_xor_prep_dma_xor+0x284:
- unreachable instruction
-Message-ID: <202409010524.hnyDITUw-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 3689/8126] fs/xattr.c:692 __do_sys_setxattrat()
+ warn: comparison of a potentially tagged address (__do_sys_setxattrat, 5,
+ usize)
+Message-ID: <202409010924.1NBtrsYA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-CC: Huacai Chen <chenhuacai@kernel.org>
-CC: Jinyang He <hejinyang@loongson.cn>
-CC: Youling Tang <tangyouling@loongson.cn>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Christian Göttsche" <cgzones@googlemail.com>
+CC: Christian Brauner <brauner@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8784b0aef62cd6117e1c93c64d060e4c7314a1f
-commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
-date:   6 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 6 months ago
-config: loongarch-randconfig-002-20240829 (https://download.01.org/0day-ci/archive/20240901/202409010524.hnyDITUw-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240901/202409010524.hnyDITUw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   985bf40edf4343dcb04c33f58b40b4a85c1776d4
+commit: 6a7fb6ebe3718ca5f56468b163ff82c65bdf7b7f [3689/8126] fs/xattr: add *at family syscalls
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
+config: arm64-randconfig-r071-20240901 (https://download.01.org/0day-ci/archive/20240901/202409010924.1NBtrsYA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409010524.hnyDITUw-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409010924.1NBtrsYA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/xattr.c:692 __do_sys_setxattrat() warn: comparison of a potentially tagged address (__do_sys_setxattrat, 5, usize)
+fs/xattr.c:692 __do_sys_setxattrat() warn: comparison of a potentially tagged address (__do_sys_setxattrat, 5, usize)
+fs/xattr.c:849 __do_sys_getxattrat() warn: comparison of a potentially tagged address (__do_sys_getxattrat, 5, usize)
+fs/xattr.c:849 __do_sys_getxattrat() warn: comparison of a potentially tagged address (__do_sys_getxattrat, 5, usize)
 
->> drivers/dma/mv_xor.o: warning: objtool: mv_xor_prep_dma_xor+0x284: unreachable instruction
---
->> drivers/scsi/esp_scsi.o: warning: objtool: esp_free_lun_tag+0x98: unreachable instruction
---
->> drivers/net/virtio_net.o: warning: objtool: mergeable_rx_buffer_size_show+0xb8: unreachable instruction
---
->> drivers/target/tcm_fc/tfc_io.o: warning: objtool: ft_queue_data_in+0x314: unreachable instruction
->> drivers/target/tcm_fc/tfc_io.o: warning: objtool: ft_recv_write_data+0x1d0: unreachable instruction
---
->> drivers/scsi/bnx2fc/bnx2fc_tgt.o: warning: objtool: bnx2fc_flush_active_ios+0x3cc: unreachable instruction
---
-   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_setup_tx':
-   drivers/net/ethernet/brocade/bna/bnad.c:1537:51: warning: ' TXQ ' directive writing 5 bytes into a region of size between 1 and 16 [-Wformat-overflow=]
-    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
-         |                                                   ^~~~~
-   In function 'bnad_tx_msix_register',
-       inlined from 'bnad_setup_tx' at drivers/net/ethernet/brocade/bna/bnad.c:1998:9:
-   drivers/net/ethernet/brocade/bna/bnad.c:1537:48: note: using the range [-2147483648, 2147483647] for directive argument
-    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
-         |                                                ^~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1537:17: note: 'sprintf' output between 7 and 32 bytes into a destination of size 16
-    1537 |                 sprintf(tx_info->tcb[i]->name, "%s TXQ %d", bnad->netdev->name,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1538 |                                 tx_id + tx_info->tcb[i]->id);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c: In function 'bnad_setup_rx':
-   drivers/net/ethernet/brocade/bna/bnad.c:1588:59: warning: ' CQ ' directive writing 4 bytes into a region of size between 1 and 16 [-Wformat-overflow=]
-    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
-         |                                                           ^~~~
-   In function 'bnad_rx_msix_register',
-       inlined from 'bnad_setup_rx' at drivers/net/ethernet/brocade/bna/bnad.c:2260:9:
-   drivers/net/ethernet/brocade/bna/bnad.c:1588:56: note: using the range [-2147483648, 2147483647] for directive argument
-    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
-         |                                                        ^~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1588:17: note: 'sprintf' output between 6 and 31 bytes into a destination of size 16
-    1588 |                 sprintf(rx_info->rx_ctrl[i].ccb->name, "%s CQ %d",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1589 |                         bnad->netdev->name,
-         |                         ~~~~~~~~~~~~~~~~~~~
-    1590 |                         rx_id + rx_info->rx_ctrl[i].ccb->id);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/brocade/bna/bnad.o: warning: objtool: bnad_cb_tx_resume+0xb4: unreachable instruction
---
->> drivers/net/ethernet/brocade/bna/bna_tx_rx.o: warning: objtool: bna_bfi_rx_enet_start.constprop.0+0x248: unreachable instruction
---
->> drivers/net/ethernet/brocade/bna/bfa_ioc_ct.o: warning: objtool: bfa_ioc_ct2_pll_init+0x210: unreachable instruction
---
->> drivers/scsi/csiostor/csio_rnode.o: warning: objtool: csio_confirm_rnode+0x4c0: unreachable instruction
---
->> drivers/scsi/bnx2i/bnx2i_iscsi.o: warning: objtool: bnx2i_task_xmit+0x3ac: unreachable instruction
---
->> drivers/net/ethernet/mellanox/mlxsw/core.o: warning: objtool: __mlxsw_item_offset+0xb0: unreachable instruction
-..
+vim +692 fs/xattr.c
 
-
-objdump-func vmlinux.o mv_xor_prep_dma_xor:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  679  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  680  SYSCALL_DEFINE6(setxattrat, int, dfd, const char __user *, pathname, unsigned int, at_flags,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  681  		const char __user *, name, const struct xattr_args __user *, uargs,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  682  		size_t, usize)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  683  {
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  684  	struct xattr_args args = {};
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  685  	int error;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  686  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  687  	BUILD_BUG_ON(sizeof(struct xattr_args) < XATTR_ARGS_SIZE_VER0);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  688  	BUILD_BUG_ON(sizeof(struct xattr_args) != XATTR_ARGS_SIZE_LATEST);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  689  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  690  	if (unlikely(usize < XATTR_ARGS_SIZE_VER0))
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  691  		return -EINVAL;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26 @692  	if (usize > PAGE_SIZE)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  693  		return -E2BIG;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  694  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  695  	error = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  696  	if (error)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  697  		return error;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  698  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  699  	return path_setxattrat(dfd, pathname, at_flags, name,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  700  			       u64_to_user_ptr(args.value), args.size,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  701  			       args.flags);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  702  }
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  703  
+8cc431165d8fbd Eric Biggers       2014-10-12  704  SYSCALL_DEFINE5(setxattr, const char __user *, pathname,
+64fd1de3d82165 Heiko Carstens     2009-01-14  705  		const char __user *, name, const void __user *, value,
+64fd1de3d82165 Heiko Carstens     2009-01-14  706  		size_t, size, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  707  {
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  708  	return path_setxattrat(AT_FDCWD, pathname, 0, name, value, size, flags);
+18f335aff86913 Dave Hansen        2008-02-15  709  }
+8cc431165d8fbd Eric Biggers       2014-10-12  710  
+8cc431165d8fbd Eric Biggers       2014-10-12  711  SYSCALL_DEFINE5(lsetxattr, const char __user *, pathname,
+8cc431165d8fbd Eric Biggers       2014-10-12  712  		const char __user *, name, const void __user *, value,
+8cc431165d8fbd Eric Biggers       2014-10-12  713  		size_t, size, int, flags)
+8cc431165d8fbd Eric Biggers       2014-10-12  714  {
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  715  	return path_setxattrat(AT_FDCWD, pathname, AT_SYMLINK_NOFOLLOW, name,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  716  			       value, size, flags);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  717  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  718  
+64fd1de3d82165 Heiko Carstens     2009-01-14  719  SYSCALL_DEFINE5(fsetxattr, int, fd, const char __user *, name,
+64fd1de3d82165 Heiko Carstens     2009-01-14  720  		const void __user *,value, size_t, size, int, flags)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  721  {
+c3a5e3e872f368 David Howells      2024-07-23  722  	struct xattr_name kname;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  723  	struct kernel_xattr_ctx ctx = {
+c3a5e3e872f368 David Howells      2024-07-23  724  		.cvalue   = value,
+c3a5e3e872f368 David Howells      2024-07-23  725  		.kvalue   = NULL,
+c3a5e3e872f368 David Howells      2024-07-23  726  		.size     = size,
+c3a5e3e872f368 David Howells      2024-07-23  727  		.kname    = &kname,
+c3a5e3e872f368 David Howells      2024-07-23  728  		.flags    = flags,
+c3a5e3e872f368 David Howells      2024-07-23  729  	};
+c3a5e3e872f368 David Howells      2024-07-23  730  	int error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  731  
+c3a5e3e872f368 David Howells      2024-07-23  732  	CLASS(fd, f)(fd);
+2903ff019b346a Al Viro            2012-08-28  733  	if (!f.file)
+c3a5e3e872f368 David Howells      2024-07-23  734  		return -EBADF;
+c3a5e3e872f368 David Howells      2024-07-23  735  
+9f45f5bf302daa Al Viro            2014-10-31  736  	audit_file(f.file);
+c3a5e3e872f368 David Howells      2024-07-23  737  	error = setxattr_copy(name, &ctx);
+c3a5e3e872f368 David Howells      2024-07-23  738  	if (error)
+c3a5e3e872f368 David Howells      2024-07-23  739  		return error;
+c3a5e3e872f368 David Howells      2024-07-23  740  
+6742cee0435323 Miklos Szeredi     2018-07-18  741  	error = mnt_want_write_file(f.file);
+18f335aff86913 Dave Hansen        2008-02-15  742  	if (!error) {
+c3a5e3e872f368 David Howells      2024-07-23  743  		error = do_setxattr(file_mnt_idmap(f.file),
+c3a5e3e872f368 David Howells      2024-07-23  744  				    f.file->f_path.dentry, &ctx);
+6742cee0435323 Miklos Szeredi     2018-07-18  745  		mnt_drop_write_file(f.file);
+18f335aff86913 Dave Hansen        2008-02-15  746  	}
+c3a5e3e872f368 David Howells      2024-07-23  747  	kvfree(ctx.kvalue);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  748  	return error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  749  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  750  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  751  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  752   * Extended attribute GET operations
+^1da177e4c3f41 Linus Torvalds     2005-04-16  753   */
+c975cad9315700 Stefan Roesch      2022-04-24  754  ssize_t
+5a6f52d20ce3cd Christian Brauner  2022-10-28  755  do_getxattr(struct mnt_idmap *idmap, struct dentry *d,
+53566cca34de34 Christian Göttsche 2024-04-26  756  	struct kernel_xattr_ctx *ctx)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  757  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  758  	ssize_t error;
+c975cad9315700 Stefan Roesch      2022-04-24  759  	char *kname = ctx->kname->name;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  760  
+c975cad9315700 Stefan Roesch      2022-04-24  761  	if (ctx->size) {
+c975cad9315700 Stefan Roesch      2022-04-24  762  		if (ctx->size > XATTR_SIZE_MAX)
+c975cad9315700 Stefan Roesch      2022-04-24  763  			ctx->size = XATTR_SIZE_MAX;
+c975cad9315700 Stefan Roesch      2022-04-24  764  		ctx->kvalue = kvzalloc(ctx->size, GFP_KERNEL);
+c975cad9315700 Stefan Roesch      2022-04-24  765  		if (!ctx->kvalue)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  766  			return -ENOMEM;
+779302e67835fe Sasha Levin        2012-07-30  767  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  768  
+318e66856ddec0 Christian Brauner  2022-09-22  769  	if (is_posix_acl_xattr(ctx->kname->name))
+5a6f52d20ce3cd Christian Brauner  2022-10-28  770  		error = do_get_acl(idmap, d, kname, ctx->kvalue, ctx->size);
+318e66856ddec0 Christian Brauner  2022-09-22  771  	else
+4609e1f18e19c3 Christian Brauner  2023-01-13  772  		error = vfs_getxattr(idmap, d, kname, ctx->kvalue, ctx->size);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  773  	if (error > 0) {
+c975cad9315700 Stefan Roesch      2022-04-24  774  		if (ctx->size && copy_to_user(ctx->value, ctx->kvalue, error))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  775  			error = -EFAULT;
+c975cad9315700 Stefan Roesch      2022-04-24  776  	} else if (error == -ERANGE && ctx->size >= XATTR_SIZE_MAX) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  777  		/* The file system tried to returned a value bigger
+^1da177e4c3f41 Linus Torvalds     2005-04-16  778  		   than XATTR_SIZE_MAX bytes. Not possible. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  779  		error = -E2BIG;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  780  	}
+0b2a6f231dcbc7 Richard Weinberger 2016-01-02  781  
+c975cad9315700 Stefan Roesch      2022-04-24  782  	return error;
+c975cad9315700 Stefan Roesch      2022-04-24  783  }
+0b2a6f231dcbc7 Richard Weinberger 2016-01-02  784  
+c975cad9315700 Stefan Roesch      2022-04-24  785  static ssize_t
+5a6f52d20ce3cd Christian Brauner  2022-10-28  786  getxattr(struct mnt_idmap *idmap, struct dentry *d,
+c975cad9315700 Stefan Roesch      2022-04-24  787  	 const char __user *name, void __user *value, size_t size)
+c975cad9315700 Stefan Roesch      2022-04-24  788  {
+c975cad9315700 Stefan Roesch      2022-04-24  789  	ssize_t error;
+c975cad9315700 Stefan Roesch      2022-04-24  790  	struct xattr_name kname;
+53566cca34de34 Christian Göttsche 2024-04-26  791  	struct kernel_xattr_ctx ctx = {
+c975cad9315700 Stefan Roesch      2022-04-24  792  		.value    = value,
+c975cad9315700 Stefan Roesch      2022-04-24  793  		.kvalue   = NULL,
+c975cad9315700 Stefan Roesch      2022-04-24  794  		.size     = size,
+c975cad9315700 Stefan Roesch      2022-04-24  795  		.kname    = &kname,
+c975cad9315700 Stefan Roesch      2022-04-24  796  		.flags    = 0,
+c975cad9315700 Stefan Roesch      2022-04-24  797  	};
+c975cad9315700 Stefan Roesch      2022-04-24  798  
+c975cad9315700 Stefan Roesch      2022-04-24  799  	error = strncpy_from_user(kname.name, name, sizeof(kname.name));
+c975cad9315700 Stefan Roesch      2022-04-24  800  	if (error == 0 || error == sizeof(kname.name))
+c975cad9315700 Stefan Roesch      2022-04-24  801  		error = -ERANGE;
+c975cad9315700 Stefan Roesch      2022-04-24  802  	if (error < 0)
+c975cad9315700 Stefan Roesch      2022-04-24  803  		return error;
+c975cad9315700 Stefan Roesch      2022-04-24  804  
+5a6f52d20ce3cd Christian Brauner  2022-10-28  805  	error =  do_getxattr(idmap, d, &ctx);
+c975cad9315700 Stefan Roesch      2022-04-24  806  
+c975cad9315700 Stefan Roesch      2022-04-24  807  	kvfree(ctx.kvalue);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  808  	return error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  809  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  810  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  811  static ssize_t path_getxattrat(int dfd, const char __user *pathname,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  812  			       unsigned int at_flags, const char __user *name,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  813  			       void __user *value, size_t size)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  814  {
+2d8f30380ab8c7 Al Viro            2008-07-22  815  	struct path path;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  816  	ssize_t error;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  817  	int lookup_flags;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  818  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  819  	if ((at_flags & ~(AT_SYMLINK_NOFOLLOW | AT_EMPTY_PATH)) != 0)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  820  		return -EINVAL;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  821  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  822  	lookup_flags = (at_flags & AT_SYMLINK_NOFOLLOW) ? 0 : LOOKUP_FOLLOW;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  823  	if (at_flags & AT_EMPTY_PATH)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  824  		lookup_flags |= LOOKUP_EMPTY;
+60e66b48ca2081 Jeff Layton        2012-12-11  825  retry:
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  826  	error = user_path_at(dfd, pathname, lookup_flags, &path);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  827  	if (error)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  828  		return error;
+5a6f52d20ce3cd Christian Brauner  2022-10-28  829  	error = getxattr(mnt_idmap(path.mnt), path.dentry, name, value, size);
+2d8f30380ab8c7 Al Viro            2008-07-22  830  	path_put(&path);
+60e66b48ca2081 Jeff Layton        2012-12-11  831  	if (retry_estale(error, lookup_flags)) {
+60e66b48ca2081 Jeff Layton        2012-12-11  832  		lookup_flags |= LOOKUP_REVAL;
+60e66b48ca2081 Jeff Layton        2012-12-11  833  		goto retry;
+60e66b48ca2081 Jeff Layton        2012-12-11  834  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  835  	return error;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  836  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  837  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  838  SYSCALL_DEFINE6(getxattrat, int, dfd, const char __user *, pathname, unsigned int, at_flags,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  839  		const char __user *, name, struct xattr_args __user *, uargs, size_t, usize)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  840  {
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  841  	struct xattr_args args = {};
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  842  	int error;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  843  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  844  	BUILD_BUG_ON(sizeof(struct xattr_args) < XATTR_ARGS_SIZE_VER0);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  845  	BUILD_BUG_ON(sizeof(struct xattr_args) != XATTR_ARGS_SIZE_LATEST);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  846  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  847  	if (unlikely(usize < XATTR_ARGS_SIZE_VER0))
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  848  		return -EINVAL;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26 @849  	if (usize > PAGE_SIZE)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  850  		return -E2BIG;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  851  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  852  	error = copy_struct_from_user(&args, sizeof(args), uargs, usize);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  853  	if (error)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  854  		return error;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  855  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  856  	if (args.flags != 0)
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  857  		return -EINVAL;
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  858  
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  859  	return path_getxattrat(dfd, pathname, at_flags, name,
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  860  			       u64_to_user_ptr(args.value), args.size);
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  861  }
+6a7fb6ebe3718c Christian Göttsche 2024-04-26  862  
 
 -- 
 0-DAY CI Kernel Test Service
