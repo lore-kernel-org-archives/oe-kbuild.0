@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC68313C9C7
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Sep 2024 14:10:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C3919C55D
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Sep 2024 14:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725286207; cv=none; b=cMaJYh+COiTUsfRGfxH6ZnWJgZuqeW0mNBDXAfBbHlH4MjRLg8mnIF2RJB//4JzT+QITnWbEhFmYAZAcPwbHNO5CRbuZ6HubtjyRaZ13noPfwBXkckXZZ3vv09rCSCi+Cy0YkojVCon3pGqtes5CeF4Cql1V3ZEjMrOqIJpNkDU=
+	t=1725287379; cv=none; b=ejFhdYXajTpzxj6MP5zEA3V+ypNiwxqIRob2/20tYhR1i4OzQo4974/dNR/cNFCTfBAnDQyYQRT+pn3uqszD0LzKBIDtATbKrzd1uFLeDjQ8WH0h1cgbTe6jFPPwSN+M0I6e/oEtH+no5NjdxqAYXjYv2rAwXRF+K6GpPxT4Iqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725286207; c=relaxed/simple;
-	bh=tsuPrPdvAGyKmRj2bIzbnwMDMGjmes+3HzJaSvWkwW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z0wPF6Y7KMegSeX12bScmBZ2q2XtE+91JSj0gmqp3rKkDQr/CGmneHuJOFh1tLEGBZJoov/9yDWB+ANOcWqwuB8hF9GbiTcFHFqm3nnUxb8xmTMxmV8Sr6iWuOoIkLB7Mpgp/ZFDtNcp1GAXb56tS0vuzUmpxQY7FjSvkMWI28o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QbCdZgcK; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725287379; c=relaxed/simple;
+	bh=VTcW7mvtuUekxI4xje/K+1Lpkm2t9TmwbvkaP2/wqBE=;
+	h=From:Date:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rWAVWitOfiCRAq0T6ceApHN2yl8lNk2XKgeIuTHwz3IFRhzaLj3xm5FVInPsoPnd25R8fZiK9iFYh41gpT75sm+OSbIXX8sH77agj8l733WEDBefEeu4gFk6vMEE3Kv/QyasYDNsrLGuQAFgXxH7ZwlMF8+VLT4n2h8YRP5p8t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xspvi098; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QbCdZgcK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725286206; x=1756822206;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tsuPrPdvAGyKmRj2bIzbnwMDMGjmes+3HzJaSvWkwW8=;
-  b=QbCdZgcKPrNMJ5B6HaTtUfz+Fb7DjkJmUA88kthMbipnlHZy4PrgPJ6z
-   BvGa1W+9NmjYhiBVwt2kitd5rI5Z9TG8oIf5W1/eBpcaPE41UpBpCuZnX
-   t8FmZH5KE+gxVVi8XNc2boCiPoeceJOn9TxDTwMc/l80Lj5R1FPGEYtpT
-   1FQf60xcyp+KrLjJYjMLjv8ikTBx2gYTIwTxCvEJhOXxXt+VtRukKJDRj
-   sJhg8CTrvfnKYauTzBRGfSdVrKNdNWuAdIoC09mFIp4X8tJPci72Uj3rp
-   0cniRswxjNG8pSxLqF94jQTyB3i7q4rpnvM4tinMl/Xg8cCKD9cknpP+f
-   g==;
-X-CSE-ConnectionGUID: z4OXRqbHQPSRq0UokezWnQ==
-X-CSE-MsgGUID: +ccyCMzgRk22PwlsLeuxUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="35237918"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="35237918"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 07:10:05 -0700
-X-CSE-ConnectionGUID: NjQDHt5ES4CUD3Ct1AmX7A==
-X-CSE-MsgGUID: Td6qxRGWTJ2+3VzsVXZ04w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="64815220"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Sep 2024 07:10:04 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sl7kn-0005by-37;
-	Mon, 02 Sep 2024 14:10:01 +0000
-Date: Mon, 2 Sep 2024 22:09:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xspvi098"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2f3edb2d908so44704791fa.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 02 Sep 2024 07:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725287374; x=1725892174; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=viUHGTpog8UaVRzx+Wzp3kQVyidPoKzv0eH0OK+v9uc=;
+        b=xspvi098JGMTgc2+p01XV9fm0J2zFzRotulUz3Orl2UMJgH7PXWX86eBF2CsLm9AD1
+         1rp3UGqpkbmFHqVpHE37dDpVMjTt1XKe1tf9OmYZsCoyPgMZiv9/aukpczqyL3WHWxJa
+         y8oFBkPifar2GG/euSRs3iEizc9qFC+SFG5rqFQKDscA6/7UJ/proT/m+Osf7CJZdBnB
+         WDrUlm9mYgvQBkAXuCSxNG0LrFhV9PbU6XMI4FEKQVrPvcbQaeVyrObQOW0NAO2tXF72
+         xIcMpXrH8TK8bC6RUPcGoqDJIm1c4vEqMEXi+IYklvNC1ccifhua9Qq7ZrmX6hjLSAe9
+         iWhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725287374; x=1725892174;
+        h=content-disposition:mime-version:message-id:subject:cc:to:date:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=viUHGTpog8UaVRzx+Wzp3kQVyidPoKzv0eH0OK+v9uc=;
+        b=iW9My/wMUHECIpf73dmZmgO/dXScOIc2549We7/2q5S77pxr2gXeajmhogXtseTB1P
+         TZFCitkNggZe3xPK15g2LWXMC9HcWkRdgPhLh2U9tVM0Hc2EN1fTMAx3ZawSmI3tafrK
+         dud/ALKebzH4HQmR1cIbGdC5vjntefzj/0tkv0qV3vw4hKPz8ZIDoZzDEpIFCuPGo8uI
+         YIsH2zjIKdjoCOubapqbfvK1BsjEWwMb++HvR/veUphvM05lyiU/nHBqijPn9bCR+eO6
+         SrxWXQWboQPIHNwlhJu9MQ0GFovK5o+3oJYS2snd2ZysJsCIQJLKJtIGzYeG06VvhJzg
+         NTcw==
+X-Gm-Message-State: AOJu0YwW8s7qAki/E4d7wvxaRQn5xjyQz2pK+NLAXBZJ6vcyZLJWpMkq
+	KQD9PaQPFEn0AXrXGCpzOx/xsHZRQAcS/UKby4ny+Z++FMdlycKHSy4Z5tnpac5kPpUBk2oCgQd
+	B
+X-Google-Smtp-Source: AGHT+IETKd6dva/yhJN6nqr5FhIDGDTrlIBESejHLhfAr3F52FcNPA0YlIIt21PfiyOw4JYZlHmtmw==
+X-Received: by 2002:a2e:be93:0:b0:2f2:9dc1:af33 with SMTP id 38308e7fff4ca-2f64440e709mr1679201fa.19.1725287374018;
+        Mon, 02 Sep 2024 07:29:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c2502f86ebsm2322731a12.77.2024.09.02.07.29.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 07:29:33 -0700 (PDT)
+From: kernel test robot <dan.carpenter@linaro.org>
+X-Google-Original-From: kernel test robot <lkp@intel.com>
+Date: Mon, 2 Sep 2024 17:29:29 +0300
+To: oe-kbuild@lists.linux.dev, Jani Nikula <jani.nikula@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>
 Subject: [linux-next:master 6570/8400] drivers/gpu/drm/tegra/output.c:42
  tegra_output_connector_get_modes() error: uninitialized symbol 'drm_edid'.
-Message-ID: <202409022236.7pEcEksT-lkp@intel.com>
+Message-ID: <ZtXLyXxew7z6H2bD@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,17 +70,9 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jani Nikula <jani.nikula@intel.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   ecc768a84f0b8e631986f9ade3118fa37852fef0
 commit: 98365ca74cbfae16b793b62a7ecabb5be8d77785 [6570/8400] drm/tegra: convert to struct drm_edid
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 days ago
 config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409022236.7pEcEksT-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 14.1.0
 
@@ -87,11 +87,13 @@ drivers/gpu/drm/tegra/output.c:42 tegra_output_connector_get_modes() error: unin
 
 vim +/drm_edid +42 drivers/gpu/drm/tegra/output.c
 
-fb83be8873909b Hans Verkuil   2017-09-11  20  
 132085d84fca65 Thierry Reding 2014-11-28  21  int tegra_output_connector_get_modes(struct drm_connector *connector)
 d8f4a9eda00678 Thierry Reding 2012-11-15  22  {
 d8f4a9eda00678 Thierry Reding 2012-11-15  23  	struct tegra_output *output = connector_to_output(connector);
 98365ca74cbfae Jani Nikula    2024-08-22  24  	const struct drm_edid *drm_edid;
+
+There used to be an = NULL here.
+
 d8f4a9eda00678 Thierry Reding 2012-11-15  25  	int err = 0;
 d8f4a9eda00678 Thierry Reding 2012-11-15  26  
 acde541324dcfe Thierry Reding 2014-01-13  27  	/*
@@ -108,6 +110,10 @@ acde541324dcfe Thierry Reding 2014-01-13  30  	 */
 98365ca74cbfae Jani Nikula    2024-08-22  38  		drm_edid = drm_edid_dup(output->drm_edid);
 d8f4a9eda00678 Thierry Reding 2012-11-15  39  	else if (output->ddc)
 98365ca74cbfae Jani Nikula    2024-08-22  40  		drm_edid = drm_edid_read_ddc(connector, output->ddc);
+
+I mean presumably either ->drm_edid or ->ddc is true, but you can see why the
+checker complains.
+
 d8f4a9eda00678 Thierry Reding 2012-11-15  41  
 98365ca74cbfae Jani Nikula    2024-08-22 @42  	drm_edid_connector_update(connector, drm_edid);
 98365ca74cbfae Jani Nikula    2024-08-22  43  	cec_notifier_set_phys_addr(output->cec,
@@ -118,7 +124,6 @@ d8f4a9eda00678 Thierry Reding 2012-11-15  45
 d8f4a9eda00678 Thierry Reding 2012-11-15  48  
 d8f4a9eda00678 Thierry Reding 2012-11-15  49  	return err;
 d8f4a9eda00678 Thierry Reding 2012-11-15  50  }
-d8f4a9eda00678 Thierry Reding 2012-11-15  51  
 
 -- 
 0-DAY CI Kernel Test Service
