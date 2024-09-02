@@ -1,139 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3FC19C56C
-	for <oe-kbuild@lists.linux.dev>; Mon,  2 Sep 2024 15:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F421A2646;
+	Mon,  2 Sep 2024 16:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725292392; cv=none; b=QQX3BRN/qpKY+HGvCQG2YWFsijKDTCdTtnsKLIFn/+Z4+PLV4ZAB0U8UDF5X5T0VulMrlhDCORjS7g2wtezBs+Um638KNK4wae0j//bmoLa7Ane507rpCiZhgwE//4d2+Uldyyq4Ay/O0Tle9Mkzkn1GmRyoQaHUxenZCjD8/3Q=
+	t=1725293746; cv=none; b=cp/4mj4gfyD3Bo+zTR7i35tpBAU+8rqR2FRRTXq2zu8wordon+ZdYXEkpOa7URnhn0ZroR1143faJlJgMdEU4S/vJ/+Pco9tGr89BtDvTWcfJ7mP+sHLwj4yVgzER7HMtwcCEm6Izb4EVLaWi8a3gCoSKUqosxlZ7EtbzcXH57A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725292392; c=relaxed/simple;
-	bh=0jvcgP+WEBcDRzQV0caiToLfGbK2D5mAC7RosrT4CS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lFoYzRXvrkw91PHyT/LL//uVWZ76HJsIRxnIS/25VW5L8dPE0ijnr525s6raYA3PegAG8KqHZPPVhA8kYCWkGIvyg7brP9l+QuwJ/SfJEVnKlhWpGnnBSAQ5hTah2Hezj4AfT7BDW86fiuDVFekqzhny1fx+ggnv9Mjcbe5ovoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AznuCRAZ; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1725293746; c=relaxed/simple;
+	bh=UvIJZ7bYERYqwsuwrbSpVj2YegamCtPJzXRVn+BwiYc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D8XI5zZ2RQ4jALyGHzuS0Y8w9xmieJTtRCHSwLKzIlYNVOuxpayJGOloBlSS9rP1nYS8OvZ5j+d+G7XXjKcer0tDk8tUWO9uXNXmcwLb+PPOB7b0z9fpVmJKR8FjNZxgmkN/QaTknj3E5a55Z4KgkxdDLP9uuVAwAh2BnwOOpAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iXHFFdlb; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AznuCRAZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iXHFFdlb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725292390; x=1756828390;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0jvcgP+WEBcDRzQV0caiToLfGbK2D5mAC7RosrT4CS8=;
-  b=AznuCRAZqOc4wdGzAOzjniw1Z0ZUMcNPsfcr0MkTGV+sWjDRI2lcVRM5
-   C9JPP+CRbY98W2dWQ+p6I13JuI6Z6blEtsDMmgjQWrmkJznGkI9colE4r
-   d83ZSDO5BLSStehcCI/TadrErkiuuuP5fOzmP9Psi/OaNOP2hxm/ooh8i
-   9tkge5DuVD6z0vGDAcktk3iOBrZteLZhBKeP4lPEpGbRendt3jegzvjIo
-   Eja0ufPMvkUP+8+4esPuM8tK6C7geCMScOSVc1hfzw1IglSA9UQzXkuUa
-   EjHoBm5Orc2VxWvI1gl2dq5emEwL/lMsY6LUPlfCfWSInH8xXSfEX20u4
-   g==;
-X-CSE-ConnectionGUID: 4S8sIzg9RmWSdbpnq7cmsg==
-X-CSE-MsgGUID: 9suKV+nNTp2qSROppXKXIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="34448030"
+  t=1725293743; x=1756829743;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=UvIJZ7bYERYqwsuwrbSpVj2YegamCtPJzXRVn+BwiYc=;
+  b=iXHFFdlbCIm7fHksb1kfk+4QZz4ijWLPJBLXIcDmLsnL1oDsWSf9yi2G
+   2HYdvRUuqmEolZqYxGVUZEA8+vgFjRL0kVc1dX+5rQrUMjVBphOvyu+ex
+   w58pzO3mIZYqjG0DNqekdJ2SsHyHv2DakSLw7/kZnjxjTBUkw58QdoRJb
+   LjuhHc5hmvPtx/AmxPs0zQNPHou4gllapOnoMdshhvQW5I539ftzayNo2
+   uYeclX9/yCzSkhc8FMQYl2wx6TZixH0ubez7D7w+WZEQqDvvemmRQ64DG
+   9vs6dgt2OLdoFXedIhgSW0I1539x6N9fsl4EDwQgYtJXsTuP/lmINtR64
+   Q==;
+X-CSE-ConnectionGUID: bt7+nd2SRaOwY38QQch/zg==
+X-CSE-MsgGUID: 0nl+5nDnReC6Ny5wRwiRLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="23447614"
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="34448030"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 08:53:09 -0700
-X-CSE-ConnectionGUID: Y6fOXn61QN+qHRyGrvijXw==
-X-CSE-MsgGUID: X4zoDO3mSrOFo1VRF2GCfg==
+   d="scan'208";a="23447614"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 09:15:43 -0700
+X-CSE-ConnectionGUID: 1v07Ku3xQw2N05n5BqR9iw==
+X-CSE-MsgGUID: xUo9z+pJQsG0uufZgZZaMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="65148186"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Sep 2024 08:53:08 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sl9MY-0005gI-0l;
-	Mon, 02 Sep 2024 15:53:06 +0000
-Date: Mon, 2 Sep 2024 23:52:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v5 5/6] phy: rockchip-pcie: Change to use
- devm_clk_get_enabled() helper
-Message-ID: <202409022325.aTgukdmg-lkp@intel.com>
+   d="scan'208";a="102098298"
+Received: from ltuz-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.4])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 09:15:40 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: kernel test robot <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [linux-next:master 6570/8400] drivers/gpu/drm/tegra/output.c:42
+ tegra_output_connector_get_modes() error: uninitialized symbol 'drm_edid'.
+In-Reply-To: <ZtXLyXxew7z6H2bD@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <ZtXLyXxew7z6H2bD@stanley.mountain>
+Date: Mon, 02 Sep 2024 19:15:27 +0300
+Message-ID: <87y14at4kg.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240901183221.240361-6-linux.amoon@gmail.com>
-References: <20240901183221.240361-6-linux.amoon@gmail.com>
-TO: Anand Moon <linux.amoon@gmail.com>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: Heiko Stuebner <heiko@sntech.de>
-CC: Anand Moon <linux.amoon@gmail.com>
-CC: linux-phy@lists.infradead.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
+On Mon, 02 Sep 2024, kernel test robot <dan.carpenter@linaro.org> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   ecc768a84f0b8e631986f9ade3118fa37852fef0
+> commit: 98365ca74cbfae16b793b62a7ecabb5be8d77785 [6570/8400] drm/tegra: convert to struct drm_edid
+> config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409022236.7pEcEksT-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 14.1.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202409022236.7pEcEksT-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/gpu/drm/tegra/output.c:42 tegra_output_connector_get_modes() error: uninitialized symbol 'drm_edid'.
+>
+> vim +/drm_edid +42 drivers/gpu/drm/tegra/output.c
+>
+> 132085d84fca65 Thierry Reding 2014-11-28  21  int tegra_output_connector_get_modes(struct drm_connector *connector)
+> d8f4a9eda00678 Thierry Reding 2012-11-15  22  {
+> d8f4a9eda00678 Thierry Reding 2012-11-15  23  	struct tegra_output *output = connector_to_output(connector);
+> 98365ca74cbfae Jani Nikula    2024-08-22  24  	const struct drm_edid *drm_edid;
+>
+> There used to be an = NULL here.
+>
+> d8f4a9eda00678 Thierry Reding 2012-11-15  25  	int err = 0;
+> d8f4a9eda00678 Thierry Reding 2012-11-15  26  
+> acde541324dcfe Thierry Reding 2014-01-13  27  	/*
+> acde541324dcfe Thierry Reding 2014-01-13  28  	 * If the panel provides one or more modes, use them exclusively and
+> acde541324dcfe Thierry Reding 2014-01-13  29  	 * ignore any other means of obtaining a mode.
+> acde541324dcfe Thierry Reding 2014-01-13  30  	 */
+> 9be7d864cf0763 Thierry Reding 2013-08-30  31  	if (output->panel) {
+> 06c4a9c2ae606a Sam Ravnborg   2019-12-07  32  		err = drm_panel_get_modes(output->panel, connector);
+> 9be7d864cf0763 Thierry Reding 2013-08-30  33  		if (err > 0)
+> 9be7d864cf0763 Thierry Reding 2013-08-30  34  			return err;
+> 9be7d864cf0763 Thierry Reding 2013-08-30  35  	}
+> 9be7d864cf0763 Thierry Reding 2013-08-30  36  
+> 98365ca74cbfae Jani Nikula    2024-08-22  37  	if (output->drm_edid)
+> 98365ca74cbfae Jani Nikula    2024-08-22  38  		drm_edid = drm_edid_dup(output->drm_edid);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  39  	else if (output->ddc)
+> 98365ca74cbfae Jani Nikula    2024-08-22  40  		drm_edid = drm_edid_read_ddc(connector, output->ddc);
+>
+> I mean presumably either ->drm_edid or ->ddc is true, but you can see why the
+> checker complains.
 
-Hi Anand,
+Yeah, my bad. Fix at [1].
 
-kernel test robot noticed the following build warnings:
+BR,
+Jani.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus rockchip/for-next mani-mhi/mhi-next linus/master v6.11-rc6 next-20240902]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://lore.kernel.org/r/20240902161317.2437148-1-jani.nikula@intel.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/PCI-rockchip-Simplify-reset-control-handling-by-using-reset_control_bulk-function/20240902-033256
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20240901183221.240361-6-linux.amoon%40gmail.com
-patch subject: [PATCH v5 5/6] phy: rockchip-pcie: Change to use devm_clk_get_enabled() helper
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: nios2-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240902/202409022325.aTgukdmg-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409022325.aTgukdmg-lkp@intel.com/
-
-smatch warnings:
-drivers/phy/rockchip/phy-rockchip-pcie.c:278 rockchip_pcie_phy_init() warn: missing error code 'err'
-
-vim +/err +278 drivers/phy/rockchip/phy-rockchip-pcie.c
-
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  268  
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  269  static int rockchip_pcie_phy_init(struct phy *phy)
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  270  {
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  271  	struct phy_pcie_instance *inst = phy_get_drvdata(phy);
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  272  	struct rockchip_pcie_phy *rk_phy = to_pcie_phy(inst);
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  273  	int err = 0;
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  274  
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  275  	mutex_lock(&rk_phy->pcie_mutex);
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  276  
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  277  	if (rk_phy->init_cnt++)
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19 @278  		goto err_out;
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  279  
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  280  	err = reset_control_assert(rk_phy->phy_rst);
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  281  	if (err) {
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  282  		dev_err(&phy->dev, "assert phy_rst err %d\n", err);
-977b7135d301ade drivers/phy/rockchip/phy-rockchip-pcie.c Anand Moon 2024-09-02  283  		goto err_out;
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  284  	}
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  285  
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  286  	mutex_unlock(&rk_phy->pcie_mutex);
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  287  	return 0;
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  288  
-977b7135d301ade drivers/phy/rockchip/phy-rockchip-pcie.c Anand Moon 2024-09-02  289  err_out:
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  290  	rk_phy->init_cnt--;
-90a7612d070d5ca drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  291  	mutex_unlock(&rk_phy->pcie_mutex);
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  292  	return err;
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  293  }
-fcffee3d54fcadc drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  294  
+>
+> d8f4a9eda00678 Thierry Reding 2012-11-15  41  
+> 98365ca74cbfae Jani Nikula    2024-08-22 @42  	drm_edid_connector_update(connector, drm_edid);
+> 98365ca74cbfae Jani Nikula    2024-08-22  43  	cec_notifier_set_phys_addr(output->cec,
+> 98365ca74cbfae Jani Nikula    2024-08-22  44  				   connector->display_info.source_physical_address);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  45  
+> 98365ca74cbfae Jani Nikula    2024-08-22  46  	err = drm_edid_connector_add_modes(connector);
+> 98365ca74cbfae Jani Nikula    2024-08-22  47  	drm_edid_free(drm_edid);
+> d8f4a9eda00678 Thierry Reding 2012-11-15  48  
+> d8f4a9eda00678 Thierry Reding 2012-11-15  49  	return err;
+> d8f4a9eda00678 Thierry Reding 2012-11-15  50  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jani Nikula, Intel
