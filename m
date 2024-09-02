@@ -1,55 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6251613B5A1;
-	Mon,  2 Sep 2024 10:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED992185B7D
+	for <oe-kbuild@lists.linux.dev>; Mon,  2 Sep 2024 11:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725272293; cv=none; b=Q45364T6BanvGOAczqsdgcgBp7mqGEWFNv4eF6EXUKutBlCy4o/nhecws1S13C6nf7+rP9WSA9ro68YD6OdkvY208H6pampnenYJ+rQUWV9obcjxfg1c1I58Z+xBtYdKLrFkc51xOOu/is584owR2ZAlh6z2NvOJeh47mWlhC2o=
+	t=1725276199; cv=none; b=t0a+a6HPNCeDIP5srkOeoAGxsaNXN6byShdfPf2ZBQdlQR8G0Sb7WB9gf0pwtBB/Uz7TEjFLYQcQHqNnhxDgbtctv0ZtA44fpbfitncZAyFpl1X8FCY06eTGfLwp+36s+e5wbJt+GtUzkDbfi656rzVNkgc3DH+0YwnODh4kXtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725272293; c=relaxed/simple;
-	bh=GaMmyKHdZWZAQw653fQ+MGXw3Ni90psnatbML82zq10=;
+	s=arc-20240116; t=1725276199; c=relaxed/simple;
+	bh=FpetsQ5I1CDSi8wtSlI1e+AMgn3cH3BIUkkDyXHtNqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mVlrZ8fpXWzI5w40ToUObSj+vRro7Sz3SjCnv8Hauog24IXyUcXfN7vOqapYpFvM9fHuDkbm/IwD4AEXXRr7YSsQmiGK2NzqX0qpIlE6AtdH0lfBBYwnaJHHfZhqfwSGDeylhjSqZGfYcQj5dWtwBd8UZF2bUYJhtlsLSCPuhnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MhR9r9xK; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nx+g5krPGjkrsjjPxpt0/MWhPHQoxVRsMGUdIO7dUCSslSPDJ8McP6hy437bs3j8K8bqQWddTHNBtchUWIZlWqZ8WWnzAllWPB4fZkxCCONt6+oXjhPIX9NtLBUxN9sZBnhGkW3ZSWf4BEOQzH+Z+TAavRVhXApo8zXX7qAMLxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sM+7O5m3; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MhR9r9xK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725272292; x=1756808292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GaMmyKHdZWZAQw653fQ+MGXw3Ni90psnatbML82zq10=;
-  b=MhR9r9xKu3eUC2D+IE6qG1tJn90TujtwLGvv55eqxmdUx+40rIz/zXud
-   PfhATDz2/JgHIdpVL8i6mivDgmXbbr+EzuRwC8J7axOM3KcoyvnWsFrhr
-   mlYsIPLTYSG+T5xi+UYB4cAz9pT83KA7svl37YHbVDnU5uxc71VaDJykf
-   WDtCeTEZNev/McvSbYsOAUl/JEQT4gtFlIhh3Hs469nts54Iwt+89icrs
-   cg1gkbnyNfVMtIkFzHsr0z3G4A6PVDcEizX6CnlbM4nforG0+9DtdZXxf
-   OAvZmdIprNaBiFZObF1Pav4K2/0QV2oQNCdYbKbQLdcEncTsifHpQ7ZXX
-   A==;
-X-CSE-ConnectionGUID: PiQVDt4ZSs6HrhmlYH1JxQ==
-X-CSE-MsgGUID: mWrTont9SK2sCoStqsetnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11182"; a="13328523"
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="13328523"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 03:18:11 -0700
-X-CSE-ConnectionGUID: 3inN7/nQQ+y50FdryI0b5A==
-X-CSE-MsgGUID: CAbety6mRYy+tohwK0HG3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,195,1719903600"; 
-   d="scan'208";a="95277957"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 03:18:08 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sl487-00000004Jep-1vmR;
-	Mon, 02 Sep 2024 13:17:51 +0300
-Date: Mon, 2 Sep 2024 13:17:51 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sM+7O5m3"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42c7a384b18so14981385e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 02 Sep 2024 04:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725276196; x=1725880996; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QEt0+dc1LSyQIyl13xdTGJyLQn3oDUp5kW96ysZGY3w=;
+        b=sM+7O5m3ZWDY5o8tFa+HTxrYVEoN9ZXzJ3A2TlOQOzAlR6i+u39ZmBDsY2ZDN4hRfC
+         qoMhAnGH+2ORN59wsdpn4YOLMR92Dxw+lnHEJHV8V2cGicR/q1+wBUwMFEWa9/1tJQs+
+         QGx6VZJZWNKQ5MhUZkRzvWLETSsN91nAUEvfeOrGtHKazeiuKZ6i/Q36qMoAJBT/H3AT
+         gf62a1WGlOZV4ZlHp9yQaoYnMVHF+Yloron+/C0QRCdU81nEfx/EIusdg3WgpIZL6Lyl
+         gorddOKIRsH2cMyYaJl1z5Fwei0eDr8WHlH5m68ZDO31Wu80qG6a5E7q7mNyFbLgO6+X
+         IJTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725276196; x=1725880996;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QEt0+dc1LSyQIyl13xdTGJyLQn3oDUp5kW96ysZGY3w=;
+        b=GtxprE+cnsdqh77w+aDaEry850Qbfs1aZR7GtxLkDZVYIe46Som/UJ5TLYePRPQKhL
+         XlwxJLeHqdrcL0cc6jF1oQFevm1Oq2K7VbSK9aRjS1RxmvOezzsUb88M/RQYnf7R1/rF
+         Sr0uHyX1BIXcsMJMwfhf5oBvxoYK4sGD7PPIhyLclj3lTJilAMGAKkp6PmMuPekQM/Ug
+         xIwUc3/yhT6k2gFO8DRGId/5pYYi0GzVtTvGVdAl2/xtWQNPP667X0XV4+Ryd8TH5wfY
+         8yMqgYUHaaF3Ffp3EOlN3GleFov6hthXHBpGvrGCkIsOW8ICO3c7ICwqDxPRzXITPklN
+         WrJQ==
+X-Gm-Message-State: AOJu0Yy05hlTiE8OBPjF3rj6gd29xNJ3SmNyqyyH+cedThJIw56tLq1T
+	mGfH5x5lFiV48f76KshpwMgn6WLcMIpLj2CiBXHNK7/lM1N4ddB4mH1zF4pC1Iderq8UHeOvYWB
+	i
+X-Google-Smtp-Source: AGHT+IFxJcCTvoMwpH+tvEwVOkWpvLSMuNdbuHPGieP5ISOoCAVIM3ROhsGt3PZ8voU2RxcgHG86EQ==
+X-Received: by 2002:a05:600c:4452:b0:428:1090:cfd4 with SMTP id 5b1f17b1804b1-42be48faa4emr44328095e9.33.1725276196265;
+        Mon, 02 Sep 2024 04:23:16 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42baf1b0c18sm151736775e9.37.2024.09.02.04.23.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2024 04:23:15 -0700 (PDT)
+Date: Mon, 2 Sep 2024 14:23:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: oe-kbuild@lists.linux.dev,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
@@ -60,9 +64,10 @@ Cc: oe-kbuild@lists.linux.dev,
 	Daniel Scally <djrscally@gmail.com>
 Subject: Re: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe()
  usage
-Message-ID: <ZtWQzwvo7f0QfeCI@smile.fi.intel.com>
+Message-ID: <6be0acdb-6b4a-4330-929a-2e319075b3c6@stanley.mountain>
 References: <20240822130722.1261891-3-andriy.shevchenko@linux.intel.com>
  <20dd56f0-78ea-4255-86ac-32151160b83d@stanley.mountain>
+ <ZtWQzwvo7f0QfeCI@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,41 +76,41 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20dd56f0-78ea-4255-86ac-32151160b83d@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ZtWQzwvo7f0QfeCI@smile.fi.intel.com>
 
-On Sat, Aug 31, 2024 at 11:31:53AM +0300, Dan Carpenter wrote:
-> Hi Andy,
+On Mon, Sep 02, 2024 at 01:17:51PM +0300, Andy Shevchenko wrote:
+> On Sat, Aug 31, 2024 at 11:31:53AM +0300, Dan Carpenter wrote:
+> > Hi Andy,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-Ignore-0-in-dev_err_probe/20240826-113856
+> > base:   driver-core/driver-core-testing
+> > patch link:    https://lore.kernel.org/r/20240822130722.1261891-3-andriy.shevchenko%40linux.intel.com
+> > patch subject: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe() usage
+> > config: i386-randconfig-141-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310807.sNPe5Mr2-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202408310807.sNPe5Mr2-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() error: uninitialized symbol 'err_msg'.
+> > drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() warn: passing zero to 'dev_err_probe'
 > 
-> kernel test robot noticed the following build warnings:
+> Okay, I might agree on the err_msg, which is good to have to be passed anyway.
+> In such a case it might be good to have a dev_dbg() in the dev_err_probe() to
+> say that it is likely a bug in the code.
 > 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/driver-core-Ignore-0-in-dev_err_probe/20240826-113856
-> base:   driver-core/driver-core-testing
-> patch link:    https://lore.kernel.org/r/20240822130722.1261891-3-andriy.shevchenko%40linux.intel.com
-> patch subject: [PATCH v2 2/4] platform/x86: int3472: Simplify dev_err_probe() usage
-> config: i386-randconfig-141-20240830 (https://download.01.org/0day-ci/archive/20240831/202408310807.sNPe5Mr2-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202408310807.sNPe5Mr2-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() error: uninitialized symbol 'err_msg'.
-> drivers/platform/x86/intel/int3472/discrete.c:292 skl_int3472_handle_gpio_resources() warn: passing zero to 'dev_err_probe'
+> Would you accept that approach?
 
-Okay, I might agree on the err_msg, which is good to have to be passed anyway.
-In such a case it might be good to have a dev_dbg() in the dev_err_probe() to
-say that it is likely a bug in the code.
+ret is 1.  We have to revert this patch.
 
-Would you accept that approach?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
