@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF74F1CDA34
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 05:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72410257B
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 05:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725340125; cv=none; b=bEQ3dPsz/6hl8lOKPZvvx9AIBZH7wcwyiCSY8a5J4j52MmlSKOj7HcE87jyLj/oOvmQWGw3Vim8WJ/XY6Z4MTrLYUykkh3cIXXx/YQ/O+Ok2IZP5QNlPKtNjogw6U+FYRmEA6HYMxvx8fsgJ8i2zIyp/WiVu2hu1RZsxhwgizP0=
+	t=1725340785; cv=none; b=RgxZsdyoJLHkSE6HpjLayogoM6sL6fggAflxnn7buNr4aATKZuGm17TRYdYgXtv8Q9ercKmIne6MZCBi+xM/1UeDmsWBT8HiYXWzm5dPjYyCpMld+bpstLe63lVQ4M5J4M3ziKnBaNd7SLVDQUnULjiyowikU94cJTEmL9v8qcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725340125; c=relaxed/simple;
-	bh=/1ZUfocSuODpPjvuKmd6aY1COpR8lA8ryS4m0PKE+5A=;
+	s=arc-20240116; t=1725340785; c=relaxed/simple;
+	bh=a/HTipSyRSk8Gw0eAPXwKVEQCNrCf104nhhNs51LE90=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u316Z/FzW4LYqodZP1f8gLxdwCB8b197/D1MvlLnx31Jk5oNfuEblONwHYnsAaTRae1aEpXjz33X8jRscZahIzBlJFtWINMHdcz3kPXH/hB6cPGKoPNofZBDwQm2svqdwkbs67BjrME4LogLDokV2jgsppV9fTqe03RswfhFJ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MP6MNq7W; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=acGSe+UAc+Kr57hXzwFzlu6/Q1oN+t3Hl7Oz9OzNe0kx/nLBBSNHQQgAVKQUS4H3R/Qnh7GWgiJpM/FKl3fWmqtC6dxjEf2PfmI4jjhaxVu3hPFTRFgbdVOk7Rzv8+Z3dgeeBzHad/aWfhKL+WRt3y0SdHfc+CMqitBupX3jl6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdrPemxg; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MP6MNq7W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdrPemxg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725340123; x=1756876123;
+  t=1725340783; x=1756876783;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/1ZUfocSuODpPjvuKmd6aY1COpR8lA8ryS4m0PKE+5A=;
-  b=MP6MNq7Wr4A1Kd2crQM3DXdITCdp8mNb1Yb/4v/9r96KAt0SJwl4H5nw
-   DfbWb+igOmvzvH0m9R72ot1NLvrXfvtFn0ISN9lRmzaAVI/+vpymC0Ztp
-   1eUkbRxbJz//Du60rwpP/Be4F0DfbiQZwIoa9mVA+B3YNn7BDWZ7lJnQI
-   MVkGbrLBH8trZsXM9zITnMwHB6FlkU8TMgl+b06TunlccY7avisr5PXDN
-   4CsbLB2HXen/6WobrwIDa0oAXdhpA44CMr9VR8599lw2HlPUCzCTb7Dq3
-   OqJKof9/TwRBOvOddNnzNV8vvU7FnVOBL7DX4Zhu0DcxE07vw3H/eNLpq
-   Q==;
-X-CSE-ConnectionGUID: PXAiIlGQRnig6t39HUEsFw==
-X-CSE-MsgGUID: qHAPVfwJSbCw8j8BFtabSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="23724396"
+  bh=a/HTipSyRSk8Gw0eAPXwKVEQCNrCf104nhhNs51LE90=;
+  b=kdrPemxgx/JR6pKwhtzxnCF5pQ4fbbvihJxgiVSc7/3nDRBpFYEev+aJ
+   RZ3GV+zfZJM9ef5K9qQrm0tnQgZTuUrKY/OPWj9TmahB6YvRd9sKU6es8
+   Wf1R9W9YamxwmZmCggZkz0/xnR1Bv0iO/qSEC3ij+08sar3xL9VDaLNFM
+   HZHjBmMHDW8iHnQfTLwAJVpxYVRciY75RTptXWSC1ACMuLT5xzSw9CqsE
+   x4hIaRmK4m4c5rIC/jmxQii8rLQPwJ37vbfPbq57PbUb6aji58piZRYnv
+   R5Ziw4fU8KadgUaF46HOghsSsk4iWKJpa3p8odFcgKN43d7tn/E9sz/yI
+   g==;
+X-CSE-ConnectionGUID: r8nVXEDcTqa5hIM1zHNnmA==
+X-CSE-MsgGUID: FYaxbwBvT4+yzVPzZnAXQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="35073874"
 X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="23724396"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 22:08:43 -0700
-X-CSE-ConnectionGUID: shNZMnIqTg+BIuluzUtsjg==
-X-CSE-MsgGUID: m4SbFW36RTSO3ctapS3uLQ==
+   d="scan'208";a="35073874"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 22:19:43 -0700
+X-CSE-ConnectionGUID: YZ3XbXMYSiKOtGwMUR7gWQ==
+X-CSE-MsgGUID: 8nOcxkdXSA2ItMbIUjCeBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="65140110"
+   d="scan'208";a="102226140"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Sep 2024 22:08:41 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Sep 2024 22:19:41 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slLmQ-0006EZ-2o;
-	Tue, 03 Sep 2024 05:08:38 +0000
-Date: Tue, 3 Sep 2024 13:08:26 +0800
+	id 1slLx5-0006Fy-1p;
+	Tue, 03 Sep 2024 05:19:39 +0000
+Date: Tue, 3 Sep 2024 13:18:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:fs-next 470/639] fs/bcachefs/sb-members.c:503
- bch2_sb_member_alloc() warn: statement has no effect 3
-Message-ID: <202409031301.epjgo23V-lkp@intel.com>
+Subject: drivers/net/dsa/mv88e6xxx/global1_atu.c:460
+ mv88e6xxx_g1_atu_prob_irq_thread_fn() error: testing array offset 'spid'
+ after use.
+Message-ID: <202409031316.T5Fw7RFc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,56 +65,105 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+CC: linux-kernel@vger.kernel.org
+TO: Joseph Huang <Joseph.Huang@garmin.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git fs-next
-head:   b4abbc7800c807e48690abdba898e9b2e61cf58f
-commit: 4e7795eda4459bf3e69c87c793bc34f610f9d981 [470/639] bcachefs: bch2_sb_member_alloc()
-:::::: branch date: 6 hours ago
-:::::: commit date: 26 hours ago
-config: i386-randconfig-141-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031301.epjgo23V-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   67784a74e258a467225f0e68335df77acd67b7ab
+commit: 528876d867a23b5198022baf2e388052ca67c952 net: dsa: mv88e6xxx: Fix out-of-bound access
+date:   13 days ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 13 days ago
+config: i386-randconfig-141-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031316.T5Fw7RFc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409031301.epjgo23V-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409031316.T5Fw7RFc-lkp@intel.com/
 
 smatch warnings:
-fs/bcachefs/sb-members.c:503 bch2_sb_member_alloc() warn: statement has no effect 3
+drivers/net/dsa/mv88e6xxx/global1_atu.c:460 mv88e6xxx_g1_atu_prob_irq_thread_fn() error: testing array offset 'spid' after use.
 
-vim +503 fs/bcachefs/sb-members.c
+vim +/spid +460 drivers/net/dsa/mv88e6xxx/global1_atu.c
 
-4e7795eda4459b Kent Overstreet 2024-09-01  476  
-4e7795eda4459b Kent Overstreet 2024-09-01  477  int bch2_sb_member_alloc(struct bch_fs *c)
-4e7795eda4459b Kent Overstreet 2024-09-01  478  {
-4e7795eda4459b Kent Overstreet 2024-09-01  479  	unsigned dev_idx = c->sb.nr_devices;
-4e7795eda4459b Kent Overstreet 2024-09-01  480  	if (dev_idx < BCH_SB_MEMBERS_MAX)
-4e7795eda4459b Kent Overstreet 2024-09-01  481  		goto have_slot;
-4e7795eda4459b Kent Overstreet 2024-09-01  482  
-4e7795eda4459b Kent Overstreet 2024-09-01  483  	int best = -1;
-4e7795eda4459b Kent Overstreet 2024-09-01  484  	u64 best_last_mount = 0;
-4e7795eda4459b Kent Overstreet 2024-09-01  485  	for (dev_idx = 0; dev_idx < BCH_SB_MEMBERS_MAX; dev_idx++) {
-4e7795eda4459b Kent Overstreet 2024-09-01  486  		struct bch_member m = bch2_sb_member_get(c->disk_sb.sb, dev_idx);
-4e7795eda4459b Kent Overstreet 2024-09-01  487  		if (bch2_member_alive(&m))
-4e7795eda4459b Kent Overstreet 2024-09-01  488  			continue;
-4e7795eda4459b Kent Overstreet 2024-09-01  489  
-4e7795eda4459b Kent Overstreet 2024-09-01  490  		u64 last_mount = le64_to_cpu(m.last_mount);
-4e7795eda4459b Kent Overstreet 2024-09-01  491  		if (best < 0 || last_mount < best_last_mount) {
-4e7795eda4459b Kent Overstreet 2024-09-01  492  			best = dev_idx;
-4e7795eda4459b Kent Overstreet 2024-09-01  493  			best_last_mount = last_mount;
-4e7795eda4459b Kent Overstreet 2024-09-01  494  		}
-4e7795eda4459b Kent Overstreet 2024-09-01  495  	}
-4e7795eda4459b Kent Overstreet 2024-09-01  496  	if (best >= 0) {
-4e7795eda4459b Kent Overstreet 2024-09-01  497  		dev_idx = best;
-4e7795eda4459b Kent Overstreet 2024-09-01  498  		goto have_slot;
-4e7795eda4459b Kent Overstreet 2024-09-01  499  	}
-4e7795eda4459b Kent Overstreet 2024-09-01  500  
-4e7795eda4459b Kent Overstreet 2024-09-01  501  	return -BCH_ERR_ENOSPC_sb_members;
-4e7795eda4459b Kent Overstreet 2024-09-01  502  have_slot:
-4e7795eda4459b Kent Overstreet 2024-09-01 @503  	unsigned nr_devices = max_t(unsigned, dev_idx + 1, c->sb.nr_devices);
+0977644c5005ca2 Andrew Lunn      2018-01-14  401  
+0977644c5005ca2 Andrew Lunn      2018-01-14  402  static irqreturn_t mv88e6xxx_g1_atu_prob_irq_thread_fn(int irq, void *dev_id)
+0977644c5005ca2 Andrew Lunn      2018-01-14  403  {
+0977644c5005ca2 Andrew Lunn      2018-01-14  404  	struct mv88e6xxx_chip *chip = dev_id;
+0977644c5005ca2 Andrew Lunn      2018-01-14  405  	struct mv88e6xxx_atu_entry entry;
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  406  	int err, spid;
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  407  	u16 val, fid;
+0977644c5005ca2 Andrew Lunn      2018-01-14  408  
+c9acece064e3f00 Rasmus Villemoes 2019-06-20  409  	mv88e6xxx_reg_lock(chip);
+0977644c5005ca2 Andrew Lunn      2018-01-14  410  
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  411  	err = mv88e6xxx_g1_read_atu_violation(chip);
+0977644c5005ca2 Andrew Lunn      2018-01-14  412  	if (err)
+0c34aff523c7498 Hans J. Schultz  2023-01-08  413  		goto out_unlock;
+0977644c5005ca2 Andrew Lunn      2018-01-14  414  
+0977644c5005ca2 Andrew Lunn      2018-01-14  415  	err = mv88e6xxx_g1_read(chip, MV88E6XXX_G1_ATU_OP, &val);
+0977644c5005ca2 Andrew Lunn      2018-01-14  416  	if (err)
+0c34aff523c7498 Hans J. Schultz  2023-01-08  417  		goto out_unlock;
+0977644c5005ca2 Andrew Lunn      2018-01-14  418  
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  419  	err = mv88e6xxx_g1_atu_fid_read(chip, &fid);
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  420  	if (err)
+0c34aff523c7498 Hans J. Schultz  2023-01-08  421  		goto out_unlock;
+4bf24ad09bc0b05 Hans J. Schultz  2022-12-09  422  
+0977644c5005ca2 Andrew Lunn      2018-01-14  423  	err = mv88e6xxx_g1_atu_data_read(chip, &entry);
+0977644c5005ca2 Andrew Lunn      2018-01-14  424  	if (err)
+0c34aff523c7498 Hans J. Schultz  2023-01-08  425  		goto out_unlock;
+0977644c5005ca2 Andrew Lunn      2018-01-14  426  
+0977644c5005ca2 Andrew Lunn      2018-01-14  427  	err = mv88e6xxx_g1_atu_mac_read(chip, &entry);
+0977644c5005ca2 Andrew Lunn      2018-01-14  428  	if (err)
+0c34aff523c7498 Hans J. Schultz  2023-01-08  429  		goto out_unlock;
+0c34aff523c7498 Hans J. Schultz  2023-01-08  430  
+0c34aff523c7498 Hans J. Schultz  2023-01-08  431  	mv88e6xxx_reg_unlock(chip);
+0977644c5005ca2 Andrew Lunn      2018-01-14  432  
+75c05a74e745ae7 Andrew Lunn      2019-02-06  433  	spid = entry.state;
+75c05a74e745ae7 Andrew Lunn      2019-02-06  434  
+0977644c5005ca2 Andrew Lunn      2018-01-14  435  	if (val & MV88E6XXX_G1_ATU_OP_MEMBER_VIOLATION) {
+8646384d80f3d3b Vladimir Oltean  2022-12-09  436  		trace_mv88e6xxx_atu_member_violation(chip->dev, spid,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  437  						     entry.portvec, entry.mac,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  438  						     fid);
+75c05a74e745ae7 Andrew Lunn      2019-02-06  439  		chip->ports[spid].atu_member_violation++;
+0977644c5005ca2 Andrew Lunn      2018-01-14  440  	}
+0977644c5005ca2 Andrew Lunn      2018-01-14  441  
+ddca24dfcf1bec6 Andrew Lunn      2018-09-14  442  	if (val & MV88E6XXX_G1_ATU_OP_MISS_VIOLATION) {
+8646384d80f3d3b Vladimir Oltean  2022-12-09  443  		trace_mv88e6xxx_atu_miss_violation(chip->dev, spid,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  444  						   entry.portvec, entry.mac,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  445  						   fid);
+75c05a74e745ae7 Andrew Lunn      2019-02-06  446  		chip->ports[spid].atu_miss_violation++;
+830763b96720361 Hans J. Schultz  2023-01-08  447  
+830763b96720361 Hans J. Schultz  2023-01-08  448  		if (fid != MV88E6XXX_FID_STANDALONE && chip->ports[spid].mab) {
+830763b96720361 Hans J. Schultz  2023-01-08  449  			err = mv88e6xxx_handle_miss_violation(chip, spid,
+830763b96720361 Hans J. Schultz  2023-01-08  450  							      &entry, fid);
+830763b96720361 Hans J. Schultz  2023-01-08  451  			if (err)
+830763b96720361 Hans J. Schultz  2023-01-08  452  				goto out;
+830763b96720361 Hans J. Schultz  2023-01-08  453  		}
+65f60e4582bd321 Andrew Lunn      2018-03-28  454  	}
+0977644c5005ca2 Andrew Lunn      2018-01-14  455  
+65f60e4582bd321 Andrew Lunn      2018-03-28  456  	if (val & MV88E6XXX_G1_ATU_OP_FULL_VIOLATION) {
+8646384d80f3d3b Vladimir Oltean  2022-12-09  457  		trace_mv88e6xxx_atu_full_violation(chip->dev, spid,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  458  						   entry.portvec, entry.mac,
+8646384d80f3d3b Vladimir Oltean  2022-12-09  459  						   fid);
+528876d867a23b5 Joseph Huang     2024-08-19 @460  		if (spid < ARRAY_SIZE(chip->ports))
+75c05a74e745ae7 Andrew Lunn      2019-02-06  461  			chip->ports[spid].atu_full_violation++;
+65f60e4582bd321 Andrew Lunn      2018-03-28  462  	}
+0977644c5005ca2 Andrew Lunn      2018-01-14  463  
+0977644c5005ca2 Andrew Lunn      2018-01-14  464  	return IRQ_HANDLED;
+0977644c5005ca2 Andrew Lunn      2018-01-14  465  
+0c34aff523c7498 Hans J. Schultz  2023-01-08  466  out_unlock:
+c9acece064e3f00 Rasmus Villemoes 2019-06-20  467  	mv88e6xxx_reg_unlock(chip);
+830763b96720361 Hans J. Schultz  2023-01-08  468  
+830763b96720361 Hans J. Schultz  2023-01-08  469  out:
+0977644c5005ca2 Andrew Lunn      2018-01-14  470  	dev_err(chip->dev, "ATU problem: error %d while handling interrupt\n",
+0977644c5005ca2 Andrew Lunn      2018-01-14  471  		err);
+0977644c5005ca2 Andrew Lunn      2018-01-14  472  	return IRQ_HANDLED;
+0977644c5005ca2 Andrew Lunn      2018-01-14  473  }
+0977644c5005ca2 Andrew Lunn      2018-01-14  474  
 
 -- 
 0-DAY CI Kernel Test Service
