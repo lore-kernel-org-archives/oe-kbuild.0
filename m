@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3960E2207A
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 04:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B3913CABC
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 04:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725336401; cv=none; b=jURkLXQOANtkeXforNb5AS/RptubVA2GPgW4z+8uJLZux72iPH8tS6f2TAVmPpehg6IZNSx/kDquAHvdFtzO3Jk3ROhD40hO7K/+HgvelKsVEK3MyC/DXmMjklc1lv4sEFnhHDZk/SWuDDCTCA+782ouvOO9Ttkmm9jS33CYk3M=
+	t=1725337006; cv=none; b=u1FC641QvheuaK3YYf6cluYQi+iEzFqWYQwfQ57591r5/jSUGBtMsSzmWEXs09N5Sqm+uInYjlKNGcCF5Q+pnTdLwKiESofCIPioS9XsRb+3z2vL3oAgP5VbbZBoWflB0XqOt8Rq8Qb3lxMCkIRlhBrZqjNyG4voP2U29xDJBj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725336401; c=relaxed/simple;
-	bh=DZNXv8IbP5M2vnJFMkXCegsXy/SVtBqEqix9CtuqKZ0=;
+	s=arc-20240116; t=1725337006; c=relaxed/simple;
+	bh=lcoTiwVsPbxmllkEqyy7D9xSgM/0PmrrPb7IQ1wuueo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TZ3XABhiZSq3o84hJNX89DnlPUvixMlV29es7MZo4buJJd2oI+Soq4W5gq1nghSJHqDpBQRQ1Hy34KUPl2ZXvYB6f0PhtWZwB3iZ179Oo0rN9nxHPtS4PLQhxwszwIWjQWIDe4jtDdP5le/iqHTHh77iLFXQnx7nDJYYuq5BxKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyT1jB8/; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=L/u8Yyz4TS7hBB8P57sg4obkP1ibtRvz92fXE7y3eTgZbsNo2V+yzzil6L6DX6xwr+4BI9nVJllT5r9ptCmQNFkr2UZ7JWM2/F5nmpTg1yK+fZgmKpBY5fFw3cGEeIzRHeovGAqInycxXEIoacP6f7lhX3YSOFUe5FDJK8uNtNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y++N2xqy; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyT1jB8/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y++N2xqy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725336399; x=1756872399;
+  t=1725337004; x=1756873004;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DZNXv8IbP5M2vnJFMkXCegsXy/SVtBqEqix9CtuqKZ0=;
-  b=iyT1jB8/U0xXqCEvYndRp+bpZqvGSV2V3iQAY5zSuogJfGpON3WhCfev
-   jYqfLQLoSWvr/vt6pdQL19C+Sh06MCaJOYYtYVT/lcdCzb6COrCnMBUTs
-   4+ephECfhEZmGJQo+bJVSMxqF5J4cLShlL0MWNev0IlOjLaRZCn9gSNsz
-   KLmnWgMD8GVYW+RpdnfNpSSIeTNP9mdbfCRt+eW/qS24VlZNtNgZpyqlG
-   Dj3edcuCzCjBab8ts2KMl2d01qAq7d/qwVEABYUWM6L2QyiVhR7qGZ+f2
-   zgyH+KrwkfGnnL3VPNXvCfVDdGssnug9fdVPBUN1b5HQCo1RTBsODekjQ
-   g==;
-X-CSE-ConnectionGUID: o2JYYFQ7SpqyelzQ5E+mmQ==
-X-CSE-MsgGUID: It6QjD4mT2agZhXUpxqriw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="23866315"
+  bh=lcoTiwVsPbxmllkEqyy7D9xSgM/0PmrrPb7IQ1wuueo=;
+  b=Y++N2xqy3PdpAoG4LCjVDNRIXka3dL0kHFEj4W6GQfezp/bdK9QN3dFg
+   ax8hxOqMRO1ayusAZOlnz6yy3a2aDrYxZSSpkU4l99zwlCHAHCxsMB6if
+   +d1Cbf4YPFPyML/anGACzJwyiWSQ+x/v2oryX6ftQ43WP1LK1tZhzo8MZ
+   VCJReMJTssZ3AF3L2jhxSBh1O+Jo0QzsAY4+zdrBlNoUAfv6DAS4w3Kq0
+   tr4PaxAXepunfdEE0Qp9U9SxQA+aifIaMLXZEisvySJZpQImcPJ5O1pCo
+   9Eg4TOGrs6HUAitP8IM5FIAAKF8hFRrZJJMOazpztGkv9mW387hNs8Die
+   w==;
+X-CSE-ConnectionGUID: yV3wRTgaRp+TpIdl9P6ZYw==
+X-CSE-MsgGUID: JK+eKadeQy2qcS0qr/WumQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="41410377"
 X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="23866315"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 21:06:38 -0700
-X-CSE-ConnectionGUID: yQIW3nDJQfKPGuuhtdHbgw==
-X-CSE-MsgGUID: doND95dZQ5GRmrTIji1ikg==
+   d="scan'208";a="41410377"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2024 21:16:38 -0700
+X-CSE-ConnectionGUID: pBgJQvE9Q7Oycg1RFNai/g==
+X-CSE-MsgGUID: 3IwaQI21Rt+qe9xGcn1C/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,197,1719903600"; 
-   d="scan'208";a="65128902"
+   d="scan'208";a="102216248"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 02 Sep 2024 21:06:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Sep 2024 21:16:36 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slKoL-0006CU-2L;
-	Tue, 03 Sep 2024 04:06:33 +0000
-Date: Tue, 3 Sep 2024 12:06:10 +0800
+	id 1slKy2-0006Cu-10;
+	Tue, 03 Sep 2024 04:16:34 +0000
+Date: Tue, 3 Sep 2024 12:16:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/irqchip/irq-sifive-plic.c:581 plic_probe() warn: missing
- error code 'error'
-Message-ID: <202409031122.yBh8HrxA-lkp@intel.com>
+Subject: Re: [PATCH net-next v2 1/2] net_tstamp: add SCM_TS_OPT_ID to provide
+ OPT_ID in control message
+Message-ID: <202409031142.3dSuW9Oo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,212 +64,381 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Anup Patel <apatel@ventanamicro.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Samuel Holland <samuel.holland@sifive.com>
-CC: Charlie Jenkins <charlie@rivosinc.com>
+In-Reply-To: <20240902130937.457115-1-vadfed@meta.com>
+References: <20240902130937.457115-1-vadfed@meta.com>
+TO: Vadim Fedorenko <vadfed@meta.com>
+TO: Vadim Fedorenko <vadim.fedorenko@linux.dev>
+TO: Willem de Bruijn <willemb@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: David Ahern <dsahern@kernel.org>
+TO: Jason Xing <kerneljasonxing@gmail.com>
+CC: netdev@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   67784a74e258a467225f0e68335df77acd67b7ab
-commit: 4d936f10ff80274841537a26d1fbfe9984de0ef9 irqchip/sifive-plic: Probe plic driver early for Allwinner D1 platform
-date:   2 weeks ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-r072-20240901 (https://download.01.org/0day-ci/archive/20240903/202409031122.yBh8HrxA-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 6f682c26b04f0b349c4c473756cb8625b4f37c6d)
+Hi Vadim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-txtimestamp-add-SCM_TS_OPT_ID-test/20240902-212008
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240902130937.457115-1-vadfed%40meta.com
+patch subject: [PATCH net-next v2 1/2] net_tstamp: add SCM_TS_OPT_ID to provide OPT_ID in control message
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: csky-randconfig-r072-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031142.3dSuW9Oo-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409031122.yBh8HrxA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409031142.3dSuW9Oo-lkp@intel.com/
 
 smatch warnings:
-drivers/irqchip/irq-sifive-plic.c:581 plic_probe() warn: missing error code 'error'
+net/ipv4/ip_output.c:1284 __ip_append_data() error: uninitialized symbol 'hold_tskey'.
 
-vim +/error +581 drivers/irqchip/irq-sifive-plic.c
+vim +/hold_tskey +1284 net/ipv4/ip_output.c
 
-a15587277a246c3 Anup Patel        2024-02-22  482  
-4d936f10ff80274 Anup Patel        2024-08-20  483  static int plic_probe(struct fwnode_handle *fwnode)
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  484  {
-a15587277a246c3 Anup Patel        2024-02-22  485  	int error = 0, nr_contexts, nr_handlers = 0, cpu, i;
-8ec99b033147ef3 Anup Patel        2024-02-22  486  	unsigned long plic_quirks = 0;
-2234ae846ccb9eb Anup Patel        2020-05-18  487  	struct plic_handler *handler;
-a15587277a246c3 Anup Patel        2024-02-22  488  	u32 nr_irqs, parent_hwirq;
-8ec99b033147ef3 Anup Patel        2024-02-22  489  	struct plic_priv *priv;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  490  	irq_hw_number_t hwirq;
-4d936f10ff80274 Anup Patel        2024-08-20  491  	void __iomem *regs;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  492  
-4d936f10ff80274 Anup Patel        2024-08-20  493  	if (is_of_node(fwnode)) {
-8ec99b033147ef3 Anup Patel        2024-02-22  494  		const struct of_device_id *id;
-8ec99b033147ef3 Anup Patel        2024-02-22  495  
-4d936f10ff80274 Anup Patel        2024-08-20  496  		id = of_match_node(plic_match, to_of_node(fwnode));
-8ec99b033147ef3 Anup Patel        2024-02-22  497  		if (id)
-8ec99b033147ef3 Anup Patel        2024-02-22  498  			plic_quirks = (unsigned long)id->data;
-4d936f10ff80274 Anup Patel        2024-08-20  499  
-4d936f10ff80274 Anup Patel        2024-08-20  500  		regs = of_iomap(to_of_node(fwnode), 0);
-4d936f10ff80274 Anup Patel        2024-08-20  501  		if (!regs)
-4d936f10ff80274 Anup Patel        2024-08-20  502  			return -ENOMEM;
-4d936f10ff80274 Anup Patel        2024-08-20  503  	} else {
-4d936f10ff80274 Anup Patel        2024-08-20  504  		return -ENODEV;
-8ec99b033147ef3 Anup Patel        2024-02-22  505  	}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  506  
-4d936f10ff80274 Anup Patel        2024-08-20  507  	error = plic_parse_nr_irqs_and_contexts(fwnode, &nr_irqs, &nr_contexts);
-95652106478030f Anup Patel        2024-02-22  508  	if (error)
-4d936f10ff80274 Anup Patel        2024-08-20  509  		goto fail_free_regs;
-95652106478030f Anup Patel        2024-02-22  510  
-4d936f10ff80274 Anup Patel        2024-08-20  511  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-4d936f10ff80274 Anup Patel        2024-08-20  512  	if (!priv) {
-4d936f10ff80274 Anup Patel        2024-08-20  513  		error = -ENOMEM;
-4d936f10ff80274 Anup Patel        2024-08-20  514  		goto fail_free_regs;
-4d936f10ff80274 Anup Patel        2024-08-20  515  	}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  516  
-4d936f10ff80274 Anup Patel        2024-08-20  517  	priv->fwnode = fwnode;
-dd46337ca69662b Lad Prabhakar     2022-06-30  518  	priv->plic_quirks = plic_quirks;
-95652106478030f Anup Patel        2024-02-22  519  	priv->nr_irqs = nr_irqs;
-4d936f10ff80274 Anup Patel        2024-08-20  520  	priv->regs = regs;
-dd46337ca69662b Lad Prabhakar     2022-06-30  521  
-4d936f10ff80274 Anup Patel        2024-08-20  522  	priv->prio_save = bitmap_zalloc(nr_irqs, GFP_KERNEL);
-4d936f10ff80274 Anup Patel        2024-08-20  523  	if (!priv->prio_save) {
-4d936f10ff80274 Anup Patel        2024-08-20  524  		error = -ENOMEM;
-4d936f10ff80274 Anup Patel        2024-08-20  525  		goto fail_free_priv;
-4d936f10ff80274 Anup Patel        2024-08-20  526  	}
-e80f0b6a2cf302b Mason Huo         2023-04-04  527  
-6adfe8d2f5b3535 Anup Patel        2019-02-12  528  	for (i = 0; i < nr_contexts; i++) {
-4d936f10ff80274 Anup Patel        2024-08-20  529  		error = plic_parse_context_parent(fwnode, i, &parent_hwirq, &cpu);
-a15587277a246c3 Anup Patel        2024-02-22  530  		if (error) {
-4d936f10ff80274 Anup Patel        2024-08-20  531  			pr_warn("%pfwP: hwirq for context%d not found\n", fwnode, i);
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  532  			continue;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  533  		}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  534  
-a4c3733d32a72f1 Christoph Hellwig 2019-10-28  535  		/*
-a4c3733d32a72f1 Christoph Hellwig 2019-10-28  536  		 * Skip contexts other than external interrupts for our
-a4c3733d32a72f1 Christoph Hellwig 2019-10-28  537  		 * privilege level.
-a4c3733d32a72f1 Christoph Hellwig 2019-10-28  538  		 */
-a15587277a246c3 Anup Patel        2024-02-22  539  		if (parent_hwirq != RV_IRQ_EXT) {
-098fdbc3531f06a Niklas Cassel     2022-03-02  540  			/* Disable S-mode enable bits if running in M-mode. */
-098fdbc3531f06a Niklas Cassel     2022-03-02  541  			if (IS_ENABLED(CONFIG_RISCV_M_MODE)) {
-098fdbc3531f06a Niklas Cassel     2022-03-02  542  				void __iomem *enable_base = priv->regs +
-098fdbc3531f06a Niklas Cassel     2022-03-02  543  					CONTEXT_ENABLE_BASE +
-098fdbc3531f06a Niklas Cassel     2022-03-02  544  					i * CONTEXT_ENABLE_SIZE;
-098fdbc3531f06a Niklas Cassel     2022-03-02  545  
-098fdbc3531f06a Niklas Cassel     2022-03-02  546  				for (hwirq = 1; hwirq <= nr_irqs; hwirq++)
-098fdbc3531f06a Niklas Cassel     2022-03-02  547  					__plic_toggle(enable_base, hwirq, 0);
-098fdbc3531f06a Niklas Cassel     2022-03-02  548  			}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  549  			continue;
-098fdbc3531f06a Niklas Cassel     2022-03-02  550  		}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  551  
-fc03acaeab358c0 Atish Patra       2019-02-12  552  		if (cpu < 0) {
-4d936f10ff80274 Anup Patel        2024-08-20  553  			pr_warn("%pfwP: Invalid cpuid for context %d\n", fwnode, i);
-fc03acaeab358c0 Atish Patra       2019-02-12  554  			continue;
-fc03acaeab358c0 Atish Patra       2019-02-12  555  		}
-fc03acaeab358c0 Atish Patra       2019-02-12  556  
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  557  		/*
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  558  		 * When running in M-mode we need to ignore the S-mode handler.
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  559  		 * Here we assume it always comes later, but that might be a
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  560  		 * little fragile.
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  561  		 */
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  562  		handler = per_cpu_ptr(&plic_handlers, cpu);
-3fecb5aac288881 Anup Patel        2019-02-12  563  		if (handler->present) {
-4d936f10ff80274 Anup Patel        2024-08-20  564  			pr_warn("%pfwP: handler already present for context %d.\n", fwnode, i);
-ccbe80bad571c2f Atish Patra       2020-03-02  565  			plic_set_threshold(handler, PLIC_DISABLE_THRESHOLD);
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  566  			goto done;
-3fecb5aac288881 Anup Patel        2019-02-12  567  		}
-3fecb5aac288881 Anup Patel        2019-02-12  568  
-f1ad1133b18f2ae Atish Patra       2020-03-02  569  		cpumask_set_cpu(cpu, &priv->lmask);
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  570  		handler->present = true;
-0d3616bbd03cdfa Niklas Cassel     2022-03-02  571  		handler->hart_base = priv->regs + CONTEXT_BASE +
-0d3616bbd03cdfa Niklas Cassel     2022-03-02  572  			i * CONTEXT_SIZE;
-86c7cbf1e8d1d4f Anup Patel        2019-02-12  573  		raw_spin_lock_init(&handler->enable_lock);
-0d3616bbd03cdfa Niklas Cassel     2022-03-02  574  		handler->enable_base = priv->regs + CONTEXT_ENABLE_BASE +
-0d3616bbd03cdfa Niklas Cassel     2022-03-02  575  			i * CONTEXT_ENABLE_SIZE;
-f1ad1133b18f2ae Atish Patra       2020-03-02  576  		handler->priv = priv;
-e80f0b6a2cf302b Mason Huo         2023-04-04  577  
-4d936f10ff80274 Anup Patel        2024-08-20  578  		handler->enable_save = kcalloc(DIV_ROUND_UP(nr_irqs, 32),
-e80f0b6a2cf302b Mason Huo         2023-04-04  579  					       sizeof(*handler->enable_save), GFP_KERNEL);
-e80f0b6a2cf302b Mason Huo         2023-04-04  580  		if (!handler->enable_save)
-a15587277a246c3 Anup Patel        2024-02-22 @581  			goto fail_cleanup_contexts;
-9ce06497c2722a0 Christoph Hellwig 2019-09-03  582  done:
-a1706a1c5062e09 Samuel Holland    2022-07-01  583  		for (hwirq = 1; hwirq <= nr_irqs; hwirq++) {
-86c7cbf1e8d1d4f Anup Patel        2019-02-12  584  			plic_toggle(handler, hwirq, 0);
-a1706a1c5062e09 Samuel Holland    2022-07-01  585  			writel(1, priv->regs + PRIORITY_BASE +
-a1706a1c5062e09 Samuel Holland    2022-07-01  586  				  hwirq * PRIORITY_PER_ID);
-a1706a1c5062e09 Samuel Holland    2022-07-01  587  		}
-6adfe8d2f5b3535 Anup Patel        2019-02-12  588  		nr_handlers++;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  589  	}
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  590  
-4d936f10ff80274 Anup Patel        2024-08-20  591  	priv->irqdomain = irq_domain_add_linear(to_of_node(fwnode), nr_irqs + 1,
-b68d0ff529a939a Anup Patel        2024-02-22  592  						&plic_irqdomain_ops, priv);
-b68d0ff529a939a Anup Patel        2024-02-22  593  	if (WARN_ON(!priv->irqdomain))
-a15587277a246c3 Anup Patel        2024-02-22  594  		goto fail_cleanup_contexts;
-b68d0ff529a939a Anup Patel        2024-02-22  595  
-2234ae846ccb9eb Anup Patel        2020-05-18  596  	/*
-e306a894bd51180 Samuel Holland    2024-05-29  597  	 * We can have multiple PLIC instances so setup global state
-8ec99b033147ef3 Anup Patel        2024-02-22  598  	 * and register syscore operations only once after context
-8ec99b033147ef3 Anup Patel        2024-02-22  599  	 * handlers of all online CPUs are initialized.
-2234ae846ccb9eb Anup Patel        2020-05-18  600  	 */
-e306a894bd51180 Samuel Holland    2024-05-29  601  	if (!plic_global_setup_done) {
-e306a894bd51180 Samuel Holland    2024-05-29  602  		struct irq_domain *domain;
-e306a894bd51180 Samuel Holland    2024-05-29  603  		bool global_setup = true;
-e306a894bd51180 Samuel Holland    2024-05-29  604  
-8ec99b033147ef3 Anup Patel        2024-02-22  605  		for_each_online_cpu(cpu) {
-8ec99b033147ef3 Anup Patel        2024-02-22  606  			handler = per_cpu_ptr(&plic_handlers, cpu);
-8ec99b033147ef3 Anup Patel        2024-02-22  607  			if (!handler->present) {
-e306a894bd51180 Samuel Holland    2024-05-29  608  				global_setup = false;
-8ec99b033147ef3 Anup Patel        2024-02-22  609  				break;
-8ec99b033147ef3 Anup Patel        2024-02-22  610  			}
-8ec99b033147ef3 Anup Patel        2024-02-22  611  		}
-e306a894bd51180 Samuel Holland    2024-05-29  612  
-e306a894bd51180 Samuel Holland    2024-05-29  613  		if (global_setup) {
-e306a894bd51180 Samuel Holland    2024-05-29  614  			/* Find parent domain and register chained handler */
-e306a894bd51180 Samuel Holland    2024-05-29  615  			domain = irq_find_matching_fwnode(riscv_get_intc_hwnode(), DOMAIN_BUS_ANY);
-e306a894bd51180 Samuel Holland    2024-05-29  616  			if (domain)
-e306a894bd51180 Samuel Holland    2024-05-29  617  				plic_parent_irq = irq_create_mapping(domain, RV_IRQ_EXT);
-e306a894bd51180 Samuel Holland    2024-05-29  618  			if (plic_parent_irq)
-e306a894bd51180 Samuel Holland    2024-05-29  619  				irq_set_chained_handler(plic_parent_irq, plic_handle_irq);
-e306a894bd51180 Samuel Holland    2024-05-29  620  
-ccbe80bad571c2f Atish Patra       2020-03-02  621  			cpuhp_setup_state(CPUHP_AP_IRQ_SIFIVE_PLIC_STARTING,
-ccbe80bad571c2f Atish Patra       2020-03-02  622  					  "irqchip/sifive/plic:starting",
-ccbe80bad571c2f Atish Patra       2020-03-02  623  					  plic_starting_cpu, plic_dying_cpu);
-f99b926f6543fae Anup Patel        2023-10-25  624  			register_syscore_ops(&plic_irq_syscore_ops);
-e306a894bd51180 Samuel Holland    2024-05-29  625  			plic_global_setup_done = true;
-2234ae846ccb9eb Anup Patel        2020-05-18  626  		}
-8ec99b033147ef3 Anup Patel        2024-02-22  627  	}
-2234ae846ccb9eb Anup Patel        2020-05-18  628  
-4d936f10ff80274 Anup Patel        2024-08-20  629  	pr_info("%pfwP: mapped %d interrupts with %d handlers for %d contexts.\n",
-4d936f10ff80274 Anup Patel        2024-08-20  630  		fwnode, nr_irqs, nr_handlers, nr_contexts);
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  631  	return 0;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  632  
-a15587277a246c3 Anup Patel        2024-02-22  633  fail_cleanup_contexts:
-a15587277a246c3 Anup Patel        2024-02-22  634  	for (i = 0; i < nr_contexts; i++) {
-4d936f10ff80274 Anup Patel        2024-08-20  635  		if (plic_parse_context_parent(fwnode, i, &parent_hwirq, &cpu))
-a15587277a246c3 Anup Patel        2024-02-22  636  			continue;
-a15587277a246c3 Anup Patel        2024-02-22  637  		if (parent_hwirq != RV_IRQ_EXT || cpu < 0)
-a15587277a246c3 Anup Patel        2024-02-22  638  			continue;
-8237f8bc4f6eb7e Christoph Hellwig 2018-07-26  639  
-a15587277a246c3 Anup Patel        2024-02-22  640  		handler = per_cpu_ptr(&plic_handlers, cpu);
-a15587277a246c3 Anup Patel        2024-02-22  641  		handler->present = false;
-a15587277a246c3 Anup Patel        2024-02-22  642  		handler->hart_base = NULL;
-a15587277a246c3 Anup Patel        2024-02-22  643  		handler->enable_base = NULL;
-4d936f10ff80274 Anup Patel        2024-08-20  644  		kfree(handler->enable_save);
-a15587277a246c3 Anup Patel        2024-02-22  645  		handler->enable_save = NULL;
-a15587277a246c3 Anup Patel        2024-02-22  646  		handler->priv = NULL;
-dd46337ca69662b Lad Prabhakar     2022-06-30  647  	}
-4d936f10ff80274 Anup Patel        2024-08-20  648  	bitmap_free(priv->prio_save);
-4d936f10ff80274 Anup Patel        2024-08-20  649  fail_free_priv:
-4d936f10ff80274 Anup Patel        2024-08-20  650  	kfree(priv);
-4d936f10ff80274 Anup Patel        2024-08-20  651  fail_free_regs:
-4d936f10ff80274 Anup Patel        2024-08-20  652  	iounmap(regs);
-4d936f10ff80274 Anup Patel        2024-08-20  653  	return error;
-4d936f10ff80274 Anup Patel        2024-08-20  654  }
-4d936f10ff80274 Anup Patel        2024-08-20  655  
-
-:::::: The code at line 581 was first introduced by commit
-:::::: a15587277a246c388c83b1cd9cf7c1a868cd752f irqchip/sifive-plic: Cleanup PLIC contexts upon irqdomain creation failure
-
-:::::: TO: Anup Patel <apatel@ventanamicro.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+^1da177e4c3f41 Linus Torvalds           2005-04-16   951  
+f5fca608651129 David S. Miller          2011-05-08   952  static int __ip_append_data(struct sock *sk,
+f5fca608651129 David S. Miller          2011-05-08   953  			    struct flowi4 *fl4,
+f5fca608651129 David S. Miller          2011-05-08   954  			    struct sk_buff_head *queue,
+1470ddf7f8cecf Herbert Xu               2011-03-01   955  			    struct inet_cork *cork,
+5640f7685831e0 Eric Dumazet             2012-09-23   956  			    struct page_frag *pfrag,
+1470ddf7f8cecf Herbert Xu               2011-03-01   957  			    int getfrag(void *from, char *to, int offset,
+1470ddf7f8cecf Herbert Xu               2011-03-01   958  					int len, int odd, struct sk_buff *skb),
+^1da177e4c3f41 Linus Torvalds           2005-04-16   959  			    void *from, int length, int transhdrlen,
+^1da177e4c3f41 Linus Torvalds           2005-04-16   960  			    unsigned int flags)
+^1da177e4c3f41 Linus Torvalds           2005-04-16   961  {
+^1da177e4c3f41 Linus Torvalds           2005-04-16   962  	struct inet_sock *inet = inet_sk(sk);
+b5947e5d1e710c Willem de Bruijn         2018-11-30   963  	struct ubuf_info *uarg = NULL;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   964  	struct sk_buff *skb;
+07df5294a753df Herbert Xu               2011-03-01   965  	struct ip_options *opt = cork->opt;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   966  	int hh_len;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   967  	int exthdrlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   968  	int mtu;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   969  	int copy;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   970  	int err;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   971  	int offset = 0;
+8eb77cc73977d8 Pavel Begunkov           2022-07-12   972  	bool zc = false;
+daba287b299ec7 Hannes Frederic Sowa     2013-10-27   973  	unsigned int maxfraglen, fragheaderlen, maxnonfragsize;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   974  	int csummode = CHECKSUM_NONE;
+05d6d492097c55 Eric Dumazet             2024-04-29   975  	struct rtable *rt = dst_rtable(cork->dst);
+488b6d91b07112 Vadim Fedorenko          2024-02-13   976  	bool paged, hold_tskey, extra_uref = false;
+694aba690de062 Eric Dumazet             2018-03-31   977  	unsigned int wmem_alloc_delta = 0;
+09c2d251b70723 Willem de Bruijn         2014-08-04   978  	u32 tskey = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   979  
+96d7303e9cfb6a Steffen Klassert         2011-06-05   980  	skb = skb_peek_tail(queue);
+96d7303e9cfb6a Steffen Klassert         2011-06-05   981  
+96d7303e9cfb6a Steffen Klassert         2011-06-05   982  	exthdrlen = !skb ? rt->dst.header_len : 0;
+bec1f6f697362c Willem de Bruijn         2018-04-26   983  	mtu = cork->gso_size ? IP_MAX_MTU : cork->fragsize;
+15e36f5b8e982d Willem de Bruijn         2018-04-26   984  	paged = !!cork->gso_size;
+bec1f6f697362c Willem de Bruijn         2018-04-26   985  
+d8d1f30b95a635 Changli Gao              2010-06-10   986  	hh_len = LL_RESERVED_SPACE(rt->dst.dev);
+^1da177e4c3f41 Linus Torvalds           2005-04-16   987  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   988  	fragheaderlen = sizeof(struct iphdr) + (opt ? opt->optlen : 0);
+^1da177e4c3f41 Linus Torvalds           2005-04-16   989  	maxfraglen = ((mtu - fragheaderlen) & ~7) + fragheaderlen;
+cbc08a33126f8f Miaohe Lin               2020-08-29   990  	maxnonfragsize = ip_sk_ignore_df(sk) ? IP_MAX_MTU : mtu;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   991  
+daba287b299ec7 Hannes Frederic Sowa     2013-10-27   992  	if (cork->length + length > maxnonfragsize - fragheaderlen) {
+f5fca608651129 David S. Miller          2011-05-08   993  		ip_local_error(sk, EMSGSIZE, fl4->daddr, inet->inet_dport,
+61e7f09d0f437c Hannes Frederic Sowa     2013-12-19   994  			       mtu - (opt ? opt->optlen : 0));
+^1da177e4c3f41 Linus Torvalds           2005-04-16   995  		return -EMSGSIZE;
+^1da177e4c3f41 Linus Torvalds           2005-04-16   996  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16   997  
+^1da177e4c3f41 Linus Torvalds           2005-04-16   998  	/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16   999  	 * transhdrlen > 0 means that this is the first fragment and we wish
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1000  	 * it won't be fragmented in the future.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1001  	 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1002  	if (transhdrlen &&
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1003  	    length + fragheaderlen <= mtu &&
+c8cd0989bd151f Tom Herbert              2015-12-14  1004  	    rt->dst.dev->features & (NETIF_F_HW_CSUM | NETIF_F_IP_CSUM) &&
+bec1f6f697362c Willem de Bruijn         2018-04-26  1005  	    (!(flags & MSG_MORE) || cork->gso_size) &&
+cd027a5433d667 Jacek Kalwas             2018-04-12  1006  	    (!exthdrlen || (rt->dst.dev->features & NETIF_F_HW_ESP_TX_CSUM)))
+84fa7933a33f80 Patrick McHardy          2006-08-29  1007  		csummode = CHECKSUM_PARTIAL;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1008  
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1009  	if ((flags & MSG_ZEROCOPY) && length) {
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1010  		struct msghdr *msg = from;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1011  
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1012  		if (getfrag == ip_generic_getfrag && msg->msg_ubuf) {
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1013  			if (skb_zcopy(skb) && msg->msg_ubuf != skb_zcopy(skb))
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1014  				return -EINVAL;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1015  
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1016  			/* Leave uarg NULL if can't zerocopy, callers should
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1017  			 * be able to handle it.
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1018  			 */
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1019  			if ((rt->dst.dev->features & NETIF_F_SG) &&
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1020  			    csummode == CHECKSUM_PARTIAL) {
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1021  				paged = true;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1022  				zc = true;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1023  				uarg = msg->msg_ubuf;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1024  			}
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1025  		} else if (sock_flag(sk, SOCK_ZEROCOPY)) {
+8c793822c5803e Jonathan Lemon           2021-01-06  1026  			uarg = msg_zerocopy_realloc(sk, length, skb_zcopy(skb));
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1027  			if (!uarg)
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1028  				return -ENOBUFS;
+522924b583082f Willem de Bruijn         2019-06-07  1029  			extra_uref = !skb_zcopy(skb);	/* only ref on new uarg */
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1030  			if (rt->dst.dev->features & NETIF_F_SG &&
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1031  			    csummode == CHECKSUM_PARTIAL) {
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1032  				paged = true;
+8eb77cc73977d8 Pavel Begunkov           2022-07-12  1033  				zc = true;
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1034  			} else {
+e7d2b510165fff Pavel Begunkov           2022-09-23  1035  				uarg_to_msgzc(uarg)->zerocopy = 0;
+52900d22288e7d Willem de Bruijn         2018-11-30  1036  				skb_zcopy_set(skb, uarg, &extra_uref);
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1037  			}
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1038  		}
+7da0dde68486b2 David Howells            2023-05-22  1039  	} else if ((flags & MSG_SPLICE_PAGES) && length) {
+cafbe182a467bf Eric Dumazet             2023-08-16  1040  		if (inet_test_bit(HDRINCL, sk))
+7da0dde68486b2 David Howells            2023-05-22  1041  			return -EPERM;
+5a6f6873606e03 David Howells            2023-06-14  1042  		if (rt->dst.dev->features & NETIF_F_SG &&
+5a6f6873606e03 David Howells            2023-06-14  1043  		    getfrag == ip_generic_getfrag)
+7da0dde68486b2 David Howells            2023-05-22  1044  			/* We need an empty buffer to attach stuff to */
+7da0dde68486b2 David Howells            2023-05-22  1045  			paged = true;
+7da0dde68486b2 David Howells            2023-05-22  1046  		else
+7da0dde68486b2 David Howells            2023-05-22  1047  			flags &= ~MSG_SPLICE_PAGES;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1048  	}
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1049  
+1470ddf7f8cecf Herbert Xu               2011-03-01  1050  	cork->length += length;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1051  
+b7399073687728 Vadim Fedorenko          2024-09-02  1052  	if (cork->tx_flags & SKBTX_ANY_TSTAMP &&
+b7399073687728 Vadim Fedorenko          2024-09-02  1053  	    READ_ONCE(sk->sk_tsflags) & SOF_TIMESTAMPING_OPT_ID) {
+b7399073687728 Vadim Fedorenko          2024-09-02  1054  		if (cork->flags & IPCORK_TS_OPT_ID) {
+b7399073687728 Vadim Fedorenko          2024-09-02  1055  			tskey = cork->ts_opt_id;
+b7399073687728 Vadim Fedorenko          2024-09-02  1056  		} else {
+488b6d91b07112 Vadim Fedorenko          2024-02-13  1057  			tskey = atomic_inc_return(&sk->sk_tskey) - 1;
+b7399073687728 Vadim Fedorenko          2024-09-02  1058  			hold_tskey = true;
+b7399073687728 Vadim Fedorenko          2024-09-02  1059  		}
+b7399073687728 Vadim Fedorenko          2024-09-02  1060  	}
+488b6d91b07112 Vadim Fedorenko          2024-02-13  1061  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1062  	/* So, what's going on in the loop below?
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1063  	 *
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1064  	 * We use calculated fragment length to generate chained skb,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1065  	 * each of segments is IP fragment ready for sending to network after
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1066  	 * adding appropriate IP header.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1067  	 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1068  
+26cde9f7e2747b Herbert Xu               2010-06-15  1069  	if (!skb)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1070  		goto alloc_new_skb;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1071  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1072  	while (length > 0) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1073  		/* Check if the remaining data fits into current packet. */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1074  		copy = mtu - skb->len;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1075  		if (copy < length)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1076  			copy = maxfraglen - skb->len;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1077  		if (copy <= 0) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1078  			char *data;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1079  			unsigned int datalen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1080  			unsigned int fraglen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1081  			unsigned int fraggap;
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1082  			unsigned int alloclen, alloc_extra;
+aba36930a35e7f Willem de Bruijn         2018-11-24  1083  			unsigned int pagedlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1084  			struct sk_buff *skb_prev;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1085  alloc_new_skb:
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1086  			skb_prev = skb;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1087  			if (skb_prev)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1088  				fraggap = skb_prev->len - maxfraglen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1089  			else
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1090  				fraggap = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1091  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1092  			/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1093  			 * If remaining data exceeds the mtu,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1094  			 * we know we need more fragment(s).
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1095  			 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1096  			datalen = length + fraggap;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1097  			if (datalen > mtu - fragheaderlen)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1098  				datalen = maxfraglen - fragheaderlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1099  			fraglen = datalen + fragheaderlen;
+aba36930a35e7f Willem de Bruijn         2018-11-24  1100  			pagedlen = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1101  
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1102  			alloc_extra = hh_len + 15;
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1103  			alloc_extra += exthdrlen;
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1104  
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1105  			/* The last fragment gets additional space at tail.
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1106  			 * Note, with MSG_MORE we overallocate on fragments,
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1107  			 * because we have no idea what fragment will be
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1108  			 * the last.
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1109  			 */
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1110  			if (datalen == length + fraggap)
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1111  				alloc_extra += rt->dst.trailer_len;
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1112  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1113  			if ((flags & MSG_MORE) &&
+d8d1f30b95a635 Changli Gao              2010-06-10  1114  			    !(rt->dst.dev->features&NETIF_F_SG))
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1115  				alloclen = mtu;
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1116  			else if (!paged &&
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1117  				 (fraglen + alloc_extra < SKB_MAX_ALLOC ||
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1118  				  !(rt->dst.dev->features & NETIF_F_SG)))
+59104f062435c7 Eric Dumazet             2010-09-20  1119  				alloclen = fraglen;
+47cf88993c9108 Pavel Begunkov           2022-08-25  1120  			else {
+8eb77cc73977d8 Pavel Begunkov           2022-07-12  1121  				alloclen = fragheaderlen + transhdrlen;
+8eb77cc73977d8 Pavel Begunkov           2022-07-12  1122  				pagedlen = datalen - transhdrlen;
+15e36f5b8e982d Willem de Bruijn         2018-04-26  1123  			}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1124  
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1125  			alloclen += alloc_extra;
+33f99dc7fd948b Steffen Klassert         2011-06-22  1126  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1127  			if (transhdrlen) {
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1128  				skb = sock_alloc_send_skb(sk, alloclen,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1129  						(flags & MSG_DONTWAIT), &err);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1130  			} else {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1131  				skb = NULL;
+694aba690de062 Eric Dumazet             2018-03-31  1132  				if (refcount_read(&sk->sk_wmem_alloc) + wmem_alloc_delta <=
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1133  				    2 * sk->sk_sndbuf)
+6d123b81ac6150 Jakub Kicinski           2021-06-23  1134  					skb = alloc_skb(alloclen,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1135  							sk->sk_allocation);
+51456b2914a34d Ian Morris               2015-04-03  1136  				if (unlikely(!skb))
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1137  					err = -ENOBUFS;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1138  			}
+51456b2914a34d Ian Morris               2015-04-03  1139  			if (!skb)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1140  				goto error;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1141  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1142  			/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1143  			 *	Fill in the control structures
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1144  			 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1145  			skb->ip_summed = csummode;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1146  			skb->csum = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1147  			skb_reserve(skb, hh_len);
+11878b40ed5c5b Willem de Bruijn         2014-07-14  1148  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1149  			/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1150  			 *	Find where to start putting bytes.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1151  			 */
+15e36f5b8e982d Willem de Bruijn         2018-04-26  1152  			data = skb_put(skb, fraglen + exthdrlen - pagedlen);
+c14d2450cb7fe1 Arnaldo Carvalho de Melo 2007-03-11  1153  			skb_set_network_header(skb, exthdrlen);
+b0e380b1d8a8e0 Arnaldo Carvalho de Melo 2007-04-10  1154  			skb->transport_header = (skb->network_header +
+b0e380b1d8a8e0 Arnaldo Carvalho de Melo 2007-04-10  1155  						 fragheaderlen);
+353e5c9abd900d Steffen Klassert         2011-06-22  1156  			data += fragheaderlen + exthdrlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1157  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1158  			if (fraggap) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1159  				skb->csum = skb_copy_and_csum_bits(
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1160  					skb_prev, maxfraglen,
+8d5930dfb7edbf Al Viro                  2020-07-10  1161  					data + transhdrlen, fraggap);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1162  				skb_prev->csum = csum_sub(skb_prev->csum,
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1163  							  skb->csum);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1164  				data += fraggap;
+e9fa4f7bd291c2 Herbert Xu               2006-08-13  1165  				pskb_trim_unique(skb_prev, maxfraglen);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1166  			}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1167  
+15e36f5b8e982d Willem de Bruijn         2018-04-26  1168  			copy = datalen - transhdrlen - fraggap - pagedlen;
+0f71c9caf26726 David Howells            2023-08-01  1169  			/* [!] NOTE: copy will be negative if pagedlen>0
+0f71c9caf26726 David Howells            2023-08-01  1170  			 * because then the equation reduces to -fraggap.
+0f71c9caf26726 David Howells            2023-08-01  1171  			 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1172  			if (copy > 0 && getfrag(from, data + transhdrlen, offset, copy, fraggap, skb) < 0) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1173  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1174  				kfree_skb(skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1175  				goto error;
+0f71c9caf26726 David Howells            2023-08-01  1176  			} else if (flags & MSG_SPLICE_PAGES) {
+0f71c9caf26726 David Howells            2023-08-01  1177  				copy = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1178  			}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1179  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1180  			offset += copy;
+15e36f5b8e982d Willem de Bruijn         2018-04-26  1181  			length -= copy + transhdrlen;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1182  			transhdrlen = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1183  			exthdrlen = 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1184  			csummode = CHECKSUM_NONE;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1185  
+52900d22288e7d Willem de Bruijn         2018-11-30  1186  			/* only the initial fragment is time stamped */
+52900d22288e7d Willem de Bruijn         2018-11-30  1187  			skb_shinfo(skb)->tx_flags = cork->tx_flags;
+52900d22288e7d Willem de Bruijn         2018-11-30  1188  			cork->tx_flags = 0;
+52900d22288e7d Willem de Bruijn         2018-11-30  1189  			skb_shinfo(skb)->tskey = tskey;
+52900d22288e7d Willem de Bruijn         2018-11-30  1190  			tskey = 0;
+52900d22288e7d Willem de Bruijn         2018-11-30  1191  			skb_zcopy_set(skb, uarg, &extra_uref);
+52900d22288e7d Willem de Bruijn         2018-11-30  1192  
+0dec879f636f11 Julian Anastasov         2017-02-06  1193  			if ((flags & MSG_CONFIRM) && !skb_prev)
+0dec879f636f11 Julian Anastasov         2017-02-06  1194  				skb_set_dst_pending_confirm(skb, 1);
+0dec879f636f11 Julian Anastasov         2017-02-06  1195  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1196  			/*
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1197  			 * Put the packet on the pending queue.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1198  			 */
+694aba690de062 Eric Dumazet             2018-03-31  1199  			if (!skb->destructor) {
+694aba690de062 Eric Dumazet             2018-03-31  1200  				skb->destructor = sock_wfree;
+694aba690de062 Eric Dumazet             2018-03-31  1201  				skb->sk = sk;
+694aba690de062 Eric Dumazet             2018-03-31  1202  				wmem_alloc_delta += skb->truesize;
+694aba690de062 Eric Dumazet             2018-03-31  1203  			}
+1470ddf7f8cecf Herbert Xu               2011-03-01  1204  			__skb_queue_tail(queue, skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1205  			continue;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1206  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1207  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1208  		if (copy > length)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1209  			copy = length;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1210  
+113f99c3358564 Willem de Bruijn         2018-05-17  1211  		if (!(rt->dst.dev->features&NETIF_F_SG) &&
+113f99c3358564 Willem de Bruijn         2018-05-17  1212  		    skb_tailroom(skb) >= copy) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1213  			unsigned int off;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1214  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1215  			off = skb->len;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1216  			if (getfrag(from, skb_put(skb, copy),
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1217  					offset, copy, off, skb) < 0) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1218  				__skb_trim(skb, off);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1219  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1220  				goto error;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1221  			}
+7da0dde68486b2 David Howells            2023-05-22  1222  		} else if (flags & MSG_SPLICE_PAGES) {
+7da0dde68486b2 David Howells            2023-05-22  1223  			struct msghdr *msg = from;
+7da0dde68486b2 David Howells            2023-05-22  1224  
+0f71c9caf26726 David Howells            2023-08-01  1225  			err = -EIO;
+0f71c9caf26726 David Howells            2023-08-01  1226  			if (WARN_ON_ONCE(copy > msg->msg_iter.count))
+0f71c9caf26726 David Howells            2023-08-01  1227  				goto error;
+0f71c9caf26726 David Howells            2023-08-01  1228  
+7da0dde68486b2 David Howells            2023-05-22  1229  			err = skb_splice_from_iter(skb, &msg->msg_iter, copy,
+7da0dde68486b2 David Howells            2023-05-22  1230  						   sk->sk_allocation);
+7da0dde68486b2 David Howells            2023-05-22  1231  			if (err < 0)
+7da0dde68486b2 David Howells            2023-05-22  1232  				goto error;
+7da0dde68486b2 David Howells            2023-05-22  1233  			copy = err;
+7da0dde68486b2 David Howells            2023-05-22  1234  			wmem_alloc_delta += copy;
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1235  		} else if (!zc) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1236  			int i = skb_shinfo(skb)->nr_frags;
+5640f7685831e0 Eric Dumazet             2012-09-23  1237  
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1238  			err = -ENOMEM;
+5640f7685831e0 Eric Dumazet             2012-09-23  1239  			if (!sk_page_frag_refill(sk, pfrag))
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1240  				goto error;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1241  
+c445f31b3cfaa0 Pavel Begunkov           2022-07-12  1242  			skb_zcopy_downgrade_managed(skb);
+5640f7685831e0 Eric Dumazet             2012-09-23  1243  			if (!skb_can_coalesce(skb, i, pfrag->page,
+5640f7685831e0 Eric Dumazet             2012-09-23  1244  					      pfrag->offset)) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1245  				err = -EMSGSIZE;
+5640f7685831e0 Eric Dumazet             2012-09-23  1246  				if (i == MAX_SKB_FRAGS)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1247  					goto error;
+5640f7685831e0 Eric Dumazet             2012-09-23  1248  
+5640f7685831e0 Eric Dumazet             2012-09-23  1249  				__skb_fill_page_desc(skb, i, pfrag->page,
+5640f7685831e0 Eric Dumazet             2012-09-23  1250  						     pfrag->offset, 0);
+5640f7685831e0 Eric Dumazet             2012-09-23  1251  				skb_shinfo(skb)->nr_frags = ++i;
+5640f7685831e0 Eric Dumazet             2012-09-23  1252  				get_page(pfrag->page);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1253  			}
+5640f7685831e0 Eric Dumazet             2012-09-23  1254  			copy = min_t(int, copy, pfrag->size - pfrag->offset);
+5640f7685831e0 Eric Dumazet             2012-09-23  1255  			if (getfrag(from,
+5640f7685831e0 Eric Dumazet             2012-09-23  1256  				    page_address(pfrag->page) + pfrag->offset,
+5640f7685831e0 Eric Dumazet             2012-09-23  1257  				    offset, copy, skb->len, skb) < 0)
+5640f7685831e0 Eric Dumazet             2012-09-23  1258  				goto error_efault;
+5640f7685831e0 Eric Dumazet             2012-09-23  1259  
+5640f7685831e0 Eric Dumazet             2012-09-23  1260  			pfrag->offset += copy;
+5640f7685831e0 Eric Dumazet             2012-09-23  1261  			skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
+ede57d58e6f38d Richard Gobert           2022-06-22  1262  			skb_len_add(skb, copy);
+694aba690de062 Eric Dumazet             2018-03-31  1263  			wmem_alloc_delta += copy;
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1264  		} else {
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1265  			err = skb_zerocopy_iter_dgram(skb, from, copy);
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1266  			if (err < 0)
+b5947e5d1e710c Willem de Bruijn         2018-11-30  1267  				goto error;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1268  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1269  		offset += copy;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1270  		length -= copy;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1271  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1272  
+9e8445a56c253f Paolo Abeni              2018-04-04  1273  	if (wmem_alloc_delta)
+694aba690de062 Eric Dumazet             2018-03-31  1274  		refcount_add(wmem_alloc_delta, &sk->sk_wmem_alloc);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1275  	return 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1276  
+5640f7685831e0 Eric Dumazet             2012-09-23  1277  error_efault:
+5640f7685831e0 Eric Dumazet             2012-09-23  1278  	err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1279  error:
+8e0449172497a9 Jonathan Lemon           2021-01-06  1280  	net_zcopy_put_abort(uarg, extra_uref);
+1470ddf7f8cecf Herbert Xu               2011-03-01  1281  	cork->length -= length;
+5e38e270444f26 Pavel Emelyanov          2008-07-16  1282  	IP_INC_STATS(sock_net(sk), IPSTATS_MIB_OUTDISCARDS);
+694aba690de062 Eric Dumazet             2018-03-31  1283  	refcount_add(wmem_alloc_delta, &sk->sk_wmem_alloc);
+488b6d91b07112 Vadim Fedorenko          2024-02-13 @1284  	if (hold_tskey)
+488b6d91b07112 Vadim Fedorenko          2024-02-13  1285  		atomic_dec(&sk->sk_tskey);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1286  	return err;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1287  }
+^1da177e4c3f41 Linus Torvalds           2005-04-16  1288  
 
 -- 
 0-DAY CI Kernel Test Service
