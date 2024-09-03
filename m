@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06491DAC4D
-	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 08:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECF619F436
+	for <oe-kbuild@lists.linux.dev>; Tue,  3 Sep 2024 10:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725352495; cv=none; b=Ir0yVMYTQkRvfj/6UfWMJ8B3BY4NnLwTBdbsbr3q0/s4djTDe7L+muAEHm0KTOaXHkkAYfU8NVqGPwXED3oxC0+jOC4gfyZwY2Ae1dKyc5s4jsJrvAea94ZxSnDh4b4qGv34il3r0aPdidISs7H2+lQXmDz8Pmq2QBQr++Wy1e4=
+	t=1725358020; cv=none; b=mOqbci/5o0TCH31101GwDD+T61Tr1duEv/ItoodPhaVvXCH/L2wyU44cePftlmAHH7wyDopWphE/hXwWblIZrPDTZtomgtilgJu1u4nCBoeRrlGAAWxOt/bnOVjKR/woUNS4J92fMVB6ZcUnrpDkq1aGmbhmMugNaiaPiiQoWzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725352495; c=relaxed/simple;
-	bh=QL90oCnu0yzsBrIzrTiA1yC+djQFmKJcdkNGF/RwiEA=;
+	s=arc-20240116; t=1725358020; c=relaxed/simple;
+	bh=FSJhA55D40DWgcgTM4Rvr4lwFIi4V6IHaDjNPgTOpeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NZNrqGBvQ98GiYuNMb/fZxR4Hw4sRE1XvfhSaTj76j6gzF01uXkZ/snWnY+gMKqujcHECgnHVhH1QZz3opUqjAlZf0fiU43OZZ2r46B7s/l3zSiT6HMuWpZt1qA5jb5ABegW8yfCcSAkeSsBufzHqLjyS5cdavG5KjI1CfndAhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L1B0UJde; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=C0uvxPfAVge7IavRHsNCY68Zzo29ACQqmcGDVfaH205oRutE/N9LWEpN/aJ7Dqq7Uy9ClYMzEwYt7d/zaYW6isksfNQde30bB8tJzEdkb+ngJhBUhmbnLkkVis1hBGbXAFRu59X7xOKnop3Z4oElI1GzOT5QualHMlvVxGJMAXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gyhKvKVB; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L1B0UJde"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gyhKvKVB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725352493; x=1756888493;
+  t=1725358018; x=1756894018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QL90oCnu0yzsBrIzrTiA1yC+djQFmKJcdkNGF/RwiEA=;
-  b=L1B0UJdeFK5I5CUk9c9YcneOu2Nqdgn1N0yQZyJ3Bateeye5mxzgSi1V
-   fQ1WRUBSZaSUytaV0hgAibEo8SAcqY6aVMUnv536qdDB6acFCB6iprdLN
-   Ga59l4YgYjIAusZ6E/BTVpx0dugAb8SuuJCfGMFfFLgKUrEwQQV7nDe8C
-   ytVBte4B8x4sto9THfy3BoVu4lL/qrErEHgjG/WZElSHmH0mMiA6eyDl4
-   49trUdTTd/VJnMuyOGEqI4DUpVrZldcNjnXTnE4rI+sBpVFmRswyCXL6b
-   8cc6GHcXJBLyCmfK+WlWt4eNaO6jnpewuzM9I+79d+qc0t0XuU4go95Qf
-   g==;
-X-CSE-ConnectionGUID: FDQEqORBRsa+OKmIer2Mjg==
-X-CSE-MsgGUID: FohgzsMXT/6Mro6DMWssNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="24092368"
+  bh=FSJhA55D40DWgcgTM4Rvr4lwFIi4V6IHaDjNPgTOpeg=;
+  b=gyhKvKVB0AF+bK8vJ+102TpFJ7X340RHkFiZq8X6ZG8IrTzQogLPZAqs
+   SRoDuAdqLT4JtmHXsNP8WlGaBLu3CGpjMrtvjvCYG9J3kMkyWKU1lMhvH
+   XEMSFNlWrkcGmi6hQJUvqSimNuC7CFAzuKsWXhELR3aGFOx6ZqbJOjFJ4
+   v/pM/fLxWtlorV4KiGdiYDqKERA03oFK0/6/mm84M2YWG0g0M1Sh3neCI
+   myerMb1Y8XuvIktO9mYnjAika4HNhHgPcGjolI4goQXr1i4CFzuCAAydx
+   EytHNKA6Rb03eZWz1m4tGv3Nebr216UGzQeAybhT2+cxs0myCd2A8Drbg
+   Q==;
+X-CSE-ConnectionGUID: ove6aJRxRX+HgXcdZCOedg==
+X-CSE-MsgGUID: c6F/A232Q1eLv3j3lyqR/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11183"; a="34601382"
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="24092368"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 01:34:52 -0700
-X-CSE-ConnectionGUID: 4fW7TyQTTp6eOBCSGjAS3Q==
-X-CSE-MsgGUID: jDQaOIrPTz2wAyHYQAfN5A==
+   d="scan'208";a="34601382"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2024 03:06:58 -0700
+X-CSE-ConnectionGUID: ZLKkDXNJTSCAzPdVMiMRaw==
+X-CSE-MsgGUID: IrrYBQLLS4iNOnCQolBjfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,198,1719903600"; 
-   d="scan'208";a="102274621"
+   d="scan'208";a="65361304"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Sep 2024 01:34:51 -0700
+  by orviesa007.jf.intel.com with ESMTP; 03 Sep 2024 03:06:57 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1slOzw-0006Pq-2o;
-	Tue, 03 Sep 2024 08:34:48 +0000
-Date: Tue, 3 Sep 2024 16:33:50 +0800
+	id 1slQR4-0006U7-1b;
+	Tue, 03 Sep 2024 10:06:54 +0000
+Date: Tue, 3 Sep 2024 18:06:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/powerpc/kernel/cacheinfo.c:800 cacheinfo_create_index_dir()
- warn: Calling kobject_put|get with state->initialized unset from line: 791
-Message-ID: <202409031652.xgv9EWz6-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 7634/8795] fs/bcachefs/sb-members.c:505:46:
+ sparse: sparse: cannot dereference this type
+Message-ID: <202409031808.CPMMUdNT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,64 +62,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: fs/bcachefs/sb-members.c:505:46: sparse: sparse: cannot dereference this type"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Dominique Martinet <asmadeus@codewreck.org>
-CC: Christian Schoenebeck <linux_oss@crudebyte.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   67784a74e258a467225f0e68335df77acd67b7ab
-commit: c898afdc15645efb555acb6d85b484eb40a45409 9p: add missing locking around taking dentry fid list
-date:   3 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 months ago
-config: powerpc-randconfig-r072-20240902 (https://download.01.org/0day-ci/archive/20240903/202409031652.xgv9EWz6-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6804f0edbe7747774e6ae60f20cec4ee3ad7c187
+commit: 4e7795eda4459bf3e69c87c793bc34f610f9d981 [7634/8795] bcachefs: bch2_sb_member_alloc()
+:::::: branch date: 3 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-122-20240903 (https://download.01.org/0day-ci/archive/20240903/202409031808.CPMMUdNT-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240903/202409031808.CPMMUdNT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409031652.xgv9EWz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409031808.CPMMUdNT-lkp@intel.com/
 
-smatch warnings:
-arch/powerpc/kernel/cacheinfo.c:800 cacheinfo_create_index_dir() warn: Calling kobject_put|get with state->initialized unset from line: 791
+sparse warnings: (new ones prefixed by >>)
+   fs/bcachefs/sb-members.c: note: in included file:
+   fs/bcachefs/bcachefs.h:996:9: sparse: sparse: array of flexible structures
+   fs/bcachefs/sb-members.c:503:9: sparse: sparse: typename in expression
+   fs/bcachefs/sb-members.c:503:18: sparse: sparse: Expected ; at end of statement
+   fs/bcachefs/sb-members.c:503:18: sparse: sparse: got nr_devices
+   fs/bcachefs/sb-members.c:503:31: sparse: sparse: Expected ; at the end of type declaration
+   fs/bcachefs/sb-members.c:503:31: sparse: sparse: got )
+   fs/bcachefs/sb-members.c:505:46: sparse: sparse: undefined identifier 'c'
+>> fs/bcachefs/sb-members.c:505:46: sparse: sparse: cannot dereference this type
+>> fs/bcachefs/sb-members.c:505:46: sparse: sparse: cannot dereference this type
+   fs/bcachefs/sb-members.c:509:14: sparse: sparse: undefined identifier 'c'
+   fs/bcachefs/sb-members.c:509:14: sparse: sparse: cannot dereference this type
+   fs/bcachefs/sb-members.c:509:14: sparse: sparse: cannot dereference this type
+   fs/bcachefs/sb-members.c:510:13: sparse: sparse: Expected ) in function declarator
+   fs/bcachefs/sb-members.c:510:13: sparse: sparse: got !
+>> fs/bcachefs/sb-members.c:510:9: sparse: sparse: Trying to use reserved word 'if' as identifier
+   fs/bcachefs/sb-members.c:513:10: sparse: sparse: Expected ; at end of declaration
+   fs/bcachefs/sb-members.c:513:10: sparse: sparse: got ->
+>> fs/bcachefs/sb-members.c:514:9: sparse: sparse: Trying to use reserved word 'return' as identifier
+   fs/bcachefs/sb-members.c:514:16: sparse: sparse: Expected ; at end of declaration
+   fs/bcachefs/sb-members.c:514:16: sparse: sparse: got dev_idx
+   fs/bcachefs/sb-members.c:515:1: sparse: sparse: Expected ; at the end of type declaration
+   fs/bcachefs/sb-members.c:515:1: sparse: sparse: got }
+   fs/bcachefs/sb-members.c:503:9: sparse: sparse: undefined identifier 'unsigned'
+   fs/bcachefs/sb-members.c:503:31: sparse: sparse: undefined identifier '__UNIQUE_ID_x_653'
+   fs/bcachefs/sb-members.c:505:46: sparse: sparse: undefined identifier 'c'
+>> fs/bcachefs/sb-members.c:505:46: sparse: sparse: non-scalar type in conditional:
+   fs/bcachefs/sb-members.c:505:46: sparse:    bad type _ptr
+   fs/bcachefs/sb-members.c:506:25: sparse: sparse: undefined identifier 'nr_devices'
+   fs/bcachefs/sb-members.c:509:14: sparse: sparse: undefined identifier 'c'
+   fs/bcachefs/sb-members.c:509:14: sparse: sparse: non-scalar type in conditional:
+   fs/bcachefs/sb-members.c:509:14: sparse:    bad type _ptr
+   fs/bcachefs/sb-members.c:509:9: sparse: sparse: symbol 'mi' has multiple initializers (originally initialized at fs/bcachefs/sb-members.c:505)
+   fs/bcachefs/sb-members.c:509:9: sparse: sparse: symbol 'mi' redeclared with different type (different base types):
+   fs/bcachefs/sb-members.c:509:9: sparse:    int [addressable] [toplevel] mi
+   fs/bcachefs/sb-members.c:505:40: sparse: note: previously declared as:
+   fs/bcachefs/sb-members.c:505:40: sparse:    struct bch_sb_field_members_v2 *[addressable] [toplevel] mi
 
-vim +800 arch/powerpc/kernel/cacheinfo.c
+vim +505 fs/bcachefs/sb-members.c
 
-93197a36a9c16a Nathan Lynch     2008-12-23  784  
-061d19f279f9be Paul Gortmaker   2013-06-24  785  static void cacheinfo_create_index_dir(struct cache *cache, int index,
-061d19f279f9be Paul Gortmaker   2013-06-24  786  				       struct cache_dir *cache_dir)
-93197a36a9c16a Nathan Lynch     2008-12-23  787  {
-93197a36a9c16a Nathan Lynch     2008-12-23  788  	struct cache_index_dir *index_dir;
-93197a36a9c16a Nathan Lynch     2008-12-23  789  	int rc;
-93197a36a9c16a Nathan Lynch     2008-12-23  790  
-93197a36a9c16a Nathan Lynch     2008-12-23  791  	index_dir = kzalloc(sizeof(*index_dir), GFP_KERNEL);
-93197a36a9c16a Nathan Lynch     2008-12-23  792  	if (!index_dir)
-7e8039795a80bd Tobin C. Harding 2019-04-30  793  		return;
-93197a36a9c16a Nathan Lynch     2008-12-23  794  
-93197a36a9c16a Nathan Lynch     2008-12-23  795  	index_dir->cache = cache;
-93197a36a9c16a Nathan Lynch     2008-12-23  796  
-93197a36a9c16a Nathan Lynch     2008-12-23  797  	rc = kobject_init_and_add(&index_dir->kobj, &cache_index_type,
-93197a36a9c16a Nathan Lynch     2008-12-23  798  				  cache_dir->kobj, "index%d", index);
-7e8039795a80bd Tobin C. Harding 2019-04-30  799  	if (rc) {
-7e8039795a80bd Tobin C. Harding 2019-04-30 @800  		kobject_put(&index_dir->kobj);
-7e8039795a80bd Tobin C. Harding 2019-04-30  801  		return;
-7e8039795a80bd Tobin C. Harding 2019-04-30  802  	}
-93197a36a9c16a Nathan Lynch     2008-12-23  803  
-93197a36a9c16a Nathan Lynch     2008-12-23  804  	index_dir->next = cache_dir->index;
-93197a36a9c16a Nathan Lynch     2008-12-23  805  	cache_dir->index = index_dir;
-93197a36a9c16a Nathan Lynch     2008-12-23  806  
-93197a36a9c16a Nathan Lynch     2008-12-23  807  	cacheinfo_create_index_opt_attrs(index_dir);
-93197a36a9c16a Nathan Lynch     2008-12-23  808  }
-93197a36a9c16a Nathan Lynch     2008-12-23  809  
-
-:::::: The code at line 800 was first introduced by commit
-:::::: 7e8039795a80bdf1418964b9cabef6168bc5d9a4 powerpc/cacheinfo: Fix kobject memleak
-
-:::::: TO: Tobin C. Harding <tobin@kernel.org>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+4e7795eda4459bf Kent Overstreet 2024-09-01  476  
+4e7795eda4459bf Kent Overstreet 2024-09-01  477  int bch2_sb_member_alloc(struct bch_fs *c)
+4e7795eda4459bf Kent Overstreet 2024-09-01  478  {
+4e7795eda4459bf Kent Overstreet 2024-09-01  479  	unsigned dev_idx = c->sb.nr_devices;
+4e7795eda4459bf Kent Overstreet 2024-09-01  480  	if (dev_idx < BCH_SB_MEMBERS_MAX)
+4e7795eda4459bf Kent Overstreet 2024-09-01  481  		goto have_slot;
+4e7795eda4459bf Kent Overstreet 2024-09-01  482  
+4e7795eda4459bf Kent Overstreet 2024-09-01  483  	int best = -1;
+4e7795eda4459bf Kent Overstreet 2024-09-01  484  	u64 best_last_mount = 0;
+4e7795eda4459bf Kent Overstreet 2024-09-01  485  	for (dev_idx = 0; dev_idx < BCH_SB_MEMBERS_MAX; dev_idx++) {
+4e7795eda4459bf Kent Overstreet 2024-09-01  486  		struct bch_member m = bch2_sb_member_get(c->disk_sb.sb, dev_idx);
+4e7795eda4459bf Kent Overstreet 2024-09-01  487  		if (bch2_member_alive(&m))
+4e7795eda4459bf Kent Overstreet 2024-09-01  488  			continue;
+4e7795eda4459bf Kent Overstreet 2024-09-01  489  
+4e7795eda4459bf Kent Overstreet 2024-09-01  490  		u64 last_mount = le64_to_cpu(m.last_mount);
+4e7795eda4459bf Kent Overstreet 2024-09-01  491  		if (best < 0 || last_mount < best_last_mount) {
+4e7795eda4459bf Kent Overstreet 2024-09-01  492  			best = dev_idx;
+4e7795eda4459bf Kent Overstreet 2024-09-01  493  			best_last_mount = last_mount;
+4e7795eda4459bf Kent Overstreet 2024-09-01  494  		}
+4e7795eda4459bf Kent Overstreet 2024-09-01  495  	}
+4e7795eda4459bf Kent Overstreet 2024-09-01  496  	if (best >= 0) {
+4e7795eda4459bf Kent Overstreet 2024-09-01  497  		dev_idx = best;
+4e7795eda4459bf Kent Overstreet 2024-09-01  498  		goto have_slot;
+4e7795eda4459bf Kent Overstreet 2024-09-01  499  	}
+4e7795eda4459bf Kent Overstreet 2024-09-01  500  
+4e7795eda4459bf Kent Overstreet 2024-09-01  501  	return -BCH_ERR_ENOSPC_sb_members;
+4e7795eda4459bf Kent Overstreet 2024-09-01  502  have_slot:
+4e7795eda4459bf Kent Overstreet 2024-09-01  503  	unsigned nr_devices = max_t(unsigned, dev_idx + 1, c->sb.nr_devices);
+4e7795eda4459bf Kent Overstreet 2024-09-01  504  
+4e7795eda4459bf Kent Overstreet 2024-09-01 @505  	struct bch_sb_field_members_v2 *mi = bch2_sb_field_get(c->disk_sb.sb, members_v2);
+4e7795eda4459bf Kent Overstreet 2024-09-01  506  	unsigned u64s = DIV_ROUND_UP(sizeof(struct bch_sb_field_members_v2) +
+4e7795eda4459bf Kent Overstreet 2024-09-01  507  				     le16_to_cpu(mi->member_bytes) * nr_devices, sizeof(u64));
+4e7795eda4459bf Kent Overstreet 2024-09-01  508  
+4e7795eda4459bf Kent Overstreet 2024-09-01  509  	mi = bch2_sb_field_resize(&c->disk_sb, members_v2, u64s);
+4e7795eda4459bf Kent Overstreet 2024-09-01 @510  	if (!mi)
+4e7795eda4459bf Kent Overstreet 2024-09-01  511  		return -BCH_ERR_ENOSPC_sb_members;
+4e7795eda4459bf Kent Overstreet 2024-09-01  512  
+4e7795eda4459bf Kent Overstreet 2024-09-01  513  	c->disk_sb.sb->nr_devices = nr_devices;
+4e7795eda4459bf Kent Overstreet 2024-09-01 @514  	return dev_idx;
 
 -- 
 0-DAY CI Kernel Test Service
