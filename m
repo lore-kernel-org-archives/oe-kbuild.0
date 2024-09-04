@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB4F1DFE1F
-	for <oe-kbuild@lists.linux.dev>; Wed,  4 Sep 2024 16:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA9B1E0B70
+	for <oe-kbuild@lists.linux.dev>; Wed,  4 Sep 2024 17:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725468755; cv=none; b=jI/9Xc3Reeorovr+dqCNmWYiNv5K2gOzB7iSDLhbBU/1NZ1bWYiDQI+bGrUPYA3e6QgeUR89pX58WHjesO0E2gEP850boMbEvvgZJIZgfhLQ9ocY+i/+/0+QJI0ZKlNAwKlLCKiJLpOsBmgITv9Xby7O0f6k5pqv3s4pbhPWLrQ=
+	t=1725471578; cv=none; b=UiaA0BkV+JSLm/WT+KNq7DWBb+hhrdWnOY4KrYikoKSsZFCxmHPNxTl0uwnfgPbwnCQYJUUBuV7hzzLYd3sMncRtK0PRxZOzLbAkyaxPu27Qz7TTqZAZQ+3zT1rX7BN3zMC+8J9fNHS68MErVcb84M1qd0OHWI6a4/CCkuAGLQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725468755; c=relaxed/simple;
-	bh=PvuDMQ+oBePukUcK8AB52p8dYaqNpNghPn068i5LuOs=;
+	s=arc-20240116; t=1725471578; c=relaxed/simple;
+	bh=MN4zFPdgpZ+HXlLRG/9oBCwOqeGe13OMMnivn7krIpY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a1YI+0uurOspsA/vuN04/TlVL/tihnOtcD7Qqhh9SepUEY5fL6/ZKfADUwlXH8pXeTjbe1VhAdgF9DswjSuU5y6YKdKes/MfZJixdVWK5/3fL1ZFBUmIPG/SGkWvgtxJosRDpAcRHgamI5RtWI9RNDx9y74qP7zfFphLqHVwdKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yf4XHFFF; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=bYUoPjONF8oSvmMFxf8+GtKqcZ0JwQc11YCl94hXLrk5t+/vhwixP8R1T6c7I8Ucuc4Ksh9fNCypWWunEGa6mtjCAMOsdltvLqJLuxiDgVLOmS2uMZvBvGYsFrU1pjIrlAbaUbJTP6sbdQWusnWMqXojGckOeg5bO4vVV+LR368=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cbCsuxfz; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yf4XHFFF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725468754; x=1757004754;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PvuDMQ+oBePukUcK8AB52p8dYaqNpNghPn068i5LuOs=;
-  b=Yf4XHFFF95NBNi+lkPjIQDvaTJGbXPrVh/8KVB09a5dltOMqW/mOZ8xu
-   s9fJ9dMkQgIwbDTFmWRFWvxu9xEHAzeoFEGW0lUfo56WKD7wmOWCjbLRK
-   sbuA/Yl/+BuEobMw+sk4EoWzKOQ5GfdVbEOa4JDQbSCBRNU2TP/8pgWr3
-   C0l5lyy8qpxLG+1dAOcX3skUT1lnarZFh6qGNRKL+ZNkCiUriXbuMVFM1
-   HAqajIRjW5OfryfOb1OJl7+uPqcMqtGAV/R+pS+4Q1a8inZ71d/Vx91m5
-   rp/ukgrZQQ4VfUWjuSsbScIVPdgLY3QVk/1Tqur6evKh/S449kAvEvTxB
-   g==;
-X-CSE-ConnectionGUID: tmO+mxn9RQaRNpGf6voJRQ==
-X-CSE-MsgGUID: FMnVhWinT/SEnc59oX/UPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="23706958"
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="23706958"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 09:52:32 -0700
-X-CSE-ConnectionGUID: 00XiEIjDQJmnKC7Qe+ATmQ==
-X-CSE-MsgGUID: 2LinzVStSA2saSsgcSL5Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,202,1719903600"; 
-   d="scan'208";a="65661100"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Sep 2024 09:52:32 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sltF6-0008Lv-2E;
-	Wed, 04 Sep 2024 16:52:28 +0000
-Date: Thu, 5 Sep 2024 00:51:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cbCsuxfz"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-42bbdf7f860so48504095e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 04 Sep 2024 10:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725471575; x=1726076375; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CATkMIz4II/GBnal0jBOxPFSbThdRSagEuNLcNi0eZs=;
+        b=cbCsuxfzdlxsBjRGAlzkWTHh7Ipk3gYEpDRvoX0VXufUYwJyWrs6QKrs/CZzojhvfD
+         tfabchDGfUGVjDz2YXTqHv8z0NAVkp75bTxnMGvNC91iO80ZdxgpRgd3secNhNvNgc2D
+         /fNk4pSGzjb+C962j1teQJ3Qbq7vzauaThw0M4jwwD9yXUaVZ35i9zn653mKJfKdAQ3v
+         ZMK/XEUuuJ5p+FvvliuHQ/rF/HSZ3Vz8U/jAaR3BCul/i6nHkEVvCld5TEhPYN77pXun
+         hFSURehIlQbBi6G8fX/SAqS4jTi6e4zX3gxScqebcPyf/pf6gH3FBJ/psZ8RCSt8iUDL
+         TK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725471575; x=1726076375;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CATkMIz4II/GBnal0jBOxPFSbThdRSagEuNLcNi0eZs=;
+        b=ZW1oP5V0wifk1HqqyB2pulymq6YbVu9l7vubcjQsX0uBHqzkpFK8AaRR9wvzpLklTf
+         BINDOFHYC5l2G/bTvdAFjFbSofrrVBrIiIWrJYZBG/Eu4mEV4M12cp3sFa+bUPslEzAd
+         GwrjFggj8gZaWKna7OzctQBHHlJEDdqOpUPyB/xeB7qPZn7BBmmIJLo/Jilq2S9UaabP
+         3VHbPxsLjPYcCj+CGc3tksvV7ZPGnV8CNdLWJv3PyysSK+GMQLqV+M1Ql6hHZa8lQlfH
+         7l1kAphkDptsxCd70YtY0EUrvxHEChlngCvR0z5s9X9/xQJ+5YnsOf4ebNnkBH4OnCsC
+         +PbA==
+X-Gm-Message-State: AOJu0Yz4SEcHRgTh4nH7xcidZfqxtGbIEKa3kk5vsTRNVPd4OzlUy0m9
+	gRyeoDgLrd3ehjHRyQCqS02Xn7YsewFmCM86/XbKsT0nM+jU2CJ9HPXq9UMyow1/TI+wOuezl0F
+	v
+X-Google-Smtp-Source: AGHT+IHOxL78H5no1Yx4ZYjtpCQJ82A2LWIBT6Ntm7D3MSDicRXtr9fyM/JKF1QwdfxyURJiimBLzw==
+X-Received: by 2002:adf:ce92:0:b0:374:bd48:fae9 with SMTP id ffacd0b85a97d-374bd48fda5mr7780555f8f.20.1725471574729;
+        Wed, 04 Sep 2024 10:39:34 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42ba641db07sm243543435e9.34.2024.09.04.10.39.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 10:39:34 -0700 (PDT)
+Date: Wed, 4 Sep 2024 20:39:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Baokun Li <libaokun1@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Theodore Ts'o <tytso@mit.edu>, Jan Kara <jack@suse.cz>,
+	Ojaswin Mujoo <ojaswin@linux.ibm.com>
 Subject: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
  ext4_ext_clear_bb() error: double free of 'path'
-Message-ID: <202409050044.EGobujzB-lkp@intel.com>
+Message-ID: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,14 +68,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Baokun Li <libaokun1@huawei.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: Jan Kara <jack@suse.cz>
-CC: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-
 Hi Baokun,
 
 FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
@@ -77,15 +75,13 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
 commit: 92bbb922166cd7a829bf60d168372ffa1c54e81d [8348/9291] ext4: make some fast commit functions reuse extents path
-:::::: branch date: 10 hours ago
-:::::: commit date: 2 days ago
 config: x86_64-randconfig-161-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050044.EGobujzB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202409050044.EGobujzB-lkp@intel.com/
 
 smatch warnings:
@@ -93,7 +89,6 @@ fs/ext4/extents.c:6155 ext4_ext_clear_bb() error: double free of 'path'
 
 vim +/path +6155 fs/ext4/extents.c
 
-8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6107  
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6108  int ext4_ext_clear_bb(struct inode *inode)
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6109  {
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6110  	struct ext4_ext_path *path = NULL;
@@ -132,6 +127,9 @@ d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6141  							path[j].p_block, 1, f
 599ea31d13617c Xin Yin            2022-01-10  6143  							0, path[j].p_block, 1, 1);
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6144  				}
 7ff5fddaddf2cc Ye Bin             2022-09-24  6145  				ext4_free_ext_path(path);
+                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^
+Freed
+
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6146  			}
 d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6147  			ext4_mb_mark_bb(inode->i_sb, map.m_pblk, map.m_len, false);
 599ea31d13617c Xin Yin            2022-01-10  6148  			ext4_fc_record_regions(inode->i_sb, inode->i_ino,
@@ -142,7 +140,11 @@ d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6147  			ext4_mb_mark_bb(inode->i_
 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6153  
 92bbb922166cd7 Baokun Li          2024-08-22  6154  out:
 92bbb922166cd7 Baokun Li          2024-08-22 @6155  	ext4_free_ext_path(path);
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
+Double free
+
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
