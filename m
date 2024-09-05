@@ -1,57 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE05E77113
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 02:57:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D709149013
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 05:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725505053; cv=none; b=k+y+2Ok+tm0nsqmhsvRXIZ6aRgzwBzmf22ZlPVrH4ulJXmue8bjHMSUd0KMLNg4uP+JCfntzzMjf/ajTv1ANcSzuHc3JC/2S9UX7wlMoKaVhVRQMwrnpUcQja+DqLvBFtXutVCX/S/w7Id8xV1LfgZSZDtPElVYJ+t1TVFT5zek=
+	t=1725512665; cv=none; b=U7Lj2vOiKFO5HVk394HYZP0XnfeMEesjKCYIOjZ7Adsb3PQXhlgw7bbwWcHG+77tXmhsLSOEaw02Kv+caz4vpk/xVIKN8uaSuXfWB25tKrtTlEFdCoqyBIrOdEwn5XzkvRlMKjGK/5O0uWbAHBs/EF3iFqbEVor3fzkfJ8q1v6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725505053; c=relaxed/simple;
-	bh=/XKQz9E4IpSuVaKi2vqWteWCp03Bja2TwmtCsXxy5S0=;
+	s=arc-20240116; t=1725512665; c=relaxed/simple;
+	bh=vPyZuIz+7g8chRkaYvo/yQSNPiIPoqFg7u7vFpje8yw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cSL0uxysQDmBkIJFo6ByNOy9PNQ1wdeYzFJtGOKbvt3HfVEXUbP4f57xgD9QZCxtL2H8RvwUzi5Hr2QbvFIHvofVSA/6CuHtlABWuIavosOznQ9mQvxzLTH8mYjj2HplI3hXV3+mGutbGbYLVitExJoss+wBqnEaF7+0+3pDp1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRVzde/H; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=MbG49OtLbg48+r0PYwNxsc+H73C4aBPW8ojNrtU79GUYYbuy7BnY4MZoOpO9p5rx6uMGUgQ9DJt8LN9l/4s5qvpgzBPwsr/pJFUTefZV18EuA20lY5WB9QZqVpK0zty7+ZsaVhjgdLazdkD/MTegM01o48GGeJKoukNEikeoLdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FwUAE4yY; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRVzde/H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725505051; x=1757041051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/XKQz9E4IpSuVaKi2vqWteWCp03Bja2TwmtCsXxy5S0=;
-  b=SRVzde/H5LV5gcbPgtUnDl1e3xZ+8jc5p7tGUmnXGPZlCGV59+Uv/uk7
-   gUVbp5vBsQXBUJhpdj4dW5aM3KozZu43dglPENPz2EIHiIVHyTOgb2zzG
-   jgBfInf55BfTV7zQEKlGA2Sielj7pOHltpMQACcGQ7enrJambWw+plRGD
-   DDEefVKdE/zAb0u9of5/W0Qnkol1RGstpf4PMgNvgMZlfHpCvuFCONjqv
-   Ih6O1kiMusu55fpNPS/uxmA9ghcgKx79DZfXuysy+hy6zX17kdoHbjT2m
-   LNdYV2boycwAA8kMWbqrsH5bzhkMoe25ENX2zHvGhSIr3rFy0UZT3QJa9
-   A==;
-X-CSE-ConnectionGUID: U7Uk2O9bR/uo8QXvY+WEvw==
-X-CSE-MsgGUID: fsPoZc3NTdW/kweVqebg0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="28085698"
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="28085698"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 19:57:30 -0700
-X-CSE-ConnectionGUID: QznKcERBS6qpkIgPY9RkQA==
-X-CSE-MsgGUID: +HA0kxfPSbeXPTGXx9fsQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="70383930"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Sep 2024 19:57:29 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sm2gY-0008qd-27;
-	Thu, 05 Sep 2024 02:57:26 +0000
-Date: Thu, 5 Sep 2024 10:57:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FwUAE4yY"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42bb885f97eso8007475e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 04 Sep 2024 22:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725512661; x=1726117461; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nSDgI/fJFCvwlhr186ujUbs/jDGk2xnBolXbdoqfgYs=;
+        b=FwUAE4yYART6q/SmWt8Xxiy0rhFywCpF2skr5b+uCWOmA2R9y/Dxhr2GgQVXMSI+j5
+         3LjQFIGPAhCdRyYo8HQiM0rdFHHXQ9XS5cR0/mQM8XpuXa3t8Syag0ZS1llvPUWTi6VC
+         aq+4BYBI9i1QJipSnikozc6nSnJPjvg6mqiWDcI4GCndDxDZqkqfsOr+fSJrJqUqX5KL
+         26hC0rPXpCuglGrChtR0hlz9FQ6oZazFLAJzxjm/yvKz41Efxx/lCSCGsw0DRZHDvhs0
+         Ev9l5rUryDMpfXNvehyqSNdGmPbN//axG1rgaICtdJdCLWWHxFnu/euH5m4hLrDT+La+
+         VpOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725512661; x=1726117461;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nSDgI/fJFCvwlhr186ujUbs/jDGk2xnBolXbdoqfgYs=;
+        b=soaZBGYZKmACICFfO53QbigtJxFzYWxiklbl1BfnHdNrCKrH2J9Uy8p5TqFdmHiVkj
+         eK/YdjPr/9vGF5i+IlhsIfhDZHrMi48l6jbiPdmxvLSJLNePDlcdtOyz4o2o3PFpg/do
+         6en/3mZgpnLupdf65h3T0dnjuXaC4ViFzn9zqN4TA4NJ1yH1EqM7fsdr1cScFtv1rmSL
+         wHO2oUKs9tbRCtJxeRJIAUY4yqeST4eJTb6RrGX0lqL0ixvLL4Bcikkc3PVcnLvUr07x
+         s77HVEXAX+t8/Y2DQRdZeYRVxJR+z4S086grxmcw0i6QCcdfjI3Jr7bubWepOc7KXIZy
+         PG4g==
+X-Gm-Message-State: AOJu0YwF+WuMJ2R4uJLKcxf1NsB+/9jMySUlvwhPS3LB+x8OJgsMI5lN
+	kRrIaenMa9hQUaivNOyjaqxyI1AFpn6ZqZUYS4HHZ7AP4iR2BVXlVXcQAPTow8ki77ZYc6Dssnw
+	k
+X-Google-Smtp-Source: AGHT+IHnEpoMCnk9Xc0YEfmXdUGRDKjK3BNw/acf4AQVfjdPEm65KdE0s1RkIjiIj2B4FJHfV7AXSA==
+X-Received: by 2002:a5d:634a:0:b0:374:bb1a:eebb with SMTP id ffacd0b85a97d-3779aeafb18mr2317751f8f.25.1725512661190;
+        Wed, 04 Sep 2024 22:04:21 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-374c5ba7027sm11518202f8f.19.2024.09.04.22.04.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 22:04:20 -0700 (PDT)
+Date: Thu, 5 Sep 2024 08:04:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v3 1/3] cxl: Move mailbox related bits to the same context
-Message-ID: <202409051031.WY4y1MhJ-lkp@intel.com>
+Message-ID: <c3f7e80e-e52b-47e6-a717-3f8b75e2826e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,37 +65,25 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20240904000020.1686611-2-dave.jiang@intel.com>
-References: <20240904000020.1686611-2-dave.jiang@intel.com>
-TO: Dave Jiang <dave.jiang@intel.com>
 
 Hi Dave,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.11-rc6 next-20240904]
-[cannot apply to cxl/next cxl/pending]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Jiang/cxl-Move-mailbox-related-bits-to-the-same-context/20240904-080307
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
 patch link:    https://lore.kernel.org/r/20240904000020.1686611-2-dave.jiang%40intel.com
 patch subject: [PATCH v3 1/3] cxl: Move mailbox related bits to the same context
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
 config: i386-randconfig-141-20240904 (https://download.01.org/0day-ci/archive/20240905/202409051031.WY4y1MhJ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202409051031.WY4y1MhJ-lkp@intel.com/
 
 smatch warnings:
@@ -98,10 +91,12 @@ drivers/cxl/core/mbox.c:1429 cxl_mailbox_init() error: we previously assumed 'cx
 
 vim +/cxl_mbox +1429 drivers/cxl/core/mbox.c
 
-d0abf5787adc03 Alison Schofield 2023-04-18  1423  
 1390c0beea9575 Dave Jiang       2024-09-03  1424  int cxl_mailbox_init(struct cxl_mailbox *cxl_mbox, struct device *host)
 1390c0beea9575 Dave Jiang       2024-09-03  1425  {
 1390c0beea9575 Dave Jiang       2024-09-03 @1426  	if (!cxl_mbox && !host)
+
+s/&&/||/
+
 1390c0beea9575 Dave Jiang       2024-09-03  1427  		return -EINVAL;
 1390c0beea9575 Dave Jiang       2024-09-03  1428  
 1390c0beea9575 Dave Jiang       2024-09-03 @1429  	cxl_mbox->host = host;
@@ -110,9 +105,8 @@ d0abf5787adc03 Alison Schofield 2023-04-18  1423
 1390c0beea9575 Dave Jiang       2024-09-03  1432  
 1390c0beea9575 Dave Jiang       2024-09-03  1433  	return 0;
 1390c0beea9575 Dave Jiang       2024-09-03  1434  }
-1390c0beea9575 Dave Jiang       2024-09-03  1435  EXPORT_SYMBOL_NS_GPL(cxl_mailbox_init, CXL);
-1390c0beea9575 Dave Jiang       2024-09-03  1436  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
