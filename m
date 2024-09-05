@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BFA153BC1
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 05:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26271991B0
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 12:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725513054; cv=none; b=WLOaHjl2+Yc6SZ5uVFzImshlHTsXmhB/ZlbQrA1DU2Xg4yi0qWgm6lP34F0Hw6MeDl/QIpwo65GgnSqHhDapvUKtn0Ad2IfC8QSWbRrP3mX4azWh/6MMGmrYmhiO8r1RKS7Hu729q1TWhIMB1j8H2VmmNkoXGzzeNNYZ2hgRZx0=
+	t=1725537891; cv=none; b=pcCoLd/MH0eEjZ821HAQtOH5vRFKKv+fOyIJw2mR6h998Cu/FGZRkE9eNmsM2YsBWuudcjO7KgU4F4GFRKBzUVRvzdyHli584Hte210urm0k526eMzkqwO1oIGGEGdJptvq2DJQEATLnrVpZXEt0L9e4ghk8usX+qeWqg1SMl1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725513054; c=relaxed/simple;
-	bh=G4v84zzdcEXNyN//3p2A3XtLSejymASg0nkPBWn9OO0=;
+	s=arc-20240116; t=1725537891; c=relaxed/simple;
+	bh=qfEvdNOh7rM3Ycrc+wz5pKX7UlXHbjPHzNU1/uwYE0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tLGoC7dlddkst8G9rvzu2HvgwWLZGh86eNCy3rDQfD1DBtjXSuryE/gbyc7Fo7H18oF3zvcMzcCrEDF79Y6cEr8FFPddSAe9QBWSejxDB/wLSK+qwceX2fqh3v32SHzWFPVunFDDoD8TbfngRqABv6MFCqeByKxd5V3V+iY9j/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7xHpUeG; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=QceoFwr/pcz5kOxOixCzAH1HK1F1R8sn/5n2nDxq3zkr/D+fs3VW5jv2QpZiHH7RbpYZwY0kHRAosE+QfROzKqWfJ6r6WrtvoMB0gfUa7Ke5dsRzWoGWzCf7KQpf12ynQrBy/Xe8BOryG/xpxB+ZtcJc0hY5ivL2ynXMG/NDOWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHgu2AOt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7xHpUeG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHgu2AOt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725513053; x=1757049053;
+  t=1725537890; x=1757073890;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G4v84zzdcEXNyN//3p2A3XtLSejymASg0nkPBWn9OO0=;
-  b=W7xHpUeGCjM3D2KwZirHk93c0KxXqyDLQ68GdfncBalTnHaZ7hkXUQ4o
-   B6TTbc0zRzA6lnlDSm+e76PCtLfPojj8AqphYMNY8+Z+KjCcZhgKTquQW
-   VeJz+gFBwU4tZ/CZI4/R2zRJx86dwZFv49s5s2zDBnnV7IEuzwZBj7kcS
-   dWmogKCy/ONItMKmgUgkRUvUSfWrli9EZM81RsBFQ7v1m0DIcs8Ia6Z+m
-   P+IUcs9a3bASrI0re9p48t9NSIWiyELnckUwOsIZmRdV0UTvQdtKD0Evh
-   4euNM7s6N8QgbKRdAy8Ni/qEUBiM/sb/r4wi/DRFK8yeo/HnjuKqpG9Kk
+  bh=qfEvdNOh7rM3Ycrc+wz5pKX7UlXHbjPHzNU1/uwYE0c=;
+  b=LHgu2AOt9oHLUjDWoRwhk9v9U2OEWEq5LGXOAhJk+Dwgwng4I762Jje/
+   5f0hT1OTug59dkZ/77wY5flo3+/GeDQ65fnk2Ry7qDbKusFl8Pz99s9If
+   RpXzOhppaia7Gb8unMECQPqmq/qTx9BUlOUO0cudm7hPU40VWzE6t6+Ji
+   ocU4ebV9tQ5xR0x+F7t7owXwxi7zTz9ir86z1eUCfEdgL+kY4nkqVL6nu
+   SQBzDvLfk7VA6IszhNWilDaZtR51efAGHVNxn9r8S7/iQM4I+11V9rfgM
+   aAvBehb5U0uEuwOGjiER6GSdS9EQtR2lYTstwahSiSABSDGIeE+ZTXOAr
    Q==;
-X-CSE-ConnectionGUID: 71cs8EekTRyhpuZfftuFvA==
-X-CSE-MsgGUID: /1dq7B/MTzqmIb0skQq9AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="13379002"
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="13379002"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 22:10:52 -0700
-X-CSE-ConnectionGUID: EMX5DLPCSXCfA4/KwZpNBA==
-X-CSE-MsgGUID: ZmIOly7TT8GUOv61i8oZRQ==
+X-CSE-ConnectionGUID: uB7ODkR2SAaF9/Y8CdowEA==
+X-CSE-MsgGUID: nG9oVi6/Rhik+9FeJHiX9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="24052219"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="24052219"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 05:04:47 -0700
+X-CSE-ConnectionGUID: 950q6nQtTXKCqdieBVTa6w==
+X-CSE-MsgGUID: zuWaL7Z/QYe8jrrV8XAy0g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="102956558"
+X-IronPort-AV: E=Sophos;i="6.10,204,1719903600"; 
+   d="scan'208";a="65640555"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Sep 2024 22:10:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2024 05:04:46 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sm4lc-0008xH-37;
-	Thu, 05 Sep 2024 05:10:48 +0000
-Date: Thu, 5 Sep 2024 13:10:13 +0800
+	id 1smBEB-0009p1-2N;
+	Thu, 05 Sep 2024 12:04:43 +0000
+Date: Thu, 5 Sep 2024 20:04:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [chrome-os:chromeos-6.1 1/104] arch/x86/kvm/x86.c:6738
- kvm_arch_resume_notifier() warn: iterator 'i' not incremented
-Message-ID: <202409051300.GxM4upwO-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [davidhildenbrand:virtio-mem-s390x-new 4/5] lib/Kconfig.debug:1890:
+ syntax error
+Message-ID: <202409051953.0QbErOvn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,61 +62,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+TO: David Hildenbrand <david@redhat.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   176e2441c5265c6bec25f54961a8f48472e07e66
-commit: 4a2eac2ca4e283555d61291bace8d2cbd8fe2735 [1/104] CHROMIUM: KVM: x86: Include host suspended time in steal time.
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-161-20240905 (https://download.01.org/0day-ci/archive/20240905/202409051300.GxM4upwO-lkp@intel.com/config)
+tree:   https://github.com/davidhildenbrand/linux virtio-mem-s390x-new
+head:   20ec4366bab8de03f08ac131659b8aaaf97fb222
+commit: 2a876920cbbc3c1ed61d1cd847cfc939f7b7d003 [4/5] lib/Kconfig.debug: default STRICT_DEVMEM to "y" on s390x
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409051953.0QbErOvn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409051300.GxM4upwO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409051953.0QbErOvn-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/x86.c:6738 kvm_arch_resume_notifier() warn: iterator 'i' not incremented
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/x86/kvm/x86.c:3026 kvm_end_pvclock_update() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:3278 kvmclock_update_fn() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:5566 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
-arch/x86/kvm/x86.c:5607 kvm_vcpu_ioctl_device_attr() error: uninitialized symbol 'r'.
-arch/x86/kvm/x86.c:6286 kvm_arch_sync_dirty_log() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:6711 kvm_arch_suspend_notifier() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:7778 emulator_read_write() warn: missing error code? 'rc'
-arch/x86/kvm/x86.c:9386 __kvmclock_cpufreq_notifier() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:9475 pvclock_gtod_update_fn() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:12095 kvm_arch_vcpu_guestdbg_update_apicv_inhibit() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:12689 kvm_arch_hardware_enable() warn: iterator 'i' not incremented
-arch/x86/include/asm/kvm-x86-ops.h:17 kvm_ops_update() warn: inconsistent indenting
-arch/x86/kvm/x86.c:12909 kvm_unload_vcpu_mmus() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:13155 kvm_arch_memslots_updated() warn: iterator 'i' not incremented
+   lib/Kconfig.debug:1890:warning: ignoring unsupported character '|'
+>> lib/Kconfig.debug:1890: syntax error
+   lib/Kconfig.debug:1890: invalid statement
+   lib/Kconfig.debug:1891: invalid statement
+   lib/Kconfig.debug:1892:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1892: unknown statement "If"
+   lib/Kconfig.debug:1893:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1893:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1893: unknown statement "of"
+   lib/Kconfig.debug:1894:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1894: unknown statement "access"
+   lib/Kconfig.debug:1895:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1895: unknown statement "be"
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1896: unknown statement "enabled"
+   lib/Kconfig.debug:1897:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1897: unknown statement "use"
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1899: unknown statement "If"
+   lib/Kconfig.debug:1900: unknown statement "file"
+   lib/Kconfig.debug:1901:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1901: unknown statement "data"
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1902: unknown statement "users"
+   lib/Kconfig.debug:1904:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1904:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1904: unknown statement "If"
+   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
+   make[2]: *** [Makefile:680: oldconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+   lib/Kconfig.debug:1890:warning: ignoring unsupported character '|'
+>> lib/Kconfig.debug:1890: syntax error
+   lib/Kconfig.debug:1890: invalid statement
+   lib/Kconfig.debug:1891: invalid statement
+   lib/Kconfig.debug:1892:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1892: unknown statement "If"
+   lib/Kconfig.debug:1893:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1893:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1893: unknown statement "of"
+   lib/Kconfig.debug:1894:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1894: unknown statement "access"
+   lib/Kconfig.debug:1895:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1895: unknown statement "be"
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1896:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1896: unknown statement "enabled"
+   lib/Kconfig.debug:1897:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1897: unknown statement "use"
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1899:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1899: unknown statement "If"
+   lib/Kconfig.debug:1900: unknown statement "file"
+   lib/Kconfig.debug:1901:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1901: unknown statement "data"
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '/'
+   lib/Kconfig.debug:1902:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1902: unknown statement "users"
+   lib/Kconfig.debug:1904:warning: ignoring unsupported character ','
+   lib/Kconfig.debug:1904:warning: ignoring unsupported character '.'
+   lib/Kconfig.debug:1904: unknown statement "If"
+   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
+   make[2]: *** [Makefile:680: olddefconfig] Error 2
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
 
-vim +/i +6738 arch/x86/kvm/x86.c
 
-7d62874f69d7e5 Sergey Senozhatsky 2021-06-06  6728  
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6729  static int
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6730  kvm_arch_resume_notifier(struct kvm *kvm)
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6731  {
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6732  	struct kvm_vcpu *vcpu;
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6733  	unsigned long i;
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6734  
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6735  	kvm->last_suspend_duration = ktime_get_boottime_ns() -
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6736  	    kvm->suspended_time;
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6737  	mutex_lock(&kvm->lock);
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10 @6738  	kvm_for_each_vcpu(i, vcpu, kvm)
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6739  		WRITE_ONCE(vcpu->suspended, 1);
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6740  	mutex_unlock(&kvm->lock);
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6741  	return NOTIFY_DONE;
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6742  }
-4a2eac2ca4e283 Suleiman Souhlal   2024-07-10  6743  
+vim +1890 lib/Kconfig.debug
+
+045f6d7942be24 Changbin Du       2019-12-17  1882  
+045f6d7942be24 Changbin Du       2019-12-17  1883  config ARCH_HAS_DEVMEM_IS_ALLOWED
+045f6d7942be24 Changbin Du       2019-12-17  1884  	bool
+045f6d7942be24 Changbin Du       2019-12-17  1885  
+045f6d7942be24 Changbin Du       2019-12-17  1886  config STRICT_DEVMEM
+045f6d7942be24 Changbin Du       2019-12-17  1887  	bool "Filter access to /dev/mem"
+045f6d7942be24 Changbin Du       2019-12-17  1888  	depends on MMU && DEVMEM
+527701eda5f196 Palmer Dabbelt    2020-07-09  1889  	depends on ARCH_HAS_DEVMEM_IS_ALLOWED || GENERIC_LIB_DEVMEM_IS_ALLOWED
+2a876920cbbc3c David Hildenbrand 2024-09-04 @1890  	default y if PPC || X86 || ARM64 | S390
+045f6d7942be24 Changbin Du       2019-12-17  1891  	help
+045f6d7942be24 Changbin Du       2019-12-17  1892  	  If this option is disabled, you allow userspace (root) access to all
+045f6d7942be24 Changbin Du       2019-12-17  1893  	  of memory, including kernel and userspace memory. Accidental
+045f6d7942be24 Changbin Du       2019-12-17  1894  	  access to this is obviously disastrous, but specific access can
+045f6d7942be24 Changbin Du       2019-12-17  1895  	  be used by people debugging the kernel. Note that with PAT support
+045f6d7942be24 Changbin Du       2019-12-17  1896  	  enabled, even in this case there are restrictions on /dev/mem
+045f6d7942be24 Changbin Du       2019-12-17  1897  	  use due to the cache aliasing requirements.
+045f6d7942be24 Changbin Du       2019-12-17  1898  
+045f6d7942be24 Changbin Du       2019-12-17  1899  	  If this option is switched on, and IO_STRICT_DEVMEM=n, the /dev/mem
+045f6d7942be24 Changbin Du       2019-12-17  1900  	  file only allows userspace access to PCI space and the BIOS code and
+045f6d7942be24 Changbin Du       2019-12-17  1901  	  data regions.  This is sufficient for dosemu and X and all common
+045f6d7942be24 Changbin Du       2019-12-17  1902  	  users of /dev/mem.
+045f6d7942be24 Changbin Du       2019-12-17  1903  
+045f6d7942be24 Changbin Du       2019-12-17  1904  	  If in doubt, say Y.
+045f6d7942be24 Changbin Du       2019-12-17  1905  
 
 -- 
 0-DAY CI Kernel Test Service
