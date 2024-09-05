@@ -1,52 +1,59 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C6819DF68
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 14:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA70C188017
+	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 20:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725545263; cv=none; b=g8JNbLpZXlaUfRYgA1mDwADjGnC4mc8HHB2pbQhMa9PheBivLsH2glhIsYLl+27G0itzRLvoIek0ZFtF6nDoEkJ8UeyQBs1l1oFAMV0aaLrR1MgIRTPkhaIz7G+3Y7RMU4Ctk15CO6Ah/yYCaSSG9uWTHcdGNuuu6p/FCQqD4FY=
+	t=1725569784; cv=none; b=q/84f1Jt/6qxmR7+QBtdrfbUpx9Mh1zGPIWwCqjheOzuWdhK3zdJIiveVGFJiZLArW79Z+u8075NrViMQWk+Lney+UMYvr/d2Xl+cd1UeBkwspQG+kE15WYmf4R6G7y7n13NasEIgKNGyeRL7zZy+5TIWxRvsOuioFArUZF58oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725545263; c=relaxed/simple;
-	bh=Q/gKMV4/3BBHIpoB2D+a3mIXcjuYlkjt87RtE+rrgEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L46eXQgTUA0igxCt+8ZttFwoHfsUQtTH2rBVkRpZDvcQWt4eyFtVIc2+vYbCzyqzcVZUccJlPQZAPPDqDc+ztbDpkAvGiYz/B/YeV8CgodmNh9llV//sKFQQlC1H290tATUnJGacQaY8d9ce8AQMHlANpujCyQgzT+jipwrRtuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=J4yEaG8H; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1725569784; c=relaxed/simple;
+	bh=uCLu8ph1w1YStt7D8UFQAHlAXG/h1f6U/AVDGuO4h5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=thWv00XB/59pwskFstMi1eaIM2VF0NrqpLq8bOS8/2Rtn/ypeQTVQ8fvJOGMHe1b4S0+N5OYFgzu7TOffKI0NpgDcNTGQoBbOd1M1qZTWvm3mDig3hPuDVRD+2pBgvDPQPDjar+Hs79dtMH6EBJHbcXBYu5BJirZ2AAn9RGq7IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDwcPvYU; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="J4yEaG8H"
-Received: from cwcc.thunk.org (pool-173-48-102-194.bstnma.fios.verizon.net [173.48.102.194])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 485E7FAs007431
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Sep 2024 10:07:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1725545238; bh=Ti9jiaZGhhMUDDsYk9GbJj4/hK2lo0lUfTXW+pqZIsQ=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=J4yEaG8HqWKFVX1s+Gb9AOET79kFgjw7RAcApdYyN+jBeNfSSz66MiMXepqWfdfi4
-	 VeuxS4spvwnpD1HUFP6jwFqIEdPlAzy43Guki+JIFSeI1qBqAKIVYJgQwGgbHFwYkM
-	 +4zJzq023wbrkdfIwQerNeuLMEFlJCsjzfXxfRiZbN4H3Ebwl3mEe2ud3ZAaeUkdbC
-	 lPEgnJCOSaM11PP/467djbD7Dn5mAUCUdL65z/4IdSw2sH/0s72nUsqRlG4HrZ9vIE
-	 xorcZPsZ7D2BknzGodsdiRlkFBsP2M358JZu2kpbaH9mVfQtrEQAoNxfGuNBwVA4ov
-	 F9ZGCIpgDCuvw==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id 50F7F15C02C6; Thu, 05 Sep 2024 10:07:15 -0400 (EDT)
-Date: Thu, 5 Sep 2024 10:07:15 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Baokun Li <libaokun1@huawei.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, lkp@intel.com,
-        oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>,
-        oe-kbuild@lists.linux.dev, Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-        Yang Erkun <yangerkun@huawei.com>
-Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
- ext4_ext_clear_bb() error: double free of 'path'
-Message-ID: <20240905140715.GV9627@mit.edu>
-References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
- <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
- <20240905132335.GT9627@mit.edu>
- <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDwcPvYU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725569783; x=1757105783;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uCLu8ph1w1YStt7D8UFQAHlAXG/h1f6U/AVDGuO4h5A=;
+  b=UDwcPvYUdtirw+Po8iG7flWqiUJQ9D0Iq4N5byCQNVynB+7wrxy3l6zf
+   YXGzNcne5VQhfkxFWZvbBVuoeDwcDLRLznjzeQkuQdV4y2jHIpsPb+REs
+   RMMHi+qZ3pkVNygBGmb+5vnrB0BMglcl62zdvtVhYVxuYYlYWqo4mEpJm
+   VNKV7yQTH24KkMfqh6k399xOk2vTN/ZIpHYmtZwc/cAr8RJ9Bsx+KU2hW
+   gXVuECUHjLWgUJJUvB4tvE2Pr1oyJZgv6uflCYQ1Z2mJ8yFoLRGYsz2CH
+   X5mtm/EeDB8UqLk3qNsR2NBuKA5bnQeCroTuPkGj8gX1pR/TVAx3AnnI1
+   Q==;
+X-CSE-ConnectionGUID: wDCS1qTjR5WQmeHL1KchBA==
+X-CSE-MsgGUID: ORcDZUmMSVe0puLnuX1yTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="34914463"
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="34914463"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 13:56:22 -0700
+X-CSE-ConnectionGUID: JHpCdor0RU+49kbo2Ho81Q==
+X-CSE-MsgGUID: aSro7g0jSteu4Q2SkM5JVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,205,1719903600"; 
+   d="scan'208";a="65749791"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 05 Sep 2024 13:56:20 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1smJWc-000AJv-2X;
+	Thu, 05 Sep 2024 20:56:18 +0000
+Date: Fri, 6 Sep 2024 04:54:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [sunxi:sunxi/for-next 5/7]
+ arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34:
+ adc:compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202409060431.9LFeKN8Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -55,104 +62,140 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e4f662b-2c52-4148-afea-0f7d09d2776b@huawei.com>
 
-On Thu, Sep 05, 2024 at 09:31:35PM +0800, Baokun Li wrote:
-> > > Ted, could you please help push the corrected commit to the next branch?
-> > The next branch gets automatically refreshed every day (Mondays
-> > through Friday).  In the case of the ext4 tree, it gets picked up from
-> > the dev branch.  So it should be fixed in the upcoming fs-next and
-> > linux-next branch.
-> > 
-> > Cheers,
-> > 
-> > 					- Ted
-> > 
-> OK, I didn't know it was pulling automatically, thanks for the explanation!
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
 
-Yep, and some of us have automated test systems that run whenever
-fs-next is updated.  :-)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Chris Morgan <macromorgan@hotmail.com>
+CC: "Chen-Yu Tsai" <wens@csie.org>
 
-For example, see attached.  (I have been planning to get this
-published someplace, such as a linux.linux.dev list, but I've been too
-busy finish up making it be fully robust and not subject to rare
-failures that require manual interventions, and I need to complete
-some negotiations with Konstantin.  Probably after the Linux Plumbers
-Conference and I have a bit more free time...)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+head:   1c215074f370261de614a905f1511ac61eb5a821
+commit: 6b5502c1d43d050a652299cd37a06e0b3801e284 [5/7] arm64: dts: allwinner: h700: Add charger for Anbernic RG35XX
+:::::: branch date: 6 hours ago
+:::::: commit date: 30 hours ago
+config: arm64-randconfig-053-20240905 (https://download.01.org/0day-ci/archive/20240906/202409060431.9LFeKN8Q-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 05f5a91d00b02f4369f46d076411c700755ae041)
+dtschema version: 2024.6.dev16+gc51125d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409060431.9LFeKN8Q-lkp@intel.com/reproduce)
 
-						- Ted
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202409060431.9LFeKN8Q-lkp@intel.com/
 
-TESTRUNID: ltm-20240729133952-0028
-KERNEL:    kernel 6.11.0-rc6-xfstests-00781-g8d32ae66515d #1 SMP PREEMPT_DYNAMIC Wed Sep  4 21:56:52 EDT 2024 x86_64
-CMDLINE:   -c ext4/all,xfs/all,btrfs/all,f2fs/all -g auto --repo https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next --watch fs-next
-CPUS:      2
-MEM:       7680
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: adc:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-adc'] is too short
+   	'x-powers,axp209-adc' was expected
+   	'x-powers,axp221-adc' was expected
+   	'x-powers,axp813-adc' was expected
+   	'x-powers,axp803-adc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: battery-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-battery-power-supply'] is too short
+   	'x-powers,axp202-battery-power-supply' was expected
+   	'x-powers,axp209-battery-power-supply' was expected
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: usb-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-usb-power-supply'] is too short
+   	'x-powers,axp717-usb-power-supply' is not one of ['x-powers,axp192-usb-power-supply', 'x-powers,axp202-usb-power-supply', 'x-powers,axp221-usb-power-supply', 'x-powers,axp223-usb-power-supply', 'x-powers,axp813-usb-power-supply']
+   	'x-powers,axp803-usb-power-supply' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: usb-power: 'input-current-limit-microamp' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/i2c@7081400/pmic@34/adc: failed to match any schema with compatible: ['x-powers,axp717-adc']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/i2c@7081400/pmic@34/battery-power: failed to match any schema with compatible: ['x-powers,axp717-battery-power-supply']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/i2c@7081400/pmic@34/usb-power: failed to match any schema with compatible: ['x-powers,axp717-usb-power-supply']
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: adc:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-adc'] is too short
+   	'x-powers,axp209-adc' was expected
+   	'x-powers,axp221-adc' was expected
+   	'x-powers,axp813-adc' was expected
+   	'x-powers,axp803-adc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: battery-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-battery-power-supply'] is too short
+   	'x-powers,axp202-battery-power-supply' was expected
+   	'x-powers,axp209-battery-power-supply' was expected
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: usb-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-usb-power-supply'] is too short
+   	'x-powers,axp717-usb-power-supply' is not one of ['x-powers,axp192-usb-power-supply', 'x-powers,axp202-usb-power-supply', 'x-powers,axp221-usb-power-supply', 'x-powers,axp223-usb-power-supply', 'x-powers,axp813-usb-power-supply']
+   	'x-powers,axp803-usb-power-supply' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: usb-power: 'input-current-limit-microamp' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/i2c@7081400/pmic@34/adc: failed to match any schema with compatible: ['x-powers,axp717-adc']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/i2c@7081400/pmic@34/battery-power: failed to match any schema with compatible: ['x-powers,axp717-battery-power-supply']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-h.dtb: /soc/i2c@7081400/pmic@34/usb-power: failed to match any schema with compatible: ['x-powers,axp717-usb-power-supply']
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: adc:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-adc'] is too short
+   	'x-powers,axp209-adc' was expected
+   	'x-powers,axp221-adc' was expected
+   	'x-powers,axp813-adc' was expected
+   	'x-powers,axp803-adc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: battery-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-battery-power-supply'] is too short
+   	'x-powers,axp202-battery-power-supply' was expected
+   	'x-powers,axp209-battery-power-supply' was expected
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: usb-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-usb-power-supply'] is too short
+   	'x-powers,axp717-usb-power-supply' is not one of ['x-powers,axp192-usb-power-supply', 'x-powers,axp202-usb-power-supply', 'x-powers,axp221-usb-power-supply', 'x-powers,axp223-usb-power-supply', 'x-powers,axp813-usb-power-supply']
+   	'x-powers,axp803-usb-power-supply' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: usb-power: 'input-current-limit-microamp' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/i2c@7081400/pmic@34/adc: failed to match any schema with compatible: ['x-powers,axp717-adc']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/i2c@7081400/pmic@34/battery-power: failed to match any schema with compatible: ['x-powers,axp717-battery-power-supply']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-plus.dtb: /soc/i2c@7081400/pmic@34/usb-power: failed to match any schema with compatible: ['x-powers,axp717-usb-power-supply']
+--
+   arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi:147.6-938.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: adc:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-adc'] is too short
+   	'x-powers,axp209-adc' was expected
+   	'x-powers,axp221-adc' was expected
+   	'x-powers,axp813-adc' was expected
+   	'x-powers,axp803-adc' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: battery-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-battery-power-supply'] is too short
+   	'x-powers,axp202-battery-power-supply' was expected
+   	'x-powers,axp209-battery-power-supply' was expected
+--
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: usb-power:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['x-powers,axp717-usb-power-supply'] is too short
+   	'x-powers,axp717-usb-power-supply' is not one of ['x-powers,axp192-usb-power-supply', 'x-powers,axp202-usb-power-supply', 'x-powers,axp221-usb-power-supply', 'x-powers,axp223-usb-power-supply', 'x-powers,axp813-usb-power-supply']
+   	'x-powers,axp803-usb-power-supply' was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: usb-power: 'input-current-limit-microamp' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: pmic@34: regulators: 'boost' does not match any of the regexes: '^(([a-f])?ldo[0-9]|dcdc[0-7a-e]|ldo(_|-)io(0|1)|(dc1)?sw|rtc(_|-)ldo|cpusldo|drivevbus|dc5ldo)$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/x-powers,axp152.yaml#
+>> arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/i2c@7081400/pmic@34/adc: failed to match any schema with compatible: ['x-powers,axp717-adc']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/i2c@7081400/pmic@34/battery-power: failed to match any schema with compatible: ['x-powers,axp717-battery-power-supply']
+   arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-sp.dtb: /soc/i2c@7081400/pmic@34/usb-power: failed to match any schema with compatible: ['x-powers,axp717-usb-power-supply']
 
-ext4/4k: 570 tests, 2 failures, 51 skipped, 5668 seconds
-  Flaky: generic/234: 20% (1/5)   generic/277: 20% (1/5)
-ext4/1k: 564 tests, 2 failures, 54 skipped, 6139 seconds
-  Failures: generic/627 generic/750
-ext4/ext3: 562 tests, 144 skipped, 4388 seconds
-ext4/encrypt: 545 tests, 167 skipped, 3169 seconds
-ext4/nojournal: 562 tests, 122 skipped, 4013 seconds
-ext4/ext3conv: 567 tests, 53 skipped, 5500 seconds
-ext4/adv: 563 tests, 2 failures, 59 skipped, 5186 seconds
-  Flaky: generic/047: 20% (1/5)   generic/547: 20% (1/5)
-ext4/dioread_nolock: 568 tests, 51 skipped, 5108 seconds
-ext4/data_journal: 563 tests, 127 skipped, 4489 seconds
-ext4/bigalloc_4k: 541 tests, 1 failures, 55 skipped, 4766 seconds
-  Flaky: generic/320: 60% (3/5)
-ext4/bigalloc_1k: 542 tests, 64 skipped, 4814 seconds
-ext4/dax: 556 tests, 157 skipped, 3022 seconds
-xfs/4k: 1142 tests, 2 failures, 180 skipped, 10178 seconds
-  Failures: generic/754 xfs/432
-xfs/1k: 1142 tests, 3 failures, 167 skipped, 14218 seconds
-  Failures: generic/627 generic/754 xfs/432
-xfs/v4: 1141 tests, 2 failures, 474 skipped, 8851 seconds
-  Failures: generic/754 xfs/432
-xfs/adv: 1142 tests, 2 failures, 166 skipped, 10238 seconds
-  Failures: generic/754 xfs/432
-xfs/quota: 1142 tests, 2 failures, 165 skipped, 11276 seconds
-  Failures: generic/754 xfs/432
-xfs/quota_1k: 1142 tests, 3 failures, 167 skipped, 13616 seconds
-  Failures: generic/627 generic/754 xfs/432
-xfs/dirblock_8k: 1142 tests, 2 failures, 165 skipped, 11244 seconds
-  Failures: generic/754 xfs/432
-xfs/realtime: 1141 tests, 4 failures, 518 skipped, 8342 seconds
-  Failures: generic/260 generic/455 generic/754 xfs/432
-xfs/realtime_28k_logdev: 1141 tests, 4 failures, 600 skipped, 12882 seconds
-  Failures: generic/260 generic/754 xfs/432 xfs/598
-xfs/realtime_logdev: 1141 tests, 4 failures, 572 skipped, 13036 seconds
-  Failures: generic/260 generic/754 xfs/432 xfs/598
-xfs/logdev: 1142 tests, 3 failures, 235 skipped, 17787 seconds
-  Failures: generic/754 xfs/432 xfs/598
-xfs/dax: 1152 tests, 1 failures, 551 skipped, 5930 seconds
-  Failures: generic/754
-btrfs/default: 1038 tests, 4 failures, 278 skipped, 9576 seconds
-  Failures: btrfs/012 btrfs/277
-  Flaky: generic/418: 20% (1/5)   generic/746: 40% (2/5)
-f2fs/default: 720 tests, 7 failures, 245 skipped, 5432 seconds
-  Failures: generic/050 generic/064 generic/252 generic/563 generic/735
-  Flaky: f2fs/004: 20% (1/5)   generic/475: 40% (2/5)
-f2fs/encrypt: 702 tests, 4 failures, 352 skipped, 3064 seconds
-  Failures: generic/050 generic/563 generic/635
-  Flaky: generic/475: 20% (1/5)
-Totals: 23089 tests, 5942 skipped, 234 failures, 0 errors, 197866s
-
-FSTESTIMG: gce-xfstests/xfstests-amd64-202408121130
-FSTESTPRJ: gce-xfstests
-FSTESTVER: blktests f043065 (Thu, 20 Jun 2024 16:26:22 +0900)
-FSTESTVER: fio  fio-3.36 (Fri, 20 Oct 2023 04:30:43 -0600)
-FSTESTVER: fsverity v1.6 (Wed, 20 Mar 2024 21:21:46 -0700)
-FSTESTVER: ima-evm-utils v1.5 (Mon, 6 Mar 2023 07:40:07 -0500)
-FSTESTVER: libaio   libaio-0.3.108-82-gb8eadc9 (Thu, 2 Jun 2022 13:33:11 +0200)
-FSTESTVER: ltp  20240524-131-gdfb293ee0 (Mon, 29 Jul 2024 09:57:32 +0200)
-FSTESTVER: nvme-cli v1.16 (Thu, 11 Nov 2021 13:09:06 -0800)
-FSTESTVER: quota  v4.05-67-g8254bec (Mon, 29 Jul 2024 12:24:36 -0400)
-FSTESTVER: util-linux v2.40 (Wed, 27 Mar 2024 12:46:59 +0100)
-FSTESTVER: xfsprogs v6.9.0 (Mon, 22 Jul 2024 11:05:03 +0200)
-FSTESTVER: xfstests-bld 8456529b (Wed, 31 Jul 2024 22:17:54 -0400)
-FSTESTVER: xfstests v2024.08.11-7-gc3fc1ccce-dirty (Mon, 12 Aug 2024 11:25:51 -0400)
-FSTESTVER: zz_build-distro bookworm
-FSTESTSET: -g auto
-FSTESTOPT: aex
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
