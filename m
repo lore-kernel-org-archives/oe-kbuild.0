@@ -1,125 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D881361
-	for <oe-kbuild@lists.linux.dev>; Thu,  5 Sep 2024 00:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1D6C13D;
+	Thu,  5 Sep 2024 01:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725495175; cv=none; b=Lhgiy7OjpfFR5R9ZKZfcOtUjVw73KRNS0OYuMN7dRPvNjX4q3OC+PwPGq4goSyXiN+9T52FWY+3sNVagCwplhADJOypr1g5DcuBg6H0/uk/g/gdbgD58Uybor8tPjO8qnQimU2rF1qaJoXI1m5/+6QZqfNJ/EeQvVLWOnjCgZT4=
+	t=1725499843; cv=none; b=PXf6ZdWZ4y9jy9YqYYhckRU3FXRsz5Asyum1hBTMZNgdfmKGrL6uWtllEHGydZ16DzodWxPGNAKcSNA/enDLOjrVK36719o4oFwj3ZLy4OGdPwTufJS0nuqmHBaJoEt46MlFTi3Z061o9a5FJYmoiBWyfM9ByO9b2ZPJJ3X7/ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725495175; c=relaxed/simple;
-	bh=iR3WkTepj0gRYXtd4gLcLcypaUDuwU2fbZ/KJhP43eY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WofZIkXuDVDThnn7jbL2/HMUYkVBeab6FmNtyR8rJl4QmlxG4UPLjKfkJOgqSyKbjc6fOIfq9L1o3A8okVZipiEDnsv7/LklILhOqULz3oGxzM6PXg6upiWlbre3r5RJOcYu9xvu18mXb99q8DhkUGPWphneKZBOcDBewwqJHrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mmf/150D; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mmf/150D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725495174; x=1757031174;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iR3WkTepj0gRYXtd4gLcLcypaUDuwU2fbZ/KJhP43eY=;
-  b=Mmf/150DvXMW3Bz8YQC8jMBZlIMvOt+rMEhlD/0FpmkFm7FBuCFjuGM7
-   g6hj4KgPz04jQR56wfw28fBdrE/gg8a3KkaOqm1SbxQ3xKJE4aVxdqXrR
-   febBxy3F8bVzD80TESjc18ePJHYmVUotyTBLma+swcXGUX9LTIWyAnVhO
-   /YrJCAZ5SLgZMc43ZSRiXZA9tJKu0Z9Ho3xLmtZifHCEZfSDqZeHN5nTO
-   9q3tGzFFe7pR03pzWKNpwp89AWXdZ1/UI8Kk/53Ob2ghma93560yYJxCa
-   RyVBEcN8aZxhRpzWPYsMddDPSIa8dVddlbSa1GzRJZHHLYqGpqAtiMJHo
-   Q==;
-X-CSE-ConnectionGUID: WPiY7B/sTLeP1DYUKJd7fA==
-X-CSE-MsgGUID: AliVKkC9SU6LL2grTbQySw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11185"; a="46713283"
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="46713283"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2024 17:12:53 -0700
-X-CSE-ConnectionGUID: UqcTpFSeSzmnWzbo635i3g==
-X-CSE-MsgGUID: JH9lrJVlRh+H21/kzRyl+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,203,1719903600"; 
-   d="scan'208";a="65451686"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Sep 2024 17:12:52 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sm07G-0008il-0R;
-	Thu, 05 Sep 2024 00:12:50 +0000
-Date: Thu, 5 Sep 2024 08:12:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [brauner-vfs:vfs.misc 55/57]
- tools/perf/trace/beauty/generated/fs_at_flags_array.c:10:24: error:
- initializer overrides prior initialization of this subobject
-Message-ID: <202409050844.id41fEap-lkp@intel.com>
+	s=arc-20240116; t=1725499843; c=relaxed/simple;
+	bh=vdH827GExo+/8gFunl3W5hr33UzB/PVnFjxuY+ZGU7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Mbtx7tGzBpmMAwLx1EM5QPfb7r62BKby5HNBioz8Mp+gvE9OuEZqawL7F9B/Ai1OCOkjpIvUSZi8MMGZelD+b6u4ZAuMxmGEjKjO78blZf/kuL2ywZqGF6KV3HlT67IeqECCtk5ikeMb1gxyO+1xBnpjMyIHr7FdqT6tN9zlcWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Wzhcn1NKCz2DbjD;
+	Thu,  5 Sep 2024 09:30:17 +0800 (CST)
+Received: from dggpeml100021.china.huawei.com (unknown [7.185.36.148])
+	by mail.maildlp.com (Postfix) with ESMTPS id 53467180042;
+	Thu,  5 Sep 2024 09:30:38 +0800 (CST)
+Received: from [127.0.0.1] (10.174.177.174) by dggpeml100021.china.huawei.com
+ (7.185.36.148) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 5 Sep
+ 2024 09:30:37 +0800
+Message-ID: <c2711f3d-6bee-414c-952f-5c33da315a1a@huawei.com>
+Date: Thu, 5 Sep 2024 09:30:37 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 8348/9291] fs/ext4/extents.c:6155
+ ext4_ext_clear_bb() error: double free of 'path'
+To: Dan Carpenter <dan.carpenter@linaro.org>, Theodore Ts'o <tytso@mit.edu>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Jan Kara <jack@suse.cz>,
+	<oe-kbuild@lists.linux.dev>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, Yang
+ Erkun <yangerkun@huawei.com>
+References: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
+Content-Language: en-US
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <0a03c332-20ff-47ef-8a33-e52b4736d05b@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml100021.china.huawei.com (7.185.36.148)
 
-:::::: 
-:::::: Manual check reason: "low confidence bisect report"
-:::::: 
+On 2024/9/5 1:39, Dan Carpenter wrote:
+> Hi Baokun,
+>
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   fdadd93817f124fd0ea6ef251d4a1068b7feceba
+> commit: 92bbb922166cd7a829bf60d168372ffa1c54e81d [8348/9291] ext4: make some fast commit functions reuse extents path
+> config: x86_64-randconfig-161-20240904 (https://download.01.org/0day-ci/archive/20240905/202409050044.EGobujzB-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202409050044.EGobujzB-lkp@intel.com/
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: Christian Brauner <christianvanbrauner@gmail.com>
-TO: Aleksa Sarai <cyphar@cyphar.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jeff Layton <jlayton@kernel.org>
-CC: Josef Bacik <josef@toxicpanda.com>
-CC: Jan Kara <jack@suse.cz>
+Thanks for the report!
 
-Hi Aleksa,
+We've identified this issue before, and this is a regression introduced
+by Ted when resolving patch conflicts.
+For more details, please see:
+https://lore.kernel.org/all/7480a81b-4b95-45cc-bf4e-da34ff148790@huawei.com/
 
-First bad commit (maybe != root cause):
+Now Ted has fixed this problem in his branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git/commit/?h=dev&id=2352e3e461926b59f01c1e39fbb0494891cff997
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.misc
-head:   5b53696a4ef157a228d75673297bddbfb33b01e4
-commit: 34cf4084965437b9d1b470067b0b3155dbc119d6 [55/57] uapi: explain how per-syscall AT_* flags should be allocated
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240905/202409050844.id41fEap-lkp@intel.com/reproduce)
+Ted, could you please help push the corrected commit to the next branch?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409050844.id41fEap-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   Makefile.config:671: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-     PERF_VERSION = 6.11.rc4.g34cf40849654
-   In file included from trace/beauty/fs_at_flags.c:21:
->> tools/perf/trace/beauty/generated/fs_at_flags_array.c:10:24: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
-      10 |         [ilog2(0x0001) + 1] = "RENAME_NOREPLACE",
-         |                               ^~~~~~~~~~~~~~~~~~
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:6:24: note: previous initialization is here
-       6 |         [ilog2(0x0000) + 1] = "STATX_SYNC_AS_STAT",
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:14:23: error: initializer overrides prior initialization of this subobject [-Werror,-Winitializer-overrides]
-      14 |         [ilog2(0x200) + 1] = "HANDLE_FID",
-         |                              ^~~~~~~~~~~~
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:13:23: note: previous initialization is here
-      13 |         [ilog2(0x200) + 1] = "REMOVEDIR",
-         |                              ^~~~~~~~~~~
-   2 errors generated.
-   make[7]: *** [tools/build/Makefile.build:105: tools/perf/trace/beauty/fs_at_flags.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: trace/beauty] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:760: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:290: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
-
+Thanks,
+Baokun
+> smatch warnings:
+> fs/ext4/extents.c:6155 ext4_ext_clear_bb() error: double free of 'path'
+>
+> vim +/path +6155 fs/ext4/extents.c
+>
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6108  int ext4_ext_clear_bb(struct inode *inode)
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6109  {
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6110  	struct ext4_ext_path *path = NULL;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6111  	struct ext4_extent *ex;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6112  	ext4_lblk_t cur = 0, end;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6113  	int j, ret = 0;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6114  	struct ext4_map_blocks map;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6115
+> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6116  	if (ext4_test_inode_flag(inode, EXT4_INODE_INLINE_DATA))
+> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6117  		return 0;
+> 1ebf21784b19d5 Harshad Shirwadkar 2021-10-15  6118
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6119  	/* Determin the size of the file first */
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6120  	path = ext4_find_extent(inode, EXT_MAX_BLOCKS - 1, NULL,
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6121  					EXT4_EX_NOCACHE);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6122  	if (IS_ERR(path))
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6123  		return PTR_ERR(path);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6124  	ex = path[path->p_depth].p_ext;
+> 92bbb922166cd7 Baokun Li          2024-08-22  6125  	if (!ex)
+> 92bbb922166cd7 Baokun Li          2024-08-22  6126  		goto out;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6127  	end = le32_to_cpu(ex->ee_block) + ext4_ext_get_actual_len(ex);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6128
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6129  	cur = 0;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6130  	while (cur < end) {
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6131  		map.m_lblk = cur;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6132  		map.m_len = end - cur;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6133  		ret = ext4_map_blocks(NULL, inode, &map, 0);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6134  		if (ret < 0)
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6135  			break;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6136  		if (ret > 0) {
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6137  			path = ext4_find_extent(inode, map.m_lblk, NULL, 0);
+> b2e662cb86ca9f Li Zetao           2024-08-20  6138  			if (!IS_ERR(path)) {
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6139  				for (j = 0; j < path->p_depth; j++) {
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6140  					ext4_mb_mark_bb(inode->i_sb,
+> d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6141  							path[j].p_block, 1, false);
+> 599ea31d13617c Xin Yin            2022-01-10  6142  					ext4_fc_record_regions(inode->i_sb, inode->i_ino,
+> 599ea31d13617c Xin Yin            2022-01-10  6143  							0, path[j].p_block, 1, 1);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6144  				}
+> 7ff5fddaddf2cc Ye Bin             2022-09-24  6145  				ext4_free_ext_path(path);
+>                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^
+> Freed
+>
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6146  			}
+> d2f7cf40ea89b4 Kemeng Shi         2023-09-29  6147  			ext4_mb_mark_bb(inode->i_sb, map.m_pblk, map.m_len, false);
+> 599ea31d13617c Xin Yin            2022-01-10  6148  			ext4_fc_record_regions(inode->i_sb, inode->i_ino,
+> 599ea31d13617c Xin Yin            2022-01-10  6149  					map.m_lblk, map.m_pblk, map.m_len, 1);
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6150  		}
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6151  		cur = cur + map.m_len;
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6152  	}
+> 8016e29f4362e2 Harshad Shirwadkar 2020-10-15  6153
+> 92bbb922166cd7 Baokun Li          2024-08-22  6154  out:
+> 92bbb922166cd7 Baokun Li          2024-08-22 @6155  	ext4_free_ext_path(path);
+>                                                          ^^^^^^^^^^^^^^^^^^^^^^^^
+> Double free
+>
+>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Baokun Li
+
