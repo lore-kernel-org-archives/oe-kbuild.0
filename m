@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609E53FEC
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Sep 2024 04:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D07E171CD
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Sep 2024 04:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725597428; cv=none; b=K2F5F31UVV4F2rcylFxb/uab6HGa0IpHLpRndEFNwbZgwMH/h3sMQLXBqjFhWp9V5eVKP0W5DIs2k+Z7dOqxJ2288dPhSOG1Mqb1nK1BH0+qU8zVHiR3sSYuMYXeQS7FzNl6pcJCniwquJV/XxkOnL12/wNeyyA+2HUOBN6oAiQ=
+	t=1725598029; cv=none; b=SHzza7BDLuI5m1+AyPuBA4+rZSsc2JyLgE6HcwXBgGPNlza7Z408Djwdt9eD0zhE/IKAJ1vV077edtKIaVijVTGO5ZSK7jggu6HYeh6hcr1LDZPn7nmMGeSqtlv8vpzI9b4Sf7M/F5rJVzXQox/4fwaXVd1poJFOEmpUK6GipUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725597428; c=relaxed/simple;
-	bh=JI48l9pvozWUyp7ba+0vSEztCpkP5sinYqXTtCF67Lw=;
+	s=arc-20240116; t=1725598029; c=relaxed/simple;
+	bh=1IA6F9jJ8GBYvoo5n2COxhxoXSiBtO4Pn4HhdG+mvXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T7+fPsMpVBkVSKkuiHtxJYbYbCuaNi2lMrVpVZ7DAd1npfdQB6QcNn5RJY7ZLlZb3XBgPujJpJQdLcTJq1FYPk+1Y8d5hnDmt9TsnQ5lF5LUDRzYHUgfh1qx4fYFS3eBA3Wh3w0zJQOQSI6L3P+cX3Y9C0uP5Jx9IsdgUznM47o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QOY53b3K; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=YgqwQDD4izItTZn2t2dJ7DV/kz2ldyKyOZBiX3s+WURy8tiw3qeJ0SNSjsn9YIzoy+5paKqclEtADbPg4WgEphpN7baH+Bn5XX5p+GFU1oWNuchGB1ynabXjhSssAe4gLZ1l8LmPoMH7pf8rcG731lI9UpPo4Qh+F2LnCNeg+94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jn2VjrNF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QOY53b3K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jn2VjrNF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725597426; x=1757133426;
+  t=1725598028; x=1757134028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JI48l9pvozWUyp7ba+0vSEztCpkP5sinYqXTtCF67Lw=;
-  b=QOY53b3K81SlRpxuuqtwK7T1JMRFoMz0NcWQCS+ZBuHSv2nKCObm9GGJ
-   De0MLsYWGZxZoNq9xA/CdH8tpyT2W87tTTcWh78scXuPsBhJFhKJB01P+
-   keeowqWS+GFfOvltLSra+i+0Wbfpd4+ioBZE1GIjcXT0QoUYC/MpLH+Fl
-   OVUjcj2HHyspooUehpZKRfw1oRf7dVUmV4fYPTnhiXGQ9cw7SNBLcJUCC
-   93Vec4aICi6x9BRIPDMjnQnEUEfilzim4Jg1LIfB7EwG56P3S5HVg6dN3
-   KXjkWM2E5Zh0bpXIk6FBVEKo06GNngfF4q9F1qsfH0nVO72yz7yDbimvr
-   A==;
-X-CSE-ConnectionGUID: ksC/Kz4tTk6/cE4IdYze6w==
-X-CSE-MsgGUID: 2o0c6FlqQjS74AQNzZmEOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="34921268"
+  bh=1IA6F9jJ8GBYvoo5n2COxhxoXSiBtO4Pn4HhdG+mvXU=;
+  b=Jn2VjrNFF9R9mirW3OJPak6vwgJXne8vrMU1J1ke6Ol+PYZfqaUZ40z2
+   2yhEEQzdcuIjr7H1SwrkaewaSWZM7uBR5gWxSpBHqXCo1m4aszxjnxhnI
+   4jcYFczzC1vjuYnHNqINCSPhpOAc88fiebsKTMvAmtyAGGdrZbE8KznLU
+   h3SeAIlovf1CyPpSL5nWSAg81P0xiHhB3ZkOwf606i5YOOd0O1Vh3pj+m
+   HiBb8UAJmgFs/nZnw0bFSBLD4W+qr4aeJD8sbVdxWpbv9hYpn/1MivGYZ
+   pzcmQRWjtO0Ga7xy7wH9VL2LcU/CwKOSOtK1ss1L5+f9qutugI70wQZH4
+   w==;
+X-CSE-ConnectionGUID: /ppYzUdURg2HTj0JrUNpzA==
+X-CSE-MsgGUID: 6NGPRu3lSLGEFqlTBsByCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24501504"
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="34921268"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 21:37:05 -0700
-X-CSE-ConnectionGUID: wiBY9eh3TEiTo5oSe5K0cA==
-X-CSE-MsgGUID: SlBqgdc+RM2UbKxRecBv0A==
+   d="scan'208";a="24501504"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 21:47:07 -0700
+X-CSE-ConnectionGUID: OTbpJTObTieosbbgdBtubQ==
+X-CSE-MsgGUID: KBCG0CQzRhmUjPNuYDZdPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="70268228"
+   d="scan'208";a="103321749"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Sep 2024 21:37:04 -0700
+  by orviesa001.jf.intel.com with ESMTP; 05 Sep 2024 21:47:06 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smQiT-000Acl-3B;
-	Fri, 06 Sep 2024 04:37:01 +0000
-Date: Fri, 6 Sep 2024 12:36:21 +0800
+	id 1smQsB-000Aei-2V;
+	Fri, 06 Sep 2024 04:47:03 +0000
+Date: Fri, 6 Sep 2024 12:46:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [linux-next:master 8004/9692]
- tools/perf/trace/beauty/generated/fs_at_flags_array.c:10:31: error:
- initialized field overwritten
-Message-ID: <202409061229.nW8r8JYn-lkp@intel.com>
+Subject: [rockchip:v6.12-armsoc/dts64 70/73]
+ arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb:
+ video-codec@fdb50000: compatible: 'oneOf' conditional failed, one must be
+ fixed:
+Message-ID: <202409061214.Q7ltYsKo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,60 +65,45 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "low confidence bisect report"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Aleksa Sarai <cyphar@cyphar.com>
-CC: Christian Brauner <brauner@kernel.org>
-CC: Jeff Layton <jlayton@kernel.org>
-CC: Josef Bacik <josef@toxicpanda.com>
-CC: Jan Kara <jack@suse.cz>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
+TO: Chris Morgan <macromorgan@hotmail.com>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-Hi Aleksa,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ad40aff1edffeccc412cde93894196dca7bc739e
-commit: 34cf4084965437b9d1b470067b0b3155dbc119d6 [8004/9692] uapi: explain how per-syscall AT_* flags should be allocated
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 days ago
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061229.nW8r8JYn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git v6.12-armsoc/dts64
+head:   e00bf11185033456f3d4345bcd366df1f7cc7255
+commit: 4e946c447a043c88b5db38501f3af174989dcc94 [70/73] arm64: dts: rockchip: Add GameForce Ace
+:::::: branch date: 8 hours ago
+:::::: commit date: 34 hours ago
+config: arm64-randconfig-051-20240905 (https://download.01.org/0day-ci/archive/20240906/202409061214.Q7ltYsKo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.6.dev16+gc51125d
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061214.Q7ltYsKo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409061229.nW8r8JYn-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409061214.Q7ltYsKo-lkp@intel.com/
 
-Note: the linux-next/master HEAD ad40aff1edffeccc412cde93894196dca7bc739e builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
-   Makefile.config:671: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-     PERF_VERSION = 6.11.rc4.g34cf40849654
-   In file included from trace/beauty/fs_at_flags.c:21:
->> tools/perf/trace/beauty/generated/fs_at_flags_array.c:10:31: error: initialized field overwritten [-Werror=override-init]
-      10 |         [ilog2(0x0001) + 1] = "RENAME_NOREPLACE",
-         |                               ^~~~~~~~~~~~~~~~~~
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:10:31: note: (near initialization for 'fs_at_flags[1]')
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:14:30: error: initialized field overwritten [-Werror=override-init]
-      14 |         [ilog2(0x200) + 1] = "HANDLE_FID",
-         |                              ^~~~~~~~~~~~
-   tools/perf/trace/beauty/generated/fs_at_flags_array.c:14:30: note: (near initialization for 'fs_at_flags[10]')
-   cc1: all warnings being treated as errors
-   make[7]: *** [tools/build/Makefile.build:105: tools/perf/trace/beauty/fs_at_flags.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: trace/beauty] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   make[5]: *** [Makefile.perf:760: tools/perf/perf-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:290: sub-make] Error 2
-   make[3]: *** [Makefile:70: all] Error 2
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: video-codec@fdb50000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['rockchip,rk3588-vpu121', 'rockchip,rk3568-vpu'] is too long
+   	'rockchip,rk3588-vpu121' is not one of ['rockchip,rk3036-vpu', 'rockchip,rk3066-vpu', 'rockchip,rk3288-vpu', 'rockchip,rk3328-vpu', 'rockchip,rk3399-vpu', 'rockchip,px30-vpu', 'rockchip,rk3568-vpu', 'rockchip,rk3588-av1-vpu']
+   	'rockchip,rk3188-vpu' was expected
+   	'rockchip,rk3228-vpu' was expected
+   	'rockchip,rk3066-vpu' was expected
+   	'rockchip,rk3399-vpu' was expected
+   	from schema $id: http://devicetree.org/schemas/media/rockchip-vpu.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /video-codec@fdb50000: failed to match any schema with compatible: ['rockchip,rk3588-vpu121', 'rockchip,rk3568-vpu']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /video-codec@fdba0000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /video-codec@fdba4000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /video-codec@fdba8000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /video-codec@fdbac000: failed to match any schema with compatible: ['rockchip,rk3588-vepu121']
 
 -- 
 0-DAY CI Kernel Test Service
