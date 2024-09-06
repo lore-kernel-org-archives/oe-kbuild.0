@@ -1,231 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E46981AD2
-	for <oe-kbuild@lists.linux.dev>; Fri,  6 Sep 2024 05:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CEA3B1A2
+	for <oe-kbuild@lists.linux.dev>; Fri,  6 Sep 2024 06:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725601713; cv=none; b=LHY7mT/k6iNkRVCVQqqBKsuWGPo8NbNjVI4avpzqvtByxVpHcMNQaH6bp4JZz/wkj3gwa4rIl3LD7ZX6TIpei3tzF1mExkzK2VIQxvEE5Z3KVcUMCfoV8bf6ws4wsSCiempkzcuRmx8tZ229NZSP1Eqwki8DdL5L5hYy3PIrbaE=
+	t=1725605447; cv=none; b=AapisPm7t2FtWDxX6v6U4E8p3eJ+N5tJ347Yin4YcXy14PAFSs2QJlVmopitYrWQ6a2U7wM4reLOlpo1sAMQD6HLJbH8AxfH9fG2v2dCjKKAnKqqcCxfqbDENRkm3v7IlVo7OMcStGZJwDpKLaQxwhkoVUMZdhfjTSo+J7PHfps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725601713; c=relaxed/simple;
-	bh=0lJza2a3PFsrHkDX6K4Czu8EoO9LS6b7eQhpgFGZvLI=;
+	s=arc-20240116; t=1725605447; c=relaxed/simple;
+	bh=a5C2b+tcOW9HGvUUpuBdDEC5c3gZVYI8FESmYicnyFk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YLvmRf/D/P6tUVQJ+Q5w6nJLdvzUGIgCIJ0N52jTuFlnmv7onmQwnZHiZk8TPajH0IsDzZfJNLfn3EE/bSOEjyqcEEn23BrxovrTTCE6yIxlVkATWmKbUkE94t3KiUtl/6QU0aKSMtIZWBRDCNnDmyc6Ps0ZL2gZgznLca7ntEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5Eikcp+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=NPq5K/clvm3Gi/6KT8PEtDLwhucJt3hc+X+6NGxpnNLyA/htBPjvOWA0qTKTCqSR/xbbqVcF+SVMCmKWxuYabEjyPYyPcWbWtgxfsI4k62Zf/UAG6FtYkFapqJBIhqQWNGw+Ew7KEKi3HK4+oVFwnp6LpAGLPVlVNz7GD7R6Hy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoO8zDHe; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5Eikcp+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoO8zDHe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725601711; x=1757137711;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0lJza2a3PFsrHkDX6K4Czu8EoO9LS6b7eQhpgFGZvLI=;
-  b=G5Eikcp+rhwt6soOBNASAmfP3RExdRbhoB8tWljYZZipSDTwoA0Ymss5
-   A51IrMEjqDfSBr7ImsaI+dye/uvi5nflFY3h3uiBUN0NAREJRNTSjyKfe
-   U0i5d19iO2b8QO3/R+965Zt5BLCeDiqb19uH5uCkAkwXTgSEz5TN7o3JT
-   BoEOTRKnDQtmeKmIFcDR1f9S4FoDqj0mOnwUmY3mXNztANw/4/pt+YaM1
-   aKTWHQIIee5/2JaEMGqu566oN3ES+x8zbcSNEh/EQsaY8oBkW+ieVbiY4
-   AD8cD8Q4lkezWKYEuhG4aWPd8zSh5nlhQNG1TF0janu9T7cnvPTHFxsL+
+  t=1725605445; x=1757141445;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a5C2b+tcOW9HGvUUpuBdDEC5c3gZVYI8FESmYicnyFk=;
+  b=QoO8zDHewXnoGCARnDUot2bIRZWwVJ9auqdDnX233z8HfVHovkxACZqB
+   eA+ENgpjLw9HapqZZJ3dbYW9HNSDgIGD92yGHAQknBCt14duzLrQRRMoA
+   XU90cwPyJrYXW8pFuen51gTnw1LHfxr++EMMtceP8jgcJRuuUujBvIzov
+   PLR28RhdC0+5EVTmSgxl8PQDoPWdbIJ0k4cAqucEzP0LUkd1TFurqgMjP
+   ASYLjsrkac0ppw0bUoiutXzVQMsRd4kTzLa4dma8azioDssjXSbPKeNEw
+   mzELt46JxfLpFLEhFXHcFb4kkz3Oc0hWPTXG3M56GVKbhWf9u19/Pb25g
    w==;
-X-CSE-ConnectionGUID: PWMaHfAKQnqwn1HxzuSFMw==
-X-CSE-MsgGUID: T77xQARnT9GqAkZLTB9F5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24216759"
-X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="24216759"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 22:48:28 -0700
-X-CSE-ConnectionGUID: kYRISL5vRdazqrUIEYbpcQ==
-X-CSE-MsgGUID: dtuXEPI9SA6aNYHg967QnQ==
+X-CSE-ConnectionGUID: lWMDf5kaTnGbBPuidUecMA==
+X-CSE-MsgGUID: XQDDSAmGR6eOt2GxCZEmdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11186"; a="24509414"
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
+   d="scan'208";a="24509414"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2024 23:50:35 -0700
+X-CSE-ConnectionGUID: iA8uDm/JRvqs9tJD+sB3OA==
+X-CSE-MsgGUID: eIR7aAq8QCiGeNvkjRNDvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,206,1719903600"; 
-   d="scan'208";a="65899077"
+X-IronPort-AV: E=Sophos;i="6.10,207,1719903600"; 
+   d="scan'208";a="70020660"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Sep 2024 22:48:26 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 05 Sep 2024 23:50:33 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smRpY-000Aiz-1Y;
-	Fri, 06 Sep 2024 05:48:24 +0000
-Date: Fri, 6 Sep 2024 13:48:18 +0800
+	id 1smSnf-000Alj-0G;
+	Fri, 06 Sep 2024 06:50:31 +0000
+Date: Fri, 6 Sep 2024 14:50:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [usb:usb-testing 29/42]
- arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: usbphy@5b100000: 'nxp,sim' is
- a required property
-Message-ID: <202409061350.nYcn723w-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <202409061401.44rtN1bh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-usb@vger.kernel.org
-TO: Xu Yang <xu.yang_2@nxp.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Eric Biggers <ebiggers@google.com>
+CC: Mike Snitzer <snitzer@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   9c0c11bb87b09a8b7cdc21ca1090e7b36abe9d09
-commit: d40ae4cdd9a400dea9dff3408b8c8983c45e943f [29/42] dt-bindings: phy: mxs-usb-phy: add nxp,sim property
-:::::: branch date: 15 hours ago
-:::::: commit date: 3 days ago
-config: arm64-randconfig-052-20240905 (https://download.01.org/0day-ci/archive/20240906/202409061350.nYcn723w-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.6.dev16+gc51125d
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240906/202409061350.nYcn723w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409061350.nYcn723w-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxl-evk.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
---
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: /touchscreen: failed to match any schema with compatible: ['toradex,vf50-touchscreen']
---
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: jpegdec@58400000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: jpegenc@58450000: 'slot' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/nxp,imx8-jpeg.yaml#
->> arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: dma-controller@5b810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh'] is too long
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx6q-dma-apbh', 'fsl,imx6sx-dma-apbh', 'fsl,imx7d-dma-apbh']
-   	'fsl,imx8qxp-dma-apbh' is not one of ['fsl,imx23-dma-apbh', 'fsl,imx23-dma-apbx', 'fsl,imx28-dma-apbh', 'fsl,imx28-dma-apbx']
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: dma-controller@5b810000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/dma/fsl,mxs-dma.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: /bus@5b000000/dma-controller@5b810000: failed to match any schema with compatible: ['fsl,imx8qxp-dma-apbh', 'fsl,imx28-dma-apbh']
+smatch warnings:
+drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+
+vim +/actual_mac +521 drivers/md/dm-integrity.c
+
+1f9fc0b826119f Mikulas Patocka   2018-07-03  491  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
+070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
+0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
+82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
+09d85f8d8909ec Mikulas Patocka   2021-01-21  530  
 
 -- 
 0-DAY CI Kernel Test Service
