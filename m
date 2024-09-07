@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4822139E
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Sep 2024 03:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0275A42A99
+	for <oe-kbuild@lists.linux.dev>; Sat,  7 Sep 2024 05:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725681078; cv=none; b=gEk2nEH4iLNlLlLwVJu6O3sX/4tmjx1+o4M3d1uY3X2bV2Qd8n5BNkZqP4fSxsUSiz7bx1Y9UY1hyrA8nsbIsXCHyyGb3A0wm/WD6e86z0fPFFtg+NDjTPHnH3W3ILQH8IrcdRdlujEpk9vV5uRRvXPNiFxR+MtMGigcS+2kPts=
+	t=1725687937; cv=none; b=QVn3PTKtamZS/eSfPpc7T1ZT7COylXWCrpbTB3yvDHTWucOO3tAAZVVOFT1mkvjhBQJdl/0WJIbG9B5iaUAxgQfvZJuixTL0cKUiPSdl5rj/RtzOOpnsqZCZI1kUAquPOnlRgyW7Q+CpQp4eqCfBO4r+vNuW9D+go4NoIjYrg40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725681078; c=relaxed/simple;
-	bh=QwMk3+B11zW/pvQ9LaMvQlk8AhXBiINOlqb/6B+i7Js=;
+	s=arc-20240116; t=1725687937; c=relaxed/simple;
+	bh=7D+5ETPPAECQGBFaRn4Ag48SasvpuY/HnMP+5I6GPzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=irfYl67Jixe+FTOtLUAhKGHaii8qafNTPSOS8uS+S9qOGYfJsl2V3jhPRbEMixLSVzHlnTDi6uTfFyJyFTOK8sAvcrIRew4To5a1bpQ7y8t7qr3U877IRnh4t2NUUECT7qkAU5CKjguPoq2jb4jmL7T7h1KHkz4H6h+yP9H2G9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ex+p3tKe; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=tmEz1PpkEfYdZtEo4PpjZ5NFygfTmLIOmcfTRSPBMS2NAUqyMP9Jz2kpKgtcinHenUWKAs4k2l2uYbRjvLcPLrHGm5clAxsszo/yR7OibERR8r7SqduVQFr/QsyDnsZ0YQkPO+U0DfeM+Y2lWBz0WUEaSQOztgWjGKz+LYjfE7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lm+dOS2y; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ex+p3tKe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lm+dOS2y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725681076; x=1757217076;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QwMk3+B11zW/pvQ9LaMvQlk8AhXBiINOlqb/6B+i7Js=;
-  b=Ex+p3tKeW6I65H4u9EKX1VpIO5LQzuPYwZYiqWJgGfoPoS3RAqKkvwd1
-   842DrdIZNlAkr2lby1NfJyNNRG/yKJakJnnGo9N36rum+eFK6g9bRXmUo
-   J/+M0ALb8BAbhc+RaZZVdAjHc3ub0ZHPi/kheKqcVUMEmjNCC4XGAJHk+
-   tJ/nLtNNxk9K0Cxqm6SjFQ3IzWCKmnmw1ovgqYXG7THeExZq/HwQDYuNA
-   iolbXgZAfJdw0yjHhS1hl3sp+Sue3ZyY/L44uLDs1dG4oMKKgM7CHgXsR
-   ArG1iXfYOkhN2ZAU/g9FITsotH5UkN0d8BNtUwrlBOiVI3vF/b5bwQeNT
-   w==;
-X-CSE-ConnectionGUID: Q0Uu8EhDQqqpKrFtk649cg==
-X-CSE-MsgGUID: KADsglifRAm4dbztw2tNrA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="27374709"
-X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="27374709"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 20:51:15 -0700
-X-CSE-ConnectionGUID: a6FKmTMtTLKzmrhZ+kWqiA==
-X-CSE-MsgGUID: g5mQGxTjS6OPzwzLVZPy5w==
+  t=1725687935; x=1757223935;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7D+5ETPPAECQGBFaRn4Ag48SasvpuY/HnMP+5I6GPzU=;
+  b=Lm+dOS2y4O2SmBlgJfjrojE1tyKIFlTX5I/didnph8WWRkQm7Oga5Tz7
+   vyWDOCvTiN+8LM+ik7k2JsFwD/WxgdZW/ThHiNdYkt5eXiangH6thR2oK
+   Dd9ThzZiLgcs35rW92O3pZ47jY1EUSnO6HJHvgdDup79cVRP1mNxIF1yc
+   m7c3PGj4ReXpccJwLjg5lrM1VmCSl+JH7KWc0Z9tfu0O9HuUbV1VZLCqG
+   vxoS2Rsd1KyR6exUvs5pAl+od93ItwFamISrAx5YP6o/k4kQShAvpF2+5
+   +b1gPFjswOovaAL9QOdHSoia3aZ3rcvNPSWuRr1wut0PpyvRX8aQKcrSj
+   g==;
+X-CSE-ConnectionGUID: r1vdQfZTT7mc2VTESXdAVQ==
+X-CSE-MsgGUID: 8k++MXwHRq6AHNrQSzg5WQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11187"; a="23956106"
+X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
+   d="scan'208";a="23956106"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2024 22:45:30 -0700
+X-CSE-ConnectionGUID: 1Ws2HNo1T9mLbKJ3uwCxJA==
+X-CSE-MsgGUID: WUMw06byTiy3mRMUtz+AUA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,209,1719903600"; 
-   d="scan'208";a="66166674"
+X-IronPort-AV: E=Sophos;i="6.10,210,1719903600"; 
+   d="scan'208";a="96859851"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 06 Sep 2024 20:51:14 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Sep 2024 22:45:29 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1smmTf-000C6P-2a;
-	Sat, 07 Sep 2024 03:51:11 +0000
-Date: Sat, 7 Sep 2024 11:50:51 +0800
+	id 1smoGF-000C9Z-0V;
+	Sat, 07 Sep 2024 05:45:27 +0000
+Date: Sat, 7 Sep 2024 13:44:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [ak-misc:perf/brstack-resolve-1 8/10]
- scripts/python/Perf-Trace-Util/Context.c:245:3: error: label at end of
- compound statement is a C23 extension
-Message-ID: <202409071126.Ei591Jx9-lkp@intel.com>
+Subject: Re: [PATCH v2] selftests/futex: Create test for robust list
+Message-ID: <202409071354.clW9RcwR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 :::::: 
 :::::: Manual check reason: "low confidence bisect report"
@@ -69,145 +69,117 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Andi Kleen <ak@linux.intel.com>
+In-Reply-To: <20240903134033.816500-1-andrealmeid@igalia.com>
+References: <20240903134033.816500-1-andrealmeid@igalia.com>
+TO: "André Almeida" <andrealmeid@igalia.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Darren Hart <dvhart@infradead.org>
+TO: Davidlohr Bueso <dave@stgolabs.net>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+CC: linux-kernel@vger.kernel.org
+CC: linux-kselftest@vger.kernel.org
+CC: kernel-dev@igalia.com
+CC: "André Almeida" <andrealmeid@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ak/linux-misc.git perf/brstack-resolve-1
-head:   593712b0a72c83baf16dc245ba6f9cc79984625d
-commit: cd5e8cec9db02e60739206da2619ececfb468ae2 [8/10] perf: resolve inlines for perf_brstack_srcline/perf_ip_srcline
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on linus/master v6.11-rc6 next-20240906]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/selftests-futex-Create-test-for-robust-list/20240903-214428
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20240903134033.816500-1-andrealmeid%40igalia.com
+patch subject: [PATCH v2] selftests/futex: Create test for robust list
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
 compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071126.Ei591Jx9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240907/202409071354.clW9RcwR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409071126.Ei591Jx9-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409071354.clW9RcwR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   Makefile.config:671: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
-     PERF_VERSION = 6.11.rc3.gcd5e8cec9db0
->> scripts/python/Perf-Trace-Util/Context.c:245:3: error: label at end of compound statement is a C23 extension [-Werror,-Wc23-extensions]
-     245 |                 } else {
-         |                 ^
-   1 error generated.
-   make[8]: *** [tools/build/Makefile.build:106: tools/perf/scripts/python/Perf-Trace-Util/Context.o] Error 1
-   make[7]: *** [tools/build/Makefile.build:158: python/Perf-Trace-Util] Error 2
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: scripts] Error 2
-   make[6]: *** Waiting for unfinished jobs....
-   util/srcline.c:710:11: error: incompatible pointer types passing 'unsigned int **' to parameter of type 'unsigned int *'; remove & [-Werror,-Wincompatible-pointer-types]
-     710 |                                       &disc)) {
-         |                                       ^~~~~
-   util/srcline.c:518:16: note: passing argument to parameter 'disc' here
-     518 |                                  unsigned *disc)
-         |                                            ^
-   util/srcline.c:759:14: error: incompatible pointer to integer conversion passing 'unsigned int *' to parameter of type 'unsigned int'; dereference with * [-Wint-conversion]
-     759 |                                                        disc)) {
-         |                                                        ^~~~
-         |                                                        *
-   util/srcline.c:644:24: note: passing argument to parameter 'disc' here
-     644 |                                       unsigned int disc)
-         |                                                    ^
-   util/srcline.c:777:30: error: incompatible pointer types passing 'unsigned int **' to parameter of type 'unsigned int *'; remove & [-Werror,-Wincompatible-pointer-types]
-     777 |                                                       &record_line_nr, &disc)) == 1) {
-         |                                                                        ^~~~~
-   util/srcline.c:518:16: note: passing argument to parameter 'disc' here
-     518 |                                  unsigned *disc)
-         |                                            ^
-   util/srcline.c:782:30: error: incompatible pointer to integer conversion passing 'unsigned int *' to parameter of type 'unsigned int'; dereference with * [-Wint-conversion]
-     782 |                                                        record_line_nr, disc)) {
-         |                                                                        ^~~~
-         |                                                                        *
-   util/srcline.c:644:24: note: passing argument to parameter 'disc' here
-     644 |                                       unsigned int disc)
-         |                                                    ^
-   4 errors generated.
-   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/srcline.o] Error 1
-   make[7]: *** Waiting for unfinished jobs....
-   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
-   make[5]: *** [Makefile.perf:789: tools/perf/perf-util-in.o] Error 2
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile.perf:292: sub-make] Error 2
-   make[3]: *** [Makefile:76: all] Error 2
+>> robust_list.c:117:44: warning: passing 'int *' to parameter of type 'unsigned int *' converts between pointers to integer types with different sign [-Wpointer-sign]
+     117 |         if (atomic_compare_exchange_strong(futex, &zero, tid)) {
+         |                                                   ^~~~~
+   /opt/cross/clang-617a15a9ea/lib/clang/18/include/stdatomic.h:144:112: note: expanded from macro 'atomic_compare_exchange_strong'
+     144 | #define atomic_compare_exchange_strong(object, expected, desired) __c11_atomic_compare_exchange_strong(object, expected, desired, __ATOMIC_SEQ_CST, __ATOMIC_SEQ_CST)
+         |                                                                                                                ^~~~~~~~
+   1 warning generated.
 
 
-vim +245 tools/perf/scripts/python/Perf-Trace-Util/Context.c
+vim +117 tools/testing/selftests/futex/functional/robust_list.c
 
-e79457a526105c Adrian Hunter 2021-05-30  186  
-8c1dd64aa1d39f Andi Kleen    2024-08-30  187  static PyObject *do_resolve_ip(struct scripting_context *c, PyObject *ipp)
-7ff3245b2d4704 Andi Kleen    2024-08-09  188  {
-7ff3245b2d4704 Andi Kleen    2024-08-09  189  	struct addr_location al;
-7ff3245b2d4704 Andi Kleen    2024-08-09  190  	struct dso *dso;
-7ff3245b2d4704 Andi Kleen    2024-08-09  191  	u8 cpumode;
-7ff3245b2d4704 Andi Kleen    2024-08-09  192  	char *srcfile = NULL;
-7ff3245b2d4704 Andi Kleen    2024-08-09  193  	PyObject *result = NULL;
-7ff3245b2d4704 Andi Kleen    2024-08-09  194  	bool kernel;
-7ff3245b2d4704 Andi Kleen    2024-08-09  195  	u64 ip = PyLong_AsUnsignedLongLong(ipp);
-7ff3245b2d4704 Andi Kleen    2024-08-09  196  	unsigned line = 0, disc = 0;
-cd5e8cec9db02e Andi Kleen    2024-09-04  197  	struct inline_node *inode = calloc(sizeof(struct inline_node), 1);
-7ff3245b2d4704 Andi Kleen    2024-08-09  198  
-cd5e8cec9db02e Andi Kleen    2024-09-04  199  	if (!inode)
-cd5e8cec9db02e Andi Kleen    2024-09-04  200  		goto err2;
-cd5e8cec9db02e Andi Kleen    2024-09-04  201  
-cd5e8cec9db02e Andi Kleen    2024-09-04  202  	INIT_LIST_HEAD(&inode->val);
-7ff3245b2d4704 Andi Kleen    2024-08-09  203  	kernel = machine__kernel_ip(c->machine, ip);
-7ff3245b2d4704 Andi Kleen    2024-08-09  204  	if (kernel)
-7ff3245b2d4704 Andi Kleen    2024-08-09  205  		cpumode = PERF_RECORD_MISC_KERNEL;
-7ff3245b2d4704 Andi Kleen    2024-08-09  206  	else
-7ff3245b2d4704 Andi Kleen    2024-08-09  207  		cpumode = PERF_RECORD_MISC_USER;
-7ff3245b2d4704 Andi Kleen    2024-08-09  208  
-7ff3245b2d4704 Andi Kleen    2024-08-09  209  	addr_location__init(&al);
-7ff3245b2d4704 Andi Kleen    2024-08-09  210  	if (machine__resolve(c->machine, &al, c->sample) < 0)
-7ff3245b2d4704 Andi Kleen    2024-08-09  211  		goto err2;
-7ff3245b2d4704 Andi Kleen    2024-08-09  212  	if (!thread__find_map(al.thread, cpumode, ip, &al))
-7ff3245b2d4704 Andi Kleen    2024-08-09  213  		goto err;
-7ff3245b2d4704 Andi Kleen    2024-08-09  214  	if (!al.map)
-7ff3245b2d4704 Andi Kleen    2024-08-09  215  		goto err;
-7ff3245b2d4704 Andi Kleen    2024-08-09  216  	dso = map__dso(al.map);
-7ff3245b2d4704 Andi Kleen    2024-08-09  217  	if (!dso)
-7ff3245b2d4704 Andi Kleen    2024-08-09  218  		goto err;
-7ff3245b2d4704 Andi Kleen    2024-08-09  219  	if (dso__data(dso)->status == DSO_DATA_STATUS_ERROR)
-7ff3245b2d4704 Andi Kleen    2024-08-09  220  		goto err;
-cd5e8cec9db02e Andi Kleen    2024-09-04  221  	srcfile = get_srcline_split(dso, map__rip_2objdump(al.map, al.addr), &line,
-cd5e8cec9db02e Andi Kleen    2024-09-04  222  				    &disc, inode);
-cd5e8cec9db02e Andi Kleen    2024-09-04  223  	if (srcfile && srcfile != SRCLINE_UNKNOWN) {
-cd5e8cec9db02e Andi Kleen    2024-09-04  224  		if (!list_empty(&inode->val)) {
-cd5e8cec9db02e Andi Kleen    2024-09-04  225  			PyObject *inlines;
-cd5e8cec9db02e Andi Kleen    2024-09-04  226  			struct inline_list *ilist;
-cd5e8cec9db02e Andi Kleen    2024-09-04  227  			int num;
-cd5e8cec9db02e Andi Kleen    2024-09-04  228  		       	num = 0;
-cd5e8cec9db02e Andi Kleen    2024-09-04  229  			list_for_each_entry (ilist, &inode->val, list)
-cd5e8cec9db02e Andi Kleen    2024-09-04  230  				num++;
-cd5e8cec9db02e Andi Kleen    2024-09-04  231  			inlines = PyTuple_New(num);
-cd5e8cec9db02e Andi Kleen    2024-09-04  232  			if (!inlines)
-cd5e8cec9db02e Andi Kleen    2024-09-04  233  				goto out;
-cd5e8cec9db02e Andi Kleen    2024-09-04  234  			num = 0;
-cd5e8cec9db02e Andi Kleen    2024-09-04  235  			list_for_each_entry (ilist, &inode->val, list) {
-cd5e8cec9db02e Andi Kleen    2024-09-04  236  				PyTuple_SetItem(inlines, num,
-cd5e8cec9db02e Andi Kleen    2024-09-04  237  						Py_BuildValue("(ssII)",
-cd5e8cec9db02e Andi Kleen    2024-09-04  238  							ilist->srcline, ilist->symbol->name,
-cd5e8cec9db02e Andi Kleen    2024-09-04  239  							ilist->line, ilist->disc));
-cd5e8cec9db02e Andi Kleen    2024-09-04  240  				num++;
-cd5e8cec9db02e Andi Kleen    2024-09-04  241  			}
-cd5e8cec9db02e Andi Kleen    2024-09-04  242  			result = Py_BuildValue("(sIIO)", srcfile, line, disc, inlines);
-cd5e8cec9db02e Andi Kleen    2024-09-04  243  			Py_DECREF(inlines);
-cd5e8cec9db02e Andi Kleen    2024-09-04  244  		out:
-cd5e8cec9db02e Andi Kleen    2024-09-04 @245  		} else {
-7ff3245b2d4704 Andi Kleen    2024-08-09  246  			result = Py_BuildValue("(sII)", srcfile, line, disc);
-cd5e8cec9db02e Andi Kleen    2024-09-04  247  		}
-cd5e8cec9db02e Andi Kleen    2024-09-04  248  	}
-cd5e8cec9db02e Andi Kleen    2024-09-04  249  	zfree_srcline(&srcfile);
-7ff3245b2d4704 Andi Kleen    2024-08-09  250  err:
-7ff3245b2d4704 Andi Kleen    2024-08-09  251  	addr_location__exit(&al);
-7ff3245b2d4704 Andi Kleen    2024-08-09  252  err2:
-7ff3245b2d4704 Andi Kleen    2024-08-09  253  	if (!result)
-7ff3245b2d4704 Andi Kleen    2024-08-09  254  		return Py_BuildValue("");
-cd5e8cec9db02e Andi Kleen    2024-09-04  255  	inline_node__delete(inode);
-7ff3245b2d4704 Andi Kleen    2024-08-09  256  	return result;
-7ff3245b2d4704 Andi Kleen    2024-08-09  257  }
-7ff3245b2d4704 Andi Kleen    2024-08-09  258  
+32807b4449f353 André Almeida 2024-09-03  101  
+32807b4449f353 André Almeida 2024-09-03  102  /*
+32807b4449f353 André Almeida 2024-09-03  103   * A basic (and incomplete) mutex lock function with robustness
+32807b4449f353 André Almeida 2024-09-03  104   */
+32807b4449f353 André Almeida 2024-09-03  105  static int mutex_lock(struct lock_struct *lock, struct robust_list_head *head, bool error_inject)
+32807b4449f353 André Almeida 2024-09-03  106  {
+32807b4449f353 André Almeida 2024-09-03  107  	_Atomic(unsigned int) *futex = &lock->futex;
+32807b4449f353 André Almeida 2024-09-03  108  	int zero = 0, ret = -1;
+32807b4449f353 André Almeida 2024-09-03  109  	pid_t tid = gettid();
+32807b4449f353 André Almeida 2024-09-03  110  
+32807b4449f353 André Almeida 2024-09-03  111  	/*
+32807b4449f353 André Almeida 2024-09-03  112  	 * Set list_op_pending before starting the lock, so the kernel can catch
+32807b4449f353 André Almeida 2024-09-03  113  	 * the case where the thread died during the lock operation
+32807b4449f353 André Almeida 2024-09-03  114  	 */
+32807b4449f353 André Almeida 2024-09-03  115  	head->list_op_pending = &lock->list;
+32807b4449f353 André Almeida 2024-09-03  116  
+32807b4449f353 André Almeida 2024-09-03 @117  	if (atomic_compare_exchange_strong(futex, &zero, tid)) {
+32807b4449f353 André Almeida 2024-09-03  118  		/*
+32807b4449f353 André Almeida 2024-09-03  119  		 * We took the lock, insert it in the robust list
+32807b4449f353 André Almeida 2024-09-03  120  		 */
+32807b4449f353 André Almeida 2024-09-03  121  		struct robust_list *list = &head->list;
+32807b4449f353 André Almeida 2024-09-03  122  
+32807b4449f353 André Almeida 2024-09-03  123  		/* Error injection to test list_op_pending */
+32807b4449f353 André Almeida 2024-09-03  124  		if (error_inject)
+32807b4449f353 André Almeida 2024-09-03  125  			return 0;
+32807b4449f353 André Almeida 2024-09-03  126  
+32807b4449f353 André Almeida 2024-09-03  127  		while (list->next != &head->list)
+32807b4449f353 André Almeida 2024-09-03  128  			list = list->next;
+32807b4449f353 André Almeida 2024-09-03  129  
+32807b4449f353 André Almeida 2024-09-03  130  		list->next = &lock->list;
+32807b4449f353 André Almeida 2024-09-03  131  		lock->list.next = &head->list;
+32807b4449f353 André Almeida 2024-09-03  132  
+32807b4449f353 André Almeida 2024-09-03  133  		ret = 0;
+32807b4449f353 André Almeida 2024-09-03  134  	} else {
+32807b4449f353 André Almeida 2024-09-03  135  		/*
+32807b4449f353 André Almeida 2024-09-03  136  		 * We didn't take the lock, wait until the owner wakes (or dies)
+32807b4449f353 André Almeida 2024-09-03  137  		 */
+32807b4449f353 André Almeida 2024-09-03  138  		struct timespec to;
+32807b4449f353 André Almeida 2024-09-03  139  
+32807b4449f353 André Almeida 2024-09-03  140  		clock_gettime(CLOCK_MONOTONIC, &to);
+32807b4449f353 André Almeida 2024-09-03  141  		to.tv_sec = to.tv_sec + FUTEX_TIMEOUT;
+32807b4449f353 André Almeida 2024-09-03  142  
+32807b4449f353 André Almeida 2024-09-03  143  		tid = atomic_load(futex);
+32807b4449f353 André Almeida 2024-09-03  144  		/* Kernel ignores futexes without the waiters flag */
+32807b4449f353 André Almeida 2024-09-03  145  		tid |= FUTEX_WAITERS;
+32807b4449f353 André Almeida 2024-09-03  146  		atomic_store(futex, tid);
+32807b4449f353 André Almeida 2024-09-03  147  
+32807b4449f353 André Almeida 2024-09-03  148  		ret = futex_wait((futex_t *) futex, tid, &to, 0);
+32807b4449f353 André Almeida 2024-09-03  149  
+32807b4449f353 André Almeida 2024-09-03  150  		/*
+32807b4449f353 André Almeida 2024-09-03  151  		 * A real mutex_lock() implementation would loop here to finally
+32807b4449f353 André Almeida 2024-09-03  152  		 * take the lock. We don't care about that, so we stop here.
+32807b4449f353 André Almeida 2024-09-03  153  		 */
+32807b4449f353 André Almeida 2024-09-03  154  	}
+32807b4449f353 André Almeida 2024-09-03  155  
+32807b4449f353 André Almeida 2024-09-03  156  	head->list_op_pending = NULL;
+32807b4449f353 André Almeida 2024-09-03  157  
+32807b4449f353 André Almeida 2024-09-03  158  	return ret;
+32807b4449f353 André Almeida 2024-09-03  159  }
+32807b4449f353 André Almeida 2024-09-03  160  
 
 -- 
 0-DAY CI Kernel Test Service
