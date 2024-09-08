@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B1C15CD58
-	for <oe-kbuild@lists.linux.dev>; Sat,  7 Sep 2024 23:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1071954670
+	for <oe-kbuild@lists.linux.dev>; Sun,  8 Sep 2024 09:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725751354; cv=none; b=eSyf6hjMQh54UfVTyj2Lt40+uxPH/HtffIjP8ole5aOiZcm8vR3Lhq4lnPGrHN0CFwCf9bPYFCtYwSj08/mfOUFEHVoKCeAC3l3R8xPxIx2DehLPXU+8gKiRWuxNVDkidyuxNUbAxCSs5XGAdDB7G3eK4kF+ZCz4eh4G67rnv7Y=
+	t=1725789368; cv=none; b=AGK9Ax7v5a5RfLX0l2jyHx8wQFWDvbzlN4N5JoLWNHLJQ9xsQGYkL1WxiLitcPdsRuUq5zMy6ThAJHA2G03BwhxJzAgKhGX1nC56m5rK+0M4HfqX4YX+THtTJ2MrxnHVV5jpTCchgftAE2e1DifN4eZwbSiHn10/kqQLCgawtRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725751354; c=relaxed/simple;
-	bh=f9985VLknXTnImi8J67ZClowL5PoCCHdr/umHYEZ2rU=;
+	s=arc-20240116; t=1725789368; c=relaxed/simple;
+	bh=ucnf5Ash6Rl5LJWQwJIB2izXrq+vOBQt20FC3U7hIoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bx3OhH0SLCGoPQzltdn7vSNBmiKjbiu2BRo2yv0DCYZdJEuesZjnZkJP4l4a/b6vdExPiSYEIiYZDiwjr8SYFGH58sdU4Y3m+Fo5hF4QImZkAiSTnrlxnAEYVc6JRc0bc9eQtN2vNIyW3LcY26+9g5I4TQtPVoRqIquCwS3o7YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bwr9A4B9; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=LmHTf0xUUp/IlbgxBONGwkegEfD9jif4vRi+K4BwumSarOuoclJzY1NxZ75O97u6JstnNZ9XMcrb8f3OQRi5i2wS9+ld1u5/HFBIjzOpCbzXZfTg+1wj4zD7z3EYiY6rN2qWlRKFA3sXkBJxbN/2enE0AyqCWZ6Gf9pyO4r10oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RR320q7N; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bwr9A4B9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RR320q7N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725751352; x=1757287352;
+  t=1725789366; x=1757325366;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=f9985VLknXTnImi8J67ZClowL5PoCCHdr/umHYEZ2rU=;
-  b=Bwr9A4B9eyFS63AHtvjjEZdMqxTrNUIy6Ty/qXb0/K09j8M6ZV+Ky16p
-   Lft657GghP37P119bbIR5sbTq/R86CXWFj0Ot23qy9AuRstXXMgL2dmiJ
-   RD5t7zT4myQ+Ngr5ScwnLO1v2I9BfGCg8pSvcBrfjLCZySsEnqZdMETvo
-   fq8TYmf8MDDbMky6yYfTZVRfp6UuCfD6WENQPXzz9+EcIahn/QoOBJqH+
-   uo25J26rt3TcMdmooSH67pvsak+Vlwv6Kh6KcAWQcnWLjJCJxpkaOhrKx
-   jHihll+wHjKpBlrshtmo5TitnPVllpWyjLO3vzJ8H1SbCR4Qd94eswwKR
-   Q==;
-X-CSE-ConnectionGUID: IxAD22BZStuZlVxv0UR35A==
-X-CSE-MsgGUID: 2Tt7e75HSnG67ZpBrw0cOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="24353032"
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="24353032"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2024 16:22:31 -0700
-X-CSE-ConnectionGUID: 2jrUlbQTTcGriTpyprTjMQ==
-X-CSE-MsgGUID: o8Htl/GfRg+cNBpa5mKLPg==
+  bh=ucnf5Ash6Rl5LJWQwJIB2izXrq+vOBQt20FC3U7hIoo=;
+  b=RR320q7NMlTMIFedk9u8aedc0sCwH30rcBUdVL8Tiuy9HDLuZFTzJW7R
+   Tud+1ISgI7do5rhlg3xq3c18uQ0ktsaimXvTTFbd5HKl/urqynEyS+UvA
+   xYysqwuy6pguTek+9zNV2eQIBfb3Gv/lTIAPROl0UaqbEFJayKkuCrZ8L
+   S3sJr5i9tS8Bj5Nr97PyPFBtcI7moLuY+Wlr78ZWIMaOIJgLhA5oMnfEr
+   wzkTeZgwXAEFfiL5gVLUEJaC1tZg+G2OG3LrGBxlr3xRCskLnserEIxmb
+   AkpiYiY3Bb+rxC9Q6uJltUmZkggbLe8E8NYR/YR7+u1rMOLtFDcu6aYFO
+   A==;
+X-CSE-ConnectionGUID: ehVAWntaRRyDYg/gkSwjSw==
+X-CSE-MsgGUID: Xo0dnbeyQtSVBGMZrJDK2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11188"; a="49904873"
+X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
+   d="scan'208";a="49904873"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 02:56:05 -0700
+X-CSE-ConnectionGUID: XcPU21R8QGWTrpgbhg5LJw==
+X-CSE-MsgGUID: 19P8PrYISE6b1ohfUABEhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,211,1719903600"; 
-   d="scan'208";a="66331787"
+X-IronPort-AV: E=Sophos;i="6.10,212,1719903600"; 
+   d="scan'208";a="66179326"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Sep 2024 16:22:30 -0700
+  by orviesa010.jf.intel.com with ESMTP; 08 Sep 2024 02:56:04 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sn4lA-000D6P-2u;
-	Sat, 07 Sep 2024 23:22:28 +0000
-Date: Sun, 8 Sep 2024 07:22:14 +0800
+	id 1snEeH-000DQD-2Q;
+	Sun, 08 Sep 2024 09:56:01 +0000
+Date: Sun, 8 Sep 2024 17:55:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 19/19] arm64: dts: qcom: add base QCS8300 RIDE dts
-Message-ID: <202409080715.rGuyyNu2-lkp@intel.com>
+Subject: [hverkuil-media-tree:hdmi-dbg 13/25]
+ arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts:278.22-294.4: Warning
+ (interrupt_provider): /soc/i2c@7e804000/pca9554@38: '#interrupt-cells'
+ found, but node is not an interrupt provider
+Message-ID: <202409081731.62f7Vwcu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,89 +69,108 @@ Content-Disposition: inline
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240904-qcs8300_initial_dtsi-v1-19-d0ea9afdc007@quicinc.com>
-References: <20240904-qcs8300_initial_dtsi-v1-19-d0ea9afdc007@quicinc.com>
-TO: Jingyi Wang <quic_jingyw@quicinc.com>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Mathieu Poirier <mathieu.poirier@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-TO: Vinod Koul <vkoul@kernel.org>
-TO: Kishon Vijay Abraham I <kishon@kernel.org>
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-TO: Alim Akhtar <alim.akhtar@samsung.com>
-TO: Avri Altman <avri.altman@wdc.com>
-TO: Bart Van Assche <bvanassche@acm.org>
-TO: Andy Gross <agross@kernel.org>
-TO: Ulf Hansson <ulf.hansson@linaro.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-TO: Will Deacon <will@kernel.org>
-TO: Robin Murphy <robin.murphy@arm.com>
-TO: Joerg Roedel <joro@8bytes.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Robert Marko <robimarko@gmail.com>
-TO: Das Srinagesh <quic_gurus@quicinc.com>
-TO: Jassi Brar <jassisinghbrar@gmail.com>
-TO: Lee Jones <lee@kernel.org>
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-CC: linux-arm-msm@vger.kernel.org
-CC: linux-remoteproc@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-phy@lists.infradead.org
+TO: Hans Verkuil <hverkuil@xs4all.nl>
 
-Hi Jingyi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on eb8c5ca373cbb018a84eb4db25c863302c9b6314]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingyi-Wang/dt-bindings-remoteproc-qcom-sa8775p-pas-Document-QCS8300-remoteproc/20240904-164345
-base:   eb8c5ca373cbb018a84eb4db25c863302c9b6314
-patch link:    https://lore.kernel.org/r/20240904-qcs8300_initial_dtsi-v1-19-d0ea9afdc007%40quicinc.com
-patch subject: [PATCH 19/19] arm64: dts: qcom: add base QCS8300 RIDE dts
+tree:   git://linuxtv.org/hverkuil/media_tree.git hdmi-dbg
+head:   9535a1e414c095de7b7222b3e7e8fbf9bccf789a
+commit: 78e065c6e2a57012bcdd1a41be1c8e16ac8d36ce [13/25] bcm2711-rpi-4-b.dts: adjust for HDMI debug shield
 :::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-004-20240908 (https://download.01.org/0day-ci/archive/20240908/202409080715.rGuyyNu2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409080715.rGuyyNu2-lkp@intel.com/reproduce)
+:::::: commit date: 6 weeks ago
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20240908/202409081731.62f7Vwcu-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240908/202409081731.62f7Vwcu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409080715.rGuyyNu2-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm64/boot/dts/qcom/qcs8300-ride.dts:11:
->> arch/arm64/boot/dts/qcom/qcs8300.dtsi:6:10: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
-       6 | #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+| Closes: https://lore.kernel.org/r/202409081731.62f7Vwcu-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> In file included from arch/arm64/boot/dts/qcom/qcs8300-ride.dts:11:
-   arch/arm64/boot/dts/qcom/qcs8300.dtsi:6:10: fatal error: dt-bindings/clock/qcom,qcs8300-gcc.h: No such file or directory
-       6 | #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   arch/arm/boot/dts/broadcom/bcm283x.dtsi:64.6-502.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2711.dtsi:418.21-433.4: Warning (unit_address_vs_reg): /emmc2bus: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2711.dtsi:547.6-631.4: Warning (unit_address_vs_reg): /scb: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi:5.22-13.5: Warning (simple_bus_reg): /soc/firmware: missing or empty reg/ranges property
+   arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi:15.16-19.5: Warning (simple_bus_reg): /soc/power: missing or empty reg/ranges property
+>> arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts:278.22-294.4: Warning (interrupt_provider): /soc/i2c@7e804000/pca9554@38: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/arm/boot/dts/broadcom/bcm2711-rpi-400.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
+--
+   arch/arm/boot/dts/broadcom/bcm283x.dtsi:64.6-502.4: Warning (unit_address_vs_reg): /soc: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2711.dtsi:418.21-433.4: Warning (unit_address_vs_reg): /emmc2bus: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2711.dtsi:547.6-631.4: Warning (unit_address_vs_reg): /scb: node has a reg or ranges property, but no unit name
+   arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi:5.22-13.5: Warning (simple_bus_reg): /soc/firmware: missing or empty reg/ranges property
+   arch/arm/boot/dts/broadcom/bcm2835-rpi.dtsi:15.16-19.5: Warning (simple_bus_reg): /soc/power: missing or empty reg/ranges property
+>> arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts:278.22-294.4: Warning (interrupt_provider): /soc/i2c@7e804000/pca9554@38: '#interrupt-cells' found, but node is not an interrupt provider
+>> arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dtb: Warning (interrupt_map): Failed prerequisite 'interrupt_provider'
 
-vim +6 arch/arm64/boot/dts/qcom/qcs8300.dtsi
+vim +278 arch/arm/boot/dts/broadcom/bcm2711-rpi-4-b.dts
 
-984d43bac8bbd3 Jingyi Wang 2024-09-04  @6  #include <dt-bindings/clock/qcom,qcs8300-gcc.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04   7  #include <dt-bindings/clock/qcom,rpmh.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04   8  #include <dt-bindings/interconnect/qcom,icc.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04   9  #include <dt-bindings/interconnect/qcom,qcs8300-rpmh.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  10  #include <dt-bindings/interrupt-controller/arm-gic.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  11  #include <dt-bindings/mailbox/qcom-ipcc.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  12  #include <dt-bindings/power/qcom,rpmhpd.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  13  #include <dt-bindings/power/qcom-rpmpd.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  14  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-984d43bac8bbd3 Jingyi Wang 2024-09-04  15  
+78e065c6e2a570 Hans Verkuil 2020-05-27  257  
+78e065c6e2a570 Hans Verkuil 2020-05-27  258  &i2c1 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  259  	ds1307@68 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  260  		compatible = "dallas,ds1307";
+78e065c6e2a570 Hans Verkuil 2020-05-27  261  		reg = <0x68>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  262  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  263  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  264  
+78e065c6e2a570 Hans Verkuil 2020-05-27  265  	ds4424@10 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  266  		compatible = "maxim,ds4424";
+78e065c6e2a570 Hans Verkuil 2020-05-27  267  		reg = <0x10>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  268  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  269  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  270  
+78e065c6e2a570 Hans Verkuil 2020-05-27  271  	ads7128@17 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  272  		compatible = "ti,ads7128";
+78e065c6e2a570 Hans Verkuil 2020-05-27  273  		reg = <0x17>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  274  		vref-supply = <&vref_5v0_reg>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  275  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  276  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  277  
+78e065c6e2a570 Hans Verkuil 2020-05-27 @278  	pca9554: pca9554@38 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  279  		compatible = "nxp,pca9554";
+78e065c6e2a570 Hans Verkuil 2020-05-27  280  		reg = <0x38>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  281  		gpio-controller;
+78e065c6e2a570 Hans Verkuil 2020-05-27  282  		gpio-line-names =
+78e065c6e2a570 Hans Verkuil 2020-05-27  283  			"SWITCH_5V",
+78e065c6e2a570 Hans Verkuil 2020-05-27  284  			"SWITCH_HPD",
+78e065c6e2a570 Hans Verkuil 2020-05-27  285  			"SWITCH_DDC",
+78e065c6e2a570 Hans Verkuil 2020-05-27  286  			"SWITCH_CEC",
+78e065c6e2a570 Hans Verkuil 2020-05-27  287  			"EN_SINK_HPD",
+78e065c6e2a570 Hans Verkuil 2020-05-27  288  			"EN_SOURCE_5V",
+78e065c6e2a570 Hans Verkuil 2020-05-27  289  			"ADC_ON",
+78e065c6e2a570 Hans Verkuil 2020-05-27  290  			"EDID_EEPROM_SEL";
+78e065c6e2a570 Hans Verkuil 2020-05-27  291  		#gpio-cells = <2>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  292  		#interrupt-cells = <2>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  293  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  294  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  295  
+78e065c6e2a570 Hans Verkuil 2020-05-27  296  	cat24c208: cat24c208@31 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  297  		compatible = "onnn,cat24c208";
+78e065c6e2a570 Hans Verkuil 2020-05-27  298  		reg = <0x31>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  299  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  300  		input-connector = <&hdmi_in_node>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  301  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  302  
+78e065c6e2a570 Hans Verkuil 2020-05-27  303  	oled@3c {
+78e065c6e2a570 Hans Verkuil 2020-05-27  304  		compatible = "solomon,ssd1306fb-i2c";
+78e065c6e2a570 Hans Verkuil 2020-05-27  305  		reg = <0x3c>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  306  		solomon,height = <64>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  307  		solomon,width = <128>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  308  		solomon,page-offset = <0>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  309  		solomon,dclk-frq = <8>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  310  		solomon,com-invdir;
+78e065c6e2a570 Hans Verkuil 2020-05-27  311  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  312  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  313  
+78e065c6e2a570 Hans Verkuil 2020-05-27  314  	pca9685@40 {
+78e065c6e2a570 Hans Verkuil 2020-05-27  315  		compatible = "nxp,pca9685-pwm";
+78e065c6e2a570 Hans Verkuil 2020-05-27  316  		#pwm-cells = <2>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  317  		reg = <0x40>;
+78e065c6e2a570 Hans Verkuil 2020-05-27  318  		status = "okay";
+78e065c6e2a570 Hans Verkuil 2020-05-27  319  	};
+78e065c6e2a570 Hans Verkuil 2020-05-27  320  };
+78e065c6e2a570 Hans Verkuil 2020-05-27  321  
 
 -- 
 0-DAY CI Kernel Test Service
