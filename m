@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C0EBA42
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 02:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668FC1ACDE0
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 04:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725847521; cv=none; b=YJ62hStG7uxp7jxTuaIxfdDaSHfiTB8cEFUN0rD7MkwZxc3a3mPehnEeBbv0cEgRXNXbXRcsOfIUL9l7SkuXFLRCgHFymP10GoZtteuLMOpM8fV+Kv6lcap0V2j3q4vh4HiJlg5+LBB12ik07cDQhGKEhRnEs1s9uPiojhnENUA=
+	t=1725856892; cv=none; b=qlshtkyBNTBWn6xkTrAHfJJnWtjybaXW4lHgzks4J+Bge9p9tktACHBH3sMmFxhBWkGTw22Qf+M5dgDkA04pv1EiMyyoRb/Wy0nq0komVVq3vHQEENnzWEe06jjxdPG8RBKwHXDHVstGX0uWmDUkNjZMNM4EyBrMndwJnsneGdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725847521; c=relaxed/simple;
-	bh=1auh7xPx7FfXb8KdsgWMsrZbzDyXAjYGyqySs9A7/OA=;
+	s=arc-20240116; t=1725856892; c=relaxed/simple;
+	bh=rYFyHz4Puy5awdEefIcRuX/nyZzyo2ivTIokKEJ0QwU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=spQGvdqyRJq4ZHW6opnTgKDsA7itXWw1d+a1eVPNbV/sLWaPOeqYB84rb/2rB6zTx2a7MJYmQOAQrBqTnSFeokdxy/hZoB1I701/NduKGQFLDILBfHMkTpZKHCXunVyXm4Kta8AFii8ujywXP/duH5Lf63KLTAp18U+hnp0jCQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3SJp3zc; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=pnTBGhX7IqEmMV70MxxxlFTttuLJMNz1RyujCnF0a8xFk8xlVHn8pMaS3KxL0LzTmClDAUk0IQvrlNgVqvzBU/7D0/QHjDPp6uUcd4RdGmZV17OKhY+4fL680QkIs0Zvb1P4JR4LKLDPDnCQVytBiyL4ajz/IdSSgIT1j16SuU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJzMuYgM; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3SJp3zc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJzMuYgM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725847519; x=1757383519;
+  t=1725856890; x=1757392890;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1auh7xPx7FfXb8KdsgWMsrZbzDyXAjYGyqySs9A7/OA=;
-  b=J3SJp3zcd7C4wwAHlORkdmI5qLYPpeGYF4vqQMGBZU1EI+YHqaQa1m2d
-   7VnqLpAvvsLTlGPDwnWp1Io5O0Hl9qFAs4SIPk5uqwiY7vAGevzsLx2D3
-   fIhJLy2K1kDi4Y7hgTrmtelHZUKCE4kBkELpv8XlHPVgujxA0Hiv5Wby2
-   ST2IXrRABnzOqn3qb590uCm2uNktPNC0WqFNrrxghM2rC6vkeK4LIA0Wx
-   cqwwr574W9r1gqwsZ1VuFaGC7ULiOdToxCwGtz2YLBE/3tnuDWmwugAUn
-   1r+57QQvCx0FbS4ZbpQSY2ny6XAhIUQpUX69fMhxIZWFTv+uGu9d02a0j
-   A==;
-X-CSE-ConnectionGUID: gmKR40RcQXaeEE7mT1+RCQ==
-X-CSE-MsgGUID: E507M0t7TgCmQ//YSA2gRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="35664632"
+  bh=rYFyHz4Puy5awdEefIcRuX/nyZzyo2ivTIokKEJ0QwU=;
+  b=XJzMuYgM4NVErXDZh7suLwLCyIwMq1wN5Wu6BBSNjgM4XgiwKeWHVfuG
+   zZBv0ox3NAZxRYNUuJ6UP2au7SjdMaF3xjs8F/O5E5xp/gUP/Cb2AjAFD
+   56VUyItYtXQgfGBeawuW8SkKluPDb8R0+kLaZgNHWatCBgG9WFLDnx9iv
+   mnMm5uEJXuJxWqQ68XdJQ4sDETGsoMfXHCSAQ1EphFKYx71V1MGvtwl45
+   IolsvliXfxTw9h6b2qpQGQnSrYxGHFGHMMgL/09wHR+6sTyuWKXZQyaGE
+   R5FpqYZi8vLP2bCa2Kz9woivG9rwyjlC8958xFTjACcfkw/3tYhMqyT22
+   g==;
+X-CSE-ConnectionGUID: xZpelr6cSSC0MQgz9T1GkQ==
+X-CSE-MsgGUID: 5f3s/eh5SweR35+O5VHtNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="13434249"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="35664632"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 19:05:18 -0700
-X-CSE-ConnectionGUID: fp9vlQjSQ+qp+vAnSKZznw==
-X-CSE-MsgGUID: 6AoBOtJ2T+ifXJ9ZiDm8Gw==
+   d="scan'208";a="13434249"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 21:41:28 -0700
+X-CSE-ConnectionGUID: L6WcnETZT+aBMjf2Xr3Pdg==
+X-CSE-MsgGUID: qARUN4ugRFGB0MuD5QtVdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="66199568"
+   d="scan'208";a="71493170"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Sep 2024 19:05:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 Sep 2024 21:41:26 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snTmF-000ECT-0O;
-	Mon, 09 Sep 2024 02:05:15 +0000
-Date: Mon, 9 Sep 2024 10:04:52 +0800
+	id 1snWDM-000EId-0d;
+	Mon, 09 Sep 2024 04:41:24 +0000
+Date: Mon, 9 Sep 2024 12:40:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/memcontrol-v1.c:1505 __mem_cgroup_usage_register_event() error:
- uninitialized symbol 'thresholds'.
-Message-ID: <202409091004.tx7YGMck-lkp@intel.com>
+Subject: mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized
+ symbol 'counter'.
+Message-ID: <202409091252.vaBiGBjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,204 +71,204 @@ CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   da3ea35007d0af457a0afc87e84fddaebc4e0b63
-commit: 66d60c428b23c5b171218985b6880958fb7edbe3 mm: memcg: move legacy memcg event code into memcontrol-v1.c
+commit: ea1e879631ffdf640bfcb11439d61a151067bb39 mm: memcg: move cgroup v1 interface files to memcontrol-v1.c
 date:   9 weeks ago
-:::::: branch date: 4 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 9 weeks ago
-config: sparc-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240909/202409091004.tx7YGMck-lkp@intel.com/config)
+config: sparc-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240909/202409091252.vaBiGBjQ-lkp@intel.com/config)
 compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409091004.tx7YGMck-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409091252.vaBiGBjQ-lkp@intel.com/
 
 smatch warnings:
-mm/memcontrol-v1.c:1505 __mem_cgroup_usage_register_event() error: uninitialized symbol 'thresholds'.
-mm/memcontrol-v1.c:1534 __mem_cgroup_usage_register_event() error: uninitialized symbol 'usage'.
-mm/memcontrol-v1.c:1591 __mem_cgroup_usage_unregister_event() error: uninitialized symbol 'thresholds'.
+mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized symbol 'counter'.
+mm/memcontrol-v1.c:2479 mem_cgroup_reset() error: uninitialized symbol 'counter'.
 
-vim +/thresholds +1505 mm/memcontrol-v1.c
+vim +/counter +2338 mm/memcontrol-v1.c
 
-66d60c428b23c5 Roman Gushchin 2024-06-24  1479  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1480  static int __mem_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1481  	struct eventfd_ctx *eventfd, const char *args, enum res_type type)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1482  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1483  	struct mem_cgroup_thresholds *thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1484  	struct mem_cgroup_threshold_ary *new;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1485  	unsigned long threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1486  	unsigned long usage;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1487  	int i, size, ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1488  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1489  	ret = page_counter_memparse(args, "-1", &threshold);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1490  	if (ret)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1491  		return ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1492  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1493  	mutex_lock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1494  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1495  	if (type == _MEM) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1496  		thresholds = &memcg->thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1497  		usage = mem_cgroup_usage(memcg, false);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1498  	} else if (type == _MEMSWAP) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1499  		thresholds = &memcg->memsw_thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1500  		usage = mem_cgroup_usage(memcg, true);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1501  	} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1502  		BUG();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1503  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1504  	/* Check if a threshold crossed before adding a new one */
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1505  	if (thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1506  		__mem_cgroup_threshold(memcg, type == _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1507  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1508  	size = thresholds->primary ? thresholds->primary->size + 1 : 1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1509  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1510  	/* Allocate memory for new array of thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1511  	new = kmalloc(struct_size(new, entries, size), GFP_KERNEL);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1512  	if (!new) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1513  		ret = -ENOMEM;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1514  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1515  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1516  	new->size = size;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1517  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1518  	/* Copy thresholds (if any) to new array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1519  	if (thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1520  		memcpy(new->entries, thresholds->primary->entries,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1521  		       flex_array_size(new, entries, size - 1));
-66d60c428b23c5 Roman Gushchin 2024-06-24  1522  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1523  	/* Add new threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1524  	new->entries[size - 1].eventfd = eventfd;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1525  	new->entries[size - 1].threshold = threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1526  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1527  	/* Sort thresholds. Registering of new threshold isn't time-critical */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1528  	sort(new->entries, size, sizeof(*new->entries),
-66d60c428b23c5 Roman Gushchin 2024-06-24  1529  			compare_thresholds, NULL);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1530  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1531  	/* Find current threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1532  	new->current_threshold = -1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1533  	for (i = 0; i < size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1534  		if (new->entries[i].threshold <= usage) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1535  			/*
-66d60c428b23c5 Roman Gushchin 2024-06-24  1536  			 * new->current_threshold will not be used until
-66d60c428b23c5 Roman Gushchin 2024-06-24  1537  			 * rcu_assign_pointer(), so it's safe to increment
-66d60c428b23c5 Roman Gushchin 2024-06-24  1538  			 * it here.
-66d60c428b23c5 Roman Gushchin 2024-06-24  1539  			 */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1540  			++new->current_threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1541  		} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1542  			break;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1543  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1544  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1545  	/* Free old spare buffer and save old primary buffer as spare */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1546  	kfree(thresholds->spare);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1547  	thresholds->spare = thresholds->primary;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1548  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1549  	rcu_assign_pointer(thresholds->primary, new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1550  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1551  	/* To be sure that nobody uses thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1552  	synchronize_rcu();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1553  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1554  unlock:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1555  	mutex_unlock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1556  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1557  	return ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1558  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1559  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1560  static int mem_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1561  	struct eventfd_ctx *eventfd, const char *args)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1562  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1563  	return __mem_cgroup_usage_register_event(memcg, eventfd, args, _MEM);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1564  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1565  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1566  static int memsw_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1567  	struct eventfd_ctx *eventfd, const char *args)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1568  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1569  	return __mem_cgroup_usage_register_event(memcg, eventfd, args, _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1570  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1571  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1572  static void __mem_cgroup_usage_unregister_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1573  	struct eventfd_ctx *eventfd, enum res_type type)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1574  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1575  	struct mem_cgroup_thresholds *thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1576  	struct mem_cgroup_threshold_ary *new;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1577  	unsigned long usage;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1578  	int i, j, size, entries;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1579  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1580  	mutex_lock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1581  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1582  	if (type == _MEM) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1583  		thresholds = &memcg->thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1584  		usage = mem_cgroup_usage(memcg, false);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1585  	} else if (type == _MEMSWAP) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1586  		thresholds = &memcg->memsw_thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1587  		usage = mem_cgroup_usage(memcg, true);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1588  	} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1589  		BUG();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1590  
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1591  	if (!thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1592  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1593  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1594  	/* Check if a threshold crossed before removing */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1595  	__mem_cgroup_threshold(memcg, type == _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1596  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1597  	/* Calculate new number of threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1598  	size = entries = 0;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1599  	for (i = 0; i < thresholds->primary->size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1600  		if (thresholds->primary->entries[i].eventfd != eventfd)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1601  			size++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1602  		else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1603  			entries++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1604  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1605  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1606  	new = thresholds->spare;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1607  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1608  	/* If no items related to eventfd have been cleared, nothing to do */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1609  	if (!entries)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1610  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1611  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1612  	/* Set thresholds array to NULL if we don't have thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1613  	if (!size) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1614  		kfree(new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1615  		new = NULL;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1616  		goto swap_buffers;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1617  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1618  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1619  	new->size = size;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1620  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1621  	/* Copy thresholds and find current threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1622  	new->current_threshold = -1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1623  	for (i = 0, j = 0; i < thresholds->primary->size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1624  		if (thresholds->primary->entries[i].eventfd == eventfd)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1625  			continue;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1626  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1627  		new->entries[j] = thresholds->primary->entries[i];
-66d60c428b23c5 Roman Gushchin 2024-06-24  1628  		if (new->entries[j].threshold <= usage) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1629  			/*
-66d60c428b23c5 Roman Gushchin 2024-06-24  1630  			 * new->current_threshold will not be used
-66d60c428b23c5 Roman Gushchin 2024-06-24  1631  			 * until rcu_assign_pointer(), so it's safe to increment
-66d60c428b23c5 Roman Gushchin 2024-06-24  1632  			 * it here.
-66d60c428b23c5 Roman Gushchin 2024-06-24  1633  			 */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1634  			++new->current_threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1635  		}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1636  		j++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1637  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1638  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1639  swap_buffers:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1640  	/* Swap primary and spare array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1641  	thresholds->spare = thresholds->primary;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1642  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1643  	rcu_assign_pointer(thresholds->primary, new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1644  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1645  	/* To be sure that nobody uses thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1646  	synchronize_rcu();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1647  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1648  	/* If all events are unregistered, free the spare array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1649  	if (!new) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1650  		kfree(thresholds->spare);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1651  		thresholds->spare = NULL;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1652  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1653  unlock:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1654  	mutex_unlock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1655  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1656  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2312  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2313  static u64 mem_cgroup_read_u64(struct cgroup_subsys_state *css,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2314  			       struct cftype *cft)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2315  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2316  	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2317  	struct page_counter *counter;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2318  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2319  	switch (MEMFILE_TYPE(cft->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2320  	case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2321  		counter = &memcg->memory;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2322  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2323  	case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2324  		counter = &memcg->memsw;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2325  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2326  	case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2327  		counter = &memcg->kmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2328  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2329  	case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2330  		counter = &memcg->tcpmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2331  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2332  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2333  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2334  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2335  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2336  	switch (MEMFILE_ATTR(cft->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2337  	case RES_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24 @2338  		if (counter == &memcg->memory)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2339  			return (u64)mem_cgroup_usage(memcg, false) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2340  		if (counter == &memcg->memsw)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2341  			return (u64)mem_cgroup_usage(memcg, true) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2342  		return (u64)page_counter_read(counter) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2343  	case RES_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2344  		return (u64)counter->max * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2345  	case RES_MAX_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2346  		return (u64)counter->watermark * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2347  	case RES_FAILCNT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2348  		return counter->failcnt;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2349  	case RES_SOFT_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2350  		return (u64)READ_ONCE(memcg->soft_limit) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2351  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2352  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2353  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2354  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2355  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2356  /*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2357   * This function doesn't do anything useful. Its only job is to provide a read
+ea1e879631ffdf Roman Gushchin 2024-06-24  2358   * handler for a file so that cgroup_file_mode() will add read permissions.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2359   */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2360  static int mem_cgroup_dummy_seq_show(__always_unused struct seq_file *m,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2361  				     __always_unused void *v)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2362  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2363  	return -EINVAL;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2364  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2365  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2366  static int memcg_update_tcp_max(struct mem_cgroup *memcg, unsigned long max)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2367  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2368  	int ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2369  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2370  	mutex_lock(&memcg_max_mutex);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2371  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2372  	ret = page_counter_set_max(&memcg->tcpmem, max);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2373  	if (ret)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2374  		goto out;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2375  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2376  	if (!memcg->tcpmem_active) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2377  		/*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2378  		 * The active flag needs to be written after the static_key
+ea1e879631ffdf Roman Gushchin 2024-06-24  2379  		 * update. This is what guarantees that the socket activation
+ea1e879631ffdf Roman Gushchin 2024-06-24  2380  		 * function is the last one to run. See mem_cgroup_sk_alloc()
+ea1e879631ffdf Roman Gushchin 2024-06-24  2381  		 * for details, and note that we don't mark any socket as
+ea1e879631ffdf Roman Gushchin 2024-06-24  2382  		 * belonging to this memcg until that flag is up.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2383  		 *
+ea1e879631ffdf Roman Gushchin 2024-06-24  2384  		 * We need to do this, because static_keys will span multiple
+ea1e879631ffdf Roman Gushchin 2024-06-24  2385  		 * sites, but we can't control their order. If we mark a socket
+ea1e879631ffdf Roman Gushchin 2024-06-24  2386  		 * as accounted, but the accounting functions are not patched in
+ea1e879631ffdf Roman Gushchin 2024-06-24  2387  		 * yet, we'll lose accounting.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2388  		 *
+ea1e879631ffdf Roman Gushchin 2024-06-24  2389  		 * We never race with the readers in mem_cgroup_sk_alloc(),
+ea1e879631ffdf Roman Gushchin 2024-06-24  2390  		 * because when this value change, the code to process it is not
+ea1e879631ffdf Roman Gushchin 2024-06-24  2391  		 * patched in yet.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2392  		 */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2393  		static_branch_inc(&memcg_sockets_enabled_key);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2394  		memcg->tcpmem_active = true;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2395  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2396  out:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2397  	mutex_unlock(&memcg_max_mutex);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2398  	return ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2399  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2400  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2401  /*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2402   * The user of this function is...
+ea1e879631ffdf Roman Gushchin 2024-06-24  2403   * RES_LIMIT.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2404   */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2405  static ssize_t mem_cgroup_write(struct kernfs_open_file *of,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2406  				char *buf, size_t nbytes, loff_t off)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2407  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2408  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+ea1e879631ffdf Roman Gushchin 2024-06-24  2409  	unsigned long nr_pages;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2410  	int ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2411  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2412  	buf = strstrip(buf);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2413  	ret = page_counter_memparse(buf, "-1", &nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2414  	if (ret)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2415  		return ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2416  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2417  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2418  	case RES_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2419  		if (mem_cgroup_is_root(memcg)) { /* Can't set limit on root */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2420  			ret = -EINVAL;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2421  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2422  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2423  		switch (MEMFILE_TYPE(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2424  		case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2425  			ret = mem_cgroup_resize_max(memcg, nr_pages, false);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2426  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2427  		case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2428  			ret = mem_cgroup_resize_max(memcg, nr_pages, true);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2429  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2430  		case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2431  			pr_warn_once("kmem.limit_in_bytes is deprecated and will be removed. "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2432  				     "Writing any value to this file has no effect. "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2433  				     "Please report your usecase to linux-mm@kvack.org if you "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2434  				     "depend on this functionality.\n");
+ea1e879631ffdf Roman Gushchin 2024-06-24  2435  			ret = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2436  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2437  		case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2438  			ret = memcg_update_tcp_max(memcg, nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2439  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2440  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2441  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2442  	case RES_SOFT_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2443  		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2444  			ret = -EOPNOTSUPP;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2445  		} else {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2446  			WRITE_ONCE(memcg->soft_limit, nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2447  			ret = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2448  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2449  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2450  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2451  	return ret ?: nbytes;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2452  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2453  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2454  static ssize_t mem_cgroup_reset(struct kernfs_open_file *of, char *buf,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2455  				size_t nbytes, loff_t off)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2456  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2457  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+ea1e879631ffdf Roman Gushchin 2024-06-24  2458  	struct page_counter *counter;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2459  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2460  	switch (MEMFILE_TYPE(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2461  	case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2462  		counter = &memcg->memory;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2463  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2464  	case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2465  		counter = &memcg->memsw;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2466  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2467  	case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2468  		counter = &memcg->kmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2469  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2470  	case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2471  		counter = &memcg->tcpmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2472  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2473  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2474  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2475  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2476  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2477  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2478  	case RES_MAX_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24 @2479  		page_counter_reset_watermark(counter);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2480  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2481  	case RES_FAILCNT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2482  		counter->failcnt = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2483  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2484  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2485  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2486  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2487  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2488  	return nbytes;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2489  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2490  
 
 -- 
 0-DAY CI Kernel Test Service
