@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56DE1B4C45
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 10:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68C51B1D7A
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 11:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725878528; cv=none; b=AiHCepzqOC61y1HHeQ/icjibVo/viFNhXChBITnkTLi+7+KfxrwA17A9Tm3/5TbvrUt+t99g/ZLBMX32p+qjeYYwntcGuD2SsQNI/yZhvzaISL4y8kdn0J90rYSrHNL4JyAwwIGHYCjIpOyZ3daKsnjgK0JCvIKAkgJ+/yxGXvg=
+	t=1725881592; cv=none; b=BPWWzxzxvoNBhsZWDITxIGO1iD1a1W4ixYm/a+K6nxeaiiATYSByeigB/gdPUyt3hNzd7YTtjOUr7IuhpQ7Ei3ZZl01HUTHXJdT3zy8tgTiToaAk0km2ZJ8c9ZHV8UJ0Bby95j1iVmikY/0+odbRwvW5O6zyN+txV7wMjZ4pzw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725878528; c=relaxed/simple;
-	bh=+4br4s70Bph/8F7EOg5XP2eXB0q24MdHTFQHM1Kb4Uk=;
+	s=arc-20240116; t=1725881592; c=relaxed/simple;
+	bh=jixlALS5Ay5MXMIei9738jHj33N8AEIX56N4IuXPsWA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EDnQ7r/V0jug2M1UWE3MRtTe0VkDxvfiAc7P5DHE2aVgJInyt2GCA8MUcYTVtZ4dp4YCMcpEgo0crDbOsGVToDjAajDRMr7y1I7aRV8F9r5khvKT3LlqCBqrUQnkb9W1f/NC8rakvh/8ln4PqaSVMgFAtSQsIOIkFR+RBLkZxoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k+zlOX5T; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=uO8pxNeCJ7nEteWPi2FlPQ8hCKZs8h8eH83K/+2AYlnZqou8P2Vya6v0zXmNN9p3CYQ9/6wldJJV6KGsuSpkFbkGd4QQcz3XOLTB7PbfubqncBgfNDzi69D8ZYr0UcQj276ZX2pRNUrFGpcq+iP/lNSJtfvr6d+7saNNrC37OcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFThRCYW; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k+zlOX5T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFThRCYW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725878526; x=1757414526;
+  t=1725881590; x=1757417590;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+4br4s70Bph/8F7EOg5XP2eXB0q24MdHTFQHM1Kb4Uk=;
-  b=k+zlOX5TJS/4zF6F78hKgnYW/UAP0dLrKhIPn+O/ayDPOWPNVhi3RoRf
-   B/zU+Y7LS1J5dX6NIWyK1swq3tN8+PyirrnU2vsaDd3YRE8lnJsQPPRD2
-   6vIO6lec/UM6Ns6yyoXhrL1MZwJLYlo1duwGxyRNrI/XFJAYdbCU0ePtt
-   m4hDpD7yDrxuTpx94qVonPI8T3Z13+tg5i48LqO3vYnBdHV7eg8oWLmhv
-   jCeIHeWhNOTp/1K9cTtAqkGrbyCWd93AInES8Rpt564OvNmMEJAdSb+uv
-   PjAaIiPBh8MahiaveEPrBxwoZ8952BKRm1P/hDYgv1Zg52yPuf4i/lrDj
-   A==;
-X-CSE-ConnectionGUID: fa6I8SopS+WsTasfHmiRiQ==
-X-CSE-MsgGUID: FJu2cKvbSwW9WeKA9vuS6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="47089109"
+  bh=jixlALS5Ay5MXMIei9738jHj33N8AEIX56N4IuXPsWA=;
+  b=PFThRCYW0hNiqYcrLHox4pFC9+DhR0JYogVNo7BfEWuGZA12Xvw/ST6F
+   TqfIP1dtxvy6ElnmQpn9rz+I9UGoLKGMb7XBeUCX1kmir6vRFCB7UICzO
+   RDqzEx6UjA7R9Xnj8Wy2FhnOBTjNyy86+6qkfJ1kmusaHylmPVdv5AgO0
+   b26J1/R4j6NDc3P2wYH40cegtR1014BucVozHH70QgsFN82LZKwZEt9hN
+   30MPe8G4thhPWgMguH3XrfcV1nNiewNSTO4SQ8K7Gp334B2e6Lu5F94fC
+   qigLks4egbHL4RFLXNbGccCjngeUHRAsreInDJ+SkEddE914cz9xa1LB8
+   Q==;
+X-CSE-ConnectionGUID: 2cVxkTryS8ez+KIXmWHM4w==
+X-CSE-MsgGUID: pzjfbDQRTYSkRfuYg4ZBEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24733617"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="47089109"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 03:42:06 -0700
-X-CSE-ConnectionGUID: GQj0EPgIQG6bNC1OeMm5qg==
-X-CSE-MsgGUID: 0CklfqU7TS+mc8lte1Er3A==
+   d="scan'208";a="24733617"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 04:33:09 -0700
+X-CSE-ConnectionGUID: YoIB00HDS8ua20aZXk1Gcw==
+X-CSE-MsgGUID: vC9M/0wAQQ6MdfpsOzeZ1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="66872276"
+   d="scan'208";a="71425003"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2024 03:42:05 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Sep 2024 04:33:08 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snbqM-000Eca-12;
-	Mon, 09 Sep 2024 10:42:02 +0000
-Date: Mon, 9 Sep 2024 18:41:52 +0800
+	id 1sncdl-000Eea-06;
+	Mon, 09 Sep 2024 11:33:05 +0000
+Date: Mon, 9 Sep 2024 19:32:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/virt/acrn/mm.c:217 acrn_vm_ram_map() error: uninitialized
- symbol 'start_pfn'.
-Message-ID: <202409091820.Czgjlh2A-lkp@intel.com>
+Subject: [kvm:queue 18/24] arch/x86/kvm/x86.c:12591
+ kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
+Message-ID: <202409091927.eRgV2rYZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,236 +64,157 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: kvm@vger.kernel.org
+CC: Robert Hu <robert.hu@intel.com>
+CC: Farrah Chen <farrah.chen@intel.com>
+CC: Danmei Wei <danmei.wei@intel.com>
+TO: Sean Christopherson <seanjc@google.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Kai Huang <kai.huang@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   da3ea35007d0af457a0afc87e84fddaebc4e0b63
-commit: 3d6586008f7b638f91f3332602592caa8b00b559 drivers/virt/acrn: fix PFNMAP PTE checks in acrn_vm_ram_map()
-date:   4 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-161-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091820.Czgjlh2A-lkp@intel.com/config)
+Hi Sean,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+head:   590b09b1d88e18ae57f89930a6f7b89795d2e9f3
+commit: 071f24ad28cdcdfa544fdb79b1b1d2b423717a11 [18/24] KVM: Rename arch hooks related to per-CPU virtualization enabling
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091927.eRgV2rYZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409091820.Czgjlh2A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409091927.eRgV2rYZ-lkp@intel.com/
 
 New smatch warnings:
-drivers/virt/acrn/mm.c:217 acrn_vm_ram_map() error: uninitialized symbol 'start_pfn'.
-drivers/virt/acrn/mm.c:224 acrn_vm_ram_map() error: uninitialized symbol 'ret'.
+arch/x86/kvm/x86.c:12591 kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
 
 Old smatch warnings:
-drivers/virt/acrn/mm.c:231 acrn_vm_ram_map() error: uninitialized symbol 'start_pfn'.
+arch/x86/kvm/x86.c:1087 __kvm_set_xcr() warn: bitwise AND condition is false here
+arch/x86/kvm/x86.c:1088 __kvm_set_xcr() warn: bitwise AND condition is false here
+arch/x86/kvm/x86.c:3054 kvm_end_pvclock_update() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:3404 kvmclock_update_fn() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:5760 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
+arch/x86/kvm/x86.c:5802 kvm_vcpu_ioctl_device_attr() error: uninitialized symbol 'r'.
+arch/x86/kvm/x86.c:6502 kvm_arch_sync_dirty_log() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:6945 kvm_arch_suspend_notifier() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:8016 emulator_read_write() warn: missing error code? 'rc'
+arch/x86/kvm/x86.c:9195 x86_emulate_instruction() warn: missing error code? 'r'
+arch/x86/kvm/x86.c:9566 __kvmclock_cpufreq_notifier() warn: iterator 'i' not incremented
+arch/x86/include/asm/kvm-x86-ops.h:16 kvm_ops_update() warn: inconsistent indenting
+arch/x86/kvm/x86.c:12009 kvm_arch_vcpu_guestdbg_update_apicv_inhibit() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:12722 kvm_unload_vcpu_mmus() warn: iterator 'i' not incremented
+arch/x86/kvm/x86.c:12972 kvm_arch_memslots_updated() warn: iterator 'i' not incremented
 
-vim +/start_pfn +217 drivers/virt/acrn/mm.c
+vim +/i +12591 arch/x86/kvm/x86.c
 
-88f537d5e8ddc8 Shuo Liu          2021-02-07  148  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  149  /**
-88f537d5e8ddc8 Shuo Liu          2021-02-07  150   * acrn_vm_ram_map() - Create a RAM EPT mapping of User VM.
-88f537d5e8ddc8 Shuo Liu          2021-02-07  151   * @vm:		The User VM pointer
-88f537d5e8ddc8 Shuo Liu          2021-02-07  152   * @memmap:	Info of the EPT mapping
-88f537d5e8ddc8 Shuo Liu          2021-02-07  153   *
-88f537d5e8ddc8 Shuo Liu          2021-02-07  154   * Return: 0 on success, <0 for error.
-88f537d5e8ddc8 Shuo Liu          2021-02-07  155   */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  156  int acrn_vm_ram_map(struct acrn_vm *vm, struct acrn_vm_memmap *memmap)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  157  {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  158  	struct vm_memory_region_batch *regions_info;
-3d6586008f7b63 David Hildenbrand 2024-04-10  159  	int nr_pages, i, order, nr_regions = 0;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  160  	struct vm_memory_mapping *region_mapping;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  161  	struct vm_memory_region_op *vm_region;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  162  	struct page **pages = NULL, *page;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  163  	void *remap_vaddr;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  164  	int ret, pinned;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  165  	u64 user_vm_pa;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  166  	struct vm_area_struct *vma;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  167  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  168  	if (!vm || !memmap)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  169  		return -EINVAL;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  170  
-3d6586008f7b63 David Hildenbrand 2024-04-10  171  	/* Get the page number of the map region */
-3d6586008f7b63 David Hildenbrand 2024-04-10  172  	nr_pages = memmap->len >> PAGE_SHIFT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  173  	if (!nr_pages)
-3d6586008f7b63 David Hildenbrand 2024-04-10  174  		return -EINVAL;
-3d6586008f7b63 David Hildenbrand 2024-04-10  175  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  176  	mmap_read_lock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  177  	vma = vma_lookup(current->mm, memmap->vma_base);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  178  	if (vma && ((vma->vm_flags & VM_PFNMAP) != 0)) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  179  		unsigned long start_pfn, cur_pfn;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  180  		spinlock_t *ptl;
-3d6586008f7b63 David Hildenbrand 2024-04-10  181  		bool writable;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  182  		pte_t *ptep;
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  183  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  184  		if ((memmap->vma_base + memmap->len) > vma->vm_end) {
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  185  			mmap_read_unlock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  186  			return -EINVAL;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  187  		}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  188  
-3d6586008f7b63 David Hildenbrand 2024-04-10  189  		for (i = 0; i < nr_pages; i++) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  190  			ret = follow_pte(vma->vm_mm,
-3d6586008f7b63 David Hildenbrand 2024-04-10  191  					 memmap->vma_base + i * PAGE_SIZE,
-3d6586008f7b63 David Hildenbrand 2024-04-10  192  					 &ptep, &ptl);
-3d6586008f7b63 David Hildenbrand 2024-04-10  193  			if (ret)
-3d6586008f7b63 David Hildenbrand 2024-04-10  194  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  195  
-3d6586008f7b63 David Hildenbrand 2024-04-10  196  			cur_pfn = pte_pfn(ptep_get(ptep));
-3d6586008f7b63 David Hildenbrand 2024-04-10  197  			if (i == 0)
-3d6586008f7b63 David Hildenbrand 2024-04-10  198  				start_pfn = cur_pfn;
-3d6586008f7b63 David Hildenbrand 2024-04-10  199  			writable = !!pte_write(ptep_get(ptep));
-3d6586008f7b63 David Hildenbrand 2024-04-10  200  			pte_unmap_unlock(ptep, ptl);
-3d6586008f7b63 David Hildenbrand 2024-04-10  201  
-3d6586008f7b63 David Hildenbrand 2024-04-10  202  			/* Disallow write access if the PTE is not writable. */
-3d6586008f7b63 David Hildenbrand 2024-04-10  203  			if (!writable &&
-3d6586008f7b63 David Hildenbrand 2024-04-10  204  			    (memmap->attr & ACRN_MEM_ACCESS_WRITE)) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  205  				ret = -EFAULT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  206  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  207  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  208  
-3d6586008f7b63 David Hildenbrand 2024-04-10  209  			/* Disallow refcounted pages. */
-3d6586008f7b63 David Hildenbrand 2024-04-10  210  			if (pfn_valid(cur_pfn) &&
-3d6586008f7b63 David Hildenbrand 2024-04-10  211  			    !PageReserved(pfn_to_page(cur_pfn))) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  212  				ret = -EFAULT;
-3d6586008f7b63 David Hildenbrand 2024-04-10  213  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  214  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  215  
-3d6586008f7b63 David Hildenbrand 2024-04-10  216  			/* Disallow non-contiguous ranges. */
-3d6586008f7b63 David Hildenbrand 2024-04-10 @217  			if (cur_pfn != start_pfn + i) {
-3d6586008f7b63 David Hildenbrand 2024-04-10  218  				ret = -EINVAL;
-3d6586008f7b63 David Hildenbrand 2024-04-10  219  				break;
-3d6586008f7b63 David Hildenbrand 2024-04-10  220  			}
-3d6586008f7b63 David Hildenbrand 2024-04-10  221  		}
-1b265da7ea1e1a Christoph Hellwig 2024-03-25  222  		mmap_read_unlock(current->mm);
-3d6586008f7b63 David Hildenbrand 2024-04-10  223  
-3d6586008f7b63 David Hildenbrand 2024-04-10 @224  		if (ret) {
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  225  			dev_dbg(acrn_dev.this_device,
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  226  				"Failed to lookup PFN at VMA:%pK.\n", (void *)memmap->vma_base);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  227  			return ret;
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  228  		}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  229  
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  230  		return acrn_mm_region_add(vm, memmap->user_vm_pa,
-3d6586008f7b63 David Hildenbrand 2024-04-10  231  			 PFN_PHYS(start_pfn), memmap->len,
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  232  			 ACRN_MEM_TYPE_WB, memmap->attr);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  233  	}
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  234  	mmap_read_unlock(current->mm);
-8a6e85f75a83d1 Yonghua Huang     2022-02-28  235  
-746f1b0ac5bf6e Len Baker         2021-10-29  236  	pages = vzalloc(array_size(nr_pages, sizeof(*pages)));
-88f537d5e8ddc8 Shuo Liu          2021-02-07  237  	if (!pages)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  238  		return -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  239  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  240  	/* Lock the pages of user memory map region */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  241  	pinned = pin_user_pages_fast(memmap->vma_base,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  242  				     nr_pages, FOLL_WRITE | FOLL_LONGTERM,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  243  				     pages);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  244  	if (pinned < 0) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  245  		ret = pinned;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  246  		goto free_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  247  	} else if (pinned != nr_pages) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  248  		ret = -EFAULT;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  249  		goto put_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  250  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  251  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  252  	/* Create a kernel map for the map region */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  253  	remap_vaddr = vmap(pages, nr_pages, VM_MAP, PAGE_KERNEL);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  254  	if (!remap_vaddr) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  255  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  256  		goto put_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  257  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  258  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  259  	/* Record Service VM va <-> User VM pa mapping */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  260  	mutex_lock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  261  	region_mapping = &vm->regions_mapping[vm->regions_mapping_count];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  262  	if (vm->regions_mapping_count < ACRN_MEM_MAPPING_MAX) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  263  		region_mapping->pages = pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  264  		region_mapping->npages = nr_pages;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  265  		region_mapping->size = memmap->len;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  266  		region_mapping->service_vm_va = remap_vaddr;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  267  		region_mapping->user_vm_pa = memmap->user_vm_pa;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  268  		vm->regions_mapping_count++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  269  	} else {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  270  		dev_warn(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  271  			"Run out of memory mapping slots!\n");
-88f537d5e8ddc8 Shuo Liu          2021-02-07  272  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  273  		mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  274  		goto unmap_no_count;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  275  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  276  	mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  277  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  278  	/* Calculate count of vm_memory_region_op */
-3d6586008f7b63 David Hildenbrand 2024-04-10  279  	for (i = 0; i < nr_pages; i += 1 << order) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  280  		page = pages[i];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  281  		VM_BUG_ON_PAGE(PageTail(page), page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  282  		order = compound_order(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  283  		nr_regions++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  284  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  285  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  286  	/* Prepare the vm_memory_region_batch */
-746f1b0ac5bf6e Len Baker         2021-10-29  287  	regions_info = kzalloc(struct_size(regions_info, regions_op,
-746f1b0ac5bf6e Len Baker         2021-10-29  288  					   nr_regions), GFP_KERNEL);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  289  	if (!regions_info) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  290  		ret = -ENOMEM;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  291  		goto unmap_kernel_map;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  292  	}
-51a71ab21f61ce Kees Cook         2023-09-22  293  	regions_info->regions_num = nr_regions;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  294  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  295  	/* Fill each vm_memory_region_op */
-746f1b0ac5bf6e Len Baker         2021-10-29  296  	vm_region = regions_info->regions_op;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  297  	regions_info->vmid = vm->vmid;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  298  	regions_info->regions_gpa = virt_to_phys(vm_region);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  299  	user_vm_pa = memmap->user_vm_pa;
-3d6586008f7b63 David Hildenbrand 2024-04-10  300  	for (i = 0; i < nr_pages; i += 1 << order) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  301  		u32 region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  302  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  303  		page = pages[i];
-88f537d5e8ddc8 Shuo Liu          2021-02-07  304  		VM_BUG_ON_PAGE(PageTail(page), page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  305  		order = compound_order(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  306  		region_size = PAGE_SIZE << order;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  307  		vm_region->type = ACRN_MEM_REGION_ADD;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  308  		vm_region->user_vm_pa = user_vm_pa;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  309  		vm_region->service_vm_pa = page_to_phys(page);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  310  		vm_region->size = region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  311  		vm_region->attr = (ACRN_MEM_TYPE_WB & ACRN_MEM_TYPE_MASK) |
-88f537d5e8ddc8 Shuo Liu          2021-02-07  312  				  (memmap->attr & ACRN_MEM_ACCESS_RIGHT_MASK);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  313  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  314  		vm_region++;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  315  		user_vm_pa += region_size;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  316  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  317  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  318  	/* Inform the ACRN Hypervisor to set up EPT mappings */
-88f537d5e8ddc8 Shuo Liu          2021-02-07  319  	ret = hcall_set_memory_regions(virt_to_phys(regions_info));
-88f537d5e8ddc8 Shuo Liu          2021-02-07  320  	if (ret < 0) {
-88f537d5e8ddc8 Shuo Liu          2021-02-07  321  		dev_dbg(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  322  			"Failed to set regions, VM[%u]!\n", vm->vmid);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  323  		goto unset_region;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  324  	}
-88f537d5e8ddc8 Shuo Liu          2021-02-07  325  	kfree(regions_info);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  326  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  327  	dev_dbg(acrn_dev.this_device,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  328  		"%s: VM[%u] service-GVA[%pK] user-GPA[%pK] size[0x%llx]\n",
-88f537d5e8ddc8 Shuo Liu          2021-02-07  329  		__func__, vm->vmid,
-88f537d5e8ddc8 Shuo Liu          2021-02-07  330  		remap_vaddr, (void *)memmap->user_vm_pa, memmap->len);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  331  	return ret;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  332  
-88f537d5e8ddc8 Shuo Liu          2021-02-07  333  unset_region:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  334  	kfree(regions_info);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  335  unmap_kernel_map:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  336  	mutex_lock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  337  	vm->regions_mapping_count--;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  338  	mutex_unlock(&vm->regions_mapping_lock);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  339  unmap_no_count:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  340  	vunmap(remap_vaddr);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  341  put_pages:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  342  	for (i = 0; i < pinned; i++)
-88f537d5e8ddc8 Shuo Liu          2021-02-07  343  		unpin_user_page(pages[i]);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  344  free_pages:
-88f537d5e8ddc8 Shuo Liu          2021-02-07  345  	vfree(pages);
-88f537d5e8ddc8 Shuo Liu          2021-02-07  346  	return ret;
-88f537d5e8ddc8 Shuo Liu          2021-02-07  347  }
-88f537d5e8ddc8 Shuo Liu          2021-02-07  348  
+e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12514  
+071f24ad28cdcd arch/x86/kvm/x86.c Sean Christopherson 2024-08-29  12515  int kvm_arch_enable_virtualization_cpu(void)
+e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12516  {
+ca84d1a24c376e arch/x86/kvm/x86.c Zachary Amsden      2010-08-19  12517  	struct kvm *kvm;
+ca84d1a24c376e arch/x86/kvm/x86.c Zachary Amsden      2010-08-19  12518  	struct kvm_vcpu *vcpu;
+46808a4cb89708 arch/x86/kvm/x86.c Marc Zyngier        2021-11-16  12519  	unsigned long i;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12520  	int ret;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12521  	u64 local_tsc;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12522  	u64 max_tsc = 0;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12523  	bool stable, backwards_tsc = false;
+18863bdd60f895 arch/x86/kvm/x86.c Avi Kivity          2009-09-07  12524  
+7e34fbd05c6350 arch/x86/kvm/x86.c Sean Christopherson 2020-09-23  12525  	kvm_user_return_msr_cpu_online();
+c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12526  
+c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12527  	ret = kvm_x86_check_processor_compatibility();
+c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12528  	if (ret)
+c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12529  		return ret;
+c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12530  
+896046474f8d2e arch/x86/kvm/x86.c Wei Wang            2024-05-07  12531  	ret = kvm_x86_call(hardware_enable)();
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12532  	if (ret != 0)
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12533  		return ret;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12534  
+4ea1636b04dbd6 arch/x86/kvm/x86.c Andy Lutomirski     2015-06-25  12535  	local_tsc = rdtsc();
+b0c39dc68e3b3d arch/x86/kvm/x86.c Vitaly Kuznetsov    2018-01-24  12536  	stable = !kvm_check_tsc_unstable();
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12537  	list_for_each_entry(kvm, &vm_list, vm_list) {
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12538  		kvm_for_each_vcpu(i, vcpu, kvm) {
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12539  			if (!stable && vcpu->cpu == smp_processor_id())
+105b21bbf67bb5 arch/x86/kvm/x86.c Guo Hui Liu         2014-09-12  12540  				kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12541  			if (stable && vcpu->arch.last_host_tsc > local_tsc) {
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12542  				backwards_tsc = true;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12543  				if (vcpu->arch.last_host_tsc > max_tsc)
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12544  					max_tsc = vcpu->arch.last_host_tsc;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12545  			}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12546  		}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12547  	}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12548  
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12549  	/*
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12550  	 * Sometimes, even reliable TSCs go backwards.  This happens on
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12551  	 * platforms that reset TSC during suspend or hibernate actions, but
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12552  	 * maintain synchronization.  We must compensate.  Fortunately, we can
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12553  	 * detect that condition here, which happens early in CPU bringup,
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12554  	 * before any KVM threads can be running.  Unfortunately, we can't
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12555  	 * bring the TSCs fully up to date with real time, as we aren't yet far
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12556  	 * enough into CPU bringup that we know how much real time has actually
+9285ec4c8b61d4 arch/x86/kvm/x86.c Jason A. Donenfeld  2019-06-21  12557  	 * elapsed; our helper function, ktime_get_boottime_ns() will be using boot
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12558  	 * variables that haven't been updated yet.
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12559  	 *
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12560  	 * So we simply find the maximum observed TSC above, then record the
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12561  	 * adjustment to TSC in each VCPU.  When the VCPU later gets loaded,
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12562  	 * the adjustment will be applied.  Note that we accumulate
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12563  	 * adjustments, in case multiple suspend cycles happen before some VCPU
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12564  	 * gets a chance to run again.  In the event that no KVM threads get a
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12565  	 * chance to run, we will miss the entire elapsed period, as we'll have
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12566  	 * reset last_host_tsc, so VCPUs will not have the TSC adjusted and may
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12567  	 * loose cycle time.  This isn't too big a deal, since the loss will be
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12568  	 * uniform across all VCPUs (not to mention the scenario is extremely
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12569  	 * unlikely). It is possible that a second hibernate recovery happens
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12570  	 * much faster than a first, causing the observed TSC here to be
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12571  	 * smaller; this would require additional padding adjustment, which is
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12572  	 * why we set last_host_tsc to the local tsc observed here.
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12573  	 *
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12574  	 * N.B. - this code below runs only on platforms with reliable TSC,
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12575  	 * as that is the only way backwards_tsc is set above.  Also note
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12576  	 * that this runs for ALL vcpus, which is not a bug; all VCPUs should
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12577  	 * have the same delta_cyc adjustment applied if backwards_tsc
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12578  	 * is detected.  Note further, this adjustment is only done once,
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12579  	 * as we reset last_host_tsc on all VCPUs to stop this from being
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12580  	 * called multiple times (one for each physical CPU bringup).
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12581  	 *
+4a9699807c4917 arch/x86/kvm/x86.c Guo Chao            2012-06-28  12582  	 * Platforms with unreliable TSCs don't have to deal with this, they
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12583  	 * will be compensated by the logic in vcpu_load, which sets the TSC to
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12584  	 * catchup mode.  This will catchup all VCPUs to real time, but cannot
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12585  	 * guarantee that they stay in perfect synchronization.
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12586  	 */
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12587  	if (backwards_tsc) {
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12588  		u64 delta_cyc = max_tsc - local_tsc;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12589  		list_for_each_entry(kvm, &vm_list, vm_list) {
+a826faf108e2d8 arch/x86/kvm/x86.c Ladi Prosek         2017-06-26  12590  			kvm->arch.backwards_tsc_observed = true;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03 @12591  			kvm_for_each_vcpu(i, vcpu, kvm) {
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12592  				vcpu->arch.tsc_offset_adjustment += delta_cyc;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12593  				vcpu->arch.last_host_tsc = local_tsc;
+105b21bbf67bb5 arch/x86/kvm/x86.c Guo Hui Liu         2014-09-12  12594  				kvm_make_request(KVM_REQ_MASTERCLOCK_UPDATE, vcpu);
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12595  			}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12596  
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12597  			/*
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12598  			 * We have to disable TSC offset matching.. if you were
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12599  			 * booting a VM while issuing an S4 host suspend....
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12600  			 * you may have some problem.  Solving this issue is
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12601  			 * left as an exercise to the reader.
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12602  			 */
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12603  			kvm->arch.last_tsc_nsec = 0;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12604  			kvm->arch.last_tsc_write = 0;
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12605  		}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12606  
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12607  	}
+0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12608  	return 0;
+e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12609  }
+e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12610  
+
+:::::: The code at line 12591 was first introduced by commit
+:::::: 0dd6a6edb0124e6c71931ff575b18e15ed6e8603 KVM: Dont mark TSC unstable due to S4 suspend
+
+:::::: TO: Zachary Amsden <zamsden@gmail.com>
+:::::: CC: Avi Kivity <avi@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
