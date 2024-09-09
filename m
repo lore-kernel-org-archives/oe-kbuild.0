@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14FB12E48
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 15:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C361BC44
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 16:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725894031; cv=none; b=hrWTt5XDRZgD3ia6Ok/hH09K8daP6Xpd6p8e3KFqvop8Hn5eUOL/r8mHhXyj3a/eIneLJKW9AgZU+3kVvtnMkaDtS7upQmUI9jNrsfk1JKXswUz3IjtyiET9Pn2gGCFmm4f55Cu5wIfd8+q6PvPPbMf5n7bROlFU7CZbTKEBTS0=
+	t=1725898353; cv=none; b=iDn9WH4L4ymWt5zrgsxyHpZh7+u1HtiXt29PnZkVcbCp7RlYmO7r5/NirkplLJ1w5HbquNbTR4iz4bLY2LqxpLXusUtB8rOe15Uf8Yz4fa0tl1OoMdPsP+Vs32KhkVrC8GH1/a9/StHh85RF4AZ4paDzfZeZKSmvgsssNxzaiBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725894031; c=relaxed/simple;
-	bh=SXeB3etdz3MYa/THewmKzZNQ2+fwy3xf0LzdOLbHZ+0=;
+	s=arc-20240116; t=1725898353; c=relaxed/simple;
+	bh=LFChYDyn25zgsL2QYiRuOPiEPLgsiDfOHyvscaiiYjE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C4fUZbcYAnZdJergiykp8XGOS4JMSOmBJaZ3/xWb+LaQSedeBWjVCuTKSa3zk+mmTiejF+6W+udX5CgwhsSrqnwd0S4IxUHK5KID7Ayx67hLV7uwMiHXyE5oWH8ZveilEBgQsaBUFO6Mfo3iTYMWfC2MX4cbhvuyx+Y05t/yVF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E+0hoQeI; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=B5aJ4/e388BnGTtL4dPXdEcLEOCmoztqaye9oUCmGYu6M/TG9aki4XNfDL66SBUaPC9eloNOvbsMDd7+ciYwF6diKdz8tURFxqOcyYdD0Yt4xrh5WuSdHBCjLjAfDx3FdNx2jWMj4xhHUteXzLdAWQNWz9tSCzRIV9WYIKp0xiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqCMnVu1; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+0hoQeI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqCMnVu1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725894029; x=1757430029;
+  t=1725898352; x=1757434352;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXeB3etdz3MYa/THewmKzZNQ2+fwy3xf0LzdOLbHZ+0=;
-  b=E+0hoQeIO0X0YIu3Tl+g0dWcv7orIZqlRA9TimTptiDDVvAbzhnuMInn
-   HMkz84o4siXGsvHONRw6vdikTVaPDVPRwCoXiFKqEeNnlDSZ4c8uE/lt7
-   78+MdS9RLoIFgp9tqhUI3Xm/0IMpsp/ldmPfRuWzxKsDpeYXd9a8TRd0H
-   WPlk7d1NftCDQ0w3HxGhpnq2tuC1Xv7VTqYVfZpk2X4hgu9UrD+9aQ4F8
-   gVqcpp6kZJL9vCA1akgfB+b+7YXh87L9qMOBm2OQw6xkQMMes42N1WlsY
-   M4378h20tDKvYByIrO8SZZhVmqu2q/Nxk98Ix7i9Gyl+bQRAnFbcyRfig
-   w==;
-X-CSE-ConnectionGUID: 9/JjG362SFWcxg7KTJEcjA==
-X-CSE-MsgGUID: exnuxW6hT36xNhWoHL9zDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="27518191"
+  bh=LFChYDyn25zgsL2QYiRuOPiEPLgsiDfOHyvscaiiYjE=;
+  b=WqCMnVu14t2wweQKl6Hee5vdBq36n9+FtlqJD/0iuufWT9By8ozxAZw0
+   cGvm8M0BBb4TWL/f7tB+q7Fgu5uY4VcosvYMt/wSfhVWU3sALuxgcNwMm
+   WIs/Ciq0yvmoKZ7V8H7sFXKJB40yfwm+M/hauM6rIygvOfCUj+NsejDWL
+   omKxcbDOd6xZg78UC9Y4IgPvPbZCBmFg/nmBzls2ESHRsD6UisigvZGFL
+   iSPlNcLq1WoYsKklPtzqNyq/qYqFijjoI+7Rev18BXN41Ti1qRhYLie2i
+   D59mprAVHWu3eqdzpRK3Twek78stEogkLkik06b5dMbU62QZ4+OP6IjFM
+   Q==;
+X-CSE-ConnectionGUID: uP3amW5SRjKnfogng/LKYQ==
+X-CSE-MsgGUID: yfQ6dUKlRpmvD0+Qvwgm4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35273669"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="27518191"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 08:00:26 -0700
-X-CSE-ConnectionGUID: WsjMKsGvT2aUollOh9AS1Q==
-X-CSE-MsgGUID: e5DZiz1rQxmQa4k7L1biEQ==
+   d="scan'208";a="35273669"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 09:12:31 -0700
+X-CSE-ConnectionGUID: EiH7icsjTwWoFeYkWixLXQ==
+X-CSE-MsgGUID: l/QimroeTZ+hDd1KASWKew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="66666124"
+   d="scan'208";a="67020199"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Sep 2024 08:00:26 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Sep 2024 09:12:30 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snfsN-000Erc-1d;
-	Mon, 09 Sep 2024 15:00:23 +0000
-Date: Mon, 9 Sep 2024 22:59:55 +0800
+	id 1snh08-000Ew8-1B;
+	Mon, 09 Sep 2024 16:12:28 +0000
+Date: Tue, 10 Sep 2024 00:11:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [jpirko-mlxsw:combined_queue 23/39] net/ethtool/cmis_cdb.c:574
- ethtool_cmis_cdb_execute_epl_cmd() error: uninitialized symbol
- 'bytes_written'.
-Message-ID: <202409092231.q9mkFnpQ-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4] lib/math: Add int_pow test suite
+Message-ID: <202409100048.AlSEgWYn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,69 +61,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is too big for long long"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Danielle Ratson <danieller@nvidia.com>
-CC: Petr Machata <petrm@nvidia.com>
+In-Reply-To: <20240908224901.78595-1-luis.hernandez093@gmail.com>
+References: <20240908224901.78595-1-luis.hernandez093@gmail.com>
+TO: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+TO: brendan.higgins@linux.dev
+TO: davidgow@google.com
+TO: rmoar@google.com
+CC: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+CC: linux-kselftest@vger.kernel.org
+CC: kunit-dev@googlegroups.com
+CC: skhan@linuxfoundation.org
+CC: linux-kernel-mentees@lists.linuxfoundation.org
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   5ce465ef86193169b9fa00b26806a05ad7a49b87
-commit: 74c5ee4c97461509353a6a12028906809fe2c208 [23/39] net: ethtool: Add support for writing firmware blocks using EPL payload
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409092231.q9mkFnpQ-lkp@intel.com/config)
+Hi Luis,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.11-rc6]
+[also build test WARNING on linus/master next-20240909]
+[cannot apply to akpm-mm/mm-nonmm-unstable]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_pow-test-suite/20240909-065058
+base:   v6.11-rc6
+patch link:    https://lore.kernel.org/r/20240908224901.78595-1-luis.hernandez093%40gmail.com
+patch subject: [PATCH v4] lib/math: Add int_pow test suite
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-121-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100048.AlSEgWYn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240910/202409100048.AlSEgWYn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409092231.q9mkFnpQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409100048.AlSEgWYn-lkp@intel.com/
 
-smatch warnings:
-net/ethtool/cmis_cdb.c:574 ethtool_cmis_cdb_execute_epl_cmd() error: uninitialized symbol 'bytes_written'.
+sparse warnings: (new ones prefixed by >>)
+>> lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is too big for long long
+   lib/math/tests/int_pow_kunit.c:22:18: sparse: sparse: decimal constant 9223372036854775808 is between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers are very likely to produce unsigned long (and a warning) here
 
-vim +/bytes_written +574 net/ethtool/cmis_cdb.c
+vim +22 lib/math/tests/int_pow_kunit.c
 
-74c5ee4c974615 Danielle Ratson 2024-09-04  562  
-74c5ee4c974615 Danielle Ratson 2024-09-04  563  static int
-74c5ee4c974615 Danielle Ratson 2024-09-04  564  ethtool_cmis_cdb_execute_epl_cmd(struct net_device *dev,
-74c5ee4c974615 Danielle Ratson 2024-09-04  565  				 struct ethtool_cmis_cdb_cmd_args *args,
-74c5ee4c974615 Danielle Ratson 2024-09-04  566  				 struct ethtool_module_eeprom *page_data)
-74c5ee4c974615 Danielle Ratson 2024-09-04  567  {
-74c5ee4c974615 Danielle Ratson 2024-09-04  568  	u16 epl_len = be16_to_cpu(args->req.epl_len);
-74c5ee4c974615 Danielle Ratson 2024-09-04  569  	u32 bytes_written;
-74c5ee4c974615 Danielle Ratson 2024-09-04  570  	u8 page;
-74c5ee4c974615 Danielle Ratson 2024-09-04  571  	int err;
-74c5ee4c974615 Danielle Ratson 2024-09-04  572  
-74c5ee4c974615 Danielle Ratson 2024-09-04  573  	for (page = CMIS_CDB_EPL_PAGE_START;
-74c5ee4c974615 Danielle Ratson 2024-09-04 @574  	     page <= CMIS_CDB_EPL_PAGE_END && bytes_written < epl_len; page++) {
-74c5ee4c974615 Danielle Ratson 2024-09-04  575  		u16 offset = CMIS_CDB_EPL_FW_BLOCK_OFFSET_START;
-74c5ee4c974615 Danielle Ratson 2024-09-04  576  
-74c5ee4c974615 Danielle Ratson 2024-09-04  577  		while (offset <= CMIS_CDB_EPL_FW_BLOCK_OFFSET_END &&
-74c5ee4c974615 Danielle Ratson 2024-09-04  578  		       bytes_written < epl_len) {
-74c5ee4c974615 Danielle Ratson 2024-09-04  579  			u32 bytes_left = epl_len - bytes_written;
-74c5ee4c974615 Danielle Ratson 2024-09-04  580  			u16 space_left, bytes_to_write;
-74c5ee4c974615 Danielle Ratson 2024-09-04  581  
-74c5ee4c974615 Danielle Ratson 2024-09-04  582  			space_left = CMIS_CDB_EPL_FW_BLOCK_OFFSET_END - offset + 1;
-74c5ee4c974615 Danielle Ratson 2024-09-04  583  			bytes_to_write = min_t(u16, bytes_left,
-74c5ee4c974615 Danielle Ratson 2024-09-04  584  					       min_t(u16, space_left,
-74c5ee4c974615 Danielle Ratson 2024-09-04  585  						     args->read_write_len_ext));
-74c5ee4c974615 Danielle Ratson 2024-09-04  586  
-74c5ee4c974615 Danielle Ratson 2024-09-04  587  			err = __ethtool_cmis_cdb_execute_cmd(dev, page_data,
-74c5ee4c974615 Danielle Ratson 2024-09-04  588  							     page, offset,
-74c5ee4c974615 Danielle Ratson 2024-09-04  589  							     bytes_to_write,
-74c5ee4c974615 Danielle Ratson 2024-09-04  590  							     args->req.epl + bytes_written);
-74c5ee4c974615 Danielle Ratson 2024-09-04  591  			if (err < 0)
-74c5ee4c974615 Danielle Ratson 2024-09-04  592  				return err;
-74c5ee4c974615 Danielle Ratson 2024-09-04  593  
-74c5ee4c974615 Danielle Ratson 2024-09-04  594  			offset += bytes_to_write;
-74c5ee4c974615 Danielle Ratson 2024-09-04  595  			bytes_written += bytes_to_write;
-74c5ee4c974615 Danielle Ratson 2024-09-04  596  		}
-74c5ee4c974615 Danielle Ratson 2024-09-04  597  	}
-74c5ee4c974615 Danielle Ratson 2024-09-04  598  	return 0;
-74c5ee4c974615 Danielle Ratson 2024-09-04  599  }
-74c5ee4c974615 Danielle Ratson 2024-09-04  600  
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  12  
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  13  static const struct test_case_params params[] = {
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  14  	{ 64, 0, 1, "Power of zero" },
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  15  	{ 64, 1, 64, "Power of one"},
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  16  	{ 0, 5, 0, "Base zero" },
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  17  	{ 1, 64, 1, "Base one" },
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  18  	{ 2, 2, 4, "Two squared"},
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  19  	{ 2, 3, 8, "Two cubed"},
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  20  	{ 5, 5, 3125, "Five raised to the fifth power" },
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  21  	{ U64_MAX, 1, U64_MAX, "Max base" },
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08 @22  	{ 2, 63, 9223372036854775808, "Large result"},
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  23  };
+207234cb29fdc9e Luis Felipe Hernandez 2024-09-08  24  
 
 -- 
 0-DAY CI Kernel Test Service
