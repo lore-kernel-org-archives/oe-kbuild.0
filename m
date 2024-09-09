@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668FC1ACDE0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30B812E4A
 	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 04:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725856892; cv=none; b=qlshtkyBNTBWn6xkTrAHfJJnWtjybaXW4lHgzks4J+Bge9p9tktACHBH3sMmFxhBWkGTw22Qf+M5dgDkA04pv1EiMyyoRb/Wy0nq0komVVq3vHQEENnzWEe06jjxdPG8RBKwHXDHVstGX0uWmDUkNjZMNM4EyBrMndwJnsneGdI=
+	t=1725856893; cv=none; b=B1KVLjJ1zHQxamcwJwcU4I31Ubte2IwtRiNIC4ZYmR3JfwC0fxds0CGBTIrUjP8yoscAaU1b//kf3kKyi9oeEMAM8Di8FJUnLgZApZbJSrIjj+6L6i5j06/8+T5MUxgkzuMAhZs/epqjOAdA+xMRcQ8igkdC78yqg0bkxr7wE6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725856892; c=relaxed/simple;
-	bh=rYFyHz4Puy5awdEefIcRuX/nyZzyo2ivTIokKEJ0QwU=;
+	s=arc-20240116; t=1725856893; c=relaxed/simple;
+	bh=y6Xm/spRtTMErgSCFVLU6Phck4ZMBeWNJadlg1GZoWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pnTBGhX7IqEmMV70MxxxlFTttuLJMNz1RyujCnF0a8xFk8xlVHn8pMaS3KxL0LzTmClDAUk0IQvrlNgVqvzBU/7D0/QHjDPp6uUcd4RdGmZV17OKhY+4fL680QkIs0Zvb1P4JR4LKLDPDnCQVytBiyL4ajz/IdSSgIT1j16SuU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJzMuYgM; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=E+20jXETwDfNLvh7VnwkxsH5Cc8tBcgnLR45ceWAeoGzEiqXyPc6u1iTyD8PSOzKq3wU+dalwF0U1941KfG1P6d0DVT3LTji0oOzvkMgoZHgicTyOOKSXeStmSAuDPPxbeBOBQxajLj+Kj/cXN6EGZXZEGzLRsWpe0kLLdkU7pU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NT9Uhzcu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJzMuYgM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NT9Uhzcu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725856890; x=1757392890;
+  t=1725856891; x=1757392891;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rYFyHz4Puy5awdEefIcRuX/nyZzyo2ivTIokKEJ0QwU=;
-  b=XJzMuYgM4NVErXDZh7suLwLCyIwMq1wN5Wu6BBSNjgM4XgiwKeWHVfuG
-   zZBv0ox3NAZxRYNUuJ6UP2au7SjdMaF3xjs8F/O5E5xp/gUP/Cb2AjAFD
-   56VUyItYtXQgfGBeawuW8SkKluPDb8R0+kLaZgNHWatCBgG9WFLDnx9iv
-   mnMm5uEJXuJxWqQ68XdJQ4sDETGsoMfXHCSAQ1EphFKYx71V1MGvtwl45
-   IolsvliXfxTw9h6b2qpQGQnSrYxGHFGHMMgL/09wHR+6sTyuWKXZQyaGE
-   R5FpqYZi8vLP2bCa2Kz9woivG9rwyjlC8958xFTjACcfkw/3tYhMqyT22
-   g==;
-X-CSE-ConnectionGUID: xZpelr6cSSC0MQgz9T1GkQ==
-X-CSE-MsgGUID: 5f3s/eh5SweR35+O5VHtNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="13434249"
+  bh=y6Xm/spRtTMErgSCFVLU6Phck4ZMBeWNJadlg1GZoWk=;
+  b=NT9UhzcuuFN4Eof/bu2Wp6/apjfRYhGPhEB73fqebMHB6TlUFybvzo5M
+   QIfiouujh7/oPLXRu7rzJPzh/l8CrafPtfRJ+Q1z7evUIvpvOJ5JYjmt9
+   1qnKySC0gwkt2FnQpKIPrpCDPNuyaoFtKpgimhMuni1MLw4+vYobVo8Cr
+   P9lC0Ulo0eyd70Zx0kldhEjuSyoM0tcxN3AWB+Zr/ca7Quj2+KsxDfsbV
+   sdfwfdZbhKXXqRqzH4bnR4RBAmiARK0XMjOvv65L+KMSzHPcryoFjWF7x
+   KLa+IfR6QoHnMKQ3VqtzNBSQqwtyJJnV+khkqz1JQHleIM/wcNvEVIhA6
+   Q==;
+X-CSE-ConnectionGUID: W7vJ2MiZRwG5hGGq+X6iKg==
+X-CSE-MsgGUID: ywq3FWmnT9GpOxGba9O5jw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="13434250"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="13434249"
+   d="scan'208";a="13434250"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 21:41:28 -0700
-X-CSE-ConnectionGUID: L6WcnETZT+aBMjf2Xr3Pdg==
-X-CSE-MsgGUID: qARUN4ugRFGB0MuD5QtVdQ==
+X-CSE-ConnectionGUID: FO/9k3duTV+EWreILME3zg==
+X-CSE-MsgGUID: m/czF9OxS4u3bdFWjKxwXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="71493170"
+   d="scan'208";a="71493172"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 08 Sep 2024 21:41:26 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snWDM-000EId-0d;
+	id 1snWDM-000EIi-0o;
 	Mon, 09 Sep 2024 04:41:24 +0000
-Date: Mon, 9 Sep 2024 12:40:43 +0800
+Date: Mon, 9 Sep 2024 12:40:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized
- symbol 'counter'.
-Message-ID: <202409091252.vaBiGBjQ-lkp@intel.com>
+Subject: Re: [PATCH RFC v2 04/10] openat2: add CHECK_FIELDS flag to usize
+ argument
+Message-ID: <202409091242.KVFltqkq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,211 +64,136 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Roman Gushchin <roman.gushchin@linux.dev>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20240906-extensible-structs-check_fields-v2-4-0f46d2de9bad@cyphar.com>
+References: <20240906-extensible-structs-check_fields-v2-4-0f46d2de9bad@cyphar.com>
+TO: Aleksa Sarai <cyphar@cyphar.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   da3ea35007d0af457a0afc87e84fddaebc4e0b63
-commit: ea1e879631ffdf640bfcb11439d61a151067bb39 mm: memcg: move cgroup v1 interface files to memcontrol-v1.c
-date:   9 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 9 weeks ago
-config: sparc-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240909/202409091252.vaBiGBjQ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+Hi Aleksa,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 431c1646e1f86b949fa3685efc50b660a364c2b6]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/uaccess-add-copy_struct_to_user-helper/20240905-230518
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240906-extensible-structs-check_fields-v2-4-0f46d2de9bad%40cyphar.com
+patch subject: [PATCH RFC v2 04/10] openat2: add CHECK_FIELDS flag to usize argument
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091242.KVFltqkq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409091252.vaBiGBjQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409091242.KVFltqkq-lkp@intel.com/
 
 smatch warnings:
-mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized symbol 'counter'.
-mm/memcontrol-v1.c:2479 mem_cgroup_reset() error: uninitialized symbol 'counter'.
+include/linux/uaccess.h:477 copy_struct_to_user() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +/counter +2338 mm/memcontrol-v1.c
+vim +477 include/linux/uaccess.h
 
-ea1e879631ffdf Roman Gushchin 2024-06-24  2312  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2313  static u64 mem_cgroup_read_u64(struct cgroup_subsys_state *css,
-ea1e879631ffdf Roman Gushchin 2024-06-24  2314  			       struct cftype *cft)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2315  {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2316  	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2317  	struct page_counter *counter;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2318  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2319  	switch (MEMFILE_TYPE(cft->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2320  	case _MEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2321  		counter = &memcg->memory;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2322  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2323  	case _MEMSWAP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2324  		counter = &memcg->memsw;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2325  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2326  	case _KMEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2327  		counter = &memcg->kmem;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2328  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2329  	case _TCP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2330  		counter = &memcg->tcpmem;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2331  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2332  	default:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2333  		BUG();
-ea1e879631ffdf Roman Gushchin 2024-06-24  2334  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2335  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2336  	switch (MEMFILE_ATTR(cft->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2337  	case RES_USAGE:
-ea1e879631ffdf Roman Gushchin 2024-06-24 @2338  		if (counter == &memcg->memory)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2339  			return (u64)mem_cgroup_usage(memcg, false) * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2340  		if (counter == &memcg->memsw)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2341  			return (u64)mem_cgroup_usage(memcg, true) * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2342  		return (u64)page_counter_read(counter) * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2343  	case RES_LIMIT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2344  		return (u64)counter->max * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2345  	case RES_MAX_USAGE:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2346  		return (u64)counter->watermark * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2347  	case RES_FAILCNT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2348  		return counter->failcnt;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2349  	case RES_SOFT_LIMIT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2350  		return (u64)READ_ONCE(memcg->soft_limit) * PAGE_SIZE;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2351  	default:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2352  		BUG();
-ea1e879631ffdf Roman Gushchin 2024-06-24  2353  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2354  }
-ea1e879631ffdf Roman Gushchin 2024-06-24  2355  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2356  /*
-ea1e879631ffdf Roman Gushchin 2024-06-24  2357   * This function doesn't do anything useful. Its only job is to provide a read
-ea1e879631ffdf Roman Gushchin 2024-06-24  2358   * handler for a file so that cgroup_file_mode() will add read permissions.
-ea1e879631ffdf Roman Gushchin 2024-06-24  2359   */
-ea1e879631ffdf Roman Gushchin 2024-06-24  2360  static int mem_cgroup_dummy_seq_show(__always_unused struct seq_file *m,
-ea1e879631ffdf Roman Gushchin 2024-06-24  2361  				     __always_unused void *v)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2362  {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2363  	return -EINVAL;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2364  }
-ea1e879631ffdf Roman Gushchin 2024-06-24  2365  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2366  static int memcg_update_tcp_max(struct mem_cgroup *memcg, unsigned long max)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2367  {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2368  	int ret;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2369  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2370  	mutex_lock(&memcg_max_mutex);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2371  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2372  	ret = page_counter_set_max(&memcg->tcpmem, max);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2373  	if (ret)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2374  		goto out;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2375  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2376  	if (!memcg->tcpmem_active) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2377  		/*
-ea1e879631ffdf Roman Gushchin 2024-06-24  2378  		 * The active flag needs to be written after the static_key
-ea1e879631ffdf Roman Gushchin 2024-06-24  2379  		 * update. This is what guarantees that the socket activation
-ea1e879631ffdf Roman Gushchin 2024-06-24  2380  		 * function is the last one to run. See mem_cgroup_sk_alloc()
-ea1e879631ffdf Roman Gushchin 2024-06-24  2381  		 * for details, and note that we don't mark any socket as
-ea1e879631ffdf Roman Gushchin 2024-06-24  2382  		 * belonging to this memcg until that flag is up.
-ea1e879631ffdf Roman Gushchin 2024-06-24  2383  		 *
-ea1e879631ffdf Roman Gushchin 2024-06-24  2384  		 * We need to do this, because static_keys will span multiple
-ea1e879631ffdf Roman Gushchin 2024-06-24  2385  		 * sites, but we can't control their order. If we mark a socket
-ea1e879631ffdf Roman Gushchin 2024-06-24  2386  		 * as accounted, but the accounting functions are not patched in
-ea1e879631ffdf Roman Gushchin 2024-06-24  2387  		 * yet, we'll lose accounting.
-ea1e879631ffdf Roman Gushchin 2024-06-24  2388  		 *
-ea1e879631ffdf Roman Gushchin 2024-06-24  2389  		 * We never race with the readers in mem_cgroup_sk_alloc(),
-ea1e879631ffdf Roman Gushchin 2024-06-24  2390  		 * because when this value change, the code to process it is not
-ea1e879631ffdf Roman Gushchin 2024-06-24  2391  		 * patched in yet.
-ea1e879631ffdf Roman Gushchin 2024-06-24  2392  		 */
-ea1e879631ffdf Roman Gushchin 2024-06-24  2393  		static_branch_inc(&memcg_sockets_enabled_key);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2394  		memcg->tcpmem_active = true;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2395  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2396  out:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2397  	mutex_unlock(&memcg_max_mutex);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2398  	return ret;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2399  }
-ea1e879631ffdf Roman Gushchin 2024-06-24  2400  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2401  /*
-ea1e879631ffdf Roman Gushchin 2024-06-24  2402   * The user of this function is...
-ea1e879631ffdf Roman Gushchin 2024-06-24  2403   * RES_LIMIT.
-ea1e879631ffdf Roman Gushchin 2024-06-24  2404   */
-ea1e879631ffdf Roman Gushchin 2024-06-24  2405  static ssize_t mem_cgroup_write(struct kernfs_open_file *of,
-ea1e879631ffdf Roman Gushchin 2024-06-24  2406  				char *buf, size_t nbytes, loff_t off)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2407  {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2408  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-ea1e879631ffdf Roman Gushchin 2024-06-24  2409  	unsigned long nr_pages;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2410  	int ret;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2411  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2412  	buf = strstrip(buf);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2413  	ret = page_counter_memparse(buf, "-1", &nr_pages);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2414  	if (ret)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2415  		return ret;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2416  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2417  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2418  	case RES_LIMIT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2419  		if (mem_cgroup_is_root(memcg)) { /* Can't set limit on root */
-ea1e879631ffdf Roman Gushchin 2024-06-24  2420  			ret = -EINVAL;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2421  			break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2422  		}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2423  		switch (MEMFILE_TYPE(of_cft(of)->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2424  		case _MEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2425  			ret = mem_cgroup_resize_max(memcg, nr_pages, false);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2426  			break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2427  		case _MEMSWAP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2428  			ret = mem_cgroup_resize_max(memcg, nr_pages, true);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2429  			break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2430  		case _KMEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2431  			pr_warn_once("kmem.limit_in_bytes is deprecated and will be removed. "
-ea1e879631ffdf Roman Gushchin 2024-06-24  2432  				     "Writing any value to this file has no effect. "
-ea1e879631ffdf Roman Gushchin 2024-06-24  2433  				     "Please report your usecase to linux-mm@kvack.org if you "
-ea1e879631ffdf Roman Gushchin 2024-06-24  2434  				     "depend on this functionality.\n");
-ea1e879631ffdf Roman Gushchin 2024-06-24  2435  			ret = 0;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2436  			break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2437  		case _TCP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2438  			ret = memcg_update_tcp_max(memcg, nr_pages);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2439  			break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2440  		}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2441  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2442  	case RES_SOFT_LIMIT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2443  		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2444  			ret = -EOPNOTSUPP;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2445  		} else {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2446  			WRITE_ONCE(memcg->soft_limit, nr_pages);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2447  			ret = 0;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2448  		}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2449  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2450  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2451  	return ret ?: nbytes;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2452  }
-ea1e879631ffdf Roman Gushchin 2024-06-24  2453  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2454  static ssize_t mem_cgroup_reset(struct kernfs_open_file *of, char *buf,
-ea1e879631ffdf Roman Gushchin 2024-06-24  2455  				size_t nbytes, loff_t off)
-ea1e879631ffdf Roman Gushchin 2024-06-24  2456  {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2457  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-ea1e879631ffdf Roman Gushchin 2024-06-24  2458  	struct page_counter *counter;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2459  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2460  	switch (MEMFILE_TYPE(of_cft(of)->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2461  	case _MEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2462  		counter = &memcg->memory;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2463  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2464  	case _MEMSWAP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2465  		counter = &memcg->memsw;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2466  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2467  	case _KMEM:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2468  		counter = &memcg->kmem;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2469  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2470  	case _TCP:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2471  		counter = &memcg->tcpmem;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2472  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2473  	default:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2474  		BUG();
-ea1e879631ffdf Roman Gushchin 2024-06-24  2475  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2476  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2477  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
-ea1e879631ffdf Roman Gushchin 2024-06-24  2478  	case RES_MAX_USAGE:
-ea1e879631ffdf Roman Gushchin 2024-06-24 @2479  		page_counter_reset_watermark(counter);
-ea1e879631ffdf Roman Gushchin 2024-06-24  2480  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2481  	case RES_FAILCNT:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2482  		counter->failcnt = 0;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2483  		break;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2484  	default:
-ea1e879631ffdf Roman Gushchin 2024-06-24  2485  		BUG();
-ea1e879631ffdf Roman Gushchin 2024-06-24  2486  	}
-ea1e879631ffdf Roman Gushchin 2024-06-24  2487  
-ea1e879631ffdf Roman Gushchin 2024-06-24  2488  	return nbytes;
-ea1e879631ffdf Roman Gushchin 2024-06-24  2489  }
-ea1e879631ffdf Roman Gushchin 2024-06-24  2490  
+f5a1a536fa1489 Aleksa Sarai 2019-10-01  389  
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  390  /**
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  391   * copy_struct_to_user: copy a struct to userspace
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  392   * @dst:   Destination address, in userspace. This buffer must be @ksize
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  393   *         bytes long.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  394   * @usize: (Alleged) size of @dst struct.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  395   * @src:   Source address, in kernel space.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  396   * @ksize: Size of @src struct.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  397   * @ignored_trailing: Set to %true if there was a non-zero byte in @src that
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  398   * userspace cannot see because they are using an smaller struct.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  399   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  400   * Copies a struct from kernel space to userspace, in a way that guarantees
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  401   * backwards-compatibility for struct syscall arguments (as long as future
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  402   * struct extensions are made such that all new fields are *appended* to the
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  403   * old struct, and zeroed-out new fields have the same meaning as the old
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  404   * struct).
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  405   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  406   * Some syscalls may wish to make sure that userspace knows about everything in
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  407   * the struct, and if there is a non-zero value that userspce doesn't know
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  408   * about, they want to return an error (such as -EMSGSIZE) or have some other
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  409   * fallback (such as adding a "you're missing some information" flag). If
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  410   * @ignored_trailing is non-%NULL, it will be set to %true if there was a
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  411   * non-zero byte that could not be copied to userspace (ie. was past @usize).
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  412   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  413   * While unconditionally returning an error in this case is the simplest
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  414   * solution, for maximum backward compatibility you should try to only return
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  415   * -EMSGSIZE if the user explicitly requested the data that couldn't be copied.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  416   * Note that structure sizes can change due to header changes and simple
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  417   * recompilations without code changes(!), so if you care about
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  418   * @ignored_trailing you probably want to make sure that any new field data is
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  419   * associated with a flag. Otherwise you might assume that a program knows
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  420   * about data it does not.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  421   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  422   * @ksize is just sizeof(*src), and @usize should've been passed by userspace.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  423   * The recommended usage is something like the following:
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  424   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  425   *   SYSCALL_DEFINE2(foobar, struct foo __user *, uarg, size_t, usize)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  426   *   {
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  427   *      int err;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  428   *      bool ignored_trailing;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  429   *      struct foo karg = {};
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  430   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  431   *      if (usize > PAGE_SIZE)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  432   *		return -E2BIG;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  433   *      if (usize < FOO_SIZE_VER0)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  434   *		return -EINVAL;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  435   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  436   *      // ... modify karg somehow ...
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  437   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  438   *      err = copy_struct_to_user(uarg, usize, &karg, sizeof(karg),
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  439   *				  &ignored_trailing);
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  440   *      if (err)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  441   *		return err;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  442   *      if (ignored_trailing)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  443   *		return -EMSGSIZE:
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  444   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  445   *      // ...
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  446   *   }
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  447   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  448   * There are three cases to consider:
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  449   *  * If @usize == @ksize, then it's copied verbatim.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  450   *  * If @usize < @ksize, then the kernel is trying to pass userspace a newer
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  451   *    struct than it supports. Thus we only copy the interoperable portions
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  452   *    (@usize) and ignore the rest (but @ignored_trailing is set to %true if
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  453   *    any of the trailing (@ksize - @usize) bytes are non-zero).
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  454   *  * If @usize > @ksize, then the kernel is trying to pass userspace an older
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  455   *    struct than userspace supports. In order to make sure the
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  456   *    unknown-to-the-kernel fields don't contain garbage values, we zero the
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  457   *    trailing (@usize - @ksize) bytes.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  458   *
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  459   * Returns (in all cases, some data may have been copied):
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  460   *  * -EFAULT: access to userspace failed.
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  461   */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  462  static __always_inline __must_check int
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  463  copy_struct_to_user(void __user *dst, size_t usize, const void *src,
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  464  		    size_t ksize, bool *ignored_trailing)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  465  {
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  466  	size_t size = min(ksize, usize);
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  467  	size_t rest = max(ksize, usize) - size;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  468  
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  469  	/* Double check if ksize is larger than a known object size. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  470  	if (WARN_ON_ONCE(ksize > __builtin_object_size(src, 1)))
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  471  		return -E2BIG;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  472  
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  473  	/* Deal with trailing bytes. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  474  	if (usize > ksize) {
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  475  		int ret = clear_user(dst + size, rest);
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  476  		if (ret)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06 @477  			return ret;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  478  	}
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  479  	if (ignored_trailing)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  480  		*ignored_trailing = ksize < usize &&
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  481  			memchr_inv(src + size, 0, rest) != NULL;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  482  	/* Copy the interoperable parts of the struct. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  483  	if (copy_to_user(dst, src, size))
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  484  		return -EFAULT;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  485  	return 0;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  486  }
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  487  
 
 -- 
 0-DAY CI Kernel Test Service
