@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309CA20DC4
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 22:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493741791EB
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 22:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725919436; cv=none; b=iouaqmFMSPCsDqWhaYr6RmsqnhcchoSUla+1kZ7v8O0QzP7o+NGcXerAFBHFi3MoTFdR4Ab6vwdimt8mboQ0y5kgIqGKYe44QwbUkFtIQ2NRR4NG3Sy+ty8BerU4tf5TXRW5fUDQTZXEKeJ41SGAoQxiU5Hx1m5PpcEiH3d4cRI=
+	t=1725920717; cv=none; b=OV83EGt4+vEf32eQg3b1ixVsbVyogiwcpqbgXz2NKSI0SICvMgPHoU6C4ofQpMNCLXaOe2AuahguHtQOd7emFv5lmctN5FKD78Wg9PCxPZlDmQWsBfYuoO++0gxQa2nFRl49KIETMqJ5h3CZ47Ma2kAi6SR53t41O0yr7So7Y9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725919436; c=relaxed/simple;
-	bh=YNKt8WqcR+MaFW5Rfne/BlOC1RvbB/KXvGiYP+WQk4o=;
+	s=arc-20240116; t=1725920717; c=relaxed/simple;
+	bh=PAiceal86pdM1ka77d925W9krmFBlL6W9q6gI3wsCoU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LKgRWnW7GJmLY93chDgONTMYZhafjEwAewFJnk9IzSMhk74XWUTz4J65y7chJR2AAWtbkHJgq+2MZAuMUU8NKJPkee/+1syngB92HnSxsuEe6HkVY2hMGhCiEuiAmRgyA9hKowh4O7t3Pw8LhnKBrXMsqXW8NupfwgWRCDlcwiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHZFn2wo; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=rPGpIizyiWqsanewTewwuyo838HTekr181B+t4aJCA0B69JgvSj5BBdRwAOQ/dRV8PpFsisi8N0ad6v19XD1b0arOZ5z/MIzGvwvIqfdjLGCd4+ypL6oQeorW1csTG0dIwN48JpkegFKiB4htWtD4yeS9sLZeqv9kNu79E7uXdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkNWJiUI; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHZFn2wo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkNWJiUI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725919434; x=1757455434;
+  t=1725920715; x=1757456715;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YNKt8WqcR+MaFW5Rfne/BlOC1RvbB/KXvGiYP+WQk4o=;
-  b=AHZFn2wo9fsbOFewbeYHbFNRiKuhKsAqEucgTHSUWjMFC1QMMA1PD6SV
-   79RB3aAqGGstlyP83bSPuoX/idLUhc0yy/SxL3apmHFyLy8rXyNB7Votg
-   FsH6O1qmySuv5MwOhDMtvAKbAYJE1kUHRFKYkdWH2XNjymBj0PJ1GLOZX
-   9BO+DfKWwLtOea4vqZSfzp61drCcNffjJEZRSLkjHhFtquznm9JotE/zV
-   ByRgxLYbcGP6ewVK0JRpb+/FMAQGq+RX8Ndm+vC6FthRZ6b6aCjRc0Es9
-   6mzM905euSoIznXDAFYQ8zvB6lDxjslXrqwqe/HSdYHdEkbmpXoAgfUnS
-   A==;
-X-CSE-ConnectionGUID: cLiMaiaKSUa42rxiAvSSXg==
-X-CSE-MsgGUID: qSDztmQVTGuIqKTJzlkvvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="27565165"
+  bh=PAiceal86pdM1ka77d925W9krmFBlL6W9q6gI3wsCoU=;
+  b=CkNWJiUIEPUyro5n6O9hJaY0hxH/U3U3BJKDReZqCRGGThA2p+ZucrTT
+   yESva6tQ+3NRk17gt3Vd1R9swh4K+Rnox2wA9RiZ2oHbunlDbiyuWr/to
+   TIOH9L67nzLpwFASVX2IbCOqXWpZeF3TFGtPRWM8scU9AC1D+JEug1Ed+
+   B8EfzDcYG/HvRI48q4+8/IW6Oe3qkmEvDtKsHUHNyvEXrAaq3fe3UNq4r
+   hubPS+ugJcmDtzq6ynxg5F2JT1kSOEFJkp/wK/ijVYwvnr1p3tilCxGlj
+   DvSeZk/3P0gSXNY0dYNd+7a7WxlHThBJzLwbXQsbZyRxy62lWyakkGjEK
+   w==;
+X-CSE-ConnectionGUID: nrDYhSigRxiOTJlvwHt7yw==
+X-CSE-MsgGUID: MejvAZjpTbqPCMRHy4pRUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24188322"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="27565165"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 15:03:53 -0700
-X-CSE-ConnectionGUID: 2sn42+mpRdqTeRwyH9kGpQ==
-X-CSE-MsgGUID: NAEv6E4LTMqGKXUJW49KkQ==
+   d="scan'208";a="24188322"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 15:25:14 -0700
+X-CSE-ConnectionGUID: VXPpP43vR8OsecvzsqVEzQ==
+X-CSE-MsgGUID: YCf52cbAQrSJzSPAr2aTxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="71207856"
+   d="scan'208";a="67350951"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Sep 2024 15:03:52 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Sep 2024 15:25:13 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snmU9-000FGh-1X;
-	Mon, 09 Sep 2024 22:03:49 +0000
-Date: Tue, 10 Sep 2024 06:02:53 +0800
+	id 1snmop-000FHy-0W;
+	Mon, 09 Sep 2024 22:25:11 +0000
+Date: Tue, 10 Sep 2024 06:24:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [koverstreet-bcachefs:bcachefs-garbage 192/258]
- kernel/rcu/pending.c:496 __rcu_pending_enqueue() error: we previously
- assumed 'head' could be null (see line 449)
-Message-ID: <202409100524.JAAMZEmA-lkp@intel.com>
+Subject: drivers/gpu/drm/xe/xe_guc_relay.c:598 relay_handle_failure() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <202409100612.QZ22msy5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,139 +64,54 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+CC: linux-kernel@vger.kernel.org
+TO: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Matt Roper <matthew.d.roper@intel.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-garbage
-head:   c88c2220b6b527cec382f06a0ba3feab2a593b37
-commit: b2025b96fdff5877c7c3de511ff5e0456cc3142a [192/258] rcu: lift rcu_pending from bcachefs
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: microblaze-randconfig-r073-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100524.JAAMZEmA-lkp@intel.com/config)
+Hi Lucas,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bc83b4d1f08695e85e85d36f7b803da58010161d
+commit: 237412e45390805e14a6936fb998d756c4eac9d8 drm/xe: Enable 32bits build
+date:   7 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 months ago
+config: microblaze-randconfig-r073-20240909 (https://download.01.org/0day-ci/archive/20240910/202409100612.QZ22msy5-lkp@intel.com/config)
 compiler: microblaze-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409100524.JAAMZEmA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409100612.QZ22msy5-lkp@intel.com/
 
 smatch warnings:
-kernel/rcu/pending.c:496 __rcu_pending_enqueue() error: we previously assumed 'head' could be null (see line 449)
+drivers/gpu/drm/xe/xe_guc_relay.c:598 relay_handle_failure() warn: passing zero to 'ERR_PTR'
 
-vim +/head +496 kernel/rcu/pending.c
+vim +/ERR_PTR +598 drivers/gpu/drm/xe/xe_guc_relay.c
 
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  405  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  406  	struct rcu_pending_pcpu *p;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  407  	struct rcu_pending_seq *objs;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  408  	struct genradix_node *new_node = NULL;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  409  	unsigned long seq, flags;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  410  	bool start_gp = false;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  411  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  412  	BUG_ON((ptr != NULL) != (pending->process == RCU_PENDING_KVFREE_FN));
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  413  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  414  	local_irq_save(flags);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  415  	p = this_cpu_ptr(pending->p);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  416  	spin_lock(&p->lock);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  417  	seq = __get_state_synchronize_rcu(pending->srcu);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  418  restart:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  419  	if (may_sleep &&
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  420  	    unlikely(process_finished_items(pending, p, flags)))
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  421  		goto check_expired;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  422  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  423  	/*
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  424  	 * In kvfree_rcu() mode, the radix tree is only for slab pointers so
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  425  	 * that we can do kfree_bulk() - vmalloc pointers always use the linked
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  426  	 * list:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  427  	 */
-a2a5fdffbb42082 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-17  428  	if (ptr && unlikely(is_vmalloc_addr_inlined(ptr)))
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  429  		goto list_add;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  430  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  431  	objs = get_object_radix(p, seq);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  432  	if (unlikely(!objs))
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  433  		goto list_add;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  434  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  435  	if (unlikely(!objs->cursor)) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  436  		/*
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  437  		 * New radix tree nodes must be added under @p->lock because the
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  438  		 * tree root is in a darray that can be resized (typically,
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  439  		 * genradix supports concurrent unlocked allocation of new
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  440  		 * nodes) - hence preallocation and the retry loop:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  441  		 */
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  442  		objs->cursor = genradix_ptr_alloc_preallocated_inlined(&objs->objs,
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  443  						objs->nr, &new_node, GFP_ATOMIC|__GFP_NOWARN);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  444  		if (unlikely(!objs->cursor)) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  445  			if (may_sleep) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  446  				spin_unlock_irqrestore(&p->lock, flags);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  447  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  448  				gfp_t gfp = GFP_KERNEL;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10 @449  				if (!head)
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  450  					gfp |= __GFP_NOFAIL;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  451  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  452  				new_node = genradix_alloc_node(gfp);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  453  				if (!new_node)
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  454  					may_sleep = false;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  455  				goto check_expired;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  456  			}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  457  list_add:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  458  			start_gp = rcu_pending_enqueue_list(p, seq, head, ptr, &flags);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  459  			goto start_gp;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  460  		}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  461  	}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  462  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  463  	*objs->cursor++ = ptr ?: head;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  464  	/* zero cursor if we hit the end of a radix tree node: */
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  465  	if (!(((ulong) objs->cursor) & (GENRADIX_NODE_SIZE - 1)))
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  466  		objs->cursor = NULL;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  467  	start_gp = !objs->nr;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  468  	objs->nr++;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  469  start_gp:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  470  	if (unlikely(start_gp)) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  471  		/*
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  472  		 * We only have one callback (ideally, we would have one for
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  473  		 * every outstanding graceperiod) - so if our callback is
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  474  		 * already in flight, we may still have to start a grace period
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  475  		 * (since we used get_state() above, not start_poll())
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  476  		 */
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  477  		if (!p->cb_armed) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  478  			p->cb_armed = true;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  479  			__call_rcu(pending->srcu, &p->cb, rcu_pending_rcu_cb);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  480  		} else {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  481  			__start_poll_synchronize_rcu(pending->srcu);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  482  		}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  483  	}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  484  	spin_unlock_irqrestore(&p->lock, flags);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  485  free_node:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  486  	if (new_node)
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  487  		genradix_free_node(new_node);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  488  	return;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  489  check_expired:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  490  	if (unlikely(__poll_state_synchronize_rcu(pending->srcu, seq))) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  491  		switch ((ulong) pending->process) {
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  492  		case RCU_PENDING_KVFREE:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  493  			kvfree(ptr);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  494  			break;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  495  		case RCU_PENDING_CALL_RCU:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10 @496  			head->func(head);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  497  			break;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  498  		default:
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  499  			pending->process(pending, head);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  500  			break;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  501  		}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  502  		goto free_node;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  503  	}
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  504  
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  505  	local_irq_save(flags);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  506  	p = this_cpu_ptr(pending->p);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  507  	spin_lock(&p->lock);
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  508  	goto restart;
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  509  }
-b76e32ceb9c00d4 fs/bcachefs/rcu_pending.c Kent Overstreet 2024-06-10  510  
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  590  
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  591  static int relay_handle_failure(struct xe_guc_relay *relay, u32 origin,
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  592  				u32 rid, const u32 *msg, u32 len)
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  593  {
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  594  	int error = FIELD_GET(GUC_HXG_FAILURE_MSG_0_ERROR, msg[0]);
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  595  	u32 hint __maybe_unused = FIELD_GET(GUC_HXG_FAILURE_MSG_0_HINT, msg[0]);
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  596  
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  597  	relay_assert(relay, len);
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04 @598  	relay_debug(relay, "%u.%u error %#x (%pe) hint %u debug %*ph\n",
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  599  		    origin, rid, error, ERR_PTR(-error), hint, 4 * (len - 1), msg + 1);
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  600  
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  601  	return relay_handle_reply(relay, origin, rid, error ?: -EREMOTEIO, NULL, 0);
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  602  }
+811fe9f556fcb2 Michal Wajdeczko 2024-01-04  603  
 
-:::::: The code at line 496 was first introduced by commit
-:::::: b76e32ceb9c00d47574740c5db96ab34893ddb6c bcachefs: rcu_pending
+:::::: The code at line 598 was first introduced by commit
+:::::: 811fe9f556fcb281ea2db1b0fff3bab20f0a4d42 drm/xe/guc: Introduce Relay Communication for SR-IOV
 
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
+:::::: CC: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
