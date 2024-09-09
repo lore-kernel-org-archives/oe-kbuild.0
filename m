@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68C51B1D7A
-	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 11:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C2E1531E0
+	for <oe-kbuild@lists.linux.dev>; Mon,  9 Sep 2024 12:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725881592; cv=none; b=BPWWzxzxvoNBhsZWDITxIGO1iD1a1W4ixYm/a+K6nxeaiiATYSByeigB/gdPUyt3hNzd7YTtjOUr7IuhpQ7Ei3ZZl01HUTHXJdT3zy8tgTiToaAk0km2ZJ8c9ZHV8UJ0Bby95j1iVmikY/0+odbRwvW5O6zyN+txV7wMjZ4pzw0=
+	t=1725883454; cv=none; b=ZDwDix8yJUtzrXNZ3DqSDpwb3jwcUME7oito3q8xRFGlGLy0H8jgE/CcZCsKLvFDlS/nhGJy2+K64qEyEOHcXtNJprc1NKu64cbkQao0LE6MVnbxsvgEsmEdg8YjjOjWxQODXApOfJkG8y1Nh4JopKPDU85joqY5YYDVLsGhz+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725881592; c=relaxed/simple;
-	bh=jixlALS5Ay5MXMIei9738jHj33N8AEIX56N4IuXPsWA=;
+	s=arc-20240116; t=1725883454; c=relaxed/simple;
+	bh=SRmZiUPJki7FJFLUI7ONfyvoM+Ib63/w3VfD3gYJSJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uO8pxNeCJ7nEteWPi2FlPQ8hCKZs8h8eH83K/+2AYlnZqou8P2Vya6v0zXmNN9p3CYQ9/6wldJJV6KGsuSpkFbkGd4QQcz3XOLTB7PbfubqncBgfNDzi69D8ZYr0UcQj276ZX2pRNUrFGpcq+iP/lNSJtfvr6d+7saNNrC37OcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFThRCYW; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=OHQWnw1j8NynZKFYr1eqZyEsUc+yczoCCi+N2WXvbRT4aSpFI3OPdGnndjxgBRFdA9JmqK4sUNX7AcFUFmRvKpJaGobSksC17nyrlFROfAKsApN0MsjM4PlKdp+ourR+wkRRD+aA9Q7zD45ho6jDJMl4OBuljjsLs0amM13ZkkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6b9L4JV; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFThRCYW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6b9L4JV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725881590; x=1757417590;
+  t=1725883452; x=1757419452;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jixlALS5Ay5MXMIei9738jHj33N8AEIX56N4IuXPsWA=;
-  b=PFThRCYW0hNiqYcrLHox4pFC9+DhR0JYogVNo7BfEWuGZA12Xvw/ST6F
-   TqfIP1dtxvy6ElnmQpn9rz+I9UGoLKGMb7XBeUCX1kmir6vRFCB7UICzO
-   RDqzEx6UjA7R9Xnj8Wy2FhnOBTjNyy86+6qkfJ1kmusaHylmPVdv5AgO0
-   b26J1/R4j6NDc3P2wYH40cegtR1014BucVozHH70QgsFN82LZKwZEt9hN
-   30MPe8G4thhPWgMguH3XrfcV1nNiewNSTO4SQ8K7Gp334B2e6Lu5F94fC
-   qigLks4egbHL4RFLXNbGccCjngeUHRAsreInDJ+SkEddE914cz9xa1LB8
-   Q==;
-X-CSE-ConnectionGUID: 2cVxkTryS8ez+KIXmWHM4w==
-X-CSE-MsgGUID: pzjfbDQRTYSkRfuYg4ZBEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24733617"
+  bh=SRmZiUPJki7FJFLUI7ONfyvoM+Ib63/w3VfD3gYJSJs=;
+  b=l6b9L4JVpIoj6zFr906dk6e4sCQ8f2dPaL6dLvOXbeaTVpgd7bHZ5ZKR
+   2GUhq21GyH152C+/OuOrovDDL/ncHvzYYRr3lscQDLBgeLu48/uyamBTc
+   rkZy2mnaNSqgjj9TWTjTY8JkqfxgJQbEf2QFdSoPJuaOPUzaDUUJr2pML
+   /xAP99O1QgHz9/QVJwNkf0QerdqXQ2xhqmFfUcMO/msHw7froeF7ucL4q
+   kADJEe69eBeUhmAyCWphfJQrZ4EmSTahmovk6d7A85z9MikP9Io1PldLc
+   1u0OFX41sJvoQFNoXBIkN5/dEkBUAFhhAlpLE1sUY9qh3sr8WQj6Nk0lr
+   g==;
+X-CSE-ConnectionGUID: t26i1TAlTH23O95JUeOAaw==
+X-CSE-MsgGUID: eUFeFEbDS/2KeHzjQpwgGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="28459825"
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="24733617"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 04:33:09 -0700
-X-CSE-ConnectionGUID: YoIB00HDS8ua20aZXk1Gcw==
-X-CSE-MsgGUID: vC9M/0wAQQ6MdfpsOzeZ1w==
+   d="scan'208";a="28459825"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 05:04:12 -0700
+X-CSE-ConnectionGUID: MMiZSe0CT1KLKM7Dr/87gA==
+X-CSE-MsgGUID: kX0bCtyuQ0KBDqdux5wyyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,214,1719903600"; 
-   d="scan'208";a="71425003"
+   d="scan'208";a="66891994"
 Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Sep 2024 04:33:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2024 05:04:10 -0700
 Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sncdl-000Eea-06;
-	Mon, 09 Sep 2024 11:33:05 +0000
-Date: Mon, 9 Sep 2024 19:32:38 +0800
+	id 1snd7o-000EgO-2Y;
+	Mon, 09 Sep 2024 12:04:08 +0000
+Date: Mon, 9 Sep 2024 20:03:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [kvm:queue 18/24] arch/x86/kvm/x86.c:12591
- kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
-Message-ID: <202409091927.eRgV2rYZ-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 20910/30000] drivers/iommu/intel/iommu.c:5894
+ intel_iommu_unmap() warn: variable dereferenced before check 'gather' (see
+ line 5885)
+Message-ID: <202409091900.JffgO6qd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,157 +65,70 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: kvm@vger.kernel.org
-CC: Robert Hu <robert.hu@intel.com>
-CC: Farrah Chen <farrah.chen@intel.com>
-CC: Danmei Wei <danmei.wei@intel.com>
-TO: Sean Christopherson <seanjc@google.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Kai Huang <kai.huang@intel.com>
+TO: kernel@openeuler.org
+TO: Jason Zeng <jason.zeng@intel.com>
 
-Hi Sean,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-head:   590b09b1d88e18ae57f89930a6f7b89795d2e9f3
-commit: 071f24ad28cdcdfa544fdb79b1b1d2b423717a11 [18/24] KVM: Rename arch hooks related to per-CPU virtualization enabling
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091927.eRgV2rYZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   3e6d44ea60eb8609ba59273c12276e3236cd76b2
+commit: 004c9426acfc9d9dcb19ec63f0f6aa2f754a06ee [20910/30000] iommu/vt-d: Avoid superfluous IOTLB tracking in lazy mode
+:::::: branch date: 11 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20240906 (https://download.01.org/0day-ci/archive/20240909/202409091900.JffgO6qd-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409091927.eRgV2rYZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409091900.JffgO6qd-lkp@intel.com/
 
 New smatch warnings:
-arch/x86/kvm/x86.c:12591 kvm_arch_enable_virtualization_cpu() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:5894 intel_iommu_unmap() warn: variable dereferenced before check 'gather' (see line 5885)
 
 Old smatch warnings:
-arch/x86/kvm/x86.c:1087 __kvm_set_xcr() warn: bitwise AND condition is false here
-arch/x86/kvm/x86.c:1088 __kvm_set_xcr() warn: bitwise AND condition is false here
-arch/x86/kvm/x86.c:3054 kvm_end_pvclock_update() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:3404 kvmclock_update_fn() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:5760 kvm_arch_tsc_set_attr() warn: check for integer overflow 'offset'
-arch/x86/kvm/x86.c:5802 kvm_vcpu_ioctl_device_attr() error: uninitialized symbol 'r'.
-arch/x86/kvm/x86.c:6502 kvm_arch_sync_dirty_log() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:6945 kvm_arch_suspend_notifier() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:8016 emulator_read_write() warn: missing error code? 'rc'
-arch/x86/kvm/x86.c:9195 x86_emulate_instruction() warn: missing error code? 'r'
-arch/x86/kvm/x86.c:9566 __kvmclock_cpufreq_notifier() warn: iterator 'i' not incremented
-arch/x86/include/asm/kvm-x86-ops.h:16 kvm_ops_update() warn: inconsistent indenting
-arch/x86/kvm/x86.c:12009 kvm_arch_vcpu_guestdbg_update_apicv_inhibit() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:12722 kvm_unload_vcpu_mmus() warn: iterator 'i' not incremented
-arch/x86/kvm/x86.c:12972 kvm_arch_memslots_updated() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:263 context_copied() warn: test_bit() takes a bit number
+drivers/iommu/intel/iommu.c:951 device_to_iommu() error: we previously assumed 'pdev' could be null (see line 924)
+drivers/iommu/intel/iommu.c:275 clear_context_copied() warn: clear_bit() takes a bit number
+drivers/iommu/intel/iommu.c:2471 __domain_mapping() error: we previously assumed 'sg' could be null (see line 2462)
+drivers/iommu/intel/iommu.c:269 set_context_copied() warn: set_bit() takes a bit number
 
-vim +/i +12591 arch/x86/kvm/x86.c
+vim +/gather +5894 drivers/iommu/intel/iommu.c
 
-e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12514  
-071f24ad28cdcd arch/x86/kvm/x86.c Sean Christopherson 2024-08-29  12515  int kvm_arch_enable_virtualization_cpu(void)
-e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12516  {
-ca84d1a24c376e arch/x86/kvm/x86.c Zachary Amsden      2010-08-19  12517  	struct kvm *kvm;
-ca84d1a24c376e arch/x86/kvm/x86.c Zachary Amsden      2010-08-19  12518  	struct kvm_vcpu *vcpu;
-46808a4cb89708 arch/x86/kvm/x86.c Marc Zyngier        2021-11-16  12519  	unsigned long i;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12520  	int ret;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12521  	u64 local_tsc;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12522  	u64 max_tsc = 0;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12523  	bool stable, backwards_tsc = false;
-18863bdd60f895 arch/x86/kvm/x86.c Avi Kivity          2009-09-07  12524  
-7e34fbd05c6350 arch/x86/kvm/x86.c Sean Christopherson 2020-09-23  12525  	kvm_user_return_msr_cpu_online();
-c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12526  
-c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12527  	ret = kvm_x86_check_processor_compatibility();
-c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12528  	if (ret)
-c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12529  		return ret;
-c82a5c5c53c5b7 arch/x86/kvm/x86.c Chao Gao            2022-11-30  12530  
-896046474f8d2e arch/x86/kvm/x86.c Wei Wang            2024-05-07  12531  	ret = kvm_x86_call(hardware_enable)();
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12532  	if (ret != 0)
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12533  		return ret;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12534  
-4ea1636b04dbd6 arch/x86/kvm/x86.c Andy Lutomirski     2015-06-25  12535  	local_tsc = rdtsc();
-b0c39dc68e3b3d arch/x86/kvm/x86.c Vitaly Kuznetsov    2018-01-24  12536  	stable = !kvm_check_tsc_unstable();
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12537  	list_for_each_entry(kvm, &vm_list, vm_list) {
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12538  		kvm_for_each_vcpu(i, vcpu, kvm) {
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12539  			if (!stable && vcpu->cpu == smp_processor_id())
-105b21bbf67bb5 arch/x86/kvm/x86.c Guo Hui Liu         2014-09-12  12540  				kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12541  			if (stable && vcpu->arch.last_host_tsc > local_tsc) {
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12542  				backwards_tsc = true;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12543  				if (vcpu->arch.last_host_tsc > max_tsc)
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12544  					max_tsc = vcpu->arch.last_host_tsc;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12545  			}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12546  		}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12547  	}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12548  
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12549  	/*
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12550  	 * Sometimes, even reliable TSCs go backwards.  This happens on
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12551  	 * platforms that reset TSC during suspend or hibernate actions, but
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12552  	 * maintain synchronization.  We must compensate.  Fortunately, we can
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12553  	 * detect that condition here, which happens early in CPU bringup,
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12554  	 * before any KVM threads can be running.  Unfortunately, we can't
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12555  	 * bring the TSCs fully up to date with real time, as we aren't yet far
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12556  	 * enough into CPU bringup that we know how much real time has actually
-9285ec4c8b61d4 arch/x86/kvm/x86.c Jason A. Donenfeld  2019-06-21  12557  	 * elapsed; our helper function, ktime_get_boottime_ns() will be using boot
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12558  	 * variables that haven't been updated yet.
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12559  	 *
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12560  	 * So we simply find the maximum observed TSC above, then record the
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12561  	 * adjustment to TSC in each VCPU.  When the VCPU later gets loaded,
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12562  	 * the adjustment will be applied.  Note that we accumulate
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12563  	 * adjustments, in case multiple suspend cycles happen before some VCPU
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12564  	 * gets a chance to run again.  In the event that no KVM threads get a
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12565  	 * chance to run, we will miss the entire elapsed period, as we'll have
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12566  	 * reset last_host_tsc, so VCPUs will not have the TSC adjusted and may
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12567  	 * loose cycle time.  This isn't too big a deal, since the loss will be
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12568  	 * uniform across all VCPUs (not to mention the scenario is extremely
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12569  	 * unlikely). It is possible that a second hibernate recovery happens
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12570  	 * much faster than a first, causing the observed TSC here to be
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12571  	 * smaller; this would require additional padding adjustment, which is
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12572  	 * why we set last_host_tsc to the local tsc observed here.
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12573  	 *
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12574  	 * N.B. - this code below runs only on platforms with reliable TSC,
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12575  	 * as that is the only way backwards_tsc is set above.  Also note
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12576  	 * that this runs for ALL vcpus, which is not a bug; all VCPUs should
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12577  	 * have the same delta_cyc adjustment applied if backwards_tsc
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12578  	 * is detected.  Note further, this adjustment is only done once,
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12579  	 * as we reset last_host_tsc on all VCPUs to stop this from being
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12580  	 * called multiple times (one for each physical CPU bringup).
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12581  	 *
-4a9699807c4917 arch/x86/kvm/x86.c Guo Chao            2012-06-28  12582  	 * Platforms with unreliable TSCs don't have to deal with this, they
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12583  	 * will be compensated by the logic in vcpu_load, which sets the TSC to
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12584  	 * catchup mode.  This will catchup all VCPUs to real time, but cannot
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12585  	 * guarantee that they stay in perfect synchronization.
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12586  	 */
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12587  	if (backwards_tsc) {
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12588  		u64 delta_cyc = max_tsc - local_tsc;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12589  		list_for_each_entry(kvm, &vm_list, vm_list) {
-a826faf108e2d8 arch/x86/kvm/x86.c Ladi Prosek         2017-06-26  12590  			kvm->arch.backwards_tsc_observed = true;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03 @12591  			kvm_for_each_vcpu(i, vcpu, kvm) {
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12592  				vcpu->arch.tsc_offset_adjustment += delta_cyc;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12593  				vcpu->arch.last_host_tsc = local_tsc;
-105b21bbf67bb5 arch/x86/kvm/x86.c Guo Hui Liu         2014-09-12  12594  				kvm_make_request(KVM_REQ_MASTERCLOCK_UPDATE, vcpu);
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12595  			}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12596  
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12597  			/*
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12598  			 * We have to disable TSC offset matching.. if you were
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12599  			 * booting a VM while issuing an S4 host suspend....
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12600  			 * you may have some problem.  Solving this issue is
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12601  			 * left as an exercise to the reader.
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12602  			 */
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12603  			kvm->arch.last_tsc_nsec = 0;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12604  			kvm->arch.last_tsc_write = 0;
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12605  		}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12606  
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12607  	}
-0dd6a6edb0124e arch/x86/kvm/x86.c Zachary Amsden      2012-02-03  12608  	return 0;
-e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12609  }
-e9b11c17552afe drivers/kvm/x86.c  Zhang Xiantao       2007-11-14  12610  
-
-:::::: The code at line 12591 was first introduced by commit
-:::::: 0dd6a6edb0124e6c71931ff575b18e15ed6e8603 KVM: Dont mark TSC unstable due to S4 suspend
-
-:::::: TO: Zachary Amsden <zamsden@gmail.com>
-:::::: CC: Avi Kivity <avi@redhat.com>
+38717946425792 drivers/pci/intel-iommu.c   Kay, Allen M    2008-09-09  5865  
+5009065d38c954 drivers/iommu/intel-iommu.c Ohad Ben-Cohen  2011-11-10  5866  static size_t intel_iommu_unmap(struct iommu_domain *domain,
+56f8af5e9d38f1 drivers/iommu/intel-iommu.c Will Deacon     2019-07-02  5867  				unsigned long iova, size_t size,
+56f8af5e9d38f1 drivers/iommu/intel-iommu.c Will Deacon     2019-07-02  5868  				struct iommu_iotlb_gather *gather)
+38717946425792 drivers/pci/intel-iommu.c   Kay, Allen M    2008-09-09  5869  {
+00a77deb0f2f2c drivers/iommu/intel-iommu.c Joerg Roedel    2015-03-26  5870  	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
+ea8ea460c9ace6 drivers/iommu/intel-iommu.c David Woodhouse 2014-03-05  5871  	unsigned long start_pfn, last_pfn;
+4a2e7b3a540ffb drivers/iommu/intel/iommu.c Tom Murphy      2020-11-24  5872  	int level = 0;
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5873  
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5874  	/* Cope with horrid API which requires us to unmap more than the
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5875  	   size argument if it happens to be a large-page mapping. */
+dc02e46e8d0234 drivers/iommu/intel-iommu.c Joerg Roedel    2015-08-13  5876  	BUG_ON(!pfn_to_dma_pte(dmar_domain, iova >> VTD_PAGE_SHIFT, &level));
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5877  
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5878  	if (size < VTD_PAGE_SIZE << level_to_offset_bits(level))
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5879  		size = VTD_PAGE_SIZE << level_to_offset_bits(level);
+4b99d3527041be drivers/pci/intel-iommu.c   Sheng Yang      2009-07-08  5880  
+ea8ea460c9ace6 drivers/iommu/intel-iommu.c David Woodhouse 2014-03-05  5881  	start_pfn = iova >> VTD_PAGE_SHIFT;
+ea8ea460c9ace6 drivers/iommu/intel-iommu.c David Woodhouse 2014-03-05  5882  	last_pfn = (iova + size - 1) >> VTD_PAGE_SHIFT;
+ea8ea460c9ace6 drivers/iommu/intel-iommu.c David Woodhouse 2014-03-05  5883  
+4a2e7b3a540ffb drivers/iommu/intel/iommu.c Tom Murphy      2020-11-24  5884  	gather->freelist = domain_unmap(dmar_domain, start_pfn,
+4a2e7b3a540ffb drivers/iommu/intel/iommu.c Tom Murphy      2020-11-24 @5885  					last_pfn, gather->freelist);
+fe40f1e020d092 drivers/pci/intel-iommu.c   Weidong Han     2008-12-08  5886  
+163cc52ccd2cc5 drivers/pci/intel-iommu.c   David Woodhouse 2009-06-28  5887  	if (dmar_domain->max_addr == iova + size)
+163cc52ccd2cc5 drivers/pci/intel-iommu.c   David Woodhouse 2009-06-28  5888  		dmar_domain->max_addr = iova;
+b146a1c9f7f1fe drivers/pci/intel-iommu.c   Joerg Roedel    2010-01-20  5889  
+004c9426acfc9d drivers/iommu/intel/iommu.c Jacob Pan       2023-02-16  5890  	/*
+004c9426acfc9d drivers/iommu/intel/iommu.c Jacob Pan       2023-02-16  5891  	 * We do not use page-selective IOTLB invalidation in flush queue,
+004c9426acfc9d drivers/iommu/intel/iommu.c Jacob Pan       2023-02-16  5892  	 * so there is no need to track page and sync iotlb.
+004c9426acfc9d drivers/iommu/intel/iommu.c Jacob Pan       2023-02-16  5893  	 */
+004c9426acfc9d drivers/iommu/intel/iommu.c Jacob Pan       2023-02-16 @5894  	if (!(gather && gather->queued))
+4a2e7b3a540ffb drivers/iommu/intel/iommu.c Tom Murphy      2020-11-24  5895  		iommu_iotlb_gather_add_page(domain, gather, iova, size);
+4a2e7b3a540ffb drivers/iommu/intel/iommu.c Tom Murphy      2020-11-24  5896  
+5cf0a76fa2179d drivers/iommu/intel-iommu.c David Woodhouse 2014-03-19  5897  	return size;
+38717946425792 drivers/pci/intel-iommu.c   Kay, Allen M    2008-09-09  5898  }
+38717946425792 drivers/pci/intel-iommu.c   Kay, Allen M    2008-09-09  5899  
 
 -- 
 0-DAY CI Kernel Test Service
