@@ -1,142 +1,136 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37AC178372
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 07:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C899B187857
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 09:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725953524; cv=none; b=f0k7RqDoP+9lqzDoOxxrpdeOi68o1pj2zvhYRPmywyYjF9Oobj0jSJeYlHVsveJNf7kfhCEViYPClSXcqq6gAoC+u0otChst+AKPaS3qwvhNnbwMwpFZuxBo7jYQF9EKp2zDzdlJLY0wfxXL0/c2UkkFBWWG+qxz2GHa3u0Uc4s=
+	t=1725959873; cv=none; b=V0UC4qXcZBwS1fvrlxpGhpDryMi0fSf6ta57vFOcjuGjHfDVaC9T9vSvJKXneNIhwAHFIiUxYgxz8Tr2/XLyya001Ujt2Shjbm5mRWmQZVp4DQ2aLdejjXuTf3bcpFy//l7ywyG0v6UlHiX2GCazsfSwWDxCNJMxRaK5C5IfYBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725953524; c=relaxed/simple;
-	bh=f77j3SCTqwAT+GaM8xKCdHzIx3G/Jn8Mz8HPtqQebr8=;
+	s=arc-20240116; t=1725959873; c=relaxed/simple;
+	bh=p+DByMRcQlNIXdA1v1uqve5CDE8dg+ziuZCalk0yZe4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RUHjuAJV4W04fG5qHRxVAHOwuxbI7kKppg18Sjq1uJEir99FF7X/C5EU/rRlpxhhebS64s02SD9rNdWD5LdhdcFq20gNOVwLVYGpegzwwbzTUGsJZCDwKPrcNiRGovfmbXD0d8FDMA75AS51jZXplwt86o9Z5rw8WhsPW11Y6lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qRq2/iah; arc=none smtp.client-ip=209.85.221.48
+	 Content-Disposition; b=g5Pc2K9qNTB4ziEqCC6T+7AXB5Bvxs5pV8u7EPGAfiH5IhSkxziNawn2dbqLl+NtSSy61P1hI3+ntAv716ojsv6OMV3ntT6KbPa5G2c1s+uZC61DbgA6hsMdjcPDCPmhjDP3OvpqIweh0Aru5WJLBrn6lTyrP41TzqAtV6hzDT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QdpX7rpD; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qRq2/iah"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-374c962e5adso2871942f8f.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 00:32:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QdpX7rpD"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3770320574aso3272509f8f.2
+        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 02:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725953520; x=1726558320; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
-        b=qRq2/iahz0gemfZrCcrPTM+a1+VbeVVpcCyt6t8Z5Tf/KnVZmHMcdSICxKvirwGEki
-         H2G5i4HSXpWtl8kIJytmmnMvYjWe3I31825lP4TTZIORo7nG6zxVVF23Nkq+60NVp4Ol
-         ebRViTEf5toa9BJkj0SQEUbTvAzlKg+dFVhWe+s3bHfof1psRmBszHPgRZ8LhYDnXFpr
-         MRufGuP6t7RAGmYDbM+E59LetxCzDBVh0wqnHdw4uxNnNJBNQqQiQs28j5Ie0CmOa31L
-         LTIFhfYimYLuvkYdsYUFXsIQx7SFFzU185L7+zADRLmwVluNJ1lHmzRAHV+PSBb1RrXt
-         3Ziw==
+        d=linaro.org; s=google; t=1725959870; x=1726564670; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gBqya18CJGCA3gKRbbSWX8CXkyQ/an9a199RUju6xLw=;
+        b=QdpX7rpDdSlDuaEMDj0QvCQcYST8qjXLnfer3d192jrJGgLnnrDQVHwe2WA3o1fCHK
+         +na6jRX5jvW8lZFkAd2vsS6bzYXXpdmlU5ckB7fJQC2aF2DmbyyGYkiOJt+gs/Fxe19x
+         17h5CHayfsA+seMIXn0idZAPUwNxAjmbPCW/IulzxGl4D/58oretGlNaBvUABxMzrxzM
+         L5puPwMFqGy9vTGWK0FifdtzD2eV5//OexbZKnokYhRMlFcIZUGlXiy4T0WCPOOZKEqY
+         gU9KojxyuJ2JuF9zrLbCTiKEGln/mlyWXHC8SwMRXYGzRekflsanTj5L7IGW7uoTIdVA
+         qa5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725953520; x=1726558320;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
-        b=owXTIpQTa2KnmJm46V5rd2+B8gUU8SUyG6TsVXvich3ZkuVSAnIfOSMc0bjZvc3Nlz
-         jxqkIsqLJDnij29lVaGTmrrd09vOoTK8hMP4sr7pzvncSzLWd/Zcqz5SsS6lljgjm0xw
-         Dz7xNkpk12tLZRrXuIc08Acmz7X9tYTxt6YrMxTpgtAEv9AVizX2Q8heQ21/o6Pa4asv
-         C/AZbsudnUu3tuJgpLw+L2+jdA8pS7W6QG56dUbieVpGnD7t8kxcKFTkyP8BmrsKnHEv
-         KcLxbXeXLDgJMOdMqQnU8O3cakgwOXitUXmCpyFCVb3Dw0OpWhDOIcSbRdDCwnhSBQMC
-         kLyg==
-X-Gm-Message-State: AOJu0YzlnHBUl+NCWSZh+Vtlx1dsCCsPB1+HQz6JDDEVDDlCONSaQrXs
-	iRksVGBP8xoxzX2HMR4xriiyU35EF0OWMgJ7FoyZRUF7qQdB3Qk22w5ymOgNEqTVZwy865ySAbq
-	Y
-X-Google-Smtp-Source: AGHT+IELa+rG14pL1lB7AiyIMDigzrd0vAidxvik7sx8yhamOOu/U1MRmirvLr3oz1Xd5vrj6Iz8HQ==
-X-Received: by 2002:a05:6000:1ac7:b0:374:c6b6:c656 with SMTP id ffacd0b85a97d-378a8a3de4cmr1414873f8f.21.1725953520367;
-        Tue, 10 Sep 2024 00:32:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725959870; x=1726564670;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gBqya18CJGCA3gKRbbSWX8CXkyQ/an9a199RUju6xLw=;
+        b=XasTSRrt9taZTVeQAq40xrADMn4R4uK4BVNSxq4TAr5zYCc9XvpfzwN2BHESzJ8UrS
+         s2/AvGR1vmhbykKIOjLMu9NDuuNrbzQOOnzz+4wYhF3TpHkW/28VmONoqp7lAw9kmwOr
+         FnMDWCQJr2uhH16sir3PThgIM4RA7MhYiQ9BQc7EnJ58DhjitcbBlt2LVnaM8dfYFauh
+         0QYGYzE2fYE8KJhphxR0nUI0vH4m4+HKaBR1ic5EyKo1hcx0qhah0eGJ3+CbDwQoXpk4
+         KGI0kqQwjgTSUKaB4l8lzMAxB9T3EUfg0jVV41yatTB1YL8P4bK7crKK8leQpAlBXS5j
+         gzMA==
+X-Gm-Message-State: AOJu0YxVkhHVyOk1fJwWCvNNbIJ4eVsTlfHwd0fXs8IRscwBICb5hiqu
+	shPThpsZjZ0lv9zCLMj0lr9hksZTg/kWQnwmZ3skx3S/8R2s+2nNYglZTafIUFveikUrQpcams7
+	t
+X-Google-Smtp-Source: AGHT+IHe6qBam3E3tDIg3n89+Ib4jL5iOWHkhTTyyJDMoypu22ayJRQozDZfVGh1ry7qa5NO3nOdvQ==
+X-Received: by 2002:a5d:4fc7:0:b0:374:bad0:2b72 with SMTP id ffacd0b85a97d-378895c2540mr8579639f8f.11.1725959869755;
+        Tue, 10 Sep 2024 02:17:49 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956767dasm8091431f8f.62.2024.09.10.00.31.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956494bdsm8347113f8f.21.2024.09.10.02.17.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 00:31:59 -0700 (PDT)
-Date: Tue, 10 Sep 2024 10:31:56 +0300
+        Tue, 10 Sep 2024 02:17:49 -0700 (PDT)
+Date: Tue, 10 Sep 2024 12:17:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Eric Biggers <ebiggers@google.com>
+To: oe-kbuild@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>
-Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
- 'actual_mac' too small (64 vs 448)
-Message-ID: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
+	linux-kernel@vger.kernel.org
+Subject: drivers/crypto/n2_core.c:1406 __n2_register_one_hmac() error:
+ uninitialized symbol 'err'.
+Message-ID: <ae2cfe53-7d2a-408b-8b18-af880d1974cc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b831f83e40a24f07c8dcba5be408d93beedc820f
-commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
-date:   10 months ago
-config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+head:   89f5e14d05b4852db5ecdf222dc6a13edc633658
+commit: 8c20982caca4b10ca79aea8134a16ea98989ca03 crypto: n2 - Silence gcc format-truncation false positive warnings
+config: sparc-randconfig-r071-20240908 (https://download.01.org/0day-ci/archive/20240909/202409090726.TP0WfY7p-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409090726.TP0WfY7p-lkp@intel.com/
 
 smatch warnings:
-drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+drivers/crypto/n2_core.c:1406 __n2_register_one_hmac() error: uninitialized symbol 'err'.
 
-vim +/actual_mac +521 drivers/md/dm-integrity.c
+vim +/err +1406 drivers/crypto/n2_core.c
 
-09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
-09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
-09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
-070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
-070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
-070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
-070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+49cfe4db2ddc4d Greg Kroah-Hartman 2012-12-21  1366  static int __n2_register_one_hmac(struct n2_ahash_alg *n2ahash)
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1367  {
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1368  	struct n2_hmac_alg *p = kzalloc(sizeof(*p), GFP_KERNEL);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1369  	struct ahash_alg *ahash;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1370  	struct crypto_alg *base;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1371  	int err;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1372  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1373  	if (!p)
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1374  		return -ENOMEM;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1375  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1376  	p->child_alg = n2ahash->alg.halg.base.cra_name;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1377  	memcpy(&p->derived, n2ahash, sizeof(struct n2_ahash_alg));
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1378  	INIT_LIST_HEAD(&p->derived.entry);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1379  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1380  	ahash = &p->derived.alg;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1381  	ahash->digest = n2_hmac_async_digest;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1382  	ahash->setkey = n2_hmac_async_setkey;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1383  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1384  	base = &ahash->halg.base;
+8c20982caca4b1 Herbert Xu         2023-10-27  1385  	if (snprintf(base->cra_name, CRYPTO_MAX_ALG_NAME, "hmac(%s)",
+8c20982caca4b1 Herbert Xu         2023-10-27  1386  		     p->child_alg) >= CRYPTO_MAX_ALG_NAME)
+8c20982caca4b1 Herbert Xu         2023-10-27  1387  		goto out_free_p;
+                                                                ^^^^^^^^^^^^^^^^
 
-This is paired with the line before and prevents the subtraction from going
-negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
-which is > HASH_MAX_DIGESTSIZE (64)?
+8c20982caca4b1 Herbert Xu         2023-10-27  1388  	if (snprintf(base->cra_driver_name, CRYPTO_MAX_ALG_NAME, "hmac-%s-n2",
+8c20982caca4b1 Herbert Xu         2023-10-27  1389  		     p->child_alg) >= CRYPTO_MAX_ALG_NAME)
+8c20982caca4b1 Herbert Xu         2023-10-27  1390  		goto out_free_p;
+                                                                ^^^^^^^^^^^^^^^^
+err = -EINVAL;
 
-09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
-070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
-
-This buffer is only 64 bytes.
-
-0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
-070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
-070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
-070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
-                                                                                ^^^^^^^^^^
-Read overflow.
-
-09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
-82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
-09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
-09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
-09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
-09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1391  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1392  	base->cra_ctxsize = sizeof(struct n2_hmac_ctx);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1393  	base->cra_init = n2_hmac_cra_init;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1394  	base->cra_exit = n2_hmac_cra_exit;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1395  
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1396  	list_add(&p->derived.entry, &hmac_algs);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1397  	err = crypto_register_ahash(ahash);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1398  	if (err) {
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1399  		pr_err("%s alg registration failed\n", base->cra_name);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1400  		list_del(&p->derived.entry);
+8c20982caca4b1 Herbert Xu         2023-10-27  1401  out_free_p:
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1402  		kfree(p);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1403  	} else {
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1404  		pr_info("%s alg registered\n", base->cra_name);
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1405  	}
+dc4ccfd15d4fc7 David S. Miller    2010-05-22 @1406  	return err;
+dc4ccfd15d4fc7 David S. Miller    2010-05-22  1407  }
 
 -- 
 0-DAY CI Kernel Test Service
