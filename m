@@ -1,172 +1,166 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC7123774
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 21:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B2A1A38EB
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 22:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726003372; cv=none; b=JpgVhOH9M3ywPokar2UHSJ1Jzap3Tz6j+FhFcFrrg/yq63LBFbGl+TELZCaAlqCQWI67IWbt2xXZKovPFqD8d/Dwbatt5K4+HLysOawD03MwPkT8D5pZMeWAm4r2qC6M0ubnKi7A7Z/zBgqCMJuMhl7bRHGuAyYwKx3UGHXo1ls=
+	t=1726007495; cv=none; b=nuOeMngBvpnO7B7GkDknRoC0LX1pw2ixLv7Sg688eDGf+otBdcnqh1lR/qkSDfuO9RuYNPjEfzDbU+sgMcowswdnwNMUreaFLD62BJsL9vukX+w1BWADCMrYEBqGiut4fVxOLcvAHAF0quSookLcqklOW3nkNCHN1l2bWnEYQX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726003372; c=relaxed/simple;
-	bh=g2IZLba3/WnIUuxyDP7eK54cQ7B9oZtD+WTeIJ/fUNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f2tpU1D3K3NcrJ5rCQOP6oHengkL/XMxkWwI/RH63ug6WWZERmqIvb2HwcyXkSrN4GVfbjZijPkB0mHdm+t3BmL37hz6Hdc9sssw6Ejk3AWzpLfpiFhtFn1iPmWHvYXbYnWVJjWZFGahQyQFIPyxlvf2VQ9hQcSXSafeuzq20Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=CgyhNF8q; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1726007495; c=relaxed/simple;
+	bh=ejOUB2gwWyCWgIniXfnlU0M2uK2Uy5mkqJh9Pl6nGfk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fOMygvzLTcnWFFRoybyrKiIOczQVNXNUWt3B1nA8gMGTv0+uy2E6dPRjT8rPRgEMJDrb0uKn+nRWlcmXm1cryAPCJa6rvs2OqBJ0l16z6x8tupK3tu7/RNfFnkpF3GfiHsUDfGCc/z1XnLRHy8t7Y4cR2KTl5Aw2thShYIkD9KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjIetGS4; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CgyhNF8q"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-374c7d14191so136978f8f.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 14:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1726003368; x=1726608168; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=rmpqhs1xd8bfsJ3sKQnLTZJeE5iZf3lqCOadMn3tHHM=;
-        b=CgyhNF8qqhMb+pKblTXgOor6pzGWIV2F6txpLEbSFk7XWr+8D35mvGM0ZIJkLT0vgs
-         ZfIoiaS7PHUJyAm6vagZnpES59EDnFWzntfG8sLE78wkXAkFjcT9hKKVZ6zlbLdPh8yc
-         MybCSfbeYbAOfGcdD/lsF/wbry2lN9E7VW5s05VPPVHKVZ8ZA7bF60rU73D51Xk++7s4
-         be5qanTPdHDDGTRyzlQIADtaMH+W+dTY6r/neMeW8smN5fAI2MiBa1V7xPkSsrW8cRMA
-         EFcwDk78G/sSvTlpTeeoCti1IiiUheeKB6g6KslUznRqvXRlF6Poo5VdR0Q4wN/zjF7l
-         nHjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726003368; x=1726608168;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rmpqhs1xd8bfsJ3sKQnLTZJeE5iZf3lqCOadMn3tHHM=;
-        b=DduWvtv1k3otI4LtVwkASmBO+lQirydks7TswVQf+DJ2Q8zaWPQqK/HRcxZio2vbwp
-         twf9Q9smTgED3TR609TL9vW5Jqr6PiESDlW4v4SGAZ4J732TyDv/i0q1eHJL9xlFAcb8
-         YQn4WcxQoYFsP6FyiGwe6z0dDrndK+Ys8N7rM35cwfSyTOwnO7APNxMxl0AWqli/y0h4
-         vJt0a8bq2pdk9Oe2ybKv54eX1yYd06tF1BNfgmrVEXWj13B95zAJ5aG3vzkcc36bF3L6
-         AsNEV/Q+Uc6E6VOMhWeAPAM9PnLyqKNc+t8abH1m6V8lsXsQo1kUROF1BZ2dtZz3ykqr
-         HnQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWp0Oa18YVEhNXY87n3Wn5kHASBm+nWXJjjRjw+XY2adipYKS14btxZVHlS6wZ4r3l72Z9gY3zDQfU=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlA7lV3X/zC/VVKrwVwTRcO12qmAfptVsGm17yJJUiTE6GXzKm
-	rGIQaOpgl2tDsuIhxwzlPpaO+q3pOX2otn0rls8xAl3nfrE0cOanLJcn9QRX3ts=
-X-Google-Smtp-Source: AGHT+IG/EKbvdEZA2oSGr4EkL1Cx4pXjhdd/S2ypRMSM1ZbRXY6aQkk5kuEJiX9yXagjcO8v1pTdMg==
-X-Received: by 2002:a5d:5f46:0:b0:36b:c65c:661e with SMTP id ffacd0b85a97d-378a8a1d30cmr3607509f8f.13.1726003367534;
-        Tue, 10 Sep 2024 14:22:47 -0700 (PDT)
-Received: from ?IPV6:2403:580d:fda1::299? (2403-580d-fda1--299.ip6.aussiebb.net. [2403:580d:fda1::299])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadb42e6fasm9087783a91.0.2024.09.10.14.22.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 14:22:47 -0700 (PDT)
-Message-ID: <4168874d-41ae-41e2-aa9e-7cf4281278d3@suse.com>
-Date: Wed, 11 Sep 2024 06:52:42 +0930
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjIetGS4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726007494; x=1757543494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ejOUB2gwWyCWgIniXfnlU0M2uK2Uy5mkqJh9Pl6nGfk=;
+  b=PjIetGS4/GY+O2rm496vV4pM3n2UyQ7BZ5UzZEi43FsylAUKfbu2x8M/
+   ws1ifXoKk6m74hPZKcIUBtw1bskRJb2ArN0aMx9MRvPwBiq5NFE/DzHb+
+   MpfJtEP0sNI7o0FuElQZl6TrmZy5DhQ9NfUFFmb9gUiglYMfu4s+lTBfA
+   ZNY1JFzE1KhNtqrHHeFGSnrcUK15UMOhGVOS0c92UZtfzj2wZK83rLi6l
+   QBDYBL05QRbQoYAN3xMfr3O0qyL9P010FUHQpsLV/ispRuZdEUVyC8ae5
+   5/wrQwoGG0DJZL25+wKztsI1IfjfOkSA0/trCpALRnRMSrLEUPqtSq2wy
+   g==;
+X-CSE-ConnectionGUID: HsGvVsEwSuGzQhxiDtCoOw==
+X-CSE-MsgGUID: YCNVJI7yQge3ejJIIsNr0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24603549"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="24603549"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:31:18 -0700
+X-CSE-ConnectionGUID: vBLsCxwRSseRJzNcj//rBQ==
+X-CSE-MsgGUID: sQPNHGciSJCNCk559JsL7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208";a="67184386"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Sep 2024 15:31:14 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1so9OB-0002mh-2V;
+	Tue, 10 Sep 2024 22:31:11 +0000
+Date: Wed, 11 Sep 2024 06:30:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: [android-common:android15-6.6-partner_predev 13711/13796]
+ Makefile:1012: *** "Enabling Rust and CFI silently changes the KMI.".  Stop.
+Message-ID: <202409110625.kjYILq8L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 9813/10862] fs/btrfs/subpage.c:437
- btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before check
- 'fs_info' (see line 431)
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- David Sterba <dsterba@suse.com>
-References: <3023236c-6e88-407b-9640-5b956d4c969c@stanley.mountain>
-Content-Language: en-US
-From: Qu Wenruo <wqu@suse.com>
-Autocrypt: addr=wqu@suse.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNGFF1IFdlbnJ1byA8d3F1QHN1c2UuY29tPsLAlAQTAQgAPgIbAwULCQgHAgYVCAkKCwIE
- FgIDAQIeAQIXgBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJVBQkNOgemAAoJEMI9kfOh
- Jf6oapEH/3r/xcalNXMvyRODoprkDraOPbCnULLPNwwp4wLP0/nKXvAlhvRbDpyx1+Ht/3gW
- p+Klw+S9zBQemxu+6v5nX8zny8l7Q6nAM5InkLaD7U5OLRgJ0O1MNr/UTODIEVx3uzD2X6MR
- ECMigQxu9c3XKSELXVjTJYgRrEo8o2qb7xoInk4mlleji2rRrqBh1rS0pEexImWphJi+Xgp3
- dxRGHsNGEbJ5+9yK9Nc5r67EYG4bwm+06yVT8aQS58ZI22C/UeJpPwcsYrdABcisd7dddj4Q
- RhWiO4Iy5MTGUD7PdfIkQ40iRcQzVEL1BeidP8v8C4LVGmk4vD1wF6xTjQRKfXHOwE0EWdWB
- rwEIAKpT62HgSzL9zwGe+WIUCMB+nOEjXAfvoUPUwk+YCEDcOdfkkM5FyBoJs8TCEuPXGXBO
- Cl5P5B8OYYnkHkGWutAVlUTV8KESOIm/KJIA7jJA+Ss9VhMjtePfgWexw+P8itFRSRrrwyUf
- E+0WcAevblUi45LjWWZgpg3A80tHP0iToOZ5MbdYk7YFBE29cDSleskfV80ZKxFv6koQocq0
- vXzTfHvXNDELAuH7Ms/WJcdUzmPyBf3Oq6mKBBH8J6XZc9LjjNZwNbyvsHSrV5bgmu/THX2n
- g/3be+iqf6OggCiy3I1NSMJ5KtR0q2H2Nx2Vqb1fYPOID8McMV9Ll6rh8S8AEQEAAcLAfAQY
- AQgAJgIbDBYhBC3fcuWlpVuonapC4cI9kfOhJf6oBQJjTSJuBQkNOge/AAoJEMI9kfOhJf6o
- rq8H/3LJmWxL6KO2y/BgOMYDZaFWE3TtdrlIEG8YIDJzIYbNIyQ4lw61RR+0P4APKstsu5VJ
- 9E3WR7vfxSiOmHCRIWPi32xwbkD5TwaA5m2uVg6xjb5wbdHm+OhdSBcw/fsg19aHQpsmh1/Q
- bjzGi56yfTxxt9R2WmFIxe6MIDzLlNw3JG42/ark2LOXywqFRnOHgFqxygoMKEG7OcGy5wJM
- AavA+Abj+6XoedYTwOKkwq+RX2hvXElLZbhYlE+npB1WsFYn1wJ22lHoZsuJCLba5lehI+//
- ShSsZT5Tlfgi92e9P7y+I/OzMvnBezAll+p/Ly2YczznKM5tV0gboCWeusM=
-In-Reply-To: <3023236c-6e88-407b-9640-5b956d4c969c@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+:::::: 
+:::::: Manual check reason: "only Makefile file changed"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
+Hi Will,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
+head:   9b5dbabe32a282b68d3599efbbccd7ff6996d9c2
+commit: 691810c3b9c0c8567ce2f409048b5db2d8890af5 [13711/13796] ANDROID: Makefile: Fail the build if RUST and CFI are both enabled
+:::::: branch date: 14 hours ago
+:::::: commit date: 10 weeks ago
+config: arm64-randconfig-001-20240911 (https://download.01.org/0day-ci/archive/20240911/202409110625.kjYILq8L-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bf684034844c660b778f0eba103582f582b710c9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409110625.kjYILq8L-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/r/202409110625.kjYILq8L-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> Makefile:1012: *** "Enabling Rust and CFI silently changes the KMI.".  Stop.
+   make[1]: *** [Makefile:252: __sub-make] Error 2 shuffle=3046497905
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:252: __sub-make] Error 2 shuffle=3046497905
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
+   Depends on [n]: INTERCONNECT [=n] && ARCH_QCOM [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=m] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
 
 
+vim +1012 Makefile
 
-在 2024/9/10 22:22, Dan Carpenter 写道:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   6708132e80a2ced620bde9b9c36e426183544a23
-> commit: 966416b380926c94751476747ea68571004eac24 [9813/10862] btrfs: only unlock the to-be-submitted ranges inside a folio
-> config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101924.XTvd0yQv-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409101924.XTvd0yQv-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/btrfs/subpage.c:437 btrfs_folio_end_writer_lock_bitmap() warn: variable dereferenced before check 'fs_info' (see line 431)
-> 
-> vim +/fs_info +437 fs/btrfs/subpage.c
+dc5723b02e523b Sami Tolvanen  2020-12-11  1003  
+cf68fffb66d60d Sami Tolvanen  2021-04-08  1004  ifdef CONFIG_CFI_CLANG
+89245600941e4e Sami Tolvanen  2022-09-08  1005  CC_FLAGS_CFI   := -fsanitize=kcfi
+37e90c8aef834f Matthew Maurer 2023-09-15  1006  ifdef CONFIG_RUST
+37e90c8aef834f Matthew Maurer 2023-09-15  1007  # If Rust is enabled, this flag is required to support cross-language
+37e90c8aef834f Matthew Maurer 2023-09-15  1008  # integer types.
+37e90c8aef834f Matthew Maurer 2023-09-15  1009  # This addresses the problem that on e.g. i686, int != long, and Rust
+37e90c8aef834f Matthew Maurer 2023-09-15  1010  # maps both to i32.
+37e90c8aef834f Matthew Maurer 2023-09-15  1011  # See https://rcvalle.com/docs/rust-cfi-design-doc.pdf for details.
+691810c3b9c0c8 Will Deacon    2024-07-03 @1012  $(error "Enabling Rust and CFI silently changes the KMI.")
+37e90c8aef834f Matthew Maurer 2023-09-15  1013  CC_FLAGS_CFI   += -fsanitize-cfi-icall-experimental-normalize-integers
+37e90c8aef834f Matthew Maurer 2023-09-15  1014  RS_FLAGS_CFI   := -Zsanitizer=kcfi -Zsanitizer-cfi-normalize-integers
+37e90c8aef834f Matthew Maurer 2023-09-15  1015  KBUILD_RUSTFLAGS += $(RS_FLAGS_CFI)
+37e90c8aef834f Matthew Maurer 2023-09-15  1016  export RS_FLAGS_CFI
+37e90c8aef834f Matthew Maurer 2023-09-15  1017  endif
+cf68fffb66d60d Sami Tolvanen  2021-04-08  1018  KBUILD_CFLAGS  += $(CC_FLAGS_CFI)
+cf68fffb66d60d Sami Tolvanen  2021-04-08  1019  export CC_FLAGS_CFI
+cf68fffb66d60d Sami Tolvanen  2021-04-08  1020  endif
+cf68fffb66d60d Sami Tolvanen  2021-04-08  1021  
 
-Thanks for the report.
-
-It looks like the extra checks are duplicated.
-
-This function is only called inside extent_writepage(), which will never 
-be triggered from selftest, thus fs_info should always exist.
-
-I can remove the fs_info check from our btrfs/for-next branch.
-
-Thanks,
-Qu
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  427  void btrfs_folio_end_writer_lock_bitmap(const struct btrfs_fs_info *fs_info,
-> 966416b380926c Qu Wenruo 2024-09-02  428  					struct folio *folio, unsigned long bitmap)
-> 966416b380926c Qu Wenruo 2024-09-02  429  {
-> 966416b380926c Qu Wenruo 2024-09-02  430  	struct btrfs_subpage *subpage = folio_get_private(folio);
-> 966416b380926c Qu Wenruo 2024-09-02 @431  	const int start_bit = fs_info->sectors_per_page * btrfs_bitmap_nr_locked;
->                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
-> Dereference
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  432  	unsigned long flags;
-> 966416b380926c Qu Wenruo 2024-09-02  433  	bool last = false;
-> 966416b380926c Qu Wenruo 2024-09-02  434  	int cleared = 0;
-> 966416b380926c Qu Wenruo 2024-09-02  435  	int bit;
-> 966416b380926c Qu Wenruo 2024-09-02  436
-> 966416b380926c Qu Wenruo 2024-09-02 @437  	if (unlikely(!fs_info) || !btrfs_is_subpage(fs_info, folio->mapping)) {
->                                                               ^^^^^^^^^
-> Too late
-> 
-> 966416b380926c Qu Wenruo 2024-09-02  438  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  439  		return;
-> 966416b380926c Qu Wenruo 2024-09-02  440  	}
-> 966416b380926c Qu Wenruo 2024-09-02  441
-> 966416b380926c Qu Wenruo 2024-09-02  442  	if (atomic_read(&subpage->writers) == 0) {
-> 966416b380926c Qu Wenruo 2024-09-02  443  		/* No writers, locked by plain lock_page(). */
-> 966416b380926c Qu Wenruo 2024-09-02  444  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  445  		return;
-> 966416b380926c Qu Wenruo 2024-09-02  446  	}
-> 966416b380926c Qu Wenruo 2024-09-02  447
-> 966416b380926c Qu Wenruo 2024-09-02  448  	spin_lock_irqsave(&subpage->lock, flags);
-> 966416b380926c Qu Wenruo 2024-09-02  449  	for_each_set_bit(bit, &bitmap, fs_info->sectors_per_page) {
-> 966416b380926c Qu Wenruo 2024-09-02  450  		if (test_and_clear_bit(bit + start_bit, subpage->bitmaps))
-> 966416b380926c Qu Wenruo 2024-09-02  451  			cleared++;
-> 966416b380926c Qu Wenruo 2024-09-02  452  	}
-> 966416b380926c Qu Wenruo 2024-09-02  453  	ASSERT(atomic_read(&subpage->writers) >= cleared);
-> 966416b380926c Qu Wenruo 2024-09-02  454  	last = atomic_sub_and_test(cleared, &subpage->writers);
-> 966416b380926c Qu Wenruo 2024-09-02  455  	spin_unlock_irqrestore(&subpage->lock, flags);
-> 966416b380926c Qu Wenruo 2024-09-02  456  	if (last)
-> 966416b380926c Qu Wenruo 2024-09-02  457  		folio_unlock(folio);
-> 966416b380926c Qu Wenruo 2024-09-02  458  }
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
