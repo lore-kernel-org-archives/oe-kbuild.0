@@ -1,173 +1,125 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6890817A5A4
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 09:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E92F188A1E
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 09:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725960039; cv=none; b=BR3ZLYisoV/r2fWJnM13y1fBPwt9rt7wK0GyrvebY+FO6YS4FbK6qokG6WU2hIJITOcRwAazYobIX8OCd9Lnsjr5tiaM+LKR+YEofNUplUFKxxFo6V5/MHaxW1ZX+Skz/1QgikcP/Igf6IEMmKKPHIGq0ehII/cMsQjVo7HuU90=
+	t=1725960162; cv=none; b=Uk9a2/JSaKmD3JfvGm+JqmO4nmXEPn0tsCQubC5VNlk88NfH7mEISUGs/JWPz+01Pq2vuxweX5dNBFq9T8h+MGBL6jMI5o41sj8AYV/ZNJFmV1IVAmfvIc5brzugDGcosGa6fQt3JOG8PTaWFF28ycck7efYqtCH9UMTDmSfaVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725960039; c=relaxed/simple;
-	bh=8+dCpkOW8iBiEz5yPaF72LDT887m4VnqG2AW+wQ8XoA=;
+	s=arc-20240116; t=1725960162; c=relaxed/simple;
+	bh=dK17jcgWY0vko5c0BYqEzvomy14PjkYKvrp+seBX5uU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WKK2TcbUPIDwrtx5nEU43vl6k0uUcoXOWx2m0hbGNyJXKxhfk7bIjAYXHunDVHBnw2FUBkL30kHLPRybo1yzTOYoUEqtG73MAlh/f9G3JLVRjrV7cIucfphV4qFGItNYcsQ6yCkdQjnAR5I9W+LR39YmSTG7Dm/2WOVxjBFrZKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=myg/Mrge; arc=none smtp.client-ip=209.85.128.52
+	 Content-Disposition:In-Reply-To; b=bCJo/qOvYr+jOZt1kgJVp6bPp/qw1o2MW9drHRoQ65V15rWclSuZefv0YD1rBza7SZKa1InxjL68P3FUYcbsfChy225BVIQcxdYpG+x2h/mk5oi9k4njbOUCS7lO8CcP0HVLSWesWbykZ2fcgVthr1M+CZS59jFnDNMWJDAiH44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wyfO0ycb; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="myg/Mrge"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42bb6d3e260so5187465e9.1
-        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 02:20:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wyfO0ycb"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-374ba74e9b6so4085185f8f.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 02:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1725960035; x=1726564835; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QaVuov/GMKYob9rnqk10dKYifuJlj6SVPmyKe/nzanI=;
-        b=myg/MrgeYBmTAHXaI2zux3hLNvDtlExZx9XKFgJ+fCYJqmxZT2Ol99Wpzm6MS7rlya
-         cewQ1o5VRGmofQrC8K55uQ36TminMdAiL1Wn/XMUu7eGegIkovBese55/XJgt3pBCMoM
-         wBoaV82DPEFhVdGvcHD0LwnmYqsW1JhPns7FS74fcULr46CVoPlnN5F2u6SK7AZXKhK6
-         oxhSOdQqwrPvsrkzgrqCZmZRIgY+Rm5EqgtzQn8WgJvYrEvbnHptMOcbhHVIDNPtwQ6N
-         I/aRU/z3tSjnCK060ctljjMGqJssxFehUjIHTiDSkZtdc4zpkL0Orz5FWub86epBAzOu
-         SpmQ==
+        d=linaro.org; s=google; t=1725960158; x=1726564958; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cXvcIrkK/fWqYHE+VZNxz5hbtak4R+sbEAArmllXywo=;
+        b=wyfO0ycbfHB7O3zqMC2q5DiDDAKH2R+GjfHy1+vvFFafQUzjPJXbDu1xEP/34T7Y0z
+         8er8VbeAu/juUTiImZZIvZnXWXPtm2gcVlzxL/YMbjfoUfB/etbjVrzP5b28jJD1Sx9s
+         V0jjGowqJ7g4FTENlwUqG7+K44Z1LViu6L4LgXNFgFe1SF6jFIliMAxEX6/Xc1pg73i6
+         4iPG0DGtHMqO1MA3Z64Fh4ghndQXndSRGrGR98oN7fs8ITCJTMzD6uVm41uNVUDcrLlx
+         oCqEVtgr39GAcm2WRVL+bPqv9RQx476tmr9HOMupJtOBHvhthOGFlCuU3jZiyPrLirj0
+         U3VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725960035; x=1726564835;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QaVuov/GMKYob9rnqk10dKYifuJlj6SVPmyKe/nzanI=;
-        b=cfW2q9OHKRkmkBKo6mT6a7eE+B7i3upr8S1wMCAFkoyVDjOj+D1CUaXZi7RPf5MN1L
-         BqPVDF92T2f90zv1U4A9ybgIEOrlaCfRjynT+xedQyMnNN68O67X4oFxZrOmj+BpOF6x
-         DmVjThSXY2xMvbay2EnL3bJAqUN9fxjxPWVnPQlBC2ZSqLgiG+s/WjfFUQXSneF6BE5n
-         yfD47mLreGQacIUMYK+H2Inmasm1981g765M59rgQgqFQzW85dRMZ6tCi+9HCGaE2fV7
-         4AWzzoYGCBirP8DQQ5Bblt345TLt734qP9+j2kJHtg/eCvAZJHKwrbJcHgeQp8zZYYbw
-         o4YQ==
-X-Gm-Message-State: AOJu0YxVX2NkvrezGa7mJ/teny5YdJw75dX6p7c8+p0qdF/uamrmyjBo
-	vlg1LRgJie2ExVRMZY6y/WHYlJj5wqtX74QSV+hVwl3ULeWm6ibWevVF7UGcqVkfNMAJqXfXiLE
-	P
-X-Google-Smtp-Source: AGHT+IHdQlXsqnNH1io28/qy8pwsediidCY0yocjW/6T9f2sDTX85XSttflhDNL4NWYsLAXBUQ/vuQ==
-X-Received: by 2002:a05:600c:4692:b0:428:10d7:a4b1 with SMTP id 5b1f17b1804b1-42c9f9d6f06mr110127165e9.25.1725960035362;
-        Tue, 10 Sep 2024 02:20:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725960158; x=1726564958;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cXvcIrkK/fWqYHE+VZNxz5hbtak4R+sbEAArmllXywo=;
+        b=qGesb11CzsmV8Fbdlchcb96OEhmJePB7crOtxKbMg+u9xIRrvMU7SsUi4T4xPokoCY
+         dA/h2OKCAzxUfhtyHNsOGUyw8Rdvvvh27IqdLZyPJsBg1ehS+VhLub66ufpJyeqyboky
+         FfDLyL4xtp+PqZapIP3ORqCRxlrM/4V08Ty5DRF0zPJLA/EfiTRzAtNHs98lZV6RaDWY
+         CtRSu+FxSEsCrs7Un18T/aqQGCPOSuGLkRoo+kGUhfxrW728CnLujhOuTV6tLjmb+nbq
+         RSb+15GzuvJRdTzYv1ZDMxYr/vXCZjgl8KDP3lo38DWXSiWcd/Evau2W5j/tSYTtP8r9
+         YiTw==
+X-Gm-Message-State: AOJu0YzVFiSzt3teoz6R1DtVB4xZk5FaHQuOdbwIEaqPfCIk12TKw/E2
+	YtKLc6cMXmPy4B6/+1IKlQf1EzyGEX7xnmtUntFznkn6c+4XTdfq/GC+U6i+m3Gqu684AF6jJQy
+	w
+X-Google-Smtp-Source: AGHT+IGgI6jQFQ3fCw76i64e+t4HcCA6rdSMOj5d65X4dDT4qSmrjpbCUzEq87jUPozJ/ENrvEVruQ==
+X-Received: by 2002:a5d:5cce:0:b0:374:bec7:8f with SMTP id ffacd0b85a97d-378922b7691mr7838237f8f.28.1725960158353;
+        Tue, 10 Sep 2024 02:22:38 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956654ffsm8331611f8f.40.2024.09.10.02.20.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42cb116f44esm96986705e9.45.2024.09.10.02.22.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2024 02:20:35 -0700 (PDT)
-Date: Tue, 10 Sep 2024 12:20:31 +0300
+        Tue, 10 Sep 2024 02:22:37 -0700 (PDT)
+Date: Tue, 10 Sep 2024 12:22:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+To: oe-kbuild@lists.linux.dev, Aleksa Sarai <cyphar@cyphar.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of
- 'gi->composite.gadget_driver.driver.name'
-Message-ID: <6ba088e2-126f-4f4d-a1e5-b50aea604cd7@stanley.mountain>
+Subject: Re: [PATCH RFC v2 04/10] openat2: add CHECK_FIELDS flag to usize
+ argument
+Message-ID: <c4f3a9a8-e4e6-4e07-a65f-72c6504ad4cc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240906-extensible-structs-check_fields-v2-4-0f46d2de9bad@cyphar.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   2dd00822d42905f5d4a7db95fbac52c47daf9bf6
-commit: 957b40b3b769bc23db3d6491db267e3166f91316 [1/1] ANDROID: usb: gadget: configfs: Add Uevent to notify userspace
-config: i386-randconfig-141-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101015.b0Oixg1v-lkp@intel.com/config)
+Hi Aleksa,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/uaccess-add-copy_struct_to_user-helper/20240905-230518
+base:   431c1646e1f86b949fa3685efc50b660a364c2b6
+patch link:    https://lore.kernel.org/r/20240906-extensible-structs-check_fields-v2-4-0f46d2de9bad%40cyphar.com
+patch subject: [PATCH RFC v2 04/10] openat2: add CHECK_FIELDS flag to usize argument
+config: i386-randconfig-141-20240909 (https://download.01.org/0day-ci/archive/20240909/202409091242.KVFltqkq-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409101015.b0Oixg1v-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409091242.KVFltqkq-lkp@intel.com/
 
 smatch warnings:
-drivers/usb/gadget/configfs.c:2050 gadgets_make() error: double free of 'gi->composite.gadget_driver.driver.name'
+include/linux/uaccess.h:477 copy_struct_to_user() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +2050 drivers/usb/gadget/configfs.c
+vim +477 include/linux/uaccess.h
 
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1981  static struct config_group *gadgets_make(
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1982  		struct config_group *group,
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1983  		const char *name)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1984  {
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1985  	struct gadget_info *gi;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1986  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1987  	gi = kzalloc(sizeof(*gi), GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1988  	if (!gi)
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1989  		return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1990  
-1ae1602de028ac Christoph Hellwig         2016-02-26  1991  	config_group_init_type_name(&gi->group, name, &gadget_root_type);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1992  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1993  	config_group_init_type_name(&gi->functions_group, "functions",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1994  			&functions_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1995  	configfs_add_default_group(&gi->functions_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1996  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1997  	config_group_init_type_name(&gi->configs_group, "configs",
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  1998  			&config_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  1999  	configfs_add_default_group(&gi->configs_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2000  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2001  	config_group_init_type_name(&gi->strings_group, "strings",
-6e2a512d9532c5 Daniel Scally             2023-02-06  2002  			&gadget_language_strings_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2003  	configfs_add_default_group(&gi->strings_group, &gi->group);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2004  
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2005  	config_group_init_type_name(&gi->os_desc_group, "os_desc",
-87213d388e927a Andrzej Pietrasiewicz     2014-05-08  2006  			&os_desc_type);
-1ae1602de028ac Christoph Hellwig         2016-02-26  2007  	configfs_add_default_group(&gi->os_desc_group, &gi->group);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2008  
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2009  	config_group_init_type_name(&gi->webusb_group, "webusb",
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2010  			&webusb_type);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2011  	configfs_add_default_group(&gi->webusb_group, &gi->group);
-93c473948c5889 Jó Ágila Bitsch           2023-01-13  2012  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2013  	gi->composite.bind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2014  	gi->composite.unbind = configfs_do_nothing;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2015  	gi->composite.suspend = NULL;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2016  	gi->composite.resume = NULL;
-e2459108b5a060 taehyun.cho               2021-01-07  2017  	gi->composite.max_speed = USB_SPEED_SUPER_PLUS;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2018  
-093edc2baad2c2 Wei Yongjun               2019-10-30  2019  	spin_lock_init(&gi->spinlock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2020  	mutex_init(&gi->lock);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2021  	INIT_LIST_HEAD(&gi->string_list);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2022  	INIT_LIST_HEAD(&gi->available_func);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2023  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2024  	composite_init_dev(&gi->cdev);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2025  	gi->cdev.desc.bLength = USB_DT_DEVICE_SIZE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2026  	gi->cdev.desc.bDescriptorType = USB_DT_DEVICE;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2027  	gi->cdev.desc.bcdDevice = cpu_to_le16(get_default_bcdDevice());
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2028  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2029  	gi->composite.gadget_driver = configfs_driver_template;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2030  
-7c07553807c512 Chanh Nguyen              2023-01-11  2031  	gi->composite.gadget_driver.driver.name = kasprintf(GFP_KERNEL,
-7c07553807c512 Chanh Nguyen              2023-01-11  2032  							    "configfs-gadget.%s", name);
-7c07553807c512 Chanh Nguyen              2023-01-11  2033  	if (!gi->composite.gadget_driver.driver.name)
-7c07553807c512 Chanh Nguyen              2023-01-11  2034  		goto err;
-7c07553807c512 Chanh Nguyen              2023-01-11  2035  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2036  	gi->composite.gadget_driver.function = kstrdup(name, GFP_KERNEL);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2037  	gi->composite.name = gi->composite.gadget_driver.function;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2038  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2039  	if (!gi->composite.gadget_driver.function)
-7c07553807c512 Chanh Nguyen              2023-01-11  2040  		goto out_free_driver_name;
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2041  
-957b40b3b769bc Neill Kapron              2024-02-01  2042  	if (android_device_create(&gi->cdev.android_opts))
-957b40b3b769bc Neill Kapron              2024-02-01  2043  		goto out_free_driver_name_and_function;
-957b40b3b769bc Neill Kapron              2024-02-01  2044  
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2045  	return &gi->group;
-7c07553807c512 Chanh Nguyen              2023-01-11  2046  
-7c07553807c512 Chanh Nguyen              2023-01-11  2047  out_free_driver_name:
-7c07553807c512 Chanh Nguyen              2023-01-11  2048  	kfree(gi->composite.gadget_driver.driver.name);
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Free
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  462  static __always_inline __must_check int
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  463  copy_struct_to_user(void __user *dst, size_t usize, const void *src,
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  464  		    size_t ksize, bool *ignored_trailing)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  465  {
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  466  	size_t size = min(ksize, usize);
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  467  	size_t rest = max(ksize, usize) - size;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  468  
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  469  	/* Double check if ksize is larger than a known object size. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  470  	if (WARN_ON_ONCE(ksize > __builtin_object_size(src, 1)))
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  471  		return -E2BIG;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  472  
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  473  	/* Deal with trailing bytes. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  474  	if (usize > ksize) {
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  475  		int ret = clear_user(dst + size, rest);
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  476  		if (ret)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06 @477  			return ret;
 
-957b40b3b769bc Neill Kapron              2024-02-01  2049  out_free_driver_name_and_function:
-957b40b3b769bc Neill Kapron              2024-02-01 @2050  	kfree(gi->composite.gadget_driver.driver.name);
-                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Double free
+if (clear_user(dst + size, rest))
+	return -EFAULT;
 
-957b40b3b769bc Neill Kapron              2024-02-01  2051  	kfree(gi->composite.gadget_driver.function);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2052  err:
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2053  	kfree(gi);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2054  	return ERR_PTR(-ENOMEM);
-88af8bbe4ef781 Sebastian Andrzej Siewior 2012-12-23  2055  }
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  478  	}
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  479  	if (ignored_trailing)
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  480  		*ignored_trailing = ksize < usize &&
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  481  			memchr_inv(src + size, 0, rest) != NULL;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  482  	/* Copy the interoperable parts of the struct. */
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  483  	if (copy_to_user(dst, src, size))
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  484  		return -EFAULT;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  485  	return 0;
+7f6f15ec9e2720 Aleksa Sarai 2024-09-06  486  }
 
 -- 
 0-DAY CI Kernel Test Service
