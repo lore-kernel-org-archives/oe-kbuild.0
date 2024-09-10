@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B93C136E18
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 02:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B56210E4
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 03:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725934547; cv=none; b=aSY+sYsk4laO0XNNyuGRQllnlLx5fL9hCpwza2XPI5sffBpZ/Y9QGK3Kdf76BtCXP2pEU0+6/wLKNEgnMVL/Jo2EobJB0wX08+0OormGHNi2zQ9VDFVfZ0RIaLtchTlafFcy7mMdgbKFdGkF1170yGQ7wzGj42dsU1gMGZbJ2Sc=
+	t=1725939564; cv=none; b=L96BSDdWti54Dd6SrDQsQbcNAmVgOh8AqclijY4XArA0EV5tryYZX6kRvZS5AQCSJUdMSUY8LaB1tFy+nY82gAfwTYZCGSiZWxKZ+oNMuBNpjVIdvJoqxognt0OyO0zJtcvVYoO6hQ4OPZgsKzCGt6UfUWM03tS+5ohPQUAXNuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725934547; c=relaxed/simple;
-	bh=z+IOrJveRuBMDpzPvKX48ddRs+M5jIXFlI/77VdJ77w=;
+	s=arc-20240116; t=1725939564; c=relaxed/simple;
+	bh=wNLl2WUjU0GNabBj74CXXPzOxL28g6Kd8fDFClLSxN0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oqnnU0+NjfhWLNFSg+hq7/Q5yKs9ELZX8qj0mqI1xfKbQXnCdH23xqlxzlqEUPLgBWj94CophsAH3jNoarVDJQVt787VnCuSy9kVcbogZc1audFN6f/nTZ1Uj68llzC5xYkZQ3Dh6j5e2OQyJHMLfV8J2QWx83eqCBfmFWRRTqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CeNG1kIP; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=l23Z6449TxnHCyGAdADUuf7Zik40ubCRPNOdgQSRnJuu33GhvKuv4bRxxswG/P4OYXhFT3v7Pxy/veVRmeisMgwghtQmLyN7PnWbZJ3zbyeOQzlbzsnL3yXEEb9NbfNH9zU5OIwjRh9LntpJVtN6G79x+XkPkcFO+ywEnoPEMv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XT+SwOrt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CeNG1kIP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XT+SwOrt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725934545; x=1757470545;
+  t=1725939563; x=1757475563;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z+IOrJveRuBMDpzPvKX48ddRs+M5jIXFlI/77VdJ77w=;
-  b=CeNG1kIPGCPHJ12vwW9fZ2bpRFannqK3jT/a5EVg/NqaUnV4BzjsLdQ3
-   EylN1xgsZgp/0drqAG0dK7Pzxe7hrGvKQLkOdB9amymFrJuYLUASeBaMp
-   bosV57yfGSFz6HKcYv+oPiw1GNvSVhjRSP+c+yzVwTF6oK48xicHq5Cy6
-   z1m4DQprxPFAgEXs0ygLxdjPbNHTL853B7fOZJTjLwV7bXUVQPpkrGZu9
-   r+ODYeN6iZgiT1YLI4HkVM6l6ndvqNQed/vSpr6AFroq+B1CuOU0CQ5lG
-   YH3wQ5D9gdXltI5ItlPZ+afPhuapi8xBYDMHEa80Hb8IfDg2W6d1kvraY
+  bh=wNLl2WUjU0GNabBj74CXXPzOxL28g6Kd8fDFClLSxN0=;
+  b=XT+SwOrtRtS8ctceCmzHTaVgY7NR7+hTAEztu7iKH6mva7vf5EJyBYCT
+   jkS4JkQy8iDjfFbKGbOMQDYGHc5dEcDKQ2/okvcjvR+uDEpQY69rgvouZ
+   rjdDPQkEXsytxGN/5lxAeXVhSUKG5k2NsxbeJp2lB94hVjhkqsn72ukei
+   iu4zlA2eqx9/aIuqyJoxsd1hlR0ZtMDVCPm7ct/Plt4FnmLWfdv1UKH3X
+   KcVPZ0SbXg2Wrb2ByLdZZEaQiBTUCYVODB4FgNQrNMDaJmkH5jXzyEqoY
+   rH2UV9kjWpZetDWteKncyP9i9eBpRv+AM+PW4/F2mwFeiF4sNEcfalF8J
    g==;
-X-CSE-ConnectionGUID: QnutjmIVR7+AOvQKu1QT+Q==
-X-CSE-MsgGUID: nGttIxzdQfyT1cBEdseoMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="36041886"
+X-CSE-ConnectionGUID: dBzzqDg5SRu5vYqitOZ6qA==
+X-CSE-MsgGUID: Jf/q/BU3RCKyTP5jRU3mkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28446411"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="36041886"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 19:15:43 -0700
-X-CSE-ConnectionGUID: a6qrR4x4TsGughO9z4Rg5Q==
-X-CSE-MsgGUID: hvJvPpRTQEKqSRNhNA2LVg==
+   d="scan'208";a="28446411"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 20:39:23 -0700
+X-CSE-ConnectionGUID: pU40vqtrTP6VgBOY8ftkkA==
+X-CSE-MsgGUID: kQYtrrpIQBeDF0PHiUhzJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="66921290"
-Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Sep 2024 19:15:41 -0700
-Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+   d="scan'208";a="67179385"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 09 Sep 2024 20:39:22 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1snqPr-000FWs-23;
-	Tue, 10 Sep 2024 02:15:39 +0000
-Date: Tue, 10 Sep 2024 10:15:23 +0800
+	id 1snrio-00001s-2z;
+	Tue, 10 Sep 2024 03:39:18 +0000
+Date: Tue, 10 Sep 2024 11:39:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/gpu/drm/xe/xe_vram.c:335 xe_vram_probe() error: '%pa'
- expects argument of type 'phys_addr_t*', argument 3 has type 'ullong*'
-Message-ID: <202409101046.6twTmrGk-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/soc/fsl/qbman/qman.c:2421:19-26: opportunity for
+ str_plural(err_cnt)
+Message-ID: <202409101138.v3FBr5hk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,104 +65,52 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-CC: Matt Roper <matthew.d.roper@intel.com>
+TO: Breno Leitao <leitao@debian.org>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Vladimir Oltean <vladimir.oltean@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   bc83b4d1f08695e85e85d36f7b803da58010161d
-commit: 638d1c79cbf15c14f1bcf98fd8135ea83a04dc50 drm/xe: Promote VRAM initialization function to own file
-date:   3 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 months ago
-config: microblaze-randconfig-r073-20240909 (https://download.01.org/0day-ci/archive/20240910/202409101046.6twTmrGk-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+commit: 782fe08e9861d00ce8aca370453dd9ceb9a23d50 soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+date:   8 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 8 weeks ago
+config: sparc-randconfig-r062-20240910 (https://download.01.org/0day-ci/archive/20240910/202409101138.v3FBr5hk-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409101046.6twTmrGk-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409101138.v3FBr5hk-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_vram.c:335 xe_vram_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 3 has type 'ullong*'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/soc/fsl/qbman/qman.c:2421:19-26: opportunity for str_plural(err_cnt)
 
-Old smatch warnings:
-drivers/gpu/drm/xe/xe_vram.c:346 xe_vram_probe() error: '%pa' expects argument of type 'phys_addr_t*', argument 4 has type 'ullong*'
+vim +2421 drivers/soc/fsl/qbman/qman.c
 
-vim +335 drivers/gpu/drm/xe/xe_vram.c
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2408  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2409  void qman_init_cgr_all(void)
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2410  {
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2411  	struct qman_cgr cgr;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2412  	int err_cnt = 0;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2413  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2414  	for (cgr.cgrid = 0; cgr.cgrid < CGR_NUM; cgr.cgrid++) {
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2415  		if (qm_modify_cgr(&cgr, QMAN_CGR_FLAG_USE_INIT, NULL))
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2416  			err_cnt++;
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2417  	}
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2418  
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2419  	if (err_cnt)
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2420  		pr_err("Warning: %d error%s while initialising CGR h/w\n",
+c535e923bb97a4 Claudiu Manoil 2016-09-22 @2421  		       err_cnt, (err_cnt > 1) ? "s" : "");
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2422  }
+c535e923bb97a4 Claudiu Manoil 2016-09-22  2423  
 
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  264  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  265  /**
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  266   * xe_vram_probe() - Probe VRAM configuration
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  267   * @xe: the &xe_device
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  268   *
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  269   * Collect VRAM size and offset information for all tiles.
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  270   *
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  271   * Return: 0 on success, error code on failure
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  272   */
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  273  int xe_vram_probe(struct xe_device *xe)
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  274  {
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  275  	struct xe_tile *tile;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  276  	resource_size_t io_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  277  	u64 available_size = 0;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  278  	u64 total_size = 0;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  279  	u64 tile_offset;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  280  	u64 tile_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  281  	u64 vram_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  282  	int err;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  283  	u8 id;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  284  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  285  	if (!IS_DGFX(xe))
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  286  		return 0;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  287  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  288  	/* Get the size of the root tile's vram for later accessibility comparison */
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  289  	tile = xe_device_get_root_tile(xe);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  290  	err = tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  291  	if (err)
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  292  		return err;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  293  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  294  	err = determine_lmem_bar_size(xe);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  295  	if (err)
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  296  		return err;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  297  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  298  	drm_info(&xe->drm, "VISIBLE VRAM: %pa, %pa\n", &xe->mem.vram.io_start,
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  299  		 &xe->mem.vram.io_size);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  300  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  301  	io_size = xe->mem.vram.io_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  302  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  303  	/* tile specific ranges */
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  304  	for_each_tile(tile, xe, id) {
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  305  		err = tile_vram_size(tile, &vram_size, &tile_size, &tile_offset);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  306  		if (err)
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  307  			return err;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  308  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  309  		tile->mem.vram.actual_physical_size = tile_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  310  		tile->mem.vram.io_start = xe->mem.vram.io_start + tile_offset;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  311  		tile->mem.vram.io_size = min_t(u64, vram_size, io_size);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  312  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  313  		if (!tile->mem.vram.io_size) {
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  314  			drm_err(&xe->drm, "Tile without any CPU visible VRAM. Aborting.\n");
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  315  			return -ENODEV;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  316  		}
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  317  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  318  		tile->mem.vram.dpa_base = xe->mem.vram.dpa_base + tile_offset;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  319  		tile->mem.vram.usable_size = vram_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  320  		tile->mem.vram.mapping = xe->mem.vram.mapping + tile_offset;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  321  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  322  		if (tile->mem.vram.io_size < tile->mem.vram.usable_size)
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  323  			drm_info(&xe->drm, "Small BAR device\n");
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  324  		drm_info(&xe->drm, "VRAM[%u, %u]: Actual physical size %pa, usable size exclude stolen %pa, CPU accessible size %pa\n", id,
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  325  			 tile->id, &tile->mem.vram.actual_physical_size, &tile->mem.vram.usable_size, &tile->mem.vram.io_size);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  326  		drm_info(&xe->drm, "VRAM[%u, %u]: DPA range: [%pa-%llx], io range: [%pa-%llx]\n", id, tile->id,
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  327  			 &tile->mem.vram.dpa_base, tile->mem.vram.dpa_base + (u64)tile->mem.vram.actual_physical_size,
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  328  			 &tile->mem.vram.io_start, tile->mem.vram.io_start + (u64)tile->mem.vram.io_size);
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  329  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  330  		/* calculate total size using tile size to get the correct HW sizing */
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  331  		total_size += tile_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  332  		available_size += vram_size;
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  333  
-638d1c79cbf15c Michal Wajdeczko 2024-05-30  334  		if (total_size > xe->mem.vram.io_size) {
-638d1c79cbf15c Michal Wajdeczko 2024-05-30 @335  			drm_info(&xe->drm, "VRAM: %pa is larger than resource %pa\n",
+:::::: The code at line 2421 was first introduced by commit
+:::::: c535e923bb97a4b361e89a6383693482057f8b0c soc/fsl: Introduce DPAA 1.x QMan device driver
+
+:::::: TO: Claudiu Manoil <claudiu.manoil@nxp.com>
+:::::: CC: Scott Wood <oss@buserror.net>
 
 -- 
 0-DAY CI Kernel Test Service
