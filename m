@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32111A7057
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 17:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2835B1A4F34
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 18:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725989100; cv=none; b=vDvt0EgR2Bf9GNWIMUAbKsfL8v9hHBxsMKedYSdlcupYassk6cd2+6s0OxkdR50XvuV6avogEm6V1ywZUDREf9oMHZZMWabHmanIRsj8A78rw7iEasE5hWpwtvAoggOJAvOzhSLwFE+7vULPeeLeh1QJkfIuArDAR+QLXwQjJWk=
+	t=1725993701; cv=none; b=DaioK9QfZedUh1sD+xRr0u7278pKbshhKFjVc0GnWk1vnGTxH67N2uzYP7/2Sycdeb303lY2rFptUyXz68A+k7l39lyz7uF3qC1k0glHereQQZOCrIic42YV8yHJWD0OFjAEzWJiOQyI0Bhj7vLrrYnxyEu5fE7rbNmy9I3wjjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725989100; c=relaxed/simple;
-	bh=uhPSykUl8uWHjMAPUCrzY6RLR/pkXInZ1xwTjq8EuJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z5+X5SmZmMzN6p0Y1hJ3QE/JtMZdpp2uuSacp2rVHhEFzsmWf2UrNsAxVT9TjYXCTaEN0yrWL6OhGZ1oSkZKdzywIG7J1ygdqGdag+UAK6orzW+5olNfeu7R0R76afvzs5xYDO6RmD/HXe4P6VaD80R5zj0Sm/BRvJiiKC3+aTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OxEhMHoL; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1725993701; c=relaxed/simple;
+	bh=BWmo7iSKtODxk30hoO0cSTCVls5lhJji1P4AIkMyan0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LSfZnWmxJWH1XJAi2qcs4HXqXSR5cgX6RnnXo/88gnQb2RY4SHgEWj6LnmZKvIkMnOXeZybYXWK+O9XjAa0xI6EhWkdKVc3kmPBKfeR/vrJWOlduBv20H3zb8u8x92M8We1hiuG8AqbJBKaeeI8oUBm8we7Y+oD4pBsmhvU3upQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZIcZ6Kz8; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OxEhMHoL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725989099; x=1757525099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uhPSykUl8uWHjMAPUCrzY6RLR/pkXInZ1xwTjq8EuJg=;
-  b=OxEhMHoLAJU8atmuoXr84Iex8rVsp1kjm271Vc9RRAFfyVZJ5QIt54+5
-   +jG/9hK0eiFvJc/+YwLXoq8w0xW8PrL6gKHpy1hcYy6tUET8ymitNeT+r
-   rFjfLZwZvNrqnvuqK7hpn5IhPTTSRvMITb0mhCG6Vw5W/GIfcSFH8oICl
-   YrYV18tITuO0zOfghyX4KCCPYDNwNU/pfEd2yx8FHU9XCSLt9VmJei3r7
-   mMamjX/Uw5akCs4XN0K/eAHsfNFazhK3Zp446i9INI5rYi19lrxMp40am
-   QGTAa1qdxTBPcazbu6nqTVYqbQivmH4Uv6fu3NAUUd7LWzi+oQL6804Np
-   w==;
-X-CSE-ConnectionGUID: PO1zYzQoQk+ww1GLQyFMRA==
-X-CSE-MsgGUID: WkJ+J9c1Sw2RUGCZc/Qvpw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="42230281"
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="42230281"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 10:24:59 -0700
-X-CSE-ConnectionGUID: 3VxQXLaRSuabWxYNyevWIA==
-X-CSE-MsgGUID: ok7xqBJ0To6zAvCx9+EVFg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="67858073"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Sep 2024 10:24:57 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1so4bn-0002R8-18;
-	Tue, 10 Sep 2024 17:24:55 +0000
-Date: Wed, 11 Sep 2024 01:24:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [cip:linux-6.1.y-cip 20/31] kismet: WARNING: unmet direct
- dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
-Message-ID: <202409110129.wy3doJta-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZIcZ6Kz8"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4280ca0791bso54713245e9.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 11:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725993698; x=1726598498; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+9PL5Tl2Mwr8imabb3mrABTELpbfGgfF2GcjdAezlDk=;
+        b=ZIcZ6Kz8wErA7MBFgirU6vC5KfUMr0zi1a3lpLGc8z939pEXgOQCweCC0AdF4M5tjG
+         d8MNieDotvYzW6XhA4vHUdRhXvsMTzbE6WtQJqbHAzVr9wXfPL9QGtJDohnIz22phklv
+         jFlgQ4rIgFEw8gw4nj+Ja156ok762VVerSzd36oir6JKUn8Tb8q2NL6lEB/96Ma0qu+/
+         JKEKl8bdYcz+yrh8cde7Tl3zjsHHVGj73QsliOcXRBsp2JVEaVPsgBg37J2ZtcSSlMBG
+         cdMwKnWlB70wzl9w3wzCm7pmQhyqDI0tNlo35yVpikuMOaoBYpHrLLGesfZVEwoT9G2I
+         hTJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725993698; x=1726598498;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+9PL5Tl2Mwr8imabb3mrABTELpbfGgfF2GcjdAezlDk=;
+        b=JLKEBk4lQXN+SHpYkd7ojWmL2FLIXyOVNjnR9LExNkKFyg0M6LmgOWIoGxzVParsT2
+         +dNAL0vfTD6znMbGzkyzGGcZMLx7GbVLB3gmlOT66zlSNDMLA1gEFIfeM9KV3+3AJ1il
+         VaV70gw56zH/9vBA7kglT1i0lb189U5N6i13LKky8o4MU3rwtUrhHUMGOfPtNY1Cr32D
+         z8rBTVptYj1uK4kPq1kSQmGOGAO/1RTHsUNSnOdvBst7bBtWYoSfyH663tnMYg+qZJEU
+         YLVEECb7QhM4/y/OIpgJbgG9wntvaITtS5hBWGC3cssV0M08kf56gCePB5WgYcNHhkFh
+         Ziyg==
+X-Gm-Message-State: AOJu0YwHIRKqehCkaIF+RHUpEVtd/BeJPCR12OXM/FMNGFLtymXbJuL9
+	z3A1PAuKnK/eupyzMBpKAGLIsyPNW89FDf/MNaLEbgbqEcx4QP0GLiYuq7Xx8EA=
+X-Google-Smtp-Source: AGHT+IHtloX3WqASwCkacjxrSNiWqVc1JRchMQnG3IFI7ixq90XKVKnIRhzzHkwvO4dBvtOs4eh9Kg==
+X-Received: by 2002:a5d:4c8b:0:b0:373:b87:55d8 with SMTP id ffacd0b85a97d-378895c549amr8702023f8f.3.1725993698324;
+        Tue, 10 Sep 2024 11:41:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956d3765sm9604350f8f.74.2024.09.10.11.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 11:41:38 -0700 (PDT)
+Date: Tue, 10 Sep 2024 21:41:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>,
+	dm-devel@lists.linux.dev
+Subject: Re: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <d09d8b14-9ea8-4802-9c37-2cd60a75b0fa@stanley.mountain>
+References: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
+ <20240910172001.GD2642@sol.localdomain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,36 +69,78 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20240910172001.GD2642@sol.localdomain>
 
-:::::: 
-:::::: Manual check reason: "cip tree"
-:::::: 
+On Tue, Sep 10, 2024 at 10:20:01AM -0700, Eric Biggers wrote:
+> [+Cc dm-devel@lists.linux.dev]
+> 
+> On Tue, Sep 10, 2024 at 10:31:56AM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+> > commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+> 
+> This commit seems unrelated, as the alleged issue existed in the code before
+> that commit too (maybe smatch just didn't notice it yet).
+> 
+> > date:   10 months ago
+> > config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+> > compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
+> > 
+> > vim +/actual_mac +521 drivers/md/dm-integrity.c
+> > 
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
+> > 
+> > This is paired with the line before and prevents the subtraction from going
+> > negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
+> > which is > HASH_MAX_DIGESTSIZE (64)?
+> 
+> crypto_shash_digestsize() cannot return a value greater than HASH_MAX_DIGESTSIZE
+> because the crypto API doesn't allow registering any hash algorithms with
+> digests larger than that.  That's the whole point of HASH_MAX_DIGESTSIZE.
+> 
+> > This buffer is only 64 bytes.
+> 
+> Yes.
+> 
+> > 0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+> > 070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+> > 09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+> > 070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+> >                                                                                 ^^^^^^^^^^
+> > Read overflow.
+> 
+> No, because mac_size <= 64.
+> 
+> We might as well explicitly check that in the code to suppress the static
+> analysis warning (I'll send a patch), but it's not fixing an actual bug.
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-TO: Pavel Machek <pavel@denx.de>
+Generally, we try avoid silencing warnings just for silencing them unless it
+makes the code more readable.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-6.1.y-cip
-head:   d5cc54849a0b793a2413dcd5f31b45d9907066ab
-commit: 852f7b6a0848450c6f403a87f8d0e4cce158d307 [20/31] riscv: Kconfig.socs: Add ARCH_RENESAS kconfig option
-:::::: branch date: 4 days ago
-:::::: commit date: 8 months ago
-config: riscv-kismet-CONFIG_IOMMU_IO_PGTABLE_LPAE-CONFIG_IPMMU_VMSA-0-0 (https://download.01.org/0day-ci/archive/20240911/202409110129.wy3doJta-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240911/202409110129.wy3doJta-lkp@intel.com/reproduce)
+The other way to silence this warning would be to delete the check on line 500
+because if it can't be larger than 64 then it can't be larger than 448.  It's
+not like SECTOR_SIZE is going to get smaller in the future.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409110129.wy3doJta-lkp@intel.com/
+regards,
+dan carpenter
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE when selected by IPMMU_VMSA
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-     Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
-     Selected by [y]:
-     - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
