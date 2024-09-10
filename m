@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219E8BA45
-	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 07:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37AC178372
+	for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 07:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725952628; cv=none; b=CT2qNacRe1sv7ms48kGcC/lwJ5vf3frPryQnIyCx2S7jITUrNCzN5u7sgOWZy3Q7icSF1ANwN2dM3SIW9W9d6p07CqMJcKCz7GlVKNffoTZDi5ZX2AqcYQuUZJ0ZO39dWbsaznZ4jTHk2MF07JNOv6WMS3c3AqYpGPaLZw0Egnw=
+	t=1725953524; cv=none; b=f0k7RqDoP+9lqzDoOxxrpdeOi68o1pj2zvhYRPmywyYjF9Oobj0jSJeYlHVsveJNf7kfhCEViYPClSXcqq6gAoC+u0otChst+AKPaS3qwvhNnbwMwpFZuxBo7jYQF9EKp2zDzdlJLY0wfxXL0/c2UkkFBWWG+qxz2GHa3u0Uc4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725952628; c=relaxed/simple;
-	bh=5BUtYxoMgiJN1yo5t/sxYHaoBP6epnUy/MXui/KkQl4=;
+	s=arc-20240116; t=1725953524; c=relaxed/simple;
+	bh=f77j3SCTqwAT+GaM8xKCdHzIx3G/Jn8Mz8HPtqQebr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d/sG/dQh1Rl4sH1c4VHVcNrWcGzwYeVQJX3CfmnTkUCX1YHr4c6U7lZBrmm+MyFL+nS6wwhZ0rOj3fCRTzY80wYGrjb6kkuVbuGg72xKNLyUipYlM2sRtuEZ8pf4M5eGThJ2OIGFqNX843Ha9mq/NrgL61en4k2qZ2EbmM/Dhxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EM68M21U; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=RUHjuAJV4W04fG5qHRxVAHOwuxbI7kKppg18Sjq1uJEir99FF7X/C5EU/rRlpxhhebS64s02SD9rNdWD5LdhdcFq20gNOVwLVYGpegzwwbzTUGsJZCDwKPrcNiRGovfmbXD0d8FDMA75AS51jZXplwt86o9Z5rw8WhsPW11Y6lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qRq2/iah; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EM68M21U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1725952626; x=1757488626;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5BUtYxoMgiJN1yo5t/sxYHaoBP6epnUy/MXui/KkQl4=;
-  b=EM68M21Ul2Ahv1L+7MkhijnNEmPvqfez5C140hXwLl1zImbXoTZAL/Ln
-   U+/uIKMNunGLFCV19aVo3fMNU0j6p4BpA0RwyJAGjoiPuMCPye86MMQsb
-   I/neINLxGwvrnZ3Sn5N9+CUEv5CVasnLf9FhywOVWKPHX/XtnKejVdPPe
-   UUyDhz5NLFiY5uIwcIS8dH9XahtI0NG66hzXFcjMbhr4mDIqZH02hwN2g
-   Uh5Tmi2rp5mWV3Be4dvP4CsGikfnmZLn3mexm7ZKv1meKsvpXutHM5ing
-   ht8wT+CMaSXIPjzU8zJQd53sut2OsZWDg1J3sb5wdTd30ZhRmv7Qee0hY
-   Q==;
-X-CSE-ConnectionGUID: HzIoadBWQ82A/2ziAiQjkQ==
-X-CSE-MsgGUID: zqXmv0cMRtKRu6GShoHFYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="28572879"
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="28572879"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 00:16:52 -0700
-X-CSE-ConnectionGUID: QDgYUt+hTriFWbd5rnI+MQ==
-X-CSE-MsgGUID: HxaDD9RySgiZ1zU3/osPGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,216,1719903600"; 
-   d="scan'208";a="66563908"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Sep 2024 00:16:51 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1snv7I-0000DG-2k;
-	Tue, 10 Sep 2024 07:16:48 +0000
-Date: Tue, 10 Sep 2024 15:15:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ukleinek:pwm/chardev 17/20] drivers/pwm/core.c:1733
- pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-Message-ID: <202409101520.1ygRewId-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qRq2/iah"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-374c962e5adso2871942f8f.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 10 Sep 2024 00:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1725953520; x=1726558320; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
+        b=qRq2/iahz0gemfZrCcrPTM+a1+VbeVVpcCyt6t8Z5Tf/KnVZmHMcdSICxKvirwGEki
+         H2G5i4HSXpWtl8kIJytmmnMvYjWe3I31825lP4TTZIORo7nG6zxVVF23Nkq+60NVp4Ol
+         ebRViTEf5toa9BJkj0SQEUbTvAzlKg+dFVhWe+s3bHfof1psRmBszHPgRZ8LhYDnXFpr
+         MRufGuP6t7RAGmYDbM+E59LetxCzDBVh0wqnHdw4uxNnNJBNQqQiQs28j5Ie0CmOa31L
+         LTIFhfYimYLuvkYdsYUFXsIQx7SFFzU185L7+zADRLmwVluNJ1lHmzRAHV+PSBb1RrXt
+         3Ziw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725953520; x=1726558320;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eszUiQ9wlG/1tjLAyBKIiKLnnAvpZBasgR+qa/r6bgw=;
+        b=owXTIpQTa2KnmJm46V5rd2+B8gUU8SUyG6TsVXvich3ZkuVSAnIfOSMc0bjZvc3Nlz
+         jxqkIsqLJDnij29lVaGTmrrd09vOoTK8hMP4sr7pzvncSzLWd/Zcqz5SsS6lljgjm0xw
+         Dz7xNkpk12tLZRrXuIc08Acmz7X9tYTxt6YrMxTpgtAEv9AVizX2Q8heQ21/o6Pa4asv
+         C/AZbsudnUu3tuJgpLw+L2+jdA8pS7W6QG56dUbieVpGnD7t8kxcKFTkyP8BmrsKnHEv
+         KcLxbXeXLDgJMOdMqQnU8O3cakgwOXitUXmCpyFCVb3Dw0OpWhDOIcSbRdDCwnhSBQMC
+         kLyg==
+X-Gm-Message-State: AOJu0YzlnHBUl+NCWSZh+Vtlx1dsCCsPB1+HQz6JDDEVDDlCONSaQrXs
+	iRksVGBP8xoxzX2HMR4xriiyU35EF0OWMgJ7FoyZRUF7qQdB3Qk22w5ymOgNEqTVZwy865ySAbq
+	Y
+X-Google-Smtp-Source: AGHT+IELa+rG14pL1lB7AiyIMDigzrd0vAidxvik7sx8yhamOOu/U1MRmirvLr3oz1Xd5vrj6Iz8HQ==
+X-Received: by 2002:a05:6000:1ac7:b0:374:c6b6:c656 with SMTP id ffacd0b85a97d-378a8a3de4cmr1414873f8f.21.1725953520367;
+        Tue, 10 Sep 2024 00:32:00 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378956767dasm8091431f8f.62.2024.09.10.00.31.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 00:31:59 -0700 (PDT)
+Date: Tue, 10 Sep 2024 10:31:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eric Biggers <ebiggers@google.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mike Snitzer <snitzer@kernel.org>
+Subject: drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp()
+ 'actual_mac' too small (64 vs 448)
+Message-ID: <e8c80d61-2c74-4b50-ab50-2cf1291df9bc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,196 +70,75 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Uwe Kleine-König" <u.kleine-koenig@baylibre.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/chardev
-head:   c0afe400b52825e23de3ebdcbaa4229d6b38eeda
-commit: 00c9f1181dc351e1e6041ba6e41e4c30b12b6a27 [17/20] pwm: Add support for pwmchip devices for faster and easier userspace access
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: microblaze-randconfig-r073-20240909 (https://download.01.org/0day-ci/archive/20240910/202409101520.1ygRewId-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b831f83e40a24f07c8dcba5be408d93beedc820f
+commit: 070bb43ab01e891db1b742d4ddd7291c7f8d7022 dm integrity: use crypto_shash_digest() in sb_mac()
+date:   10 months ago
+config: i386-randconfig-141-20240906 (https://download.01.org/0day-ci/archive/20240906/202409061401.44rtN1bh-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409101520.1ygRewId-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409061401.44rtN1bh-lkp@intel.com/
 
-New smatch warnings:
-drivers/pwm/core.c:1733 pwm_cdev_ioctl() warn: potential spectre issue 'cdata->pwm' [r]
-drivers/pwm/core.c:1741 pwm_cdev_ioctl() warn: possible spectre second half.  'pwm'
+smatch warnings:
+drivers/md/dm-integrity.c:521 sb_mac() error: __builtin_memcmp() 'actual_mac' too small (64 vs 448)
 
-Old smatch warnings:
-arch/microblaze/include/asm/thread_info.h:85 current_thread_info() error: uninitialized symbol 'sp'.
-drivers/pwm/core.c:1780 pwm_cdev_ioctl() warn: possible spectre second half.  'pwm'
-drivers/pwm/core.c:1827 pwm_cdev_ioctl() warn: possible spectre second half.  'pwm'
+vim +/actual_mac +521 drivers/md/dm-integrity.c
 
-vim +1733 drivers/pwm/core.c
+09d85f8d8909ec Mikulas Patocka   2021-01-21  492  static int sb_mac(struct dm_integrity_c *ic, bool wr)
+09d85f8d8909ec Mikulas Patocka   2021-01-21  493  {
+09d85f8d8909ec Mikulas Patocka   2021-01-21  494  	SHASH_DESC_ON_STACK(desc, ic->journal_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  495  	int r;
+070bb43ab01e89 Eric Biggers      2023-10-28  496  	unsigned int mac_size = crypto_shash_digestsize(ic->journal_mac);
+070bb43ab01e89 Eric Biggers      2023-10-28  497  	__u8 *sb = (__u8 *)ic->sb;
+070bb43ab01e89 Eric Biggers      2023-10-28  498  	__u8 *mac = sb + (1 << SECTOR_SHIFT) - mac_size;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  499  
+070bb43ab01e89 Eric Biggers      2023-10-28  500  	if (sizeof(struct superblock) + mac_size > 1 << SECTOR_SHIFT) {
 
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1677  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1678  static long pwm_cdev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1679  {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1680  	int ret = 0;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1681  	struct pwm_cdev_data *cdata = file->private_data;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1682  	struct pwm_chip *chip = cdata->chip;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1683  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1684  	guard(mutex)(&pwm_lock);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1685  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1686  	if (!chip->operational)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1687  		return -ENODEV;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1688  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1689  	switch (cmd) {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1690  	case PWM_IOCTL_REQUEST:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1691  		{
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1692  			unsigned int hwpwm;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1693  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1694  			ret = get_user(hwpwm, (unsigned int __user *)arg);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1695  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1696  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1697  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1698  			return pwm_cdev_request(cdata, hwpwm);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1699  		}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1700  		break;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1701  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1702  	case PWM_IOCTL_FREE:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1703  		{
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1704  			unsigned int hwpwm;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1705  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1706  			ret = get_user(hwpwm, (unsigned int __user *)arg);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1707  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1708  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1709  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1710  			return pwm_cdev_free(cdata, hwpwm);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1711  		}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1712  		break;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1713  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1714  	case PWM_IOCTL_ROUNDWF:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1715  		{
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1716  			struct pwmchip_waveform cwf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1717  			struct pwm_waveform wf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1718  			struct pwm_device *pwm;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1719  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1720  			ret = copy_from_user(&cwf,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1721  					     (struct pwmchip_waveform __user *)arg,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1722  					     sizeof(cwf));
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1723  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1724  				return -EFAULT;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1725  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1726  			if (cwf.__pad != 0)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1727  				return -EINVAL;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1728  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1729  			ret = pwm_cdev_request(cdata, cwf.hwpwm);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1730  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1731  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1732  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29 @1733  			pwm = cdata->pwm[cwf.hwpwm];
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1734  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1735  			wf = (struct pwm_waveform) {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1736  				.period_length_ns = cwf.period_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1737  				.duty_length_ns = cwf.duty_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1738  				.duty_offset_ns = cwf.duty_offset_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1739  			};
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1740  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29 @1741  			ret = pwm_round_waveform_might_sleep(pwm, &wf);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1742  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1743  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1744  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1745  			cwf = (struct pwmchip_waveform) {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1746  				.hwpwm = cwf.hwpwm,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1747  				.period_length_ns = wf.period_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1748  				.duty_length_ns = wf.duty_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1749  				.duty_offset_ns = wf.duty_offset_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1750  			};
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1751  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1752  			return copy_to_user((struct pwmchip_waveform __user *)arg,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1753  					    &cwf, sizeof(cwf));
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1754  		}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1755  		break;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1756  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1757  	case PWM_IOCTL_GETWF:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1758  		{
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1759  			struct pwmchip_waveform cwf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1760  			struct pwm_waveform wf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1761  			struct pwm_device *pwm;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1762  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1763  			ret = copy_from_user(&cwf,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1764  					     (struct pwmchip_waveform __user *)arg,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1765  					     sizeof(cwf));
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1766  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1767  				return -EFAULT;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1768  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1769  			if (cwf.__pad != 0) {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1770  				pr_warn("huh\n");
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1771  				return -EINVAL;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1772  			}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1773  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1774  			ret = pwm_cdev_request(cdata, cwf.hwpwm);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1775  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1776  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1777  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1778  			pwm = cdata->pwm[cwf.hwpwm];
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1779  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1780  			ret = pwm_get_waveform_might_sleep(pwm, &wf);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1781  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1782  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1783  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1784  			cwf.period_length_ns = wf.period_length_ns;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1785  			cwf.duty_length_ns = wf.duty_length_ns;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1786  			cwf.duty_offset_ns = wf.duty_offset_ns;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1787  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1788  			return copy_to_user((struct pwmchip_waveform __user *)arg,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1789  					    &cwf, sizeof(cwf));
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1790  		}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1791  		break;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1792  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1793  	case PWM_IOCTL_SETROUNDEDWF:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1794  	case PWM_IOCTL_SETEXACTWF:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1795  		{
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1796  			struct pwmchip_waveform cwf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1797  			struct pwm_waveform wf;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1798  			struct pwm_device *pwm;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1799  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1800  			ret = copy_from_user(&cwf,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1801  					     (struct pwmchip_waveform __user *)arg,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1802  					     sizeof(cwf));
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1803  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1804  				return -EFAULT;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1805  			if (cwf.__pad != 0) {
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1806  				pr_warn("huh\n");
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1807  				return -EINVAL;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1808  			}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1809  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1810  			if (cwf.period_length_ns > 0 &&
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1811  			    (cwf.duty_length_ns > cwf.period_length_ns ||
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1812  			     cwf.duty_offset_ns >= cwf.period_length_ns))
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1813  				return -EINVAL;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1814  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1815  			ret = pwm_cdev_request(cdata, cwf.hwpwm);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1816  			if (ret)
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1817  				return ret;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1818  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1819  			pwm = cdata->pwm[cwf.hwpwm];
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1820  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1821  			wf = (struct pwm_waveform){
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1822  				.period_length_ns = cwf.period_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1823  				.duty_length_ns = cwf.duty_length_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1824  				.duty_offset_ns = cwf.duty_offset_ns,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1825  			};
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1826  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1827  			return pwm_set_waveform_might_sleep(pwm, &wf,
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1828  							    cmd == PWM_IOCTL_SETEXACTWF);
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1829  		}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1830  		break;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1831  
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1832  	default:
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1833  		return -ENOTTY;
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1834  	}
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1835  }
-00c9f1181dc351 Uwe Kleine-König 2024-07-29  1836  
+This is paired with the line before and prevents the subtraction from going
+negative.  It limits the mac_size to 0-448.  Is it reasonable to have a mac_size
+which is > HASH_MAX_DIGESTSIZE (64)?
+
+09d85f8d8909ec Mikulas Patocka   2021-01-21  501  		dm_integrity_io_error(ic, "digest is too long", -EINVAL);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  502  		return -EINVAL;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  503  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  504  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  505  	desc->tfm = ic->journal_mac;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  506  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  507  	if (likely(wr)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  508  		r = crypto_shash_digest(desc, sb, mac - sb, mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  509  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  510  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  511  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  512  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  513  	} else {
+070bb43ab01e89 Eric Biggers      2023-10-28  514  		__u8 actual_mac[HASH_MAX_DIGESTSIZE];
+
+This buffer is only 64 bytes.
+
+0ef0b4717aa684 Heinz Mauelshagen 2023-02-01  515  
+070bb43ab01e89 Eric Biggers      2023-10-28  516  		r = crypto_shash_digest(desc, sb, mac - sb, actual_mac);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  517  		if (unlikely(r < 0)) {
+070bb43ab01e89 Eric Biggers      2023-10-28  518  			dm_integrity_io_error(ic, "crypto_shash_digest", r);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  519  			return r;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  520  		}
+070bb43ab01e89 Eric Biggers      2023-10-28 @521  		if (memcmp(mac, actual_mac, mac_size)) {
+                                                                                ^^^^^^^^^^
+Read overflow.
+
+09d85f8d8909ec Mikulas Patocka   2021-01-21  522  			dm_integrity_io_error(ic, "superblock mac", -EILSEQ);
+82bb85998cc9a3 Michael Weiß      2021-09-04  523  			dm_audit_log_target(DM_MSG_PREFIX, "mac-superblock", ic->ti, 0);
+09d85f8d8909ec Mikulas Patocka   2021-01-21  524  			return -EILSEQ;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  525  		}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  526  	}
+09d85f8d8909ec Mikulas Patocka   2021-01-21  527  
+09d85f8d8909ec Mikulas Patocka   2021-01-21  528  	return 0;
+09d85f8d8909ec Mikulas Patocka   2021-01-21  529  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
