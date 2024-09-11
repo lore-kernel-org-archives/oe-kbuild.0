@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AC4161
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Sep 2024 02:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4913F4ED
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Sep 2024 03:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726020987; cv=none; b=XYb/WpTVKZfWJX64TKXvFS7Y26BNMvcCUkwOXm9NbyP5r/JDcNMVNw53EL506QlGHuHh84EzR++CpngfHVbO2O+NBohZ07z/Z/CX8YbJVPgMR+0V2IgY4UV3zdGsnYWYxfhnoqoOwPt53tOR+t6cVfBQN2+6WplZ7bLdlGRVbww=
+	t=1726024050; cv=none; b=mGmINi9sh9gxEu1+GElrqGj2B+bPbzLnQhfFz6ePU+JImYW+sGtLwMb/fO3SJCz6gBY5tz5Y6WqVbmR9vjG8/u4Pi2PUlo8Wh4WAZucvYsrgY8R5u6vu0GSmK7P+FykfZpeGDrvQIBxQnX4qpHzdKBRCkQgVhmLwk/6oZhLE3ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726020987; c=relaxed/simple;
-	bh=ukQ9d0UQCm+2qEW9yGdxKkwoSFjQXQl0lzLQedpnzp8=;
+	s=arc-20240116; t=1726024050; c=relaxed/simple;
+	bh=3hQwMu6ENP5tCgonNlBccwzDH7v82QhtOQWALJhjNQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=slIdHrRXckyL5BfsAx3BAUnlC98IbbatH5bPPx6sQWtdJkyEVjDv/225Mfmba9Tfyw6EXFR/M6UBicOfkfs6Ep0jbOekOEBHoOfOndr/51cNzNYbqDoKSaJqOO37TNseLFrJx2aPbnH4dEN7v9vB66syjTKFwwkuIKwfno7R1E0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cbZzvjXr; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=nMW39t73xEn6CX0wIwetQbNUrOpED+ck6J3LR63eM4qogwXmLJgJWSPOxp3p7r3Xd9a0z8djHCwHEmg9JMNQ0pYypTAKJlCoKmed47rQdmOnQ6+hbO3l2FP3Qx8PaoojWEZLdG8j+hG5mXMLjCnN1mmccxgKdhr5GXdbw+NKebg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKBC0qoD; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cbZzvjXr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKBC0qoD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726020984; x=1757556984;
+  t=1726024048; x=1757560048;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ukQ9d0UQCm+2qEW9yGdxKkwoSFjQXQl0lzLQedpnzp8=;
-  b=cbZzvjXrZTv2vQjJAwIC7YUSjRq6EjsuZGmW2jwquK/7+tS8+0cpnXAd
-   xpJadg1ckes1hepjpL2Rw67xbqMb/XIACkrB0nL+NYq6D6NB41QPtKHVL
-   MOIdDxaMaRe+MgCUmuESigoqCuJNIU1P9W52cxVaw2PpiYx4gDoLfZYsp
-   Ck4KCNXU+DE4p2wYZ1z/S3CYp+hw39YHalPDGvwVZ/drB2itiLCwuMuU1
-   evWDgSq38bvjO+lffgL4kFaj6y0vuFy5VdIeAAcojY43hwMTCnLLCatvf
-   gXi0/QlEHTIXcGGOzrMTV2hTcoMXbeWce8oQHgIaw/BxXM6FIcTvbcaYm
-   A==;
-X-CSE-ConnectionGUID: DrL2+J9mQHu/e2LBSaGfSA==
-X-CSE-MsgGUID: tm7/pQwsQ8KV/BQs20YO7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="28689690"
+  bh=3hQwMu6ENP5tCgonNlBccwzDH7v82QhtOQWALJhjNQM=;
+  b=AKBC0qoDMm46Wcza60CCzFJgVSD9jwTamYuXnQlhgboY0V6wMBdrN6Jm
+   0r42051WcwtoYPthMk+bk6EvueZbb8JcYR4HdF8SkHwEMFx0KIVGnDF9v
+   BgJUYM6rYGithQ+viBVgVhfuIpICMOSa2hS5jHKtP8sTnhW174vDtYJV3
+   ZT3O3aLgYbyNtvmAy5ANVrnjvTUd9ldc+ycIn++aDOy2oJqsl7BEcIGvy
+   MIkFLVS+t+ng43PZnj6ydYnA5CxgVkO6qfm3wzEY5T8UZ/xe1NLePUx9A
+   VaKI3MTy9PBvepbeFcUPpFYncGHzd5jsumTKsdnfgyy9KbbhpfhmU6BbZ
+   Q==;
+X-CSE-ConnectionGUID: AFi+LYeSQBKzvWwNPSOTgA==
+X-CSE-MsgGUID: 5koGkrvSSWu3+7I5Z2duiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="42281557"
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="28689690"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 19:16:23 -0700
-X-CSE-ConnectionGUID: 8ChmWnHqRAOPeHL/3vqrGw==
-X-CSE-MsgGUID: 5mF4bnfQR5Ci0wjGrAkVYg==
+   d="scan'208";a="42281557"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 20:07:26 -0700
+X-CSE-ConnectionGUID: UKewzt+USF6qT0VD/8l0Lg==
+X-CSE-MsgGUID: Ai71dKPjRQSX3vYO3tsWRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208";a="71985601"
+   d="scan'208";a="67283715"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Sep 2024 19:16:22 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 10 Sep 2024 20:07:25 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soCu3-0002wQ-24;
-	Wed, 11 Sep 2024 02:16:19 +0000
-Date: Wed, 11 Sep 2024 10:15:53 +0800
+	id 1soDhS-0002yk-0J;
+	Wed, 11 Sep 2024 03:07:22 +0000
+Date: Wed, 11 Sep 2024 11:07:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 1/2] wifi: mac80211: Assign tx-stats to the proper link.
-Message-ID: <202409111021.knHCdoxY-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [cip:linux-4.4.y-st 1480/2602] net/netfilter/xt_sctp.c:152:23:
+ warning: comparison between signed and unsigned integer expressions
+Message-ID: <202409111129.y8YCkOji-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,209 +62,300 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "cip tree"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240909210017.3228400-1-greearb@candelatech.com>
-References: <20240909210017.3228400-1-greearb@candelatech.com>
-TO: greearb@candelatech.com
-TO: linux-wireless@vger.kernel.org
-CC: Ben Greear <greearb@candelatech.com>
+TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+TO: Pavel Machek <pavel@denx.de>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.11-rc7 next-20240910]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/greearb-candelatech-com/wifi-iwlwifi-Report-link-id-for-transmitted-frames/20240910-050218
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20240909210017.3228400-1-greearb%40candelatech.com
-patch subject: [PATCH 1/2] wifi: mac80211: Assign tx-stats to the proper link.
-:::::: branch date: 29 hours ago
-:::::: commit date: 29 hours ago
-config: x86_64-randconfig-161-20240910 (https://download.01.org/0day-ci/archive/20240911/202409111021.knHCdoxY-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st
+head:   c18783f114b390babddc2dde4162ae03709497b2
+commit: ad14bd8357a265ce12ebe9698db3c66ab8110bc5 [1480/2602] netfilter: xt_sctp: validate the flag_info count
+:::::: branch date: 5 days ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-002-20240907 (https://download.01.org/0day-ci/archive/20240911/202409111129.y8YCkOji-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240911/202409111129.y8YCkOji-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409111021.knHCdoxY-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409111129.y8YCkOji-lkp@intel.com/
 
-smatch warnings:
-net/mac80211/status.c:1063 __ieee80211_tx_status() warn: potential spectre issue 'link_sta->status_stats.msdu_failed' [w]
-net/mac80211/status.c:1065 __ieee80211_tx_status() warn: potential spectre issue 'link_sta->status_stats.msdu_retries' [w]
+All warnings (new ones prefixed by >>):
 
-vim +1063 net/mac80211/status.c
+   include/linux/netdevice.h: In function 'netif_msg_init':
+   include/linux/netdevice.h:3310:37: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (debug_value < 0 || debug_value >= (sizeof(u32) * 8))
+                                        ^~
+   In file included from include/net/rtnetlink.h:5:0,
+                    from include/net/sch_generic.h:12,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62,
+                    from include/net/inet_sock.h:27,
+                    from include/net/ip.h:30,
+                    from net/netfilter/xt_sctp.c:4:
+   include/net/netlink.h: In function 'nlmsg_ok':
+   include/net/netlink.h:337:18: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      nlh->nlmsg_len <= remaining);
+                     ^~
+   include/net/netlink.h: In function 'nlmsg_parse':
+   include/net/netlink.h:372:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+                        ^
+   include/net/netlink.h: In function 'nlmsg_validate':
+   include/net/netlink.h:405:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlh->nlmsg_len < nlmsg_msg_size(hdrlen))
+                        ^
+   In file included from include/net/sch_generic.h:12:0,
+                    from include/linux/filter.h:16,
+                    from include/net/sock.h:62,
+                    from include/net/inet_sock.h:27,
+                    from include/net/ip.h:30,
+                    from net/netfilter/xt_sctp.c:4:
+   include/net/rtnetlink.h: In function 'rtnl_msg_family':
+   include/net/rtnetlink.h:20:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (nlmsg_len(nlh) >= sizeof(struct rtgenmsg))
+                        ^~
+   In file included from include/uapi/linux/stddef.h:1:0,
+                    from include/linux/stddef.h:4,
+                    from include/uapi/linux/posix_types.h:4,
+                    from include/uapi/linux/types.h:13,
+                    from include/linux/types.h:5,
+                    from include/linux/list.h:4,
+                    from include/linux/module.h:9,
+                    from net/netfilter/xt_sctp.c:2:
+   include/net/sch_generic.h: In function 'qdisc_cb_private_validate':
+   include/net/sch_generic.h:267:33: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     BUILD_BUG_ON(sizeof(qcb->data) < sz);
+                                    ^
+   include/linux/compiler.h:493:19: note: in definition of macro '__compiletime_assert'
+      bool __cond = !(condition);    \
+                      ^~~~~~~~~
+   include/linux/compiler.h:513:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:50:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/bug.h:74:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+     ^~~~~~~~~~~~~~~~
+   include/net/sch_generic.h:267:2: note: in expansion of macro 'BUILD_BUG_ON'
+     BUILD_BUG_ON(sizeof(qcb->data) < sz);
+     ^~~~~~~~~~~~
+   In file included from include/net/sock.h:62:0,
+                    from include/net/inet_sock.h:27,
+                    from include/net/ip.h:30,
+                    from net/netfilter/xt_sctp.c:4:
+   include/linux/filter.h: In function 'bpf_needs_clear_a':
+   include/linux/filter.h:517:16: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (first->k == SKF_AD_OFF + SKF_AD_ALU_XOR_X)
+                   ^~
+   In file included from include/net/inet_sock.h:27:0,
+                    from include/net/ip.h:30,
+                    from net/netfilter/xt_sctp.c:4:
+   include/net/sock.h: In function 'skb_do_copy_data_nocache':
+   include/net/sock.h:1859:54: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (csum_and_copy_from_iter(to, copy, &csum, from) != copy)
+                                                         ^~
+   include/net/sock.h:1863:46: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      if (copy_from_iter_nocache(to, copy, from) != copy)
+                                                 ^~
+   include/net/sock.h:1865:44: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     } else if (copy_from_iter(to, copy, from) != copy)
+                                               ^~
+   In file included from include/linux/tcp.h:23:0,
+                    from include/linux/ipv6.h:72,
+                    from include/net/ipv6.h:16,
+                    from include/net/inetpeer.h:15,
+                    from include/net/route.h:28,
+                    from include/net/ip.h:31,
+                    from net/netfilter/xt_sctp.c:4:
+   include/net/inet_connection_sock.h: In function 'inet_csk_reqsk_queue_is_full':
+   include/net/inet_connection_sock.h:294:38: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     return inet_csk_reqsk_queue_len(sk) >= sk->sk_max_ack_backlog;
+                                         ^~
+   In file included from include/net/sctp/structs.h:88:0,
+                    from include/net/sctp/sctp.h:76,
+                    from net/netfilter/xt_sctp.c:6:
+   include/net/sctp/ulpevent.h: In function 'sctp_ulpevent_type_enabled':
+   include/net/sctp/ulpevent.h:147:13: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (offset >= sizeof(struct sctp_event_subscribe))
+                ^~
+   net/netfilter/xt_sctp.c: In function 'sctp_mt_check':
+>> net/netfilter/xt_sctp.c:152:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (info->flag_count > ARRAY_SIZE(info->flag_info))
+                          ^
 
-4dc792b8f098ab Helmut Schaa     2015-09-02   977  
-5fe49a9d11644f Felix Fietkau    2017-04-26   978  static void __ieee80211_tx_status(struct ieee80211_hw *hw,
-3318111cf63d97 Felix Fietkau    2020-09-08   979  				  struct ieee80211_tx_status *status,
-3318111cf63d97 Felix Fietkau    2020-09-08   980  				  int rates_idx, int retry_count)
-4dc792b8f098ab Helmut Schaa     2015-09-02   981  {
-5fe49a9d11644f Felix Fietkau    2017-04-26   982  	struct sk_buff *skb = status->skb;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   983  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *) skb->data;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   984  	struct ieee80211_local *local = hw_to_local(hw);
-5fe49a9d11644f Felix Fietkau    2017-04-26   985  	struct ieee80211_tx_info *info = status->info;
-5fe49a9d11644f Felix Fietkau    2017-04-26   986  	struct sta_info *sta;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   987  	__le16 fc;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   988  	bool send_to_cooked;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   989  	bool acked;
-5972fa15b923df Markus Theil     2019-12-18   990  	bool noack_success;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   991  	struct ieee80211_bar *bar;
-5e06a9e8b6db44 Johannes Berg    2015-01-16   992  	int tid = IEEE80211_NUM_TIDS;
-7e1cdcbb092458 Felix Fietkau    2014-11-19   993  
-375177bf35efc0 Vivek Natarajan  2010-02-09   994  	fc = hdr->frame_control;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18   995  
-5fe49a9d11644f Felix Fietkau    2017-04-26   996  	if (status->sta) {
-1482c6ea0a99cb Ben Greear       2024-09-09   997  		struct link_sta_info *link_sta = status->link_sta;
-1482c6ea0a99cb Ben Greear       2024-09-09   998  
-5fe49a9d11644f Felix Fietkau    2017-04-26   999  		sta = container_of(status->sta, struct sta_info, sta);
-2103dec14792be Simon Wunderlich 2013-07-08  1000  
-47086fc51aa222 Johannes Berg    2011-09-29  1001  		if (info->flags & IEEE80211_TX_STATUS_EOSP)
-c2c98fdeb5c897 Johannes Berg    2011-09-29  1002  			clear_sta_flag(sta, WLAN_STA_SP);
-47086fc51aa222 Johannes Berg    2011-09-29  1003  
-04ac3c0ee2c773 Felix Fietkau    2010-12-02  1004  		acked = !!(info->flags & IEEE80211_TX_STAT_ACK);
-5972fa15b923df Markus Theil     2019-12-18  1005  		noack_success = !!(info->flags &
-5972fa15b923df Markus Theil     2019-12-18  1006  				   IEEE80211_TX_STAT_NOACK_TRANSMITTED);
-71f2c3470fca51 Masashi Honma    2016-08-02  1007  
-71f2c3470fca51 Masashi Honma    2016-08-02  1008  		/* mesh Peer Service Period support */
-71f2c3470fca51 Masashi Honma    2016-08-02  1009  		if (ieee80211_vif_is_mesh(&sta->sdata->vif) &&
-71f2c3470fca51 Masashi Honma    2016-08-02  1010  		    ieee80211_is_data_qos(fc))
-71f2c3470fca51 Masashi Honma    2016-08-02  1011  			ieee80211_mpsp_trigger_process(
-71f2c3470fca51 Masashi Honma    2016-08-02  1012  				ieee80211_get_qos_ctl(hdr), sta, true, acked);
-71f2c3470fca51 Masashi Honma    2016-08-02  1013  
-30686bf7f5b3c3 Johannes Berg    2015-06-02  1014  		if (ieee80211_hw_check(&local->hw, HAS_RATE_CONTROL) &&
-00a9a6d1e2f18c Chun-Yeow Yeoh   2014-04-02  1015  		    (ieee80211_is_data(hdr->frame_control)) &&
-0c86980817853e Juuso Oikarinen  2010-04-22  1016  		    (rates_idx != -1))
-1482c6ea0a99cb Ben Greear       2024-09-09  1017  			link_sta->tx_stats.last_rate =
-e5a9f8d04660da Johannes Berg    2015-10-16  1018  				info->status.rates[rates_idx];
-0c86980817853e Juuso Oikarinen  2010-04-22  1019  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1020  		if ((info->flags & IEEE80211_TX_STAT_AMPDU_NO_BACK) &&
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1021  		    (ieee80211_is_data_qos(fc))) {
-79c892b85027d5 Johannes Berg    2014-11-21  1022  			u16 ssn;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1023  			u8 *qc;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1024  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1025  			qc = ieee80211_get_qos_ctl(hdr);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1026  			tid = qc[0] & 0xf;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1027  			ssn = ((le16_to_cpu(hdr->seq_ctrl) + 0x10)
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1028  						& IEEE80211_SCTL_SEQ);
-8c771244fbab51 Felix Fietkau    2011-08-20  1029  			ieee80211_send_bar(&sta->sdata->vif, hdr->addr1,
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1030  					   tid, ssn);
-79c892b85027d5 Johannes Berg    2014-11-21  1031  		} else if (ieee80211_is_data_qos(fc)) {
-79c892b85027d5 Johannes Berg    2014-11-21  1032  			u8 *qc = ieee80211_get_qos_ctl(hdr);
-79c892b85027d5 Johannes Berg    2014-11-21  1033  
-79c892b85027d5 Johannes Berg    2014-11-21  1034  			tid = qc[0] & 0xf;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1035  		}
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1036  
-e69deded2bc29e Helmut Schaa     2011-08-11  1037  		if (!acked && ieee80211_is_back_req(fc)) {
-79c892b85027d5 Johannes Berg    2014-11-21  1038  			u16 control;
-7107676a3a4641 Felix Fietkau    2011-09-15  1039  
-e69deded2bc29e Helmut Schaa     2011-08-11  1040  			/*
-7107676a3a4641 Felix Fietkau    2011-09-15  1041  			 * BAR failed, store the last SSN and retry sending
-7107676a3a4641 Felix Fietkau    2011-09-15  1042  			 * the BAR when the next unicast transmission on the
-7107676a3a4641 Felix Fietkau    2011-09-15  1043  			 * same TID succeeds.
-e69deded2bc29e Helmut Schaa     2011-08-11  1044  			 */
-e69deded2bc29e Helmut Schaa     2011-08-11  1045  			bar = (struct ieee80211_bar *) skb->data;
-7107676a3a4641 Felix Fietkau    2011-09-15  1046  			control = le16_to_cpu(bar->control);
-7107676a3a4641 Felix Fietkau    2011-09-15  1047  			if (!(control & IEEE80211_BAR_CTRL_MULTI_TID)) {
-f0425beda4d404 Felix Fietkau    2011-08-28  1048  				u16 ssn = le16_to_cpu(bar->start_seq_num);
-f0425beda4d404 Felix Fietkau    2011-08-28  1049  
-7107676a3a4641 Felix Fietkau    2011-09-15  1050  				tid = (control &
-e69deded2bc29e Helmut Schaa     2011-08-11  1051  				       IEEE80211_BAR_CTRL_TID_INFO_MASK) >>
-e69deded2bc29e Helmut Schaa     2011-08-11  1052  				      IEEE80211_BAR_CTRL_TID_INFO_SHIFT;
-f0425beda4d404 Felix Fietkau    2011-08-28  1053  
-f0425beda4d404 Felix Fietkau    2011-08-28  1054  				ieee80211_set_bar_pending(sta, tid, ssn);
-e69deded2bc29e Helmut Schaa     2011-08-11  1055  			}
-e69deded2bc29e Helmut Schaa     2011-08-11  1056  		}
-e69deded2bc29e Helmut Schaa     2011-08-11  1057  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1058  		if (info->flags & IEEE80211_TX_STAT_TX_FILTERED) {
-1482c6ea0a99cb Ben Greear       2024-09-09  1059  			ieee80211_handle_filtered_frame(local, sta, skb, status);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1060  			return;
-3318111cf63d97 Felix Fietkau    2020-09-08  1061  		} else if (ieee80211_is_data_present(fc)) {
-5972fa15b923df Markus Theil     2019-12-18  1062  			if (!acked && !noack_success)
-1482c6ea0a99cb Ben Greear       2024-09-09 @1063  				link_sta->status_stats.msdu_failed[tid]++;
-e5a9f8d04660da Johannes Berg    2015-10-16  1064  
-1482c6ea0a99cb Ben Greear       2024-09-09 @1065  			link_sta->status_stats.msdu_retries[tid] +=
-e5a9f8d04660da Johannes Berg    2015-10-16  1066  				retry_count;
-79c892b85027d5 Johannes Berg    2014-11-21  1067  		}
-0f78231bffb868 Johannes Berg    2009-12-01  1068  
-04ac3c0ee2c773 Felix Fietkau    2010-12-02  1069  		if (!(info->flags & IEEE80211_TX_CTL_INJECTED) && acked)
-0f78231bffb868 Johannes Berg    2009-12-01  1070  			ieee80211_frame_acked(sta, skb);
-99ba2a14283be9 Johannes Berg    2010-11-24  1071  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1072  	}
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1073  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1074  	/* SNMP counters
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1075  	 * Fragments are passed to low-level drivers as separate skbs, so these
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1076  	 * are actually fragments, not frames. Update frame counters only for
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1077  	 * the first fragment of the frame. */
-5cf16616e152dd Sujith Manoharan 2014-12-10  1078  	if ((info->flags & IEEE80211_TX_STAT_ACK) ||
-5cf16616e152dd Sujith Manoharan 2014-12-10  1079  	    (info->flags & IEEE80211_TX_STAT_NOACK_TRANSMITTED)) {
-adf5ace5d8161b Helmut Schaa     2011-12-08  1080  		if (ieee80211_is_first_frag(hdr->seq_ctrl)) {
-c206ca670974ce Johannes Berg    2015-04-22  1081  			I802_DEBUG_INC(local->dot11TransmittedFrameCount);
-85b89af07d5095 Eliad Peller     2014-12-21  1082  			if (is_multicast_ether_addr(ieee80211_get_DA(hdr)))
-c206ca670974ce Johannes Berg    2015-04-22  1083  				I802_DEBUG_INC(local->dot11MulticastTransmittedFrameCount);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1084  			if (retry_count > 0)
-c206ca670974ce Johannes Berg    2015-04-22  1085  				I802_DEBUG_INC(local->dot11RetryCount);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1086  			if (retry_count > 1)
-c206ca670974ce Johannes Berg    2015-04-22  1087  				I802_DEBUG_INC(local->dot11MultipleRetryCount);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1088  		}
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1089  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1090  		/* This counter shall be incremented for an acknowledged MPDU
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1091  		 * with an individual address in the address 1 field or an MPDU
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1092  		 * with a multicast address in the address 1 field of type Data
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1093  		 * or Management. */
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1094  		if (!is_multicast_ether_addr(hdr->addr1) ||
-adf5ace5d8161b Helmut Schaa     2011-12-08  1095  		    ieee80211_is_data(fc) ||
-adf5ace5d8161b Helmut Schaa     2011-12-08  1096  		    ieee80211_is_mgmt(fc))
-c206ca670974ce Johannes Berg    2015-04-22  1097  			I802_DEBUG_INC(local->dot11TransmittedFragmentCount);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1098  	} else {
-adf5ace5d8161b Helmut Schaa     2011-12-08  1099  		if (ieee80211_is_first_frag(hdr->seq_ctrl))
-c206ca670974ce Johannes Berg    2015-04-22  1100  			I802_DEBUG_INC(local->dot11FailedCount);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1101  	}
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1102  
-30b2f0be23fb40 Thomas Pedersen  2020-01-13  1103  	if (ieee80211_is_any_nullfunc(fc) &&
-08a5bdde381299 Thomas Pedersen  2019-11-18  1104  	    ieee80211_has_pm(fc) &&
-30686bf7f5b3c3 Johannes Berg    2015-06-02  1105  	    ieee80211_hw_check(&local->hw, REPORTS_TX_ACK_STATUS) &&
-375177bf35efc0 Vivek Natarajan  2010-02-09  1106  	    !(info->flags & IEEE80211_TX_CTL_INJECTED) &&
-375177bf35efc0 Vivek Natarajan  2010-02-09  1107  	    local->ps_sdata && !(local->scanning)) {
-6e899fa027addf Bassem Dawood    2021-02-27  1108  		if (info->flags & IEEE80211_TX_STAT_ACK)
-375177bf35efc0 Vivek Natarajan  2010-02-09  1109  			local->ps_sdata->u.mgd.flags |=
-375177bf35efc0 Vivek Natarajan  2010-02-09  1110  					IEEE80211_STA_NULLFUNC_ACKED;
-6e899fa027addf Bassem Dawood    2021-02-27  1111  		mod_timer(&local->dynamic_ps_timer,
-6e899fa027addf Bassem Dawood    2021-02-27  1112  			  jiffies + msecs_to_jiffies(10));
-375177bf35efc0 Vivek Natarajan  2010-02-09  1113  	}
-375177bf35efc0 Vivek Natarajan  2010-02-09  1114  
-f9202638df3447 Avraham Stern    2022-01-26  1115  	ieee80211_report_used_skb(local, skb, false, status->ack_hwtstamp);
-a729cff8ad5120 Johannes Berg    2011-11-06  1116  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1117  	/* this was a transmitted frame, but now we want to reuse it */
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1118  	skb_orphan(skb);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1119  
-eaf55530c94cb7 Felix Fietkau    2010-03-11  1120  	/* Need to make a copy before skb->cb gets cleared */
-eaf55530c94cb7 Felix Fietkau    2010-03-11  1121  	send_to_cooked = !!(info->flags & IEEE80211_TX_CTL_INJECTED) ||
-adf5ace5d8161b Helmut Schaa     2011-12-08  1122  			 !(ieee80211_is_data(fc));
-eaf55530c94cb7 Felix Fietkau    2010-03-11  1123  
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1124  	/*
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1125  	 * This is a bit racy but we can avoid a lot of work
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1126  	 * with this test...
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1127  	 */
-eaf55530c94cb7 Felix Fietkau    2010-03-11  1128  	if (!local->monitors && (!send_to_cooked || !local->cooked_mntrs)) {
-f02dff93e26bef Felix Fietkau    2020-09-08  1129  		if (status->free_list)
-f02dff93e26bef Felix Fietkau    2020-09-08  1130  			list_add_tail(&skb->list, status->free_list);
-f02dff93e26bef Felix Fietkau    2020-09-08  1131  		else
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1132  			dev_kfree_skb(skb);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1133  		return;
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1134  	}
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1135  
-4dc792b8f098ab Helmut Schaa     2015-09-02  1136  	/* send to monitor interfaces */
-2400dfe23fa916 Johannes Berg    2023-08-29  1137  	ieee80211_tx_monitor(local, skb, retry_count,
-b7b2e8caa08c30 John Crispin     2019-07-14  1138  			     send_to_cooked, status);
-fe7a5d5c1ad659 Johannes Berg    2009-11-18  1139  }
-5fe49a9d11644f Felix Fietkau    2017-04-26  1140  
+
+vim +152 net/netfilter/xt_sctp.c
+
+2bf074825403e0 net/netfilter/xt_sctp.c       Shan Wei             2010-06-09   @6  #include <net/sctp/sctp.h>
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16    7  #include <linux/sctp.h>
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16    8  
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12    9  #include <linux/netfilter/x_tables.h>
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   10  #include <linux/netfilter/xt_sctp.h>
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   11  #include <linux/netfilter_ipv4/ip_tables.h>
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   12  #include <linux/netfilter_ipv6/ip6_tables.h>
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   13  
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   14  MODULE_LICENSE("GPL");
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   15  MODULE_AUTHOR("Kiran Kumar Immidi");
+2ae15b64e6a160 net/netfilter/xt_sctp.c       Jan Engelhardt       2008-01-14   16  MODULE_DESCRIPTION("Xtables: SCTP protocol packet match");
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   17  MODULE_ALIAS("ipt_sctp");
+73aaf9355b71d2 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-10-11   18  MODULE_ALIAS("ip6t_sctp");
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   19  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   20  #define SCCHECK(cond, option, flag, invflag) (!((flag) & (option)) \
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   21  					      || (!!((invflag) & (option)) ^ (cond)))
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   22  
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   23  static bool
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   24  match_flags(const struct xt_sctp_flag_info *flag_info,
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   25  	    const int flag_count,
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   26  	    u_int8_t chunktype,
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   27  	    u_int8_t chunkflags)
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   28  {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   29  	int i;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   30  
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   31  	for (i = 0; i < flag_count; i++)
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   32  		if (flag_info[i].chunktype == chunktype)
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   33  			return (chunkflags & flag_info[i].flag_mask) == flag_info[i].flag;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   34  
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   35  	return true;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   36  }
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   37  
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   38  static inline bool
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   39  match_packet(const struct sk_buff *skb,
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12   40  	     unsigned int offset,
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   41  	     const struct xt_sctp_info *info,
+cff533ac12494f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   42  	     bool *hotdrop)
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   43  {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   44  	u_int32_t chunkmapcopy[256 / sizeof (u_int32_t)];
+3cf93c96af7adf net/netfilter/xt_sctp.c       Jan Engelhardt       2008-04-14   45  	const sctp_chunkhdr_t *sch;
+3cf93c96af7adf net/netfilter/xt_sctp.c       Jan Engelhardt       2008-04-14   46  	sctp_chunkhdr_t _sch;
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   47  	int chunk_match_type = info->chunk_match_type;
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   48  	const struct xt_sctp_flag_info *flag_info = info->flag_info;
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   49  	int flag_count = info->flag_count;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   50  
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   51  #ifdef DEBUG
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   52  	int i = 0;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   53  #endif
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   54  
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   55  	if (chunk_match_type == SCTP_CHUNK_MATCH_ALL)
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   56  		SCTP_CHUNKMAP_COPY(chunkmapcopy, info->chunkmap);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   57  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   58  	do {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   59  		sch = skb_header_pointer(skb, offset, sizeof(_sch), &_sch);
+d3dcd4efe2ad1a net/netfilter/xt_sctp.c       Patrick McHardy      2006-06-19   60  		if (sch == NULL || sch->length == 0) {
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   61  			pr_debug("Dropping invalid SCTP packet.\n");
+cff533ac12494f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   62  			*hotdrop = true;
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   63  			return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   64  		}
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   65  #ifdef DEBUG
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   66  		pr_debug("Chunk num: %d\toffset: %d\ttype: %d\tlength: %d"
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   67  			 "\tflags: %x\n",
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   68  			 ++i, offset, sch->type, htons(sch->length),
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   69  			 sch->flags);
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   70  #endif
+2bf074825403e0 net/netfilter/xt_sctp.c       Shan Wei             2010-06-09   71  		offset += WORD_ROUND(ntohs(sch->length));
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   72  
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18   73  		pr_debug("skb->len: %d\toffset: %d\n", skb->len, offset);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   74  
+009e8c965fd72a net/netfilter/xt_sctp.c       Li Zefan             2007-10-18   75  		if (SCTP_CHUNKMAP_IS_SET(info->chunkmap, sch->type)) {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   76  			switch (chunk_match_type) {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   77  			case SCTP_CHUNK_MATCH_ANY:
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   78  				if (match_flags(flag_info, flag_count,
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   79  					sch->type, sch->flags)) {
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   80  					return true;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   81  				}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   82  				break;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   83  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   84  			case SCTP_CHUNK_MATCH_ALL:
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   85  				if (match_flags(flag_info, flag_count,
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   86  				    sch->type, sch->flags))
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   87  					SCTP_CHUNKMAP_CLEAR(chunkmapcopy, sch->type);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   88  				break;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   89  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   90  			case SCTP_CHUNK_MATCH_ONLY:
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   91  				if (!match_flags(flag_info, flag_count,
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   92  				    sch->type, sch->flags))
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   93  					return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   94  				break;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   95  			}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   96  		} else {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   97  			switch (chunk_match_type) {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16   98  			case SCTP_CHUNK_MATCH_ONLY:
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07   99  				return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  100  			}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  101  		}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  102  	} while (offset < skb->len);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  103  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  104  	switch (chunk_match_type) {
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  105  	case SCTP_CHUNK_MATCH_ALL:
+d4e2675a61890a net/netfilter/xt_sctp.c       Qu Haoran            2009-02-09  106  		return SCTP_CHUNKMAP_IS_CLEAR(chunkmapcopy);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  107  	case SCTP_CHUNK_MATCH_ANY:
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  108  		return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  109  	case SCTP_CHUNK_MATCH_ONLY:
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  110  		return true;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  111  	}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  112  
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  113  	/* This will never be reached, but required to stop compiler whine */
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  114  	return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  115  }
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  116  
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  117  static bool
+62fc8051083a33 net/netfilter/xt_sctp.c       Jan Engelhardt       2009-07-07  118  sctp_mt(const struct sk_buff *skb, struct xt_action_param *par)
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  119  {
+f7108a20dee44e net/netfilter/xt_sctp.c       Jan Engelhardt       2008-10-08  120  	const struct xt_sctp_info *info = par->matchinfo;
+3cf93c96af7adf net/netfilter/xt_sctp.c       Jan Engelhardt       2008-04-14  121  	const sctp_sctphdr_t *sh;
+3cf93c96af7adf net/netfilter/xt_sctp.c       Jan Engelhardt       2008-04-14  122  	sctp_sctphdr_t _sh;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  123  
+f7108a20dee44e net/netfilter/xt_sctp.c       Jan Engelhardt       2008-10-08  124  	if (par->fragoff != 0) {
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18  125  		pr_debug("Dropping non-first fragment.. FIXME\n");
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  126  		return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  127  	}
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  128  
+f7108a20dee44e net/netfilter/xt_sctp.c       Jan Engelhardt       2008-10-08  129  	sh = skb_header_pointer(skb, par->thoff, sizeof(_sh), &_sh);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  130  	if (sh == NULL) {
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18  131  		pr_debug("Dropping evil TCP offset=0 tinygram.\n");
+b4ba26119b0605 net/netfilter/xt_sctp.c       Jan Engelhardt       2009-07-07  132  		par->hotdrop = true;
+1d93a9cbad608f net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  133  		return false;
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  134  	}
+be91fd5e323b46 net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-18  135  	pr_debug("spt: %d\tdpt: %d\n", ntohs(sh->source), ntohs(sh->dest));
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  136  
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  137  	return  SCCHECK(ntohs(sh->source) >= info->spts[0]
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  138  			&& ntohs(sh->source) <= info->spts[1],
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  139  			XT_SCTP_SRC_PORTS, info->flags, info->invflags)
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  140  		&& SCCHECK(ntohs(sh->dest) >= info->dpts[0]
+7c4e36bc172ae1 net/netfilter/xt_sctp.c       Jan Engelhardt       2007-07-07  141  			&& ntohs(sh->dest) <= info->dpts[1],
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  142  			XT_SCTP_DEST_PORTS, info->flags, info->invflags)
+f7108a20dee44e net/netfilter/xt_sctp.c       Jan Engelhardt       2008-10-08  143  		&& SCCHECK(match_packet(skb, par->thoff + sizeof(sctp_sctphdr_t),
+b4ba26119b0605 net/netfilter/xt_sctp.c       Jan Engelhardt       2009-07-07  144  					info, &par->hotdrop),
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  145  			   XT_SCTP_CHUNK_TYPES, info->flags, info->invflags);
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  146  }
+^1da177e4c3f41 net/ipv4/netfilter/ipt_sctp.c Linus Torvalds       2005-04-16  147  
+b0f38452ff73da net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-19  148  static int sctp_mt_check(const struct xt_mtchk_param *par)
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  149  {
+9b4fce7a3508a9 net/netfilter/xt_sctp.c       Jan Engelhardt       2008-10-08  150  	const struct xt_sctp_info *info = par->matchinfo;
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  151  
+ad14bd8357a265 net/netfilter/xt_sctp.c       Wander Lairson Costa 2023-08-28 @152  	if (info->flag_count > ARRAY_SIZE(info->flag_info))
+ad14bd8357a265 net/netfilter/xt_sctp.c       Wander Lairson Costa 2023-08-28  153  		return -EINVAL;
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  154  	if (info->flags & ~XT_SCTP_VALID_FLAGS)
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  155  		return -EINVAL;
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  156  	if (info->invflags & ~XT_SCTP_VALID_FLAGS)
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  157  		return -EINVAL;
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  158  	if (info->invflags & ~info->flags)
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  159  		return -EINVAL;
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  160  	if (!(info->flags & XT_SCTP_CHUNK_TYPES))
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  161  		return 0;
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  162  	if (info->chunk_match_type & (SCTP_CHUNK_MATCH_ALL |
+9f5673174161cc net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  163  	    SCTP_CHUNK_MATCH_ANY | SCTP_CHUNK_MATCH_ONLY))
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  164  		return 0;
+bd414ee605ff3a net/netfilter/xt_sctp.c       Jan Engelhardt       2010-03-23  165  	return -EINVAL;
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  166  }
+2e4e6a17af35be net/netfilter/xt_sctp.c       Harald Welte         2006-01-12  167  
 
 -- 
 0-DAY CI Kernel Test Service
