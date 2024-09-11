@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552686F2FD
-	for <oe-kbuild@lists.linux.dev>; Wed, 11 Sep 2024 12:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E6A1AAE01
+	for <oe-kbuild@lists.linux.dev>; Wed, 11 Sep 2024 13:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726056354; cv=none; b=uLcOH5V5lczmNBjfCvYBUL+8PWZw9IQxapGIAwduieQyNK9nPR25Uj+CHgZVySNkkhSMWPecZS3hhW7Y5PS/eivbS20cMIJ105Dmo+PDXfXJsm+HfU1n5rYZxW1Re86UWGq6fjOxsjy7ovb0ouMDL3sduCEIh63RyAzGRTUfilQ=
+	t=1726061999; cv=none; b=N78bDzXJYLmkTx8KBbPDY6m7ooGtD8/uFRfkIiet3ZOGd4zslhAyD1/a77a2x8Xb7rbIZb4NMRYNJyAIn7LXdTBM9d2HC//VrMBa8Zk6NNyy0z7XElF6t6+2nqQqeP21NsyR7NV14itXfX047vGK0yuDlUsmXlQWCGrOvXW5Fpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726056354; c=relaxed/simple;
-	bh=l35aQvN/gGPeyv5WCHTLYH5B0USBS5kWEE3eqouj8sY=;
+	s=arc-20240116; t=1726061999; c=relaxed/simple;
+	bh=Rv/qDWmvjFNAJTsNrdgF+toLA9m2FxX0Y3AT364bVgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z2od29QUj8WbR1mUtR0pPSrOZi2rde88sYV9bdx9BiG4CFx5OjAmr+BldeXAZ7GkpqK9ASDVoBn0bkMFvLufBCiorufiWsziEX5BY9AsU6ZMLGEx+oMMUlsTLf5vd7vPhorrgqcrV0yQdmEdCHNJhQ9/T0vj96gc6vjZx1vJRxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkG/nq0/; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=eCZCFwAitgz4584tzJYr/pW4ocPiPuVDxz6RFZL7rgx2cXCucHH1r6zk5THasQ4TNDj0CuHoJ+c0L+z9Fii4DFk/aofgMW1M+swy3eYR2wXdJlE/CtY+4w5OfYI+8IqVaXwghT5BbrqsCtDQOIEyFDfllC5EOX7yfR2dCa20Gn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyx5FphR; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkG/nq0/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyx5FphR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726056352; x=1757592352;
+  t=1726061997; x=1757597997;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l35aQvN/gGPeyv5WCHTLYH5B0USBS5kWEE3eqouj8sY=;
-  b=JkG/nq0/Qv05Ow0iWmkElQnPN7Wz/5MFEtXiaRWesTtebONQFTEudq0J
-   VjgXgGlhzAbkQGe2k3ubRhO2oojfpDeL/dHNNagc+M8OXhMhndOP8lKJx
-   htY/AuBfJ9/WppC0YpbhQCktVXi7/f1kryqNnYEj8Iv+2wBLmh5lYpvDb
-   BoMpBTG6ueEonAW1iGsYbS2lLrxY3QqrBrGfQwuRVGVQFzlHRnBnpjFce
-   NrdbxUsVtdeyDq3uEGFSLhsL/eN2zsqSZeF5yKpsi6eG+ZSr/uO+WrYL2
-   0/6cHgfS1aYMD2ptshe2OecPlgFrMf+FcNhoDIQLzMdOO2RkZ9gOIW8po
-   Q==;
-X-CSE-ConnectionGUID: mXmUC+3MTQ+6tvqU7tOMdg==
-X-CSE-MsgGUID: jKXJua4EQWaOY3NJqPOcJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="36204195"
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="36204195"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 05:05:51 -0700
-X-CSE-ConnectionGUID: Ao+7iqmBQ1mU17Hd0eSMTA==
-X-CSE-MsgGUID: T6/CeRDYTuCWTIf2/p/Ktg==
+  bh=Rv/qDWmvjFNAJTsNrdgF+toLA9m2FxX0Y3AT364bVgg=;
+  b=iyx5FphRq/gxXPTlAF823MBBkT0JM2Ye7yLeDRYNOZCNcB1cqDhFlS9o
+   UtNji0JQeUD4ONDL9z0eAAmA6+Al2dDDrmCzZXCxaebJpgEfKA7cgHeOB
+   CM6PXusp6LdHxNVFbbo4GNaQsiEH8PggoWIsU1QnWa+iYR/bpjlb0dn4m
+   punP+aNfzu64FiV18RXvG5iqUUhBGNxh/fjiZw84OTqqF0f4nY0uYkg5R
+   cdeY0ReJIjUX0ujPFjD7Mw1TGbAJ8K9rVEv2wuEBxZA4Lih1XwB1TKhgO
+   PG1p0qLnoG7/o+gYCEOd9iY41xYQbbrExPR4ejbqoXqkZA5BxkVEs5Zun
+   w==;
+X-CSE-ConnectionGUID: SeVQXniFSQmAP9Fyr5kL9w==
+X-CSE-MsgGUID: oBN3wcCpQhm/A0AHjTpLig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11192"; a="24735019"
+X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
+   d="scan'208";a="24735019"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2024 06:39:57 -0700
+X-CSE-ConnectionGUID: wKvIan60Tq2hWHv8rv13LA==
+X-CSE-MsgGUID: bE7bZv1oSZ2ENlIc/zhWlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,219,1719903600"; 
-   d="scan'208";a="98185689"
+X-IronPort-AV: E=Sophos;i="6.10,220,1719903600"; 
+   d="scan'208";a="67216207"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Sep 2024 05:05:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Sep 2024 06:39:55 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1soM6V-0003Vm-2K;
-	Wed, 11 Sep 2024 12:05:47 +0000
-Date: Wed, 11 Sep 2024 20:05:30 +0800
+	id 1soNZZ-0003dU-0b;
+	Wed, 11 Sep 2024 13:39:53 +0000
+Date: Wed, 11 Sep 2024 21:39:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:fs-next 623/909] fs/bcachefs/rcu_pending.c:167:8-10:
- ERROR: reference preceded by free on line 167
-Message-ID: <202409111938.kA7K68o3-lkp@intel.com>
+Subject: fs/btrfs/compression.c:195:12-13: WARNING opportunity for max()
+Message-ID: <202409112129.MXX1M41B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,36 +63,45 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+CC: linux-kernel@vger.kernel.org
+TO: David Sterba <dsterba@suse.com>
+CC: Josef Bacik <josef@toxicpanda.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git fs-next
-head:   812a5e57015292f971bbdf945d1dc688d25d1005
-commit: d2ed0f206a9d8b3add18879f39dd128ff55e4d77 [623/909] bcachefs: rcu_pending now works in userspace
-:::::: branch date: 13 hours ago
-:::::: commit date: 2 days ago
-config: loongarch-randconfig-r063-20240911 (https://download.01.org/0day-ci/archive/20240911/202409111938.kA7K68o3-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8d8d276ba2fb5f9ac4984f5c10ae60858090babc
+commit: 4cea422a776558ccf84e918205d0c162a516502c btrfs: use shrinker for compression page pool
+date:   9 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 9 months ago
+config: m68k-randconfig-r064-20240911 (https://download.01.org/0day-ci/archive/20240911/202409112129.MXX1M41B-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409111938.kA7K68o3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409112129.MXX1M41B-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/rcu_pending.c:167:8-10: ERROR: reference preceded by free on line 167
+>> fs/btrfs/compression.c:195:12-13: WARNING opportunity for max()
 
-vim +167 fs/bcachefs/rcu_pending.c
+vim +195 fs/btrfs/compression.c
 
-8e973a4f3c7482 Kent Overstreet 2024-06-10  162  
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  163  #ifndef __KERNEL__
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  164  static inline void kfree_bulk(size_t nr, void ** p)
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  165  {
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  166  	while (nr--)
-d2ed0f206a9d8b Kent Overstreet 2024-08-23 @167  		kfree(*p);
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  168  }
-d2ed0f206a9d8b Kent Overstreet 2024-08-23  169  
+4cea422a776558 David Sterba 2023-11-15  183  
+4cea422a776558 David Sterba 2023-11-15  184  static unsigned long btrfs_compr_pool_count(struct shrinker *sh, struct shrink_control *sc)
+4cea422a776558 David Sterba 2023-11-15  185  {
+4cea422a776558 David Sterba 2023-11-15  186  	int ret;
+4cea422a776558 David Sterba 2023-11-15  187  
+4cea422a776558 David Sterba 2023-11-15  188  	/*
+4cea422a776558 David Sterba 2023-11-15  189  	 * We must not read the values more than once if 'ret' gets expanded in
+4cea422a776558 David Sterba 2023-11-15  190  	 * the return statement so we don't accidentally return a negative
+4cea422a776558 David Sterba 2023-11-15  191  	 * number, even if the first condition finds it positive.
+4cea422a776558 David Sterba 2023-11-15  192  	 */
+4cea422a776558 David Sterba 2023-11-15  193  	ret = READ_ONCE(compr_pool.count) - READ_ONCE(compr_pool.thresh);
+4cea422a776558 David Sterba 2023-11-15  194  
+4cea422a776558 David Sterba 2023-11-15 @195  	return ret > 0 ? ret : 0;
+4cea422a776558 David Sterba 2023-11-15  196  }
+4cea422a776558 David Sterba 2023-11-15  197  
 
 -- 
 0-DAY CI Kernel Test Service
