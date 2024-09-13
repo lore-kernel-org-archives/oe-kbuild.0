@@ -1,279 +1,200 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0649A4A07;
-	Fri, 13 Sep 2024 01:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726190691; cv=fail; b=qIPNHujmKd2gH5eu/++vvKolZoaSSkXRdtbDT610Kjuu/7VU0XLz/7qpGUonOFZ+zx+RhUOYaenMBgvT5SEeN42XLR4pde9oYEaeCXYJlaGbDFqBeUH84JHuN/7MAw2XLPN5j4ryYJLonQa8nOgqFao9Xbo982frNdT2MwtzLZE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726190691; c=relaxed/simple;
-	bh=9aJWFf/we+uLvfPqwz39IBUOSMc7Do3bp73h/pzTkRI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AMPi6fnpESmWtTdWMd6ISMrc5v9g8NMPmEAF9xozmQyrPuxFRe7FjAcAVSP4t1j9po904wUKzYBTtLFQiPFwFvTUhR+qjk6FfiZuEBD52+JsdnyrV7+TI+Nvn9+qBUw5A4m21fFlmIbBT+nkq/Egt36ZY+vNixrPvi0sRgvDjnw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgUxQ6br; arc=fail smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EBAA59
+	for <oe-kbuild@lists.linux.dev>; Fri, 13 Sep 2024 01:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1726190972; cv=none; b=NlQUu1aWUUmE4SaAe5f+Jgzr7Qe72NkUjWwW9StC3ar1SVe/xVppscJNfudiTK4yh9gb4Hf5t/rUIsICsq4Z3V2A348fzmT8lynqNUF9OmfPZFlOkuFMLp6lK3tg8W1uthwmfkzNihPr4tOpj+z/aTyWPMhaKHwfKx20JaQVvJc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1726190972; c=relaxed/simple;
+	bh=2gDBW8PP26JxchCWtFqLrWsQqEG76nxroOv2a2MrXL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WeZkMV3IuV3us3XxYyWpD5uyXLWTgobwBhfjdGST6IcjaGHIvti7iNp9VOo1XmIEuvtwNo2TrblaBoVULlT74+zl246A2Jaz/t7Tis+Lww6ysFWXVc4IQdGqJOftrmdeIoqcbJE/Cj65VB/WMCzbYQFDFzc4jbE2JqiYeh7eOlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8jTr/4J; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgUxQ6br"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8jTr/4J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726190689; x=1757726689;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=9aJWFf/we+uLvfPqwz39IBUOSMc7Do3bp73h/pzTkRI=;
-  b=fgUxQ6brWtwRtpYZOCDrtgbja1rYkgT22Pg687Ldl/UcU0IJZSsu56Ms
-   Bh9X23TvzVAHCdjKDtNFCGNAITs0zVC7881ExPEIOlt+Ar1fCx0vwgGoi
-   s/JMuhHQKykncq0aYms/ywflKu3f6Ed/s/3lBMXqw0qM9UBDXPigyUgMB
-   k8BwCGa4oJhYLRU6C5iupKsNB4YDmCXuV1KtHhpLb6FBQPBZISHHbtKfx
-   ABpqVkTJ7p/kFi409u4icyzo4oFT8NJokr+o0rRcllGBQ813SQClQAiCc
-   SwYkvzkncNg5wjeHSDngBdNpKxcuhjDAS3ZC0K5mft7NZ18OOodXC9zBb
+  t=1726190971; x=1757726971;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2gDBW8PP26JxchCWtFqLrWsQqEG76nxroOv2a2MrXL8=;
+  b=m8jTr/4JzL03Lcr4a394H977knY3PJytf8+5RD76YSZD5WUBrzLDBQ0+
+   GlSpCBz76YfWAnyWW8ys8lxQZeqRjO0/2UqOi8BACciYq2YzaEu4z7eW6
+   Uzd+oZNkEOFfvpX2ev89LSwQfPfw1v4DAsCsbpv6bOrpLMxX1LZpSW8sd
+   gZQo8x22UiasEkwTIIqq8hFnxYI9BojZo0N9MgdO4w/BPfJlb+mgqzxsy
+   5ZaCjv4bfrkKtIP0SWLphibKxprg6WWCI0urVqJ4PYG0B5xMiTVWgnAzz
+   1FPuOIz621zXs8rYCg7bOuclpm7yKgsFARh3JlQldBM0Rvn8BC0hbqPKA
    Q==;
-X-CSE-ConnectionGUID: IRGZSk/2R8e4qa62YtOhYA==
-X-CSE-MsgGUID: tUAn3FB7SSGMDHMEcB+joQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42554683"
+X-CSE-ConnectionGUID: YUBGrrvFTxWc4fnoXnSo6g==
+X-CSE-MsgGUID: KF9mpmH8SDSnororf/W+ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11193"; a="42555014"
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="42554683"
+   d="scan'208";a="42555014"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 18:24:44 -0700
-X-CSE-ConnectionGUID: eqKbiVddQjeVQhFSzDB5HA==
-X-CSE-MsgGUID: 2tFLNr8YSuiTwOsvfd2DMQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2024 18:29:30 -0700
+X-CSE-ConnectionGUID: OhwasmnQTEOGvBju1Es4Nw==
+X-CSE-MsgGUID: E2hAaOraReear+IcAIKOlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,224,1719903600"; 
-   d="scan'208";a="68668081"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Sep 2024 18:24:43 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 12 Sep 2024 18:24:43 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 12 Sep 2024 18:24:42 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 12 Sep 2024 18:24:42 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.101)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 12 Sep 2024 18:24:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S4B8ZJTaXlPoA2dtv/lSHXI6klCXnX0NpHhwn18k5r2OpRj67Dm1xRQr3Ccjaf8nw/T1MW8FWQ8rjjiDfDPmB+duXKEnJJcIAfo8IIhAPL7zwECKsDTbWKNtm0aqJzZucf98LQMUfs/ZBlYnQVfro60FY4m/qlF5or175sKnEGWc67ytsK+AnJLcA490ApGesF3Jkqr+M8qFZ42HPiYp5rD0Gl6A7caS/7WaW2LHIVpW3EGvbhSIdHYfgxnJyA4GaYBzO+hH6Jk9ORtiCku8l3OWVpDBQmeNSGrHCunAOfH/eFehMPjcj/a9GBBk2EvyejFLPJM7MErLobA5hGfGEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o9HbcfZWstKlN7pKsT5Et0kE0e5jGtM7lggeyVrM3wA=;
- b=zJP8boRuiZtjQQ0099YoDyHk7Ii3+p15jAe63qkd2H/HOSznmDCUQtekGEF20MoWYXJe/ePm1PQHLzdlSqDcPWdOLqYXLqIMIUg+chnWLpcbhB1hj7efannEO6dpEKuj+O+AqYbJw8s8DBzclI3op1lolBX6eZhoRAMxw4dcA22rjqAvxgqwABYUVg/CwrNrJzkg2imKSNH6yAomslEbE7uRYHG3Xarfz10wIOd16Obsy+ciE50QUbpS3ACfIVOVDd6QfIlaIViFkRwU7TzRtSJ31d9bMCiAm9XHKE8c0DpF9sco0sH/yUmSajMWvxJ6QSQdoptAIq/LRJx2xAGhFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by SJ1PR11MB6178.namprd11.prod.outlook.com (2603:10b6:a03:45b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.16; Fri, 13 Sep
- 2024 01:24:34 +0000
-Received: from MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::7f88:f3b1:22ec:f508]) by MN0PR11MB6304.namprd11.prod.outlook.com
- ([fe80::7f88:f3b1:22ec:f508%5]) with mapi id 15.20.7939.017; Fri, 13 Sep 2024
- 01:24:32 +0000
-Date: Fri, 13 Sep 2024 09:24:24 +0800
-From: Feng Tang <feng.tang@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <oe-kbuild@lists.linux.dev>, <lkp@intel.com>,
-	<oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for
- krealloc()
-Message-ID: <ZuOUSNOZOAenvc2E@feng-clx.sh.intel.com>
-References: <20240911064535.557650-5-feng.tang@intel.com>
- <956a59be-4153-4ec0-8b26-ea3dc1700e75@stanley.mountain>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <956a59be-4153-4ec0-8b26-ea3dc1700e75@stanley.mountain>
-X-ClientProxiedBy: SI2PR06CA0003.apcprd06.prod.outlook.com
- (2603:1096:4:186::14) To MN0PR11MB6304.namprd11.prod.outlook.com
- (2603:10b6:208:3c0::7)
+   d="scan'208";a="68668369"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 12 Sep 2024 18:29:28 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sov7m-0005t0-0o;
+	Fri, 13 Sep 2024 01:29:26 +0000
+Date: Fri, 13 Sep 2024 09:29:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/platform/x86/intel/pmc/core_ssram.c:141
+ pmc_core_get_lpm_req() error: uninitialized symbol 'ret'.
+Message-ID: <202409130946.ah4OmcVL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SJ1PR11MB6178:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5f99667-2b94-4198-7404-08dcd392d21e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Z2kNNOU5I+zylBQPWoKNVUGxXy1CRRplSQTJpi8ObQ2EO4JHdfO3GJoT3lfs?=
- =?us-ascii?Q?dg0otsy3tv6m/nSfZAktUOxpXZV8tc1BGFyKHeVgO8Hu7zjpYihdJVC3v/ZR?=
- =?us-ascii?Q?HOerDOhjUVGMRQ4Cv6u89orc/CHnXRXT+gCQ9Bi+A9I9dqD2RGKU6qcthO2K?=
- =?us-ascii?Q?mwH4sumLgPduDN1N9nTj/gUUJuZvKatYuq6ws7vAPWO9ynj4AUMLsaNeTwaE?=
- =?us-ascii?Q?REJKX2q6cgrpRUtuZko4UFg2sz0GerfZl43IDVZENiRnZNKx/+TVI+Vou43d?=
- =?us-ascii?Q?G6Noes6EJknzQjZv61DsaZuF5TJ0+FPPCDN5u0lVvHN5bcs0TWjAoUV07ejs?=
- =?us-ascii?Q?W/s9qfofnH0VzzZWk0rWkr9U614kiaiM5Aqjg4K6wCbwSCg7AIIjkVHSw/QQ?=
- =?us-ascii?Q?NSXgdluLKmoZqKugL7rUPVhAk8di+39bMQElAvHxhrN0kWlTU+GiL9ND3pR0?=
- =?us-ascii?Q?ihXEtzo7+qtKGY4UQ/TSCZVOq5gmwgk01QH3CTxkDZxPb5S4RnNolFh+txJa?=
- =?us-ascii?Q?VojPK9DfQop3gdbwsvEP142hwE0339m7vrW0KK7T6MX4t4BapAJWs01uZbGZ?=
- =?us-ascii?Q?ga//EcCW/A+moDn8BzRLbgdCL9+t4qOBXKg2UfdVPvt/YDJ8keSOwvMlf5aJ?=
- =?us-ascii?Q?EKsEZ4KGOXUntehpKublreodAO7XyhMRtfhYjI95buboliGBjPsDffDmfC2j?=
- =?us-ascii?Q?JMSg/aPzgy+uWDVX0OwmjfZf7ypWr+i83LVte22kjd1iovVFC7LVCy0VH4wG?=
- =?us-ascii?Q?+vWECjty4+feNN1ORuVEtv3+poj/IXq74G7R7GY0cgdaGvIS6mzDeEmzidOh?=
- =?us-ascii?Q?qwDVjidGZHIyF06yJRskhd+4XKkZARY8eLlfUst9AdSR732ZSgwbicD95HNC?=
- =?us-ascii?Q?BDvfLHX8avNCHFgM5x5CMVMExLicBZCmYpiPfjkidSU9MobXGNCM6yT4En4s?=
- =?us-ascii?Q?d8mLg/V3cyhSpSIfODmhuXltbD+O+T3kEwkSTTwJcdLPFVhA0/G3X9/8lPS+?=
- =?us-ascii?Q?wKeQ6mgdrS+m29iI3G5eHbuM55bIeZe5Sbw1kXi4gnWVEEkCJgFzYO7Ama4E?=
- =?us-ascii?Q?lhbRutjAi6nUryTh9Qcdtkh1NNj0edsW2Br1Mu3Xm6/HQ+32QxImGJvs4/V2?=
- =?us-ascii?Q?8eFj77P5ar4nUzjGLiecr00v+pWCd9XSjmsSbc3Vf4q4r/Fz3p07rzsbV6Py?=
- =?us-ascii?Q?Gm5UDREal04wN46UDJn6OSbjoDPBA7BVJc73qqfQVfQnkZ6zfzeVy64gZ5l2?=
- =?us-ascii?Q?P9NDTkuejL/YrBM7Pqpr1sFPx0H+HO+/rIpmtl+EWrSuIXEVxLfPJ3lhMMpb?=
- =?us-ascii?Q?LGg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pXW15pRExAuJuwEAeRkI5tpv7AAtL86QiBSdc5fyZnSFD/HaXqm8sJbEqbua?=
- =?us-ascii?Q?B+to/5oV8H3uYQ3DhVxtZY3wWz0WsLg47seh0TLHA7CTe/G8U7alo4s/4YEM?=
- =?us-ascii?Q?K7WcSi1D4eZzf5Vfzrj9rl5YSpMPEEM1mS0/GZYNvGLijj7c5KdClabR0cAZ?=
- =?us-ascii?Q?oBXQVIzSm/W1NXPKVr2NTZQ6txI98EgL+RauYhsvcf40rDKbq7bY8eu2mICi?=
- =?us-ascii?Q?gaJ+o6cX/I34QVIOYqjgZLdYobtbr9/uM7EbH+vD5Be9Wi8+tFmvPyo8+GJz?=
- =?us-ascii?Q?6mgllz8ZJlH+xNnosvabHQLINUqpg59Xrsy+LQGzgA9CpvPz/5k27wJdH8N8?=
- =?us-ascii?Q?3cCwva4xReTFXTFB6R6TDEVUaDzJh38pd9Sp32MyF7KSTA8tXISCxI7tzMVM?=
- =?us-ascii?Q?M9exOufjyOaDx2Lsj4d39XXpPr4n36rKGYcs9c6KtvLce5GwPBCHn9FPiAUW?=
- =?us-ascii?Q?qvRADtH40JNRSYCvKx0yWfj/lRtdJKeqp9gDwzTMfWL+4L4+a15eMWhOqcSx?=
- =?us-ascii?Q?ps8vMinX0NG547sH96mw7Mpu5Y25NrJrQ8WKNX8/psVkmWVI3VmWoTfGFo5N?=
- =?us-ascii?Q?tMouFHi2JK9y7vaHzlb+JJ6tKCNtNK0jp4kT4wJKViTlgv/O3X616juKVdZG?=
- =?us-ascii?Q?6FWdaE/fYcZC83E63ERejpzRWQG2asSBLkq7k/0CSSzFugmjKdnaUvPMg5cS?=
- =?us-ascii?Q?LI5evdYjyVCRGOmc1SPdjo5hzXlrhaJPq3gWSg7SLxkFwBJSXkFQmfjeo1MB?=
- =?us-ascii?Q?0zfBaCbmNaG0MfU8Vx4FifOtstpCyBUDtbHi7wRbBy8mprI2P3QARuVSFpYf?=
- =?us-ascii?Q?tPCeekjfQOP1+Q808W7Lwn0ZqRPvOg1xt2yzt6Ay6gt7Aa1JDRcBrYyzo23d?=
- =?us-ascii?Q?dqLwI1BPM/ucNWaY+2yD75EUDBMGCmES8Jxpuw9svwR7T5l0CIaHdkc9V1Fn?=
- =?us-ascii?Q?fzpEO66XE0zk356TWp+Q8jbpWg04146GsTXffPF7SUp0PSJlSoDinwtsQI6B?=
- =?us-ascii?Q?PDCQMXehdQzimMJUi8H+tuodnwcHzuEuX/tPe96lpyFDCjAono2qz6B1ZlIw?=
- =?us-ascii?Q?pkeFi3U+DShzBzjigjbpUoFSE6dWbWqou+7jvE0d1BJnWD5Ow/md8lyNTyh+?=
- =?us-ascii?Q?NzZXZB8TT6xTaXNU2h898JJkVo8pS2FRfQ8RXsreG0ebDkcns541jXnbtnWp?=
- =?us-ascii?Q?WQyNzEiHbTvHyc7XDCZsi0TUoOkDofi3mGrTPSs6wuW8OTsI0jasvHhGcNTd?=
- =?us-ascii?Q?y5EaQBPRQue3fWUVhATXJzoAIfpRksJnHvFDn2njUI1fvlnwdApYJa4O5fcB?=
- =?us-ascii?Q?s4sxmvHOuVYRLK1IKI1QTyG0/kHInONI/2NCL1Ol7gXh/UiHTsLo/8l3bfz7?=
- =?us-ascii?Q?IG7H6o9JtTI+n6x3r3DpdtRcTsvha2zmrCTuuxentiVNbltASMOn2ena7Vpm?=
- =?us-ascii?Q?qh+V78Gc43WnD6GjEfDFwsnSvy4k++9wvccecv0ra5Af5QrYb/pN3V754Bac?=
- =?us-ascii?Q?8sCQWTztZSLuaiZF+vwT5oyDY8tFVGtYsd/lEet2eFTmJTvVbEjbFPTUWQfs?=
- =?us-ascii?Q?R5twM2q/EBjzr6/khuOYcF8JhlPnJBYH9uZkl45r?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f99667-2b94-4198-7404-08dcd392d21e
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2024 01:24:32.6864
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hqO0ibIHXTMKxBl1ggLbxqsUNKvpOeeG7Cezl+x0s02bZztb/TH826m4xPRg08SUzIMwAAXqGXgi3AawwNT+Lg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6178
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Xi Pardee <xi.pardee@intel.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: "David E. Box" <david.e.box@linux.intel.com>
+CC: "Ilpo Järvinen" <ilpo.jarvinen@linux.intel.com>
 
-Thanks for the report!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   196145c606d0f816fd3926483cb1ff87e09c2c0b
+commit: 4d621c3f02ba71cb8ed48b7c32ecb0910000cc28 platform/x86/intel/pmc: Retrieve LPM information using Intel PMT
+date:   9 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-141-20240913 (https://download.01.org/0day-ci/archive/20240913/202409130946.ah4OmcVL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
-On Thu, Sep 12, 2024 at 06:21:15PM +0300, Dan Carpenter wrote:
-> Hi Feng,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Feng-Tang/mm-kasan-Don-t-store-metadata-inside-kmalloc-object-when-slub_debug_orig_size-is-on/20240911-144724
-> base:   next-20240910
-> patch link:    https://lore.kernel.org/r/20240911064535.557650-5-feng.tang%40intel.com
-> patch subject: [PATCH v2 4/5] mm/slub: Improve redzone check and zeroing for krealloc()
-> config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240912/202409122122.U5RpHfCY-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409122122.U5RpHfCY-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/slub.c:4748 __do_krealloc() error: uninitialized symbol 's'.
-> 
-> vim +/s +4748 mm/slub.c
-> 
-> 474fff8e68012d Feng Tang       2024-09-11  4715  static __always_inline __realloc_size(2) void *
-> 474fff8e68012d Feng Tang       2024-09-11  4716  __do_krealloc(const void *p, size_t new_size, gfp_t flags)
-> 474fff8e68012d Feng Tang       2024-09-11  4717  {
-> 474fff8e68012d Feng Tang       2024-09-11  4718  	void *ret;
-> 474fff8e68012d Feng Tang       2024-09-11  4719  	size_t ks;
-> 89a7731cc91033 Feng Tang       2024-09-11  4720  	int orig_size = 0;
-> 89a7731cc91033 Feng Tang       2024-09-11  4721  	struct kmem_cache *s;
-> 474fff8e68012d Feng Tang       2024-09-11  4722  
-> 89a7731cc91033 Feng Tang       2024-09-11  4723  	/* Check for double-free. */
-> 474fff8e68012d Feng Tang       2024-09-11  4724  	if (likely(!ZERO_OR_NULL_PTR(p))) {
-> 474fff8e68012d Feng Tang       2024-09-11  4725  		if (!kasan_check_byte(p))
-> 474fff8e68012d Feng Tang       2024-09-11  4726  			return NULL;
-> 89a7731cc91033 Feng Tang       2024-09-11  4727  
-> 89a7731cc91033 Feng Tang       2024-09-11  4728  		s = virt_to_cache(p);
-> 89a7731cc91033 Feng Tang       2024-09-11  4729  		orig_size = get_orig_size(s, (void *)p);
-> 89a7731cc91033 Feng Tang       2024-09-11  4730  		ks = s->object_size;
-> 474fff8e68012d Feng Tang       2024-09-11  4731  	} else
-> 474fff8e68012d Feng Tang       2024-09-11  4732  		ks = 0;
-> 
-> ks is zero
-> 
-> 474fff8e68012d Feng Tang       2024-09-11  4733  
-> 89a7731cc91033 Feng Tang       2024-09-11  4734  	/* If the object doesn't fit, allocate a bigger one */
-> 89a7731cc91033 Feng Tang       2024-09-11  4735  	if (new_size > ks)
-> 
-> Assume new_size is also zero so this is false
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409130946.ah4OmcVL-lkp@intel.com/
 
-Yes, this is possible, though unlikely :)
+smatch warnings:
+drivers/platform/x86/intel/pmc/core_ssram.c:141 pmc_core_get_lpm_req() error: uninitialized symbol 'ret'.
 
-Below patch should fix it:
----
-diff --git a/mm/slub.c b/mm/slub.c
-index e0fb0a26c796..d5219634e96a 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4728,8 +4728,9 @@ __do_krealloc(const void *p, size_t new_size, gfp_t flags)
- 		s = virt_to_cache(p);
- 		orig_size = get_orig_size(s, (void *)p);
- 		ks = s->object_size;
--	} else
--		ks = 0;
-+	} else {
-+		goto alloc_new;
-+	}
- 
- 	/* If the object doesn't fit, allocate a bigger one */
- 	if (new_size > ks)
+vim +/ret +141 drivers/platform/x86/intel/pmc/core_ssram.c
 
+4d621c3f02ba71 Xi Pardee 2023-11-29   42  
+4d621c3f02ba71 Xi Pardee 2023-11-29   43  static int pmc_core_get_lpm_req(struct pmc_dev *pmcdev, struct pmc *pmc)
+4d621c3f02ba71 Xi Pardee 2023-11-29   44  {
+4d621c3f02ba71 Xi Pardee 2023-11-29   45  	struct telem_endpoint *ep;
+4d621c3f02ba71 Xi Pardee 2023-11-29   46  	const u8 *lpm_indices;
+4d621c3f02ba71 Xi Pardee 2023-11-29   47  	int num_maps, mode_offset = 0;
+4d621c3f02ba71 Xi Pardee 2023-11-29   48  	int ret, mode, i;
+4d621c3f02ba71 Xi Pardee 2023-11-29   49  	int lpm_size;
+4d621c3f02ba71 Xi Pardee 2023-11-29   50  	u32 guid;
+4d621c3f02ba71 Xi Pardee 2023-11-29   51  
+4d621c3f02ba71 Xi Pardee 2023-11-29   52  	lpm_indices = pmc->map->lpm_reg_index;
+4d621c3f02ba71 Xi Pardee 2023-11-29   53  	num_maps = pmc->map->lpm_num_maps;
+4d621c3f02ba71 Xi Pardee 2023-11-29   54  	lpm_size = LPM_MAX_NUM_MODES * num_maps;
+4d621c3f02ba71 Xi Pardee 2023-11-29   55  
+4d621c3f02ba71 Xi Pardee 2023-11-29   56  	guid = pmc_core_find_guid(pmcdev->regmap_list, pmc->map);
+4d621c3f02ba71 Xi Pardee 2023-11-29   57  	if (!guid)
+4d621c3f02ba71 Xi Pardee 2023-11-29   58  		return -ENXIO;
+4d621c3f02ba71 Xi Pardee 2023-11-29   59  
+4d621c3f02ba71 Xi Pardee 2023-11-29   60  	ep = pmt_telem_find_and_register_endpoint(pmcdev->ssram_pcidev, guid, 0);
+4d621c3f02ba71 Xi Pardee 2023-11-29   61  	if (IS_ERR(ep)) {
+4d621c3f02ba71 Xi Pardee 2023-11-29   62  		dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %ld",
+4d621c3f02ba71 Xi Pardee 2023-11-29   63  			PTR_ERR(ep));
+4d621c3f02ba71 Xi Pardee 2023-11-29   64  		return -EPROBE_DEFER;
+4d621c3f02ba71 Xi Pardee 2023-11-29   65  	}
+4d621c3f02ba71 Xi Pardee 2023-11-29   66  
+4d621c3f02ba71 Xi Pardee 2023-11-29   67  	pmc->lpm_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
+4d621c3f02ba71 Xi Pardee 2023-11-29   68  					 lpm_size * sizeof(u32),
+4d621c3f02ba71 Xi Pardee 2023-11-29   69  					 GFP_KERNEL);
+4d621c3f02ba71 Xi Pardee 2023-11-29   70  	if (!pmc->lpm_req_regs) {
+4d621c3f02ba71 Xi Pardee 2023-11-29   71  		ret = -ENOMEM;
+4d621c3f02ba71 Xi Pardee 2023-11-29   72  		goto unregister_ep;
+4d621c3f02ba71 Xi Pardee 2023-11-29   73  	}
+4d621c3f02ba71 Xi Pardee 2023-11-29   74  
+4d621c3f02ba71 Xi Pardee 2023-11-29   75  	/*
+4d621c3f02ba71 Xi Pardee 2023-11-29   76  	 * PMC Low Power Mode (LPM) table
+4d621c3f02ba71 Xi Pardee 2023-11-29   77  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29   78  	 * In telemetry space, the LPM table contains a 4 byte header followed
+4d621c3f02ba71 Xi Pardee 2023-11-29   79  	 * by 8 consecutive mode blocks (one for each LPM mode). Each block
+4d621c3f02ba71 Xi Pardee 2023-11-29   80  	 * has a 4 byte header followed by a set of registers that describe the
+4d621c3f02ba71 Xi Pardee 2023-11-29   81  	 * IP state requirements for the given mode. The IP mapping is platform
+4d621c3f02ba71 Xi Pardee 2023-11-29   82  	 * specific but the same for each block, making for easy analysis.
+4d621c3f02ba71 Xi Pardee 2023-11-29   83  	 * Platforms only use a subset of the space to track the requirements
+4d621c3f02ba71 Xi Pardee 2023-11-29   84  	 * for their IPs. Callers provide the requirement registers they use as
+4d621c3f02ba71 Xi Pardee 2023-11-29   85  	 * a list of indices. Each requirement register is associated with an
+4d621c3f02ba71 Xi Pardee 2023-11-29   86  	 * IP map that's maintained by the caller.
+4d621c3f02ba71 Xi Pardee 2023-11-29   87  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29   88  	 * Header
+4d621c3f02ba71 Xi Pardee 2023-11-29   89  	 * +----+----------------------------+----------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29   90  	 * |  0 |      REVISION              |      ENABLED MODES         |
+4d621c3f02ba71 Xi Pardee 2023-11-29   91  	 * +----+--------------+-------------+-------------+--------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29   92  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29   93  	 * Low Power Mode 0 Block
+4d621c3f02ba71 Xi Pardee 2023-11-29   94  	 * +----+--------------+-------------+-------------+--------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29   95  	 * |  1 |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
+4d621c3f02ba71 Xi Pardee 2023-11-29   96  	 * +----+--------------+-------------+-------------+--------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29   97  	 * |  2 |           LPM0 Requirements 0                           |
+4d621c3f02ba71 Xi Pardee 2023-11-29   98  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29   99  	 * |    |                  ...                                    |
+4d621c3f02ba71 Xi Pardee 2023-11-29  100  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  101  	 * | 29 |           LPM0 Requirements 27                          |
+4d621c3f02ba71 Xi Pardee 2023-11-29  102  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  103  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29  104  	 * ...
+4d621c3f02ba71 Xi Pardee 2023-11-29  105  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29  106  	 * Low Power Mode 7 Block
+4d621c3f02ba71 Xi Pardee 2023-11-29  107  	 * +----+--------------+-------------+-------------+--------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  108  	 * |    |     SUB ID   |     SIZE    |   MAJOR     |   MINOR      |
+4d621c3f02ba71 Xi Pardee 2023-11-29  109  	 * +----+--------------+-------------+-------------+--------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  110  	 * | 60 |           LPM7 Requirements 0                           |
+4d621c3f02ba71 Xi Pardee 2023-11-29  111  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  112  	 * |    |                  ...                                    |
+4d621c3f02ba71 Xi Pardee 2023-11-29  113  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  114  	 * | 87 |           LPM7 Requirements 27                          |
+4d621c3f02ba71 Xi Pardee 2023-11-29  115  	 * +----+---------------------------------------------------------+
+4d621c3f02ba71 Xi Pardee 2023-11-29  116  	 *
+4d621c3f02ba71 Xi Pardee 2023-11-29  117  	 */
+4d621c3f02ba71 Xi Pardee 2023-11-29  118  	mode_offset = LPM_HEADER_OFFSET + LPM_MODE_OFFSET;
+4d621c3f02ba71 Xi Pardee 2023-11-29  119  	pmc_for_each_mode(i, mode, pmcdev) {
+4d621c3f02ba71 Xi Pardee 2023-11-29  120  		u32 *req_offset = pmc->lpm_req_regs + (mode * num_maps);
+4d621c3f02ba71 Xi Pardee 2023-11-29  121  		int m;
+4d621c3f02ba71 Xi Pardee 2023-11-29  122  
+4d621c3f02ba71 Xi Pardee 2023-11-29  123  		for (m = 0; m < num_maps; m++) {
+4d621c3f02ba71 Xi Pardee 2023-11-29  124  			u8 sample_id = lpm_indices[m] + mode_offset;
+4d621c3f02ba71 Xi Pardee 2023-11-29  125  
+4d621c3f02ba71 Xi Pardee 2023-11-29  126  			ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
+4d621c3f02ba71 Xi Pardee 2023-11-29  127  			if (ret) {
+4d621c3f02ba71 Xi Pardee 2023-11-29  128  				dev_err(&pmcdev->pdev->dev,
+4d621c3f02ba71 Xi Pardee 2023-11-29  129  					"couldn't read Low Power Mode requirements: %d\n", ret);
+4d621c3f02ba71 Xi Pardee 2023-11-29  130  				devm_kfree(&pmcdev->pdev->dev, pmc->lpm_req_regs);
+4d621c3f02ba71 Xi Pardee 2023-11-29  131  				goto unregister_ep;
+4d621c3f02ba71 Xi Pardee 2023-11-29  132  			}
+4d621c3f02ba71 Xi Pardee 2023-11-29  133  			++req_offset;
+4d621c3f02ba71 Xi Pardee 2023-11-29  134  		}
+4d621c3f02ba71 Xi Pardee 2023-11-29  135  		mode_offset += LPM_REG_COUNT + LPM_MODE_OFFSET;
+4d621c3f02ba71 Xi Pardee 2023-11-29  136  	}
+4d621c3f02ba71 Xi Pardee 2023-11-29  137  
+4d621c3f02ba71 Xi Pardee 2023-11-29  138  unregister_ep:
+4d621c3f02ba71 Xi Pardee 2023-11-29  139  	pmt_telem_unregister_endpoint(ep);
+4d621c3f02ba71 Xi Pardee 2023-11-29  140  
+4d621c3f02ba71 Xi Pardee 2023-11-29 @141  	return ret;
+4d621c3f02ba71 Xi Pardee 2023-11-29  142  }
+4d621c3f02ba71 Xi Pardee 2023-11-29  143  
 
-Thanks,
-Feng
-
-> 
-> 89a7731cc91033 Feng Tang       2024-09-11  4736  		goto alloc_new;
-> 89a7731cc91033 Feng Tang       2024-09-11  4737  
-> 474fff8e68012d Feng Tang       2024-09-11  4738  	/* Zero out spare memory. */
-> 474fff8e68012d Feng Tang       2024-09-11  4739  	if (want_init_on_alloc(flags)) {
-> 474fff8e68012d Feng Tang       2024-09-11  4740  		kasan_disable_current();
-> 89a7731cc91033 Feng Tang       2024-09-11  4741  		if (orig_size < new_size)
-> 89a7731cc91033 Feng Tang       2024-09-11  4742  			memset((void *)p + orig_size, 0, new_size - orig_size);
-> 89a7731cc91033 Feng Tang       2024-09-11  4743  		else
-> 474fff8e68012d Feng Tang       2024-09-11  4744  			memset((void *)p + new_size, 0, ks - new_size);
-> 474fff8e68012d Feng Tang       2024-09-11  4745  		kasan_enable_current();
-> 474fff8e68012d Feng Tang       2024-09-11  4746  	}
-> 474fff8e68012d Feng Tang       2024-09-11  4747  
-> 89a7731cc91033 Feng Tang       2024-09-11 @4748  	if (slub_debug_orig_size(s) && !is_kfence_address(p)) {
->                                                                                  ^
-> Uninitialized in that case
-> 
-> 89a7731cc91033 Feng Tang       2024-09-11  4749  		set_orig_size(s, (void *)p, new_size);
-> 89a7731cc91033 Feng Tang       2024-09-11  4750  		if (s->flags & SLAB_RED_ZONE && new_size < ks)
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
