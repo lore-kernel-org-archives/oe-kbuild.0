@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FFB1CDFC6
-	for <oe-kbuild@lists.linux.dev>; Sat, 14 Sep 2024 18:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F19813C9C0
+	for <oe-kbuild@lists.linux.dev>; Sat, 14 Sep 2024 18:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726337898; cv=none; b=QNerDbuvEtgtq4TdQHMwAUYsInDBN06dtlOP6yBnat3GvFmOOGmyhV6MmqdMq1lbb6glExr9PDdtVaf4Kld+xmSdllZODeKuZiYAVeUlXqcU8fsJDa+BcdnO1a30iIBVkrocRK7s7iz38FiPQ6IRyw/SBUuwH59RFTE2cay4Z4w=
+	t=1726339939; cv=none; b=cXs5kWlKLhkSKBjBBiXacJ3xX+zbi2qfxj3FWMYEZDq72AAKktZMkiylnMiqsuYTndwopm8bmc1ZMfTbuKZRNdrC1gyNIhoqc/9MQVTIBsqXUv8+wxqXr7cXq+er2Y6FoaU+48SsQoWvf8y5kEKgqOwAfL79AZhF+kI6JSVRIMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726337898; c=relaxed/simple;
-	bh=0RaVA7N5faBOU3qLaCa6XKNKBGn5Y2ekW7jm65YPZG8=;
+	s=arc-20240116; t=1726339939; c=relaxed/simple;
+	bh=pGIpcY3btHmEvsm9ZZhoq9iUyIRjvS84eF31e6GhTe8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eGsrl9D5jK3gyEcATIWM4b5CCNmOwYH0rqRwsIvpQrTFDOWRQuwuCvoctbfbr7FmZ9Ix+efU2T2OReVytKCjdACjvVERBzIDvh0z/+RQ9Y8jjZtJ7go2TcustMN9Xmo4XDIKlHWlV4hW16BDCNZ1LMzFOLVqeX1Z2bFeNOc3OSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ell9+4ch; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ikAxpd59QoZ5TWEpD/d8M1md6jico2c9U0RLcRY4WcZFY0TFLrLz+q86z+SSqTcfj0+H5HiZ3WM2JeMBb0/X0eVXy8Xk7uKm7HHIhtg1Eivz5bDo+Uhm/TeYEHfWbBhHL+iJtrqxIqHEalVaZz4Q6nXc/eWU6DngZZNQCLMNdMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWHk1f+n; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ell9+4ch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWHk1f+n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726337896; x=1757873896;
+  t=1726339937; x=1757875937;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0RaVA7N5faBOU3qLaCa6XKNKBGn5Y2ekW7jm65YPZG8=;
-  b=Ell9+4choVDrzpuwIFB675NqysWNhyqnKkEmtz6riHQqCCAiWyT5cccT
-   kFloCFc9Lk/O0usT2pg/VAeP7xVtQZudIXby/edjNsBOC0DRTFOBHu5JS
-   FJZHXR0M+JvYLeM7Ikd23iMvpfp7oVgi0v4uHolceiwQCajlk3+QigdP4
-   0lFDAY/1HSse6EHqET9rBDbLo4kDKAvxm/4vSvXiqVNwUrcR9rSwCPwey
-   VPKRO4PwywfdVRRYNvqQlsfctNDsBVdvcBpHrogEEXYAEgcqBbGmjMiFJ
-   11fUGzaTxMj/xJEOS/6MTmZrlW6vGckk15or/V5WrxWErKqQeHxbWUDzx
-   Q==;
-X-CSE-ConnectionGUID: OPPFw8yAR6myPtR9VqMUHQ==
-X-CSE-MsgGUID: PLOOCa4+TM6nIS8XiihRuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25050968"
+  bh=pGIpcY3btHmEvsm9ZZhoq9iUyIRjvS84eF31e6GhTe8=;
+  b=dWHk1f+nwHdh03SMFHD1T/J1xh7msFGXdAR9iHT801vIFrMvLHxXo7NH
+   gHKJsZCvDlipGNPAOGlEUoqBYZuPiTGYjjw73jyKDrhlFwyBlKzM083Zv
+   HwAg6mmpJ+GjG+X2qoKlUOxSLLpZS71a4+lAG8TFwt2My55RJpVt5QUyn
+   LvXGrnF833ecfPiyx5/EeJVjrK4iPj/6oGlPTeT6nW4VlIb2YTyT/ly1j
+   G50IQIoKwN8WJdHwxNvRoh+F2lhvyE9J1vc/lJWs2r1SN1/ONQ7UvqF/y
+   7uPPHlXpnQIODIlXBw6amIXZifSgUNcOG96JEn9XGe0+28xrno3J4dTtH
+   A==;
+X-CSE-ConnectionGUID: +xZrCuTHSX+ek9zkfDmi9Q==
+X-CSE-MsgGUID: btR459viSvOSW6G/YmYQuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="36604271"
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="25050968"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 11:18:16 -0700
-X-CSE-ConnectionGUID: Pb7XPo14Q9mvPiADZ6NO7Q==
-X-CSE-MsgGUID: GhVi7zZ4ROSXiRX86qVtQg==
+   d="scan'208";a="36604271"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 11:52:16 -0700
+X-CSE-ConnectionGUID: l9eYIvTHTEOSD1FoEpfOcw==
+X-CSE-MsgGUID: 6Na9Muv3S1uTD5GCIykW0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,229,1719903600"; 
-   d="scan'208";a="68399456"
+   d="scan'208";a="99121586"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Sep 2024 11:18:15 -0700
+  by orviesa002.jf.intel.com with ESMTP; 14 Sep 2024 11:52:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spXLY-00083E-07;
-	Sat, 14 Sep 2024 18:18:12 +0000
-Date: Sun, 15 Sep 2024 02:18:07 +0800
+	id 1spXsS-00084k-31;
+	Sat, 14 Sep 2024 18:52:12 +0000
+Date: Sun, 15 Sep 2024 02:51:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hch-xfs:xfs-zoned-rebase 51/57] fs/xfs/xfs_zone_gc.c:322
- xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
-Message-ID: <202409150207.qmhcRNcV-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH 2/2] pm: cpupower: Makefile: better support
+ cross-compiling
+Message-ID: <202409150222.w4WkOKKF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,68 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20240912013846.3058728-2-peng.fan@oss.nxp.com>
+References: <20240912013846.3058728-2-peng.fan@oss.nxp.com>
+TO: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+TO: Thomas Renninger <trenn@suse.com>
+TO: Shuah Khan <skhan@linuxfoundation.org>
+TO: "John B. Wyatt IV" <jwyatt@redhat.com>
+TO: John Kacur <jkacur@redhat.com>
+TO: "open list:CPU POWER MONITORING SUBSYSTEM" <linux-pm@vger.kernel.org>
+TO: open list <linux-kernel@vger.kernel.org>
+CC: Peng Fan <peng.fan@nxp.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
-head:   ccc2db4d79624bc274d9879eb76670cad04efeff
-commit: e334accc28179d073922768f2deec41758403cf0 [51/57] xfs: support zoned RT devices
-:::::: branch date: 33 hours ago
-:::::: commit date: 34 hours ago
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150207.qmhcRNcV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Peng,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on amd-pstate/linux-next]
+[also build test WARNING on amd-pstate/bleeding-edge linus/master v6.11-rc7 next-20240913]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan-OSS/pm-cpupower-Makefile-better-support-cross-compiling/20240912-093139
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20240912013846.3058728-2-peng.fan%40oss.nxp.com
+patch subject: [PATCH 2/2] pm: cpupower: Makefile: better support cross-compiling
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240915/202409150222.w4WkOKKF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409150207.qmhcRNcV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409150222.w4WkOKKF-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/xfs_zone_gc.c:322 xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
+All warnings (new ones prefixed by >>):
 
-vim +322 fs/xfs/xfs_zone_gc.c
-
-e334accc28179d Christoph Hellwig 2024-09-10  290  
-e334accc28179d Christoph Hellwig 2024-09-10  291  static struct xfs_zone_gc_data *
-e334accc28179d Christoph Hellwig 2024-09-10  292  xfs_zone_gc_data_alloc(
-e334accc28179d Christoph Hellwig 2024-09-10  293  	struct xfs_mount	*mp)
-e334accc28179d Christoph Hellwig 2024-09-10  294  {
-e334accc28179d Christoph Hellwig 2024-09-10  295  	struct xfs_zone_gc_data	*data;
-e334accc28179d Christoph Hellwig 2024-09-10  296  	int i;
-e334accc28179d Christoph Hellwig 2024-09-10  297  
-e334accc28179d Christoph Hellwig 2024-09-10  298  	data = kzalloc(sizeof(*data), GFP_KERNEL);
-e334accc28179d Christoph Hellwig 2024-09-10  299  	if (!data)
-e334accc28179d Christoph Hellwig 2024-09-10  300  		return NULL;
-e334accc28179d Christoph Hellwig 2024-09-10  301  
-e334accc28179d Christoph Hellwig 2024-09-10  302  	/*
-e334accc28179d Christoph Hellwig 2024-09-10  303  	 * We actually only need a single bio_vec.  It would be nice to have
-e334accc28179d Christoph Hellwig 2024-09-10  304  	 * a flag that only allocates the inline bvecs and not the separate
-e334accc28179d Christoph Hellwig 2024-09-10  305  	 * bvec pool.
-e334accc28179d Christoph Hellwig 2024-09-10  306  	 */
-e334accc28179d Christoph Hellwig 2024-09-10  307  	if (bioset_init(&data->bio_set, 4, offsetof(struct xfs_gc_bio, bio),
-e334accc28179d Christoph Hellwig 2024-09-10  308  			BIOSET_NEED_BVECS))
-e334accc28179d Christoph Hellwig 2024-09-10  309  		goto out_free_data;
-e334accc28179d Christoph Hellwig 2024-09-10  310  	for (i = 0; i < XFS_ZONE_GC_NR_SCRATCH; i++) {
-e334accc28179d Christoph Hellwig 2024-09-10  311  		data->scratch[i].folio =
-e334accc28179d Christoph Hellwig 2024-09-10  312  			folio_alloc(GFP_KERNEL, get_order(XFS_GC_CHUNK_SIZE));
-e334accc28179d Christoph Hellwig 2024-09-10  313  		if (!data->scratch[i].folio)
-e334accc28179d Christoph Hellwig 2024-09-10  314  			goto out_free_scratch;
-e334accc28179d Christoph Hellwig 2024-09-10  315  	}
-e334accc28179d Christoph Hellwig 2024-09-10  316  	spin_lock_init(&data->list_lock);
-e334accc28179d Christoph Hellwig 2024-09-10  317  	data->mp = mp;
-e334accc28179d Christoph Hellwig 2024-09-10  318  	return data;
-e334accc28179d Christoph Hellwig 2024-09-10  319  
-e334accc28179d Christoph Hellwig 2024-09-10  320  out_free_scratch:
-e334accc28179d Christoph Hellwig 2024-09-10  321  	while (--i > 0)
-e334accc28179d Christoph Hellwig 2024-09-10 @322  		folio_put(data->scratch[i].folio);
-e334accc28179d Christoph Hellwig 2024-09-10  323  	bioset_exit(&data->bio_set);
-e334accc28179d Christoph Hellwig 2024-09-10  324  out_free_data:
-e334accc28179d Christoph Hellwig 2024-09-10  325  	kfree(data);
-e334accc28179d Christoph Hellwig 2024-09-10  326  	return NULL;
-e334accc28179d Christoph Hellwig 2024-09-10  327  }
-e334accc28179d Christoph Hellwig 2024-09-10  328  
+>> utils/cpupower-set.c:77:21: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+      77 |                         params.perf_bias = 1;
+         |                                          ^ ~
+   utils/cpupower-set.c:86:15: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+      86 |                         params.epp = 1;
+         |                                    ^ ~
+   utils/cpupower-set.c:97:16: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+      97 |                         params.mode = 1;
+         |                                     ^ ~
+   utils/cpupower-set.c:107:23: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+     107 |                         params.turbo_boost = 1;
+         |                                            ^ ~
+>> utils/cpupower-info.c:60:21: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+      60 |                         params.perf_bias = 1;
+         |                                          ^ ~
+   4 warnings generated.
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
