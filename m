@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443C2E55B
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 10:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC23200CD
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 12:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726397565; cv=none; b=fV8sJEO10DLY3+hrpKYUmCoplWiHruNCAJi/188ScbvOzNTELcOPjd4yz0wvQ23sPd+MOyFbqEcLbhDA44cmQUeG8AAQupoglFJ4XoRW5BND8mEX93KiNB3RqLqvuOPZYG+TxoFEFr480VRW4leu3MN1ffgJ+A2M52ecVSUf8LU=
+	t=1726402439; cv=none; b=ZIks/fx+BKLhBDiA9Ovk+pBuPTCpvFKa6WgZAoCUNDK78JU7f497U1WgEAwiBpDcPQ1GqxlorxoaG4ZYykgwW2DZdKwnATTAnsK25P2XP3O93htBPfWMcULvWI08Nnk7bzgj3MrtRvfZveA6KPWuj0ffP/YlzUO3qTzZVdr15Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726397565; c=relaxed/simple;
-	bh=P9+nZCBh5jAAE0ksKWkik94SLApucl0ZRJy32iYgaQQ=;
+	s=arc-20240116; t=1726402439; c=relaxed/simple;
+	bh=UVa6l0V7rrbFZZMICAZCWBKfAY681jk78M660bUHt2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sE0ohH5bDsU4iyxfY9TwrPc23Yx9fAzENgmh87OzKHzI5E9qr9GPohzbNvKZ0sQxPoLNpnNpB7mHZ+kOeM9Z1Bn0UkhpDWeMAZNVLVhxsC7z48NUMBMbVIs+b/jDDzBZdpQMCzilohfeyZwTw11wEuuNdyCxZpAeKPuiWdS44GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCI8eT0z; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=P005IHyIsq5dqraJ9K2PtwqZTIxvbwtwfM9iSiKffQbIYTqSOudQe86QYOE2ADs9nsrLRZkBFkD+Twzd4T2aUkner2RRNLtkCPUU3NJPNR9D+LuL6A/78TkpunMO90xHwRrc2IDRlFbKLEST8PXD/0Xq6EbKmsnCgP5zDuiQHCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NVHj5CwS; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCI8eT0z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726397562; x=1757933562;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P9+nZCBh5jAAE0ksKWkik94SLApucl0ZRJy32iYgaQQ=;
-  b=PCI8eT0z/jnyxHAOE9LuEQlMtix6ePI+cKbK3qDbZEJVKG3FJNc/j3wd
-   nOTnFgheM60zmlZ/AyckNT96SXvOMu3+l0PXE+WanpzLS3nZvlaydGI6f
-   sdKEQCTBylkv09+eOiwe8PpwN3zr7Zly35/6PaYFqs26dHPOsvbTpAwU/
-   HH5IcTm6MXhx6k7C5iQ0AVmyDlIBW1ZwpsWwHkc3/jd1uA9RWscMc4A5I
-   YyYqBbev46qahfcpaJtfDjq9f7/Wbcz2dzdNqDZXqOwg88lK5MYrljnAz
-   rz3QMF+uQNvoZiErhM89RZkQAbn/EOQTwaQ1AFzmpCUYzIlTbW+dUubco
-   w==;
-X-CSE-ConnectionGUID: HT456TN7TY+ZwIWokiXNQQ==
-X-CSE-MsgGUID: w4vJ6zZPTQGWGIs8mFKLRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="35823025"
-X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="35823025"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 03:52:41 -0700
-X-CSE-ConnectionGUID: rxRD7i4qS1GeZypQBK9+Rw==
-X-CSE-MsgGUID: jPU7TFvpRoah9SAtQ4pp7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="68557609"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Sep 2024 03:52:40 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1spmru-0008cc-0Q;
-	Sun, 15 Sep 2024 10:52:38 +0000
-Date: Sun, 15 Sep 2024 18:51:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [openeuler:openEuler-1.0-LTS 21252/23714]
- drivers/i2c/busses/i2c-phytium-master.c:39:5-17: duplicated argument to &&
- or ||
-Message-ID: <202409151803.TxkWDq73-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NVHj5CwS"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3787ddbd5a2so2150686f8f.0
+        for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 05:13:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1726402435; x=1727007235; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nbacs5q0lLjxoCXrYkHylGc3sqVSoO90SYD6szybiW0=;
+        b=NVHj5CwSqXOtcw4mfmzTu2XJ+uOYAuFsMxN3BJsQ2+uDIg5v/uSo43gUXLT7IvTGGY
+         MF/lZivQPwQgwOE3dFjoexcBXP3t8gwtS7riJXSJt9ZosFRPlqkwadepkV4EvPADkIwc
+         W6J9r0Q4xtzDCLLka7XSV6Ma0OVTLDtBoG4iZJhoCkeHZxZLGL4A8ag4FHrA/MbuHqwY
+         5o3Ivu8wpw/WJVbwwB9wCVoY5C/UBUmc/SBkwr+gC+oXxdLJSld3CEzTMJ1ZgyGWcwJD
+         Hh6Toa/kRh9ePQc1XB//fEMc9G7bEuBlX9AJj2qkMTox1VO3QagD8qw4X+JOaHm0KR+A
+         +IPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726402435; x=1727007235;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nbacs5q0lLjxoCXrYkHylGc3sqVSoO90SYD6szybiW0=;
+        b=fAcgrKOlXX5AQTqWWZaAAgLbkslcGvD8BvqvnEJADt20dUViMFKTQ/ZQMV3ElnGY8e
+         rwK47v2UA7l2Sis/8pU2Ccp8R3CVTH3npCwk+PjZD2Rm/ta2JtigbcJXmgpKWKPmsQpY
+         JfaaLDXubRySiX+/p06FhKfXY/JchCfx/TkhEcxd3Zg6tEo7u4iMXRSY8dXxfQ7VqJhb
+         13MKnWP+/MNvzdcDZs5GnpU87NR9fYc0aCQSOu2cbCiVjfAvQncdJZyiDwFXLFY8uD5E
+         cO2aDELuHsXyC5DcB1I5/cSp6D0Y5M/y4MtRdIPJcflRLRaVPz7CyLW+dCNdDs9yE09Z
+         CPdg==
+X-Gm-Message-State: AOJu0Yy0zS9j1dFEPN0gxzszW8wiMfbH4M65ULAsWpa2we1EVJf9RF9B
+	u6KGZR+OpYEl+xDwvl1VUn0zsp+0fYB8D1j+HUgAnYzc4IyhM2k7Hjj81hX5GNjnelymZhxQ9WQ
+	e
+X-Google-Smtp-Source: AGHT+IE2eApXxU+5wskyDHYyV8D+atVqB7mtF3s0obqGeeowHjxiCT+dV2WmSdf5VXrKqWDvkRVdlg==
+X-Received: by 2002:a5d:4e10:0:b0:374:bd93:9bd4 with SMTP id ffacd0b85a97d-378c2d62109mr6900745f8f.56.1726402434979;
+        Sun, 15 Sep 2024 05:13:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-378e71f068esm4591275f8f.3.2024.09.15.05.13.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Sep 2024 05:13:54 -0700 (PDT)
+Date: Sun, 15 Sep 2024 15:13:51 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned-rebase 51/57] fs/xfs/xfs_zone_gc.c:322
+ xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
+Message-ID: <18a0d6c9-a697-40af-b4fc-71d2a32b6f32@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,65 +66,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Jiakun Shuai <shuaijiakun1288@phytium.com.cn>
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   37aeb7e817053fbf532b214aa02858b3c23af0b1
-commit: 777b12afb6187fc712f365df57982275e9ef244f [21252/23714] i2c: add Phytium i2c driver
-:::::: branch date: 29 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-r051-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151803.TxkWDq73-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
+head:   ccc2db4d79624bc274d9879eb76670cad04efeff
+commit: e334accc28179d073922768f2deec41758403cf0 [51/57] xfs: support zoned RT devices
+config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240915/202409150207.qmhcRNcV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409151803.TxkWDq73-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409150207.qmhcRNcV-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-phytium-master.c:39:5-17: duplicated argument to && or ||
+smatch warnings:
+fs/xfs/xfs_zone_gc.c:322 xfs_zone_gc_data_alloc() error: buffer overflow 'data->scratch' 2 <= s32max
 
-vim +39 drivers/i2c/busses/i2c-phytium-master.c
+vim +322 fs/xfs/xfs_zone_gc.c
 
-777b12afb6187f Jiakun Shuai 2023-10-26  24  
-777b12afb6187f Jiakun Shuai 2023-10-26  25  static int i2c_phytium_init_master(struct phytium_i2c_dev *dev)
-777b12afb6187f Jiakun Shuai 2023-10-26  26  {
-777b12afb6187f Jiakun Shuai 2023-10-26  27  	/* Disable the adapter */
-777b12afb6187f Jiakun Shuai 2023-10-26  28  	__i2c_phytium_disable(dev);
-777b12afb6187f Jiakun Shuai 2023-10-26  29  
-777b12afb6187f Jiakun Shuai 2023-10-26  30  	/* Write standard speed timing parameters */
-777b12afb6187f Jiakun Shuai 2023-10-26  31  	phytium_writel(dev, dev->ss_hcnt, IC_SS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  32  	phytium_writel(dev, dev->ss_lcnt, IC_SS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  33  
-777b12afb6187f Jiakun Shuai 2023-10-26  34  	/* Write fast mode/fast mode plus timing parameters */
-777b12afb6187f Jiakun Shuai 2023-10-26  35  	phytium_writel(dev, dev->fs_hcnt, IC_FS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  36  	phytium_writel(dev, dev->fs_lcnt, IC_FS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  37  
-777b12afb6187f Jiakun Shuai 2023-10-26  38  	/* Write high speed timing parameters if supported */
-777b12afb6187f Jiakun Shuai 2023-10-26 @39  	if (dev->hs_hcnt && dev->hs_hcnt) {
-777b12afb6187f Jiakun Shuai 2023-10-26  40  		phytium_writel(dev, dev->hs_hcnt, IC_HS_SCL_HCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  41  		phytium_writel(dev, dev->hs_lcnt, IC_HS_SCL_LCNT);
-777b12afb6187f Jiakun Shuai 2023-10-26  42  	}
-777b12afb6187f Jiakun Shuai 2023-10-26  43  
-777b12afb6187f Jiakun Shuai 2023-10-26  44  	/* Write SDA hold time if supported */
-777b12afb6187f Jiakun Shuai 2023-10-26  45  	if (dev->sda_hold_time)
-777b12afb6187f Jiakun Shuai 2023-10-26  46  		phytium_writel(dev, dev->sda_hold_time, IC_SDA_HOLD);
-777b12afb6187f Jiakun Shuai 2023-10-26  47  
-777b12afb6187f Jiakun Shuai 2023-10-26  48  	/* Configure Tx/Rx FIFO threshold levels */
-777b12afb6187f Jiakun Shuai 2023-10-26  49  	phytium_writel(dev, dev->tx_fifo_depth >> 1, IC_TX_TL);
-777b12afb6187f Jiakun Shuai 2023-10-26  50  	phytium_writel(dev, 0, IC_RX_TL);
-777b12afb6187f Jiakun Shuai 2023-10-26  51  
-777b12afb6187f Jiakun Shuai 2023-10-26  52  	/* Configure the I2C master */
-777b12afb6187f Jiakun Shuai 2023-10-26  53  	phytium_writel(dev, dev->master_cfg, IC_CON);
-777b12afb6187f Jiakun Shuai 2023-10-26  54  
-777b12afb6187f Jiakun Shuai 2023-10-26  55  	return 0;
-777b12afb6187f Jiakun Shuai 2023-10-26  56  }
-777b12afb6187f Jiakun Shuai 2023-10-26  57  
+e334accc28179d Christoph Hellwig 2024-09-10  291  static struct xfs_zone_gc_data *
+e334accc28179d Christoph Hellwig 2024-09-10  292  xfs_zone_gc_data_alloc(
+e334accc28179d Christoph Hellwig 2024-09-10  293  	struct xfs_mount	*mp)
+e334accc28179d Christoph Hellwig 2024-09-10  294  {
+e334accc28179d Christoph Hellwig 2024-09-10  295  	struct xfs_zone_gc_data	*data;
+e334accc28179d Christoph Hellwig 2024-09-10  296  	int i;
+e334accc28179d Christoph Hellwig 2024-09-10  297  
+e334accc28179d Christoph Hellwig 2024-09-10  298  	data = kzalloc(sizeof(*data), GFP_KERNEL);
+e334accc28179d Christoph Hellwig 2024-09-10  299  	if (!data)
+e334accc28179d Christoph Hellwig 2024-09-10  300  		return NULL;
+e334accc28179d Christoph Hellwig 2024-09-10  301  
+e334accc28179d Christoph Hellwig 2024-09-10  302  	/*
+e334accc28179d Christoph Hellwig 2024-09-10  303  	 * We actually only need a single bio_vec.  It would be nice to have
+e334accc28179d Christoph Hellwig 2024-09-10  304  	 * a flag that only allocates the inline bvecs and not the separate
+e334accc28179d Christoph Hellwig 2024-09-10  305  	 * bvec pool.
+e334accc28179d Christoph Hellwig 2024-09-10  306  	 */
+e334accc28179d Christoph Hellwig 2024-09-10  307  	if (bioset_init(&data->bio_set, 4, offsetof(struct xfs_gc_bio, bio),
+e334accc28179d Christoph Hellwig 2024-09-10  308  			BIOSET_NEED_BVECS))
+e334accc28179d Christoph Hellwig 2024-09-10  309  		goto out_free_data;
+e334accc28179d Christoph Hellwig 2024-09-10  310  	for (i = 0; i < XFS_ZONE_GC_NR_SCRATCH; i++) {
+e334accc28179d Christoph Hellwig 2024-09-10  311  		data->scratch[i].folio =
+e334accc28179d Christoph Hellwig 2024-09-10  312  			folio_alloc(GFP_KERNEL, get_order(XFS_GC_CHUNK_SIZE));
+e334accc28179d Christoph Hellwig 2024-09-10  313  		if (!data->scratch[i].folio)
+e334accc28179d Christoph Hellwig 2024-09-10  314  			goto out_free_scratch;
+e334accc28179d Christoph Hellwig 2024-09-10  315  	}
+e334accc28179d Christoph Hellwig 2024-09-10  316  	spin_lock_init(&data->list_lock);
+e334accc28179d Christoph Hellwig 2024-09-10  317  	data->mp = mp;
+e334accc28179d Christoph Hellwig 2024-09-10  318  	return data;
+e334accc28179d Christoph Hellwig 2024-09-10  319  
+e334accc28179d Christoph Hellwig 2024-09-10  320  out_free_scratch:
+e334accc28179d Christoph Hellwig 2024-09-10  321  	while (--i > 0)
+
+The warning is garbage, but this should be ">= 0" instead of "> 0".
+
+e334accc28179d Christoph Hellwig 2024-09-10 @322  		folio_put(data->scratch[i].folio);
+e334accc28179d Christoph Hellwig 2024-09-10  323  	bioset_exit(&data->bio_set);
+e334accc28179d Christoph Hellwig 2024-09-10  324  out_free_data:
+e334accc28179d Christoph Hellwig 2024-09-10  325  	kfree(data);
+e334accc28179d Christoph Hellwig 2024-09-10  326  	return NULL;
+e334accc28179d Christoph Hellwig 2024-09-10  327  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
