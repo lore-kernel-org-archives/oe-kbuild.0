@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A71117BA7
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 05:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C6B9463
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 08:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726379558; cv=none; b=H9ONoBeRcPFqo8Mz/H/oONOJICGs2uf8tW5m1+nTbw9kYY3RrnKELykaDC4I35CqPtmGDai8OyNtQ8CfIn+ryIyydI0dTKiowK07xvbQbriEM3rxDI/H0I6nteFqnm2308BVr5IfJcASayfPWRyWxT2TNvg27RNKlq/zHPD/o5E=
+	t=1726387541; cv=none; b=WyufSAOI9d2DIEpxQ690hDj0ve66/6ndlJMp47LjVr9mfPR2nopjRx23dNv6M9Rz4kSf6xk6Otv6gaiJxfegebUvZZ7C15SrxBqt0clcZmQmUSqGo7knoWsVQ7UDYP569TquYM3aNB0e/rvuCtX5+SvrxRyzYCyj/x87RLLQ4N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726379558; c=relaxed/simple;
-	bh=ahtCqSD52WgyRMi8ww2VsyPol/wougIkGnGAAB9YSuA=;
+	s=arc-20240116; t=1726387541; c=relaxed/simple;
+	bh=6mnXC+7wJdqSrM4+SV7ak5sClTZHBGwIRs1/elo9azo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J5PG6r7wvKsoYdIGtAEP2myoxLYU3sMMYCUoP4KuwZ/rCISaJ9+WZ2bfT0lukUBWMDadkn9ZxtY1b1cYuYZUsD15/7/n/o2+mAOYURJgJwRDYFHkgQvwnxFQCdrUh1bJPrPFm1F6HV9EsGZxy3eC6vscaPnLxxkRfRlX/P9Iios=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/qDC8ZE; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=aDt/BFN5k4P7o7yUhNER5UNTGhBAZlJvUjxvdXQ3BwfB8/G/LhpgchGtxkHVuBI//z+EL8RgMDbf9tMQWyI5idnBbQZce5RV/CpD8nKVhy85MDNt50bt47gJrQyjk7Nl5IBreOAxY/p7rmIrIqLTy8Kn5Pej2TQVte67k0PuYSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAlhYpTd; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/qDC8ZE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAlhYpTd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726379556; x=1757915556;
+  t=1726387538; x=1757923538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ahtCqSD52WgyRMi8ww2VsyPol/wougIkGnGAAB9YSuA=;
-  b=Y/qDC8ZEkgPe0dXye7oSg/D2OxXMz7dceBqVfLld6gGuQ1FkPzippLJs
-   rBCXs13V53SSc+8uFrfkYm2CawiUdnUHBmzp68SbmMiAxP4cuKf38nqAb
-   IofTGyECmeyn+hTCJe9TWAZ7Kklhtw2bNiZo0z+8Wx4XG0I7BBZTZds/O
-   q+/pLam4/oS6LMGIotIYHiRmBYcpAQB4xYxo83IDOAB1D7v8bBxKZx1gh
-   TADaixoECQDKEEzN8cxSXpTP05URUIBLUVUxLeR/WQny4kidzXXjCy7+L
-   32vy5mMcY4S+M2/jiHEKn2cdIDWVgaD9cnzdRQCrfjnW7E3VAd8je6EXi
-   g==;
-X-CSE-ConnectionGUID: x9jbrKrqQpCRUzLh9iRRTw==
-X-CSE-MsgGUID: oWE4CXRrSP2fbqRFQPT8ig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="25067068"
+  bh=6mnXC+7wJdqSrM4+SV7ak5sClTZHBGwIRs1/elo9azo=;
+  b=fAlhYpTdBviyvZqVHvgQZof1hkrim55n/3kFCgB7Whf3LeMcHRaXZv2x
+   SmQO7+mmwH7GyELzGarLX7vi7Qnk33JeyBm+PSdkrHeI42bUOyI1sjx/b
+   qYBm8Y8xZlxDXxIRmVg4a+kjk3Utx+Jt2zFFhLq4XxPxv1AWNeQPQpZBM
+   ynlzigM/HlgVbCWDsdn46UxkbKBZ+EyLayB5yVbA2TMT3CZJwnHoJiQyS
+   6dcumU/H109KWD/P9ZlGsOsYxjWP0Fo3uXgFiErdHPFynUChelWD66Jhe
+   mx+equ+9uqj9EFmr8rFniohQxWKIAe0Er5yP5jaqYrEg9+6rSnHpwJh9n
+   w==;
+X-CSE-ConnectionGUID: TPa6W2yNSvCa2QCqiVgPFQ==
+X-CSE-MsgGUID: vbATVI1oQXuBOF6Fv6xOrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="35920347"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="25067068"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2024 22:52:36 -0700
-X-CSE-ConnectionGUID: /tj/RcZeQv6RXC9vFp8Bfg==
-X-CSE-MsgGUID: 3aI1ugtHTKGfHKXX7Ul8yg==
+   d="scan'208";a="35920347"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:05:37 -0700
+X-CSE-ConnectionGUID: YadXO5K7SMmDl7GY+ldwjQ==
+X-CSE-MsgGUID: YwB+DBh3T1GfxleZ7WgnSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="69052710"
+   d="scan'208";a="72671232"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Sep 2024 22:52:34 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2024 01:05:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spiBU-0008SC-02;
-	Sun, 15 Sep 2024 05:52:32 +0000
-Date: Sun, 15 Sep 2024 13:51:50 +0800
+	id 1spkGE-0008Vy-0x;
+	Sun, 15 Sep 2024 08:05:34 +0000
+Date: Sun, 15 Sep 2024 16:05:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/xe/xe_guc_ct.c:532:1-7: preceding lock on line 512
-Message-ID: <202409151301.Esm1KMfE-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
+Message-ID: <202409151657.C9e2MDGb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,102 +63,153 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+In-Reply-To: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
+References: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0babf683783ddca06551537c6781e413cfe8d27b
-commit: dad33831d8d137ee28b21c3c2296463a01aa5b78 drm/xe/ct: hold fast_lock when reserving space for g2h
-date:   9 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 9 months ago
-config: alpha-randconfig-r062-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151301.Esm1KMfE-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
+Hi Josh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc7 next-20240913]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe%40kernel.org
+patch subject: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
+:::::: branch date: 33 hours ago
+:::::: commit date: 33 hours ago
+config: x86_64-randconfig-r072-20240914 (https://download.01.org/0day-ci/archive/20240915/202409151657.C9e2MDGb-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409151301.Esm1KMfE-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409151657.C9e2MDGb-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_guc_ct.c:532:1-7: preceding lock on line 512
+smatch warnings:
+kernel/unwind/sframe.c:107 find_fde() error: uninitialized symbol 'found'.
+kernel/unwind/sframe.c:161 find_fre() error: uninitialized symbol 'last_f'.
+kernel/unwind/sframe.c:166 find_fre() error: uninitialized symbol 'offset_size'.
+kernel/unwind/sframe.c:167 find_fre() error: uninitialized symbol 'offset_count'.
+kernel/unwind/sframe.c:188 find_fre() error: uninitialized symbol 'fre_info'.
 
-vim +532 drivers/gpu/drm/xe/xe_guc_ct.c
+vim +/found +107 kernel/unwind/sframe.c
 
-dd08ebf6c3525a Matthew Brost 2023-03-30  470  
-dd08ebf6c3525a Matthew Brost 2023-03-30  471  static int __guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action,
-dd08ebf6c3525a Matthew Brost 2023-03-30  472  				u32 len, u32 g2h_len, u32 num_g2h,
-dd08ebf6c3525a Matthew Brost 2023-03-30  473  				struct g2h_fence *g2h_fence)
-dd08ebf6c3525a Matthew Brost 2023-03-30  474  {
-dd08ebf6c3525a Matthew Brost 2023-03-30  475  	int ret;
-dd08ebf6c3525a Matthew Brost 2023-03-30  476  
-dd08ebf6c3525a Matthew Brost 2023-03-30  477  	XE_BUG_ON(g2h_len && g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  478  	XE_BUG_ON(num_g2h && g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  479  	XE_BUG_ON(g2h_len && !num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  480  	XE_BUG_ON(!g2h_len && num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  481  	lockdep_assert_held(&ct->lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  482  
-a7ca8157ec7b59 Rodrigo Vivi  2023-05-16  483  	if (unlikely(ct->ctbs.h2g.info.broken)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  484  		ret = -EPIPE;
-dd08ebf6c3525a Matthew Brost 2023-03-30  485  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  486  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  487  
-dd08ebf6c3525a Matthew Brost 2023-03-30  488  	if (unlikely(!ct->enabled)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  489  		ret = -ENODEV;
-dd08ebf6c3525a Matthew Brost 2023-03-30  490  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  491  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  492  
-dd08ebf6c3525a Matthew Brost 2023-03-30  493  	if (g2h_fence) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  494  		g2h_len = GUC_CTB_HXG_MSG_MAX_LEN;
-dd08ebf6c3525a Matthew Brost 2023-03-30  495  		num_g2h = 1;
-dd08ebf6c3525a Matthew Brost 2023-03-30  496  
-dd08ebf6c3525a Matthew Brost 2023-03-30  497  		if (g2h_fence_needs_alloc(g2h_fence)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  498  			void *ptr;
-dd08ebf6c3525a Matthew Brost 2023-03-30  499  
-dd08ebf6c3525a Matthew Brost 2023-03-30  500  			g2h_fence->seqno = (ct->fence_seqno++ & 0xffff);
-dd08ebf6c3525a Matthew Brost 2023-03-30  501  			ptr = xa_store(&ct->fence_lookup,
-dd08ebf6c3525a Matthew Brost 2023-03-30  502  				       g2h_fence->seqno,
-dd08ebf6c3525a Matthew Brost 2023-03-30  503  				       g2h_fence, GFP_ATOMIC);
-dd08ebf6c3525a Matthew Brost 2023-03-30  504  			if (IS_ERR(ptr)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  505  				ret = PTR_ERR(ptr);
-dd08ebf6c3525a Matthew Brost 2023-03-30  506  				goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  507  			}
-dd08ebf6c3525a Matthew Brost 2023-03-30  508  		}
-dd08ebf6c3525a Matthew Brost 2023-03-30  509  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  510  
-dad33831d8d137 Matthew Auld  2023-07-10  511  	if (g2h_len)
-dad33831d8d137 Matthew Auld  2023-07-10 @512  		spin_lock_irq(&ct->fast_lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  513  retry:
-dd08ebf6c3525a Matthew Brost 2023-03-30  514  	ret = has_room(ct, len + GUC_CTB_HDR_LEN, g2h_len);
-dd08ebf6c3525a Matthew Brost 2023-03-30  515  	if (unlikely(ret))
-dad33831d8d137 Matthew Auld  2023-07-10  516  		goto out_unlock;
-dd08ebf6c3525a Matthew Brost 2023-03-30  517  
-dd08ebf6c3525a Matthew Brost 2023-03-30  518  	ret = h2g_write(ct, action, len, g2h_fence ? g2h_fence->seqno : 0,
-dd08ebf6c3525a Matthew Brost 2023-03-30  519  			!!g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  520  	if (unlikely(ret)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  521  		if (ret == -EAGAIN)
-dd08ebf6c3525a Matthew Brost 2023-03-30  522  			goto retry;
-dad33831d8d137 Matthew Auld  2023-07-10  523  		goto out_unlock;
-dd08ebf6c3525a Matthew Brost 2023-03-30  524  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  525  
-dad33831d8d137 Matthew Auld  2023-07-10  526  	__g2h_reserve_space(ct, g2h_len, num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  527  	xe_guc_notify(ct_to_guc(ct));
-dad33831d8d137 Matthew Auld  2023-07-10  528  out_unlock:
-dad33831d8d137 Matthew Auld  2023-07-10  529  	if (g2h_len)
-dad33831d8d137 Matthew Auld  2023-07-10  530  		spin_unlock_irq(&ct->fast_lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  531  out:
-dd08ebf6c3525a Matthew Brost 2023-03-30 @532  	return ret;
-dd08ebf6c3525a Matthew Brost 2023-03-30  533  }
-dd08ebf6c3525a Matthew Brost 2023-03-30  534  
-
-:::::: The code at line 532 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   85  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   86  static int find_fde(struct sframe_section *sec, unsigned long ip,
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   87  		    struct sframe_fde *fde)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   88  {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   89  	s32 func_off, ip_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   90  	struct sframe_fde __user *first, *last, *mid, *found;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   91  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   92  	ip_off = ip - sec->sframe_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   93  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   94  	first = (void *)sec->fdes_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   95  	last = first + sec->fdes_nr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   96  	while (first <= last) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   97  		mid = first + ((last - first) / 2);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   98  		if (get_user(func_off, (s32 *)mid))
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14   99  			return -EFAULT;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  100  		if (ip_off >= func_off) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  101  			found = mid;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  102  			first = mid + 1;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  103  		} else
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  104  			last = mid - 1;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  105  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  106  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @107  	if (!found)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  108  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  109  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  110  	if (copy_from_user(fde, found, sizeof(*fde)))
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  111  		return -EFAULT;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  112  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  113  	return 0;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  114  }
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  115  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  116  static int find_fre(struct sframe_section *sec, struct sframe_fde *fde,
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  117  		    unsigned long ip, struct user_unwind_frame *frame)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  118  {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  119  	unsigned char fde_type = SFRAME_FUNC_FDE_TYPE(fde->info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  120  	unsigned char fre_type = SFRAME_FUNC_FRE_TYPE(fde->info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  121  	s32 fre_ip_off, cfa_off, ra_off, fp_off, ip_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  122  	unsigned char offset_count, offset_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  123  	unsigned char addr_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  124  	void __user *f, *last_f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  125  	u8 fre_info;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  126  	int i;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  127  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  128  	addr_size = fre_type_to_size(fre_type);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  129  	if (!addr_size)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  130  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  131  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  132  	ip_off = ip - sec->sframe_addr - fde->start_addr;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  133  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  134  	f = (void *)sec->fres_addr + fde->fres_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  135  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  136  	for (i = 0; i < fde->fres_num; i++) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  137  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  138  		SFRAME_GET_USER_UNSIGNED(fre_ip_off, f, addr_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  139  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  140  		if (fde_type == SFRAME_FDE_TYPE_PCINC) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  141  			if (fre_ip_off > ip_off)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  142  				break;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  143  		} else {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  144  			/* SFRAME_FDE_TYPE_PCMASK */
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  145  			if (ip_off % fde->rep_size < fre_ip_off)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  146  				break;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  147  		}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  148  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  149  		SFRAME_GET_USER_UNSIGNED(fre_info, f, 1);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  150  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  151  		offset_count = SFRAME_FRE_OFFSET_COUNT(fre_info);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  152  		offset_size  = offset_size_enum_to_size(SFRAME_FRE_OFFSET_SIZE(fre_info));
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  153  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  154  		if (!offset_count || !offset_size)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  155  			return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  156  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  157  		last_f = f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  158  		f += offset_count * offset_size;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  159  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  160  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @161  	if (!last_f)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  162  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  163  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  164  	f = last_f;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  165  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @166  	SFRAME_GET_USER_UNSIGNED(cfa_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @167  	offset_count--;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  168  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  169  	ra_off = sec->ra_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  170  	if (!ra_off) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  171  		if (!offset_count--)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  172  			return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  173  		SFRAME_GET_USER_SIGNED(ra_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  174  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  175  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  176  	fp_off = sec->fp_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  177  	if (!fp_off && offset_count) {
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  178  		offset_count--;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  179  		SFRAME_GET_USER_SIGNED(fp_off, f, offset_size);
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  180  	}
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  181  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  182  	if (offset_count)
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  183  		return -EINVAL;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  184  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  185  	frame->cfa_off = cfa_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  186  	frame->ra_off = ra_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  187  	frame->fp_off = fp_off;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @188  	frame->use_fp = SFRAME_FRE_CFA_BASE_REG_ID(fre_info) == SFRAME_BASE_REG_FP;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  189  
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  190  	return 0;
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  191  }
+6ce9812d0cc74f Josh Poimboeuf 2024-09-14  192  
 
 -- 
 0-DAY CI Kernel Test Service
