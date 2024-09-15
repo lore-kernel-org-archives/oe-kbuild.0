@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E777413B792
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 12:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7611C57BB
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 14:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726403146; cv=none; b=XJgXkzh1028ForE8oyLNh9BNHOZEnu8qGqONoFQkGjW/UMGK8y7l28LmQx4I14YNflMDDl9YPFkzQHhaOccny5cQG5oDwOKM6EXqbHRs54ki8HGDklt4AL5cvssGw47luVMkQs6r38pP9cWbY19B80pfzOMe4nV/INfGaWvL5SM=
+	t=1726409270; cv=none; b=UuChQ6q6WKjoeETx3i9zXBYE4lOdnqFMIU7ctQeNwwDo3q76nSb87mmnMxT7iifyyTq+0+L7krP09AWscNhg0PHceyUDWfhg6m4+IU43cMGnwoWQp0BWTx4BQW7HsOHM/DMGAe+tdW8rYBZ35cfcf5Z5dfwHNIBX66hy9JAzAOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726403146; c=relaxed/simple;
-	bh=oFh9aywK0xxqMZDZp6vm0qBNp3Rrcvp0zeyPI7aZoqs=;
+	s=arc-20240116; t=1726409270; c=relaxed/simple;
+	bh=xrNlX2cq5CAVWANS86NRFmvzIHBwfNTkanTtBmO7MPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DqjP4QzJQgNIPvi1fx/sQQdKlcZDbhmANmk6XH7Er2iGrP38zYamMHY6jDOZsPlf2iM7m624tlVEoeqlhud8Yk2/C89D5pdK2okfs7KvZ9ewQcrv9Oj27IjUY+5+W6cGor8lwuDHDSf5LNLOpYa9788BAicpBk4VyK86zHYfoE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDDa4HTI; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=HBxcIYn+VFSgsd/BX3gzdI5BS/71n4KDZPYxXREEx+kiPTh4X+sSnZ89pQYLht7NRQpC00AGMezTYleHGhWLatHEd8hyOlS1euAfn6daxagpvGuO4mxlTruNX0CEn5EzI/vo+FU5LfdKuZn+Gk1/reyCqF4yDilCIDDkmEBFXHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSmWJ1y1; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDDa4HTI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSmWJ1y1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726403144; x=1757939144;
+  t=1726409268; x=1757945268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oFh9aywK0xxqMZDZp6vm0qBNp3Rrcvp0zeyPI7aZoqs=;
-  b=PDDa4HTIWDjR6oyrm4leoqWUoET8DOlQ0X+N2BopIOa4N0/MiUMQoi1e
-   9xmz/vGuoNqAjwNyQCNVrnhnYh/NVxcUKnrAzJWSVU1RGleRO05hpxfrf
-   3OiXF7mvbCsgwJ6Xd1IIUuGUpjXMg6eUI48nvX/OQIvKQdEGpu0yFaOtI
-   q1h/Gmo8AiLmw0mPtJMAJEnJQAS0XIDsgZZoEzJF5rRgY1Mejh868kSg3
-   oFodHlloGIsfQvYn7aFsiF7WlKDaVYyx/w0WIKn33UnS6IwHsNVxrrOfp
-   CLVp7Ff3pfhPeT0jsD2PLtOL6NZdWFbPg/vvnX4syEe6cyA6sL3PHS+Hc
-   A==;
-X-CSE-ConnectionGUID: g/uJHpBbTDaXVl5SrjJ5/Q==
-X-CSE-MsgGUID: yLiwzJ8dTx+j5U9gttaIXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="28998739"
+  bh=xrNlX2cq5CAVWANS86NRFmvzIHBwfNTkanTtBmO7MPU=;
+  b=hSmWJ1y1DiaT4NgkRJmppbfsA6aUMRhSr7idpRNGseygwG1hEcNh7zhE
+   FY7NSeajhW16FmSCSgfGB7dONDt43ErL19wypFYCtQ29jSmn9/vIQSxsq
+   x/CDtLPPnU252xr6idxp8zil/UKoUB1fnUeinVnSdP+FsHTTSOA+3xX8g
+   tOcCbtCCaWgHX0875LdDz/KPPrnnYgJvrEE7m4w2LiioZtry0UuAXzN4n
+   cM0ymKFZeVdhz7R1foGVa67xhFHEN0GNOlMHJkrkXRHeplVtwuE9jhFCA
+   SKBw4zrA8xdPnQgaUv6OPzGRO9ah5sb1ScjCIYEM1UIJJaSjndGxoQNxW
+   Q==;
+X-CSE-ConnectionGUID: fdoQHQJNRpmj00/hPYEgeg==
+X-CSE-MsgGUID: 1y1vH32gT8OebBkeXwrZeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11196"; a="42731500"
 X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="28998739"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 05:25:43 -0700
-X-CSE-ConnectionGUID: lIk60t00TQ+2x+oUMvfBTg==
-X-CSE-MsgGUID: FQVIoGGETFCbyF4I9RL3RA==
+   d="scan'208";a="42731500"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 07:07:47 -0700
+X-CSE-ConnectionGUID: NEwVWFe5Tquo0E2pCN2dtA==
+X-CSE-MsgGUID: H5o6qsmiQ4mXt6qWA3FhvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,231,1719903600"; 
-   d="scan'208";a="99463832"
+   d="scan'208";a="72724516"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Sep 2024 05:25:42 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2024 07:07:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spoJw-0008fa-0F;
-	Sun, 15 Sep 2024 12:25:40 +0000
-Date: Sun, 15 Sep 2024 20:24:55 +0800
+	id 1sppui-0008iy-0I;
+	Sun, 15 Sep 2024 14:07:44 +0000
+Date: Sun, 15 Sep 2024 22:07:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/ethernet/intel/idpf/idpf_txrx.c:1385
- idpf_txq_group_alloc() error: uninitialized symbol 'stashes'.
-Message-ID: <202409152057.RIiQtgs5-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612
+ iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
+Message-ID: <202409160031.caQ4LNOA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,129 +65,99 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Johannes Berg <johannes.berg@intel.com>
+CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d42f7708e27cc68d080ac9d3803d27e86821d775
-commit: e4891e4687c8dd136d80d6c1b857a02931ed6fc8 idpf: split &idpf_queue into 4 strictly-typed queue structures
-date:   10 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 weeks ago
-config: i386-randconfig-141-20240912 (https://download.01.org/0day-ci/archive/20240915/202409152057.RIiQtgs5-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+commit: 3f3126515fbee0e364f8218f6171c091d8e2555e wifi: iwlwifi: mvm: add mvm-specific guard
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: csky-randconfig-r073-20240915 (https://download.01.org/0day-ci/archive/20240916/202409160031.caQ4LNOA-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409152057.RIiQtgs5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409160031.caQ4LNOA-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/intel/idpf/idpf_txrx.c:1385 idpf_txq_group_alloc() error: uninitialized symbol 'stashes'.
+drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c:612 iwl_mvm_mld_start_ap_ibss() warn: missing error code 'ret'
 
-vim +/stashes +1385 drivers/net/ethernet/intel/idpf/idpf_txrx.c
+vim +/ret +612 drivers/net/wireless/intel/iwlwifi/mvm/mld-mac80211.c
 
-1c325aac10a82f Alan Brady        2023-08-07  1318  
-1c325aac10a82f Alan Brady        2023-08-07  1319  /**
-1c325aac10a82f Alan Brady        2023-08-07  1320   * idpf_txq_group_alloc - Allocate all txq group resources
-1c325aac10a82f Alan Brady        2023-08-07  1321   * @vport: vport to allocate txq groups for
-1c325aac10a82f Alan Brady        2023-08-07  1322   * @num_txq: number of txqs to allocate for each group
-1c325aac10a82f Alan Brady        2023-08-07  1323   *
-1c325aac10a82f Alan Brady        2023-08-07  1324   * Returns 0 on success, negative on failure
-1c325aac10a82f Alan Brady        2023-08-07  1325   */
-1c325aac10a82f Alan Brady        2023-08-07  1326  static int idpf_txq_group_alloc(struct idpf_vport *vport, u16 num_txq)
-1c325aac10a82f Alan Brady        2023-08-07  1327  {
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1328  	bool split, flow_sch_en;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1329  	int i;
-1c325aac10a82f Alan Brady        2023-08-07  1330  
-1c325aac10a82f Alan Brady        2023-08-07  1331  	vport->txq_grps = kcalloc(vport->num_txq_grp,
-1c325aac10a82f Alan Brady        2023-08-07  1332  				  sizeof(*vport->txq_grps), GFP_KERNEL);
-1c325aac10a82f Alan Brady        2023-08-07  1333  	if (!vport->txq_grps)
-1c325aac10a82f Alan Brady        2023-08-07  1334  		return -ENOMEM;
-1c325aac10a82f Alan Brady        2023-08-07  1335  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1336  	split = idpf_is_queue_model_split(vport->txq_model);
-d38b4d0d95bc0c Michal Kubiak     2023-10-23  1337  	flow_sch_en = !idpf_is_cap_ena(vport->adapter, IDPF_OTHER_CAPS,
-d38b4d0d95bc0c Michal Kubiak     2023-10-23  1338  				       VIRTCHNL2_CAP_SPLITQ_QSCHED);
-d38b4d0d95bc0c Michal Kubiak     2023-10-23  1339  
-1c325aac10a82f Alan Brady        2023-08-07  1340  	for (i = 0; i < vport->num_txq_grp; i++) {
-1c325aac10a82f Alan Brady        2023-08-07  1341  		struct idpf_txq_group *tx_qgrp = &vport->txq_grps[i];
-1c325aac10a82f Alan Brady        2023-08-07  1342  		struct idpf_adapter *adapter = vport->adapter;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1343  		struct idpf_txq_stash *stashes;
-1c325aac10a82f Alan Brady        2023-08-07  1344  		int j;
-1c325aac10a82f Alan Brady        2023-08-07  1345  
-1c325aac10a82f Alan Brady        2023-08-07  1346  		tx_qgrp->vport = vport;
-1c325aac10a82f Alan Brady        2023-08-07  1347  		tx_qgrp->num_txq = num_txq;
-1c325aac10a82f Alan Brady        2023-08-07  1348  
-1c325aac10a82f Alan Brady        2023-08-07  1349  		for (j = 0; j < tx_qgrp->num_txq; j++) {
-1c325aac10a82f Alan Brady        2023-08-07  1350  			tx_qgrp->txqs[j] = kzalloc(sizeof(*tx_qgrp->txqs[j]),
-1c325aac10a82f Alan Brady        2023-08-07  1351  						   GFP_KERNEL);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1352  			if (!tx_qgrp->txqs[j])
-1c325aac10a82f Alan Brady        2023-08-07  1353  				goto err_alloc;
-1c325aac10a82f Alan Brady        2023-08-07  1354  		}
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1355  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1356  		if (split && flow_sch_en) {
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1357  			stashes = kcalloc(num_txq, sizeof(*stashes),
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1358  					  GFP_KERNEL);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1359  			if (!stashes)
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1360  				goto err_alloc;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1361  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1362  			tx_qgrp->stashes = stashes;
-1c325aac10a82f Alan Brady        2023-08-07  1363  		}
-1c325aac10a82f Alan Brady        2023-08-07  1364  
-1c325aac10a82f Alan Brady        2023-08-07  1365  		for (j = 0; j < tx_qgrp->num_txq; j++) {
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1366  			struct idpf_tx_queue *q = tx_qgrp->txqs[j];
-1c325aac10a82f Alan Brady        2023-08-07  1367  
-1c325aac10a82f Alan Brady        2023-08-07  1368  			q->dev = &adapter->pdev->dev;
-1c325aac10a82f Alan Brady        2023-08-07  1369  			q->desc_count = vport->txq_desc_count;
-1c325aac10a82f Alan Brady        2023-08-07  1370  			q->tx_max_bufs = idpf_get_max_tx_bufs(adapter);
-1c325aac10a82f Alan Brady        2023-08-07  1371  			q->tx_min_pkt_len = idpf_get_min_tx_pkt_len(adapter);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1372  			q->netdev = vport->netdev;
-1c325aac10a82f Alan Brady        2023-08-07  1373  			q->txq_grp = tx_qgrp;
-1c325aac10a82f Alan Brady        2023-08-07  1374  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1375  			if (!split) {
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1376  				q->clean_budget = vport->compln_clean_budget;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1377  				idpf_queue_assign(CRC_EN, q,
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1378  						  vport->crc_enable);
-1c325aac10a82f Alan Brady        2023-08-07  1379  			}
-1c325aac10a82f Alan Brady        2023-08-07  1380  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1381  			if (!flow_sch_en)
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1382  				continue;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1383  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1384  			if (split) {
-e4891e4687c8dd Alexander Lobakin 2024-06-20 @1385  				q->stash = &stashes[j];
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1386  				hash_init(q->stash->sched_buf_hash);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1387  			}
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1388  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1389  			idpf_queue_set(FLOW_SCH_EN, q);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1390  		}
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1391  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1392  		if (!split)
-1c325aac10a82f Alan Brady        2023-08-07  1393  			continue;
-1c325aac10a82f Alan Brady        2023-08-07  1394  
-1c325aac10a82f Alan Brady        2023-08-07  1395  		tx_qgrp->complq = kcalloc(IDPF_COMPLQ_PER_GROUP,
-1c325aac10a82f Alan Brady        2023-08-07  1396  					  sizeof(*tx_qgrp->complq),
-1c325aac10a82f Alan Brady        2023-08-07  1397  					  GFP_KERNEL);
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1398  		if (!tx_qgrp->complq)
-1c325aac10a82f Alan Brady        2023-08-07  1399  			goto err_alloc;
-1c325aac10a82f Alan Brady        2023-08-07  1400  
-1c325aac10a82f Alan Brady        2023-08-07  1401  		tx_qgrp->complq->desc_count = vport->complq_desc_count;
-1c325aac10a82f Alan Brady        2023-08-07  1402  		tx_qgrp->complq->txq_grp = tx_qgrp;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1403  		tx_qgrp->complq->netdev = vport->netdev;
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1404  		tx_qgrp->complq->clean_budget = vport->compln_clean_budget;
-d38b4d0d95bc0c Michal Kubiak     2023-10-23  1405  
-d38b4d0d95bc0c Michal Kubiak     2023-10-23  1406  		if (flow_sch_en)
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1407  			idpf_queue_set(FLOW_SCH_EN, tx_qgrp->complq);
-1c325aac10a82f Alan Brady        2023-08-07  1408  	}
-1c325aac10a82f Alan Brady        2023-08-07  1409  
-1c325aac10a82f Alan Brady        2023-08-07  1410  	return 0;
-1c325aac10a82f Alan Brady        2023-08-07  1411  
-1c325aac10a82f Alan Brady        2023-08-07  1412  err_alloc:
-1c325aac10a82f Alan Brady        2023-08-07  1413  	idpf_txq_group_rel(vport);
-1c325aac10a82f Alan Brady        2023-08-07  1414  
-e4891e4687c8dd Alexander Lobakin 2024-06-20  1415  	return -ENOMEM;
-1c325aac10a82f Alan Brady        2023-08-07  1416  }
-1c325aac10a82f Alan Brady        2023-08-07  1417  
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  573  
+f947b62c03b15d Miri Korenblit   2023-03-20  574  static int iwl_mvm_mld_start_ap_ibss(struct ieee80211_hw *hw,
+cbce62a315f67e Miri Korenblit   2023-03-28  575  				     struct ieee80211_vif *vif,
+cbce62a315f67e Miri Korenblit   2023-03-28  576  				     struct ieee80211_bss_conf *link_conf)
+f947b62c03b15d Miri Korenblit   2023-03-20  577  {
+f947b62c03b15d Miri Korenblit   2023-03-20  578  	struct iwl_mvm *mvm = IWL_MAC80211_GET_MVM(hw);
+f947b62c03b15d Miri Korenblit   2023-03-20  579  	struct iwl_mvm_vif *mvmvif = iwl_mvm_vif_from_mac80211(vif);
+f947b62c03b15d Miri Korenblit   2023-03-20  580  	int ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  581  
+3f3126515fbee0 Johannes Berg    2024-05-12  582  	guard(mvm)(mvm);
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  583  
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  584  	if (vif->type == NL80211_IFTYPE_AP)
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  585  		iwl_mvm_send_ap_tx_power_constraint_cmd(mvm, vif, link_conf);
+bde2f9b420f692 Mukesh Sisodiya  2024-04-16  586  
+36cf537798cb6c Gregory Greenman 2023-03-28  587  	/* Send the beacon template */
+36cf537798cb6c Gregory Greenman 2023-03-28  588  	ret = iwl_mvm_mac_ctxt_beacon_changed(mvm, vif, link_conf);
+36cf537798cb6c Gregory Greenman 2023-03-28  589  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  590  		return ret;
+36cf537798cb6c Gregory Greenman 2023-03-28  591  
+bf976c814c864e Johannes Berg    2023-03-28  592  	/* the link should be already activated when assigning chan context */
+bf976c814c864e Johannes Berg    2023-03-28  593  	ret = iwl_mvm_link_changed(mvm, vif, link_conf,
+bf976c814c864e Johannes Berg    2023-03-28  594  				   LINK_CONTEXT_MODIFY_ALL &
+bf976c814c864e Johannes Berg    2023-03-28  595  				   ~LINK_CONTEXT_MODIFY_ACTIVE,
+f947b62c03b15d Miri Korenblit   2023-03-20  596  				   true);
+f947b62c03b15d Miri Korenblit   2023-03-20  597  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  598  		return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  599  
+62e0ccb2170e7a Gregory Greenman 2023-03-28  600  	ret = iwl_mvm_mld_add_mcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  601  	if (ret)
+3f3126515fbee0 Johannes Berg    2024-05-12  602  		return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  603  
+f947b62c03b15d Miri Korenblit   2023-03-20  604  	/* Send the bcast station. At this stage the TBTT and DTIM time
+f947b62c03b15d Miri Korenblit   2023-03-20  605  	 * events are added and applied to the scheduler
+f947b62c03b15d Miri Korenblit   2023-03-20  606  	 */
+62e0ccb2170e7a Gregory Greenman 2023-03-28  607  	ret = iwl_mvm_mld_add_bcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  608  	if (ret)
+f947b62c03b15d Miri Korenblit   2023-03-20  609  		goto out_rm_mcast;
+f947b62c03b15d Miri Korenblit   2023-03-20  610  
+f947b62c03b15d Miri Korenblit   2023-03-20  611  	if (iwl_mvm_start_ap_ibss_common(hw, vif, &ret))
+f947b62c03b15d Miri Korenblit   2023-03-20 @612  		goto out_failed;
+f947b62c03b15d Miri Korenblit   2023-03-20  613  
+f947b62c03b15d Miri Korenblit   2023-03-20  614  	/* Need to update the P2P Device MAC (only GO, IBSS is single vif) */
+f947b62c03b15d Miri Korenblit   2023-03-20  615  	if (vif->p2p && mvm->p2p_device_vif)
+f947b62c03b15d Miri Korenblit   2023-03-20  616  		iwl_mvm_mld_mac_ctxt_changed(mvm, mvm->p2p_device_vif, false);
+f947b62c03b15d Miri Korenblit   2023-03-20  617  
+f947b62c03b15d Miri Korenblit   2023-03-20  618  	iwl_mvm_bt_coex_vif_change(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  619  
+f947b62c03b15d Miri Korenblit   2023-03-20  620  	/* we don't support TDLS during DCM */
+f947b62c03b15d Miri Korenblit   2023-03-20  621  	if (iwl_mvm_phy_ctx_count(mvm) > 1)
+f947b62c03b15d Miri Korenblit   2023-03-20  622  		iwl_mvm_teardown_tdls_peers(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  623  
+fd940de72d493c Avraham Stern    2023-06-12  624  	iwl_mvm_ftm_restart_responder(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  625  
+3f3126515fbee0 Johannes Berg    2024-05-12  626  	return 0;
+f947b62c03b15d Miri Korenblit   2023-03-20  627  
+f947b62c03b15d Miri Korenblit   2023-03-20  628  out_failed:
+f947b62c03b15d Miri Korenblit   2023-03-20  629  	iwl_mvm_power_update_mac(mvm);
+f947b62c03b15d Miri Korenblit   2023-03-20  630  	mvmvif->ap_ibss_active = false;
+62e0ccb2170e7a Gregory Greenman 2023-03-28  631  	iwl_mvm_mld_rm_bcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  632  out_rm_mcast:
+62e0ccb2170e7a Gregory Greenman 2023-03-28  633  	iwl_mvm_mld_rm_mcast_sta(mvm, vif, link_conf);
+f947b62c03b15d Miri Korenblit   2023-03-20  634  	return ret;
+f947b62c03b15d Miri Korenblit   2023-03-20  635  }
+f947b62c03b15d Miri Korenblit   2023-03-20  636  
+
+:::::: The code at line 612 was first introduced by commit
+:::::: f947b62c03b15d14349668384bb365aabe898650 wifi: iwlwifi: mvm: add start_ap() and join_ibss() callbacks for MLD mode
+
+:::::: TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
