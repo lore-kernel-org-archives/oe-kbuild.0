@@ -1,215 +1,183 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C6B9463
-	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 08:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FA319D088
+	for <oe-kbuild@lists.linux.dev>; Sun, 15 Sep 2024 08:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726387541; cv=none; b=WyufSAOI9d2DIEpxQ690hDj0ve66/6ndlJMp47LjVr9mfPR2nopjRx23dNv6M9Rz4kSf6xk6Otv6gaiJxfegebUvZZ7C15SrxBqt0clcZmQmUSqGo7knoWsVQ7UDYP569TquYM3aNB0e/rvuCtX5+SvrxRyzYCyj/x87RLLQ4N8=
+	t=1726388201; cv=none; b=Es8MX4QMyTk3t0+OOD6M8v4xRP4ttao2SCILGJ6MRzeLSQLSotElb339IyELxExtrfD0D1TNbn+lz9fzXBq8j6eDJoDTP9empstm5MUXGoKtB+X7k5eNWrkZp4Ej26HCu/o6QR/5DZxWTxtom1taUdk5fMnM7i5I7ycsk6vQE+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726387541; c=relaxed/simple;
-	bh=6mnXC+7wJdqSrM4+SV7ak5sClTZHBGwIRs1/elo9azo=;
+	s=arc-20240116; t=1726388201; c=relaxed/simple;
+	bh=yWU9RwPvlAmVl56GwRKAWWtpr3VP5ova0aRUPRkVDYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aDt/BFN5k4P7o7yUhNER5UNTGhBAZlJvUjxvdXQ3BwfB8/G/LhpgchGtxkHVuBI//z+EL8RgMDbf9tMQWyI5idnBbQZce5RV/CpD8nKVhy85MDNt50bt47gJrQyjk7Nl5IBreOAxY/p7rmIrIqLTy8Kn5Pej2TQVte67k0PuYSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAlhYpTd; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=jsnnGc0sda8tvGYOyaLHE/rCqAPvz4y7vQwZEvXZqtzevX5J0uHfEN8Ne4OdbM8fblx1hg5QFK/UsLMNUL6KGR3QN+ALrQEfIfLdl1IrElim8QrpP6DjncmDKybfkXxIqD9kNgofnWPh0jgLf+wrWAJ596Hz3X/MPnM5UYvJnBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/3KjRx7; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAlhYpTd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/3KjRx7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726387538; x=1757923538;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6mnXC+7wJdqSrM4+SV7ak5sClTZHBGwIRs1/elo9azo=;
-  b=fAlhYpTdBviyvZqVHvgQZof1hkrim55n/3kFCgB7Whf3LeMcHRaXZv2x
-   SmQO7+mmwH7GyELzGarLX7vi7Qnk33JeyBm+PSdkrHeI42bUOyI1sjx/b
-   qYBm8Y8xZlxDXxIRmVg4a+kjk3Utx+Jt2zFFhLq4XxPxv1AWNeQPQpZBM
-   ynlzigM/HlgVbCWDsdn46UxkbKBZ+EyLayB5yVbA2TMT3CZJwnHoJiQyS
-   6dcumU/H109KWD/P9ZlGsOsYxjWP0Fo3uXgFiErdHPFynUChelWD66Jhe
-   mx+equ+9uqj9EFmr8rFniohQxWKIAe0Er5yP5jaqYrEg9+6rSnHpwJh9n
-   w==;
-X-CSE-ConnectionGUID: TPa6W2yNSvCa2QCqiVgPFQ==
-X-CSE-MsgGUID: vbATVI1oQXuBOF6Fv6xOrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="35920347"
+  t=1726388199; x=1757924199;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yWU9RwPvlAmVl56GwRKAWWtpr3VP5ova0aRUPRkVDYQ=;
+  b=b/3KjRx7xRicjboweP7FxTPBlvO6mUuzzzr1c/BnODglLU1kcLX7CiKH
+   Hh3y92LcsiYOglw1I3d+pU+uXnjwCwmCHHFdzNmuZozFqyciLN/VrdKfK
+   BA9YBKS/41RhgO5llGDE3dSIX2sj92yJuVHRQso/cbvh/wxwwaxVmiwwa
+   AKI/YzX6gKT6QWAZBD+eL0XmDMhw3JriWhxj2Xk9uLzhIV9Oc9YFE7HMn
+   uEwp9J4NfgZhEko/ZtrEavSmeg3uORn9HSuEf+NYhlrW/3+CZWwrThYQS
+   C0YcrlZu2rVQDE/RSjy2atD52NaR7crF+GZNBuOgOX1Nrv+2fKnNzcT0X
+   Q==;
+X-CSE-ConnectionGUID: 7XaEkxsGTaWV+8VQkS9gUA==
+X-CSE-MsgGUID: eR/T/Qh3R3CRnoC3oVQgEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11195"; a="50659663"
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="35920347"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:05:37 -0700
-X-CSE-ConnectionGUID: YadXO5K7SMmDl7GY+ldwjQ==
-X-CSE-MsgGUID: YwB+DBh3T1GfxleZ7WgnSw==
+   d="scan'208";a="50659663"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2024 01:16:38 -0700
+X-CSE-ConnectionGUID: 0FIgvRvfTTKbKzBryt9nlg==
+X-CSE-MsgGUID: hEcE+LJ0RmaynV4pFZmBGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,230,1719903600"; 
-   d="scan'208";a="72671232"
+   d="scan'208";a="69345343"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Sep 2024 01:05:36 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Sep 2024 01:16:36 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1spkGE-0008Vy-0x;
-	Sun, 15 Sep 2024 08:05:34 +0000
-Date: Sun, 15 Sep 2024 16:05:15 +0800
+	id 1spkQs-0008WK-1h;
+	Sun, 15 Sep 2024 08:16:34 +0000
+Date: Sun, 15 Sep 2024 16:15:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
-Message-ID: <202409151657.C9e2MDGb-lkp@intel.com>
+Subject: Re: [PATCH] drm/i915/display: Workaround for odd panning for planar
+ yuv
+Message-ID: <202409151558.ETIW5UMU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
-References: <37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe@kernel.org>
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+In-Reply-To: <20240910143619.143514-1-nemesa.garg@intel.com>
+References: <20240910143619.143514-1-nemesa.garg@intel.com>
+TO: Nemesa Garg <nemesa.garg@intel.com>
+TO: intel-gfx@lists.freedesktop.org
+CC: Nemesa Garg <nemesa.garg@intel.com>
 
-Hi Josh,
+Hi Nemesa,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on perf-tools-next/perf-tools-next]
-[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v6.11-rc7 next-20240913]
-[cannot apply to acme/perf/core]
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.11-rc7 next-20240913]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Josh-Poimboeuf/unwind-Introduce-generic-user-space-unwinding-interface/20240914-070619
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
-patch link:    https://lore.kernel.org/r/37de872b0894b21408754ae2903b7701cc6dfab7.1726268190.git.jpoimboe%40kernel.org
-patch subject: [PATCH v2 04/11] unwind/x86/64: Add HAVE_USER_UNWIND_SFRAME
-:::::: branch date: 33 hours ago
-:::::: commit date: 33 hours ago
-config: x86_64-randconfig-r072-20240914 (https://download.01.org/0day-ci/archive/20240915/202409151657.C9e2MDGb-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-i915-display-Workaround-for-odd-panning-for-planar-yuv/20240910-223820
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20240910143619.143514-1-nemesa.garg%40intel.com
+patch subject: [PATCH] drm/i915/display: Workaround for odd panning for planar yuv
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20240915 (https://download.01.org/0day-ci/archive/20240915/202409151558.ETIW5UMU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409151657.C9e2MDGb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409151558.ETIW5UMU-lkp@intel.com/
 
-smatch warnings:
-kernel/unwind/sframe.c:107 find_fde() error: uninitialized symbol 'found'.
-kernel/unwind/sframe.c:161 find_fre() error: uninitialized symbol 'last_f'.
-kernel/unwind/sframe.c:166 find_fre() error: uninitialized symbol 'offset_size'.
-kernel/unwind/sframe.c:167 find_fre() error: uninitialized symbol 'offset_count'.
-kernel/unwind/sframe.c:188 find_fre() error: uninitialized symbol 'fre_info'.
+New smatch warnings:
+drivers/gpu/drm/i915/display/intel_atomic_plane.c:1045 intel_plane_check_src_coordinates() error: uninitialized symbol 'hsub'.
 
-vim +/found +107 kernel/unwind/sframe.c
+Old smatch warnings:
+drivers/gpu/drm/i915/display/intel_atomic_plane.c:660 intel_plane_atomic_check_with_state() error: we previously assumed 'fb' could be null (see line 648)
+drivers/gpu/drm/i915/display/intel_atomic_plane.c:1047 intel_plane_check_src_coordinates() error: uninitialized symbol 'hsub'.
 
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   85  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   86  static int find_fde(struct sframe_section *sec, unsigned long ip,
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   87  		    struct sframe_fde *fde)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   88  {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   89  	s32 func_off, ip_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   90  	struct sframe_fde __user *first, *last, *mid, *found;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   91  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   92  	ip_off = ip - sec->sframe_addr;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   93  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   94  	first = (void *)sec->fdes_addr;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   95  	last = first + sec->fdes_nr;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   96  	while (first <= last) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   97  		mid = first + ((last - first) / 2);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   98  		if (get_user(func_off, (s32 *)mid))
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14   99  			return -EFAULT;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  100  		if (ip_off >= func_off) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  101  			found = mid;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  102  			first = mid + 1;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  103  		} else
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  104  			last = mid - 1;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  105  	}
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  106  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @107  	if (!found)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  108  		return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  109  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  110  	if (copy_from_user(fde, found, sizeof(*fde)))
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  111  		return -EFAULT;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  112  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  113  	return 0;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  114  }
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  115  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  116  static int find_fre(struct sframe_section *sec, struct sframe_fde *fde,
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  117  		    unsigned long ip, struct user_unwind_frame *frame)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  118  {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  119  	unsigned char fde_type = SFRAME_FUNC_FDE_TYPE(fde->info);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  120  	unsigned char fre_type = SFRAME_FUNC_FRE_TYPE(fde->info);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  121  	s32 fre_ip_off, cfa_off, ra_off, fp_off, ip_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  122  	unsigned char offset_count, offset_size;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  123  	unsigned char addr_size;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  124  	void __user *f, *last_f;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  125  	u8 fre_info;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  126  	int i;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  127  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  128  	addr_size = fre_type_to_size(fre_type);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  129  	if (!addr_size)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  130  		return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  131  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  132  	ip_off = ip - sec->sframe_addr - fde->start_addr;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  133  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  134  	f = (void *)sec->fres_addr + fde->fres_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  135  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  136  	for (i = 0; i < fde->fres_num; i++) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  137  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  138  		SFRAME_GET_USER_UNSIGNED(fre_ip_off, f, addr_size);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  139  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  140  		if (fde_type == SFRAME_FDE_TYPE_PCINC) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  141  			if (fre_ip_off > ip_off)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  142  				break;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  143  		} else {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  144  			/* SFRAME_FDE_TYPE_PCMASK */
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  145  			if (ip_off % fde->rep_size < fre_ip_off)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  146  				break;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  147  		}
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  148  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  149  		SFRAME_GET_USER_UNSIGNED(fre_info, f, 1);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  150  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  151  		offset_count = SFRAME_FRE_OFFSET_COUNT(fre_info);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  152  		offset_size  = offset_size_enum_to_size(SFRAME_FRE_OFFSET_SIZE(fre_info));
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  153  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  154  		if (!offset_count || !offset_size)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  155  			return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  156  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  157  		last_f = f;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  158  		f += offset_count * offset_size;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  159  	}
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  160  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @161  	if (!last_f)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  162  		return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  163  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  164  	f = last_f;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  165  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @166  	SFRAME_GET_USER_UNSIGNED(cfa_off, f, offset_size);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @167  	offset_count--;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  168  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  169  	ra_off = sec->ra_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  170  	if (!ra_off) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  171  		if (!offset_count--)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  172  			return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  173  		SFRAME_GET_USER_SIGNED(ra_off, f, offset_size);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  174  	}
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  175  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  176  	fp_off = sec->fp_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  177  	if (!fp_off && offset_count) {
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  178  		offset_count--;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  179  		SFRAME_GET_USER_SIGNED(fp_off, f, offset_size);
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  180  	}
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  181  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  182  	if (offset_count)
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  183  		return -EINVAL;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  184  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  185  	frame->cfa_off = cfa_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  186  	frame->ra_off = ra_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  187  	frame->fp_off = fp_off;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14 @188  	frame->use_fp = SFRAME_FRE_CFA_BASE_REG_ID(fre_info) == SFRAME_BASE_REG_FP;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  189  
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  190  	return 0;
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  191  }
-6ce9812d0cc74f Josh Poimboeuf 2024-09-14  192  
+vim +/hsub +1045 drivers/gpu/drm/i915/display/intel_atomic_plane.c
+
+9f05a7c0adb9ee Maarten Lankhorst   2020-11-17   990  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   991  int intel_plane_check_src_coordinates(struct intel_plane_state *plane_state)
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   992  {
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   993  	struct drm_i915_private *i915 = to_i915(plane_state->uapi.plane->dev);
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   994  	const struct drm_framebuffer *fb = plane_state->hw.fb;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   995  	struct drm_rect *src = &plane_state->uapi.src;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   996  	u32 src_x, src_y, src_w, src_h, hsub, vsub;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   997  	bool rotated = drm_rotation_90_or_270(plane_state->hw.rotation);
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   998  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14   999  	/*
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1000  	 * FIXME hsub/vsub vs. block size is a mess. Pre-tgl CCS
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1001  	 * abuses hsub/vsub so we can't use them here. But as they
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1002  	 * are limited to 32bpp RGB formats we don't actually need
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1003  	 * to check anything.
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1004  	 */
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1005  	if (fb->modifier == I915_FORMAT_MOD_Y_TILED_CCS ||
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1006  	    fb->modifier == I915_FORMAT_MOD_Yf_TILED_CCS)
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1007  		return 0;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1008  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1009  	/*
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1010  	 * Hardware doesn't handle subpixel coordinates.
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1011  	 * Adjust to (macro)pixel boundary, but be careful not to
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1012  	 * increase the source viewport size, because that could
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1013  	 * push the downscaling factor out of bounds.
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1014  	 */
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1015  	src_x = src->x1 >> 16;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1016  	src_w = drm_rect_width(src) >> 16;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1017  	src_y = src->y1 >> 16;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1018  	src_h = drm_rect_height(src) >> 16;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1019  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1020  	drm_rect_init(src, src_x << 16, src_y << 16,
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1021  		      src_w << 16, src_h << 16);
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1022  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1023  	if (fb->format->format == DRM_FORMAT_RGB565 && rotated) {
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1024  		hsub = 2;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1025  		vsub = 2;
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1026  	} else if (DISPLAY_VER(i915) >= 20 &&
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1027  		   intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1028  		/*
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1029  		 * This allows NV12 and P0xx formats to have odd size and/or odd
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1030  		 * source coordinates on DISPLAY_VER(i915) >= 20
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1031  		 */
+533a7836d39f1a Juha-Pekka Heikkilä 2023-09-19  1032  		vsub = 1;
+68f459ad919373 Nemesa Garg         2024-09-10  1033  		/*
+68f459ad919373 Nemesa Garg         2024-09-10  1034  		 * Wa_16023981245 for display version 20.
+68f459ad919373 Nemesa Garg         2024-09-10  1035  		 * Do not support odd x-panning for NV12.
+68f459ad919373 Nemesa Garg         2024-09-10  1036  		 */
+68f459ad919373 Nemesa Garg         2024-09-10  1037  		if (IS_LUNARLAKE(i915) && fb->format->format != DRM_FORMAT_NV12)
+68f459ad919373 Nemesa Garg         2024-09-10  1038  			hsub = 1;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1039  	} else {
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1040  		hsub = fb->format->hsub;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1041  		vsub = fb->format->vsub;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1042  	}
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1043  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1044  	if (rotated)
+0ec2a5b291af32 Ville Syrjälä       2023-03-14 @1045  		hsub = vsub = max(hsub, vsub);
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1046  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1047  	if (src_x % hsub || src_w % hsub) {
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1048  		drm_dbg_kms(&i915->drm, "src x/w (%u, %u) must be a multiple of %u (rotated: %s)\n",
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1049  			    src_x, src_w, hsub, str_yes_no(rotated));
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1050  		return -EINVAL;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1051  	}
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1052  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1053  	if (src_y % vsub || src_h % vsub) {
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1054  		drm_dbg_kms(&i915->drm, "src y/h (%u, %u) must be a multiple of %u (rotated: %s)\n",
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1055  			    src_y, src_h, vsub, str_yes_no(rotated));
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1056  		return -EINVAL;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1057  	}
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1058  
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1059  	return 0;
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1060  }
+0ec2a5b291af32 Ville Syrjälä       2023-03-14  1061  
 
 -- 
 0-DAY CI Kernel Test Service
