@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D069551C5A
-	for <oe-kbuild@lists.linux.dev>; Tue, 17 Sep 2024 06:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579B582D98
+	for <oe-kbuild@lists.linux.dev>; Tue, 17 Sep 2024 07:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726554533; cv=none; b=GEcSr6PC6KZ0YHcYxPnuaUADZHCah00Z2BoujaB7hEv3xYuEjSKp4JWpfKNZyS/SEaBunZPoJbm+Ritug/pCqZedTLMMOJKu9UYCHmohhtcxtUmDqduq7FSEHEVzGsQwar+Th0zGVuptalQj0PiIHjn992oeu8C/2Na1TWH2qF4=
+	t=1726558200; cv=none; b=LALIq8rftFONT0wvRoiyTGw1jU+A0XE68obMQEf86WCfUCTIVmxTqYMZTTZ//cdUDOpQi3csXlYstU66oUbwRsiOPtApVxC9Js/ZVt+wrK1gB3TCShMyCYONnAxWlDGGmvifZQnCi3zLVni4tEQ4zZRXzCcGTOlieM7V8Q+JW08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726554533; c=relaxed/simple;
-	bh=NtlTFMULOm9QUW2xAIgJWIOJf9/RU5ImfrNBCf/ouGQ=;
+	s=arc-20240116; t=1726558200; c=relaxed/simple;
+	bh=gSv9I0R2y3BU14FubqHHzTR1uChkKpuV7h7cBW0C57A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aLGDEoQ8vQ7zrMfTpBvMQam39XzFTVCnVLZ/Gxt/Q96nct0FHTeVSKag/lGY8qaBA2X4mdzULSd88i7tQCCh6hvrgUWHuqsmY0vcMcntkTGi5ZNgKVefXGp6lb5RSvlrs9z0T7Q0XQMDsBPQhMD45WQNBsjrogoWs3ZnYR6HND4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rq1sVHF+; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=eDnuGphbknhoFBLbY+hS4QIEmEG22yB2KjzH3pm+wIi08ghE0hBTgCOCndcn0HuXtWcRiEemV/+Whavqz7KtQ6GIpBtY/B1bVjBHDvu6Gi7hFApvUCO0jBh+3INHJzmqsJEAYNK4KdNpZ1ky68T1A2pI3YAmPxB1izGaiKh5iSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jg4ddzRg; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rq1sVHF+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jg4ddzRg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726554532; x=1758090532;
+  t=1726558198; x=1758094198;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NtlTFMULOm9QUW2xAIgJWIOJf9/RU5ImfrNBCf/ouGQ=;
-  b=Rq1sVHF+g6sxFEsUxhXku40Ayi3T/VDDR1oLn1eevJrvDAmyO6UH0klI
-   siJsN7tvv/MmgMhWtYREDihZikNZ6KRNeD/hZENhhj0LorcIcaucN9zOz
-   QcExlHzph+NAXfZyRl8SHRgiwyyvUsUHhVew7wNxQhYIBOme4vCymbQTX
-   G0YTrx1wax5Doc/oT6oMrPQR/tO438NCmwzedBqUIgkim1IvEL4WCMnTL
-   ZBYAP+Ow7zz/n4hBJBzUh43hN3iBmhWG0F9gcT9YBj5NkPzM3y4r74/IJ
-   oY0xiK5SPMRpqWArmZvPXZpVTwrR21zxbefwdmf3k2J4trBh42zzOd6bY
-   A==;
-X-CSE-ConnectionGUID: MO8Fzoc+QgSbcPf4JLILuA==
-X-CSE-MsgGUID: vJpRtzAyRK+0DkYCjnt0TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="29295747"
-X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="29295747"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2024 23:28:51 -0700
-X-CSE-ConnectionGUID: f/vFWCiIRUu4voIGdmiC9A==
-X-CSE-MsgGUID: FXtk6w12TzuGzIfEjzIk5w==
+  bh=gSv9I0R2y3BU14FubqHHzTR1uChkKpuV7h7cBW0C57A=;
+  b=jg4ddzRgr9V9MAkETTuLkbWSr6ZKPkOEd5A4BkV+iI7v+YWxShKiwLVd
+   vMnQ8RLq6PTsBCyhnvesD7tDMGoQOYXhTdAU0C0CdvggCaMRQbZYnRluL
+   pn6JWB4w5tNKU6wqQ3pK4+YH7fsTsyVqzz9pItrApT4LODGaApzCrSufk
+   SEME3zxkOZ7Jdjb9BIA4Th9PBxqO+84HW9xrH3wn6yuDpJ2npeSnEjdtu
+   +rPEwEotknnThv1ZiFjmKl68QB49FxpdZdMGVUxoxWjJjy0Klkr+ZcFst
+   EBC9imAzMPGIkuzB8dyQPuR5xTlovJHAtD2ofXZwEJKWhttlpn/77Frml
+   g==;
+X-CSE-ConnectionGUID: V2BTFA30SbqWebVTdyAPpQ==
+X-CSE-MsgGUID: BHAztPRUSiuwNJ4NKSfFeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11197"; a="25339772"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="25339772"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2024 00:29:57 -0700
+X-CSE-ConnectionGUID: ONdsVgAhSPWzCS8bPq+0Bg==
+X-CSE-MsgGUID: lUvU5xBzTgqmGBkmWfFSrg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,234,1719903600"; 
-   d="scan'208";a="69192893"
+X-IronPort-AV: E=Sophos;i="6.10,235,1719903600"; 
+   d="scan'208";a="99789991"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Sep 2024 23:28:50 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Sep 2024 00:29:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqRhg-000Aqx-0N;
-	Tue, 17 Sep 2024 06:28:48 +0000
-Date: Tue, 17 Sep 2024 14:28:16 +0800
+	id 1sqSeo-000Avu-0p;
+	Tue, 17 Sep 2024 07:29:54 +0000
+Date: Tue, 17 Sep 2024 15:29:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 82/447] kernel/sched/debug.c:233
- sched_dynamic_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202409171428.h5DWhBjf-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/iommu/iommufd/fault.c:115:38-43: ERROR: invalid reference to
+ the index variable of the iterator on line 107
+Message-ID: <202409171518.qdLmV9WL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,58 +64,61 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+CC: linux-kernel@vger.kernel.org
+TO: Lu Baolu <baolu.lu@linux.intel.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Kevin Tian <kevin.tian@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   78e9603229ee010d330a9ca61ef1a62ee7317352
-commit: 3d61c5e0a312de3f0478993550b0add306cb8ef9 [82/447] sched/debug: convert to read/write iterators
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: x86_64-randconfig-161-20240917 (https://download.01.org/0day-ci/archive/20240917/202409171428.h5DWhBjf-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a430d95c5efa2b545d26a094eb5f624e36732af0
+commit: b7d8833677baad8c80ed1aac8c396d687e64a376 iommufd: Fault-capable hwpt attach/detach/replace
+date:   2 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 2 months ago
+config: m68k-randconfig-r062-20240917 (https://download.01.org/0day-ci/archive/20240917/202409171518.qdLmV9WL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409171428.h5DWhBjf-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409171518.qdLmV9WL-lkp@intel.com/
 
-smatch warnings:
-kernel/sched/debug.c:233 sched_dynamic_write() warn: potential spectre issue 'buf' [w]
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/fault.c:115:38-43: ERROR: invalid reference to the index variable of the iterator on line 107
 
-vim +/buf +233 kernel/sched/debug.c
+vim +115 drivers/iommu/iommufd/fault.c
 
-1011dcce99f802 Peter Zijlstra 2021-03-25  220  
-3d61c5e0a312de Jens Axboe     2024-04-08  221  static ssize_t sched_dynamic_write(struct kiocb *iocb, struct iov_iter *from)
-1011dcce99f802 Peter Zijlstra 2021-03-25  222  {
-3d61c5e0a312de Jens Axboe     2024-04-08  223  	size_t cnt = iov_iter_count(from);
-1011dcce99f802 Peter Zijlstra 2021-03-25  224  	char buf[16];
-1011dcce99f802 Peter Zijlstra 2021-03-25  225  	int mode;
-1011dcce99f802 Peter Zijlstra 2021-03-25  226  
-1011dcce99f802 Peter Zijlstra 2021-03-25  227  	if (cnt > 15)
-1011dcce99f802 Peter Zijlstra 2021-03-25  228  		cnt = 15;
-1011dcce99f802 Peter Zijlstra 2021-03-25  229  
-3d61c5e0a312de Jens Axboe     2024-04-08  230  	if (!copy_from_iter_full(&buf, cnt, from))
-1011dcce99f802 Peter Zijlstra 2021-03-25  231  		return -EFAULT;
-1011dcce99f802 Peter Zijlstra 2021-03-25  232  
-1011dcce99f802 Peter Zijlstra 2021-03-25 @233  	buf[cnt] = 0;
-1011dcce99f802 Peter Zijlstra 2021-03-25  234  	mode = sched_dynamic_mode(strstrip(buf));
-1011dcce99f802 Peter Zijlstra 2021-03-25  235  	if (mode < 0)
-1011dcce99f802 Peter Zijlstra 2021-03-25  236  		return mode;
-1011dcce99f802 Peter Zijlstra 2021-03-25  237  
-1011dcce99f802 Peter Zijlstra 2021-03-25  238  	sched_dynamic_update(mode);
-1011dcce99f802 Peter Zijlstra 2021-03-25  239  
-3d61c5e0a312de Jens Axboe     2024-04-08  240  	iocb->ki_pos += cnt;
-1011dcce99f802 Peter Zijlstra 2021-03-25  241  
-1011dcce99f802 Peter Zijlstra 2021-03-25  242  	return cnt;
-1011dcce99f802 Peter Zijlstra 2021-03-25  243  }
-1011dcce99f802 Peter Zijlstra 2021-03-25  244  
-
-:::::: The code at line 233 was first introduced by commit
-:::::: 1011dcce99f8026d48fdd7b9cc259e32a8b472be sched,preempt: Move preempt_dynamic to debug.c
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+b7d8833677baad Lu Baolu 2024-07-02   95  
+b7d8833677baad Lu Baolu 2024-07-02   96  static void iommufd_auto_response_faults(struct iommufd_hw_pagetable *hwpt,
+b7d8833677baad Lu Baolu 2024-07-02   97  					 struct iommufd_attach_handle *handle)
+b7d8833677baad Lu Baolu 2024-07-02   98  {
+b7d8833677baad Lu Baolu 2024-07-02   99  	struct iommufd_fault *fault = hwpt->fault;
+b7d8833677baad Lu Baolu 2024-07-02  100  	struct iopf_group *group, *next;
+b7d8833677baad Lu Baolu 2024-07-02  101  	unsigned long index;
+b7d8833677baad Lu Baolu 2024-07-02  102  
+b7d8833677baad Lu Baolu 2024-07-02  103  	if (!fault)
+b7d8833677baad Lu Baolu 2024-07-02  104  		return;
+b7d8833677baad Lu Baolu 2024-07-02  105  
+b7d8833677baad Lu Baolu 2024-07-02  106  	mutex_lock(&fault->mutex);
+b7d8833677baad Lu Baolu 2024-07-02 @107  	list_for_each_entry_safe(group, next, &fault->deliver, node) {
+b7d8833677baad Lu Baolu 2024-07-02  108  		if (group->attach_handle != &handle->handle)
+b7d8833677baad Lu Baolu 2024-07-02  109  			continue;
+b7d8833677baad Lu Baolu 2024-07-02  110  		list_del(&group->node);
+b7d8833677baad Lu Baolu 2024-07-02  111  		iopf_group_response(group, IOMMU_PAGE_RESP_INVALID);
+b7d8833677baad Lu Baolu 2024-07-02  112  		iopf_free_group(group);
+b7d8833677baad Lu Baolu 2024-07-02  113  	}
+b7d8833677baad Lu Baolu 2024-07-02  114  
+b7d8833677baad Lu Baolu 2024-07-02 @115  	xa_for_each(&fault->response, index, group) {
+b7d8833677baad Lu Baolu 2024-07-02  116  		if (group->attach_handle != &handle->handle)
+b7d8833677baad Lu Baolu 2024-07-02  117  			continue;
+b7d8833677baad Lu Baolu 2024-07-02  118  		xa_erase(&fault->response, index);
+b7d8833677baad Lu Baolu 2024-07-02  119  		iopf_group_response(group, IOMMU_PAGE_RESP_INVALID);
+b7d8833677baad Lu Baolu 2024-07-02  120  		iopf_free_group(group);
+b7d8833677baad Lu Baolu 2024-07-02  121  	}
+b7d8833677baad Lu Baolu 2024-07-02  122  	mutex_unlock(&fault->mutex);
+b7d8833677baad Lu Baolu 2024-07-02  123  }
+b7d8833677baad Lu Baolu 2024-07-02  124  
 
 -- 
 0-DAY CI Kernel Test Service
