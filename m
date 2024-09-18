@@ -1,253 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3C9F9CB
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Sep 2024 19:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B461B15853D
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Sep 2024 21:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726687124; cv=none; b=Ors97jBFg6C/cRgUQZkko7OCd+MOLqD03RhmCox3qcQa6SZXRzEGVjX3LNypClRBv9O8llEadkxAZPTZb7pGFB9a6/BY/sKXnF0kE6ha8JYDJWovKk0OFsS//raP/PMdJhJW/a8XtkKr1unAO5H3rSRL4H24rTEn+ldFsMqs+E0=
+	t=1726694576; cv=none; b=KiHDt+qZOULOzl97KHxrViuSDgDKNBbiiYX1g+aG9f3jHZhK3NthbDhIX1StpJMdVlyAObXY1YsXeSzkkpdQSZUc2jiI1LaPhQqK/Ybg8uVzZwfCGh0Xhc4Emu4Kz0xtCOQ2YG0VNUJnXUOf4bJ/rB/JdFZbH0j3tiKNtDNDA+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726687124; c=relaxed/simple;
-	bh=DKyzLSDiDeVn5icZkOSJ+GJXklqs8M4914GVNhYFnpw=;
+	s=arc-20240116; t=1726694576; c=relaxed/simple;
+	bh=vk6W5VQznbsB95WkMi/2Xcp3Utcpg27Xwe8zBRwNLLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=agasgj5wVd+RlXS+4mgIReLfPeVoyv70EC/uqnwxyMuh43XRUtzEWVgJvSyDUNYcbyZTVwOKky6KdyozHHpO4H0DNVdV3PU8NVB/RF20UX/qQGCDkCl4lmFm8Nmbyd3Z5TF5TuOz/4e+UiU9cgQNR4QocbhiRoPwv7XxV8VdMCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiXI5t6a; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=UQerSobQFskgeX8vJgbm8qtDdjjwppRvowMgQOHajJ2xbWg6j/BBmn0vaxu7g7GMHQmXhbsBBg5igQvoXWBhJJXGC/kYEzZhRQiKypXLTd2CU4hrUEPn72/kRM3ixTHig0Xn3baQdWTarWmPbsecVQgcXn+xypXpWWgLie8U5Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AuAwuxOt; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiXI5t6a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AuAwuxOt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726687121; x=1758223121;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DKyzLSDiDeVn5icZkOSJ+GJXklqs8M4914GVNhYFnpw=;
-  b=ZiXI5t6a1v+gw56q2xY5Y1lQvyIANsdakUg1V9BcRk0Fg/M2bwToG3eD
-   YnSg5r3rsftQPfkh8YzVHu4Xnq2kkhB49DURXX0irJP874zZg/A09s6FJ
-   6l1La0WxDJaqbQlt2HdJjzXTcPdQUgn9qXFL8lXKl5RZa1fRBRk1wiwp4
-   1TMvdxILPcRPhISnDzhuZ8MrDLPtJhzWp5fbG3C7t1TK7K31ocTBfX9LL
-   l2YDz1iffxIuNkjBTpoRBqGO0/rOPUdPQ6d5YCXNGQXHAryC8dquoeJIV
-   AZgy1JM0tPf0mUHgxNsY7Lddiug2u2a+FfD6XmB6g6LCra6G8Tsd74dO7
-   w==;
-X-CSE-ConnectionGUID: U9SPBNQFSl+YdvJ0qCYwQA==
-X-CSE-MsgGUID: O6l+qr/nS0ayZ5ZxCU/DfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36994778"
+  t=1726694573; x=1758230573;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vk6W5VQznbsB95WkMi/2Xcp3Utcpg27Xwe8zBRwNLLo=;
+  b=AuAwuxOt+EUMmzesrv5IC0TlI9S2PY+6K/pfogXjs17ccYfiILZmcr43
+   IW/UIKrip9X9ym6pD5EXe4MEbUng0o8/4JDQjEBxtQe0DiFRyZE3OalBF
+   uoT/VYAdVIOJM8zHmql5Vg3Co2TSzNWm2fC+QQD73xGdyEoy7bJcpR0tX
+   7dV0NOfpHvSJiNKf4mFhrXYOGg40f691mylGcJVbQAly9b8SdHgJabCQ+
+   ZzDDyuSDIAkqgVHOCaY98ax3+2XoiyF272LeeNkC7UzgDPsYqXnTX0A+w
+   7b1fKsbQiXmD4Ws/6BpTRgoc7f2ZLDKrvBK7Yz7SKmzhZBHwNiQie1VBC
+   A==;
+X-CSE-ConnectionGUID: Ubi+CJgYTWOi108Bk5f1TQ==
+X-CSE-MsgGUID: xZJTaRKNQD2AAknVqKO+Bw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="13579405"
 X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="36994778"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 12:18:41 -0700
-X-CSE-ConnectionGUID: /fGRk/RYS3yf/NjGg4A7bw==
-X-CSE-MsgGUID: T+VC+0HcRVmJGX4NMaXUng==
+   d="scan'208";a="13579405"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 14:22:53 -0700
+X-CSE-ConnectionGUID: LrInq7L4RcCwJ6mOoGUOQg==
+X-CSE-MsgGUID: qUwDbE76Sti8rIkxtmngfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="69919457"
+   d="scan'208";a="69823490"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Sep 2024 12:18:39 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 18 Sep 2024 14:22:51 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sr0CD-000CY8-12;
-	Wed, 18 Sep 2024 19:18:37 +0000
-Date: Thu, 19 Sep 2024 03:18:04 +0800
+	id 1sr28P-000CeC-1M;
+	Wed, 18 Sep 2024 21:22:49 +0000
+Date: Thu, 19 Sep 2024 05:22:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] usb: gadget: r8a66597-udc: Fix double free in
- r8a66597_probe
-Message-ID: <202409190243.3kr904bW-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: arch/xtensa/include/asm/thread_info.h:97:(.xiptext+0x2384):
+ dangerous relocation: windowed longcall crosses 1GB boundary; return may
+ fail: cfi_build_cmd
+Message-ID: <202409190549.l3WXX0PF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "xtensa: dangerous relocation"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240916222937.12878-1-m.arhipov@rosa.ru>
-References: <20240916222937.12878-1-m.arhipov@rosa.ru>
-TO: Mikhail Arkhipov <m.arhipov@rosa.ru>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Mikhail Arkhipov <m.arhipov@rosa.ru>
-CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-CC: Felipe Balbi <balbi@ti.com>
-CC: Ben Dooks <ben.dooks@codethink.co.uk>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: linux-usb@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: lvc-project@linuxtesting.org
+TO: Colin Ian King <colin.i.king@gmail.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Hi Mikhail,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.11 next-20240917]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikhail-Arkhipov/usb-gadget-r8a66597-udc-Fix-double-free-in-r8a66597_probe/20240917-063133
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240916222937.12878-1-m.arhipov%40rosa.ru
-patch subject: [PATCH] usb: gadget: r8a66597-udc: Fix double free in r8a66597_probe
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-141-20240917 (https://download.01.org/0day-ci/archive/20240919/202409190243.3kr904bW-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a39ac5b7d62679c07a3e3d12b0f6982377d8a7d
+commit: 2416a2e7be9b27157f173268f5c7f769bd72a8dc mtd: chips: remove redundant assignment to variable timeo
+date:   7 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 7 months ago
+config: xtensa-randconfig-r003-20230304 (https://download.01.org/0day-ci/archive/20240919/202409190549.l3WXX0PF-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190549.l3WXX0PF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409190243.3kr904bW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409190549.l3WXX0PF-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/gadget/udc/r8a66597-udc.c:1962 r8a66597_probe() warn: curly braces intended?
-drivers/usb/gadget/udc/r8a66597-udc.c:1964 r8a66597_probe() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/usb/gadget/udc/r8a66597-udc.c:1680 r8a66597_set_wedge() warn: can 'ep' even be NULL?
+   drivers/mtd/chips/cfi_cmdset_0002.c:1790:(.xiptext+0x1d5f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1790:(.xiptext+0x1d6e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   drivers/mtd/chips/cfi_cmdset_0002.c:1790:(.xiptext+0x1d7e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_start':
+   drivers/mtd/chips/cfi_cmdset_0002.c:1721:(.xiptext+0x1d8b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1723:(.xiptext+0x1d9a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
+   drivers/mtd/chips/cfi_cmdset_0002.c:1724:(.xiptext+0x1db2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: ftrace_likely_update
+   drivers/mtd/chips/cfi_cmdset_0002.c:1724:(.xiptext+0x1dbf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1725:(.xiptext+0x1dcc): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1724:(.xiptext+0x1dda): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1724:(.xiptext+0x1dea): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __dynamic_pr_debug
+   drivers/mtd/chips/cfi_cmdset_0002.c:1729:(.xiptext+0x1dfa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1729:(.xiptext+0x1e07): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1729:(.xiptext+0x1e14): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1730:(.xiptext+0x1e23): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `otp_enter':
+   drivers/mtd/chips/cfi_cmdset_0002.c:1278:(.xiptext+0x1e30): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x1e42): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x1e5e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1280:(.xiptext+0x1e6b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x1e83): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x1e92): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1282:(.xiptext+0x1e9f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x1eba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x1ec7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1284:(.xiptext+0x1ed6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2414)
+   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x1f1a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x1f27): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x1f32): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1287:(.xiptext+0x1f4e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword_start':
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1f57): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1f66): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1f72): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1f8b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1f94): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1fa3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1733:(.xiptext+0x1fae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_write_oneword':
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x1fca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:1795:(.xiptext+0x1fd3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x1fe2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x1fee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x200a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x2013): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x2022): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1800:(.xiptext+0x202e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1804:(.xiptext+0x2047): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:1804:(.xiptext+0x2050): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1804:(.xiptext+0x205f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1804:(.xiptext+0x206a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1807:(.xiptext+0x2083): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:1804:(.xiptext+0x208c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1807:(.xiptext+0x209a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
+   drivers/mtd/chips/cfi_cmdset_0002.c:1809:(.xiptext+0x20af): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x20be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x20ca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x20d8): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x20fb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2113): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2126): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2130): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2142): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x214c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x215e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2167): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x216d): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2178): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2183): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x218c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2197): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x21a6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x21ba): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x21c7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x21d7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x21ee): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x220a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2217): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x223f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x224b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x225b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x12c8)
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x226b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x227a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2287): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2296): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x22a4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x22af): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x22c2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x22e2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x22ef): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2302): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x230f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x231f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: _printk
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2328): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2336): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:1812:(.xiptext+0x2357): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
+   drivers/mtd/chips/cfi_cmdset_0002.c:2413:(.xiptext+0x2366): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2416:(.xiptext+0x2374): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `current_thread_info':
+>> arch/xtensa/include/asm/thread_info.h:97:(.xiptext+0x2384): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_build_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
+   arch/xtensa/include/asm/current.h:24:(.xiptext+0x2397): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `map_word_ff':
+   include/linux/mtd/map.h:375:(.xiptext+0x23be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   include/linux/mtd/map.h:375:(.xiptext+0x23cb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   include/linux/mtd/map.h:378:(.xiptext+0x23de): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   include/linux/mtd/map.h:381:(.xiptext+0x23eb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   include/linux/mtd/map.h:378:(.xiptext+0x23fe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   include/linux/mtd/map.h:378:(.xiptext+0x2414): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   include/linux/mtd/map.h:383:(.xiptext+0x2427): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   include/linux/mtd/map.h:383:(.xiptext+0x2434): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
+   drivers/mtd/chips/cfi_cmdset_0002.c:2419:(.xiptext+0x2453): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2421:(.xiptext+0x2460): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2423:(.xiptext+0x246e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x248c)
+   drivers/mtd/chips/cfi_cmdset_0002.c:2423:(.xiptext+0x2477): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   drivers/mtd/chips/cfi_cmdset_0002.c:2430:(.xiptext+0x2530): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2430:(.xiptext+0x2544): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write_range
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x255f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x256b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x2576): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x2587): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x25a6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2433:(.xiptext+0x25b3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2434:(.xiptext+0x25d2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2434:(.xiptext+0x25df): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2435:(.xiptext+0x2624): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2435:(.xiptext+0x263b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
+   drivers/mtd/chips/cfi_cmdset_0002.c:2450:(.xiptext+0x264c): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2610)
+   drivers/mtd/chips/cfi_cmdset_0002.c:2438:(.xiptext+0x265e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2438:(.xiptext+0x266b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2438:(.xiptext+0x267a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   drivers/mtd/chips/cfi_cmdset_0002.c:2438:(.xiptext+0x2692): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x269f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x26ae): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
+   drivers/mtd/chips/cfi_cmdset_0002.c:2439:(.xiptext+0x26ca): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: ftrace_likely_update
+   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x26d7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x26e4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x26fa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __dynamic_pr_debug
+   drivers/mtd/chips/cfi_cmdset_0002.c:2440:(.xiptext+0x2708): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x2716): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x2726): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x273a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2441:(.xiptext+0x2747): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x2766): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x2773): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2442:(.xiptext+0x278a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x279e): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x27ab): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2443:(.xiptext+0x27c6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2445:(.xiptext+0x27d3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2446:(.xiptext+0x27e3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: (.text+0x2414)
+   drivers/mtd/chips/cfi_cmdset_0002.c:2454:(.xiptext+0x284a): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2457:(.xiptext+0x285b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2457:(.xiptext+0x2866): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `get_current':
+   arch/xtensa/include/asm/current.h:24:(.xiptext+0x2882): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.o: in function `do_erase_chip':
+   drivers/mtd/chips/cfi_cmdset_0002.c:2459:(.xiptext+0x288b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2460:(.xiptext+0x289b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2461:(.xiptext+0x28a7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2464:(.xiptext+0x28c2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:2465:(.xiptext+0x28cb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2457:(.xiptext+0x28db): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x28e6): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x2902): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x290b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2470:(.xiptext+0x291b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2471:(.xiptext+0x2926): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2471:(.xiptext+0x2942): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x294b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2467:(.xiptext+0x295b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x2967): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x2982): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: cfi_send_gen_cmd
+   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x298b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x29af): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x29be): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
+   drivers/mtd/chips/cfi_cmdset_0002.c:2491:(.xiptext+0x29d3): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2491:(.xiptext+0x29e2): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2474:(.xiptext+0x29f0): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2480:(.xiptext+0x2a13): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x2a26): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2475:(.xiptext+0x2a37): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2480:(.xiptext+0x2a44): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2481:(.xiptext+0x2a57): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2481:(.xiptext+0x2a64): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2480:(.xiptext+0x2a76): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: add_wait_queue
+   drivers/mtd/chips/cfi_cmdset_0002.c:2488:(.xiptext+0x2a7f): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_unlock
+   drivers/mtd/chips/cfi_cmdset_0002.c:2488:(.xiptext+0x2a85): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: schedule
+   drivers/mtd/chips/cfi_cmdset_0002.c:2488:(.xiptext+0x2a90): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: remove_wait_queue
+   drivers/mtd/chips/cfi_cmdset_0002.c:2491:(.xiptext+0x2a9b): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: mutex_lock_nested
+   drivers/mtd/chips/cfi_cmdset_0002.c:2491:(.xiptext+0x2aa4): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x2aaf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x2abe): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read1
+   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x2acf): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x2adb): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2493:(.xiptext+0x2ae7): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_volatile_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2496:(.xiptext+0x2afa): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write1
+   drivers/mtd/chips/cfi_cmdset_0002.c:2496:(.xiptext+0x2b13): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_read4
+   drivers/mtd/chips/cfi_cmdset_0002.c:2496:(.xiptext+0x2b20): dangerous relocation: windowed longcall crosses 1GB boundary; return may fail: __tsan_write4
 
-vim +1962 drivers/usb/gadget/udc/r8a66597-udc.c
 
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1832  
-dad833823f842b drivers/usb/gadget/r8a66597-udc.c     Peter Chen                2014-05-18  1833  static int r8a66597_probe(struct platform_device *pdev)
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1834  {
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1835  	struct device *dev = &pdev->dev;
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1836  	char clk_name[8];
-3c60e959fa3543 drivers/usb/gadget/udc/r8a66597-udc.c YueHaibing                2019-09-04  1837  	struct resource *ires;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1838  	int irq;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1839  	void __iomem *reg = NULL;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1840  	struct r8a66597 *r8a66597 = NULL;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1841  	int ret = 0;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1842  	int i;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1843  	unsigned long irq_trigger;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1844  
-3c60e959fa3543 drivers/usb/gadget/udc/r8a66597-udc.c YueHaibing                2019-09-04  1845  	reg = devm_platform_ioremap_resource(pdev, 0);
-4b11f88821aff3 drivers/usb/gadget/udc/r8a66597-udc.c Wei Yongjun               2014-07-20  1846  	if (IS_ERR(reg))
-4b11f88821aff3 drivers/usb/gadget/udc/r8a66597-udc.c Wei Yongjun               2014-07-20  1847  		return PTR_ERR(reg);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1848  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1849  	ires = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-9c2076090c2815 drivers/usb/gadget/udc/r8a66597-udc.c Colin Ian King            2021-04-06  1850  	if (!ires)
-9c2076090c2815 drivers/usb/gadget/udc/r8a66597-udc.c Colin Ian King            2021-04-06  1851  		return -EINVAL;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1852  	irq = ires->start;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1853  	irq_trigger = ires->flags & IRQF_TRIGGER_MASK;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1854  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1855  	if (irq < 0) {
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1856  		dev_err(dev, "platform_get_irq error.\n");
-776976a67ae25d drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1857  		return -ENODEV;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1858  	}
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1859  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1860  	/* initialize ucd */
-531bc938f9c54c drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1861  	r8a66597 = devm_kzalloc(dev, sizeof(struct r8a66597), GFP_KERNEL);
-531bc938f9c54c drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1862  	if (r8a66597 == NULL)
-531bc938f9c54c drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1863  		return -ENOMEM;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1864  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1865  	spin_lock_init(&r8a66597->lock);
-dae8eadf2a8a12 drivers/usb/gadget/r8a66597-udc.c     Jingoo Han                2013-05-23  1866  	platform_set_drvdata(pdev, r8a66597);
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1867  	r8a66597->pdata = dev_get_platdata(dev);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1868  	r8a66597->irq_sense_low = irq_trigger == IRQF_TRIGGER_LOW;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1869  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1870  	r8a66597->gadget.ops = &r8a66597_gadget_ops;
-d327ab5b6d660d drivers/usb/gadget/r8a66597-udc.c     Michal Nazarewicz         2011-11-19  1871  	r8a66597->gadget.max_speed = USB_SPEED_HIGH;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1872  	r8a66597->gadget.name = udc_name;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1873  
-e99e88a9d2b067 drivers/usb/gadget/udc/r8a66597-udc.c Kees Cook                 2017-10-16  1874  	timer_setup(&r8a66597->timer, r8a66597_timer, 0);
-e8b48669de54d3 drivers/usb/gadget/r8a66597-udc.c     Paul Mundt                2010-06-02  1875  	r8a66597->reg = reg;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1876  
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1877  	if (r8a66597->pdata->on_chip) {
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1878  		snprintf(clk_name, sizeof(clk_name), "usb%d", pdev->id);
-3d7037b76ba81a drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1879  		r8a66597->clk = devm_clk_get(dev, clk_name);
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1880  		if (IS_ERR(r8a66597->clk)) {
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1881  			dev_err(dev, "cannot get clock \"%s\"\n", clk_name);
-3d7037b76ba81a drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1882  			return PTR_ERR(r8a66597->clk);
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1883  		}
-989c78dd56307c drivers/usb/gadget/r8a66597-udc.c     Laurent Pinchart          2013-10-28  1884  		clk_prepare_enable(r8a66597->clk);
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1885  	}
-569a50da7fe514 drivers/usb/gadget/r8a66597-udc.c     Viresh Kumar              2012-07-30  1886  
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1887  	if (r8a66597->pdata->sudmac) {
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1888  		ret = r8a66597_sudmac_ioremap(r8a66597, pdev);
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1889  		if (ret < 0)
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1890  			goto clean_up2;
-b8a56e17e18cca drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2011-09-30  1891  	}
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1892  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1893  	disable_controller(r8a66597); /* make sure controller is disabled */
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1894  
-4b526951c356c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1895  	ret = devm_request_irq(dev, irq, r8a66597_irq, IRQF_SHARED,
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1896  			       udc_name, r8a66597);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1897  	if (ret < 0) {
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1898  		dev_err(dev, "request_irq error (%d)\n", ret);
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1899  		goto clean_up2;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1900  	}
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1901  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1902  	INIT_LIST_HEAD(&r8a66597->gadget.ep_list);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1903  	r8a66597->gadget.ep0 = &r8a66597->ep[0].ep;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1904  	INIT_LIST_HEAD(&r8a66597->gadget.ep0->ep_list);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1905  	for (i = 0; i < R8A66597_MAX_NUM_PIPE; i++) {
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1906  		struct r8a66597_ep *ep = &r8a66597->ep[i];
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1907  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1908  		if (i != 0) {
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1909  			INIT_LIST_HEAD(&r8a66597->ep[i].ep.ep_list);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1910  			list_add_tail(&r8a66597->ep[i].ep.ep_list,
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1911  					&r8a66597->gadget.ep_list);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1912  		}
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1913  		ep->r8a66597 = r8a66597;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1914  		INIT_LIST_HEAD(&ep->queue);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1915  		ep->ep.name = r8a66597_ep_name[i];
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1916  		ep->ep.ops = &r8a66597_ep_ops;
-e117e742d31068 drivers/usb/gadget/r8a66597-udc.c     Robert Baldyga            2013-12-13  1917  		usb_ep_set_maxpacket_limit(&ep->ep, 512);
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1918  
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1919  		if (i == 0) {
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1920  			ep->ep.caps.type_control = true;
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1921  		} else {
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1922  			ep->ep.caps.type_iso = true;
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1923  			ep->ep.caps.type_bulk = true;
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1924  			ep->ep.caps.type_int = true;
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1925  		}
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1926  		ep->ep.caps.dir_in = true;
-0ec8026d7afee6 drivers/usb/gadget/udc/r8a66597-udc.c Robert Baldyga            2015-07-31  1927  		ep->ep.caps.dir_out = true;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1928  	}
-e117e742d31068 drivers/usb/gadget/r8a66597-udc.c     Robert Baldyga            2013-12-13  1929  	usb_ep_set_maxpacket_limit(&r8a66597->ep[0].ep, 64);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1930  	r8a66597->ep[0].pipenum = 0;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1931  	r8a66597->ep[0].fifoaddr = CFIFO;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1932  	r8a66597->ep[0].fifosel = CFIFOSEL;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1933  	r8a66597->ep[0].fifoctr = CFIFOCTR;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1934  	r8a66597->ep[0].pipectr = get_pipectr_addr(0);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1935  	r8a66597->pipenum2ep[0] = &r8a66597->ep[0];
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1936  	r8a66597->epaddr2ep[0] = &r8a66597->ep[0];
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1937  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1938  	r8a66597->ep0_req = r8a66597_alloc_request(&r8a66597->ep[0].ep,
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1939  							GFP_KERNEL);
-f3423d3258cd99 drivers/usb/gadget/r8a66597-udc.c     Wei Yongjun               2013-05-07  1940  	if (r8a66597->ep0_req == NULL) {
-f3423d3258cd99 drivers/usb/gadget/r8a66597-udc.c     Wei Yongjun               2013-05-07  1941  		ret = -ENOMEM;
-885162d171841e drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1942  		goto clean_up2;
-f3423d3258cd99 drivers/usb/gadget/r8a66597-udc.c     Wei Yongjun               2013-05-07  1943  	}
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1944  	r8a66597->ep0_req->complete = nop_completion;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1945  
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1946  	ret = usb_add_gadget_udc(dev, &r8a66597->gadget);
-0f91349b89f37d drivers/usb/gadget/r8a66597-udc.c     Sebastian Andrzej Siewior 2011-06-28  1947  	if (ret)
-0f91349b89f37d drivers/usb/gadget/r8a66597-udc.c     Sebastian Andrzej Siewior 2011-06-28  1948  		goto err_add_udc;
-0f91349b89f37d drivers/usb/gadget/r8a66597-udc.c     Sebastian Andrzej Siewior 2011-06-28  1949  
-f390f57c91c9c9 drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1950  	dev_info(dev, "version %s\n", DRIVER_VERSION);
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1951  	return 0;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1952  
-0f91349b89f37d drivers/usb/gadget/r8a66597-udc.c     Sebastian Andrzej Siewior 2011-06-28  1953  err_add_udc:
-0f91349b89f37d drivers/usb/gadget/r8a66597-udc.c     Sebastian Andrzej Siewior 2011-06-28  1954  	r8a66597_free_request(&r8a66597->ep[0].ep, r8a66597->ep0_req);
-63c2ed15c3efd6 drivers/usb/gadget/udc/r8a66597-udc.c Mikhail Arkhipov          2024-09-17  1955  	r8a66597->ep0_req = NULL;
-d2e27bdf2870e5 drivers/usb/gadget/r8a66597-udc.c     Magnus Damm               2009-08-19  1956  clean_up2:
-3d7037b76ba81a drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1957  	if (r8a66597->pdata->on_chip)
-989c78dd56307c drivers/usb/gadget/r8a66597-udc.c     Laurent Pinchart          2013-10-28  1958  		clk_disable_unprepare(r8a66597->clk);
-885162d171841e drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1959  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1960  	if (r8a66597->ep0_req)
-776976a67ae25d drivers/usb/gadget/r8a66597-udc.c     Ben Dooks                 2014-06-17  1961  		r8a66597_free_request(&r8a66597->ep[0].ep, r8a66597->ep0_req);
-63c2ed15c3efd6 drivers/usb/gadget/udc/r8a66597-udc.c Mikhail Arkhipov          2024-09-17 @1962  		r8a66597->ep0_req = NULL;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1963  
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19 @1964  	return ret;
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1965  }
-c41442474a2698 drivers/usb/gadget/r8a66597-udc.c     Yoshihiro Shimoda         2009-08-19  1966  
+vim +97 arch/xtensa/include/asm/thread_info.h
+
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   92  
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   93  /* how to get the thread information struct from C */
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   94  static inline struct thread_info *current_thread_info(void)
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   95  {
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   96  	struct thread_info *ti;
+f4431396be5b26 arch/xtensa/include/asm/thread_info.h Max Filippov 2017-12-04  @97  	 __asm__("extui %0, a1, 0, "__stringify(CURRENT_SHIFT)"\n\t"
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   98  	         "xor %0, a1, %0" : "=&r" (ti) : );
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23   99  	return ti;
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23  100  }
+9a8fd558990215 include/asm-xtensa/thread_info.h      Chris Zankel 2005-06-23  101  
+
+:::::: The code at line 97 was first introduced by commit
+:::::: f4431396be5b26a9960daf502d129b1b5d126f5e xtensa: consolidate kernel stack size related definitions
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Max Filippov <jcmvbkbc@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
