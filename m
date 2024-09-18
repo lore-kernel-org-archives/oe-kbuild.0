@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283C616FF45
-	for <oe-kbuild@lists.linux.dev>; Wed, 18 Sep 2024 09:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6A917B4E0
+	for <oe-kbuild@lists.linux.dev>; Wed, 18 Sep 2024 10:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726650257; cv=none; b=FetdN6hZj4/+FvR/AYOoXJCd/njYbPnN0xhxm/wEKcMJdnXAZnIkTrL2kCf77FrnsHi6F5yTsLKcDPD6rUP9yZ+4UfcjFkbo+xlRZ8wezaBRZBc+gNxNiIQKwNgm1Ikl50o4huZ8On4ux+H1BuMe4TChi7bx49KCYTIp3w5kuvM=
+	t=1726653916; cv=none; b=u/RqaN1vBjETfhLGnkuL54ABfS1XoxEzwjCdv2nd1VXA+HVvr5PiXfkrauaBLG2W6yPL3cqXC0PyTG13NEQEt1lueDCQosEf4AqxZbB1CJ4uCTTwtiP1LMx2a5FAJnTi8BpeRkyW3XbXWH2HfQAv0IXpoQ6QA1YoHZMeGHFn9Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726650257; c=relaxed/simple;
-	bh=DTabth48rVSA6TrBBilQZn1jlwQ9VE++250BHNnnukk=;
+	s=arc-20240116; t=1726653916; c=relaxed/simple;
+	bh=YW9bY9WVEJm/G3aIDuxIJ55nDs+Arr6OOhaEXfKRq0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IvpavLdCoBkS4Y3n3iDYlLiC8VciNNDMKKHlTO4h8qHyNj/Y4+blVj/8gWd15V/8DQZmD7Trc7qPcighMIiyANcrYnhHoCkHV3erER83oREZfbMB6brGt/5CKPLE4Ov6FctuqAae7MfNJ8Ya5L4wpprKhb6YJlvOFGmruF5hxCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lyIOiKcE; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=D/TEsPlzT9J4EKPFAdiawSl/TaTgC0BuTqSpK29q/LtT6FLwYlGMX0FqtDiz08uz2Se70pz8Oqh7Qy6xdisqzHFesndQwlViY6+DJTL0wSzcTWVaDVOaglaNAj0l6uIA8xCtfoE520Dn+dBzEXWAwnuPz9tI14QfIArkYcWqohs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ft3d4hXY; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lyIOiKcE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ft3d4hXY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726650253; x=1758186253;
+  t=1726653914; x=1758189914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DTabth48rVSA6TrBBilQZn1jlwQ9VE++250BHNnnukk=;
-  b=lyIOiKcEMC0IYRmkLnIX10IuRdCXnyLfxtz1imMYXtofM6NXDTFpyQof
-   iNRxBPY/HjOnGaUTAQeplW8keSGo7gZOK0LPHSOa6FIdNZouqfNhTmWBs
-   x8fxV+XTZX2DwP7O0p6oqL5bjfBH3Qn5SboXDSlfLbkrtEFU6IVBxRpus
-   ODsiaaXhdLPwUUlDe2aixD4GCuaQhc+6AfL0UN998LsRrB+Pgw8cv9/No
-   IMwCzZCn2FK0tg1U0BqVpIV2MKH8QBvHeJ79/GXUZmoCqNUUuYASQ2nQh
-   QLjF715FpRpHJXeb6dd74dW5ZZUWW7djZ626c5rDjrEfBIxCYxVeYTnOA
+  bh=YW9bY9WVEJm/G3aIDuxIJ55nDs+Arr6OOhaEXfKRq0o=;
+  b=Ft3d4hXYSEt0b6dGk6v8SOc3+Io4eEGK74aTKpVQst/IZpObgbmGoabV
+   Bx+db9Y1Xgjp0MP3C8OiX+tPC/GEm8k+Zu4CocGxpoOaBI/YguYt27335
+   UHwHAkgeXNkXEXXB4lcDlGy/iDe4R+w82Y2wikIrYzY9bzcFWsOmlJL+c
+   Y1GBd5d+vkSEutQUWFUUqj/rGi8MdPCHYaZqTI7olzPYLZGJTdPVbFORX
+   RQYYhEmh5v9vCfFKGoqQgSeThJOxbfMlSx3ZqgcFxNu927BUBgFdr5/nF
+   8kB8bduHZ8HlRYDeUtkIAnAbbCWxVV6IX19K7xcJTo/q2O8u755MzGim3
    g==;
-X-CSE-ConnectionGUID: 3CH9Mo5DRZmPIbGjsqTr7g==
-X-CSE-MsgGUID: qW3xNjs+Sp6cuKTSlZ4d2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="36927360"
+X-CSE-ConnectionGUID: PY6hoVxNRli2psQzkbBC7Q==
+X-CSE-MsgGUID: U2kP29RFQG23FkUZ3XAaxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11198"; a="29299362"
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="36927360"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 02:04:12 -0700
-X-CSE-ConnectionGUID: PweJze8qTEqyN3jYduJWkQ==
-X-CSE-MsgGUID: EP87wb3NTSCZprSPbWZQYw==
+   d="scan'208";a="29299362"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 03:05:13 -0700
+X-CSE-ConnectionGUID: ZLUOnI2GRc6fjy8IUEgZlw==
+X-CSE-MsgGUID: 8o1hqAqDScqU+Bsbs877Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,238,1719903600"; 
-   d="scan'208";a="100162492"
+   d="scan'208";a="92782964"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Sep 2024 02:04:12 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2024 03:05:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sqqbY-000C6c-2A;
-	Wed, 18 Sep 2024 09:04:08 +0000
-Date: Wed, 18 Sep 2024 17:03:15 +0800
+	id 1sqrYc-000C9m-1q;
+	Wed, 18 Sep 2024 10:05:10 +0000
+Date: Wed, 18 Sep 2024 18:05:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [linux-next:master 11960/12393] mm/kasan/kasan_test_c.c:1515:1-4:
- ERROR: reference preceded by free on line 1507
-Message-ID: <202409181650.3fVsPaFj-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [frank-w-bpi-r2-4.14:6.1-main 56/235]
+ arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts:49.10-103.4:
+ Warning (unit_address_vs_reg): /ethernet@1b100000/mdio-bus/switch1: node has
+ a reg or ranges property, but no unit name
+Message-ID: <202409181806.y7aTUGdD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,91 +64,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Matthew Maurer <mmaurer@google.com>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Andrey Konovalov <andreyknvl@gmail.com>
+TO: Frank Wunderlich <frank-w@public-files.de>
 
-Hi Matthew,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
-commit: a2f11547052001bd448ccec81dd1e68409078fbb [11960/12393] kasan: rust: Add KASAN smoke test via UAF
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 days ago
-config: xtensa-randconfig-r064-20240918 (https://download.01.org/0day-ci/archive/20240918/202409181650.3fVsPaFj-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.1-main
+head:   d77f27a08153c2b1e4bf61b38e4b20ecd44c047f
+commit: 837f2016b18885de8089f8fad5300edf7728dc14 [56/235] arm64: dts: mediatek: add r64 v0.1 variant with rtl8367 switch
+:::::: branch date: 4 days ago
+:::::: commit date: 1 year, 9 months ago
+config: arm64-randconfig-001-20240918 (https://download.01.org/0day-ci/archive/20240918/202409181806.y7aTUGdD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240918/202409181806.y7aTUGdD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409181650.3fVsPaFj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409181806.y7aTUGdD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> mm/kasan/kasan_test_c.c:1515:1-4: ERROR: reference preceded by free on line 1507
-   mm/kasan/kasan_test_c.c:788:47-50: ERROR: reference preceded by free on line 787
-   mm/kasan/kasan_test_c.c:262:49-52: ERROR: reference preceded by free on line 260
-   mm/kasan/kasan_test_c.c:625:49-52: ERROR: reference preceded by free on line 624
-   mm/kasan/kasan_test_c.c:672:49-53: ERROR: reference preceded by free on line 658
-   mm/kasan/kasan_test_c.c:698:49-53: ERROR: reference preceded by free on line 692
-   mm/kasan/kasan_test_c.c:472:40-44: ERROR: reference preceded by free on line 470
-   mm/kasan/kasan_test_c.c:645:38-41: ERROR: reference preceded by free on line 644
-   mm/kasan/kasan_test_c.c:427:47-51: ERROR: reference preceded by free on line 425
-   mm/kasan/kasan_test_c.c:832:20-23: ERROR: reference preceded by free on line 830
-   mm/kasan/kasan_test_c.c:857:36-38: ERROR: reference preceded by free on line 856
---
->> mm/kasan/kasan_test_c.c:1835:11-12: WARNING kmalloc is used to allocate this memory at line 1809
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7622.dtsi:895.27-909.4: Warning (unit_address_vs_reg): /t-phy@1a243000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts:49.10-103.4: Warning (unit_address_vs_reg): /ethernet@1b100000/mdio-bus/switch1: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64.dts:75.9-77.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt7622.dtsi:530.22-541.4: Warning (unique_unit_address): /nfi@1100d000: duplicate unit-address (also used in node /spi@1100d000)
 
-vim +1515 mm/kasan/kasan_test_c.c
+vim +49 arch/arm64/boot/dts/mediatek/mt7622-bananapi-bpi-r64-rtl8367.dts
 
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1492  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1493  static void kasan_strings(struct kunit *test)
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1494  {
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1495  	char *ptr;
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1496  	size_t size = 24;
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1497  
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1498  	/*
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1499  	 * str* functions are not instrumented with CONFIG_AMD_MEM_ENCRYPT.
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1500  	 * See https://bugzilla.kernel.org/show_bug.cgi?id=206337 for details.
-0fd379253691e7 lib/test_kasan.c Andrey Konovalov 2021-02-24  1501  	 */
-da17e377723f50 lib/test_kasan.c Andrey Konovalov 2021-02-24  1502  	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_AMD_MEM_ENCRYPT);
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1503  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1504  	ptr = kmalloc(size, GFP_KERNEL | __GFP_ZERO);
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1505  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1506  
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1507  	kfree(ptr);
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1508  
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1509  	/*
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1510  	 * Try to cause only 1 invalid access (less spam in dmesg).
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1511  	 * For that we need ptr to point to zeroed byte.
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1512  	 * Skip metadata that could be stored in freed object so ptr
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1513  	 * will likely point to zeroed byte.
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1514  	 */
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26 @1515  	ptr += 16;
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1516  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strchr(ptr, '1'));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1517  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1518  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_ptr_result = strrchr(ptr, '1'));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1519  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1520  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strcmp(ptr, "2"));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1521  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1522  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strncmp(ptr, "2", 1));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1523  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1524  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strlen(ptr));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1525  
-73228c7ecc5e40 lib/test_kasan.c Patricia Alfonso 2020-10-13  1526  	KUNIT_EXPECT_KASAN_FAIL(test, kasan_int_result = strnlen(ptr, 1));
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1527  }
-0c96350a2d2f64 lib/test_kasan.c Andrey Ryabinin  2018-10-26  1528  
-
-:::::: The code at line 1515 was first introduced by commit
-:::::: 0c96350a2d2f64fe777b444c995f6bb633c5d069 lib/test_kasan.c: add tests for several string/memory API functions
-
-:::::: TO: Andrey Ryabinin <aryabinin@virtuozzo.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+837f2016b18885d Frank Wunderlich 2022-01-05  47  
+837f2016b18885d Frank Wunderlich 2022-01-05  48  &mdio {
+837f2016b18885d Frank Wunderlich 2022-01-05 @49  	switch1 {
 
 -- 
 0-DAY CI Kernel Test Service
