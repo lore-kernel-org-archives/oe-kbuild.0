@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7761382
-	for <oe-kbuild@lists.linux.dev>; Fri, 20 Sep 2024 02:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3521CA9C
+	for <oe-kbuild@lists.linux.dev>; Fri, 20 Sep 2024 03:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726798611; cv=none; b=oZnqyKhhfpl52QOqUKc7Xc3swS6bZWcXqqrM4MUnYcjJoqHrsWzqBbSArjCB2Cn+6fXX87eemnCqs54YM/KwtzUIATTGYvZDhU1bxYyyqWDfXOb6GhTDpYK+O+yGRaOVmpodppCRYufGyb/13QWk1tiJzfh6/9ZV4QQSBh1jtEg=
+	t=1726801997; cv=none; b=ZhxN8bTPXP3YiCVoX8R7nzSXFX2tpw8Tvd2TnnVI6uIkXIzDPoToY+BsiXZcmWozmAMQb5g6+kqYpz6P2XN1XhaJgkUxIORXmRClFbx5YC1IGZ2lEX9fe2nQAzH/NI5UduYqXlsCc33qe/gqO2CqGgsH+3CFqLswM6IM5l56ylw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726798611; c=relaxed/simple;
-	bh=5JwVQVE9kZoiGxTic1QG6PuA6lsYfkavmhj/yohgKBg=;
+	s=arc-20240116; t=1726801997; c=relaxed/simple;
+	bh=7LQyPlcVFUfZUxS7gufl8LZgQykKSlIr6ALk2PE9zvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hoCZkwzjO53Y2mTZHV9tQ4k1PToBhnwne0iSzkGuZHhLyKzBg3WahPtKyRGI+OvYAm3ROaLUjLfugln0JI8xABDprflHIPZ3HuDng8Qb2DMy9pP1j9KG1Pjvyp81/WzivYHQIsDoLLwLx41xT80gTVvtGfRal6KIsu7tr3QT2vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cm//Ov2U; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=KhMTiW7qp77iD6UBfQebtwVp25DhqD2eAfIF6/f3hcACS+8iR/huVlBMmUBi/TWPU9V12HcdzTxNYr7jXImdPUp1iXTeYrn/IzgFeKhV5cu2XzG9gjnTzipucChnGQQZvlbE2Fu3NwKEPLzkUk7or8HnkrKm3qXTNikTSppln58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DO+77zW/; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cm//Ov2U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DO+77zW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726798609; x=1758334609;
+  t=1726801994; x=1758337994;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5JwVQVE9kZoiGxTic1QG6PuA6lsYfkavmhj/yohgKBg=;
-  b=Cm//Ov2UJYKmHk6Htgn0NdJCLbFXW2M9qP4Z3/3qVXAswwRP2By75GhT
-   OfoVRAYBelpd2IynpxAzgOl76dtaSx1abMNlGADkNhPRMckniOey91Isv
-   XschsdFjSgg4nvk+RLwMZadX+XKSpMcRIINfv6pg3MJq0s4My5g5TFscB
-   BORof/vCaPZQgEq3kQPMvKDQLQwzCvYxXUp9snmI/BK1TwBtTnj++0WHU
-   fCN7lwT7ZFW/yWuFbULPLS8ZBD5WCE2RkK+LNp02B7c9ZpU6nKGb2fDZk
-   YeK78VeDElno72USQJxfhW35ei35Pp3oAk6zXr/KegJmwi2EO/oUfGF2/
-   w==;
-X-CSE-ConnectionGUID: uVvP3wfiTfOSxOLlwWTwHA==
-X-CSE-MsgGUID: lBu7wp5aRmqeza97CGIcRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="13601906"
+  bh=7LQyPlcVFUfZUxS7gufl8LZgQykKSlIr6ALk2PE9zvs=;
+  b=DO+77zW/Ioax0SvLoBkJWlIqKgqkK+btwnGDrfJ8W9OxC/ayLBq32NVh
+   UzeQgXJCTwEsvA8m91t0rjOwz9Tc/rB+44PBD3DzAuzdRk23cQyDhwKJ4
+   P3l+1w5hoRnBQZpjKrThTWJ+HnHXdfRnETdJz7uF91uR/7ZaR48pMj9ox
+   VcoZnL1xIVUOpz0I0sZNlr/72XWE84U3uxMOIJ6Yo4wwH/XF8a95kpCTm
+   8K8GfoyeyrE/Ccuk/PqefHFiCIfCkVegfCA6/q5537ca5G3Hj7yGlEEgD
+   G5h3gycUyd4yhxk4JMdezFpdQgV9FubcpfCi/TroGefPhTY84XgYZgYvb
+   Q==;
+X-CSE-ConnectionGUID: 52yqDxylSQ65oBfB9TVXsw==
+X-CSE-MsgGUID: c40z0R1OSA+wd+EeR1hwHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11200"; a="37172884"
 X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
-   d="scan'208";a="13601906"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 19:16:49 -0700
-X-CSE-ConnectionGUID: Kx5RGmLuQhGhIfFhDKr/mA==
-X-CSE-MsgGUID: hHlsGy9qSheDuzc0yhlebA==
+   d="scan'208";a="37172884"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2024 20:13:13 -0700
+X-CSE-ConnectionGUID: DpnzuiPbSp+AhY1SDp8rJQ==
+X-CSE-MsgGUID: q7SPCDQ5SuaUzYH3Ax6zqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,243,1719903600"; 
-   d="scan'208";a="74671058"
+   d="scan'208";a="69745307"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Sep 2024 19:16:46 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Sep 2024 20:13:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srTCN-000Dsj-1F;
-	Fri, 20 Sep 2024 02:16:43 +0000
-Date: Fri, 20 Sep 2024 10:16:39 +0800
+	id 1srU4z-000DuW-2m;
+	Fri, 20 Sep 2024 03:13:09 +0000
+Date: Fri, 20 Sep 2024 11:12:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 12115/12440] fs/exfat/file.c:569
- exfat_extend_valid_size() error: uninitialized symbol 'err'.
-Message-ID: <202409201055.kVi9wnoh-lkp@intel.com>
+Subject: arch/powerpc/kernel/setup-common.c:1020 setup_arch() warn: argument
+ 2 to %lx specifier is cast from pointer
+Message-ID: <202409201036.zRsBdnhj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,73 +64,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
-CC: Namjae Jeon <linkinjeon@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3621a2c9142bd490af0666c0c02d52d60ce0d2a5
-commit: 67ca73f5ddfbc930452094c4974c6ea163b55e72 [12115/12440] exfat: move extend valid_size into ->page_mkwrite()
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240919 (https://download.01.org/0day-ci/archive/20240920/202409201055.kVi9wnoh-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2004cef11ea072838f99bd95cefa5c8e45df0847
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   5 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 months ago
+config: powerpc64-randconfig-r071-20240919 (https://download.01.org/0day-ci/archive/20240920/202409201036.zRsBdnhj-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409201055.kVi9wnoh-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409201036.zRsBdnhj-lkp@intel.com/
 
-smatch warnings:
-fs/exfat/file.c:569 exfat_extend_valid_size() error: uninitialized symbol 'err'.
+New smatch warnings:
+arch/powerpc/kernel/setup-common.c:1020 setup_arch() warn: argument 2 to %lx specifier is cast from pointer
 
-vim +/err +569 fs/exfat/file.c
+Old smatch warnings:
+arch/powerpc/include/asm/mmu.h:230 early_mmu_has_feature() warn: bitwise AND condition is false here
 
-5267456e953fd8 Sungjong Seo            2020-06-18  534  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  535  static int exfat_extend_valid_size(struct file *file, loff_t new_valid_size)
-11a347fb6cef62 Yuezhang Mo             2023-03-13  536  {
-11a347fb6cef62 Yuezhang Mo             2023-03-13  537  	int err;
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  538  	loff_t pos;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  539  	struct inode *inode = file_inode(file);
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  540  	struct exfat_inode_info *ei = EXFAT_I(inode);
-11a347fb6cef62 Yuezhang Mo             2023-03-13  541  	struct address_space *mapping = inode->i_mapping;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  542  	const struct address_space_operations *ops = mapping->a_ops;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  543  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  544  	pos = ei->valid_size;
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  545  	while (pos < new_valid_size) {
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  546  		u32 len;
-1da86618bdce30 Matthew Wilcox (Oracle  2024-07-15  547) 		struct folio *folio;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  548  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  549  		len = PAGE_SIZE - (pos & (PAGE_SIZE - 1));
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  550  		if (pos + len > new_valid_size)
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  551  			len = new_valid_size - pos;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  552  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  553  		err = ops->write_begin(file, mapping, pos, len, &folio, NULL);
-11a347fb6cef62 Yuezhang Mo             2023-03-13  554  		if (err)
-11a347fb6cef62 Yuezhang Mo             2023-03-13  555  			goto out;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  556  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  557  		folio_zero_range(folio, offset_in_folio(folio, pos), len);
-11a347fb6cef62 Yuezhang Mo             2023-03-13  558  
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  559  		err = ops->write_end(file, mapping, pos, len, len, folio, NULL);
-11a347fb6cef62 Yuezhang Mo             2023-03-13  560  		if (err < 0)
-11a347fb6cef62 Yuezhang Mo             2023-03-13  561  			goto out;
-67ca73f5ddfbc9 Yuezhang Mo             2024-09-17  562  		pos += len;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  563  
-11a347fb6cef62 Yuezhang Mo             2023-03-13  564  		balance_dirty_pages_ratelimited(mapping);
-11a347fb6cef62 Yuezhang Mo             2023-03-13  565  		cond_resched();
-11a347fb6cef62 Yuezhang Mo             2023-03-13  566  	}
-11a347fb6cef62 Yuezhang Mo             2023-03-13  567  
-11a347fb6cef62 Yuezhang Mo             2023-03-13  568  out:
-11a347fb6cef62 Yuezhang Mo             2023-03-13 @569  	return err;
-11a347fb6cef62 Yuezhang Mo             2023-03-13  570  }
-11a347fb6cef62 Yuezhang Mo             2023-03-13  571  
+vim +1020 arch/powerpc/kernel/setup-common.c
 
-:::::: The code at line 569 was first introduced by commit
-:::::: 11a347fb6cef62ce47e84b97c45f2b2497c7593b exfat: change to get file size from DataLength
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   976  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   977  	/* Print various info about the machine that has been gathered so far. */
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   978  	print_system_info();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   979  
+ed1cd6deb013a1 Christophe Leroy       2019-01-31   980  	klp_init_thread_info(&init_task);
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   981  
+6cd7547b360f1a Kefeng Wang            2021-07-07   982  	setup_initial_init_mm(_stext, _etext, _edata, _end);
+c3c2e93753484b Nicholas Piggin        2023-05-24   983  	/* sched_init() does the mmgrab(&init_mm) for the primary CPU */
+c3c2e93753484b Nicholas Piggin        2023-05-24   984  	VM_WARN_ON(cpumask_test_cpu(smp_processor_id(), mm_cpumask(&init_mm)));
+c3c2e93753484b Nicholas Piggin        2023-05-24   985  	cpumask_set_cpu(smp_processor_id(), mm_cpumask(&init_mm));
+c3c2e93753484b Nicholas Piggin        2023-05-24   986  	inc_mm_active_cpus(&init_mm);
+88f54a3581eb9d Alexey Kardashevskiy   2016-11-30   987  	mm_iommu_init(&init_mm);
+c3c2e93753484b Nicholas Piggin        2023-05-24   988  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   989  	irqstack_early_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   990  	exc_lvl_early_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   991  	emergency_stack_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   992  
+923b3cf00b3ffc Ganesh Goudar          2021-01-28   993  	mce_init();
+3c0b976bf20d23 Jordan Niethe          2020-10-14   994  	smp_release_cpus();
+3c0b976bf20d23 Jordan Niethe          2020-10-14   995  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   996  	initmem_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05   997  
+6cf06c17e94f26 Michael Ellerman       2022-06-16   998  	/*
+6cf06c17e94f26 Michael Ellerman       2022-06-16   999  	 * Reserve large chunks of memory for use by CMA for KVM and hugetlb. These must
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1000  	 * be called after initmem_init(), so that pageblock_order is initialised.
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1001  	 */
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1002  	kvm_cma_reserve();
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1003  	gigantic_hugetlb_cma_reserve();
+6cf06c17e94f26 Michael Ellerman       2022-06-16  1004  
+d90fe2acd9b290 Christophe Leroy       2018-09-28  1005  	early_memtest(min_low_pfn << PAGE_SHIFT, max_low_pfn << PAGE_SHIFT);
+d90fe2acd9b290 Christophe Leroy       2018-09-28  1006  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1007  	if (ppc_md.setup_arch)
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1008  		ppc_md.setup_arch();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1009  
+af375eefbfb27c Michael Ellerman       2018-07-28  1010  	setup_barrier_nospec();
+3bc8ea8603ae4c Diana Craciun          2018-12-12  1011  	setup_spectre_v2();
+af375eefbfb27c Michael Ellerman       2018-07-28  1012  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1013  	paging_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1014  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1015  	/* Initialize the MMU context management stuff. */
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1016  	mmu_context_init();
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1017  
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05  1018  	/* Interrupt code needs to be 64K-aligned. */
+65184f2f045abc Christophe Leroy       2019-03-22  1019  	if (IS_ENABLED(CONFIG_PPC64) && (unsigned long)_stext & 0xffff)
+b1923caa6e641f Benjamin Herrenschmidt 2016-07-05 @1020  		panic("Kernelbase not 64K-aligned (0x%lx)!\n",
 
-:::::: TO: Yuezhang Mo <Yuezhang.Mo@sony.com>
-:::::: CC: Namjae Jeon <linkinjeon@kernel.org>
+:::::: The code at line 1020 was first introduced by commit
+:::::: b1923caa6e641f3d0a93b5d045aef67ded5aef67 powerpc: Merge 32-bit and 64-bit setup_arch()
+
+:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
