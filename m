@@ -1,78 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA972868D;
-	Sat, 21 Sep 2024 19:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F28E555
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Sep 2024 20:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726948453; cv=none; b=d+C56d1AQ/bPGSBDQXpXs+yryjGwPXO0zifa/KM87yae8W/59aurlwsyckhb3LMs37UYzYdBLgUVYEEdVMACWfXcQs2MDPkAlKJ6mh17G4vmBeFYgS8xsW/KIG+dQwP4CM8yLKdTuSC4+LZg85w03LMjmnd8U4wGUG5UAgAPjm8=
+	t=1726950189; cv=none; b=lihu8TiwPkzpljBxa8DmB6CqOmC0CoarJue4pBp7Ta8jYdkbQMIwULWtkCQ/nop7Cd62udhnlRdM/C95bopnVXNkqzLRGtqv/p1FYGLLN9UO9tWTnstSPHlcP7gfC8uhmT4chXW+2Twzxu3NG5FMmMG+Dzc4P7ZuJJ5+cF4De6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726948453; c=relaxed/simple;
-	bh=qbXKiapCk2YXBtlswI/GeCkM3I4qQK1mE6LOkTqbgGc=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=A4pJFAfCrzgUHNwP36dPC+d6fMAlRQqg+6I8qky+ZpSQNLYHptEp4+kndyXrXF4qGkmvaRNXSRtvnDvV/iTfVSNDs6Gx8tw2+hagwTX8Lwmxuln8nP9162A6bYJH0lZcOXdpIzXPycw4LtHpS8GY3UDPkR+ZT7kp1+iCJI1BIuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRq77pPO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726950189; c=relaxed/simple;
+	bh=empbHUbWkZ77BZzw9/cWgKXbMKmUZrdnDfoUBzVqp1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ez29ckObDnZY8Mg/qvOrxCgIP1CtbkoZg4SbkWWSx89w/4e6zosBiUPaN+9BqCyRNFRWoq9O6xp3NCz0pF1+xkUY4W10rf5Bu+Elwkaxb7PNsIHhrRMygfki4yLFrn6/Eri6ZLLwxsR/f9+p/jD8SW2ArliSx/us5yfrbb8vU2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNZCShbo; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRq77pPO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928A2C4CEC2;
-	Sat, 21 Sep 2024 19:54:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726948452;
-	bh=qbXKiapCk2YXBtlswI/GeCkM3I4qQK1mE6LOkTqbgGc=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=GRq77pPOLe6gr6d9BPlks466UbXW7OYl28xtmU6JuzZkWJ02+5gUCZIZ0mmAR/9KX
-	 pmPcJXwAQQvrVnMlw98BsPKhVMxveWNFf8i+YiDrolOikLDgus/Khv6ZIBfFgjYMxw
-	 WMxbe9FZAwbE1Gu9N4HD3rlcEgYrpFHlDDALBHG4RaFbtH1EPFvUwndYnEUTBBneJP
-	 3v7ADTsOQlc5+qkpy0jXspklwroqKv7xBigNgqcvWCagop4cG2tp4LyCx/UzgwQG4J
-	 f3D9i3nzYjmERHNkqiuAoqQKWp4CE1TOkpbQGQMMvxNTEc9l+IY2WSv8YuNFLmEonH
-	 MsjIu2bnnRGRQ==
-Message-ID: <cae4d71b611c36dab4003fa4ec3bab61.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNZCShbo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726950188; x=1758486188;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=empbHUbWkZ77BZzw9/cWgKXbMKmUZrdnDfoUBzVqp1M=;
+  b=bNZCShbo9Ml7ky0+SO7S755ZZxt+Vc02A7jqJqWRX0rp4ZZKsbiWuqXr
+   YfWnhA6Y4jbXJC7PC/KkNpLGv/a9tEqg32voPssHP1z8M1kVxiahRKQ40
+   peH0eesnMP/UvREMeVyg7VBp411mDb+eYdz3IahbiYVMTGMYgKEeAqNMZ
+   XynjUc6hvtV1UNGkvgDx+tqP3RtR7gxambG5yjIRs5PPkEYwKaOF44/Y7
+   yNz3mc20eNIP655i97WxQ5tPsL3fwzmAD9WiNKsQ7t4S41Jkmpc4lzj32
+   faVmhmAVdPtx9QemO3wlBuuG5mbbQZcKDHju/My3x2a97pHu5ogqVSLSq
+   A==;
+X-CSE-ConnectionGUID: yh8s7sd6RiCQnL5I4MrfXw==
+X-CSE-MsgGUID: dnxIWLFMT4qmZaRPDnxvmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25811545"
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="25811545"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 13:23:07 -0700
+X-CSE-ConnectionGUID: 7G2awn9FQUuaV4xf2mHYww==
+X-CSE-MsgGUID: HQkzUy1tQgyv2wEcU+Kt6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,247,1719903600"; 
+   d="scan'208";a="70531198"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 21 Sep 2024 13:23:06 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ss6dD-000Fmt-2c;
+	Sat, 21 Sep 2024 20:23:03 +0000
+Date: Sun, 22 Sep 2024 04:23:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [intel-lts:4.19/android_s 658/30000] drivers/nvme/host/rpmb.c:77
+ nvme_rpmb_add() error: 'rdev' dereferencing possible ERR_PTR()
+Message-ID: <202409220410.hO6UmQew-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d9e0ade6-8a7e-4ba4-974f-142ad246ce5d@linaro.org>
-References: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain> <d9e0ade6-8a7e-4ba4-974f-142ad246ce5d@linaro.org>
-Subject: Re: drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-To: Abel Vesa <abel.vesa@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, Neil Armstrong <neil.armstrong@linaro.org>, oe-kbuild@lists.linux.dev
-Date: Sat, 21 Sep 2024 12:54:10 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Quoting Neil Armstrong (2024-09-18 03:34:22)
-> On 18/09/2024 12:29, Dan Carpenter wrote:
-> > 9799873717398e8 Abel Vesa 2024-05-07  1767    struct device_node *child;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1768    int ret;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1769
-> > 9799873717398e8 Abel Vesa 2024-05-07  1770    /* legacy mode doesn't pr=
-ovide child node for the bus */
-> > 9799873717398e8 Abel Vesa 2024-05-07  1771    if (of_device_is_compatib=
-le(node, "qcom,spmi-pmic-arb"))
-> > 9799873717398e8 Abel Vesa 2024-05-07  1772            return spmi_pmic_=
-arb_bus_init(pdev, node, pmic_arb);
-> > 9799873717398e8 Abel Vesa 2024-05-07  1773
-> > 9799873717398e8 Abel Vesa 2024-05-07  1774    for_each_available_child_=
-of_node(node, child) {
-> > 9799873717398e8 Abel Vesa 2024-05-07  1775            if (of_node_name_=
-eq(child, "spmi")) {
-> > 9799873717398e8 Abel Vesa 2024-05-07  1776                    ret =3D s=
-pmi_pmic_arb_bus_init(pdev, child, pmic_arb);
-> > 9799873717398e8 Abel Vesa 2024-05-07  1777                    if (ret)
-> > 9799873717398e8 Abel Vesa 2024-05-07  1778                            r=
-eturn ret;
-> > 9799873717398e8 Abel Vesa 2024-05-07  1779            }
-> > 9799873717398e8 Abel Vesa 2024-05-07  1780    }
-> > 9799873717398e8 Abel Vesa 2024-05-07  1781
-> > 9799873717398e8 Abel Vesa 2024-05-07 @1782    return ret;
-> >=20
-> > Is it possible to not have an spmi node?
->=20
-> It's possible but not allowed per the bindings.
->=20
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Tomas Winkler <tomas.winkler@intel.com>
+CC: "Pan, Kris" <kris.pan@intel.com>
 
-Seems that we should just return 0 here then and squelch the warning.
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: 62aa2255c310ca50d66cd739fb513d8717038ecb [658/30000] nvme: connect to rpmb layer
+:::::: branch date: 3 weeks ago
+:::::: commit date: 5 years ago
+config: i386-randconfig-141-20240913 (https://download.01.org/0day-ci/archive/20240922/202409220410.hO6UmQew-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409220410.hO6UmQew-lkp@intel.com/
+
+smatch warnings:
+drivers/nvme/host/rpmb.c:77 nvme_rpmb_add() error: 'rdev' dereferencing possible ERR_PTR()
+
+vim +/rdev +77 drivers/nvme/host/rpmb.c
+
+62aa2255c310ca Tomas Winkler 2018-04-25  61  
+62aa2255c310ca Tomas Winkler 2018-04-25  62  static void nvme_rpmb_add(struct nvme_ctrl *ctrl)
+62aa2255c310ca Tomas Winkler 2018-04-25  63  {
+62aa2255c310ca Tomas Winkler 2018-04-25  64  	struct rpmb_dev *rdev;
+62aa2255c310ca Tomas Winkler 2018-04-25  65  	int ndevs = ctrl->rpmbs & 0x7;
+62aa2255c310ca Tomas Winkler 2018-04-25  66  	int i;
+62aa2255c310ca Tomas Winkler 2018-04-25  67  
+62aa2255c310ca Tomas Winkler 2018-04-25  68  	nvme_rpmb_set_cap(ctrl, &nvme_rpmb_dev_ops);
+62aa2255c310ca Tomas Winkler 2018-04-25  69  
+62aa2255c310ca Tomas Winkler 2018-04-25  70  	/* Add RPMB partitions */
+62aa2255c310ca Tomas Winkler 2018-04-25  71  	for (i = 0; i < ndevs; i++) {
+62aa2255c310ca Tomas Winkler 2018-04-25  72  		rdev = rpmb_dev_register(ctrl->device, i, &nvme_rpmb_dev_ops);
+62aa2255c310ca Tomas Winkler 2018-04-25  73  		if (IS_ERR(rdev)) {
+62aa2255c310ca Tomas Winkler 2018-04-25  74  			dev_warn(ctrl->device, "%s: cannot register to rpmb %ld\n",
+62aa2255c310ca Tomas Winkler 2018-04-25  75  				 dev_name(ctrl->device), PTR_ERR(rdev));
+62aa2255c310ca Tomas Winkler 2018-04-25  76  		}
+62aa2255c310ca Tomas Winkler 2018-04-25 @77  		dev_set_drvdata(&rdev->dev, ctrl);
+62aa2255c310ca Tomas Winkler 2018-04-25  78  	}
+62aa2255c310ca Tomas Winkler 2018-04-25  79  }
+62aa2255c310ca Tomas Winkler 2018-04-25  80  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
