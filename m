@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB9A5381E
-	for <oe-kbuild@lists.linux.dev>; Sat, 21 Sep 2024 06:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E32F9DF
+	for <oe-kbuild@lists.linux.dev>; Sat, 21 Sep 2024 09:04:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726900234; cv=none; b=ulPVuuMeeNuDBlxJjoSnzV0ZjTwlOso1R8yToxxXZGHxEPv0Iu8ZaBkoALIhBGaxbArYW/Y3g8Ik6zBGxW9Ix3QyxejF6Wdofgfp1QhFSLhoBDP3epoZ38sxsVkns5dp+VQr2UxZw7xI48U29PLfBCsouxCN9bs2Y2GYTv3pveo=
+	t=1726909482; cv=none; b=n4XYTz4ta6gbb3HTPMYPFn7DrUUcTBsQ1+SZv6Qba3sgilNrtOOP4cWhZbKIWpPPMwLsLhgfO4cZUMvwgSTS/TSOUNa6VNC0g0VYNHsCWpjVOeWBL1IgIdVWIVLr98zdnqssRhRtDqWPpmdHorUSHX94pDWgJOt6+W+9ub5Revk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726900234; c=relaxed/simple;
-	bh=nvvSovX1smdhcjLK9g8Hw+ErF4QGXnPhZQ029aLSHMo=;
+	s=arc-20240116; t=1726909482; c=relaxed/simple;
+	bh=S1/kBrVLcfT7dTtYI+QQa4G1oFgPNr2ugr08Z/L3v1k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p11Rg8kr9ZWpzAg4MOYdmtPGu9WUp1wXDBX4tEgXb/tXTt5ixEeNJE/pN7f0ckDbC7JvaKedGS6jy53aGiIu2nQVsDydPM6zyOii+U8M/WxTl6ADFKP7WooDPLYpNNNfi7dUdYECD2qW1/WKnh9W4G3rRhXpfCtm7peBFTNJR8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMsctMPh; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=QQyCu5AxuT+4N/0KMO/bChL9FibDtRHYTuE1X2M1lAsq8uFxA5xP3v3DMrH+i456AC8hEF4mK0DHXEO4Kk5OLE1O9cUHoKVpX4uxwD34S0lTAK+FWad+ZR0X3WZRVVqIuVaVnE1WG18Ahyhuikjmo6zJ5DqW1JOm/+MmwNjUFVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WK1+sgyQ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMsctMPh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WK1+sgyQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726900233; x=1758436233;
+  t=1726909480; x=1758445480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nvvSovX1smdhcjLK9g8Hw+ErF4QGXnPhZQ029aLSHMo=;
-  b=WMsctMPhLw9nvIk9iRyUgB1t4sNxZ2UIZgbRvbAP93w7+p1jnZrAjKDn
-   MZUZvd7wtP24WK7qCuKVdzUT/fmbROZUL3kIEW4QQrARkWxX8RoZ7wrbE
-   x0mqwYKMTR2WQVPV7Np0g/Exten3kQqpnqmwb2fT47h3yg4Zem4oWp+qX
-   mlBlJOyxoKYKe/M3Rx5qSq8/N6N3sU3pJ8rdTyRFkr8X+WH0uWMavXHVb
-   TDoA6eNE8VHZNG37uX+rrBVXXkyyXSychkKlBEDrICWPxsR8kvY90DB0X
-   FDXX8GiQo18AETF7AbJp+sRGUeBJ9L5SSf6tdCyrUeLUGDdviG0bzaxKt
-   g==;
-X-CSE-ConnectionGUID: kue3TLyNTEqNX6feD8nn4A==
-X-CSE-MsgGUID: sIn+ZCluQQOZ8hVCYuHl+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="43430351"
+  bh=S1/kBrVLcfT7dTtYI+QQa4G1oFgPNr2ugr08Z/L3v1k=;
+  b=WK1+sgyQxsOyMmZ84k4iSrVnQn0+Z6sRurY+LcC7ktK8ZAIAxJK93PEg
+   0eSWuEzxH9sGG7SUYHr2uzf3gTo48Oc4kL8rqKn+T7xLK2dNso42wZ1Aa
+   MkbTBwcnnnecmeSFqfQWac406ciazU0UnNjx4fJ6Nnqhmd86Kp/6YEHXd
+   I+jM7N6i2B5KPDpsWYyZyQyrjtkxZQBAhLo3R1HPWDzUzmUz1VzRSHaTu
+   Mb9gfwuaS+APnRWhbDiaTofIKQHk7XV3wU4v8qtkhWDE2iGLrCYXPEG6u
+   gPhDpimF8rkbAl99Kf/f3QO0IVP4n9P6EQUMlZ4X5ES+k0KXIB+HYo5J5
+   A==;
+X-CSE-ConnectionGUID: 53HcKH7KTzCcoPBgnbq0IQ==
+X-CSE-MsgGUID: L4Zdahf7Ql6lc4ZHjb8rzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11201"; a="37289291"
 X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="43430351"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Sep 2024 23:30:32 -0700
-X-CSE-ConnectionGUID: Z3mYO+F4RGqbbyIzLouP3A==
-X-CSE-MsgGUID: WoFfQhWXRgO+D6TLWfPcKw==
+   d="scan'208";a="37289291"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 02:04:39 -0700
+X-CSE-ConnectionGUID: 8Trk8kdkT9ul8Ko0mE/lcA==
+X-CSE-MsgGUID: ALOEA8JwSOaUCjllHvdtog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,246,1719903600"; 
-   d="scan'208";a="70119280"
+   d="scan'208";a="101399525"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Sep 2024 23:30:31 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Sep 2024 02:04:38 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1srtdU-000FB1-0s;
-	Sat, 21 Sep 2024 06:30:28 +0000
-Date: Sat, 21 Sep 2024 14:29:33 +0800
+	id 1srw2e-000FHz-0n;
+	Sat, 21 Sep 2024 09:04:36 +0000
+Date: Sat, 21 Sep 2024 17:03:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [intel-lts:4.19/android_s 1475/30000]
- drivers/platform/x86/sepdk/pax/pax.c:743 pax_Device_Control_Compat() warn:
- maybe return -EFAULT instead of the bytes remaining?
-Message-ID: <202409211459.A2Yo3H3f-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line
+ 501.
+Message-ID: <202409211636.sDz0opbP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,68 +64,73 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jon Moeller <jon.moeller@intel.com>
-CC: "Pan, Kris" <kris.pan@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [1475/30000] platform/x86: add sep and socwatch drivers without socperf.
-:::::: branch date: 3 weeks ago
-:::::: commit date: 5 years ago
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240921/202409211459.A2Yo3H3f-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1868f9d0260e9afaf7c6436d14923ae12eaea465
+commit: 5e1c7d0b29f7e05b01e448d2579a469cf3a0d350 xfs: invalidate dentries for a file before moving it to the orphanage
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-104-20240921 (https://download.01.org/0day-ci/archive/20240921/202409211636.sDz0opbP-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409211459.A2Yo3H3f-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409211636.sDz0opbP-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/sepdk/pax/pax.c:743 pax_Device_Control_Compat() warn: maybe return -EFAULT instead of the bytes remaining?
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line 501.
 
-Old smatch warnings:
-drivers/platform/x86/sepdk/pax/pax.c:721 pax_Device_Control() warn: maybe return -EFAULT instead of the bytes remaining?
+vim +495 fs/xfs/scrub/orphanage.c
 
-vim +743 drivers/platform/x86/sepdk/pax/pax.c
-
-fadb19e08fbf60 Jon Moeller 2018-11-13  727  
-fadb19e08fbf60 Jon Moeller 2018-11-13  728  #if defined(CONFIG_COMPAT) && defined(DRV_EM64T)
-fadb19e08fbf60 Jon Moeller 2018-11-13  729  static IOCTL_OP_TYPE pax_Device_Control_Compat(struct file *filp,
-fadb19e08fbf60 Jon Moeller 2018-11-13  730  					       unsigned int cmd,
-fadb19e08fbf60 Jon Moeller 2018-11-13  731  					       unsigned long arg)
-fadb19e08fbf60 Jon Moeller 2018-11-13  732  {
-fadb19e08fbf60 Jon Moeller 2018-11-13  733  	int status = OS_SUCCESS;
-fadb19e08fbf60 Jon Moeller 2018-11-13  734  	IOCTL_COMPAT_ARGS_NODE local_args_compat;
-fadb19e08fbf60 Jon Moeller 2018-11-13  735  	IOCTL_ARGS_NODE local_args;
-fadb19e08fbf60 Jon Moeller 2018-11-13  736  
-fadb19e08fbf60 Jon Moeller 2018-11-13  737  	memset(&local_args_compat, 0, sizeof(IOCTL_COMPAT_ARGS_NODE));
-fadb19e08fbf60 Jon Moeller 2018-11-13  738  	if (arg) {
-fadb19e08fbf60 Jon Moeller 2018-11-13  739  		status = copy_from_user(&local_args_compat,
-fadb19e08fbf60 Jon Moeller 2018-11-13  740  					(void __user *)arg,
-fadb19e08fbf60 Jon Moeller 2018-11-13  741  					sizeof(IOCTL_COMPAT_ARGS_NODE));
-fadb19e08fbf60 Jon Moeller 2018-11-13  742  		if (status != OS_SUCCESS)
-fadb19e08fbf60 Jon Moeller 2018-11-13 @743  			return status;
-fadb19e08fbf60 Jon Moeller 2018-11-13  744  	}
-fadb19e08fbf60 Jon Moeller 2018-11-13  745  
-fadb19e08fbf60 Jon Moeller 2018-11-13  746  	local_args.len_drv_to_usr = local_args_compat.len_drv_to_usr;
-fadb19e08fbf60 Jon Moeller 2018-11-13  747  	local_args.len_usr_to_drv = local_args_compat.len_usr_to_drv;
-fadb19e08fbf60 Jon Moeller 2018-11-13  748  	local_args.buf_drv_to_usr =
-fadb19e08fbf60 Jon Moeller 2018-11-13  749  		(char *)compat_ptr(local_args_compat.buf_drv_to_usr);
-fadb19e08fbf60 Jon Moeller 2018-11-13  750  	local_args.buf_usr_to_drv =
-fadb19e08fbf60 Jon Moeller 2018-11-13  751  		(char *)compat_ptr(local_args_compat.buf_usr_to_drv);
-fadb19e08fbf60 Jon Moeller 2018-11-13  752  
-fadb19e08fbf60 Jon Moeller 2018-11-13  753  	if (cmd == PAX_IOCTL_COMPAT_INFO) {
-fadb19e08fbf60 Jon Moeller 2018-11-13  754  		cmd = PAX_IOCTL_INFO;
-fadb19e08fbf60 Jon Moeller 2018-11-13  755  	}
-fadb19e08fbf60 Jon Moeller 2018-11-13  756  	local_args.command = cmd;
-fadb19e08fbf60 Jon Moeller 2018-11-13  757  
-fadb19e08fbf60 Jon Moeller 2018-11-13  758  	status = pax_Service_IOCTL(filp, cmd, local_args);
-fadb19e08fbf60 Jon Moeller 2018-11-13  759  
-fadb19e08fbf60 Jon Moeller 2018-11-13  760  	return status;
-fadb19e08fbf60 Jon Moeller 2018-11-13  761  }
-fadb19e08fbf60 Jon Moeller 2018-11-13  762  #endif
-fadb19e08fbf60 Jon Moeller 2018-11-13  763  
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  460  
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  461  /*
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  462   * Invalidate all dentries for the name that was added to the orphanage
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  463   * directory, and all dentries pointing to the child inode that was moved.
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  464   *
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  465   * There should not be any positive entries for the name, since we've
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  466   * maintained our lock on the orphanage directory.
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  467   */
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  468  static void
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  469  xrep_adoption_zap_dcache(
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  470  	struct xrep_adoption	*adopt)
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  471  {
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  472  	struct qstr		qname = QSTR_INIT(adopt->xname->name,
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  473  						  adopt->xname->len);
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  474  	struct xfs_scrub	*sc = adopt->sc;
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  475  	struct dentry		*d_orphanage, *d_child;
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  476  
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  477  	/* Invalidate all dentries for the adoption name */
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  478  	d_orphanage = d_find_alias(VFS_I(sc->orphanage));
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  479  	if (!d_orphanage)
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  480  		return;
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  481  
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  482  	d_child = d_hash_and_lookup(d_orphanage, &qname);
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  483  	while (d_child != NULL) {
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  484  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  485  
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  486  		ASSERT(d_is_negative(d_child));
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  487  		d_invalidate(d_child);
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  488  		dput(d_child);
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  489  		d_child = d_lookup(d_orphanage, &qname);
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  490  	}
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  491  
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  492  	dput(d_orphanage);
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  493  
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  494  	/* Invalidate all the dentries pointing down to this file. */
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22 @495  	while ((d_child = d_find_alias(VFS_I(sc->ip))) != NULL) {
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  496  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  497  
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  498  		d_invalidate(d_child);
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  499  		dput(d_child);
+5e1c7d0b29f7e0 Darrick J. Wong 2024-04-22  500  	}
+73597e3e42b4a1 Darrick J. Wong 2024-04-15 @501  }
+73597e3e42b4a1 Darrick J. Wong 2024-04-15  502  
 
 -- 
 0-DAY CI Kernel Test Service
