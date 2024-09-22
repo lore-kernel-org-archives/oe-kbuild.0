@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071156F2EB
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 20:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EFAEAC7
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 22:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727038214; cv=none; b=L6+C5sAlUkhf+Bl0m6GayhSyu9tRit9Dui4QRZDzx5mDH7hAQDp5TMadUaJcjt+hdi3q0afGK3wUM3AWQ0UOkq0bDqQMEYBtUZ1JVWR5QdG9XgGi8goCr4OEPJGTU/EPOQj3OZk+Df2NkzI9eCEpaB6bhZBZIghzJUwhRQdOVrA=
+	t=1727042535; cv=none; b=LYOMT6iCerCQCrFdBAFyH5dMgbkBegD1VaKdwCyFUpuay5EBbDuOw2B5+a1mrhu2qdx2tKbE741hcxRdqfD5w/2f1Xx+x9bpSlyEEk9ijBKaRBhXn3SfkUmd97f143lkdesx956zUwa08WOZV9vsTTks2MACxDEPpTI37Og/mzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727038214; c=relaxed/simple;
-	bh=jCu9T4cCXbj93xsuyjzKFp5OdzExGxgvOB3p2LownKg=;
+	s=arc-20240116; t=1727042535; c=relaxed/simple;
+	bh=8YyJCznYdw3rzfyK/zaEeNMkHgymMqn4sFf7EdQibpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UgGVU5i6NCrLVKIQF6420cOdENfI7oEV/EGFrxQyW3WcZkZwQafxthKjcBUPvEE2AEO/5MJ/Z39tTLPgB2pIUM/aAoFFz1yJSarqUevaiKaS7QzXCgppmL6p0dducu/FJnCCqAwAhF/CMOdrgs0jhfWkxIzIcWk2NRyzBYLr+hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpfXP3WG; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=kMneKWcG6PE+EqDiP7UvEgnbym9Bk3VVFNvNFXlpMXdv8kUW3pB6IUm0zPtzhw9xkYDcomVe5/oi17lvRlNV4alIIq6ylqi9JWnXU0lT5SQs0BOZpwAQ5N/4fBj8fB/gRaFQ+iw9vEl5ufpZhLn39v/K3BrQ60b7HR4PfELuuZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QbCxvk43; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpfXP3WG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QbCxvk43"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727038213; x=1758574213;
+  t=1727042533; x=1758578533;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jCu9T4cCXbj93xsuyjzKFp5OdzExGxgvOB3p2LownKg=;
-  b=UpfXP3WG9u31+v0ehg/qHNprqPQou9fCz2ZS0c5Oitt+9vPtFvYeqyTK
-   SAmTSy2WGgvrDVteeuyIrnMAbmWz+mMQ0ji6+24tnPOoxH2DwGsyRRjS8
-   Li1XnvexHsM00ZwvAHHeHme78vcnZyJEFV5J4PeqImVEaJAHYzriTdHB8
-   1SCGAVj1HUkbu8peoc/DjxxArd47J3yaeuvOjwINJyWlrs4Dyavie1HrJ
-   KdDeJInHv28KEGdZ7MtmAsaKoiI/PtluLMJL5Mb7dj0I+xJ8XJopwNDyh
-   Kl2H4dy5+Sz7CHQZnLiK4myVVzESjwnG0eCsU2vr46Stx80/0PECO3pkr
-   g==;
-X-CSE-ConnectionGUID: NQRxlBYZQYGnl+taX2mnmg==
-X-CSE-MsgGUID: iqE9Uqf9TAmOVmYQx6ZQ4g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25855671"
+  bh=8YyJCznYdw3rzfyK/zaEeNMkHgymMqn4sFf7EdQibpI=;
+  b=QbCxvk43AMq5hffxLPrg1yK2hEczmCQKAHh34CNqXZwt8wDW1je646Lj
+   7mrVmsBWc9SVlCTH1Z7SH/ma32m5ivM5jm7Vnmeovxf8gD6yrVtAAXhZP
+   FNXFggbJHsX7KNbrqJqhZp9PTlKazpBsdW9YQ5NU3LpSed/s1k6m+5cdU
+   9wJhahDcyMFOVxqqf63WD8ntcqbPCE9r5PmnEhziLcMdabIQskm8p/Lr+
+   /o/ncM0fmHXplQikHkUKNROX/XIUddBG+ApNlXTzmBOSscopaPF9pT91X
+   jBybsX/uz4/4VF5gJprpIPxPj+LNSUmTdiJRvXbBSLhdDYfx7PhFRei6q
+   w==;
+X-CSE-ConnectionGUID: jZ3NDcxcSaCZowEFs13kLA==
+X-CSE-MsgGUID: Up1hWy7PRQKkS3dIzo1Puw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="28876549"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="25855671"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 13:50:12 -0700
-X-CSE-ConnectionGUID: 8wElKsDZQN+cL1D6kkMZzQ==
-X-CSE-MsgGUID: PBppidTdT7aIOlEvLRGDEg==
+   d="scan'208";a="28876549"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 15:02:13 -0700
+X-CSE-ConnectionGUID: /cG2vObTR6SoZd7swFrysg==
+X-CSE-MsgGUID: clBFPNhWREGWxrQWl51LqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="70868637"
+   d="scan'208";a="101724510"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Sep 2024 13:50:10 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2024 15:02:12 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssTWx-000Geo-2Q;
-	Sun, 22 Sep 2024 20:50:07 +0000
-Date: Mon, 23 Sep 2024 04:49:23 +0800
+	id 1ssUef-000Ggs-2Y;
+	Sun, 22 Sep 2024 22:02:09 +0000
+Date: Mon, 23 Sep 2024 06:01:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [intel-lts:4.19/android_s 10802/30000]
- drivers/hid/hid-nintendo.c:314 joycon_request_calibration() warn: right
- shifting more than type allows 16 vs 16
-Message-ID: <202409230456.21YcUefv-lkp@intel.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <202409230503.HMpRcK5s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,138 +64,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Heiko Carstens <hca@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: 8b094ebb4fc40c3381be4c495eea161add5d105b [10802/30000] FROMLIST: HID: nintendo: add nintendo switch controller driver
-:::::: branch date: 3 weeks ago
-:::::: commit date: 4 years, 7 months ago
-config: i386-randconfig-141-20240913 (https://download.01.org/0day-ci/archive/20240923/202409230456.21YcUefv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230503.HMpRcK5s-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409230456.21YcUefv-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409230503.HMpRcK5s-lkp@intel.com/
 
-New smatch warnings:
-drivers/hid/hid-nintendo.c:314 joycon_request_calibration() warn: right shifting more than type allows 16 vs 16
+smatch warnings:
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
 
-Old smatch warnings:
-drivers/hid/hid-nintendo.c:315 joycon_request_calibration() warn: right shifting more than type allows 16 vs 24
+vim +566 arch/s390/mm/fault.c
 
-vim +314 drivers/hid/hid-nintendo.c
+17a363dcd2f745 Heiko Carstens    2021-04-09  497  
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
 
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  290  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  291  static const u16 DFLT_STICK_CAL_CEN = 2000;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  292  static const u16 DFLT_STICK_CAL_MAX = 3500;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  293  static const u16 DFLT_STICK_CAL_MIN = 500;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  294  static int joycon_request_calibration(struct joycon_ctlr *ctlr)
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  295  {
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  296  	struct joycon_subcmd_request *req;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  297  	u8 buffer[sizeof(*req) + 5] = { 0 };
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  298  	struct joycon_input_report *report;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  299  	struct joycon_stick_cal *cal_x;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  300  	struct joycon_stick_cal *cal_y;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  301  	s32 x_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  302  	s32 x_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  303  	s32 y_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  304  	s32 y_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  305  	u8 *data;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  306  	u8 *raw_cal;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  307  	int ret;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  308  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  309  	req = (struct joycon_subcmd_request *)buffer;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  310  	req->subcmd_id = JC_SUBCMD_SPI_FLASH_READ;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  311  	data = req->data;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  312  	data[0] = 0xFF & JC_CAL_DATA_START;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  313  	data[1] = 0xFF & (JC_CAL_DATA_START >> 8);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29 @314  	data[2] = 0xFF & (JC_CAL_DATA_START >> 16);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  315  	data[3] = 0xFF & (JC_CAL_DATA_START >> 24);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  316  	data[4] = JC_CAL_DATA_SIZE;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  317  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  318  	hid_dbg(ctlr->hdev, "requesting cal data\n");
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  319  	ret = joycon_send_subcmd(ctlr, req, 5);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  320  	if (ret) {
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  321  		hid_warn(ctlr->hdev,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  322  			 "Failed to read stick cal, using defaults; ret=%d\n",
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  323  			 ret);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  324  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  325  		ctlr->left_stick_cal_x.center = DFLT_STICK_CAL_CEN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  326  		ctlr->left_stick_cal_x.max = DFLT_STICK_CAL_MAX;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  327  		ctlr->left_stick_cal_x.min = DFLT_STICK_CAL_MIN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  328  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  329  		ctlr->left_stick_cal_y.center = DFLT_STICK_CAL_CEN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  330  		ctlr->left_stick_cal_y.max = DFLT_STICK_CAL_MAX;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  331  		ctlr->left_stick_cal_y.min = DFLT_STICK_CAL_MIN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  332  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  333  		ctlr->right_stick_cal_x.center = DFLT_STICK_CAL_CEN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  334  		ctlr->right_stick_cal_x.max = DFLT_STICK_CAL_MAX;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  335  		ctlr->right_stick_cal_x.min = DFLT_STICK_CAL_MIN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  336  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  337  		ctlr->right_stick_cal_y.center = DFLT_STICK_CAL_CEN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  338  		ctlr->right_stick_cal_y.max = DFLT_STICK_CAL_MAX;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  339  		ctlr->right_stick_cal_y.min = DFLT_STICK_CAL_MIN;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  340  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  341  		return ret;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  342  	}
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  343  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  344  	report = (struct joycon_input_report *)ctlr->input_buf;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  345  	raw_cal = &report->reply.data[5];
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  346  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  347  	/* left stick calibration parsing */
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  348  	cal_x = &ctlr->left_stick_cal_x;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  349  	cal_y = &ctlr->left_stick_cal_y;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  350  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  351  	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  352  	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  353  	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  354  	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  355  	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  356  	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  357  	cal_x->max = cal_x->center + x_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  358  	cal_x->min = cal_x->center - x_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  359  	cal_y->max = cal_y->center + y_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  360  	cal_y->min = cal_y->center - y_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  361  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  362  	/* right stick calibration parsing */
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  363  	raw_cal += 9;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  364  	cal_x = &ctlr->right_stick_cal_x;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  365  	cal_y = &ctlr->right_stick_cal_y;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  366  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  367  	cal_x->center = hid_field_extract(ctlr->hdev, (raw_cal + 0), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  368  	cal_y->center = hid_field_extract(ctlr->hdev, (raw_cal + 1), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  369  	x_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 3), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  370  	y_min_below = hid_field_extract(ctlr->hdev, (raw_cal + 4), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  371  	x_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 6), 0, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  372  	y_max_above = hid_field_extract(ctlr->hdev, (raw_cal + 7), 4, 12);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  373  	cal_x->max = cal_x->center + x_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  374  	cal_x->min = cal_x->center - x_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  375  	cal_y->max = cal_y->center + y_max_above;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  376  	cal_y->min = cal_y->center - y_min_below;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  377  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  378  	hid_dbg(ctlr->hdev, "calibration:\n"
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  379  			    "l_x_c=%d l_x_max=%d l_x_min=%d\n"
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  380  			    "l_y_c=%d l_y_max=%d l_y_min=%d\n"
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  381  			    "r_x_c=%d r_x_max=%d r_x_min=%d\n"
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  382  			    "r_y_c=%d r_y_max=%d r_y_min=%d\n",
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  383  			    ctlr->left_stick_cal_x.center,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  384  			    ctlr->left_stick_cal_x.max,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  385  			    ctlr->left_stick_cal_x.min,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  386  			    ctlr->left_stick_cal_y.center,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  387  			    ctlr->left_stick_cal_y.max,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  388  			    ctlr->left_stick_cal_y.min,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  389  			    ctlr->right_stick_cal_x.center,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  390  			    ctlr->right_stick_cal_x.max,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  391  			    ctlr->right_stick_cal_x.min,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  392  			    ctlr->right_stick_cal_y.center,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  393  			    ctlr->right_stick_cal_y.max,
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  394  			    ctlr->right_stick_cal_y.min);
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  395  
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  396  	return 0;
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  397  }
-8b094ebb4fc40c Daniel J. Ogorchock 2019-12-29  398  
+:::::: The code at line 566 was first introduced by commit
+:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
+
+:::::: TO: Heiko Carstens <hca@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
