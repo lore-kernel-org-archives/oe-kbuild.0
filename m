@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34217711B
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 23:25:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2783FE55
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 23:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727047518; cv=none; b=WwTk4rvS8300UHhnEPyzV1mLdf+kBPhKZPimgOsWWzQyN5Hui2/PC7fdGyKLTgun8tnb1w8OtWXZqBwWV2/etXh4ZRRBshwp1Ji7WVHhwYVdXWM966KuVGJsjgkh255TxDExYVJPtDyev5IYNKbzFxIQIX6TisPPBpi/0WOFUrQ=
+	t=1727048118; cv=none; b=ORBr0OwMIUuAvFFJq+OoWQ2H4aJs5s//qcsJi6BW+AG2cJTvBUunqC5OfSA5B1vArpt/fnJIt790Z/kisaaMU5Vv2M3pSnxj+of14SarnmWtGkn6+C9wpYMFH039bmu83Eg/MEdoit8MPgGc0xx1oY8X70dACzWVZaQRD1wY4H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727047518; c=relaxed/simple;
-	bh=bNILnqj6oxYWrlaNMMmxGMpLiQ0uh46Za9EnnWRI6lc=;
+	s=arc-20240116; t=1727048118; c=relaxed/simple;
+	bh=nAkojZgpeycSi2A/fIbyHb8ardruLWxsQcNymKAfo84=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sLuSPww52HLZFRPx+/U7sPq1gsjz12fVxhC1REa9MG3OtYkl1dY/s4pUdWWcP+0rmBagxI7S5EKqxv+GyFoBdK+ucIUw5nUhJGoun4MB12/XhS1ZzMRB2i+k7mgnSZtJQKrTHvSWVevfRXDEw6D8ncBf7g5e/CT80jd+QtPRxIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PUXe9BVi; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=gi1Do1Uz88k3+j2vaUIszpMprj+s6Vq26TIIAioqPccpvi8AItG4ZXUI6vp1tfGSP/uAz1vAycpHHoCZrNTkndlmiY+iiUuSvmosHbJ7+lSevSEHw13010fIBotsFe/CmDSWdEIFVOHy2Q1OAKGfIVOnhOUXV/H+X456K1h5YDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X55qPKwV; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PUXe9BVi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X55qPKwV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727047517; x=1758583517;
+  t=1727048117; x=1758584117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bNILnqj6oxYWrlaNMMmxGMpLiQ0uh46Za9EnnWRI6lc=;
-  b=PUXe9BViV1I2Lfv+sFWOMdL8fjkJfTxUHD3f5O50ydpcfalwdSNDzhc0
-   oVThqXRPqVCGG81gbyZmyuVRO/vLC3Lrmt0dtSZtSOWrw5pMGpS95jr4J
-   cHPFCc9Q46D6Wsk2wuFWhaRJBge2MXDJJR9TMGz6MHzk5BA+FUFt7QHec
-   y0JhbuhqwZ4+sxy/OLd1GMfaCE+htzhkPc6tpLLCX8Q6Y5X6cRekpr5gP
-   rLUtgrwfrN2Dk34ZieGXaQoSWIIps2YgsP4IhGL3D0ZGgFbghYzESZCR5
-   VDIKBslFt/BS5PDp6FN6DGhr9LQJkpQdG5tzRSmq8Ekc5TDABeOUnGOzz
+  bh=nAkojZgpeycSi2A/fIbyHb8ardruLWxsQcNymKAfo84=;
+  b=X55qPKwVgHH80f3nGKqgb9PinnndyJBCGzIlhML9T9uvtNmbrNeDQAP4
+   5t4brJ0bMfW9hR5jRrNC23lBKEh8RrsAVhdOr8DfW8NIS+4M5SxXMFPJ0
+   jz3gjloi7Q2tyl4H2DJcmObpViSiaCAoS9imKpchepKsu1HAWZL0D7NBC
+   FbDCcZ6d+hJQzUVUL7qmuvKAse7Wb1pLwiDjpwAJxU+ZkCu16HAuC55Nj
+   nqsxuOD+sDaGbPKpPW9VQz7dvTOMMv/1v7vtUMhDlE7TnuufIM1YvgaHO
+   MQR1Jtz11PczWHtWqIstP14xmnscqI2BLj+V2/bJU61LHn7MT+08jQaw9
    w==;
-X-CSE-ConnectionGUID: z7SLudMuShKkI6XS+E4ygA==
-X-CSE-MsgGUID: Lsy/O37WQziKG4w/cTCR7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36554355"
+X-CSE-ConnectionGUID: GcfkDVB8SgqHET6kM4AEtw==
+X-CSE-MsgGUID: XgRnN4Z1Qb2mowNe1zDmDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26139214"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="36554355"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 16:25:16 -0700
-X-CSE-ConnectionGUID: UHwZ4N7PRL24JeZALa6+Kw==
-X-CSE-MsgGUID: Cn3KUa3aT+WkIlmtUvAAWw==
+   d="scan'208";a="26139214"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 16:35:16 -0700
+X-CSE-ConnectionGUID: VKIb/VxdSiWJttiHIYm7VQ==
+X-CSE-MsgGUID: etwOtqhxRhCl+FR3bsFfHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="101735253"
+   d="scan'208";a="71168799"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 22 Sep 2024 16:25:14 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Sep 2024 16:35:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssVx2-000Gjc-1D;
-	Sun, 22 Sep 2024 23:25:12 +0000
-Date: Mon, 23 Sep 2024 07:24:14 +0800
+	id 1ssW6i-000Gk0-2P;
+	Sun, 22 Sep 2024 23:35:12 +0000
+Date: Mon, 23 Sep 2024 07:34:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: sound/soc/intel/catpt/pcm.c:366 catpt_dai_apply_usettings() warn:
- iterator used outside loop: 'pos'
-Message-ID: <202409230718.rgcrtQuU-lkp@intel.com>
+Subject: [dhowells-fs:netfs-writeback 11/13] fs/netfs/write_issue.c:874
+ netfs_writeback_single() error: uninitialized symbol 'ret'.
+Message-ID: <202409230717.8kiMw2CE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,85 +64,98 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wei Yang <richard.weiyang@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
-commit: 2932fb0a927d30690b8cb70c71d511fd9054bb61 list: leverage list_is_head() for list_entry_is_head()
-date:   7 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20240923 (https://download.01.org/0day-ci/archive/20240923/202409230718.rgcrtQuU-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   1b8d06c4ea0b6eb74b52b9dadb866a92c0cc5b69
+commit: 4a6aa57914e5623bcdcfb6ba8cd766b30f834514 [11/13] netfs: Add support for caching single monolithic objects such as AFS dirs
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20240923 (https://download.01.org/0day-ci/archive/20240923/202409230717.8kiMw2CE-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409230718.rgcrtQuU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409230717.8kiMw2CE-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/intel/catpt/pcm.c:366 catpt_dai_apply_usettings() warn: iterator used outside loop: 'pos'
+smatch warnings:
+fs/netfs/write_issue.c:874 netfs_writeback_single() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-sound/soc/intel/catpt/pcm.c:367 catpt_dai_apply_usettings() warn: iterator used outside loop: 'pos'
+vim +/ret +874 fs/netfs/write_issue.c
 
-vim +/pos +366 sound/soc/intel/catpt/pcm.c
-
-768a3a3b327da8 Cezary Rojewski 2020-11-16  328  
-768a3a3b327da8 Cezary Rojewski 2020-11-16  329  static int catpt_dai_apply_usettings(struct snd_soc_dai *dai,
-768a3a3b327da8 Cezary Rojewski 2020-11-16  330  				     struct catpt_stream_runtime *stream)
-768a3a3b327da8 Cezary Rojewski 2020-11-16  331  {
-768a3a3b327da8 Cezary Rojewski 2020-11-16  332  	struct snd_soc_component *component = dai->component;
-a9830fc388817c Andy Shevchenko 2020-12-14  333  	struct snd_kcontrol *pos;
-a62a02986d3990 Cezary Rojewski 2021-12-16  334  	struct catpt_dev *cdev = dev_get_drvdata(dai->dev);
-768a3a3b327da8 Cezary Rojewski 2020-11-16  335  	const char *name;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  336  	int ret;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  337  	u32 id = stream->info.stream_hw_id;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  338  
-768a3a3b327da8 Cezary Rojewski 2020-11-16  339  	/* only selected streams have individual controls */
-768a3a3b327da8 Cezary Rojewski 2020-11-16  340  	switch (id) {
-768a3a3b327da8 Cezary Rojewski 2020-11-16  341  	case CATPT_PIN_ID_OFFLOAD1:
-768a3a3b327da8 Cezary Rojewski 2020-11-16  342  		name = "Media0 Playback Volume";
-768a3a3b327da8 Cezary Rojewski 2020-11-16  343  		break;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  344  	case CATPT_PIN_ID_OFFLOAD2:
-768a3a3b327da8 Cezary Rojewski 2020-11-16  345  		name = "Media1 Playback Volume";
-768a3a3b327da8 Cezary Rojewski 2020-11-16  346  		break;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  347  	case CATPT_PIN_ID_CAPTURE1:
-768a3a3b327da8 Cezary Rojewski 2020-11-16  348  		name = "Mic Capture Volume";
-768a3a3b327da8 Cezary Rojewski 2020-11-16  349  		break;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  350  	case CATPT_PIN_ID_REFERENCE:
-768a3a3b327da8 Cezary Rojewski 2020-11-16  351  		name = "Loopback Mute";
-768a3a3b327da8 Cezary Rojewski 2020-11-16  352  		break;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  353  	default:
-768a3a3b327da8 Cezary Rojewski 2020-11-16  354  		return 0;
-e01a03db74a880 Yang Li         2021-02-01  355  	}
-768a3a3b327da8 Cezary Rojewski 2020-11-16  356  
-768a3a3b327da8 Cezary Rojewski 2020-11-16  357  	list_for_each_entry(pos, &component->card->snd_card->controls, list) {
-768a3a3b327da8 Cezary Rojewski 2020-11-16  358  		if (pos->private_data == component &&
-a9830fc388817c Andy Shevchenko 2020-12-14  359  		    !strncmp(name, pos->id.name, sizeof(pos->id.name)))
-768a3a3b327da8 Cezary Rojewski 2020-11-16  360  			break;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  361  	}
-a9830fc388817c Andy Shevchenko 2020-12-14  362  	if (list_entry_is_head(pos, &component->card->snd_card->controls, list))
-768a3a3b327da8 Cezary Rojewski 2020-11-16  363  		return -ENOENT;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  364  
-768a3a3b327da8 Cezary Rojewski 2020-11-16  365  	if (stream->template->type != CATPT_STRM_TYPE_LOOPBACK)
-a9830fc388817c Andy Shevchenko 2020-12-14 @366  		return catpt_set_dspvol(cdev, id, (long *)pos->private_value);
-a9830fc388817c Andy Shevchenko 2020-12-14  367  	ret = catpt_ipc_mute_loopback(cdev, id, *(bool *)pos->private_value);
-768a3a3b327da8 Cezary Rojewski 2020-11-16  368  	if (ret)
-768a3a3b327da8 Cezary Rojewski 2020-11-16  369  		return CATPT_IPC_ERROR(ret);
-768a3a3b327da8 Cezary Rojewski 2020-11-16  370  	return 0;
-768a3a3b327da8 Cezary Rojewski 2020-11-16  371  }
-768a3a3b327da8 Cezary Rojewski 2020-11-16  372  
-
-:::::: The code at line 366 was first introduced by commit
-:::::: a9830fc388817c90282925694474fae005fec990 catpt: Switch to use list_entry_is_head() helper
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+4a6aa57914e562 David Howells 2024-09-20  804  
+4a6aa57914e562 David Howells 2024-09-20  805  /**
+4a6aa57914e562 David Howells 2024-09-20  806   * netfs_writeback_single - Write back a monolithic payload
+4a6aa57914e562 David Howells 2024-09-20  807   * @mapping: The mapping to write from
+4a6aa57914e562 David Howells 2024-09-20  808   * @wbc: Hints from the VM
+4a6aa57914e562 David Howells 2024-09-20  809   * @iter: Data to write, must be ITER_FOLIOQ.
+4a6aa57914e562 David Howells 2024-09-20  810   *
+4a6aa57914e562 David Howells 2024-09-20  811   * Write a monolithic, non-pagecache object back to the server and/or
+4a6aa57914e562 David Howells 2024-09-20  812   * the cache.
+4a6aa57914e562 David Howells 2024-09-20  813   */
+4a6aa57914e562 David Howells 2024-09-20  814  int netfs_writeback_single(struct address_space *mapping,
+4a6aa57914e562 David Howells 2024-09-20  815  			   struct writeback_control *wbc,
+4a6aa57914e562 David Howells 2024-09-20  816  			   struct iov_iter *iter)
+4a6aa57914e562 David Howells 2024-09-20  817  {
+4a6aa57914e562 David Howells 2024-09-20  818  	struct netfs_io_request *wreq;
+4a6aa57914e562 David Howells 2024-09-20  819  	struct netfs_inode *ictx = netfs_inode(mapping->host);
+4a6aa57914e562 David Howells 2024-09-20  820  	struct folio_queue *fq;
+4a6aa57914e562 David Howells 2024-09-20  821  	size_t size = iov_iter_count(iter);
+4a6aa57914e562 David Howells 2024-09-20  822  	int ret;
+4a6aa57914e562 David Howells 2024-09-20  823  
+4a6aa57914e562 David Howells 2024-09-20  824  	if (WARN_ON_ONCE(!iov_iter_is_folioq(iter)))
+4a6aa57914e562 David Howells 2024-09-20  825  		return -EIO;
+4a6aa57914e562 David Howells 2024-09-20  826  
+4a6aa57914e562 David Howells 2024-09-20  827  	if (!mutex_trylock(&ictx->wb_lock)) {
+4a6aa57914e562 David Howells 2024-09-20  828  		if (wbc->sync_mode == WB_SYNC_NONE) {
+4a6aa57914e562 David Howells 2024-09-20  829  			netfs_stat(&netfs_n_wb_lock_skip);
+4a6aa57914e562 David Howells 2024-09-20  830  			return 0;
+4a6aa57914e562 David Howells 2024-09-20  831  		}
+4a6aa57914e562 David Howells 2024-09-20  832  		netfs_stat(&netfs_n_wb_lock_wait);
+4a6aa57914e562 David Howells 2024-09-20  833  		mutex_lock(&ictx->wb_lock);
+4a6aa57914e562 David Howells 2024-09-20  834  	}
+4a6aa57914e562 David Howells 2024-09-20  835  
+4a6aa57914e562 David Howells 2024-09-20  836  	wreq = netfs_create_write_req(mapping, NULL, 0, NETFS_WRITEBACK_SINGLE);
+4a6aa57914e562 David Howells 2024-09-20  837  	if (IS_ERR(wreq)) {
+4a6aa57914e562 David Howells 2024-09-20  838  		ret = PTR_ERR(wreq);
+4a6aa57914e562 David Howells 2024-09-20  839  		goto couldnt_start;
+4a6aa57914e562 David Howells 2024-09-20  840  	}
+4a6aa57914e562 David Howells 2024-09-20  841  
+4a6aa57914e562 David Howells 2024-09-20  842  	trace_netfs_write(wreq, netfs_write_trace_writeback);
+4a6aa57914e562 David Howells 2024-09-20  843  	netfs_stat(&netfs_n_wh_writepages);
+4a6aa57914e562 David Howells 2024-09-20  844  
+4a6aa57914e562 David Howells 2024-09-20  845  	if (__test_and_set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags))
+4a6aa57914e562 David Howells 2024-09-20  846  		wreq->netfs_ops->begin_writeback(wreq);
+4a6aa57914e562 David Howells 2024-09-20  847  
+4a6aa57914e562 David Howells 2024-09-20  848  	for (fq = (struct folio_queue *)iter->folioq; fq; fq = fq->next) {
+4a6aa57914e562 David Howells 2024-09-20  849  		for (int slot = 0; slot < folioq_count(fq); slot++) {
+4a6aa57914e562 David Howells 2024-09-20  850  			struct folio *folio = folioq_folio(fq, slot);
+4a6aa57914e562 David Howells 2024-09-20  851  			size_t part = umin(folioq_folio_size(fq, slot), size);
+4a6aa57914e562 David Howells 2024-09-20  852  
+4a6aa57914e562 David Howells 2024-09-20  853  			_debug("wbiter %lx %llx", folio->index, atomic64_read(&wreq->issued_to));
+4a6aa57914e562 David Howells 2024-09-20  854  
+4a6aa57914e562 David Howells 2024-09-20  855  			ret = netfs_write_folio_single(wreq, folio);
+4a6aa57914e562 David Howells 2024-09-20  856  			if (ret < 0)
+4a6aa57914e562 David Howells 2024-09-20  857  				goto stop;
+4a6aa57914e562 David Howells 2024-09-20  858  			size -= part;
+4a6aa57914e562 David Howells 2024-09-20  859  			if (size <= 0)
+4a6aa57914e562 David Howells 2024-09-20  860  				goto stop;
+4a6aa57914e562 David Howells 2024-09-20  861  		}
+4a6aa57914e562 David Howells 2024-09-20  862  	}
+4a6aa57914e562 David Howells 2024-09-20  863  
+4a6aa57914e562 David Howells 2024-09-20  864  stop:
+4a6aa57914e562 David Howells 2024-09-20  865  	for (int s = 0; s < NR_IO_STREAMS; s++)
+4a6aa57914e562 David Howells 2024-09-20  866  		netfs_issue_write(wreq, &wreq->io_streams[s]);
+4a6aa57914e562 David Howells 2024-09-20  867  	smp_wmb(); /* Write lists before ALL_QUEUED. */
+4a6aa57914e562 David Howells 2024-09-20  868  	set_bit(NETFS_RREQ_ALL_QUEUED, &wreq->flags);
+4a6aa57914e562 David Howells 2024-09-20  869  
+4a6aa57914e562 David Howells 2024-09-20  870  	mutex_unlock(&ictx->wb_lock);
+4a6aa57914e562 David Howells 2024-09-20  871  
+4a6aa57914e562 David Howells 2024-09-20  872  	netfs_put_request(wreq, false, netfs_rreq_trace_put_return);
+4a6aa57914e562 David Howells 2024-09-20  873  	_leave(" = %d", ret);
+4a6aa57914e562 David Howells 2024-09-20 @874  	return ret;
 
 -- 
 0-DAY CI Kernel Test Service
