@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D93521EB46
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 09:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9936FBF
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 09:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726996369; cv=none; b=oX3Awbkejg5KBUG/imTYGkZO+8X5PsYFfA/zaNWCfrcjWyIC3hzlwogemYbkdFk13cnYUu0UizhuGisJKwz2tqiG8zn319xlaAo/Do6f/ee4jj6q1bzK5aQADibzgWs94xD0BwBloEnWOQdZQpnOljQ5sxPhHPxK4zVvwKE9ow4=
+	t=1726998830; cv=none; b=EJty6NzWPSBMQaPDT3VMMnqEt/j58ZBvkfenHvvX+oIeQ+5YfDSxpJHiOQdCrm74DYhAHdU/eXycMnsyB9HEahNL45lz57xkJ3T2mjJ14JAkRD1r9cabyuruM4/os9LZP8a86n5xM4X3M1K/GPLf2nQ5Ft/q81hixnfm8BE1H+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726996369; c=relaxed/simple;
-	bh=jkExdofxBL325EtKXPa6wvy/fSrMYl1/rheL2xyXBCQ=;
+	s=arc-20240116; t=1726998830; c=relaxed/simple;
+	bh=83LjrMoXi5bCy3/3Tlwwfq0JrqaeOAGYD6YMGIU1wxs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F54f9yzo8OAseickHZXUcn1VeEQgB3ExknRrFw0K33kMadvuAShn4igPHIgrlOOP2ayhuHYw4Z4cP70XyDrpZIYjWctpTMKS2y27hoUYsD/HdKckIX7uvRZ594Y8gAYVDa/nbA6njuTFc88WVTUX6UPg6ev67w7+iHSykk94kZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTjWvz2J; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=mOZGq+cXSZebaQhca6CPzqTj4bA0uisEAmRJEQMbCVr9QPFvNZReQsarlIs4kTBlVLE73d5PTEWaaXKX5hvzf3UUw59pxjCy1YPcaIYCjsX2rXvbTlEbAhqaobdFGYYozN+JLJL68X4kXkoxEGk9ATXowvbw81YCwQ4a4Re3l1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bhISOBxh; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTjWvz2J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bhISOBxh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726996367; x=1758532367;
+  t=1726998829; x=1758534829;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jkExdofxBL325EtKXPa6wvy/fSrMYl1/rheL2xyXBCQ=;
-  b=fTjWvz2JpCzMlTooG9iqsBgdkDDThAjVxzO65TcZfGTsg6AFDzAW83qT
-   CIqno/NbQF9cUKzDnwxsZJXz4pHNpXFz7TPNWFqZdXG1qxu27Wo6zVp5b
-   YBoxepQiG+T8JB5p8AtwU2+MmgBKCh+Mf7Rqc0+zPWVCorqwyTXHmfXux
-   37+zAjI5kYkAfuUK9PshVch48GjETHN1LHzc6II0kblPX6VozqntSI515
-   T5/R9d1ipeeE75db9z+zkGWbTXXv8jaScSX81qKlO09F0mh+9sIW0+LTS
-   5ItMNGsCwIvkU2FNCNExGRyAtTdQaxb2/jVVu5wSKadfYL1uWH6JjQBTv
-   w==;
-X-CSE-ConnectionGUID: +bPp0V4LR0CoAtozR5ziZQ==
-X-CSE-MsgGUID: lz6L5OBtTjSS1QnX2FH1vA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="43425448"
+  bh=83LjrMoXi5bCy3/3Tlwwfq0JrqaeOAGYD6YMGIU1wxs=;
+  b=bhISOBxhnvFsqvp06zy7FRv2B6CCMzMOcxguyGMK+mHwuaPDTtrfcBUj
+   fzOfuSeMlUxCCK/sqSjD5blVpT5Zf9F1xw7CRYqZ1sxjXgSAyI/xzlQHz
+   YlUiLVVmw+JNNy9vx5LrXCpu0gtNpsax7Bb3lx15Rwnb7ywyYEYavp4x2
+   pxoHOkPKw1FWO5fryNEtmfN5RxYfiBVMZeDdy7slQue/KZ2PzXVFLaU6P
+   cGVNFNlEdgJ/qgUzpn6SVgBucZTsgohPRmVWkSepoUsgO0SyoMtasjQXi
+   A6PaGA+9iesVVXQD5gqmVT1HfvoPGJTl7DF459CRsCcYoSJS1AsdBW9hS
+   Q==;
+X-CSE-ConnectionGUID: BoBhoqIMTHOvj8oVrnzNSg==
+X-CSE-MsgGUID: 2FG2If6GSS+o/0PBHdvPuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25902532"
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="43425448"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 02:12:46 -0700
-X-CSE-ConnectionGUID: OXXEk2osQv2HxmfHZYznVQ==
-X-CSE-MsgGUID: pVy5WnkZS7ae88VangCHaA==
+   d="scan'208";a="25902532"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 02:53:48 -0700
+X-CSE-ConnectionGUID: ZQY3yJgTS1uYsCer0d342Q==
+X-CSE-MsgGUID: Uo0+lqSMRNaT1CBKhFhsBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,249,1719903600"; 
-   d="scan'208";a="75531259"
+   d="scan'208";a="71602469"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Sep 2024 02:12:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Sep 2024 02:53:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssIe2-000GAM-2D;
-	Sun, 22 Sep 2024 09:12:42 +0000
-Date: Sun, 22 Sep 2024 17:12:01 +0800
+	id 1ssJHk-000GBy-0A;
+	Sun, 22 Sep 2024 09:53:44 +0000
+Date: Sun, 22 Sep 2024 17:53:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 26341/30000] net/bluetooth/smp.c:1634
- smp_user_confirm_reply() warn: variable dereferenced before check 'conn'
- (see line 1632)
-Message-ID: <202409221743.6Lz7Tnxc-lkp@intel.com>
+Subject: [axboe-block:rw_iter 417/448] drivers/media/rc/imon.c:975
+ vfd_write() warn: potential spectre issue 'ictx->tx.data_buf' [w] (local
+ cap)
+Message-ID: <202409221755.yBSAvw6I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,100 +65,117 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: sanglipeng <sanglipeng1@jd.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   108b9a92793f61e1abf94d341c676515421e57a2
-commit: bd705301e9438cf06d431bc1594ecfbbe6b21841 [26341/30000] Bluetooth: SMP: Convert BT_ERR/BT_DBG to bt_dev_err/bt_dev_dbg
-:::::: branch date: 24 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221743.6Lz7Tnxc-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   7ef9d29ff0268d9fb68e3b1bf7548981d7a61307
+commit: 0eb3a7fa4f8bd32020202434a317f27da27e5ec9 [417/448] media/rc: convert to read/write iterators
+:::::: branch date: 3 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221755.yBSAvw6I-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409221743.6Lz7Tnxc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409221755.yBSAvw6I-lkp@intel.com/
 
 smatch warnings:
-net/bluetooth/smp.c:1634 smp_user_confirm_reply() warn: variable dereferenced before check 'conn' (see line 1632)
+drivers/media/rc/imon.c:975 vfd_write() warn: potential spectre issue 'ictx->tx.data_buf' [w] (local cap)
 
-vim +/conn +1634 net/bluetooth/smp.c
+vim +975 drivers/media/rc/imon.c
 
-760b018b6cf08e Johan Hedberg          2014-06-06  1623  
-2b64d153a0cc9d Brian Gix              2011-12-21  1624  int smp_user_confirm_reply(struct hci_conn *hcon, u16 mgmt_op, __le32 passkey)
-2b64d153a0cc9d Brian Gix              2011-12-21  1625  {
-b10e8017bd9d02 Johan Hedberg          2014-06-27  1626  	struct l2cap_conn *conn = hcon->l2cap_data;
-5d88cc73dded31 Johan Hedberg          2014-08-08  1627  	struct l2cap_chan *chan;
-2b64d153a0cc9d Brian Gix              2011-12-21  1628  	struct smp_chan *smp;
-2b64d153a0cc9d Brian Gix              2011-12-21  1629  	u32 value;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1630  	int err;
-2b64d153a0cc9d Brian Gix              2011-12-21  1631  
-bd705301e9438c Luiz Augusto von Dentz 2021-03-15 @1632  	bt_dev_dbg(conn->hcon->hdev, "");
-2b64d153a0cc9d Brian Gix              2011-12-21  1633  
-fc75cc8684d21d Johan Hedberg          2014-09-05 @1634  	if (!conn)
-2b64d153a0cc9d Brian Gix              2011-12-21  1635  		return -ENOTCONN;
-2b64d153a0cc9d Brian Gix              2011-12-21  1636  
-5d88cc73dded31 Johan Hedberg          2014-08-08  1637  	chan = conn->smp;
-5d88cc73dded31 Johan Hedberg          2014-08-08  1638  	if (!chan)
-5d88cc73dded31 Johan Hedberg          2014-08-08  1639  		return -ENOTCONN;
-5d88cc73dded31 Johan Hedberg          2014-08-08  1640  
-fc75cc8684d21d Johan Hedberg          2014-09-05  1641  	l2cap_chan_lock(chan);
-fc75cc8684d21d Johan Hedberg          2014-09-05  1642  	if (!chan->data) {
-fc75cc8684d21d Johan Hedberg          2014-09-05  1643  		err = -ENOTCONN;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1644  		goto unlock;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1645  	}
-fc75cc8684d21d Johan Hedberg          2014-09-05  1646  
-5d88cc73dded31 Johan Hedberg          2014-08-08  1647  	smp = chan->data;
-2b64d153a0cc9d Brian Gix              2011-12-21  1648  
-760b018b6cf08e Johan Hedberg          2014-06-06  1649  	if (test_bit(SMP_FLAG_SC, &smp->flags)) {
-760b018b6cf08e Johan Hedberg          2014-06-06  1650  		err = sc_user_reply(smp, mgmt_op, passkey);
-760b018b6cf08e Johan Hedberg          2014-06-06  1651  		goto unlock;
-760b018b6cf08e Johan Hedberg          2014-06-06  1652  	}
-760b018b6cf08e Johan Hedberg          2014-06-06  1653  
-2b64d153a0cc9d Brian Gix              2011-12-21  1654  	switch (mgmt_op) {
-2b64d153a0cc9d Brian Gix              2011-12-21  1655  	case MGMT_OP_USER_PASSKEY_REPLY:
-2b64d153a0cc9d Brian Gix              2011-12-21  1656  		value = le32_to_cpu(passkey);
-943a732ab6440f Johan Hedberg          2014-03-18  1657  		memset(smp->tk, 0, sizeof(smp->tk));
-bd705301e9438c Luiz Augusto von Dentz 2021-03-15  1658  		bt_dev_dbg(conn->hcon->hdev, "PassKey: %d", value);
-943a732ab6440f Johan Hedberg          2014-03-18  1659  		put_unaligned_le32(value, smp->tk);
-19186c7b45c134 Gustavo A. R. Silva    2020-07-08  1660  		fallthrough;
-2b64d153a0cc9d Brian Gix              2011-12-21  1661  	case MGMT_OP_USER_CONFIRM_REPLY:
-4a74d65868f10d Johan Hedberg          2014-05-20  1662  		set_bit(SMP_FLAG_TK_VALID, &smp->flags);
-2b64d153a0cc9d Brian Gix              2011-12-21  1663  		break;
-2b64d153a0cc9d Brian Gix              2011-12-21  1664  	case MGMT_OP_USER_PASSKEY_NEG_REPLY:
-2b64d153a0cc9d Brian Gix              2011-12-21  1665  	case MGMT_OP_USER_CONFIRM_NEG_REPLY:
-84794e119a22f6 Johan Hedberg          2013-11-06  1666  		smp_failure(conn, SMP_PASSKEY_ENTRY_FAILED);
-fc75cc8684d21d Johan Hedberg          2014-09-05  1667  		err = 0;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1668  		goto unlock;
-2b64d153a0cc9d Brian Gix              2011-12-21  1669  	default:
-84794e119a22f6 Johan Hedberg          2013-11-06  1670  		smp_failure(conn, SMP_PASSKEY_ENTRY_FAILED);
-fc75cc8684d21d Johan Hedberg          2014-09-05  1671  		err = -EOPNOTSUPP;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1672  		goto unlock;
-2b64d153a0cc9d Brian Gix              2011-12-21  1673  	}
-2b64d153a0cc9d Brian Gix              2011-12-21  1674  
-fc75cc8684d21d Johan Hedberg          2014-09-05  1675  	err = 0;
-fc75cc8684d21d Johan Hedberg          2014-09-05  1676  
-2b64d153a0cc9d Brian Gix              2011-12-21  1677  	/* If it is our turn to send Pairing Confirm, do so now */
-1cc6114402f864 Johan Hedberg          2014-05-20  1678  	if (test_bit(SMP_FLAG_CFM_PENDING, &smp->flags)) {
-1cc6114402f864 Johan Hedberg          2014-05-20  1679  		u8 rsp = smp_confirm(smp);
-1cc6114402f864 Johan Hedberg          2014-05-20  1680  		if (rsp)
-1cc6114402f864 Johan Hedberg          2014-05-20  1681  			smp_failure(conn, rsp);
-1cc6114402f864 Johan Hedberg          2014-05-20  1682  	}
-2b64d153a0cc9d Brian Gix              2011-12-21  1683  
-fc75cc8684d21d Johan Hedberg          2014-09-05  1684  unlock:
-fc75cc8684d21d Johan Hedberg          2014-09-05  1685  	l2cap_chan_unlock(chan);
-fc75cc8684d21d Johan Hedberg          2014-09-05  1686  	return err;
-2b64d153a0cc9d Brian Gix              2011-12-21  1687  }
-2b64d153a0cc9d Brian Gix              2011-12-21  1688  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   927  
+255940e642387f drivers/media/rc/imon.c Mauro Carvalho Chehab 2017-11-27   928  /*
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   929   * Writes data to the VFD.  The iMON VFD is 2x16 characters
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   930   * and requires data in 5 consecutive USB interrupt packets,
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   931   * each packet but the last carrying 7 bytes.
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   932   *
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   933   * I don't know if the VFD board supports features such as
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   934   * scrolling, clearing rows, blanking, etc. so at
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   935   * the caller must provide a full screen of data.  If fewer
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   936   * than 32 bytes are provided spaces will be appended to
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   937   * generate a full screen.
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   938   */
+0eb3a7fa4f8bd3 drivers/media/rc/imon.c Jens Axboe            2024-04-09   939  static ssize_t vfd_write(struct kiocb *iocb, struct iov_iter *from)
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   940  {
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   941  	int i;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   942  	int offset;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   943  	int seq;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   944  	int retval = 0;
+0eb3a7fa4f8bd3 drivers/media/rc/imon.c Jens Axboe            2024-04-09   945  	struct imon_context *ictx = iocb->ki_filp->private_data;
+c25895c7d6c957 drivers/media/rc/imon.c Colin Ian King        2017-09-05   946  	static const unsigned char vfd_packet6[] = {
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   947  		0x01, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF };
+0eb3a7fa4f8bd3 drivers/media/rc/imon.c Jens Axboe            2024-04-09   948  	size_t n_bytes = iov_iter_count(from);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   949  
+db264d4c66c0fe drivers/media/rc/imon.c Tetsuo Handa          2022-05-02   950  	if (ictx->disconnected)
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   951  		return -ENODEV;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   952  
+813ceef062b53d drivers/media/rc/imon.c Gautam Menghani       2022-10-19   953  	if (mutex_lock_interruptible(&ictx->lock))
+813ceef062b53d drivers/media/rc/imon.c Gautam Menghani       2022-10-19   954  		return -ERESTARTSYS;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   955  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   956  	if (!ictx->dev_present_intf0) {
+47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   957  		pr_err_ratelimited("no iMON device present\n");
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   958  		retval = -ENODEV;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   959  		goto exit;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   960  	}
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   961  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   962  	if (n_bytes <= 0 || n_bytes > 32) {
+47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   963  		pr_err_ratelimited("invalid payload size\n");
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   964  		retval = -EINVAL;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   965  		goto exit;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   966  	}
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   967  
+0eb3a7fa4f8bd3 drivers/media/rc/imon.c Jens Axboe            2024-04-09   968  	if (!copy_from_iter_full(ictx->tx.data_buf, n_bytes, from)) {
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   969  		retval = -EFAULT;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   970  		goto exit;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   971  	}
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   972  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   973  	/* Pad with spaces */
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   974  	for (i = n_bytes; i < 32; ++i)
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  @975  		ictx->tx.data_buf[i] = ' ';
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   976  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   977  	for (i = 32; i < 35; ++i)
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   978  		ictx->tx.data_buf[i] = 0xFF;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   979  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   980  	offset = 0;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   981  	seq = 0;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   982  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   983  	do {
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   984  		memcpy(ictx->usb_tx_buf, ictx->tx.data_buf + offset, 7);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   985  		ictx->usb_tx_buf[7] = (unsigned char) seq;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   986  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   987  		retval = send_packet(ictx);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   988  		if (retval) {
+47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14   989  			pr_err_ratelimited("send packet #%d failed\n", seq / 2);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   990  			goto exit;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   991  		} else {
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   992  			seq += 2;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   993  			offset += 7;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   994  		}
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   995  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   996  	} while (offset < 35);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   997  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   998  	/* Send packet #6 */
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16   999  	memcpy(ictx->usb_tx_buf, &vfd_packet6, sizeof(vfd_packet6));
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1000  	ictx->usb_tx_buf[7] = (unsigned char) seq;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1001  	retval = send_packet(ictx);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1002  	if (retval)
+47a09b082f7050 drivers/media/rc/imon.c Jarod Wilson          2011-07-14  1003  		pr_err_ratelimited("send packet #%d failed\n", seq / 2);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1004  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1005  exit:
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1006  	mutex_unlock(&ictx->lock);
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1007  
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1008  	return (!retval) ? n_bytes : retval;
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1009  }
+21677cfc562a27 drivers/media/IR/imon.c Jarod Wilson          2010-04-16  1010  
 
-:::::: The code at line 1634 was first introduced by commit
-:::::: fc75cc8684d21d3649b28c4c37d4ce3f000759e4 Bluetooth: Fix locking of the SMP context
+:::::: The code at line 975 was first introduced by commit
+:::::: 21677cfc562a27e099719d413287bc8d1d24deb7 V4L/DVB: ir-core: add imon driver
 
-:::::: TO: Johan Hedberg <johan.hedberg@intel.com>
-:::::: CC: Marcel Holtmann <marcel@holtmann.org>
+:::::: TO: Jarod Wilson <jarod@redhat.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
