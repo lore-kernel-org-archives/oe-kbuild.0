@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71863171088
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 03:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFE31EB46
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 04:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726975697; cv=none; b=ekPAdgBwoK4dsOB2nr70RMKwG3/uv7rFlGuAOxTecqSOFF9QiHU34XDwtYwT6jUTdTOHT9FdQ6jK8VhMQzA2EwNbzglFOO9Fk6mp0SFCIjnHaKIbTb+EbVBDDpGtKQby1FmFS4nsK0Dp2lYGO0TL2mI6DqhF58bh5G1+pU6ACu8=
+	t=1726980199; cv=none; b=FY5tRI3nkNkJg+S4zn1HuuN3+vl6pcjBtqMi4SKqVH41g1p3rPQlX2eovb+xBTRRA/mT2aT5i48bQW6ke4S2+Jmtx/vBWd4kkmb5jxPQ/ilICkKez4YeRveElbwepW3X1zaAkKWs1tzqkMlAIzr3m6+a0M9Nh6fKN/Q+nylMaxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726975697; c=relaxed/simple;
-	bh=zRjHJGSL4aowBRC6NtpzE+zqF2i2VX9IbBGnCy915eM=;
+	s=arc-20240116; t=1726980199; c=relaxed/simple;
+	bh=mNUE1ez8y+C7QZVqP/csQ7dYRo2jCr+U5WDx2LD2JYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YmghN5Sblu8wxGqCgQHnMmaB4JZW9W/Cj9evfDjlztwc3p3A1Wl+2kTCtZd1LeES0mwNxrFoHvZCLugS1jcFSSzlJ67vEIbKjazmmM9mRDA22SSeUOlKzVFguulCCyYXxO/Tp2q1nYNMSbKFOyVge6Wv7Y/qVja5Pm3kJZ13Lvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9z7knTE; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=cNRMsQ4KkypWAXP5vIab+4MEKOqurWh+ZFKHbr2EJDgIGiJkZN3PfQTrKhoMbaf+h95l5OLnNq7tWcZshJNhTcHC46S8oBdOPQ+RBMS6vQtqxE+auWCHO10nieIhlDbxGsn0KguQLJ0ycgh8jfzgExhDke0TUDCp9XsLQF3XDeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQPl9seS; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9z7knTE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQPl9seS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726975695; x=1758511695;
+  t=1726980197; x=1758516197;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zRjHJGSL4aowBRC6NtpzE+zqF2i2VX9IbBGnCy915eM=;
-  b=H9z7knTEjtY3ny3enVnxETzgJ3exms9nEAZol6jBHLmKDO7fNJXyJtEJ
-   tZ4IZASyGQvXnHJyzeEvppGtpwxzgmhFNIj1rYfb8G9NzNocUBOPKgwJv
-   4+bo85xLtPGJ4PVshm4tU0d1WOqpGxODEf7QZUVDrF7V8OPvXmbcVP29p
-   p1Z59DPZEVflPpt/5vr3lzSwxim7BHTXsoQdqdkmmrn5GxGp88Hs9nApE
-   KlUxaaF3Pvd0rGZ9byO457vbgwvEa5n97wM1+8Vyye+uWXpEj114uiuAG
-   2pjfBXhMh4raDAUttQ8lKZ4qdz6mM+YM3sHSOZy9sRNq8Tuh9KMRDUoMD
+  bh=mNUE1ez8y+C7QZVqP/csQ7dYRo2jCr+U5WDx2LD2JYk=;
+  b=VQPl9seS51hhR08H/ph5K4OtBUOpS6/ECLl9wSulP08QMjMDtaECW4Bw
+   TG0eVqaqZ3cQ2Vw1anKRCDj3p1il9fMbhKtVf41XtPRB/p1U5F7CXlqpp
+   SosLQz9pOhB5Ico921g04SBymJ7KDSMu0P/wz6s2+1QlwerHnDTHB+Ctm
+   epW/RPORworpMOqjRe7M9uvFgkPzIVxFnV3zqIKrf9RzgXvLQyYa5dI0M
+   XTPkT9QRX32NnaKawlAYTw6caqOOIe7zYCdRQbm9yLrnNt6KRq6iwgRd3
+   wdgJZqTP5QuriUVDjYTCTMKvuB1NahQ9ysIssnejXtxouOH2rrbYcU3re
    w==;
-X-CSE-ConnectionGUID: sJHC/3AZT/mfTplNSYz3YQ==
-X-CSE-MsgGUID: K77J1OwmRA2RrreBkMg2MA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29840784"
+X-CSE-ConnectionGUID: Y6Qpr1oLR/SF22DmEZpQbw==
+X-CSE-MsgGUID: qdWM/xElQSWJVLI4cbiaew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25893476"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="29840784"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 20:28:15 -0700
-X-CSE-ConnectionGUID: mppOiuW9TiiFJ8zcBHsAmQ==
-X-CSE-MsgGUID: x5tozDo+RBextNM1HJvVqg==
+   d="scan'208";a="25893476"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 21:43:16 -0700
+X-CSE-ConnectionGUID: rkzZVmK3RSqk/yG2mSaShQ==
+X-CSE-MsgGUID: U1LyKPjsTimXZNLlfi5ItA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="70747362"
+   d="scan'208";a="108153733"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Sep 2024 20:28:14 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Sep 2024 21:43:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssDGd-000Fzm-0p;
-	Sun, 22 Sep 2024 03:28:11 +0000
-Date: Sun, 22 Sep 2024 11:27:23 +0800
+	id 1ssERE-000G2A-2m;
+	Sun, 22 Sep 2024 04:43:12 +0000
+Date: Sun, 22 Sep 2024 12:42:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 73/448] kernel/kcsan/debugfs.c:232
- debugfs_write() warn: potential spectre issue 'kbuf' [w]
-Message-ID: <202409221118.qBB4FE7u-lkp@intel.com>
+Subject: [ath:ath12k-mlo 23/64] net/wireless/core.c:719
+ wiphy_verify_combinations() error: uninitialized symbol 'ret'.
+Message-ID: <202409221252.ChfLmJcT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,72 +64,55 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+CC: Jeff Johnson <jjohnson@kernel.org>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: ath12k@lists.infradead.org
+TO: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
+CC: Kalle Valo <quic_kvalo@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   4eb81ae46886ce90863b6f10c4fe8cd45c6719cf
-commit: 2d8f2a91db9233d319f186538c3b0b3c7722c6bd [73/448] kcsan: convert to read/write iterators
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo
+head:   71a66ca2c46d815d17e234a10726ca6c94af5272
+commit: aa7a766fe400cb792a183e8e488eb14904aabf73 [23/64] wifi: cfg80211: check radio iface combination for multi radio per wiphy
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221118.qBB4FE7u-lkp@intel.com/config)
+config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221252.ChfLmJcT-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409221118.qBB4FE7u-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409221252.ChfLmJcT-lkp@intel.com/
 
 smatch warnings:
-kernel/kcsan/debugfs.c:232 debugfs_write() warn: potential spectre issue 'kbuf' [w]
+net/wireless/core.c:719 wiphy_verify_combinations() error: uninitialized symbol 'ret'.
 
-vim +/kbuf +232 kernel/kcsan/debugfs.c
+vim +/ret +719 net/wireless/core.c
 
-dfd402a4c4baae Marco Elver   2019-11-14  222  
-2d8f2a91db9233 Jens Axboe    2024-04-08  223  static ssize_t debugfs_write(struct kiocb *iocb, struct iov_iter *from)
-dfd402a4c4baae Marco Elver   2019-11-14  224  {
-dfd402a4c4baae Marco Elver   2019-11-14  225  	char kbuf[KSYM_NAME_LEN];
-dfd402a4c4baae Marco Elver   2019-11-14  226  	char *arg;
-2d8f2a91db9233 Jens Axboe    2024-04-08  227  	size_t count = iov_iter_count(from);
-43d631bf06ec96 Thorsten Blum 2024-06-24  228  	const size_t read_len = min(count, sizeof(kbuf) - 1);
-dfd402a4c4baae Marco Elver   2019-11-14  229  
-2d8f2a91db9233 Jens Axboe    2024-04-08  230  	if (!copy_from_iter_full(kbuf, read_len, from))
-dfd402a4c4baae Marco Elver   2019-11-14  231  		return -EFAULT;
-dfd402a4c4baae Marco Elver   2019-11-14 @232  	kbuf[read_len] = '\0';
-dfd402a4c4baae Marco Elver   2019-11-14  233  	arg = strstrip(kbuf);
-dfd402a4c4baae Marco Elver   2019-11-14  234  
-dfd402a4c4baae Marco Elver   2019-11-14  235  	if (!strcmp(arg, "on")) {
-dfd402a4c4baae Marco Elver   2019-11-14  236  		WRITE_ONCE(kcsan_enabled, true);
-dfd402a4c4baae Marco Elver   2019-11-14  237  	} else if (!strcmp(arg, "off")) {
-dfd402a4c4baae Marco Elver   2019-11-14  238  		WRITE_ONCE(kcsan_enabled, false);
-a4e74fa5f0d3e2 Marco Elver   2020-07-31  239  	} else if (str_has_prefix(arg, "microbench=")) {
-dfd402a4c4baae Marco Elver   2019-11-14  240  		unsigned long iters;
-dfd402a4c4baae Marco Elver   2019-11-14  241  
-a4e74fa5f0d3e2 Marco Elver   2020-07-31  242  		if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
-dfd402a4c4baae Marco Elver   2019-11-14  243  			return -EINVAL;
-dfd402a4c4baae Marco Elver   2019-11-14  244  		microbenchmark(iters);
-dfd402a4c4baae Marco Elver   2019-11-14  245  	} else if (!strcmp(arg, "whitelist")) {
-dfd402a4c4baae Marco Elver   2019-11-14  246  		set_report_filterlist_whitelist(true);
-dfd402a4c4baae Marco Elver   2019-11-14  247  	} else if (!strcmp(arg, "blacklist")) {
-dfd402a4c4baae Marco Elver   2019-11-14  248  		set_report_filterlist_whitelist(false);
-dfd402a4c4baae Marco Elver   2019-11-14  249  	} else if (arg[0] == '!') {
-dfd402a4c4baae Marco Elver   2019-11-14  250  		ssize_t ret = insert_report_filterlist(&arg[1]);
-dfd402a4c4baae Marco Elver   2019-11-14  251  
-dfd402a4c4baae Marco Elver   2019-11-14  252  		if (ret < 0)
-dfd402a4c4baae Marco Elver   2019-11-14  253  			return ret;
-dfd402a4c4baae Marco Elver   2019-11-14  254  	} else {
-dfd402a4c4baae Marco Elver   2019-11-14  255  		return -EINVAL;
-dfd402a4c4baae Marco Elver   2019-11-14  256  	}
-dfd402a4c4baae Marco Elver   2019-11-14  257  
-dfd402a4c4baae Marco Elver   2019-11-14  258  	return count;
-dfd402a4c4baae Marco Elver   2019-11-14  259  }
-dfd402a4c4baae Marco Elver   2019-11-14  260  
-
-:::::: The code at line 232 was first introduced by commit
-:::::: dfd402a4c4baae42398ce9180ff424d589b8bffc kcsan: Add Kernel Concurrency Sanitizer infrastructure
-
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
+7527a782e187d12 Johannes Berg          2011-05-13  698  
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  699  static int wiphy_verify_combinations(struct wiphy *wiphy)
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  700  {
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  701  	int i, ret;
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  702  
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  703  	if (wiphy->n_radio) {
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  704  		for (i = 0; i < wiphy->n_radio; i++) {
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  705  			const struct wiphy_radio *radio = &wiphy->radio[i];
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  706  
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  707  			ret = wiphy_verify_iface_combinations(wiphy,
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  708  							      radio->iface_combinations,
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  709  							      radio->n_iface_combinations);
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  710  			if (ret)
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  711  				return ret;
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  712  		}
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  713  	} else {
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  714  		ret = wiphy_verify_iface_combinations(wiphy,
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  715  						      wiphy->iface_combinations,
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  716  						      wiphy->n_iface_combinations);
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  717  	}
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  718  
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15 @719  	return ret;
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  720  }
+aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  721  
 
 -- 
 0-DAY CI Kernel Test Service
