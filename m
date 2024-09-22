@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4F3126C06
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 01:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA94A1E529
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 02:05:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726970116; cv=none; b=qwt21il2WrLTlsyH7DC26Xg1aBAf2no2DOx9pB9cPgIkiyiOk75DkcyYhZekOUC08ksrXiWIrxfYNhbhA0/xp6gyLMOx5A/96iJrRT80zhM6KVyslfZxac6Z5mVGSnV7sn4kJ9dfSLVKfOwh9naLSyoqpSgoLomlp3BBon/vRsY=
+	t=1726970718; cv=none; b=TgArvArPrvpQipDcm0NweSlqmPK/FDNjCiRGveg2viGISQb3fG+MYP1YV04mtZNuqKp3E9DMJ0H3VOZ1W7ykJVAOvYEk4mLsOVotemhHLgpWsebYbTvYJJeJBlA3mbDqdGZtEBwZIoDvKg4DP9gIpvOZNQNQ0uryvyJr/h8zeD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726970116; c=relaxed/simple;
-	bh=GEY2Zu0tSTFoCSTtEEOPcJXKuRuk607EYSlToNaIZwQ=;
+	s=arc-20240116; t=1726970718; c=relaxed/simple;
+	bh=wWgABVY+YZ+53+DW9uwquH14/61ILWgrjF0MyMiIynk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d05wOXjJARg8sbCR9YArwEkUAuv1MUHXVH+aZPaeNsFj6DS7FNyYdGfFUhmw5VEjdf1YaodgiGy/tvlD1QXG0NihVHQcXLGEfym+F0UnW3p0rmQEEMudu1p8isX53sPp0zxNYPmI9/htk2TO12FTrZbIJFi9MAaAd5iuP0/Dk6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HyeNhuyl; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=dG00nT3hEvf6GPD9F4Gd9Je1g4NHxYmd44SS9EyH2LnKgFuRhR+ImB+YkjSOp0eEny5FfRF02mcdbxaIx1XQoldAgF9HaKxTH4lU8FKdJXBEVV+Z8a55Q6ITNwMpdTaQxSsmZ1czMOowphbWL3H4s+6wuOq62jQ01TJFI7m3sVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WIGFxuvy; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HyeNhuyl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WIGFxuvy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726970114; x=1758506114;
+  t=1726970717; x=1758506717;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GEY2Zu0tSTFoCSTtEEOPcJXKuRuk607EYSlToNaIZwQ=;
-  b=HyeNhuylTaXwdkvzZFgcGidut90vUA1cmq3iM8GF1S7DJVdr1qEKcMRn
-   94znVLiYsHg6OMr0lRT/zQCBGt4UPyBhwVVfhzLT7YCKXun2x8U7f4XBR
-   hgR0ZajsGgBdPfN5Z+dqUx8G90f6aAhqpkyM8RtsBSiNNQx6uoRM9aXnT
-   vpAc9qwYv9sG1OU6Xx9zay0JRWh+Xa0AyI/ZwOtoqisVa8b/m2/cng7aW
-   sB0TZ7hDtpiRcM/hZpTqHpmBoSj+dRh2hIL0X4FrFgIiE47eGWwgbc535
-   hs/fjScQQcUWYB+Gnxp+kGae6LIcR8roq2GyZ13UTQel0MRw00iwjxW/P
-   g==;
-X-CSE-ConnectionGUID: Gb35LQUeQeaGCWMF/5Eh7g==
-X-CSE-MsgGUID: z6tuPJZMR1OYfWUnCGaEEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="36527401"
+  bh=wWgABVY+YZ+53+DW9uwquH14/61ILWgrjF0MyMiIynk=;
+  b=WIGFxuvyRvtuMvM+Y94QlJUvjJiiZQuApW2+6iK12CmcMDYj+olP7Qe6
+   sPpIXn5hyO7weZZiKaGqtdwHdelkYbF8cbwo26U8J98kkiRDH0CoRY0XZ
+   QLydY4qVBIpeeoeANvwnU1uqPe5CoNx61W1bIfrI6imMb0najUrSkag1m
+   Kby/md/11PbPbO5otYyBfO2zh7x360bSapad0h1PQloMUwO1FUbsKIKcZ
+   weet+oWEqcWlUbjl2O9mrnD5iCntTw8lSmL6LAldo1FmPHlCnhwVlgRBC
+   pmg8acnB8aN5WAu36DzSad+16r0CTjh3skVg8HYTzwfhOpu3vqcT9RsNJ
+   A==;
+X-CSE-ConnectionGUID: iaqXyhOPQ6ytJXaRviRcCg==
+X-CSE-MsgGUID: X/im4AgSRumTV695iibeLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26094403"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="36527401"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 18:55:13 -0700
-X-CSE-ConnectionGUID: ZyzwuBsuRHelBiRaSFHwBA==
-X-CSE-MsgGUID: hp2COt5wQROb33kNggBE8A==
+   d="scan'208";a="26094403"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 19:05:14 -0700
+X-CSE-ConnectionGUID: U5gGqOZeQqe0NH2YwtLQOA==
+X-CSE-MsgGUID: AsvWqba8TuyuEothjXmiig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="71523414"
+   d="scan'208";a="70583301"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Sep 2024 18:55:12 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Sep 2024 19:05:13 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssBob-000FxK-2v;
-	Sun, 22 Sep 2024 01:55:09 +0000
-Date: Sun, 22 Sep 2024 09:54:40 +0800
+	id 1ssByI-000Fxa-02;
+	Sun, 22 Sep 2024 02:05:10 +0000
+Date: Sun, 22 Sep 2024 10:04:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [axboe-block:rw_iter 51/448] net/bluetooth/hci_debugfs.c:1160
- force_no_mitm_write() warn: potential spectre issue 'buf' [w]
-Message-ID: <202409220951.hkeMOJax-lkp@intel.com>
+Subject: [intel-lts:4.19/android_s 1475/30000]
+ drivers/platform/x86/sepdk/pax/pax.c:721 pax_Device_Control() warn: maybe
+ return -EFAULT instead of the bytes remaining?
+Message-ID: <202409220948.jLjSj76m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,57 +65,60 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Jens Axboe <axboe@kernel.dk>
+TO: Jon Moeller <jon.moeller@intel.com>
+CC: "Pan, Kris" <kris.pan@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
-head:   4eb81ae46886ce90863b6f10c4fe8cd45c6719cf
-commit: b9df54f5b396efa053acb500e457e8f1efae9427 [51/448] Bluetooth: convert to read/write iterators
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409220951.hkeMOJax-lkp@intel.com/config)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [1475/30000] platform/x86: add sep and socwatch drivers without socperf.
+:::::: branch date: 3 weeks ago
+:::::: commit date: 5 years ago
+config: i386-randconfig-141-20240913 (https://download.01.org/0day-ci/archive/20240922/202409220948.jLjSj76m-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409220951.hkeMOJax-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409220948.jLjSj76m-lkp@intel.com/
 
-smatch warnings:
-net/bluetooth/hci_debugfs.c:1160 force_no_mitm_write() warn: potential spectre issue 'buf' [w]
+New smatch warnings:
+drivers/platform/x86/sepdk/pax/pax.c:721 pax_Device_Control() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:3127 lwpmudrv_Read_Counters_And_Switch_Group() warn: inconsistent indenting
+drivers/platform/x86/sepdk/sep/apic.c:121 apic_Get_APIC_ID() warn: inconsistent indenting
 
-vim +/buf +1160 net/bluetooth/hci_debugfs.c
+Old smatch warnings:
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:941 lwpmudrv_Initialize_Driver() warn: potential user controlled sizeof overflow '(driver_state.num_cpus) * (drv_cfg->num_events) * 8' '0-u32max * 8'
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:2204 lwpmudrv_Trigger_Read() error: we previously assumed 'drv_cfg' could be null (see line 2196)
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:3283 lwpmudrv_Read_And_Reset_Counters() warn: inconsistent indenting
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:3535 lwpmudrv_Configure_Events() warn: potential spectre issue '(&devices[cur_device])->PMU_register_data' [w] (local cap)
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:3617 lwpmudrv_Configure_Events_UNC() warn: potential spectre issue 'PMU_register_data_unc' [w] (local cap)
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:3621 lwpmudrv_Configure_Events_UNC() warn: possible spectre second half.  'ecb'
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:5158 lwpmudrv_Get_Platform_Info() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:5190 lwpmudrv_Get_Platform_Info() warn: maybe return -EFAULT instead of the bytes remaining?
+drivers/platform/x86/sepdk/sep/lwpmudrv.c:5246 lwpmudrv_Setup_Cpu_Topology() warn: potential spectre issue 'pcb' [w]
 
-c2aa30db744d9c Archie Pusaka      2020-04-07  1148  
-b9df54f5b396ef Jens Axboe         2024-04-10  1149  static ssize_t force_no_mitm_write(struct kiocb *iocb, struct iov_iter *from)
-c2aa30db744d9c Archie Pusaka      2020-04-07  1150  {
-b9df54f5b396ef Jens Axboe         2024-04-10  1151  	struct hci_dev *hdev = iocb->ki_filp->private_data;
-b9df54f5b396ef Jens Axboe         2024-04-10  1152  	size_t count = iov_iter_count(from);
-c2aa30db744d9c Archie Pusaka      2020-04-07  1153  	char buf[32];
-c2aa30db744d9c Archie Pusaka      2020-04-07  1154  	size_t buf_size = min(count, (sizeof(buf) - 1));
-c2aa30db744d9c Archie Pusaka      2020-04-07  1155  	bool enable;
-c2aa30db744d9c Archie Pusaka      2020-04-07  1156  
-b9df54f5b396ef Jens Axboe         2024-04-10  1157  	if (!copy_from_iter_full(buf, buf_size, from))
-c2aa30db744d9c Archie Pusaka      2020-04-07  1158  		return -EFAULT;
-c2aa30db744d9c Archie Pusaka      2020-04-07  1159  
-c2aa30db744d9c Archie Pusaka      2020-04-07 @1160  	buf[buf_size] = '\0';
-82eae9dc438cd7 Christophe JAILLET 2023-07-11  1161  	if (kstrtobool(buf, &enable))
-c2aa30db744d9c Archie Pusaka      2020-04-07  1162  		return -EINVAL;
-c2aa30db744d9c Archie Pusaka      2020-04-07  1163  
-c2aa30db744d9c Archie Pusaka      2020-04-07  1164  	if (enable == hci_dev_test_flag(hdev, HCI_FORCE_NO_MITM))
-c2aa30db744d9c Archie Pusaka      2020-04-07  1165  		return -EALREADY;
-c2aa30db744d9c Archie Pusaka      2020-04-07  1166  
-c2aa30db744d9c Archie Pusaka      2020-04-07  1167  	hci_dev_change_flag(hdev, HCI_FORCE_NO_MITM);
-c2aa30db744d9c Archie Pusaka      2020-04-07  1168  
-c2aa30db744d9c Archie Pusaka      2020-04-07  1169  	return count;
-c2aa30db744d9c Archie Pusaka      2020-04-07  1170  }
-c2aa30db744d9c Archie Pusaka      2020-04-07  1171  
+vim +721 drivers/platform/x86/sepdk/pax/pax.c
 
-:::::: The code at line 1160 was first introduced by commit
-:::::: c2aa30db744d9cbdde127d4ed8aeea18273834c6 Bluetooth: debugfs option to unset MITM flag
-
-:::::: TO: Archie Pusaka <apusaka@chromium.org>
-:::::: CC: Marcel Holtmann <marcel@holtmann.org>
+fadb19e08fbf60 Jon Moeller 2018-11-13  709  
+fadb19e08fbf60 Jon Moeller 2018-11-13  710  static long pax_Device_Control(IOCTL_USE_INODE struct file *filp,
+fadb19e08fbf60 Jon Moeller 2018-11-13  711  			       unsigned int cmd, unsigned long arg)
+fadb19e08fbf60 Jon Moeller 2018-11-13  712  {
+fadb19e08fbf60 Jon Moeller 2018-11-13  713  	int status = OS_SUCCESS;
+fadb19e08fbf60 Jon Moeller 2018-11-13  714  	IOCTL_ARGS_NODE local_args;
+fadb19e08fbf60 Jon Moeller 2018-11-13  715  
+fadb19e08fbf60 Jon Moeller 2018-11-13  716  	memset(&local_args, 0, sizeof(IOCTL_ARGS_NODE));
+fadb19e08fbf60 Jon Moeller 2018-11-13  717  	if (arg) {
+fadb19e08fbf60 Jon Moeller 2018-11-13  718  		status = copy_from_user(&local_args, (void __user *)arg,
+fadb19e08fbf60 Jon Moeller 2018-11-13  719  					sizeof(IOCTL_ARGS_NODE));
+fadb19e08fbf60 Jon Moeller 2018-11-13  720  		if (status != OS_SUCCESS)
+fadb19e08fbf60 Jon Moeller 2018-11-13 @721  			return status;
+fadb19e08fbf60 Jon Moeller 2018-11-13  722  	}
+fadb19e08fbf60 Jon Moeller 2018-11-13  723  
+fadb19e08fbf60 Jon Moeller 2018-11-13  724  	status = pax_Service_IOCTL(IOCTL_USE_INODE filp, cmd, local_args);
+fadb19e08fbf60 Jon Moeller 2018-11-13  725  	return status;
+fadb19e08fbf60 Jon Moeller 2018-11-13  726  }
+fadb19e08fbf60 Jon Moeller 2018-11-13  727  
 
 -- 
 0-DAY CI Kernel Test Service
