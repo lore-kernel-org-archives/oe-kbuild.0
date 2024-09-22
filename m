@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFE31EB46
-	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 04:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD332C9D
+	for <oe-kbuild@lists.linux.dev>; Sun, 22 Sep 2024 05:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726980199; cv=none; b=FY5tRI3nkNkJg+S4zn1HuuN3+vl6pcjBtqMi4SKqVH41g1p3rPQlX2eovb+xBTRRA/mT2aT5i48bQW6ke4S2+Jmtx/vBWd4kkmb5jxPQ/ilICkKez4YeRveElbwepW3X1zaAkKWs1tzqkMlAIzr3m6+a0M9Nh6fKN/Q+nylMaxI=
+	t=1726982060; cv=none; b=DkoYzUupSgh/n95kc7bpNy2T9NKatSRo3suuTtLTCvlY080zVvWN3fLCNr5VvAdInD/Py46sKkwtzRgO3rlgOcoaCXfTYxOuUcXmSY++ryQMTw4EUUs9oLldRhMlHq0S8HiXFeIBfArJ+Hw4Qw3doKdzDbsZ1YSZa477cs4ctZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726980199; c=relaxed/simple;
-	bh=mNUE1ez8y+C7QZVqP/csQ7dYRo2jCr+U5WDx2LD2JYk=;
+	s=arc-20240116; t=1726982060; c=relaxed/simple;
+	bh=LKEFFNgakakZuDJr2zPPCYgi181d8Fn4ckmEOkPI/AM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cNRMsQ4KkypWAXP5vIab+4MEKOqurWh+ZFKHbr2EJDgIGiJkZN3PfQTrKhoMbaf+h95l5OLnNq7tWcZshJNhTcHC46S8oBdOPQ+RBMS6vQtqxE+auWCHO10nieIhlDbxGsn0KguQLJ0ycgh8jfzgExhDke0TUDCp9XsLQF3XDeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQPl9seS; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=AAcXy/qIU9LewVCsYFyhfUjU7OOERoLJ8O+mGcpJlDtsu6TaniJv/dRVba3w5hIUdFgDLJz94Q6lgrqnkTxGPpn8cHLAXkuBA68gKU3zfWHicYNPDFKjil+QQ9aWFm9/DOIdTLLAyd3XZ+BHDCmJw5zXSPDJGfhvk2CNXth6quM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=frEmgGAv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQPl9seS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="frEmgGAv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726980197; x=1758516197;
+  t=1726982058; x=1758518058;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mNUE1ez8y+C7QZVqP/csQ7dYRo2jCr+U5WDx2LD2JYk=;
-  b=VQPl9seS51hhR08H/ph5K4OtBUOpS6/ECLl9wSulP08QMjMDtaECW4Bw
-   TG0eVqaqZ3cQ2Vw1anKRCDj3p1il9fMbhKtVf41XtPRB/p1U5F7CXlqpp
-   SosLQz9pOhB5Ico921g04SBymJ7KDSMu0P/wz6s2+1QlwerHnDTHB+Ctm
-   epW/RPORworpMOqjRe7M9uvFgkPzIVxFnV3zqIKrf9RzgXvLQyYa5dI0M
-   XTPkT9QRX32NnaKawlAYTw6caqOOIe7zYCdRQbm9yLrnNt6KRq6iwgRd3
-   wdgJZqTP5QuriUVDjYTCTMKvuB1NahQ9ysIssnejXtxouOH2rrbYcU3re
+  bh=LKEFFNgakakZuDJr2zPPCYgi181d8Fn4ckmEOkPI/AM=;
+  b=frEmgGAvhstebg6lpYOU0Dzv+QHVL0eVr2al6MPk11DL3pHOE46kpQ+H
+   9cKHzs9kO1NEBt0hJ491TOgRpNBTyONYElRzEr9kRzaoIJpJ7Qt7KJyB+
+   Sd462KdHMQ2NjFGw3wBWZ2Bw8FtyuDTjUKuabBITYpn6Eemb25p+VWGMi
+   maArP+v0WPLF7GOH9iMOUc4Rq47rEYX3RjElFz3ZtIOVQnobJQIx0HT1v
+   TkKBa3YnmekX8rhdB0PcnoriZUDEBfeM+udJOFCXG6T15m/l+XTJR//U/
+   IyHPHG8ZEOQMXHarkCoKMMC+66Wn15vdMXZXYZepclaOJUxefIeRhTG1T
    w==;
-X-CSE-ConnectionGUID: Y6Qpr1oLR/SF22DmEZpQbw==
-X-CSE-MsgGUID: qdWM/xElQSWJVLI4cbiaew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="25893476"
+X-CSE-ConnectionGUID: /E4JFxA0QI+hbxt5s1mRRg==
+X-CSE-MsgGUID: zw8S5x2FSGm14sazwecy7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29736142"
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="25893476"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 21:43:16 -0700
-X-CSE-ConnectionGUID: rkzZVmK3RSqk/yG2mSaShQ==
-X-CSE-MsgGUID: U1LyKPjsTimXZNLlfi5ItA==
+   d="scan'208";a="29736142"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2024 22:14:17 -0700
+X-CSE-ConnectionGUID: UZsPvps4T1mnrW0JQFOOYQ==
+X-CSE-MsgGUID: KT3O8uNKR0yesn2i5bNzjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,248,1719903600"; 
-   d="scan'208";a="108153733"
+   d="scan'208";a="101574153"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Sep 2024 21:43:15 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 21 Sep 2024 22:14:16 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssERE-000G2A-2m;
-	Sun, 22 Sep 2024 04:43:12 +0000
-Date: Sun, 22 Sep 2024 12:42:37 +0800
+	id 1ssEvF-000G3G-2q;
+	Sun, 22 Sep 2024 05:14:13 +0000
+Date: Sun, 22 Sep 2024 13:13:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [ath:ath12k-mlo 23/64] net/wireless/core.c:719
- wiphy_verify_combinations() error: uninitialized symbol 'ret'.
-Message-ID: <202409221252.ChfLmJcT-lkp@intel.com>
+Subject: [axboe-block:rw_iter 80/448] kernel/trace/trace_hwlat.c:692
+ hwlat_mode_write() warn: potential spectre issue 'buf' [w]
+Message-ID: <202409221300.j5vRTDUz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,55 +64,95 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: Jeff Johnson <jjohnson@kernel.org>
-CC: Kalle Valo <kvalo@kernel.org>
-CC: ath12k@lists.infradead.org
-TO: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo
-head:   71a66ca2c46d815d17e234a10726ca6c94af5272
-commit: aa7a766fe400cb792a183e8e488eb14904aabf73 [23/64] wifi: cfg80211: check radio iface combination for multi radio per wiphy
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   4eb81ae46886ce90863b6f10c4fe8cd45c6719cf
+commit: e7cfe6aa9d801c2d160c7926a63f610e8250bbb9 [80/448] tracing: convert to read/write iterators
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221252.ChfLmJcT-lkp@intel.com/config)
+config: x86_64-randconfig-161-20240922 (https://download.01.org/0day-ci/archive/20240922/202409221300.j5vRTDUz-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409221252.ChfLmJcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409221300.j5vRTDUz-lkp@intel.com/
 
 smatch warnings:
-net/wireless/core.c:719 wiphy_verify_combinations() error: uninitialized symbol 'ret'.
+kernel/trace/trace_hwlat.c:692 hwlat_mode_write() warn: potential spectre issue 'buf' [w]
 
-vim +/ret +719 net/wireless/core.c
+vim +/buf +692 kernel/trace/trace_hwlat.c
 
-7527a782e187d12 Johannes Berg          2011-05-13  698  
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  699  static int wiphy_verify_combinations(struct wiphy *wiphy)
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  700  {
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  701  	int i, ret;
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  702  
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  703  	if (wiphy->n_radio) {
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  704  		for (i = 0; i < wiphy->n_radio; i++) {
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  705  			const struct wiphy_radio *radio = &wiphy->radio[i];
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  706  
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  707  			ret = wiphy_verify_iface_combinations(wiphy,
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  708  							      radio->iface_combinations,
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  709  							      radio->n_iface_combinations);
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  710  			if (ret)
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  711  				return ret;
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  712  		}
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  713  	} else {
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  714  		ret = wiphy_verify_iface_combinations(wiphy,
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  715  						      wiphy->iface_combinations,
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  716  						      wiphy->n_iface_combinations);
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  717  	}
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  718  
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15 @719  	return ret;
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  720  }
-aa7a766fe400cb7 Karthikeyan Periyasamy 2024-07-15  721  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  664  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  665  /**
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  666   * hwlat_mode_write - Write function for "mode" entry
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  667   * @iocb: Metadata for IO
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  668   * @from: The user buffer that contains the value to write
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  669   *
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  670   * This function provides a write implementation for the "mode" interface
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  671   * to the hardware latency detector. hwlatd has different operation modes.
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  672   * The "none" sets the allowed cpumask for a single hwlatd thread at the
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  673   * startup and lets the scheduler handle the migration. The default mode is
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  674   * the "round-robin" one, in which a single hwlatd thread runs, migrating
+f46b16520a087e Daniel Bristot de Oliveira 2021-06-22  675   * among the allowed CPUs in a round-robin fashion. The "per-cpu" mode
+f46b16520a087e Daniel Bristot de Oliveira 2021-06-22  676   * creates one hwlatd thread per allowed CPU.
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  677   */
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  678  static ssize_t hwlat_mode_write(struct kiocb *iocb, struct iov_iter *from)
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  679  {
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  680  	struct trace_array *tr = hwlat_trace;
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  681  	size_t cnt = iov_iter_count(from);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  682  	const char *mode;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  683  	char buf[64];
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  684  	int ret, i;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  685  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  686  	if (cnt >= sizeof(buf))
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  687  		return -EINVAL;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  688  
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  689  	if (!copy_from_iter_full(buf, cnt, from))
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  690  		return -EFAULT;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  691  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22 @692  	buf[cnt] = 0;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  693  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  694  	mode = strstrip(buf);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  695  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  696  	ret = -EINVAL;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  697  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  698  	/*
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  699  	 * trace_types_lock is taken to avoid concurrency on start/stop
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  700  	 * and hwlat_busy.
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  701  	 */
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  702  	mutex_lock(&trace_types_lock);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  703  	if (hwlat_busy)
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  704  		hwlat_tracer_stop(tr);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  705  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  706  	mutex_lock(&hwlat_data.lock);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  707  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  708  	for (i = 0; i < MODE_MAX; i++) {
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  709  		if (strcmp(mode, thread_mode_str[i]) == 0) {
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  710  			hwlat_data.thread_mode = i;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  711  			ret = cnt;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  712  		}
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  713  	}
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  714  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  715  	mutex_unlock(&hwlat_data.lock);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  716  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  717  	if (hwlat_busy)
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  718  		hwlat_tracer_start(tr);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  719  	mutex_unlock(&trace_types_lock);
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  720  
+e7cfe6aa9d801c Jens Axboe                 2024-04-08  721  	iocb->ki_pos += cnt;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  722  
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  723  	return ret;
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  724  }
+8fa826b7344d67 Daniel Bristot de Oliveira 2021-06-22  725  
+
+:::::: The code at line 692 was first introduced by commit
+:::::: 8fa826b7344d6752f5cfd72380d9fe7bd8c6b928 trace/hwlat: Implement the mode config option
+
+:::::: TO: Daniel Bristot de Oliveira <bristot@redhat.com>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
