@@ -1,180 +1,174 @@
-Received: from compass.polito.it (compass.polito.it [130.192.55.110])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFED6F2EB
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 09:27:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.192.55.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A853545003
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 12:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727083674; cv=none; b=WSQUMMr49BaDyU8XZHaTbXG03OpLAV3Lv4vexcWwrS+1L8cliKsufpk4Lqb/TdTtCmBgG+8m/7F8ugvvSpwlsEkZLMqQgHYVOQxcNMvZEbm8EWb8nUuy88RAl2avhtHGxTQqFsiro51lJq29DWHVLPAsB1BvjN0rjakVg2HW9Bo=
+	t=1727094207; cv=none; b=TCMgd1K1AQEk1P8N28YBxWrtcLhVu1zrU9VvqN64IDjpwwwa/qwpu3GLB27n1W3sdc+tBdHkyPI1N1wBgu1vqbcttuRk6SpUbuadWJDTIWiAWw0SZYKPIp91EOQiy3H+Rb6AjafZ5rw+AbdAZIvEWnfiX5NDjk9qyZkJBGIaAcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727083674; c=relaxed/simple;
-	bh=ysBwwg4v0AoOMOBgReKqS70SJOfel8B59Qui7SyeszM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S/IewiQ+6EZ0Q5S/5zR0El7jvUhHyD+bQaXlAa1EH1WB2MmwvnEQDSMtz2CAUWg91cpvUlRoNV4lVkUw+IXafHSAD/zt6r5Q6Z2YZGknGE6bobNZO9ZAdJLQVxf/Iq/wDoJbPtb87UMFg1V/45G/AlRRLhn9+TC+kO9ZfKhy1Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=studenti.polito.it; spf=pass smtp.mailfrom=studenti.polito.it; dkim=pass (1024-bit key) header.d=studenti.polito.it header.i=@studenti.polito.it header.b=RhMyMo3X; arc=none smtp.client-ip=130.192.55.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=studenti.polito.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=studenti.polito.it
+	s=arc-20240116; t=1727094207; c=relaxed/simple;
+	bh=u7+W1I+eVcyz7SA5gZ1KymbWZ1LorHdA3H2AkHMCEhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XCyOinAAa5ecwyPtJT0xYrtdxyMObd+89v4tim2zFwW2Fdoivb96tXVfeda+p8BFH2Vz2ByIA3UqEqE6YWDZqRzoH3KhNq6g1jGpIES6hnmnq4qzjVBgL1PmJRMggERqK7AYRe+hPk1g5dahkki2PA97enOxb9VgxZAYqrOzNzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WhBi5AoY; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=studenti.polito.it header.i=@studenti.polito.it header.b="RhMyMo3X"
-Received: from compass-fwd (localhost [127.0.0.1])
-	by compass.polito.it (Postfix) with ESMTP id 786D26001181;
-	Mon, 23 Sep 2024 11:23:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by compass.polito.it (Postfix) with ESMTP id 769F86001180;
-	Mon, 23 Sep 2024 11:23:56 +0200 (CEST)
-Authentication-Results: compass.polito.it (amavisd-new);
-	dkim=pass (1024-bit key) reason="pass (just generated, assumed good)"
-	header.d=studenti.polito.it
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-	studenti.polito.it; h=content-transfer-encoding:content-type
-	:content-type:in-reply-to:from:from:content-language:references
-	:cc:to:subject:subject:user-agent:mime-version:date:date
-	:message-id:received:received; s=y2k10; t=1727083435; bh=ysBwwg4
-	v0AoOMOBgReKqS70SJOfel8B59Qui7SyeszM=; b=RhMyMo3XvFFxm6Z4XsL8rYh
-	sJ3L8/ItLDAg+5HlIS0cZXnl3p74t+kZUyiD5TT0EsT6SCI4lqbodsbbzspJ91Hk
-	mXneqYc0XIpuKYy5xrzg0mGg6kD8ZxgcGPA65FKZ/IlL67Qq09nTdcPY8ZXQSEeE
-	MNNbUOTEGENPHaDxcrMI=
-X-Virus-Scanned: amavisd-new at studenti.polito.it
-X-Spam-Flag: NO
-X-Spam-Score: -6.499
-X-Spam-Level:
-Received: from compass.polito.it ([127.0.0.1])
-	by localhost (compass.polito.it [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 2mtuOcE0hf4E; Mon, 23 Sep 2024 11:23:55 +0200 (CEST)
-X-AccountStatus: yes
-Received: from [172.21.70.41] (unknown [172.21.70.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: s273493@studenti.polito.it)
-	by compass.polito.it (Postfix) with ESMTPSA id DAAE8600118A;
-	Mon, 23 Sep 2024 11:23:49 +0200 (CEST)
-Message-ID: <8084185d-b4cf-4c30-a67e-28b9b590306d@studenti.polito.it>
-Date: Mon, 23 Sep 2024 11:23:48 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WhBi5AoY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727094206; x=1758630206;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u7+W1I+eVcyz7SA5gZ1KymbWZ1LorHdA3H2AkHMCEhU=;
+  b=WhBi5AoYFAZycaKhNjsaBGZSOk8WJaDup6uuOwEyFSDoWen4lQoQ3UUI
+   HYDZDyPREduYc4w0xZcVKQ2x26lZl0OCK2ReZnMVxAtrJE+RUfWzlk3U8
+   MKI8i9fWhISF4Up7cDNqNPXaoQQAVuS565hn8TFbJM6aAvNSeYlob0EGf
+   hGlAVEdEhS3vrdZyqmHDm3l2rB40YcnZvjL/hlzsIH3ZIvAHCuAcBlap6
+   B/2quZMJFWVFvv0vecZcydNq+Jq0JUc+gZSpzjtVwlsVBt4PV63TsEsax
+   a3Vib81Xw9WKOWZY729bl7wq8zVQS85QDIFQ8wu2+P3bd4r6nH6irp7UR
+   w==;
+X-CSE-ConnectionGUID: h7ne4UeNQ/OUqb5y8Bl3iA==
+X-CSE-MsgGUID: P9Bi2mS9TVqY0L7QqftkEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37410665"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="37410665"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 05:23:26 -0700
+X-CSE-ConnectionGUID: k97oAbXkSBSCMwPn4FsgGA==
+X-CSE-MsgGUID: 83LyGZ64T0SXDpZkDswojQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="71501378"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 23 Sep 2024 05:23:24 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ssi65-000HBG-2S;
+	Mon, 23 Sep 2024 12:23:21 +0000
+Date: Mon, 23 Sep 2024 20:22:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <202409232033.d1FlFrD1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] udf: fix uninit-value use in udf_get_fileshortad
-To: kernel test robot <lkp@intel.com>, oe-kbuild@lists.linux.dev
-Cc: Dan Carpenter <error27@gmail.com>, jack@suse.com,
- linux-kernel@vger.kernel.org,
- syzbot+8901c4560b7ab5c2f9df@syzkaller.appspotmail.com
-References: <202409230809.5ozgjLm9-lkp@intel.com>
-Content-Language: en-US, it
-From: Gianfranco Trad <s323713@studenti.polito.it>
-In-Reply-To: <202409230809.5ozgjLm9-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-On 23/09/24 02:26, kernel test robot wrote:
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> In-Reply-To: <20240919195227.412583-1-gianf.trad@gmail.com>
-> References: <20240919195227.412583-1-gianf.trad@gmail.com>
-> TO: Gianfranco Trad <gianf.trad@gmail.com>
-> TO: jack@suse.com
-> CC: linux-kernel@vger.kernel.org
-> CC: skhan@linuxfoundation.org
-> CC: Gianfranco Trad <gianf.trad@gmail.com>
-> CC: syzbot+8901c4560b7ab5c2f9df@syzkaller.appspotmail.com
->
-> Hi Gianfranco,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on brauner-vfs/vfs.all]
-> [also build test WARNING on linus/master v6.11 next-20240920]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Gianfranco-Trad/udf-fix-uninit-value-use-in-udf_get_fileshortad/20240920-035519
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> patch link:    https://lore.kernel.org/r/20240919195227.412583-1-gianf.trad%40gmail.com
-> patch subject: [PATCH] udf: fix uninit-value use in udf_get_fileshortad
-> :::::: branch date: 3 days ago
-> :::::: commit date: 3 days ago
-> config: mips-randconfig-r073-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230809.5ozgjLm9-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202409230809.5ozgjLm9-lkp@intel.com/
->
-> smatch warnings:
-> fs/udf/inode.c:2223 udf_current_aext() error: we previously assumed 'epos->bh' could be null (see line 2204)
-Given this error my initial guess is to update the patch to check the 
-assumption of epos->bh not null.
-> vim +2223 fs/udf/inode.c
->
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2193
-> ff116fc8d1d439 Jan Kara        2007-05-08  2194  int8_t udf_current_aext(struct inode *inode, struct extent_position *epos,
-> 5ca4e4be841e38 Pekka Enberg    2008-10-15  2195  			struct kernel_lb_addr *eloc, uint32_t *elen, int inc)
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2196  {
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2197  	int alen;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2198  	int8_t etype;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2199  	uint8_t *ptr;
-> 5ca4e4be841e38 Pekka Enberg    2008-10-15  2200  	struct short_ad *sad;
-> 5ca4e4be841e38 Pekka Enberg    2008-10-15  2201  	struct long_ad *lad;
-> 48d6d8ff7dca80 Marcin Slusarz  2008-02-08  2202  	struct udf_inode_info *iinfo = UDF_I(inode);
-> 28de7948a89676 Cyrill Gorcunov 2007-07-21  2203
-> cb00ea3528eb3c Cyrill Gorcunov 2007-07-19 @2204  	if (!epos->bh) {
-> ff116fc8d1d439 Jan Kara        2007-05-08  2205  		if (!epos->offset)
-> ff116fc8d1d439 Jan Kara        2007-05-08  2206  			epos->offset = udf_file_entry_alloc_offset(inode);
-> 382a2287bf9cd2 Jan Kara        2020-09-25  2207  		ptr = iinfo->i_data + epos->offset -
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2208  			udf_file_entry_alloc_offset(inode) +
-> 48d6d8ff7dca80 Marcin Slusarz  2008-02-08  2209  			iinfo->i_lenEAttr;
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2210  		alen = udf_file_entry_alloc_offset(inode) +
-> 48d6d8ff7dca80 Marcin Slusarz  2008-02-08  2211  							iinfo->i_lenAlloc;
-> cb00ea3528eb3c Cyrill Gorcunov 2007-07-19  2212  	} else {
-> ff116fc8d1d439 Jan Kara        2007-05-08  2213  		if (!epos->offset)
-> ff116fc8d1d439 Jan Kara        2007-05-08  2214  			epos->offset = sizeof(struct allocExtDesc);
-> ff116fc8d1d439 Jan Kara        2007-05-08  2215  		ptr = epos->bh->b_data + epos->offset;
-> 28de7948a89676 Cyrill Gorcunov 2007-07-21  2216  		alen = sizeof(struct allocExtDesc) +
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2217  			le32_to_cpu(((struct allocExtDesc *)epos->bh->b_data)->
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2218  							lengthAllocDescs);
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2219  	}
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2220
-> 48d6d8ff7dca80 Marcin Slusarz  2008-02-08  2221  	switch (iinfo->i_alloc_type) {
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2222  	case ICBTAG_FLAG_AD_SHORT:
-> 2aa242080b8dda Gianfranco Trad 2024-09-19 @2223  		if (unlikely(alen < 0 && epos->offset == epos->bh->b_size))
-> 2aa242080b8dda Gianfranco Trad 2024-09-19  2224  			return -1;
-The check would be inserted up here in the if clause. But if the patch 
-doesn't look good, I can redesign it in a better way. If so, I'm more 
-than glad to follow your advice.
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2225  		sad = udf_get_fileshortad(ptr, alen, &epos->offset, inc);
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2226  		if (!sad)
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2227  			return -1;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2228  		etype = le32_to_cpu(sad->extLength) >> 30;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2229  		eloc->logicalBlockNum = le32_to_cpu(sad->extPosition);
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2230  		eloc->partitionReferenceNum =
-> 48d6d8ff7dca80 Marcin Slusarz  2008-02-08  2231  				iinfo->i_location.partitionReferenceNum;
-> 28de7948a89676 Cyrill Gorcunov 2007-07-21  2232  		*elen = le32_to_cpu(sad->extLength) & UDF_EXTENT_LENGTH_MASK;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2233  		break;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2234  	case ICBTAG_FLAG_AD_LONG:
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2235  		lad = udf_get_filelongad(ptr, alen, &epos->offset, inc);
-> 4b11111aba6c80 Marcin Slusarz  2008-02-08  2236  		if (!lad)
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2237  			return -1;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2238  		etype = le32_to_cpu(lad->extLength) >> 30;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2239  		*eloc = lelb_to_cpu(lad->extLocation);
-> 28de7948a89676 Cyrill Gorcunov 2007-07-21  2240  		*elen = le32_to_cpu(lad->extLength) & UDF_EXTENT_LENGTH_MASK;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2241  		break;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2242  	default:
-> fcbf7637e6647e Steve Magnani   2017-10-12  2243  		udf_debug("alloc_type = %u unsupported\n", iinfo->i_alloc_type);
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2244  		return -1;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2245  	}
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2246
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2247  	return etype;
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2248  }
-> ^1da177e4c3f41 Linus Torvalds  2005-04-16  2249
->
-Thanks for your time,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Heiko Carstens <hca@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
---Gian
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+date:   11 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409232033.d1FlFrD1-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409232033.d1FlFrD1-lkp@intel.com/
+
+smatch warnings:
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
+
+vim +566 arch/s390/mm/fault.c
+
+17a363dcd2f745 Heiko Carstens    2021-04-09  497  
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
+
+:::::: The code at line 566 was first introduced by commit
+:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
+
+:::::: TO: Heiko Carstens <hca@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
