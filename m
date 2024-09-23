@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981C2184
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 02:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099EA184
+	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 02:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727059573; cv=none; b=bRY5IkmtJNVW5N/xi7MyA7Q9OaY/qUJ2vKJB1HJDhhExQXdtDtm9TwfeF7DqYNEQocXjYIONTimcpjJn3asnn2GuaOz84986XAHHETfkQW7JuHJdiTczA7QTrRatY5SrYhau2fGXhYwJbMM7cxZc5sUGgdEJFE2WAwz/xJ8Dddg=
+	t=1727060234; cv=none; b=rQppQZ9EAirzuZbxRwmjDe5GiCKTzWlDES4qMmy3WYZBRIqa/itfoffk2kW1fInHPIfv9J5RlF+rgP0MxDCjcAS5WKVhNfB0/DZNYyP+5S+skOLNdS2L97VpbFyIT679d4oUk6gNsXaKfL7p29OkYAUSa5FLOR5QcLrEzyvY8KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727059573; c=relaxed/simple;
-	bh=oxSRAVAXCS3FmqPLfTCKyj8/qiEiujGjLd/732JDEOI=;
+	s=arc-20240116; t=1727060234; c=relaxed/simple;
+	bh=Mu4ObyN2e6RFN4MPkGe4ZXHIfSwMfQpURtKI+jS5tL4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sy9WwMN2sIwyMaEMlidGJ0fRmiNKfveJb0YVmrX02MXPYTOqARNEr7tQU6MXw5GdcS4Q7E6geXcSJ2G0B5o3uYo14K89UBWFUl04t3A5oxlzIONvch5Q4WA/EFR/EluHJnjV10JOlBF+b3u0pkbfoRJ8BwzFrd8bMaAh2sALM/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giFKFtIF; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=PBOan5FlpPzU4AdOqoClBQjHwHdTJu04X7quwd/VoUrKJ2zY+MUIsx74dfLm1NfvCkLPDvccZ3PXTmYpBomBATO6VwjBbpUdvr0g3pfA5ovX48BH7DxU5kCqA7ZE1LROgiqsdO4UswDwyqXez39St+nZIn5fi2IjMYYgLslY8KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPPQXGf8; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giFKFtIF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPPQXGf8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727059572; x=1758595572;
+  t=1727060233; x=1758596233;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oxSRAVAXCS3FmqPLfTCKyj8/qiEiujGjLd/732JDEOI=;
-  b=giFKFtIF9K/+7ATGBYBXjbPPRxdp62zT+iLo/hUZiIaWViWrTBf9JVYJ
-   8V0v43fmeOhpE1hx/jX6sEKTkksdt7QexmbnPORzMwD+S+qBF6j38XA4U
-   0+dnmxpjtryDUPQrrr0I3/aTYBI9dRjHQfnFeeMmuqWsbL21bpMd8CEcl
-   G+OWYTAndd9Cfn0awxJDu7NKUOD4d+ULGgfYtHKUnLPG1FJ5VsTHe0JuR
-   4WgDYyRi3Tav/ssFvuD/cFE80sogm6Wq48CGeQ/Cac5YAvo3G9iTE1ef3
-   S7PgtZ2qR+JxtYMlwvtEHYl2NptFU4RL879yiMu2NlWq26yoFkAiXf29O
-   Q==;
-X-CSE-ConnectionGUID: GarnFzN+SAmFJse1xPpcxg==
-X-CSE-MsgGUID: da3W0QaARXKCCitvMbx2eA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="13631833"
+  bh=Mu4ObyN2e6RFN4MPkGe4ZXHIfSwMfQpURtKI+jS5tL4=;
+  b=QPPQXGf8GsnyLAiVLtpCTsGaqaUATD76p7AvudKvs6CMadMJV+hiMKj3
+   Sh30J7YKSBR1MNW0rBZP7KxY+mEMIFVtoEgN212GqDZxCGPEzSPxGkUGV
+   YEOfjVo6XdO/7CUiZovaKLhKEK9NHnF6359Cww5swrqh/klCjlpnMIqVu
+   h+2dopStf52Uz/yT+rimNhQCsUsnlD75zhkkdDffHfW2FTqVuw4EjJezM
+   Zla7iCa3ZPAAZQziYL3k2It6rH4SShfhp51BjcKVKW+YEpb1bx+coFdVV
+   Ek924l/3DYMEYhYUC4eGFtklBPTiOI8UGCRGs03V7UiMZJiH475ReiYrl
+   g==;
+X-CSE-ConnectionGUID: K6kUU9eaRbK+jYLRQnofGA==
+X-CSE-MsgGUID: PN1sCStTR3yWPFT4T56kGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="43461594"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="13631833"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 19:46:11 -0700
-X-CSE-ConnectionGUID: 7cXs3XTkSiWuab3+IotrAw==
-X-CSE-MsgGUID: o5Zd1ireT8OmS5e1SmiVfQ==
+   d="scan'208";a="43461594"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 19:57:12 -0700
+X-CSE-ConnectionGUID: M9QruhteQsiqo+RZZ2XaMg==
+X-CSE-MsgGUID: t4d0oVcvRpekgH7nRr0mMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="75477183"
+   d="scan'208";a="70519920"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2024 19:46:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Sep 2024 19:57:11 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssZ5T-000Gq2-1u;
-	Mon, 23 Sep 2024 02:46:07 +0000
-Date: Mon, 23 Sep 2024 10:45:26 +0800
+	id 1ssZG8-000GqS-1y;
+	Mon, 23 Sep 2024 02:57:08 +0000
+Date: Mon, 23 Sep 2024 10:57:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] drm/display/dsc: Refactor MST DSC Determination Policy
-Message-ID: <202409231002.bMP89Ipm-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/usb/typec/tcpm/tcpm.c:6356:20-21: WARNING opportunity for
+ max()
+Message-ID: <202409231009.2efXAh9b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,84 +64,52 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240919173944.256887-1-Jerry.Zuo@amd.com>
-References: <20240919173944.256887-1-Jerry.Zuo@amd.com>
-TO: Fangzhi Zuo <Jerry.Zuo@amd.com>
-TO: dri-devel@lists.freedesktop.org
-TO: intel-gfx@lists.freedesktop.org
-TO: amd-gfx@lists.freedesktop.org
-TO: lyude@redhat.com
-TO: jani.nikula@intel.com
-TO: imre.deak@intel.com
-TO: simona@ffwll.ch
-TO: wayne.lin@amd.com
-TO: Harry.Wentland@amd.com
-TO: rodrigo.siqueira@amd.com
-CC: Fangzhi Zuo <Jerry.Zuo@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Frank Wang <frank.wang@rock-chips.com>
+CC: Guenter Roeck <linux@roeck-us.net>
 
-Hi Fangzhi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm/drm-next linus/master]
-[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip drm-exynos/exynos-drm-next drm-misc/drm-misc-next v6.11 next-20240920]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fangzhi-Zuo/drm-display-dsc-Refactor-MST-DSC-Determination-Policy/20240920-014114
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240919173944.256887-1-Jerry.Zuo%40amd.com
-patch subject: [PATCH] drm/display/dsc: Refactor MST DSC Determination Policy
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: microblaze-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409231002.bMP89Ipm-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 8be558dcffe69b078b34b1fa93b82acaf4ce4957 usb: typec: tcpm: add get max power support
+date:   1 year, 3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 1 year, 3 months ago
+config: arc-randconfig-r054-20240923 (https://download.01.org/0day-ci/archive/20240923/202409231009.2efXAh9b-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409231002.bMP89Ipm-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409231009.2efXAh9b-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/display/drm_dp_mst_topology.c:6046 drm_dp_mst_dsc_aux_for_port() warn: variable dereferenced before check 'port' (see line 6035)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/typec/tcpm/tcpm.c:6356:20-21: WARNING opportunity for max()
 
-vim +/port +6046 drivers/gpu/drm/display/drm_dp_mst_topology.c
+vim +6356 drivers/usb/typec/tcpm/tcpm.c
 
-93cb4094a7fd30 drivers/gpu/drm/display/drm_dp_mst_topology.c Imre Deak        2024-04-17  6015  
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6016  /**
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6017   * drm_dp_mst_dsc_aux_for_port() - Find the correct aux for DSC
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6018   * @port: The port to check. A leaf of the MST tree with an attached display.
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6019   *
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6020   * Depending on the situation, DSC may be enabled via the endpoint aux,
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6021   * the immediately upstream aux, or the connector's physical aux.
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6022   *
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6023   * This is both the correct aux to read DSC_CAPABILITY and the
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6024   * correct aux to write DSC_ENABLED.
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6025   *
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6026   * This operation can be expensive (up to four aux reads), so
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6027   * the caller should cache the return.
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6028   *
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6029   * port->dsc_aux - point for dsc decompression
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6030   * port->dsc_passthrough_aux - point for dsc passthrough
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6031   *
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6032   */
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6033  void drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6034  {
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19 @6035  	struct drm_dp_mst_topology_mgr *mgr = port->mgr;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6036  	struct drm_dp_mst_port *immediate_upstream_port = NULL;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6037  	struct drm_dp_mst_port *fec_port = NULL;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6038  	struct drm_dp_mst_port *dsc_port = NULL;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6039  	struct drm_dp_aux *upstream_aux;
-53965dbe5396d2 drivers/gpu/drm/drm_dp_mst_topology.c         Paul E. McKenney 2020-02-19  6040  	struct drm_dp_desc desc = {};
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6041  	bool end_has_dpcd = (port->dpcd_rev > 0);
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6042  	u8 endpoint_dsc = 0;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6043  	u8 upstream_dsc;
-cc707186414576 drivers/gpu/drm/display/drm_dp_mst_topology.c Fangzhi Zuo      2024-09-19  6044  	u8 fec_cap;
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26  6045  
-c2bc1b6eabe65d drivers/gpu/drm/drm_dp_mst_topology.c         David Francis    2019-08-26 @6046  	if (!port)
+f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  6342  
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6343  static int tcpm_psy_get_input_power_limit(struct tcpm_port *port,
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6344  					  union power_supply_propval *val)
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6345  {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6346  	unsigned int src_mv, src_ma, max_src_uw = 0;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6347  	unsigned int i, tmp;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6348  
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6349  	for (i = 0; i < port->nr_source_caps; i++) {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6350  		u32 pdo = port->source_caps[i];
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6351  
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6352  		if (pdo_type(pdo) == PDO_TYPE_FIXED) {
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6353  			src_mv = pdo_fixed_voltage(pdo);
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6354  			src_ma = pdo_max_current(pdo);
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6355  			tmp = src_mv * src_ma;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16 @6356  			max_src_uw = tmp > max_src_uw ? tmp : max_src_uw;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6357  		}
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6358  	}
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6359  
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6360  	val->intval = max_src_uw;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6361  	return 0;
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6362  }
+8be558dcffe69b drivers/usb/typec/tcpm/tcpm.c Frank Wang   2023-06-16  6363  
 
 -- 
 0-DAY CI Kernel Test Service
