@@ -1,215 +1,233 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11BE184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E52624
 	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 01:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727053667; cv=none; b=rEKxAVTF4+NJckrI+aQx5zz7+rfyjtorHJDZtDjvHuXN69jLnlQVOwi++AZ/B1JUrPbCkx89fNqR9k3VUi8arbQe8m7IxS5o2PrvFdjZ7aTuHkYRMCzaDliyhk6auUB1+ycsArnSLuooG4AQrOzBBDVbu7EHeyrb1Ibq7kNyYCA=
+	t=1727053667; cv=none; b=uzOg6BKHPzVEQZmTFrTikRBi4PneusUp2A6MoA02AljBWn90eyMykUBmoJej5jOHd5ar5FU6JeHtrdRtHjiUdp3P3rhwwhRDOdNxUcIWI6Vd6hix+9pANqvF6ZEiKPIHBNKFAEbDvTu4TY94TvM5DeXDEgtf4C5yDqOu8PbN5Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1727053667; c=relaxed/simple;
-	bh=L/DMsn9CSBYxC9Ed4wxObfMm0o0WUaOjjA32J8eAUqc=;
+	bh=0uQl+WopV7lIYsB0tDoUeFD6Ww9fZZ5mQb4U00isWr8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gab7WX+QdtodqK5kz2EKNDFH23CfWLVJT+usZ5B5aV7JUyF7FkOkyk6tzBGeyLXamO+4z9PbJc1BQOKb5a3Kbpv+aaYbV43Szu73yDBAejncF9/Qp7CkFiJ40SB+fg1La0hbdH8j3I0ZGkSpNXuM8gd8vZpdBkWnjg3xJMYy5Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lg5mzeJ7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=rujIIfSX17SNsxMxvxxZ96jKJZnSjROXE8Sx4rCqE5Is4UUi0FEuX1UAn3WiCjn280nPQoE/nqBhBTyFBVzqpUVA6pKEiEwE5TyaHN28ledtsVWt3jq/6zVa5JaO+TQTWdjKA5opuXP96TAQX4Kvx9bQxngRpl6FWOGMhCriZeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jtrm0CWT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lg5mzeJ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jtrm0CWT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727053665; x=1758589665;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=L/DMsn9CSBYxC9Ed4wxObfMm0o0WUaOjjA32J8eAUqc=;
-  b=lg5mzeJ7U0DjqkODAhsxfpFM+6JBVtGHvQupYmU04ErKRKI57uYex2Sm
-   RlNeGv01I7U67a3Xje3gFT3YisiEFJrIM8ou3/WrJt4RNcTj58nXS40Sj
-   2dlKcupqKqtdBmvams0U+zNCFM82XNah+k1W1cOCM/1khfLoWYoj+vxV2
-   5VEHbZX8WPpGRiZ/dx19rLU9mDATDS4WotOSLVJVGxOPZ559Ygml5qoqQ
-   Nq1z7FbA/7Sj99JcX0fD8lyebDQIVGL4qapfQExc9KFbPsPbTxso73RyO
-   ArAwbNBxBA6+u9YgCkQDohCd5LBejJ5L1f4SRpe+F2Wwpn+/OOasJjY8c
-   w==;
-X-CSE-ConnectionGUID: SA3LKcUtQDe7FNNtti/UMQ==
-X-CSE-MsgGUID: t0LtxvZiT3WgqGSPJPKFhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="29774842"
+  t=1727053666; x=1758589666;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0uQl+WopV7lIYsB0tDoUeFD6Ww9fZZ5mQb4U00isWr8=;
+  b=jtrm0CWTMmjMz+ww6U2aJkOI9BI2u1hlkxWn2oRUtqQ7UiZKdknzx7fM
+   A3y0Cf38BwUDHrTPhAOgKNZC1qsqJijNxeRQ+R0ZeRTQMBlrqVO0yc+x+
+   enaJ0Re1Ps3QuDrChaMzHCVCkK1r8JriZtXOFBS21ECo5uvlpXWPuT3hF
+   kiSQzIQoVFlqd7QkJO9Gql/GZoLJtE+wLrwPuupsQYE62Yso9/NeNDBVC
+   GVipaG9Q5CI+2DQk09yujSW+QuvzUWRlim5jYe1q8FQZqGuLcpdktQl5X
+   N3GPd3UMwmwo6Ywfi/9NcXT58fNAzvExO5nWV/h2aWonS4BXgzGBJq8yZ
+   g==;
+X-CSE-ConnectionGUID: y3KqhApiT16ecwnAmF4Ypg==
+X-CSE-MsgGUID: UH0c9nEYS4C+8zWcrFh1hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11202"; a="26104185"
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="29774842"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 18:07:44 -0700
-X-CSE-ConnectionGUID: Y6AiCGPgRGCRMT5aLIgKZA==
-X-CSE-MsgGUID: Si8WAVewRNmVDWIjdngxEw==
+   d="scan'208";a="26104185"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2024 18:07:45 -0700
+X-CSE-ConnectionGUID: ip8RfLfARS6UiCz0qJJ8bg==
+X-CSE-MsgGUID: wGgZG+yiSC6Cc1ygr5YKcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,250,1719903600"; 
-   d="scan'208";a="108342602"
+   d="scan'208";a="71729897"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Sep 2024 18:07:43 -0700
+  by orviesa008.jf.intel.com with ESMTP; 22 Sep 2024 18:07:43 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssXYC-000Gn0-1q;
+	id 1ssXYC-000Gn2-1v;
 	Mon, 23 Sep 2024 01:07:40 +0000
 Date: Mon, 23 Sep 2024 09:07:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] leds: bcmbca: Add new driver for Broadcom BCMBCA
-Message-ID: <202409230821.u6DnFRWT-lkp@intel.com>
+Subject: arch/s390/kernel/ipl.c:805 sys_reipl_fcp_scp_data_store() warn:
+ potential user controlled sizeof overflow '(636) + scpdata_len' '636 +
+ 0-u64max'
+Message-ID: <202409230904.aO6KTjYC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org>
-References: <20240920-bcmbca-leds-v1-2-5f70e692c6ff@linaro.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Pavel Machek <pavel@ucw.cz>
-TO: Lee Jones <lee@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: William Zhang <william.zhang@broadcom.com>
-TO: Anand Gore <anand.gore@broadcom.com>
-TO: Kursad Oney <kursad.oney@broadcom.com>
-TO: Florian Fainelli <florian.fainelli@broadcom.com>
-TO: "Rafał Miłecki" <rafal@milecki.pl>
-TO: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-CC: linux-leds@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: Linus Walleij <linus.walleij@linaro.org>
+CC: linux-kernel@vger.kernel.org
+TO: Alexander Egorenkov <egorenar@linux.ibm.com>
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
 
-Hi Linus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 98f7e32f20d28ec452afb208f9cffc08448a2652]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/dt-bindings-leds-bcmbca-Add-bindings-for-BRCMBCA-LEDs/20240920-191550
-base:   98f7e32f20d28ec452afb208f9cffc08448a2652
-patch link:    https://lore.kernel.org/r/20240920-bcmbca-leds-v1-2-5f70e692c6ff%40linaro.org
-patch subject: [PATCH 2/2] leds: bcmbca: Add new driver for Broadcom BCMBCA
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: microblaze-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230821.u6DnFRWT-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de5cb0dcb74c294ec527eddfe5094acfdb21ff21
+commit: 005ca0133375a68fbbe4244cc7399b640d78dd91 s390/ipl: Introduce macros for (re)ipl sysfs attribute 'scp_data'
+date:   4 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 4 months ago
+config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240923/202409230904.aO6KTjYC-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409230821.u6DnFRWT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409230904.aO6KTjYC-lkp@intel.com/
 
-smatch warnings:
-drivers/leds/leds-bcmbca.c:335 bcmbca_leds_probe() error: uninitialized symbol 'val'.
+New smatch warnings:
+arch/s390/kernel/ipl.c:805 sys_reipl_fcp_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
+arch/s390/kernel/ipl.c:929 sys_reipl_nvme_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
+arch/s390/kernel/ipl.c:1028 sys_reipl_eckd_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
 
-vim +/val +335 drivers/leds/leds-bcmbca.c
+Old smatch warnings:
+arch/s390/kernel/ipl.c:1893 sys_vmcmd_on_reboot_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1894 sys_vmcmd_on_panic_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1895 sys_vmcmd_on_halt_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1896 sys_vmcmd_on_poff_store() warn: unsigned 'len' is never less than zero.
+arch/s390/kernel/ipl.c:1897 sys_vmcmd_on_restart_store() warn: unsigned 'len' is never less than zero.
 
-901eeb6fc4dc75 Linus Walleij 2024-09-20  272  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  273  static int bcmbca_leds_probe(struct platform_device *pdev)
-901eeb6fc4dc75 Linus Walleij 2024-09-20  274  {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  275  	unsigned int max_leds = BCMBCA_LED_MAX_COUNT;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  276  	struct device *dev = &pdev->dev;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  277  	struct device_node *np = dev_of_node(&pdev->dev);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  278  	enum bcmbca_led_type led_type;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  279  	void __iomem *base;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  280  	spinlock_t *lock; /* memory lock */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  281  	u32 num_shifters;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  282  	u32 val;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  283  	int ret;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  284  	int i;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  285  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  286  	base = devm_platform_ioremap_resource(pdev, 0);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  287  	if (IS_ERR(base))
-901eeb6fc4dc75 Linus Walleij 2024-09-20  288  		return PTR_ERR(base);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  289  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  290  	lock = devm_kzalloc(dev, sizeof(*lock), GFP_KERNEL);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  291  	if (!lock)
-901eeb6fc4dc75 Linus Walleij 2024-09-20  292  		return -ENOMEM;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  293  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  294  	ret = of_property_read_u32(np, "brcm,serial-shifters", &num_shifters);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  295  	if (!ret) {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  296  		/* Serial LEDs */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  297  		dev_dbg(dev, "serial LEDs, %d shift registers used\n", num_shifters);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  298  		led_type = BCMBCA_LED_SERIAL;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  299  		/*
-901eeb6fc4dc75 Linus Walleij 2024-09-20  300  		 * Each shifter can handle maximum 8 LEDs so we cap the
-901eeb6fc4dc75 Linus Walleij 2024-09-20  301  		 * maximum LEDs we can handle at that.
-901eeb6fc4dc75 Linus Walleij 2024-09-20  302  		 */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  303  		max_leds = num_shifters * 8;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  304  	} else {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  305  		/* Parallel LEDs */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  306  		led_type = BCMBCA_LED_PARALLEL;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  307  		dev_info(dev, "parallel LEDs requested, this is untested\n");
-901eeb6fc4dc75 Linus Walleij 2024-09-20  308  	}
-901eeb6fc4dc75 Linus Walleij 2024-09-20  309  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  310  	spin_lock_init(lock);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  311  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  312  	/* Turn off all LEDs and let the driver deal with them */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  313  	writel(0, base + BCMBCA_HW_EN);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  314  	writel(0, base + BCMBCA_SERIAL_POLARITY);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  315  	writel(0, base + BCMBCA_PARALLEL_POLARITY);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  316  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  317  	/* Set up serial shift register */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  318  	switch (num_shifters) {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  319  	case 0:
-901eeb6fc4dc75 Linus Walleij 2024-09-20  320  		val = 0;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  321  		break;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  322  	case 1:
-901eeb6fc4dc75 Linus Walleij 2024-09-20  323  		val = 0x000000ff;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  324  		break;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  325  	case 2:
-901eeb6fc4dc75 Linus Walleij 2024-09-20  326  		val = 0x0000ffff;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  327  		break;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  328  	case 3:
-901eeb6fc4dc75 Linus Walleij 2024-09-20  329  		val = 0x00ffffff;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  330  		break;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  331  	case 4:
-901eeb6fc4dc75 Linus Walleij 2024-09-20  332  		val = 0xffffffff;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  333  		break;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  334  	}
-901eeb6fc4dc75 Linus Walleij 2024-09-20 @335  	writel(val, base + BCMBCA_SERIAL_SHIFT_SEL);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  336  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  337  	/* ??? */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  338  	writel(0xc0000000, base + BCMBCA_HW_POLARITY);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  339  	/* Initialize to max brightness */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  340  	for (i = 0; i < BCMBCA_LED_MAX_COUNT/8; i++) {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  341  		writel(0x88888888, base + BCMBCA_BRIGHTNESS + 4*i);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  342  		writel(0, base + BCMBCA_BRIGHTNESS + BCMBCA_FLASH_RATE + 4*i);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  343  	}
-901eeb6fc4dc75 Linus Walleij 2024-09-20  344  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  345  	for_each_available_child_of_node_scoped(np, child) {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  346  		u32 reg;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  347  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  348  		if (of_property_read_u32(child, "reg", &reg))
-901eeb6fc4dc75 Linus Walleij 2024-09-20  349  			continue;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  350  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  351  		if (reg >= max_leds) {
-901eeb6fc4dc75 Linus Walleij 2024-09-20  352  			dev_err(dev, "invalid LED (%u >= %d)\n", reg,
-901eeb6fc4dc75 Linus Walleij 2024-09-20  353  				max_leds);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  354  			continue;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  355  		}
-901eeb6fc4dc75 Linus Walleij 2024-09-20  356  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  357  		ret = bcmbca_led_probe(dev, child, reg, base, lock,
-901eeb6fc4dc75 Linus Walleij 2024-09-20  358  				       num_shifters, led_type);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  359  		if (ret < 0)
-901eeb6fc4dc75 Linus Walleij 2024-09-20  360  			return ret;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  361  	}
-901eeb6fc4dc75 Linus Walleij 2024-09-20  362  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  363  	/* Enable the LEDs */
-901eeb6fc4dc75 Linus Walleij 2024-09-20  364  	val = BCMBCA_CTRL_ENABLE | BCMBCA_CTRL_SERIAL_POL_HIGH;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  365  	if (of_property_read_bool(np, "brcm,serial-active-low"))
-901eeb6fc4dc75 Linus Walleij 2024-09-20  366  		val &= ~BCMBCA_CTRL_SERIAL_POL_HIGH;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  367  	writel(val, base + BCMBCA_CTRL);
-901eeb6fc4dc75 Linus Walleij 2024-09-20  368  
-901eeb6fc4dc75 Linus Walleij 2024-09-20  369  	return 0;
-901eeb6fc4dc75 Linus Walleij 2024-09-20  370  }
-901eeb6fc4dc75 Linus Walleij 2024-09-20  371  
+vim +805 arch/s390/kernel/ipl.c
+
+ff6b8ea68f4b73 Michael Holzheu     2006-09-20  804  
+005ca0133375a6 Alexander Egorenkov 2024-05-10 @805  DEFINE_IPL_ATTR_SCP_DATA_RW(reipl_fcp, reipl_block_fcp->hdr,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  806  			    reipl_block_fcp->fcp,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  807  			    IPL_BP_FCP_LEN, IPL_BP0_FCP_LEN,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  808  			    DIAG308_SCPDATA_SIZE);
+684d2fd48e718e Hendrik Brueckner   2009-09-11  809  
+22d557abf75ce3 Sebastian Ott       2015-03-17  810  static struct bin_attribute *reipl_fcp_bin_attrs[] = {
+22d557abf75ce3 Sebastian Ott       2015-03-17  811  	&sys_reipl_fcp_scp_data_attr,
+22d557abf75ce3 Sebastian Ott       2015-03-17  812  	NULL,
+684d2fd48e718e Hendrik Brueckner   2009-09-11  813  };
+684d2fd48e718e Hendrik Brueckner   2009-09-11  814  
+eda4ddf7e3a224 Michael Holzheu     2013-06-21  815  DEFINE_IPL_ATTR_RW(reipl_fcp, wwpn, "0x%016llx\n", "%llx\n",
+86c74d869d321b Martin Schwidefsky  2019-02-20  816  		   reipl_block_fcp->fcp.wwpn);
+eda4ddf7e3a224 Michael Holzheu     2013-06-21  817  DEFINE_IPL_ATTR_RW(reipl_fcp, lun, "0x%016llx\n", "%llx\n",
+86c74d869d321b Martin Schwidefsky  2019-02-20  818  		   reipl_block_fcp->fcp.lun);
+ff6b8ea68f4b73 Michael Holzheu     2006-09-20  819  DEFINE_IPL_ATTR_RW(reipl_fcp, bootprog, "%lld\n", "%lld\n",
+86c74d869d321b Martin Schwidefsky  2019-02-20  820  		   reipl_block_fcp->fcp.bootprog);
+ff6b8ea68f4b73 Michael Holzheu     2006-09-20  821  DEFINE_IPL_ATTR_RW(reipl_fcp, br_lba, "%lld\n", "%lld\n",
+86c74d869d321b Martin Schwidefsky  2019-02-20  822  		   reipl_block_fcp->fcp.br_lba);
+ff6b8ea68f4b73 Michael Holzheu     2006-09-20  823  DEFINE_IPL_ATTR_RW(reipl_fcp, device, "0.0.%04llx\n", "0.0.%llx\n",
+86c74d869d321b Martin Schwidefsky  2019-02-20  824  		   reipl_block_fcp->fcp.devno);
+ff6b8ea68f4b73 Michael Holzheu     2006-09-20  825  
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  826  static void reipl_get_ascii_loadparm(char *loadparm,
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  827  				     struct ipl_parameter_block *ibp)
+03a4d2087644f5 Michael Holzheu     2006-12-04  828  {
+5f1207fbe74450 Martin Schwidefsky  2019-02-20  829  	memcpy(loadparm, ibp->common.loadparm, LOADPARM_LEN);
+03a4d2087644f5 Michael Holzheu     2006-12-04  830  	EBCASC(loadparm, LOADPARM_LEN);
+03a4d2087644f5 Michael Holzheu     2006-12-04  831  	loadparm[LOADPARM_LEN] = 0;
+1d802e24774c94 Heiko Carstens      2009-12-18  832  	strim(loadparm);
+03a4d2087644f5 Michael Holzheu     2006-12-04  833  }
+03a4d2087644f5 Michael Holzheu     2006-12-04  834  
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  835  static ssize_t reipl_generic_loadparm_show(struct ipl_parameter_block *ipb,
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  836  					   char *page)
+03a4d2087644f5 Michael Holzheu     2006-12-04  837  {
+03a4d2087644f5 Michael Holzheu     2006-12-04  838  	char buf[LOADPARM_LEN + 1];
+03a4d2087644f5 Michael Holzheu     2006-12-04  839  
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  840  	reipl_get_ascii_loadparm(buf, ipb);
+03a4d2087644f5 Michael Holzheu     2006-12-04  841  	return sprintf(page, "%s\n", buf);
+03a4d2087644f5 Michael Holzheu     2006-12-04  842  }
+03a4d2087644f5 Michael Holzheu     2006-12-04  843  
+a0443fbb467af5 Hendrik Brueckner   2008-07-14  844  static ssize_t reipl_generic_loadparm_store(struct ipl_parameter_block *ipb,
+03a4d2087644f5 Michael Holzheu     2006-12-04  845  					    const char *buf, size_t len)
+03a4d2087644f5 Michael Holzheu     2006-12-04  846  {
+03a4d2087644f5 Michael Holzheu     2006-12-04  847  	int i, lp_len;
+03a4d2087644f5 Michael Holzheu     2006-12-04  848  
+03a4d2087644f5 Michael Holzheu     2006-12-04  849  	/* ignore trailing newline */
+03a4d2087644f5 Michael Holzheu     2006-12-04  850  	lp_len = len;
+03a4d2087644f5 Michael Holzheu     2006-12-04  851  	if ((len > 0) && (buf[len - 1] == '\n'))
+03a4d2087644f5 Michael Holzheu     2006-12-04  852  		lp_len--;
+03a4d2087644f5 Michael Holzheu     2006-12-04  853  	/* loadparm can have max 8 characters and must not start with a blank */
+03a4d2087644f5 Michael Holzheu     2006-12-04  854  	if ((lp_len > LOADPARM_LEN) || ((lp_len > 0) && (buf[0] == ' ')))
+03a4d2087644f5 Michael Holzheu     2006-12-04  855  		return -EINVAL;
+03a4d2087644f5 Michael Holzheu     2006-12-04  856  	/* loadparm can only contain "a-z,A-Z,0-9,SP,." */
+03a4d2087644f5 Michael Holzheu     2006-12-04  857  	for (i = 0; i < lp_len; i++) {
+03a4d2087644f5 Michael Holzheu     2006-12-04  858  		if (isalpha(buf[i]) || isdigit(buf[i]) || (buf[i] == ' ') ||
+03a4d2087644f5 Michael Holzheu     2006-12-04  859  		    (buf[i] == '.'))
+03a4d2087644f5 Michael Holzheu     2006-12-04  860  			continue;
+03a4d2087644f5 Michael Holzheu     2006-12-04  861  		return -EINVAL;
+03a4d2087644f5 Michael Holzheu     2006-12-04  862  	}
+03a4d2087644f5 Michael Holzheu     2006-12-04  863  	/* initialize loadparm with blanks */
+5f1207fbe74450 Martin Schwidefsky  2019-02-20  864  	memset(ipb->common.loadparm, ' ', LOADPARM_LEN);
+03a4d2087644f5 Michael Holzheu     2006-12-04  865  	/* copy and convert to ebcdic */
+5f1207fbe74450 Martin Schwidefsky  2019-02-20  866  	memcpy(ipb->common.loadparm, buf, lp_len);
+5f1207fbe74450 Martin Schwidefsky  2019-02-20  867  	ASCEBC(ipb->common.loadparm, LOADPARM_LEN);
+5f1207fbe74450 Martin Schwidefsky  2019-02-20  868  	ipb->common.flags |= IPL_PB0_FLAG_LOADPARM;
+03a4d2087644f5 Michael Holzheu     2006-12-04  869  	return len;
+03a4d2087644f5 Michael Holzheu     2006-12-04  870  }
+03a4d2087644f5 Michael Holzheu     2006-12-04  871  
+c676aac66f5b2b Sven Schnelle       2023-01-29  872  #define DEFINE_GENERIC_LOADPARM(name)							\
+c676aac66f5b2b Sven Schnelle       2023-01-29  873  static ssize_t reipl_##name##_loadparm_show(struct kobject *kobj,			\
+c676aac66f5b2b Sven Schnelle       2023-01-29  874  					    struct kobj_attribute *attr, char *page)	\
+c676aac66f5b2b Sven Schnelle       2023-01-29  875  {											\
+c676aac66f5b2b Sven Schnelle       2023-01-29  876  	return reipl_generic_loadparm_show(reipl_block_##name, page);			\
+c676aac66f5b2b Sven Schnelle       2023-01-29  877  }											\
+c676aac66f5b2b Sven Schnelle       2023-01-29  878  static ssize_t reipl_##name##_loadparm_store(struct kobject *kobj,			\
+c676aac66f5b2b Sven Schnelle       2023-01-29  879  					     struct kobj_attribute *attr,		\
+c676aac66f5b2b Sven Schnelle       2023-01-29  880  					     const char *buf, size_t len)		\
+c676aac66f5b2b Sven Schnelle       2023-01-29  881  {											\
+c676aac66f5b2b Sven Schnelle       2023-01-29  882  	return reipl_generic_loadparm_store(reipl_block_##name, buf, len);		\
+c676aac66f5b2b Sven Schnelle       2023-01-29  883  }											\
+c676aac66f5b2b Sven Schnelle       2023-01-29  884  static struct kobj_attribute sys_reipl_##name##_loadparm_attr =				\
+c676aac66f5b2b Sven Schnelle       2023-01-29  885  	__ATTR(loadparm, 0644, reipl_##name##_loadparm_show,				\
+c676aac66f5b2b Sven Schnelle       2023-01-29  886  	       reipl_##name##_loadparm_store)
+69928601676ff6 Michael Holzheu     2014-08-26  887  
+c676aac66f5b2b Sven Schnelle       2023-01-29  888  DEFINE_GENERIC_LOADPARM(fcp);
+c676aac66f5b2b Sven Schnelle       2023-01-29  889  DEFINE_GENERIC_LOADPARM(nvme);
+c676aac66f5b2b Sven Schnelle       2023-01-29  890  DEFINE_GENERIC_LOADPARM(ccw);
+c676aac66f5b2b Sven Schnelle       2023-01-29  891  DEFINE_GENERIC_LOADPARM(nss);
+6bb361d5d8eb1d Sven Schnelle       2023-01-29  892  DEFINE_GENERIC_LOADPARM(eckd);
+69928601676ff6 Michael Holzheu     2014-08-26  893  
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  894  static ssize_t reipl_fcp_clear_show(struct kobject *kobj,
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  895  				    struct kobj_attribute *attr, char *page)
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  896  {
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  897  	return sprintf(page, "%u\n", reipl_fcp_clear);
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  898  }
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  899  
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  900  static ssize_t reipl_fcp_clear_store(struct kobject *kobj,
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  901  				     struct kobj_attribute *attr,
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  902  				     const char *buf, size_t len)
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  903  {
+d9b25bdf57e4ab Christophe JAILLET  2022-11-01  904  	if (kstrtobool(buf, &reipl_fcp_clear) < 0)
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  905  		return -EINVAL;
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  906  	return len;
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  907  }
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  908  
+69928601676ff6 Michael Holzheu     2014-08-26  909  static struct attribute *reipl_fcp_attrs[] = {
+69928601676ff6 Michael Holzheu     2014-08-26  910  	&sys_reipl_fcp_device_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  911  	&sys_reipl_fcp_wwpn_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  912  	&sys_reipl_fcp_lun_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  913  	&sys_reipl_fcp_bootprog_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  914  	&sys_reipl_fcp_br_lba_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  915  	&sys_reipl_fcp_loadparm_attr.attr,
+69928601676ff6 Michael Holzheu     2014-08-26  916  	NULL,
+69928601676ff6 Michael Holzheu     2014-08-26  917  };
+69928601676ff6 Michael Holzheu     2014-08-26  918  
+69928601676ff6 Michael Holzheu     2014-08-26  919  static struct attribute_group reipl_fcp_attr_group = {
+69928601676ff6 Michael Holzheu     2014-08-26  920  	.attrs = reipl_fcp_attrs,
+22d557abf75ce3 Sebastian Ott       2015-03-17  921  	.bin_attrs = reipl_fcp_bin_attrs,
+69928601676ff6 Michael Holzheu     2014-08-26  922  };
+69928601676ff6 Michael Holzheu     2014-08-26  923  
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  924  static struct kobj_attribute sys_reipl_fcp_clear_attr =
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  925  	__ATTR(clear, 0644, reipl_fcp_clear_show, reipl_fcp_clear_store);
+1a2ae03b1938b0 Gerald Schaefer     2020-02-20  926  
+23a457b8d57dc8 Jason J. Herne      2020-03-03  927  /* NVME reipl device attributes */
+23a457b8d57dc8 Jason J. Herne      2020-03-03  928  
+005ca0133375a6 Alexander Egorenkov 2024-05-10 @929  DEFINE_IPL_ATTR_SCP_DATA_RW(reipl_nvme, reipl_block_nvme->hdr,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  930  			    reipl_block_nvme->nvme,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  931  			    IPL_BP_NVME_LEN, IPL_BP0_NVME_LEN,
+005ca0133375a6 Alexander Egorenkov 2024-05-10  932  			    DIAG308_SCPDATA_SIZE);
+23a457b8d57dc8 Jason J. Herne      2020-03-03  933  
 
 -- 
 0-DAY CI Kernel Test Service
