@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C564A77112
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 16:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2C76E614
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 20:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727194771; cv=none; b=D/FAvTKo4A2uPKs+sTx1QvcFWQJCHpLLtR4IINyj49ezoaMHMQNd4eHm5vUl4c9r30HjgkAyPadk9LAeQ8K4r2ONrl/6Tqhmrztf+/3GY+kOAMrTJXxWVEh11uJDgrSu+SPkNVjHxrIPhR9lWSzQqwxbs8aB7coglQ+T3ObrNgQ=
+	t=1727211403; cv=none; b=ru6lWXlegYKi7dovolNmRc3BSiHEIF14sO2eE+l7ASjjHgaCAqU+DgCgWpgjI76qj0mbTO7rZDGWR8kpnjNOXXVbfp44SVLyTpEMdW9JkMh1UOkCOIGF8xfvPFixNKNcofjUZ8GaqjHL5D5BVxky5+GioKxjP86vvufdVNvOr3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727194771; c=relaxed/simple;
-	bh=xlnWsgkB4Fjm27GyncPm510ohWlTizo3hPMNr/epkVU=;
+	s=arc-20240116; t=1727211403; c=relaxed/simple;
+	bh=sNY//5oU0yGf0D2Mqrhv3t+mWwE7i8EObPMEnJmoR2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=md7PElLZ77v2e1i/zCARU/uMwrRmfBllLnmowjG0Tv5iprXpxZsq9sEwHk6f9OkBT2Bk1/gqk2TANbhIwbPdhQp4sH90q+guGokuGD2qxodm76bFW6ZRYO+qFYPxg54JwXXCJiki0UeSW5IEX7vCQ678i7UDWIABVNR4Ye0yzk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2ML/jXz; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=W7XH0et2wUkwnw+P7tEf0mfUwNaTq97Gfsbp3wsMYenEeEvaqNCmw8tLZLtKGPnyu9GTiJxLeMkG1aae674xBN4TEu+zJQGL9havslA1tY49zAHMcFV2+zRKWBLhrvVVESwAnCIstDEQfFgXHtr0Lnogb1/W6NJJRSmxx5R8wYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F+HQ4E2C; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2ML/jXz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F+HQ4E2C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727194769; x=1758730769;
+  t=1727211402; x=1758747402;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xlnWsgkB4Fjm27GyncPm510ohWlTizo3hPMNr/epkVU=;
-  b=B2ML/jXzrF9WVllZdnGLghWaB1a6L3TZCj69HNqj/uCZTMNLq0HKDtAF
-   sVzqqpOomKhjXGwzZzjC4ZArHOmke/Ss7fn+jRAeD9l3Lk0hcRTHAarvO
-   50iTSfmhrT/ARKS8IC0W7CH4XJ6MBEGw8PWZ4vQyF7EfkhFSnoJ77qd6w
-   T4H/5/N8ipa2N0d9nGhk3Yh5uwS+U12GGJCnlQLmUkIC0zpQ6vbyn1UpR
-   hChEMAxrcVqLMCol9ZZ33qSMsrZCQLmxQr+2aa3GVjaDzNamECHDYosSM
-   u7UBBXzjUtoeA66/ArYaWSRObrWcor1tQUG32r4hYRyUBiV58mGF0Qc14
-   Q==;
-X-CSE-ConnectionGUID: xXD4bs+gTSOjn+AsgV2wQQ==
-X-CSE-MsgGUID: 6qduRV+JT/Ce4ufoygK5zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="36771140"
+  bh=sNY//5oU0yGf0D2Mqrhv3t+mWwE7i8EObPMEnJmoR2A=;
+  b=F+HQ4E2CN8JNKVqHYIB7cOFWpAshWL5wSd/aQzoMUW9yh+nG+TXZl1B5
+   t2gGAMMwS/t3PP6ETpr0QNuXV8LkbO0ds8wAWb3g6vgSZnY2Ji745ltb6
+   GSXu5jmRfgaiZv4uxIq/6Z0WVTq96fn8JvYh4a7ZpiDYO3+qZR+Z5LPj4
+   mUkW67sh8BNMcNaQDWbPyKlvdgW3on8iZQ5OotBy1rfUwspdTqDOgry7R
+   MyA00mGVY2PO3i4XPCjIGZCEe6PUBX0k/diZj1r3vPlN/KZ+MTXumCTlS
+   M3yiYDlib4hzWiPRY2ng8IbcRIKTsKrJ1xSk0fMGgN3CD/3u9cfswCdUW
+   w==;
+X-CSE-ConnectionGUID: QudcZztPRi+/P7/HP4h8+w==
+X-CSE-MsgGUID: /dOlxMR+S9qUArL5p56hJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26385310"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="36771140"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 09:19:29 -0700
-X-CSE-ConnectionGUID: M/KjBZ0UQHe4cj9o0lYjcw==
-X-CSE-MsgGUID: jUS4fWL5RTO8ORklb3iQGg==
+   d="scan'208";a="26385310"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 13:56:41 -0700
+X-CSE-ConnectionGUID: +mn6KPFBRnihwtPrdulfZg==
+X-CSE-MsgGUID: vdda19rhQH6rM92vSjHrmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="94793367"
+   d="scan'208";a="71873296"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2024 09:19:27 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Sep 2024 13:56:40 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st8G4-000IYj-2M;
-	Tue, 24 Sep 2024 16:19:24 +0000
-Date: Wed, 25 Sep 2024 00:18:51 +0800
+	id 1stCaL-000IpJ-0u;
+	Tue, 24 Sep 2024 20:56:37 +0000
+Date: Wed, 25 Sep 2024 04:55:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn:
- missing error code 'ret'
-Message-ID: <202409250005.68tjtZiT-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 23318/30000]
+ drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100
+ isst_if_get_tpmi_instance_count() warn: potential spectre issue
+ 'isst_common.sst_inst' [r] (local cap)
+Message-ID: <202409250439.RGKHfbdX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,95 +66,60 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Jianbo Liu <jianbol@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>
+TO: kernel@openeuler.org
+TO: Yingbao Jia <yingbao.jia@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: 638420115cc4ad6c3a2683bf46a052b505abb202 IB/mlx5: Create UMR QP just before first reg_mr occurs
-date:   3 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 3 months ago
-config: powerpc64-randconfig-r071-20240924 (https://download.01.org/0day-ci/archive/20240925/202409250005.68tjtZiT-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ef5e9d0437237465f258a80a0d5d8e1e26872c7a
+commit: 4dc4d762dd6ed4cb851209a87e79d7d936b3fb4c [23318/30000] platform/x86: ISST: Enumerate TPMI SST and create framework
+:::::: branch date: 7 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-161-20240925 (https://download.01.org/0day-ci/archive/20240925/202409250439.RGKHfbdX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409250005.68tjtZiT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409250439.RGKHfbdX-lkp@intel.com/
 
 smatch warnings:
-drivers/infiniband/hw/mlx5/umr.c:153 mlx5r_umr_resource_init() warn: missing error code 'ret'
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:104 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
 
-vim +/ret +153 drivers/infiniband/hw/mlx5/umr.c
+vim +100 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
 
-04876c12c19e94 Aharon Landau 2022-04-12  134  
-04876c12c19e94 Aharon Landau 2022-04-12  135  int mlx5r_umr_resource_init(struct mlx5_ib_dev *dev)
-04876c12c19e94 Aharon Landau 2022-04-12  136  {
-04876c12c19e94 Aharon Landau 2022-04-12  137  	struct ib_qp_init_attr init_attr = {};
-04876c12c19e94 Aharon Landau 2022-04-12  138  	struct ib_cq *cq;
-04876c12c19e94 Aharon Landau 2022-04-12  139  	struct ib_qp *qp;
-638420115cc4ad Jianbo Liu    2024-06-03  140  	int ret = 0;
-04876c12c19e94 Aharon Landau 2022-04-12  141  
-638420115cc4ad Jianbo Liu    2024-06-03  142  
-638420115cc4ad Jianbo Liu    2024-06-03  143  	/*
-638420115cc4ad Jianbo Liu    2024-06-03  144  	 * UMR qp is set once, never changed until device unload.
-638420115cc4ad Jianbo Liu    2024-06-03  145  	 * Avoid taking the mutex if initialization is already done.
-638420115cc4ad Jianbo Liu    2024-06-03  146  	 */
-638420115cc4ad Jianbo Liu    2024-06-03  147  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03  148  		return 0;
-638420115cc4ad Jianbo Liu    2024-06-03  149  
-638420115cc4ad Jianbo Liu    2024-06-03  150  	mutex_lock(&dev->umrc.init_lock);
-638420115cc4ad Jianbo Liu    2024-06-03  151  	/* First user allocates the UMR resources. Skip if already allocated. */
-638420115cc4ad Jianbo Liu    2024-06-03  152  	if (dev->umrc.qp)
-638420115cc4ad Jianbo Liu    2024-06-03 @153  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  154  
-04876c12c19e94 Aharon Landau 2022-04-12  155  	cq = ib_alloc_cq(&dev->ib_dev, NULL, 128, 0, IB_POLL_SOFTIRQ);
-04876c12c19e94 Aharon Landau 2022-04-12  156  	if (IS_ERR(cq)) {
-04876c12c19e94 Aharon Landau 2022-04-12  157  		mlx5_ib_dbg(dev, "Couldn't create CQ for sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  158  		ret = PTR_ERR(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  159  		goto unlock;
-04876c12c19e94 Aharon Landau 2022-04-12  160  	}
-04876c12c19e94 Aharon Landau 2022-04-12  161  
-04876c12c19e94 Aharon Landau 2022-04-12  162  	init_attr.send_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  163  	init_attr.recv_cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  164  	init_attr.sq_sig_type = IB_SIGNAL_ALL_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  165  	init_attr.cap.max_send_wr = MAX_UMR_WR;
-04876c12c19e94 Aharon Landau 2022-04-12  166  	init_attr.cap.max_send_sge = 1;
-04876c12c19e94 Aharon Landau 2022-04-12  167  	init_attr.qp_type = MLX5_IB_QPT_REG_UMR;
-04876c12c19e94 Aharon Landau 2022-04-12  168  	init_attr.port_num = 1;
-638420115cc4ad Jianbo Liu    2024-06-03  169  	qp = ib_create_qp(dev->umrc.pd, &init_attr);
-04876c12c19e94 Aharon Landau 2022-04-12  170  	if (IS_ERR(qp)) {
-04876c12c19e94 Aharon Landau 2022-04-12  171  		mlx5_ib_dbg(dev, "Couldn't create sync UMR QP\n");
-04876c12c19e94 Aharon Landau 2022-04-12  172  		ret = PTR_ERR(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  173  		goto destroy_cq;
-04876c12c19e94 Aharon Landau 2022-04-12  174  	}
-04876c12c19e94 Aharon Landau 2022-04-12  175  
-04876c12c19e94 Aharon Landau 2022-04-12  176  	ret = mlx5r_umr_qp_rst2rts(dev, qp);
-04876c12c19e94 Aharon Landau 2022-04-12  177  	if (ret)
-04876c12c19e94 Aharon Landau 2022-04-12  178  		goto destroy_qp;
-04876c12c19e94 Aharon Landau 2022-04-12  179  
-04876c12c19e94 Aharon Landau 2022-04-12  180  	dev->umrc.cq = cq;
-04876c12c19e94 Aharon Landau 2022-04-12  181  
-04876c12c19e94 Aharon Landau 2022-04-12  182  	sema_init(&dev->umrc.sem, MAX_UMR_WR);
-158e71bb69e368 Aharon Landau 2022-05-15  183  	mutex_init(&dev->umrc.lock);
-9b7d4be967f16f Maor Gottlieb 2022-08-29  184  	dev->umrc.state = MLX5_UMR_STATE_ACTIVE;
-638420115cc4ad Jianbo Liu    2024-06-03  185  	dev->umrc.qp = qp;
-04876c12c19e94 Aharon Landau 2022-04-12  186  
-638420115cc4ad Jianbo Liu    2024-06-03  187  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  188  	return 0;
-04876c12c19e94 Aharon Landau 2022-04-12  189  
-04876c12c19e94 Aharon Landau 2022-04-12  190  destroy_qp:
-04876c12c19e94 Aharon Landau 2022-04-12  191  	ib_destroy_qp(qp);
-04876c12c19e94 Aharon Landau 2022-04-12  192  destroy_cq:
-04876c12c19e94 Aharon Landau 2022-04-12  193  	ib_free_cq(cq);
-638420115cc4ad Jianbo Liu    2024-06-03  194  unlock:
-638420115cc4ad Jianbo Liu    2024-06-03  195  	mutex_unlock(&dev->umrc.init_lock);
-04876c12c19e94 Aharon Landau 2022-04-12  196  	return ret;
-04876c12c19e94 Aharon Landau 2022-04-12  197  }
-04876c12c19e94 Aharon Landau 2022-04-12  198  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   87  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   88  static int isst_if_get_tpmi_instance_count(void __user *argp)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   89  {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   90  	struct isst_tpmi_instance_count tpmi_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   91  	struct tpmi_sst_struct *sst_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   92  	int i;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   93  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   94  	if (copy_from_user(&tpmi_inst, argp, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   95  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   96  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   97  	if (tpmi_inst.socket_id >= topology_max_packages())
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   98  		return -EINVAL;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   99  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @100  	tpmi_inst.count = isst_common.sst_inst[tpmi_inst.socket_id]->number_of_power_domains;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  101  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  102  	sst_inst = isst_common.sst_inst[tpmi_inst.socket_id];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  103  	tpmi_inst.valid_mask = 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @104  	for (i = 0; i < sst_inst->number_of_power_domains; ++i) {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  105  		struct tpmi_per_power_domain_info *power_domain_info;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  106  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  107  		power_domain_info = &sst_inst->power_domain_info[i];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  108  		if (power_domain_info->sst_base)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  109  			tpmi_inst.valid_mask |= BIT(i);
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  110  	}
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  111  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  112  	if (copy_to_user(argp, &tpmi_inst, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  113  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  114  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  115  	return 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  116  }
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  117  
 
 -- 
 0-DAY CI Kernel Test Service
