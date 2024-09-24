@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EDB7F7DB
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 06:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3962B823C3
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 07:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727160791; cv=none; b=uxElg1YvgPm30ym4rysiOlT/vFZ//hq820QYDcGfl5aJcjcLZWytdbBJagj/ns8TkiCs0vaKqAJheO+l1msyQVp3Iqdm4izxOdu6n+n+nXkEcoKBQRa7Ly4wI2CbXckBoxfRb/jXiI0q5aq67b0Ltkndx9GCh87KfTDT4w0dUIY=
+	t=1727161390; cv=none; b=hVHsy3Nusai9xNAw/3uaZ/TmC6zBDivYv+8cup4uTYTYkKjFdKeEcPgtlbzh+n3kwhd9H+9vvwHbcS4qqY8a8w4PY77fVGViKRBRuYLJ0DNoWwC1nUth2zWPaANSgRbnlKRAv7Zhtv8DNmvt0nUETkb9vwE7sM2rYgsO+I9uvvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727160791; c=relaxed/simple;
-	bh=2zlOyuXywd6XNMZYS3V8lDOXb+w1KhBhwrIBwuuqUo8=;
+	s=arc-20240116; t=1727161390; c=relaxed/simple;
+	bh=CUOaXBwbqGI6ZabwoC9A18K3F/2K0CMyEm+PVRZ2bCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dNzv3+DKsbwLh3MCkaSi9mfR+lCQxHFaoUqNtv6jM1CVXloMgnD61c01xUUd6gJPhY5CO+JLT46zP0u5viFCH7r+kQ8H+5567jRMVlwWD9qB+ae3xUFoHNvakd36JhIgFvK3sALrvjJvwP3lhDbglfP77EGx0qcJFGItZxZPsVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IbQ7sXZS; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=tEkBS57vgaUUX7LF3nt1q5n2ggT8p59mxuSZCVOOYXHpDFhW5PXJvgboLA+05exeJDNQZZUK78G2koHmay26ETNc77PnUBHpzaKaul82nhLiGU3bl5tMtJNC4uxsVfEJvny0pPe/O1CZdzz91Ii5erQi31vSnVFoyYaYLsd2yZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=giStg/pT; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IbQ7sXZS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="giStg/pT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727160790; x=1758696790;
+  t=1727161388; x=1758697388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2zlOyuXywd6XNMZYS3V8lDOXb+w1KhBhwrIBwuuqUo8=;
-  b=IbQ7sXZSIGRxB36Pat9+3tl16NhHl1t/9bDeDLcS2fCMttAL5DBVkhx9
-   nSD6TqXinNyx8MYyTo05l47BRwYsE3sxc4B3UjqNLsJx9+e76VNgtNSWc
-   k6XEIOy4iJoPqlJErjN9w3zqNgkzzwLQp9UwdBZvKGkVRwQknxVYlWaBM
-   0x36QRn1LXKCZ6xHEsmu8vLY65fEQWggIxpRVkZd04qkPJ4t03pTjvmeG
-   Zjz8YDcRUmvn71PRDwfUVfplaecNo2S/3e30DWzzIEtp2xQYM/kEF2Gg/
-   8JeH0SmddoV28dov5oZ4AGloLfHJeZie29OfPVzUc/3Hgw/peeb0Z3CyL
-   w==;
-X-CSE-ConnectionGUID: SBeP3ClmTN+XNpooNNu7AQ==
-X-CSE-MsgGUID: 1LUSp3exSHOuKu19L1PGtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="51554663"
+  bh=CUOaXBwbqGI6ZabwoC9A18K3F/2K0CMyEm+PVRZ2bCs=;
+  b=giStg/pTeLJlSJifrxDMSOr6mVuHvju4Nso9exU3T9k8cysf+3rifL6g
+   6oejnrz/sdjGvBqDkdXDCVz0OczJU8GdJfoQU+wtpWCvuBlEFi6et5cTy
+   /gneI99KWD422CezcI4b1csInd18t61FmlqGXtYW1Dj20slYYUqSt9DIP
+   av0+2x/ap+tggZaJrjP7xFm3bQuAIz/gTBTvMXVSrxlKEdMbGC6yCeqt9
+   DMrlYHDvv2/EXlE3fhNgBp0vp5ZeBD/FOv4IBuTm6ebAWQ1TEfnPhQFBY
+   RGEpc4o+HnuYzXBNCEVOgtdZtgeL9ZhlIB2myPG+wkJclnVjyiwuq3N5S
+   g==;
+X-CSE-ConnectionGUID: hD/yMTWnReqN12tU5nDHTQ==
+X-CSE-MsgGUID: URRCaFxhQuaHBDbMBmNxtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="37514169"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="51554663"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 23:53:08 -0700
-X-CSE-ConnectionGUID: B/SDka0FQaqJQmLnikmivg==
-X-CSE-MsgGUID: pOQ6tIoxRpK3Gs0x1M4OEA==
+   d="scan'208";a="37514169"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 00:03:08 -0700
+X-CSE-ConnectionGUID: s8xRPMvlRImCDDuXRpK0AA==
+X-CSE-MsgGUID: Ohg38xK5ST2QavB+LLMnOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="71757962"
+   d="scan'208";a="71325143"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 23 Sep 2024 23:53:06 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 24 Sep 2024 00:03:06 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sszQ0-000I3F-0D;
-	Tue, 24 Sep 2024 06:53:04 +0000
-Date: Tue, 24 Sep 2024 14:52:08 +0800
+	id 1sszZg-000I3Z-0j;
+	Tue, 24 Sep 2024 07:03:04 +0000
+Date: Tue, 24 Sep 2024 15:02:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: fs/bcachefs/opts.c:461 bch2_opts_to_text() warn: Function too hairy.
-  No more merges.
-Message-ID: <202409241440.G4japrG1-lkp@intel.com>
+Subject: Re: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+Message-ID: <202409241444.MCX2lNxm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,56 +63,146 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+In-Reply-To: <20240923141649.148563-1-oneukum@suse.com>
+References: <20240923141649.148563-1-oneukum@suse.com>
+TO: Oliver Neukum <oneukum@suse.com>
+TO: gregkh@linuxfoundation.org
+TO: linux-usb@vger.kernel.org
+TO: stable@vger.kernel.org
+CC: Oliver Neukum <oneukum@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: 3621ecc10f831f4fd27784083dfaf5b8481098b5 bcachefs: bch2_opts_to_text()
-date:   3 days ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 3 days ago
-config: sparc-randconfig-r071-20240923 (https://download.01.org/0day-ci/archive/20240924/202409241440.G4japrG1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+Hi Oliver,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.11 next-20240923]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Neukum/usb-yurex-make-waiting-on-yurex_write-interruptible/20240923-221833
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20240923141649.148563-1-oneukum%40suse.com
+patch subject: [PATCH] usb: yurex: make waiting on yurex_write interruptible
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: nios2-randconfig-r073-20240924 (https://download.01.org/0day-ci/archive/20240924/202409241444.MCX2lNxm-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409241440.G4japrG1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409241444.MCX2lNxm-lkp@intel.com/
 
-smatch warnings:
-fs/bcachefs/opts.c:461 bch2_opts_to_text() warn: Function too hairy.  No more merges.
+New smatch warnings:
+drivers/usb/misc/yurex.c:524 yurex_write() error: uninitialized symbol 'retval'.
 
-vim +461 fs/bcachefs/opts.c
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  445  
-3621ecc10f831f Kent Overstreet 2024-09-07  446  void bch2_opts_to_text(struct printbuf *out,
-3621ecc10f831f Kent Overstreet 2024-09-07  447  		       struct bch_opts opts,
-3621ecc10f831f Kent Overstreet 2024-09-07  448  		       struct bch_fs *c, struct bch_sb *sb,
-3621ecc10f831f Kent Overstreet 2024-09-07  449  		       unsigned show_mask, unsigned hide_mask,
-3621ecc10f831f Kent Overstreet 2024-09-07  450  		       unsigned flags)
-3621ecc10f831f Kent Overstreet 2024-09-07  451  {
-3621ecc10f831f Kent Overstreet 2024-09-07  452  	bool first = true;
-3621ecc10f831f Kent Overstreet 2024-09-07  453  
-3621ecc10f831f Kent Overstreet 2024-09-07  454  	for (enum bch_opt_id i = 0; i < bch2_opts_nr; i++) {
-3621ecc10f831f Kent Overstreet 2024-09-07  455  		const struct bch_option *opt = &bch2_opt_table[i];
-3621ecc10f831f Kent Overstreet 2024-09-07  456  
-3621ecc10f831f Kent Overstreet 2024-09-07  457  		if ((opt->flags & hide_mask) || !(opt->flags & show_mask))
-3621ecc10f831f Kent Overstreet 2024-09-07  458  			continue;
-3621ecc10f831f Kent Overstreet 2024-09-07  459  
-3621ecc10f831f Kent Overstreet 2024-09-07  460  		u64 v = bch2_opt_get_by_id(&opts, i);
-3621ecc10f831f Kent Overstreet 2024-09-07 @461  		if (v == bch2_opt_get_by_id(&bch2_opts_default, i))
-3621ecc10f831f Kent Overstreet 2024-09-07  462  			continue;
-3621ecc10f831f Kent Overstreet 2024-09-07  463  
-3621ecc10f831f Kent Overstreet 2024-09-07  464  		if (!first)
-3621ecc10f831f Kent Overstreet 2024-09-07  465  			prt_char(out, ',');
-3621ecc10f831f Kent Overstreet 2024-09-07  466  		first = false;
-3621ecc10f831f Kent Overstreet 2024-09-07  467  
-3621ecc10f831f Kent Overstreet 2024-09-07  468  		bch2_opt_to_text(out, c, sb, opt, v, flags);
-3621ecc10f831f Kent Overstreet 2024-09-07  469  	}
-3621ecc10f831f Kent Overstreet 2024-09-07  470  }
-3621ecc10f831f Kent Overstreet 2024-09-07  471  
+vim +/retval +524 drivers/usb/misc/yurex.c
+
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  428  
+1cc373c654acde Sudip Mukherjee     2014-10-10  429  static ssize_t yurex_write(struct file *file, const char __user *user_buffer,
+1cc373c654acde Sudip Mukherjee     2014-10-10  430  			   size_t count, loff_t *ppos)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  431  {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  432  	struct usb_yurex *dev;
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  433  	int i, set = 0, retval;
+7e10f14ebface4 Ben Hutchings       2018-08-15  434  	char buffer[16 + 1];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  435  	char *data = buffer;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  436  	unsigned long long c, c2 = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  437  	signed long timeout = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  438  	DEFINE_WAIT(wait);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  439  
+7e10f14ebface4 Ben Hutchings       2018-08-15  440  	count = min(sizeof(buffer) - 1, count);
+113ad911ad4a1c Arjun Sreedharan    2014-08-19  441  	dev = file->private_data;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  442  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  443  	/* verify that we actually have some data to write */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  444  	if (count == 0)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  445  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  446  
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  447  	retval = mutex_lock_interruptible(&dev->io_mutex);
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  448  	if (retval < 0)
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  449  		return -EINTR;
+e9cac1c1ecfe84 Oliver Neukum       2024-09-23  450  
+aafb00a977cf7d Johan Hovold        2019-10-09  451  	if (dev->disconnected) {		/* already disconnected */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  452  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  453  		retval = -ENODEV;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  454  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  455  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  456  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  457  	if (copy_from_user(buffer, user_buffer, count)) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  458  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  459  		retval = -EFAULT;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  460  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  461  	}
+7e10f14ebface4 Ben Hutchings       2018-08-15  462  	buffer[count] = 0;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  463  	memset(dev->cntl_buffer, CMD_PADDING, YUREX_BUF_SIZE);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  464  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  465  	switch (buffer[0]) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  466  	case CMD_ANIMATE:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  467  	case CMD_LED:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  468  		dev->cntl_buffer[0] = buffer[0];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  469  		dev->cntl_buffer[1] = buffer[1];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  470  		dev->cntl_buffer[2] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  471  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  472  	case CMD_READ:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  473  	case CMD_VERSION:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  474  		dev->cntl_buffer[0] = buffer[0];
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  475  		dev->cntl_buffer[1] = 0x00;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  476  		dev->cntl_buffer[2] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  477  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  478  	case CMD_SET:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  479  		data++;
+0d9b6d49fe39bd Gustavo A. R. Silva 2020-07-07  480  		fallthrough;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  481  	case '0' ... '9':
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  482  		set = 1;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  483  		c = c2 = simple_strtoull(data, NULL, 0);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  484  		dev->cntl_buffer[0] = CMD_SET;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  485  		for (i = 1; i < 6; i++) {
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  486  			dev->cntl_buffer[i] = (c>>32) & 0xff;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  487  			c <<= 8;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  488  		}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  489  		buffer[6] = CMD_EOF;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  490  		break;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  491  	default:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  492  		mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  493  		return -EINVAL;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  494  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  495  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  496  	/* send the data as the control msg */
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  497  	prepare_to_wait(&dev->waitq, &wait, TASK_INTERRUPTIBLE);
+aadd6472d904c3 Greg Kroah-Hartman  2012-05-01  498  	dev_dbg(&dev->interface->dev, "%s - submit %c\n", __func__,
+aadd6472d904c3 Greg Kroah-Hartman  2012-05-01  499  		dev->cntl_buffer[0]);
+f176ede3a3bde5 Alan Stern          2020-08-10  500  	retval = usb_submit_urb(dev->cntl_urb, GFP_ATOMIC);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  501  	if (retval >= 0)
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  502  		timeout = schedule_timeout(YUREX_WRITE_TIMEOUT);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  503  	finish_wait(&dev->waitq, &wait);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  504  
+372c93131998c0 Johan Hovold        2020-12-14  505  	/* make sure URB is idle after timeout or (spurious) CMD_ACK */
+372c93131998c0 Johan Hovold        2020-12-14  506  	usb_kill_urb(dev->cntl_urb);
+372c93131998c0 Johan Hovold        2020-12-14  507  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  508  	mutex_unlock(&dev->io_mutex);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  509  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  510  	if (retval < 0) {
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  511  		dev_err(&dev->interface->dev,
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  512  			"%s - failed to send bulk msg, error %d\n",
+45714104b9e85f Greg Kroah-Hartman  2012-04-20  513  			__func__, retval);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  514  		goto error;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  515  	}
+93907620b30860 Oliver Neukum       2024-09-12  516  	if (set && timeout) {
+93907620b30860 Oliver Neukum       2024-09-12  517  		spin_lock_irq(&dev->lock);
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  518  		dev->bbu = c2;
+93907620b30860 Oliver Neukum       2024-09-12  519  		spin_unlock_irq(&dev->lock);
+93907620b30860 Oliver Neukum       2024-09-12  520  	}
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  521  	return timeout ? count : -EIO;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  522  
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  523  error:
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29 @524  	return retval;
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  525  }
+6bc235a2e24a5e Tomoki Sekiyama     2010-09-29  526  
 
 -- 
 0-DAY CI Kernel Test Service
