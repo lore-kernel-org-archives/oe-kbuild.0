@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1A71B85D1
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 04:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E3923D7
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 06:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727153945; cv=none; b=AoNkq45XT4Z5rbm0s0+ZD97gM0krlV3pkrVhrYSRLNF8QfKn9Hpl98BADORz+di+7zrfNIrNhKsuaqWPKT3jlorsluVIEImZ5imCglodNqjZg6HbcK93J0D49KZSvCt3g179LDHtK7iwHgdNCKjiw+ONLltDgvZ0KFsLeToaVSo=
+	t=1727160130; cv=none; b=lHM37fO6ddpOcTtxppDXT3HNqVDdF01ciMcbEjMasoeMzFuaNiBGWCA2yE27AlmBfxbFsPFoBW7HvauS1gaw7DBTjme+UfFINcE1gYMqQcdvMJ62t6dJ+CaUCDRfRYItlkR0DBd3iz9/y3BqoG0A97dfbHcdv01Y5r1noENAgMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727153945; c=relaxed/simple;
-	bh=/VUWzcYti37Sfp17eY9XziuwTJRR6JlZRqkkzLYp01s=;
+	s=arc-20240116; t=1727160130; c=relaxed/simple;
+	bh=JnDQHjVdM0wP+1hVPp0lkjk8Jd0ZdNySlKiKK5aakK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I9XM8fPRQ4SKBzY0eSVqi1OOt3iL438W5O1g7tkTFZw6kNY105DsT4CLU5xb9cGEnuu9l/oTbDZ2vXpheYcpnNzVkKQdwxxa4FuDVg5/dvcW5kzSwtOcq7lUkA7kcJghwprpg4uRkSMBVcOEmZ+p7+a4SSjeiJstqOBhb8DeHG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuTU/SR1; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=p3vN+A9xeZOKaq8Jatg5MyMVBn0CbFOjbrbcl8lD55LJ+bF3rT0YGhdQ8yoIbfTF1stvI1XhAnfnuHzuxoQylrvopp6az0w8xLTShj1jSiiJKTQK4KZAafvwBDAMk313KJ4jmvXc+jdDm32K4p23Uo4Utwj8ChZf0CaHXwyoIRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YAwerLfg; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuTU/SR1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YAwerLfg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727153944; x=1758689944;
+  t=1727160128; x=1758696128;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/VUWzcYti37Sfp17eY9XziuwTJRR6JlZRqkkzLYp01s=;
-  b=VuTU/SR1IyUq1UpO269Ez4DvBb/PQCyEf/SmC7mFbKKFTm6TSiCpgLpY
-   YHvgzC9qhD+4lwt2qkcLK5J/8mfAtzOIU+3MkQjsGmLgG+xkZusIlD8j6
-   IhYsoryYoawrZl1SrTuA13gZcGnNnmm1WeEsLk/kxPvZaTz4snl2GBQbE
-   2tuxwurJoR7D1GlkEouImK7ObKXVlkN6hBVsgNJZHGUhzCBwzR963OhP0
-   WwIs4w/UeORqpE7KxB0NYzZ7axigy1AUnWtble+4X8y7A2Vw9sVuCqM/Q
-   zCjNaKT8lbmJcanDbdCdTtgvHNU8M7k+l0uI6h98KTQ/+F0LRNB7YcROo
-   A==;
-X-CSE-ConnectionGUID: 6wReNR4STAeGtccggObH9w==
-X-CSE-MsgGUID: bWSfqXWWSSiFbQXPt/A6lA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="48661026"
+  bh=JnDQHjVdM0wP+1hVPp0lkjk8Jd0ZdNySlKiKK5aakK4=;
+  b=YAwerLfgmtEOUGdCT5q581SYNzo4ODZzxeOt+yBvRKLB/wxgFfw25Z3d
+   3xGz/9LPVZgJJ1TSaLqAPF1u14bPM0OkClJlWIT8a6aeCOe5BEYt1BjF1
+   sqBOR2wGfw56KpsBQLgwmvNcDJTq+f87XaI3/665y8Y3RHTXuVKYxPdz1
+   yjZzimZNiyNGnBaOZUSVs2Sva+jCQ7fJwmh0TajIJRYG6rr9A5HsMi9Ey
+   3fAGLQBV1eF89MvaJkj2tPvvF+U//8Q9vYATVm/FhFf2Xn7jWLrwEIn6t
+   ea1HEGay5NMjBKdHhxwHCrvBam1ss6ur8HMNbVOAFvTN6O2MGMZkzeziw
+   Q==;
+X-CSE-ConnectionGUID: LZQ+udUZTia0VKQmySU1WQ==
+X-CSE-MsgGUID: Y2H0hLW6QUCt7N9kgUDdvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36721111"
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="48661026"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 21:59:03 -0700
-X-CSE-ConnectionGUID: iN3zQoiITUSIaIgqxPBftw==
-X-CSE-MsgGUID: wxjMUEdQQ8GZnN7Ao6RQkw==
+   d="scan'208";a="36721111"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 23:42:07 -0700
+X-CSE-ConnectionGUID: Y9MBfn/rQx24LRxnwnM0sw==
+X-CSE-MsgGUID: vckbgWrjSKi+gWYrtxRG5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
-   d="scan'208";a="76063841"
+   d="scan'208";a="75835288"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 21:59:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Sep 2024 23:42:05 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssxda-000HxF-2S;
-	Tue, 24 Sep 2024 04:58:58 +0000
-Date: Tue, 24 Sep 2024 12:58:36 +0800
+	id 1sszFL-000I2O-20;
+	Tue, 24 Sep 2024 06:42:03 +0000
+Date: Tue, 24 Sep 2024 14:41:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/tty/serial/8250/8250_port.c:2964
- serial8250_request_std_resource() warn: 'port->membase' from ioremap() not
- released on lines: 2964.
-Message-ID: <202409241229.d2yab8Vq-lkp@intel.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <202409241449.CmMqcFbJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,86 +65,109 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+TO: Heiko Carstens <hca@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: a4184174be36369c3af8d937e165f28a43ef1e02 alpha: drop pre-EV56 support
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: alpha-randconfig-r072-20240924 (https://download.01.org/0day-ci/archive/20240924/202409241229.d2yab8Vq-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+date:   11 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240924/202409241449.CmMqcFbJ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409241229.d2yab8Vq-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409241449.CmMqcFbJ-lkp@intel.com/
 
-New smatch warnings:
-drivers/tty/serial/8250/8250_port.c:2964 serial8250_request_std_resource() warn: 'port->membase' from ioremap() not released on lines: 2964.
-drivers/net/ethernet/smsc/smc91x.c:2056 smc_probe() warn: 'dev->irq' from request_irq() not released on lines: 2056.
+smatch warnings:
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
 
-Old smatch warnings:
-internal error: arch/alpha/include/asm/io_trivial.h:12 SQL error #2: near "and": syntax error
-internal error: arch/alpha/include/asm/io_trivial.h:12 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL error #2: near "and": syntax error
-internal error: arch/alpha/include/asm/io_trivial.h:18 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+vim +566 arch/s390/mm/fault.c
 
-vim +2964 drivers/tty/serial/8250/8250_port.c
+17a363dcd2f745 Heiko Carstens    2021-04-09  497  
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
 
-b6830f6df8914f Peter Hurley      2015-06-27  2922  
-b6830f6df8914f Peter Hurley      2015-06-27  2923  /*
-b6830f6df8914f Peter Hurley      2015-06-27  2924   * Resource handling.
-b6830f6df8914f Peter Hurley      2015-06-27  2925   */
-b6830f6df8914f Peter Hurley      2015-06-27  2926  static int serial8250_request_std_resource(struct uart_8250_port *up)
-b6830f6df8914f Peter Hurley      2015-06-27  2927  {
-b6830f6df8914f Peter Hurley      2015-06-27  2928  	unsigned int size = serial8250_port_size(up);
-b6830f6df8914f Peter Hurley      2015-06-27  2929  	struct uart_port *port = &up->port;
-b6830f6df8914f Peter Hurley      2015-06-27  2930  	int ret = 0;
-b6830f6df8914f Peter Hurley      2015-06-27  2931  
-b6830f6df8914f Peter Hurley      2015-06-27  2932  	switch (port->iotype) {
-b6830f6df8914f Peter Hurley      2015-06-27  2933  	case UPIO_AU:
-b6830f6df8914f Peter Hurley      2015-06-27  2934  	case UPIO_TSI:
-b6830f6df8914f Peter Hurley      2015-06-27  2935  	case UPIO_MEM32:
-b6830f6df8914f Peter Hurley      2015-06-27  2936  	case UPIO_MEM32BE:
-bd94c4077a0b2e Masahiro Yamada   2015-10-28  2937  	case UPIO_MEM16:
-b6830f6df8914f Peter Hurley      2015-06-27  2938  	case UPIO_MEM:
-6e690d54cfa802 Yi Yang           2022-06-28  2939  		if (!port->mapbase) {
-6e690d54cfa802 Yi Yang           2022-06-28  2940  			ret = -EINVAL;
-b6830f6df8914f Peter Hurley      2015-06-27  2941  			break;
-6e690d54cfa802 Yi Yang           2022-06-28  2942  		}
-b6830f6df8914f Peter Hurley      2015-06-27  2943  
-b6830f6df8914f Peter Hurley      2015-06-27  2944  		if (!request_mem_region(port->mapbase, size, "serial")) {
-b6830f6df8914f Peter Hurley      2015-06-27  2945  			ret = -EBUSY;
-b6830f6df8914f Peter Hurley      2015-06-27  2946  			break;
-b6830f6df8914f Peter Hurley      2015-06-27  2947  		}
-b6830f6df8914f Peter Hurley      2015-06-27  2948  
-b6830f6df8914f Peter Hurley      2015-06-27  2949  		if (port->flags & UPF_IOREMAP) {
-4bdc0d676a6431 Christoph Hellwig 2020-01-06  2950  			port->membase = ioremap(port->mapbase, size);
-b6830f6df8914f Peter Hurley      2015-06-27  2951  			if (!port->membase) {
-b6830f6df8914f Peter Hurley      2015-06-27  2952  				release_mem_region(port->mapbase, size);
-b6830f6df8914f Peter Hurley      2015-06-27  2953  				ret = -ENOMEM;
-b6830f6df8914f Peter Hurley      2015-06-27  2954  			}
-b6830f6df8914f Peter Hurley      2015-06-27  2955  		}
-b6830f6df8914f Peter Hurley      2015-06-27  2956  		break;
-b6830f6df8914f Peter Hurley      2015-06-27  2957  
-b6830f6df8914f Peter Hurley      2015-06-27  2958  	case UPIO_HUB6:
-b6830f6df8914f Peter Hurley      2015-06-27  2959  	case UPIO_PORT:
-b6830f6df8914f Peter Hurley      2015-06-27  2960  		if (!request_region(port->iobase, size, "serial"))
-b6830f6df8914f Peter Hurley      2015-06-27  2961  			ret = -EBUSY;
-b6830f6df8914f Peter Hurley      2015-06-27  2962  		break;
-b6830f6df8914f Peter Hurley      2015-06-27  2963  	}
-b6830f6df8914f Peter Hurley      2015-06-27 @2964  	return ret;
-b6830f6df8914f Peter Hurley      2015-06-27  2965  }
-b6830f6df8914f Peter Hurley      2015-06-27  2966  
+:::::: The code at line 566 was first introduced by commit
+:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
 
-:::::: The code at line 2964 was first introduced by commit
-:::::: b6830f6df8914faae9561bb245860c21af9b9e9b serial: 8250: Split base port operations from universal driver
-
-:::::: TO: Peter Hurley <peter@hurleysoftware.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Heiko Carstens <hca@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
