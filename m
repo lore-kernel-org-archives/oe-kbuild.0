@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDAA13B7BC
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 21:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16E71865E5
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 23:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727215065; cv=none; b=dD7KhO0KKnKBakRD0aCXvNL0NWd7TPg4bJSeDDdeJmfcta6Sd6vaE31XKdTDYxEDqntUcv1xx63rQho/JyT2QhWjSezG0AVUCeOczSwwTZKUVeM7+pZvTjCFYZxT83DI1I1qT3INy63eEyLDVERLLY5JXy/sCO6JNQrLcaV/dm8=
+	t=1727219390; cv=none; b=NerExBAg2NcoKyB6E2/Ck6uybra4yLrLfoWWKf68oOq8FUEZeDl8mLRmo7EjXUX+2Xup+1UQDG2sgO9mT7dphDpvOBmbFGzs/5ThCHv5VVsDGeP4LES5mgZxYX1ZG111lCtdae5nJ8F30nNEXGflJeBzCjMf1YOFy1kc7fe8HCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727215065; c=relaxed/simple;
-	bh=1XKSusZugGYWwaIET0+eUbFsKytH8xMlNPnMh7aJNmo=;
+	s=arc-20240116; t=1727219390; c=relaxed/simple;
+	bh=AntPibZCcYWITUPYq/wwuV/rHOdVNlLKhlXL+kWkFCQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Kb6HgM1kIi4ZIxEHzNE3pyI1cqCbYavnzht3XaqITcWpsMte3wnVaQNBVpDFMTba/2jWKth5r8+dlHufJ7BaXV47tt0u7pHYeESbljCpGZSnuyGFYSXA7p98vDErh9k3ULEuvEoJf9ZO3SdTT5KGgzf5oT62MGQX/Yo3ZlbKp2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRwPl6Ou; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Rwt3DhUYqe0gQPXzf4D1turOLgjqRspqNYcCZAPbznC077WnvRonn4X68jZqE0m9T3RbXIHNjdewh0ETB9t1yDKVFdTlD9ZzkYKWEAIzhZSuAdL29euTBXMvlYsFyKxSYo0HRJqQuR6o0Ji7Ykx+AFFTtcIfQ0UIWsq9Edi51Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgG/L29B; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRwPl6Ou"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgG/L29B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727215063; x=1758751063;
+  t=1727219389; x=1758755389;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1XKSusZugGYWwaIET0+eUbFsKytH8xMlNPnMh7aJNmo=;
-  b=KRwPl6OukBw0zEQJldk+l5ZP0XL4sa6atgdgRQLeCA6y8QweYU7ZdfcC
-   DHBp+qC2YTDzUvGd0rN4xHfZGxWetNA7hVWFYL33WEQQGpwstg5j4U8wx
-   9Yw3gj+1PcuYEKts/CWmaTgM4opa8hub7GF1YI8BGK4o0GWdr4nKJrxw+
-   2sz5yFD5wu8DnxHkRN4QGf/4FQwyusFK7sSB5M1bIwaM+yJ3wworyWRs9
-   564lnaHfeLXJklpAUwN6ol4I91EFRgj3U4JvHJM18mzIh48u/m3GxUg/D
-   4Cg0xCKAviTRC5ZxuXjPaLY1+uY4UgonzZz9ahSs81z+YYbYWXxcBE0am
-   w==;
-X-CSE-ConnectionGUID: wdfhZ7XyQhaaftGrms5l4w==
-X-CSE-MsgGUID: VAszmzwWTvq/7vzBXgiYzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26188157"
+  bh=AntPibZCcYWITUPYq/wwuV/rHOdVNlLKhlXL+kWkFCQ=;
+  b=dgG/L29BV4TyJfE23ZBvMcK0LkLA1jnoaWPuMJnHUm/CdEdYYIPLO+wk
+   4zbJgpTD6y93ghGJ2D5nLYgl6pMv+9l1semGhjrXRLQ1ITeN2hXoqBN+D
+   JZ1mq9XNTm+rzYvDQhbE/rendc/7Cky98h1Fz9wHnslt9ZET43kXpZiSg
+   ysuA35jI9Swfro41h9Pffyu+FbTMtCcTT2EhYmY2L7jUVJBFNEgXUWIDm
+   +SOXI/4h7xBNCzEltIElsoQna5zVckpMnsDryKYqIi+MayZ+IGrDQvIrb
+   4tcw10LoqpieZqKOyehpHHmm9s/h+s7yJHxs2cxBX0Yw5BF6MDEDgte/W
+   g==;
+X-CSE-ConnectionGUID: n7o0eEIcT5iDTp7Bx5JmlQ==
+X-CSE-MsgGUID: vWnc4Kp/TF2+IISR6OqPVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="29132142"
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="26188157"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 14:57:43 -0700
-X-CSE-ConnectionGUID: gB79hX31R/+2vNpwafA2ew==
-X-CSE-MsgGUID: OrVZCqcHQqaCcqaAm6h1tA==
+   d="scan'208";a="29132142"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 16:09:48 -0700
+X-CSE-ConnectionGUID: tLLY1EUtR0mNGCaPPzCfzA==
+X-CSE-MsgGUID: I0XnSDgISt+n9lxZCeiJkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,255,1719903600"; 
-   d="scan'208";a="76485960"
+   d="scan'208";a="72409542"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Sep 2024 14:57:41 -0700
+  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2024 16:09:47 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stDXO-000Is9-3C;
-	Tue, 24 Sep 2024 21:57:38 +0000
-Date: Wed, 25 Sep 2024 05:56:57 +0800
+	id 1stEfA-000Ivd-0i;
+	Tue, 24 Sep 2024 23:09:44 +0000
+Date: Wed, 25 Sep 2024 07:08:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kvm/../../../virt/kvm/kvm_main.c:327
- kvm_make_all_cpus_request() warn: iterator 'i' not incremented
-Message-ID: <202409250520.I0rywglK-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 23320/30000]
+ drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:584
+ isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst'
+ [r]
+Message-ID: <202409250756.GZhVp4VP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,63 +66,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Venkatesh Srinivas <venkateshs@chromium.org>
-CC: Sean Christopherson <seanjc@google.com>
+TO: kernel@openeuler.org
+TO: Yingbao Jia <yingbao.jia@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6fa6588e5964473356f0e2a02093ea42a5b3fd56
-commit: 82e9c84d8712e8d29278a37aaa9aa767d50a16da KVM: Remove kvm_make_all_cpus_request_except()
-date:   5 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 months ago
-config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240925/202409250520.I0rywglK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ef5e9d0437237465f258a80a0d5d8e1e26872c7a
+commit: d596e923a1905248b0f6693182c6ea140dec6c27 [23320/30000] platform/x86: ISST: Add SST-CP support via TPMI
+:::::: branch date: 10 hours ago
+:::::: commit date: 8 months ago
+config: x86_64-randconfig-161-20240925 (https://download.01.org/0day-ci/archive/20240925/202409250756.GZhVp4VP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409250520.I0rywglK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409250756.GZhVp4VP-lkp@intel.com/
 
 New smatch warnings:
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:327 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:584 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:586 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:589 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
 
 Old smatch warnings:
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:518 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:1730 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1723)
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:1732 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1724)
-include/linux/kvm_host.h:979 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:4947 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:6076 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/s390/kvm/../../../virt/kvm/kvm_main.c:6087 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:629 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:633 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
 
-vim +/i +327 arch/s390/kvm/../../../virt/kvm/kvm_main.c
+vim +584 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
 
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  313  
-82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04  314  bool kvm_make_all_cpus_request(struct kvm *kvm, unsigned int req)
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  315  {
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  316  	struct kvm_vcpu *vcpu;
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  317  	struct cpumask *cpus;
-46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  318  	unsigned long i;
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  319  	bool called;
-46808a4cb89708 virt/kvm/kvm_main.c    Marc Zyngier          2021-11-16  320  	int me;
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  321  
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  322  	me = get_cpu();
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  323  
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  324  	cpus = this_cpu_cpumask_var_ptr(cpu_kick_mask);
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  325  	cpumask_clear(cpus);
-baff59ccdc657d virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  326  
-82e9c84d8712e8 virt/kvm/kvm_main.c    Venkatesh Srinivas    2024-04-04 @327  	kvm_for_each_vcpu(i, vcpu, kvm)
-b56bd8e03cf4d5 virt/kvm/kvm_main.c    Jinrong Liang         2022-01-25  328  		kvm_make_vcpu_request(vcpu, req, cpus, me);
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  329  
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  330  	called = kvm_kick_many_cpus(cpus, !!(req & KVM_REQUEST_WAIT));
-ae0946cd360175 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2021-09-03  331  	put_cpu();
-7053df4edb3ae3 virt/kvm/kvm_main.c    Vitaly Kuznetsov      2018-05-16  332  
-498468961ed6f6 virt/kvm/kvm_main.c    Rusty Russell         2008-12-08  333  	return called;
-d9e368d6126305 drivers/kvm/kvm_main.c Avi Kivity            2007-06-07  334  }
-a2486020a82eef virt/kvm/kvm_main.c    Marcelo Tosatti       2021-05-26  335  EXPORT_SYMBOL_GPL(kvm_make_all_cpus_request);
-54163a346d4a0a virt/kvm/kvm_main.c    Suravee Suthikulpanit 2020-05-06  336  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  541  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  542  static long isst_if_clos_assoc(void __user *argp)
+d596e923a19052 Srinivas Pandruvada 2023-03-07  543  {
+d596e923a19052 Srinivas Pandruvada 2023-03-07  544  	struct isst_if_clos_assoc_cmds assoc_cmds;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  545  	unsigned char __user *ptr;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  546  	int i;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  547  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  548  	/* Each multi command has u16 command count as the first field */
+d596e923a19052 Srinivas Pandruvada 2023-03-07  549  	if (copy_from_user(&assoc_cmds, argp, sizeof(assoc_cmds)))
+d596e923a19052 Srinivas Pandruvada 2023-03-07  550  		return -EFAULT;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  551  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  552  	if (!assoc_cmds.cmd_count || assoc_cmds.cmd_count > ISST_IF_CMD_LIMIT)
+d596e923a19052 Srinivas Pandruvada 2023-03-07  553  		return -EINVAL;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  554  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  555  	ptr = argp + offsetof(struct isst_if_clos_assoc_cmds, assoc_info);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  556  	for (i = 0; i < assoc_cmds.cmd_count; ++i) {
+d596e923a19052 Srinivas Pandruvada 2023-03-07  557  		struct tpmi_per_power_domain_info *power_domain_info;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  558  		struct isst_if_clos_assoc clos_assoc;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  559  		int punit_id, punit_cpu_no, pkg_id;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  560  		struct tpmi_sst_struct *sst_inst;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  561  		int offset, shift, cpu;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  562  		u64 val, mask, clos;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  563  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  564  		if (copy_from_user(&clos_assoc, ptr, sizeof(clos_assoc)))
+d596e923a19052 Srinivas Pandruvada 2023-03-07  565  			return -EFAULT;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  566  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  567  		if (clos_assoc.socket_id > topology_max_packages())
+d596e923a19052 Srinivas Pandruvada 2023-03-07  568  			return -EINVAL;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  569  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  570  		cpu = clos_assoc.logical_cpu;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  571  		clos = clos_assoc.clos;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  572  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  573  		if (assoc_cmds.punit_cpu_map)
+d596e923a19052 Srinivas Pandruvada 2023-03-07  574  			punit_cpu_no = cpu;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  575  		else
+d596e923a19052 Srinivas Pandruvada 2023-03-07  576  			return -EOPNOTSUPP;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  577  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  578  		if (punit_cpu_no < 0)
+d596e923a19052 Srinivas Pandruvada 2023-03-07  579  			return -EINVAL;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  580  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  581  		punit_id = clos_assoc.power_domain_id;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  582  		pkg_id = clos_assoc.socket_id;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  583  
+d596e923a19052 Srinivas Pandruvada 2023-03-07 @584  		sst_inst = isst_common.sst_inst[pkg_id];
+d596e923a19052 Srinivas Pandruvada 2023-03-07  585  
+d596e923a19052 Srinivas Pandruvada 2023-03-07 @586  		if (clos_assoc.power_domain_id > sst_inst->number_of_power_domains)
+d596e923a19052 Srinivas Pandruvada 2023-03-07  587  			return -EINVAL;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  588  
+d596e923a19052 Srinivas Pandruvada 2023-03-07 @589  		power_domain_info = &sst_inst->power_domain_info[punit_id];
+d596e923a19052 Srinivas Pandruvada 2023-03-07  590  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  591  		offset = SST_CLOS_ASSOC_0_OFFSET +
+d596e923a19052 Srinivas Pandruvada 2023-03-07  592  				(punit_cpu_no / SST_CLOS_ASSOC_CPUS_PER_REG) * SST_REG_SIZE;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  593  		shift = punit_cpu_no % SST_CLOS_ASSOC_CPUS_PER_REG;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  594  		shift *= SST_CLOS_ASSOC_BITS_PER_CPU;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  595  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  596  		val = readq(power_domain_info->sst_base +
+d596e923a19052 Srinivas Pandruvada 2023-03-07  597  				power_domain_info->sst_header.cp_offset + offset);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  598  		if (assoc_cmds.get_set) {
+d596e923a19052 Srinivas Pandruvada 2023-03-07  599  			mask = GENMASK_ULL((shift + SST_CLOS_ASSOC_BITS_PER_CPU - 1), shift);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  600  			val &= ~mask;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  601  			val |= (clos << shift);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  602  			writeq(val, power_domain_info->sst_base +
+d596e923a19052 Srinivas Pandruvada 2023-03-07  603  					power_domain_info->sst_header.cp_offset + offset);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  604  		} else {
+d596e923a19052 Srinivas Pandruvada 2023-03-07  605  			val >>= shift;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  606  			clos_assoc.clos = val & GENMASK(SST_CLOS_ASSOC_BITS_PER_CPU - 1, 0);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  607  			if (copy_to_user(ptr, &clos_assoc, sizeof(clos_assoc)))
+d596e923a19052 Srinivas Pandruvada 2023-03-07  608  				return -EFAULT;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  609  		}
+d596e923a19052 Srinivas Pandruvada 2023-03-07  610  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  611  		ptr += sizeof(clos_assoc);
+d596e923a19052 Srinivas Pandruvada 2023-03-07  612  	}
+d596e923a19052 Srinivas Pandruvada 2023-03-07  613  
+d596e923a19052 Srinivas Pandruvada 2023-03-07  614  	return 0;
+d596e923a19052 Srinivas Pandruvada 2023-03-07  615  }
+d596e923a19052 Srinivas Pandruvada 2023-03-07  616  
 
 -- 
 0-DAY CI Kernel Test Service
