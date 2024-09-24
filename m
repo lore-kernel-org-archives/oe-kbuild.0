@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C871F5FF
-	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 11:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE64224D7
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 13:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727175738; cv=none; b=GqbemCJxab6B0orzrGUetoyZ+8wvlzig6cHZ2khVnqOA/G07vErXazGTcJR83I/tuPrN56CE8Sa2WH6ACYSPBEPTib295YOHSkHr81He05nD/v0sh4PP0Vrne1SUfky9P7o2neSKqYCWcn1ybt0YQbQDTgmDdVA3ZjG0ZY4aopQ=
+	t=1727184263; cv=none; b=Yb73EDUWah9BD/EnxGNPMC4rFaAMikFPKa7aERqInoMrv6wjy2GX2/f0d5+wPHGjp6zmIG4zmuXaIfAPTx5IvusLtIb5YoQcyDOW3Urj1c7nno0JgTuHxthoDr22s4vlDReV4dOJIycP0+l0K7qiW2MRFoZ+ytWsvc3EMawR764=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727175738; c=relaxed/simple;
-	bh=UihGjaNh+zgsYYbhBJbbZlaq1oAVh155BW2UV6WkoWg=;
+	s=arc-20240116; t=1727184263; c=relaxed/simple;
+	bh=KprEsS9M6/wOw9oRy94gewYAzChV3IWgaFsidWK7Olw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u1B6Ijzzrss+j2Lb1xP6SnG8T/gLRiyd/Wk8XC05YoZ2Tzn7gtFrYDprs/PlYClG9dJBM+ZAogVb0OcCRInp3KmD/oJvKTd2jH9qhJ1yvOLKutgxCyKgqXCngCgdGU6w/zJIzUw5UUoc/GLJYD/XKRKlXlnjTMbNzCU0cxzB9ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3zOthNQ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=l4UtJAj/tS9DVRpEnfI+b1CJFMQ/7N1Yr1K1P9Lxp3UJ368MbmRnKNI+ujkSomrxARB6LfSEq0y6t06YzVH4ARVD6MR1+1eHTqdHQrVbfV6oIFpEfYHGNTYb2Z4IZgcZcKHe8VG/FWjv6qjH76vDSlBWr68Q/kihFw/V8cexzMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQqYeTH6; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3zOthNQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQqYeTH6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727175735; x=1758711735;
+  t=1727184262; x=1758720262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UihGjaNh+zgsYYbhBJbbZlaq1oAVh155BW2UV6WkoWg=;
-  b=d3zOthNQJXXLyUtdQiN60GVMHLXdjTgLSew36uVHbSpF1S9kLqB+TWGF
-   XD7UL5vVLmYTv+/NNWcCrdbEN+5iDQOlslPRZDFRq3hwFibjqf8UMqoCx
-   97qolK3YID1GwPaS5kTqeoigrL8t+DVIpCGZ5QEVJZ5qDMFdvRmzhJr3N
-   VBpjkKQU7nVMoqfLRMRHY9p/Brd1Sm+xAYlZeircRv1iwtTexhVISKWPc
-   YC7Q8/ebvhP5XLauTMFJRs+dHP+sctyRSC5J8PzrkdrWhLSBp7U+cWGqw
-   2q3DyQtUpaQKIMXBaQr3X+Bt2ytJgw9dk/zRE8z/WBrl8rpt0Y+eKjIkl
-   A==;
-X-CSE-ConnectionGUID: Ossq2QTKQp2Fb68RJTm/Kg==
-X-CSE-MsgGUID: jAFlHRKHRtWBTZHskp3GSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26308100"
+  bh=KprEsS9M6/wOw9oRy94gewYAzChV3IWgaFsidWK7Olw=;
+  b=JQqYeTH6J8caaUlx3t3DPaO/rXy2yDdK65sM7du9jn+vTwe7UousUyF4
+   heetZI9XKs2QOaLcPXZRUPvCWdux5LdbKFzwEvPCE1Itm5LTFmpbYlvUB
+   FdSBPmB5zAoGzjepwE7kd1VR3+bBgMEsFb/YDvQg4KyxVhjRPZ5MRDe1W
+   Y+/2r0/6ZKYHIY78YkxDWGd4Dqkse0V1pFi0f9QVyaeBa2xmL5QH+j1xS
+   ECnoKdjn59FR9pwW7JtaK4PtMJj/eiw4O7mfjInPb8JP7bxqJWR734Gjq
+   naN8nb6Pr2fndXsX8tjIsUiUTOreOfnvpfyOZasynYDjyxOSV+mdNs6cb
+   w==;
+X-CSE-ConnectionGUID: pdxZv0XtTfOTwmJAqx+BIg==
+X-CSE-MsgGUID: sDPdqdIlSj2SphwfOu1ktQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="48705879"
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="26308100"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 04:02:15 -0700
-X-CSE-ConnectionGUID: Jx7KydVhReuudUaOXhjV2Q==
-X-CSE-MsgGUID: VDAks6dsQLyYdiYji7N7rQ==
+   d="scan'208";a="48705879"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2024 06:24:21 -0700
+X-CSE-ConnectionGUID: NUCkJsR2T0+rEHUxNkfi9w==
+X-CSE-MsgGUID: pzaYYYvcSOqq6dAtBCfmHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,254,1719903600"; 
-   d="scan'208";a="76307107"
+   d="scan'208";a="71705293"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Sep 2024 04:02:13 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Sep 2024 06:24:19 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1st3J4-000IFp-2V;
-	Tue, 24 Sep 2024 11:02:10 +0000
-Date: Tue, 24 Sep 2024 19:01:12 +0800
+	id 1st5Wa-000IOp-1t;
+	Tue, 24 Sep 2024 13:24:16 +0000
+Date: Tue, 24 Sep 2024 21:23:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kernel/ipl.c:1575 sys_dump_fcp_scp_data_store() warn:
- potential user controlled sizeof overflow '(636) + scpdata_len' '636 +
- 0-u64max'
-Message-ID: <202409241837.05QiKB1n-lkp@intel.com>
+Subject: [axboe-block:rw_iter 171/448] drivers/usb/misc/legousbtower.c:560
+ tower_read() warn: potential spectre issue 'dev->read_buffer' [r]
+Message-ID: <202409242108.Yq0vOmOP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,129 +64,119 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Alexander Egorenkov <egorenar@linux.ibm.com>
-CC: Alexander Gordeev <agordeev@linux.ibm.com>
+TO: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   abf2050f51fdca0fd146388f83cddd95a57a008d
-commit: 24bf80f78e5ad45bc3e0886cef86def712bdf3ed s390/ipl: Introduce sysfs attribute 'scp_data' for dump ipl
-date:   4 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 4 months ago
-config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240924/202409241837.05QiKB1n-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git rw_iter
+head:   bbc57cbbbcd4ec22cd7e039257668291d6aba7c5
+commit: a2a767eca87909f70d81e2f9a7ec2abf7d2f3d4a [171/448] usb: misc: convert to read/write iterators
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 days ago
+config: s390-randconfig-r071-20240922 (https://download.01.org/0day-ci/archive/20240924/202409242108.Yq0vOmOP-lkp@intel.com/config)
 compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409241837.05QiKB1n-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409242108.Yq0vOmOP-lkp@intel.com/
 
-New smatch warnings:
-arch/s390/kernel/ipl.c:1575 sys_dump_fcp_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:1610 sys_dump_nvme_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:1645 sys_dump_eckd_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
+smatch warnings:
+drivers/usb/misc/legousbtower.c:560 tower_read() warn: potential spectre issue 'dev->read_buffer' [r]
 
-Old smatch warnings:
-arch/s390/kernel/ipl.c:805 sys_reipl_fcp_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:929 sys_reipl_nvme_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:1028 sys_reipl_eckd_scp_data_store() warn: potential user controlled sizeof overflow '(636) + scpdata_len' '636 + 0-u64max'
-arch/s390/kernel/ipl.c:1926 sys_vmcmd_on_reboot_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1927 sys_vmcmd_on_panic_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1928 sys_vmcmd_on_halt_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1929 sys_vmcmd_on_poff_store() warn: unsigned 'len' is never less than zero.
-arch/s390/kernel/ipl.c:1930 sys_vmcmd_on_restart_store() warn: unsigned 'len' is never less than zero.
+vim +560 drivers/usb/misc/legousbtower.c
 
-vim +1575 arch/s390/kernel/ipl.c
+^1da177e4c3f41 Linus Torvalds     2005-04-16  487  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  488  
+464b7d0e538ef2 Lee Jones          2020-07-06  489  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  490   *	tower_read
+^1da177e4c3f41 Linus Torvalds     2005-04-16  491   */
+a2a767eca87909 Jens Axboe         2024-04-11  492  static ssize_t tower_read(struct kiocb *iocb, struct iov_iter *to)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  493  {
+a2a767eca87909 Jens Axboe         2024-04-11  494  	size_t count = iov_iter_count(to);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  495  	struct lego_usb_tower *dev;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  496  	size_t bytes_to_read;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  497  	int i;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  498  	int retval = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  499  	unsigned long timeout = 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  500  
+a2a767eca87909 Jens Axboe         2024-04-11  501  	dev = iocb->ki_filp->private_data;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  502  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  503  	/* lock this object */
+18bcbcfe9ca230 Daniel Walker      2008-01-11  504  	if (mutex_lock_interruptible(&dev->lock)) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  505  		retval = -ERESTARTSYS;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  506  		goto exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  507  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  508  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  509  	/* verify that the device wasn't unplugged */
+cd81e6fa8e033e Johan Hovold       2019-09-19  510  	if (dev->disconnected) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  511  		retval = -ENODEV;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  512  		goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  513  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  514  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  515  	/* verify that we actually have some data to read */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  516  	if (count == 0) {
+fef526cae70047 Greg Kroah-Hartman 2013-06-26  517  		dev_dbg(&dev->udev->dev, "read request of 0 bytes\n");
+^1da177e4c3f41 Linus Torvalds     2005-04-16  518  		goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  519  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  520  
+3c84f4bbe33f1f Johan Hovold       2019-11-05  521  	if (read_timeout)
+8f7e9473ab6213 Nicholas Mc Guire  2015-02-06  522  		timeout = jiffies + msecs_to_jiffies(read_timeout);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  523  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  524  	/* wait for data */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  525  	tower_check_for_read_packet(dev);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  526  	while (dev->read_packet_length == 0) {
+a2a767eca87909 Jens Axboe         2024-04-11  527  		if (iocb->ki_filp->f_flags & O_NONBLOCK) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  528  			retval = -EAGAIN;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  529  			goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  530  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  531  		retval = wait_event_interruptible_timeout(dev->read_wait, dev->interrupt_in_done, dev->packet_timeout_jiffies);
+3c84f4bbe33f1f Johan Hovold       2019-11-05  532  		if (retval < 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  533  			goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  534  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  535  		/* reset read timeout during read or write activity */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  536  		if (read_timeout
+^1da177e4c3f41 Linus Torvalds     2005-04-16  537  		    && (dev->read_buffer_length || dev->interrupt_out_busy)) {
+8f7e9473ab6213 Nicholas Mc Guire  2015-02-06  538  			timeout = jiffies + msecs_to_jiffies(read_timeout);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  539  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  540  		/* check for read timeout */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  541  		if (read_timeout && time_after(jiffies, timeout)) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  542  			retval = -ETIMEDOUT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  543  			goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  544  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  545  		tower_check_for_read_packet(dev);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  546  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  547  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  548  	/* copy the data from read_buffer into userspace */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  549  	bytes_to_read = min(count, dev->read_packet_length);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  550  
+a2a767eca87909 Jens Axboe         2024-04-11  551  	if (!copy_to_iter_full(dev->read_buffer, bytes_to_read, to)) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  552  		retval = -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  553  		goto unlock_exit;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  554  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  555  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  556  	spin_lock_irq(&dev->read_buffer_lock);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  557  	dev->read_buffer_length -= bytes_to_read;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  558  	dev->read_packet_length -= bytes_to_read;
+3c84f4bbe33f1f Johan Hovold       2019-11-05  559  	for (i = 0; i < dev->read_buffer_length; i++)
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @560  		dev->read_buffer[i] = dev->read_buffer[i+bytes_to_read];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  561  	spin_unlock_irq(&dev->read_buffer_lock);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  562  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  563  	retval = bytes_to_read;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  564  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  565  unlock_exit:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  566  	/* unlock the device */
+18bcbcfe9ca230 Daniel Walker      2008-01-11  567  	mutex_unlock(&dev->lock);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  568  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  569  exit:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  570  	return retval;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  571  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  572  
 
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1563  
-eda4ddf7e3a2245 Michael Holzheu     2013-06-21  1564  DEFINE_IPL_ATTR_RW(dump_fcp, wwpn, "0x%016llx\n", "%llx\n",
-86c74d869d321be Martin Schwidefsky  2019-02-20  1565  		   dump_block_fcp->fcp.wwpn);
-eda4ddf7e3a2245 Michael Holzheu     2013-06-21  1566  DEFINE_IPL_ATTR_RW(dump_fcp, lun, "0x%016llx\n", "%llx\n",
-86c74d869d321be Martin Schwidefsky  2019-02-20  1567  		   dump_block_fcp->fcp.lun);
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1568  DEFINE_IPL_ATTR_RW(dump_fcp, bootprog, "%lld\n", "%lld\n",
-86c74d869d321be Martin Schwidefsky  2019-02-20  1569  		   dump_block_fcp->fcp.bootprog);
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1570  DEFINE_IPL_ATTR_RW(dump_fcp, br_lba, "%lld\n", "%lld\n",
-86c74d869d321be Martin Schwidefsky  2019-02-20  1571  		   dump_block_fcp->fcp.br_lba);
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1572  DEFINE_IPL_ATTR_RW(dump_fcp, device, "0.0.%04llx\n", "0.0.%llx\n",
-86c74d869d321be Martin Schwidefsky  2019-02-20  1573  		   dump_block_fcp->fcp.devno);
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1574  
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10 @1575  DEFINE_IPL_ATTR_SCP_DATA_RW(dump_fcp, dump_block_fcp->hdr,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1576  			    dump_block_fcp->fcp,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1577  			    IPL_BP_FCP_LEN, IPL_BP0_FCP_LEN,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1578  			    DIAG308_SCPDATA_SIZE);
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1579  
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1580  static struct attribute *dump_fcp_attrs[] = {
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1581  	&sys_dump_fcp_device_attr.attr,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1582  	&sys_dump_fcp_wwpn_attr.attr,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1583  	&sys_dump_fcp_lun_attr.attr,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1584  	&sys_dump_fcp_bootprog_attr.attr,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1585  	&sys_dump_fcp_br_lba_attr.attr,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1586  	NULL,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1587  };
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1588  
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1589  static struct bin_attribute *dump_fcp_bin_attrs[] = {
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1590  	&sys_dump_fcp_scp_data_attr,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1591  	NULL,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1592  };
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1593  
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1594  static struct attribute_group dump_fcp_attr_group = {
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1595  	.name  = IPL_FCP_STR,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1596  	.attrs = dump_fcp_attrs,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1597  	.bin_attrs = dump_fcp_bin_attrs,
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1598  };
-99ca4e582d4a408 Michael Holzheu     2008-01-26  1599  
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1600  /* NVME dump device attributes */
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1601  DEFINE_IPL_ATTR_RW(dump_nvme, fid, "0x%08llx\n", "%llx\n",
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1602  		   dump_block_nvme->nvme.fid);
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1603  DEFINE_IPL_ATTR_RW(dump_nvme, nsid, "0x%08llx\n", "%llx\n",
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1604  		   dump_block_nvme->nvme.nsid);
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1605  DEFINE_IPL_ATTR_RW(dump_nvme, bootprog, "%lld\n", "%llx\n",
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1606  		   dump_block_nvme->nvme.bootprog);
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1607  DEFINE_IPL_ATTR_RW(dump_nvme, br_lba, "%lld\n", "%llx\n",
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1608  		   dump_block_nvme->nvme.br_lba);
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1609  
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10 @1610  DEFINE_IPL_ATTR_SCP_DATA_RW(dump_nvme, dump_block_nvme->hdr,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1611  			    dump_block_nvme->nvme,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1612  			    IPL_BP_NVME_LEN, IPL_BP0_NVME_LEN,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1613  			    DIAG308_SCPDATA_SIZE);
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1614  
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1615  static struct attribute *dump_nvme_attrs[] = {
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1616  	&sys_dump_nvme_fid_attr.attr,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1617  	&sys_dump_nvme_nsid_attr.attr,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1618  	&sys_dump_nvme_bootprog_attr.attr,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1619  	&sys_dump_nvme_br_lba_attr.attr,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1620  	NULL,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1621  };
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1622  
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1623  static struct bin_attribute *dump_nvme_bin_attrs[] = {
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1624  	&sys_dump_nvme_scp_data_attr,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1625  	NULL,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1626  };
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1627  
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1628  static struct attribute_group dump_nvme_attr_group = {
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1629  	.name  = IPL_NVME_STR,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1630  	.attrs = dump_nvme_attrs,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1631  	.bin_attrs = dump_nvme_bin_attrs,
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1632  };
-d70e38cb1deef3b Jason J. Herne      2020-03-17  1633  
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1634  /* ECKD dump device attributes */
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1635  DEFINE_IPL_CCW_ATTR_RW(dump_eckd, device, dump_block_eckd->eckd);
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1636  DEFINE_IPL_ATTR_RW(dump_eckd, bootprog, "%lld\n", "%llx\n",
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1637  		   dump_block_eckd->eckd.bootprog);
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1638  
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1639  IPL_ATTR_BR_CHR_SHOW_FN(dump, dump_block_eckd->eckd);
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1640  IPL_ATTR_BR_CHR_STORE_FN(dump, dump_block_eckd->eckd);
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1641  
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1642  static struct kobj_attribute sys_dump_eckd_br_chr_attr =
-a70f72767fa17d7 Sven Schnelle       2022-12-01  1643  	__ATTR(br_chr, 0644, eckd_dump_br_chr_show, eckd_dump_br_chr_store);
-e2d2a2968f2abe1 Sven Schnelle       2022-10-05  1644  
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10 @1645  DEFINE_IPL_ATTR_SCP_DATA_RW(dump_eckd, dump_block_eckd->hdr,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1646  			    dump_block_eckd->eckd,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1647  			    IPL_BP_ECKD_LEN, IPL_BP0_ECKD_LEN,
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1648  			    DIAG308_SCPDATA_SIZE);
-24bf80f78e5ad45 Alexander Egorenkov 2024-05-10  1649  
+:::::: The code at line 560 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
