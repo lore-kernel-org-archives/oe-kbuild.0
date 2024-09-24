@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB72E419
-	for <oe-kbuild@lists.linux.dev>; Mon, 23 Sep 2024 22:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB958ECF
+	for <oe-kbuild@lists.linux.dev>; Tue, 24 Sep 2024 01:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727131972; cv=none; b=kqrpkcLsG29P8HFKpA2ItrX25TqO5+dOo746L96GU46Rc/l32RIddS+MIvCwdbxW0h+yhZj/jD9tSy5nQ09dA8lBZ23W6i5JSZP/rr3AiXRKb7irm9IJJlFqRmXQr3xwLetVS2Guz0T3cBgycsLYYWliYpszwbvNN6DsKaihc04=
+	t=1727142057; cv=none; b=QQwKkiRmFHYANALNG/fvT1oQ2vCfagNzRdFTq5C+Fi1d/3Blfp2Qs2uh3HO4DzHGCEsgOrrbK+oMraWWjTyWpXmCytOUlax6ECTC3XVC68H0V6iPb96iJViS2Ovy5gnBewO37IFnbXhrNA92N3op241Jr4mhgLrq+zWMYf4TmN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727131972; c=relaxed/simple;
-	bh=oA4GotzI1cgOIlGnNKfVPWKxen8SElbSGMGzj8YLjvs=;
+	s=arc-20240116; t=1727142057; c=relaxed/simple;
+	bh=+j+FA06QFBdC3ubyXyLGiI4X2g9kCThcm4tENPnqKfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V7FNvy5SCyfLR6PsMwCxLF+qIsVucp8g0EGL2ERkV2lzzK9L+kWAjbmpmtRzuLRFO3tR7TjTqxXRcQSErGIdrwzNfn0A/6wgD+WBOj9ytSIvf33jwznPEcxhK+qf4KPuRzUJqbeRP3uMzcwFG+HDKytbANgIO6Q7mf0GxxYi30Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/gfTjGG; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=h4kbTMYPfk7nebaWFzVbUd2ysFlGO2TPUBMgEgEAYr4JxY98Cy2hby+2vKbwPPyd+5gwKJlLWbimGBIR2Nm63q80EvD8Sy3xpCJV8/HO/i0FsJ7tApUkDShAwEnIXDggouqUapbmyGUwsf6TzHx72b6EHKrUtc7+0yYWbBSxh7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YjoESLiC; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/gfTjGG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YjoESLiC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727131970; x=1758667970;
+  t=1727142055; x=1758678055;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oA4GotzI1cgOIlGnNKfVPWKxen8SElbSGMGzj8YLjvs=;
-  b=j/gfTjGGzESNun0rzjU80Gnx4lqvG7Q62HtRe1xTymvvSs4Duv48YdO3
-   3sCgpyvAfQclaxKOrB9sEwCa7cur8NmvvHYoYObGYeMLMB+ksjlSnCv3Q
-   2D41S8+vFbeiryLoddRICN6IgN7RNwjkbWItfiKzRCS/2BpNlsq9F1iSt
-   xfOK9S/EVcnxVVNiWU4POmwns3OP0uYbsn2DmsgwWd8uZxEpnia2Q3n6w
-   45yYraRZn7qBaCjqYXNFRYTg5pjAzztZeZbLbSTt/yf/AFgvOhQTBwESy
-   adQ1/kzVpJ7jfUe/95oee1/FayFuSjgzlXkIYuRKbteUKzWjBV0I/yYz8
-   Q==;
-X-CSE-ConnectionGUID: 2cYph4fOQRCdCfDG+cS+Tw==
-X-CSE-MsgGUID: wQJq5cVqR7C462THpjXnLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="36673772"
-X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="36673772"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 15:52:49 -0700
-X-CSE-ConnectionGUID: kvnN1htnRwiKUQVpmyrVwg==
-X-CSE-MsgGUID: qPmtw2cJTj6SwEXZu4zJ3w==
+  bh=+j+FA06QFBdC3ubyXyLGiI4X2g9kCThcm4tENPnqKfs=;
+  b=YjoESLiCkWxh+FgJreTJ9nCwWvjSuo2OWEHP5a+2y5QkkXQk8lJtv5eP
+   GsXeerjO2PZEfUaZsQ1039aHQwW0u5aFUyxRyxWKBC3BILnWe/koMlQ+s
+   yd+OB5pqQ8Eor7H67LND9d3E0zIor1yEA3YX4X8XOk/y7jIF8PkTdpUkD
+   1bdjj4q5PSLn0NDKuKN9nhUqiBlRejDZ2TcuNknRGnq/HsESvpSJHdZcu
+   UoXgSDKU0ZYAs9Y5kjA2sJiANahMhuTP+nK9KsSnNCy1jaIBne8O+JKpT
+   R7yNCsaPp6oF7uLdmrESnacB+NHQpfS4CkXCM4K7lc3y0a1HtyazeBrUz
+   A==;
+X-CSE-ConnectionGUID: W9B9qN0kQI2BZO/78knwtw==
+X-CSE-MsgGUID: vAvnbXbvRrKGSdZQlWBZGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="26211519"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
+   d="scan'208";a="26211519"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 18:40:54 -0700
+X-CSE-ConnectionGUID: L/5stPhhSvqS9cucC4hhfA==
+X-CSE-MsgGUID: E2F7zHcWSv66jGFT/pl8dA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,252,1719903600"; 
-   d="scan'208";a="71212304"
+X-IronPort-AV: E=Sophos;i="6.10,253,1719903600"; 
+   d="scan'208";a="108693149"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Sep 2024 15:52:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Sep 2024 18:40:53 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ssrvB-000HfB-31;
-	Mon, 23 Sep 2024 22:52:45 +0000
-Date: Tue, 24 Sep 2024 06:52:32 +0800
+	id 1ssuXq-000Hml-1z;
+	Tue, 24 Sep 2024 01:40:50 +0000
+Date: Tue, 24 Sep 2024 09:40:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [hch-xfs:xfs-generic-group-rebase 29/206] fs/xfs/xfs_iwalk.c:661
- xfs_iwalk_threaded() error: uninitialized symbol 'pag'.
-Message-ID: <202409240645.lsGhUcUd-lkp@intel.com>
+Subject: mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized
+ symbol 'counter'.
+Message-ID: <202409240911.5dW7zz3x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,86 +64,211 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel@vger.kernel.org
+TO: Roman Gushchin <roman.gushchin@linux.dev>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-generic-group-rebase
-head:   6e8f580a439f77db93742b852ff2e51d70ebdebb
-commit: 49fd69b209296047b1f3dd73f7749ae7e6da1947 [29/206] xfs: switch perag iteration from the for_each macros to a while based iterator
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-r072-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240645.lsGhUcUd-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   abf2050f51fdca0fd146388f83cddd95a57a008d
+commit: ea1e879631ffdf640bfcb11439d61a151067bb39 mm: memcg: move cgroup v1 interface files to memcontrol-v1.c
+date:   3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 months ago
+config: sparc-randconfig-r071-20240923 (https://download.01.org/0day-ci/archive/20240924/202409240911.5dW7zz3x-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409240645.lsGhUcUd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409240911.5dW7zz3x-lkp@intel.com/
 
 smatch warnings:
-fs/xfs/xfs_iwalk.c:661 xfs_iwalk_threaded() error: uninitialized symbol 'pag'.
+mm/memcontrol-v1.c:2338 mem_cgroup_read_u64() error: uninitialized symbol 'counter'.
+mm/memcontrol-v1.c:2479 mem_cgroup_reset() error: uninitialized symbol 'counter'.
 
-vim +/pag +661 fs/xfs/xfs_iwalk.c
+vim +/counter +2338 mm/memcontrol-v1.c
 
-40786717c88c2d Darrick J. Wong   2019-07-03  634  
-40786717c88c2d Darrick J. Wong   2019-07-03  635  /*
-40786717c88c2d Darrick J. Wong   2019-07-03  636   * Walk all the inodes in the filesystem using multiple threads to process each
-40786717c88c2d Darrick J. Wong   2019-07-03  637   * AG.
-40786717c88c2d Darrick J. Wong   2019-07-03  638   */
-40786717c88c2d Darrick J. Wong   2019-07-03  639  int
-40786717c88c2d Darrick J. Wong   2019-07-03  640  xfs_iwalk_threaded(
-40786717c88c2d Darrick J. Wong   2019-07-03  641  	struct xfs_mount	*mp,
-40786717c88c2d Darrick J. Wong   2019-07-03  642  	xfs_ino_t		startino,
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  643  	unsigned int		flags,
-40786717c88c2d Darrick J. Wong   2019-07-03  644  	xfs_iwalk_fn		iwalk_fn,
-40786717c88c2d Darrick J. Wong   2019-07-03  645  	unsigned int		inode_records,
-3e5a428b264eca Darrick J. Wong   2019-07-03  646  	bool			polled,
-40786717c88c2d Darrick J. Wong   2019-07-03  647  	void			*data)
-40786717c88c2d Darrick J. Wong   2019-07-03  648  {
-49fd69b2092960 Christoph Hellwig 2024-09-20  649  	xfs_agnumber_t		start_agno = XFS_INO_TO_AGNO(mp, startino);
-40786717c88c2d Darrick J. Wong   2019-07-03  650  	struct xfs_pwork_ctl	pctl;
-6f4118fc6482b1 Dave Chinner      2021-06-02  651  	struct xfs_perag	*pag;
-40786717c88c2d Darrick J. Wong   2019-07-03  652  	int			error;
-40786717c88c2d Darrick J. Wong   2019-07-03  653  
-49fd69b2092960 Christoph Hellwig 2024-09-20  654  	ASSERT(start_agno < mp->m_sb.sb_agcount);
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  655  	ASSERT(!(flags & ~XFS_IWALK_FLAGS_ALL));
-40786717c88c2d Darrick J. Wong   2019-07-03  656  
-f83d436aef5def Darrick J. Wong   2021-01-22  657  	error = xfs_pwork_init(mp, &pctl, xfs_iwalk_ag_work, "xfs_iwalk");
-40786717c88c2d Darrick J. Wong   2019-07-03  658  	if (error)
-40786717c88c2d Darrick J. Wong   2019-07-03  659  		return error;
-40786717c88c2d Darrick J. Wong   2019-07-03  660  
-49fd69b2092960 Christoph Hellwig 2024-09-20 @661  	while ((pag = xfs_perag_next_from(mp, pag, start_agno))) {
-40786717c88c2d Darrick J. Wong   2019-07-03  662  		struct xfs_iwalk_ag	*iwag;
-40786717c88c2d Darrick J. Wong   2019-07-03  663  
-40786717c88c2d Darrick J. Wong   2019-07-03  664  		if (xfs_pwork_ctl_want_abort(&pctl))
-40786717c88c2d Darrick J. Wong   2019-07-03  665  			break;
-40786717c88c2d Darrick J. Wong   2019-07-03  666  
-10634530f7ba94 Dave Chinner      2024-01-16  667  		iwag = kzalloc(sizeof(struct xfs_iwalk_ag),
-10634530f7ba94 Dave Chinner      2024-01-16  668  				GFP_KERNEL | __GFP_NOFAIL);
-40786717c88c2d Darrick J. Wong   2019-07-03  669  		iwag->mp = mp;
-6f4118fc6482b1 Dave Chinner      2021-06-02  670  
-6f4118fc6482b1 Dave Chinner      2021-06-02  671  		/*
-9b2e5a234c89f0 Darrick J. Wong   2023-04-11  672  		 * perag is being handed off to async work, so take a passive
-6f4118fc6482b1 Dave Chinner      2021-06-02  673  		 * reference for the async work to release.
-6f4118fc6482b1 Dave Chinner      2021-06-02  674  		 */
-9b2e5a234c89f0 Darrick J. Wong   2023-04-11  675  		iwag->pag = xfs_perag_hold(pag);
-40786717c88c2d Darrick J. Wong   2019-07-03  676  		iwag->iwalk_fn = iwalk_fn;
-40786717c88c2d Darrick J. Wong   2019-07-03  677  		iwag->data = data;
-40786717c88c2d Darrick J. Wong   2019-07-03  678  		iwag->startino = startino;
-40786717c88c2d Darrick J. Wong   2019-07-03  679  		iwag->sz_recs = xfs_iwalk_prefetch(inode_records);
-27c14b5daa8286 Darrick J. Wong   2020-11-14  680  		iwag->lastino = NULLFSINO;
-40786717c88c2d Darrick J. Wong   2019-07-03  681  		xfs_pwork_queue(&pctl, &iwag->pwork);
-da1b013902b283 Christoph Hellwig 2024-09-22  682  		startino = XFS_AGINO_TO_INO(mp, pag_agno(pag) + 1, 0);
-d4b1214ce3ed65 Christoph Hellwig 2024-09-22  683  		if (flags & XFS_IWALK_SAME_AG)
-13d59a2a61cbbb Darrick J. Wong   2019-07-03  684  			break;
-40786717c88c2d Darrick J. Wong   2019-07-03  685  	}
-6f4118fc6482b1 Dave Chinner      2021-06-02  686  	if (pag)
-c4d5660afbdcd3 Dave Chinner      2023-02-13  687  		xfs_perag_rele(pag);
-3e5a428b264eca Darrick J. Wong   2019-07-03  688  	if (polled)
-3e5a428b264eca Darrick J. Wong   2019-07-03  689  		xfs_pwork_poll(&pctl);
-40786717c88c2d Darrick J. Wong   2019-07-03  690  	return xfs_pwork_destroy(&pctl);
-40786717c88c2d Darrick J. Wong   2019-07-03  691  }
-40786717c88c2d Darrick J. Wong   2019-07-03  692  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2312  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2313  static u64 mem_cgroup_read_u64(struct cgroup_subsys_state *css,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2314  			       struct cftype *cft)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2315  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2316  	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2317  	struct page_counter *counter;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2318  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2319  	switch (MEMFILE_TYPE(cft->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2320  	case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2321  		counter = &memcg->memory;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2322  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2323  	case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2324  		counter = &memcg->memsw;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2325  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2326  	case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2327  		counter = &memcg->kmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2328  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2329  	case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2330  		counter = &memcg->tcpmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2331  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2332  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2333  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2334  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2335  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2336  	switch (MEMFILE_ATTR(cft->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2337  	case RES_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24 @2338  		if (counter == &memcg->memory)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2339  			return (u64)mem_cgroup_usage(memcg, false) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2340  		if (counter == &memcg->memsw)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2341  			return (u64)mem_cgroup_usage(memcg, true) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2342  		return (u64)page_counter_read(counter) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2343  	case RES_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2344  		return (u64)counter->max * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2345  	case RES_MAX_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2346  		return (u64)counter->watermark * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2347  	case RES_FAILCNT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2348  		return counter->failcnt;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2349  	case RES_SOFT_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2350  		return (u64)READ_ONCE(memcg->soft_limit) * PAGE_SIZE;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2351  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2352  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2353  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2354  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2355  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2356  /*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2357   * This function doesn't do anything useful. Its only job is to provide a read
+ea1e879631ffdf Roman Gushchin 2024-06-24  2358   * handler for a file so that cgroup_file_mode() will add read permissions.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2359   */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2360  static int mem_cgroup_dummy_seq_show(__always_unused struct seq_file *m,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2361  				     __always_unused void *v)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2362  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2363  	return -EINVAL;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2364  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2365  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2366  static int memcg_update_tcp_max(struct mem_cgroup *memcg, unsigned long max)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2367  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2368  	int ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2369  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2370  	mutex_lock(&memcg_max_mutex);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2371  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2372  	ret = page_counter_set_max(&memcg->tcpmem, max);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2373  	if (ret)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2374  		goto out;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2375  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2376  	if (!memcg->tcpmem_active) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2377  		/*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2378  		 * The active flag needs to be written after the static_key
+ea1e879631ffdf Roman Gushchin 2024-06-24  2379  		 * update. This is what guarantees that the socket activation
+ea1e879631ffdf Roman Gushchin 2024-06-24  2380  		 * function is the last one to run. See mem_cgroup_sk_alloc()
+ea1e879631ffdf Roman Gushchin 2024-06-24  2381  		 * for details, and note that we don't mark any socket as
+ea1e879631ffdf Roman Gushchin 2024-06-24  2382  		 * belonging to this memcg until that flag is up.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2383  		 *
+ea1e879631ffdf Roman Gushchin 2024-06-24  2384  		 * We need to do this, because static_keys will span multiple
+ea1e879631ffdf Roman Gushchin 2024-06-24  2385  		 * sites, but we can't control their order. If we mark a socket
+ea1e879631ffdf Roman Gushchin 2024-06-24  2386  		 * as accounted, but the accounting functions are not patched in
+ea1e879631ffdf Roman Gushchin 2024-06-24  2387  		 * yet, we'll lose accounting.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2388  		 *
+ea1e879631ffdf Roman Gushchin 2024-06-24  2389  		 * We never race with the readers in mem_cgroup_sk_alloc(),
+ea1e879631ffdf Roman Gushchin 2024-06-24  2390  		 * because when this value change, the code to process it is not
+ea1e879631ffdf Roman Gushchin 2024-06-24  2391  		 * patched in yet.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2392  		 */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2393  		static_branch_inc(&memcg_sockets_enabled_key);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2394  		memcg->tcpmem_active = true;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2395  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2396  out:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2397  	mutex_unlock(&memcg_max_mutex);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2398  	return ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2399  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2400  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2401  /*
+ea1e879631ffdf Roman Gushchin 2024-06-24  2402   * The user of this function is...
+ea1e879631ffdf Roman Gushchin 2024-06-24  2403   * RES_LIMIT.
+ea1e879631ffdf Roman Gushchin 2024-06-24  2404   */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2405  static ssize_t mem_cgroup_write(struct kernfs_open_file *of,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2406  				char *buf, size_t nbytes, loff_t off)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2407  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2408  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+ea1e879631ffdf Roman Gushchin 2024-06-24  2409  	unsigned long nr_pages;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2410  	int ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2411  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2412  	buf = strstrip(buf);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2413  	ret = page_counter_memparse(buf, "-1", &nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2414  	if (ret)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2415  		return ret;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2416  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2417  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2418  	case RES_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2419  		if (mem_cgroup_is_root(memcg)) { /* Can't set limit on root */
+ea1e879631ffdf Roman Gushchin 2024-06-24  2420  			ret = -EINVAL;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2421  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2422  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2423  		switch (MEMFILE_TYPE(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2424  		case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2425  			ret = mem_cgroup_resize_max(memcg, nr_pages, false);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2426  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2427  		case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2428  			ret = mem_cgroup_resize_max(memcg, nr_pages, true);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2429  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2430  		case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2431  			pr_warn_once("kmem.limit_in_bytes is deprecated and will be removed. "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2432  				     "Writing any value to this file has no effect. "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2433  				     "Please report your usecase to linux-mm@kvack.org if you "
+ea1e879631ffdf Roman Gushchin 2024-06-24  2434  				     "depend on this functionality.\n");
+ea1e879631ffdf Roman Gushchin 2024-06-24  2435  			ret = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2436  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2437  		case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2438  			ret = memcg_update_tcp_max(memcg, nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2439  			break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2440  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2441  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2442  	case RES_SOFT_LIMIT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2443  		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2444  			ret = -EOPNOTSUPP;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2445  		} else {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2446  			WRITE_ONCE(memcg->soft_limit, nr_pages);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2447  			ret = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2448  		}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2449  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2450  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2451  	return ret ?: nbytes;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2452  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2453  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2454  static ssize_t mem_cgroup_reset(struct kernfs_open_file *of, char *buf,
+ea1e879631ffdf Roman Gushchin 2024-06-24  2455  				size_t nbytes, loff_t off)
+ea1e879631ffdf Roman Gushchin 2024-06-24  2456  {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2457  	struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
+ea1e879631ffdf Roman Gushchin 2024-06-24  2458  	struct page_counter *counter;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2459  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2460  	switch (MEMFILE_TYPE(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2461  	case _MEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2462  		counter = &memcg->memory;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2463  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2464  	case _MEMSWAP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2465  		counter = &memcg->memsw;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2466  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2467  	case _KMEM:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2468  		counter = &memcg->kmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2469  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2470  	case _TCP:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2471  		counter = &memcg->tcpmem;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2472  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2473  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2474  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2475  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2476  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2477  	switch (MEMFILE_ATTR(of_cft(of)->private)) {
+ea1e879631ffdf Roman Gushchin 2024-06-24  2478  	case RES_MAX_USAGE:
+ea1e879631ffdf Roman Gushchin 2024-06-24 @2479  		page_counter_reset_watermark(counter);
+ea1e879631ffdf Roman Gushchin 2024-06-24  2480  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2481  	case RES_FAILCNT:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2482  		counter->failcnt = 0;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2483  		break;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2484  	default:
+ea1e879631ffdf Roman Gushchin 2024-06-24  2485  		BUG();
+ea1e879631ffdf Roman Gushchin 2024-06-24  2486  	}
+ea1e879631ffdf Roman Gushchin 2024-06-24  2487  
+ea1e879631ffdf Roman Gushchin 2024-06-24  2488  	return nbytes;
+ea1e879631ffdf Roman Gushchin 2024-06-24  2489  }
+ea1e879631ffdf Roman Gushchin 2024-06-24  2490  
 
 -- 
 0-DAY CI Kernel Test Service
