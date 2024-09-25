@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD35818A6D8
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 14:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BF1481B1
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 14:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727274330; cv=none; b=D5tUuXNZH2iHN85IntD5DN48eUcT8KnI38PU9uIfbvm6mU3uoRbXpu2M7zhLxvK9txyT/bb5Uvs6EHz9oSqg+vEGvpqZlKslFU4XvqpnjbhpFbJXNG8VSAFIQJEhLx4bIR3o5L/vj0Easjk9/UPE1tC/3AHKYYsuWvJ94Co9VWM=
+	t=1727274719; cv=none; b=PA7fkoZqwKMyfoGwg/3CuEd895SYDSGaAAycxOQ4OopZFj4fWXVmbL8yhSEszyvll4ZpqqWFZL/ZNZAGZXt6g9lcTvQr6yRfAWjfVm8fGnO7fpF3+IlyyzwbfQA1OOwX6UjqBuWL8tkrMVUgdjCnOT8K4DUEBMDviUdZTqqR/DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727274330; c=relaxed/simple;
-	bh=IXbDjkO+xE1GmUWEWQvAK9ysw2aHI5l7Wwc4NxRThyw=;
+	s=arc-20240116; t=1727274719; c=relaxed/simple;
+	bh=xpkSCyVuAVhnqduAgNZiU/LxcQhcRNALC0AnIPb1kRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WzC6kWJGg1pmDXs7jnUR0RJ4MsX2OYOc9R0znwmsc/cvHu/VLd2PmbFPdITj611YeWIHfTGsWJEZe51blWfs4BpzQFPpsxk2bEb3OYJkzdJoq5EOPsmDbFsG5uaD5t0Pr/sxIa5J0eckLdZNrTpO9olVNQ9LWvsFEpKFH/R0Vsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEf4WbNg; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=gQTFFTpmjPRnzTZLosiAMgg3m43KthMs2CTbyTnnPvWQejKfR1ZfcdQvaxsQ53CvD8Rih1auDUcdB4PmsrsYnxwl4Bk3YhXWJURI08Dvnc4jv5IH3RwouhUcQ9z8wY+JeuHxmU/AxyllZGOK6AcvupScCTH2zLI8gZWRY2HrT/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVAJktHx; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEf4WbNg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727274328; x=1758810328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IXbDjkO+xE1GmUWEWQvAK9ysw2aHI5l7Wwc4NxRThyw=;
-  b=YEf4WbNgisVwtcQPI7Xm6PsA0q6Lbq2unZW7RDjSQPEJo3RAqmczGHu5
-   hKI5hjSXnH2P+ZXL8zXjI4f4R6FF+PH3w5ry/R3BY/UnLJOn4XdyNmvPV
-   UFbO2kHBdjIUDoLGyEQTWyVgGGSz1nEGvj8ZGSXyKMpKu7DBGt7HYPJtf
-   nydH3P96G1rsUlbFNeBiBWtvb2Vq87g3QxObmn8RNK7qzlWm2SW1Plih1
-   IjVDWQgy06e3tvObe1YzjVwPtIvGse4eEBIe97ROR7WfEOWRWRQu5+6Bi
-   3nHT+l7k1jrREpOJXV5M5uHkXg7sUV29/DwQmz6Nmxl0Z2Ec0MIbRo8Lw
-   Q==;
-X-CSE-ConnectionGUID: DXmyTUHaTombSsfW+VLZ4A==
-X-CSE-MsgGUID: X9ewYaz0RRuc8nW9QZo+sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30036726"
-X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="30036726"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 07:25:22 -0700
-X-CSE-ConnectionGUID: i/FqhybGT9CfiEKSn0+SIA==
-X-CSE-MsgGUID: k31U6vHISUKx4nE07Lf8dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
-   d="scan'208";a="95119423"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Sep 2024 07:25:20 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stSxC-000Jaz-0a;
-	Wed, 25 Sep 2024 14:25:18 +0000
-Date: Wed, 25 Sep 2024 22:24:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVAJktHx"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so56955445e9.0
+        for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 07:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727274715; x=1727879515; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
+        b=tVAJktHx9eBqXAeNNH4nTb81E6xTysfZOzuAw2AJRZrp7RFtzMFFD/+fliKmR9xraE
+         JuV+34+Kt7n8oNs/yZzCkHGHWaoTVKYliqZU550kH6LuANRqiDG3mAxX+TYjuwt46sWf
+         8qAS5IJE6TiEr13AjKYo78lifOSJC9n2StRbn95qKxQHuN4//3S3ZG/CbijGb9xYdr/h
+         Pxp+CQ9ZUMcpeibgl+mLGXpp63eGMYc6RHDHe2rB/Vn6sVs0IlTQ5XIwAyAUyiMKJDPZ
+         odxQZtUs3Iocr2kcA+HYBCSaQyIg6WHx/IPEWtyJ9fkOV1ZHk3nJ1U7whzFVc+alJd9v
+         CMPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727274715; x=1727879515;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
+        b=J/252QWmlWdW93es+EzmUSxH6SrkkuSOOTzbnzOj6vlVHmJJN5j9o4NDyTCDRvjNKE
+         XlBknk46T0fhk5beiV2eUxFzI2VKgfA2up36m5HrabPif8eN0TFsL7HTRLmkjv/WRKE1
+         cajukzqHsatuBACIQDUYqyouOlQy1k83QlWm/e7i2bsRMH+To736MisNdoZPV3Ey5IJo
+         TCBXytDlusXe3n4+8OJe/EOE42Zcd8wiS++j5lUg7OK2jDMIea+SdOj3zZhb3smXZuEM
+         s1Y61txEhXfmQo5LzeTJJpCTu7/r5pJzTUltFSOQdLi3yl0y8OCDhWxk/ViEMpyv76eS
+         busg==
+X-Gm-Message-State: AOJu0Yx3PHnMNSOT6zgTEIo+zV8RraAVWQB8e5G1BTqcQNR59/ZNM9kU
+	TZqXcmRIDKlayzh2qmPvXCDaxrg1uzcMi/XKlsq1OCWLn+3xPoJrBwcpZoWWz3z0+S8BDiheujr
+	0
+X-Google-Smtp-Source: AGHT+IHbpu5DE6tvjsN90CvUnPNvwrMJZvEHP1NfUsXR82Gz+ZtqJynwkONCTq2mRnoJqR6bj2Xo+w==
+X-Received: by 2002:a05:600c:45ce:b0:42b:af1c:66e with SMTP id 5b1f17b1804b1-42e9610c1c6mr19389955e9.9.1727274714978;
+        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a36760sm20776975e9.30.2024.09.25.07.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
+Date: Wed, 25 Sep 2024 17:31:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [mnyman-xhci:for-usb-next 9/10] drivers/usb/host/xhci-ring.c:1405
  xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
-Message-ID: <202409252250.WNZonX5o-lkp@intel.com>
+Message-ID: <b40140f7-cfd8-4cd4-b442-4d3d4318c5db@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,22 +67,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Mathias Nyman <mathias.nyman@linux.intel.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
 head:   645eb2ce6b3e541d3c651f136da8a16f76799526
 commit: fdd9a29e9139a8988b65dce295dfc3f089003ae0 [9/10] xhci: trace stream context at Set TR Deq command completion
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
 config: powerpc64-randconfig-r072-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252250.WNZonX5o-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202409252250.WNZonX5o-lkp@intel.com/
 
 smatch warnings:
@@ -85,14 +84,6 @@ drivers/usb/host/xhci-ring.c:1405 xhci_handle_cmd_set_deq() error: uninitialized
 
 vim +/stream_ctx +1405 drivers/usb/host/xhci-ring.c
 
-b008df60c6369b Andiry Xu        2012-03-05  1324  
-ae636747146ea9 Sarah Sharp      2009-04-29  1325  /*
-ae636747146ea9 Sarah Sharp      2009-04-29  1326   * When we get a completion for a Set Transfer Ring Dequeue Pointer command,
-ae636747146ea9 Sarah Sharp      2009-04-29  1327   * we need to clear the set deq pending flag in the endpoint ring state, so that
-ae636747146ea9 Sarah Sharp      2009-04-29  1328   * the TD queueing code can ring the doorbell again.  We also need to ring the
-ae636747146ea9 Sarah Sharp      2009-04-29  1329   * endpoint doorbell to restart the ring, but only if there aren't more
-ae636747146ea9 Sarah Sharp      2009-04-29  1330   * cancellations pending.
-ae636747146ea9 Sarah Sharp      2009-04-29  1331   */
 b8200c9479b804 Xenia Ragiadakou 2013-09-09  1332  static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
 c69a059783b241 Xenia Ragiadakou 2013-09-09  1333  		union xhci_trb *trb, u32 cmd_comp_code)
 ae636747146ea9 Sarah Sharp      2009-04-29  1334  {
@@ -126,6 +117,12 @@ b1adc42d440df3 Mathias Nyman    2021-01-29  1360  	slot_ctx = xhci_get_slot_ctx(
 19a7d0d65c4a81 Felipe Balbi     2017-04-07  1362  	trace_xhci_handle_cmd_set_deq_ep(ep_ctx);
 ae636747146ea9 Sarah Sharp      2009-04-29  1363  
 fdd9a29e9139a8 Mathias Nyman    2024-09-12  1364  	if (ep->ep_state & EP_HAS_STREAMS && ep->stream_info) {
+
+stream_ctx is only initialized when ep->stream_info is non-NULL.
+Could we change this condition to:
+	if ((ep->ep_state & EP_HAS_STREAMS) && cmd_comp_code == COMP_SUCCESS) {
+instead?
+
 fdd9a29e9139a8 Mathias Nyman    2024-09-12  1365  		stream_ctx = &ep->stream_info->stream_ctx_array[stream_id];
 fdd9a29e9139a8 Mathias Nyman    2024-09-12  1366  		trace_xhci_handle_cmd_set_deq_stream(ep->stream_info, stream_id);
 fdd9a29e9139a8 Mathias Nyman    2024-09-12  1367  	}
@@ -167,6 +164,10 @@ ae636747146ea9 Sarah Sharp      2009-04-29  1401  	} else {
 9aad95e292f58d Hans de Goede    2013-10-04  1403  		/* 4.6.10 deq ptr is written to the stream ctx for streams */
 9aad95e292f58d Hans de Goede    2013-10-04  1404  		if (ep->ep_state & EP_HAS_STREAMS) {
 fdd9a29e9139a8 Mathias Nyman    2024-09-12 @1405  			deq = le64_to_cpu(stream_ctx->stream_ring) & SCTX_DEQ_MASK;
+                                                                                          ^^^^^^^^^^
+Warning.  My guess is that if cmd_comp_code is success then ep->stream_info but
+it's hard to tell without more context...
+
 e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1406  
 e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1407  			/*
 e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1408  			 * Cadence xHCI controllers store some endpoint state
@@ -231,8 +232,8 @@ e9df17eb1408cf Sarah Sharp      2010-04-02  1465  		/* Restart any rings with pe
 e9df17eb1408cf Sarah Sharp      2010-04-02  1467  		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
 ae636747146ea9 Sarah Sharp      2009-04-29  1468  	}
 5ceac4402f5d97 Hector Martin    2024-06-11  1469  }
-ae636747146ea9 Sarah Sharp      2009-04-29  1470  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
