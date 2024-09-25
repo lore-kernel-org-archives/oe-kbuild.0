@@ -1,64 +1,63 @@
 Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F083148849
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 08:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49303156661
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 08:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727251493; cv=none; b=EIPI7R1OLt2kgZblcsIPQRtcTTsBZ7lpIPnsR7ypVrgOyO1Mbg6jsBqdnYXgOZ5GvIaPyjtl8STVEAWVzB90tDHUcbswXx3Vvt/3Yn7U1Qm7TntpxBAEPqoEBKw1fZMcRakUioaSFC6JIP9gjKVPlDWGAquIrT5Yse1926On1BY=
+	t=1727251909; cv=none; b=kIVmKeP7hzcu67ArTtHKvB3qX9UlmLj+HFgxleNymiiR4cuqjqOi5JodwlIb0MBvA+6qTSHkdvadSwsprNkdg9SPNoA3NOKfGkrXYfPOEvl12nBiFF8d8hpQ3uDajdq0YAbyTCDY2coRB8COYhHZb44s5yFeM3qYg/ggoKbIGKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727251493; c=relaxed/simple;
-	bh=WhQWABjNyyuQ+LGEy3E3HCx8hqIfIoTo+cFgH0oKjJE=;
+	s=arc-20240116; t=1727251909; c=relaxed/simple;
+	bh=EncN5QktJw5IAKuKGgmPGiJO0WnvXEgimbNUDfsNK5o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ClPKhkN6Z1LLUKFF03syRUNvck11uRP9fi9KnjzIay4zpyzrMUNnqYxRafmUkWluCyOyrIP7KksRIHWdf2xGoQZbXT0eJ5iCfhXbcrfokE413GrGF9qzo4Ey5t8UsX6RnW5psfjA5r7gRl7d6UlUZ8zvZtROtvESkNMnkNl8HFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EYzH4ivB; arc=none smtp.client-ip=209.85.128.52
+	 Content-Disposition; b=Me+an7ST2Z1GeZ8747R6Vqho0XgJN7kC7TBkUnXrq+Iw0m0eQSa0vY8dJD2D0mtXygFWQm5jdB4RFMOedX4pm4QhA83M0E4jZMOrHmcq6NHuwncRtXDbiXeRfXYvTK2f9c72Gtfza4cX3r8w7fFxNEspDOicp65bsv39Xl6s6Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DJ+z+GEV; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EYzH4ivB"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cc43454d5so52380235e9.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 01:04:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DJ+z+GEV"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cacabd2e0so55801145e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 01:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727251489; x=1727856289; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1727251905; x=1727856705; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
-        b=EYzH4ivBxx2pbbdBUY1vH33m4xP5RnO3H+OUn/UFHSDSZJ0y/lUHHjralgOpcJRQeV
-         jvrYzb6iTTVXC37bxD/UuJu4IQ1wLNTeTw3jjFhTscFPipFRyDTlHRQK/zPy3WZnnl64
-         zS5if4K/MKKHVBMcAG35GFshEBSNWm/1ikafZWW58ZxkllOcG3BmFqAGVHMWzv4oqasa
-         1bkicXIFOzYHp1p37lEmgpBZzGKE72hpT8GOE65IHp1UE9pl0F6q2aKGMQjwTAvE/Eq+
-         V5ZGpdlc9vNVXpT/Je76Ipo1GAFctVhf0w/ve7NCWsYkcF2jN1KL6cpjTDzIq/iz9c07
-         u3rA==
+        bh=xcmhRdVEW6RLh9FFPD0T2qatqtJXh1Qrn0t1bzrhU64=;
+        b=DJ+z+GEVy/0BOtYov1t71f/aq+kPUZ+Unsf5i4J3ukYQyntw3CrIk7m4iqpQK+by0A
+         Ypu6vDOz8ekgBpBnTEkl7wWIiLdTDvyXP6BtYitWcoThlxyBNwK/dsFMtPWUxvLnIAIT
+         99AcelyOs0VdknD2BQHyeJwBEN6HdtFxBHpe1E6Z/mr+DKYM1aXbZafwSMvkgNPNXqz/
+         nwN90cthJ80z/kjm9JDccIw1yf7QpDBeX9MFwHy6lVM2eZy2nNzAV7TChze8epidiYPP
+         MxgQu7Wqzcdv9rELx8yHenJ71aVgFQS7iX45aKY9542qiPMfNJSCq03we6kXfbnrRCqh
+         tZLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727251489; x=1727856289;
+        d=1e100.net; s=20230601; t=1727251905; x=1727856705;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
-        b=oCcQBmh/IgCr/5Edpsus0QO4hlnOvdVGNhFeqMGA302rnh+WfpScq1nlpPbCl1iqmp
-         RouT2VFLL/Y2RaAZvd29yRWuizEblisOXmBWvJEpvlujgvmSL3iR1uC5+RaVTbNmzo1p
-         4+BPzJiomdTmaqQtkO0x3HL3/h6L75DXVxYlYI026ljJx6RCwkkx/nQxi8u2B0XYV+1e
-         /scVv9kda/AsPZgYAh7s8j8BTsGpgS4UA/+Jl0Qsq27uPDK1T2Mrk7CSsDV2PXgmPL6s
-         1yxutGZ3rD1cyQWIVKdpDK3KkPhMaYT74vv/rTVEbAXcmUlzpZwCqZWYbHzz2jeut2SI
-         6yZg==
-X-Gm-Message-State: AOJu0Yy49bRbB9rjKx3zDR/L38UgR3kaE55uVL6eqiFaekgYmO//0k8P
-	HRTC8BOmLSLbwLjExy2ztmhIfW4GY9vevEPlVNJqQMj9NcQRkEw5PO6l1Eer7dS3lq5u0tf1Bs0
-	u
-X-Google-Smtp-Source: AGHT+IEtVH9oHtfPGO/6+1DLBUdNsXdqpgtgGG8hb/oVeeV7JVSpXS3jY0P5FYgDBzGMiYrrjloJTQ==
-X-Received: by 2002:a5d:4350:0:b0:374:ca43:cda5 with SMTP id ffacd0b85a97d-37cc22d3e8amr952225f8f.0.1727251488747;
-        Wed, 25 Sep 2024 01:04:48 -0700 (PDT)
+        bh=xcmhRdVEW6RLh9FFPD0T2qatqtJXh1Qrn0t1bzrhU64=;
+        b=t21jvyBlJmHS1doSLtBKYq+Zx7tw4D2/uD1dMInu6rPACu1X4lQFpXm0V2Wj3ARIbN
+         G7rgcpUoBolkm+K6/w3C5snmSAZflfECBZ/gZmxCvvDa4QuSWWUwK3gT9wWtA35GQQTU
+         gYnXfsBf6l+c5iHkrogcvu3uX/3oG12xOl6yMxr093+Lc3q2Fi+G1skgSCL+I9KVEZGf
+         Fkg9de8+qD5n35nnevpn43i7kfICw5gDrRmEP5gH+XzsRmq29Jdzl4RZnf8liRsPovDq
+         Zsv+7a2kBZTmnxUigJhG8YMT86bgux3CMq1sHnIIJPBA8uv/T3xBQ9injJO3St57F6M3
+         geVw==
+X-Gm-Message-State: AOJu0YwfcRNXxZhSdSwRPnWFzR/hkXtIfbtnWRMkci0r1pzSE4r0XDHc
+	6QA063h2DJoLRIBbrow2iVqwK8wMAlJUHmUJcldGCb5JtJHgempkCy6O4MqKLyDYopTmWsdR9VJ
+	q
+X-Google-Smtp-Source: AGHT+IEAGjVVslEdQKpTMyL9ykeqU1DgH/BO3ExDn+x+2vaRRx7u3D7+fDJjr7HWlPH2iE/B2z1hlg==
+X-Received: by 2002:a05:600c:5127:b0:42b:a9b4:3f59 with SMTP id 5b1f17b1804b1-42e9610de2emr12270565e9.14.1727251905466;
+        Wed, 25 Sep 2024 01:11:45 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc2f9734sm3305047f8f.76.2024.09.25.01.04.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e969f2429sm10617575e9.18.2024.09.25.01.11.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 01:04:47 -0700 (PDT)
-Date: Wed, 25 Sep 2024 11:04:44 +0300
+        Wed, 25 Sep 2024 01:11:44 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:11:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Meng Wei <wei.meng@intel.com>
+To: oe-kbuild@lists.linux.dev, Tomas Winkler <tomas.winkler@intel.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	"Pan, Kris" <kris.pan@intel.com>, Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 677/30000]
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing()
- warn: check for integer overflow 'num_routes'
-Message-ID: <1fbc1d2e-f00f-46f2-84c3-4f362e211d1f@stanley.mountain>
+	"Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 658/30000] drivers/nvme/host/rpmb.c:77
+ nvme_rpmb_add() error: 'rdev' dereferencing possible ERR_PTR()
+Message-ID: <a6552e82-6c99-400a-90c6-f863f70ff778@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,51 +69,45 @@ Content-Disposition: inline
 
 tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
 head:   84d5fc421289417e51781e27e64fbb0fc44216ae
-commit: dcdab0d72b69b6291d08483c0baf62cf92e2a1bc [677/30000] v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
-config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240920/202409201214.doUEuMvs-lkp@intel.com/config)
+commit: 62aa2255c310ca50d66cd739fb513d8717038ecb [658/30000] nvme: connect to rpmb layer
+config: i386-randconfig-141-20240913 (https://download.01.org/0day-ci/archive/20240922/202409220410.hO6UmQew-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409201214.doUEuMvs-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409220410.hO6UmQew-lkp@intel.com/
 
 smatch warnings:
-drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing() warn: check for integer overflow 'num_routes'
+drivers/nvme/host/rpmb.c:77 nvme_rpmb_add() error: 'rdev' dereferencing possible ERR_PTR()
 
-vim +/num_routes +1098 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+vim +/rdev +77 drivers/nvme/host/rpmb.c
 
-dcdab0d72b69b6 Meng Wei 2018-10-26  1082  static int put_v4l2_subdev_routing(struct v4l2_subdev_routing __user *kp,
-dcdab0d72b69b6 Meng Wei 2018-10-26  1083  				   struct v4l2_subdev_routing32 __user *up)
-dcdab0d72b69b6 Meng Wei 2018-10-26  1084  {
-dcdab0d72b69b6 Meng Wei 2018-10-26  1085  	struct v4l2_subdev_route __user *uroutes;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1086  	compat_caddr_t p;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1087  	u32 num_routes;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1088  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1089  	if (!access_ok(VERIFY_WRITE, up, sizeof(*up)) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1090  	    get_user(p, &up->routes) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1091  	    get_user(num_routes, &kp->num_routes) ||
-                                                             ^^^^^^^^^^
-num_routes comes from the user
+62aa2255c310ca Tomas Winkler 2018-04-25  62  static void nvme_rpmb_add(struct nvme_ctrl *ctrl)
+62aa2255c310ca Tomas Winkler 2018-04-25  63  {
+62aa2255c310ca Tomas Winkler 2018-04-25  64  	struct rpmb_dev *rdev;
+62aa2255c310ca Tomas Winkler 2018-04-25  65  	int ndevs = ctrl->rpmbs & 0x7;
+62aa2255c310ca Tomas Winkler 2018-04-25  66  	int i;
+62aa2255c310ca Tomas Winkler 2018-04-25  67  
+62aa2255c310ca Tomas Winkler 2018-04-25  68  	nvme_rpmb_set_cap(ctrl, &nvme_rpmb_dev_ops);
+62aa2255c310ca Tomas Winkler 2018-04-25  69  
+62aa2255c310ca Tomas Winkler 2018-04-25  70  	/* Add RPMB partitions */
+62aa2255c310ca Tomas Winkler 2018-04-25  71  	for (i = 0; i < ndevs; i++) {
+62aa2255c310ca Tomas Winkler 2018-04-25  72  		rdev = rpmb_dev_register(ctrl->device, i, &nvme_rpmb_dev_ops);
+62aa2255c310ca Tomas Winkler 2018-04-25  73  		if (IS_ERR(rdev)) {
+62aa2255c310ca Tomas Winkler 2018-04-25  74  			dev_warn(ctrl->device, "%s: cannot register to rpmb %ld\n",
+62aa2255c310ca Tomas Winkler 2018-04-25  75  				 dev_name(ctrl->device), PTR_ERR(rdev));
 
-dcdab0d72b69b6 Meng Wei 2018-10-26  1092  	    assign_in_user(&up->num_routes, &kp->num_routes) ||
-dcdab0d72b69b6 Meng Wei 2018-10-26  1093  	    !access_ok(VERIFY_WRITE, up->reserved, sizeof(*up->reserved)))
-dcdab0d72b69b6 Meng Wei 2018-10-26  1094  		return -EFAULT;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1095  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1096  	uroutes = compat_ptr(p);
-dcdab0d72b69b6 Meng Wei 2018-10-26  1097  
-dcdab0d72b69b6 Meng Wei 2018-10-26 @1098  	if (!access_ok(VERIFY_WRITE, uroutes,
-dcdab0d72b69b6 Meng Wei 2018-10-26  1099  		       num_routes * sizeof(*kp->routes)))
-                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This can overflow on 32bit systems so it checks less than intended.  Generally,
-integer overflows in access_ok() are treated as bugs without further analysis to
-see if it can actually be exploited.
+return?
 
-dcdab0d72b69b6 Meng Wei 2018-10-26  1100  		return -EFAULT;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1101  
-dcdab0d72b69b6 Meng Wei 2018-10-26  1102  	return 0;
-dcdab0d72b69b6 Meng Wei 2018-10-26  1103  }
+62aa2255c310ca Tomas Winkler 2018-04-25  76  		}
+62aa2255c310ca Tomas Winkler 2018-04-25 @77  		dev_set_drvdata(&rdev->dev, ctrl);
+                                                                         ^^^^
+This will crash.
+
+62aa2255c310ca Tomas Winkler 2018-04-25  78  	}
+62aa2255c310ca Tomas Winkler 2018-04-25  79  }
 
 -- 
 0-DAY CI Kernel Test Service
