@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600AC147C9B
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 07:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F083148849
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 08:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727250912; cv=none; b=hI/PjsaT+bIRsDxeVxFM86oun9N9LjOJXJEagWEH/Z8dKoLivA6d5DfSh/ROABe5qM92mhgsZD9lGsCAlB+EW1ro+BunqmC5FMnpUJVMsW3S4Zt3F9uoINxVvF6hiA2mgb1WgdJEOV0ExT8C6AGLN0DebRNIRam+p78zOnpQjNE=
+	t=1727251493; cv=none; b=EIPI7R1OLt2kgZblcsIPQRtcTTsBZ7lpIPnsR7ypVrgOyO1Mbg6jsBqdnYXgOZ5GvIaPyjtl8STVEAWVzB90tDHUcbswXx3Vvt/3Yn7U1Qm7TntpxBAEPqoEBKw1fZMcRakUioaSFC6JIP9gjKVPlDWGAquIrT5Yse1926On1BY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727250912; c=relaxed/simple;
-	bh=sPPceIo8Hi+tC/kOaoxwcKXvqcv3QcTwcfGQxCoJUi4=;
+	s=arc-20240116; t=1727251493; c=relaxed/simple;
+	bh=WhQWABjNyyuQ+LGEy3E3HCx8hqIfIoTo+cFgH0oKjJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IMQNTTFnSwFRuIzgyUmqviCxLrrKVCxvqHmsJp1FxQmjA2cGJAJKV1HDsItZ1wlRQOm1NGH2NdU74iypMFpNNq/WFTeuZPobkUB5jkxqcMAeNKI+p4f7fGWvzCULarwk/3bue5P9roMf41s2kC7p/qdRxxjy7Oha0TFv6WCIUzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpILZthS; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=ClPKhkN6Z1LLUKFF03syRUNvck11uRP9fi9KnjzIay4zpyzrMUNnqYxRafmUkWluCyOyrIP7KksRIHWdf2xGoQZbXT0eJ5iCfhXbcrfokE413GrGF9qzo4Ey5t8UsX6RnW5psfjA5r7gRl7d6UlUZ8zvZtROtvESkNMnkNl8HFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EYzH4ivB; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpILZthS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727250911; x=1758786911;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sPPceIo8Hi+tC/kOaoxwcKXvqcv3QcTwcfGQxCoJUi4=;
-  b=lpILZthSUCjpv5RVIIZza4ocFh1PZdvi7z6noWZqSn5bWdkstWKennom
-   E6xJPQnX/W5FIIx4DDzysEJr+e1dsHKPU4Kf/Z7dA6J2WS3idAciHU6ZN
-   pHmwEflvsVRVGnAkK+WPe3wn+hkVYZ4OKhO7Wsyl98YJS4G1wKTPX6Qtg
-   ZUbb+KGmCyJew7KvKS8DL94JUO6Yal9p8uDM0MRvWi3+X2WfMUKNxGxdi
-   +DbGHet+H7Lt5oFUOUG65L/Rvp0kNXKMGisVtGQzG6t+p4pDXETD85YFT
-   h5uQozN0prVjUP8kAd+gyppFWaN79V08jK8Gl6zMzIhm9ir9ONqu0L1Ni
-   g==;
-X-CSE-ConnectionGUID: 70BXMx/HQaeLJy7WWPXppg==
-X-CSE-MsgGUID: ngPWKuWgSKCP1DhNqsh8iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="26231806"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="26231806"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 00:55:09 -0700
-X-CSE-ConnectionGUID: +NzC01/TTfC89PXAJEEqng==
-X-CSE-MsgGUID: GIMuOOPvThuuUeIOb0frQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="71837111"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Sep 2024 00:55:08 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1stMrZ-000JKf-1L;
-	Wed, 25 Sep 2024 07:55:05 +0000
-Date: Wed, 25 Sep 2024 15:54:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 23323/30000]
- drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1164
- isst_if_get_turbo_freq_info() warn: potential spectre issue
- 'power_domain_info->perf_levels' [r] (local cap)
-Message-ID: <202409251521.YBFBDX9R-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EYzH4ivB"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42cc43454d5so52380235e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 01:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727251489; x=1727856289; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
+        b=EYzH4ivBxx2pbbdBUY1vH33m4xP5RnO3H+OUn/UFHSDSZJ0y/lUHHjralgOpcJRQeV
+         jvrYzb6iTTVXC37bxD/UuJu4IQ1wLNTeTw3jjFhTscFPipFRyDTlHRQK/zPy3WZnnl64
+         zS5if4K/MKKHVBMcAG35GFshEBSNWm/1ikafZWW58ZxkllOcG3BmFqAGVHMWzv4oqasa
+         1bkicXIFOzYHp1p37lEmgpBZzGKE72hpT8GOE65IHp1UE9pl0F6q2aKGMQjwTAvE/Eq+
+         V5ZGpdlc9vNVXpT/Je76Ipo1GAFctVhf0w/ve7NCWsYkcF2jN1KL6cpjTDzIq/iz9c07
+         u3rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727251489; x=1727856289;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x69ZvGgafnxxztweYHeelEL1BFimekU4jsu1BE7fwow=;
+        b=oCcQBmh/IgCr/5Edpsus0QO4hlnOvdVGNhFeqMGA302rnh+WfpScq1nlpPbCl1iqmp
+         RouT2VFLL/Y2RaAZvd29yRWuizEblisOXmBWvJEpvlujgvmSL3iR1uC5+RaVTbNmzo1p
+         4+BPzJiomdTmaqQtkO0x3HL3/h6L75DXVxYlYI026ljJx6RCwkkx/nQxi8u2B0XYV+1e
+         /scVv9kda/AsPZgYAh7s8j8BTsGpgS4UA/+Jl0Qsq27uPDK1T2Mrk7CSsDV2PXgmPL6s
+         1yxutGZ3rD1cyQWIVKdpDK3KkPhMaYT74vv/rTVEbAXcmUlzpZwCqZWYbHzz2jeut2SI
+         6yZg==
+X-Gm-Message-State: AOJu0Yy49bRbB9rjKx3zDR/L38UgR3kaE55uVL6eqiFaekgYmO//0k8P
+	HRTC8BOmLSLbwLjExy2ztmhIfW4GY9vevEPlVNJqQMj9NcQRkEw5PO6l1Eer7dS3lq5u0tf1Bs0
+	u
+X-Google-Smtp-Source: AGHT+IEtVH9oHtfPGO/6+1DLBUdNsXdqpgtgGG8hb/oVeeV7JVSpXS3jY0P5FYgDBzGMiYrrjloJTQ==
+X-Received: by 2002:a5d:4350:0:b0:374:ca43:cda5 with SMTP id ffacd0b85a97d-37cc22d3e8amr952225f8f.0.1727251488747;
+        Wed, 25 Sep 2024 01:04:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc2f9734sm3305047f8f.76.2024.09.25.01.04.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 01:04:47 -0700 (PDT)
+Date: Wed, 25 Sep 2024 11:04:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Meng Wei <wei.meng@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"Pan, Kris" <kris.pan@intel.com>, Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_s 677/30000]
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing()
+ warn: check for integer overflow 'num_routes'
+Message-ID: <1fbc1d2e-f00f-46f2-84c3-4f362e211d1f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,91 +68,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yingbao Jia <yingbao.jia@intel.com>
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   d831c8e9a987a5c339274aaac9f8d205dba1ef8b
-commit: 568e6cdd8c7c54efd42dbe0be517668bf1febe7f [23323/30000] platform/x86: ISST: Add SST-TF support via TPMI
-:::::: branch date: 54 minutes ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-161-20240925 (https://download.01.org/0day-ci/archive/20240925/202409251521.YBFBDX9R-lkp@intel.com/config)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84d5fc421289417e51781e27e64fbb0fc44216ae
+commit: dcdab0d72b69b6291d08483c0baf62cf92e2a1bc [677/30000] v4l: subdev: Add [GS]_ROUTING subdev ioctls and operations
+config: x86_64-randconfig-161-20240914 (https://download.01.org/0day-ci/archive/20240920/202409201214.doUEuMvs-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409251521.YBFBDX9R-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409201214.doUEuMvs-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1164 isst_if_get_turbo_freq_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
+smatch warnings:
+drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1098 put_v4l2_subdev_routing() warn: check for integer overflow 'num_routes'
 
-Old smatch warnings:
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:585 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:587 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:590 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:900 isst_if_get_perf_level_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1002 isst_if_get_perf_level_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1047 isst_if_get_base_freq_info() warn: potential spectre issue 'power_domain_info->perf_levels' [r] (local cap)
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1083 isst_if_get_base_freq_mask() warn: potential spectre issue 'power_domain_info->perf_levels' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1110 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:1114 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+vim +/num_routes +1098 drivers/media/v4l2-core/v4l2-compat-ioctl32.c
 
-vim +1164 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
+dcdab0d72b69b6 Meng Wei 2018-10-26  1082  static int put_v4l2_subdev_routing(struct v4l2_subdev_routing __user *kp,
+dcdab0d72b69b6 Meng Wei 2018-10-26  1083  				   struct v4l2_subdev_routing32 __user *up)
+dcdab0d72b69b6 Meng Wei 2018-10-26  1084  {
+dcdab0d72b69b6 Meng Wei 2018-10-26  1085  	struct v4l2_subdev_route __user *uroutes;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1086  	compat_caddr_t p;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1087  	u32 num_routes;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1088  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1089  	if (!access_ok(VERIFY_WRITE, up, sizeof(*up)) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1090  	    get_user(p, &up->routes) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1091  	    get_user(num_routes, &kp->num_routes) ||
+                                                             ^^^^^^^^^^
+num_routes comes from the user
 
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1142  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1143  static int isst_if_get_turbo_freq_info(void __user *argp)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1144  {
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1145  	static struct isst_turbo_freq_info turbo_freq;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1146  	struct tpmi_per_power_domain_info *power_domain_info;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1147  	int i, j;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1148  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1149  	if (copy_from_user(&turbo_freq, argp, sizeof(turbo_freq)))
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1150  		return -EFAULT;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1151  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1152  	power_domain_info = get_instance(turbo_freq.socket_id, turbo_freq.power_domain_id);
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1153  	if (!power_domain_info)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1154  		return -EINVAL;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1155  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1156  	if (turbo_freq.level > power_domain_info->max_level)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1157  		return -EINVAL;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1158  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1159  	turbo_freq.max_buckets = TRL_MAX_BUCKETS;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1160  	turbo_freq.max_trl_levels = TRL_MAX_LEVELS;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1161  	turbo_freq.max_clip_freqs = SST_TF_MAX_LP_CLIP_RATIOS;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1162  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1163  	for (i = 0; i < turbo_freq.max_clip_freqs; ++i)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07 @1164  		_read_tf_level_info("lp_clip*", turbo_freq.lp_clip_freq_mhz[i],
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1165  				    turbo_freq.level, SST_TF_INFO_0_OFFSET,
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1166  				    SST_TF_LP_CLIP_RATIO_0_START +
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1167  				    (i * SST_TF_LP_CLIP_RATIO_0_WIDTH),
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1168  				    SST_TF_LP_CLIP_RATIO_0_WIDTH, SST_MUL_FACTOR_FREQ)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1169  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1170  	for (i = 0; i < TRL_MAX_LEVELS; ++i) {
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1171  		for (j = 0; j < TRL_MAX_BUCKETS; ++j)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1172  			_read_tf_level_info("cydn*_bucket_*_trl",
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1173  					    turbo_freq.trl_freq_mhz[i][j], turbo_freq.level,
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1174  					    SST_TF_INFO_2_OFFSET + (i * SST_TF_RATIO_0_WIDTH),
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1175  					    j * SST_TF_RATIO_0_WIDTH, SST_TF_RATIO_0_WIDTH,
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1176  					    SST_MUL_FACTOR_FREQ)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1177  	}
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1178  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1179  	for (i = 0; i < TRL_MAX_BUCKETS; ++i)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1180  		_read_tf_level_info("bucket_*_core_count", turbo_freq.bucket_core_counts[i],
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1181  				    turbo_freq.level, SST_TF_INFO_1_OFFSET,
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1182  				    SST_TF_NUM_CORE_0_WIDTH * i, SST_TF_NUM_CORE_0_WIDTH,
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1183  				    SST_MUL_FACTOR_NONE)
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1184  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1185  	if (copy_to_user(argp, &turbo_freq, sizeof(turbo_freq)))
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1186  		return -EFAULT;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1187  
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1188  	return 0;
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1189  }
-568e6cdd8c7c54 Srinivas Pandruvada 2023-03-07  1190  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1092  	    assign_in_user(&up->num_routes, &kp->num_routes) ||
+dcdab0d72b69b6 Meng Wei 2018-10-26  1093  	    !access_ok(VERIFY_WRITE, up->reserved, sizeof(*up->reserved)))
+dcdab0d72b69b6 Meng Wei 2018-10-26  1094  		return -EFAULT;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1095  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1096  	uroutes = compat_ptr(p);
+dcdab0d72b69b6 Meng Wei 2018-10-26  1097  
+dcdab0d72b69b6 Meng Wei 2018-10-26 @1098  	if (!access_ok(VERIFY_WRITE, uroutes,
+dcdab0d72b69b6 Meng Wei 2018-10-26  1099  		       num_routes * sizeof(*kp->routes)))
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This can overflow on 32bit systems so it checks less than intended.  Generally,
+integer overflows in access_ok() are treated as bugs without further analysis to
+see if it can actually be exploited.
+
+dcdab0d72b69b6 Meng Wei 2018-10-26  1100  		return -EFAULT;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1101  
+dcdab0d72b69b6 Meng Wei 2018-10-26  1102  	return 0;
+dcdab0d72b69b6 Meng Wei 2018-10-26  1103  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
