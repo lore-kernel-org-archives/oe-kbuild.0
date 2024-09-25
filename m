@@ -1,239 +1,644 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BF1481B1
-	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 14:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0A184D3E
+	for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 15:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727274719; cv=none; b=PA7fkoZqwKMyfoGwg/3CuEd895SYDSGaAAycxOQ4OopZFj4fWXVmbL8yhSEszyvll4ZpqqWFZL/ZNZAGZXt6g9lcTvQr6yRfAWjfVm8fGnO7fpF3+IlyyzwbfQA1OOwX6UjqBuWL8tkrMVUgdjCnOT8K4DUEBMDviUdZTqqR/DI=
+	t=1727277448; cv=none; b=LfBxJfiTog6ubSJTGOWFFw8eBapESdxBrLC8/51D2tUtmxWUiTDR8Hpoz3HjH9UaWcOHgxvf06OvNfU5Cyr0fNKPTYxJR8LSGnrary+M5dCXtBZKnR8NBfoaNh4Pw95gW6Zi7mu52Bkn4qkhdof150ZCJ85Rzk+5kUu/ffEajsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727274719; c=relaxed/simple;
-	bh=xpkSCyVuAVhnqduAgNZiU/LxcQhcRNALC0AnIPb1kRw=;
+	s=arc-20240116; t=1727277448; c=relaxed/simple;
+	bh=SA4kO0ruTFQoGfkv+lgvpbLVWNG+9oCuptaPGYMkcp4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gQTFFTpmjPRnzTZLosiAMgg3m43KthMs2CTbyTnnPvWQejKfR1ZfcdQvaxsQ53CvD8Rih1auDUcdB4PmsrsYnxwl4Bk3YhXWJURI08Dvnc4jv5IH3RwouhUcQ9z8wY+JeuHxmU/AxyllZGOK6AcvupScCTH2zLI8gZWRY2HrT/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tVAJktHx; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=eAU/S9Wd1/14oKlXdDxJZ4zlQ5ImJSF0ya/1qfQ4YoRY6QNKht9Y04SGd5JAJwTuoDp5x4+dvR9GOzNTvwDYWm9EEc3ftErZK5AuTlUSyuvJZLEJh2yt7yVborXTXKgwWFjRWWW4ehclaoODQHXlZZcCZUK7wX7P8A1uhoeuSfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OXqJ8Ump; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tVAJktHx"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so56955445e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 25 Sep 2024 07:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727274715; x=1727879515; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
-        b=tVAJktHx9eBqXAeNNH4nTb81E6xTysfZOzuAw2AJRZrp7RFtzMFFD/+fliKmR9xraE
-         JuV+34+Kt7n8oNs/yZzCkHGHWaoTVKYliqZU550kH6LuANRqiDG3mAxX+TYjuwt46sWf
-         8qAS5IJE6TiEr13AjKYo78lifOSJC9n2StRbn95qKxQHuN4//3S3ZG/CbijGb9xYdr/h
-         Pxp+CQ9ZUMcpeibgl+mLGXpp63eGMYc6RHDHe2rB/Vn6sVs0IlTQ5XIwAyAUyiMKJDPZ
-         odxQZtUs3Iocr2kcA+HYBCSaQyIg6WHx/IPEWtyJ9fkOV1ZHk3nJ1U7whzFVc+alJd9v
-         CMPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727274715; x=1727879515;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bM9SP2rvTqGu03Vlo5S8QNU/05QjrmaE2YALOkKknj4=;
-        b=J/252QWmlWdW93es+EzmUSxH6SrkkuSOOTzbnzOj6vlVHmJJN5j9o4NDyTCDRvjNKE
-         XlBknk46T0fhk5beiV2eUxFzI2VKgfA2up36m5HrabPif8eN0TFsL7HTRLmkjv/WRKE1
-         cajukzqHsatuBACIQDUYqyouOlQy1k83QlWm/e7i2bsRMH+To736MisNdoZPV3Ey5IJo
-         TCBXytDlusXe3n4+8OJe/EOE42Zcd8wiS++j5lUg7OK2jDMIea+SdOj3zZhb3smXZuEM
-         s1Y61txEhXfmQo5LzeTJJpCTu7/r5pJzTUltFSOQdLi3yl0y8OCDhWxk/ViEMpyv76eS
-         busg==
-X-Gm-Message-State: AOJu0Yx3PHnMNSOT6zgTEIo+zV8RraAVWQB8e5G1BTqcQNR59/ZNM9kU
-	TZqXcmRIDKlayzh2qmPvXCDaxrg1uzcMi/XKlsq1OCWLn+3xPoJrBwcpZoWWz3z0+S8BDiheujr
-	0
-X-Google-Smtp-Source: AGHT+IHbpu5DE6tvjsN90CvUnPNvwrMJZvEHP1NfUsXR82Gz+ZtqJynwkONCTq2mRnoJqR6bj2Xo+w==
-X-Received: by 2002:a05:600c:45ce:b0:42b:af1c:66e with SMTP id 5b1f17b1804b1-42e9610c1c6mr19389955e9.9.1727274714978;
-        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42e96a36760sm20776975e9.30.2024.09.25.07.31.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 07:31:54 -0700 (PDT)
-Date: Wed, 25 Sep 2024 17:31:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [mnyman-xhci:for-usb-next 9/10] drivers/usb/host/xhci-ring.c:1405
- xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
-Message-ID: <b40140f7-cfd8-4cd4-b442-4d3d4318c5db@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXqJ8Ump"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727277445; x=1758813445;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SA4kO0ruTFQoGfkv+lgvpbLVWNG+9oCuptaPGYMkcp4=;
+  b=OXqJ8UmpGTZhZFnlOFtwaeLfgcBBGXhuyCekxwlDuNz5HwRTJMjkdFmB
+   oggZjY6MKek3mDX3D2KTPhRi5DDcFAmrHHh/xC6dsy/OdM9gJaC8UK5aM
+   vGV2if+chAy438BaA4WaXhygGNsX8ZrFnIV7pWl96/z9REiD+MJNboATm
+   RXEMo6C+LDK0X+HKY5d55J22BjLt8sF/dXjPvXnuBDHKssUMsjPx/0fxu
+   gnYVIxShE3oHDl4LwrEk2nHykyjn+cjeCh+L6wAywDkqv6X1QaD9hOj3D
+   mFd1uMDAO9OJZ5Y4p/Y5U4KwFud+5AiDtE66mBBQXA8yO87Gqc12sanDi
+   w==;
+X-CSE-ConnectionGUID: 3DBlQsw3RduuYV1Umfa/aA==
+X-CSE-MsgGUID: B/p3an7PS5e8Z2B4AllSAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="30219143"
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="30219143"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 08:17:24 -0700
+X-CSE-ConnectionGUID: 4zg0PZi8RNCIYcdL1xRk4Q==
+X-CSE-MsgGUID: Ca39WDKXTW6Cum3BJzmPpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,257,1719903600"; 
+   d="scan'208";a="72262960"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Sep 2024 08:17:22 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1stTlY-000Jdt-05;
+	Wed, 25 Sep 2024 15:17:20 +0000
+Date: Wed, 25 Sep 2024 23:16:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/scsi/lpfc/lpfc_init.c:6834:31-32: WARNING opportunity for
+ min()
+Message-ID: <202409252338.0BbV3UkS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-head:   645eb2ce6b3e541d3c651f136da8a16f76799526
-commit: fdd9a29e9139a8988b65dce295dfc3f089003ae0 [9/10] xhci: trace stream context at Set TR Deq command completion
-config: powerpc64-randconfig-r072-20240925 (https://download.01.org/0day-ci/archive/20240925/202409252250.WNZonX5o-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: James Smart <jsmart2021@gmail.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Dick Kennedy <dick.kennedy@broadcom.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   684a64bf32b6e488004e0ad7f0d7e922798f65b6
+commit: d79c9e9d4b3d9330ee38f392a7c98e0fc494f7f8 scsi: lpfc: Support dynamic unbounded SGL lists on G7 hardware.
+date:   5 years ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 5 years ago
+config: x86_64-randconfig-102-20240924 (https://download.01.org/0day-ci/archive/20240925/202409252338.0BbV3UkS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409252250.WNZonX5o-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202409252338.0BbV3UkS-lkp@intel.com/
 
-smatch warnings:
-drivers/usb/host/xhci-ring.c:1405 xhci_handle_cmd_set_deq() error: uninitialized symbol 'stream_ctx'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/lpfc/lpfc_init.c:6834:31-32: WARNING opportunity for min()
 
-vim +/stream_ctx +1405 drivers/usb/host/xhci-ring.c
+vim +6834 drivers/scsi/lpfc/lpfc_init.c
 
-b8200c9479b804 Xenia Ragiadakou 2013-09-09  1332  static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1333  		union xhci_trb *trb, u32 cmd_comp_code)
-ae636747146ea9 Sarah Sharp      2009-04-29  1334  {
-ae636747146ea9 Sarah Sharp      2009-04-29  1335  	unsigned int ep_index;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1336  	unsigned int stream_id;
-ae636747146ea9 Sarah Sharp      2009-04-29  1337  	struct xhci_ring *ep_ring;
-9aad95e292f58d Hans de Goede    2013-10-04  1338  	struct xhci_virt_ep *ep;
-d115b04818e57b John Youn        2009-07-27  1339  	struct xhci_ep_ctx *ep_ctx;
-d115b04818e57b John Youn        2009-07-27  1340  	struct xhci_slot_ctx *slot_ctx;
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1341  	struct xhci_stream_ctx *stream_ctx;
-674f8438c12125 Mathias Nyman    2021-01-29  1342  	struct xhci_td *td, *tmp_td;
-5ceac4402f5d97 Hector Martin    2024-06-11  1343  	bool deferred = false;
-ae636747146ea9 Sarah Sharp      2009-04-29  1344  
-28ccd2962c6655 Matt Evans       2011-03-29  1345  	ep_index = TRB_TO_EP_INDEX(le32_to_cpu(trb->generic.field[3]));
-28ccd2962c6655 Matt Evans       2011-03-29  1346  	stream_id = TRB_TO_STREAM_ID(le32_to_cpu(trb->generic.field[2]));
-b1adc42d440df3 Mathias Nyman    2021-01-29  1347  	ep = xhci_get_virt_ep(xhci, slot_id, ep_index);
-b1adc42d440df3 Mathias Nyman    2021-01-29  1348  	if (!ep)
-b1adc42d440df3 Mathias Nyman    2021-01-29  1349  		return;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1350  
-42f2890aa998d1 Mathias Nyman    2021-01-29  1351  	ep_ring = xhci_virt_ep_to_ring(xhci, ep, stream_id);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1352  	if (!ep_ring) {
-e587b8b270d370 Oliver Neukum    2014-01-08  1353  		xhci_warn(xhci, "WARN Set TR deq ptr command for freed stream ID %u\n",
-e9df17eb1408cf Sarah Sharp      2010-04-02  1354  				stream_id);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1355  		/* XXX: Harmless??? */
-0d4976ec8ec17f Hans de Goede    2014-08-20  1356  		goto cleanup;
-e9df17eb1408cf Sarah Sharp      2010-04-02  1357  	}
-e9df17eb1408cf Sarah Sharp      2010-04-02  1358  
-b1adc42d440df3 Mathias Nyman    2021-01-29  1359  	ep_ctx = xhci_get_ep_ctx(xhci, ep->vdev->out_ctx, ep_index);
-b1adc42d440df3 Mathias Nyman    2021-01-29  1360  	slot_ctx = xhci_get_slot_ctx(xhci, ep->vdev->out_ctx);
-19a7d0d65c4a81 Felipe Balbi     2017-04-07  1361  	trace_xhci_handle_cmd_set_deq(slot_ctx);
-19a7d0d65c4a81 Felipe Balbi     2017-04-07  1362  	trace_xhci_handle_cmd_set_deq_ep(ep_ctx);
-ae636747146ea9 Sarah Sharp      2009-04-29  1363  
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1364  	if (ep->ep_state & EP_HAS_STREAMS && ep->stream_info) {
-
-stream_ctx is only initialized when ep->stream_info is non-NULL.
-Could we change this condition to:
-	if ((ep->ep_state & EP_HAS_STREAMS) && cmd_comp_code == COMP_SUCCESS) {
-instead?
-
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1365  		stream_ctx = &ep->stream_info->stream_ctx_array[stream_id];
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1366  		trace_xhci_handle_cmd_set_deq_stream(ep->stream_info, stream_id);
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1367  	}
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1368  
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1369  	if (cmd_comp_code != COMP_SUCCESS) {
-ae636747146ea9 Sarah Sharp      2009-04-29  1370  		unsigned int ep_state;
-ae636747146ea9 Sarah Sharp      2009-04-29  1371  		unsigned int slot_state;
-ae636747146ea9 Sarah Sharp      2009-04-29  1372  
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1373  		switch (cmd_comp_code) {
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1374  		case COMP_TRB_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1375  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd invalid because of stream ID configuration\n");
-ae636747146ea9 Sarah Sharp      2009-04-29  1376  			break;
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1377  		case COMP_CONTEXT_STATE_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1378  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd failed due to incorrect slot or ep state.\n");
-5071e6b279178f Mathias Nyman    2016-11-11  1379  			ep_state = GET_EP_CTX_STATE(ep_ctx);
-28ccd2962c6655 Matt Evans       2011-03-29  1380  			slot_state = le32_to_cpu(slot_ctx->dev_state);
-ae636747146ea9 Sarah Sharp      2009-04-29  1381  			slot_state = GET_SLOT_STATE(slot_state);
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1382  			xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1383  					"Slot state = %u, EP state = %u",
-ae636747146ea9 Sarah Sharp      2009-04-29  1384  					slot_state, ep_state);
-ae636747146ea9 Sarah Sharp      2009-04-29  1385  			break;
-0b7c105a04ca79 Felipe Balbi     2017-01-23  1386  		case COMP_SLOT_NOT_ENABLED_ERROR:
-e587b8b270d370 Oliver Neukum    2014-01-08  1387  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd failed because slot %u was not enabled.\n",
-e587b8b270d370 Oliver Neukum    2014-01-08  1388  					slot_id);
-ae636747146ea9 Sarah Sharp      2009-04-29  1389  			break;
-ae636747146ea9 Sarah Sharp      2009-04-29  1390  		default:
-e587b8b270d370 Oliver Neukum    2014-01-08  1391  			xhci_warn(xhci, "WARN Set TR Deq Ptr cmd with unknown completion code of %u.\n",
-c69a059783b241 Xenia Ragiadakou 2013-09-09  1392  					cmd_comp_code);
-ae636747146ea9 Sarah Sharp      2009-04-29  1393  			break;
-ae636747146ea9 Sarah Sharp      2009-04-29  1394  		}
-ae636747146ea9 Sarah Sharp      2009-04-29  1395  		/* OK what do we do now?  The endpoint state is hosed, and we
-ae636747146ea9 Sarah Sharp      2009-04-29  1396  		 * should never get to this point if the synchronization between
-ae636747146ea9 Sarah Sharp      2009-04-29  1397  		 * queueing, and endpoint state are correct.  This might happen
-ae636747146ea9 Sarah Sharp      2009-04-29  1398  		 * if the device gets disconnected after we've finished
-ae636747146ea9 Sarah Sharp      2009-04-29  1399  		 * cancelling URBs, which might not be an error...
-ae636747146ea9 Sarah Sharp      2009-04-29  1400  		 */
-ae636747146ea9 Sarah Sharp      2009-04-29  1401  	} else {
-9aad95e292f58d Hans de Goede    2013-10-04  1402  		u64 deq;
-9aad95e292f58d Hans de Goede    2013-10-04  1403  		/* 4.6.10 deq ptr is written to the stream ctx for streams */
-9aad95e292f58d Hans de Goede    2013-10-04  1404  		if (ep->ep_state & EP_HAS_STREAMS) {
-fdd9a29e9139a8 Mathias Nyman    2024-09-12 @1405  			deq = le64_to_cpu(stream_ctx->stream_ring) & SCTX_DEQ_MASK;
-                                                                                          ^^^^^^^^^^
-Warning.  My guess is that if cmd_comp_code is success then ep->stream_info but
-it's hard to tell without more context...
-
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1406  
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1407  			/*
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1408  			 * Cadence xHCI controllers store some endpoint state
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1409  			 * information within Rsvd0 fields of Stream Endpoint
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1410  			 * context. This field is not cleared during Set TR
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1411  			 * Dequeue Pointer command which causes XDMA to skip
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1412  			 * over transfer ring and leads to data loss on stream
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1413  			 * pipe.
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1414  			 * To fix this issue driver must clear Rsvd0 field.
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1415  			 */
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1416  			if (xhci->quirks & XHCI_CDNS_SCTX_QUIRK) {
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1417  				stream_ctx->reserved[0] = 0;
-fdd9a29e9139a8 Mathias Nyman    2024-09-12  1418  				stream_ctx->reserved[1] = 0;
-e5fa8db0be3e87 Pawel Laszczak   2024-09-05  1419  			}
-9aad95e292f58d Hans de Goede    2013-10-04  1420  		} else {
-9aad95e292f58d Hans de Goede    2013-10-04  1421  			deq = le64_to_cpu(ep_ctx->deq) & ~EP_CTX_CYCLE_MASK;
-9aad95e292f58d Hans de Goede    2013-10-04  1422  		}
-aa50b29061d3df Xenia Ragiadakou 2013-08-14  1423  		xhci_dbg_trace(xhci, trace_xhci_dbg_cancel_urb,
-9aad95e292f58d Hans de Goede    2013-10-04  1424  			"Successful Set TR Deq Ptr cmd, deq = @%08llx", deq);
-9aad95e292f58d Hans de Goede    2013-10-04  1425  		if (xhci_trb_virt_to_dma(ep->queued_deq_seg,
-9aad95e292f58d Hans de Goede    2013-10-04  1426  					 ep->queued_deq_ptr) == deq) {
-bf161e85fb153c Sarah Sharp      2011-02-23  1427  			/* Update the ring's dequeue segment and dequeue pointer
-bf161e85fb153c Sarah Sharp      2011-02-23  1428  			 * to reflect the new position.
-bf161e85fb153c Sarah Sharp      2011-02-23  1429  			 */
-b1adc42d440df3 Mathias Nyman    2021-01-29  1430  			update_ring_for_set_deq_completion(xhci, ep->vdev,
-b008df60c6369b Andiry Xu        2012-03-05  1431  				ep_ring, ep_index);
-bf161e85fb153c Sarah Sharp      2011-02-23  1432  		} else {
-e587b8b270d370 Oliver Neukum    2014-01-08  1433  			xhci_warn(xhci, "Mismatch between completed Set TR Deq Ptr command & xHCI internal state.\n");
-bf161e85fb153c Sarah Sharp      2011-02-23  1434  			xhci_warn(xhci, "ep deq seg = %p, deq ptr = %p\n",
-9aad95e292f58d Hans de Goede    2013-10-04  1435  				  ep->queued_deq_seg, ep->queued_deq_ptr);
-bf161e85fb153c Sarah Sharp      2011-02-23  1436  		}
-ae636747146ea9 Sarah Sharp      2009-04-29  1437  	}
-674f8438c12125 Mathias Nyman    2021-01-29  1438  	/* HW cached TDs cleared from cache, give them back */
-674f8438c12125 Mathias Nyman    2021-01-29  1439  	list_for_each_entry_safe(td, tmp_td, &ep->cancelled_td_list,
-674f8438c12125 Mathias Nyman    2021-01-29  1440  				 cancelled_td_list) {
-674f8438c12125 Mathias Nyman    2021-01-29  1441  		ep_ring = xhci_urb_to_transfer_ring(ep->xhci, td->urb);
-674f8438c12125 Mathias Nyman    2021-01-29  1442  		if (td->cancel_status == TD_CLEARING_CACHE) {
-674f8438c12125 Mathias Nyman    2021-01-29  1443  			td->cancel_status = TD_CLEARED;
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1444  			xhci_dbg(ep->xhci, "%s: Giveback cancelled URB %p TD\n",
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1445  				 __func__, td->urb);
-674f8438c12125 Mathias Nyman    2021-01-29  1446  			xhci_td_cleanup(ep->xhci, td, ep_ring, td->status);
-5ceac4402f5d97 Hector Martin    2024-06-11  1447  		} else if (td->cancel_status == TD_CLEARING_CACHE_DEFERRED) {
-5ceac4402f5d97 Hector Martin    2024-06-11  1448  			deferred = true;
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1449  		} else {
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1450  			xhci_dbg(ep->xhci, "%s: Keep cancelled URB %p TD as cancel_status is %d\n",
-0d9b9f533bf1aa Mathias Nyman    2021-08-20  1451  				 __func__, td->urb, td->cancel_status);
-674f8438c12125 Mathias Nyman    2021-01-29  1452  		}
-674f8438c12125 Mathias Nyman    2021-01-29  1453  	}
-0d4976ec8ec17f Hans de Goede    2014-08-20  1454  cleanup:
-b1adc42d440df3 Mathias Nyman    2021-01-29  1455  	ep->ep_state &= ~SET_DEQ_PENDING;
-b1adc42d440df3 Mathias Nyman    2021-01-29  1456  	ep->queued_deq_seg = NULL;
-b1adc42d440df3 Mathias Nyman    2021-01-29  1457  	ep->queued_deq_ptr = NULL;
-5ceac4402f5d97 Hector Martin    2024-06-11  1458  
-5ceac4402f5d97 Hector Martin    2024-06-11  1459  	if (deferred) {
-5ceac4402f5d97 Hector Martin    2024-06-11  1460  		/* We have more streams to clear */
-5ceac4402f5d97 Hector Martin    2024-06-11  1461  		xhci_dbg(ep->xhci, "%s: Pending TDs to clear, continuing with invalidation\n",
-5ceac4402f5d97 Hector Martin    2024-06-11  1462  			 __func__);
-5ceac4402f5d97 Hector Martin    2024-06-11  1463  		xhci_invalidate_cancelled_tds(ep);
-5ceac4402f5d97 Hector Martin    2024-06-11  1464  	} else {
-e9df17eb1408cf Sarah Sharp      2010-04-02  1465  		/* Restart any rings with pending URBs */
-5ceac4402f5d97 Hector Martin    2024-06-11  1466  		xhci_dbg(ep->xhci, "%s: All TDs cleared, ring doorbell\n", __func__);
-e9df17eb1408cf Sarah Sharp      2010-04-02  1467  		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
-ae636747146ea9 Sarah Sharp      2009-04-29  1468  	}
-5ceac4402f5d97 Hector Martin    2024-06-11  1469  }
+3772a99175f5378 James Smart        2009-05-22  6429  
+3772a99175f5378 James Smart        2009-05-22  6430  /**
+da0436e915a5c17 James Smart        2009-05-22  6431   * lpfc_sli4_driver_resource_setup - Setup drvr internal resources for SLI4 dev
+3772a99175f5378 James Smart        2009-05-22  6432   * @phba: pointer to lpfc hba data structure.
+3772a99175f5378 James Smart        2009-05-22  6433   *
+da0436e915a5c17 James Smart        2009-05-22  6434   * This routine is invoked to set up the driver internal resources specific to
+da0436e915a5c17 James Smart        2009-05-22  6435   * support the SLI-4 HBA device it attached to.
+3772a99175f5378 James Smart        2009-05-22  6436   *
+3772a99175f5378 James Smart        2009-05-22  6437   * Return codes
+af901ca181d92aa André Goddard Rosa 2009-11-14  6438   * 	0 - successful
+3772a99175f5378 James Smart        2009-05-22  6439   * 	other values - error
+3772a99175f5378 James Smart        2009-05-22  6440   **/
+3772a99175f5378 James Smart        2009-05-22  6441  static int
+da0436e915a5c17 James Smart        2009-05-22  6442  lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
+3772a99175f5378 James Smart        2009-05-22  6443  {
+28baac7492fa084 James Smart        2010-02-12  6444  	LPFC_MBOXQ_t *mboxq;
+f358dd0ca26c152 James Smart        2017-02-12  6445  	MAILBOX_t *mb;
+895427bd012ce58 James Smart        2017-02-12  6446  	int rc, i, max_buf_size;
+28baac7492fa084 James Smart        2010-02-12  6447  	uint8_t pn_page[LPFC_MAX_SUPPORTED_PAGES] = {0};
+28baac7492fa084 James Smart        2010-02-12  6448  	struct lpfc_mqe *mqe;
+09294d4623a3149 James Smart        2013-04-17  6449  	int longs;
+81e6a63728a409a James Smart        2017-11-20  6450  	int extra;
+f358dd0ca26c152 James Smart        2017-02-12  6451  	uint64_t wwn;
+b92dc72df3c6b46 James Smart        2018-05-24  6452  	u32 if_type;
+b92dc72df3c6b46 James Smart        2018-05-24  6453  	u32 if_fam;
+da0436e915a5c17 James Smart        2009-05-22  6454  
+895427bd012ce58 James Smart        2017-02-12  6455  	phba->sli4_hba.num_present_cpu = lpfc_present_cpu;
+222e9239c60888b James Smart        2019-01-28  6456  	phba->sli4_hba.num_possible_cpu = num_possible_cpus();
+895427bd012ce58 James Smart        2017-02-12  6457  	phba->sli4_hba.curr_disp_cpu = 0;
+895427bd012ce58 James Smart        2017-02-12  6458  
+716d3bc5030bf91 James Smart        2013-09-06  6459  	/* Get all the module params for configuring this host */
+716d3bc5030bf91 James Smart        2013-09-06  6460  	lpfc_get_cfgparam(phba);
+716d3bc5030bf91 James Smart        2013-09-06  6461  
+895427bd012ce58 James Smart        2017-02-12  6462  	/* Set up phase-1 common device driver resources */
+895427bd012ce58 James Smart        2017-02-12  6463  	rc = lpfc_setup_driver_resource_phase1(phba);
+895427bd012ce58 James Smart        2017-02-12  6464  	if (rc)
+895427bd012ce58 James Smart        2017-02-12  6465  		return -ENODEV;
+895427bd012ce58 James Smart        2017-02-12  6466  
+da0436e915a5c17 James Smart        2009-05-22  6467  	/* Before proceed, wait for POST done and device ready */
+da0436e915a5c17 James Smart        2009-05-22  6468  	rc = lpfc_sli4_post_status_check(phba);
+da0436e915a5c17 James Smart        2009-05-22  6469  	if (rc)
+da0436e915a5c17 James Smart        2009-05-22  6470  		return -ENODEV;
+da0436e915a5c17 James Smart        2009-05-22  6471  
+3cee98db2610fb6 James Smart        2019-08-14  6472  	/* Allocate all driver workqueues here */
+3cee98db2610fb6 James Smart        2019-08-14  6473  
+3cee98db2610fb6 James Smart        2019-08-14  6474  	/* The lpfc_wq workqueue for deferred irq use */
+3cee98db2610fb6 James Smart        2019-08-14  6475  	phba->wq = alloc_workqueue("lpfc_wq", WQ_MEM_RECLAIM, 0);
+3cee98db2610fb6 James Smart        2019-08-14  6476  
+3772a99175f5378 James Smart        2009-05-22  6477  	/*
+da0436e915a5c17 James Smart        2009-05-22  6478  	 * Initialize timers used by driver
+3772a99175f5378 James Smart        2009-05-22  6479  	 */
+3772a99175f5378 James Smart        2009-05-22  6480  
+f22eb4d31c21ac2 Kees Cook          2017-09-06  6481  	timer_setup(&phba->rrq_tmr, lpfc_rrq_timeout, 0);
+3772a99175f5378 James Smart        2009-05-22  6482  
+ecfd03c6a99ad98 James Smart        2010-02-12  6483  	/* FCF rediscover timer */
+f22eb4d31c21ac2 Kees Cook          2017-09-06  6484  	timer_setup(&phba->fcf.redisc_wait, lpfc_sli4_fcf_redisc_wait_tmo, 0);
+ecfd03c6a99ad98 James Smart        2010-02-12  6485  
+7ad20aa9d39a525 James Smart        2011-05-24  6486  	/*
+7ad20aa9d39a525 James Smart        2011-05-24  6487  	 * Control structure for handling external multi-buffer mailbox
+7ad20aa9d39a525 James Smart        2011-05-24  6488  	 * command pass-through.
+7ad20aa9d39a525 James Smart        2011-05-24  6489  	 */
+7ad20aa9d39a525 James Smart        2011-05-24  6490  	memset((uint8_t *)&phba->mbox_ext_buf_ctx, 0,
+7ad20aa9d39a525 James Smart        2011-05-24  6491  		sizeof(struct lpfc_mbox_ext_buf_ctx));
+7ad20aa9d39a525 James Smart        2011-05-24  6492  	INIT_LIST_HEAD(&phba->mbox_ext_buf_ctx.ext_dmabuf_list);
+7ad20aa9d39a525 James Smart        2011-05-24  6493  
+da0436e915a5c17 James Smart        2009-05-22  6494  	phba->max_vpi = LPFC_MAX_VPI;
+67d1273385d454a James Smart        2012-08-03  6495  
+da0436e915a5c17 James Smart        2009-05-22  6496  	/* This will be set to correct value after the read_config mbox */
+da0436e915a5c17 James Smart        2009-05-22  6497  	phba->max_vports = 0;
+3772a99175f5378 James Smart        2009-05-22  6498  
+da0436e915a5c17 James Smart        2009-05-22  6499  	/* Program the default value of vlan_id and fc_map */
+da0436e915a5c17 James Smart        2009-05-22  6500  	phba->valid_vlan = 0;
+da0436e915a5c17 James Smart        2009-05-22  6501  	phba->fc_map[0] = LPFC_FCOE_FCF_MAP0;
+da0436e915a5c17 James Smart        2009-05-22  6502  	phba->fc_map[1] = LPFC_FCOE_FCF_MAP1;
+da0436e915a5c17 James Smart        2009-05-22  6503  	phba->fc_map[2] = LPFC_FCOE_FCF_MAP2;
+3772a99175f5378 James Smart        2009-05-22  6504  
+2a76a28314993d2 James Smart        2012-08-03  6505  	/*
+2a76a28314993d2 James Smart        2012-08-03  6506  	 * For SLI4, instead of using ring 0 (LPFC_FCP_RING) for FCP commands
+895427bd012ce58 James Smart        2017-02-12  6507  	 * we will associate a new ring, for each EQ/CQ/WQ tuple.
+895427bd012ce58 James Smart        2017-02-12  6508  	 * The WQ create will allocate the ring.
+2a76a28314993d2 James Smart        2012-08-03  6509  	 */
+09294d4623a3149 James Smart        2013-04-17  6510  
+da0436e915a5c17 James Smart        2009-05-22  6511  	/* Initialize buffer queue management fields */
+895427bd012ce58 James Smart        2017-02-12  6512  	INIT_LIST_HEAD(&phba->hbqs[LPFC_ELS_HBQ].hbq_buffer_list);
+da0436e915a5c17 James Smart        2009-05-22  6513  	phba->hbqs[LPFC_ELS_HBQ].hbq_alloc_buffer = lpfc_sli4_rb_alloc;
+da0436e915a5c17 James Smart        2009-05-22  6514  	phba->hbqs[LPFC_ELS_HBQ].hbq_free_buffer = lpfc_sli4_rb_free;
+3772a99175f5378 James Smart        2009-05-22  6515  
+da0436e915a5c17 James Smart        2009-05-22  6516  	/*
+da0436e915a5c17 James Smart        2009-05-22  6517  	 * Initialize the SLI Layer to run with lpfc SLI4 HBAs.
+da0436e915a5c17 James Smart        2009-05-22  6518  	 */
+895427bd012ce58 James Smart        2017-02-12  6519  	if (phba->cfg_enable_fc4_type & LPFC_ENABLE_FCP) {
+da0436e915a5c17 James Smart        2009-05-22  6520  		/* Initialize the Abort scsi buffer list used by driver */
+da0436e915a5c17 James Smart        2009-05-22  6521  		spin_lock_init(&phba->sli4_hba.abts_scsi_buf_list_lock);
+da0436e915a5c17 James Smart        2009-05-22  6522  		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_abts_scsi_buf_list);
+895427bd012ce58 James Smart        2017-02-12  6523  	}
+895427bd012ce58 James Smart        2017-02-12  6524  
+895427bd012ce58 James Smart        2017-02-12  6525  	if (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME) {
+895427bd012ce58 James Smart        2017-02-12  6526  		/* Initialize the Abort nvme buffer list used by driver */
+5e5b511d8bfaf76 James Smart        2019-01-28  6527  		spin_lock_init(&phba->sli4_hba.abts_nvmet_buf_list_lock);
+86c6737963e1c60 James Smart        2017-04-21  6528  		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_abts_nvmet_ctx_list);
+a8cf5dfeb4d8424 James Smart        2017-05-15  6529  		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_nvmet_io_wait_list);
+79d8c4ce01b2733 James Smart        2019-05-21  6530  		spin_lock_init(&phba->sli4_hba.t_active_list_lock);
+79d8c4ce01b2733 James Smart        2019-05-21  6531  		INIT_LIST_HEAD(&phba->sli4_hba.t_active_ctx_list);
+895427bd012ce58 James Smart        2017-02-12  6532  	}
+895427bd012ce58 James Smart        2017-02-12  6533  
+da0436e915a5c17 James Smart        2009-05-22  6534  	/* This abort list used by worker thread */
+895427bd012ce58 James Smart        2017-02-12  6535  	spin_lock_init(&phba->sli4_hba.sgl_list_lock);
+a8cf5dfeb4d8424 James Smart        2017-05-15  6536  	spin_lock_init(&phba->sli4_hba.nvmet_io_wait_lock);
+3772a99175f5378 James Smart        2009-05-22  6537  
+da0436e915a5c17 James Smart        2009-05-22  6538  	/*
+6d368e532168cb6 James Smart        2011-05-24  6539  	 * Initialize driver internal slow-path work queues
+da0436e915a5c17 James Smart        2009-05-22  6540  	 */
+3772a99175f5378 James Smart        2009-05-22  6541  
+da0436e915a5c17 James Smart        2009-05-22  6542  	/* Driver internel slow-path CQ Event pool */
+da0436e915a5c17 James Smart        2009-05-22  6543  	INIT_LIST_HEAD(&phba->sli4_hba.sp_cqe_event_pool);
+da0436e915a5c17 James Smart        2009-05-22  6544  	/* Response IOCB work queue list */
+45ed119035b27f2 James Smart        2009-10-02  6545  	INIT_LIST_HEAD(&phba->sli4_hba.sp_queue_event);
+da0436e915a5c17 James Smart        2009-05-22  6546  	/* Asynchronous event CQ Event work queue list */
+da0436e915a5c17 James Smart        2009-05-22  6547  	INIT_LIST_HEAD(&phba->sli4_hba.sp_asynce_work_queue);
+da0436e915a5c17 James Smart        2009-05-22  6548  	/* Fast-path XRI aborted CQ Event work queue list */
+da0436e915a5c17 James Smart        2009-05-22  6549  	INIT_LIST_HEAD(&phba->sli4_hba.sp_fcp_xri_aborted_work_queue);
+da0436e915a5c17 James Smart        2009-05-22  6550  	/* Slow-path XRI aborted CQ Event work queue list */
+da0436e915a5c17 James Smart        2009-05-22  6551  	INIT_LIST_HEAD(&phba->sli4_hba.sp_els_xri_aborted_work_queue);
+da0436e915a5c17 James Smart        2009-05-22  6552  	/* Receive queue CQ Event work queue list */
+da0436e915a5c17 James Smart        2009-05-22  6553  	INIT_LIST_HEAD(&phba->sli4_hba.sp_unsol_work_queue);
+da0436e915a5c17 James Smart        2009-05-22  6554  
+6d368e532168cb6 James Smart        2011-05-24  6555  	/* Initialize extent block lists. */
+6d368e532168cb6 James Smart        2011-05-24  6556  	INIT_LIST_HEAD(&phba->sli4_hba.lpfc_rpi_blk_list);
+6d368e532168cb6 James Smart        2011-05-24  6557  	INIT_LIST_HEAD(&phba->sli4_hba.lpfc_xri_blk_list);
+6d368e532168cb6 James Smart        2011-05-24  6558  	INIT_LIST_HEAD(&phba->sli4_hba.lpfc_vfi_blk_list);
+6d368e532168cb6 James Smart        2011-05-24  6559  	INIT_LIST_HEAD(&phba->lpfc_vpi_blk_list);
+6d368e532168cb6 James Smart        2011-05-24  6560  
+d1f525aaa4d7e57 James Smart        2017-04-21  6561  	/* Initialize mboxq lists. If the early init routines fail
+d1f525aaa4d7e57 James Smart        2017-04-21  6562  	 * these lists need to be correctly initialized.
+d1f525aaa4d7e57 James Smart        2017-04-21  6563  	 */
+d1f525aaa4d7e57 James Smart        2017-04-21  6564  	INIT_LIST_HEAD(&phba->sli.mboxq);
+d1f525aaa4d7e57 James Smart        2017-04-21  6565  	INIT_LIST_HEAD(&phba->sli.mboxq_cmpl);
+d1f525aaa4d7e57 James Smart        2017-04-21  6566  
+448193b5b5e2471 James Smart        2015-12-16  6567  	/* initialize optic_state to 0xFF */
+448193b5b5e2471 James Smart        2015-12-16  6568  	phba->sli4_hba.lnk_info.optic_state = 0xff;
+448193b5b5e2471 James Smart        2015-12-16  6569  
+da0436e915a5c17 James Smart        2009-05-22  6570  	/* Allocate device driver memory */
+da0436e915a5c17 James Smart        2009-05-22  6571  	rc = lpfc_mem_alloc(phba, SGL_ALIGN_SZ);
+da0436e915a5c17 James Smart        2009-05-22  6572  	if (rc)
+da0436e915a5c17 James Smart        2009-05-22  6573  		return -ENOMEM;
+da0436e915a5c17 James Smart        2009-05-22  6574  
+2fcee4bf874a8ae James Smart        2010-12-15  6575  	/* IF Type 2 ports get initialized now. */
+27d6ac0a6e83004 James Smart        2018-02-22  6576  	if (bf_get(lpfc_sli_intf_if_type, &phba->sli4_hba.sli_intf) >=
+2fcee4bf874a8ae James Smart        2010-12-15  6577  	    LPFC_SLI_INTF_IF_TYPE_2) {
+2fcee4bf874a8ae James Smart        2010-12-15  6578  		rc = lpfc_pci_function_reset(phba);
+895427bd012ce58 James Smart        2017-02-12  6579  		if (unlikely(rc)) {
+895427bd012ce58 James Smart        2017-02-12  6580  			rc = -ENODEV;
+895427bd012ce58 James Smart        2017-02-12  6581  			goto out_free_mem;
+895427bd012ce58 James Smart        2017-02-12  6582  		}
+946727dc073dbac James Smart        2015-04-07  6583  		phba->temp_sensor_support = 1;
+2fcee4bf874a8ae James Smart        2010-12-15  6584  	}
+2fcee4bf874a8ae James Smart        2010-12-15  6585  
+da0436e915a5c17 James Smart        2009-05-22  6586  	/* Create the bootstrap mailbox command */
+da0436e915a5c17 James Smart        2009-05-22  6587  	rc = lpfc_create_bootstrap_mbox(phba);
+da0436e915a5c17 James Smart        2009-05-22  6588  	if (unlikely(rc))
+da0436e915a5c17 James Smart        2009-05-22  6589  		goto out_free_mem;
+da0436e915a5c17 James Smart        2009-05-22  6590  
+da0436e915a5c17 James Smart        2009-05-22  6591  	/* Set up the host's endian order with the device. */
+da0436e915a5c17 James Smart        2009-05-22  6592  	rc = lpfc_setup_endian_order(phba);
+da0436e915a5c17 James Smart        2009-05-22  6593  	if (unlikely(rc))
+da0436e915a5c17 James Smart        2009-05-22  6594  		goto out_free_bsmbx;
+da0436e915a5c17 James Smart        2009-05-22  6595  
+da0436e915a5c17 James Smart        2009-05-22  6596  	/* Set up the hba's configuration parameters. */
+da0436e915a5c17 James Smart        2009-05-22  6597  	rc = lpfc_sli4_read_config(phba);
+cff261f6bd03612 James Smart        2013-12-17  6598  	if (unlikely(rc))
+cff261f6bd03612 James Smart        2013-12-17  6599  		goto out_free_bsmbx;
+cff261f6bd03612 James Smart        2013-12-17  6600  	rc = lpfc_mem_alloc_active_rrq_pool_s4(phba);
+da0436e915a5c17 James Smart        2009-05-22  6601  	if (unlikely(rc))
+da0436e915a5c17 James Smart        2009-05-22  6602  		goto out_free_bsmbx;
+da0436e915a5c17 James Smart        2009-05-22  6603  
+2fcee4bf874a8ae James Smart        2010-12-15  6604  	/* IF Type 0 ports get initialized now. */
+2fcee4bf874a8ae James Smart        2010-12-15  6605  	if (bf_get(lpfc_sli_intf_if_type, &phba->sli4_hba.sli_intf) ==
+2fcee4bf874a8ae James Smart        2010-12-15  6606  	    LPFC_SLI_INTF_IF_TYPE_0) {
+da0436e915a5c17 James Smart        2009-05-22  6607  		rc = lpfc_pci_function_reset(phba);
+da0436e915a5c17 James Smart        2009-05-22  6608  		if (unlikely(rc))
+da0436e915a5c17 James Smart        2009-05-22  6609  			goto out_free_bsmbx;
+2fcee4bf874a8ae James Smart        2010-12-15  6610  	}
+da0436e915a5c17 James Smart        2009-05-22  6611  
+cb5172eafd9ffda James Smart        2010-03-15  6612  	mboxq = (LPFC_MBOXQ_t *) mempool_alloc(phba->mbox_mem_pool,
+cb5172eafd9ffda James Smart        2010-03-15  6613  						       GFP_KERNEL);
+cb5172eafd9ffda James Smart        2010-03-15  6614  	if (!mboxq) {
+cb5172eafd9ffda James Smart        2010-03-15  6615  		rc = -ENOMEM;
+cb5172eafd9ffda James Smart        2010-03-15  6616  		goto out_free_bsmbx;
+cb5172eafd9ffda James Smart        2010-03-15  6617  	}
+cb5172eafd9ffda James Smart        2010-03-15  6618  
+f358dd0ca26c152 James Smart        2017-02-12  6619  	/* Check for NVMET being configured */
+895427bd012ce58 James Smart        2017-02-12  6620  	phba->nvmet_support = 0;
+f358dd0ca26c152 James Smart        2017-02-12  6621  	if (lpfc_enable_nvmet_cnt) {
+f358dd0ca26c152 James Smart        2017-02-12  6622  
+f358dd0ca26c152 James Smart        2017-02-12  6623  		/* First get WWN of HBA instance */
+f358dd0ca26c152 James Smart        2017-02-12  6624  		lpfc_read_nv(phba, mboxq);
+f358dd0ca26c152 James Smart        2017-02-12  6625  		rc = lpfc_sli_issue_mbox(phba, mboxq, MBX_POLL);
+f358dd0ca26c152 James Smart        2017-02-12  6626  		if (rc != MBX_SUCCESS) {
+f358dd0ca26c152 James Smart        2017-02-12  6627  			lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
+f358dd0ca26c152 James Smart        2017-02-12  6628  					"6016 Mailbox failed , mbxCmd x%x "
+f358dd0ca26c152 James Smart        2017-02-12  6629  					"READ_NV, mbxStatus x%x\n",
+f358dd0ca26c152 James Smart        2017-02-12  6630  					bf_get(lpfc_mqe_command, &mboxq->u.mqe),
+f358dd0ca26c152 James Smart        2017-02-12  6631  					bf_get(lpfc_mqe_status, &mboxq->u.mqe));
+d1f525aaa4d7e57 James Smart        2017-04-21  6632  			mempool_free(mboxq, phba->mbox_mem_pool);
+f358dd0ca26c152 James Smart        2017-02-12  6633  			rc = -EIO;
+f358dd0ca26c152 James Smart        2017-02-12  6634  			goto out_free_bsmbx;
+f358dd0ca26c152 James Smart        2017-02-12  6635  		}
+f358dd0ca26c152 James Smart        2017-02-12  6636  		mb = &mboxq->u.mb;
+f358dd0ca26c152 James Smart        2017-02-12  6637  		memcpy(&wwn, (char *)mb->un.varRDnvp.nodename,
+f358dd0ca26c152 James Smart        2017-02-12  6638  		       sizeof(uint64_t));
+f358dd0ca26c152 James Smart        2017-02-12  6639  		wwn = cpu_to_be64(wwn);
+f358dd0ca26c152 James Smart        2017-02-12  6640  		phba->sli4_hba.wwnn.u.name = wwn;
+f358dd0ca26c152 James Smart        2017-02-12  6641  		memcpy(&wwn, (char *)mb->un.varRDnvp.portname,
+f358dd0ca26c152 James Smart        2017-02-12  6642  		       sizeof(uint64_t));
+f358dd0ca26c152 James Smart        2017-02-12  6643  		/* wwn is WWPN of HBA instance */
+f358dd0ca26c152 James Smart        2017-02-12  6644  		wwn = cpu_to_be64(wwn);
+f358dd0ca26c152 James Smart        2017-02-12  6645  		phba->sli4_hba.wwpn.u.name = wwn;
+f358dd0ca26c152 James Smart        2017-02-12  6646  
+f358dd0ca26c152 James Smart        2017-02-12  6647  		/* Check to see if it matches any module parameter */
+f358dd0ca26c152 James Smart        2017-02-12  6648  		for (i = 0; i < lpfc_enable_nvmet_cnt; i++) {
+f358dd0ca26c152 James Smart        2017-02-12  6649  			if (wwn == lpfc_enable_nvmet[i]) {
+7d7080335f8d93a James Smart        2017-03-08  6650  #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+3c603be9798758d James Smart        2017-05-15  6651  				if (lpfc_nvmet_mem_alloc(phba))
+3c603be9798758d James Smart        2017-05-15  6652  					break;
+3c603be9798758d James Smart        2017-05-15  6653  
+3c603be9798758d James Smart        2017-05-15  6654  				phba->nvmet_support = 1; /* a match */
+3c603be9798758d James Smart        2017-05-15  6655  
+f358dd0ca26c152 James Smart        2017-02-12  6656  				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+f358dd0ca26c152 James Smart        2017-02-12  6657  						"6017 NVME Target %016llx\n",
+f358dd0ca26c152 James Smart        2017-02-12  6658  						wwn);
+7d7080335f8d93a James Smart        2017-03-08  6659  #else
+7d7080335f8d93a James Smart        2017-03-08  6660  				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+7d7080335f8d93a James Smart        2017-03-08  6661  						"6021 Can't enable NVME Target."
+7d7080335f8d93a James Smart        2017-03-08  6662  						" NVME_TARGET_FC infrastructure"
+7d7080335f8d93a James Smart        2017-03-08  6663  						" is not in kernel\n");
+7d7080335f8d93a James Smart        2017-03-08  6664  #endif
+c490850a094794e James Smart        2019-01-28  6665  				/* Not supported for NVMET */
+c490850a094794e James Smart        2019-01-28  6666  				phba->cfg_xri_rebalancing = 0;
+3c603be9798758d James Smart        2017-05-15  6667  				break;
+f358dd0ca26c152 James Smart        2017-02-12  6668  			}
+f358dd0ca26c152 James Smart        2017-02-12  6669  		}
+f358dd0ca26c152 James Smart        2017-02-12  6670  	}
+895427bd012ce58 James Smart        2017-02-12  6671  
+895427bd012ce58 James Smart        2017-02-12  6672  	lpfc_nvme_mod_param_dep(phba);
+895427bd012ce58 James Smart        2017-02-12  6673  
+fedd3b7b93302c7 James Smart        2011-02-16  6674  	/* Get the Supported Pages if PORT_CAPABILITIES is supported by port. */
+cb5172eafd9ffda James Smart        2010-03-15  6675  	lpfc_supported_pages(mboxq);
+cb5172eafd9ffda James Smart        2010-03-15  6676  	rc = lpfc_sli_issue_mbox(phba, mboxq, MBX_POLL);
+fedd3b7b93302c7 James Smart        2011-02-16  6677  	if (!rc) {
+cb5172eafd9ffda James Smart        2010-03-15  6678  		mqe = &mboxq->u.mqe;
+cb5172eafd9ffda James Smart        2010-03-15  6679  		memcpy(&pn_page[0], ((uint8_t *)&mqe->un.supp_pages.word3),
+cb5172eafd9ffda James Smart        2010-03-15  6680  		       LPFC_MAX_SUPPORTED_PAGES);
+cb5172eafd9ffda James Smart        2010-03-15  6681  		for (i = 0; i < LPFC_MAX_SUPPORTED_PAGES; i++) {
+cb5172eafd9ffda James Smart        2010-03-15  6682  			switch (pn_page[i]) {
+cb5172eafd9ffda James Smart        2010-03-15  6683  			case LPFC_SLI4_PARAMETERS:
+cb5172eafd9ffda James Smart        2010-03-15  6684  				phba->sli4_hba.pc_sli4_params.supported = 1;
+cb5172eafd9ffda James Smart        2010-03-15  6685  				break;
+cb5172eafd9ffda James Smart        2010-03-15  6686  			default:
+cb5172eafd9ffda James Smart        2010-03-15  6687  				break;
+cb5172eafd9ffda James Smart        2010-03-15  6688  			}
+cb5172eafd9ffda James Smart        2010-03-15  6689  		}
+cb5172eafd9ffda James Smart        2010-03-15  6690  		/* Read the port's SLI4 Parameters capabilities if supported. */
+cb5172eafd9ffda James Smart        2010-03-15  6691  		if (phba->sli4_hba.pc_sli4_params.supported)
+cb5172eafd9ffda James Smart        2010-03-15  6692  			rc = lpfc_pc_sli4_params_get(phba, mboxq);
+cb5172eafd9ffda James Smart        2010-03-15  6693  		if (rc) {
+fedd3b7b93302c7 James Smart        2011-02-16  6694  			mempool_free(mboxq, phba->mbox_mem_pool);
+cb5172eafd9ffda James Smart        2010-03-15  6695  			rc = -EIO;
+cb5172eafd9ffda James Smart        2010-03-15  6696  			goto out_free_bsmbx;
+cb5172eafd9ffda James Smart        2010-03-15  6697  		}
+fedd3b7b93302c7 James Smart        2011-02-16  6698  	}
+65791f1f90aade6 James Smart        2016-07-06  6699  
+fedd3b7b93302c7 James Smart        2011-02-16  6700  	/*
+fedd3b7b93302c7 James Smart        2011-02-16  6701  	 * Get sli4 parameters that override parameters from Port capabilities.
+6d368e532168cb6 James Smart        2011-05-24  6702  	 * If this call fails, it isn't critical unless the SLI4 parameters come
+6d368e532168cb6 James Smart        2011-05-24  6703  	 * back in conflict.
+fedd3b7b93302c7 James Smart        2011-02-16  6704  	 */
+6d368e532168cb6 James Smart        2011-05-24  6705  	rc = lpfc_get_sli4_parameters(phba, mboxq);
+6d368e532168cb6 James Smart        2011-05-24  6706  	if (rc) {
+b92dc72df3c6b46 James Smart        2018-05-24  6707  		if_type = bf_get(lpfc_sli_intf_if_type,
+b92dc72df3c6b46 James Smart        2018-05-24  6708  				 &phba->sli4_hba.sli_intf);
+b92dc72df3c6b46 James Smart        2018-05-24  6709  		if_fam = bf_get(lpfc_sli_intf_sli_family,
+b92dc72df3c6b46 James Smart        2018-05-24  6710  				&phba->sli4_hba.sli_intf);
+6d368e532168cb6 James Smart        2011-05-24  6711  		if (phba->sli4_hba.extents_in_use &&
+6d368e532168cb6 James Smart        2011-05-24  6712  		    phba->sli4_hba.rpi_hdrs_in_use) {
+6d368e532168cb6 James Smart        2011-05-24  6713  			lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+6d368e532168cb6 James Smart        2011-05-24  6714  				"2999 Unsupported SLI4 Parameters "
+6d368e532168cb6 James Smart        2011-05-24  6715  				"Extents and RPI headers enabled.\n");
+b92dc72df3c6b46 James Smart        2018-05-24  6716  			if (if_type == LPFC_SLI_INTF_IF_TYPE_0 &&
+b92dc72df3c6b46 James Smart        2018-05-24  6717  			    if_fam ==  LPFC_SLI_INTF_FAMILY_BE2) {
+b92dc72df3c6b46 James Smart        2018-05-24  6718  				mempool_free(mboxq, phba->mbox_mem_pool);
+b92dc72df3c6b46 James Smart        2018-05-24  6719  				rc = -EIO;
+b92dc72df3c6b46 James Smart        2018-05-24  6720  				goto out_free_bsmbx;
+6d368e532168cb6 James Smart        2011-05-24  6721  			}
+b92dc72df3c6b46 James Smart        2018-05-24  6722  		}
+b92dc72df3c6b46 James Smart        2018-05-24  6723  		if (!(if_type == LPFC_SLI_INTF_IF_TYPE_0 &&
+b92dc72df3c6b46 James Smart        2018-05-24  6724  		      if_fam == LPFC_SLI_INTF_FAMILY_BE2)) {
+895427bd012ce58 James Smart        2017-02-12  6725  			mempool_free(mboxq, phba->mbox_mem_pool);
+5c756065e47dc3e Stefano Brivio     2017-09-06  6726  			rc = -EIO;
+895427bd012ce58 James Smart        2017-02-12  6727  			goto out_free_bsmbx;
+6d368e532168cb6 James Smart        2011-05-24  6728  		}
+b92dc72df3c6b46 James Smart        2018-05-24  6729  	}
+895427bd012ce58 James Smart        2017-02-12  6730  
+d79c9e9d4b3d933 James Smart        2019-08-14  6731  	/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6732  	 * 1 for cmd, 1 for rsp, NVME adds an extra one
+d79c9e9d4b3d933 James Smart        2019-08-14  6733  	 * for boundary conditions in its max_sgl_segment template.
+d79c9e9d4b3d933 James Smart        2019-08-14  6734  	 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6735  	extra = 2;
+d79c9e9d4b3d933 James Smart        2019-08-14  6736  	if (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME)
+d79c9e9d4b3d933 James Smart        2019-08-14  6737  		extra++;
+d79c9e9d4b3d933 James Smart        2019-08-14  6738  
+d79c9e9d4b3d933 James Smart        2019-08-14  6739  	/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6740  	 * It doesn't matter what family our adapter is in, we are
+d79c9e9d4b3d933 James Smart        2019-08-14  6741  	 * limited to 2 Pages, 512 SGEs, for our SGL.
+d79c9e9d4b3d933 James Smart        2019-08-14  6742  	 * There are going to be 2 reserved SGEs: 1 FCP cmnd + 1 FCP rsp
+d79c9e9d4b3d933 James Smart        2019-08-14  6743  	 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6744  	max_buf_size = (2 * SLI4_PAGE_SIZE);
+d79c9e9d4b3d933 James Smart        2019-08-14  6745  
+d79c9e9d4b3d933 James Smart        2019-08-14  6746  	/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6747  	 * Since lpfc_sg_seg_cnt is module param, the sg_dma_buf_size
+d79c9e9d4b3d933 James Smart        2019-08-14  6748  	 * used to create the sg_dma_buf_pool must be calculated.
+d79c9e9d4b3d933 James Smart        2019-08-14  6749  	 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6750  	if (phba->sli3_options & LPFC_SLI3_BG_ENABLED) {
+d79c9e9d4b3d933 James Smart        2019-08-14  6751  		/* Both cfg_enable_bg and cfg_external_dif code paths */
+d79c9e9d4b3d933 James Smart        2019-08-14  6752  
+d79c9e9d4b3d933 James Smart        2019-08-14  6753  		/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6754  		 * The scsi_buf for a T10-DIF I/O holds the FCP cmnd,
+d79c9e9d4b3d933 James Smart        2019-08-14  6755  		 * the FCP rsp, and a SGE. Sice we have no control
+d79c9e9d4b3d933 James Smart        2019-08-14  6756  		 * over how many protection segments the SCSI Layer
+d79c9e9d4b3d933 James Smart        2019-08-14  6757  		 * will hand us (ie: there could be one for every block
+d79c9e9d4b3d933 James Smart        2019-08-14  6758  		 * in the IO), just allocate enough SGEs to accomidate
+d79c9e9d4b3d933 James Smart        2019-08-14  6759  		 * our max amount and we need to limit lpfc_sg_seg_cnt
+d79c9e9d4b3d933 James Smart        2019-08-14  6760  		 * to minimize the risk of running out.
+d79c9e9d4b3d933 James Smart        2019-08-14  6761  		 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6762  		phba->cfg_sg_dma_buf_size = sizeof(struct fcp_cmnd) +
+d79c9e9d4b3d933 James Smart        2019-08-14  6763  				sizeof(struct fcp_rsp) + max_buf_size;
+d79c9e9d4b3d933 James Smart        2019-08-14  6764  
+d79c9e9d4b3d933 James Smart        2019-08-14  6765  		/* Total SGEs for scsi_sg_list and scsi_sg_prot_list */
+d79c9e9d4b3d933 James Smart        2019-08-14  6766  		phba->cfg_total_seg_cnt = LPFC_MAX_SGL_SEG_CNT;
+d79c9e9d4b3d933 James Smart        2019-08-14  6767  
+d79c9e9d4b3d933 James Smart        2019-08-14  6768  		/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6769  		 * If supporting DIF, reduce the seg count for scsi to
+d79c9e9d4b3d933 James Smart        2019-08-14  6770  		 * allow room for the DIF sges.
+d79c9e9d4b3d933 James Smart        2019-08-14  6771  		 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6772  		if (phba->cfg_enable_bg &&
+d79c9e9d4b3d933 James Smart        2019-08-14  6773  		    phba->cfg_sg_seg_cnt > LPFC_MAX_BG_SLI4_SEG_CNT_DIF)
+d79c9e9d4b3d933 James Smart        2019-08-14  6774  			phba->cfg_scsi_seg_cnt = LPFC_MAX_BG_SLI4_SEG_CNT_DIF;
+d79c9e9d4b3d933 James Smart        2019-08-14  6775  		else
+d79c9e9d4b3d933 James Smart        2019-08-14  6776  			phba->cfg_scsi_seg_cnt = phba->cfg_sg_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6777  
+d79c9e9d4b3d933 James Smart        2019-08-14  6778  	} else {
+d79c9e9d4b3d933 James Smart        2019-08-14  6779  		/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6780  		 * The scsi_buf for a regular I/O holds the FCP cmnd,
+d79c9e9d4b3d933 James Smart        2019-08-14  6781  		 * the FCP rsp, a SGE for each, and a SGE for up to
+d79c9e9d4b3d933 James Smart        2019-08-14  6782  		 * cfg_sg_seg_cnt data segments.
+d79c9e9d4b3d933 James Smart        2019-08-14  6783  		 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6784  		phba->cfg_sg_dma_buf_size = sizeof(struct fcp_cmnd) +
+d79c9e9d4b3d933 James Smart        2019-08-14  6785  				sizeof(struct fcp_rsp) +
+d79c9e9d4b3d933 James Smart        2019-08-14  6786  				((phba->cfg_sg_seg_cnt + extra) *
+d79c9e9d4b3d933 James Smart        2019-08-14  6787  				sizeof(struct sli4_sge));
+d79c9e9d4b3d933 James Smart        2019-08-14  6788  
+d79c9e9d4b3d933 James Smart        2019-08-14  6789  		/* Total SGEs for scsi_sg_list */
+d79c9e9d4b3d933 James Smart        2019-08-14  6790  		phba->cfg_total_seg_cnt = phba->cfg_sg_seg_cnt + extra;
+d79c9e9d4b3d933 James Smart        2019-08-14  6791  		phba->cfg_scsi_seg_cnt = phba->cfg_sg_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6792  
+d79c9e9d4b3d933 James Smart        2019-08-14  6793  		/*
+d79c9e9d4b3d933 James Smart        2019-08-14  6794  		 * NOTE: if (phba->cfg_sg_seg_cnt + extra) <= 256 we only
+d79c9e9d4b3d933 James Smart        2019-08-14  6795  		 * need to post 1 page for the SGL.
+d79c9e9d4b3d933 James Smart        2019-08-14  6796  		 */
+d79c9e9d4b3d933 James Smart        2019-08-14  6797  	}
+d79c9e9d4b3d933 James Smart        2019-08-14  6798  
+d79c9e9d4b3d933 James Smart        2019-08-14  6799  	if (phba->cfg_xpsgl && !phba->nvmet_support)
+d79c9e9d4b3d933 James Smart        2019-08-14  6800  		phba->cfg_sg_dma_buf_size = LPFC_DEFAULT_XPSGL_SIZE;
+d79c9e9d4b3d933 James Smart        2019-08-14  6801  	else if (phba->cfg_sg_dma_buf_size  <= LPFC_MIN_SG_SLI4_BUF_SZ)
+d79c9e9d4b3d933 James Smart        2019-08-14  6802  		phba->cfg_sg_dma_buf_size = LPFC_MIN_SG_SLI4_BUF_SZ;
+d79c9e9d4b3d933 James Smart        2019-08-14  6803  	else
+d79c9e9d4b3d933 James Smart        2019-08-14  6804  		phba->cfg_sg_dma_buf_size =
+d79c9e9d4b3d933 James Smart        2019-08-14  6805  				SLI4_PAGE_ALIGN(phba->cfg_sg_dma_buf_size);
+d79c9e9d4b3d933 James Smart        2019-08-14  6806  
+d79c9e9d4b3d933 James Smart        2019-08-14  6807  	phba->border_sge_num = phba->cfg_sg_dma_buf_size /
+d79c9e9d4b3d933 James Smart        2019-08-14  6808  			       sizeof(struct sli4_sge);
+d79c9e9d4b3d933 James Smart        2019-08-14  6809  
+d79c9e9d4b3d933 James Smart        2019-08-14  6810  	/* Limit to LPFC_MAX_NVME_SEG_CNT for NVME. */
+d79c9e9d4b3d933 James Smart        2019-08-14  6811  	if (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME) {
+d79c9e9d4b3d933 James Smart        2019-08-14  6812  		if (phba->cfg_sg_seg_cnt > LPFC_MAX_NVME_SEG_CNT) {
+d79c9e9d4b3d933 James Smart        2019-08-14  6813  			lpfc_printf_log(phba, KERN_INFO, LOG_NVME | LOG_INIT,
+d79c9e9d4b3d933 James Smart        2019-08-14  6814  					"6300 Reducing NVME sg segment "
+d79c9e9d4b3d933 James Smart        2019-08-14  6815  					"cnt to %d\n",
+d79c9e9d4b3d933 James Smart        2019-08-14  6816  					LPFC_MAX_NVME_SEG_CNT);
+d79c9e9d4b3d933 James Smart        2019-08-14  6817  			phba->cfg_nvme_seg_cnt = LPFC_MAX_NVME_SEG_CNT;
+d79c9e9d4b3d933 James Smart        2019-08-14  6818  		} else
+d79c9e9d4b3d933 James Smart        2019-08-14  6819  			phba->cfg_nvme_seg_cnt = phba->cfg_sg_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6820  	}
+d79c9e9d4b3d933 James Smart        2019-08-14  6821  
+d79c9e9d4b3d933 James Smart        2019-08-14  6822  	/* Initialize the host templates with the updated values. */
+d79c9e9d4b3d933 James Smart        2019-08-14  6823  	lpfc_vport_template.sg_tablesize = phba->cfg_scsi_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6824  	lpfc_template.sg_tablesize = phba->cfg_scsi_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6825  	lpfc_template_no_hr.sg_tablesize = phba->cfg_scsi_seg_cnt;
+d79c9e9d4b3d933 James Smart        2019-08-14  6826  
+d79c9e9d4b3d933 James Smart        2019-08-14  6827  	lpfc_printf_log(phba, KERN_INFO, LOG_INIT | LOG_FCP,
+d79c9e9d4b3d933 James Smart        2019-08-14  6828  			"9087 sg_seg_cnt:%d dmabuf_size:%d "
+d79c9e9d4b3d933 James Smart        2019-08-14  6829  			"total:%d scsi:%d nvme:%d\n",
+d79c9e9d4b3d933 James Smart        2019-08-14  6830  			phba->cfg_sg_seg_cnt, phba->cfg_sg_dma_buf_size,
+d79c9e9d4b3d933 James Smart        2019-08-14  6831  			phba->cfg_total_seg_cnt,  phba->cfg_scsi_seg_cnt,
+d79c9e9d4b3d933 James Smart        2019-08-14  6832  			phba->cfg_nvme_seg_cnt);
+d79c9e9d4b3d933 James Smart        2019-08-14  6833  
+d79c9e9d4b3d933 James Smart        2019-08-14 @6834  	if (phba->cfg_sg_dma_buf_size < SLI4_PAGE_SIZE)
+d79c9e9d4b3d933 James Smart        2019-08-14  6835  		i = phba->cfg_sg_dma_buf_size;
+d79c9e9d4b3d933 James Smart        2019-08-14  6836  	else
+d79c9e9d4b3d933 James Smart        2019-08-14  6837  		i = SLI4_PAGE_SIZE;
+d79c9e9d4b3d933 James Smart        2019-08-14  6838  
+d79c9e9d4b3d933 James Smart        2019-08-14  6839  	phba->lpfc_sg_dma_buf_pool =
+d79c9e9d4b3d933 James Smart        2019-08-14  6840  			dma_pool_create("lpfc_sg_dma_buf_pool",
+d79c9e9d4b3d933 James Smart        2019-08-14  6841  					&phba->pcidev->dev,
+d79c9e9d4b3d933 James Smart        2019-08-14  6842  					phba->cfg_sg_dma_buf_size,
+d79c9e9d4b3d933 James Smart        2019-08-14  6843  					i, 0);
+d79c9e9d4b3d933 James Smart        2019-08-14  6844  	if (!phba->lpfc_sg_dma_buf_pool)
+d79c9e9d4b3d933 James Smart        2019-08-14  6845  		goto out_free_bsmbx;
+d79c9e9d4b3d933 James Smart        2019-08-14  6846  
+d79c9e9d4b3d933 James Smart        2019-08-14  6847  	phba->lpfc_cmd_rsp_buf_pool =
+d79c9e9d4b3d933 James Smart        2019-08-14  6848  			dma_pool_create("lpfc_cmd_rsp_buf_pool",
+d79c9e9d4b3d933 James Smart        2019-08-14  6849  					&phba->pcidev->dev,
+d79c9e9d4b3d933 James Smart        2019-08-14  6850  					sizeof(struct fcp_cmnd) +
+d79c9e9d4b3d933 James Smart        2019-08-14  6851  					sizeof(struct fcp_rsp),
+d79c9e9d4b3d933 James Smart        2019-08-14  6852  					i, 0);
+d79c9e9d4b3d933 James Smart        2019-08-14  6853  	if (!phba->lpfc_cmd_rsp_buf_pool)
+d79c9e9d4b3d933 James Smart        2019-08-14  6854  		goto out_free_sg_dma_buf;
+d79c9e9d4b3d933 James Smart        2019-08-14  6855  
+fedd3b7b93302c7 James Smart        2011-02-16  6856  	mempool_free(mboxq, phba->mbox_mem_pool);
+1ba981fd3ad1f91 James Smart        2014-02-20  6857  
+1ba981fd3ad1f91 James Smart        2014-02-20  6858  	/* Verify OAS is supported */
+1ba981fd3ad1f91 James Smart        2014-02-20  6859  	lpfc_sli4_oas_verify(phba);
+1ba981fd3ad1f91 James Smart        2014-02-20  6860  
+d2cc9bcd7fa30b6 James Smart        2018-09-10  6861  	/* Verify RAS support on adapter */
+d2cc9bcd7fa30b6 James Smart        2018-09-10  6862  	lpfc_sli4_ras_init(phba);
+d2cc9bcd7fa30b6 James Smart        2018-09-10  6863  
+5350d872c19a59e James Smart        2011-10-10  6864  	/* Verify all the SLI4 queues */
+5350d872c19a59e James Smart        2011-10-10  6865  	rc = lpfc_sli4_queue_verify(phba);
+da0436e915a5c17 James Smart        2009-05-22  6866  	if (rc)
+d79c9e9d4b3d933 James Smart        2019-08-14  6867  		goto out_free_cmd_rsp_buf;
+da0436e915a5c17 James Smart        2009-05-22  6868  
+da0436e915a5c17 James Smart        2009-05-22  6869  	/* Create driver internal CQE event pool */
+da0436e915a5c17 James Smart        2009-05-22  6870  	rc = lpfc_sli4_cq_event_pool_create(phba);
+da0436e915a5c17 James Smart        2009-05-22  6871  	if (rc)
+d79c9e9d4b3d933 James Smart        2019-08-14  6872  		goto out_free_cmd_rsp_buf;
+da0436e915a5c17 James Smart        2009-05-22  6873  
+8a9d2e8003040d2 James Smart        2012-05-09  6874  	/* Initialize sgl lists per host */
+8a9d2e8003040d2 James Smart        2012-05-09  6875  	lpfc_init_sgl_list(phba);
+8a9d2e8003040d2 James Smart        2012-05-09  6876  
+8a9d2e8003040d2 James Smart        2012-05-09  6877  	/* Allocate and initialize active sgl array */
+da0436e915a5c17 James Smart        2009-05-22  6878  	rc = lpfc_init_active_sgl_array(phba);
+da0436e915a5c17 James Smart        2009-05-22  6879  	if (rc) {
+da0436e915a5c17 James Smart        2009-05-22  6880  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+da0436e915a5c17 James Smart        2009-05-22  6881  				"1430 Failed to initialize sgl list.\n");
+8a9d2e8003040d2 James Smart        2012-05-09  6882  		goto out_destroy_cq_event_pool;
+da0436e915a5c17 James Smart        2009-05-22  6883  	}
+da0436e915a5c17 James Smart        2009-05-22  6884  	rc = lpfc_sli4_init_rpi_hdrs(phba);
+da0436e915a5c17 James Smart        2009-05-22  6885  	if (rc) {
+da0436e915a5c17 James Smart        2009-05-22  6886  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+da0436e915a5c17 James Smart        2009-05-22  6887  				"1432 Failed to initialize rpi headers.\n");
+da0436e915a5c17 James Smart        2009-05-22  6888  		goto out_free_active_sgl;
+da0436e915a5c17 James Smart        2009-05-22  6889  	}
+da0436e915a5c17 James Smart        2009-05-22  6890  
+0c9ab6f5cb28199 James Smart        2010-02-26  6891  	/* Allocate eligible FCF bmask memory for FCF roundrobin failover */
+0c9ab6f5cb28199 James Smart        2010-02-26  6892  	longs = (LPFC_SLI4_FCF_TBL_INDX_MAX + BITS_PER_LONG - 1)/BITS_PER_LONG;
+6396bb221514d28 Kees Cook          2018-06-12  6893  	phba->fcf.fcf_rr_bmask = kcalloc(longs, sizeof(unsigned long),
+0c9ab6f5cb28199 James Smart        2010-02-26  6894  					 GFP_KERNEL);
+0c9ab6f5cb28199 James Smart        2010-02-26  6895  	if (!phba->fcf.fcf_rr_bmask) {
+0c9ab6f5cb28199 James Smart        2010-02-26  6896  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+0c9ab6f5cb28199 James Smart        2010-02-26  6897  				"2759 Failed allocate memory for FCF round "
+0c9ab6f5cb28199 James Smart        2010-02-26  6898  				"robin failover bmask\n");
+0558056c1ecd177 James Smart        2011-05-24  6899  		rc = -ENOMEM;
+0c9ab6f5cb28199 James Smart        2010-02-26  6900  		goto out_remove_rpi_hdrs;
+0c9ab6f5cb28199 James Smart        2010-02-26  6901  	}
+0c9ab6f5cb28199 James Smart        2010-02-26  6902  
+6a828b0f6192b49 James Smart        2019-01-28  6903  	phba->sli4_hba.hba_eq_hdl = kcalloc(phba->cfg_irq_chann,
+895427bd012ce58 James Smart        2017-02-12  6904  					    sizeof(struct lpfc_hba_eq_hdl),
+1ba981fd3ad1f91 James Smart        2014-02-20  6905  					    GFP_KERNEL);
+895427bd012ce58 James Smart        2017-02-12  6906  	if (!phba->sli4_hba.hba_eq_hdl) {
+da0436e915a5c17 James Smart        2009-05-22  6907  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+5350d872c19a59e James Smart        2011-10-10  6908  				"2572 Failed allocate memory for "
+5350d872c19a59e James Smart        2011-10-10  6909  				"fast-path per-EQ handle array\n");
+0558056c1ecd177 James Smart        2011-05-24  6910  		rc = -ENOMEM;
+0c9ab6f5cb28199 James Smart        2010-02-26  6911  		goto out_free_fcf_rr_bmask;
+da0436e915a5c17 James Smart        2009-05-22  6912  	}
+da0436e915a5c17 James Smart        2009-05-22  6913  
+222e9239c60888b James Smart        2019-01-28  6914  	phba->sli4_hba.cpu_map = kcalloc(phba->sli4_hba.num_possible_cpu,
+895427bd012ce58 James Smart        2017-02-12  6915  					sizeof(struct lpfc_vector_map_info),
+7bb03bbf1e8c0cb James Smart        2013-04-17  6916  					GFP_KERNEL);
+7bb03bbf1e8c0cb James Smart        2013-04-17  6917  	if (!phba->sli4_hba.cpu_map) {
+7bb03bbf1e8c0cb James Smart        2013-04-17  6918  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+7bb03bbf1e8c0cb James Smart        2013-04-17  6919  				"3327 Failed allocate memory for msi-x "
+7bb03bbf1e8c0cb James Smart        2013-04-17  6920  				"interrupt vector mapping\n");
+7bb03bbf1e8c0cb James Smart        2013-04-17  6921  		rc = -ENOMEM;
+895427bd012ce58 James Smart        2017-02-12  6922  		goto out_free_hba_eq_hdl;
+7bb03bbf1e8c0cb James Smart        2013-04-17  6923  	}
+b246de174300db8 James Smart        2013-05-31  6924  
+32517fc0975bf8d James Smart        2019-01-28  6925  	phba->sli4_hba.eq_info = alloc_percpu(struct lpfc_eq_intr_info);
+32517fc0975bf8d James Smart        2019-01-28  6926  	if (!phba->sli4_hba.eq_info) {
+b246de174300db8 James Smart        2013-05-31  6927  		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+32517fc0975bf8d James Smart        2019-01-28  6928  				"3321 Failed allocation for per_cpu stats\n");
+b246de174300db8 James Smart        2013-05-31  6929  		rc = -ENOMEM;
+32517fc0975bf8d James Smart        2019-01-28  6930  		goto out_free_hba_cpu_map;
+b246de174300db8 James Smart        2013-05-31  6931  	}
+912e3acde60b3b9 James Smart        2011-05-24  6932  	/*
+912e3acde60b3b9 James Smart        2011-05-24  6933  	 * Enable sr-iov virtual functions if supported and configured
+912e3acde60b3b9 James Smart        2011-05-24  6934  	 * through the module parameter.
+912e3acde60b3b9 James Smart        2011-05-24  6935  	 */
+912e3acde60b3b9 James Smart        2011-05-24  6936  	if (phba->cfg_sriov_nr_virtfn > 0) {
+912e3acde60b3b9 James Smart        2011-05-24  6937  		rc = lpfc_sli_probe_sriov_nr_virtfn(phba,
+912e3acde60b3b9 James Smart        2011-05-24  6938  						 phba->cfg_sriov_nr_virtfn);
+912e3acde60b3b9 James Smart        2011-05-24  6939  		if (rc) {
+912e3acde60b3b9 James Smart        2011-05-24  6940  			lpfc_printf_log(phba, KERN_WARNING, LOG_INIT,
+912e3acde60b3b9 James Smart        2011-05-24  6941  					"3020 Requested number of SR-IOV "
+912e3acde60b3b9 James Smart        2011-05-24  6942  					"virtual functions (%d) is not "
+912e3acde60b3b9 James Smart        2011-05-24  6943  					"supported\n",
+912e3acde60b3b9 James Smart        2011-05-24  6944  					phba->cfg_sriov_nr_virtfn);
+912e3acde60b3b9 James Smart        2011-05-24  6945  			phba->cfg_sriov_nr_virtfn = 0;
+912e3acde60b3b9 James Smart        2011-05-24  6946  		}
+912e3acde60b3b9 James Smart        2011-05-24  6947  	}
+912e3acde60b3b9 James Smart        2011-05-24  6948  
+5248a7498e5f6f3 James Smart        2011-07-22  6949  	return 0;
+da0436e915a5c17 James Smart        2009-05-22  6950  
+32517fc0975bf8d James Smart        2019-01-28  6951  out_free_hba_cpu_map:
+32517fc0975bf8d James Smart        2019-01-28  6952  	kfree(phba->sli4_hba.cpu_map);
+895427bd012ce58 James Smart        2017-02-12  6953  out_free_hba_eq_hdl:
+895427bd012ce58 James Smart        2017-02-12  6954  	kfree(phba->sli4_hba.hba_eq_hdl);
+0c9ab6f5cb28199 James Smart        2010-02-26  6955  out_free_fcf_rr_bmask:
+0c9ab6f5cb28199 James Smart        2010-02-26  6956  	kfree(phba->fcf.fcf_rr_bmask);
+da0436e915a5c17 James Smart        2009-05-22  6957  out_remove_rpi_hdrs:
+da0436e915a5c17 James Smart        2009-05-22  6958  	lpfc_sli4_remove_rpi_hdrs(phba);
+da0436e915a5c17 James Smart        2009-05-22  6959  out_free_active_sgl:
+da0436e915a5c17 James Smart        2009-05-22  6960  	lpfc_free_active_sgl(phba);
+da0436e915a5c17 James Smart        2009-05-22  6961  out_destroy_cq_event_pool:
+da0436e915a5c17 James Smart        2009-05-22  6962  	lpfc_sli4_cq_event_pool_destroy(phba);
+d79c9e9d4b3d933 James Smart        2019-08-14  6963  out_free_cmd_rsp_buf:
+d79c9e9d4b3d933 James Smart        2019-08-14  6964  	dma_pool_destroy(phba->lpfc_cmd_rsp_buf_pool);
+d79c9e9d4b3d933 James Smart        2019-08-14  6965  	phba->lpfc_cmd_rsp_buf_pool = NULL;
+d79c9e9d4b3d933 James Smart        2019-08-14  6966  out_free_sg_dma_buf:
+d79c9e9d4b3d933 James Smart        2019-08-14  6967  	dma_pool_destroy(phba->lpfc_sg_dma_buf_pool);
+d79c9e9d4b3d933 James Smart        2019-08-14  6968  	phba->lpfc_sg_dma_buf_pool = NULL;
+da0436e915a5c17 James Smart        2009-05-22  6969  out_free_bsmbx:
+da0436e915a5c17 James Smart        2009-05-22  6970  	lpfc_destroy_bootstrap_mbox(phba);
+da0436e915a5c17 James Smart        2009-05-22  6971  out_free_mem:
+da0436e915a5c17 James Smart        2009-05-22  6972  	lpfc_mem_free(phba);
+da0436e915a5c17 James Smart        2009-05-22  6973  	return rc;
+da0436e915a5c17 James Smart        2009-05-22  6974  }
+da0436e915a5c17 James Smart        2009-05-22  6975  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
