@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D3320B22
-	for <oe-kbuild@lists.linux.dev>; Thu, 26 Sep 2024 07:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A32A17335C
+	for <oe-kbuild@lists.linux.dev>; Thu, 26 Sep 2024 07:31:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727335874; cv=none; b=es/o/oeLIyL8WbA2QT7hHiU2+GVEm+EIPkG1DPou52mwEn9L6AE5K8OgFOFf9Ix0og1oQI4F8edjkabYafiQQqtiNYfTyNqK7XQXDpda9wcRJBZLWt/g4BUOI7BdjC+V6xGGs1456ISi4muCqhJ/VyUzfD3a+u3gkd8fAbHHKPs=
+	t=1727335876; cv=none; b=aujjTdWMBNKtd4QuMk5F5fzR/7s16yHCzmCFPSjxuodAQ66pQ9eN6YUA12id1+/Jr4MGyI7cZ5knJM7qvRAFBRzMfM3pWT6yuh8BtYm41FuH4uqKULy2+A+sACN54GlXUEcf3owNbH9G+vpMKiKxLaxSUT/BUiGCeGw/3T3MYsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727335874; c=relaxed/simple;
-	bh=5mPNdSB+/QJ69r06r+r2I8Zmpw36wKj9yzXjCKIYNco=;
+	s=arc-20240116; t=1727335876; c=relaxed/simple;
+	bh=EH3I6i4MfzCjtij8yh7kvb/J+kWryptnxz/WVA1NiLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R7AeLUFUaGJEbh5JFpJRJW+o9nP0lQrVT56dBjh1ckk15mFT5zPn8Q89VBsA3a3k/+h6c3X7Q1dwCUiGqnGHW2fjBIzu7mMh4bcVd2R3xpMX/LmOAwomz9NLNlw2vg1IfNL9CIDTQgAaUxKCgjxlSg3Zj+hD+qqdlHC9A4KUd4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b9+Gjghd; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=hIYWcxPFxEYLsQ3Q4+ugWBvt4CHsLNJ0TZzsBbdkLfqE8uV+kVHU0/dmzjgbmc7woiyUg1PSIkjKcIkplO2TZY/VY72kO9CC9TUdcFARS1yqwGZkeYHA8BBWr7F+F9MxvzUmFPE6/7MinCqQ5Ca4fPanmflJ/Y8vw2w+cEiz8/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fimKp7Or; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b9+Gjghd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fimKp7Or"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727335873; x=1758871873;
+  t=1727335875; x=1758871875;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5mPNdSB+/QJ69r06r+r2I8Zmpw36wKj9yzXjCKIYNco=;
-  b=b9+Gjghd9FiqusPMrIJ+yhtcX0jydp067VZy7aj1PLfTibIeUM8t1JKQ
-   4wt0kDUQjGjBIv+9DtrKhzFZs6Xpucprg9Wetv3gc0InDgLwf9tVk5QGZ
-   ERHLTw4yi3C30tMZlKVtYRBYxbTzZMnhz91iqGdbQDRS94S8ftW5VhfII
-   QzOF1+/JnTpApQVTs3MNTyaKuHVUN3hWTlRdQw6eesNiWJf8mYDMTI/ew
-   UHJUwWG9d++3XjGZLhoQI194mOKN9Oec1PsN+D1EpwXXFK6MBM1gBdl1e
-   D0OoQBb/Mw74J+bvoVAtnGLLp/tSaIzUZTpLKzmmF6Ky4ExAsYjKOEXwB
-   Q==;
-X-CSE-ConnectionGUID: 6pgf1mIVTaOwQu02azD3Rg==
-X-CSE-MsgGUID: xmnbBXFBR5uZSBpcl5KMJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37086362"
+  bh=EH3I6i4MfzCjtij8yh7kvb/J+kWryptnxz/WVA1NiLw=;
+  b=fimKp7OrIsOj+cuD6bgiXSingELSJqWSO8SCcZIXmV388VfUpKzo6bfx
+   cPxl51W6iJhG57xrajo3PitgQAyhGw03DS4CFtwTx2HQBETkVmqaNyCSy
+   yEBtBcJePRPXbpnT2Nt8XgmL0EQ6+QVB04PREOBNsvp2WZ6XLQ0csT/6I
+   rk8aALOlNlPmXUETuiNGZoCLuVhZOz0fCMIYSdzAMdp8BWlVqMOMAaPTf
+   jGTK9lgfb1CEJhuk4/Nn6nAsxqgqFmDswwQuGRamDaNZHmZ8UqKnx8746
+   017qXP2MgXqYsZX/T5oxwXOjMufLM57LKnpu++5pcgZSAnLsfp4hSpzpw
+   g==;
+X-CSE-ConnectionGUID: PnSK3r8OT0CEj5CuFIkDSQ==
+X-CSE-MsgGUID: ovPSS95BT3usedFNDE14SA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="37086360"
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="37086362"
+   d="scan'208";a="37086360"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 00:31:06 -0700
-X-CSE-ConnectionGUID: P7lNGEKMSTOsgQ05fK84WQ==
-X-CSE-MsgGUID: hIgScD08QY+sHoJbRfmkRw==
+X-CSE-ConnectionGUID: yo6sRRqQSTmiCiiPmHowuw==
+X-CSE-MsgGUID: tnsdLvBNSvavS6wMZWDPKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,259,1719903600"; 
-   d="scan'208";a="71925883"
+   d="scan'208";a="71925878"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 26 Sep 2024 00:31:02 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stixn-000KOj-1O;
+	id 1stixn-000KOn-1Y;
 	Thu, 26 Sep 2024 07:30:59 +0000
-Date: Thu, 26 Sep 2024 15:30:30 +0800
+Date: Thu, 26 Sep 2024 15:30:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [cip:linux-4.19.y-cip-rt 143/30000] mm/page_alloc.c:295:30: warning:
- 'pa_lock' defined but not used
-Message-ID: <202409261542.9A2DlXpU-lkp@intel.com>
+Subject: [cip:linux-4.19.y-cip-rt 124/30000] kernel/printk/printk.c:415:17:
+ warning: function 'early_vprintk' might be a candidate for 'gnu_printf'
+ format attribute
+Message-ID: <202409261500.4GoYJbab-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -72,133 +73,46 @@ TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rt
 head:   f0b0dc3daffc9639872f52dc74ce62bd887d3088
-commit: 6229d1db10c8d1a57b0a927e996b78bc9dcb7bd3 [143/30000] mm: page_alloc: rt-friendly per-cpu pages
+commit: 14d0aafe24db413554d33f9ec8e3a69f5a488881 [124/30000] printk: Add a printk kill switch
 :::::: branch date: 2 days ago
 :::::: commit date: 6 years ago
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240926/202409261542.9A2DlXpU-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261542.9A2DlXpU-lkp@intel.com/reproduce)
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20240926/202409261500.4GoYJbab-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240926/202409261500.4GoYJbab-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409261542.9A2DlXpU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409261500.4GoYJbab-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-    7148 |         adj_init_size(__init_begin, __init_end, init_data_size,
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7150:9: note: in expansion of macro 'adj_init_size'
-    7150 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7150:9: note: in expansion of macro 'adj_init_size'
-    7150 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7150:9: note: in expansion of macro 'adj_init_size'
-    7150 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7150:9: note: in expansion of macro 'adj_init_size'
-    7150 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7151:9: note: in expansion of macro 'adj_init_size'
-    7151 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7151:9: note: in expansion of macro 'adj_init_size'
-    7151 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7151:9: note: in expansion of macro 'adj_init_size'
-    7151 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7151:9: note: in expansion of macro 'adj_init_size'
-    7151 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7152:9: note: in expansion of macro 'adj_init_size'
-    7152 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7152:9: note: in expansion of macro 'adj_init_size'
-    7152 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7152:9: note: in expansion of macro 'adj_init_size'
-    7152 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: note: use '&__start_rodata[0] < &_etext[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7152:9: note: in expansion of macro 'adj_init_size'
-    7152 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7153:9: note: in expansion of macro 'adj_init_size'
-    7153 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:27: note: use '&_sdata[0] <= &__start_rodata[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                           ^~
-   mm/page_alloc.c:7153:9: note: in expansion of macro 'adj_init_size'
-    7153 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: warning: comparison between two arrays [-Warray-compare]
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7153:9: note: in expansion of macro 'adj_init_size'
-    7153 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   mm/page_alloc.c:7144:41: note: use '&__start_rodata[0] < &_edata[0]' to compare the addresses
-    7144 |                 if (start <= pos && pos < end && size > adj) \
-         |                                         ^
-   mm/page_alloc.c:7153:9: note: in expansion of macro 'adj_init_size'
-    7153 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
-         |         ^~~~~~~~~~~~~
-   In file included from mm/page_alloc.c:63:
-   mm/page_alloc.c: At top level:
->> mm/page_alloc.c:295:30: warning: 'pa_lock' defined but not used [-Wunused-const-variable=]
-     295 | static DEFINE_LOCAL_IRQ_LOCK(pa_lock);
-         |                              ^~~~~~~
-   include/linux/locallock.h:243:71: note: in definition of macro 'DEFINE_LOCAL_IRQ_LOCK'
-     243 | #define DEFINE_LOCAL_IRQ_LOCK(lvar)             __typeof__(const int) lvar
-         |                                                                       ^~~~
+   In file included from kernel/printk/printk.c:59:
+   kernel/printk/internal.h:66:20: warning: no previous prototype for 'vprintk_func' [-Wmissing-prototypes]
+      66 | __printf(1, 0) int vprintk_func(const char *fmt, va_list args) { return 0; }
+         |                    ^~~~~~~~~~~~
+   kernel/printk/printk.c:156:5: warning: no previous prototype for 'devkmsg_sysctl_set_loglvl' [-Wmissing-prototypes]
+     156 | int devkmsg_sysctl_set_loglvl(struct ctl_table *table, int write,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/printk/printk.c: In function 'early_vprintk':
+>> kernel/printk/printk.c:415:17: warning: function 'early_vprintk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     415 |                 int n = vscnprintf(buf, sizeof(buf), fmt, ap);
+         |                 ^~~
 
 
-vim +/pa_lock +295 mm/page_alloc.c
+vim +415 kernel/printk/printk.c
 
-418508c13222dd Miklos Szeredi 2007-05-23  294  
-6229d1db10c8d1 Ingo Molnar    2009-07-03 @295  static DEFINE_LOCAL_IRQ_LOCK(pa_lock);
-6229d1db10c8d1 Ingo Molnar    2009-07-03  296  
+14d0aafe24db41 Ingo Molnar 2011-07-22  410  
+14d0aafe24db41 Ingo Molnar 2011-07-22  411  static void early_vprintk(const char *fmt, va_list ap)
+14d0aafe24db41 Ingo Molnar 2011-07-22  412  {
+14d0aafe24db41 Ingo Molnar 2011-07-22  413  	if (early_console) {
+14d0aafe24db41 Ingo Molnar 2011-07-22  414  		char buf[512];
+14d0aafe24db41 Ingo Molnar 2011-07-22 @415  		int n = vscnprintf(buf, sizeof(buf), fmt, ap);
+14d0aafe24db41 Ingo Molnar 2011-07-22  416  
+14d0aafe24db41 Ingo Molnar 2011-07-22  417  		early_console->write(early_console, buf, n);
+14d0aafe24db41 Ingo Molnar 2011-07-22  418  	}
+14d0aafe24db41 Ingo Molnar 2011-07-22  419  }
+14d0aafe24db41 Ingo Molnar 2011-07-22  420  
 
 -- 
 0-DAY CI Kernel Test Service
