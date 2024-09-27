@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB47185931
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 12:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E56317C9AA
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 13:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727441364; cv=none; b=P/racKd2F7Q/TIWyYyPVXgjJ/PY1gPKMVRd5CZYT9C2eJPLQ1RyqfghFSaH7eHAjgs+jaf1RA1xzfr+sZYZQp5JRZYcm7mqn+83qbuajmO93zK6SsczxYYvBZH66uZGLeViwPV4w+z181q34c/H3m/IUiudNXuK8+zadvyE+JVo=
+	t=1727442047; cv=none; b=jssbY3dbUTCTq/UwKXfF6R0MneEkjfPYlhAbH/sQL0BJDsrjOTSu9EDJ+vejPxdoro208aZQI5YWM+6k4s+KPXAjFqRCl0BUSBb3Y7K2ysvQfVBGwExv+MHV2bGp0w1I4htkXAJAAEupRGvUqq6zDR9szwpjwns0XPhKnb+7AAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727441364; c=relaxed/simple;
-	bh=hY+47iPBCBQGmsi2YtieO+1l2czYolI1QjYlTXCTKVw=;
+	s=arc-20240116; t=1727442047; c=relaxed/simple;
+	bh=CSiK4IiJ4vFX62SwCE043OFA39phZrmVwaXKA/MLodg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kwDQ+54TEncWF9aCLeSgXBneeyBVL2a0D9/s2DnOynIImL4PbR+981voWeoUwJGkkgBbx5dHBU3Fy4vU4d72ZGE+lTOV6E2LSPcQOVcZ03McFjgmE2TKB7OymObBUK46d0VXKfGGFedsrN3qX2A6gU0Eg1bLTexOwo1sxu8Dt4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nI7zLcTM; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ZCxwHQXxCGxG+alslfDLVjb0JCA3pA/C8KxCcz8Q65d0nlGI5ZTgDtlrQFsLG23IAWLv4tlk5HbZDdJCpOQsg27qXD6+73j3qzz1TVjxDa/ar5V1qlVXt/11YvpF0kyd2PswDT+iPeAkHEFMoHk93801p9DTG1JJAIlm/hVmmnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HhZIhfNc; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nI7zLcTM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HhZIhfNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727441363; x=1758977363;
+  t=1727442045; x=1758978045;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hY+47iPBCBQGmsi2YtieO+1l2czYolI1QjYlTXCTKVw=;
-  b=nI7zLcTMCd4YfhQaHIXrCC4/P6MFf8zQuszrNhogontlnmNLKtZyeNNK
-   NQ+vmjslNrctuYcYO/2tUAhKoK98hbF3ZQLAMI2i3rQO3blV/ePWmocf5
-   IsnWI3wZ/SwFZ5DGS4FZHNkkv3TFsD/fpBcEz/WSK/0H38RTi4ebRTu21
-   qF+qZd9NK0nm4JxWuqmr+ddLGIUkdrAdImSDRdQzOFFC6TLfU6iKYTS7Q
-   DYy/odbpyUiZjj0o6qWTf2zD7wlVETMd1yMcof2TOPDKoq4hJZp9QErY0
-   kOUF42fhuA0OiodS5f5+XQGOM8BpN33vUoWD8w2gIjdhUiTde0PPbwy4i
-   g==;
-X-CSE-ConnectionGUID: u7PB/b9nQiaP7aQ0+H7b7Q==
-X-CSE-MsgGUID: HQNEG3iERgiVCQ2JQ6d/YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44052269"
+  bh=CSiK4IiJ4vFX62SwCE043OFA39phZrmVwaXKA/MLodg=;
+  b=HhZIhfNcwF7UPGusH2GC30mviy+v/UWalnez2UTHXE7kK1UylmzwtNNA
+   /ZK+u6070OhxkbTL715lUPvOJxbhSErW06AymqTrA7hAKzWhOZetyrzHo
+   i8FisIRfWm3UGIKOmuU2yrf5ZGSJ6J4yvcuQGwdSZBoh7fPMMbs0BBpf6
+   l+hpADVOxz/ONmMkuPsd2IgGg5mcwdD1JphKk0c27b9D1Pc61lgjVBQ0B
+   +dBcFndoZXcFkIeSw5goOgBJEOo6sJlg856bSQU5955yTVog2yzzL7gL8
+   xH6baDUxa/mW2SgtBkfcG5+LMJwCJAftJ35i4CRBG19kemoNHYSp06Fhe
+   Q==;
+X-CSE-ConnectionGUID: 37k70scLSlSjRDLk59deQw==
+X-CSE-MsgGUID: ILYS/oUmR9Wc2yuLiS1BKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="51998268"
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="44052269"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 05:49:22 -0700
-X-CSE-ConnectionGUID: 1jWC6fRUR6mkGLj4eefDyg==
-X-CSE-MsgGUID: S3vIDEdQTlKz64Oj5q49Dg==
+   d="scan'208";a="51998268"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 06:00:24 -0700
+X-CSE-ConnectionGUID: J8+pAtZ4Q2qiORMt9K1qnA==
+X-CSE-MsgGUID: ouO4lMl0SW6VDe5sDQUMkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="95863639"
+   d="scan'208";a="72607803"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Sep 2024 05:49:20 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Sep 2024 06:00:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suAPO-000M77-0o;
-	Fri, 27 Sep 2024 12:49:18 +0000
-Date: Fri, 27 Sep 2024 20:48:56 +0800
+	id 1suAa4-000M9a-2d;
+	Fri, 27 Sep 2024 13:00:20 +0000
+Date: Fri, 27 Sep 2024 20:59:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/nfsd/nfs4state.c:6277:2-11: second lock on line 6277
-Message-ID: <202409272036.BAkxVtqo-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [cip:linux-4.19.y-cip-rebase 576/965] drivers/usb/typec/mux.c:169
+ typec_mux_match() warn: missing unwind goto?
+Message-ID: <202409272010.RJVqF8In-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,72 +64,99 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: NeilBrown <neilb@suse.de>
-CC: Chuck Lever <chuck.lever@oracle.com>
-CC: Jeff Layton <jlayton@kernel.org>
+TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   075dbe9f6e3c21596c5245826a4ee1f1c1676eb8
-commit: d688d8585e6bea5e4e37f7497feea93b6b0a469c nfsd: allow admin-revoked NFSv4.0 state to be freed.
-date:   7 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 7 months ago
-config: sparc-randconfig-r053-20240927 (https://download.01.org/0day-ci/archive/20240927/202409272036.BAkxVtqo-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip-rebase
+head:   43848671a69f7ed12a877f0249e0e1b1a1628066
+commit: 61703341348288c799c78660d36d1ddabad29ccc [576/965] usb: typec: mux: Fix unsigned comparison with less than zero
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20240927 (https://download.01.org/0day-ci/archive/20240927/202409272010.RJVqF8In-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202409272036.BAkxVtqo-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409272010.RJVqF8In-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/nfsd/nfs4state.c:6277:2-11: second lock on line 6277
---
->> fs/nfsd/nfs4state.c:6291:0-1: preceding lock on line 6277
-   fs/nfsd/nfs4state.c:6970:1-7: preceding lock on line 6930
+smatch warnings:
+drivers/usb/typec/mux.c:169 typec_mux_match() warn: missing unwind goto?
 
-vim +6277 fs/nfsd/nfs4state.c
+vim +169 drivers/usb/typec/mux.c
 
-7746b32f467b38 Dai Ngo   2022-09-14  6255  
-d688d8585e6bea NeilBrown 2024-01-30  6256  static void nfs40_clean_admin_revoked(struct nfsd_net *nn,
-d688d8585e6bea NeilBrown 2024-01-30  6257  				      struct laundry_time *lt)
-d688d8585e6bea NeilBrown 2024-01-30  6258  {
-d688d8585e6bea NeilBrown 2024-01-30  6259  	struct nfs4_client *clp;
-d688d8585e6bea NeilBrown 2024-01-30  6260  
-d688d8585e6bea NeilBrown 2024-01-30  6261  	spin_lock(&nn->client_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6262  	if (nn->nfs40_last_revoke == 0 ||
-d688d8585e6bea NeilBrown 2024-01-30  6263  	    nn->nfs40_last_revoke > lt->cutoff) {
-d688d8585e6bea NeilBrown 2024-01-30  6264  		spin_unlock(&nn->client_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6265  		return;
-d688d8585e6bea NeilBrown 2024-01-30  6266  	}
-d688d8585e6bea NeilBrown 2024-01-30  6267  	nn->nfs40_last_revoke = 0;
-d688d8585e6bea NeilBrown 2024-01-30  6268  
-d688d8585e6bea NeilBrown 2024-01-30  6269  retry:
-d688d8585e6bea NeilBrown 2024-01-30  6270  	list_for_each_entry(clp, &nn->client_lru, cl_lru) {
-d688d8585e6bea NeilBrown 2024-01-30  6271  		unsigned long id, tmp;
-d688d8585e6bea NeilBrown 2024-01-30  6272  		struct nfs4_stid *stid;
-d688d8585e6bea NeilBrown 2024-01-30  6273  
-d688d8585e6bea NeilBrown 2024-01-30  6274  		if (atomic_read(&clp->cl_admin_revoked) == 0)
-d688d8585e6bea NeilBrown 2024-01-30  6275  			continue;
-d688d8585e6bea NeilBrown 2024-01-30  6276  
-d688d8585e6bea NeilBrown 2024-01-30 @6277  		spin_lock(&clp->cl_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6278  		idr_for_each_entry_ul(&clp->cl_stateids, stid, tmp, id)
-d688d8585e6bea NeilBrown 2024-01-30  6279  			if (stid->sc_status & SC_STATUS_ADMIN_REVOKED) {
-d688d8585e6bea NeilBrown 2024-01-30  6280  				refcount_inc(&stid->sc_count);
-d688d8585e6bea NeilBrown 2024-01-30  6281  				spin_unlock(&nn->client_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6282  				/* this function drops ->cl_lock */
-d688d8585e6bea NeilBrown 2024-01-30  6283  				nfsd4_drop_revoked_stid(stid);
-d688d8585e6bea NeilBrown 2024-01-30  6284  				nfs4_put_stid(stid);
-d688d8585e6bea NeilBrown 2024-01-30  6285  				spin_lock(&nn->client_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6286  				goto retry;
-d688d8585e6bea NeilBrown 2024-01-30  6287  			}
-d688d8585e6bea NeilBrown 2024-01-30  6288  		spin_unlock(&clp->cl_lock);
-d688d8585e6bea NeilBrown 2024-01-30  6289  	}
-d688d8585e6bea NeilBrown 2024-01-30  6290  	spin_unlock(&nn->client_lock);
-d688d8585e6bea NeilBrown 2024-01-30 @6291  }
-d688d8585e6bea NeilBrown 2024-01-30  6292  
+bdecb33af34f79 Heikki Krogerus 2018-03-20  124  
+bdecb33af34f79 Heikki Krogerus 2018-03-20  125  static void *typec_mux_match(struct device_connection *con, int ep, void *data)
+bdecb33af34f79 Heikki Krogerus 2018-03-20  126  {
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  127  	const struct typec_altmode_desc *desc = data;
+bdecb33af34f79 Heikki Krogerus 2018-03-20  128  	struct typec_mux *mux;
+61703341348288 YueHaibing      2020-02-21  129  	int nval;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  130  	bool match;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  131  	u16 *val;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  132  	int i;
+bdecb33af34f79 Heikki Krogerus 2018-03-20  133  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  134  	if (!con->fwnode) {
+bdecb33af34f79 Heikki Krogerus 2018-03-20  135  		list_for_each_entry(mux, &mux_list, entry)
+bdecb33af34f79 Heikki Krogerus 2018-03-20  136  			if (!strcmp(con->endpoint[ep], dev_name(mux->dev)))
+bdecb33af34f79 Heikki Krogerus 2018-03-20  137  				return mux;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  138  		return ERR_PTR(-EPROBE_DEFER);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  139  	}
+bdecb33af34f79 Heikki Krogerus 2018-03-20  140  
+bdecb33af34f79 Heikki Krogerus 2018-03-20  141  	/*
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  142  	 * Check has the identifier already been "consumed". If it
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  143  	 * has, no need to do any extra connection identification.
+bdecb33af34f79 Heikki Krogerus 2018-03-20  144  	 */
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  145  	match = !con->id;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  146  	if (match)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  147  		goto find_mux;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  148  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  149  	/* Accessory Mode muxes */
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  150  	if (!desc) {
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  151  		match = fwnode_property_present(con->fwnode, "accessory");
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  152  		if (match)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  153  			goto find_mux;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  154  		return NULL;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  155  	}
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  156  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  157  	/* Alternate Mode muxes */
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  158  	nval = fwnode_property_read_u16_array(con->fwnode, "svid", NULL, 0);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  159  	if (nval <= 0)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  160  		return NULL;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  161  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  162  	val = kcalloc(nval, sizeof(*val), GFP_KERNEL);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  163  	if (!val)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  164  		return ERR_PTR(-ENOMEM);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  165  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  166  	nval = fwnode_property_read_u16_array(con->fwnode, "svid", val, nval);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  167  	if (nval < 0) {
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  168  		kfree(val);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21 @169  		return ERR_PTR(nval);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  170  	}
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  171  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  172  	for (i = 0; i < nval; i++) {
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  173  		match = val[i] == desc->svid;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  174  		if (match) {
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  175  			kfree(val);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  176  			goto find_mux;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  177  		}
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  178  	}
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  179  	kfree(val);
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  180  	return NULL;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  181  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  182  find_mux:
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  183  	list_for_each_entry(mux, &mux_list, entry)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  184  		if (dev_fwnode(mux->dev) == con->fwnode)
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  185  			return mux;
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  186  
+4c4129e8af94c1 Heikki Krogerus 2020-02-21  187  	return match ? ERR_PTR(-EPROBE_DEFER) : NULL;
+bdecb33af34f79 Heikki Krogerus 2018-03-20  188  }
+bdecb33af34f79 Heikki Krogerus 2018-03-20  189  
+
+:::::: The code at line 169 was first introduced by commit
+:::::: 4c4129e8af94c11836bd48f475df6fa319c9fada usb: typec: mux: Find the muxes by also matching against the device node
+
+:::::: TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+:::::: CC: Pavel Machek <pavel@ucw.cz>
 
 -- 
 0-DAY CI Kernel Test Service
