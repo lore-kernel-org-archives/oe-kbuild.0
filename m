@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A049018BBA3
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 09:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979581BA895
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 09:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727427614; cv=none; b=XHgAdUBP6ObnOQlYxDncRuQ70lNnVhOpfD/qO7bUTR+Q27kmXWOOgGKXI10r+YYfMwTdDvBcMopPmIvSf1Dmmv3J361DuV8a3SOXIJzwagkoRBppF5uaK3luncli94644SJ3EIcyXvCo30dVhgPefpVRu2bQOtQ3HGzCH/+KeTc=
+	t=1727429104; cv=none; b=j0tEu3b2ftj2czbz1E2YHnAmR9jWTwWrfVrIk1BZi5e1lKN49Xsv7BtZcOt8F0CtEhiSVk0g9Hmz2DCL6pVMuIwOUcD9HmpJ8e0LJK0Cem4YRqSZPiHr3qDREm1/W4PB2ugoakgmSLYhDn50zUMHSBvo7Jt7DptAfqFa9WsqgpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727427614; c=relaxed/simple;
-	bh=Ntk8xDoqmWhIHaBqwDkBF3qZbB7/bmO8oiQ0PGCr9So=;
+	s=arc-20240116; t=1727429104; c=relaxed/simple;
+	bh=dBe/5sFLv5pu2l/fUZhnRSXbq84qKKXoWP5rg08ADIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W8U4jSgUOAQmOrwsyZGuM+ggO8As010JQQjLUYKi5Uwdk3E9V2+zPPiax2D1MimFK9YgFhVZIsfIcsK71QRfuAgv9GNPLjHdyuOdAqmmLsi7zSFznVoZBl0PUtogGEgvfJgwuja/jQr56N7z6tjhG06BPsJwYMV4Tf02QWJ0xwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2StjIGL; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=kiJEALpTSz8trDqAUrI4YXnNJOMp7cX99iXSuE800g425Q1cs2ee9kQmpaQ2TKkfRLsJa4b8ZN2KNJxChKe+qnnqSGRReQ8Xv35Vyi69kfk/upp9Q9CeSm05+BOMU2XwSIZCL3aCWmQxj7oU0Szoy26+s+AJwkx640Xz3Wa49mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sP4KeQRr; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2StjIGL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727427610; x=1758963610;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ntk8xDoqmWhIHaBqwDkBF3qZbB7/bmO8oiQ0PGCr9So=;
-  b=L2StjIGLV3I2GHwQUW+zeJe4oUBwniGxn6qu5kX7HUmbhgHnghpYouU1
-   O5RQLo3zfvRrWOn1QmMBXwt6VMF6u9qv1EMZOpKfVNrQR3FHsIwteUBU5
-   aK+r3EjTQvB4GKdggc+syvU7eLRAz7xEhQU5/aGkMe+7TIzRLeAC/p+/S
-   y4OAloF2/frfzIViw1qiTd2jRxyLLEF1fSBdixVqWoOrGbnpO9wgWPNBQ
-   uKmC3/Raofuk3dtPkjqwXNr4CymXx4TPjEU4M1Ahzw2A4pvbY55YcE9YM
-   WYs6EFUEWu6VXhv/z0vGlKyy0pmPxpnJ8eSfn0zBd1z51OUbO2GjMJpEE
-   g==;
-X-CSE-ConnectionGUID: Qj4F3CFoR16AosioEHsLgg==
-X-CSE-MsgGUID: v4jRNqiGQoGX4dTJUAsCUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="30356124"
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="30356124"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Sep 2024 02:00:08 -0700
-X-CSE-ConnectionGUID: CAeu0QF2SR66wWos9hOhbw==
-X-CSE-MsgGUID: oPSYa55bQXWkJMn059HVdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,158,1725346800"; 
-   d="scan'208";a="77254613"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 27 Sep 2024 02:00:07 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1su6pY-000LjL-1o;
-	Fri, 27 Sep 2024 09:00:04 +0000
-Date: Fri, 27 Sep 2024 16:59:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sP4KeQRr"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cd46f3a26so16480365e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 02:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727429101; x=1728033901; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gg/fCvEtjGMKyTUBwKwl2C1r/BIP57qe3RxYmsfcBMw=;
+        b=sP4KeQRrC2x5GHqQaDzxCaAGiARkeb+wgnPGc8xqsmN88naDyf5HH99T8jOj89FGc/
+         ZTxFDad6pxLCHkAyT2ih0yKy1AGrS5PSP9yoBvnUXzadId4zqF22ISZhILBI8/9l/4j3
+         eKJoOuDV1+rcbej4eSmuOCCnR8GibpJOBB+4UE6aGpvc6d8mr8LpQRn4YYRdqxN4UOOq
+         azlqHHdL0V+jMOlGwZ0XLS7gQMkwmy7ttbqdX2GwBFBUnSqkGW2+GxYN3yV66RCTcZZy
+         i5a3WW8jDsrTQ58AApb5M2DA/zr+eY3cQ3b5BPrUlne2u8wZBSpZbgM6C1mGDWhJVCmM
+         y0Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727429101; x=1728033901;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gg/fCvEtjGMKyTUBwKwl2C1r/BIP57qe3RxYmsfcBMw=;
+        b=q/ZaqM1yfw4tmuL+9n7QXpol0fmyOkNVaGyqqM0XNrC9f2w9uKL35unHlpii9d5H4h
+         bVR1qpd99WVdVAHhzluxsVZOe1c01StsvDevzSGU+6VWH3oSCx14gFMzbXCwp2/7QJNR
+         6YaHFJmp+Of8DuPi75JDHwl/kG6J6qGb3I/WyLrowU/Hr9+YOKXq2Uyw2hPKaVgG7PbA
+         lDaQFVsXQkUSpRsVi5j1ovkZvUEAb3k8q3M9Ib2h2gPTqgaCNYdF0nYFYcJR3j8+2Lzk
+         EOh7vmHwjBt6X9eUd0+l8mNF3zS6hhWqYAIYDIOT2+ReSD6tQU9Kdw0ZxHQ6Hcl109Wx
+         J1yw==
+X-Gm-Message-State: AOJu0YyrK3ig5qD/VUb9GX9+5TWRLXnJsgvt1FNJfyvW/wx/VYm15s54
+	gbBPW7KeQ2+/bZrNIi0x7luIQgOiX9tQB0iu8M/4mbN/8K7+moLxsTnnSxpPvIF3YyK8sF4nXmG
+	t
+X-Google-Smtp-Source: AGHT+IGJGsDWBUIUUjpPJKuHdcWY/5NNL2BVQ3Psb/D6SJK+xngNh+pibZIFL36Y/WBypBbDAQeaZQ==
+X-Received: by 2002:a05:600c:3b93:b0:426:689b:65b7 with SMTP id 5b1f17b1804b1-42f58485cc1mr15949525e9.25.1727429100571;
+        Fri, 27 Sep 2024 02:25:00 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57dd2ec5sm20772275e9.5.2024.09.27.02.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 02:25:00 -0700 (PDT)
+Date: Fri, 27 Sep 2024 12:24:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Yifan Qiao <qiaoyifan4@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-5.10 29927/30000] fs/btrfs/extent-tree.c:190
  btrfs_lookup_extent_info() error: we previously assumed 'trans' could be
  null (see line 138)
-Message-ID: <202409271612.ikY68CAg-lkp@intel.com>
+Message-ID: <71f6e94c-f40c-4faa-b4ac-62a22476efe2@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,44 +68,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yifan Qiao <qiaoyifan4@huawei.com>
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   1ee3530999a48ca477d37ca2f55027c91b57086a
 commit: 55bd6b7bf31f3798b8461dd75c17e9aa9ee8441f [29927/30000] btrfs: don't BUG_ON() when 0 reference count at btrfs_lookup_extent_info()
-:::::: branch date: 55 minutes ago
-:::::: commit date: 3 days ago
 config: x86_64-randconfig-161-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271612.ikY68CAg-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202409271612.ikY68CAg-lkp@intel.com/
 
 New smatch warnings:
 fs/btrfs/extent-tree.c:190 btrfs_lookup_extent_info() error: we previously assumed 'trans' could be null (see line 138)
 
-Old smatch warnings:
-fs/btrfs/extent-tree.c:408 btrfs_get_extent_inline_ref_type() warn: argument 4 to %lx specifier is cast from pointer
-fs/btrfs/extent-tree.c:5070 do_walk_down() warn: missing unwind goto?
-
 vim +/trans +190 fs/btrfs/extent-tree.c
 
-7bb86316c3961d Chris Mason               2007-12-11  103  
-a22285a6a32390 Yan, Zheng                2010-05-16  104  /*
-3173a18f70554f Josef Bacik               2013-03-07  105   * helper function to lookup reference count and flags of a tree block.
-a22285a6a32390 Yan, Zheng                2010-05-16  106   *
-a22285a6a32390 Yan, Zheng                2010-05-16  107   * the head node for delayed ref is used to store the sum of all the
-a22285a6a32390 Yan, Zheng                2010-05-16  108   * reference count modifications queued up in the rbtree. the head
-a22285a6a32390 Yan, Zheng                2010-05-16  109   * node may also store the extent flags to set. This way you can check
-a22285a6a32390 Yan, Zheng                2010-05-16  110   * to see what the reference count and extent flags would be if all of
-a22285a6a32390 Yan, Zheng                2010-05-16  111   * the delayed refs are not processed.
-a22285a6a32390 Yan, Zheng                2010-05-16  112   */
 a22285a6a32390 Yan, Zheng                2010-05-16  113  int btrfs_lookup_extent_info(struct btrfs_trans_handle *trans,
 2ff7e61e0d30ff Jeff Mahoney              2016-06-22  114  			     struct btrfs_fs_info *fs_info, u64 bytenr,
 3173a18f70554f Josef Bacik               2013-03-07  115  			     u64 offset, int metadata, u64 *refs, u64 *flags)
@@ -127,6 +111,9 @@ a22285a6a32390 Yan, Zheng                2010-05-16  135  	if (!path)
 a22285a6a32390 Yan, Zheng                2010-05-16  136  		return -ENOMEM;
 a22285a6a32390 Yan, Zheng                2010-05-16  137  
 a22285a6a32390 Yan, Zheng                2010-05-16 @138  	if (!trans) {
+
+This assumes trans can be NULL
+
 a22285a6a32390 Yan, Zheng                2010-05-16  139  		path->skip_locking = 1;
 a22285a6a32390 Yan, Zheng                2010-05-16  140  		path->search_commit_root = 1;
 a22285a6a32390 Yan, Zheng                2010-05-16  141  	}
@@ -140,6 +127,11 @@ a22285a6a32390 Yan, Zheng                2010-05-16  141  	}
 639eefc8afd1b8 Filipe David Borba Manana 2013-12-08  149  		key.type = BTRFS_EXTENT_ITEM_KEY;
 639eefc8afd1b8 Filipe David Borba Manana 2013-12-08  150  
 0b246afa62b0cf Jeff Mahoney              2016-06-22  151  	ret = btrfs_search_slot(trans, fs_info->extent_root, &key, path, 0, 0);
+                                                                                        ^^^^^
+This has some unchecked dereferences as well but Smatch doens't count them
+because it's possible that we avoid them.  The code upstream is very different
+but in upstream code trans can't be NULL.
+
 a22285a6a32390 Yan, Zheng                2010-05-16  152  	if (ret < 0)
 a22285a6a32390 Yan, Zheng                2010-05-16  153  		goto out_free;
 a22285a6a32390 Yan, Zheng                2010-05-16  154  
@@ -164,6 +156,9 @@ fe95a51b4b389d Filipe Manana             2024-09-24  172  		if (unlikely(item_si
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  173  			ret = -EINVAL;
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  174  			btrfs_print_v0_err(fs_info);
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  175  			if (trans)
+                                                                                    ^^^^^
+checks for NULL
+
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  176  				btrfs_abort_transaction(trans, ret);
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  177  			else
 ba3c2b196bf59b Nikolay Borisov           2018-06-26  178  				btrfs_handle_fs_error(fs_info, ret, NULL);
@@ -179,6 +174,9 @@ fe95a51b4b389d Filipe Manana             2024-09-24  184  		num_refs = btrfs_ext
 55bd6b7bf31f37 Filipe Manana             2024-09-24  188  		"unexpected zero reference count for extent item (%llu %u %llu)",
 55bd6b7bf31f37 Filipe Manana             2024-09-24  189  				  key.objectid, key.type, key.offset);
 55bd6b7bf31f37 Filipe Manana             2024-09-24 @190  			btrfs_abort_transaction(trans, ret);
+
+Unchecked dereference here
+
 55bd6b7bf31f37 Filipe Manana             2024-09-24  191  			goto out_free;
 55bd6b7bf31f37 Filipe Manana             2024-09-24  192  		}
 fe95a51b4b389d Filipe Manana             2024-09-24  193  		extent_flags = btrfs_extent_flags(leaf, ei);
@@ -240,8 +238,8 @@ a22285a6a32390 Yan, Zheng                2010-05-16  248  out_free:
 a22285a6a32390 Yan, Zheng                2010-05-16  249  	btrfs_free_path(path);
 a22285a6a32390 Yan, Zheng                2010-05-16  250  	return ret;
 a22285a6a32390 Yan, Zheng                2010-05-16  251  }
-a22285a6a32390 Yan, Zheng                2010-05-16  252  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
