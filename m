@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84D516FF4E
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 03:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE09E14A4D6
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 04:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727408696; cv=none; b=qVvziPZP2iXdD7W0d9x0uFBShT8+2/9+S6tIxpmEn6wZ47ZnLXKS0+UqYCQrWYiYQO0ttObXE8f8w3/aTf6KSNSGJ22HDcspMwMRGSkIcUNZ6V8nbGq2hfEQ8TIGpZg5cGoU807W/Te+GrDh8NYAY01TnoZGif5YMvWqQdqKjUU=
+	t=1727413080; cv=none; b=Zi4GQxow25WgQZJjahCFFwz990OVlCIhbJXh738pm8LyYPO62xcUd8bQbyu2nkp7vMVQd8quiU2Nj5Wr9ThAcvaE5I/qHwHsxAborL4n2ZmeLPrQuFl6Ez9FHvDtlyoXei+ePTc5X2UspMDoZGa4XnqN0jKxDzuZ0x3G4JJ5wXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727408696; c=relaxed/simple;
-	bh=gp2l4i2nizvEnRH7YpH5n82Q3noEvzgjw4ZsjfP5+qM=;
+	s=arc-20240116; t=1727413080; c=relaxed/simple;
+	bh=XQ7AvM39mmVA+aZ1tNdT2EM5VDU+0BgbHOj1LanpHYQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mczgN+0g9bHELk+HTJzocGAC1+y6+p9IFDMrzOb8IlPRfneJOPxoA8Qj1OBiEEi/bt4ygH27+6MYsxROtODun15vi93P7BwyGveYV2NVmw6bb8RkSTuHUVc4SNK6P/zUAFO6TYL5yzx2oqbNh7jdnnbBOuG2nHDk/nOtRgyYCnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLtzcq71; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=hMMQuXytyHNVe8q+xg6IeZ0qGS3W9J0Gx2Jngxs5KewT1GUErvZ1lL2zvl1FB/bZaK3dZtErzKr1qmKOfLU1lIDaZSvcu47DFHTkauFf7k0Khc3FzVA63sUR5n0XqHNebCVCGFmP6yNt30OVoWTR0SQt3AprJK6NF/xfeym+jck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k6rdZhEN; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLtzcq71"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k6rdZhEN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727408695; x=1758944695;
+  t=1727413078; x=1758949078;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gp2l4i2nizvEnRH7YpH5n82Q3noEvzgjw4ZsjfP5+qM=;
-  b=QLtzcq71A2n1jJJeH7OmE6IlG+EKjYpsWlII1c7WG/kt0t3L5QGGcEO2
-   IrIS0dUCyiOV0apJMqw+DZJgN4D/nmIkBklLEMXC3m/kA0rNMOrSSlJwq
-   lJ5XEHubIaXA3S75u9K/+TNql095bV1TxWG4ZhaUEWEiLSIclzA08M7LJ
-   YpleRxyMGTwz+fPdh08k140Ym5BrsbdLNZ3UfNpy2FbtKcBTeklFEuQYN
-   BW/p5ACbONLrUuEPanSeISljXhxXgsF/ALH1D0E7kweeBd9heKeLJYYi0
-   6byVRt/gIHclIOVCCupSVmHvBzjdhSKRsU4Yjx3jt3leOvl1crACpvwss
+  bh=XQ7AvM39mmVA+aZ1tNdT2EM5VDU+0BgbHOj1LanpHYQ=;
+  b=k6rdZhENYru7kfv/XLfu8BnFq7Tq2gN+fpmXSylhyzBVUGmFnIjqcWTq
+   Z+CavUgHxFCHeAiwzM5gp//aOktl1XktZXeCiwpkrDzP2yHWgbFcT2MMh
+   76iO6H0stBsuwzbWq1dETIyuSacLleWW4T4ljDH5OMCMqZHaq4ZURF5Yk
+   1QfeOSSzPWF8rWKFlX7GSFEn82JsojIztx3iJvmF5aU1zG/4AQ+uKlLty
+   SFTQXATigyPnw4VWdsF3/twpDgTNZk95E20fcbiZKRLqdaVrN88wQNzWk
+   haaaFX/kE6I3wrhDw+dSFjPvamTESPCwLMc7/Nt9gXZg9uQaMmQBab7FO
    Q==;
-X-CSE-ConnectionGUID: O0g1l4uiRTq8lWvJ3+lbpA==
-X-CSE-MsgGUID: Q0+G/27bRmKU05ZmqHHXJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37902468"
+X-CSE-ConnectionGUID: EEsb6YqHQTuXUQQpX3peYQ==
+X-CSE-MsgGUID: kv3IG+dGQWiXZfD1Z+4UFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37126754"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="37902468"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 20:44:54 -0700
-X-CSE-ConnectionGUID: Yn4V1ThBTKu8ueH4EcND4Q==
-X-CSE-MsgGUID: /wwvO4EdRSi2DhiN4P7QSQ==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="37126754"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 21:57:57 -0700
+X-CSE-ConnectionGUID: 9Zb3iA7jQ5qk4QtoIwFmow==
+X-CSE-MsgGUID: DkYPlobWSQ2WtMNOLXQDjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="76902770"
+   d="scan'208";a="103214637"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Sep 2024 20:44:53 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 26 Sep 2024 21:57:56 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1su1uV-000LQV-0F;
-	Fri, 27 Sep 2024 03:44:51 +0000
-Date: Fri, 27 Sep 2024 11:44:47 +0800
+	id 1su33B-000LUl-31;
+	Fri, 27 Sep 2024 04:57:53 +0000
+Date: Fri, 27 Sep 2024 12:57:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [cip:linux-4.19.y-cip 6919/30000]
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c:687:22: warning: no previous
- prototype for 'rcar_du_crtc_mode_valid'
-Message-ID: <202409271134.DyCm0IxA-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/misc/mrvl_cn10k_dpi.c:231 dpi_queue_init() error:
+ uninitialized symbol 'reg'.
+Message-ID: <202409271221.3LDHDPch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,51 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "cip tree"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+CC: linux-kernel@vger.kernel.org
+TO: Vamsi Attunuru <vattunuru@marvell.com>
+CC: Srujana Challa <schalla@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.19.y-cip
-head:   95b722b3ebb739e01ce712254a92789f843917e3
-commit: c91507b765b769d6930a2aab363bfb7b704b819e [6919/30000] drm: rcar-du: Add interlaced feature flag
-:::::: branch date: 3 days ago
-:::::: commit date: 5 years ago
-config: arm-randconfig-004-20240927 (https://download.01.org/0day-ci/archive/20240927/202409271134.DyCm0IxA-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409271134.DyCm0IxA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   075dbe9f6e3c21596c5245826a4ee1f1c1676eb8
+commit: 5f67eef6dff39421215e9134f1eaae51b67a73b7 misc: mrvl-cn10k-dpi: add Octeon CN10K DPI administrative driver
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+config: arm64-randconfig-r072-20240925 (https://download.01.org/0day-ci/archive/20240927/202409271221.3LDHDPch-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409271134.DyCm0IxA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409271221.3LDHDPch-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/misc/mrvl_cn10k_dpi.c:231 dpi_queue_init() error: uninitialized symbol 'reg'.
 
->> drivers/gpu/drm/rcar-du/rcar_du_crtc.c:687:22: warning: no previous prototype for 'rcar_du_crtc_mode_valid' [-Wmissing-prototypes]
-     687 | enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+vim +/reg +231 drivers/misc/mrvl_cn10k_dpi.c
 
-
-vim +/rcar_du_crtc_mode_valid +687 drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-
-920888a2d56f0e Laurent Pinchart 2015-02-18  686  
-c91507b765b769 Kieran Bingham   2019-09-17 @687  enum drm_mode_status rcar_du_crtc_mode_valid(struct drm_crtc *crtc,
-c91507b765b769 Kieran Bingham   2019-09-17  688  				   const struct drm_display_mode *mode)
-c91507b765b769 Kieran Bingham   2019-09-17  689  {
-c91507b765b769 Kieran Bingham   2019-09-17  690  	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-c91507b765b769 Kieran Bingham   2019-09-17  691  	struct rcar_du_device *rcdu = rcrtc->group->dev;
-c91507b765b769 Kieran Bingham   2019-09-17  692  	bool interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-c91507b765b769 Kieran Bingham   2019-09-17  693  
-c91507b765b769 Kieran Bingham   2019-09-17  694  	if (interlaced && !rcar_du_has(rcdu, RCAR_DU_FEATURE_INTERLACED))
-c91507b765b769 Kieran Bingham   2019-09-17  695  		return MODE_NO_INTERLACE;
-c91507b765b769 Kieran Bingham   2019-09-17  696  
-c91507b765b769 Kieran Bingham   2019-09-17  697  	return MODE_OK;
-c91507b765b769 Kieran Bingham   2019-09-17  698  }
-c91507b765b769 Kieran Bingham   2019-09-17  699  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  208  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  209  static int dpi_queue_init(struct dpipf *dpi, struct dpipf_vf *dpivf, u8 vf)
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  210  {
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  211  	u16 sso_pf_func = dpivf->vf_config.sso_pf_func;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  212  	u16 npa_pf_func = dpivf->vf_config.npa_pf_func;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  213  	u16 csize = dpivf->vf_config.csize;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  214  	u32 aura = dpivf->vf_config.aura;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  215  	unsigned long timeout;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  216  	u64 reg;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  217  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  218  	dpi_reg_write(dpi, DPI_DMAX_QRST(vf), DPI_DMA_QRST);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  219  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  220  	/* Wait for a maximum of 3 sec */
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  221  	timeout = jiffies + msecs_to_jiffies(3000);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  222  	while (!time_after(jiffies, timeout)) {
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  223  		reg = dpi_reg_read(dpi, DPI_DMAX_QRST(vf));
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  224  		if (!(reg & DPI_DMA_QRST))
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  225  			break;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  226  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  227  		/* Reset would take time for the request cache to drain */
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  228  		usleep_range(500, 1000);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  229  	}
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  230  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06 @231  	if (reg & DPI_DMA_QRST) {
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  232  		dev_err(&dpi->pdev->dev, "Queue reset failed\n");
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  233  		return -EBUSY;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  234  	}
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  235  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  236  	dpi_reg_write(dpi, DPI_DMAX_IDS2(vf), 0);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  237  	dpi_reg_write(dpi, DPI_DMAX_IDS(vf), 0);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  238  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  239  	reg = DPI_DMA_IBUFF_CSIZE_CSIZE(csize) | DPI_DMA_IBUFF_CSIZE_NPA_FREE;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  240  	dpi_reg_write(dpi, DPI_DMAX_IBUFF_CSIZE(vf), reg);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  241  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  242  	reg = dpi_reg_read(dpi, DPI_DMAX_IDS2(vf));
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  243  	reg |= DPI_DMA_IDS2_INST_AURA(aura);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  244  	dpi_reg_write(dpi, DPI_DMAX_IDS2(vf), reg);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  245  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  246  	reg = dpi_reg_read(dpi, DPI_DMAX_IDS(vf));
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  247  	reg |= DPI_DMA_IDS_DMA_NPA_PF_FUNC(npa_pf_func);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  248  	reg |= DPI_DMA_IDS_DMA_SSO_PF_FUNC(sso_pf_func);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  249  	reg |= DPI_DMA_IDS_DMA_STRM(vf + 1);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  250  	reg |= DPI_DMA_IDS_INST_STRM(vf + 1);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  251  	dpi_reg_write(dpi, DPI_DMAX_IDS(vf), reg);
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  252  
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  253  	return 0;
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  254  }
+5f67eef6dff3942 Vamsi Attunuru 2024-07-06  255  
 
 -- 
 0-DAY CI Kernel Test Service
