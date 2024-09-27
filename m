@@ -1,141 +1,176 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C6D13A88D
-	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 01:40:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA67EAF9
+	for <oe-kbuild@lists.linux.dev>; Fri, 27 Sep 2024 02:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727401254; cv=none; b=qVhmI0ySswuy4JLct1W4OaO+y7acq+HlGEBqbf6EEtFjjOHeD4EFOaTtXGm12L6T5h2VisZgFFvr1TYinroJHCYfF34wyjd1Sf/MJOM15GKho8R+/g5/lWintGe+HR2q+SvJMrAIvbMuiQeazhkKBMcIAUPj5/+l+/5HXiu1JTE=
+	t=1727402713; cv=none; b=kiTgARl7sLdSNPxtK/ddTmzJRWTJUz/u7P0xDCeIdGCZZHKEKbCn/FHoKcaXfQk5c3O6ID1RGEEhgjHiyEEjfH+zoL77kpxTOeFMiJsZPSZNI+dK7vlNXIcafVu8v1c1m0Q86vlnFbx8vjrXvvrnvH/KHg3bgJyXa3dPRMWle2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727401254; c=relaxed/simple;
-	bh=+V0JSSW2MWkVMzHScDpczNIEP3KzJme6n+ShiTG7dVk=;
+	s=arc-20240116; t=1727402713; c=relaxed/simple;
+	bh=RXXPOqTdqrJiUtygP6XKuD+jxbG5CJGY+U1xWLkkIT0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j2qtnM20K6arc/aPXB2kjiGKYkWz/S1y3djsxFHcHzPAGDT22UyGkSmehvUaSgWA0iUBNCzYJF4///jkgNGMRwwf3RBOqKgbs3phUA/p/STY+fSp3hEh6XApz90fMHS3Bwg40OcrBzqeGPeeNLfISw/9PzyeatuV2NY3wCykrvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lAYqadlh; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=jDQfmYFalFTConPvtPatLH86JtqhiDXZXL8KtOIwxt8+iU28u0qIuANzoJ7sYjRPeT8lp9yPL1ISMHRU91vA26DS9RuQQ1QBxYQaTprI4X2VHXRIVlXhfEK4VJnM1HG1a6nO41T+xf9884qhxovbKzQFMtKsCxa5ZCgyS0aKTqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Us+QgxFY; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lAYqadlh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Us+QgxFY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727401253; x=1758937253;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+V0JSSW2MWkVMzHScDpczNIEP3KzJme6n+ShiTG7dVk=;
-  b=lAYqadlh/P1nkXHkBUShWDZAz81ApnUuQAzALAXdZvAuki7LAVWVx8xc
-   PKPsNvUz2ZG7VIKgNZiZQhqH0Y4k80HDtBW/KjfgRfkiEf+aDZ16XF1yB
-   A0oEOMn8Z9Mgwvfr1oxjsdiILMxBBtl6Ay0Gk3nj15WkJrz3RDt0R+zoc
-   btdBV0Lm12m7I2tGeLEYHgDBDnjIg70iL8QQ0NulrC+FyXDFrJTNMPJDz
-   jPAtCP+ObGon9+B6Qq1TWW2wG9uyXX4Up5eDeAPy57XyTK/wL6O5mVuPb
-   waqIprRS4+7+nj/rETBgabLb8vj2mNDH8zTNuaqHU4Jx7pMnIqUw6/IhS
-   A==;
-X-CSE-ConnectionGUID: Vj2qOyqUQb27wsBvoRxb4g==
-X-CSE-MsgGUID: tmaWIbAWQYO5SEJLToTUng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="37203930"
+  t=1727402711; x=1758938711;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=RXXPOqTdqrJiUtygP6XKuD+jxbG5CJGY+U1xWLkkIT0=;
+  b=Us+QgxFYLarG40hO5gvK2NdBHFPaxDep8bfduJBsVzhYeSgB7bHRRN76
+   +vVIrTzg5pyePrTCTzYhQiHa+mx2MKn0IWAWZjVvB0aQ6zxwftJ28Lo7E
+   wQyHLLIUw8TgTeWRbaQj9HPfQxGVwu4ts/27IKn4tmJPPmxzsrEl6LujE
+   8/P1r9ifApWx3wchUtQoWDsEekm8tuQi0/y87plVRYKwdV5rbud4gS0S6
+   LS2RjS92U4C15CEUcpEhmVrvlhyE1l4VeX/9WkzwTTlHjNlZD1UuUL2lz
+   lTRaJN7UE++xve4sNcVWfttwI+EC/Y1lzgIpk7m7bqQcuh0BeuffmvnXU
+   Q==;
+X-CSE-ConnectionGUID: JvkzdSRPQwSXsvHQUglKKw==
+X-CSE-MsgGUID: 7c/J0U/VTKGeYqN04Ipiag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="26702764"
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="37203930"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 18:40:52 -0700
-X-CSE-ConnectionGUID: 8EgfOlXmRmah+EUb2qxy5w==
-X-CSE-MsgGUID: oCy08zucR/mWX+kwvz8YXA==
+   d="scan'208";a="26702764"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 19:05:09 -0700
+X-CSE-ConnectionGUID: q+J+E9nTQsi9vzgM+klq+Q==
+X-CSE-MsgGUID: E79llm+uR/iVVHGQpXcAdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="103175087"
+   d="scan'208";a="76726812"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Sep 2024 18:40:51 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Sep 2024 19:01:50 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1stzyS-000LMZ-1v;
-	Fri, 27 Sep 2024 01:40:48 +0000
-Date: Fri, 27 Sep 2024 09:39:54 +0800
+	id 1su0Im-000LNL-36;
+	Fri, 27 Sep 2024 02:01:48 +0000
+Date: Fri, 27 Sep 2024 10:00:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH for-next] RDMA/core: fix ENODEV error for iwarp test over
- vlan
-Message-ID: <202409270901.6bDFVhkz-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH v4] Kunit to check the longest symbol length
+Message-ID: <202409270943.rjCFHFqt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+:::::: 
+:::::: Manual check reason: "low confidence static check warning: lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token"
+:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240926060708.82018-1-anumula@chelsio.com>
-References: <20240926060708.82018-1-anumula@chelsio.com>
-TO: Anumula Murali Mohan Reddy <anumula@chelsio.com>
-TO: jgg@nvidia.com
-TO: leonro@nvidia.com
-CC: linux-rdma@vger.kernel.org
-CC: Anumula Murali Mohan Reddy <anumula@chelsio.com>
-CC: Potnuri Bharat Teja <bharat@chelsio.com>
+In-Reply-To: <20240924172351.23225-1-sergio.collado@gmail.com>
+References: <20240924172351.23225-1-sergio.collado@gmail.com>
+TO: "Sergio González Collado" <sergio.collado@gmail.com>
+TO: Brendan Higgins <brendan.higgins@linux.dev>
+TO: David Gow <davidgow@google.com>
+TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Alex Gaynor <alex.gaynor@gmail.com>
+TO: linux-kselftest@vger.kernel.org
+TO: kunit-dev@googlegroups.com
+TO: sergio.collado@gmail.com
+TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Borislav Petkov <bp@alien8.de>
+TO: Dave Hansen <dave.hansen@linux.intel.com>
+TO: "H. Peter Anvin" <hpa@zytor.com>
+CC: Boqun Feng <boqun.feng@gmail.com>
+CC: Gary Guo <gary@garyguo.net>
+CC: "Björn Roy Baron" <bjorn3_gh@protonmail.com>
+CC: Benno Lossin <benno.lossin@proton.me>
+CC: Andreas Hindborg <a.hindborg@samsung.com>
+CC: Alice Ryhl <aliceryhl@google.com>
+CC: David Rheinsberg <david@readahead.eu>
+CC: rust-for-linux@vger.kernel.org
+CC: linux-kernel-mentees@lists.linuxfoundation.org
+CC: skhan@linuxfoundation.org
+CC: ricardo.marliere@suse.com
+CC: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 
-Hi Anumula,
+Hi Sergio,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rdma/for-next]
-[also build test WARNING on linus/master v6.11 next-20240926]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on abf2050f51fdca0fd146388f83cddd95a57a008d]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anumula-Murali-Mohan-Reddy/RDMA-core-fix-ENODEV-error-for-iwarp-test-over-vlan/20240926-140515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20240926060708.82018-1-anumula%40chelsio.com
-patch subject: [PATCH for-next] RDMA/core: fix ENODEV error for iwarp test over vlan
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-randconfig-161-20240926 (https://download.01.org/0day-ci/archive/20240927/202409270901.6bDFVhkz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sergio-Gonz-lez-Collado/Kunit-to-check-the-longest-symbol-length/20240925-012449
+base:   abf2050f51fdca0fd146388f83cddd95a57a008d
+patch link:    https://lore.kernel.org/r/20240924172351.23225-1-sergio.collado%40gmail.com
+patch subject: [PATCH v4] Kunit to check the longest symbol length
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-122-20240927 (https://download.01.org/0day-ci/archive/20240927/202409270943.rjCFHFqt-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240927/202409270943.rjCFHFqt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409270901.6bDFVhkz-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409270943.rjCFHFqt-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/addr.c:272 rdma_find_ndev_for_src_ip_rcu() error: we previously assumed 'dev' could be null (see line 256)
+sparse warnings: (new ones prefixed by >>)
+>> lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token
+>> lib/longest_symbol_kunit.c:33:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:39:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:45:23: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:45:23: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:48:1: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:48:1: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:75:47: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:75:47: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:47: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:47: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:104:47: sparse: sparse: '##' failed: concatenation is not a valid token
+   lib/longest_symbol_kunit.c:33:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:33:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:34:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:37:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/longest_symbol_kunit.c:37:1: sparse: sparse: got }
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: Expected ; at end of declaration
+   lib/longest_symbol_kunit.c:40:14: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:43:1: sparse: sparse: Expected ; at the end of type declaration
+   lib/longest_symbol_kunit.c:43:1: sparse: sparse: got }
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: Expected ) after typeof
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: Expected ) after typeof
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: got nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nnng1h2i3j4k5l6m7ng1h2i3j4k5l6m7nng1h2i3j4k5l6m7ng1h2i3j4k5l6m7n
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:52:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: undefined identifier '__right'
+   lib/longest_symbol_kunit.c:81:9: sparse: sparse: undefined identifier '__right'
 
-vim +/dev +272 drivers/infiniband/core/addr.c
+vim +33 lib/longest_symbol_kunit.c
 
-7025fcd36bd62a Sean Hefty                 2006-06-17  244  
-caf1e3ae9fa648 Parav Pandit               2018-09-05  245  static struct net_device *
-caf1e3ae9fa648 Parav Pandit               2018-09-05  246  rdma_find_ndev_for_src_ip_rcu(struct net *net, const struct sockaddr *src_in)
-caf1e3ae9fa648 Parav Pandit               2018-09-05  247  {
-caf1e3ae9fa648 Parav Pandit               2018-09-05  248  	struct net_device *dev = NULL;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  249  	int ret = -EADDRNOTAVAIL;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  250  
-caf1e3ae9fa648 Parav Pandit               2018-09-05  251  	switch (src_in->sa_family) {
-caf1e3ae9fa648 Parav Pandit               2018-09-05  252  	case AF_INET:
-caf1e3ae9fa648 Parav Pandit               2018-09-05  253  		dev = __ip_dev_find(net,
-caf1e3ae9fa648 Parav Pandit               2018-09-05  254  				    ((const struct sockaddr_in *)src_in)->sin_addr.s_addr,
-caf1e3ae9fa648 Parav Pandit               2018-09-05  255  				    false);
-caf1e3ae9fa648 Parav Pandit               2018-09-05 @256  		if (dev)
-caf1e3ae9fa648 Parav Pandit               2018-09-05  257  			ret = 0;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  258  		break;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  259  #if IS_ENABLED(CONFIG_IPV6)
-caf1e3ae9fa648 Parav Pandit               2018-09-05  260  	case AF_INET6:
-caf1e3ae9fa648 Parav Pandit               2018-09-05  261  		for_each_netdev_rcu(net, dev) {
-caf1e3ae9fa648 Parav Pandit               2018-09-05  262  			if (ipv6_chk_addr(net,
-caf1e3ae9fa648 Parav Pandit               2018-09-05  263  					  &((const struct sockaddr_in6 *)src_in)->sin6_addr,
-caf1e3ae9fa648 Parav Pandit               2018-09-05  264  					  dev, 1)) {
-caf1e3ae9fa648 Parav Pandit               2018-09-05  265  				ret = 0;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  266  				break;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  267  			}
-caf1e3ae9fa648 Parav Pandit               2018-09-05  268  		}
-caf1e3ae9fa648 Parav Pandit               2018-09-05  269  		break;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  270  #endif
-caf1e3ae9fa648 Parav Pandit               2018-09-05  271  	}
-b1d29f42e02d0c Anumula Murali Mohan Reddy 2024-09-26 @272  	if (is_vlan_dev(dev))
-b1d29f42e02d0c Anumula Murali Mohan Reddy 2024-09-26  273  		dev = vlan_dev_real_dev(dev);
-caf1e3ae9fa648 Parav Pandit               2018-09-05  274  	return ret ? ERR_PTR(ret) : dev;
-caf1e3ae9fa648 Parav Pandit               2018-09-05  275  }
-caf1e3ae9fa648 Parav Pandit               2018-09-05  276  
+3c0b3c3b68592b Sergio González Collado 2024-09-24  32  
+3c0b3c3b68592b Sergio González Collado 2024-09-24 @33  noinline int LONGEST_SYM_NAME(void);
+3c0b3c3b68592b Sergio González Collado 2024-09-24  34  noinline int LONGEST_SYM_NAME(void)
+3c0b3c3b68592b Sergio González Collado 2024-09-24  35  {
+3c0b3c3b68592b Sergio González Collado 2024-09-24  36  	return RETURN_LONGEST_SYM;
+3c0b3c3b68592b Sergio González Collado 2024-09-24  37  }
+3c0b3c3b68592b Sergio González Collado 2024-09-24  38  
 
 -- 
 0-DAY CI Kernel Test Service
