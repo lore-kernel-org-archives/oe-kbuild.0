@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6B112E75
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 08:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3934C19DF9C
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 08:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727511247; cv=none; b=g+0zf871tzWbQZfzJtSHWrMPTjwHmOGhI2Y1hD0VJa1DF/HN7U00fAhCMXj+YEw2rYzPq/9o1xuXtTaj+9fTLLvt9Yh3zbS2EUytBQNgcYhnJxrhb0GB2Sha3l+74WWbYSkrNhZbh/YtHxrUXGSOkQu+YM0/dbjmb5/1PA4ih5k=
+	t=1727511908; cv=none; b=FiSHbEP3Fjpve0ZzlpgfdCLrsamGfBh/es+g8oO8UseaNiGfG3/h+E8f27SzrJoaX/N/lpldCw/7cMIRB8H2uYJSJo3HxSg7zCzbSETFqAaLLpIcn/cnDcr4KSWDscPhf/4Nx5j/19XQj8Hry4idWT6WmEHp4AlJTGYyhugPBnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727511247; c=relaxed/simple;
-	bh=HvBrzVSl26dvcBTQ90qrzofuQkrocjXACJvBoWpg2xI=;
+	s=arc-20240116; t=1727511908; c=relaxed/simple;
+	bh=hVgG1UO0VDxxXXAm0tJWlmf9YTH4YExl9fyP9jjHdrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HGNx/JL9KWQGj7aOed+CFnft6NAk5OWKnPSpEIrjsfKx6CrNOUGyuP4UNlFmHJs+KizD6FrGXRHgD0+z97gY+8Ikm+S1/IaJhcZcpLDOu8nebgD95InvpAMnA7JIb2HjC8UaRnrKLd/jzCzNKW+oRubPmNLnv+tqa7I4KKiFDUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tat5Qz6i; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ekuXhmukPTXEXn/99VsBZKOn7UwrxVl7vnBXCGnm6yPK8iINw0qrzQVefCboeKsGwvYIUDPn+IuYukSRLGkuvOPugMSf7004F16K5pe0l40glkIhXF24H6pZVkZnvkyoycl/EoBtANL109Qp+LH1zDdu3/eCoApez+XiPqlUWdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRnL9sIX; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tat5Qz6i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRnL9sIX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727511246; x=1759047246;
+  t=1727511906; x=1759047906;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HvBrzVSl26dvcBTQ90qrzofuQkrocjXACJvBoWpg2xI=;
-  b=Tat5Qz6i/a1ocVpmP8f+oovGNjWN0P/gn89YzCd5ctNcFXwfR41zPR5F
-   Om+7KBA/0XY6HJ3fHdMqHubXKa2B2Dih4k9fegG7+8bs8aAdTKtgD+m2p
-   GoHD8dGEcxhwg9JIUyrgDYopIu8vBH0efR0+niP72tuQ6zmtUVVPB+c5o
-   cqV/s5m7RLIERdEP0yc3shYlXz+ZdHnd65rph7zEDkEORFI2VQ6L3tJov
-   ZY1sos5ZSH/PxkoEcBHRNCe5hWEFcXD3lmJoe92s8njm36dFh6Cakf/K1
-   40FgBO534H3vClIhnu9BJcCmLBHyF1Fw8iPiJOY/cb3Pyd9a+gXYdsvdN
-   Q==;
-X-CSE-ConnectionGUID: 1XPmdmOFT+2Hq5WQ2vPxBw==
-X-CSE-MsgGUID: /1ad8iyoRKWST80a+gSG3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="37221085"
+  bh=hVgG1UO0VDxxXXAm0tJWlmf9YTH4YExl9fyP9jjHdrc=;
+  b=hRnL9sIXzJodXIPSwK/h5CU5Sq3CPmlOZ1vYlgV6fgW3Q5Hf2ocusXp6
+   M4OZoMjXtId9Vvk/I06SLA3+IwMTPdUEmRdt+ST9moVjEVJafS1tNE5f/
+   t1+lK0WvxJx9wf0qAMhmUKW0Z+DlbWyYAPmMUDMlFmbbC20MyS/UgFxyc
+   /Rm0xApB7nyB4nuoe6lCwsemV/9hJy5jR9tYiAdwxOxOWGEicWHVjuYVo
+   MAeGvP76euhVOfjJuMIgxP7LnxlZcXcKt9PHhJW00IUURFqj6ziL6TAxr
+   eDewMG8ONO7yUNNatbTU43dbr/+2B0p0EvBYfCofnXuSA5+wK1mPjIlKs
+   w==;
+X-CSE-ConnectionGUID: CVLGmyJkSX+YgAVjr07l1A==
+X-CSE-MsgGUID: NBpUlubuQUK5nD8VBo8YzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="49180605"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="37221085"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 01:14:05 -0700
-X-CSE-ConnectionGUID: JJfjmJ61Tiye8Wb8t6uiTg==
-X-CSE-MsgGUID: yTc7wrelTum0Pxb1i+hSwg==
+   d="scan'208";a="49180605"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 01:25:05 -0700
+X-CSE-ConnectionGUID: PeU2MSI9S+KcXlQvGvYRog==
+X-CSE-MsgGUID: +mFkdVO5QvaUb+tcBuXsbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="73559156"
+   d="scan'208";a="77152206"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Sep 2024 01:14:04 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2024 01:25:04 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suSaX-000N1f-2G;
-	Sat, 28 Sep 2024 08:14:01 +0000
-Date: Sat, 28 Sep 2024 16:13:33 +0800
+	id 1suSlC-000N25-0H;
+	Sat, 28 Sep 2024 08:25:02 +0000
+Date: Sat, 28 Sep 2024 16:24:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android15-6.6-2024-09 10099/17425]
- kernel/futex/waitwake.c:180 futex_wake() error: uninitialized symbol
- 'target_nr'.
-Message-ID: <202409281621.3StHnzmV-lkp@intel.com>
+Subject: Re: [PATCH 2/4] kcsan, debugfs: refactor
+ set_report_filterlist_whitelist() to return a value
+Message-ID: <202409281520.LZsRSFFR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,80 +64,87 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20240925143154.2322926-3-ranxiaokai627@163.com>
+References: <20240925143154.2322926-3-ranxiaokai627@163.com>
+TO: ran xiaokai <ranxiaokai627@163.com>
+TO: elver@google.com
+TO: tglx@linutronix.de
+TO: dvyukov@google.com
+CC: kasan-dev@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+CC: Ran Xiaokai <ran.xiaokai@zte.com.cn>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-09
-head:   cb6342e5f3b49fdfca7ba496ed2d66223b2c2cc9
-commit: 69957edeefc91bb1b72621b1c90a5cc7b6ea1b94 [10099/17425] ANDROID: vendor_hooks: Add hooks for oem futex optimization
-:::::: branch date: 16 hours ago
-:::::: commit date: 7 months ago
-config: i386-randconfig-141-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281621.3StHnzmV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi ran,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on next-20240927]
+[cannot apply to v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ran-xiaokai/kcsan-debugfs-Remove-redundant-call-of-kallsyms_lookup_name/20240925-231034
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240925143154.2322926-3-ranxiaokai627%40163.com
+patch subject: [PATCH 2/4] kcsan, debugfs: refactor set_report_filterlist_whitelist() to return a value
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: powerpc-randconfig-r072-20240927 (https://download.01.org/0day-ci/archive/20240928/202409281520.LZsRSFFR-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409281621.3StHnzmV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409281520.LZsRSFFR-lkp@intel.com/
 
 smatch warnings:
-kernel/futex/waitwake.c:180 futex_wake() error: uninitialized symbol 'target_nr'.
+kernel/kcsan/debugfs.c:256 debugfs_write() error: uninitialized symbol 'ret'.
 
-vim +/target_nr +180 kernel/futex/waitwake.c
+vim +/ret +256 kernel/kcsan/debugfs.c
 
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  140  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  141  /*
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  142   * Wake up waiters matching bitset queued on this futex (uaddr).
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  143   */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  144  int futex_wake(u32 __user *uaddr, unsigned int flags, int nr_wake, u32 bitset)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  145  {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  146  	struct futex_hash_bucket *hb;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  147  	struct futex_q *this, *next;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  148  	union futex_key key = FUTEX_KEY_INIT;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  149  	int ret;
-69957edeefc91b xieliujie      2024-02-23  150  	int target_nr;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  151  	DEFINE_WAKE_Q(wake_q);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  152  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  153  	if (!bitset)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  154  		return -EINVAL;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  155  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  156  	ret = get_futex_key(uaddr, flags & FLAGS_SHARED, &key, FUTEX_READ);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  157  	if (unlikely(ret != 0))
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  158  		return ret;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  159  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  160  	hb = futex_hash(&key);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  161  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  162  	/* Make sure we really have tasks to wakeup */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  163  	if (!futex_hb_waiters_pending(hb))
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  164  		return ret;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  165  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  166  	spin_lock(&hb->lock);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  167  
-69957edeefc91b xieliujie      2024-02-23  168  	trace_android_vh_futex_wake_traverse_plist(&hb->chain, &target_nr, key, bitset);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  169  	plist_for_each_entry_safe(this, next, &hb->chain, list) {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  170  		if (futex_match (&this->key, &key)) {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  171  			if (this->pi_state || this->rt_waiter) {
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  172  				ret = -EINVAL;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  173  				break;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  174  			}
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  175  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  176  			/* Check if one of the bits is set in both bitsets */
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  177  			if (!(this->bitset & bitset))
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  178  				continue;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  179  
-69957edeefc91b xieliujie      2024-02-23 @180  			trace_android_vh_futex_wake_this(ret, nr_wake, target_nr, this->task);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  181  			futex_wake_mark(&wake_q, this);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  182  			if (++ret >= nr_wake)
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  183  				break;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  184  		}
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  185  	}
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  186  
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  187  	spin_unlock(&hb->lock);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  188  	wake_up_q(&wake_q);
-69957edeefc91b xieliujie      2024-02-23  189  	trace_android_vh_futex_wake_up_q_finish(nr_wake, target_nr);
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  190  	return ret;
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  191  }
-a046f1a0d3e320 Peter Zijlstra 2021-09-23  192  
+dfd402a4c4baae Marco Elver   2019-11-14  222  
+5cbaefe9743bf1 Ingo Molnar   2019-11-20  223  static ssize_t
+5cbaefe9743bf1 Ingo Molnar   2019-11-20  224  debugfs_write(struct file *file, const char __user *buf, size_t count, loff_t *off)
+dfd402a4c4baae Marco Elver   2019-11-14  225  {
+dfd402a4c4baae Marco Elver   2019-11-14  226  	char kbuf[KSYM_NAME_LEN];
+dfd402a4c4baae Marco Elver   2019-11-14  227  	char *arg;
+43d631bf06ec96 Thorsten Blum 2024-06-24  228  	const size_t read_len = min(count, sizeof(kbuf) - 1);
+52313281c8b7ca Ran Xiaokai   2024-09-25  229  	ssize_t ret;
+dfd402a4c4baae Marco Elver   2019-11-14  230  
+dfd402a4c4baae Marco Elver   2019-11-14  231  	if (copy_from_user(kbuf, buf, read_len))
+dfd402a4c4baae Marco Elver   2019-11-14  232  		return -EFAULT;
+dfd402a4c4baae Marco Elver   2019-11-14  233  	kbuf[read_len] = '\0';
+dfd402a4c4baae Marco Elver   2019-11-14  234  	arg = strstrip(kbuf);
+dfd402a4c4baae Marco Elver   2019-11-14  235  
+dfd402a4c4baae Marco Elver   2019-11-14  236  	if (!strcmp(arg, "on")) {
+dfd402a4c4baae Marco Elver   2019-11-14  237  		WRITE_ONCE(kcsan_enabled, true);
+dfd402a4c4baae Marco Elver   2019-11-14  238  	} else if (!strcmp(arg, "off")) {
+dfd402a4c4baae Marco Elver   2019-11-14  239  		WRITE_ONCE(kcsan_enabled, false);
+a4e74fa5f0d3e2 Marco Elver   2020-07-31  240  	} else if (str_has_prefix(arg, "microbench=")) {
+dfd402a4c4baae Marco Elver   2019-11-14  241  		unsigned long iters;
+dfd402a4c4baae Marco Elver   2019-11-14  242  
+a4e74fa5f0d3e2 Marco Elver   2020-07-31  243  		if (kstrtoul(&arg[strlen("microbench=")], 0, &iters))
+dfd402a4c4baae Marco Elver   2019-11-14  244  			return -EINVAL;
+dfd402a4c4baae Marco Elver   2019-11-14  245  		microbenchmark(iters);
+dfd402a4c4baae Marco Elver   2019-11-14  246  	} else if (!strcmp(arg, "whitelist")) {
+52313281c8b7ca Ran Xiaokai   2024-09-25  247  		ret = set_report_filterlist_whitelist(true);
+dfd402a4c4baae Marco Elver   2019-11-14  248  	} else if (!strcmp(arg, "blacklist")) {
+52313281c8b7ca Ran Xiaokai   2024-09-25  249  		ret = set_report_filterlist_whitelist(false);
+dfd402a4c4baae Marco Elver   2019-11-14  250  	} else if (arg[0] == '!') {
+52313281c8b7ca Ran Xiaokai   2024-09-25  251  		ret = insert_report_filterlist(&arg[1]);
+dfd402a4c4baae Marco Elver   2019-11-14  252  	} else {
+dfd402a4c4baae Marco Elver   2019-11-14  253  		return -EINVAL;
+dfd402a4c4baae Marco Elver   2019-11-14  254  	}
+dfd402a4c4baae Marco Elver   2019-11-14  255  
+52313281c8b7ca Ran Xiaokai   2024-09-25 @256  	if (ret < 0)
+52313281c8b7ca Ran Xiaokai   2024-09-25  257  		return ret;
+52313281c8b7ca Ran Xiaokai   2024-09-25  258  	else
+dfd402a4c4baae Marco Elver   2019-11-14  259  		return count;
+dfd402a4c4baae Marco Elver   2019-11-14  260  }
+dfd402a4c4baae Marco Elver   2019-11-14  261  
 
 -- 
 0-DAY CI Kernel Test Service
