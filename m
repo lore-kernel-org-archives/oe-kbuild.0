@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FE6C139
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 12:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F9517736
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 12:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727525718; cv=none; b=JoRuIh3CgUSBuFNz/zmTzksI/rs9mNYxAiIC41Wg4MOGR2iyulx4bW+jW44RKqVDNP+30Yx6CiEuBvWeyvll6JnjaqVjSWvEh3XKn5nLpJCfAqcZWXKVOHOEv3lnka2pymfLYd4ADfU/YnIYWtiQrs0etjih+t/OniNcPjIMLKg=
+	t=1727526380; cv=none; b=aGbCGaVmweaRoeMg/Esa9lyBxNF1CoT6zVdwTLUm4tBAwnf23iRS3N4tpr0midlSMXYgoZ6P6H0X+cnxYgJSz9kVDSZaADrx0J/895LbjAcJQv7o/Rd3miXjZSWL/efvedytXN/XeZ8Zpmqb7GVwJVtKI7zEzvNDNL+xGvnJa1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727525718; c=relaxed/simple;
-	bh=UBRiWahnx7dOAVQdXZN4RhdnYttzt2th8TUsGhpcLY0=;
+	s=arc-20240116; t=1727526380; c=relaxed/simple;
+	bh=oSk2Q6Vq67MOkj8p5m//Ysy+sCQhvT2T5dPu+wK5U0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CV0UxsqkwWy9vuguNP0HjWrTrEU1revlGuWhH4Qvts33uwyalG7xHFqd5ee6M8vQFJZmmEq+Ezjc3IGniy866JzCA5tPyNf3RtXCcsIkLQdyLyVdwevVgyI7S9Pl25eauWiV8/07kLTF2AakL9WGC4ak2kgSx6JoJH62td7IJwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNSf9qy4; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=OnS2WM0ZOG3qLGQu3LOk0eF1hNGVnt/mJBIz4YoWfaJ26/YFiDndDyJXQdFfZutEaeow77mAZj/GZaUGZDPen3aAn6fGqJYQwpy+FFpTMfkVVnlKeEwV2fDGWK7Khjf9EAfCBksW0TFQQ6QdIGmU8IapSOvwLw0unn3RzQAQHwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5/dtU4J; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNSf9qy4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5/dtU4J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727525717; x=1759061717;
+  t=1727526377; x=1759062377;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UBRiWahnx7dOAVQdXZN4RhdnYttzt2th8TUsGhpcLY0=;
-  b=NNSf9qy4sMa/a5uzCutEaul3I7xpORzUdnxOn898kE0770v3TM5IyHpZ
-   En5nu93Dc4inwDDv1t98mDl7SPOdw03HtHYBzOGCfudhx3lZi7BkIZ0Sy
-   xvGZ2OstTKoIvHt3DMohbKNC3xVDoi6VY3ISRFqFQmHMI2NYzd3aBJ1Du
-   e49pUMquodTeGL8AFp0fzh0XrIj4TYHYHT5K4UH1lfZDpMFl3WupTp438
-   wDGlrC0vqWGGss4CWwhvMr/4fXZc1DTCacj+Rarcqfo1r1QJ9TW7JqEbf
-   JIHUNY1EMLehEKnni+F6HRh6DXeF/KwWJDNV1CvfqPmlpgRBNeZQYCNi3
-   w==;
-X-CSE-ConnectionGUID: BfccKku1QJSpXRHw+8m4JQ==
-X-CSE-MsgGUID: 42i/A2+jRP6ZLPr+qdMcYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26174085"
+  bh=oSk2Q6Vq67MOkj8p5m//Ysy+sCQhvT2T5dPu+wK5U0U=;
+  b=g5/dtU4JW4lbHEFMtGheFvUpYbKKxNv6t3sH+r7EWvjAqX+o8diyQxHZ
+   CXhZfzCysQJr98ocIrPnQ9wuc+Fn7itB4dJpQurWpb41NRRcXvAvurgm/
+   eN057Q5K2dn9//hpGslWe2id7/6i68HK6zUsF/Zmrd83VB67XulxWdD7S
+   0ewnka77zajLKXzm1dhfRvgwShGZCME+6P+IS/ZTpn/N8lF65ipFOvxfF
+   dzpc7hZzHQ4EdQPL+0DLd4ctpelAswX0ZGrwHrTzGilyN9t/fktnztpss
+   AAC06HA+XlALkl5n9DM/2ZamzmJcaluFCGhpFtBaDFYEvmssOjzJyQfR1
+   Q==;
+X-CSE-ConnectionGUID: VcATI7NSRVyEnR1m/oj+gw==
+X-CSE-MsgGUID: TNWSVfwmRoChomsi92EPNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26174328"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26174085"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 05:15:16 -0700
-X-CSE-ConnectionGUID: Om8m2QCWQWKyiGo4lIPWkg==
-X-CSE-MsgGUID: e+pyuNKxRXCnC+VLDKiIlg==
+   d="scan'208";a="26174328"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 05:26:16 -0700
+X-CSE-ConnectionGUID: L+LK9K+NQz25uXsXsNSl8Q==
+X-CSE-MsgGUID: g972BZReT7+xjN+FHxCjOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="110289190"
+   d="scan'208";a="72677349"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2024 05:15:14 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2024 05:26:15 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suWLw-000NFM-0K;
-	Sat, 28 Sep 2024 12:15:12 +0000
-Date: Sat, 28 Sep 2024 20:14:36 +0800
+	id 1suWWa-000NFd-0t;
+	Sat, 28 Sep 2024 12:26:12 +0000
+Date: Sat, 28 Sep 2024 20:25:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 756/1001]
- arch/arm64/boot/dts/xilinx/versal.dtsi:295.27-305.5: Warning
- (avoid_unnecessary_addr_size): /axi/ethernet@ff0d0000: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <202409282040.3jsAMYqq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [freescale-fslc:6.6-2.0.x-imx 1073/16788]
+ drivers/video/fbdev/mxc/mxc_edid.c:285 mxc_edid_parse_ext_blk() warn:
+ returning -1 instead of -ENOMEM is sloppy
+Message-ID: <202409282041.TApWUfvs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,325 +63,362 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: git@amd.com
-TO: Michal Simek <monstr@monstr.eu>
+TO: Otavio Salvador <otavio@ossystems.com.br>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
-head:   5365c13a86998da06d845c918f849b30b8735538
-commit: 822544d3e453f11292dbf89e2e6ba46f09108dd9 [756/1001] arm64: versal: Move ethernet phys to mdio node
-:::::: branch date: 8 weeks ago
-:::::: commit date: 8 months ago
-config: arm64-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240928/202409282040.3jsAMYqq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282040.3jsAMYqq-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: 5186caddfc7d3885dd5dfd4c6d15caad2f900c4c [1073/16788] video: fbdev: mxc: add Northwest Logic DSI driver support
+:::::: branch date: 3 days ago
+:::::: commit date: 11 months ago
+config: i386-randconfig-141-20240928 (https://download.01.org/0day-ci/archive/20240928/202409282041.TApWUfvs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409282040.3jsAMYqq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202409282041.TApWUfvs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/xilinx/versal.dtsi:295.27-305.5: Warning (avoid_unnecessary_addr_size): /axi/ethernet@ff0d0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+smatch warnings:
+drivers/video/fbdev/mxc/mxc_edid.c:285 mxc_edid_parse_ext_blk() warn: returning -1 instead of -ENOMEM is sloppy
 
-vim +295 arch/arm64/boot/dts/xilinx/versal.dtsi
+vim +285 drivers/video/fbdev/mxc/mxc_edid.c
 
-2ab457093da8ac Michal Simek 2022-02-14   11  
-2ab457093da8ac Michal Simek 2022-02-14   12  / {
-2ab457093da8ac Michal Simek 2022-02-14   13  	compatible = "xlnx,versal";
-2ab457093da8ac Michal Simek 2022-02-14   14  	#address-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14   15  	#size-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14   16  	model = "Xilinx Versal";
-2ab457093da8ac Michal Simek 2022-02-14   17  
-2ab457093da8ac Michal Simek 2022-02-14   18  	cpus: cpus {
-2ab457093da8ac Michal Simek 2022-02-14   19  		#address-cells = <1>;
-2ab457093da8ac Michal Simek 2022-02-14   20  		#size-cells = <0>;
-2ab457093da8ac Michal Simek 2022-02-14   21  
-2ab457093da8ac Michal Simek 2022-02-14   22  		cpu0: cpu@0 {
-2ab457093da8ac Michal Simek 2022-02-14   23  			compatible = "arm,cortex-a72", "arm,armv8";
-2ab457093da8ac Michal Simek 2022-02-14   24  			device_type = "cpu";
-2ab457093da8ac Michal Simek 2022-02-14   25  			enable-method = "psci";
-2ab457093da8ac Michal Simek 2022-02-14   26  			operating-points-v2 = <&cpu_opp_table>;
-2ab457093da8ac Michal Simek 2022-02-14   27  			reg = <0>;
-2ab457093da8ac Michal Simek 2022-02-14   28  			cpu-idle-states = <&CPU_SLEEP_0>;
-2ab457093da8ac Michal Simek 2022-02-14   29  		};
-2ab457093da8ac Michal Simek 2022-02-14   30  
-2ab457093da8ac Michal Simek 2022-02-14   31  		cpu1: cpu@1 {
-2ab457093da8ac Michal Simek 2022-02-14   32  			compatible = "arm,cortex-a72", "arm,armv8";
-2ab457093da8ac Michal Simek 2022-02-14   33  			device_type = "cpu";
-2ab457093da8ac Michal Simek 2022-02-14   34  			enable-method = "psci";
-2ab457093da8ac Michal Simek 2022-02-14   35  			operating-points-v2 = <&cpu_opp_table>;
-2ab457093da8ac Michal Simek 2022-02-14   36  			reg = <1>;
-2ab457093da8ac Michal Simek 2022-02-14   37  			cpu-idle-states = <&CPU_SLEEP_0>;
-2ab457093da8ac Michal Simek 2022-02-14   38  		};
-2ab457093da8ac Michal Simek 2022-02-14   39  
-2ab457093da8ac Michal Simek 2022-02-14   40  		idle-states {
-2ab457093da8ac Michal Simek 2022-02-14   41  			entry-method = "psci";
-2ab457093da8ac Michal Simek 2022-02-14   42  
-2ab457093da8ac Michal Simek 2022-02-14   43  			CPU_SLEEP_0: cpu-sleep-0 {
-2ab457093da8ac Michal Simek 2022-02-14   44  				compatible = "arm,idle-state";
-2ab457093da8ac Michal Simek 2022-02-14   45  				arm,psci-suspend-param = <0x40000000>;
-2ab457093da8ac Michal Simek 2022-02-14   46  				local-timer-stop;
-2ab457093da8ac Michal Simek 2022-02-14   47  				entry-latency-us = <300>;
-2ab457093da8ac Michal Simek 2022-02-14   48  				exit-latency-us = <600>;
-2ab457093da8ac Michal Simek 2022-02-14   49  				min-residency-us = <10000>;
-2ab457093da8ac Michal Simek 2022-02-14   50  			};
-2ab457093da8ac Michal Simek 2022-02-14   51  		};
-2ab457093da8ac Michal Simek 2022-02-14   52  	};
-2ab457093da8ac Michal Simek 2022-02-14   53  
-2ab457093da8ac Michal Simek 2022-02-14   54  	cpu_opp_table: cpu-opp-table {
-2ab457093da8ac Michal Simek 2022-02-14   55  		compatible = "operating-points-v2";
-2ab457093da8ac Michal Simek 2022-02-14   56  		opp-shared;
-2ab457093da8ac Michal Simek 2022-02-14   57  		opp00 {
-2ab457093da8ac Michal Simek 2022-02-14   58  			opp-hz = /bits/ 64 <1199999988>;
-2ab457093da8ac Michal Simek 2022-02-14   59  			opp-microvolt = <1000000>;
-2ab457093da8ac Michal Simek 2022-02-14   60  			clock-latency-ns = <500000>;
-2ab457093da8ac Michal Simek 2022-02-14   61  		};
-2ab457093da8ac Michal Simek 2022-02-14   62  		opp01 {
-2ab457093da8ac Michal Simek 2022-02-14   63  			opp-hz = /bits/ 64 <599999994>;
-2ab457093da8ac Michal Simek 2022-02-14   64  			opp-microvolt = <1000000>;
-2ab457093da8ac Michal Simek 2022-02-14   65  			clock-latency-ns = <500000>;
-2ab457093da8ac Michal Simek 2022-02-14   66  		};
-2ab457093da8ac Michal Simek 2022-02-14   67  		opp02 {
-2ab457093da8ac Michal Simek 2022-02-14   68  			opp-hz = /bits/ 64 <399999996>;
-2ab457093da8ac Michal Simek 2022-02-14   69  			opp-microvolt = <1000000>;
-2ab457093da8ac Michal Simek 2022-02-14   70  			clock-latency-ns = <500000>;
-2ab457093da8ac Michal Simek 2022-02-14   71  		};
-2ab457093da8ac Michal Simek 2022-02-14   72  		opp03 {
-2ab457093da8ac Michal Simek 2022-02-14   73  			opp-hz = /bits/ 64 <299999997>;
-2ab457093da8ac Michal Simek 2022-02-14   74  			opp-microvolt = <1000000>;
-2ab457093da8ac Michal Simek 2022-02-14   75  			clock-latency-ns = <500000>;
-2ab457093da8ac Michal Simek 2022-02-14   76  		};
-2ab457093da8ac Michal Simek 2022-02-14   77  	};
-2ab457093da8ac Michal Simek 2022-02-14   78  
-2ab457093da8ac Michal Simek 2022-02-14   79  	dcc: dcc {
-2ab457093da8ac Michal Simek 2022-02-14   80  		compatible = "arm,dcc";
-2ab457093da8ac Michal Simek 2022-02-14   81  		status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14   82  		bootph-all;
-2ab457093da8ac Michal Simek 2022-02-14   83  	};
-2ab457093da8ac Michal Simek 2022-02-14   84  
-2ab457093da8ac Michal Simek 2022-02-14   85  	fpga: fpga {
-2ab457093da8ac Michal Simek 2022-02-14   86  		compatible = "fpga-region";
-2ab457093da8ac Michal Simek 2022-02-14   87  		fpga-mgr = <&versal_fpga>;
-2ab457093da8ac Michal Simek 2022-02-14   88  		#address-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14   89  		#size-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14   90  	};
-2ab457093da8ac Michal Simek 2022-02-14   91  
-2ab457093da8ac Michal Simek 2022-02-14   92  	psci: psci {
-2ab457093da8ac Michal Simek 2022-02-14   93  		compatible = "arm,psci-0.2";
-2ab457093da8ac Michal Simek 2022-02-14   94  		method = "smc";
-2ab457093da8ac Michal Simek 2022-02-14   95  	};
-2ab457093da8ac Michal Simek 2022-02-14   96  
-2ab457093da8ac Michal Simek 2022-02-14   97  	pmu {
-2ab457093da8ac Michal Simek 2022-02-14   98  		compatible = "arm,armv8-pmuv3";
-2ab457093da8ac Michal Simek 2022-02-14   99  		interrupt-parent = <&gic>;
-2ab457093da8ac Michal Simek 2022-02-14  100  		interrupts = <1 7 0x304>;
-2ab457093da8ac Michal Simek 2022-02-14  101  	};
-2ab457093da8ac Michal Simek 2022-02-14  102  
-2ab457093da8ac Michal Simek 2022-02-14  103  	timer: timer {
-2ab457093da8ac Michal Simek 2022-02-14  104  		compatible = "arm,armv8-timer";
-2ab457093da8ac Michal Simek 2022-02-14  105  		interrupt-parent = <&gic>;
-2ab457093da8ac Michal Simek 2022-02-14  106  		interrupts = <1 13 4>,
-2ab457093da8ac Michal Simek 2022-02-14  107  			     <1 14 4>,
-2ab457093da8ac Michal Simek 2022-02-14  108  			     <1 11 4>,
-2ab457093da8ac Michal Simek 2022-02-14  109  			     <1 10 4>;
-2ab457093da8ac Michal Simek 2022-02-14  110  	};
-2ab457093da8ac Michal Simek 2022-02-14  111  
-2ab457093da8ac Michal Simek 2022-02-14  112  	versal_fpga: versal-fpga {
-2ab457093da8ac Michal Simek 2022-02-14  113  		compatible = "xlnx,versal-fpga";
-2ab457093da8ac Michal Simek 2022-02-14  114  	};
-2ab457093da8ac Michal Simek 2022-02-14  115  
-2ab457093da8ac Michal Simek 2022-02-14  116  	amba: axi {
-2ab457093da8ac Michal Simek 2022-02-14  117  		compatible = "simple-bus";
-2ab457093da8ac Michal Simek 2022-02-14  118  		#address-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14  119  		#size-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14  120  		ranges;
-2ab457093da8ac Michal Simek 2022-02-14  121  		interrupt-parent = <&gic>;
-2ab457093da8ac Michal Simek 2022-02-14  122  		bootph-all;
-2ab457093da8ac Michal Simek 2022-02-14  123  
-2ab457093da8ac Michal Simek 2022-02-14  124  		gic: interrupt-controller@f9000000 {
-2ab457093da8ac Michal Simek 2022-02-14  125  			compatible = "arm,gic-v3";
-2ab457093da8ac Michal Simek 2022-02-14  126  			#interrupt-cells = <3>;
-2ab457093da8ac Michal Simek 2022-02-14  127  			#address-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14  128  			#size-cells = <2>;
-2ab457093da8ac Michal Simek 2022-02-14  129  			ranges;
-2ab457093da8ac Michal Simek 2022-02-14  130  			reg = <0 0xf9000000 0 0x80000>, /* GICD */
-2ab457093da8ac Michal Simek 2022-02-14  131  			      <0 0xf9080000 0 0x80000>; /* GICR */
-2ab457093da8ac Michal Simek 2022-02-14  132  			interrupt-controller;
-2ab457093da8ac Michal Simek 2022-02-14  133  			interrupts = <1 9 4>;
-2ab457093da8ac Michal Simek 2022-02-14  134  
-2ab457093da8ac Michal Simek 2022-02-14  135  			gic_its: gic-its@f9020000 {
-2ab457093da8ac Michal Simek 2022-02-14  136  				compatible = "arm,gic-v3-its";
-2ab457093da8ac Michal Simek 2022-02-14  137  				status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  138  				msi-controller;
-2ab457093da8ac Michal Simek 2022-02-14  139  				msi-cells = <1>;
-2ab457093da8ac Michal Simek 2022-02-14  140  				reg = <0 0xf9020000 0 0x20000>;
-2ab457093da8ac Michal Simek 2022-02-14  141  			};
-2ab457093da8ac Michal Simek 2022-02-14  142  		};
-2ab457093da8ac Michal Simek 2022-02-14  143  
-2ab457093da8ac Michal Simek 2022-02-14  144  		apm: performance-monitor@f0920000 {
-2ab457093da8ac Michal Simek 2022-02-14  145  			compatible = "xlnx,flexnoc-pm-2.7";
-2ab457093da8ac Michal Simek 2022-02-14  146  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  147  			reg-names = "funnel", "baselpd", "basefpd";
-2ab457093da8ac Michal Simek 2022-02-14  148  			reg = <0x0 0xf0920000 0x0 0x1000>,
-2ab457093da8ac Michal Simek 2022-02-14  149  			      <0x0 0xf0980000 0x0 0x9000>,
-2ab457093da8ac Michal Simek 2022-02-14  150  			      <0x0 0xf0b80000 0x0 0x9000>;
-2ab457093da8ac Michal Simek 2022-02-14  151  		};
-2ab457093da8ac Michal Simek 2022-02-14  152  
-2ab457093da8ac Michal Simek 2022-02-14  153  		can0: can@ff060000 {
-2ab457093da8ac Michal Simek 2022-02-14  154  			compatible = "xlnx,canfd-2.0";
-2ab457093da8ac Michal Simek 2022-02-14  155  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  156  			reg = <0 0xff060000 0 0x6000>;
-2ab457093da8ac Michal Simek 2022-02-14  157  			interrupts = <0 20 4>;
-2ab457093da8ac Michal Simek 2022-02-14  158  			clock-names = "can_clk", "s_axi_aclk";
-2ab457093da8ac Michal Simek 2022-02-14  159  			rx-fifo-depth = <0x40>;
-2ab457093da8ac Michal Simek 2022-02-14  160  			tx-mailbox-count = <0x20>;
-2ab457093da8ac Michal Simek 2022-02-14  161  		};
-2ab457093da8ac Michal Simek 2022-02-14  162  
-2ab457093da8ac Michal Simek 2022-02-14  163  		can1: can@ff070000 {
-2ab457093da8ac Michal Simek 2022-02-14  164  			compatible = "xlnx,canfd-2.0";
-2ab457093da8ac Michal Simek 2022-02-14  165  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  166  			reg = <0 0xff070000 0 0x6000>;
-2ab457093da8ac Michal Simek 2022-02-14  167  			interrupts = <0 21 4>;
-2ab457093da8ac Michal Simek 2022-02-14  168  			clock-names = "can_clk", "s_axi_aclk";
-2ab457093da8ac Michal Simek 2022-02-14  169  			rx-fifo-depth = <0x40>;
-2ab457093da8ac Michal Simek 2022-02-14  170  			tx-mailbox-count = <0x20>;
-2ab457093da8ac Michal Simek 2022-02-14  171  		};
-2ab457093da8ac Michal Simek 2022-02-14  172  
-2ab457093da8ac Michal Simek 2022-02-14  173  		cci: cci@fd000000 {
-2ab457093da8ac Michal Simek 2022-02-14  174  			compatible = "arm,cci-500";
-2ab457093da8ac Michal Simek 2022-02-14  175  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  176  			reg = <0 0xfd000000 0 0x10000>;
-2ab457093da8ac Michal Simek 2022-02-14  177  			ranges = <0 0 0xfd000000 0xa0000>;
-2ab457093da8ac Michal Simek 2022-02-14  178  			#address-cells = <1>;
-2ab457093da8ac Michal Simek 2022-02-14  179  			#size-cells = <1>;
-2ab457093da8ac Michal Simek 2022-02-14  180  			cci_pmu: pmu@10000 {
-2ab457093da8ac Michal Simek 2022-02-14  181  				compatible = "arm,cci-500-pmu,r0";
-2ab457093da8ac Michal Simek 2022-02-14  182  				reg = <0x10000 0x90000>;
-2ab457093da8ac Michal Simek 2022-02-14  183  				interrupts = <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  184  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  185  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  186  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  187  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  188  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  189  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  190  					     <0 106 4>,
-2ab457093da8ac Michal Simek 2022-02-14  191  					     <0 106 4>;
-2ab457093da8ac Michal Simek 2022-02-14  192  			};
-2ab457093da8ac Michal Simek 2022-02-14  193  		};
-2ab457093da8ac Michal Simek 2022-02-14  194  
-2ab457093da8ac Michal Simek 2022-02-14  195  		lpd_dma_chan0: dma@ffa80000 {
-2ab457093da8ac Michal Simek 2022-02-14  196  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  197  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  198  			reg = <0 0xffa80000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  199  			interrupts = <0 60 4>;
-2ab457093da8ac Michal Simek 2022-02-14  200  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  201  			/* iommus = <&smmu 0x210>; */
-2ab457093da8ac Michal Simek 2022-02-14  202  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  203  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  204  		};
-2ab457093da8ac Michal Simek 2022-02-14  205  
-2ab457093da8ac Michal Simek 2022-02-14  206  		lpd_dma_chan1: dma@ffa90000 {
-2ab457093da8ac Michal Simek 2022-02-14  207  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  208  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  209  			reg = <0 0xffa90000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  210  			interrupts = <0 61 4>;
-2ab457093da8ac Michal Simek 2022-02-14  211  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  212  			/* iommus = <&smmu 0x212>; */
-2ab457093da8ac Michal Simek 2022-02-14  213  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  214  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  215  		};
-2ab457093da8ac Michal Simek 2022-02-14  216  
-2ab457093da8ac Michal Simek 2022-02-14  217  		lpd_dma_chan2: dma@ffaa0000 {
-2ab457093da8ac Michal Simek 2022-02-14  218  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  219  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  220  			reg = <0 0xffaa0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  221  			interrupts = <0 62 4>;
-2ab457093da8ac Michal Simek 2022-02-14  222  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  223  			/* iommus = <&smmu 0x214>; */
-2ab457093da8ac Michal Simek 2022-02-14  224  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  225  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  226  		};
-2ab457093da8ac Michal Simek 2022-02-14  227  
-2ab457093da8ac Michal Simek 2022-02-14  228  		lpd_dma_chan3: dma@ffab0000 {
-2ab457093da8ac Michal Simek 2022-02-14  229  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  230  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  231  			reg = <0 0xffab0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  232  			interrupts = <0 63 4>;
-2ab457093da8ac Michal Simek 2022-02-14  233  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  234  			/* iommus = <&smmu 0x216>; */
-2ab457093da8ac Michal Simek 2022-02-14  235  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  236  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  237  		};
-2ab457093da8ac Michal Simek 2022-02-14  238  
-2ab457093da8ac Michal Simek 2022-02-14  239  		lpd_dma_chan4: dma@ffac0000 {
-2ab457093da8ac Michal Simek 2022-02-14  240  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  241  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  242  			reg = <0 0xffac0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  243  			interrupts = <0 64 4>;
-2ab457093da8ac Michal Simek 2022-02-14  244  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  245  			/* iommus = <&smmu 0x218>; */
-2ab457093da8ac Michal Simek 2022-02-14  246  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  247  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  248  		};
-2ab457093da8ac Michal Simek 2022-02-14  249  
-2ab457093da8ac Michal Simek 2022-02-14  250  		lpd_dma_chan5: dma@ffad0000 {
-2ab457093da8ac Michal Simek 2022-02-14  251  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  252  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  253  			reg = <0 0xffad0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  254  			interrupts = <0 65 4>;
-2ab457093da8ac Michal Simek 2022-02-14  255  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  256  			/* iommus = <&smmu 0x21a>; */
-2ab457093da8ac Michal Simek 2022-02-14  257  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  258  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  259  		};
-2ab457093da8ac Michal Simek 2022-02-14  260  
-2ab457093da8ac Michal Simek 2022-02-14  261  		lpd_dma_chan6: dma@ffae0000 {
-2ab457093da8ac Michal Simek 2022-02-14  262  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  263  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  264  			reg = <0 0xffae0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  265  			interrupts = <0 66 4>;
-2ab457093da8ac Michal Simek 2022-02-14  266  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  267  			/* iommus = <&smmu 0x21c>; */
-2ab457093da8ac Michal Simek 2022-02-14  268  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  269  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  270  		};
-2ab457093da8ac Michal Simek 2022-02-14  271  
-2ab457093da8ac Michal Simek 2022-02-14  272  		lpd_dma_chan7: dma@ffaf0000 {
-2ab457093da8ac Michal Simek 2022-02-14  273  			compatible = "xlnx,zynqmp-dma-1.0";
-2ab457093da8ac Michal Simek 2022-02-14  274  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  275  			reg = <0 0xffaf0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  276  			interrupts = <0 67 4>;
-2ab457093da8ac Michal Simek 2022-02-14  277  			clock-names = "clk_main", "clk_apb";
-2ab457093da8ac Michal Simek 2022-02-14  278  			/* iommus = <&smmu 0x21e>; */
-2ab457093da8ac Michal Simek 2022-02-14  279  			xlnx,bus-width = <64>;
-2ab457093da8ac Michal Simek 2022-02-14  280  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  281  		};
-2ab457093da8ac Michal Simek 2022-02-14  282  
-2ab457093da8ac Michal Simek 2022-02-14  283  		gem0: ethernet@ff0c0000 {
-2ab457093da8ac Michal Simek 2022-02-14  284  			compatible = "xlnx,versal-gem", "cdns,gem";
-2ab457093da8ac Michal Simek 2022-02-14  285  			status = "disabled";
-2ab457093da8ac Michal Simek 2022-02-14  286  			reg = <0 0xff0c0000 0 0x1000>;
-2ab457093da8ac Michal Simek 2022-02-14  287  			interrupts = <0 56 4>, <0 56 4>;
-2ab457093da8ac Michal Simek 2022-02-14  288  			clock-names = "pclk", "hclk", "tx_clk", "rx_clk", "tsu_clk";
-2ab457093da8ac Michal Simek 2022-02-14  289  			/* iommus = <&smmu 0x234>; */
-2ab457093da8ac Michal Simek 2022-02-14  290  			/* dma-coherent; */
-2ab457093da8ac Michal Simek 2022-02-14  291  			#address-cells = <1>;
-2ab457093da8ac Michal Simek 2022-02-14  292  			#size-cells = <0>;
-2ab457093da8ac Michal Simek 2022-02-14  293  		};
-2ab457093da8ac Michal Simek 2022-02-14  294  
-2ab457093da8ac Michal Simek 2022-02-14 @295  		gem1: ethernet@ff0d0000 {
-
-:::::: The code at line 295 was first introduced by commit
-:::::: 2ab457093da8ac4ed0b8cf6bd78a7ed2bba13947 arm64: versal: Add all missing dt files for Xilinx boards
-
-:::::: TO: Michal Simek <michal.simek@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@amd.com>
+5186caddfc7d38 Fancy Fang 2019-08-19  268  
+5186caddfc7d38 Fancy Fang 2019-08-19  269  int mxc_edid_parse_ext_blk(unsigned char *edid,
+5186caddfc7d38 Fancy Fang 2019-08-19  270  		struct mxc_edid_cfg *cfg,
+5186caddfc7d38 Fancy Fang 2019-08-19  271  		struct fb_monspecs *specs)
+5186caddfc7d38 Fancy Fang 2019-08-19  272  {
+5186caddfc7d38 Fancy Fang 2019-08-19  273  	char detail_timing_desc_offset;
+5186caddfc7d38 Fancy Fang 2019-08-19  274  	struct fb_videomode *mode, *m;
+5186caddfc7d38 Fancy Fang 2019-08-19  275  	unsigned char index = 0x0;
+5186caddfc7d38 Fancy Fang 2019-08-19  276  	unsigned char *block;
+5186caddfc7d38 Fancy Fang 2019-08-19  277  	int i, num = 0, revision;
+5186caddfc7d38 Fancy Fang 2019-08-19  278  
+5186caddfc7d38 Fancy Fang 2019-08-19  279  	if (edid[index++] != 0x2) /* only support cea ext block now */
+5186caddfc7d38 Fancy Fang 2019-08-19  280  		return 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  281  	revision = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  282  	DPRINTK("cea extent revision %d\n", revision);
+5186caddfc7d38 Fancy Fang 2019-08-19  283  	mode = kzalloc(50 * sizeof(struct fb_videomode), GFP_KERNEL);
+5186caddfc7d38 Fancy Fang 2019-08-19  284  	if (mode == NULL)
+5186caddfc7d38 Fancy Fang 2019-08-19 @285  		return -1;
+5186caddfc7d38 Fancy Fang 2019-08-19  286  
+5186caddfc7d38 Fancy Fang 2019-08-19  287  	detail_timing_desc_offset = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  288  
+5186caddfc7d38 Fancy Fang 2019-08-19  289  	if (revision >= 2) {
+5186caddfc7d38 Fancy Fang 2019-08-19  290  		cfg->cea_underscan = (edid[index] >> 7) & 0x1;
+5186caddfc7d38 Fancy Fang 2019-08-19  291  		cfg->cea_basicaudio = (edid[index] >> 6) & 0x1;
+5186caddfc7d38 Fancy Fang 2019-08-19  292  		cfg->cea_ycbcr444 = (edid[index] >> 5) & 0x1;
+5186caddfc7d38 Fancy Fang 2019-08-19  293  		cfg->cea_ycbcr422 = (edid[index] >> 4) & 0x1;
+5186caddfc7d38 Fancy Fang 2019-08-19  294  
+5186caddfc7d38 Fancy Fang 2019-08-19  295  		DPRINTK("CEA underscan %d\n", cfg->cea_underscan);
+5186caddfc7d38 Fancy Fang 2019-08-19  296  		DPRINTK("CEA basicaudio %d\n", cfg->cea_basicaudio);
+5186caddfc7d38 Fancy Fang 2019-08-19  297  		DPRINTK("CEA ycbcr444 %d\n", cfg->cea_ycbcr444);
+5186caddfc7d38 Fancy Fang 2019-08-19  298  		DPRINTK("CEA ycbcr422 %d\n", cfg->cea_ycbcr422);
+5186caddfc7d38 Fancy Fang 2019-08-19  299  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  300  
+5186caddfc7d38 Fancy Fang 2019-08-19  301  	if (revision >= 3) {
+5186caddfc7d38 Fancy Fang 2019-08-19  302  		/* short desc */
+5186caddfc7d38 Fancy Fang 2019-08-19  303  		DPRINTK("CEA Short desc timmings\n");
+5186caddfc7d38 Fancy Fang 2019-08-19  304  		index++;
+5186caddfc7d38 Fancy Fang 2019-08-19  305  		while (index < detail_timing_desc_offset) {
+5186caddfc7d38 Fancy Fang 2019-08-19  306  			unsigned char tagcode, blklen;
+5186caddfc7d38 Fancy Fang 2019-08-19  307  
+5186caddfc7d38 Fancy Fang 2019-08-19  308  			tagcode = (edid[index] >> 5) & 0x7;
+5186caddfc7d38 Fancy Fang 2019-08-19  309  			blklen = (edid[index]) & 0x1f;
+5186caddfc7d38 Fancy Fang 2019-08-19  310  
+5186caddfc7d38 Fancy Fang 2019-08-19  311  			DPRINTK("Tagcode %x Len %d\n", tagcode, blklen);
+5186caddfc7d38 Fancy Fang 2019-08-19  312  
+5186caddfc7d38 Fancy Fang 2019-08-19  313  			switch (tagcode) {
+5186caddfc7d38 Fancy Fang 2019-08-19  314  			case 0x2: /*Video data block*/
+5186caddfc7d38 Fancy Fang 2019-08-19  315  				{
+5186caddfc7d38 Fancy Fang 2019-08-19  316  					int cea_idx;
+5186caddfc7d38 Fancy Fang 2019-08-19  317  					i = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  318  					while (i < blklen) {
+5186caddfc7d38 Fancy Fang 2019-08-19  319  						index++;
+5186caddfc7d38 Fancy Fang 2019-08-19  320  						cea_idx = edid[index] & 0x7f;
+5186caddfc7d38 Fancy Fang 2019-08-19  321  						if (cea_idx < ARRAY_SIZE(mxc_cea_mode) &&
+5186caddfc7d38 Fancy Fang 2019-08-19  322  								(mxc_cea_mode[cea_idx].xres)) {
+5186caddfc7d38 Fancy Fang 2019-08-19  323  							DPRINTK("Support CEA Format #%d\n", cea_idx);
+5186caddfc7d38 Fancy Fang 2019-08-19  324  							mode[num] = mxc_cea_mode[cea_idx];
+5186caddfc7d38 Fancy Fang 2019-08-19  325  							mode[num].flag |= FB_MODE_IS_STANDARD;
+5186caddfc7d38 Fancy Fang 2019-08-19  326  							num++;
+5186caddfc7d38 Fancy Fang 2019-08-19  327  						}
+5186caddfc7d38 Fancy Fang 2019-08-19  328  						i++;
+5186caddfc7d38 Fancy Fang 2019-08-19  329  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  330  					break;
+5186caddfc7d38 Fancy Fang 2019-08-19  331  				}
+5186caddfc7d38 Fancy Fang 2019-08-19  332  			case 0x3: /*Vendor specific data*/
+5186caddfc7d38 Fancy Fang 2019-08-19  333  				{
+5186caddfc7d38 Fancy Fang 2019-08-19  334  					unsigned char IEEE_reg_iden[3];
+5186caddfc7d38 Fancy Fang 2019-08-19  335  					unsigned char deep_color;
+5186caddfc7d38 Fancy Fang 2019-08-19  336  					unsigned char latency_present;
+5186caddfc7d38 Fancy Fang 2019-08-19  337  					unsigned char I_latency_present;
+5186caddfc7d38 Fancy Fang 2019-08-19  338  					unsigned char hdmi_video_present;
+5186caddfc7d38 Fancy Fang 2019-08-19  339  					unsigned char hdmi_3d_present;
+5186caddfc7d38 Fancy Fang 2019-08-19  340  					unsigned char hdmi_3d_multi_present;
+5186caddfc7d38 Fancy Fang 2019-08-19  341  					unsigned char hdmi_vic_len;
+5186caddfc7d38 Fancy Fang 2019-08-19  342  					unsigned char hdmi_3d_len;
+5186caddfc7d38 Fancy Fang 2019-08-19  343  					unsigned char index_inc = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  344  					unsigned char vsd_end;
+5186caddfc7d38 Fancy Fang 2019-08-19  345  
+5186caddfc7d38 Fancy Fang 2019-08-19  346  					vsd_end = index + blklen;
+5186caddfc7d38 Fancy Fang 2019-08-19  347  
+5186caddfc7d38 Fancy Fang 2019-08-19  348  					IEEE_reg_iden[0] = edid[index+1];
+5186caddfc7d38 Fancy Fang 2019-08-19  349  					IEEE_reg_iden[1] = edid[index+2];
+5186caddfc7d38 Fancy Fang 2019-08-19  350  					IEEE_reg_iden[2] = edid[index+3];
+5186caddfc7d38 Fancy Fang 2019-08-19  351  					cfg->physical_address[0] = (edid[index+4] & 0xf0) >> 4;
+5186caddfc7d38 Fancy Fang 2019-08-19  352  					cfg->physical_address[1] = (edid[index+4] & 0x0f);
+5186caddfc7d38 Fancy Fang 2019-08-19  353  					cfg->physical_address[2] = (edid[index+5] & 0xf0) >> 4;
+5186caddfc7d38 Fancy Fang 2019-08-19  354  					cfg->physical_address[3] = (edid[index+5] & 0x0f);
+5186caddfc7d38 Fancy Fang 2019-08-19  355  
+5186caddfc7d38 Fancy Fang 2019-08-19  356  					if ((IEEE_reg_iden[0] == 0x03) &&
+5186caddfc7d38 Fancy Fang 2019-08-19  357  							(IEEE_reg_iden[1] == 0x0c) &&
+5186caddfc7d38 Fancy Fang 2019-08-19  358  							(IEEE_reg_iden[2] == 0x00))
+5186caddfc7d38 Fancy Fang 2019-08-19  359  						cfg->hdmi_cap = 1;
+5186caddfc7d38 Fancy Fang 2019-08-19  360  
+5186caddfc7d38 Fancy Fang 2019-08-19  361  					if (blklen > 5) {
+5186caddfc7d38 Fancy Fang 2019-08-19  362  						deep_color = edid[index+6];
+5186caddfc7d38 Fancy Fang 2019-08-19  363  						if (deep_color & 0x80)
+5186caddfc7d38 Fancy Fang 2019-08-19  364  							cfg->vsd_support_ai = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  365  						if (deep_color & 0x40)
+5186caddfc7d38 Fancy Fang 2019-08-19  366  							cfg->vsd_dc_48bit = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  367  						if (deep_color & 0x20)
+5186caddfc7d38 Fancy Fang 2019-08-19  368  							cfg->vsd_dc_36bit = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  369  						if (deep_color & 0x10)
+5186caddfc7d38 Fancy Fang 2019-08-19  370  							cfg->vsd_dc_30bit = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  371  						if (deep_color & 0x08)
+5186caddfc7d38 Fancy Fang 2019-08-19  372  							cfg->vsd_dc_y444 = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  373  						if (deep_color & 0x01)
+5186caddfc7d38 Fancy Fang 2019-08-19  374  							cfg->vsd_dvi_dual = true;
+5186caddfc7d38 Fancy Fang 2019-08-19  375  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  376  
+5186caddfc7d38 Fancy Fang 2019-08-19  377  					DPRINTK("VSD hdmi capability %d\n", cfg->hdmi_cap);
+5186caddfc7d38 Fancy Fang 2019-08-19  378  					DPRINTK("VSD support ai %d\n", cfg->vsd_support_ai);
+5186caddfc7d38 Fancy Fang 2019-08-19  379  					DPRINTK("VSD support deep color 48bit %d\n", cfg->vsd_dc_48bit);
+5186caddfc7d38 Fancy Fang 2019-08-19  380  					DPRINTK("VSD support deep color 36bit %d\n", cfg->vsd_dc_36bit);
+5186caddfc7d38 Fancy Fang 2019-08-19  381  					DPRINTK("VSD support deep color 30bit %d\n", cfg->vsd_dc_30bit);
+5186caddfc7d38 Fancy Fang 2019-08-19  382  					DPRINTK("VSD support deep color y444 %d\n", cfg->vsd_dc_y444);
+5186caddfc7d38 Fancy Fang 2019-08-19  383  					DPRINTK("VSD support dvi dual %d\n", cfg->vsd_dvi_dual);
+5186caddfc7d38 Fancy Fang 2019-08-19  384  
+5186caddfc7d38 Fancy Fang 2019-08-19  385  					if (blklen > 6)
+5186caddfc7d38 Fancy Fang 2019-08-19  386  						cfg->vsd_max_tmdsclk_rate = edid[index+7] * 5;
+5186caddfc7d38 Fancy Fang 2019-08-19  387  					DPRINTK("VSD MAX TMDS CLOCK RATE %d\n", cfg->vsd_max_tmdsclk_rate);
+5186caddfc7d38 Fancy Fang 2019-08-19  388  
+5186caddfc7d38 Fancy Fang 2019-08-19  389  					if (blklen > 7) {
+5186caddfc7d38 Fancy Fang 2019-08-19  390  						latency_present = edid[index+8] >> 7;
+5186caddfc7d38 Fancy Fang 2019-08-19  391  						I_latency_present =  (edid[index+8] & 0x40) >> 6;
+5186caddfc7d38 Fancy Fang 2019-08-19  392  						hdmi_video_present = (edid[index+8] & 0x20) >> 5;
+5186caddfc7d38 Fancy Fang 2019-08-19  393  						cfg->vsd_cnc3 = (edid[index+8] & 0x8) >> 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  394  						cfg->vsd_cnc2 = (edid[index+8] & 0x4) >> 2;
+5186caddfc7d38 Fancy Fang 2019-08-19  395  						cfg->vsd_cnc1 = (edid[index+8] & 0x2) >> 1;
+5186caddfc7d38 Fancy Fang 2019-08-19  396  						cfg->vsd_cnc0 = edid[index+8] & 0x1;
+5186caddfc7d38 Fancy Fang 2019-08-19  397  
+5186caddfc7d38 Fancy Fang 2019-08-19  398  						DPRINTK("VSD cnc0 %d\n", cfg->vsd_cnc0);
+5186caddfc7d38 Fancy Fang 2019-08-19  399  						DPRINTK("VSD cnc1 %d\n", cfg->vsd_cnc1);
+5186caddfc7d38 Fancy Fang 2019-08-19  400  						DPRINTK("VSD cnc2 %d\n", cfg->vsd_cnc2);
+5186caddfc7d38 Fancy Fang 2019-08-19  401  						DPRINTK("VSD cnc3 %d\n", cfg->vsd_cnc3);
+5186caddfc7d38 Fancy Fang 2019-08-19  402  						DPRINTK("latency_present %d\n", latency_present);
+5186caddfc7d38 Fancy Fang 2019-08-19  403  						DPRINTK("I_latency_present %d\n", I_latency_present);
+5186caddfc7d38 Fancy Fang 2019-08-19  404  						DPRINTK("hdmi_video_present %d\n", hdmi_video_present);
+5186caddfc7d38 Fancy Fang 2019-08-19  405  
+5186caddfc7d38 Fancy Fang 2019-08-19  406  					} else {
+5186caddfc7d38 Fancy Fang 2019-08-19  407  						index += blklen;
+5186caddfc7d38 Fancy Fang 2019-08-19  408  						break;
+5186caddfc7d38 Fancy Fang 2019-08-19  409  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  410  
+5186caddfc7d38 Fancy Fang 2019-08-19  411  					index += 9;
+5186caddfc7d38 Fancy Fang 2019-08-19  412  
+5186caddfc7d38 Fancy Fang 2019-08-19  413  					/*latency present */
+5186caddfc7d38 Fancy Fang 2019-08-19  414  					if (latency_present) {
+5186caddfc7d38 Fancy Fang 2019-08-19  415  						cfg->vsd_video_latency = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  416  						cfg->vsd_audio_latency = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  417  
+5186caddfc7d38 Fancy Fang 2019-08-19  418  						if (I_latency_present) {
+5186caddfc7d38 Fancy Fang 2019-08-19  419  							cfg->vsd_I_video_latency = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  420  							cfg->vsd_I_audio_latency = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  421  						} else {
+5186caddfc7d38 Fancy Fang 2019-08-19  422  							cfg->vsd_I_video_latency = cfg->vsd_video_latency;
+5186caddfc7d38 Fancy Fang 2019-08-19  423  							cfg->vsd_I_audio_latency = cfg->vsd_audio_latency;
+5186caddfc7d38 Fancy Fang 2019-08-19  424  						}
+5186caddfc7d38 Fancy Fang 2019-08-19  425  
+5186caddfc7d38 Fancy Fang 2019-08-19  426  						DPRINTK("VSD latency video_latency  %d\n", cfg->vsd_video_latency);
+5186caddfc7d38 Fancy Fang 2019-08-19  427  						DPRINTK("VSD latency audio_latency  %d\n", cfg->vsd_audio_latency);
+5186caddfc7d38 Fancy Fang 2019-08-19  428  						DPRINTK("VSD latency I_video_latency  %d\n", cfg->vsd_I_video_latency);
+5186caddfc7d38 Fancy Fang 2019-08-19  429  						DPRINTK("VSD latency I_audio_latency  %d\n", cfg->vsd_I_audio_latency);
+5186caddfc7d38 Fancy Fang 2019-08-19  430  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  431  
+5186caddfc7d38 Fancy Fang 2019-08-19  432  					if (hdmi_video_present) {
+5186caddfc7d38 Fancy Fang 2019-08-19  433  						hdmi_3d_present = edid[index] >> 7;
+5186caddfc7d38 Fancy Fang 2019-08-19  434  						hdmi_3d_multi_present = (edid[index] & 0x60) >> 5;
+5186caddfc7d38 Fancy Fang 2019-08-19  435  						index++;
+5186caddfc7d38 Fancy Fang 2019-08-19  436  						hdmi_vic_len = (edid[index] & 0xe0) >> 5;
+5186caddfc7d38 Fancy Fang 2019-08-19  437  						hdmi_3d_len = edid[index] & 0x1f;
+5186caddfc7d38 Fancy Fang 2019-08-19  438  						index++;
+5186caddfc7d38 Fancy Fang 2019-08-19  439  
+5186caddfc7d38 Fancy Fang 2019-08-19  440  						DPRINTK("hdmi_3d_present %d\n", hdmi_3d_present);
+5186caddfc7d38 Fancy Fang 2019-08-19  441  						DPRINTK("hdmi_3d_multi_present %d\n", hdmi_3d_multi_present);
+5186caddfc7d38 Fancy Fang 2019-08-19  442  						DPRINTK("hdmi_vic_len %d\n", hdmi_vic_len);
+5186caddfc7d38 Fancy Fang 2019-08-19  443  						DPRINTK("hdmi_3d_len %d\n", hdmi_3d_len);
+5186caddfc7d38 Fancy Fang 2019-08-19  444  
+5186caddfc7d38 Fancy Fang 2019-08-19  445  						if (hdmi_vic_len > 0) {
+5186caddfc7d38 Fancy Fang 2019-08-19  446  							for (i = 0; i < hdmi_vic_len; i++) {
+5186caddfc7d38 Fancy Fang 2019-08-19  447  								cfg->hdmi_vic[i] = edid[index++];
+5186caddfc7d38 Fancy Fang 2019-08-19  448  								DPRINTK("HDMI_vic=%d\n", cfg->hdmi_vic[i]);
+5186caddfc7d38 Fancy Fang 2019-08-19  449  							}
+5186caddfc7d38 Fancy Fang 2019-08-19  450  						}
+5186caddfc7d38 Fancy Fang 2019-08-19  451  
+5186caddfc7d38 Fancy Fang 2019-08-19  452  						if (hdmi_3d_len > 0) {
+5186caddfc7d38 Fancy Fang 2019-08-19  453  							if (hdmi_3d_present) {
+5186caddfc7d38 Fancy Fang 2019-08-19  454  								if (hdmi_3d_multi_present == 0x1) {
+5186caddfc7d38 Fancy Fang 2019-08-19  455  									cfg->hdmi_3d_struct_all = (edid[index] << 8) | edid[index+1];
+5186caddfc7d38 Fancy Fang 2019-08-19  456  									index_inc = 2;
+5186caddfc7d38 Fancy Fang 2019-08-19  457  								} else if (hdmi_3d_multi_present == 0x2) {
+5186caddfc7d38 Fancy Fang 2019-08-19  458  									cfg->hdmi_3d_struct_all = (edid[index] << 8) | edid[index+1];
+5186caddfc7d38 Fancy Fang 2019-08-19  459  									cfg->hdmi_3d_mask_all = (edid[index+2] << 8) | edid[index+3];
+5186caddfc7d38 Fancy Fang 2019-08-19  460  									index_inc = 4;
+5186caddfc7d38 Fancy Fang 2019-08-19  461  								} else
+5186caddfc7d38 Fancy Fang 2019-08-19  462  									index_inc = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  463  							}
+5186caddfc7d38 Fancy Fang 2019-08-19  464  
+5186caddfc7d38 Fancy Fang 2019-08-19  465  							DPRINTK("HDMI 3d struct all =0x%x\n", cfg->hdmi_3d_struct_all);
+5186caddfc7d38 Fancy Fang 2019-08-19  466  							DPRINTK("HDMI 3d mask all =0x%x\n", cfg->hdmi_3d_mask_all);
+5186caddfc7d38 Fancy Fang 2019-08-19  467  
+5186caddfc7d38 Fancy Fang 2019-08-19  468  							/* Read 2D vic 3D_struct */
+5186caddfc7d38 Fancy Fang 2019-08-19  469  							if ((hdmi_3d_len - index_inc) > 0) {
+5186caddfc7d38 Fancy Fang 2019-08-19  470  								DPRINTK("Support 3D video format\n");
+5186caddfc7d38 Fancy Fang 2019-08-19  471  								i = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  472  								while ((hdmi_3d_len - index_inc) > 0) {
+5186caddfc7d38 Fancy Fang 2019-08-19  473  
+5186caddfc7d38 Fancy Fang 2019-08-19  474  									cfg->hdmi_3d_format[i].vic_order_2d = edid[index+index_inc] >> 4;
+5186caddfc7d38 Fancy Fang 2019-08-19  475  									cfg->hdmi_3d_format[i].struct_3d = edid[index+index_inc] & 0x0f;
+5186caddfc7d38 Fancy Fang 2019-08-19  476  									index_inc++;
+5186caddfc7d38 Fancy Fang 2019-08-19  477  
+5186caddfc7d38 Fancy Fang 2019-08-19  478  									if (cfg->hdmi_3d_format[i].struct_3d ==  8) {
+5186caddfc7d38 Fancy Fang 2019-08-19  479  										cfg->hdmi_3d_format[i].detail_3d = edid[index+index_inc] >> 4;
+5186caddfc7d38 Fancy Fang 2019-08-19  480  										index_inc++;
+5186caddfc7d38 Fancy Fang 2019-08-19  481  									} else if (cfg->hdmi_3d_format[i].struct_3d > 8) {
+5186caddfc7d38 Fancy Fang 2019-08-19  482  										cfg->hdmi_3d_format[i].detail_3d = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  483  										index_inc++;
+5186caddfc7d38 Fancy Fang 2019-08-19  484  									}
+5186caddfc7d38 Fancy Fang 2019-08-19  485  
+5186caddfc7d38 Fancy Fang 2019-08-19  486  									DPRINTK("vic_order_2d=%d, 3d_struct=%d, 3d_detail=0x%x\n",
+5186caddfc7d38 Fancy Fang 2019-08-19  487  											cfg->hdmi_3d_format[i].vic_order_2d,
+5186caddfc7d38 Fancy Fang 2019-08-19  488  											cfg->hdmi_3d_format[i].struct_3d,
+5186caddfc7d38 Fancy Fang 2019-08-19  489  											cfg->hdmi_3d_format[i].detail_3d);
+5186caddfc7d38 Fancy Fang 2019-08-19  490  									i++;
+5186caddfc7d38 Fancy Fang 2019-08-19  491  								}
+5186caddfc7d38 Fancy Fang 2019-08-19  492  							}
+5186caddfc7d38 Fancy Fang 2019-08-19  493  						}
+5186caddfc7d38 Fancy Fang 2019-08-19  494  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  495  
+5186caddfc7d38 Fancy Fang 2019-08-19  496  					index = vsd_end;
+5186caddfc7d38 Fancy Fang 2019-08-19  497  
+5186caddfc7d38 Fancy Fang 2019-08-19  498  					break;
+5186caddfc7d38 Fancy Fang 2019-08-19  499  				}
+5186caddfc7d38 Fancy Fang 2019-08-19  500  			case 0x1: /*Audio data block*/
+5186caddfc7d38 Fancy Fang 2019-08-19  501  				{
+5186caddfc7d38 Fancy Fang 2019-08-19  502  					u8 audio_format, max_ch, byte1, byte2, byte3;
+5186caddfc7d38 Fancy Fang 2019-08-19  503  
+5186caddfc7d38 Fancy Fang 2019-08-19  504  					i = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  505  					cfg->max_channels = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  506  					cfg->sample_rates = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  507  					cfg->sample_sizes = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  508  
+5186caddfc7d38 Fancy Fang 2019-08-19  509  					while (i < blklen) {
+5186caddfc7d38 Fancy Fang 2019-08-19  510  						byte1 = edid[index + 1];
+5186caddfc7d38 Fancy Fang 2019-08-19  511  						byte2 = edid[index + 2];
+5186caddfc7d38 Fancy Fang 2019-08-19  512  						byte3 = edid[index + 3];
+5186caddfc7d38 Fancy Fang 2019-08-19  513  						index += 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  514  						i += 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  515  
+5186caddfc7d38 Fancy Fang 2019-08-19  516  						audio_format = byte1 >> 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  517  						max_ch = (byte1 & 0x07) + 1;
+5186caddfc7d38 Fancy Fang 2019-08-19  518  
+5186caddfc7d38 Fancy Fang 2019-08-19  519  						DPRINTK("Audio Format Descriptor : %2d\n", audio_format);
+5186caddfc7d38 Fancy Fang 2019-08-19  520  						DPRINTK("Max Number of Channels  : %2d\n", max_ch);
+5186caddfc7d38 Fancy Fang 2019-08-19  521  						DPRINTK("Sample Rates            : %02x\n", byte2);
+5186caddfc7d38 Fancy Fang 2019-08-19  522  
+5186caddfc7d38 Fancy Fang 2019-08-19  523  						/* ALSA can't specify specific compressed
+5186caddfc7d38 Fancy Fang 2019-08-19  524  						 * formats, so only care about PCM for now. */
+5186caddfc7d38 Fancy Fang 2019-08-19  525  						if (audio_format == AUDIO_CODING_TYPE_LPCM) {
+5186caddfc7d38 Fancy Fang 2019-08-19  526  							if (max_ch > cfg->max_channels)
+5186caddfc7d38 Fancy Fang 2019-08-19  527  								cfg->max_channels = max_ch;
+5186caddfc7d38 Fancy Fang 2019-08-19  528  
+5186caddfc7d38 Fancy Fang 2019-08-19  529  							cfg->sample_rates |= byte2;
+5186caddfc7d38 Fancy Fang 2019-08-19  530  							cfg->sample_sizes |= byte3 & 0x7;
+5186caddfc7d38 Fancy Fang 2019-08-19  531  							DPRINTK("Sample Sizes            : %02x\n",
+5186caddfc7d38 Fancy Fang 2019-08-19  532  								byte3 & 0x7);
+5186caddfc7d38 Fancy Fang 2019-08-19  533  						}
+5186caddfc7d38 Fancy Fang 2019-08-19  534  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  535  					break;
+5186caddfc7d38 Fancy Fang 2019-08-19  536  				}
+5186caddfc7d38 Fancy Fang 2019-08-19  537  			case 0x4: /*Speaker allocation block*/
+5186caddfc7d38 Fancy Fang 2019-08-19  538  				{
+5186caddfc7d38 Fancy Fang 2019-08-19  539  					i = 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  540  					while (i < blklen) {
+5186caddfc7d38 Fancy Fang 2019-08-19  541  						cfg->speaker_alloc = edid[index + 1];
+5186caddfc7d38 Fancy Fang 2019-08-19  542  						index += 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  543  						i += 3;
+5186caddfc7d38 Fancy Fang 2019-08-19  544  						DPRINTK("Speaker Alloc           : %02x\n", cfg->speaker_alloc);
+5186caddfc7d38 Fancy Fang 2019-08-19  545  					}
+5186caddfc7d38 Fancy Fang 2019-08-19  546  					break;
+5186caddfc7d38 Fancy Fang 2019-08-19  547  				}
+5186caddfc7d38 Fancy Fang 2019-08-19  548  			case 0x7: /*User extended block*/
+5186caddfc7d38 Fancy Fang 2019-08-19  549  			default:
+5186caddfc7d38 Fancy Fang 2019-08-19  550  				/* skip */
+5186caddfc7d38 Fancy Fang 2019-08-19  551  				DPRINTK("Not handle block, tagcode = 0x%x\n", tagcode);
+5186caddfc7d38 Fancy Fang 2019-08-19  552  				index += blklen;
+5186caddfc7d38 Fancy Fang 2019-08-19  553  				break;
+5186caddfc7d38 Fancy Fang 2019-08-19  554  			}
+5186caddfc7d38 Fancy Fang 2019-08-19  555  
+5186caddfc7d38 Fancy Fang 2019-08-19  556  			index++;
+5186caddfc7d38 Fancy Fang 2019-08-19  557  		}
+5186caddfc7d38 Fancy Fang 2019-08-19  558  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  559  
+5186caddfc7d38 Fancy Fang 2019-08-19  560  	/* long desc */
+5186caddfc7d38 Fancy Fang 2019-08-19  561  	DPRINTK("CEA long desc timmings\n");
+5186caddfc7d38 Fancy Fang 2019-08-19  562  	index = detail_timing_desc_offset;
+5186caddfc7d38 Fancy Fang 2019-08-19  563  	block = edid + index;
+5186caddfc7d38 Fancy Fang 2019-08-19  564  	while (index < (EDID_LENGTH - DETAILED_TIMING_DESCRIPTION_SIZE)) {
+5186caddfc7d38 Fancy Fang 2019-08-19  565  		if (!(block[0] == 0x00 && block[1] == 0x00)) {
+5186caddfc7d38 Fancy Fang 2019-08-19  566  			get_detailed_timing(block, &mode[num]);
+5186caddfc7d38 Fancy Fang 2019-08-19  567  			num++;
+5186caddfc7d38 Fancy Fang 2019-08-19  568  		}
+5186caddfc7d38 Fancy Fang 2019-08-19  569  		block += DETAILED_TIMING_DESCRIPTION_SIZE;
+5186caddfc7d38 Fancy Fang 2019-08-19  570  		index += DETAILED_TIMING_DESCRIPTION_SIZE;
+5186caddfc7d38 Fancy Fang 2019-08-19  571  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  572  
+5186caddfc7d38 Fancy Fang 2019-08-19  573  	if (!num) {
+5186caddfc7d38 Fancy Fang 2019-08-19  574  		kfree(mode);
+5186caddfc7d38 Fancy Fang 2019-08-19  575  		return 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  576  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  577  
+5186caddfc7d38 Fancy Fang 2019-08-19  578  	m = kmalloc((num + specs->modedb_len) *
+5186caddfc7d38 Fancy Fang 2019-08-19  579  			sizeof(struct fb_videomode), GFP_KERNEL);
+5186caddfc7d38 Fancy Fang 2019-08-19  580  	if (!m) {
+5186caddfc7d38 Fancy Fang 2019-08-19  581  		kfree(mode);
+5186caddfc7d38 Fancy Fang 2019-08-19  582  		return 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  583  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  584  
+5186caddfc7d38 Fancy Fang 2019-08-19  585  	if (specs->modedb_len) {
+5186caddfc7d38 Fancy Fang 2019-08-19  586  		memmove(m, specs->modedb,
+5186caddfc7d38 Fancy Fang 2019-08-19  587  			specs->modedb_len * sizeof(struct fb_videomode));
+5186caddfc7d38 Fancy Fang 2019-08-19  588  		kfree(specs->modedb);
+5186caddfc7d38 Fancy Fang 2019-08-19  589  	}
+5186caddfc7d38 Fancy Fang 2019-08-19  590  	memmove(m+specs->modedb_len, mode,
+5186caddfc7d38 Fancy Fang 2019-08-19  591  		num * sizeof(struct fb_videomode));
+5186caddfc7d38 Fancy Fang 2019-08-19  592  	kfree(mode);
+5186caddfc7d38 Fancy Fang 2019-08-19  593  
+5186caddfc7d38 Fancy Fang 2019-08-19  594  	specs->modedb_len += num;
+5186caddfc7d38 Fancy Fang 2019-08-19  595  	specs->modedb = m;
+5186caddfc7d38 Fancy Fang 2019-08-19  596  
+5186caddfc7d38 Fancy Fang 2019-08-19  597  	return 0;
+5186caddfc7d38 Fancy Fang 2019-08-19  598  }
+5186caddfc7d38 Fancy Fang 2019-08-19  599  EXPORT_SYMBOL(mxc_edid_parse_ext_blk);
+5186caddfc7d38 Fancy Fang 2019-08-19  600  
 
 -- 
 0-DAY CI Kernel Test Service
