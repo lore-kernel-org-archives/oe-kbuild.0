@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A2E185939
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 10:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75FE6C139
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 12:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727520078; cv=none; b=M13CWho/mflCpmH1+WLlF5lDpPu1X9Fa4LrFbZtlL57tph4a3SLxNsqEw3FHaDCpFwLDcQ7fuz5w7hZnHdmW+4duUg+m4ranFVHASzjTUPgl7hjjFfACJcl7c4FbYu6NBi4GHEtQPvByGF5aVC9wEieqlaGgTlvb2z3nss0Qki8=
+	t=1727525718; cv=none; b=JoRuIh3CgUSBuFNz/zmTzksI/rs9mNYxAiIC41Wg4MOGR2iyulx4bW+jW44RKqVDNP+30Yx6CiEuBvWeyvll6JnjaqVjSWvEh3XKn5nLpJCfAqcZWXKVOHOEv3lnka2pymfLYd4ADfU/YnIYWtiQrs0etjih+t/OniNcPjIMLKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727520078; c=relaxed/simple;
-	bh=v1yV4jW3R55ldM3TpBe/kwTpDOv2ZL/MfH4F7wJfimA=;
+	s=arc-20240116; t=1727525718; c=relaxed/simple;
+	bh=UBRiWahnx7dOAVQdXZN4RhdnYttzt2th8TUsGhpcLY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pFnIyqvf2pzyTsMAtfBkJEEE+3pTCqkbl2btO9y0W5ugKRyGwl4Gixq8o8F7VhNHbkHJJ9IDhbq/5EQ7u9fVl65IhRHswXYUlCqQhmIhDBHXS5svUPxVp8B49ky3hyBPmpxOEVgKKwT3y0Dw27DBhMivXFVs9ny0lri7Os4HtVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTfcgYUG; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=CV0UxsqkwWy9vuguNP0HjWrTrEU1revlGuWhH4Qvts33uwyalG7xHFqd5ee6M8vQFJZmmEq+Ezjc3IGniy866JzCA5tPyNf3RtXCcsIkLQdyLyVdwevVgyI7S9Pl25eauWiV8/07kLTF2AakL9WGC4ak2kgSx6JoJH62td7IJwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNSf9qy4; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTfcgYUG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNSf9qy4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727520076; x=1759056076;
+  t=1727525717; x=1759061717;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v1yV4jW3R55ldM3TpBe/kwTpDOv2ZL/MfH4F7wJfimA=;
-  b=GTfcgYUGg/7odWdtvU3290mIbOz8RTeK4UqdImUEqPPzjG39+PCdSKyf
-   ho8IWWwItx2ev6mR2iC2AocFEr0CnFnWofF7YY3nF/Cj99u7IdTBIrB0/
-   fPUHZwCk0YGgGd0A5bkJ6xJ0l16f0U5m3dlskNwq0NrituVBHyHumv93u
-   ZJKTxmBqGBty7b4i2yqI+E+vDjufhCfw2kKu2zMQt128btTNfB9eZXcBQ
-   FQjLQ4WbYg2ZhRwa1eFlZHrhOz4KV/G7AsA6AvNAJpRpRh3TenFEgP4Tu
-   jnvtTOnqrrKuWyaxmzWWpdrvGyebikTIVjW3ONaRSrS6lGhRzyYjfqlXU
-   A==;
-X-CSE-ConnectionGUID: 6DnJGfQAQv6MN27YgqW9Rw==
-X-CSE-MsgGUID: BV8IVq4jRBKanJRCJdhrgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11208"; a="26792772"
+  bh=UBRiWahnx7dOAVQdXZN4RhdnYttzt2th8TUsGhpcLY0=;
+  b=NNSf9qy4sMa/a5uzCutEaul3I7xpORzUdnxOn898kE0770v3TM5IyHpZ
+   En5nu93Dc4inwDDv1t98mDl7SPOdw03HtHYBzOGCfudhx3lZi7BkIZ0Sy
+   xvGZ2OstTKoIvHt3DMohbKNC3xVDoi6VY3ISRFqFQmHMI2NYzd3aBJ1Du
+   e49pUMquodTeGL8AFp0fzh0XrIj4TYHYHT5K4UH1lfZDpMFl3WupTp438
+   wDGlrC0vqWGGss4CWwhvMr/4fXZc1DTCacj+Rarcqfo1r1QJ9TW7JqEbf
+   JIHUNY1EMLehEKnni+F6HRh6DXeF/KwWJDNV1CvfqPmlpgRBNeZQYCNi3
+   w==;
+X-CSE-ConnectionGUID: BfccKku1QJSpXRHw+8m4JQ==
+X-CSE-MsgGUID: 42i/A2+jRP6ZLPr+qdMcYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26174085"
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26792772"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 03:41:13 -0700
-X-CSE-ConnectionGUID: c3tL90B5RXeaWa8DLO7HPA==
-X-CSE-MsgGUID: VZkNzQk2TiSDqqI/br7fkA==
+   d="scan'208";a="26174085"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 05:15:16 -0700
+X-CSE-ConnectionGUID: Om8m2QCWQWKyiGo4lIPWkg==
+X-CSE-MsgGUID: e+pyuNKxRXCnC+VLDKiIlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="73084887"
+   d="scan'208";a="110289190"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Sep 2024 03:41:11 -0700
+  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2024 05:15:14 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1suUsv-000NBD-1s;
-	Sat, 28 Sep 2024 10:41:09 +0000
-Date: Sat, 28 Sep 2024 18:41:03 +0800
+	id 1suWLw-000NFM-0K;
+	Sat, 28 Sep 2024 12:15:12 +0000
+Date: Sat, 28 Sep 2024 20:14:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [freescale-fslc:6.6-2.0.x-imx 515/16788]
- drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns
- '&sensor->lock'.
-Message-ID: <202409281825.DPhdYY5p-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS_2024.1_update 756/1001]
+ arch/arm64/boot/dts/xilinx/versal.dtsi:295.27-305.5: Warning
+ (avoid_unnecessary_addr_size): /axi/ethernet@ff0d0000: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202409282040.3jsAMYqq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,190 +64,325 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Otavio Salvador <otavio@ossystems.com.br>
+CC: git@amd.com
+TO: Michal Simek <monstr@monstr.eu>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
-head:   ac32ba5fe66266329914d2020570364afe217bec
-commit: f5eb071582415f1bb836a5f4c0740e51d4f17c83 [515/16788] LF-7052-04: media: i2c: add MT9M114 driver support for iMX93 platform
-:::::: branch date: 3 days ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-141-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281825.DPhdYY5p-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS_2024.1_update
+head:   5365c13a86998da06d845c918f849b30b8735538
+commit: 822544d3e453f11292dbf89e2e6ba46f09108dd9 [756/1001] arm64: versal: Move ethernet phys to mdio node
+:::::: branch date: 8 weeks ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240928/202409282040.3jsAMYqq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282040.3jsAMYqq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409281825.DPhdYY5p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409282040.3jsAMYqq-lkp@intel.com/
 
-smatch warnings:
-drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns '&sensor->lock'.
-drivers/media/i2c/mt9m114.c:913 mt9m114_get_chip_id() warn: unsigned 'ret' is never less than zero.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/xilinx/versal.dtsi:295.27-305.5: Warning (avoid_unnecessary_addr_size): /axi/ethernet@ff0d0000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
 
-vim +794 drivers/media/i2c/mt9m114.c
+vim +295 arch/arm64/boot/dts/xilinx/versal.dtsi
 
-f5eb071582415f1 Guoniu.zhou 2022-06-13  767  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  768  static int mt9m114_set_fmt(struct v4l2_subdev *sd,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  769  			  struct v4l2_subdev_state *sd_state,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  770  			  struct v4l2_subdev_format *format)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  771  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  772  	struct mt9m114 *sensor = to_mt9m114(sd);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  773  	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  774  	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  775  	const struct mt9m114_resolution *new_mode;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  776  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  777  	if (format->pad != 0)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  778  		return -EINVAL;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  779  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  780  	mutex_lock(&sensor->lock);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  781  	new_mode = mt9m114_find_mode(sensor, mbus_fmt->width, mbus_fmt->height);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  782  	if (!new_mode)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  783  	      return -EINVAL;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  784  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  785  	sensor->curr_mode = new_mode;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  786  	if (sensor->curr_mode != sensor->last_mode) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  787  		sensor->pending_mode_change = true;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  788  		memcpy(fmt, mbus_fmt, sizeof(*fmt));
-f5eb071582415f1 Guoniu.zhou 2022-06-13  789  		fmt->width  = new_mode->hact;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  790  		fmt->height = new_mode->vact;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  791  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  792  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  793  	mutex_unlock(&sensor->lock);
-f5eb071582415f1 Guoniu.zhou 2022-06-13 @794  	return 0;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  795  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  796  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  797  static int mt9m114_enum_frame_size(struct v4l2_subdev *sd,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  798  				  struct v4l2_subdev_state *sd_state,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  799  				  struct v4l2_subdev_frame_size_enum *fse)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  800  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  801  	struct mt9m114 *sensor = to_mt9m114(sd);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  802  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  803  	if (fse->pad != 0)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  804  		return -EINVAL;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  805  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  806  	if (fse->index >= ARRAY_SIZE(mt9m114_resolutions))
-f5eb071582415f1 Guoniu.zhou 2022-06-13  807  		return -EINVAL;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  808  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  809  	mutex_lock(&sensor->lock);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  810  	fse->min_width  = mt9m114_resolutions[fse->index].width;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  811  	fse->min_height = mt9m114_resolutions[fse->index].height;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  812  	fse->max_width  = mt9m114_resolutions[fse->index].width;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  813  	fse->max_height = mt9m114_resolutions[fse->index].height;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  814  	mutex_unlock(&sensor->lock);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  815  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  816  	return 0;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  817  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  818  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  819  static const struct v4l2_subdev_pad_ops mt9m114_pad_ops = {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  820  	.enum_mbus_code  = mt9m114_enum_mbus_code,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  821  	.enum_frame_size = mt9m114_enum_frame_size,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  822  	.get_fmt         = mt9m114_get_fmt,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  823  	.set_fmt         = mt9m114_set_fmt,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  824  };
-f5eb071582415f1 Guoniu.zhou 2022-06-13  825  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  826  static const struct v4l2_subdev_video_ops mt9m114_video_ops = {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  827  	.g_frame_interval = mt9m114_g_frame_interval,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  828  	.s_frame_interval = mt9m114_s_frame_interval,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  829  	.s_stream         = mt9m114_s_stream,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  830  };
-f5eb071582415f1 Guoniu.zhou 2022-06-13  831  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  832  static const struct v4l2_subdev_ops mt9m114_subdev_ops = {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  833  	.core  = &mt9m114_core_ops,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  834  	.video = &mt9m114_video_ops,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  835  	.pad   = &mt9m114_pad_ops,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  836  };
-f5eb071582415f1 Guoniu.zhou 2022-06-13  837  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  838  static int mt9m114_get_regulators(struct mt9m114 *sensor)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  839  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  840  	int i;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  841  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  842  	for (i = 0; i < MT9M114_NUM_SUPPLIES; i++)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  843  		sensor->supplies[i].supply = mt9m114_supply_name[i];
-f5eb071582415f1 Guoniu.zhou 2022-06-13  844  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  845  	return devm_regulator_bulk_get(&sensor->i2c_client->dev,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  846  				       MT9M114_NUM_SUPPLIES,
-f5eb071582415f1 Guoniu.zhou 2022-06-13  847  				       sensor->supplies);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  848  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  849  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  850  static int mt9m114_set_power(struct mt9m114 *sensor, bool on)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  851  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  852  	struct i2c_client *client = sensor->i2c_client;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  853  	int ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  854  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  855  	if (on) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  856  		ret = regulator_bulk_enable(MT9M114_NUM_SUPPLIES, sensor->supplies);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  857  		if (ret < 0) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  858  			dev_err(&client->dev, "failed to enable regulators\n");
-f5eb071582415f1 Guoniu.zhou 2022-06-13  859  			return ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  860  		}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  861  	} else {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  862  		ret = regulator_bulk_disable(MT9M114_NUM_SUPPLIES, sensor->supplies);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  863  		if (ret < 0) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  864  			dev_err(&client->dev, "failed to disable regulators\n");
-f5eb071582415f1 Guoniu.zhou 2022-06-13  865  			return ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  866  		}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  867  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  868  	return 0;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  869  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  870  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  871  static int mt9m114_get_gpios(struct mt9m114 *sensor)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  872  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  873  	struct device *dev = &sensor->i2c_client->dev;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  874  	struct gpio_desc *gpiod;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  875  	int ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  876  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  877  	/* request optional power down pin */
-f5eb071582415f1 Guoniu.zhou 2022-06-13  878  	gpiod = devm_gpiod_get_optional(dev, "powerdown", GPIOD_OUT_HIGH);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  879  	if (IS_ERR(gpiod)) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  880  		ret = PTR_ERR(gpiod);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  881  		dev_err(dev, "fail to get power down pin, ret=%d\n", ret);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  882  		return ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  883  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  884  	sensor->pwdn_gpio = gpiod;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  885  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  886  	/* request optional reset pin */
-f5eb071582415f1 Guoniu.zhou 2022-06-13  887  	gpiod = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  888  	if (IS_ERR(gpiod)) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  889  		ret = PTR_ERR(gpiod);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  890  		dev_err(dev, "fail to get reset pin, ret=%d\n", ret);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  891  		return ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  892  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  893  	sensor->reset_gpio = gpiod;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  894  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  895  	return 0;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  896  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  897  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  898  static void mt9m114_hw_reset(struct mt9m114 *sensor)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  899  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  900  	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  901  	msleep(50);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  902  	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  903  	msleep(45);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  904  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  905  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  906  static int mt9m114_get_chip_id(struct mt9m114 *sensor)
-f5eb071582415f1 Guoniu.zhou 2022-06-13  907  {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  908  	struct i2c_client *client = sensor->i2c_client;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  909  	u32 ret;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  910  	u16 chip_id;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  911  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  912  	ret = mt9m114_read16(client, MT9M114_CHIP_ID, &chip_id);
-f5eb071582415f1 Guoniu.zhou 2022-06-13 @913  	if (ret < 0) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  914  		v4l_err(client, "Failed to get chip id\n");
-f5eb071582415f1 Guoniu.zhou 2022-06-13  915  		return -ENODEV;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  916  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  917  	if (chip_id != 0x2481) {
-f5eb071582415f1 Guoniu.zhou 2022-06-13  918  		v4l_err(client, "chip id 0x%04x mismatch\n", chip_id);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  919  		return -ENODEV;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  920  	}
-f5eb071582415f1 Guoniu.zhou 2022-06-13  921  	v4l_info(client, "chip found @ 0x%02x (%s)\n",
-f5eb071582415f1 Guoniu.zhou 2022-06-13  922  		 client->addr << 1, client->adapter->name);
-f5eb071582415f1 Guoniu.zhou 2022-06-13  923  
-f5eb071582415f1 Guoniu.zhou 2022-06-13  924  	return 0;
-f5eb071582415f1 Guoniu.zhou 2022-06-13  925  }
-f5eb071582415f1 Guoniu.zhou 2022-06-13  926  
+2ab457093da8ac Michal Simek 2022-02-14   11  
+2ab457093da8ac Michal Simek 2022-02-14   12  / {
+2ab457093da8ac Michal Simek 2022-02-14   13  	compatible = "xlnx,versal";
+2ab457093da8ac Michal Simek 2022-02-14   14  	#address-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14   15  	#size-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14   16  	model = "Xilinx Versal";
+2ab457093da8ac Michal Simek 2022-02-14   17  
+2ab457093da8ac Michal Simek 2022-02-14   18  	cpus: cpus {
+2ab457093da8ac Michal Simek 2022-02-14   19  		#address-cells = <1>;
+2ab457093da8ac Michal Simek 2022-02-14   20  		#size-cells = <0>;
+2ab457093da8ac Michal Simek 2022-02-14   21  
+2ab457093da8ac Michal Simek 2022-02-14   22  		cpu0: cpu@0 {
+2ab457093da8ac Michal Simek 2022-02-14   23  			compatible = "arm,cortex-a72", "arm,armv8";
+2ab457093da8ac Michal Simek 2022-02-14   24  			device_type = "cpu";
+2ab457093da8ac Michal Simek 2022-02-14   25  			enable-method = "psci";
+2ab457093da8ac Michal Simek 2022-02-14   26  			operating-points-v2 = <&cpu_opp_table>;
+2ab457093da8ac Michal Simek 2022-02-14   27  			reg = <0>;
+2ab457093da8ac Michal Simek 2022-02-14   28  			cpu-idle-states = <&CPU_SLEEP_0>;
+2ab457093da8ac Michal Simek 2022-02-14   29  		};
+2ab457093da8ac Michal Simek 2022-02-14   30  
+2ab457093da8ac Michal Simek 2022-02-14   31  		cpu1: cpu@1 {
+2ab457093da8ac Michal Simek 2022-02-14   32  			compatible = "arm,cortex-a72", "arm,armv8";
+2ab457093da8ac Michal Simek 2022-02-14   33  			device_type = "cpu";
+2ab457093da8ac Michal Simek 2022-02-14   34  			enable-method = "psci";
+2ab457093da8ac Michal Simek 2022-02-14   35  			operating-points-v2 = <&cpu_opp_table>;
+2ab457093da8ac Michal Simek 2022-02-14   36  			reg = <1>;
+2ab457093da8ac Michal Simek 2022-02-14   37  			cpu-idle-states = <&CPU_SLEEP_0>;
+2ab457093da8ac Michal Simek 2022-02-14   38  		};
+2ab457093da8ac Michal Simek 2022-02-14   39  
+2ab457093da8ac Michal Simek 2022-02-14   40  		idle-states {
+2ab457093da8ac Michal Simek 2022-02-14   41  			entry-method = "psci";
+2ab457093da8ac Michal Simek 2022-02-14   42  
+2ab457093da8ac Michal Simek 2022-02-14   43  			CPU_SLEEP_0: cpu-sleep-0 {
+2ab457093da8ac Michal Simek 2022-02-14   44  				compatible = "arm,idle-state";
+2ab457093da8ac Michal Simek 2022-02-14   45  				arm,psci-suspend-param = <0x40000000>;
+2ab457093da8ac Michal Simek 2022-02-14   46  				local-timer-stop;
+2ab457093da8ac Michal Simek 2022-02-14   47  				entry-latency-us = <300>;
+2ab457093da8ac Michal Simek 2022-02-14   48  				exit-latency-us = <600>;
+2ab457093da8ac Michal Simek 2022-02-14   49  				min-residency-us = <10000>;
+2ab457093da8ac Michal Simek 2022-02-14   50  			};
+2ab457093da8ac Michal Simek 2022-02-14   51  		};
+2ab457093da8ac Michal Simek 2022-02-14   52  	};
+2ab457093da8ac Michal Simek 2022-02-14   53  
+2ab457093da8ac Michal Simek 2022-02-14   54  	cpu_opp_table: cpu-opp-table {
+2ab457093da8ac Michal Simek 2022-02-14   55  		compatible = "operating-points-v2";
+2ab457093da8ac Michal Simek 2022-02-14   56  		opp-shared;
+2ab457093da8ac Michal Simek 2022-02-14   57  		opp00 {
+2ab457093da8ac Michal Simek 2022-02-14   58  			opp-hz = /bits/ 64 <1199999988>;
+2ab457093da8ac Michal Simek 2022-02-14   59  			opp-microvolt = <1000000>;
+2ab457093da8ac Michal Simek 2022-02-14   60  			clock-latency-ns = <500000>;
+2ab457093da8ac Michal Simek 2022-02-14   61  		};
+2ab457093da8ac Michal Simek 2022-02-14   62  		opp01 {
+2ab457093da8ac Michal Simek 2022-02-14   63  			opp-hz = /bits/ 64 <599999994>;
+2ab457093da8ac Michal Simek 2022-02-14   64  			opp-microvolt = <1000000>;
+2ab457093da8ac Michal Simek 2022-02-14   65  			clock-latency-ns = <500000>;
+2ab457093da8ac Michal Simek 2022-02-14   66  		};
+2ab457093da8ac Michal Simek 2022-02-14   67  		opp02 {
+2ab457093da8ac Michal Simek 2022-02-14   68  			opp-hz = /bits/ 64 <399999996>;
+2ab457093da8ac Michal Simek 2022-02-14   69  			opp-microvolt = <1000000>;
+2ab457093da8ac Michal Simek 2022-02-14   70  			clock-latency-ns = <500000>;
+2ab457093da8ac Michal Simek 2022-02-14   71  		};
+2ab457093da8ac Michal Simek 2022-02-14   72  		opp03 {
+2ab457093da8ac Michal Simek 2022-02-14   73  			opp-hz = /bits/ 64 <299999997>;
+2ab457093da8ac Michal Simek 2022-02-14   74  			opp-microvolt = <1000000>;
+2ab457093da8ac Michal Simek 2022-02-14   75  			clock-latency-ns = <500000>;
+2ab457093da8ac Michal Simek 2022-02-14   76  		};
+2ab457093da8ac Michal Simek 2022-02-14   77  	};
+2ab457093da8ac Michal Simek 2022-02-14   78  
+2ab457093da8ac Michal Simek 2022-02-14   79  	dcc: dcc {
+2ab457093da8ac Michal Simek 2022-02-14   80  		compatible = "arm,dcc";
+2ab457093da8ac Michal Simek 2022-02-14   81  		status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14   82  		bootph-all;
+2ab457093da8ac Michal Simek 2022-02-14   83  	};
+2ab457093da8ac Michal Simek 2022-02-14   84  
+2ab457093da8ac Michal Simek 2022-02-14   85  	fpga: fpga {
+2ab457093da8ac Michal Simek 2022-02-14   86  		compatible = "fpga-region";
+2ab457093da8ac Michal Simek 2022-02-14   87  		fpga-mgr = <&versal_fpga>;
+2ab457093da8ac Michal Simek 2022-02-14   88  		#address-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14   89  		#size-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14   90  	};
+2ab457093da8ac Michal Simek 2022-02-14   91  
+2ab457093da8ac Michal Simek 2022-02-14   92  	psci: psci {
+2ab457093da8ac Michal Simek 2022-02-14   93  		compatible = "arm,psci-0.2";
+2ab457093da8ac Michal Simek 2022-02-14   94  		method = "smc";
+2ab457093da8ac Michal Simek 2022-02-14   95  	};
+2ab457093da8ac Michal Simek 2022-02-14   96  
+2ab457093da8ac Michal Simek 2022-02-14   97  	pmu {
+2ab457093da8ac Michal Simek 2022-02-14   98  		compatible = "arm,armv8-pmuv3";
+2ab457093da8ac Michal Simek 2022-02-14   99  		interrupt-parent = <&gic>;
+2ab457093da8ac Michal Simek 2022-02-14  100  		interrupts = <1 7 0x304>;
+2ab457093da8ac Michal Simek 2022-02-14  101  	};
+2ab457093da8ac Michal Simek 2022-02-14  102  
+2ab457093da8ac Michal Simek 2022-02-14  103  	timer: timer {
+2ab457093da8ac Michal Simek 2022-02-14  104  		compatible = "arm,armv8-timer";
+2ab457093da8ac Michal Simek 2022-02-14  105  		interrupt-parent = <&gic>;
+2ab457093da8ac Michal Simek 2022-02-14  106  		interrupts = <1 13 4>,
+2ab457093da8ac Michal Simek 2022-02-14  107  			     <1 14 4>,
+2ab457093da8ac Michal Simek 2022-02-14  108  			     <1 11 4>,
+2ab457093da8ac Michal Simek 2022-02-14  109  			     <1 10 4>;
+2ab457093da8ac Michal Simek 2022-02-14  110  	};
+2ab457093da8ac Michal Simek 2022-02-14  111  
+2ab457093da8ac Michal Simek 2022-02-14  112  	versal_fpga: versal-fpga {
+2ab457093da8ac Michal Simek 2022-02-14  113  		compatible = "xlnx,versal-fpga";
+2ab457093da8ac Michal Simek 2022-02-14  114  	};
+2ab457093da8ac Michal Simek 2022-02-14  115  
+2ab457093da8ac Michal Simek 2022-02-14  116  	amba: axi {
+2ab457093da8ac Michal Simek 2022-02-14  117  		compatible = "simple-bus";
+2ab457093da8ac Michal Simek 2022-02-14  118  		#address-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14  119  		#size-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14  120  		ranges;
+2ab457093da8ac Michal Simek 2022-02-14  121  		interrupt-parent = <&gic>;
+2ab457093da8ac Michal Simek 2022-02-14  122  		bootph-all;
+2ab457093da8ac Michal Simek 2022-02-14  123  
+2ab457093da8ac Michal Simek 2022-02-14  124  		gic: interrupt-controller@f9000000 {
+2ab457093da8ac Michal Simek 2022-02-14  125  			compatible = "arm,gic-v3";
+2ab457093da8ac Michal Simek 2022-02-14  126  			#interrupt-cells = <3>;
+2ab457093da8ac Michal Simek 2022-02-14  127  			#address-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14  128  			#size-cells = <2>;
+2ab457093da8ac Michal Simek 2022-02-14  129  			ranges;
+2ab457093da8ac Michal Simek 2022-02-14  130  			reg = <0 0xf9000000 0 0x80000>, /* GICD */
+2ab457093da8ac Michal Simek 2022-02-14  131  			      <0 0xf9080000 0 0x80000>; /* GICR */
+2ab457093da8ac Michal Simek 2022-02-14  132  			interrupt-controller;
+2ab457093da8ac Michal Simek 2022-02-14  133  			interrupts = <1 9 4>;
+2ab457093da8ac Michal Simek 2022-02-14  134  
+2ab457093da8ac Michal Simek 2022-02-14  135  			gic_its: gic-its@f9020000 {
+2ab457093da8ac Michal Simek 2022-02-14  136  				compatible = "arm,gic-v3-its";
+2ab457093da8ac Michal Simek 2022-02-14  137  				status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  138  				msi-controller;
+2ab457093da8ac Michal Simek 2022-02-14  139  				msi-cells = <1>;
+2ab457093da8ac Michal Simek 2022-02-14  140  				reg = <0 0xf9020000 0 0x20000>;
+2ab457093da8ac Michal Simek 2022-02-14  141  			};
+2ab457093da8ac Michal Simek 2022-02-14  142  		};
+2ab457093da8ac Michal Simek 2022-02-14  143  
+2ab457093da8ac Michal Simek 2022-02-14  144  		apm: performance-monitor@f0920000 {
+2ab457093da8ac Michal Simek 2022-02-14  145  			compatible = "xlnx,flexnoc-pm-2.7";
+2ab457093da8ac Michal Simek 2022-02-14  146  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  147  			reg-names = "funnel", "baselpd", "basefpd";
+2ab457093da8ac Michal Simek 2022-02-14  148  			reg = <0x0 0xf0920000 0x0 0x1000>,
+2ab457093da8ac Michal Simek 2022-02-14  149  			      <0x0 0xf0980000 0x0 0x9000>,
+2ab457093da8ac Michal Simek 2022-02-14  150  			      <0x0 0xf0b80000 0x0 0x9000>;
+2ab457093da8ac Michal Simek 2022-02-14  151  		};
+2ab457093da8ac Michal Simek 2022-02-14  152  
+2ab457093da8ac Michal Simek 2022-02-14  153  		can0: can@ff060000 {
+2ab457093da8ac Michal Simek 2022-02-14  154  			compatible = "xlnx,canfd-2.0";
+2ab457093da8ac Michal Simek 2022-02-14  155  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  156  			reg = <0 0xff060000 0 0x6000>;
+2ab457093da8ac Michal Simek 2022-02-14  157  			interrupts = <0 20 4>;
+2ab457093da8ac Michal Simek 2022-02-14  158  			clock-names = "can_clk", "s_axi_aclk";
+2ab457093da8ac Michal Simek 2022-02-14  159  			rx-fifo-depth = <0x40>;
+2ab457093da8ac Michal Simek 2022-02-14  160  			tx-mailbox-count = <0x20>;
+2ab457093da8ac Michal Simek 2022-02-14  161  		};
+2ab457093da8ac Michal Simek 2022-02-14  162  
+2ab457093da8ac Michal Simek 2022-02-14  163  		can1: can@ff070000 {
+2ab457093da8ac Michal Simek 2022-02-14  164  			compatible = "xlnx,canfd-2.0";
+2ab457093da8ac Michal Simek 2022-02-14  165  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  166  			reg = <0 0xff070000 0 0x6000>;
+2ab457093da8ac Michal Simek 2022-02-14  167  			interrupts = <0 21 4>;
+2ab457093da8ac Michal Simek 2022-02-14  168  			clock-names = "can_clk", "s_axi_aclk";
+2ab457093da8ac Michal Simek 2022-02-14  169  			rx-fifo-depth = <0x40>;
+2ab457093da8ac Michal Simek 2022-02-14  170  			tx-mailbox-count = <0x20>;
+2ab457093da8ac Michal Simek 2022-02-14  171  		};
+2ab457093da8ac Michal Simek 2022-02-14  172  
+2ab457093da8ac Michal Simek 2022-02-14  173  		cci: cci@fd000000 {
+2ab457093da8ac Michal Simek 2022-02-14  174  			compatible = "arm,cci-500";
+2ab457093da8ac Michal Simek 2022-02-14  175  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  176  			reg = <0 0xfd000000 0 0x10000>;
+2ab457093da8ac Michal Simek 2022-02-14  177  			ranges = <0 0 0xfd000000 0xa0000>;
+2ab457093da8ac Michal Simek 2022-02-14  178  			#address-cells = <1>;
+2ab457093da8ac Michal Simek 2022-02-14  179  			#size-cells = <1>;
+2ab457093da8ac Michal Simek 2022-02-14  180  			cci_pmu: pmu@10000 {
+2ab457093da8ac Michal Simek 2022-02-14  181  				compatible = "arm,cci-500-pmu,r0";
+2ab457093da8ac Michal Simek 2022-02-14  182  				reg = <0x10000 0x90000>;
+2ab457093da8ac Michal Simek 2022-02-14  183  				interrupts = <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  184  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  185  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  186  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  187  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  188  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  189  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  190  					     <0 106 4>,
+2ab457093da8ac Michal Simek 2022-02-14  191  					     <0 106 4>;
+2ab457093da8ac Michal Simek 2022-02-14  192  			};
+2ab457093da8ac Michal Simek 2022-02-14  193  		};
+2ab457093da8ac Michal Simek 2022-02-14  194  
+2ab457093da8ac Michal Simek 2022-02-14  195  		lpd_dma_chan0: dma@ffa80000 {
+2ab457093da8ac Michal Simek 2022-02-14  196  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  197  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  198  			reg = <0 0xffa80000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  199  			interrupts = <0 60 4>;
+2ab457093da8ac Michal Simek 2022-02-14  200  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  201  			/* iommus = <&smmu 0x210>; */
+2ab457093da8ac Michal Simek 2022-02-14  202  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  203  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  204  		};
+2ab457093da8ac Michal Simek 2022-02-14  205  
+2ab457093da8ac Michal Simek 2022-02-14  206  		lpd_dma_chan1: dma@ffa90000 {
+2ab457093da8ac Michal Simek 2022-02-14  207  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  208  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  209  			reg = <0 0xffa90000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  210  			interrupts = <0 61 4>;
+2ab457093da8ac Michal Simek 2022-02-14  211  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  212  			/* iommus = <&smmu 0x212>; */
+2ab457093da8ac Michal Simek 2022-02-14  213  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  214  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  215  		};
+2ab457093da8ac Michal Simek 2022-02-14  216  
+2ab457093da8ac Michal Simek 2022-02-14  217  		lpd_dma_chan2: dma@ffaa0000 {
+2ab457093da8ac Michal Simek 2022-02-14  218  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  219  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  220  			reg = <0 0xffaa0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  221  			interrupts = <0 62 4>;
+2ab457093da8ac Michal Simek 2022-02-14  222  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  223  			/* iommus = <&smmu 0x214>; */
+2ab457093da8ac Michal Simek 2022-02-14  224  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  225  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  226  		};
+2ab457093da8ac Michal Simek 2022-02-14  227  
+2ab457093da8ac Michal Simek 2022-02-14  228  		lpd_dma_chan3: dma@ffab0000 {
+2ab457093da8ac Michal Simek 2022-02-14  229  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  230  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  231  			reg = <0 0xffab0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  232  			interrupts = <0 63 4>;
+2ab457093da8ac Michal Simek 2022-02-14  233  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  234  			/* iommus = <&smmu 0x216>; */
+2ab457093da8ac Michal Simek 2022-02-14  235  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  236  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  237  		};
+2ab457093da8ac Michal Simek 2022-02-14  238  
+2ab457093da8ac Michal Simek 2022-02-14  239  		lpd_dma_chan4: dma@ffac0000 {
+2ab457093da8ac Michal Simek 2022-02-14  240  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  241  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  242  			reg = <0 0xffac0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  243  			interrupts = <0 64 4>;
+2ab457093da8ac Michal Simek 2022-02-14  244  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  245  			/* iommus = <&smmu 0x218>; */
+2ab457093da8ac Michal Simek 2022-02-14  246  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  247  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  248  		};
+2ab457093da8ac Michal Simek 2022-02-14  249  
+2ab457093da8ac Michal Simek 2022-02-14  250  		lpd_dma_chan5: dma@ffad0000 {
+2ab457093da8ac Michal Simek 2022-02-14  251  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  252  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  253  			reg = <0 0xffad0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  254  			interrupts = <0 65 4>;
+2ab457093da8ac Michal Simek 2022-02-14  255  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  256  			/* iommus = <&smmu 0x21a>; */
+2ab457093da8ac Michal Simek 2022-02-14  257  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  258  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  259  		};
+2ab457093da8ac Michal Simek 2022-02-14  260  
+2ab457093da8ac Michal Simek 2022-02-14  261  		lpd_dma_chan6: dma@ffae0000 {
+2ab457093da8ac Michal Simek 2022-02-14  262  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  263  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  264  			reg = <0 0xffae0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  265  			interrupts = <0 66 4>;
+2ab457093da8ac Michal Simek 2022-02-14  266  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  267  			/* iommus = <&smmu 0x21c>; */
+2ab457093da8ac Michal Simek 2022-02-14  268  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  269  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  270  		};
+2ab457093da8ac Michal Simek 2022-02-14  271  
+2ab457093da8ac Michal Simek 2022-02-14  272  		lpd_dma_chan7: dma@ffaf0000 {
+2ab457093da8ac Michal Simek 2022-02-14  273  			compatible = "xlnx,zynqmp-dma-1.0";
+2ab457093da8ac Michal Simek 2022-02-14  274  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  275  			reg = <0 0xffaf0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  276  			interrupts = <0 67 4>;
+2ab457093da8ac Michal Simek 2022-02-14  277  			clock-names = "clk_main", "clk_apb";
+2ab457093da8ac Michal Simek 2022-02-14  278  			/* iommus = <&smmu 0x21e>; */
+2ab457093da8ac Michal Simek 2022-02-14  279  			xlnx,bus-width = <64>;
+2ab457093da8ac Michal Simek 2022-02-14  280  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  281  		};
+2ab457093da8ac Michal Simek 2022-02-14  282  
+2ab457093da8ac Michal Simek 2022-02-14  283  		gem0: ethernet@ff0c0000 {
+2ab457093da8ac Michal Simek 2022-02-14  284  			compatible = "xlnx,versal-gem", "cdns,gem";
+2ab457093da8ac Michal Simek 2022-02-14  285  			status = "disabled";
+2ab457093da8ac Michal Simek 2022-02-14  286  			reg = <0 0xff0c0000 0 0x1000>;
+2ab457093da8ac Michal Simek 2022-02-14  287  			interrupts = <0 56 4>, <0 56 4>;
+2ab457093da8ac Michal Simek 2022-02-14  288  			clock-names = "pclk", "hclk", "tx_clk", "rx_clk", "tsu_clk";
+2ab457093da8ac Michal Simek 2022-02-14  289  			/* iommus = <&smmu 0x234>; */
+2ab457093da8ac Michal Simek 2022-02-14  290  			/* dma-coherent; */
+2ab457093da8ac Michal Simek 2022-02-14  291  			#address-cells = <1>;
+2ab457093da8ac Michal Simek 2022-02-14  292  			#size-cells = <0>;
+2ab457093da8ac Michal Simek 2022-02-14  293  		};
+2ab457093da8ac Michal Simek 2022-02-14  294  
+2ab457093da8ac Michal Simek 2022-02-14 @295  		gem1: ethernet@ff0d0000 {
+
+:::::: The code at line 295 was first introduced by commit
+:::::: 2ab457093da8ac4ed0b8cf6bd78a7ed2bba13947 arm64: versal: Add all missing dt files for Xilinx boards
+
+:::::: TO: Michal Simek <michal.simek@xilinx.com>
+:::::: CC: Michal Simek <michal.simek@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
