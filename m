@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D1329429
-	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 16:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5281531D8
+	for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 20:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727539526; cv=none; b=ruXL3C/5d+/S5udE2BL0/RtJT3oUKvGGKo1cPSOd8WxVHy4ccp0dwSUblMUzvSh1rgiZy8UOa+jKLnXcMxHpmb35OY3qLrlKB0vwbdyLkZaZnicqwEMHzqAbhiQYHIS5A5PTvZB3IH+Nriso6IjkLT4fSagEMxw6vht2eKUfeU4=
+	t=1727554513; cv=none; b=s8Ia9IfJRNxtRXu9foQuwcagRwRlYl0P3W/O2RHuHHptFeFfnZlkRqs7sTCF6M58R0p2JKfiHZnDcLtPtdUIxyilcoBZegV+iP5MhqrChLTt7J1UOIiRhEYz6Sd/5v7Kim+xy5oDyfo+XrYer6BmJ7zSJLgnM5LKdfD04lECo+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727539526; c=relaxed/simple;
-	bh=F+SOym/Qkaulpy2zmsKi9JrQ1yV2SeHlJb9hiZdUPs8=;
+	s=arc-20240116; t=1727554513; c=relaxed/simple;
+	bh=/Dgki3q4gZ3dJXV7Rg/ZehxEn7KClaxP+pTYPq7pQZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tbSeO560fQyJi5dkO1y9RSivq6UFYNNhxYSBPE7xbAVc8+4tJh34FXNpbdoNEtaxRbdDV/LT6LHNt/ykQBs28nrlJPDSvsKzT/pxZHCjAgXviTVf7cYUtn9EdUryIDdtAl+a5i4D8mbFACxSDHHf4sbM6183QJF8tWoHR9De5lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g90kUCFd; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=eUL8wKoRM8K9CNZIR5SPmBQSx4X/Cng6LT6WM5rl8gITh7OzXGmwV1en3soc/3CPc3Gne0b8pByXyJZYFWolqZj6gChubQlD5vYpSKJy/u4/8WU7NUXHZjjWuoGZ1ymv9Ur5XtC9O9vwYKJ4CZ0+arF069tkrNKtJqSTsWRkqws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bhPY0pJ5; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g90kUCFd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727539524; x=1759075524;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+SOym/Qkaulpy2zmsKi9JrQ1yV2SeHlJb9hiZdUPs8=;
-  b=g90kUCFdkchiXGY8Ea5FWqoXLbvFTY8WOgUrbD0HOABx8pX4+4Tub7J8
-   BCjrZ0N2M2WtxStgzGAdYbyRWotCVBhidUGzkTV00dquqGGo53xG7SQj9
-   ERwKA2U/wpino+eDx353CQR2A2amigxBD4KoxRwnaQ3tLV9Z5sgpSwsZn
-   nQT8hDaZTZ6cxx/pxadQ3DD6MFuDvl36/HVrQULiOd/kA5prqQp6tkbcj
-   pXUgK7Q17rzvgqQYPZIFaiZBk9nJx9rBYwM/4pUgZydaE7D/gm/4cC6jE
-   Us+3x9A5WkieqNfefo2sK9AaFLQLaYpdnAdEC72cRVH2lbOvSbkC3uDyf
-   A==;
-X-CSE-ConnectionGUID: GYqX6FQtSkW3sST5g2zOXQ==
-X-CSE-MsgGUID: udSO6JhRQbyDtdLnL42EgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26803355"
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="26803355"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 09:05:22 -0700
-X-CSE-ConnectionGUID: AobLwJ5dRT2QLz6GyUst0w==
-X-CSE-MsgGUID: Hr0jfr8JRyCJv11Mt6YIOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,160,1725346800"; 
-   d="scan'208";a="72707374"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Sep 2024 09:05:19 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1suZwb-000NOs-1k;
-	Sat, 28 Sep 2024 16:05:17 +0000
-Date: Sun, 29 Sep 2024 00:05:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [xilinx-xlnx:xlnx_rebase_v6.6_LTS 1011/1093]
- arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts:89.20-105.4:
- Warning (unit_address_vs_reg): /zynqmp_ipi1_nobuf: node has a reg or ranges
- property, but no unit name
-Message-ID: <202409282320.iHtaBMJw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bhPY0pJ5"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42e748f78d6so26081815e9.0
+        for <oe-kbuild@lists.linux.dev>; Sat, 28 Sep 2024 13:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727554510; x=1728159310; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M17GoL7d+O0NDddGQBSTqbD6rLQRxBpQRjx5XUpnxOs=;
+        b=bhPY0pJ5p50kIL6K6ZruJI0lb3bAIRfstbJFdEIFT2Tcun/HPJdnKSN8UGJyvJo3yA
+         AteAS47PH/KiCXGkyoscP1h01u1P/+h+hNQ4wF8Qt/n2XsVPfMzEm/mGcAGBb9oFGkHG
+         CzRrIiR5O+ZapfAgJZcGRRor4j0HP1MoAIKw0gOaB4elOwXopOGwQpupkMGQBm1wyCHc
+         wikaitT9vBVZ8e1svNjNwROtjKqKHzFHoKqfNebnfxE3qWBonqwnPXF6g2Xh+sRF9xhl
+         eU0PeTIq/YzQdycZMT4Sv78N+QD5GGGthaJVHaigrQhhuTQo3gbo2inVIIXA9lCBxCjO
+         9QIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727554510; x=1728159310;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=M17GoL7d+O0NDddGQBSTqbD6rLQRxBpQRjx5XUpnxOs=;
+        b=MgeYh7YgIKAK/HMiFBy8ZmYhR2NfaQH1rrSx5m/aeVkIW5hXVvW7hPxRtxU58BX6kU
+         BEhnBihZSsC9cg71DZKyMFkoK3czqdpQ9gXikcPj+cgHsH3zYKclWXtrX404Z4m0R/U8
+         xwB3hvodyZwxn1K8ZJ0+K6250soZdZ0S1p4R3pXaKnuoKVZ3yOhE8MFBoCD2WBUNNsLV
+         q/Y2ozMtNpqOYsYoiHeN5s84h33Z0fRIJJ7DjQUFKEsRhGL90yah5JXBfWUK6AZUE6rT
+         6UJzq7yNMcZ9yjHZR3EXvXh3UCjS4eXtq+l+9CssHDJMjry1cj0LupUE5iXXPdb0gtp9
+         K2OQ==
+X-Gm-Message-State: AOJu0YyoHzyD2PRWOzkwssfuLq7gz95ZHhyoDGnbl+ttYWhvWq7tG6AB
+	zTPxEOjR8rUXAM6r0gjNCIiUqrn6+kzQCIiY+juZVCAysHm/TLXHEtvSRtLf2rrQOUmfZPHyr3S
+	3
+X-Google-Smtp-Source: AGHT+IFqG1hbvOQ56tO4m6yVzUKUFnR4vOmV9huyo9dUqY064yMzssnZq0JqsamjI7w0Sa3c/g7jbA==
+X-Received: by 2002:a05:600c:3588:b0:42c:a72a:e8f4 with SMTP id 5b1f17b1804b1-42f58434d37mr54859055e9.14.1727554509537;
+        Sat, 28 Sep 2024 13:15:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e2fe89sm60739265e9.40.2024.09.28.13.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Sep 2024 13:15:08 -0700 (PDT)
+Date: Sat, 28 Sep 2024 23:15:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Otavio Salvador <otavio@ossystems.com.br>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.0.x-imx 515/16788]
+ drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns
+ '&sensor->lock'.
+Message-ID: <33b00d5a-b14c-4ca8-815b-a3b6cab6de38@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,147 +67,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: git@amd.com
-TO: Abhijit Gangurde <abhijit.gangurde@amd.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Ivan Takacs <ivan.takacs@amd.com>
-CC: Tarak Reddy <tarak.reddy@amd.com>
-
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.6_LTS
-head:   3c31f9d5fb29a99c43f59d424f7f717ee2177e14
-commit: e3d651358d5d0e237bd4ef3e4b49a02c22b057c3 [1011/1093] arm64: versal-net: add support for VNX board peripherals
-:::::: branch date: 8 days ago
-:::::: commit date: 4 months ago
-config: arm64-randconfig-001-20240927 (https://download.01.org/0day-ci/archive/20240928/202409282320.iHtaBMJw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240928/202409282320.iHtaBMJw-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.0.x-imx
+head:   ac32ba5fe66266329914d2020570364afe217bec
+commit: f5eb071582415f1bb836a5f4c0740e51d4f17c83 [515/16788] LF-7052-04: media: i2c: add MT9M114 driver support for iMX93 platform
+config: i386-randconfig-141-20240928 (https://download.01.org/0day-ci/archive/20240928/202409281825.DPhdYY5p-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202409282320.iHtaBMJw-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202409281825.DPhdYY5p-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts:89.20-105.4: Warning (unit_address_vs_reg): /zynqmp_ipi1_nobuf: node has a reg or ranges property, but no unit name
+smatch warnings:
+drivers/media/i2c/mt9m114.c:794 mt9m114_set_fmt() warn: inconsistent returns '&sensor->lock'.
+drivers/media/i2c/mt9m114.c:913 mt9m114_get_chip_id() warn: unsigned 'ret' is never less than zero.
 
-vim +89 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts
+vim +794 drivers/media/i2c/mt9m114.c
 
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   17  
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   18  / {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   19  	compatible = "xlnx,versal-net-vnx-revA", "xlnx,versal-net-vnx", "xlnx,versal-net";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   20  	model = "Xilinx Versal NET VNX revA";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   21  	dma-coherent;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   22  
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   23  	memory: memory@0 {
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   24  		reg = <0 0 0 0x80000000>;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   25  		device_type = "memory";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   26  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   27  
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   28  	memory_hi: memory@800000000 {
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   29  		reg = <8 0 3 0x80000000>;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   30  		device_type = "memory";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   31  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   32  
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   33  	memory_hi2: memory@50000000000 {
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   34  		reg = <0x500 0 4 0>;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   35  		device_type = "memory";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   36  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   37  
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   38  	chosen {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   39  		bootargs = "console=ttyAMA1,115200n8";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   40  		stdout-path = "serial1:115200n8";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   41  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   42  
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   43  	cdx {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   44  		compatible = "xlnx,versal-net-cdx";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   45  		status = "okay";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   46  		#address-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   47  		#size-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   48  		ranges;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   49  		dma-ranges = <0 0 0 0 0x10000 0>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   50  		iommu-map = <0x0 &smmu 0x0 0xfffff>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   51  		msi-map = <0x0 &its 0x0 0xffff>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   52  		xlnx,rproc = <&remoteproc_r52>;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   53  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   54  
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   55  	reserved-memory {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   56  		#address-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   57  		#size-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   58  		ranges;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   59  		rsc_tbl_carveout: rproc@bbf14000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   60  			reg = <0 0xbbf14000 0 0x1000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   61  			no-map;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   62  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   63  		rpu0vdev0vring0: rpu0vdev0vring0@bbf15000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   64  			reg = <0 0xbbf15000 0 0x1000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   65  			no-map;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   66  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   67  		rpu0vdev0vring1: rpu0vdev0vring1@bbf16000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   68  			reg = <0 0xbbf16000 0 0x1000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   69  			no-map;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   70  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   71  		rpu0vdev0buffer: rpu0vdev0buffer@bbf17000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   72  			reg = <0 0xbbf17000 0 0xD000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   73  			no-map;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   74  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   75  		reserve_others: reserveothers@0 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   76  			reg = <0 0x0 0 0x1c200000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   77  			no-map;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   78  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   79  		pdi_update: pdiupdate@1c200000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   80  			reg = <0 0x1c200000 0 0x6000000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   81  			no-map;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   82  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   83  		reserve_optee_atf: reserveopteeatf@22200000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   84  			reg = <0 0x22200000 0 0x4100000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   85  			no-map;
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   86  		};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   87  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   88  
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  @89  	zynqmp_ipi1_nobuf {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   90  		compatible = "xlnx,versal-ipi-mailbox";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   91  		reg = <0x00 0xeb3b0000 0x00 0x1ff>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   92  		reg-names = "ctrl";
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12   93  		status = "okay";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   94  		interrupts = <0 64 4>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   95  		xlnx,ipi-id = <10>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   96  		#address-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   97  		#size-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   98  		ranges;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19   99  		ipi_mailbox_rpu0: mailbox@eb3b1000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  100  			#mbox-cells = <1>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  101  			xlnx,ipi-id = <11>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  102  			reg = <0 0xeb3b1000 0 0x1000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  103  			reg-names = "ctrl";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  104  		};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12  105  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12  106  
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  107  	r52ss@ff9a0000 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  108  		compatible = "xlnx,versal-net-r52-remoteproc";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  109  		#address-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  110  		#size-cells = <2>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  111  		ranges;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  112  		reg = <0 0xff9a0000 0 0x10000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  113  		xlnx,cluster-mode = <1>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  114  		remoteproc_r52: r52_0 {
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  115  			compatible = "xilinx,r52";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  116  			memory-region = <&rsc_tbl_carveout>, <&rpu0vdev0buffer>,
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  117  				<&rpu0vdev0vring0>, <&rpu0vdev0vring1>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  118  			power-domain = <&versal_net_firmware PM_DEV_RPU_A_0>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  119  			mboxes = <&ipi_mailbox_rpu0 0>, <&ipi_mailbox_rpu0 1>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  120  			mbox-names = "tx", "rx";
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  121  			xlnx,rsc-tbl = <&rsc_tbl_carveout 0xbbf14000>;
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  122  		};
-e3d651358d5d0e arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-01-revA.dts Abhijit Gangurde 2024-03-19  123  	};
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12  124  };
-db2cebe1341f43 arch/arm64/boot/dts/xilinx/versal-net-vn-x-b2197-00-revA.dts Michal Simek     2022-12-12  125  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  768  static int mt9m114_set_fmt(struct v4l2_subdev *sd,
+f5eb071582415f1 Guoniu.zhou 2022-06-13  769  			  struct v4l2_subdev_state *sd_state,
+f5eb071582415f1 Guoniu.zhou 2022-06-13  770  			  struct v4l2_subdev_format *format)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  771  {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  772  	struct mt9m114 *sensor = to_mt9m114(sd);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  773  	struct v4l2_mbus_framefmt *fmt = &sensor->fmt;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  774  	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  775  	const struct mt9m114_resolution *new_mode;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  776  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  777  	if (format->pad != 0)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  778  		return -EINVAL;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  779  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  780  	mutex_lock(&sensor->lock);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  781  	new_mode = mt9m114_find_mode(sensor, mbus_fmt->width, mbus_fmt->height);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  782  	if (!new_mode)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  783  	      return -EINVAL;
+
+unlock before returning
+
+f5eb071582415f1 Guoniu.zhou 2022-06-13  784  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  785  	sensor->curr_mode = new_mode;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  786  	if (sensor->curr_mode != sensor->last_mode) {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  787  		sensor->pending_mode_change = true;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  788  		memcpy(fmt, mbus_fmt, sizeof(*fmt));
+f5eb071582415f1 Guoniu.zhou 2022-06-13  789  		fmt->width  = new_mode->hact;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  790  		fmt->height = new_mode->vact;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  791  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  792  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  793  	mutex_unlock(&sensor->lock);
+f5eb071582415f1 Guoniu.zhou 2022-06-13 @794  	return 0;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  795  }
+
+[ snip ]
+
+f5eb071582415f1 Guoniu.zhou 2022-06-13  906  static int mt9m114_get_chip_id(struct mt9m114 *sensor)
+f5eb071582415f1 Guoniu.zhou 2022-06-13  907  {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  908  	struct i2c_client *client = sensor->i2c_client;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  909  	u32 ret;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  910  	u16 chip_id;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  911  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  912  	ret = mt9m114_read16(client, MT9M114_CHIP_ID, &chip_id);
+f5eb071582415f1 Guoniu.zhou 2022-06-13 @913  	if (ret < 0) {
+
+ret is unsigned so it can't be < 0.
+
+f5eb071582415f1 Guoniu.zhou 2022-06-13  914  		v4l_err(client, "Failed to get chip id\n");
+f5eb071582415f1 Guoniu.zhou 2022-06-13  915  		return -ENODEV;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  916  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  917  	if (chip_id != 0x2481) {
+f5eb071582415f1 Guoniu.zhou 2022-06-13  918  		v4l_err(client, "chip id 0x%04x mismatch\n", chip_id);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  919  		return -ENODEV;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  920  	}
+f5eb071582415f1 Guoniu.zhou 2022-06-13  921  	v4l_info(client, "chip found @ 0x%02x (%s)\n",
+f5eb071582415f1 Guoniu.zhou 2022-06-13  922  		 client->addr << 1, client->adapter->name);
+f5eb071582415f1 Guoniu.zhou 2022-06-13  923  
+f5eb071582415f1 Guoniu.zhou 2022-06-13  924  	return 0;
+f5eb071582415f1 Guoniu.zhou 2022-06-13  925  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
