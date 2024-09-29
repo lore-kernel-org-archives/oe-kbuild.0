@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B31B65C
-	for <oe-kbuild@lists.linux.dev>; Sun, 29 Sep 2024 06:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC114D6E6
+	for <oe-kbuild@lists.linux.dev>; Sun, 29 Sep 2024 10:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727590698; cv=none; b=QfZCdH1cH/nFzrCGb12FH7/+yro8TxzgzHg/j1DM2qU3McuvSbs/U7kCFDOWJRPXj/d3qkUDQdf4e3HYdyioERP2UESk1JQRqUGRMrJk3qSBQi7Oz/mJ4wVy7b9xhchN6KLTPxa5WPNOWElfaRWVMllSstf4qUmfd6IxOWIfKxs=
+	t=1727606187; cv=none; b=t2hUYOiZ+2OMrrYbb0tmW2pNwwotNfdS427CJyjMk7lFeWH0NLBtCNUApLr2xzPmEWJPKmrR1W63MPiqXjA+a86mDnCeoapNuqv7bqWQGP/nJp0H9u1JXKz27c53zC7x/3bkwtID1m5iMpGVc/BnIyfw7XL4wTYGUZKkhEPLWOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727590698; c=relaxed/simple;
-	bh=YhrwKQVAnR4uTZ1K/NONtMYzHTmnv/GL7o3OvEz7J2w=;
+	s=arc-20240116; t=1727606187; c=relaxed/simple;
+	bh=e1O8LG5xRhifelizeKQYPtOQPVgADufvUYDoSjdjvns=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sQQCfBpR95zxpNvnS+PbpJy1DuizoQePv1mRmSYWbSrY15lZVGrL9zU68XF2eMVzQB0FCBOqxwyiEa3qJmqOUQ+4jpA/+uXnQYB5arqgtwMGJjbQSsEK7UNJchS+KdYTc0LF0ZOxHO5yO2kWWlMk9jBEJ5Tu87UwpToFImeuTwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jb48fobq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=QFPfvj4LSkyO6H3+ZkM3bt+sU5H4ZmOsIwZAbeM7V25hWiKOrZolJ9qUQskeqaJ+OC9dI12aErP/Fqr7RNbnJeAaz3Y30yeDtJJjDZ4oaoPXjgyUJ16FEs/1yBrQ1zwhHq7uPqbyuyfE35qoVH3rDvePC4XelPjw+XK42xN8BTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMUO10NM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jb48fobq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMUO10NM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727590695; x=1759126695;
+  t=1727606185; x=1759142185;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YhrwKQVAnR4uTZ1K/NONtMYzHTmnv/GL7o3OvEz7J2w=;
-  b=jb48fobqttvhBTOalKYlaQB6huWKgyH700pfKZLUzoVAaukEOKAyxoN7
-   wqqiJWNYisAUh+XK/hYQdAfcQBdRDA93TpeA6w/ftSwt2DTXskSbhPEeT
-   PuCjGNZaAROaYIhGT5yUOroqPAQVvzpGDN2cGQkrGMNhk7zR6nIqfbowx
-   bDO/PcgHM2nKKUsGX8a4jTGwigDSHcqfBvMAWGna3uuf2Jre3PguEzMp8
-   DVHvCKCtTqPvoidzrL0zHJoXcQ+T3bDiHfQzsJQvYPWtq7fr7F8fIJuZx
-   coV0VjoviFYjo2fnhjJrWapwKiC2rEp/MxMMXdDn/+tdo6QKFEmfco+9L
-   Q==;
-X-CSE-ConnectionGUID: MwpnHE4QQt6ejY7CrEE0iA==
-X-CSE-MsgGUID: tQIJB8NVRcCcHc30vKGILg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="38053304"
+  bh=e1O8LG5xRhifelizeKQYPtOQPVgADufvUYDoSjdjvns=;
+  b=VMUO10NM/ZG4YugC25pTy5tIZpP0XofGRNR3e0IOaAeWzHPK2g3htFx+
+   LWajGYD1wmdE8wDkw3pMp9jfrZTDjUUvoUfSMnscgEhfK+2BayhNe1KPO
+   zw2EkdnbL0cqwwgECnWhfer9/J+8sMYQNhQM7w4tQ+AD/qT8BGLmnBiTJ
+   D7vU7vQDJ+uQnrXf+zPbG0Th0IAAJXJCCuNzFMQASrFXsfudPJZgzDUDV
+   D0BX6vxFKVjgINCMTnrCViO+rSK+spkYNmR59skkWi/XG7FBPPsVTTN24
+   1H1EwJ1i/hIJfK8C813005cU51FczsEaXCa8p5X2EOcINY/tAeHs5IAbE
+   w==;
+X-CSE-ConnectionGUID: 79DbJJeyQ3W9PZcBWQSuEQ==
+X-CSE-MsgGUID: Q+Jq5dH1RQ+DTOIdbzaL6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11209"; a="26654229"
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="38053304"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2024 23:18:14 -0700
-X-CSE-ConnectionGUID: hMFxBYfKRwaOM+L0Lx4RuA==
-X-CSE-MsgGUID: MQ1PT/r0Sye/plWHExslSA==
+   d="scan'208";a="26654229"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2024 03:36:25 -0700
+X-CSE-ConnectionGUID: k/H6/QQATISuEf/9MudJxg==
+X-CSE-MsgGUID: v+89+NGFS/63MEC2vEFYyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,162,1725346800"; 
-   d="scan'208";a="73019299"
+   d="scan'208";a="73296691"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 28 Sep 2024 23:18:14 -0700
+  by orviesa006.jf.intel.com with ESMTP; 29 Sep 2024 03:36:23 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sunFz-000NwR-0j;
-	Sun, 29 Sep 2024 06:18:11 +0000
-Date: Sun, 29 Sep 2024 14:17:29 +0800
+	id 1surHp-000OD5-2U;
+	Sun, 29 Sep 2024 10:36:21 +0000
+Date: Sun, 29 Sep 2024 18:35:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/i2c/busses/i2c-rcar.c:366 rcar_i2c_clock_calculate() warn:
- '4 * x' 1908874336 can't fit into 65535 'priv->schd'
-Message-ID: <202409291423.jm2JJ7xf-lkp@intel.com>
+Subject: Re: [PATCH v4 6/6] drm/amdgpu: use drm_file::name in
+ task_info::process_desc
+Message-ID: <202409291853.Iussp65w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,145 +64,75 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20240927084848.263718-7-pierre-eric.pelloux-prayer@amd.com>
+References: <20240927084848.263718-7-pierre-eric.pelloux-prayer@amd.com>
+TO: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
+TO: dri-devel@lists.freedesktop.org
+TO: christian.koenig@amd.com
+TO: tursulin@igalia.com
+TO: simona.vetter@ffwll.ch
+TO: robdclark@gmail.com
+TO: alexander.deucher@amd.com
+TO: amd-gfx@lists.freedesktop.org
+TO: dmitry.osipenko@collabora.com
+CC: "Pierre-Eric Pelloux-Prayer" <pierre-eric.pelloux-prayer@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3efc57369a0ce8f76bf0804f7e673982384e4ac9
-commit: 54c76ed33008d0b342daa52a45ac304e5e3ab312 i2c: rcar: improve accuracy for R-Car Gen3+
-date:   1 year ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 1 year ago
-config: s390-randconfig-r073-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291423.jm2JJ7xf-lkp@intel.com/config)
+Hi Pierre-Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-exynos/exynos-drm-next linus/master next-20240927]
+[cannot apply to drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-add-DRM_SET_CLIENT_NAME-ioctl/20240927-165116
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20240927084848.263718-7-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH v4 6/6] drm/amdgpu: use drm_file::name in task_info::process_desc
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: s390-randconfig-r073-20240929 (https://download.01.org/0day-ci/archive/20240929/202409291853.Iussp65w-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 7773243d9916f98ba0ffce0c3a960e4aa9f03e81)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202409291423.jm2JJ7xf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202409291853.Iussp65w-lkp@intel.com/
 
-smatch warnings:
-drivers/i2c/busses/i2c-rcar.c:366 rcar_i2c_clock_calculate() warn: '4 * x' 1908874336 can't fit into 65535 'priv->schd'
-drivers/i2c/busses/i2c-rcar.c:367 rcar_i2c_clock_calculate() warn: '5 * x' 2386092920 can't fit into 65535 'priv->scld'
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2432 amdgpu_vm_set_task_info() error: we previously assumed 'vm->task_info' could be null (see line 2424)
 
-vim +366 drivers/i2c/busses/i2c-rcar.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:702 amdgpu_vm_flush() error: we previously assumed 'ring->funcs->emit_vm_flush' could be null (see line 679)
+drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1263 amdgpu_vm_bo_update() error: we previously assumed 'bo' could be null (see line 1203)
 
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  266  
-38a592e26612a6 Andy Shevchenko       2020-03-24  267  static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  268  {
-54c76ed33008d0 Wolfram Sang          2023-09-21  269  	u32 cdf, round, ick, sum, scl, cdf_width;
-8d0494037bb2af Guennadi Liakhovetski 2013-09-12  270  	unsigned long rate;
-f9c9d31bdd3797 Wolfram Sang          2015-12-08  271  	struct device *dev = rcar_i2c_priv_to_dev(priv);
-df576beee53ac9 Wolfram Sang          2020-03-26  272  	struct i2c_timings t = {
-38a592e26612a6 Andy Shevchenko       2020-03-24  273  		.bus_freq_hz		= I2C_MAX_STANDARD_MODE_FREQ,
-38a592e26612a6 Andy Shevchenko       2020-03-24  274  		.scl_fall_ns		= 35,
-38a592e26612a6 Andy Shevchenko       2020-03-24  275  		.scl_rise_ns		= 200,
-38a592e26612a6 Andy Shevchenko       2020-03-24  276  		.scl_int_delay_ns	= 50,
-df576beee53ac9 Wolfram Sang          2020-03-26  277  	};
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  278  
-c7881871de878a Wolfram Sang          2015-12-08  279  	/* Fall back to previously used values if not supplied */
-df576beee53ac9 Wolfram Sang          2020-03-26  280  	i2c_parse_fw_timings(dev, &t, false);
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  281  
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  282  	/*
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  283  	 * calculate SCL clock
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  284  	 * see
-54c76ed33008d0 Wolfram Sang          2023-09-21  285  	 *	ICCCR (and ICCCR2 for Gen3+)
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  286  	 *
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  287  	 * ick	= clkp / (1 + CDF)
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  288  	 * SCL	= ick / (20 + SCGD * 8 + F[(ticf + tr + intd) * ick])
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  289  	 *
-54c76ed33008d0 Wolfram Sang          2023-09-21  290  	 * for Gen3+:
-54c76ed33008d0 Wolfram Sang          2023-09-21  291  	 * SCL	= clkp / (8 + SMD * 2 + SCLD + SCHD +F[(ticf + tr + intd) * clkp])
-54c76ed33008d0 Wolfram Sang          2023-09-21  292  	 *
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  293  	 * ick  : I2C internal clock < 20 MHz
-ca68eade666a6a Wolfram Sang          2015-12-08  294  	 * ticf : I2C SCL falling time
-ca68eade666a6a Wolfram Sang          2015-12-08  295  	 * tr   : I2C SCL rising  time
-ca68eade666a6a Wolfram Sang          2015-12-08  296  	 * intd : LSI internal delay
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  297  	 * clkp : peripheral_clk
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  298  	 * F[]  : integer up-valuation
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  299  	 */
-bc8120f17ae87d Ben Dooks             2014-01-26  300  	rate = clk_get_rate(priv->clk);
-8d0494037bb2af Guennadi Liakhovetski 2013-09-12  301  	cdf = rate / 20000000;
-54c76ed33008d0 Wolfram Sang          2023-09-21  302  	cdf_width = (priv->devtype == I2C_RCAR_GEN1) ? 2 : 3;
-54c76ed33008d0 Wolfram Sang          2023-09-21  303  	if (cdf >= 1U << cdf_width)
-54c76ed33008d0 Wolfram Sang          2023-09-21  304  		goto err_no_val;
-54c76ed33008d0 Wolfram Sang          2023-09-21  305  
-54c76ed33008d0 Wolfram Sang          2023-09-21  306  	/* On Gen3+, we use cdf only for the filters, not as a SCL divider */
-54c76ed33008d0 Wolfram Sang          2023-09-21  307  	ick = rate / (priv->devtype < I2C_RCAR_GEN3 ? (cdf + 1) : 1);
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  308  
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  309  	/*
-3c417c947c13f2 Wolfram Sang          2023-09-06  310  	 * It is impossible to calculate a large scale number on u32. Separate it.
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  311  	 *
-ca68eade666a6a Wolfram Sang          2015-12-08  312  	 * F[(ticf + tr + intd) * ick] with sum = (ticf + tr + intd)
-ca68eade666a6a Wolfram Sang          2015-12-08  313  	 *  = F[sum * ick / 1000000000]
-ca68eade666a6a Wolfram Sang          2015-12-08  314  	 *  = F[(ick / 1000000) * sum / 1000]
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  315  	 */
-df576beee53ac9 Wolfram Sang          2020-03-26  316  	sum = t.scl_fall_ns + t.scl_rise_ns + t.scl_int_delay_ns;
-3c417c947c13f2 Wolfram Sang          2023-09-06  317  	round = DIV_ROUND_CLOSEST(ick, 1000000);
-3c417c947c13f2 Wolfram Sang          2023-09-06  318  	round = DIV_ROUND_CLOSEST(round * sum, 1000);
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  319  
-54c76ed33008d0 Wolfram Sang          2023-09-21  320  	if (priv->devtype < I2C_RCAR_GEN3) {
-54c76ed33008d0 Wolfram Sang          2023-09-21  321  		u32 scgd;
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  322  		/*
-47280af872367e Wolfram Sang          2023-09-06  323  		 * SCL	= ick / (20 + 8 * SCGD + F[(ticf + tr + intd) * ick])
-47280af872367e Wolfram Sang          2023-09-06  324  		 * 20 + 8 * SCGD + F[...] = ick / SCL
-47280af872367e Wolfram Sang          2023-09-06  325  		 * SCGD = ((ick / SCL) - 20 - F[...]) / 8
-47280af872367e Wolfram Sang          2023-09-06  326  		 * Result (= SCL) should be less than bus_speed for hardware safety
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  327  		 */
-47280af872367e Wolfram Sang          2023-09-06  328  		scgd = DIV_ROUND_UP(ick, t.bus_freq_hz ?: 1);
-47280af872367e Wolfram Sang          2023-09-06  329  		scgd = DIV_ROUND_UP(scgd - 20 - round, 8);
-47280af872367e Wolfram Sang          2023-09-06  330  		scl = ick / (20 + 8 * scgd + round);
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  331  
-47280af872367e Wolfram Sang          2023-09-06  332  		if (scgd > 0x3f)
-be944ceb6761a6 Wolfram Sang          2023-09-06  333  			goto err_no_val;
-be944ceb6761a6 Wolfram Sang          2023-09-06  334  
-d72857907af04f Wolfram Sang          2023-09-06  335  		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u, SCGD: %u\n",
-df576beee53ac9 Wolfram Sang          2020-03-26  336  			scl, t.bus_freq_hz, rate, round, cdf, scgd);
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  337  
-14d32f1794fd55 Guennadi Liakhovetski 2013-09-12  338  		priv->icccr = scgd << cdf_width | cdf;
-54c76ed33008d0 Wolfram Sang          2023-09-21  339  	} else {
-54c76ed33008d0 Wolfram Sang          2023-09-21  340  		u32 x, sum_ratio = RCAR_SCHD_RATIO + RCAR_SCLD_RATIO;
-54c76ed33008d0 Wolfram Sang          2023-09-21  341  		/*
-54c76ed33008d0 Wolfram Sang          2023-09-21  342  		 * SCLD/SCHD ratio and SMD default value are explained above
-54c76ed33008d0 Wolfram Sang          2023-09-21  343  		 * where they are defined. With these definitions, we can compute
-54c76ed33008d0 Wolfram Sang          2023-09-21  344  		 * x as a base value for the SCLD/SCHD ratio:
-54c76ed33008d0 Wolfram Sang          2023-09-21  345  		 *
-54c76ed33008d0 Wolfram Sang          2023-09-21  346  		 * SCL = clkp / (8 + 2 * SMD + SCLD + SCHD + F[(ticf + tr + intd) * clkp])
-54c76ed33008d0 Wolfram Sang          2023-09-21  347  		 * SCL = clkp / (8 + 2 * RCAR_DEFAULT_SMD + RCAR_SCLD_RATIO * x
-54c76ed33008d0 Wolfram Sang          2023-09-21  348  		 *		 + RCAR_SCHD_RATIO * x + F[...])
-54c76ed33008d0 Wolfram Sang          2023-09-21  349  		 *
-54c76ed33008d0 Wolfram Sang          2023-09-21  350  		 * with: sum_ratio = RCAR_SCLD_RATIO + RCAR_SCHD_RATIO
-54c76ed33008d0 Wolfram Sang          2023-09-21  351  		 * and:  smd = RCAR_DEFAULT_SMD
-54c76ed33008d0 Wolfram Sang          2023-09-21  352  		 *
-54c76ed33008d0 Wolfram Sang          2023-09-21  353  		 * SCL = clkp / (8 + 2 * smd + sum_ratio * x + F[...])
-54c76ed33008d0 Wolfram Sang          2023-09-21  354  		 * 8 + 2 * smd + sum_ratio * x + F[...] = clkp / SCL
-54c76ed33008d0 Wolfram Sang          2023-09-21  355  		 * x = ((clkp / SCL) - 8 - 2 * smd - F[...]) / sum_ratio
-54c76ed33008d0 Wolfram Sang          2023-09-21  356  		 */
-54c76ed33008d0 Wolfram Sang          2023-09-21  357  		x = DIV_ROUND_UP(rate, t.bus_freq_hz ?: 1);
-54c76ed33008d0 Wolfram Sang          2023-09-21  358  		x = DIV_ROUND_UP(x - 8 - 2 * RCAR_DEFAULT_SMD - round, sum_ratio);
-54c76ed33008d0 Wolfram Sang          2023-09-21  359  		scl = rate / (8 + 2 * RCAR_DEFAULT_SMD + sum_ratio * x + round);
-54c76ed33008d0 Wolfram Sang          2023-09-21  360  
-54c76ed33008d0 Wolfram Sang          2023-09-21  361  		/* Bail out if values don't fit into 16 bit or SMD became too large */
-54c76ed33008d0 Wolfram Sang          2023-09-21  362  		if (x * RCAR_SCLD_RATIO > 0xffff || RCAR_DEFAULT_SMD > x * RCAR_SCHD_RATIO)
-54c76ed33008d0 Wolfram Sang          2023-09-21  363  			goto err_no_val;
-54c76ed33008d0 Wolfram Sang          2023-09-21  364  
-54c76ed33008d0 Wolfram Sang          2023-09-21  365  		priv->icccr = cdf;
-54c76ed33008d0 Wolfram Sang          2023-09-21 @366  		priv->schd = RCAR_SCHD_RATIO * x;
-54c76ed33008d0 Wolfram Sang          2023-09-21 @367  		priv->scld = RCAR_SCLD_RATIO * x;
-54c76ed33008d0 Wolfram Sang          2023-09-21  368  
-54c76ed33008d0 Wolfram Sang          2023-09-21  369  		dev_dbg(dev, "clk %u/%u(%lu), round %u, CDF: %u SCHD %u SCLD %u\n",
-54c76ed33008d0 Wolfram Sang          2023-09-21  370  			scl, t.bus_freq_hz, rate, round, cdf, priv->schd, priv->scld);
-54c76ed33008d0 Wolfram Sang          2023-09-21  371  	}
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  372  
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  373  	return 0;
-be944ceb6761a6 Wolfram Sang          2023-09-06  374  
-be944ceb6761a6 Wolfram Sang          2023-09-06  375  err_no_val:
-be944ceb6761a6 Wolfram Sang          2023-09-06  376  	dev_err(dev, "it is impossible to calculate best SCL\n");
-be944ceb6761a6 Wolfram Sang          2023-09-06  377  	return -EINVAL;
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  378  }
-6ccbe607132bd8 Kuninori Morimoto     2012-09-27  379  
+vim +2432 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2415  
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2416  /**
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2417   * amdgpu_vm_set_task_info - Sets VMs task info.
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2418   *
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2419   * @vm: vm for which to set the info
+28a1484be1acce Pierre-Eric Pelloux-Prayer 2024-09-27  2420   * @filp: drm_file instance
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2421   */
+28a1484be1acce Pierre-Eric Pelloux-Prayer 2024-09-27  2422  void amdgpu_vm_set_task_info(struct amdgpu_vm *vm, struct drm_file *filp)
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2423  {
+a051b5cb51400d Pierre-Eric Pelloux-Prayer 2024-09-27 @2424  	if (!vm->task_info) {
+28a1484be1acce Pierre-Eric Pelloux-Prayer 2024-09-27  2425  		if (amdgpu_vm_create_task_info(vm, filp))
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2426  			return;
+a051b5cb51400d Pierre-Eric Pelloux-Prayer 2024-09-27  2427  	} else if (vm->task_info->pid == current->pid) {
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2428  		return;
+a051b5cb51400d Pierre-Eric Pelloux-Prayer 2024-09-27  2429  	}
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2430  
+a051b5cb51400d Pierre-Eric Pelloux-Prayer 2024-09-27  2431  	/* Update task attributes. */
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18 @2432  	vm->task_info->pid = current->pid;
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2433  	get_task_comm(vm->task_info->task_name, current);
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2434  }
+b8f67b9ddf4f8f Shashank Sharma            2024-01-18  2435  
 
 -- 
 0-DAY CI Kernel Test Service
