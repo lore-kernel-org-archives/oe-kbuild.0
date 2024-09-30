@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D01183CC5
-	for <oe-kbuild@lists.linux.dev>; Mon, 30 Sep 2024 19:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FD82C190
+	for <oe-kbuild@lists.linux.dev>; Mon, 30 Sep 2024 20:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727724275; cv=none; b=RAoPkQTjkHYBflahIv4HryONS+lXaLXLPYAFWgZ1QtirRdl7vI9iTuB4ekaC0Ifq8VzhNJJLp5Qn7M8P1jtxETnmVx57v56ksDKsZCMwe7c8hd6Wxv4qct3a8IzIb2Nzlacr5Kva4722WCW8rNyjFJzTSQTzCXdzYBhHqXJdkYQ=
+	t=1727728597; cv=none; b=Y/yILnUu9WxNz2E63AkLzb9yI0nIUMt9K2C7tkPatWnNhCLO6AXlCW4eCiuT/LRPNhy0i+KwYD+E235A/MK+gnOP1nB/P2nGBTQXAjnoZIcrovOugHygUtnbGxmRnyVgAh5/naKWl8OmJjQIjeAvU3d9N9P1aft/d7TYZLLxKaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727724275; c=relaxed/simple;
-	bh=ekxmvye1tIo/mMhDO/dM9QPKtFE5zqKEyM63r60jfQ4=;
+	s=arc-20240116; t=1727728597; c=relaxed/simple;
+	bh=C5he4H1D6R3QZYlUS0zKx9PxVtJwDo7BvPN7pNSwvPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dRjQcDblBcND4HIVhPkJQMfo9sDBJIhx9xtOAqDTYjp9a1f4N/B0khXuwoZleJ3wPkC6lpQ3ta5ABmwHbntVYDTgqC/049uI6/pE8Dhyr5ENGB9DD/FBgboWK1kX2xRtbWRAwbNbS8IVJ8sKB0JIHqKHedhXvuFCIiokeQID5KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxM8cLrI; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=PFUh62Lf+ZNtN1roDZR+/5fshcDL7gQsTV3/p9qUldDKyhNWM0sjU2uWTAgHn2uN6ZX3awcz3XdS0hefTXma08o+ZwvGGAnn9W3Rn1KznWCTyr8cAD128iS203WwjiN0Ho4p+g6ue5zx9wW58gB4kUfPPimFtl2vDGpVtMTwkxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VhKmHTuk; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxM8cLrI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VhKmHTuk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727724273; x=1759260273;
+  t=1727728595; x=1759264595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ekxmvye1tIo/mMhDO/dM9QPKtFE5zqKEyM63r60jfQ4=;
-  b=XxM8cLrIuCvJM4tqjvQJEr1nbbiunxB84IX3QBWMBDRfCVQUR/RfsVCN
-   TvqG9bqXc/4rvgbQBKFB8/V9B17iblLUhyMvR2H0Su6GCURffFsvxiOtK
-   Mc66I5jXfDyhM/OtOmCjmYraf7g9JE6j5iJ0nh6c/jaHv0J75/bmQuiwP
-   YT+V/+ZXyDXLTpgsmQ37JQDuVSjp2UlETuYo1XgSUTO94xhefwIqBBIli
-   QApiFRshWoaS/71qnlbbNd48EN44hS8fR8oxp1HE3i4UXyWWpETFqqN/X
-   TNMfT2LuKBuDcFeROKQtzxyCqtiCUtcPH9F0luGGteO7QgtI2siN/lmZr
+  bh=C5he4H1D6R3QZYlUS0zKx9PxVtJwDo7BvPN7pNSwvPQ=;
+  b=VhKmHTuk88b+H41b/dAJK7m9NWJccMjE5bWvrHoOSfEWC7XrBIptbyCF
+   EQ3YmcoYdwh5K7JRpZofA3pAhgkQyn1U8t2Q7FSrbEIkhBC8HSoJAwl8+
+   w9zUf8U65rxtCCEdITIK1PQQ/RxAWaWfVapUQMIqyGPGT9/K9UqgPRH10
+   tm/6+1qoHgOkW2M5h/FsJnRc19tAnw515TflJ3wWKuJhLSyxm4PYTrIK5
+   YQFnidUqUTEpjrpW3Axlzk/Qu5FxeBQn+8KRT2WzGfZafR3Fod5oJ+h4T
+   y92LLwvJgEV0YUYfXFGjZ/g2KyFf3cjLQ5JZs00F8JSiJlamhOLPrFJKY
    w==;
-X-CSE-ConnectionGUID: 5XoySrE4RjOMalWgUEXWWg==
-X-CSE-MsgGUID: QDdnsqFSRC+AdwmjyLrXiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="37976907"
+X-CSE-ConnectionGUID: Bq95rARFTU2R30/Q7j9Esg==
+X-CSE-MsgGUID: 1Y8e8ojXRrapki+chEcyIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="38195542"
 X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="37976907"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 12:24:33 -0700
-X-CSE-ConnectionGUID: FYHFn10vSiGAMhENxztKAA==
-X-CSE-MsgGUID: PerH35I/R3mSSW2ef2gYKQ==
+   d="scan'208";a="38195542"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 13:36:34 -0700
+X-CSE-ConnectionGUID: 2tpWw1KXQBKMM60WRTokrA==
+X-CSE-MsgGUID: nB00Vk7/R+ewgQXYTRehMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,166,1725346800"; 
-   d="scan'208";a="73814596"
+   d="scan'208";a="73689713"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Sep 2024 12:24:32 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Sep 2024 13:36:33 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svM0T-000PoH-0D;
-	Mon, 30 Sep 2024 19:24:29 +0000
-Date: Tue, 1 Oct 2024 03:24:27 +0800
+	id 1svN8B-000Prl-04;
+	Mon, 30 Sep 2024 20:36:31 +0000
+Date: Tue, 1 Oct 2024 04:36:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid
- reference to the index variable of the iterator on line 1219
-Message-ID: <202410010308.raeIz7Hp-lkp@intel.com>
+Subject: fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index
+ variable of the iterator on line 575
+Message-ID: <202410010442.vBwXSMXs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,81 +65,91 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Amir Goldstein <amir73il@gmail.com>
-CC: Jan Kara <jack@suse.cz>
+TO: Anand Jain <anand.jain@oracle.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   9852d85ec9d492ebef56dc5f229416c925758edc
-commit: 30ad1938326bf9303ca38090339d948975a626f5 fanotify: allow "weak" fsid when watching a single filesystem
-date:   10 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 10 months ago
-config: nios2-randconfig-r062-20240930 (https://download.01.org/0day-ci/archive/20241001/202410010308.raeIz7Hp-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
+commit: a5b8a5f9f8355d27a4f8d0afa93427f16d2f3c1e btrfs: support cloned-device mount capability
+date:   12 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 12 months ago
+config: m68k-randconfig-r053-20240930 (https://download.01.org/0day-ci/archive/20241001/202410010442.vBwXSMXs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410010308.raeIz7Hp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410010442.vBwXSMXs-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> fs/notify/fanotify/fanotify_user.c:1233:20-23: ERROR: invalid reference to the index variable of the iterator on line 1219
+>> fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index variable of the iterator on line 575
+   fs/btrfs/volumes.c:600:10-25: ERROR: invalid reference to the index variable of the iterator on line 575
 
-vim +1233 fs/notify/fanotify/fanotify_user.c
+vim +591 fs/btrfs/volumes.c
 
-30ad1938326bf9 Amir Goldstein 2023-11-30  1200  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1201  static int fanotify_set_mark_fsid(struct fsnotify_group *group,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1202  				  struct fsnotify_mark *mark,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1203  				  struct fan_fsid *fsid)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1204  {
-30ad1938326bf9 Amir Goldstein 2023-11-30  1205  	struct fsnotify_mark_connector *conn;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1206  	struct fsnotify_mark *old;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1207  	struct super_block *old_sb = NULL;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1208  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1209  	FANOTIFY_MARK(mark)->fsid = fsid->id;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1210  	mark->flags |= FSNOTIFY_MARK_FLAG_HAS_FSID;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1211  	if (fsid->weak)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1212  		mark->flags |= FSNOTIFY_MARK_FLAG_WEAK_FSID;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1213  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1214  	/* First mark added will determine if group is single or multi fsid */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1215  	if (list_empty(&group->marks_list))
-30ad1938326bf9 Amir Goldstein 2023-11-30  1216  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1217  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1218  	/* Find sb of an existing mark */
-30ad1938326bf9 Amir Goldstein 2023-11-30 @1219  	list_for_each_entry(old, &group->marks_list, g_list) {
-30ad1938326bf9 Amir Goldstein 2023-11-30  1220  		conn = READ_ONCE(old->connector);
-30ad1938326bf9 Amir Goldstein 2023-11-30  1221  		if (!conn)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1222  			continue;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1223  		old_sb = fsnotify_connector_sb(conn);
-30ad1938326bf9 Amir Goldstein 2023-11-30  1224  		if (old_sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1225  			break;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1226  	}
-30ad1938326bf9 Amir Goldstein 2023-11-30  1227  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1228  	/* Only detached marks left? */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1229  	if (!old_sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1230  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1231  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1232  	/* Do not allow mixing of marks with weak and strong fsid */
-30ad1938326bf9 Amir Goldstein 2023-11-30 @1233  	if ((mark->flags ^ old->flags) & FSNOTIFY_MARK_FLAG_WEAK_FSID)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1234  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1235  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1236  	/* Allow mixing of marks with strong fsid from different fs */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1237  	if (!fsid->weak)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1238  		return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1239  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1240  	/* Do not allow mixing marks with weak fsid from different fs */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1241  	if (old_sb != fsid->sb)
-30ad1938326bf9 Amir Goldstein 2023-11-30  1242  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1243  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1244  	/* Do not allow mixing marks from different btrfs sub-volumes */
-30ad1938326bf9 Amir Goldstein 2023-11-30  1245  	if (!fanotify_fsid_equal(&FANOTIFY_MARK(old)->fsid,
-30ad1938326bf9 Amir Goldstein 2023-11-30  1246  				 &FANOTIFY_MARK(mark)->fsid))
-30ad1938326bf9 Amir Goldstein 2023-11-30  1247  		return -EXDEV;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1248  
-30ad1938326bf9 Amir Goldstein 2023-11-30  1249  	return 0;
-30ad1938326bf9 Amir Goldstein 2023-11-30  1250  }
-30ad1938326bf9 Amir Goldstein 2023-11-30  1251  
+4fde46f0cc71c7 Anand Jain 2015-06-17  555  
+69d427f34ca097 Anand Jain 2023-09-28  556  static struct btrfs_fs_devices *find_fsid_by_device(
+a5b8a5f9f8355d Anand Jain 2023-09-28  557  					struct btrfs_super_block *disk_super,
+a5b8a5f9f8355d Anand Jain 2023-09-28  558  					dev_t devt, bool *same_fsid_diff_dev)
+69d427f34ca097 Anand Jain 2023-09-28  559  {
+69d427f34ca097 Anand Jain 2023-09-28  560  	struct btrfs_fs_devices *fsid_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  561  	struct btrfs_fs_devices *devt_fs_devices;
+69d427f34ca097 Anand Jain 2023-09-28  562  	const bool has_metadata_uuid = (btrfs_super_incompat_flags(disk_super) &
+69d427f34ca097 Anand Jain 2023-09-28  563  					BTRFS_FEATURE_INCOMPAT_METADATA_UUID);
+a5b8a5f9f8355d Anand Jain 2023-09-28  564  	bool found_by_devt = false;
+69d427f34ca097 Anand Jain 2023-09-28  565  
+69d427f34ca097 Anand Jain 2023-09-28  566  	/* Find the fs_device by the usual method, if found use it. */
+69d427f34ca097 Anand Jain 2023-09-28  567  	fsid_fs_devices = find_fsid(disk_super->fsid,
+69d427f34ca097 Anand Jain 2023-09-28  568  		    has_metadata_uuid ? disk_super->metadata_uuid : NULL);
+69d427f34ca097 Anand Jain 2023-09-28  569  
+a5b8a5f9f8355d Anand Jain 2023-09-28  570  	/* The temp_fsid feature is supported only with single device filesystem. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  571  	if (btrfs_super_num_devices(disk_super) != 1)
+69d427f34ca097 Anand Jain 2023-09-28  572  		return fsid_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  573  
+a5b8a5f9f8355d Anand Jain 2023-09-28  574  	/* Try to find a fs_devices by matching devt. */
+a5b8a5f9f8355d Anand Jain 2023-09-28 @575  	list_for_each_entry(devt_fs_devices, &fs_uuids, fs_list) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  576  		struct btrfs_device *device;
+a5b8a5f9f8355d Anand Jain 2023-09-28  577  
+a5b8a5f9f8355d Anand Jain 2023-09-28  578  		list_for_each_entry(device, &devt_fs_devices->devices, dev_list) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  579  			if (device->devt == devt) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  580  				found_by_devt = true;
+a5b8a5f9f8355d Anand Jain 2023-09-28  581  				break;
+a5b8a5f9f8355d Anand Jain 2023-09-28  582  			}
+a5b8a5f9f8355d Anand Jain 2023-09-28  583  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  584  		if (found_by_devt)
+a5b8a5f9f8355d Anand Jain 2023-09-28  585  			break;
+a5b8a5f9f8355d Anand Jain 2023-09-28  586  	}
+a5b8a5f9f8355d Anand Jain 2023-09-28  587  
+a5b8a5f9f8355d Anand Jain 2023-09-28  588  	if (found_by_devt) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  589  		/* Existing device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  590  		if (fsid_fs_devices == NULL) {
+a5b8a5f9f8355d Anand Jain 2023-09-28 @591  			if (devt_fs_devices->opened == 0) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  592  				/* Stale device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  593  				return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  594  			} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  595  				/* temp_fsid is mounting a subvol. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  596  				return devt_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  597  			}
+a5b8a5f9f8355d Anand Jain 2023-09-28  598  		} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  599  			/* Regular or temp_fsid device mounting a subvol. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  600  			return devt_fs_devices;
+a5b8a5f9f8355d Anand Jain 2023-09-28  601  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  602  	} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  603  		/* New device. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  604  		if (fsid_fs_devices == NULL) {
+a5b8a5f9f8355d Anand Jain 2023-09-28  605  			return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  606  		} else {
+a5b8a5f9f8355d Anand Jain 2023-09-28  607  			/* sb::fsid is already used create a new temp_fsid. */
+a5b8a5f9f8355d Anand Jain 2023-09-28  608  			*same_fsid_diff_dev = true;
+a5b8a5f9f8355d Anand Jain 2023-09-28  609  			return NULL;
+a5b8a5f9f8355d Anand Jain 2023-09-28  610  		}
+a5b8a5f9f8355d Anand Jain 2023-09-28  611  	}
+a5b8a5f9f8355d Anand Jain 2023-09-28  612  
+a5b8a5f9f8355d Anand Jain 2023-09-28  613  	/* Not reached. */
+69d427f34ca097 Anand Jain 2023-09-28  614  }
+69d427f34ca097 Anand Jain 2023-09-28  615  
 
 -- 
 0-DAY CI Kernel Test Service
