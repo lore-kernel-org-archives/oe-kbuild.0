@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE98A19C568
-	for <oe-kbuild@lists.linux.dev>; Tue,  1 Oct 2024 08:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B951CEAA2
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Oct 2024 20:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727772969; cv=none; b=o72kkw0G7oOK3+/6b2rHOfipT8EQjz0OcCvkEw0SeOMC5zWgBU6xGSRFuI75Dbwtt5eyWYYFVmFslXTNC+PBF3I0q/aRQmKb+NU5F6gu3KRfbbmhtloJAJb3tHvBTujYNPSS5hlJ/KhJDT87UIIBcx6F2kX2RtCmGxxuOJHJHzU=
+	t=1727814346; cv=none; b=ZXM/1kMCmh7Cmi3dcz5lFr5tJ+hz2GtqLLOwhe4NlFcdLzeOvmv5wHEzoGRfQ6HDxmHQ1e1waEYD45PclmjaIZHPjBsTYtHTpssHfxZNWoN1tYr6DZHsHcnPCYCrV+BJuku5hXVxhDkygDHTEnBoHathdIz6c9RTXMGk8ZuzrJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727772969; c=relaxed/simple;
-	bh=UbqRkLibpaNPd2xjvyliZADQkvzO8blUOrh84vE5fR8=;
+	s=arc-20240116; t=1727814346; c=relaxed/simple;
+	bh=bSvLLxOiZ50mrEJRpI7MbsQ/UOAiuMCodTcfVYW35vw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AzPS0MSIz3TzGWzuzj2yBNcAr9juoWNig+V+4wK7syEZBiMwlF8KXjfppgsEmnymsrOsColbGCBPjzFBhSVHpMTsOF6TaBcSTvC6oN2BUCNUrowUD37L6AhnC1dO8aUegRaXJhWHZ6SvwVS0LFEbts1s4f0WV4CYl7K3FffhSJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9Vk9oD5; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=i8RJOPdiit2uZOLrPLI0qrfMHH1X1zkQiOVXaH6RagUnN/H9OqYaNVr06pp+ECO7M6RskCxYMbqDYnhFvMEqWHwflk+nnUscQj7nEiuiwNe+YtE/3xRMn71+ZvwDtnpeEZBuCk/VvNEnHv6tksOgovqdFkaWpiocnmu0f2I88gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVOMdSas; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9Vk9oD5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVOMdSas"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727772968; x=1759308968;
+  t=1727814344; x=1759350344;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UbqRkLibpaNPd2xjvyliZADQkvzO8blUOrh84vE5fR8=;
-  b=H9Vk9oD5soXRUvJiIMYrfJB2duqFlKaqt5e5VJL1g/W+qk/COHB0g5G1
-   EptiU6doNa1yZBGEED2SA0XYhXyEmNJUXh5xcrDBKvL31Sm/6pBvz+rHL
-   J1gyezphFr1vKATdmvuCpf0L3m/IR8Di6/luUf+QTMCJ9prObl/Gjiah0
-   JaRrceeXDadWIg0lAvf74NBI3iBFtVSSydGi+jJJ3p0BVIkyYe5k+HseA
-   4gS2VMg2VMb5uqfJC24brNw+USV/gSrvmVcXKKn3lLiTBPoduRyB6t06M
-   pxEdMp2sN8kJ1kokP9KFBiogaxqjlozgbQ09ZaBcEtFIVGtVqpmVLVVOM
-   A==;
-X-CSE-ConnectionGUID: syqiwJ3GQByVdjRI/9nXng==
-X-CSE-MsgGUID: EQn6pobbRaOSv1CUHuYlMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11211"; a="14514630"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="14514630"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 01:56:04 -0700
-X-CSE-ConnectionGUID: DwT/5juGSGStE/aLDYyFug==
-X-CSE-MsgGUID: SwY5qn4vQHi0j4cdM4X+IQ==
+  bh=bSvLLxOiZ50mrEJRpI7MbsQ/UOAiuMCodTcfVYW35vw=;
+  b=aVOMdSasYpIOxxpWihT46LbsuG3m0ZvvaAhzXa7pth/NcDwotvUrJR6F
+   F39YxTYt3GHo7jooTzlS+BhH9kC8iEL1cR0hzhVQ4FdRx0QkdZmIb0z5G
+   CRFZ2fEvYh1Zeu0LUtYNU+uQE04nzGLvuw9VvB3euTCgA8rMQF3hLiMa1
+   A/S6tpkdKgwGJKjEDotgTXVQUgT93VQs+ZCpQbQ4A4ZiwdF+ruj8qvo79
+   s3t5den3fNby4DfUFc3bztzVZA0Ggr4xOva48p76/Qn6OP8s5LReHrc87
+   9ReHWeXvhYAqiqJ71gCh7PITGo2VXjc4Egea0I7CfmyyUP1zxICDGQnkr
+   Q==;
+X-CSE-ConnectionGUID: lNVkHk/BRlSgMIRsa0xmRg==
+X-CSE-MsgGUID: 54uxmXjVQMWgyZSkCuGkqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="30763044"
+X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
+   d="scan'208";a="30763044"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 13:25:42 -0700
+X-CSE-ConnectionGUID: uhacRDC7SJOalOTbcgLB+A==
+X-CSE-MsgGUID: jmL1PLiqSBWZBcwsZN76rw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="78329994"
+X-IronPort-AV: E=Sophos;i="6.11,169,1725346800"; 
+   d="scan'208";a="74215269"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Oct 2024 01:56:03 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Oct 2024 13:25:41 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svYfo-000QT5-27;
-	Tue, 01 Oct 2024 08:56:00 +0000
-Date: Tue, 1 Oct 2024 16:55:24 +0800
+	id 1svjRC-000R93-0F;
+	Tue, 01 Oct 2024 20:25:38 +0000
+Date: Wed, 2 Oct 2024 04:24:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v9 6/7] Add SPAcc compilation in crypto
-Message-ID: <202410011629.vRb9g32w-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 19053/23811]
+ block/blk-throttle.c:2306:1-7: preceding lock on line 2212
+Message-ID: <202410020437.9xCevfBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,145 +64,151 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20240930093054.215809-7-pavitrakumarm@vayavyalabs.com>
-References: <20240930093054.215809-7-pavitrakumarm@vayavyalabs.com>
-TO: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-TO: devicetree@vger.kernel.org
-TO: herbert@gondor.apana.org.au
-TO: linux-crypto@vger.kernel.org
-TO: robh@kernel.org
-CC: Ruud.Derwig@synopsys.com
-CC: manjunath.hadli@vayavyalabs.com
-CC: bhoomikak@vayavyalabs.com
-CC: Pavitrakumar M <pavitrakumarm@vayavyalabs.com>
-CC: Shweta Raikar <shwetar@vayavyalabs.com>
+TO: kernel@openeuler.org
+TO: Yang Yingliang <yangyingliang@huawei.com>
 
-Hi Pavitrakumar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ce212d2afca47acd366a2e74c76fe82c31f785ab]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavitrakumar-M/Add-SPAcc-Skcipher-support/20240930-173252
-base:   ce212d2afca47acd366a2e74c76fe82c31f785ab
-patch link:    https://lore.kernel.org/r/20240930093054.215809-7-pavitrakumarm%40vayavyalabs.com
-patch subject: [PATCH v9 6/7] Add SPAcc compilation in crypto
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: microblaze-randconfig-r064-20241001 (https://download.01.org/0day-ci/archive/20241001/202410011629.vRb9g32w-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5c63bd0fa5e86474d30ecd06d67f2393de081434
+commit: e1c15e207d153cafb3f3aa1cbc8000134fae1d40 [19053/23811] blk-throttle: Set BIO_THROTTLED when bio has been throttled
+:::::: branch date: 2 days ago
+:::::: commit date: 2 years, 7 months ago
+config: x86_64-randconfig-103-20241001 (https://download.01.org/0day-ci/archive/20241002/202410020437.9xCevfBJ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410011629.vRb9g32w-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410020437.9xCevfBJ-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/crypto/dwc-spacc/spacc_interrupt.c:119:1-7: preceding lock on line 98
---
->> drivers/crypto/dwc-spacc/spacc_device.c:129:2-9: line 129 is redundant because platform_get_irq() already prints an error
---
->> drivers/crypto/dwc-spacc/spacc_device.c:288:3-8: No need to set .owner here. The core will do it.
+>> block/blk-throttle.c:2306:1-7: preceding lock on line 2212
 
-vim +119 drivers/crypto/dwc-spacc/spacc_interrupt.c
+vim +2306 block/blk-throttle.c
 
-ef604c21620651 Pavitrakumar M 2024-09-30   26  
-ef604c21620651 Pavitrakumar M 2024-09-30   27  static int spacc_pop_packets_ex(struct spacc_device *spacc, int *num_popped,
-ef604c21620651 Pavitrakumar M 2024-09-30   28  				unsigned long *lock_flag)
-ef604c21620651 Pavitrakumar M 2024-09-30   29  {
-ef604c21620651 Pavitrakumar M 2024-09-30   30  	int jobs;
-ef604c21620651 Pavitrakumar M 2024-09-30   31  	int ret = -EINPROGRESS;
-ef604c21620651 Pavitrakumar M 2024-09-30   32  	struct spacc_job *job = NULL;
-ef604c21620651 Pavitrakumar M 2024-09-30   33  	u32 cmdstat, swid, spacc_errcode = SPACC_OK;
-ef604c21620651 Pavitrakumar M 2024-09-30   34  
-ef604c21620651 Pavitrakumar M 2024-09-30   35  	*num_popped = 0;
-ef604c21620651 Pavitrakumar M 2024-09-30   36  
-ef604c21620651 Pavitrakumar M 2024-09-30   37  	while ((jobs = _spacc_get_stat_cnt(spacc))) {
-ef604c21620651 Pavitrakumar M 2024-09-30   38  		while (jobs-- > 0) {
-ef604c21620651 Pavitrakumar M 2024-09-30   39  			/* write the pop register to get the next job */
-ef604c21620651 Pavitrakumar M 2024-09-30   40  			writel(1, spacc->regmap + SPACC_REG_STAT_POP);
-ef604c21620651 Pavitrakumar M 2024-09-30   41  			cmdstat = readl(spacc->regmap + SPACC_REG_STATUS);
-ef604c21620651 Pavitrakumar M 2024-09-30   42  
-ef604c21620651 Pavitrakumar M 2024-09-30   43  			swid = SPACC_STATUS_SW_ID_GET(cmdstat);
-ef604c21620651 Pavitrakumar M 2024-09-30   44  
-ef604c21620651 Pavitrakumar M 2024-09-30   45  			if (spacc->job_lookup[swid] == SPACC_JOB_IDX_UNUSED) {
-ef604c21620651 Pavitrakumar M 2024-09-30   46  				ret = -EIO;
-ef604c21620651 Pavitrakumar M 2024-09-30   47  				goto ERR;
-ef604c21620651 Pavitrakumar M 2024-09-30   48  			}
-ef604c21620651 Pavitrakumar M 2024-09-30   49  
-ef604c21620651 Pavitrakumar M 2024-09-30   50  			/* find the associated job with popped swid */
-ef604c21620651 Pavitrakumar M 2024-09-30   51  			if (swid < 0 || swid >= SPACC_MAX_JOBS)
-ef604c21620651 Pavitrakumar M 2024-09-30   52  				job = NULL;
-ef604c21620651 Pavitrakumar M 2024-09-30   53  			else
-ef604c21620651 Pavitrakumar M 2024-09-30   54  				job = &spacc->job[spacc->job_lookup[swid]];
-ef604c21620651 Pavitrakumar M 2024-09-30   55  
-ef604c21620651 Pavitrakumar M 2024-09-30   56  			if (!job) {
-ef604c21620651 Pavitrakumar M 2024-09-30   57  				ret = -EIO;
-ef604c21620651 Pavitrakumar M 2024-09-30   58  				goto ERR;
-ef604c21620651 Pavitrakumar M 2024-09-30   59  			}
-ef604c21620651 Pavitrakumar M 2024-09-30   60  
-ef604c21620651 Pavitrakumar M 2024-09-30   61  			/* mark job as done */
-ef604c21620651 Pavitrakumar M 2024-09-30   62  			job->job_done = 1;
-ef604c21620651 Pavitrakumar M 2024-09-30   63  			spacc->job_lookup[swid] = SPACC_JOB_IDX_UNUSED;
-ef604c21620651 Pavitrakumar M 2024-09-30   64  			spacc_errcode = SPACC_GET_STATUS_RET_CODE(cmdstat);
-ef604c21620651 Pavitrakumar M 2024-09-30   65  
-ef604c21620651 Pavitrakumar M 2024-09-30   66  			switch (spacc_errcode) {
-ef604c21620651 Pavitrakumar M 2024-09-30   67  			case SPACC_ICVFAIL:
-ef604c21620651 Pavitrakumar M 2024-09-30   68  				ret = -EBADMSG;
-ef604c21620651 Pavitrakumar M 2024-09-30   69  				break;
-ef604c21620651 Pavitrakumar M 2024-09-30   70  			case SPACC_MEMERR:
-ef604c21620651 Pavitrakumar M 2024-09-30   71  				ret = -EINVAL;
-ef604c21620651 Pavitrakumar M 2024-09-30   72  				break;
-ef604c21620651 Pavitrakumar M 2024-09-30   73  			case SPACC_BLOCKERR:
-ef604c21620651 Pavitrakumar M 2024-09-30   74  				ret = -EINVAL;
-ef604c21620651 Pavitrakumar M 2024-09-30   75  				break;
-ef604c21620651 Pavitrakumar M 2024-09-30   76  			case SPACC_SECERR:
-ef604c21620651 Pavitrakumar M 2024-09-30   77  				ret = -EIO;
-ef604c21620651 Pavitrakumar M 2024-09-30   78  				break;
-ef604c21620651 Pavitrakumar M 2024-09-30   79  			case SPACC_OK:
-ef604c21620651 Pavitrakumar M 2024-09-30   80  				ret = CRYPTO_OK;
-ef604c21620651 Pavitrakumar M 2024-09-30   81  				break;
-ef604c21620651 Pavitrakumar M 2024-09-30   82  			default:
-ef604c21620651 Pavitrakumar M 2024-09-30   83  				pr_debug("Invalid SPAcc Error");
-ef604c21620651 Pavitrakumar M 2024-09-30   84  			}
-ef604c21620651 Pavitrakumar M 2024-09-30   85  
-ef604c21620651 Pavitrakumar M 2024-09-30   86  			job->job_err = ret;
-ef604c21620651 Pavitrakumar M 2024-09-30   87  
-ef604c21620651 Pavitrakumar M 2024-09-30   88  			/*
-ef604c21620651 Pavitrakumar M 2024-09-30   89  			 * We're done touching the SPAcc hw, so release the
-ef604c21620651 Pavitrakumar M 2024-09-30   90  			 * lock across the job callback.  It must be reacquired
-ef604c21620651 Pavitrakumar M 2024-09-30   91  			 * before continuing to the next iteration.
-ef604c21620651 Pavitrakumar M 2024-09-30   92  			 */
-ef604c21620651 Pavitrakumar M 2024-09-30   93  
-ef604c21620651 Pavitrakumar M 2024-09-30   94  			if (job->cb) {
-ef604c21620651 Pavitrakumar M 2024-09-30   95  				spin_unlock_irqrestore(&spacc->lock,
-ef604c21620651 Pavitrakumar M 2024-09-30   96  							*lock_flag);
-ef604c21620651 Pavitrakumar M 2024-09-30   97  				job->cb(spacc, job->cbdata);
-ef604c21620651 Pavitrakumar M 2024-09-30  @98  				spin_lock_irqsave(&spacc->lock,
-ef604c21620651 Pavitrakumar M 2024-09-30   99  							*lock_flag);
-ef604c21620651 Pavitrakumar M 2024-09-30  100  			}
-ef604c21620651 Pavitrakumar M 2024-09-30  101  
-ef604c21620651 Pavitrakumar M 2024-09-30  102  			(*num_popped)++;
-ef604c21620651 Pavitrakumar M 2024-09-30  103  		}
-ef604c21620651 Pavitrakumar M 2024-09-30  104  	}
-ef604c21620651 Pavitrakumar M 2024-09-30  105  
-ef604c21620651 Pavitrakumar M 2024-09-30  106  	if (!*num_popped)
-ef604c21620651 Pavitrakumar M 2024-09-30  107  		pr_debug("   Failed to pop a single job\n");
-ef604c21620651 Pavitrakumar M 2024-09-30  108  
-ef604c21620651 Pavitrakumar M 2024-09-30  109  ERR:
-ef604c21620651 Pavitrakumar M 2024-09-30  110  	spacc_process_jb(spacc);
-ef604c21620651 Pavitrakumar M 2024-09-30  111  
-ef604c21620651 Pavitrakumar M 2024-09-30  112  	/* reset the WD timer to the original value*/
-ef604c21620651 Pavitrakumar M 2024-09-30  113  	if (spacc->op_mode == SPACC_OP_MODE_WD)
-ef604c21620651 Pavitrakumar M 2024-09-30  114  		spacc_set_wd_count(spacc, spacc->config.wd_timer);
-ef604c21620651 Pavitrakumar M 2024-09-30  115  
-ef604c21620651 Pavitrakumar M 2024-09-30  116  	if (*num_popped && spacc->spacc_notify_jobs)
-ef604c21620651 Pavitrakumar M 2024-09-30  117  		spacc->spacc_notify_jobs(spacc);
-ef604c21620651 Pavitrakumar M 2024-09-30  118  
-ef604c21620651 Pavitrakumar M 2024-09-30 @119  	return ret;
-ef604c21620651 Pavitrakumar M 2024-09-30  120  }
-ef604c21620651 Pavitrakumar M 2024-09-30  121  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2192  
+ae118896361111 Tejun Heo     2015-08-18  2193  bool blk_throtl_bio(struct request_queue *q, struct blkcg_gq *blkg,
+ae118896361111 Tejun Heo     2015-08-18  2194  		    struct bio *bio)
+e43473b7f223ec Vivek Goyal   2010-09-15  2195  {
+c5cc2070b45333 Tejun Heo     2013-05-14  2196  	struct throtl_qnode *qn = NULL;
+ae118896361111 Tejun Heo     2015-08-18  2197  	struct throtl_grp *tg = blkg_to_tg(blkg ?: q->root_blkg);
+73f0d49a9637a7 Tejun Heo     2013-05-14  2198  	struct throtl_service_queue *sq;
+0e9f4164ba9150 Tejun Heo     2013-05-14  2199  	bool rw = bio_data_dir(bio);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2200  	bool throttled = false;
+e1c15e207d153c Laibin Qiu    2022-03-08  2201  	bool locked = true;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2202  	struct throtl_data *td = tg->td;
+e43473b7f223ec Vivek Goyal   2010-09-15  2203  
+ae118896361111 Tejun Heo     2015-08-18  2204  	WARN_ON_ONCE(!rcu_read_lock_held());
+ae118896361111 Tejun Heo     2015-08-18  2205  
+2a0f61e6ecd08d Tejun Heo     2013-05-14  2206  	/* see throtl_charge_bio() */
+e1c15e207d153c Laibin Qiu    2022-03-08  2207  	if (bio_flagged(bio, BIO_THROTTLED) || !tg->has_rules[rw]) {
+e1c15e207d153c Laibin Qiu    2022-03-08  2208  		locked = false;
+bc16a4f933bc5e Tejun Heo     2011-10-19  2209  		goto out;
+e1c15e207d153c Laibin Qiu    2022-03-08  2210  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2211  
+e43473b7f223ec Vivek Goyal   2010-09-15 @2212  	spin_lock_irq(q->queue_lock);
+c9589f03e49095 Tejun Heo     2015-08-18  2213  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2214  	throtl_update_latency_buckets(td);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2215  
+c9589f03e49095 Tejun Heo     2015-08-18  2216  	if (unlikely(blk_queue_bypass(q)))
+e1c15e207d153c Laibin Qiu    2022-03-08  2217  		goto out;
+f469a7b4d5b1d1 Vivek Goyal   2011-05-19  2218  
+2bc19cd5fdb5ff Jens Axboe    2017-04-20  2219  	blk_throtl_assoc_bio(tg, bio);
+9e234eeafbe17e Shaohua Li    2017-03-27  2220  	blk_throtl_update_idletime(tg);
+9e234eeafbe17e Shaohua Li    2017-03-27  2221  
+73f0d49a9637a7 Tejun Heo     2013-05-14  2222  	sq = &tg->service_queue;
+73f0d49a9637a7 Tejun Heo     2013-05-14  2223  
+c79892c5576163 Shaohua Li    2017-03-27  2224  again:
+9e660acffcd1b5 Tejun Heo     2013-05-14  2225  	while (true) {
+3f0abd806651df Shaohua Li    2017-03-27  2226  		if (tg->last_low_overflow_time[rw] == 0)
+3f0abd806651df Shaohua Li    2017-03-27  2227  			tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2228  		throtl_downgrade_check(tg);
+fa6fb5aab85f3e Shaohua Li    2017-03-27  2229  		throtl_upgrade_check(tg);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2230  		/* throtl is FIFO - if bios are already queued, should queue */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2231  		if (sq->nr_queued[rw])
+9e660acffcd1b5 Tejun Heo     2013-05-14  2232  			break;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2233  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2234  		/* if above limits, break to queue */
+c79892c5576163 Shaohua Li    2017-03-27  2235  		if (!tg_may_dispatch(tg, bio, NULL)) {
+3f0abd806651df Shaohua Li    2017-03-27  2236  			tg->last_low_overflow_time[rw] = jiffies;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2237  			if (throtl_can_upgrade(td, tg)) {
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2238  				throtl_upgrade_state(td);
+c79892c5576163 Shaohua Li    2017-03-27  2239  				goto again;
+c79892c5576163 Shaohua Li    2017-03-27  2240  			}
+9e660acffcd1b5 Tejun Heo     2013-05-14  2241  			break;
+c79892c5576163 Shaohua Li    2017-03-27  2242  		}
+de701c74a34005 Vivek Goyal   2011-03-07  2243  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2244  		/* within limits, let's charge and dispatch directly */
+e43473b7f223ec Vivek Goyal   2010-09-15  2245  		throtl_charge_bio(tg, bio);
+04521db04e9a11 Vivek Goyal   2011-03-22  2246  
+04521db04e9a11 Vivek Goyal   2011-03-22  2247  		/*
+04521db04e9a11 Vivek Goyal   2011-03-22  2248  		 * We need to trim slice even when bios are not being queued
+04521db04e9a11 Vivek Goyal   2011-03-22  2249  		 * otherwise it might happen that a bio is not queued for
+04521db04e9a11 Vivek Goyal   2011-03-22  2250  		 * a long time and slice keeps on extending and trim is not
+04521db04e9a11 Vivek Goyal   2011-03-22  2251  		 * called for a long time. Now if limits are reduced suddenly
+04521db04e9a11 Vivek Goyal   2011-03-22  2252  		 * we take into account all the IO dispatched so far at new
+04521db04e9a11 Vivek Goyal   2011-03-22  2253  		 * low rate and * newly queued IO gets a really long dispatch
+04521db04e9a11 Vivek Goyal   2011-03-22  2254  		 * time.
+04521db04e9a11 Vivek Goyal   2011-03-22  2255  		 *
+04521db04e9a11 Vivek Goyal   2011-03-22  2256  		 * So keep on trimming slice even if bio is not queued.
+04521db04e9a11 Vivek Goyal   2011-03-22  2257  		 */
+0f3457f60edc57 Tejun Heo     2013-05-14  2258  		throtl_trim_slice(tg, rw);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2259  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2260  		/*
+9e660acffcd1b5 Tejun Heo     2013-05-14  2261  		 * @bio passed through this layer without being throttled.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2262  		 * Climb up the ladder.  If we''re already at the top, it
+9e660acffcd1b5 Tejun Heo     2013-05-14  2263  		 * can be executed directly.
+9e660acffcd1b5 Tejun Heo     2013-05-14  2264  		 */
+c5cc2070b45333 Tejun Heo     2013-05-14  2265  		qn = &tg->qnode_on_parent[rw];
+9e660acffcd1b5 Tejun Heo     2013-05-14  2266  		sq = sq->parent_sq;
+9e660acffcd1b5 Tejun Heo     2013-05-14  2267  		tg = sq_to_tg(sq);
+9e660acffcd1b5 Tejun Heo     2013-05-14  2268  		if (!tg)
+e1c15e207d153c Laibin Qiu    2022-03-08  2269  			goto out;
+e43473b7f223ec Vivek Goyal   2010-09-15  2270  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2271  
+9e660acffcd1b5 Tejun Heo     2013-05-14  2272  	/* out-of-limit, queue to @tg */
+fda6f272c77a7a Tejun Heo     2013-05-14  2273  	throtl_log(sq, "[%c] bio. bdisp=%llu sz=%u bps=%llu iodisp=%u iops=%u queued=%d/%d",
+8e89d13f4ede24 Vivek Goyal   2010-09-15  2274  		   rw == READ ? 'R' : 'W',
+9f626e372a6024 Shaohua Li    2017-03-27  2275  		   tg->bytes_disp[rw], bio->bi_iter.bi_size,
+9f626e372a6024 Shaohua Li    2017-03-27  2276  		   tg_bps_limit(tg, rw),
+9f626e372a6024 Shaohua Li    2017-03-27  2277  		   tg->io_disp[rw], tg_iops_limit(tg, rw),
+73f0d49a9637a7 Tejun Heo     2013-05-14  2278  		   sq->nr_queued[READ], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal   2010-09-15  2279  
+3f0abd806651df Shaohua Li    2017-03-27  2280  	tg->last_low_overflow_time[rw] = jiffies;
+3f0abd806651df Shaohua Li    2017-03-27  2281  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2282  	td->nr_queued[rw]++;
+c5cc2070b45333 Tejun Heo     2013-05-14  2283  	throtl_add_bio_tg(bio, qn, tg);
+bc16a4f933bc5e Tejun Heo     2011-10-19  2284  	throttled = true;
+e43473b7f223ec Vivek Goyal   2010-09-15  2285  
+7f52f98c2a8333 Tejun Heo     2013-05-14  2286  	/*
+7f52f98c2a8333 Tejun Heo     2013-05-14  2287  	 * Update @tg's dispatch time and force schedule dispatch if @tg
+7f52f98c2a8333 Tejun Heo     2013-05-14  2288  	 * was empty before @bio.  The forced scheduling isn't likely to
+7f52f98c2a8333 Tejun Heo     2013-05-14  2289  	 * cause undue delay as @bio is likely to be dispatched directly if
+7f52f98c2a8333 Tejun Heo     2013-05-14  2290  	 * its @tg's disptime is not in the future.
+7f52f98c2a8333 Tejun Heo     2013-05-14  2291  	 */
+0e9f4164ba9150 Tejun Heo     2013-05-14  2292  	if (tg->flags & THROTL_TG_WAS_EMPTY) {
+77216b04848178 Tejun Heo     2013-05-14  2293  		tg_update_disptime(tg);
+7f52f98c2a8333 Tejun Heo     2013-05-14  2294  		throtl_schedule_next_dispatch(tg->service_queue.parent_sq, true);
+e43473b7f223ec Vivek Goyal   2010-09-15  2295  	}
+e43473b7f223ec Vivek Goyal   2010-09-15  2296  
+bc16a4f933bc5e Tejun Heo     2011-10-19  2297  out:
+111be883981748 Shaohua Li    2017-12-20  2298  	bio_set_flag(bio, BIO_THROTTLED);
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2299  
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2300  #ifdef CONFIG_BLK_DEV_THROTTLING_LOW
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2301  	if (throttled || !td->track_bio_latency)
+5238dcf4136fd7 Omar Sandoval 2018-05-09  2302  		bio->bi_issue.value |= BIO_ISSUE_THROTL_SKIP_LATENCY;
+b9147dd1bae2b1 Shaohua Li    2017-03-27  2303  #endif
+e1c15e207d153c Laibin Qiu    2022-03-08  2304  	if (locked)
+e1c15e207d153c Laibin Qiu    2022-03-08  2305  		spin_unlock_irq(q->queue_lock);
+bc16a4f933bc5e Tejun Heo     2011-10-19 @2306  	return throttled;
+e43473b7f223ec Vivek Goyal   2010-09-15  2307  }
+e43473b7f223ec Vivek Goyal   2010-09-15  2308  
+
+:::::: The code at line 2306 was first introduced by commit
+:::::: bc16a4f933bc5ed50826b20561e4c3515061998b block: reorganize throtl_get_tg() and blk_throtl_bio()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
