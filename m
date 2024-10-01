@@ -1,268 +1,140 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B1C1BBBC4
-	for <oe-kbuild@lists.linux.dev>; Tue,  1 Oct 2024 07:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972421BC9FE
+	for <oe-kbuild@lists.linux.dev>; Tue,  1 Oct 2024 07:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727766623; cv=none; b=Bx0q4cjKtV+JZ6YBFzgS2NLRBhRyHhWymhmlKJSciBexXR3iQWHUtNKH5JDAYPy40Cyxj8dUmpfngd+xr3h1z9ECWCCS8UMcqtmjbdGFTpWwyaqKoSxK2UT9EhFZNweXu5t/F6GJrJpasLFwrSKvx7tXwxvqHy1mbJK9e0wabY8=
+	t=1727766737; cv=none; b=gxQAZi9di0mQmyRi9ik6MjzKL0q16c6IrfX2M9CvsFDD9vIEptc32BsXu/AaKc+dzLdZdaL4M035Q4zil66zViStmIKEA9oUxC1JyGERprmUAXUK/HqQKhGDDO7BL0TfaqwIsiEQBSylQl/OUqdEGp1jr53+LC/2KAaiuIPPID0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727766623; c=relaxed/simple;
-	bh=pbBZ0Du6N7msaxKv3g2D2Vluyet4WoO/TDQlJuaT/Fk=;
+	s=arc-20240116; t=1727766737; c=relaxed/simple;
+	bh=y2ZFSAp9h5OoAQ0kAUI7RAoV2wwssCCCm97Xqni04RI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=u93THv3K8Q8Ay6Hg6IlMhkPbUxke+0j5mEaMSgE+4NB0TBHYp32f0jvRpHAun53+DKVte7Z68YtZ1uYBJK+O+/GlKH+2aGKVrU3kQbPuLFeJy3EeLH11J+xyKVSJoRL4u/xQoORAuv5NpAjlamKZhyyRqxOIlMquHZnDPDpjSsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bLq6+Dcs; arc=none smtp.client-ip=209.85.167.41
+	 Content-Disposition; b=EnKmIUAghtIJqabMg3ijjOEdL9y8oPpD0J6ZiGW7rOq5881pjP3u+04SXTPSjR/i4jlRABKp5DUb/JriF8/hO65j5iLuhLRDMQdUfa2087HVQ6G8ky8PYA2SnDxcJ73tVoeIhQC63+HHjvYgIXoprtpn2xHxkG0b3IpTs658/70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XperOrGl; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bLq6+Dcs"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53997328633so2389067e87.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 01 Oct 2024 00:10:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XperOrGl"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a7aa086b077so755449966b.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 01 Oct 2024 00:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727766618; x=1728371418; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eZqT2yOYtFYF7+5U1wgTYFQCJoGN4j9Tu4YMuLrYoR4=;
-        b=bLq6+DcsZmctyMPvyM8rA2BuHJ5eqvZLR12qokYNk7mKjnJyPy37I4Lh5Se9uori4L
-         ebYkhrruBtdN7lug/F5H49E1zFdtpbPK9LwX3Mgxzb+RH8ppuVT28026wfYGvjLPHarh
-         Plo6Xr2Nv9ByVMN6AX56RgmMYsA5C+p2B1kg5IHzg1TZLm1QmhPXwWV2xjn5G5rTFq2W
-         c5gsNYh9+vTGD6WFbhUQW++Sg3iChTWPGErkb5cqWxofHq0bkYhAlMph4UJ725uwBw6E
-         9VJHV8Qa/YhXiFu6z8glN8XRemBPcdz3GIXtAXoZaFluirIIReDpwc7QbIiyBn/IdR2K
-         Kn9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727766618; x=1728371418;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+        d=linaro.org; s=google; t=1727766734; x=1728371534; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=eZqT2yOYtFYF7+5U1wgTYFQCJoGN4j9Tu4YMuLrYoR4=;
-        b=u9ah7OSfepQCdWXfJ5wqANT6GweyMSLlrWkzSkRKng6mro37dRd2WztShtPAmFEeA5
-         M3erVSLwr56eHoYHrIbtPMrjMJCGw9y1xfgvtfYpdIofG/nts7hpRZCqA4/mYExZfTR5
-         HH+zNTx7CJVKg8BIUuVRqcuOsFz4r9W//Xe7fOOHzCs4lptBVgoScMX5sl68zTGZA4bf
-         2VoM/zZu9sCcvf4E4/Ia4QKVkW6WjP5qirYiSeORhyJM/84G6fnu3/v5FI6hlPMRuNhT
-         ZrT3KdqRRC8GxnuMsNfXoNLLBfsPYZ5FjCI84GF/FSPHHSEGdLjP3EohtdgahLb+F33C
-         lj1g==
-X-Gm-Message-State: AOJu0YxpsSZTC4E6kElYWLd1/KIAWvCjxJHnZfVA8X1i4Aux/zO2tYZg
-	tmZCDJV2eaWFA6lEp44ZhL6KTIF++BQ8E5VIz95d0b866Wkid7dPPu1KUoG+SFwmyzmqqKKrQho
-	k
-X-Google-Smtp-Source: AGHT+IFqzRB78CqO+fEg7dSck70Qq7XEWWO/zbpvExV3jX92R3isknC7h9D7v0/PQG2VOGs3Ug8HlA==
-X-Received: by 2002:a05:6512:280e:b0:536:5810:e89 with SMTP id 2adb3069b0e04-5389fca2d7dmr10390606e87.49.1727766617897;
-        Tue, 01 Oct 2024 00:10:17 -0700 (PDT)
+        bh=KXq3aoBFMmAhDE3lM+Bjt7VRVHfnevLQL+0yUSK1oVY=;
+        b=XperOrGlzjp5DEcXgI2cUWWk7sCIevuxsA7XIG3kPzGkXVs/QNsj6xaGO+ZZQNYNTl
+         kNOi4ydinXaVbnfmNdq4E0NyfCXYpc5VPu76aewSbR5p5VSbG1h8lDWhM6PzPSlPzm8I
+         i5BURygSn83d45vBnvC4Wn1Nz4/YE/CyTis16cIYjlqUTbAeRoIZ1PsWLdX5I1b72pHr
+         nwE7r/Jep3fND4fsPLjMWKoILnADReFdPqH3QwE4PpifVmMKXruYMm7SG35eXlT0ZeY6
+         OzZYp2rjqDunZwzm/x3uxfbRPX/PlEdMC+F5IT0gvm9Z89gRd7NksU+3mYTICBgEITlk
+         qWPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727766734; x=1728371534;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KXq3aoBFMmAhDE3lM+Bjt7VRVHfnevLQL+0yUSK1oVY=;
+        b=f7JfcNdyROhBKEJG6GzwoCPUQJfJOiMbvuKr9gZMAC+JJuoSwYdIF1m+/zMm26+ORG
+         Tdeo0k+FT0qsu/51v5CP0otFne2bVkwmEWYi8FmSQjMN7Ie7zJgjpYCDj12RM+otwPJa
+         NNH1UQ57kxI+zkQkVd3/WDuu8caaxsNBtZdENgg/4+DdIrz3BDm0CDffjy7g3u80Xew+
+         p3s09qA1cWIUMmqbptK2FFS+EPBxCuN/YvAUNbVDdiVhUcS/6mmIHiBzhmZuoE1iJ1DT
+         /ZOVSZv1isp6BXuK1/u2lKRTHPDee1SzUDsftVbfWOdy7Qp+WYp1cpXY0ytWloMIz3af
+         dXvQ==
+X-Gm-Message-State: AOJu0YxxEBtIB/RR06zeDdlBiynmZ4TPoCiWctzWnK8rZIupYSPwD2wH
+	aLq2Kpztl8InWwxXqj/aJELag3+WzwvGRA/YQ7jxK6XtJeHFkuifdY96twG/ZQtyaBtOCBfZKFu
+	g
+X-Google-Smtp-Source: AGHT+IHqAaKq6LIonk9hYr0vTdPApUmsZsbpWKu7M8xKZEMMSPeEwJcrvx29Fcsojreo80JNo7rh3A==
+X-Received: by 2002:a17:907:1c17:b0:a7a:af5d:f312 with SMTP id a640c23a62f3a-a93c4a87661mr1639975966b.46.1727766733469;
+        Tue, 01 Oct 2024 00:12:13 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27c5b09sm655262466b.73.2024.10.01.00.10.09
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c277726asm666987666b.10.2024.10.01.00.12.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 00:10:13 -0700 (PDT)
-Date: Tue, 1 Oct 2024 10:10:01 +0300
+        Tue, 01 Oct 2024 00:12:10 -0700 (PDT)
+Date: Tue, 1 Oct 2024 10:12:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Nemesa Garg <nemesa.garg@intel.com>,
-	intel-gfx@lists.freedesktop.org
+To: oe-kbuild@lists.linux.dev, Shuming Fan <shumingf@realtek.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Nemesa Garg <nemesa.garg@intel.com>
-Subject: Re: [PATCH v4 3/3] drm/i915/display: Call panel_fitting from
- pipe_config
-Message-ID: <6286e3c8-b639-4edc-984d-4b14077b6d19@stanley.mountain>
+	Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:filekCZcLQ 7/13] sound/soc/codecs/rt1320-sdw.c:564
+ rt1320_load_mcu_patch() warn: impossible condition '(addr > 4295491583) =>
+ (0-u32max > 4295491583)'
+Message-ID: <12dcf576-c9ef-4962-92d0-819e25a9aa53@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240925063032.2311796-4-nemesa.garg@intel.com>
 
-Hi Nemesa,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nemesa-Garg/drm-i915-display-Modify-panel_fitting-code-for-joiner/20240925-143239
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20240925063032.2311796-4-nemesa.garg%40intel.com
-patch subject: [PATCH v4 3/3] drm/i915/display: Call panel_fitting from pipe_config
-config: i386-randconfig-141-20240930 (https://download.01.org/0day-ci/archive/20241001/202410010933.PZc3ug9p-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filekCZcLQ
+head:   4649cbd97fdae5069e9a71cd7669b62b90e03669
+commit: d72498fad93abf1817c4998d172a3d7f98f76bbe [7/13] ASoC: rt1320: reads patch code from firmware file
+config: i386-randconfig-141-20240930 (https://download.01.org/0day-ci/archive/20241001/202410011117.3dImGD4j-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410010933.PZc3ug9p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410011117.3dImGD4j-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/i915/display/intel_display.c:4792 intel_modeset_pipe_config() error: uninitialized symbol 'fixed_mode'.
+smatch warnings:
+sound/soc/codecs/rt1320-sdw.c:564 rt1320_load_mcu_patch() warn: impossible condition '(addr > 4295491583) => (0-u32max > 4295491583)'
 
-vim +/fixed_mode +4792 drivers/gpu/drm/i915/display/intel_display.c
+vim +564 sound/soc/codecs/rt1320-sdw.c
 
-548ee15b38ff5f drivers/gpu/drm/i915/intel_display.c         Ander Conselvan de Oliveira 2015-04-21  4646  static int
-aa07c1d3be699b drivers/gpu/drm/i915/display/intel_display.c Manasi Navare               2020-11-13  4647  intel_modeset_pipe_config(struct intel_atomic_state *state,
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4648  			  struct intel_crtc *crtc,
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4649  			  const struct intel_link_bw_limits *limits)
-f6e5b1603b8bb7 drivers/gpu/drm/i915/intel_display.c         Chris Wilson                2011-04-12  4650  {
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4651  	struct drm_i915_private *i915 = to_i915(crtc->base.dev);
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4652  	struct intel_crtc_state *crtc_state =
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4653  		intel_atomic_get_new_crtc_state(state, crtc);
-da3ced29869a1e drivers/gpu/drm/i915/intel_display.c         Ander Conselvan de Oliveira 2015-04-21  4654  	struct drm_connector *connector;
-0b901879393997 drivers/gpu/drm/i915/intel_display.c         Ander Conselvan de Oliveira 2015-03-20  4655  	struct drm_connector_state *connector_state;
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4656  	const struct drm_display_mode *fixed_mode;
+d72498fad93abf Shuming Fan 2024-09-14  532  static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+d72498fad93abf Shuming Fan 2024-09-14  533  {
+d72498fad93abf Shuming Fan 2024-09-14  534  	struct sdw_slave *slave = rt1320->sdw_slave;
+d72498fad93abf Shuming Fan 2024-09-14  535  	const struct firmware *patch;
+d72498fad93abf Shuming Fan 2024-09-14  536  	const char *filename;
+d72498fad93abf Shuming Fan 2024-09-14  537  	unsigned int addr, val;
+d72498fad93abf Shuming Fan 2024-09-14  538  	const unsigned char *ptr;
+d72498fad93abf Shuming Fan 2024-09-14  539  	int ret, i;
+d72498fad93abf Shuming Fan 2024-09-14  540  
+d72498fad93abf Shuming Fan 2024-09-14  541  	if (rt1320->version_id <= RT1320_VB)
+d72498fad93abf Shuming Fan 2024-09-14  542  		filename = RT1320_VAB_MCU_PATCH;
+d72498fad93abf Shuming Fan 2024-09-14  543  	else
+d72498fad93abf Shuming Fan 2024-09-14  544  		filename = RT1320_VC_MCU_PATCH;
+d72498fad93abf Shuming Fan 2024-09-14  545  
+d72498fad93abf Shuming Fan 2024-09-14  546  	/* load the patch code here */
+d72498fad93abf Shuming Fan 2024-09-14  547  	ret = request_firmware(&patch, filename, &slave->dev);
+d72498fad93abf Shuming Fan 2024-09-14  548  	if (ret) {
+d72498fad93abf Shuming Fan 2024-09-14  549  		dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
+d72498fad93abf Shuming Fan 2024-09-14  550  		regmap_write(rt1320->regmap, 0xc598, 0x00);
+d72498fad93abf Shuming Fan 2024-09-14  551  		regmap_write(rt1320->regmap, 0x10007000, 0x67);
+d72498fad93abf Shuming Fan 2024-09-14  552  		regmap_write(rt1320->regmap, 0x10007001, 0x80);
+d72498fad93abf Shuming Fan 2024-09-14  553  		regmap_write(rt1320->regmap, 0x10007002, 0x00);
+d72498fad93abf Shuming Fan 2024-09-14  554  		regmap_write(rt1320->regmap, 0x10007003, 0x00);
+d72498fad93abf Shuming Fan 2024-09-14  555  	} else {
+d72498fad93abf Shuming Fan 2024-09-14  556  		ptr = (const unsigned char *)patch->data;
+d72498fad93abf Shuming Fan 2024-09-14  557  		if ((patch->size % 8) == 0) {
+d72498fad93abf Shuming Fan 2024-09-14  558  			for (i = 0; i < patch->size; i += 8) {
+d72498fad93abf Shuming Fan 2024-09-14  559  				addr = (ptr[i] & 0xff) | (ptr[i + 1] & 0xff) << 8 |
+d72498fad93abf Shuming Fan 2024-09-14  560  					(ptr[i + 2] & 0xff) << 16 | (ptr[i + 3] & 0xff) << 24;
+d72498fad93abf Shuming Fan 2024-09-14  561  				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
+d72498fad93abf Shuming Fan 2024-09-14  562  					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
+d72498fad93abf Shuming Fan 2024-09-14  563  
+d72498fad93abf Shuming Fan 2024-09-14 @564  				if (addr > 0x10007ffff || addr < 0x10007000) {
+                                                                            ^^^^^^^^^^^^^^^^^^
+Impossible condition.  I suspect there is an extra 'f'.
 
-fixed_mode is never initialized
-
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4657  	struct intel_dp *intel_dp;
-26111a161ab56e drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-02-23  4658  	int pipe_src_w, pipe_src_h;
-b50a1aa6e1e947 drivers/gpu/drm/i915/display/intel_display.c Manasi Navare               2020-02-14  4659  	int base_bpp, ret, i;
-ee7b9f93fd96a7 drivers/gpu/drm/i915/intel_display.c         Jesse Barnes                2012-04-20  4660  
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4661  	crtc_state->cpu_transcoder = (enum transcoder) crtc->pipe;
-b8cecdf5a8cb84 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-03-27  4662  
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4663  	crtc_state->framestart_delay = 1;
-50c335f94d71c8 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-02-21  4664  
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4665  	/*
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4666  	 * Sanitize sync polarity flags based on requested ones. If neither
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4667  	 * positive or negative polarity is requested, treat this as meaning
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4668  	 * negative polarity.
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4669  	 */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4670  	if (!(crtc_state->hw.adjusted_mode.flags &
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4671  	      (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NHSYNC)))
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4672  		crtc_state->hw.adjusted_mode.flags |= DRM_MODE_FLAG_NHSYNC;
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4673  
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4674  	if (!(crtc_state->hw.adjusted_mode.flags &
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4675  	      (DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC)))
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4676  		crtc_state->hw.adjusted_mode.flags |= DRM_MODE_FLAG_NVSYNC;
-2960bc9cceecb5 drivers/gpu/drm/i915/intel_display.c         Imre Deak                   2013-07-30  4677  
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4678  	ret = compute_baseline_pipe_bpp(state, crtc);
-bcce8d8633ff01 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4679  	if (ret)
-bcce8d8633ff01 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4680  		return ret;
-bcce8d8633ff01 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4681  
-36f579ffc69214 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-10-24  4682  	crtc_state->fec_enable = limits->force_fec_pipes & BIT(crtc->pipe);
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4683  	crtc_state->max_link_bpp_x16 = limits->max_bpp_x16[crtc->pipe];
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4684  
-8466a14173e5ff drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2024-08-05  4685  	if (crtc_state->pipe_bpp > fxp_q4_to_int(crtc_state->max_link_bpp_x16)) {
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4686  		drm_dbg_kms(&i915->drm,
-2796b7ceec95bd drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2024-08-05  4687  			    "[CRTC:%d:%s] Link bpp limited to " FXP_Q4_FMT "\n",
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4688  			    crtc->base.base.id, crtc->base.name,
-2796b7ceec95bd drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2024-08-05  4689  			    FXP_Q4_ARGS(crtc_state->max_link_bpp_x16));
-998d2cd361caeb drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4690  		crtc_state->bw_constrained = true;
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4691  	}
-8ca0b875c08258 drivers/gpu/drm/i915/display/intel_display.c Imre Deak                   2023-09-21  4692  
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4693  	base_bpp = crtc_state->pipe_bpp;
-4e53c2e010e531 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-03-27  4694  
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4695  	/*
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4696  	 * Determine the real pipe dimensions. Note that stereo modes can
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4697  	 * increase the actual pipe size due to the frame doubling and
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4698  	 * insertion of additional space for blanks between the frame. This
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4699  	 * is stored in the crtc timings. We use the requested mode to do this
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4700  	 * computation to clearly distinguish it from the adjusted mode, which
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4701  	 * can be changed by the connectors in the below retry loop.
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4702  	 */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4703  	drm_mode_get_hv_timing(&crtc_state->hw.mode,
-26111a161ab56e drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-02-23  4704  			       &pipe_src_w, &pipe_src_h);
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4705  	drm_rect_init(&crtc_state->pipe_src, 0, 0,
-26111a161ab56e drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-02-23  4706  		      pipe_src_w, pipe_src_h);
-e41a56be017c6e drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2013-10-01  4707  
-aa07c1d3be699b drivers/gpu/drm/i915/display/intel_display.c Manasi Navare               2020-11-13  4708  	for_each_new_connector_in_state(&state->base, connector, connector_state, i) {
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4709  		struct intel_encoder *encoder =
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4710  			to_intel_encoder(connector_state->best_encoder);
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4711  
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4712  		if (connector_state->crtc != &crtc->base)
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4713  			continue;
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4714  
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4715  		if (!check_single_encoder_cloning(state, crtc, encoder)) {
-cd49f81806815b drivers/gpu/drm/i915/display/intel_display.c Wambui Karuga               2020-01-22  4716  			drm_dbg_kms(&i915->drm,
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4717  				    "[ENCODER:%d:%s] rejecting invalid cloning configuration\n",
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4718  				    encoder->base.base.id, encoder->base.name);
-d26592c601ec24 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4719  			return -EINVAL;
-e25148d01d58a7 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4720  		}
-e25148d01d58a7 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4721  
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4722  		/*
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4723  		 * Determine output_types before calling the .compute_config()
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4724  		 * hooks so that the hooks can use this information safely.
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4725  		 */
-7e732cacb1ae27 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2017-10-27  4726  		if (encoder->compute_output_type)
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4727  			crtc_state->output_types |=
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4728  				BIT(encoder->compute_output_type(encoder, crtc_state,
-7e732cacb1ae27 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2017-10-27  4729  								 connector_state));
-7e732cacb1ae27 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2017-10-27  4730  		else
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4731  			crtc_state->output_types |= BIT(encoder->type);
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4732  	}
-253c84c82aaeb9 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2016-06-22  4733  
-ef1b460d1bab7e drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-06-01  4734  	/* Ensure the port clock defaults are reset when retrying. */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4735  	crtc_state->port_clock = 0;
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4736  	crtc_state->pixel_multiplier = 1;
-ff9a6750aca355 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-06-01  4737  
-135c81b8c3c9a7 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-07-21  4738  	/* Fill in default crtc timings, allow encoders to overwrite them. */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4739  	drm_mode_set_crtcinfo(&crtc_state->hw.adjusted_mode,
-2d112de7db9d2c drivers/gpu/drm/i915/intel_display.c         Ander Conselvan de Oliveira 2015-01-15  4740  			      CRTC_STEREO_DOUBLE);
-135c81b8c3c9a7 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-07-21  4741  
-7758a11340cc88 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2012-07-08  4742  	/* Pass our mode to the connectors and the CRTC to give them a chance to
-7758a11340cc88 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2012-07-08  4743  	 * adjust it according to limitations or connector properties, and also
-7758a11340cc88 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2012-07-08  4744  	 * a chance to reject the mode entirely.
-f6e5b1603b8bb7 drivers/gpu/drm/i915/intel_display.c         Chris Wilson                2011-04-12  4745  	 */
-aa07c1d3be699b drivers/gpu/drm/i915/display/intel_display.c Manasi Navare               2020-11-13  4746  	for_each_new_connector_in_state(&state->base, connector, connector_state, i) {
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4747  		struct intel_encoder *encoder =
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4748  			to_intel_encoder(connector_state->best_encoder);
-691313ea621482 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2020-01-15  4749  
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4750  		if (connector_state->crtc != &crtc->base)
-7758a11340cc88 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2012-07-08  4751  			continue;
-7ae892337e3357 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-03-27  4752  
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4753  		ret = encoder->compute_config(encoder, crtc_state,
-204474a6b859ff drivers/gpu/drm/i915/intel_display.c         Lyude Paul                  2019-01-15  4754  					      connector_state);
-048a57fc0d6ab7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2021-09-30  4755  		if (ret == -EDEADLK)
-048a57fc0d6ab7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2021-09-30  4756  			return ret;
-204474a6b859ff drivers/gpu/drm/i915/intel_display.c         Lyude Paul                  2019-01-15  4757  		if (ret < 0) {
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4758  			drm_dbg_kms(&i915->drm, "[ENCODER:%d:%s] config failure: %d\n",
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4759  				    encoder->base.base.id, encoder->base.name, ret);
-204474a6b859ff drivers/gpu/drm/i915/intel_display.c         Lyude Paul                  2019-01-15  4760  			return ret;
-7ae892337e3357 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-03-27  4761  		}
-ee7b9f93fd96a7 drivers/gpu/drm/i915/intel_display.c         Jesse Barnes                2012-04-20  4762  	}
-ee7b9f93fd96a7 drivers/gpu/drm/i915/intel_display.c         Jesse Barnes                2012-04-20  4763  
-ff9a6750aca355 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-06-01  4764  	/* Set default port clock if not overwritten by the encoder. Needs to be
-ff9a6750aca355 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-06-01  4765  	 * done afterwards in case the encoder adjusts the mode. */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4766  	if (!crtc_state->port_clock)
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4767  		crtc_state->port_clock = crtc_state->hw.adjusted_mode.crtc_clock
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4768  			* crtc_state->pixel_multiplier;
-ff9a6750aca355 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-06-01  4769  
-3d140a3d881608 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4770  	ret = intel_crtc_compute_config(state, crtc);
-8e2b4dffeca0a4 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4771  	if (ret == -EDEADLK)
-d26592c601ec24 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4772  		return ret;
-a23299bb9a49f0 drivers/gpu/drm/i915/display/intel_display.c Jani Nikula                 2021-09-30  4773  	if (ret < 0) {
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4774  		drm_dbg_kms(&i915->drm, "[CRTC:%d:%s] config failure: %d\n",
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4775  			    crtc->base.base.id, crtc->base.name, ret);
-a23299bb9a49f0 drivers/gpu/drm/i915/display/intel_display.c Jani Nikula                 2021-09-30  4776  		return ret;
-a23299bb9a49f0 drivers/gpu/drm/i915/display/intel_display.c Jani Nikula                 2021-09-30  4777  	}
-e29c22c0c4fefe drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-02-21  4778  
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4779  	for_each_new_connector_in_state(&state->base, connector,
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4780  					connector_state, i) {
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4781  		struct intel_encoder *encoder =
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4782  			to_intel_encoder(connector_state->best_encoder);
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4783  
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4784  		if (connector_state->crtc != &crtc->base)
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4785  			continue;
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4786  
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4787  		intel_dp = enc_to_intel_dp(encoder);
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4788  
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4789  		if (!intel_dp)
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4790  			continue;
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4791  
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25 @4792  		if ((intel_dp_is_edp(intel_dp) && fixed_mode) ||
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4793  		    crtc_state->output_format == INTEL_OUTPUT_FORMAT_YCBCR420)
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4794  			return intel_pch_panel_fitting(crtc_state, connector_state);
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4795  	}
-f1c6f5c8170cef drivers/gpu/drm/i915/display/intel_display.c Nemesa Garg                 2024-09-25  4796  
-e8fa4270536de2 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2015-08-12  4797  	/* Dithering seems to not pass-through bits correctly when it should, so
-611032bfa71a76 drivers/gpu/drm/i915/intel_display.c         Manasi Navare               2017-01-24  4798  	 * only enable it on 6bpc panels and when its not a compliance
-611032bfa71a76 drivers/gpu/drm/i915/intel_display.c         Manasi Navare               2017-01-24  4799  	 * test requesting 6bpc video pattern.
-611032bfa71a76 drivers/gpu/drm/i915/intel_display.c         Manasi Navare               2017-01-24  4800  	 */
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4801  	crtc_state->dither = (crtc_state->pipe_bpp == 6*3) &&
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4802  		!crtc_state->dither_force_disable;
-cd49f81806815b drivers/gpu/drm/i915/display/intel_display.c Wambui Karuga               2020-01-22  4803  	drm_dbg_kms(&i915->drm,
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4804  		    "[CRTC:%d:%s] hw max bpp: %i, pipe bpp: %i, dithering: %i\n",
-58ae532ee87578 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4805  		    crtc->base.base.id, crtc->base.name,
-aa71f9870efea7 drivers/gpu/drm/i915/display/intel_display.c Ville Syrjälä               2022-05-03  4806  		    base_bpp, crtc_state->pipe_bpp, crtc_state->dither);
-4e53c2e010e531 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter               2013-03-27  4807  
-d26592c601ec24 drivers/gpu/drm/i915/intel_display.c         Ville Syrjälä               2018-11-07  4808  	return 0;
-ee7b9f93fd96a7 drivers/gpu/drm/i915/intel_display.c         Jesse Barnes                2012-04-20  4809  }
+d72498fad93abf Shuming Fan 2024-09-14  565  					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
+d72498fad93abf Shuming Fan 2024-09-14  566  					goto _exit_;
+d72498fad93abf Shuming Fan 2024-09-14  567  				}
+d72498fad93abf Shuming Fan 2024-09-14  568  				if (val > 0xff) {
+d72498fad93abf Shuming Fan 2024-09-14  569  					dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
+d72498fad93abf Shuming Fan 2024-09-14  570  					goto _exit_;
+d72498fad93abf Shuming Fan 2024-09-14  571  				}
+d72498fad93abf Shuming Fan 2024-09-14  572  				regmap_write(rt1320->regmap, addr, val);
+d72498fad93abf Shuming Fan 2024-09-14  573  			}
+d72498fad93abf Shuming Fan 2024-09-14  574  		}
+d72498fad93abf Shuming Fan 2024-09-14  575  _exit_:
+d72498fad93abf Shuming Fan 2024-09-14  576  		release_firmware(patch);
+d72498fad93abf Shuming Fan 2024-09-14  577  	}
+d72498fad93abf Shuming Fan 2024-09-14  578  }
 
 -- 
 0-DAY CI Kernel Test Service
