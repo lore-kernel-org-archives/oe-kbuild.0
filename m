@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC480054
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 05:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF5417996
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 08:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727848559; cv=none; b=JPNx6fMA5sAnhZpz4Lk8iCPP13y5VLcoQAffYpON0oMHmuEUm8fCl5x3ox+0C2CfTUS+3pcBI8GTo/s5UU6qWNCMnb1AJOFU84KZXQSKUe48AbJTShES3m78U5eQgkTHatTrCrPVhlvJwwQdaWOPQRImDdR6fHqRWxrH4r+fOOg=
+	t=1727857868; cv=none; b=m2Pn6HjmW7LQIgq0fKVaF9398U42i/ScMJKXSpZ1uyqAGS6q86A0hLH54ZKt0/l4TvpCd4bzR2Ybzv7Od73B21//T4G8XJbEH0xhpR2RA4aVZov9Bpv6stwvSe8pdLdSwnFnntnbBakY4/kaICoosivdUr7Nsmf2LDbpymyXVc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727848559; c=relaxed/simple;
-	bh=898bvzlNd9nwHH33VHs6tFk1db143knrb+lwfuj+btc=;
+	s=arc-20240116; t=1727857868; c=relaxed/simple;
+	bh=HEIPBP5FmsapIAEyPlEz09Xb4PV58ATxA2j7g7pN6K4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XX5MJlv1AAeITS6PtBAhi0h7/ee/PbhcEnY0HabpLJROIFqk9XmvJQrdT6OFFZlWW1kgQMQEowbKu4xczHW5M5AhIZmx4wrREJH60fovbwwgge9XWfw9S8NIeVLlsn4nei35cqsiPrZZ1YGEQaLuWR/TGluqW18w1I4aDCGMydg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AP+xPwBD; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=LGl1MGrsYqHeoZsyvoum1R14DLr4iIF7PAvgp+OAkZ8cPB2QWcZjNCpfZYRB0TGh7ZNN0f3774yRhUCpWqQosMIE88ggzZ78w7nKdO5vtZZ4Wa8caMBaxbwAfbu6wytrOqe+cSyIsXdostpQTbbb1tuU1s7RMZ9UuBByPgqgRmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eo6snPDY; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AP+xPwBD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eo6snPDY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727848557; x=1759384557;
+  t=1727857866; x=1759393866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=898bvzlNd9nwHH33VHs6tFk1db143knrb+lwfuj+btc=;
-  b=AP+xPwBD8m422EwjEmZakFYuPkG4u2jEhcRQGCN9cXZvnad92V/bLsZu
-   Nti83E93CMft1tgLRo1iP6plsJS3RTSPjTQ9EjcBP/EullF4UQXc+Yknl
-   pMLtu++2YvCX2+Vb+AVG3e0Byqw3GmGW4s1r/Dy0VzLn2rvv+V2zyIyYp
-   HEjKAFTdUnndSqetwhi/biRjltjwjNavCcG9IVTbSm+QaFT2VtmsASCoP
-   b2bFVkRviAWJcsRNUZVpOP8Q0IDcLcfG4hlc376MTBefsD4+pph2tZb8x
-   D7o2j3Y27aeTicFjypdw8eMk+A9Ordtz+BK6ROuQ+cfEoeFhOQRuOj5T5
+  bh=HEIPBP5FmsapIAEyPlEz09Xb4PV58ATxA2j7g7pN6K4=;
+  b=Eo6snPDYMxIkAJIqkCQUlWbkUBlU6d7vRXLFQlsq55+OPJOgSP1pfbpE
+   CmM22f1JurxKFAuNXoiEUyp4e1MBfyvtgx0C+DkCTT6zx2FxwFE6sk/9H
+   uaI4UiiiLFl0EukCSY/9HOxojnqn4nyk0VOak2ChfCOGtxazJGMbV7Nh9
+   +FXI7vx5kOrTDJh+5oxZXGXisxATQHhKwm5CEIIBSbwVa4JGvqUQOd9e3
+   hZEhnQNt0b7xxprLyMw8FzmRxpbRid1CFLJzsoiBRS5HdcVpDVAIBKnRr
+   plcB/8u5mz9+pkLrAfuE7KLv7vrWcY2aBEez3MnXAJbIgPEqDJqcAyBZh
    w==;
-X-CSE-ConnectionGUID: DwxMEigVSXiFdWqsd1CX/g==
-X-CSE-MsgGUID: 2Z4oDuzARNCtNAkYh2rZ8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27098422"
-X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="27098422"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 22:55:54 -0700
-X-CSE-ConnectionGUID: ciNxzoVkQ/q87RdTCQA6rg==
-X-CSE-MsgGUID: 6ZoqnPuySF2EWOMS848YPw==
+X-CSE-ConnectionGUID: INKJFR4ZSD+J+zkYX4zObw==
+X-CSE-MsgGUID: qHbtEUSiQ7+eyo6paQrjkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26522388"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="26522388"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 01:31:06 -0700
+X-CSE-ConnectionGUID: wVHojARvS4Wp47iE5nctaA==
+X-CSE-MsgGUID: HokuvYGiRG6FAJRGUL6y0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="73926527"
+X-IronPort-AV: E=Sophos;i="6.11,171,1725346800"; 
+   d="scan'208";a="73603559"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Oct 2024 22:55:52 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Oct 2024 01:31:04 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svsKz-000Rbh-32;
-	Wed, 02 Oct 2024 05:55:49 +0000
-Date: Wed, 2 Oct 2024 13:55:07 +0800
+	id 1svulC-000Ro3-2o;
+	Wed, 02 Oct 2024 08:31:02 +0000
+Date: Wed, 2 Oct 2024 16:31:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [asahilinux:bits/240-isp 22/52]
- drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function
- "for_each_child_of_node" should have of_node_put() before goto around lines
- 197.
-Message-ID: <202410021337.EQ74x7c7-lkp@intel.com>
+Subject: drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the
+ index variable of the iterator on line 375
+Message-ID: <202410021630.rUC7P0GI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,97 +64,80 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Asahi Lina <lina@asahilina.net>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: Stephan Gerhold <stephan@gerhold.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/240-isp
-head:   2eb812826ec58e3b803055a8aa0fd857f1675f14
-commit: b4d2b4922ce8a77666206a64314192e08c1aca0a [22/52] media: apple: isp: Working t602x and multiple formats and more fixes
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: arc-randconfig-r062-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021337.EQ74x7c7-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e32cde8d2bd7d251a8f9b434143977ddf13dcec6
+commit: 2b391c4ca735d0633bcdca5f83939c9791405225 pmdomain: core: Scale down parent/child performance states in reverse order
+date:   8 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 8 months ago
+config: arc-randconfig-r052-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021630.rUC7P0GI-lkp@intel.com/config)
 compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410021337.EQ74x7c7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410021630.rUC7P0GI-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 197.
-   drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 201.
+>> drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the index variable of the iterator on line 375
 
-vim +/for_each_child_of_node +183 drivers/media/platform/apple/isp/isp-drv.c
+vim +385 drivers/pmdomain/core.c
 
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  154  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  155  static int apple_isp_init_presets(struct apple_isp *isp)
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  156  {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  157  	struct device *dev = isp->dev;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  158  	struct device_node *np, *child;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  159  	struct isp_preset *preset;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  160  	int err = 0;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  161  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  162  	np = of_get_child_by_name(dev->of_node, "sensor-presets");
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  163  	if (!np) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  164  		dev_err(dev, "failed to get DT node 'presets'\n");
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  165  		return -EINVAL;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  166  	}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  167  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  168  	isp->num_presets = of_get_child_count(np);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  169  	if (!isp->num_presets) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  170  		dev_err(dev, "no sensor presets found\n");
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  171  		err = -EINVAL;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  172  		goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  173  	}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  174  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  175  	isp->presets = devm_kzalloc(
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  176  		dev, sizeof(*isp->presets) * isp->num_presets, GFP_KERNEL);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  177  	if (!isp->presets) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  178  		err = -ENOMEM;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  179  		goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  180  	}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  181  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  182  	preset = isp->presets;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24 @183  	for_each_child_of_node(np, child) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  184  		u32 xywh[4];
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  185  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  186  		err = of_property_read_u32(child, "apple,config-index",
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  187  					   &preset->index);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  188  		if (err) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  189  			dev_err(dev, "no apple,config-index property\n");
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  190  			of_node_put(child);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  191  			goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  192  		}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  193  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  194  		err = isp_of_read_coord(dev, child, "apple,input-size",
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  195  					&preset->input_dim);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  196  		if (err)
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  197  			goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  198  		err = isp_of_read_coord(dev, child, "apple,output-size",
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  199  					&preset->output_dim);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  200  		if (err)
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  201  			goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  202  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  203  		err = of_property_read_u32_array(child, "apple,crop", xywh, 4);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  204  		if (err) {
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  205  			dev_err(dev, "failed to read 'apple,crop' property\n");
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  206  			of_node_put(child);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  207  			goto err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  208  		}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  209  		preset->crop_offset.x = xywh[0];
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  210  		preset->crop_offset.y = xywh[1];
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  211  		preset->crop_size.x = xywh[2];
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  212  		preset->crop_size.y = xywh[3];
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  213  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  214  		preset++;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  215  	}
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  216  
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  217  err:
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  218  	of_node_put(np);
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  219  	return err;
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  220  }
-b4d2b4922ce8a7 Asahi Lina 2023-09-24  221  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  363  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  364  static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  365  					unsigned int state, int depth)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  366  {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  367  	struct gpd_link *link = NULL;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  368  	int ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  369  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  370  	if (state == genpd->performance_state)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  371  		return 0;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  372  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  373  	/* When scaling up, propagate to parents first in normal order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  374  	if (state > genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @375  		list_for_each_entry(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  376  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  377  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  378  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  379  		}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  380  	}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  381  
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  382  	if (genpd->set_performance_state) {
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  383  		ret = genpd->set_performance_state(genpd, state);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  384  		if (ret) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @385  			if (link)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  386  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  387  			return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  388  		}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  389  	}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  390  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  391  	/* When scaling down, propagate to parents last in reverse order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  392  	if (state < genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  393  		list_for_each_entry_reverse(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  394  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  395  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  396  				goto rollback_parents_down;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  397  		}
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  398  	}
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  399  
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  400  	genpd->performance_state = state;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  401  	return 0;
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  402  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  403  rollback_parents_up:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  404  	list_for_each_entry_continue_reverse(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  405  		_genpd_rollback_parent_state(link, depth);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  406  	return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  407  rollback_parents_down:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  408  	list_for_each_entry_continue(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  409  		_genpd_rollback_parent_state(link, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  410  	return ret;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  411  }
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  412  
 
 -- 
 0-DAY CI Kernel Test Service
