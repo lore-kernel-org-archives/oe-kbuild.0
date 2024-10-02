@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDBB17741
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 03:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D351078F
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 03:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727838707; cv=none; b=P5Eqqb+KQ76tDKsDSk8V+8SaUJcWcJvmqwI2JIvoZm4o/iRMdY7bg/Uk27RWapFGcJ0Yx7yWFmv8HYmZmKNZZ7hNUP6rI/WMoHQG4hCscNuAoKNNlyQOPo7QrGpgkNjenYzkTuWZ/lGHC/bs79ElMEbu6vOck0UsTabN49C4GkU=
+	t=1727839969; cv=none; b=pa4YtWbVrf71Oh3aZxjOF4sB7hYmbbMrr/jJ335ojyM7+lXewDwCZZOPf8LiNvau5Z+S9tnVkgkDEIdEyczJB5p+QyLqckk7LEk2c1Huq83CmLGZBUtpiZy3WsPGwEkGPoj4nUNsK1woNQm0h2vut/TUI9Vv27E2YuXVRoHgSKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727838707; c=relaxed/simple;
-	bh=MeRBKh6aflCAH7DPDY6qWg/gBf37TitWj7/+2bF8arY=;
+	s=arc-20240116; t=1727839969; c=relaxed/simple;
+	bh=98DM57b6wG4vLHYEG6w8eAeTW5ERzwynVOx19YsAUbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZbKzhz5vmSmzp/VA3fkbK4HApizLi1m16s1Vd+/TWGV4sSpzr9Seg7qVTGE54VE4o5s+OhGlwc99u2jAQh3alxOm35VOlXXwGgTknv0eZOhQe6vdeBsugCpk+BeL5bnpm0FJzG3xV1FbXGV54ZAU2jJMSrLitItb5f1ObGSiyEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NQGWULgc; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=WZ4H6qpYIZ25DaSY/yq5zuR52zzCZz6zlXPyfA4KhqB0Lbkt/J5VWWeTaAPhQJlMmwTySQqqCZCpSEdfaGp2za7+sdZTLsNbPHBqS1R7aR+smSM7PWeBCaEsNg0NTuGNh57nGIeixsUKpeXYNSZPwsq68bJ02ogEzmmAkbAeutw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PUpXOU6T; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NQGWULgc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PUpXOU6T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727838706; x=1759374706;
+  t=1727839967; x=1759375967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MeRBKh6aflCAH7DPDY6qWg/gBf37TitWj7/+2bF8arY=;
-  b=NQGWULgcP0wWJavKqT+oOzVt8gpDONFSXprEQEkMhMCMi/Ug1+O+1oRH
-   3OUu49WXRO6lpMyU92C+u0zfbDbcZD8nVnQwolqWjqAFZ0y3HfOLaCvcT
-   kl/UoBSSiHDU9YKWcCADJ/II3upJhXtSWj9440Osn8HxmsPalkY/yOpqd
-   9OQAoIBahmEGdtFDovI4PyrXocuF/CtYiByURrIDhtv8eeuo8+Egp5aGS
-   rgM8sbcb8TryHxI3nA+e7nn2SmgEQaSNfQ+uLpwDhlOmZGYvaGAwqpajs
-   xaJdUrBc5Z35MpLtPamPJkbFagJ3tjynMVSsb59w0y+5MImHz5L7XASN8
-   Q==;
-X-CSE-ConnectionGUID: 1S7/Io9rSvaQ22ZfQ9XxFg==
-X-CSE-MsgGUID: cdDnVbjYRWmzzShmM1AhNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="29875557"
+  bh=98DM57b6wG4vLHYEG6w8eAeTW5ERzwynVOx19YsAUbA=;
+  b=PUpXOU6TUYwDVqIcS64tB8AHuaDJ9WntImU1CcIdCKKOvc/8RGaYVFEh
+   fr+y5wWuC4swl4Kxtd6Ijutct5mtF/UiLoM4oMAas+Sv8QK+bBLtNgYWW
+   ibSukCdUaasXTDFr4xNe1YrOwnFio+6y+CExCO5mC7jNimgfnPUncv0Yx
+   HZ3AUdfK+8snR18uk5fukI8mTFNUKFzNnj7YfNM/aKsVds4o568dlO2Q6
+   QA/N7436bQ0KpzTo8BfYGa/zY3GS8VqWq7ovVxVGkPgD1vZKCFQt4Z3fC
+   CkgciiXe5xbj1BruQ8J9AQBGh3UEQHokHeSXX1p7aNh+WepBdOf+x0u/G
+   w==;
+X-CSE-ConnectionGUID: BPQiWUBeRQmkdxz8hdgHRw==
+X-CSE-MsgGUID: XGabVWJ8Qd+b3mDTE+zIJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="26883713"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="29875557"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:11:46 -0700
-X-CSE-ConnectionGUID: t8ev1BQuQ1ukTNnWuvH/SA==
-X-CSE-MsgGUID: u3BaHgUzTxy7DVS5O42O0A==
+   d="scan'208";a="26883713"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 20:32:46 -0700
+X-CSE-ConnectionGUID: ANII7SalSlGTc2qxVRIc9w==
+X-CSE-MsgGUID: 6Kblo/R9QuCfQbcDWrJpVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="78850331"
+   d="scan'208";a="111357728"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Oct 2024 20:11:45 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Oct 2024 20:32:46 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svpm9-000RTn-3D;
-	Wed, 02 Oct 2024 03:11:41 +0000
-Date: Wed, 2 Oct 2024 11:11:36 +0800
+	id 1svq6V-000RVS-0r;
+	Wed, 02 Oct 2024 03:32:43 +0000
+Date: Wed, 2 Oct 2024 11:32:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCHv2] drm/i915/dp: Guarantee a minimum HBlank time
-Message-ID: <202410021032.BpJez1ja-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [broonie-sound:for-6.13 11/21]
+ arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb:
+ audio-codec@1c: realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4,
+ 5, 6]
+Message-ID: <202410021128.iTJki1Z2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,72 +64,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241001074348.2193502-1-arun.r.murthy@intel.com>
-References: <20241001074348.2193502-1-arun.r.murthy@intel.com>
-TO: Arun R Murthy <arun.r.murthy@intel.com>
-TO: intel-xe@lists.freedesktop.org
-TO: intel-gfx@lists.freedesktop.org
-CC: Arun R Murthy <arun.r.murthy@intel.com>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Rob Herring (Arm)" <robh@kernel.org>
 
-Hi Arun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on linus/master v6.12-rc1 next-20241001]
-[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arun-R-Murthy/drm-i915-dp-Guarantee-a-minimum-HBlank-time/20241001-155536
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20241001074348.2193502-1-arun.r.murthy%40intel.com
-patch subject: [PATCHv2] drm/i915/dp: Guarantee a minimum HBlank time
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-104-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021032.BpJez1ja-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6.13
+head:   436bf27903ee56a242bcd373053dd8d1b5d17915
+commit: eba5a0bac211075b9673139df42bab955e984fce [11/21] ASoC: dt-bindings: realtek,rt5640: Convert to dtschema
+:::::: branch date: 14 hours ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-051-20241001 (https://download.01.org/0day-ci/archive/20241002/202410021128.iTJki1Z2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241002/202410021128.iTJki1Z2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410021032.BpJez1ja-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410021128.iTJki1Z2-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_dp_mst.c:178:32-33: WARNING opportunity for max()
-   drivers/gpu/drm/i915/display/intel_dp_mst.c:180:32-33: WARNING opportunity for max()
-
-vim +178 drivers/gpu/drm/i915/display/intel_dp_mst.c
-
-9069b77545ca5a Imre Deak     2023-11-17  158  
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  159  static void intel_dp_mst_compute_min_hblank(struct intel_crtc_state *crtc_state,
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  160  					    struct intel_connector *intel_connector,
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  161  					    int bpp_x16)
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  162  {
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  163  	struct intel_encoder *intel_encoder = intel_connector->encoder;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  164  	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(intel_encoder);
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  165  	struct intel_dp *intel_dp = &intel_mst->primary->dp;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  166  	struct intel_display *intel_display = to_intel_display(intel_encoder);
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  167  	const struct drm_display_mode *adjusted_mode =
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  168  					&crtc_state->hw.adjusted_mode;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  169  	u32 symbol_size = intel_dp_is_uhbr(crtc_state) ? 32 : 8;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  170  	u32 hblank;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  171  
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  172  	if (DISPLAY_VER(intel_display) < 20)
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  173  		return;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  174  
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  175  	/* Calculate min Hblank Link Layer Symbol Cycle Count for 8b/10b MST & 128b/132b */
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  176  	hblank = DIV_ROUND_UP((DIV_ROUND_UP(adjusted_mode->htotal - adjusted_mode->hdisplay, 4) * bpp_x16), symbol_size);
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  177  	if (intel_dp_is_uhbr(crtc_state))
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01 @178  		intel_dp->min_hblank = hblank > 5 ? hblank : 5;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  179  	else
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  180  		intel_dp->min_hblank = hblank > 3 ? hblank : 3;
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  181  }
-9ffe2a8e0d3097 Arun R Murthy 2024-10-01  182  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: gpio@2200000: 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
+>> arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c: realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: audio-codec@1c: Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra234-hda'] is too short
+   	'nvidia,tegra30-hda' was expected
+   	'nvidia,tegra132-hda' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3737-0000+p3701-0000.dtb: hda@3510000: reset-names:1: 'hda2hdmi' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+--
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: gpio@2200000: 'gpio-ranges' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpio/nvidia,tegra186-gpio.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: ahub@2900800: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-ahub.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: admaif@290f000: 'interconnect-names', 'interconnects', 'iommus' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra210-admaif.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c: realtek,jack-detect-source: 7 is not one of [0, 1, 2, 3, 4, 5, 6]
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+>> arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: audio-codec@1c: Unevaluated properties are not allowed ('clock-names', 'clocks', 'port', 'realtek,jack-detect-source' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: /bus@0/serial@31d0000: failed to match any schema with compatible: ['arm,sbsa-uart']
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: hda@3510000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['nvidia,tegra234-hda'] is too short
+   	'nvidia,tegra30-hda' was expected
+   	'nvidia,tegra132-hda' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: hda@3510000: clock-names:1: 'hda2hdmi' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/nvidia,tegra30-hda.yaml#
+   arch/arm64/boot/dts/nvidia/tegra234-p3740-0002+p3701-0008.dtb: hda@3510000: reset-names:1: 'hda2hdmi' was expected
+--
+>> arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: codec@1c: Unevaluated properties are not allowed ('clock-names', 'clocks', 'port' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: codec@1c: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/rockchip/rk3368-lba3368.dtb: /mbox@ff6b0000: failed to match any schema with compatible: ['rockchip,rk3368-mailbox']
+--
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:530.26-564.4: Warning (unit_address_vs_reg): /usb@fe800000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:566.26-600.4: Warning (unit_address_vs_reg): /usb@fe900000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2063.25-2102.4: Warning (avoid_unnecessary_addr_size): /dsi@ff960000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /dp@fec00000: failed to match any schema with compatible: ['rockchip,rk3399-cdn-dp']
+>> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: rt5640@1c: Unevaluated properties are not allowed ('clock-names', 'clocks' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: rt5640@1c: 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: syscon@ff770000: usb2phy@e450: Unevaluated properties are not allowed ('port' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/soc/rockchip/grf.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: usb2phy@e450: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/phy/rockchip,inno-usb2phy.yaml#
+   arch/arm64/boot/dts/rockchip/rk3399-firefly.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
 
 -- 
 0-DAY CI Kernel Test Service
