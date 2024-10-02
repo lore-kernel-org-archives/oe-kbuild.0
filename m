@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC301862F
-	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 05:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EC480054
+	for <oe-kbuild@lists.linux.dev>; Wed,  2 Oct 2024 05:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727847296; cv=none; b=MkGpQ8cu+ypgO+7x8aOUmKUN0RoHwvcmG5cxXatA7WiIK1uU5jJFwOsO9S1WSUsDdQdWiMIOkjS9RbGlrKEoUEek78boJGhA9CwqN2XEeTRY82pEM5D1eONpT8gi2CJpmXV+mqxgqH3zHtXvh1WssXqdPXhEaVsZU29ywPiTjkI=
+	t=1727848559; cv=none; b=JPNx6fMA5sAnhZpz4Lk8iCPP13y5VLcoQAffYpON0oMHmuEUm8fCl5x3ox+0C2CfTUS+3pcBI8GTo/s5UU6qWNCMnb1AJOFU84KZXQSKUe48AbJTShES3m78U5eQgkTHatTrCrPVhlvJwwQdaWOPQRImDdR6fHqRWxrH4r+fOOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727847296; c=relaxed/simple;
-	bh=FupSi284oVlg0NUfBRVd7pqiJWpc8KyH9FC/7SWWO/I=;
+	s=arc-20240116; t=1727848559; c=relaxed/simple;
+	bh=898bvzlNd9nwHH33VHs6tFk1db143knrb+lwfuj+btc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fDF1/guUfhmE0gXQn3C6FG9hLaRAExqObT9kfumAVfwDIp7LWTgFxDKp4PL8qQVgw3ypDHITkNQeyYY1oh+/8C4rdfmrNRxUagieDSd8S1Lmy1BmnsvWZsZA92ekoxigHvA19pajbwO8K2bfblkgUpeQoralW4F6HfCwIhbtoxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQupdmpW; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=XX5MJlv1AAeITS6PtBAhi0h7/ee/PbhcEnY0HabpLJROIFqk9XmvJQrdT6OFFZlWW1kgQMQEowbKu4xczHW5M5AhIZmx4wrREJH60fovbwwgge9XWfw9S8NIeVLlsn4nei35cqsiPrZZ1YGEQaLuWR/TGluqW18w1I4aDCGMydg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AP+xPwBD; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQupdmpW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AP+xPwBD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727847294; x=1759383294;
+  t=1727848557; x=1759384557;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FupSi284oVlg0NUfBRVd7pqiJWpc8KyH9FC/7SWWO/I=;
-  b=YQupdmpWx3eil2ka67BTRL3I3iGO3ca3gpxzrQ3RIDyeRAe0G8GW338U
-   drjkMvwPIt0dMMTpym6y4mAPm5ovlfoUey0/W/LjgThE9Jg9+y9QZqAtx
-   vBG0m6eOMd/TRcrx7ZvW/A9LQOmrhPNcHcCNZS+e57MNxk2fgv+oVVKXP
-   p2Q5qcjZ3/XIZK65kcBNrwmilj56Sksy/qoIt9tCD43mATVz4SR/f+sm8
-   uOjVFYWzuuWlMt6qpcDzWr5PiMt984HjDTPz6InBnwV6dqfacDe0F5OF9
-   l/Win404SKfnwsXEkL+c2XzzHfp1uxdwLBhZDmJ+TN64K3R8DT480rCOm
+  bh=898bvzlNd9nwHH33VHs6tFk1db143knrb+lwfuj+btc=;
+  b=AP+xPwBD8m422EwjEmZakFYuPkG4u2jEhcRQGCN9cXZvnad92V/bLsZu
+   Nti83E93CMft1tgLRo1iP6plsJS3RTSPjTQ9EjcBP/EullF4UQXc+Yknl
+   pMLtu++2YvCX2+Vb+AVG3e0Byqw3GmGW4s1r/Dy0VzLn2rvv+V2zyIyYp
+   HEjKAFTdUnndSqetwhi/biRjltjwjNavCcG9IVTbSm+QaFT2VtmsASCoP
+   b2bFVkRviAWJcsRNUZVpOP8Q0IDcLcfG4hlc376MTBefsD4+pph2tZb8x
+   D7o2j3Y27aeTicFjypdw8eMk+A9Ordtz+BK6ROuQ+cfEoeFhOQRuOj5T5
    w==;
-X-CSE-ConnectionGUID: ApWxjlFdS/qB+iIYIsIVtg==
-X-CSE-MsgGUID: Zo1ptlG/RVOM4joOiDTB2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="44529052"
+X-CSE-ConnectionGUID: DwxMEigVSXiFdWqsd1CX/g==
+X-CSE-MsgGUID: 2Z4oDuzARNCtNAkYh2rZ8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27098422"
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="44529052"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 22:34:54 -0700
-X-CSE-ConnectionGUID: kR7w8jyzRCm0BO2bBi8bgQ==
-X-CSE-MsgGUID: 6OT1GJuLRqm6c+WAze9N5w==
+   d="scan'208";a="27098422"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 22:55:54 -0700
+X-CSE-ConnectionGUID: ciNxzoVkQ/q87RdTCQA6rg==
+X-CSE-MsgGUID: 6ZoqnPuySF2EWOMS848YPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,170,1725346800"; 
-   d="scan'208";a="73503846"
+   d="scan'208";a="73926527"
 Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Oct 2024 22:34:52 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Oct 2024 22:55:52 -0700
 Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1svs0f-000Rat-1S;
-	Wed, 02 Oct 2024 05:34:49 +0000
-Date: Wed, 2 Oct 2024 13:34:45 +0800
+	id 1svsKz-000Rbh-32;
+	Wed, 02 Oct 2024 05:55:49 +0000
+Date: Wed, 2 Oct 2024 13:55:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in jfs_readdir
-Message-ID: <202410021342.rhWwr3MC-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [asahilinux:bits/240-isp 22/52]
+ drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function
+ "for_each_child_of_node" should have of_node_put() before goto around lines
+ 197.
+Message-ID: <202410021337.EQ74x7c7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,399 +66,97 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241001060548.3090738-1-ghanshyam1898@gmail.com>
-References: <20241001060548.3090738-1-ghanshyam1898@gmail.com>
-TO: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-TO: shaggy@kernel.org
-TO: eadavis@qq.com
-TO: osmtendev@gmail.com
-TO: ghandatmanas@gmail.com
-CC: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-CC: jfs-discussion@lists.sourceforge.net
-CC: linux-kernel@vger.kernel.org
-CC: syzbot+0315f8fe99120601ba88@syzkaller.appspotmail.com
+TO: Asahi Lina <lina@asahilina.net>
+CC: Janne Grunau <j@jannau.net>
 
-Hi Ghanshyam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kleikamp-shaggy/jfs-next]
-[also build test WARNING on linus/master v6.12-rc1 next-20241001]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ghanshyam-Agrawal/jfs-fix-array-index-out-of-bounds-in-jfs_readdir/20241001-140626
-base:   https://github.com/kleikamp/linux-shaggy jfs-next
-patch link:    https://lore.kernel.org/r/20241001060548.3090738-1-ghanshyam1898%40gmail.com
-patch subject: [PATCH] jfs: fix array-index-out-of-bounds in jfs_readdir
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: i386-randconfig-141-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021342.rhWwr3MC-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://github.com/AsahiLinux/linux bits/240-isp
+head:   2eb812826ec58e3b803055a8aa0fd857f1675f14
+commit: b4d2b4922ce8a77666206a64314192e08c1aca0a [22/52] media: apple: isp: Working t602x and multiple formats and more fixes
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
+config: arc-randconfig-r062-20241002 (https://download.01.org/0day-ci/archive/20241002/202410021337.EQ74x7c7-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410021342.rhWwr3MC-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410021337.EQ74x7c7-lkp@intel.com/
 
-smatch warnings:
-fs/jfs/jfs_dtree.c:2894 jfs_readdir() warn: impossible condition '(stbl[i] > 127) => (0-127 > 127)'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 197.
+   drivers/media/platform/apple/isp/isp-drv.c:183:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 201.
 
-vim +2894 fs/jfs/jfs_dtree.c
+vim +/for_each_child_of_node +183 drivers/media/platform/apple/isp/isp-drv.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2690  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2691  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2692   *	jfs_readdir()
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2693   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2694   * function: read directory entries sequentially
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2695   *	from the specified entry offset
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2696   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2697   * parameter:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2698   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2699   * return: offset = (pn, index) of start entry
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2700   *	of next jfs_readdir()/dtRead()
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2701   */
-070a0ebf42e15c Al Viro           2013-05-17  2702  int jfs_readdir(struct file *file, struct dir_context *ctx)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2703  {
-070a0ebf42e15c Al Viro           2013-05-17  2704  	struct inode *ip = file_inode(file);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2705  	struct nls_table *codepage = JFS_SBI(ip->i_sb)->nls_tab;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2706  	int rc = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2707  	loff_t dtpos;	/* legacy OS/2 style position */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2708  	struct dtoffset {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2709  		s16 pn;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2710  		s16 index;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2711  		s32 unused;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2712  	} *dtoffset = (struct dtoffset *) &dtpos;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2713  	s64 bn;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2714  	struct metapage *mp;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2715  	dtpage_t *p;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2716  	int index;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2717  	s8 *stbl;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2718  	struct btstack btstack;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2719  	int i, next;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2720  	struct ldtentry *d;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2721  	struct dtslot *t;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2722  	int d_namleft, len, outlen;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2723  	unsigned long dirent_buf;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2724  	char *name_ptr;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2725  	u32 dir_index;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2726  	int do_index = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2727  	uint loop_count = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2728  	struct jfs_dirent *jfs_dirent;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2729  	int jfs_dirents;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2730  	int overflow, fix_page, page_fixed = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2731  	static int unique_pos = 2;	/* If we can't fix broken index */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2732  
-070a0ebf42e15c Al Viro           2013-05-17  2733  	if (ctx->pos == DIREND)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2734  		return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2735  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2736  	if (DO_INDEX(ip)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2737  		/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2738  		 * persistent index is stored in directory entries.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2739  		 * Special cases:	 0 = .
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2740  		 *			 1 = ..
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2741  		 *			-1 = End of directory
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2742  		 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2743  		do_index = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2744  
-070a0ebf42e15c Al Viro           2013-05-17  2745  		dir_index = (u32) ctx->pos;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2746  
-44512449c0ab36 Dave Kleikamp     2013-08-15  2747  		/*
-44512449c0ab36 Dave Kleikamp     2013-08-15  2748  		 * NFSv4 reserves cookies 1 and 2 for . and .. so the value
-44512449c0ab36 Dave Kleikamp     2013-08-15  2749  		 * we return to the vfs is one greater than the one we use
-44512449c0ab36 Dave Kleikamp     2013-08-15  2750  		 * internally.
-44512449c0ab36 Dave Kleikamp     2013-08-15  2751  		 */
-44512449c0ab36 Dave Kleikamp     2013-08-15  2752  		if (dir_index)
-44512449c0ab36 Dave Kleikamp     2013-08-15  2753  			dir_index--;
-44512449c0ab36 Dave Kleikamp     2013-08-15  2754  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2755  		if (dir_index > 1) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2756  			struct dir_table_slot dirtab_slot;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2757  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2758  			if (dtEmpty(ip) ||
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2759  			    (dir_index >= JFS_IP(ip)->next_index)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2760  				/* Stale position.  Directory has shrunk */
-070a0ebf42e15c Al Viro           2013-05-17  2761  				ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2762  				return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2763  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2764  		      repeat:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2765  			rc = read_index(ip, dir_index, &dirtab_slot);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2766  			if (rc) {
-070a0ebf42e15c Al Viro           2013-05-17  2767  				ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2768  				return rc;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2769  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2770  			if (dirtab_slot.flag == DIR_INDEX_FREE) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2771  				if (loop_count++ > JFS_IP(ip)->next_index) {
-6ed71e9819ac34 Joe Perches       2016-03-30  2772  					jfs_err("jfs_readdir detected infinite loop!");
-070a0ebf42e15c Al Viro           2013-05-17  2773  					ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2774  					return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2775  				}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2776  				dir_index = le32_to_cpu(dirtab_slot.addr2);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2777  				if (dir_index == -1) {
-070a0ebf42e15c Al Viro           2013-05-17  2778  					ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2779  					return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2780  				}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2781  				goto repeat;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2782  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2783  			bn = addressDTS(&dirtab_slot);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2784  			index = dirtab_slot.slot;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2785  			DT_GETPAGE(ip, bn, mp, PSIZE, p, rc);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2786  			if (rc) {
-070a0ebf42e15c Al Viro           2013-05-17  2787  				ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2788  				return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2789  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2790  			if (p->header.flag & BT_INTERNAL) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2791  				jfs_err("jfs_readdir: bad index table");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2792  				DT_PUTPAGE(mp);
-44512449c0ab36 Dave Kleikamp     2013-08-15  2793  				ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2794  				return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2795  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2796  		} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2797  			if (dir_index == 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2798  				/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2799  				 * self "."
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2800  				 */
-44512449c0ab36 Dave Kleikamp     2013-08-15  2801  				ctx->pos = 1;
-070a0ebf42e15c Al Viro           2013-05-17  2802  				if (!dir_emit(ctx, ".", 1, ip->i_ino, DT_DIR))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2803  					return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2804  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2805  			/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2806  			 * parent ".."
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2807  			 */
-44512449c0ab36 Dave Kleikamp     2013-08-15  2808  			ctx->pos = 2;
-070a0ebf42e15c Al Viro           2013-05-17  2809  			if (!dir_emit(ctx, "..", 2, PARENT(ip), DT_DIR))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2810  				return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2811  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2812  			/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2813  			 * Find first entry of left-most leaf
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2814  			 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2815  			if (dtEmpty(ip)) {
-070a0ebf42e15c Al Viro           2013-05-17  2816  				ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2817  				return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2818  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2819  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2820  			if ((rc = dtReadFirst(ip, &btstack)))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2821  				return rc;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2822  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2823  			DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2824  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2825  	} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2826  		/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2827  		 * Legacy filesystem - OS/2 & Linux JFS < 0.3.6
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2828  		 *
-44512449c0ab36 Dave Kleikamp     2013-08-15  2829  		 * pn = 0; index = 1:	First entry "."
-44512449c0ab36 Dave Kleikamp     2013-08-15  2830  		 * pn = 0; index = 2:	Second entry ".."
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2831  		 * pn > 0:		Real entries, pn=1 -> leftmost page
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2832  		 * pn = index = -1:	No more entries
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2833  		 */
-070a0ebf42e15c Al Viro           2013-05-17  2834  		dtpos = ctx->pos;
-44512449c0ab36 Dave Kleikamp     2013-08-15  2835  		if (dtpos < 2) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2836  			/* build "." entry */
-44512449c0ab36 Dave Kleikamp     2013-08-15  2837  			ctx->pos = 1;
-070a0ebf42e15c Al Viro           2013-05-17  2838  			if (!dir_emit(ctx, ".", 1, ip->i_ino, DT_DIR))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2839  				return 0;
-44512449c0ab36 Dave Kleikamp     2013-08-15  2840  			dtoffset->index = 2;
-070a0ebf42e15c Al Viro           2013-05-17  2841  			ctx->pos = dtpos;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2842  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2843  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2844  		if (dtoffset->pn == 0) {
-44512449c0ab36 Dave Kleikamp     2013-08-15  2845  			if (dtoffset->index == 2) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2846  				/* build ".." entry */
-070a0ebf42e15c Al Viro           2013-05-17  2847  				if (!dir_emit(ctx, "..", 2, PARENT(ip), DT_DIR))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2848  					return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2849  			} else {
-6ed71e9819ac34 Joe Perches       2016-03-30  2850  				jfs_err("jfs_readdir called with invalid offset!");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2851  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2852  			dtoffset->pn = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2853  			dtoffset->index = 0;
-070a0ebf42e15c Al Viro           2013-05-17  2854  			ctx->pos = dtpos;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2855  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2856  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2857  		if (dtEmpty(ip)) {
-070a0ebf42e15c Al Viro           2013-05-17  2858  			ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2859  			return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2860  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2861  
-070a0ebf42e15c Al Viro           2013-05-17  2862  		if ((rc = dtReadNext(ip, &ctx->pos, &btstack))) {
-6ed71e9819ac34 Joe Perches       2016-03-30  2863  			jfs_err("jfs_readdir: unexpected rc = %d from dtReadNext",
-6ed71e9819ac34 Joe Perches       2016-03-30  2864  				rc);
-070a0ebf42e15c Al Viro           2013-05-17  2865  			ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2866  			return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2867  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2868  		/* get start leaf page and index */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2869  		DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2870  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2871  		/* offset beyond directory eof ? */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2872  		if (bn < 0) {
-070a0ebf42e15c Al Viro           2013-05-17  2873  			ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2874  			return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2875  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2876  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2877  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2878  	dirent_buf = __get_free_page(GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2879  	if (dirent_buf == 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2880  		DT_PUTPAGE(mp);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2881  		jfs_warn("jfs_readdir: __get_free_page failed!");
-070a0ebf42e15c Al Viro           2013-05-17  2882  		ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2883  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2884  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2885  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2886  	while (1) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2887  		jfs_dirent = (struct jfs_dirent *) dirent_buf;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2888  		jfs_dirents = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2889  		overflow = fix_page = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2890  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2891  		stbl = DT_GETSTBL(p);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2892  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2893  		for (i = index; i < p->header.nextindex; i++) {
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01 @2894  			if (stbl[i] < 0 || stbl[i] > 127) {
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2895  				DT_PUTPAGE(mp);
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2896  				free_page(dirent_buf);
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2897  				jfs_err("JFS: Invalid stbl[%d] = %d for inode %ld, block = %lld",
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2898  				i, stbl[i], (long)ip->i_ino, (long long)bn);
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2899  				return -EIO;
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2900  			}
-82b54cd3567685 Ghanshyam Agrawal 2024-10-01  2901  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2902  			d = (struct ldtentry *) & p->slot[stbl[i]];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2903  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2904  			if (((long) jfs_dirent + d->namlen + 1) >
-dc5798d9a7b656 Dave Kleikamp     2005-05-02  2905  			    (dirent_buf + PAGE_SIZE)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2906  				/* DBCS codepages could overrun dirent_buf */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2907  				index = i;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2908  				overflow = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2909  				break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2910  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2911  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2912  			d_namleft = d->namlen;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2913  			name_ptr = jfs_dirent->name;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2914  			jfs_dirent->ino = le32_to_cpu(d->inumber);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2915  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2916  			if (do_index) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2917  				len = min(d_namleft, DTLHDRDATALEN);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2918  				jfs_dirent->position = le32_to_cpu(d->index);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2919  				/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2920  				 * d->index should always be valid, but it
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2921  				 * isn't.  fsck.jfs doesn't create the
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2922  				 * directory index for the lost+found
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2923  				 * directory.  Rather than let it go,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2924  				 * we can try to fix it.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2925  				 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2926  				if ((jfs_dirent->position < 2) ||
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2927  				    (jfs_dirent->position >=
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2928  				     JFS_IP(ip)->next_index)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2929  					if (!page_fixed && !isReadOnly(ip)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2930  						fix_page = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2931  						/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2932  						 * setting overflow and setting
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2933  						 * index to i will cause the
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2934  						 * same page to be processed
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2935  						 * again starting here
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2936  						 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2937  						overflow = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2938  						index = i;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2939  						break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2940  					}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2941  					jfs_dirent->position = unique_pos++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2942  				}
-44512449c0ab36 Dave Kleikamp     2013-08-15  2943  				/*
-44512449c0ab36 Dave Kleikamp     2013-08-15  2944  				 * We add 1 to the index because we may
-44512449c0ab36 Dave Kleikamp     2013-08-15  2945  				 * use a value of 2 internally, and NFSv4
-44512449c0ab36 Dave Kleikamp     2013-08-15  2946  				 * doesn't like that.
-44512449c0ab36 Dave Kleikamp     2013-08-15  2947  				 */
-44512449c0ab36 Dave Kleikamp     2013-08-15  2948  				jfs_dirent->position++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2949  			} else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2950  				jfs_dirent->position = dtpos;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2951  				len = min(d_namleft, DTLHDRDATALEN_LEGACY);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2952  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2953  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2954  			/* copy the name of head/only segment */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2955  			outlen = jfs_strfromUCS_le(name_ptr, d->name, len,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2956  						   codepage);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2957  			jfs_dirent->name_len = outlen;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2958  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2959  			/* copy name in the additional segment(s) */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2960  			next = d->next;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2961  			while (next >= 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2962  				t = (struct dtslot *) & p->slot[next];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2963  				name_ptr += outlen;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2964  				d_namleft -= len;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2965  				/* Sanity Check */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2966  				if (d_namleft == 0) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2967  					jfs_error(ip->i_sb,
-eb8630d7d2fd13 Joe Perches       2013-06-04  2968  						  "JFS:Dtree error: ino = %ld, bn=%lld, index = %d\n",
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2969  						  (long)ip->i_ino,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2970  						  (long long)bn,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2971  						  i);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2972  					goto skip_one;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2973  				}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2974  				len = min(d_namleft, DTSLOTDATALEN);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2975  				outlen = jfs_strfromUCS_le(name_ptr, t->name,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2976  							   len, codepage);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2977  				jfs_dirent->name_len += outlen;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2978  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2979  				next = t->next;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2980  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2981  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2982  			jfs_dirents++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2983  			jfs_dirent = next_jfs_dirent(jfs_dirent);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2984  skip_one:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2985  			if (!do_index)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2986  				dtoffset->index++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2987  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2988  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2989  		if (!overflow) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2990  			/* Point to next leaf page */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2991  			if (p->header.flag & BT_ROOT)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2992  				bn = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2993  			else {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2994  				bn = le64_to_cpu(p->header.next);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2995  				index = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2996  				/* update offset (pn:index) for new page */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2997  				if (!do_index) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2998  					dtoffset->pn++;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  2999  					dtoffset->index = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3000  				}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3001  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3002  			page_fixed = 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3003  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3004  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3005  		/* unpin previous leaf page */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3006  		DT_PUTPAGE(mp);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3007  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3008  		jfs_dirent = (struct jfs_dirent *) dirent_buf;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3009  		while (jfs_dirents--) {
-070a0ebf42e15c Al Viro           2013-05-17  3010  			ctx->pos = jfs_dirent->position;
-070a0ebf42e15c Al Viro           2013-05-17  3011  			if (!dir_emit(ctx, jfs_dirent->name,
-070a0ebf42e15c Al Viro           2013-05-17  3012  				    jfs_dirent->name_len,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3013  				    jfs_dirent->ino, DT_UNKNOWN))
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3014  				goto out;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3015  			jfs_dirent = next_jfs_dirent(jfs_dirent);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3016  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3017  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3018  		if (fix_page) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3019  			add_missing_indices(ip, bn);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3020  			page_fixed = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3021  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3022  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3023  		if (!overflow && (bn == 0)) {
-070a0ebf42e15c Al Viro           2013-05-17  3024  			ctx->pos = DIREND;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3025  			break;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3026  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3027  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3028  		DT_GETPAGE(ip, bn, mp, PSIZE, p, rc);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3029  		if (rc) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3030  			free_page(dirent_buf);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3031  			return rc;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3032  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3033  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3034  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3035        out:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3036  	free_page(dirent_buf);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3037  
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3038  	return rc;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3039  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  3040  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  154  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  155  static int apple_isp_init_presets(struct apple_isp *isp)
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  156  {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  157  	struct device *dev = isp->dev;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  158  	struct device_node *np, *child;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  159  	struct isp_preset *preset;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  160  	int err = 0;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  161  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  162  	np = of_get_child_by_name(dev->of_node, "sensor-presets");
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  163  	if (!np) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  164  		dev_err(dev, "failed to get DT node 'presets'\n");
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  165  		return -EINVAL;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  166  	}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  167  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  168  	isp->num_presets = of_get_child_count(np);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  169  	if (!isp->num_presets) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  170  		dev_err(dev, "no sensor presets found\n");
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  171  		err = -EINVAL;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  172  		goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  173  	}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  174  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  175  	isp->presets = devm_kzalloc(
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  176  		dev, sizeof(*isp->presets) * isp->num_presets, GFP_KERNEL);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  177  	if (!isp->presets) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  178  		err = -ENOMEM;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  179  		goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  180  	}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  181  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  182  	preset = isp->presets;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24 @183  	for_each_child_of_node(np, child) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  184  		u32 xywh[4];
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  185  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  186  		err = of_property_read_u32(child, "apple,config-index",
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  187  					   &preset->index);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  188  		if (err) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  189  			dev_err(dev, "no apple,config-index property\n");
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  190  			of_node_put(child);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  191  			goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  192  		}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  193  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  194  		err = isp_of_read_coord(dev, child, "apple,input-size",
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  195  					&preset->input_dim);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  196  		if (err)
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  197  			goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  198  		err = isp_of_read_coord(dev, child, "apple,output-size",
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  199  					&preset->output_dim);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  200  		if (err)
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  201  			goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  202  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  203  		err = of_property_read_u32_array(child, "apple,crop", xywh, 4);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  204  		if (err) {
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  205  			dev_err(dev, "failed to read 'apple,crop' property\n");
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  206  			of_node_put(child);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  207  			goto err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  208  		}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  209  		preset->crop_offset.x = xywh[0];
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  210  		preset->crop_offset.y = xywh[1];
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  211  		preset->crop_size.x = xywh[2];
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  212  		preset->crop_size.y = xywh[3];
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  213  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  214  		preset++;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  215  	}
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  216  
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  217  err:
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  218  	of_node_put(np);
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  219  	return err;
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  220  }
+b4d2b4922ce8a7 Asahi Lina 2023-09-24  221  
 
 -- 
 0-DAY CI Kernel Test Service
