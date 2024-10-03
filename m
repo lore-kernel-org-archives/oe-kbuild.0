@@ -1,207 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4710145B07
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 09:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3761482F3
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 09:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727947226; cv=none; b=qQo0fDU0/YnGI3NJyGBuG+tdV83tKFiWRzc6W40svvEKnLD2tzxNa7/3me5iu0XObBnNHIskTy8iwjWQiwlJnWsNrXpu2u1dGaxD4OfTzrOTfdYOFFDC9BBwt9lJeqG6NWufNS63t81W1DKJR5kCjyQe8o85UXmbFVXvPYn08Wc=
+	t=1727949087; cv=none; b=ZbLysSonMGaTpx14FToLozo5Gzq2ZB1m3XtFTVKxUvApSj8KMcOGE6a0JHfwunUsoOvP97mVJSJqEp/4w9poLpX3VC8lUgYYzC2b/i9rZWCn/0xst4GClrpR1XuRWxulVyJFLtToMEmJVSzZZh38HrxjcTYH2H5SFP/9Vf3K/ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727947226; c=relaxed/simple;
-	bh=FcSt7Ov9K1ebbXxT9vx4wI44K83AkUdvxS5YmcY+jRo=;
+	s=arc-20240116; t=1727949087; c=relaxed/simple;
+	bh=kTDBCZDAjTxIMKpJJTKO/Voak/1EXn5ospy8j7ODvCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZMCpyNaz4QCJGMtIvTM3tzp7CH8Y2gtgAflp9C9JXJ9c+/2Hb5dYZ0zsPJIeCQ31yhmLrvqtROFDplVd005EirT7SSIK3afSF3Say++zcjrBwDYwlU5JMyHrtFFlY39R5bhULIumrAPo8X7+pdQKXzVoEfvxmLWm1u77NGtYfhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAKqCTxH; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=JZzHWUVS9mnPj12cDhMGgfW72mGPB1Xr4CmH2ZOmX5rJqNrN88teEoCEW29XMjPZM4/XYTU16Txw4OIl2V7CgMY7JIrK2pkATNh1EsrEwpZ5ufPNIyTx1bmCnVIfZaZ/RKVMSckgegYALIkQhXD63ckCDZUSd701fHbraQcltNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeBbuuSq; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAKqCTxH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeBbuuSq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727947224; x=1759483224;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=FcSt7Ov9K1ebbXxT9vx4wI44K83AkUdvxS5YmcY+jRo=;
-  b=TAKqCTxHaOFUQweV2sBMCEU30r5dvGn/lcWjkWZQUqefZN6kxT5ZA/HA
-   phVc9aWCdYgqmYLWydfLjshmR5JB+Z8noKQU+t5JPSZ3vaXS7dc9MPA5T
-   6zOLiDDxwsQuaX6Yijsi2pf+dR21jHenk+r0hYqKzCkZ7yNCF42AENPpv
-   bPj010COdl9iRX2tS+YGq6hTV/VIc70PxUdQrR0qYxqMYzLwnaG4eZpxL
-   mn/EPvKXqxtJ+RDJMKCLw9zAICtbA6AY0YfcKmncSFuERVs0YLqCMzJfZ
-   MLaBzzO+WVSS0bSAKb/87tbC1OE2IfdfiSNxTRc+misCClW9CY6B6FEpl
-   w==;
-X-CSE-ConnectionGUID: fADHhisQTz+Trz03jn1AUQ==
-X-CSE-MsgGUID: rFuKcPhVRFGlaixl7TGzGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="49657655"
+  t=1727949085; x=1759485085;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kTDBCZDAjTxIMKpJJTKO/Voak/1EXn5ospy8j7ODvCk=;
+  b=JeBbuuSqxDwti1bOdheJORPMpzcWCYNW6RxhX3BSaLrgpmf+HVZrIN+I
+   NvZQJ8rwmSpY/RVilt8b4Em8TU9J1TIAeDOFn/7G//JsvphgvLFDx53BR
+   XFY/AWCamwfEFxctORr9Z9igaYShssz2cW1sGT78PNpXKHe5JSVqomy5u
+   OxGYBfK/V3MVEreRm6cxi72Ieuhp4gYUfSrG7zxnT6e13ggvxL65aBlE0
+   wnzndQwOjYaiKEUOhx+420kFlwGrowJ0mIaZeyZeNpQsfJ5fKjc0WWaLm
+   Mi/bRjVY6SuuSqdjk/WqufRlclwjUNitgn8cdwhDfGYEo5+CIdxEZcPH3
+   Q==;
+X-CSE-ConnectionGUID: oRZ/97u3TYqyT8/V42AWEQ==
+X-CSE-MsgGUID: 1U4zTncTSveJ1Nr8TX3aIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30928624"
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="49657655"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:20:24 -0700
-X-CSE-ConnectionGUID: z45XNPYhSEK9bN55/n3mng==
-X-CSE-MsgGUID: lSMYsEKARRGwX43iUVbVmA==
+   d="scan'208";a="30928624"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:51:25 -0700
+X-CSE-ConnectionGUID: qUxejG6QSbqbm8KAfIqFTw==
+X-CSE-MsgGUID: 7OaXz7RUT926AmW9VCYm1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="78708304"
+   d="scan'208";a="111759060"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Oct 2024 02:20:22 -0700
+  by orviesa001.jf.intel.com with ESMTP; 03 Oct 2024 02:51:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swI0R-0000E4-31;
-	Thu, 03 Oct 2024 09:20:19 +0000
-Date: Thu, 3 Oct 2024 17:20:10 +0800
+	id 1swIUS-0000Fi-2W;
+	Thu, 03 Oct 2024 09:51:20 +0000
+Date: Thu, 3 Oct 2024 17:51:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 1/5] crypto: cesa: add COMPILE_TEST
-Message-ID: <202410031728.sQCYdNwD-lkp@intel.com>
+Subject: arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not
+ indented
+Message-ID: <202410031753.YKQowtNa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241001232547.355947-2-rosenp@gmail.com>
-References: <20241001232547.355947-2-rosenp@gmail.com>
-TO: Rosen Penev <rosenp@gmail.com>
-TO: linux-crypto@vger.kernel.org
-CC: Boris Brezillon <bbrezillon@kernel.org>
-CC: Arnaud Ebalard <arno@natisbad.org>
-CC: Srujana Challa <schalla@marvell.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Rosen Penev <rosenp@gmail.com>
-CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
 CC: linux-kernel@vger.kernel.org
+TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
+CC: Bibo Mao <maobibo@loongson.cn>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.12-rc1 next-20241003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/crypto-cesa-add-COMPILE_TEST/20241002-072835
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241001232547.355947-2-rosenp%40gmail.com
-patch subject: [PATCH 1/5] crypto: cesa: add COMPILE_TEST
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: um-randconfig-r073-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031728.sQCYdNwD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7ec462100ef9142344ddbf86f2c3008b97acddbe
+commit: c1fc48aad14dbe7654f5986afb906332b528d54b LoongArch: KVM: Enable kvm config and add the makefile
+date:   1 year ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 1 year ago
+config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031753.YKQowtNa-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410031728.sQCYdNwD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410031753.YKQowtNa-lkp@intel.com/
 
-smatch warnings:
-drivers/crypto/marvell/cesa/cipher.c:342 mv_cesa_skcipher_dma_req_init() warn: missing unwind goto?
+New smatch warnings:
+arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not indented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:529 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1663)
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1672 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1664)
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4643 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5720 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5731 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
 
-vim +342 drivers/crypto/marvell/cesa/cipher.c
+Old smatch warnings:
+arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:330 kvm_make_all_cpus_request_except() warn: iterator 'i' not incremented
+arch/loongarch/include/asm/atomic.h:109 arch_atomic_fetch_add_unless() warn: inconsistent indenting
+include/linux/kvm_host.h:945 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
 
-4ada4839782370 drivers/crypto/marvell/cipher.c      Arnaud Ebalard  2015-06-18  311  
-e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  312  static int mv_cesa_skcipher_dma_req_init(struct skcipher_request *req,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  313  					 const struct mv_cesa_op_ctx *op_templ)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  314  {
-e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  315  	struct mv_cesa_skcipher_req *creq = skcipher_request_ctx(req);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  316  	gfp_t flags = (req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP) ?
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  317  		      GFP_KERNEL : GFP_ATOMIC;
-53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  318  	struct mv_cesa_req *basereq = &creq->base;
-e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  319  	struct mv_cesa_skcipher_dma_iter iter;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  320  	bool skip_ctx = false;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  321  	int ret;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  322  
-53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  323  	basereq->chain.first = NULL;
-53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  324  	basereq->chain.last = NULL;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  325  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  326  	if (req->src != req->dst) {
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  327  		ret = dma_map_sg(cesa_dev->dev, req->src, creq->src_nents,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  328  				 DMA_TO_DEVICE);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  329  		if (!ret)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  330  			return -ENOMEM;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  331  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  332  		ret = dma_map_sg(cesa_dev->dev, req->dst, creq->dst_nents,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  333  				 DMA_FROM_DEVICE);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  334  		if (!ret) {
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  335  			ret = -ENOMEM;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  336  			goto err_unmap_src;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  337  		}
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  338  	} else {
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  339  		ret = dma_map_sg(cesa_dev->dev, req->src, creq->src_nents,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  340  				 DMA_BIDIRECTIONAL);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  341  		if (!ret)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18 @342  			return -ENOMEM;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  343  	}
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  344  
-ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  345  	mv_cesa_tdma_desc_iter_init(&basereq->chain);
-e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  346  	mv_cesa_skcipher_req_iter_init(&iter, req);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  347  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  348  	do {
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  349  		struct mv_cesa_op_ctx *op;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  350  
-655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  351  		op = mv_cesa_dma_add_op(&basereq->chain, op_templ, skip_ctx,
-655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  352  					flags);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  353  		if (IS_ERR(op)) {
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  354  			ret = PTR_ERR(op);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  355  			goto err_free_tdma;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  356  		}
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  357  		skip_ctx = true;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  358  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  359  		mv_cesa_set_crypt_op_len(op, iter.base.op_len);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  360  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  361  		/* Add input transfers */
-ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  362  		ret = mv_cesa_dma_add_op_transfers(&basereq->chain, &iter.base,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  363  						   &iter.src, flags);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  364  		if (ret)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  365  			goto err_free_tdma;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  366  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  367  		/* Add dummy desc to launch the crypto operation */
-ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  368  		ret = mv_cesa_dma_add_dummy_launch(&basereq->chain, flags);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  369  		if (ret)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  370  			goto err_free_tdma;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  371  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  372  		/* Add output transfers */
-ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  373  		ret = mv_cesa_dma_add_op_transfers(&basereq->chain, &iter.base,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  374  						   &iter.dst, flags);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  375  		if (ret)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  376  			goto err_free_tdma;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  377  
-e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  378  	} while (mv_cesa_skcipher_req_iter_next_op(&iter));
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  379  
-bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  380  	/* Add output data for IV */
-655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  381  	ret = mv_cesa_dma_add_result_op(&basereq->chain,
-655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  382  					CESA_SA_CFG_SRAM_OFFSET,
-0c99620f0ac13a drivers/crypto/marvell/cipher.c      Romain Perier   2016-10-05  383  					CESA_SA_DATA_SRAM_OFFSET,
-0c99620f0ac13a drivers/crypto/marvell/cipher.c      Romain Perier   2016-10-05  384  					CESA_TDMA_SRC_IN_SRAM, flags);
-bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  385  
-bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  386  	if (ret)
-bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  387  		goto err_free_tdma;
-bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  388  
-85030c5168f1df drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  389  	basereq->chain.last->flags |= CESA_TDMA_END_OF_REQ;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  390  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  391  	return 0;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  392  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  393  err_free_tdma:
-53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  394  	mv_cesa_dma_cleanup(basereq);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  395  	if (req->dst != req->src)
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  396  		dma_unmap_sg(cesa_dev->dev, req->dst, creq->dst_nents,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  397  			     DMA_FROM_DEVICE);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  398  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  399  err_unmap_src:
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  400  	dma_unmap_sg(cesa_dev->dev, req->src, creq->src_nents,
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  401  		     req->dst != req->src ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL);
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  402  
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  403  	return ret;
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  404  }
-db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  405  
+vim +867 arch/loongarch/kvm/mmu.c
+
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  732  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  733  /*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  734   * kvm_map_page() - Map a guest physical page.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  735   * @vcpu:		vCPU pointer.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  736   * @gpa:		Guest physical address of fault.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  737   * @write:	Whether the fault was due to a write.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  738   *
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  739   * Handle GPA faults by creating a new GPA mapping (or updating an existing
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  740   * one).
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  741   *
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  742   * This takes care of marking pages young or dirty (idle/dirty page tracking),
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  743   * asking KVM for the corresponding PFN, and creating a mapping in the GPA page
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  744   * tables. Derived mappings (GVA page tables and TLBs) must be handled by the
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  745   * caller.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  746   *
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  747   * Returns:	0 on success
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  748   *		-EFAULT if there is no memory region at @gpa or a write was
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  749   *		attempted to a read-only memory region. This is usually handled
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  750   *		as an MMIO access.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  751   */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  752  static int kvm_map_page(struct kvm_vcpu *vcpu, unsigned long gpa, bool write)
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  753  {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  754  	bool writeable;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  755  	int srcu_idx, err, retry_no = 0, level;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  756  	unsigned long hva, mmu_seq, prot_bits;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  757  	kvm_pfn_t pfn;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  758  	kvm_pte_t *ptep, new_pte;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  759  	gfn_t gfn = gpa >> PAGE_SHIFT;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  760  	struct kvm *kvm = vcpu->kvm;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  761  	struct kvm_memory_slot *memslot;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  762  	struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  763  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  764  	/* Try the fast path to handle old / clean pages */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  765  	srcu_idx = srcu_read_lock(&kvm->srcu);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  766  	err = kvm_map_page_fast(vcpu, gpa, write);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  767  	if (!err)
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  768  		goto out;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  769  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  770  	memslot = gfn_to_memslot(kvm, gfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  771  	hva = gfn_to_hva_memslot_prot(memslot, gfn, &writeable);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  772  	if (kvm_is_error_hva(hva) || (write && !writeable)) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  773  		err = -EFAULT;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  774  		goto out;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  775  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  776  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  777  	/* We need a minimum of cached pages ready for page table creation */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  778  	err = kvm_mmu_topup_memory_cache(memcache, KVM_MMU_CACHE_MIN_PAGES);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  779  	if (err)
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  780  		goto out;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  781  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  782  retry:
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  783  	/*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  784  	 * Used to check for invalidations in progress, of the pfn that is
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  785  	 * returned by pfn_to_pfn_prot below.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  786  	 */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  787  	mmu_seq = kvm->mmu_invalidate_seq;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  788  	/*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  789  	 * Ensure the read of mmu_invalidate_seq isn't reordered with PTE reads in
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  790  	 * gfn_to_pfn_prot() (which calls get_user_pages()), so that we don't
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  791  	 * risk the page we get a reference to getting unmapped before we have a
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  792  	 * chance to grab the mmu_lock without mmu_invalidate_retry() noticing.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  793  	 *
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  794  	 * This smp_rmb() pairs with the effective smp_wmb() of the combination
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  795  	 * of the pte_unmap_unlock() after the PTE is zapped, and the
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  796  	 * spin_lock() in kvm_mmu_invalidate_invalidate_<page|range_end>() before
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  797  	 * mmu_invalidate_seq is incremented.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  798  	 */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  799  	smp_rmb();
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  800  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  801  	/* Slow path - ask KVM core whether we can access this GPA */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  802  	pfn = gfn_to_pfn_prot(kvm, gfn, write, &writeable);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  803  	if (is_error_noslot_pfn(pfn)) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  804  		err = -EFAULT;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  805  		goto out;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  806  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  807  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  808  	/* Check if an invalidation has taken place since we got pfn */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  809  	spin_lock(&kvm->mmu_lock);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  810  	if (mmu_invalidate_retry_hva(kvm, mmu_seq, hva)) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  811  		/*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  812  		 * This can happen when mappings are changed asynchronously, but
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  813  		 * also synchronously if a COW is triggered by
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  814  		 * gfn_to_pfn_prot().
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  815  		 */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  816  		spin_unlock(&kvm->mmu_lock);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  817  		kvm_release_pfn_clean(pfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  818  		if (retry_no > 100) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  819  			retry_no = 0;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  820  			schedule();
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  821  		}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  822  		retry_no++;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  823  		goto retry;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  824  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  825  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  826  	/*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  827  	 * For emulated devices such virtio device, actual cache attribute is
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  828  	 * determined by physical machine.
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  829  	 * For pass through physical device, it should be uncachable
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  830  	 */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  831  	prot_bits = _PAGE_PRESENT | __READABLE;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  832  	if (pfn_valid(pfn))
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  833  		prot_bits |= _CACHE_CC;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  834  	else
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  835  		prot_bits |= _CACHE_SUC;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  836  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  837  	if (writeable) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  838  		prot_bits |= _PAGE_WRITE;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  839  		if (write)
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  840  			prot_bits |= __WRITEABLE;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  841  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  842  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  843  	/* Disable dirty logging on HugePages */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  844  	level = 0;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  845  	if (!fault_supports_huge_mapping(memslot, hva, PMD_SIZE, write)) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  846  		level = 0;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  847  	} else {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  848  		level = host_pfn_mapping_level(kvm, gfn, memslot);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  849  		if (level == 1) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  850  			gfn = gfn & ~(PTRS_PER_PTE - 1);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  851  			pfn = pfn & ~(PTRS_PER_PTE - 1);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  852  		}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  853  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  854  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  855  	/* Ensure page tables are allocated */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  856  	ptep = kvm_populate_gpa(kvm, memcache, gpa, level);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  857  	new_pte = kvm_pfn_pte(pfn, __pgprot(prot_bits));
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  858  	if (level == 1) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  859  		new_pte = kvm_pte_mkhuge(new_pte);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  860  		/*
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  861  		 * previous pmd entry is invalid_pte_table
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  862  		 * there is invalid tlb with small page
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  863  		 * need flush these invalid tlbs for current vcpu
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  864  		 */
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  865  		kvm_make_request(KVM_REQ_TLB_FLUSH, vcpu);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  866  		++kvm->stat.hugepages;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02 @867  	}  else if (kvm_pte_huge(*ptep) && write)
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  868  		ptep = kvm_split_huge(vcpu, ptep, gfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  869  	else
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  870  		++kvm->stat.pages;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  871  	kvm_set_pte(ptep, new_pte);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  872  	spin_unlock(&kvm->mmu_lock);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  873  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  874  	if (prot_bits & _PAGE_DIRTY) {
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  875  		mark_page_dirty_in_slot(kvm, memslot, gfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  876  		kvm_set_pfn_dirty(pfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  877  	}
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  878  
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  879  	kvm_set_pfn_accessed(pfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  880  	kvm_release_pfn_clean(pfn);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  881  out:
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  882  	srcu_read_unlock(&kvm->srcu, srcu_idx);
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  883  	return err;
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  884  }
+752e2cd7b4fb41 Tianrui Zhao 2023-10-02  885  
+
+:::::: The code at line 867 was first introduced by commit
+:::::: 752e2cd7b4fb412f3e008493e0195e357bab9773 LoongArch: KVM: Implement kvm mmu operations
+
+:::::: TO: Tianrui Zhao <zhaotianrui@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
