@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9993713FEE
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 04:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA9A2564
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 06:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727930657; cv=none; b=UTm4jBAFTDhbkPP8T6LFvfSJAr+J9vcr1+/m2hFkr2iVNpzNHQ9LF3/7ViOZ7CAMPj+LkGcEYxlo5dKInqE8BCmqOSlnGms1LG9mloL0mfSSxNiPPlbHa+NmMY+VWcP5Hz+jbfVf2J1Fbv46tdmlnj0OuIunrJORGJL6Dgq/uWI=
+	t=1727936181; cv=none; b=acJCne4i7jR3sxhExEkK7ycxjjliiNfNiDPRDHf0GjpwUUCp2Ks8FnjSbsON6r3Vu0Qtf/AyC4T6+2niJhy3YS6QjlYKkdNt2nlslMhm4wA26+a/S5j5VrSkXtvJeP2BU8Vm01RI63F7yCGyRfGEbQcYggjq56iYNQsRfjzQLDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727930657; c=relaxed/simple;
-	bh=OY4efiqnoMOdPHsPbWJaKsFJGhj+TRQVI0JsLw+TR24=;
+	s=arc-20240116; t=1727936181; c=relaxed/simple;
+	bh=1Lzo1Bw+pciCxchklQAKllymew8fOZcqVWdJW4bFFhI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gyrVR+76g2It6iLj1PPbPkAOdDBpbzXUL1JoLuRHXq+DuUNtlfs0p+dob95U5ElPz/3MeGw4oCZAYVaqTnVH4wWEBcWcxJgTaidq7X+q5M6dI72i5B4Ou85RDPQuFo5/h0qnm1WU2NNeeSGs0MWqNKHRl0l7iDtJTnHv7rhr9MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CR3ahQlo; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=jlCTyE9dNsrOkAR5xwJr0a/B0Jj8gTIGfcL1T8Bde55yP2/4rwotbJBq1uVoYqFYeCHTgUHMpN0WTubXMfacD4eaE7o7UCQIVSEh291hvBoNWax1jwipD+l3ZsYqPOJrH5dyStGEVXY+tAs8/DCskA8k/EpQsapwBOgCbn8Tn8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V6tcjwtu; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CR3ahQlo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V6tcjwtu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727930656; x=1759466656;
+  t=1727936180; x=1759472180;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OY4efiqnoMOdPHsPbWJaKsFJGhj+TRQVI0JsLw+TR24=;
-  b=CR3ahQlopzGeGhnxA7ukO5Et/YEGzpV5MkHptmwctAhTncG5tHoDdqqP
-   bf9RkSsqA7naA2Ir05/YCVcPWP4R6zcFIh9Wo4xVZ1newKYhTAZOHrON2
-   low+e0a6O/kOOe91+v5fkIb6LmhrOfrkC5nGczyYfXbsW/z9kXu+zBDre
-   uLo234BGSQgl1h/nmDq5NHpJjbofxyEqmF0BWvCFQl8jbaoMe8Toxiz22
-   sZa6VVX9mwtPBJURsbwq4sSEOsMJN/f3zVCVpdZERvWkKTRs1nReHD173
-   yD+0LzqLQ3sW3ecMKyZjCIZK7R9zMYw658ceaayepGxUKuZShspqZ0h2B
-   Q==;
-X-CSE-ConnectionGUID: Lo68rRMDQk2WpGfWdN+VFg==
-X-CSE-MsgGUID: a3azfPZYQuCcgR148aPmCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="29988768"
+  bh=1Lzo1Bw+pciCxchklQAKllymew8fOZcqVWdJW4bFFhI=;
+  b=V6tcjwtuxptuJD2XH0qp367OqdmH1IeyVVavflex3ZNT4TGnNx/QZoie
+   FCnVqmMVb70jNgWroG78byUZBm1m0r/tCSlHGQyafUL7PSJWCPUw7hBHw
+   xO/MO1AmAEOBQFBubKOmZSjlkri73ndkG53LHvsZo8tXSjOAHoqR5ezw1
+   wPIjlhqLeOirXJStResb4fzf9vGltHS5xW0IJYLeXY+cUPNimQW+5LeF6
+   anoPAqfunyHoY6/NqtziX34l8sUJbFioqa71b4ZYev3csChuHc02fCx6Y
+   D738Qf2b8xNBk6T3dg9YR6MGglxIrq1g03In92T76M6iRS8DvDHZfCnGS
+   g==;
+X-CSE-ConnectionGUID: jhRxTWzpRkeycyjFsbJmRQ==
+X-CSE-MsgGUID: UoZvn8pPTLq9hxcGwovOYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="44588317"
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="29988768"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 21:44:15 -0700
-X-CSE-ConnectionGUID: VNgaE1oTSlOk6sBFdONIrQ==
-X-CSE-MsgGUID: JsvmudAWTNuQwQbjUg1aeg==
+   d="scan'208";a="44588317"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2024 23:16:19 -0700
+X-CSE-ConnectionGUID: WNnk12NaRLKg8mstU6X9FA==
+X-CSE-MsgGUID: uwkjiChpRVO6s2htsVSBpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="74653937"
+   d="scan'208";a="74491190"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 02 Oct 2024 21:44:14 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Oct 2024 23:16:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swDhD-000034-34;
-	Thu, 03 Oct 2024 04:44:11 +0000
-Date: Thu, 3 Oct 2024 12:43:33 +0800
+	id 1swF8J-00007S-2x;
+	Thu, 03 Oct 2024 06:16:15 +0000
+Date: Thu, 3 Oct 2024 14:16:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: mm/gup.o: warning: objtool: faultin_page_range+0x70: unreachable
- instruction
-Message-ID: <202410031237.pbHqnJBr-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [morimoto:sound-error-cleanup-2024-09-30 62/71]
+ sound/soc/soc-card.c:215 snd_soc_card_set_bias_level() error: we previously
+ assumed 'card' could be null (see line 212)
+Message-ID: <202410031405.418T7N8I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,50 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Hi David,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ec462100ef9142344ddbf86f2c3008b97acddbe
-commit: 631426ba1d45a8672b177ee85ad4cabe760dd131 mm/madvise: make MADV_POPULATE_(READ|WRITE) handle VM_FAULT_RETRY properly
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: loongarch-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20241003/202410031237.pbHqnJBr-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241003/202410031237.pbHqnJBr-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-30
+head:   b31c07e66a585a36ee2d6795e3dbbb4cbabab338
+commit: d6485ea092fa6dd4f36bfbb4c2eecef748734bf1 [62/71] ASoC: add common snd_soc_ret() and use it
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-161-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031405.418T7N8I-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410031237.pbHqnJBr-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410031405.418T7N8I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/soc/soc-card.c:215 snd_soc_card_set_bias_level() error: we previously assumed 'card' could be null (see line 212)
+sound/soc/soc-card.c:227 snd_soc_card_set_bias_level_post() error: we previously assumed 'card' could be null (see line 224)
 
-   mm/gup.o: warning: objtool: sanity_check_pinned_pages+0xc4: unreachable instruction
-   mm/gup.o: warning: objtool: faultin_page+0x170: unreachable instruction
-   mm/gup.o: warning: objtool: __get_user_pages+0xb8: unreachable instruction
-   mm/gup.o: warning: objtool: get_user_pages_remote+0x1c8: unreachable instruction
-   mm/gup.o: warning: objtool: get_user_pages+0x174: unreachable instruction
-   mm/gup.o: warning: objtool: get_user_pages_unlocked+0x18c: unreachable instruction
-   mm/gup.o: warning: objtool: __gup_longterm_locked+0x588: unreachable instruction
-   mm/gup.o: warning: objtool: populate_vma_page_range+0x68: unreachable instruction
->> mm/gup.o: warning: objtool: faultin_page_range+0x70: unreachable instruction
+vim +/card +215 sound/soc/soc-card.c
 
+39caefda0a30ca Kuninori Morimoto 2020-05-28  205  
+39caefda0a30ca Kuninori Morimoto 2020-05-28  206  int snd_soc_card_set_bias_level(struct snd_soc_card *card,
+39caefda0a30ca Kuninori Morimoto 2020-05-28  207  				struct snd_soc_dapm_context *dapm,
+39caefda0a30ca Kuninori Morimoto 2020-05-28  208  				enum snd_soc_bias_level level)
+39caefda0a30ca Kuninori Morimoto 2020-05-28  209  {
+39caefda0a30ca Kuninori Morimoto 2020-05-28  210  	int ret = 0;
+39caefda0a30ca Kuninori Morimoto 2020-05-28  211  
+39caefda0a30ca Kuninori Morimoto 2020-05-28 @212  	if (card && card->set_bias_level)
+39caefda0a30ca Kuninori Morimoto 2020-05-28  213  		ret = card->set_bias_level(card, dapm, level);
+39caefda0a30ca Kuninori Morimoto 2020-05-28  214  
+39caefda0a30ca Kuninori Morimoto 2020-05-28 @215  	return soc_card_ret(card, ret);
+39caefda0a30ca Kuninori Morimoto 2020-05-28  216  }
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  217  
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  218  int snd_soc_card_set_bias_level_post(struct snd_soc_card *card,
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  219  				     struct snd_soc_dapm_context *dapm,
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  220  				     enum snd_soc_bias_level level)
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  221  {
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  222  	int ret = 0;
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  223  
+d41278ea0579a8 Kuninori Morimoto 2020-05-28 @224  	if (card && card->set_bias_level_post)
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  225  		ret = card->set_bias_level_post(card, dapm, level);
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  226  
+d41278ea0579a8 Kuninori Morimoto 2020-05-28 @227  	return soc_card_ret(card, ret);
+d41278ea0579a8 Kuninori Morimoto 2020-05-28  228  }
+cbc7a6b5a87a12 Kuninori Morimoto 2020-05-28  229  
 
-objdump-func vmlinux.o faultin_page_range:
+:::::: The code at line 215 was first introduced by commit
+:::::: 39caefda0a30cac8284264e5031a0dd478510ced ASoC: soc-card: add snd_soc_card_set_bias_level()
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
