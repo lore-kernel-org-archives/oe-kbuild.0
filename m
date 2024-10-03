@@ -1,202 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7242A839F4
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 07:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4710145B07
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 09:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727939903; cv=none; b=R5VXgeiDbR3/zYC7/5Gw14jt78wnW58IGRa40MBmkUZlAXKI4Uvy01gwcYNyDsHfprlLS2wr8KOVTHM2xWbOgXrJBohxcwfD7jZFZU9YWqYPP5n8R4MPCZpeK5iMH4DnJLAtFx+rB5XNwQVxENtfEDtrKyCTRen2nz/J/k8eQu8=
+	t=1727947226; cv=none; b=qQo0fDU0/YnGI3NJyGBuG+tdV83tKFiWRzc6W40svvEKnLD2tzxNa7/3me5iu0XObBnNHIskTy8iwjWQiwlJnWsNrXpu2u1dGaxD4OfTzrOTfdYOFFDC9BBwt9lJeqG6NWufNS63t81W1DKJR5kCjyQe8o85UXmbFVXvPYn08Wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727939903; c=relaxed/simple;
-	bh=PPESWzgUQO2csTC2267VaKLqmrVtVqYLw6HHfX2RGo4=;
+	s=arc-20240116; t=1727947226; c=relaxed/simple;
+	bh=FcSt7Ov9K1ebbXxT9vx4wI44K83AkUdvxS5YmcY+jRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dzneCEsoVZ18LxUHpQRAWuBMcTsQ1/MYIw1ibMISqsyZzxqRvkEi0mTNnk999qxrqEWabDJeRD7NYUWcd40lEl9/RYwu9Wrkt0Sd5UzPg1QiRVWkhXux/+E/sQgdr6IfvlwEcExkfNchFk5iBMFzDMbCPwRNlb4p9ed+Tz/Xmvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+TXKGVA; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=ZMCpyNaz4QCJGMtIvTM3tzp7CH8Y2gtgAflp9C9JXJ9c+/2Hb5dYZ0zsPJIeCQ31yhmLrvqtROFDplVd005EirT7SSIK3afSF3Say++zcjrBwDYwlU5JMyHrtFFlY39R5bhULIumrAPo8X7+pdQKXzVoEfvxmLWm1u77NGtYfhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAKqCTxH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+TXKGVA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAKqCTxH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727939901; x=1759475901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PPESWzgUQO2csTC2267VaKLqmrVtVqYLw6HHfX2RGo4=;
-  b=h+TXKGVA6MZ+UShsFEKYCedpU9Ht8GoJ0/FXnDUV2CL5hwrVOhfS9aV8
-   AB9DlURQgYiPoeANbYqiEyVB2b2eI3z+TPKlqWqoXDTtnJPfVYhUQlBMv
-   WN0S/61In6ekMpEb31JDsei2jjkPBOfwBHwCRrf7uS5a+iOeOM1Vf4GJg
-   41Vm3ZqjaKeGPHkXIVGa72T3+8Wo1e01WZLVkoxvMv95O8OF5SQURvrSH
-   9W11ysDZBVRP1ld7ntpFXQT6X6PXZJQvNwW51+SziX0jaf3im5rwcck7s
-   tzrS9K3pyO81eWFgGmNUXHbDkvM0TLnBRSAkYQGGMrWejxPWjgI2cSJzm
-   g==;
-X-CSE-ConnectionGUID: KLK1JdkiQgivUG2gUBXMdg==
-X-CSE-MsgGUID: me6td7cnQxKbv25BlKd/xg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27216029"
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="27216029"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 00:18:20 -0700
-X-CSE-ConnectionGUID: XGmQnAqATyma2xWaSv9rVg==
-X-CSE-MsgGUID: bW8VHYWnSWC5acv319sadg==
+  t=1727947224; x=1759483224;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FcSt7Ov9K1ebbXxT9vx4wI44K83AkUdvxS5YmcY+jRo=;
+  b=TAKqCTxHaOFUQweV2sBMCEU30r5dvGn/lcWjkWZQUqefZN6kxT5ZA/HA
+   phVc9aWCdYgqmYLWydfLjshmR5JB+Z8noKQU+t5JPSZ3vaXS7dc9MPA5T
+   6zOLiDDxwsQuaX6Yijsi2pf+dR21jHenk+r0hYqKzCkZ7yNCF42AENPpv
+   bPj010COdl9iRX2tS+YGq6hTV/VIc70PxUdQrR0qYxqMYzLwnaG4eZpxL
+   mn/EPvKXqxtJ+RDJMKCLw9zAICtbA6AY0YfcKmncSFuERVs0YLqCMzJfZ
+   MLaBzzO+WVSS0bSAKb/87tbC1OE2IfdfiSNxTRc+misCClW9CY6B6FEpl
+   w==;
+X-CSE-ConnectionGUID: fADHhisQTz+Trz03jn1AUQ==
+X-CSE-MsgGUID: rFuKcPhVRFGlaixl7TGzGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="49657655"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="49657655"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:20:24 -0700
+X-CSE-ConnectionGUID: z45XNPYhSEK9bN55/n3mng==
+X-CSE-MsgGUID: lSMYsEKARRGwX43iUVbVmA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="73935626"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="78708304"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Oct 2024 00:18:19 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 03 Oct 2024 02:20:22 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swG6L-00009s-1F;
-	Thu, 03 Oct 2024 07:18:17 +0000
-Date: Thu, 3 Oct 2024 15:17:42 +0800
+	id 1swI0R-0000E4-31;
+	Thu, 03 Oct 2024 09:20:19 +0000
+Date: Thu, 3 Oct 2024 17:20:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [morimoto:sound-error-cleanup-2024-09-30 66/71]
- sound/soc/soc-core.c:1700 soc_probe_link_dais() error: uninitialized symbol
- 'ret'.
-Message-ID: <202410031521.0QHV4cQH-lkp@intel.com>
+Subject: Re: [PATCH 1/5] crypto: cesa: add COMPILE_TEST
+Message-ID: <202410031728.sQCYdNwD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20241001232547.355947-2-rosenp@gmail.com>
+References: <20241001232547.355947-2-rosenp@gmail.com>
+TO: Rosen Penev <rosenp@gmail.com>
+TO: linux-crypto@vger.kernel.org
+CC: Boris Brezillon <bbrezillon@kernel.org>
+CC: Arnaud Ebalard <arno@natisbad.org>
+CC: Srujana Challa <schalla@marvell.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Rosen Penev <rosenp@gmail.com>
+CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://github.com/morimoto/linux sound-error-cleanup-2024-09-30
-head:   b31c07e66a585a36ee2d6795e3dbbb4cbabab338
-commit: 6eadb23415b5fbf9fd6a1529e465c88f6bddc889 [66/71] ASoC: error message cleanup (soc-core.c)
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-161-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031521.0QHV4cQH-lkp@intel.com/config)
+Hi Rosen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.12-rc1 next-20241003]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/crypto-cesa-add-COMPILE_TEST/20241002-072835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20241001232547.355947-2-rosenp%40gmail.com
+patch subject: [PATCH 1/5] crypto: cesa: add COMPILE_TEST
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: um-randconfig-r073-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031728.sQCYdNwD-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410031521.0QHV4cQH-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410031728.sQCYdNwD-lkp@intel.com/
 
 smatch warnings:
-sound/soc/soc-core.c:1700 soc_probe_link_dais() error: uninitialized symbol 'ret'.
-sound/soc/soc-core.c:1740 soc_probe_link_components() error: uninitialized symbol 'ret'.
-sound/soc/soc-core.c:1791 soc_probe_aux_devices() error: uninitialized symbol 'ret'.
+drivers/crypto/marvell/cesa/cipher.c:342 mv_cesa_skcipher_dma_req_init() warn: missing unwind goto?
 
-vim +/ret +1700 sound/soc/soc-core.c
+vim +342 drivers/crypto/marvell/cesa/cipher.c
 
-db2a416556af03 Frank Mandarino    2006-10-06  1685  
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1686  static int soc_probe_link_dais(struct snd_soc_card *card)
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1687  {
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1688  	struct snd_soc_pcm_runtime *rtd;
-51801aeafdc9c1 Kuninori Morimoto  2020-04-24  1689  	int order, ret;
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1690  
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1691  	for_each_comp_order(order) {
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1692  		for_each_card_rtds(card, rtd) {
-51801aeafdc9c1 Kuninori Morimoto  2020-04-24  1693  			/* probe all rtd connected DAIs in good order */
-51801aeafdc9c1 Kuninori Morimoto  2020-04-24  1694  			ret = snd_soc_pcm_dai_probe(rtd, order);
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1695  			if (ret)
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1696  				goto out;
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1697  		}
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1698  	}
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1699  out:
-6eadb23415b5fb Kuninori Morimoto  2024-09-11 @1700  	return soc_core_ret(card->dev, ret);
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1701  }
-bc7c16c226a919 Kuninori Morimoto  2019-09-04  1702  
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1703  static void soc_remove_link_components(struct snd_soc_card *card)
-62ae68fa5d6d6f Stephen Warren     2012-06-08  1704  {
-61aca5646b736a Lars-Peter Clausen 2014-08-19  1705  	struct snd_soc_component *component;
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1706  	struct snd_soc_pcm_runtime *rtd;
-613fb50059cf19 Kuninori Morimoto  2020-01-10  1707  	int i, order;
-62ae68fa5d6d6f Stephen Warren     2012-06-08  1708  
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1709  	for_each_comp_order(order) {
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1710  		for_each_card_rtds(card, rtd) {
-613fb50059cf19 Kuninori Morimoto  2020-01-10  1711  			for_each_rtd_components(rtd, i, component) {
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1712  				if (component->driver->remove_order != order)
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1713  					continue;
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1714  
-c6619b729814c8 Kuninori Morimoto  2019-11-06  1715  				soc_remove_component(component, 1);
-62ae68fa5d6d6f Stephen Warren     2012-06-08  1716  			}
-62ae68fa5d6d6f Stephen Warren     2012-06-08  1717  		}
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1718  	}
-b006c0c6ed0dc7 Kuninori Morimoto  2019-09-04  1719  }
-62ae68fa5d6d6f Stephen Warren     2012-06-08  1720  
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1721  static int soc_probe_link_components(struct snd_soc_card *card)
-6fb035502956ad Kuninori Morimoto  2019-08-23  1722  {
-6fb035502956ad Kuninori Morimoto  2019-08-23  1723  	struct snd_soc_component *component;
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1724  	struct snd_soc_pcm_runtime *rtd;
-613fb50059cf19 Kuninori Morimoto  2020-01-10  1725  	int i, ret, order;
-6fb035502956ad Kuninori Morimoto  2019-08-23  1726  
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1727  	for_each_comp_order(order) {
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1728  		for_each_card_rtds(card, rtd) {
-613fb50059cf19 Kuninori Morimoto  2020-01-10  1729  			for_each_rtd_components(rtd, i, component) {
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1730  				if (component->driver->probe_order != order)
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1731  					continue;
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1732  
-6fb035502956ad Kuninori Morimoto  2019-08-23  1733  				ret = soc_probe_component(card, component);
-6fb035502956ad Kuninori Morimoto  2019-08-23  1734  				if (ret < 0)
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1735  					goto out;
-6fb035502956ad Kuninori Morimoto  2019-08-23  1736  			}
-6fb035502956ad Kuninori Morimoto  2019-08-23  1737  		}
-62f07a6b6dbaf0 Kuninori Morimoto  2019-09-04  1738  	}
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1739  out:
-6eadb23415b5fb Kuninori Morimoto  2024-09-11 @1740  	return soc_core_ret(card->dev, ret);
-6fb035502956ad Kuninori Morimoto  2019-08-23  1741  }
-6fb035502956ad Kuninori Morimoto  2019-08-23  1742  
-e8fbd250524246 Kuninori Morimoto  2019-09-04  1743  static void soc_unbind_aux_dev(struct snd_soc_card *card)
-4893a2eb34a972 Kuninori Morimoto  2019-09-04  1744  {
-e8fbd250524246 Kuninori Morimoto  2019-09-04  1745  	struct snd_soc_component *component, *_component;
-e8fbd250524246 Kuninori Morimoto  2019-09-04  1746  
-e8fbd250524246 Kuninori Morimoto  2019-09-04  1747  	for_each_card_auxs_safe(card, component, _component) {
-257c4dac8b7877 Kuninori Morimoto  2020-06-04  1748  		/* for snd_soc_component_init() */
-257c4dac8b7877 Kuninori Morimoto  2020-06-04  1749  		snd_soc_component_set_aux(component, NULL);
-4893a2eb34a972 Kuninori Morimoto  2019-09-04  1750  		list_del(&component->card_aux_list);
-4893a2eb34a972 Kuninori Morimoto  2019-09-04  1751  	}
-e8fbd250524246 Kuninori Morimoto  2019-09-04  1752  }
-4893a2eb34a972 Kuninori Morimoto  2019-09-04  1753  
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1754  static int soc_bind_aux_dev(struct snd_soc_card *card)
-3ca041ed04734c Sebastian Reichel  2014-04-28  1755  {
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1756  	struct snd_soc_component *component;
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1757  	struct snd_soc_aux_dev *aux;
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1758  	int i;
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1759  
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1760  	for_each_card_pre_auxs(card, i, aux) {
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1761  		/* codecs, usually analog devices */
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1762  		component = soc_find_component(&aux->dlc);
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1763  		if (!component)
-3dc29b8b206207 Kuninori Morimoto  2019-08-08  1764  			return -EPROBE_DEFER;
-3ca041ed04734c Sebastian Reichel  2014-04-28  1765  
-257c4dac8b7877 Kuninori Morimoto  2020-06-04  1766  		/* for snd_soc_component_init() */
-257c4dac8b7877 Kuninori Morimoto  2020-06-04  1767  		snd_soc_component_set_aux(component, aux);
-c2b71c71037bea Kuninori Morimoto  2019-08-08  1768  		/* see for_each_card_auxs */
-d2e3a1358c37cd Sylwester Nawrocki 2016-12-29  1769  		list_add(&component->card_aux_list, &card->aux_comp_list);
-bee886f1ea9d9e Kuninori Morimoto  2019-09-04  1770  	}
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1771  	return 0;
-b19e6e7b763c71 Mark Brown         2012-03-14  1772  }
-b19e6e7b763c71 Mark Brown         2012-03-14  1773  
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1774  static int soc_probe_aux_devices(struct snd_soc_card *card)
-2eea392d0a28a0 Jarkko Nikula      2010-11-25  1775  {
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1776  	struct snd_soc_component *component;
-f2ed6b07645ed2 Mengdong Lin       2016-01-06  1777  	int order;
-44c69bb13905c3 Lars-Peter Clausen 2014-07-01  1778  	int ret;
-3ca041ed04734c Sebastian Reichel  2014-04-28  1779  
-1a1035a9854fd8 Kuninori Morimoto  2018-09-18  1780  	for_each_comp_order(order) {
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1781  		for_each_card_auxs(card, component) {
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1782  			if (component->driver->probe_order != order)
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1783  				continue;
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1784  
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1785  			ret = soc_probe_component(card,	component);
-74bd3f92d0d173 Kuninori Morimoto  2019-11-06  1786  			if (ret < 0)
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1787  				goto out;
-2eea392d0a28a0 Jarkko Nikula      2010-11-25  1788  		}
-5f3484ac8775a1 Lars-Peter Clausen 2014-07-01  1789  	}
-6eadb23415b5fb Kuninori Morimoto  2024-09-11  1790  out:
-6eadb23415b5fb Kuninori Morimoto  2024-09-11 @1791  	return soc_core_ret(card->dev, ret);
-2eea392d0a28a0 Jarkko Nikula      2010-11-25  1792  }
-2eea392d0a28a0 Jarkko Nikula      2010-11-25  1793  
+4ada4839782370 drivers/crypto/marvell/cipher.c      Arnaud Ebalard  2015-06-18  311  
+e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  312  static int mv_cesa_skcipher_dma_req_init(struct skcipher_request *req,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  313  					 const struct mv_cesa_op_ctx *op_templ)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  314  {
+e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  315  	struct mv_cesa_skcipher_req *creq = skcipher_request_ctx(req);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  316  	gfp_t flags = (req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP) ?
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  317  		      GFP_KERNEL : GFP_ATOMIC;
+53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  318  	struct mv_cesa_req *basereq = &creq->base;
+e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  319  	struct mv_cesa_skcipher_dma_iter iter;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  320  	bool skip_ctx = false;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  321  	int ret;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  322  
+53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  323  	basereq->chain.first = NULL;
+53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  324  	basereq->chain.last = NULL;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  325  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  326  	if (req->src != req->dst) {
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  327  		ret = dma_map_sg(cesa_dev->dev, req->src, creq->src_nents,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  328  				 DMA_TO_DEVICE);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  329  		if (!ret)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  330  			return -ENOMEM;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  331  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  332  		ret = dma_map_sg(cesa_dev->dev, req->dst, creq->dst_nents,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  333  				 DMA_FROM_DEVICE);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  334  		if (!ret) {
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  335  			ret = -ENOMEM;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  336  			goto err_unmap_src;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  337  		}
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  338  	} else {
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  339  		ret = dma_map_sg(cesa_dev->dev, req->src, creq->src_nents,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  340  				 DMA_BIDIRECTIONAL);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  341  		if (!ret)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18 @342  			return -ENOMEM;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  343  	}
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  344  
+ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  345  	mv_cesa_tdma_desc_iter_init(&basereq->chain);
+e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  346  	mv_cesa_skcipher_req_iter_init(&iter, req);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  347  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  348  	do {
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  349  		struct mv_cesa_op_ctx *op;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  350  
+655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  351  		op = mv_cesa_dma_add_op(&basereq->chain, op_templ, skip_ctx,
+655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  352  					flags);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  353  		if (IS_ERR(op)) {
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  354  			ret = PTR_ERR(op);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  355  			goto err_free_tdma;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  356  		}
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  357  		skip_ctx = true;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  358  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  359  		mv_cesa_set_crypt_op_len(op, iter.base.op_len);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  360  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  361  		/* Add input transfers */
+ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  362  		ret = mv_cesa_dma_add_op_transfers(&basereq->chain, &iter.base,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  363  						   &iter.src, flags);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  364  		if (ret)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  365  			goto err_free_tdma;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  366  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  367  		/* Add dummy desc to launch the crypto operation */
+ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  368  		ret = mv_cesa_dma_add_dummy_launch(&basereq->chain, flags);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  369  		if (ret)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  370  			goto err_free_tdma;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  371  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  372  		/* Add output transfers */
+ec38f82e85532b drivers/crypto/marvell/cipher.c      Romain Perier   2016-07-22  373  		ret = mv_cesa_dma_add_op_transfers(&basereq->chain, &iter.base,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  374  						   &iter.dst, flags);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  375  		if (ret)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  376  			goto err_free_tdma;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  377  
+e6cd5bf64855cc drivers/crypto/marvell/cipher.c      Boris Brezillon 2017-10-13  378  	} while (mv_cesa_skcipher_req_iter_next_op(&iter));
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  379  
+bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  380  	/* Add output data for IV */
+655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  381  	ret = mv_cesa_dma_add_result_op(&basereq->chain,
+655ff1a1a727f9 drivers/crypto/marvell/cesa/cipher.c SrujanaChalla   2020-03-13  382  					CESA_SA_CFG_SRAM_OFFSET,
+0c99620f0ac13a drivers/crypto/marvell/cipher.c      Romain Perier   2016-10-05  383  					CESA_SA_DATA_SRAM_OFFSET,
+0c99620f0ac13a drivers/crypto/marvell/cipher.c      Romain Perier   2016-10-05  384  					CESA_TDMA_SRC_IN_SRAM, flags);
+bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  385  
+bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  386  	if (ret)
+bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  387  		goto err_free_tdma;
+bac8e805a30dc2 drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  388  
+85030c5168f1df drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  389  	basereq->chain.last->flags |= CESA_TDMA_END_OF_REQ;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  390  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  391  	return 0;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  392  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  393  err_free_tdma:
+53da740fed302f drivers/crypto/marvell/cipher.c      Romain Perier   2016-06-21  394  	mv_cesa_dma_cleanup(basereq);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  395  	if (req->dst != req->src)
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  396  		dma_unmap_sg(cesa_dev->dev, req->dst, creq->dst_nents,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  397  			     DMA_FROM_DEVICE);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  398  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  399  err_unmap_src:
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  400  	dma_unmap_sg(cesa_dev->dev, req->src, creq->src_nents,
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  401  		     req->dst != req->src ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL);
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  402  
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  403  	return ret;
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  404  }
+db509a45339fd7 drivers/crypto/marvell/cipher.c      Boris Brezillon 2015-06-18  405  
 
 -- 
 0-DAY CI Kernel Test Service
