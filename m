@@ -1,105 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3732B45023
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 11:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22B154445
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 11:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727953470; cv=none; b=gKQvRzkfHczkrH9c3oUmISPMhmxBCg9zqYNiwuNwuiEfHcjLzHZgcz/H+ORMjFZSAmippgJG6q4DfFm3NBFzjZe3aY/suhba7f5tS6pho9McM+nABBADUTxFMPT0aI4VwifrIK6I+U46vEfhR856VUEUZnmFEJMfH3zTjlIWT6s=
+	t=1727954871; cv=none; b=Xs9T2b4EuA0zDw9cYLkwDl44F4XqYBLZfAiO5FP9JgHlFNdmbFh7yoJxRk7BuW2X5q+1xKS0i27ZOc6h5IzKgYUe/XF7B3h2aShKYhGRnSZydk7VJe4dPD2EB4GT6HRN+ZhAHkWUTyAjzNocYo9wk1YMumapM8mn0ZQqREr5614=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727953470; c=relaxed/simple;
-	bh=G7KPeHFaAhS92nkYBDAFbzOAE1kGdFt0VbQ+cyUcY1U=;
+	s=arc-20240116; t=1727954871; c=relaxed/simple;
+	bh=Z/wE6vlPIxBH6LaOzwO/7U3nnPDqtFz/6PyjY83CPvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bMuVk7W8Ib2uSgizuuJPGPN6gDFTvS010Pc9lJgrYpUf2mCQwNfplQ/kNxP77yRHDsXWKqqO+jPD3/Xb2LjN7OXV6F/gu2qMnHrWTnJH8Dc/TdtURU87TJQqGaxbSX/qJMLDHqhYx8o8Kr91DiQVbaaAemyl63ldGuMhH34krEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSohyoZl; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=VaKDTmXaBg8RtXipHdzXGnr5h1HgwIZEUv+ItgmdGNaiCP59QhAHldhZ3TU6kmMqocXSrOnfz9PKIV/xND+jHvfvDll2SLEDYUjJrQEOxaQc5GFNJZ+P0eo/hJIhlQcziT0iTdjnitp9ykRdpOTJBPgGWaqwAMltzME8+5QK7VY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UoOEeZw5; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSohyoZl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727953468; x=1759489468;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G7KPeHFaAhS92nkYBDAFbzOAE1kGdFt0VbQ+cyUcY1U=;
-  b=SSohyoZljcK5wSm4PqxqWwiPIz+vZo7adzg7jDlfz2OwjMyN7s6fP3wP
-   dd0WSLMiXNJJYlofEIjMA/KvVW5Nv/FF3t8H7Rwj6x33im4gpti7KTumR
-   YZcQl3kR3GdFKFUgie0GyUE6MzhziZ05eVNPEUgiAqQ9twVSuAWqLSvdL
-   EvnakAZJSCNDVB5qCCShwkR0t3nIdrSddtDysr5Iw+JkuKeUYoabjsAk0
-   ijfDl+YW5ek7BNDGpe07B1qj2cGuIwO0lJyw/IW3TE1DGWGo9846OA4r9
-   tVosM+NW18UmFejD06MzdDPPoLaUWJu9iDa5mM8TDp6fK3393K/dK05Ry
-   w==;
-X-CSE-ConnectionGUID: r5QCpf5uQPSri28yB8dSzA==
-X-CSE-MsgGUID: Dfxh06epSiWqtm073hDAiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="26650471"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="26650471"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 04:04:27 -0700
-X-CSE-ConnectionGUID: bw3pUXGhT+qrRhH6nOysRg==
-X-CSE-MsgGUID: dKLbhwYNQguHQwO0LmJgHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="74749806"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Oct 2024 04:04:26 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swJd9-0000K2-0Q;
-	Thu, 03 Oct 2024 11:04:23 +0000
-Date: Thu, 3 Oct 2024 19:03:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UoOEeZw5"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cbface8d6so10845885e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 03 Oct 2024 04:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727954866; x=1728559666; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qem65KOW9h0XHEqIvrOXeHfZuZNWOf4NfsS3cuje4Uc=;
+        b=UoOEeZw5NDiVMX5RXlal95kEaW3KwnSX9GGkennj2u1cyuyzgYPyWPuMjG//8J4xux
+         6Qbcy6HCiENdvkVPw8pZKTOFGsowrQTaTMVV2oCIrmwyrJ6WCVTHyF5CW+ylAEifCHPc
+         PdecNFm168xm467abcoSV5n70DD4seSDWkEwXfye3mUx1ZwdFkkWQxywPooQcnFHl5Bl
+         5uPwrgMlS3FVeFNYS41PIG/91WzknUdP4aCSWgUSoYz9FBWcz7GmgYlnN/sZ6z3b0ek6
+         xlY48bylT4vOnJ0TYgTimU9/7fRTf64vJDw2Hdg3/l3ws5sZ839ZMJI0EodHgAu4jnkH
+         KYlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727954866; x=1728559666;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qem65KOW9h0XHEqIvrOXeHfZuZNWOf4NfsS3cuje4Uc=;
+        b=wP2mF4PFAEo3Mr3RCaQGuLQNgfTG3jP6NFpjOWZSvKRKVtc6B4BgmyBZYjbefEvGDa
+         d8IOH3p8rhvqzL/jsvnKb9iar7owIvFLHzFeU8gPtisVX/d4wNVheB2EV+Ol1VA1f7RL
+         7YSLnvhyl7hkkIDVlp4deH2fBjUm/bZiA81oD90raRnW60eJaiEcdqvSVO/9xIObTqfv
+         1CI7e7gXXQPvzNELlKl/BbXnKpqm7OoP71IQJUdUYX3e1EODUVq2qaaFlMkSDa2W2TNN
+         DqOMepKFIo4ejlI9jR0ZJBpo6Ra1HMuueTozGippYPNx5OfwgTUb6XDkztD0Wr15ZPLs
+         nxHw==
+X-Gm-Message-State: AOJu0Yx08EqkxDXLtcrOzuIhFTc5fTfhtj762oNiQkqC++RGar4zI23F
+	FQPKzIiWVKsOSu5GnGDULdkqnwtimc+3CqxG8NmET9wzZb4YbofdmRwTlBf1LaFcaq8urYtuP15
+	w
+X-Google-Smtp-Source: AGHT+IEEmiRO7XNga2R0AbTWwcKrW4gQGuckB9cWDC35qKZ6RovrhXFw2RQNIFfDGFsMFgKWwBKiFg==
+X-Received: by 2002:a05:600c:3581:b0:42c:b508:750e with SMTP id 5b1f17b1804b1-42f777ba30cmr58372725e9.11.1727954866397;
+        Thu, 03 Oct 2024 04:27:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f79d8d3bcsm42549325e9.5.2024.10.03.04.27.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 04:27:45 -0700 (PDT)
+Date: Thu, 3 Oct 2024 14:27:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rosen Penev <rosenp@gmail.com>,
+	linux-crypto@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Rosen Penev <rosenp@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 2/5] crypto: cesa: use enabled variants for clk_get
-Message-ID: <202410031841.JyZSemmn-lkp@intel.com>
+Message-ID: <7f2b38c2-f9bc-4030-8cb7-6042760d4992@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20241001232547.355947-3-rosenp@gmail.com>
-References: <20241001232547.355947-3-rosenp@gmail.com>
-TO: Rosen Penev <rosenp@gmail.com>
-TO: linux-crypto@vger.kernel.org
-CC: Boris Brezillon <bbrezillon@kernel.org>
-CC: Arnaud Ebalard <arno@natisbad.org>
-CC: Srujana Challa <schalla@marvell.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Rosen Penev <rosenp@gmail.com>
-CC: "Uwe Kleine-König" <u.kleine-koenig@pengutronix.de>
-CC: linux-kernel@vger.kernel.org
 
 Hi Rosen,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.12-rc1 next-20241003]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/crypto-cesa-add-COMPILE_TEST/20241002-072835
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
 patch link:    https://lore.kernel.org/r/20241001232547.355947-3-rosenp%40gmail.com
 patch subject: [PATCH 2/5] crypto: cesa: use enabled variants for clk_get
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
 config: um-randconfig-r073-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031841.JyZSemmn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202410031841.JyZSemmn-lkp@intel.com/
 
 smatch warnings:
@@ -107,7 +99,6 @@ drivers/crypto/marvell/cesa/cesa.c:517 mv_cesa_probe() warn: missing error code 
 
 vim +/ret +517 drivers/crypto/marvell/cesa/cesa.c
 
-f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  431  
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  432  static int mv_cesa_probe(struct platform_device *pdev)
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  433  {
 0bf6948995f9f7 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  434  	const struct mv_cesa_caps *caps = &orion_caps;
@@ -194,12 +185,18 @@ f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  51
 4d5eba631bcc35 drivers/crypto/marvell/cesa/cesa.c Rosen Penev     2024-10-01  515  			engine->clk = devm_clk_get_optional_enabled(dev, NULL);
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  516  			if (IS_ERR(engine->clk))
 4d5eba631bcc35 drivers/crypto/marvell/cesa/cesa.c Rosen Penev     2024-10-01 @517  				goto err_cleanup;
+
+ret = PTR_ERR(engine->clk);
+
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  518  		}
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  519  
 0501d0d1494900 drivers/crypto/marvell/cesa/cesa.c Herbert Xu      2023-10-27  520  		snprintf(res_name, sizeof(res_name), "cesaz%u", i);
 4d5eba631bcc35 drivers/crypto/marvell/cesa/cesa.c Rosen Penev     2024-10-01  521  		engine->zclk = devm_clk_get_optional_enabled(dev, res_name);
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  522  		if (IS_ERR(engine->zclk))
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  523  			goto err_cleanup;
+
+ret = PTR_ERR(engine->zclk);
+
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  524  
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  525  		engine->regs = cesa->regs + CESA_ENGINE_OFF(i);
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  526  
@@ -249,8 +246,8 @@ f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  56
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  570  
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  571  	return ret;
 f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  572  }
-f63601fd616ab3 drivers/crypto/marvell/cesa.c      Boris Brezillon 2015-06-18  573  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
