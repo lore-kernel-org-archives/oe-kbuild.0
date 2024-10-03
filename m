@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3761482F3
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 09:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08B584E0D
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 10:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727949087; cv=none; b=ZbLysSonMGaTpx14FToLozo5Gzq2ZB1m3XtFTVKxUvApSj8KMcOGE6a0JHfwunUsoOvP97mVJSJqEp/4w9poLpX3VC8lUgYYzC2b/i9rZWCn/0xst4GClrpR1XuRWxulVyJFLtToMEmJVSzZZh38HrxjcTYH2H5SFP/9Vf3K/ic=
+	t=1727949746; cv=none; b=cLjbO/5Aap0Ti4pavxAAB/EG0970ab8PX8co3icmwlnFsnzwEsGG/s6jQx+S5bmZ239OImIitAmcDgx3+95qaypkyp1Dyb/C5xADQAi1crIjsGvG/pTsyj3F2e61967i6OGPNrD0jXTDq4gXyCE6asCEj6o0Lc0bhB8wVAkgCWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727949087; c=relaxed/simple;
-	bh=kTDBCZDAjTxIMKpJJTKO/Voak/1EXn5ospy8j7ODvCk=;
+	s=arc-20240116; t=1727949746; c=relaxed/simple;
+	bh=XK22TcimA9NdX8QXiiQzHQ5GyDOB8PIauU4JvY9x+UY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JZzHWUVS9mnPj12cDhMGgfW72mGPB1Xr4CmH2ZOmX5rJqNrN88teEoCEW29XMjPZM4/XYTU16Txw4OIl2V7CgMY7JIrK2pkATNh1EsrEwpZ5ufPNIyTx1bmCnVIfZaZ/RKVMSckgegYALIkQhXD63ckCDZUSd701fHbraQcltNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeBbuuSq; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=EJAp7WIzDRpAfj187+v+gjto8fAGgyTHfv87PTlQ0d3jaG5hHag12W3w/LWMx50omDb12nPDl/sSkVsI/twJOTiv+hx8C/r2bYDAMkQFLwEW9Wgq4ZQnfRT8Pvv6LKSDQhGEogSEJiznlJuXpaGgF6NwsJuo7hG7V8hyf3U6Y2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aOUw/hu9; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeBbuuSq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOUw/hu9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727949085; x=1759485085;
+  t=1727949745; x=1759485745;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kTDBCZDAjTxIMKpJJTKO/Voak/1EXn5ospy8j7ODvCk=;
-  b=JeBbuuSqxDwti1bOdheJORPMpzcWCYNW6RxhX3BSaLrgpmf+HVZrIN+I
-   NvZQJ8rwmSpY/RVilt8b4Em8TU9J1TIAeDOFn/7G//JsvphgvLFDx53BR
-   XFY/AWCamwfEFxctORr9Z9igaYShssz2cW1sGT78PNpXKHe5JSVqomy5u
-   OxGYBfK/V3MVEreRm6cxi72Ieuhp4gYUfSrG7zxnT6e13ggvxL65aBlE0
-   wnzndQwOjYaiKEUOhx+420kFlwGrowJ0mIaZeyZeNpQsfJ5fKjc0WWaLm
-   Mi/bRjVY6SuuSqdjk/WqufRlclwjUNitgn8cdwhDfGYEo5+CIdxEZcPH3
-   Q==;
-X-CSE-ConnectionGUID: oRZ/97u3TYqyT8/V42AWEQ==
-X-CSE-MsgGUID: 1U4zTncTSveJ1Nr8TX3aIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="30928624"
+  bh=XK22TcimA9NdX8QXiiQzHQ5GyDOB8PIauU4JvY9x+UY=;
+  b=aOUw/hu9Q2qxgMW6GqyNUZu/VzB6cQ37B4T9yW5spxotJ0/Ksu/oW5Yl
+   G1g4Q9Bvuby0hXpB1cjS6l8U6bJIZ//bJJ55xdO3S4iY0HA+AHd4niw3O
+   2wOk87XCDhPVrNUkyPyMRdxZSrjxyy8jgbHHmPmDvdVSwcv22nO3lalo2
+   1+AnCW2JVouY/UmFWhyLfpfu15s7aVgUwbzl13A/WqazMGaxp5pvLiJVC
+   7PBXnnpBzyn8S/KPowLuFx318eKzbaaw9e6tHucrwm+pJFxXrLszn0OrG
+   ZvqX7tjX9G6JesY+91qMVSTSjqGtEbr1dOhFqVb57lV54vCzSMixmYkk5
+   g==;
+X-CSE-ConnectionGUID: Eiv14wwaR8et2J7vLTdXjw==
+X-CSE-MsgGUID: XHbiiivdTJm93V2vQIfzoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="49660950"
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="30928624"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:51:25 -0700
-X-CSE-ConnectionGUID: qUxejG6QSbqbm8KAfIqFTw==
-X-CSE-MsgGUID: 7OaXz7RUT926AmW9VCYm1g==
+   d="scan'208";a="49660950"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 03:02:25 -0700
+X-CSE-ConnectionGUID: TPNezt3jRs2OEb+B0QwO9w==
+X-CSE-MsgGUID: zeb9LJKuSrGhIlotLJjCzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="111759060"
+   d="scan'208";a="74406352"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Oct 2024 02:51:23 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 03 Oct 2024 03:02:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swIUS-0000Fi-2W;
-	Thu, 03 Oct 2024 09:51:20 +0000
-Date: Thu, 3 Oct 2024 17:51:04 +0800
+	id 1swIf7-0000GO-0G;
+	Thu, 03 Oct 2024 10:02:21 +0000
+Date: Thu, 3 Oct 2024 18:01:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not
- indented
-Message-ID: <202410031753.YKQowtNa-lkp@intel.com>
+Subject: [linux-next:master 1897/2170] mm/slub.c:4748 __do_krealloc() error:
+ uninitialized symbol 's'.
+Message-ID: <202410031740.baMIOckQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,202 +64,86 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tianrui Zhao <zhaotianrui@loongson.cn>
-CC: Huacai Chen <chenhuacai@kernel.org>
-CC: Bibo Mao <maobibo@loongson.cn>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Feng Tang <feng.tang@intel.com>
+CC: Vlastimil Babka <vbabka@suse.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ec462100ef9142344ddbf86f2c3008b97acddbe
-commit: c1fc48aad14dbe7654f5986afb906332b528d54b LoongArch: KVM: Enable kvm config and add the makefile
-date:   1 year ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 1 year ago
-config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031753.YKQowtNa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c02d24a5af66a9806922391493205a344749f2c4
+commit: d0a38fad51cc70ab3dd3c59b54d8079ac19220b9 [1897/2170] mm/slub: Improve redzone check and zeroing for krealloc()
+:::::: branch date: 6 hours ago
+:::::: commit date: 23 hours ago
+config: i386-randconfig-141-20241003 (https://download.01.org/0day-ci/archive/20241003/202410031740.baMIOckQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410031753.YKQowtNa-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410031740.baMIOckQ-lkp@intel.com/
 
-New smatch warnings:
-arch/loongarch/kvm/mmu.c:867 kvm_map_page() warn: if statement not indented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:529 kvm_destroy_vcpus() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1670 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1663)
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:1672 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1664)
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:4643 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5720 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:5731 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+smatch warnings:
+mm/slub.c:4748 __do_krealloc() error: uninitialized symbol 's'.
 
-Old smatch warnings:
-arch/loongarch/kvm/../../../virt/kvm/kvm_main.c:330 kvm_make_all_cpus_request_except() warn: iterator 'i' not incremented
-arch/loongarch/include/asm/atomic.h:109 arch_atomic_fetch_add_unless() warn: inconsistent indenting
-include/linux/kvm_host.h:945 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+vim +/s +4748 mm/slub.c
 
-vim +867 arch/loongarch/kvm/mmu.c
-
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  732  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  733  /*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  734   * kvm_map_page() - Map a guest physical page.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  735   * @vcpu:		vCPU pointer.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  736   * @gpa:		Guest physical address of fault.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  737   * @write:	Whether the fault was due to a write.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  738   *
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  739   * Handle GPA faults by creating a new GPA mapping (or updating an existing
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  740   * one).
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  741   *
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  742   * This takes care of marking pages young or dirty (idle/dirty page tracking),
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  743   * asking KVM for the corresponding PFN, and creating a mapping in the GPA page
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  744   * tables. Derived mappings (GVA page tables and TLBs) must be handled by the
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  745   * caller.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  746   *
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  747   * Returns:	0 on success
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  748   *		-EFAULT if there is no memory region at @gpa or a write was
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  749   *		attempted to a read-only memory region. This is usually handled
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  750   *		as an MMIO access.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  751   */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  752  static int kvm_map_page(struct kvm_vcpu *vcpu, unsigned long gpa, bool write)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  753  {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  754  	bool writeable;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  755  	int srcu_idx, err, retry_no = 0, level;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  756  	unsigned long hva, mmu_seq, prot_bits;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  757  	kvm_pfn_t pfn;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  758  	kvm_pte_t *ptep, new_pte;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  759  	gfn_t gfn = gpa >> PAGE_SHIFT;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  760  	struct kvm *kvm = vcpu->kvm;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  761  	struct kvm_memory_slot *memslot;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  762  	struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  763  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  764  	/* Try the fast path to handle old / clean pages */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  765  	srcu_idx = srcu_read_lock(&kvm->srcu);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  766  	err = kvm_map_page_fast(vcpu, gpa, write);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  767  	if (!err)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  768  		goto out;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  769  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  770  	memslot = gfn_to_memslot(kvm, gfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  771  	hva = gfn_to_hva_memslot_prot(memslot, gfn, &writeable);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  772  	if (kvm_is_error_hva(hva) || (write && !writeable)) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  773  		err = -EFAULT;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  774  		goto out;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  775  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  776  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  777  	/* We need a minimum of cached pages ready for page table creation */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  778  	err = kvm_mmu_topup_memory_cache(memcache, KVM_MMU_CACHE_MIN_PAGES);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  779  	if (err)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  780  		goto out;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  781  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  782  retry:
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  783  	/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  784  	 * Used to check for invalidations in progress, of the pfn that is
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  785  	 * returned by pfn_to_pfn_prot below.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  786  	 */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  787  	mmu_seq = kvm->mmu_invalidate_seq;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  788  	/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  789  	 * Ensure the read of mmu_invalidate_seq isn't reordered with PTE reads in
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  790  	 * gfn_to_pfn_prot() (which calls get_user_pages()), so that we don't
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  791  	 * risk the page we get a reference to getting unmapped before we have a
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  792  	 * chance to grab the mmu_lock without mmu_invalidate_retry() noticing.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  793  	 *
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  794  	 * This smp_rmb() pairs with the effective smp_wmb() of the combination
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  795  	 * of the pte_unmap_unlock() after the PTE is zapped, and the
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  796  	 * spin_lock() in kvm_mmu_invalidate_invalidate_<page|range_end>() before
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  797  	 * mmu_invalidate_seq is incremented.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  798  	 */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  799  	smp_rmb();
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  800  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  801  	/* Slow path - ask KVM core whether we can access this GPA */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  802  	pfn = gfn_to_pfn_prot(kvm, gfn, write, &writeable);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  803  	if (is_error_noslot_pfn(pfn)) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  804  		err = -EFAULT;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  805  		goto out;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  806  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  807  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  808  	/* Check if an invalidation has taken place since we got pfn */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  809  	spin_lock(&kvm->mmu_lock);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  810  	if (mmu_invalidate_retry_hva(kvm, mmu_seq, hva)) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  811  		/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  812  		 * This can happen when mappings are changed asynchronously, but
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  813  		 * also synchronously if a COW is triggered by
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  814  		 * gfn_to_pfn_prot().
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  815  		 */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  816  		spin_unlock(&kvm->mmu_lock);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  817  		kvm_release_pfn_clean(pfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  818  		if (retry_no > 100) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  819  			retry_no = 0;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  820  			schedule();
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  821  		}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  822  		retry_no++;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  823  		goto retry;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  824  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  825  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  826  	/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  827  	 * For emulated devices such virtio device, actual cache attribute is
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  828  	 * determined by physical machine.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  829  	 * For pass through physical device, it should be uncachable
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  830  	 */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  831  	prot_bits = _PAGE_PRESENT | __READABLE;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  832  	if (pfn_valid(pfn))
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  833  		prot_bits |= _CACHE_CC;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  834  	else
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  835  		prot_bits |= _CACHE_SUC;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  836  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  837  	if (writeable) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  838  		prot_bits |= _PAGE_WRITE;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  839  		if (write)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  840  			prot_bits |= __WRITEABLE;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  841  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  842  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  843  	/* Disable dirty logging on HugePages */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  844  	level = 0;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  845  	if (!fault_supports_huge_mapping(memslot, hva, PMD_SIZE, write)) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  846  		level = 0;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  847  	} else {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  848  		level = host_pfn_mapping_level(kvm, gfn, memslot);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  849  		if (level == 1) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  850  			gfn = gfn & ~(PTRS_PER_PTE - 1);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  851  			pfn = pfn & ~(PTRS_PER_PTE - 1);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  852  		}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  853  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  854  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  855  	/* Ensure page tables are allocated */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  856  	ptep = kvm_populate_gpa(kvm, memcache, gpa, level);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  857  	new_pte = kvm_pfn_pte(pfn, __pgprot(prot_bits));
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  858  	if (level == 1) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  859  		new_pte = kvm_pte_mkhuge(new_pte);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  860  		/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  861  		 * previous pmd entry is invalid_pte_table
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  862  		 * there is invalid tlb with small page
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  863  		 * need flush these invalid tlbs for current vcpu
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  864  		 */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  865  		kvm_make_request(KVM_REQ_TLB_FLUSH, vcpu);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  866  		++kvm->stat.hugepages;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02 @867  	}  else if (kvm_pte_huge(*ptep) && write)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  868  		ptep = kvm_split_huge(vcpu, ptep, gfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  869  	else
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  870  		++kvm->stat.pages;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  871  	kvm_set_pte(ptep, new_pte);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  872  	spin_unlock(&kvm->mmu_lock);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  873  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  874  	if (prot_bits & _PAGE_DIRTY) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  875  		mark_page_dirty_in_slot(kvm, memslot, gfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  876  		kvm_set_pfn_dirty(pfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  877  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  878  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  879  	kvm_set_pfn_accessed(pfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  880  	kvm_release_pfn_clean(pfn);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  881  out:
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  882  	srcu_read_unlock(&kvm->srcu, srcu_idx);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  883  	return err;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  884  }
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  885  
-
-:::::: The code at line 867 was first introduced by commit
-:::::: 752e2cd7b4fb412f3e008493e0195e357bab9773 LoongArch: KVM: Implement kvm mmu operations
-
-:::::: TO: Tianrui Zhao <zhaotianrui@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+b774d3e326d30f Vlastimil Babka 2023-10-03  4714  
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4715  static __always_inline __realloc_size(2) void *
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4716  __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4717  {
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4718  	void *ret;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4719  	size_t ks;
+d0a38fad51cc70 Feng Tang       2024-09-11  4720  	int orig_size = 0;
+d0a38fad51cc70 Feng Tang       2024-09-11  4721  	struct kmem_cache *s;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4722  
+d0a38fad51cc70 Feng Tang       2024-09-11  4723  	/* Check for double-free. */
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4724  	if (likely(!ZERO_OR_NULL_PTR(p))) {
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4725  		if (!kasan_check_byte(p))
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4726  			return NULL;
+d0a38fad51cc70 Feng Tang       2024-09-11  4727  
+d0a38fad51cc70 Feng Tang       2024-09-11  4728  		s = virt_to_cache(p);
+d0a38fad51cc70 Feng Tang       2024-09-11  4729  		orig_size = get_orig_size(s, (void *)p);
+d0a38fad51cc70 Feng Tang       2024-09-11  4730  		ks = s->object_size;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4731  	} else
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4732  		ks = 0;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4733  
+d0a38fad51cc70 Feng Tang       2024-09-11  4734  	/* If the object doesn't fit, allocate a bigger one */
+d0a38fad51cc70 Feng Tang       2024-09-11  4735  	if (new_size > ks)
+d0a38fad51cc70 Feng Tang       2024-09-11  4736  		goto alloc_new;
+d0a38fad51cc70 Feng Tang       2024-09-11  4737  
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4738  	/* Zero out spare memory. */
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4739  	if (want_init_on_alloc(flags)) {
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4740  		kasan_disable_current();
+d0a38fad51cc70 Feng Tang       2024-09-11  4741  		if (orig_size < new_size)
+d0a38fad51cc70 Feng Tang       2024-09-11  4742  			memset((void *)p + orig_size, 0, new_size - orig_size);
+d0a38fad51cc70 Feng Tang       2024-09-11  4743  		else
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4744  			memset((void *)p + new_size, 0, ks - new_size);
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4745  		kasan_enable_current();
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4746  	}
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4747  
+d0a38fad51cc70 Feng Tang       2024-09-11 @4748  	if (slub_debug_orig_size(s) && !is_kfence_address(p)) {
+d0a38fad51cc70 Feng Tang       2024-09-11  4749  		set_orig_size(s, (void *)p, new_size);
+d0a38fad51cc70 Feng Tang       2024-09-11  4750  		if (s->flags & SLAB_RED_ZONE && new_size < ks)
+d0a38fad51cc70 Feng Tang       2024-09-11  4751  			memset_no_sanitize_memory((void *)p + new_size,
+d0a38fad51cc70 Feng Tang       2024-09-11  4752  						SLUB_RED_ACTIVE, ks - new_size);
+d0a38fad51cc70 Feng Tang       2024-09-11  4753  	}
+d0a38fad51cc70 Feng Tang       2024-09-11  4754  
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4755  	p = kasan_krealloc((void *)p, new_size, flags);
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4756  	return (void *)p;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4757  
+d0a38fad51cc70 Feng Tang       2024-09-11  4758  alloc_new:
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4759  	ret = kmalloc_node_track_caller_noprof(new_size, flags, NUMA_NO_NODE, _RET_IP_);
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4760  	if (ret && p) {
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4761  		/* Disable KASAN checks as the object's redzone is accessed. */
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4762  		kasan_disable_current();
+d0a38fad51cc70 Feng Tang       2024-09-11  4763  		if (orig_size)
+d0a38fad51cc70 Feng Tang       2024-09-11  4764  			memcpy(ret, kasan_reset_tag(p), orig_size);
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4765  		kasan_enable_current();
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4766  	}
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4767  
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4768  	return ret;
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4769  }
+f97ac9f57ebbe7 Feng Tang       2024-09-11  4770  
 
 -- 
 0-DAY CI Kernel Test Service
