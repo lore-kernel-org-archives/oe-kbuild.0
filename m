@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1057019B59F
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 15:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E41E1A265E
+	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 15:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727970642; cv=none; b=D1tonzzWxUhbhsxhvsaeDfV5/mAxQ7SCsXcIL4dpX0yuovQe52zNZioD4e7HppXhHptkOn1twVNpuNQQDJvCL8g7bbqoT1lKYqO8GcjIZ6aJgSY1MU2cd9fAuqWZpNAuEGgjAO7xwTD62kfyeg5uzDqFJIgiLZXGY0aMS58gdtI=
+	t=1727970973; cv=none; b=tK8o/nyChL1gFuog71TwDDUJvwXsYbvOICDz6nNmI+fzeNwtgcjmU4jowcnSs7lbgd0sCL8QZ8tZddMoKGAvck1TjOq4dqHA0/ygRu2PRWCalI7sm4RPz/P0taShQC+W31X9WiCZc3cQanCTae5wvIPF+BoI07OFWwLJfFzkNK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727970642; c=relaxed/simple;
-	bh=s2GdYazihk0gPyXmh+LXiRUd/05gl+9W87Yg4cGywEI=;
+	s=arc-20240116; t=1727970973; c=relaxed/simple;
+	bh=2fWN7w5+3XAQ2axWFg2sL2oJ6X46Z5i2+1PP83XPWEo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D9HjkpDIWTvXqpu3DcNd9h+kLJIV1F8fygoI5M2i4hC0uyP+vVWe7zei+6QZ2do7I18UuvD5dSqAjrlXj88O7RLMIGLHcHKuJOsYFp6lIj4DnD4iIy4w0DLd9es3Acy8nTLWhwiUT/4KeaaYupV9CiLT8MJHHdEKaK3UXAGMZsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXQAF+8W; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Tqri/t2IsGwqs6v9glYzRtkLTLVGZi6ILQLgLvZxL8rg1CfBVTx+Y0EEEQo783E7p5ppB9vD4YEUuiASX0LKnF2FMakWUa5+CcUqruVdnCTmD2HNV3LZvlpuFtKD5wf8ZoNlWExQyCqCOg1La2JimUyuwOYKHRDApRiMDa2AIk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K1blUqXX; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXQAF+8W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727970640; x=1759506640;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s2GdYazihk0gPyXmh+LXiRUd/05gl+9W87Yg4cGywEI=;
-  b=kXQAF+8WyRfU9OwvEdAMUSoIQYDE2S7WsDZnSwHuL/iSPWHv6d2ZlcYn
-   JM4A6bR0DhqO/lUuJENbW6nfstXYKavlLPHURE7ggOlJ68b0h09Q2b8ll
-   qPrOu/xDRCDesl6n4lMM65aozyoAW0mZUCGILCR/AkXOkqEjrxD3K8bVH
-   p1XJO+PcpvO3Tjm8iULRmUMNCtfJR3xoBWE2HudTKfqsWdFvJbeVIGgB2
-   5P3PDhDAiywi7xL6QRpQZHD/L9drOfNK+lOHwBwZ/0wKak/RrQQGokHAf
-   0W45Y5l2OZD9dF+PlznICJ8i5d+iN9FqTueZa+/9mAHK3LegMS2PuqjWl
-   w==;
-X-CSE-ConnectionGUID: ewNUpQsYQr2LchKWrvmP0Q==
-X-CSE-MsgGUID: nZBPgyDNQKWAGFaIT8+XOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="31052781"
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="31052781"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 08:50:39 -0700
-X-CSE-ConnectionGUID: henLYD5GRoaY5ygdykp81g==
-X-CSE-MsgGUID: OUUAxMMnR+yZsQg+fpyOpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
-   d="scan'208";a="97722467"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Oct 2024 08:50:38 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1swO67-0000au-2y;
-	Thu, 03 Oct 2024 15:50:35 +0000
-Date: Thu, 3 Oct 2024 23:49:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K1blUqXX"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cbe624c59so10035625e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 03 Oct 2024 08:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727970970; x=1728575770; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PFcfJETJkQgduyae2e5pvvSVv261VVrQFFLdoEdBQP0=;
+        b=K1blUqXX95d9Wr/3YVSoIXaacjis0O42ms4j0CCxGXpQlhquIg67gbMF17qR4zVL13
+         BWMZA8+ZQhVpHb+GyaceuSICa53LtTDy3JSTLm5ODqrmbtjgRE8GF3BvITt+/JDSJluW
+         ch8Ewev+/63d8mJ+VzBLF86+ha2un1VD6+WywlHKgHj2OLV/lrC8ZB+QRxzlVcoRAN8j
+         PT/vpnznvQ5EVOdiap2NOaQxwQDK2aYzhJZe2YwewFM3c0d2pckTYqDuczOUb2X/9xFI
+         yVTSIA9oG4Ep/vbVBC8zglLJ/y3CVUtfceG7N/gdgUNdcQGSY1YF7FrTxY/luHZjqAtm
+         h8hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727970970; x=1728575770;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PFcfJETJkQgduyae2e5pvvSVv261VVrQFFLdoEdBQP0=;
+        b=LWwnrBhuOBdPyut/zmt4GtUCTv1ve25/BB3RvrGLdi39dHCLXhhJssaKvHnzJ+4u26
+         wN29UvwMBbIW4Wr/rGkrCTLoVccJCQNDTBwPPMyYqYfIKWMDOF4sGaT3CjsqOVhUP5S7
+         F9q4+gkJT9pJ0kx4WerYggXYI55csSarZ/FH55GRN2Nka5h2avExK094OSWQZwOscF/h
+         kenDv3Zf/0WTlQ0RHzchRn6oReQvYUQG76CNIPA+DlFpMo08tpw4e91PinX1JjrUYdXW
+         FzCk69U5105geieReoezhqRdXeNTPR+HH7haODS/FaRbyVbGxE/fuBzAEQsXYr1zYUWw
+         +GCw==
+X-Gm-Message-State: AOJu0YyFvTGBnbK41JnSqbWn8n1j/WJxX4FP/kcX85yZewl4m2Ps/s33
+	mwYJXSdK2k0PMg3jusIce/HcD3iiwA5Z2IaD1bRtfl56dbgYrPBRX9pbTpLJRLH1BL3kDGOhU5L
+	m
+X-Google-Smtp-Source: AGHT+IHIWw9qK32LFe4k7HE5kpCTKhsAOuVI8emYon0yQhVCJ8kHd1qvx5PaTd+I8ghaGLdQgDitYg==
+X-Received: by 2002:a05:600c:19ca:b0:42c:b995:20c8 with SMTP id 5b1f17b1804b1-42f778f12acmr45583995e9.24.1727970969541;
+        Thu, 03 Oct 2024 08:56:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f7a02f174sm48191265e9.44.2024.10.03.08.56.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 08:56:08 -0700 (PDT)
+Date: Thu, 3 Oct 2024 18:56:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [dhowells-fs:netfs-fixes 11/11] fs/netfs/read_retry.c:235
  netfs_retry_read_subrequests() error: uninitialized symbol 'subreq'.
-Message-ID: <202410032352.BxEbajrr-lkp@intel.com>
+Message-ID: <43dbe849-0373-4889-b092-a41b4c4b46a9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,22 +66,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-fixes
 head:   138e9fb0a2ea3886803ba42efac5eb869d944f31
 commit: 138e9fb0a2ea3886803ba42efac5eb869d944f31 [11/11] netfs: Change the read result collector to only use one work item
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
 config: x86_64-randconfig-161-20241003 (https://download.01.org/0day-ci/archive/20241003/202410032352.BxEbajrr-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202410032352.BxEbajrr-lkp@intel.com/
 
 New smatch warnings:
@@ -85,18 +83,15 @@ fs/netfs/read_retry.c:235 netfs_retry_read_subrequests() error: uninitialized sy
 
 Old smatch warnings:
 fs/netfs/read_retry.c:131 netfs_retry_read_subrequests() error: we previously assumed 'rreq->netfs_ops->prepare_read' could be null (see line 43)
-fs/netfs/read_retry.c:239 netfs_retry_read_subrequests() error: uninitialized symbol 'subreq'.
 
 vim +/subreq +235 fs/netfs/read_retry.c
 
-ee4cdf7ba857a8 David Howells 2024-07-02   21  
-ee4cdf7ba857a8 David Howells 2024-07-02   22  /*
-ee4cdf7ba857a8 David Howells 2024-07-02   23   * Go through the list of failed/short reads, retrying all retryable ones.  We
-ee4cdf7ba857a8 David Howells 2024-07-02   24   * need to switch failed cache reads to network downloads.
-ee4cdf7ba857a8 David Howells 2024-07-02   25   */
 ee4cdf7ba857a8 David Howells 2024-07-02   26  static void netfs_retry_read_subrequests(struct netfs_io_request *rreq)
 ee4cdf7ba857a8 David Howells 2024-07-02   27  {
 ee4cdf7ba857a8 David Howells 2024-07-02   28  	struct netfs_io_subrequest *subreq;
+
+subreq is here.
+
 138e9fb0a2ea38 David Howells 2024-09-25   29  	struct netfs_io_stream *stream = &rreq->io_streams[0];
 138e9fb0a2ea38 David Howells 2024-09-25   30  	struct list_head *next;
 ee4cdf7ba857a8 David Howells 2024-07-02   31  
@@ -114,6 +109,9 @@ ee4cdf7ba857a8 David Howells 2024-07-02   42  	 */
 ee4cdf7ba857a8 David Howells 2024-07-02   43  	if (!rreq->netfs_ops->prepare_read &&
 ee4cdf7ba857a8 David Howells 2024-07-02   44  	    !test_bit(NETFS_RREQ_COPY_TO_CACHE, &rreq->flags)) {
 ee4cdf7ba857a8 David Howells 2024-07-02   45  		struct netfs_io_subrequest *subreq;
+
+Redeclaring subreq makes me nervous.  There is a Sparse warning for this as well.
+
 ee4cdf7ba857a8 David Howells 2024-07-02   46  
 138e9fb0a2ea38 David Howells 2024-09-25   47  		list_for_each_entry(subreq, &stream->subrequests, rreq_link) {
 ee4cdf7ba857a8 David Howells 2024-07-02   48  			if (test_bit(NETFS_SREQ_FAILED, &subreq->flags))
@@ -144,6 +142,9 @@ ee4cdf7ba857a8 David Howells 2024-07-02   71  	 */
 ee4cdf7ba857a8 David Howells 2024-07-02   73  
 ee4cdf7ba857a8 David Howells 2024-07-02   74  	do {
 138e9fb0a2ea38 David Howells 2024-09-25   75  		struct netfs_io_subrequest *subreq = NULL, *from, *to, *tmp;
+
+Redeclared again.  I think this one is a problem.
+
 ee4cdf7ba857a8 David Howells 2024-07-02   76  		struct iov_iter source;
 ee4cdf7ba857a8 David Howells 2024-07-02   77  		unsigned long long start, len;
 138e9fb0a2ea38 David Howells 2024-09-25   78  		size_t part;
@@ -304,6 +305,9 @@ ee4cdf7ba857a8 David Howells 2024-07-02  232
 138e9fb0a2ea38 David Howells 2024-09-25  233  	/* If we hit an error, fail all remaining incomplete subrequests */
 138e9fb0a2ea38 David Howells 2024-09-25  234  abandon_after:
 138e9fb0a2ea38 David Howells 2024-09-25 @235  	if (list_is_last(&subreq->rreq_link, &stream->subrequests))
+                                                                  ^^^^^^
+Warning
+
 138e9fb0a2ea38 David Howells 2024-09-25  236  		return;
 138e9fb0a2ea38 David Howells 2024-09-25  237  	subreq = list_next_entry(subreq, rreq_link);
 ee4cdf7ba857a8 David Howells 2024-07-02  238  abandon:
@@ -318,8 +322,8 @@ ee4cdf7ba857a8 David Howells 2024-07-02  246  		__clear_bit(NETFS_SREQ_NEED_RETR
 ee4cdf7ba857a8 David Howells 2024-07-02  247  		__clear_bit(NETFS_SREQ_RETRYING, &subreq->flags);
 ee4cdf7ba857a8 David Howells 2024-07-02  248  	}
 ee4cdf7ba857a8 David Howells 2024-07-02  249  }
-ee4cdf7ba857a8 David Howells 2024-07-02  250  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
