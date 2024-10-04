@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E53647
-	for <oe-kbuild@lists.linux.dev>; Fri,  4 Oct 2024 00:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75CC647
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Oct 2024 00:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728000540; cv=none; b=PBZjeyHCAH1j/06joopohKBNKpHpjhkFPGp415YkdT0l9lVMmwYfNNj2TDK0k+69HmyTtLmLukxnZRnL1eFVmABW/NA/rMUTraqbksDmpoiSkFoSeQWk1CITZUkvZ8VUVEVqxSsWyVa0AE2ZOolYw5dEQtDL1SbXMEbyRsPQAF0=
+	t=1728000545; cv=none; b=bhiQ2QQ5hqjzbZ9CPRLJCwYjpvxi6aRAiG/H9bc/yfFEnHoFmM1Z2nJlDLLB/g20E/k0Xgi0+iI4lg30RCfQq/WLTT+hxoZn40/PTDoOcOeG8a4uNaLKqTKXhgLamWqXvMHy7tkx2PDaONBh4Wh6geJB4KNqkuyGI/PfDftxwow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728000540; c=relaxed/simple;
-	bh=T8Pp1WSXv4g6ukbaiExm/hHVACnqHSzdWrRpE1eqUDM=;
+	s=arc-20240116; t=1728000545; c=relaxed/simple;
+	bh=nThzfEa4HzmR0bmis+rWn9pM9pG/Jbv7y6FHQsCEZEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QKepfIYSHo913j8MLuNon5+p6yXn3TJjYHAlZXCORUKrTuMZbxmplFshzT3DLyKu4jKnXG1JIDNXKwgf7Yz1Dvrihq1KnSFv1DfhFt/CyUQPXj+W301LLxt3kIa66uPq+Y0hhOP2otEGr3ZjRnzWMwsDn6AUWzadQ80fZna5Tmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJov1VJd; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=tdKSdTx0YhkdO/D6YNjSVtq6q6BrcPaGOA3VMqSnwPqQhwNiUp3p43kAdCk/vwhM+RsFgUt+hGdyB+n4lrDJ0bAbyQhTu0MP+8znGGUveoMxGnni3Pd8/i1F+a3YHsUPQmtXOYh+/yjvCyAjSSIkKvXuNZdHKdKXvZ6n3N/I+vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtEQMm4Y; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJov1VJd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtEQMm4Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728000539; x=1759536539;
+  t=1728000542; x=1759536542;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T8Pp1WSXv4g6ukbaiExm/hHVACnqHSzdWrRpE1eqUDM=;
-  b=LJov1VJdBABigP1N5WzQHoDKX/3jYjojuEmVZbjj6G6tI46W6SICXnrK
-   06sLcsiGXfQ3cjhIZkIBumJGUDwrrb6clvaaq+fKEMWPDUnntokfXbcid
-   oOiBc8DGUdYydlE4xP7rbpmsdJZCvKyykESzg3hTWp898nzSqKu2SXbjc
-   e5wQ5HIjM0mqXAmhEJzG9fdQd93GEg2niCNi1N+x6U6grWR/dyPm1a8dp
-   p4kZMRiHUgR4LUpdEtjUcSyEw8MrahD7wEhVp5Bs2aQcFgBGXCv+i67pJ
-   Ij3E9lfDpn4Scz2h8xB+Zh1fuiRUDqHttLlMAmzLlu9m6B4p3enFEpwtD
-   A==;
-X-CSE-ConnectionGUID: MME+l2b2QZOvBjqcyy6iLg==
-X-CSE-MsgGUID: T2ZUzUsYSkqWsRAGHljbjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27352821"
+  bh=nThzfEa4HzmR0bmis+rWn9pM9pG/Jbv7y6FHQsCEZEk=;
+  b=HtEQMm4YiOm3zQ2ED135hmIT2rhe6Z9bIU9/TgViUbATiWEb+fXzBfv/
+   2SxBZoFXF56kGCs/MXkZ/dhOHB3+ANoqwwU04P8BjcW+bwOUIZyVhq5xr
+   yJS96JoO6EW/ZiDNFmGteF4L8jKc++u4+04OvobT2EnrPWah3IeA0ktoO
+   ZcbUSZt5dOftNZ7f1/kkH6MR0fd1Wt+O8GUP5Kb/KDNUusrapacisRNxb
+   8/1PXwddeXqavuFSw2goHFNEo56JQvbkeMlZP9yhU8uLQuvyKZuFyNLCB
+   /NMvCQHuvqjkdSA1DdPbr8OTILUxkZnt6VKbPvsYdHg6FNbD6OChJHM96
+   g==;
+X-CSE-ConnectionGUID: 1Qu9kLsmSm6aeyiam+c3aw==
+X-CSE-MsgGUID: UsQO0h8QQjOCCKCSGXj7Rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27389549"
 X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
-   d="scan'208";a="27352821"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 17:08:58 -0700
-X-CSE-ConnectionGUID: pkHf5IesTAygufvAWJZFSg==
-X-CSE-MsgGUID: ZcZHnFqwQeuM4IS+rn3W3Q==
+   d="scan'208";a="27389549"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 17:08:59 -0700
+X-CSE-ConnectionGUID: v8DhHuIAS6eDQy18smoW9A==
+X-CSE-MsgGUID: +TkgA+WBTsWoiwz+HfcOTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
-   d="scan'208";a="79088108"
+   d="scan'208";a="74359774"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 03 Oct 2024 17:08:56 -0700
+  by orviesa010.jf.intel.com with ESMTP; 03 Oct 2024 17:08:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swVsM-00012k-17;
+	id 1swVsM-00012m-1B;
 	Fri, 04 Oct 2024 00:08:54 +0000
-Date: Fri, 4 Oct 2024 08:08:04 +0800
+Date: Fri, 4 Oct 2024 08:08:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
-Message-ID: <202410040856.IAPgOjON-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [linux-next:master 1921/2170]
+ arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: mcasp@0: interrupts:
+ [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1,
+ 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+Message-ID: <202410040853.lXLj3g93-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,61 +64,340 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8c245fe7dde3bf776253550fc914a36293db4ff3
-commit: fcf190c369149c3b04539797cedf28741eb14164 timekeeping: Make delta calculation overflow safe
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
-config: mips-randconfig-r062-20241004 (https://download.01.org/0day-ci/archive/20241004/202410040856.IAPgOjON-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c02d24a5af66a9806922391493205a344749f2c4
+commit: 17d8adc4cd5181c13c1041b197b76efc09eaf8a8 [1921/2170] ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
+:::::: branch date: 20 hours ago
+:::::: commit date: 35 hours ago
+config: arm-randconfig-053-20241003 (https://download.01.org/0day-ci/archive/20241004/202410040853.lXLj3g93-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev4+g577c1ab
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241004/202410040853.lXLj3g93-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410040856.IAPgOjON-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410040853.lXLj3g93-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
-
-vim +807 kernel/time/timekeeping.c
-
-cc06268c6a87db1 Thomas Gleixner    2011-11-13  787  
-8524070b7982d76 John Stultz        2007-05-08  788  /**
-155ec60226ae0ae Martin Schwidefsky 2009-08-14  789   * timekeeping_forward_now - update clock to the current time
-6e5a91901c2dff3 Alex Shi           2020-11-13  790   * @tk:		Pointer to the timekeeper to update
-8524070b7982d76 John Stultz        2007-05-08  791   *
-9a055117d3d9cb5 Roman Zippel       2008-08-20  792   * Forward the current clock to update its state since the last call to
-9a055117d3d9cb5 Roman Zippel       2008-08-20  793   * update_wall_time(). This is useful before significant clock changes,
-9a055117d3d9cb5 Roman Zippel       2008-08-20  794   * as it avoids having to deal with this time offset explicitly.
-8524070b7982d76 John Stultz        2007-05-08  795   */
-f726a697d06102e John Stultz        2012-07-13  796  static void timekeeping_forward_now(struct timekeeper *tk)
-8524070b7982d76 John Stultz        2007-05-08  797  {
-a5a1d1c2914b531 Thomas Gleixner    2016-12-21  798  	u64 cycle_now, delta;
-8524070b7982d76 John Stultz        2007-05-08  799  
-ceea5e3771ed237 John Stultz        2017-06-08  800  	cycle_now = tk_clock_read(&tk->tkr_mono);
-876e78818def298 Peter Zijlstra     2015-03-19  801  	delta = clocksource_delta(cycle_now, tk->tkr_mono.cycle_last, tk->tkr_mono.mask);
-876e78818def298 Peter Zijlstra     2015-03-19  802  	tk->tkr_mono.cycle_last = cycle_now;
-4a4ad80d32cea69 Peter Zijlstra     2015-03-19  803  	tk->tkr_raw.cycle_last  = cycle_now;
-8524070b7982d76 John Stultz        2007-05-08  804  
-fcf190c369149c3 Adrian Hunter      2024-03-25  805  	while (delta > 0) {
-fcf190c369149c3 Adrian Hunter      2024-03-25  806  		u64 max = tk->tkr_mono.clock->max_cycles;
-fcf190c369149c3 Adrian Hunter      2024-03-25 @807  		u64 incr = delta < max ? delta : max;
-fc6eead7c1e2e53 John Stultz        2017-05-22  808  
-fcf190c369149c3 Adrian Hunter      2024-03-25  809  		tk->tkr_mono.xtime_nsec += incr * tk->tkr_mono.mult;
-fcf190c369149c3 Adrian Hunter      2024-03-25  810  		tk->tkr_raw.xtime_nsec += incr * tk->tkr_raw.mult;
-fc6eead7c1e2e53 John Stultz        2017-05-22  811  		tk_normalize_xtime(tk);
-fcf190c369149c3 Adrian Hunter      2024-03-25  812  		delta -= incr;
-fcf190c369149c3 Adrian Hunter      2024-03-25  813  	}
-8524070b7982d76 John Stultz        2007-05-08  814  }
-8524070b7982d76 John Stultz        2007-05-08  815  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-droid-bionic-xt875.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-droid4-xt894.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: gpmc@50000000: 'ethernet@gpmc' does not match any of the regexes: '@[0-7],[a-f0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/memory-controllers/ti,gpmc.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: gpmc@50000000: 'ethernet@gpmc' does not match any of the regexes: '.*-names$', '.*-supply$', '^#.*-cells$', '^#[a-zA-Z0-9,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9#,+\\-._]{0,63}$', '^[a-zA-Z0-9][a-zA-Z0-9,+\\-._]{0,63}@[0-9a-fA-F]+(,[0-9a-fA-F]+)*$', '^__.*__$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-duovero-parlor.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+--
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-epson-embt2ws.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-kc1.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-panda.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-panda.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-panda-a4.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-panda-es.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-sdp.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-sdp-es23plus.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-var-dvk-om44.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-var-stk-om44.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz609.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+--
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000: failed to match any schema with compatible: ['ti,omap4-l4-abe', 'simple-pm-bus']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: segment@0: $nodename:0: 'segment@0' does not match '^bus(@[0-9a-f]+)?$'
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: segment@0: 'anyOf' conditional failed, one must be fixed:
+   	'clocks' is a required property
+   	'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@22000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@24000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@26000/mcbsp@0: failed to match any schema with compatible: ['ti,omap4-mcbsp']
+>> arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: mcasp@0: interrupts: [[0, 109, 4]] is valid under each of {'type': 'array', 'maxItems': 1, 'minItems': 1}, {'minItems': 1, 'type': 'array', 'maxItems': 2}
+   	from schema $id: http://devicetree.org/schemas/sound/davinci-mcasp-audio.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@2e000/dmic@0: failed to match any schema with compatible: ['ti,omap4-dmic']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/interconnect@40100000/segment@0/target-module@30000/wdt@0: failed to match any schema with compatible: ['ti,omap4-wdt', 'ti,omap3-wdt']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/target-module@55082000/mmu@0: failed to match any schema with compatible: ['ti,omap4-iommu']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/target-module@4e000000/dmm@0: failed to match any schema with compatible: ['ti,omap4-dmm']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
+   	from schema $id: http://devicetree.org/schemas/phy/phy-provider.yaml#
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: /ocp/target-module@4c000000/emif@0: failed to match any schema with compatible: ['ti,emif-4d']
+   arch/arm/boot/dts/ti/omap/omap4-xyboard-mz617.dtb: emif@0: '#phy-cells' is a dependency of 'phy-type'
 
 -- 
 0-DAY CI Kernel Test Service
