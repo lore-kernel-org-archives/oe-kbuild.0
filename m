@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E35E4C8F
-	for <oe-kbuild@lists.linux.dev>; Thu,  3 Oct 2024 20:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E53647
+	for <oe-kbuild@lists.linux.dev>; Fri,  4 Oct 2024 00:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727985714; cv=none; b=uI4YJnWwKI205f1zlAgCwTWUWHh3R6jgdFQbReoe84vtWCsXV4sNvMAg2sUIjIbTeExFIXdozncHl9dQVa2oStqBxtPTtj5YgpbcDx+tWw1CIncXm15kwOHVkauFHqTR1Dd5plK8l/qeJbLEUD5Nbpz/Mi10HwQFebXmIZioYjQ=
+	t=1728000540; cv=none; b=PBZjeyHCAH1j/06joopohKBNKpHpjhkFPGp415YkdT0l9lVMmwYfNNj2TDK0k+69HmyTtLmLukxnZRnL1eFVmABW/NA/rMUTraqbksDmpoiSkFoSeQWk1CITZUkvZ8VUVEVqxSsWyVa0AE2ZOolYw5dEQtDL1SbXMEbyRsPQAF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727985714; c=relaxed/simple;
-	bh=d6T5Jy7o1zfjWXqHd0rHb3ihN8dIC0h4nKfCkJ5lhb0=;
+	s=arc-20240116; t=1728000540; c=relaxed/simple;
+	bh=T8Pp1WSXv4g6ukbaiExm/hHVACnqHSzdWrRpE1eqUDM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ez0GqSdcQsXt8ZejPl5aFPt6y+2jQO+o4OfAH5Hx5t+8Io8xCZiiabDBKtu+/d6K8qWBvvrS7ulwOi57nWSbmcOOzCoy40xMgjzL/FF6NGZ6WR9TE1m/lNwQfim2zHy3cNA8QOGsanIMNZIBvpXK06woksM+xm1jU6BoDEi3jvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iyG7X56K; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=QKepfIYSHo913j8MLuNon5+p6yXn3TJjYHAlZXCORUKrTuMZbxmplFshzT3DLyKu4jKnXG1JIDNXKwgf7Yz1Dvrihq1KnSFv1DfhFt/CyUQPXj+W301LLxt3kIa66uPq+Y0hhOP2otEGr3ZjRnzWMwsDn6AUWzadQ80fZna5Tmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJov1VJd; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iyG7X56K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJov1VJd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727985712; x=1759521712;
+  t=1728000539; x=1759536539;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d6T5Jy7o1zfjWXqHd0rHb3ihN8dIC0h4nKfCkJ5lhb0=;
-  b=iyG7X56KUBYToRZz9qjwePRbn0RDYRLsZ6ca/b9S/Rw3YCeJWPCel/JY
-   yT1JfuZkiGxNn02FXeoey8Lk7rMa8amR+zRoAm30tSF62Or0cYpILMxZe
-   4nkhqCGgdDqMRE7AdystTJxjw+V2f6bq2EWARrv0TQ8JzHqAbOm9qpgaM
-   SiWfB4Wn91kBwB5ZEU5S9GklTRSkZnTGhkJGoA6bguIROFb8+ccn4qehy
-   DCUiVlDmqN4wYhWhmRZS/uSNJNe8cPJ+IuF/O+P8KrIaTtMAaA0Ct2GDw
-   AQ6q5KomXUxIN5vxjAW8nNriRQJUQWhcW8j3YlFE8vm4U8NY2IYpC47Fs
-   w==;
-X-CSE-ConnectionGUID: GpMm6Xz9SueYEoB/f9avyg==
-X-CSE-MsgGUID: 7GM5euvyTVm2NDlIMGCW2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="14818240"
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="14818240"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 13:01:51 -0700
-X-CSE-ConnectionGUID: cFwpSN3qQAKk00G2p28ZQA==
-X-CSE-MsgGUID: DKs8I/F8Q0SkPHJQr9zFQg==
+  bh=T8Pp1WSXv4g6ukbaiExm/hHVACnqHSzdWrRpE1eqUDM=;
+  b=LJov1VJdBABigP1N5WzQHoDKX/3jYjojuEmVZbjj6G6tI46W6SICXnrK
+   06sLcsiGXfQ3cjhIZkIBumJGUDwrrb6clvaaq+fKEMWPDUnntokfXbcid
+   oOiBc8DGUdYydlE4xP7rbpmsdJZCvKyykESzg3hTWp898nzSqKu2SXbjc
+   e5wQ5HIjM0mqXAmhEJzG9fdQd93GEg2niCNi1N+x6U6grWR/dyPm1a8dp
+   p4kZMRiHUgR4LUpdEtjUcSyEw8MrahD7wEhVp5Bs2aQcFgBGXCv+i67pJ
+   Ij3E9lfDpn4Scz2h8xB+Zh1fuiRUDqHttLlMAmzLlu9m6B4p3enFEpwtD
+   A==;
+X-CSE-ConnectionGUID: MME+l2b2QZOvBjqcyy6iLg==
+X-CSE-MsgGUID: T2ZUzUsYSkqWsRAGHljbjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11214"; a="27352821"
+X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
+   d="scan'208";a="27352821"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 17:08:58 -0700
+X-CSE-ConnectionGUID: pkHf5IesTAygufvAWJZFSg==
+X-CSE-MsgGUID: ZcZHnFqwQeuM4IS+rn3W3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,175,1725346800"; 
-   d="scan'208";a="78469383"
+X-IronPort-AV: E=Sophos;i="6.11,176,1725346800"; 
+   d="scan'208";a="79088108"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Oct 2024 13:01:50 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Oct 2024 17:08:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swS1E-0000qe-05;
-	Thu, 03 Oct 2024 20:01:48 +0000
-Date: Fri, 4 Oct 2024 04:01:05 +0800
+	id 1swVsM-00012k-17;
+	Fri, 04 Oct 2024 00:08:54 +0000
+Date: Fri, 4 Oct 2024 08:08:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/loongarch/kvm/mmu.c:471 kvm_arch_commit_memory_region() error:
- we previously assumed 'new' could be null (see line 448)
-Message-ID: <202410040352.GBavOxoc-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
+Message-ID: <202410040856.IAPgOjON-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,77 +64,58 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bibo Mao <maobibo@loongson.cn>
-CC: Huacai Chen <chenhuacai@kernel.org>
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7ec462100ef9142344ddbf86f2c3008b97acddbe
-commit: b072cbf0233b1fd9d84730cbe5cd1706dcacd354 LoongArch: KVM: Discard dirty page tracking on readonly memslot
-date:   3 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 months ago
-config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241004/202410040352.GBavOxoc-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+head:   8c245fe7dde3bf776253550fc914a36293db4ff3
+commit: fcf190c369149c3b04539797cedf28741eb14164 timekeeping: Make delta calculation overflow safe
+date:   6 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 months ago
+config: mips-randconfig-r062-20241004 (https://download.01.org/0day-ci/archive/20241004/202410040856.IAPgOjON-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project fef3566a25ff0e34fb87339ba5e13eca17cec00f)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410040352.GBavOxoc-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410040856.IAPgOjON-lkp@intel.com/
 
-New smatch warnings:
-arch/loongarch/kvm/mmu.c:471 kvm_arch_commit_memory_region() error: we previously assumed 'new' could be null (see line 448)
+cocci warnings: (new ones prefixed by >>)
+>> kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
 
-Old smatch warnings:
-arch/loongarch/kvm/mmu.c:902 kvm_map_page() warn: if statement not indented
+vim +807 kernel/time/timekeeping.c
 
-vim +/new +471 arch/loongarch/kvm/mmu.c
-
-7ab6fb505b2a74 Bibo Mao     2023-12-19  440  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  441  void kvm_arch_commit_memory_region(struct kvm *kvm,
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  442  				   struct kvm_memory_slot *old,
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  443  				   const struct kvm_memory_slot *new,
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  444  				   enum kvm_mr_change change)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  445  {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  446  	int needs_flush;
-b072cbf0233b1f Bibo Mao     2024-07-09  447  	u32 old_flags = old ? old->flags : 0;
-b072cbf0233b1f Bibo Mao     2024-07-09 @448  	u32 new_flags = new ? new->flags : 0;
-b072cbf0233b1f Bibo Mao     2024-07-09  449  	bool log_dirty_pages = new_flags & KVM_MEM_LOG_DIRTY_PAGES;
-b072cbf0233b1f Bibo Mao     2024-07-09  450  
-b072cbf0233b1f Bibo Mao     2024-07-09  451  	/* Only track memslot flags changed */
-b072cbf0233b1f Bibo Mao     2024-07-09  452  	if (change != KVM_MR_FLAGS_ONLY)
-b072cbf0233b1f Bibo Mao     2024-07-09  453  		return;
-b072cbf0233b1f Bibo Mao     2024-07-09  454  
-b072cbf0233b1f Bibo Mao     2024-07-09  455  	/* Discard dirty page tracking on readonly memslot */
-b072cbf0233b1f Bibo Mao     2024-07-09  456  	if ((old_flags & new_flags) & KVM_MEM_READONLY)
-b072cbf0233b1f Bibo Mao     2024-07-09  457  		return;
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  458  
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  459  	/*
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  460  	 * If dirty page logging is enabled, write protect all pages in the slot
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  461  	 * ready for dirty logging.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  462  	 *
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  463  	 * There is no need to do this in any of the following cases:
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  464  	 * CREATE:	No dirty mappings will already exist.
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  465  	 * MOVE/DELETE:	The old mappings will already have been cleaned up by
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  466  	 *		kvm_arch_flush_shadow_memslot()
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  467  	 */
-b072cbf0233b1f Bibo Mao     2024-07-09  468  	if (!(old_flags & KVM_MEM_LOG_DIRTY_PAGES) && log_dirty_pages) {
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  469  		spin_lock(&kvm->mmu_lock);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  470  		/* Write protect GPA page table entries */
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02 @471  		needs_flush = kvm_mkclean_gpa_pt(kvm, new->base_gfn,
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  472  					new->base_gfn + new->npages);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  473  		spin_unlock(&kvm->mmu_lock);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  474  		if (needs_flush)
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  475  			kvm_flush_remote_tlbs(kvm);
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  476  	}
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  477  }
-752e2cd7b4fb41 Tianrui Zhao 2023-10-02  478  
-
-:::::: The code at line 471 was first introduced by commit
-:::::: 752e2cd7b4fb412f3e008493e0195e357bab9773 LoongArch: KVM: Implement kvm mmu operations
-
-:::::: TO: Tianrui Zhao <zhaotianrui@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+cc06268c6a87db1 Thomas Gleixner    2011-11-13  787  
+8524070b7982d76 John Stultz        2007-05-08  788  /**
+155ec60226ae0ae Martin Schwidefsky 2009-08-14  789   * timekeeping_forward_now - update clock to the current time
+6e5a91901c2dff3 Alex Shi           2020-11-13  790   * @tk:		Pointer to the timekeeper to update
+8524070b7982d76 John Stultz        2007-05-08  791   *
+9a055117d3d9cb5 Roman Zippel       2008-08-20  792   * Forward the current clock to update its state since the last call to
+9a055117d3d9cb5 Roman Zippel       2008-08-20  793   * update_wall_time(). This is useful before significant clock changes,
+9a055117d3d9cb5 Roman Zippel       2008-08-20  794   * as it avoids having to deal with this time offset explicitly.
+8524070b7982d76 John Stultz        2007-05-08  795   */
+f726a697d06102e John Stultz        2012-07-13  796  static void timekeeping_forward_now(struct timekeeper *tk)
+8524070b7982d76 John Stultz        2007-05-08  797  {
+a5a1d1c2914b531 Thomas Gleixner    2016-12-21  798  	u64 cycle_now, delta;
+8524070b7982d76 John Stultz        2007-05-08  799  
+ceea5e3771ed237 John Stultz        2017-06-08  800  	cycle_now = tk_clock_read(&tk->tkr_mono);
+876e78818def298 Peter Zijlstra     2015-03-19  801  	delta = clocksource_delta(cycle_now, tk->tkr_mono.cycle_last, tk->tkr_mono.mask);
+876e78818def298 Peter Zijlstra     2015-03-19  802  	tk->tkr_mono.cycle_last = cycle_now;
+4a4ad80d32cea69 Peter Zijlstra     2015-03-19  803  	tk->tkr_raw.cycle_last  = cycle_now;
+8524070b7982d76 John Stultz        2007-05-08  804  
+fcf190c369149c3 Adrian Hunter      2024-03-25  805  	while (delta > 0) {
+fcf190c369149c3 Adrian Hunter      2024-03-25  806  		u64 max = tk->tkr_mono.clock->max_cycles;
+fcf190c369149c3 Adrian Hunter      2024-03-25 @807  		u64 incr = delta < max ? delta : max;
+fc6eead7c1e2e53 John Stultz        2017-05-22  808  
+fcf190c369149c3 Adrian Hunter      2024-03-25  809  		tk->tkr_mono.xtime_nsec += incr * tk->tkr_mono.mult;
+fcf190c369149c3 Adrian Hunter      2024-03-25  810  		tk->tkr_raw.xtime_nsec += incr * tk->tkr_raw.mult;
+fc6eead7c1e2e53 John Stultz        2017-05-22  811  		tk_normalize_xtime(tk);
+fcf190c369149c3 Adrian Hunter      2024-03-25  812  		delta -= incr;
+fcf190c369149c3 Adrian Hunter      2024-03-25  813  	}
+8524070b7982d76 John Stultz        2007-05-08  814  }
+8524070b7982d76 John Stultz        2007-05-08  815  
 
 -- 
 0-DAY CI Kernel Test Service
