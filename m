@@ -1,63 +1,57 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC0E14A4F7
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 19:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C898B749A
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 21:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728156622; cv=none; b=t4EDp69Ts6lD/dqvVK5tKKDRGn3HXC1Q7KLzVJN7Ot3cb1HbbhdPLpbEhLx8HVH+wqcQaYgje45lNPGxmSfYl/h23s9AAoKNod1vSWkeblSgoJJKpO3gr6BBdr8NzGQPL0ssG47Bfnrr4pzmSwV0h/H4kf+FQKtB77w1T5hrPrE=
+	t=1728164732; cv=none; b=JEqraW0kzp2mJZBr9ho2c8Duuh1G9pu0Kyjt2y89JpK7y8WE0Y0DqbXa3pH4Wx7L6bj5QV8HuB4zAiu/S0IpOdw4q9g6u6QbpVW1Tnth8Lh/xR82PHguReW37m+XHEpZcwuRlT5WoGYndSbdGG+t423SxSy7auxRNa/pl0Kn6Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728156622; c=relaxed/simple;
-	bh=zXwfvmJApLD9tnOzOuIJ7ZIUhfNsrLaaqCjeWXV7Elk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tU8s6/6InCtDX2hfSl4/M9lH9IQnfXLo9nkbo+k2/vXhULlbuSSq0+jkQ743tkotcYzDUKf0nimICVqX85axtnEemaKbnnAnC0P8S9qxzdMxrYqNqjZdmNUGarXppD9UkDz5wi+MVEzf0ibA+0b5d9lR0Xw0hWLMTMHFpfhD0EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tenstorrent.com; spf=pass smtp.mailfrom=tenstorrent.com; dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b=THJsO73R; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tenstorrent.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tenstorrent.com
+	s=arc-20240116; t=1728164732; c=relaxed/simple;
+	bh=SFZ3xznSKCiY48bGzu3Oe+SS1GCy6sgNw0qD75bLmcI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ixt6m4lw4QYfPYBj0uOgI9K1DVo8DIrQbaUaoGg1bCXUzipnLPVkahmHJEv6o3eSop6Cpt8BX4Z89fsc9ezncgEtJew9bmWw0Zi3Wfyq4tNnBm/6fd9JICn2EoIz2XXNlcgq9r2K8iTx4RhYg2PayPkX/zr583BRNfPIYav6Ork=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O116KB6A; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.b="THJsO73R"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20b01da232aso25485355ad.1
-        for <oe-kbuild@lists.linux.dev>; Sat, 05 Oct 2024 12:30:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tenstorrent.com; s=google; t=1728156618; x=1728761418; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2mCkEtcNei0RywUlinCjtM9b0gDURZfM0UOxs82SjYE=;
-        b=THJsO73RlfFlQDCZ+XrG0Y9IDE/Jley8hNKJv/ToSgEprDcz05AAnbu8aiY+GoZPoP
-         +nH2FvKwfJSrWu2tRQ82Y4wUSa03WtaLvYYFGHzq3Yp6Bz0El3C6nTOM02603X6Gk1IK
-         VAML79NDvokqXSC+SFIJuL3ZcDyfgnYAH1fhGW6KzvHWtl3G3EoQg05ZLwivSBKiHIle
-         OxiWCkcjnp12mcVUhTlM4mqFgeNDKsKEb/KeRWg52JJLw4MA8wNLusmFtiW2jUwhVfyA
-         68BSGkRcA2LeWRg1KaQVldbULgznS7SD6uRXEWDap/gt7qYZges9rqelW0Nr5soXbzVV
-         HnLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728156618; x=1728761418;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2mCkEtcNei0RywUlinCjtM9b0gDURZfM0UOxs82SjYE=;
-        b=P/ff7qblCe8pCF4o/R7ofWqvU6fKnkVpuaJCPOWuUJcGR+rTjBIi+B7VhniWRbd7l0
-         vxoQUmg5HbBX2fNp/wFEeQcXpUB+E4UwAeRUX2ErUCkjrLOejFMQNGGhtTumahh16X4Q
-         TUdTZ887pt0HVzPu5k7FdaEAovsiM/BJMsZr9RUVUrJkl540yk1syW9vCIAldto8V0/2
-         xps96O7TYp9HbcWxEHU63EAsgV3m0ulxbHzWMFGiOnGzbbz5f6+PA3WRfVApC180DNyq
-         SgkAhsY0NlsRhfvAmzlyRTwZOMypJtx3oRuL8KoGFulGeldBawG/5tP0q3tu3fYe4NwD
-         7tWA==
-X-Gm-Message-State: AOJu0Yx7iqOsV5zn9/9SIj/rck4iqARPa8X7WRYn4tyhajBUVzrAhGSi
-	O1Q8JTQNOW7G12/6hlkMwoopKUNXlFvisqbpzXlV2fiSuQSfXe5CAjT5FZj9EmY=
-X-Google-Smtp-Source: AGHT+IEnJr3VbfJgt6Bq6ck7F7NugIDnpMGYJKRaSAWYSIaYNPPuWja5Wzr70A66h9+W+yD0RZ0b9A==
-X-Received: by 2002:a17:902:f547:b0:207:794c:ef24 with SMTP id d9443c01a7336-20bff37b1b3mr110878845ad.4.1728156618572;
-        Sat, 05 Oct 2024 12:30:18 -0700 (PDT)
-Received: from x1 (71-34-69-82.ptld.qwest.net. [71.34.69.82])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c1398ac48sm16210815ad.275.2024.10.05.12.30.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Oct 2024 12:30:18 -0700 (PDT)
-Date: Sat, 5 Oct 2024 12:30:16 -0700
-From: Drew Fustini <dfustini@tenstorrent.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
-Message-ID: <ZwGTyOBUAppE5WAM@x1>
-References: <20240930-th1520-pinctrl-v3-2-32cea2bdbecb@tenstorrent.com>
- <9f76efc9-c9c6-4097-a7a0-80e1b941866d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O116KB6A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728164730; x=1759700730;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SFZ3xznSKCiY48bGzu3Oe+SS1GCy6sgNw0qD75bLmcI=;
+  b=O116KB6A+nmZUesfaPgJfrG5i5Ux74qWbOsEicMb/CWGZ57bIMA8qXjO
+   so0FApGn99akmUyhCIitI2StVlQLAmGIIlOyyxdlvWUPxk+S8mhVWLuv1
+   1VtYxhiEOOJJ5Haxc9RV/2Gc0FvRQB6YQnRurGZTC6wit5cL0v1ZanXkO
+   EQEwLRGmCuaTbtu1R7Gp5nqdlLrJKr1F+qe8CI7qobTGM4YQ3HQGBgjtB
+   SDeOL4z+QIZNJ7rHgmMfIpPwiFwdI3LWUGqxO2rxlQb2wa18jwzOCk1Gk
+   R2wzdrVWEJOiX6mOyvWc5uTOovInbX/w8B2CzXQFdoFaIYRBqSJw02uFl
+   g==;
+X-CSE-ConnectionGUID: Aj1rxkJxS0Gf7F0KEv4dPg==
+X-CSE-MsgGUID: vl9Sw8RiShqI+9/pFWq33A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="52753611"
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="52753611"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 14:45:29 -0700
+X-CSE-ConnectionGUID: xv4XOl1+Rie9Y/dtirkv2Q==
+X-CSE-MsgGUID: tjRQKd1hQM2Ifk3uax+yxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
+   d="scan'208";a="75391982"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 05 Oct 2024 14:45:28 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sxCab-0003Na-2w;
+	Sat, 05 Oct 2024 21:45:25 +0000
+Date: Sun, 6 Oct 2024 05:45:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
+Message-ID: <202410060537.9JlrUilT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,49 +60,128 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f76efc9-c9c6-4097-a7a0-80e1b941866d@stanley.mountain>
 
-On Wed, Oct 02, 2024 at 06:54:48PM +0300, Dan Carpenter wrote:
-> Hi Drew,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/dt-bindings-pinctrl-Add-thead-th1520-pinctrl-bindings/20241001-035421
-> base:   9852d85ec9d492ebef56dc5f229416c925758edc
-> patch link:    https://lore.kernel.org/r/20240930-th1520-pinctrl-v3-2-32cea2bdbecb%40tenstorrent.com
-> patch subject: [PATCH v3 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
-> config: s390-randconfig-r072-20241002 (https://download.01.org/0day-ci/archive/20241002/202410022336.xyWlV0Tf-lkp@intel.com/config)
-> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202410022336.xyWlV0Tf-lkp@intel.com/
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: David Matlack <dmatlack@google.com>
+CC: Sean Christopherson <seanjc@google.com>
 
-I put these tags in the patch I'm about to send but I get this
-checkpatch warning:
+Hi David,
 
------------------------------------------------------------
-WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
-#9:
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-total: 0 errors, 1 warnings, 7 lines checked
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fc20a3e57247e21e1bd582f604b20bf898f7d111
+commit: 3d4a5a45ca26f8de9e0a4f384a2fb0967b8566b5 KVM: x86/mmu: Unnest TDP MMU helpers that allocate SPs for eager splitting
+date:   4 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-103-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060537.9JlrUilT-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
-NOTE: For some of the reported defects, checkpatch may be able to
-      mechanically convert to the typical style using --fix or --fix-inplace.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410060537.9JlrUilT-lkp@intel.com/
 
-Commit 8d7cdbc31c9f ("pinctrl: th1520: Fix return value for unknown pin error") has style problems, please review.
+cocci warnings: (new ones prefixed by >>)
+>> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
+>> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
+   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
+   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
 
-NOTE: If any of the errors are false positives, please report
-      them to the maintainer, see CHECKPATCH in MAINTAINERS.
------------------------------------------------------------
+vim +1475 arch/x86/kvm/mmu/tdp_mmu.c
 
-If I remove the first Reported-by, then checkpatch no longer complains.
+a3fe5dbda0a4bb David Matlack 2022-01-19  1397  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1398  static int tdp_mmu_split_huge_pages_root(struct kvm *kvm,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1399  					 struct kvm_mmu_page *root,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1400  					 gfn_t start, gfn_t end,
+cb00a70bd4b7e4 David Matlack 2022-01-19  1401  					 int target_level, bool shared)
+a3fe5dbda0a4bb David Matlack 2022-01-19  1402  {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1403  	struct kvm_mmu_page *sp = NULL;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1404  	struct tdp_iter iter;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1405  	int ret = 0;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1406  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1407  	rcu_read_lock();
+a3fe5dbda0a4bb David Matlack 2022-01-19  1408  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1409  	/*
+a3fe5dbda0a4bb David Matlack 2022-01-19  1410  	 * Traverse the page table splitting all huge pages above the target
+a3fe5dbda0a4bb David Matlack 2022-01-19  1411  	 * level into one lower level. For example, if we encounter a 1GB page
+a3fe5dbda0a4bb David Matlack 2022-01-19  1412  	 * we split it into 512 2MB pages.
+a3fe5dbda0a4bb David Matlack 2022-01-19  1413  	 *
+a3fe5dbda0a4bb David Matlack 2022-01-19  1414  	 * Since the TDP iterator uses a pre-order traversal, we are guaranteed
+a3fe5dbda0a4bb David Matlack 2022-01-19  1415  	 * to visit an SPTE before ever visiting its children, which means we
+a3fe5dbda0a4bb David Matlack 2022-01-19  1416  	 * will correctly recursively split huge pages that are more than one
+a3fe5dbda0a4bb David Matlack 2022-01-19  1417  	 * level above the target level (e.g. splitting a 1GB to 512 2MB pages,
+a3fe5dbda0a4bb David Matlack 2022-01-19  1418  	 * and then splitting each of those to 512 4KB pages).
+a3fe5dbda0a4bb David Matlack 2022-01-19  1419  	 */
+a3fe5dbda0a4bb David Matlack 2022-01-19  1420  	for_each_tdp_pte_min_level(iter, root, target_level + 1, start, end) {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1421  retry:
+cb00a70bd4b7e4 David Matlack 2022-01-19  1422  		if (tdp_mmu_iter_cond_resched(kvm, &iter, false, shared))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1423  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1424  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1425  		if (!is_shadow_present_pte(iter.old_spte) || !is_large_pte(iter.old_spte))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1426  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1427  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1428  		if (!sp) {
+3d4a5a45ca26f8 David Matlack 2024-06-11  1429  			rcu_read_unlock();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1430  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1431  			if (shared)
+3d4a5a45ca26f8 David Matlack 2024-06-11  1432  				read_unlock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1433  			else
+3d4a5a45ca26f8 David Matlack 2024-06-11  1434  				write_unlock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1435  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1436  			sp = tdp_mmu_alloc_sp_for_split();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1437  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1438  			if (shared)
+3d4a5a45ca26f8 David Matlack 2024-06-11 @1439  				read_lock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1440  			else
+3d4a5a45ca26f8 David Matlack 2024-06-11  1441  				write_lock(&kvm->mmu_lock);
+3d4a5a45ca26f8 David Matlack 2024-06-11  1442  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1443  			rcu_read_lock();
+3d4a5a45ca26f8 David Matlack 2024-06-11  1444  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1445  			if (!sp) {
+a3fe5dbda0a4bb David Matlack 2022-01-19  1446  				ret = -ENOMEM;
+e0b728b1f1a951 David Matlack 2022-01-19  1447  				trace_kvm_mmu_split_huge_page(iter.gfn,
+e0b728b1f1a951 David Matlack 2022-01-19  1448  							      iter.old_spte,
+e0b728b1f1a951 David Matlack 2022-01-19  1449  							      iter.level, ret);
+a3fe5dbda0a4bb David Matlack 2022-01-19  1450  				break;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1451  			}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1452  
+3d4a5a45ca26f8 David Matlack 2024-06-11  1453  			iter.yielded = true;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1454  			continue;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1455  		}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1456  
+c4b33d28ea51c7 David Matlack 2022-11-09  1457  		tdp_mmu_init_child_sp(sp, &iter);
+c4b33d28ea51c7 David Matlack 2022-11-09  1458  
+cb00a70bd4b7e4 David Matlack 2022-01-19  1459  		if (tdp_mmu_split_huge_page(kvm, &iter, sp, shared))
+a3fe5dbda0a4bb David Matlack 2022-01-19  1460  			goto retry;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1461  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1462  		sp = NULL;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1463  	}
+a3fe5dbda0a4bb David Matlack 2022-01-19  1464  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1465  	rcu_read_unlock();
+a3fe5dbda0a4bb David Matlack 2022-01-19  1466  
+a3fe5dbda0a4bb David Matlack 2022-01-19  1467  	/*
+a3fe5dbda0a4bb David Matlack 2022-01-19  1468  	 * It's possible to exit the loop having never used the last sp if, for
+a3fe5dbda0a4bb David Matlack 2022-01-19  1469  	 * example, a vCPU doing HugePage NX splitting wins the race and
+a3fe5dbda0a4bb David Matlack 2022-01-19  1470  	 * installs its own sp in place of the last sp we tried to split.
+a3fe5dbda0a4bb David Matlack 2022-01-19  1471  	 */
+a3fe5dbda0a4bb David Matlack 2022-01-19  1472  	if (sp)
+a3fe5dbda0a4bb David Matlack 2022-01-19  1473  		tdp_mmu_free_sp(sp);
+a3fe5dbda0a4bb David Matlack 2022-01-19  1474  
+a3fe5dbda0a4bb David Matlack 2022-01-19 @1475  	return ret;
+a3fe5dbda0a4bb David Matlack 2022-01-19  1476  }
+a3fe5dbda0a4bb David Matlack 2022-01-19  1477  
 
-Am I missing something?
+:::::: The code at line 1475 was first introduced by commit
+:::::: a3fe5dbda0a4bb7759dcd5a0ad713d347e020401 KVM: x86/mmu: Split huge pages mapped by the TDP MMU when dirty logging is enabled
 
-Thanks,
-Drew
+:::::: TO: David Matlack <dmatlack@google.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
