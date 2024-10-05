@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C898B749A
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 21:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B28C1684A3
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 22:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728164732; cv=none; b=JEqraW0kzp2mJZBr9ho2c8Duuh1G9pu0Kyjt2y89JpK7y8WE0Y0DqbXa3pH4Wx7L6bj5QV8HuB4zAiu/S0IpOdw4q9g6u6QbpVW1Tnth8Lh/xR82PHguReW37m+XHEpZcwuRlT5WoGYndSbdGG+t423SxSy7auxRNa/pl0Kn6Es=
+	t=1728167192; cv=none; b=mAB/RYpWi6jkpIEuKhqds0DKGsRG2FIH9uw7VCh7C9Ed2cDGj+kz/uVm5Xq4RbgSm6tgYsLa3zUHu2H4T5KQR1AfcHtmZPT5lPmAEIyP6SgRzIFRdElGCwvb5hPst8GuKa2B++0zGsDEI7rpSM+uQsr5GrO9ShzbmUKrWmeMRUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728164732; c=relaxed/simple;
-	bh=SFZ3xznSKCiY48bGzu3Oe+SS1GCy6sgNw0qD75bLmcI=;
+	s=arc-20240116; t=1728167192; c=relaxed/simple;
+	bh=3LsP6YA8JtqvFw+J9noahUx0ru2R4eNNjQQQkekivf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ixt6m4lw4QYfPYBj0uOgI9K1DVo8DIrQbaUaoGg1bCXUzipnLPVkahmHJEv6o3eSop6Cpt8BX4Z89fsc9ezncgEtJew9bmWw0Zi3Wfyq4tNnBm/6fd9JICn2EoIz2XXNlcgq9r2K8iTx4RhYg2PayPkX/zr583BRNfPIYav6Ork=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O116KB6A; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=qzaO/MvrIhpn2z4tUDBsUZYbSGDtttYgzMOMXFEy0E/Lz7AsHaKc0FwguiTgRmL3gOOaTf4dAGFp1BfS0Egy2Bw8ksryTJnvjjuLHEoNbsvNM42D5Dg1ZbdfHiAM4tG2J+5dDUSH+MWPnyEnH4itv11kQo3LfVXYzPWpsw6Z8Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=In2HJAmd; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O116KB6A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="In2HJAmd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728164730; x=1759700730;
+  t=1728167191; x=1759703191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SFZ3xznSKCiY48bGzu3Oe+SS1GCy6sgNw0qD75bLmcI=;
-  b=O116KB6A+nmZUesfaPgJfrG5i5Ux74qWbOsEicMb/CWGZ57bIMA8qXjO
-   so0FApGn99akmUyhCIitI2StVlQLAmGIIlOyyxdlvWUPxk+S8mhVWLuv1
-   1VtYxhiEOOJJ5Haxc9RV/2Gc0FvRQB6YQnRurGZTC6wit5cL0v1ZanXkO
-   EQEwLRGmCuaTbtu1R7Gp5nqdlLrJKr1F+qe8CI7qobTGM4YQ3HQGBgjtB
-   SDeOL4z+QIZNJ7rHgmMfIpPwiFwdI3LWUGqxO2rxlQb2wa18jwzOCk1Gk
-   R2wzdrVWEJOiX6mOyvWc5uTOovInbX/w8B2CzXQFdoFaIYRBqSJw02uFl
-   g==;
-X-CSE-ConnectionGUID: Aj1rxkJxS0Gf7F0KEv4dPg==
-X-CSE-MsgGUID: vl9Sw8RiShqI+9/pFWq33A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="52753611"
+  bh=3LsP6YA8JtqvFw+J9noahUx0ru2R4eNNjQQQkekivf8=;
+  b=In2HJAmdoTb22d+VfMz7aGYq1bcIrAh37rZZYAKAYgFeroBkJ/TfLN+W
+   O6d/lQ+xggRUFFI4z1I0QDAUra/AMBfR81SU//8UzADUOq0WMuFLJuEX2
+   jIHfSPVQlulgAjjOwXk/X5EY2s3+caCBdVoZGnZhsyNevvYj4UROKg8v5
+   AN+9iK5TUauKzJonuHi8gk6ZZq04o/TCP/4nEKF7tUhS7NvMyGyuv7e/P
+   5eTAHIGV5F7aMDr0oUbeCLHwWMKUjm+S5G/XNQPKC53GEnWDaKcuBV7G8
+   /E1VPqKRA4F1qOJWtCvTlcCbBKYnHCQRGVEZudqh6gSGTTQAFhIAm1QiE
+   Q==;
+X-CSE-ConnectionGUID: v20yXWj5StKw493icrtCWg==
+X-CSE-MsgGUID: TrVqkBJ8QFy9zBzMrz6s0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11216"; a="27244482"
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="52753611"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 14:45:29 -0700
-X-CSE-ConnectionGUID: xv4XOl1+Rie9Y/dtirkv2Q==
-X-CSE-MsgGUID: tjRQKd1hQM2Ifk3uax+yxg==
+   d="scan'208";a="27244482"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 15:26:30 -0700
+X-CSE-ConnectionGUID: vq89dTaWTC2ri5nIxnJo0A==
+X-CSE-MsgGUID: faLmPZLTRsqScJC30beRKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,181,1725346800"; 
-   d="scan'208";a="75391982"
+   d="scan'208";a="79639571"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 05 Oct 2024 14:45:28 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 05 Oct 2024 15:26:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxCab-0003Na-2w;
-	Sat, 05 Oct 2024 21:45:25 +0000
-Date: Sun, 6 Oct 2024 05:45:13 +0800
+	id 1sxDEI-0003PS-2w;
+	Sat, 05 Oct 2024 22:26:26 +0000
+Date: Sun, 6 Oct 2024 06:26:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
-Message-ID: <202410060537.9JlrUilT-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [ambarus:mailbox-request-v1 1/1] drivers/mailbox/mailbox.c:543
+ mbox_free_channel() warn: variable dereferenced before check 'chan' (see
+ line 540)
+Message-ID: <202410060657.bzHprVZf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,124 +65,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: David Matlack <dmatlack@google.com>
-CC: Sean Christopherson <seanjc@google.com>
+TO: Tudor Ambarus <tudor.ambarus@linaro.org>
 
-Hi David,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   fc20a3e57247e21e1bd582f604b20bf898f7d111
-commit: 3d4a5a45ca26f8de9e0a4f384a2fb0967b8566b5 KVM: x86/mmu: Unnest TDP MMU helpers that allocate SPs for eager splitting
-date:   4 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 months ago
-config: x86_64-randconfig-103-20241006 (https://download.01.org/0day-ci/archive/20241006/202410060537.9JlrUilT-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://github.com/ambarus/linux-0day mailbox-request-v1
+head:   1f2e24358cc2d39e5a26ef0a6b0fe65920f04caf
+commit: 1f2e24358cc2d39e5a26ef0a6b0fe65920f04caf [1/1] maybox: add simple async mechanism to empower controllers
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: sparc64-randconfig-r073-20241005 (https://download.01.org/0day-ci/archive/20241006/202410060657.bzHprVZf-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410060537.9JlrUilT-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410060657.bzHprVZf-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
->> arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1439
-   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
-   arch/x86/kvm/mmu/tdp_mmu.c:1475:1-7: preceding lock on line 1441
+smatch warnings:
+drivers/mailbox/mailbox.c:543 mbox_free_channel() warn: variable dereferenced before check 'chan' (see line 540)
 
-vim +1475 arch/x86/kvm/mmu/tdp_mmu.c
+vim +/chan +543 drivers/mailbox/mailbox.c
 
-a3fe5dbda0a4bb David Matlack 2022-01-19  1397  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1398  static int tdp_mmu_split_huge_pages_root(struct kvm *kvm,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1399  					 struct kvm_mmu_page *root,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1400  					 gfn_t start, gfn_t end,
-cb00a70bd4b7e4 David Matlack 2022-01-19  1401  					 int target_level, bool shared)
-a3fe5dbda0a4bb David Matlack 2022-01-19  1402  {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1403  	struct kvm_mmu_page *sp = NULL;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1404  	struct tdp_iter iter;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1405  	int ret = 0;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1406  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1407  	rcu_read_lock();
-a3fe5dbda0a4bb David Matlack 2022-01-19  1408  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1409  	/*
-a3fe5dbda0a4bb David Matlack 2022-01-19  1410  	 * Traverse the page table splitting all huge pages above the target
-a3fe5dbda0a4bb David Matlack 2022-01-19  1411  	 * level into one lower level. For example, if we encounter a 1GB page
-a3fe5dbda0a4bb David Matlack 2022-01-19  1412  	 * we split it into 512 2MB pages.
-a3fe5dbda0a4bb David Matlack 2022-01-19  1413  	 *
-a3fe5dbda0a4bb David Matlack 2022-01-19  1414  	 * Since the TDP iterator uses a pre-order traversal, we are guaranteed
-a3fe5dbda0a4bb David Matlack 2022-01-19  1415  	 * to visit an SPTE before ever visiting its children, which means we
-a3fe5dbda0a4bb David Matlack 2022-01-19  1416  	 * will correctly recursively split huge pages that are more than one
-a3fe5dbda0a4bb David Matlack 2022-01-19  1417  	 * level above the target level (e.g. splitting a 1GB to 512 2MB pages,
-a3fe5dbda0a4bb David Matlack 2022-01-19  1418  	 * and then splitting each of those to 512 4KB pages).
-a3fe5dbda0a4bb David Matlack 2022-01-19  1419  	 */
-a3fe5dbda0a4bb David Matlack 2022-01-19  1420  	for_each_tdp_pte_min_level(iter, root, target_level + 1, start, end) {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1421  retry:
-cb00a70bd4b7e4 David Matlack 2022-01-19  1422  		if (tdp_mmu_iter_cond_resched(kvm, &iter, false, shared))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1423  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1424  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1425  		if (!is_shadow_present_pte(iter.old_spte) || !is_large_pte(iter.old_spte))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1426  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1427  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1428  		if (!sp) {
-3d4a5a45ca26f8 David Matlack 2024-06-11  1429  			rcu_read_unlock();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1430  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1431  			if (shared)
-3d4a5a45ca26f8 David Matlack 2024-06-11  1432  				read_unlock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1433  			else
-3d4a5a45ca26f8 David Matlack 2024-06-11  1434  				write_unlock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1435  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1436  			sp = tdp_mmu_alloc_sp_for_split();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1437  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1438  			if (shared)
-3d4a5a45ca26f8 David Matlack 2024-06-11 @1439  				read_lock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1440  			else
-3d4a5a45ca26f8 David Matlack 2024-06-11  1441  				write_lock(&kvm->mmu_lock);
-3d4a5a45ca26f8 David Matlack 2024-06-11  1442  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1443  			rcu_read_lock();
-3d4a5a45ca26f8 David Matlack 2024-06-11  1444  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1445  			if (!sp) {
-a3fe5dbda0a4bb David Matlack 2022-01-19  1446  				ret = -ENOMEM;
-e0b728b1f1a951 David Matlack 2022-01-19  1447  				trace_kvm_mmu_split_huge_page(iter.gfn,
-e0b728b1f1a951 David Matlack 2022-01-19  1448  							      iter.old_spte,
-e0b728b1f1a951 David Matlack 2022-01-19  1449  							      iter.level, ret);
-a3fe5dbda0a4bb David Matlack 2022-01-19  1450  				break;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1451  			}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1452  
-3d4a5a45ca26f8 David Matlack 2024-06-11  1453  			iter.yielded = true;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1454  			continue;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1455  		}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1456  
-c4b33d28ea51c7 David Matlack 2022-11-09  1457  		tdp_mmu_init_child_sp(sp, &iter);
-c4b33d28ea51c7 David Matlack 2022-11-09  1458  
-cb00a70bd4b7e4 David Matlack 2022-01-19  1459  		if (tdp_mmu_split_huge_page(kvm, &iter, sp, shared))
-a3fe5dbda0a4bb David Matlack 2022-01-19  1460  			goto retry;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1461  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1462  		sp = NULL;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1463  	}
-a3fe5dbda0a4bb David Matlack 2022-01-19  1464  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1465  	rcu_read_unlock();
-a3fe5dbda0a4bb David Matlack 2022-01-19  1466  
-a3fe5dbda0a4bb David Matlack 2022-01-19  1467  	/*
-a3fe5dbda0a4bb David Matlack 2022-01-19  1468  	 * It's possible to exit the loop having never used the last sp if, for
-a3fe5dbda0a4bb David Matlack 2022-01-19  1469  	 * example, a vCPU doing HugePage NX splitting wins the race and
-a3fe5dbda0a4bb David Matlack 2022-01-19  1470  	 * installs its own sp in place of the last sp we tried to split.
-a3fe5dbda0a4bb David Matlack 2022-01-19  1471  	 */
-a3fe5dbda0a4bb David Matlack 2022-01-19  1472  	if (sp)
-a3fe5dbda0a4bb David Matlack 2022-01-19  1473  		tdp_mmu_free_sp(sp);
-a3fe5dbda0a4bb David Matlack 2022-01-19  1474  
-a3fe5dbda0a4bb David Matlack 2022-01-19 @1475  	return ret;
-a3fe5dbda0a4bb David Matlack 2022-01-19  1476  }
-a3fe5dbda0a4bb David Matlack 2022-01-19  1477  
+dfabde206aa10a Lee Jones     2015-05-11  532  
+2b6d83e2b8b7de Jassi Brar    2014-06-12  533  /**
+2b6d83e2b8b7de Jassi Brar    2014-06-12  534   * mbox_free_channel - The client relinquishes control of a mailbox
+2b6d83e2b8b7de Jassi Brar    2014-06-12  535   *			channel by this call.
+2b6d83e2b8b7de Jassi Brar    2014-06-12  536   * @chan: The mailbox channel to be freed.
+2b6d83e2b8b7de Jassi Brar    2014-06-12  537   */
+2b6d83e2b8b7de Jassi Brar    2014-06-12  538  void mbox_free_channel(struct mbox_chan *chan)
+2b6d83e2b8b7de Jassi Brar    2014-06-12  539  {
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03 @540  	struct mbox_controller *mbox = chan->mbox;
+2b6d83e2b8b7de Jassi Brar    2014-06-12  541  	unsigned long flags;
+2b6d83e2b8b7de Jassi Brar    2014-06-12  542  
+2b6d83e2b8b7de Jassi Brar    2014-06-12 @543  	if (!chan || !chan->cl)
+2b6d83e2b8b7de Jassi Brar    2014-06-12  544  		return;
+2b6d83e2b8b7de Jassi Brar    2014-06-12  545  
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  546  	if (mbox->ops->shutdown)
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  547  		mbox->ops->shutdown(chan);
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  548  
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  549  	if (mbox->ops->send_request)
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  550  		return module_put(mbox->dev->driver->owner);
+2b6d83e2b8b7de Jassi Brar    2014-06-12  551  
+2b6d83e2b8b7de Jassi Brar    2014-06-12  552  	/* The queued TX requests are simply aborted, no callbacks are made */
+2b6d83e2b8b7de Jassi Brar    2014-06-12  553  	spin_lock_irqsave(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar    2014-06-12  554  	chan->cl = NULL;
+2b6d83e2b8b7de Jassi Brar    2014-06-12  555  	chan->active_req = NULL;
+33cd7123ac0ba5 Sudeep Holla  2017-09-28  556  	if (chan->txdone_method == TXDONE_BY_ACK)
+2b6d83e2b8b7de Jassi Brar    2014-06-12  557  		chan->txdone_method = TXDONE_BY_POLL;
+2b6d83e2b8b7de Jassi Brar    2014-06-12  558  
+1f2e24358cc2d3 Tudor Ambarus 2024-10-03  559  	module_put(mbox->dev->driver->owner);
+2b6d83e2b8b7de Jassi Brar    2014-06-12  560  	spin_unlock_irqrestore(&chan->lock, flags);
+2b6d83e2b8b7de Jassi Brar    2014-06-12  561  }
+2b6d83e2b8b7de Jassi Brar    2014-06-12  562  EXPORT_SYMBOL_GPL(mbox_free_channel);
+2b6d83e2b8b7de Jassi Brar    2014-06-12  563  
 
-:::::: The code at line 1475 was first introduced by commit
-:::::: a3fe5dbda0a4bb7759dcd5a0ad713d347e020401 KVM: x86/mmu: Split huge pages mapped by the TDP MMU when dirty logging is enabled
+:::::: The code at line 543 was first introduced by commit
+:::::: 2b6d83e2b8b7de82331a6a1dcd64b51020a6031c mailbox: Introduce framework for mailbox
 
-:::::: TO: David Matlack <dmatlack@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+:::::: TO: Jassi Brar <jaswinder.singh@linaro.org>
+:::::: CC: Jassi Brar <jaswinder.singh@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
