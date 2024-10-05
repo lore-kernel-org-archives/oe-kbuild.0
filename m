@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2649419BBC
-	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 05:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0D3D27E
+	for <oe-kbuild@lists.linux.dev>; Sat,  5 Oct 2024 07:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728107522; cv=none; b=nqKDsHKjgabeV93j1uXsprqEBIyojECchc1bMAJGgHi/gCETx8v8au3MZsPvvAn9FPrKNPQxJXfVTjt1KZUtSCWNVXFS9LzTgm5KJKtq8yUcWQr94yFcHwZqUDhGYOSMTv2KN+8OUDdPWF9FYKRVC3amzZ7v6CUwlt11C9kXBVo=
+	t=1728112564; cv=none; b=eYU6GXr4J8PYYXXIOLzZFCUm/s4k9dawOvaI3NVwhokcfed2o5IfRG/m7P0RfhCLqQP+aMl95vZquG/ydv3vuwULyEC2x6LamQL60rI1UFq41z8TZxsmaqp3X7h9ItlZ/Orgl5+1V5PJEth9L9aF1sGjFuX2yj3kJdSe9MyYHDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728107522; c=relaxed/simple;
-	bh=rfSr7/nTcEmY4z6zrRxin8UK8AW52h3t5r0CqTWXCQg=;
+	s=arc-20240116; t=1728112564; c=relaxed/simple;
+	bh=MDgJ+iUMFbEOpsmpmJx1u8UtSwzJcFvTsv/2tZ2DIl4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IUZ9KzaoyO469mINpZqQkHWWpsUEKFSu9o70t9F+WuufUymVQtgH0U2G0mxO6ef0ATQlEnz2vXcbzEaRZPaQVRttRWANa433qocwCov83+o4ONUVMO2eJSPiFW44FrBfBoxZsQJsuthDjw1PbdMzNnHN7HGBmUu6ZKk3wdXRBQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=df/o04v3; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=gx55/SzKAQQV6+1IzBkzzUxj5U/uOq8cKKDtD0Mbd3cP2rEK0KKFbf356WctdqG8vbHkMkghL86vyc8dbnhhAfG+W/h9z7EioR1UgRqJg1C0cS2q2O4paUK42b/dV/4W2P9eHe98ZnUc+Muvc8tkIyuAxz3XNcmwtimKtYk60Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdYiRppo; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="df/o04v3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdYiRppo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728107520; x=1759643520;
+  t=1728112563; x=1759648563;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rfSr7/nTcEmY4z6zrRxin8UK8AW52h3t5r0CqTWXCQg=;
-  b=df/o04v3XDjP6wpm90AoUNUKdm3FQ9ni59e/FMmrFgCnem6cesWS8jth
-   QLfpK+JTr+CmcZm5zvwENe0o/MD5seWWzIMbFPoo8mtisvegFT2OlSBVa
-   plqf1OekHbX4txOixeWKEB4OLljOk7/0qhacWBK45ESdbUOks6H2ro0td
-   EvEol37rfIFQ8Y0Xk9sGdAaCh7xizFmyh8gKBPwsiH1AbHVpzHrAEO/gI
-   YntqdJ3kWAYfJxDzpWks3Tqhrasf/gvljjxVaJU1FFSo8uXawrhf7UYgN
-   66q2q8EGQ+Gj39HwZ1LY7tto6WD+r8coV3Jyorl753yQe6PYO7kUDAUNJ
-   w==;
-X-CSE-ConnectionGUID: CZgwGFZfRHajMqoQDxyohg==
-X-CSE-MsgGUID: +mpAt1clQsOKUgcTjjcfDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37934342"
+  bh=MDgJ+iUMFbEOpsmpmJx1u8UtSwzJcFvTsv/2tZ2DIl4=;
+  b=OdYiRppog3ZKmf92uyMRmwbWlmDAP5wdnD120eoMrje6XZYb8axDxGC2
+   Krn6NykhkrNCCeKRUQeql2WFiZrci+SDm93WZY0hROOA8VNyP0n3vd7Rh
+   ap5ixfZvQ8G05A+uDr+r0oSC8SD9o0Hn4NNaNXBXQoQKjGSFANgxFPPSu
+   E5r1cYwbQ48EpR4QFxgY8Za+mJBCTaZCiR/RjS/Ku7nsct1MG/mWGVpXL
+   Rp56+N9fPsErJAPQ28wyfI7BHi8UdvyINW+MmnoeFQioviCJUZ8/5fB47
+   FAtcweiCWp8PIGp3goiQ4SxV3n2l6dZn0cs7YcBEmWd9icFvZCDTW2C0h
+   Q==;
+X-CSE-ConnectionGUID: 7t124+QVSDWl36n63sPv7w==
+X-CSE-MsgGUID: S4ST6N/vS0aEsYBO+B28Bg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11215"; a="37901007"
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="37934342"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2024 22:51:59 -0700
-X-CSE-ConnectionGUID: 48e1V3xrRhub4oh5XBvm0A==
-X-CSE-MsgGUID: 0fbwHIbbQnugirZ3gwj5Sw==
+   d="scan'208";a="37901007"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2024 00:16:02 -0700
+X-CSE-ConnectionGUID: lmtKUEKAQb6Zn3tJPawl7w==
+X-CSE-MsgGUID: JlYwkpPPTviZgsJzUPBe5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,179,1725346800"; 
-   d="scan'208";a="112381966"
+   d="scan'208";a="75358344"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2024 22:51:57 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Oct 2024 00:16:01 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1swxhq-0002cc-2n;
-	Sat, 05 Oct 2024 05:51:54 +0000
-Date: Sat, 5 Oct 2024 13:51:53 +0800
+	id 1swz1D-0002j4-0F;
+	Sat, 05 Oct 2024 07:15:59 +0000
+Date: Sat, 5 Oct 2024 15:15:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/irqchip/irq-loongarch-avec.c:182 complete_irq_moving()
- error: uninitialized symbol 'isr'.
-Message-ID: <202410051320.MOgkWixE-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: Re: [PATCH kselftest 3/3] selftests: vDSO: improve getrandom and
+ chacha error messages
+Message-ID: <202410051432.uAzAV7yV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,82 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "low confidence bisect report"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tianyang Zhang <zhangtianyang@loongson.cn>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Jianmin Lv <lvjianmin@loongson.cn>
-CC: Liupu Wang <wangliupu@loongson.cn>
-CC: Huacai Chen <chenhuacai@loongson.cn>
+In-Reply-To: <20241003031307.2236454-4-Jason@zx2c4.com>
+References: <20241003031307.2236454-4-Jason@zx2c4.com>
+TO: "Jason A. Donenfeld" <Jason@zx2c4.com>
+TO: skhan@linuxfoundation.org
+TO: greg@kroah.com
+TO: linux-kselftest@vger.kernel.org
+CC: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   27cc6fdf720183dce1dbd293483ec5a9cb6b595e
-commit: ae16f05c928a1336d5d9d19fd805d7bf29c3f0c8 irqchip/loongarch-avec: Add AVEC irqchip support
-date:   6 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 weeks ago
-config: loongarch-randconfig-r071-20241003 (https://download.01.org/0day-ci/archive/20241005/202410051320.MOgkWixE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v6.12-rc1 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-A-Donenfeld/selftests-vDSO-condition-chacha-build-on-chacha-implementation/20241003-111508
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20241003031307.2236454-4-Jason%40zx2c4.com
+patch subject: [PATCH kselftest 3/3] selftests: vDSO: improve getrandom and chacha error messages
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241005/202410051432.uAzAV7yV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410051320.MOgkWixE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410051432.uAzAV7yV-lkp@intel.com/
 
-New smatch warnings:
-drivers/irqchip/irq-loongarch-avec.c:182 complete_irq_moving() error: uninitialized symbol 'isr'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-internal error: ../lib/gcc/loongarch64-linux/14.1.0/include/larchintrin.h:291 SQL error #2: near "and": syntax error
-internal error: ../lib/gcc/loongarch64-linux/14.1.0/include/larchintrin.h:291 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
-
-vim +/isr +182 drivers/irqchip/irq-loongarch-avec.c
-
-ae16f05c928a13 Tianyang Zhang 2024-08-23  153  
-ae16f05c928a13 Tianyang Zhang 2024-08-23  154  void complete_irq_moving(void)
-ae16f05c928a13 Tianyang Zhang 2024-08-23  155  {
-ae16f05c928a13 Tianyang Zhang 2024-08-23  156  	struct pending_list *plist = this_cpu_ptr(&pending_list);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  157  	struct avecintc_data *adata, *tdata;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  158  	int cpu, vector, bias;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  159  	uint64_t isr;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  160  
-ae16f05c928a13 Tianyang Zhang 2024-08-23  161  	guard(raw_spinlock)(&loongarch_avec.lock);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  162  
-ae16f05c928a13 Tianyang Zhang 2024-08-23  163  	list_for_each_entry_safe(adata, tdata, &plist->head, entry) {
-ae16f05c928a13 Tianyang Zhang 2024-08-23  164  		cpu = adata->prev_cpu;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  165  		vector = adata->prev_vec;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  166  		bias = vector / VECTORS_PER_REG;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  167  		switch (bias) {
-ae16f05c928a13 Tianyang Zhang 2024-08-23  168  		case 0:
-ae16f05c928a13 Tianyang Zhang 2024-08-23  169  			isr = csr_read64(LOONGARCH_CSR_ISR0);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  170  			break;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  171  		case 1:
-ae16f05c928a13 Tianyang Zhang 2024-08-23  172  			isr = csr_read64(LOONGARCH_CSR_ISR1);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  173  			break;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  174  		case 2:
-ae16f05c928a13 Tianyang Zhang 2024-08-23  175  			isr = csr_read64(LOONGARCH_CSR_ISR2);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  176  			break;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  177  		case 3:
-ae16f05c928a13 Tianyang Zhang 2024-08-23  178  			isr = csr_read64(LOONGARCH_CSR_ISR3);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  179  			break;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  180  		}
-ae16f05c928a13 Tianyang Zhang 2024-08-23  181  
-ae16f05c928a13 Tianyang Zhang 2024-08-23 @182  		if (isr & (1UL << (vector % VECTORS_PER_REG))) {
-ae16f05c928a13 Tianyang Zhang 2024-08-23  183  			mp_ops.send_ipi_single(cpu, ACTION_CLEAR_VECTOR);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  184  			continue;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  185  		}
-ae16f05c928a13 Tianyang Zhang 2024-08-23  186  		list_del(&adata->entry);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  187  		irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, false);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  188  		this_cpu_write(irq_map[vector], NULL);
-ae16f05c928a13 Tianyang Zhang 2024-08-23  189  		adata->moving = 0;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  190  		adata->prev_cpu = adata->cpu;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  191  		adata->prev_vec = adata->vec;
-ae16f05c928a13 Tianyang Zhang 2024-08-23  192  	}
-ae16f05c928a13 Tianyang Zhang 2024-08-23  193  }
-ae16f05c928a13 Tianyang Zhang 2024-08-23  194  #endif
-ae16f05c928a13 Tianyang Zhang 2024-08-23  195  
+>> vdso_test_getrandom.c:274:3: warning: add explicit braces to avoid dangling else [-Wdangling-else]
+     274 |                 else if (WSTOPSIG(status) == (SIGTRAP | 0x80)) {
+         |                 ^
+   1 warning generated.
 
 -- 
 0-DAY CI Kernel Test Service
