@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EDE13D296
-	for <oe-kbuild@lists.linux.dev>; Sun,  6 Oct 2024 15:00:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D1E2572
+	for <oe-kbuild@lists.linux.dev>; Sun,  6 Oct 2024 19:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728226825; cv=none; b=kxXna6XHv8B5NYoij1qOs/P2j/t438tZtrFgAfSWm6/Voom2VIR7RNRLgmUrSEge1U7YlqN/x+VLEPqwO9mjOsvZEPzxWqQWK38EK7O+cMTchMz0QIDjiZyepTWabhHZe1+VSdo9LvkO9huAXUylx8jSbDA7PB4KVxoWt24N/Oc=
+	t=1728241419; cv=none; b=clHCm42WSI4lL2KgEFr6Hmxd6WCVUIoPM5f65NB6+7y+j+0Gt6OzT4noxlS0PPq98XUsaj0DlkjFEX8Eqb8IKQE4wF0h+fDXIqS3RGnGOfWZ/h69zwzNiTrU9WcCB47v8savW0o3ToCpf25okwKpubrpv941uTCW6tM9J3VbAyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728226825; c=relaxed/simple;
-	bh=u17ryF/o0RNsK7PtH+nWe0BqM4C/cEeG8IIaXHyFsx4=;
+	s=arc-20240116; t=1728241419; c=relaxed/simple;
+	bh=YhB6GTPIiFsxk9TLJQa9mT1TaoIaDeUMLUy/Py5PVco=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D4fgPUb88HQOH8gfZUIP7FLj9Xo3FVl8ydUhvV3MJj2/vK7bhxlAT/n8r/JycRPhBY22f8TbJgxoDfJXiq0PusIsbnJnrdwdl/9IETm2R68XI6WRNY+7ALAdX6wFUjxY6Q4KMQV3Enp2A0wStAlZ6W15q6FUSqi/b6hdcF/QLD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmeQrzUe; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=GMgNfjmc5shKajwzSNoZ5zE9IFpcIhoJdt/v5+tyP7pQX1GdI1CuwIXvRWP8VXPb1uI5XwJ0Ni6ZJpIOcYJTfTsLYIsO35TUWKzzbRywmtE4iHatRQGPYTQWZBQ1lnqB1T8EccL0W7D7KuJHX+eQ7MhB/5m1JBGsOQr1u6oyrss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsuZ2sm2; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmeQrzUe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsuZ2sm2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728226823; x=1759762823;
+  t=1728241417; x=1759777417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u17ryF/o0RNsK7PtH+nWe0BqM4C/cEeG8IIaXHyFsx4=;
-  b=TmeQrzUeT+0YBlzxMwF4OtsEiQXk5jkzyR5lHS9rxqgbp9r2EEokRSTv
-   H6lW82cZ6qIAkiHneLfDyAhgg97yOZGiZxZ+MIaFL6wbIlRX7atEsJipH
-   ofkzLwtxwCC0fMW/ED+6jqeFogsGQcH93X9ld7dt+zKcOGRgtmqhqiaHA
-   K6FFZ4PNntTjoJvIm4mItOHbjkslGqL9mIyVD/FObCvJJXVGy+w7SZvx4
-   J1hydH87+heKc1EOOBqCUw8Nw8/9qVLBblreg9uQWHcloReTsJ7cPhyO/
-   qUJomK3px4/7L68weE+XF0S2x8l7UQrOHpsXMgxQ6umYF0Qgs8+L9wtdR
-   g==;
-X-CSE-ConnectionGUID: sxGg1UjVQzGpbwGijcragw==
-X-CSE-MsgGUID: 9xJ2PyZIQEaeDQjjEFMZFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="44908865"
+  bh=YhB6GTPIiFsxk9TLJQa9mT1TaoIaDeUMLUy/Py5PVco=;
+  b=DsuZ2sm2ZkgRc6g4yGnsdMqCajwLCmwdCjc8GJl+l1vZX61v6G6N1vUK
+   77+eopRDeLtsmr62ftVget6Xbn4q1UbjxR1fJIwd/5OwBXEEe60ZzePQy
+   4DqBwcYIY3mQ8vMHXRsAkKtrSuvn1t9S/qgnutVArZ43pzAJL3zdrjteE
+   AnXtMsVd34RX6Ax6XBfrWwNgH8DG4kgSxSFyLiU1LHpqdIIj0XJnCHVka
+   5lD0Eo9sSOjdEefI5J8v43rObJShys6tXtS3NkYppyDTjQqWIs5EhA8Wd
+   XGHAL7UDuWdnCBRSUV027+NSQ/GR9WTvt9neLIYc1sxnWMIHxQ5pVFN2b
+   w==;
+X-CSE-ConnectionGUID: rjxL3sMDSxWWtic3thSI7Q==
+X-CSE-MsgGUID: GPXzUOBbRtSuK4meCkC4ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="27532425"
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="44908865"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 08:00:22 -0700
-X-CSE-ConnectionGUID: 78hzZ5A6RtefXdJeO2YX+A==
-X-CSE-MsgGUID: jrDx8rhwTt2dO9tAg8IMZw==
+   d="scan'208";a="27532425"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 12:03:36 -0700
+X-CSE-ConnectionGUID: tQsZi48WSVGt9AThdwatzA==
+X-CSE-MsgGUID: GaimPwnjRa6tv97cL8d5NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="79800729"
+   d="scan'208";a="106085061"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Oct 2024 08:00:21 -0700
+  by orviesa002.jf.intel.com with ESMTP; 06 Oct 2024 12:03:36 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxSk7-0003zA-0z;
-	Sun, 06 Oct 2024 15:00:19 +0000
-Date: Sun, 6 Oct 2024 22:59:43 +0800
+	id 1sxWXV-0004Fk-0j;
+	Sun, 06 Oct 2024 19:03:33 +0000
+Date: Mon, 7 Oct 2024 03:02:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/ext4/mballoc.c:4597:47-50: opportunity for str_yes_no(ret)
-Message-ID: <202410062256.BoynX3c2-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x98:
+ unreachable instruction
+Message-ID: <202410070217.IlnGeJlG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,56 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "loongarch: unreachable instruction"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Ritesh Harjani <riteshh@linux.ibm.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
+TO: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f602276d3902642fdc3429b548d73c745446601
-commit: 07b5b8e1ac4004b7db1065a301df65cd434c31c9 ext4: mballoc: introduce pcpu seqcnt for freeing PA to improve ENOSPC handling
-date:   4 years, 4 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 4 years, 4 months ago
-config: x86_64-randconfig-102-20241006 (https://download.01.org/0day-ci/archive/20241006/202410062256.BoynX3c2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: 03d6612648a48d0f5a60a013d4b583b4886807d2 btrfs: convert btrfs_readahead() to only use folio
+date:   4 weeks ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 weeks ago
+config: loongarch-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20241007/202410070217.IlnGeJlG-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410070217.IlnGeJlG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410062256.BoynX3c2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410070217.IlnGeJlG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/ext4/mballoc.c:4597:47-50: opportunity for str_yes_no(ret)
+All warnings (new ones prefixed by >>):
 
-vim +4597 fs/ext4/mballoc.c
+   fs/btrfs/extent_io.o: warning: objtool: detach_extent_buffer_folio+0xe4: unreachable instruction
+   fs/btrfs/extent_io.o: warning: objtool: btrfs_do_readpage+0x2b0: unreachable instruction
+>> fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x98: unreachable instruction
 
-c9de560ded61fa Alex Tomas     2008-01-29  4577  
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4578  static bool ext4_mb_discard_preallocations_should_retry(struct super_block *sb,
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4579  			struct ext4_allocation_context *ac, u64 *seq)
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4580  {
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4581  	int freed;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4582  	u64 seq_retry = 0;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4583  	bool ret = false;
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4584  
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4585  	freed = ext4_mb_discard_preallocations(sb, ac->ac_o_ex.fe_len);
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4586  	if (freed) {
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4587  		ret = true;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4588  		goto out_dbg;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4589  	}
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4590  	seq_retry = ext4_get_discard_pa_seq_sum();
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4591  	if (seq_retry != *seq) {
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4592  		*seq = seq_retry;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4593  		ret = true;
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4594  	}
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4595  
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4596  out_dbg:
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20 @4597  	mb_debug(sb, "freed %d, retry ? %s\n", freed, ret ? "yes" : "no");
-07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4598  	return ret;
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4599  }
-cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4600  
+
+objdump-func vmlinux.o btrfs_readahead:
 
 -- 
 0-DAY CI Kernel Test Service
