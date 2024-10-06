@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993D91BC5C
-	for <oe-kbuild@lists.linux.dev>; Sun,  6 Oct 2024 14:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EDE13D296
+	for <oe-kbuild@lists.linux.dev>; Sun,  6 Oct 2024 15:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728224904; cv=none; b=t8m/Z8PcqQ++weRraWMtk5y7Dn7jQzbQQrI4vKkXwKoGyIaTTxkUEbTacRdH/0zVztLbdU1QqpZXH2rKE5PhKq20OWoUavaptX0nGLNgcp4t75kS3RFxsuUd57odA8qNgaM4o5z+AaU3Ylrz5apqxwQAZRMsdWuEBOmzBdZUP+0=
+	t=1728226825; cv=none; b=kxXna6XHv8B5NYoij1qOs/P2j/t438tZtrFgAfSWm6/Voom2VIR7RNRLgmUrSEge1U7YlqN/x+VLEPqwO9mjOsvZEPzxWqQWK38EK7O+cMTchMz0QIDjiZyepTWabhHZe1+VSdo9LvkO9huAXUylx8jSbDA7PB4KVxoWt24N/Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728224904; c=relaxed/simple;
-	bh=oCPi9wNuyBrf3adeRVVSbasamZY0pumbkp78Qya3h0E=;
+	s=arc-20240116; t=1728226825; c=relaxed/simple;
+	bh=u17ryF/o0RNsK7PtH+nWe0BqM4C/cEeG8IIaXHyFsx4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dvNTEVb4JuNfVxGb8TMM8WUZ0m9INkjZUHBZCiQ4/EFygQ2aQ3t7SgWdxu+U8ZVZw0jW1qwrIoI9NdCRdI9Mrm2a9tALRrk15ukX3yu/6GvmEwAmcvlxKpMNx42+PvQg7SmcPA8z9caPWd5Pg4rkfAMKopzjCD1SdgOWVHeVwHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmaTljHT; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=D4fgPUb88HQOH8gfZUIP7FLj9Xo3FVl8ydUhvV3MJj2/vK7bhxlAT/n8r/JycRPhBY22f8TbJgxoDfJXiq0PusIsbnJnrdwdl/9IETm2R68XI6WRNY+7ALAdX6wFUjxY6Q4KMQV3Enp2A0wStAlZ6W15q6FUSqi/b6hdcF/QLD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TmeQrzUe; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmaTljHT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TmeQrzUe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728224901; x=1759760901;
+  t=1728226823; x=1759762823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oCPi9wNuyBrf3adeRVVSbasamZY0pumbkp78Qya3h0E=;
-  b=UmaTljHTyj0A1hP+77m15eSAkE+gJ5pPIH27hzIGV62orx8vkw2ws8rJ
-   q7qVOYPdvFX+HlptFjV7YETl+P6qCLy+wqG4nCFw2jEhU+JRRzjeaWtum
-   avPqo7/VUvaNXCuB2jgO2q3Wy6nQMyaLGSLJzqEvuAsWMjd4ysJfqOlCg
-   Z4gpkkxY0WYpWftC5O+RFw+PVYTVXck2CqhLCYXxehNbFr5zKPps05qzw
-   1Pt4dJWjL5QI1V/bh0+GBq/4fPDqvKuQKO1k3CTt8bNI9NINAh8JwFFFx
-   t5CA2rYSWy2L+oJouaUkQamTRtku61FcGu9hgKlvlHz5Q7wWK/Z9TPw1f
+  bh=u17ryF/o0RNsK7PtH+nWe0BqM4C/cEeG8IIaXHyFsx4=;
+  b=TmeQrzUeT+0YBlzxMwF4OtsEiQXk5jkzyR5lHS9rxqgbp9r2EEokRSTv
+   H6lW82cZ6qIAkiHneLfDyAhgg97yOZGiZxZ+MIaFL6wbIlRX7atEsJipH
+   ofkzLwtxwCC0fMW/ED+6jqeFogsGQcH93X9ld7dt+zKcOGRgtmqhqiaHA
+   K6FFZ4PNntTjoJvIm4mItOHbjkslGqL9mIyVD/FObCvJJXVGy+w7SZvx4
+   J1hydH87+heKc1EOOBqCUw8Nw8/9qVLBblreg9uQWHcloReTsJ7cPhyO/
+   qUJomK3px4/7L68weE+XF0S2x8l7UQrOHpsXMgxQ6umYF0Qgs8+L9wtdR
    g==;
-X-CSE-ConnectionGUID: ieRLAqphQNWuGh8d0Re8YQ==
-X-CSE-MsgGUID: aXDSKlAlTWSWvpVpdonvew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="38746106"
+X-CSE-ConnectionGUID: sxGg1UjVQzGpbwGijcragw==
+X-CSE-MsgGUID: 9xJ2PyZIQEaeDQjjEFMZFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="44908865"
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="38746106"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 07:28:21 -0700
-X-CSE-ConnectionGUID: 1Vvr/yI5RZ6axWYHTtQuHg==
-X-CSE-MsgGUID: TRfKUezwQIqp3YL5SZbfGQ==
+   d="scan'208";a="44908865"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 08:00:22 -0700
+X-CSE-ConnectionGUID: 78hzZ5A6RtefXdJeO2YX+A==
+X-CSE-MsgGUID: jrDx8rhwTt2dO9tAg8IMZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="75454076"
+   d="scan'208";a="79800729"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 06 Oct 2024 07:28:20 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 06 Oct 2024 08:00:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxSF7-0003wC-1J;
-	Sun, 06 Oct 2024 14:28:17 +0000
-Date: Sun, 6 Oct 2024 22:28:12 +0800
+	id 1sxSk7-0003zA-0z;
+	Sun, 06 Oct 2024 15:00:19 +0000
+Date: Sun, 6 Oct 2024 22:59:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid
- reference to the index variable of the iterator on line 7890
-Message-ID: <202410062237.zvQc58MX-lkp@intel.com>
+Subject: fs/ext4/mballoc.c:4597:47-50: opportunity for str_yes_no(ret)
+Message-ID: <202410062256.BoynX3c2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,108 +64,53 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Jinjie Ruan <ruanjinjie@huawei.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Simon Horman <horms@kernel.org>
-
-Hi Jinjie,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+TO: Ritesh Harjani <riteshh@linux.ibm.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f602276d3902642fdc3429b548d73c745446601
-commit: c1fec890458ad101ddbbc52cdd29f7bba6aa2b10 ethernet/intel: Use list_for_each_entry() helper
-date:   1 year ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-r062-20241006 (https://download.01.org/0day-ci/archive/20241006/202410062237.zvQc58MX-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+commit: 07b5b8e1ac4004b7db1065a301df65cd434c31c9 ext4: mballoc: introduce pcpu seqcnt for freeing PA to improve ENOSPC handling
+date:   4 years, 4 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 4 years, 4 months ago
+config: x86_64-randconfig-102-20241006 (https://download.01.org/0day-ci/archive/20241006/202410062256.BoynX3c2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410062237.zvQc58MX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410062256.BoynX3c2-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/igb/igb_main.c:7895:6-11: ERROR: invalid reference to the index variable of the iterator on line 7890
-   drivers/net/ethernet/intel/igb/igb_main.c:7895:15-20: ERROR: invalid reference to the index variable of the iterator on line 7890
+>> fs/ext4/mballoc.c:4597:47-50: opportunity for str_yes_no(ret)
 
-vim +7895 drivers/net/ethernet/intel/igb/igb_main.c
+vim +4597 fs/ext4/mballoc.c
 
-83c21335c87622 Yury Kylulin     2017-03-07  7854  
-b476deab8f412b Colin Ian King   2017-04-27  7855  static int igb_set_vf_mac_filter(struct igb_adapter *adapter, const int vf,
-4827cc37796a02 Yury Kylulin     2017-03-07  7856  				 const u32 info, const u8 *addr)
-4827cc37796a02 Yury Kylulin     2017-03-07  7857  {
-4827cc37796a02 Yury Kylulin     2017-03-07  7858  	struct pci_dev *pdev = adapter->pdev;
-4827cc37796a02 Yury Kylulin     2017-03-07  7859  	struct vf_data_storage *vf_data = &adapter->vf_data[vf];
-4827cc37796a02 Yury Kylulin     2017-03-07  7860  	struct vf_mac_filter *entry = NULL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7861  	int ret = 0;
-4827cc37796a02 Yury Kylulin     2017-03-07  7862  
-1b8b062a99dc76 Corinna Vinschen 2018-01-17  7863  	if ((vf_data->flags & IGB_VF_FLAG_PF_SET_MAC) &&
-1b8b062a99dc76 Corinna Vinschen 2018-01-17  7864  	    !vf_data->trusted) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7865  		dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7866  			 "VF %d requested MAC filter but is administratively denied\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7867  			  vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7868  		return -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7869  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7870  	if (!is_valid_ether_addr(addr)) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7871  		dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7872  			 "VF %d attempted to set invalid MAC filter\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7873  			  vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7874  		return -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7875  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7876  
-584af82154f56e Karen Sornek     2021-08-31  7877  	switch (info) {
-584af82154f56e Karen Sornek     2021-08-31  7878  	case E1000_VF_MAC_FILTER_CLR:
-584af82154f56e Karen Sornek     2021-08-31  7879  		/* remove all unicast MAC filters related to the current VF */
-c1fec890458ad1 Jinjie Ruan      2023-09-19  7880  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
-584af82154f56e Karen Sornek     2021-08-31  7881  			if (entry->vf == vf) {
-584af82154f56e Karen Sornek     2021-08-31  7882  				entry->vf = -1;
-584af82154f56e Karen Sornek     2021-08-31  7883  				entry->free = true;
-584af82154f56e Karen Sornek     2021-08-31  7884  				igb_del_mac_filter(adapter, entry->vf_mac, vf);
-584af82154f56e Karen Sornek     2021-08-31  7885  			}
-584af82154f56e Karen Sornek     2021-08-31  7886  		}
-584af82154f56e Karen Sornek     2021-08-31  7887  		break;
-584af82154f56e Karen Sornek     2021-08-31  7888  	case E1000_VF_MAC_FILTER_ADD:
-4827cc37796a02 Yury Kylulin     2017-03-07  7889  		/* try to find empty slot in the list */
-c1fec890458ad1 Jinjie Ruan      2023-09-19 @7890  		list_for_each_entry(entry, &adapter->vf_macs.l, l) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7891  			if (entry->free)
-4827cc37796a02 Yury Kylulin     2017-03-07  7892  				break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7893  		}
-4827cc37796a02 Yury Kylulin     2017-03-07  7894  
-4827cc37796a02 Yury Kylulin     2017-03-07 @7895  		if (entry && entry->free) {
-4827cc37796a02 Yury Kylulin     2017-03-07  7896  			entry->free = false;
-4827cc37796a02 Yury Kylulin     2017-03-07  7897  			entry->vf = vf;
-4827cc37796a02 Yury Kylulin     2017-03-07  7898  			ether_addr_copy(entry->vf_mac, addr);
-4827cc37796a02 Yury Kylulin     2017-03-07  7899  
-4827cc37796a02 Yury Kylulin     2017-03-07  7900  			ret = igb_add_mac_filter(adapter, addr, vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7901  			ret = min_t(int, ret, 0);
-4827cc37796a02 Yury Kylulin     2017-03-07  7902  		} else {
-4827cc37796a02 Yury Kylulin     2017-03-07  7903  			ret = -ENOSPC;
-4827cc37796a02 Yury Kylulin     2017-03-07  7904  		}
-4827cc37796a02 Yury Kylulin     2017-03-07  7905  
-4827cc37796a02 Yury Kylulin     2017-03-07  7906  		if (ret == -ENOSPC)
-4827cc37796a02 Yury Kylulin     2017-03-07  7907  			dev_warn(&pdev->dev,
-4827cc37796a02 Yury Kylulin     2017-03-07  7908  				 "VF %d has requested MAC filter but there is no space for it\n",
-4827cc37796a02 Yury Kylulin     2017-03-07  7909  				 vf);
-4827cc37796a02 Yury Kylulin     2017-03-07  7910  		break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7911  	default:
-4827cc37796a02 Yury Kylulin     2017-03-07  7912  		ret = -EINVAL;
-4827cc37796a02 Yury Kylulin     2017-03-07  7913  		break;
-4827cc37796a02 Yury Kylulin     2017-03-07  7914  	}
-4827cc37796a02 Yury Kylulin     2017-03-07  7915  
-4827cc37796a02 Yury Kylulin     2017-03-07  7916  	return ret;
-4827cc37796a02 Yury Kylulin     2017-03-07  7917  }
-4827cc37796a02 Yury Kylulin     2017-03-07  7918  
-
-:::::: The code at line 7895 was first introduced by commit
-:::::: 4827cc37796a02ece7097e01dad8e08f537ac815 igb/igbvf: Add VF MAC filter request capabilities
-
-:::::: TO: Yury Kylulin <yury.kylulin@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+c9de560ded61fa Alex Tomas     2008-01-29  4577  
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4578  static bool ext4_mb_discard_preallocations_should_retry(struct super_block *sb,
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4579  			struct ext4_allocation_context *ac, u64 *seq)
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4580  {
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4581  	int freed;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4582  	u64 seq_retry = 0;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4583  	bool ret = false;
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4584  
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4585  	freed = ext4_mb_discard_preallocations(sb, ac->ac_o_ex.fe_len);
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4586  	if (freed) {
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4587  		ret = true;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4588  		goto out_dbg;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4589  	}
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4590  	seq_retry = ext4_get_discard_pa_seq_sum();
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4591  	if (seq_retry != *seq) {
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4592  		*seq = seq_retry;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4593  		ret = true;
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4594  	}
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4595  
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4596  out_dbg:
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20 @4597  	mb_debug(sb, "freed %d, retry ? %s\n", freed, ret ? "yes" : "no");
+07b5b8e1ac4004 Ritesh Harjani 2020-05-20  4598  	return ret;
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4599  }
+cf5e2ca6c99077 Ritesh Harjani 2020-05-20  4600  
 
 -- 
 0-DAY CI Kernel Test Service
