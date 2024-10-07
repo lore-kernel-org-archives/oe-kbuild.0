@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D1E2572
-	for <oe-kbuild@lists.linux.dev>; Sun,  6 Oct 2024 19:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A173F13AF2
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Oct 2024 02:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728241419; cv=none; b=clHCm42WSI4lL2KgEFr6Hmxd6WCVUIoPM5f65NB6+7y+j+0Gt6OzT4noxlS0PPq98XUsaj0DlkjFEX8Eqb8IKQE4wF0h+fDXIqS3RGnGOfWZ/h69zwzNiTrU9WcCB47v8savW0o3ToCpf25okwKpubrpv941uTCW6tM9J3VbAyY=
+	t=1728269008; cv=none; b=furT98cLFYQ4iL4vP//NfEPy3PWGmegP2lz9YEYBT8XGeHvsKS7b8EglbvM6AaDWmZd+rTf0KRRencq2+U7DBzMQtEHRq7RmyMNOOuH6Rmq8PZv8XhCw8OH4Gi/Ld7YITSbcjl+aSFbVPinqecirnJ/XlXbZP5heFl1dCHJgUG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728241419; c=relaxed/simple;
-	bh=YhB6GTPIiFsxk9TLJQa9mT1TaoIaDeUMLUy/Py5PVco=;
+	s=arc-20240116; t=1728269008; c=relaxed/simple;
+	bh=quzn9VZl0y8jddPeZTgmA0ZIBIqdXdS8ogpTfKoTFuI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GMgNfjmc5shKajwzSNoZ5zE9IFpcIhoJdt/v5+tyP7pQX1GdI1CuwIXvRWP8VXPb1uI5XwJ0Ni6ZJpIOcYJTfTsLYIsO35TUWKzzbRywmtE4iHatRQGPYTQWZBQ1lnqB1T8EccL0W7D7KuJHX+eQ7MhB/5m1JBGsOQr1u6oyrss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsuZ2sm2; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=cPXJ7FI/GP2rDIdFRdGyix3ZC68rsBlpjyLOcP6KQE5f0FnTV0lKkMG8A7cDZe4vNICILR0z6cGBTKi4E7PmpHbvJETCP20QFMaEhXaRU0j3gzob2z5CMdAUpJ42KiEIt/kSUSZuHjnrO3FpHDCaC505qKXEzgRIpVT2GPO1fPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQQtlaqF; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsuZ2sm2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQQtlaqF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728241417; x=1759777417;
+  t=1728269006; x=1759805006;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YhB6GTPIiFsxk9TLJQa9mT1TaoIaDeUMLUy/Py5PVco=;
-  b=DsuZ2sm2ZkgRc6g4yGnsdMqCajwLCmwdCjc8GJl+l1vZX61v6G6N1vUK
-   77+eopRDeLtsmr62ftVget6Xbn4q1UbjxR1fJIwd/5OwBXEEe60ZzePQy
-   4DqBwcYIY3mQ8vMHXRsAkKtrSuvn1t9S/qgnutVArZ43pzAJL3zdrjteE
-   AnXtMsVd34RX6Ax6XBfrWwNgH8DG4kgSxSFyLiU1LHpqdIIj0XJnCHVka
-   5lD0Eo9sSOjdEefI5J8v43rObJShys6tXtS3NkYppyDTjQqWIs5EhA8Wd
-   XGHAL7UDuWdnCBRSUV027+NSQ/GR9WTvt9neLIYc1sxnWMIHxQ5pVFN2b
-   w==;
-X-CSE-ConnectionGUID: rjxL3sMDSxWWtic3thSI7Q==
-X-CSE-MsgGUID: GPXzUOBbRtSuK4meCkC4ew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="27532425"
-X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="27532425"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 12:03:36 -0700
-X-CSE-ConnectionGUID: tQsZi48WSVGt9AThdwatzA==
-X-CSE-MsgGUID: GaimPwnjRa6tv97cL8d5NA==
+  bh=quzn9VZl0y8jddPeZTgmA0ZIBIqdXdS8ogpTfKoTFuI=;
+  b=fQQtlaqFPXhE5ups8sz+w8MO458ji8FeixUSuScNdpf9JKfSdYe679SL
+   stnGu6238gJd7++2+HFHhBvVN2s1FY6w0c2fZrPIq0Q9baqFzs1BMxbv0
+   UDbXUD8ZKaw0xyis/n/izLD15LymLRmdteymLQla0yUfPF/IjhYqqwhR8
+   57xz+RyibjLIkMfq7nibyieNL0MiBT0EA9ZdPgKJfK3JzCdJV+3aX/hij
+   erlIW4Kwt+RrOHT/2vRprPGzm87vN89MWKqhk3QbVOkl7oTGCdtRBqGoo
+   s4NuexW69nCyStE1PbV8IjrcjmRs2FvwD8j614hswh2jDJyAONOITPkak
+   A==;
+X-CSE-ConnectionGUID: OAIsn/jwSge+UikwMLf4mA==
+X-CSE-MsgGUID: jsZQrsh9RWSszSCb61VqQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="15024681"
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
+   d="scan'208";a="15024681"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 19:43:26 -0700
+X-CSE-ConnectionGUID: ONbUGW0YS72tP3nBxMQIXw==
+X-CSE-MsgGUID: szH8TU0XRRqwrH1xYfZfaA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,182,1725346800"; 
-   d="scan'208";a="106085061"
+X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
+   d="scan'208";a="75675470"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Oct 2024 12:03:36 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 Oct 2024 19:43:25 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sxWXV-0004Fk-0j;
-	Sun, 06 Oct 2024 19:03:33 +0000
-Date: Mon, 7 Oct 2024 03:02:43 +0800
+	id 1sxdiU-0004XE-2r;
+	Mon, 07 Oct 2024 02:43:22 +0000
+Date: Mon, 7 Oct 2024 10:42:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x98:
- unreachable instruction
-Message-ID: <202410070217.IlnGeJlG-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 5/7] vhost: Add the cgroup related function
+Message-ID: <202410071046.iV6mE2XD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,39 +61,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "loongarch: unreachable instruction"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Josef Bacik <josef@toxicpanda.com>
-CC: David Sterba <dsterba@suse.com>
+In-Reply-To: <20241004015937.2286459-6-lulu@redhat.com>
+References: <20241004015937.2286459-6-lulu@redhat.com>
+TO: Cindy Lu <lulu@redhat.com>
+TO: lulu@redhat.com
+TO: jasowang@redhat.com
+TO: mst@redhat.com
+TO: michael.christie@oracle.com
+TO: linux-kernel@vger.kernel.org
+TO: virtualization@lists.linux-foundation.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f602276d3902642fdc3429b548d73c745446601
-commit: 03d6612648a48d0f5a60a013d4b583b4886807d2 btrfs: convert btrfs_readahead() to only use folio
-date:   4 weeks ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 weeks ago
-config: loongarch-randconfig-001-20240804 (https://download.01.org/0day-ci/archive/20241007/202410070217.IlnGeJlG-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241007/202410070217.IlnGeJlG-lkp@intel.com/reproduce)
+Hi Cindy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master v6.12-rc2 next-20241004]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-modparam-to-allow-userspace-select-vhost_task/20241004-100307
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20241004015937.2286459-6-lulu%40redhat.com
+patch subject: [PATCH v2 5/7] vhost: Add the cgroup related function
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: openrisc-randconfig-r071-20241007 (https://download.01.org/0day-ci/archive/20241007/202410071046.iV6mE2XD-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410070217.IlnGeJlG-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410071046.iV6mE2XD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/vhost/vhost.c:701 vhost_attach_cgroups() error: uninitialized symbol 'ret'.
+drivers/vhost/vhost.c:696 vhost_attach_cgroups() warn: iterator 'i' not incremented
 
-   fs/btrfs/extent_io.o: warning: objtool: detach_extent_buffer_folio+0xe4: unreachable instruction
-   fs/btrfs/extent_io.o: warning: objtool: btrfs_do_readpage+0x2b0: unreachable instruction
->> fs/btrfs/extent_io.o: warning: objtool: btrfs_readahead+0x98: unreachable instruction
+Old smatch warnings:
+drivers/vhost/vhost.c:335 vhost_dev_flush() warn: iterator 'i' not incremented
 
+vim +/ret +701 drivers/vhost/vhost.c
 
-objdump-func vmlinux.o btrfs_readahead:
+8af3761e8c2789 Cindy Lu 2024-10-04  684  
+8af3761e8c2789 Cindy Lu 2024-10-04  685  static int vhost_attach_cgroups(struct vhost_dev *dev)
+8af3761e8c2789 Cindy Lu 2024-10-04  686  {
+8af3761e8c2789 Cindy Lu 2024-10-04  687  	struct vhost_worker *worker;
+8af3761e8c2789 Cindy Lu 2024-10-04  688  	unsigned long i;
+8af3761e8c2789 Cindy Lu 2024-10-04  689  	int ret;
+8af3761e8c2789 Cindy Lu 2024-10-04  690  
+8af3761e8c2789 Cindy Lu 2024-10-04  691  	/*
+8af3761e8c2789 Cindy Lu 2024-10-04  692  	 * Free the default worker we created and cleanup workers userspace
+8af3761e8c2789 Cindy Lu 2024-10-04  693  	 * created but couldn't clean up (it forgot or crashed).
+8af3761e8c2789 Cindy Lu 2024-10-04  694  	 */
+8af3761e8c2789 Cindy Lu 2024-10-04  695  
+8af3761e8c2789 Cindy Lu 2024-10-04 @696  	xa_for_each(&dev->worker_xa, i, worker) {
+8af3761e8c2789 Cindy Lu 2024-10-04  697  		ret = vhost_worker_cgroups_kthread(worker);
+8af3761e8c2789 Cindy Lu 2024-10-04  698  		if (ret)
+8af3761e8c2789 Cindy Lu 2024-10-04  699  			return ret;
+8af3761e8c2789 Cindy Lu 2024-10-04  700  	}
+8af3761e8c2789 Cindy Lu 2024-10-04 @701  	return ret;
+8af3761e8c2789 Cindy Lu 2024-10-04  702  }
+8af3761e8c2789 Cindy Lu 2024-10-04  703  
 
 -- 
 0-DAY CI Kernel Test Service
