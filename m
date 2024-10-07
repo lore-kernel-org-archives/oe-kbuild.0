@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0FC1D90A9
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Oct 2024 14:54:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753851D90D3
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Oct 2024 15:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728312901; cv=none; b=IHPsj3uNyGYrQMiPUK69hVOSB0Jakxd9WCBIyjQDrULNaU9Uo5fw2LUEBysJEDqp5+tTG3XpT8Cg/1aMRwV1JOUCXBg0tOTYXBw+zzc5o9NMWHq0Pw69gOyth5ZBiHjRLXQMZrTywCTsMWnWp4simNTsScnTFR2wpCte91YIflc=
+	t=1728315704; cv=none; b=n9rCvs905COTzT8Ly8hrdMjy+9XUVdoDa0wqt5XZUPfxwcpz5odLg/53JO37/pC2sHam28vMNaw/iVXL45MdxHASO79eCfgtaAFkmFX9xMRoPTjIf3iwEecf1DMZ2KgluIF2Qjd7KrybKeFlyoNOappVV4PKauaHd3oLyTviBZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728312901; c=relaxed/simple;
-	bh=XIH9qu3I45hK4k2f2hi4IPEWXzvFTZevG3LR4jLGV1Y=;
+	s=arc-20240116; t=1728315704; c=relaxed/simple;
+	bh=PT8EMHuqy5rPTcAQcW3nttOPNpZjP5Fp04Mp/GmxpsM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XjufkCK1dx0mrPHHP+sgKAhByoSROa2zHXtuiFmMdvyjOvOBOprT7QjdY+RhKUdUSr5IWWL3zBe+R1jv2AeCmwCLciPhNl3WTqAJSCJiZtc8Lb2wWDO4+/17AOCNLE89kmAmpjfk7UwJsk85wIblLJB7ZqNx0aIxvjQB5LZz1HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBik8yQV; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=m9PWzmvmncf70EOzjlk1k8Q9Htf4bV1BBlST/w2kei7uvuaw1Fj66debWwQhf1u+iuSE6mfV3CnpBZfnMLpEIVCq03749EcAO7VC6Riorp3IHsyaUH+MvS8Ty0ajH/S7ABzbfCANnSd9fl7Gl5EUlEH8MdMqanr1GgcTCy66Jw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t+C6RrHh; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBik8yQV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728312900; x=1759848900;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XIH9qu3I45hK4k2f2hi4IPEWXzvFTZevG3LR4jLGV1Y=;
-  b=VBik8yQVNpjnoAdmRqMkHwdHZdhVdj8Uxw/4D0q9z7dSjx93FgNxw6IR
-   tR7NqImxp3kzlTG50mkBL3/ymweSoJldoVSZcpTpSW/iS4o74YFhKwKUd
-   toWhjIj+eXsG9OaGmSIdMdpon7ejajm5T3s1Op/T5w8x7c2Pf4wibUVdK
-   Ulx7R08M2YxBMhajC2LZrFR97tMO9tOOhuwIs0kBiQLhlLP/VPZjjJ0Ev
-   Srh27id3Wq4r0NuzF+G7GkJ39xNbur1wN1XexZVQIOBvL8DrOCMoY5srl
-   7zkdCz/l2iYVVo6PvUohz1dY1CQF9iQ9z5+Wq/NLU1x3CUUXjPSLcTQdV
-   Q==;
-X-CSE-ConnectionGUID: EXkPrjdBQ5iDxjqEds96qQ==
-X-CSE-MsgGUID: pe6mjBB/RRCneU5hnv1k7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27276131"
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="27276131"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 07:54:58 -0700
-X-CSE-ConnectionGUID: bepDGo0kT2eWydtN0dElKw==
-X-CSE-MsgGUID: 1f8aLqpuT/mhRg3iebxHog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
-   d="scan'208";a="112960969"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Oct 2024 07:54:57 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxp8Q-000580-1H;
-	Mon, 07 Oct 2024 14:54:54 +0000
-Date: Mon, 7 Oct 2024 22:53:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/iommu/mtk_iommu.c:378:3-9: opportunity for
- str_enable_disable(enable)
-Message-ID: <202410072212.VdZ5FavG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t+C6RrHh"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42cb58d810eso33852445e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 07 Oct 2024 08:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728315700; x=1728920500; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ARnoMCvCgsltYrhS969hYFyeA9hTUUb55Rt7GByaSkU=;
+        b=t+C6RrHh1VBNVWB8qGziSDLaOTJJt0Dr6zUGCeTC2wX+dmMhBOuRWQlXvKAbYEvg+5
+         BRSovQx02muqYBtX2o5PM/MmmCxh5o6xWjGHOBHrtEuI+ov7xrKpUBqm7yj0Y8dCov5q
+         8pOySKLi0ArQP7VJKrEAERFTN+5nXwrS8Lyp4jTxP0/CueVvW5E9clBPgtye9qOy6E/0
+         ta7u1xgWj95PCP9W1xDsXCWMo/kJXZyDCDam6jw/fboYhceendAVkqejs6HXLH8RTI9p
+         kfiwlcL18w18ofEf6/WgMHkM4yxCNwX0UaCR8pIKSO9EbJkHfDtg6QoTS1SfP71Z5q79
+         jclw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728315700; x=1728920500;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ARnoMCvCgsltYrhS969hYFyeA9hTUUb55Rt7GByaSkU=;
+        b=u5eGofiYI/V7FojNQX29KGnSTlvd2BV4LdvSKmyCJgdzoe4ADELSzN71ydHbvUkHSn
+         0fqIKQlDVOf1PTv8HWqsp7s1s1pVkqLlcD/YNIqp+OnJFPzGFTYymYu6cmNi6SAslIFm
+         mKIeCcZVvUROhM6e5z3ij3+8j2JAKJ/CZqY/EgSobxSDZ+xQrPDRwzEn0VXFu59kWpzl
+         wbWbbblRsfFy+/5B41xBk/g0KWZeR7tuYOehtQ+x/BJXa89YGIuQRt/2xFGw2A/hkoku
+         xiuoILrgG1fH//WyQNBY/I00MukRyQy3RU2RuM/aouS04NxO8Or9WPJMi0PX8AT19gmT
+         GY5A==
+X-Gm-Message-State: AOJu0Yx7HVMslnV2ew+Jy5ziAw8PG6IMwWAiaUNngSlTAbFk2TYejGkW
+	aWalt/WUMP/UmhQ0QWBJswSXjkdHZoUHqkYrdz0Pm6fCDhOS/cZGSa0/9ITcRjk25YgKK4kCe5D
+	z
+X-Google-Smtp-Source: AGHT+IGxdXlmz5LN0TfcS0dSRYiTJFmNIAm6S0b8unbbg55LXrbI7bW+Sh4iR6+s5sUk666P5da4mQ==
+X-Received: by 2002:adf:e352:0:b0:37c:ccba:8c93 with SMTP id ffacd0b85a97d-37d291de79cmr31745f8f.11.1728315700329;
+        Mon, 07 Oct 2024 08:41:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d16920549sm5967065f8f.54.2024.10.07.08.41.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 08:41:40 -0700 (PDT)
+Date: Mon, 7 Oct 2024 18:41:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Drew Fustini <dfustini@tenstorrent.com>,
+	Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
+	Fu Wei <wefu@redhat.com>, Linus Walleij <linus.walleij@linaro.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] pinctrl: th1520: Convert to thp->mutex to guarded
+ mutex
+Message-ID: <6b3d9f7a-c87b-4ef5-8571-77276f3896a1@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,165 +70,169 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241005-th1520-pinctrl-fixes-v1-1-5c65dffa0d00@tenstorrent.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
-CC: Richard Weinberger <richard@nod.at>
+Hi Drew,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-commit: 68f5d3f3b6543266b29e047cfaf9842333019b4c um: add PCI over virtio emulation driver
-date:   3 years, 4 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 years, 4 months ago
-config: um-randconfig-r064-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072212.VdZ5FavG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/pinctrl-th1520-Convert-to-thp-mutex-to-guarded-mutex/20241006-033647
+base:   2694868880705e8f6bb61b24b1b25adc42a4a217
+patch link:    https://lore.kernel.org/r/20241005-th1520-pinctrl-fixes-v1-1-5c65dffa0d00%40tenstorrent.com
+patch subject: [PATCH 1/2] pinctrl: th1520: Convert to thp->mutex to guarded mutex
+config: parisc-randconfig-r072-20241007 (https://download.01.org/0day-ci/archive/20241007/202410072108.uG2sVTN4-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410072212.VdZ5FavG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410072108.uG2sVTN4-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iommu/mtk_iommu.c:378:3-9: opportunity for str_enable_disable(enable)
->> drivers/iommu/mtk_iommu.c:316:10-15: opportunity for str_write_read(write)
---
->> drivers/thunderbolt/usb4.c:329:4-8: opportunity for str_yes_no(tbt3)
->> drivers/thunderbolt/usb4.c:329:25-29: opportunity for str_yes_no(xhci)
->> drivers/thunderbolt/usb4.c:268:7-31: opportunity for str_yes_no(( val & PORT_CS_18_WOU4S ))
->> drivers/thunderbolt/usb4.c:252:5-29: opportunity for str_yes_no(( val & ROUTER_CS_6_WOPS ))
->> drivers/thunderbolt/usb4.c:253:5-29: opportunity for str_yes_no(( val & ROUTER_CS_6_WOUS ))
+New smatch warnings:
+drivers/pinctrl/pinctrl-th1520.c:538 th1520_pinctrl_dt_node_to_map() error: uninitialized symbol 'child'.
 
-vim +378 drivers/iommu/mtk_iommu.c
+Old smatch warnings:
+drivers/pinctrl/pinctrl-th1520.c:502 th1520_pinctrl_dt_node_to_map() warn: missing error code 'ret'
 
-05aed9412b0bd0 Will Deacon  2019-07-02  270  
-0df4fabe208d95 Yong Wu      2016-02-23  271  static irqreturn_t mtk_iommu_isr(int irq, void *dev_id)
-0df4fabe208d95 Yong Wu      2016-02-23  272  {
-0df4fabe208d95 Yong Wu      2016-02-23  273  	struct mtk_iommu_data *data = dev_id;
-0df4fabe208d95 Yong Wu      2016-02-23  274  	struct mtk_iommu_domain *dom = data->m4u_dom;
-37276e00da7d3a Chao Hao     2020-07-03  275  	unsigned int fault_larb, fault_port, sub_comm = 0;
-ef0f0986b670cb Yong Wu      2021-01-11  276  	u32 int_state, regval, va34_32, pa34_32;
-ef0f0986b670cb Yong Wu      2021-01-11  277  	u64 fault_iova, fault_pa;
-0df4fabe208d95 Yong Wu      2016-02-23  278  	bool layer, write;
-0df4fabe208d95 Yong Wu      2016-02-23  279  
-0df4fabe208d95 Yong Wu      2016-02-23  280  	/* Read error info from registers */
-0df4fabe208d95 Yong Wu      2016-02-23  281  	int_state = readl_relaxed(data->base + REG_MMU_FAULT_ST1);
-15a01f4c60607a Yong Wu      2019-08-24  282  	if (int_state & F_REG_MMU0_FAULT_MASK) {
-15a01f4c60607a Yong Wu      2019-08-24  283  		regval = readl_relaxed(data->base + REG_MMU0_INT_ID);
-15a01f4c60607a Yong Wu      2019-08-24  284  		fault_iova = readl_relaxed(data->base + REG_MMU0_FAULT_VA);
-15a01f4c60607a Yong Wu      2019-08-24  285  		fault_pa = readl_relaxed(data->base + REG_MMU0_INVLD_PA);
-15a01f4c60607a Yong Wu      2019-08-24  286  	} else {
-15a01f4c60607a Yong Wu      2019-08-24  287  		regval = readl_relaxed(data->base + REG_MMU1_INT_ID);
-15a01f4c60607a Yong Wu      2019-08-24  288  		fault_iova = readl_relaxed(data->base + REG_MMU1_FAULT_VA);
-15a01f4c60607a Yong Wu      2019-08-24  289  		fault_pa = readl_relaxed(data->base + REG_MMU1_INVLD_PA);
-15a01f4c60607a Yong Wu      2019-08-24  290  	}
-0df4fabe208d95 Yong Wu      2016-02-23  291  	layer = fault_iova & F_MMU_FAULT_VA_LAYER_BIT;
-0df4fabe208d95 Yong Wu      2016-02-23  292  	write = fault_iova & F_MMU_FAULT_VA_WRITE_BIT;
-ef0f0986b670cb Yong Wu      2021-01-11  293  	if (MTK_IOMMU_HAS_FLAG(data->plat_data, IOVA_34_EN)) {
-ef0f0986b670cb Yong Wu      2021-01-11  294  		va34_32 = FIELD_GET(F_MMU_INVAL_VA_34_32_MASK, fault_iova);
-ef0f0986b670cb Yong Wu      2021-01-11  295  		pa34_32 = FIELD_GET(F_MMU_INVAL_PA_34_32_MASK, fault_iova);
-ef0f0986b670cb Yong Wu      2021-01-11  296  		fault_iova = fault_iova & F_MMU_INVAL_VA_31_12_MASK;
-ef0f0986b670cb Yong Wu      2021-01-11  297  		fault_iova |= (u64)va34_32 << 32;
-ef0f0986b670cb Yong Wu      2021-01-11  298  		fault_pa |= (u64)pa34_32 << 32;
-ef0f0986b670cb Yong Wu      2021-01-11  299  	}
-ef0f0986b670cb Yong Wu      2021-01-11  300  
-15a01f4c60607a Yong Wu      2019-08-24  301  	fault_port = F_MMU_INT_ID_PORT_ID(regval);
-37276e00da7d3a Chao Hao     2020-07-03  302  	if (MTK_IOMMU_HAS_FLAG(data->plat_data, HAS_SUB_COMM)) {
-37276e00da7d3a Chao Hao     2020-07-03  303  		fault_larb = F_MMU_INT_ID_COMM_ID(regval);
-37276e00da7d3a Chao Hao     2020-07-03  304  		sub_comm = F_MMU_INT_ID_SUB_COMM_ID(regval);
-37276e00da7d3a Chao Hao     2020-07-03  305  	} else {
-37276e00da7d3a Chao Hao     2020-07-03  306  		fault_larb = F_MMU_INT_ID_LARB_ID(regval);
-37276e00da7d3a Chao Hao     2020-07-03  307  	}
-37276e00da7d3a Chao Hao     2020-07-03  308  	fault_larb = data->plat_data->larbid_remap[fault_larb][sub_comm];
-b3e5eee76548f6 Yong Wu      2019-08-24  309  
-0df4fabe208d95 Yong Wu      2016-02-23  310  	if (report_iommu_fault(&dom->domain, data->dev, fault_iova,
-0df4fabe208d95 Yong Wu      2016-02-23  311  			       write ? IOMMU_FAULT_WRITE : IOMMU_FAULT_READ)) {
-0df4fabe208d95 Yong Wu      2016-02-23  312  		dev_err_ratelimited(
-0df4fabe208d95 Yong Wu      2016-02-23  313  			data->dev,
-ef0f0986b670cb Yong Wu      2021-01-11  314  			"fault type=0x%x iova=0x%llx pa=0x%llx larb=%d port=%d layer=%d %s\n",
-0df4fabe208d95 Yong Wu      2016-02-23  315  			int_state, fault_iova, fault_pa, fault_larb, fault_port,
-0df4fabe208d95 Yong Wu      2016-02-23 @316  			layer, write ? "write" : "read");
-0df4fabe208d95 Yong Wu      2016-02-23  317  	}
-0df4fabe208d95 Yong Wu      2016-02-23  318  
-0df4fabe208d95 Yong Wu      2016-02-23  319  	/* Interrupt clear */
-0df4fabe208d95 Yong Wu      2016-02-23  320  	regval = readl_relaxed(data->base + REG_MMU_INT_CONTROL0);
-0df4fabe208d95 Yong Wu      2016-02-23  321  	regval |= F_INT_CLR_BIT;
-0df4fabe208d95 Yong Wu      2016-02-23  322  	writel_relaxed(regval, data->base + REG_MMU_INT_CONTROL0);
-0df4fabe208d95 Yong Wu      2016-02-23  323  
-0df4fabe208d95 Yong Wu      2016-02-23  324  	mtk_iommu_tlb_flush_all(data);
-0df4fabe208d95 Yong Wu      2016-02-23  325  
-0df4fabe208d95 Yong Wu      2016-02-23  326  	return IRQ_HANDLED;
-0df4fabe208d95 Yong Wu      2016-02-23  327  }
-0df4fabe208d95 Yong Wu      2016-02-23  328  
-803cf9e5a6aa64 Yong Wu      2021-01-11  329  static int mtk_iommu_get_domain_id(struct device *dev,
-803cf9e5a6aa64 Yong Wu      2021-01-11  330  				   const struct mtk_iommu_plat_data *plat_data)
-803cf9e5a6aa64 Yong Wu      2021-01-11  331  {
-803cf9e5a6aa64 Yong Wu      2021-01-11  332  	const struct mtk_iommu_iova_region *rgn = plat_data->iova_region;
-803cf9e5a6aa64 Yong Wu      2021-01-11  333  	const struct bus_dma_region *dma_rgn = dev->dma_range_map;
-803cf9e5a6aa64 Yong Wu      2021-01-11  334  	int i, candidate = -1;
-803cf9e5a6aa64 Yong Wu      2021-01-11  335  	dma_addr_t dma_end;
-803cf9e5a6aa64 Yong Wu      2021-01-11  336  
-803cf9e5a6aa64 Yong Wu      2021-01-11  337  	if (!dma_rgn || plat_data->iova_region_nr == 1)
-803cf9e5a6aa64 Yong Wu      2021-01-11  338  		return 0;
-803cf9e5a6aa64 Yong Wu      2021-01-11  339  
-803cf9e5a6aa64 Yong Wu      2021-01-11  340  	dma_end = dma_rgn->dma_start + dma_rgn->size - 1;
-803cf9e5a6aa64 Yong Wu      2021-01-11  341  	for (i = 0; i < plat_data->iova_region_nr; i++, rgn++) {
-803cf9e5a6aa64 Yong Wu      2021-01-11  342  		/* Best fit. */
-803cf9e5a6aa64 Yong Wu      2021-01-11  343  		if (dma_rgn->dma_start == rgn->iova_base &&
-803cf9e5a6aa64 Yong Wu      2021-01-11  344  		    dma_end == rgn->iova_base + rgn->size - 1)
-803cf9e5a6aa64 Yong Wu      2021-01-11  345  			return i;
-803cf9e5a6aa64 Yong Wu      2021-01-11  346  		/* ok if it is inside this region. */
-803cf9e5a6aa64 Yong Wu      2021-01-11  347  		if (dma_rgn->dma_start >= rgn->iova_base &&
-803cf9e5a6aa64 Yong Wu      2021-01-11  348  		    dma_end < rgn->iova_base + rgn->size)
-803cf9e5a6aa64 Yong Wu      2021-01-11  349  			candidate = i;
-803cf9e5a6aa64 Yong Wu      2021-01-11  350  	}
-803cf9e5a6aa64 Yong Wu      2021-01-11  351  
-803cf9e5a6aa64 Yong Wu      2021-01-11  352  	if (candidate >= 0)
-803cf9e5a6aa64 Yong Wu      2021-01-11  353  		return candidate;
-803cf9e5a6aa64 Yong Wu      2021-01-11  354  	dev_err(dev, "Can NOT find the iommu domain id(%pad 0x%llx).\n",
-803cf9e5a6aa64 Yong Wu      2021-01-11  355  		&dma_rgn->dma_start, dma_rgn->size);
-803cf9e5a6aa64 Yong Wu      2021-01-11  356  	return -EINVAL;
-803cf9e5a6aa64 Yong Wu      2021-01-11  357  }
-803cf9e5a6aa64 Yong Wu      2021-01-11  358  
-8d2c749e525246 Yong Wu      2021-01-11  359  static void mtk_iommu_config(struct mtk_iommu_data *data, struct device *dev,
-8d2c749e525246 Yong Wu      2021-01-11  360  			     bool enable, unsigned int domid)
-0df4fabe208d95 Yong Wu      2016-02-23  361  {
-0df4fabe208d95 Yong Wu      2016-02-23  362  	struct mtk_smi_larb_iommu    *larb_mmu;
-0df4fabe208d95 Yong Wu      2016-02-23  363  	unsigned int                 larbid, portid;
-a9bf2eec5a6fc0 Joerg Roedel 2018-11-29  364  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-8d2c749e525246 Yong Wu      2021-01-11  365  	const struct mtk_iommu_iova_region *region;
-58f0d1d536bc71 Robin Murphy 2016-10-17  366  	int i;
-0df4fabe208d95 Yong Wu      2016-02-23  367  
-58f0d1d536bc71 Robin Murphy 2016-10-17  368  	for (i = 0; i < fwspec->num_ids; ++i) {
-58f0d1d536bc71 Robin Murphy 2016-10-17  369  		larbid = MTK_M4U_TO_LARB(fwspec->ids[i]);
-58f0d1d536bc71 Robin Murphy 2016-10-17  370  		portid = MTK_M4U_TO_PORT(fwspec->ids[i]);
-8d2c749e525246 Yong Wu      2021-01-11  371  
-1ee9feb2c9f893 Yong Wu      2019-08-24  372  		larb_mmu = &data->larb_imu[larbid];
-0df4fabe208d95 Yong Wu      2016-02-23  373  
-8d2c749e525246 Yong Wu      2021-01-11  374  		region = data->plat_data->iova_region + domid;
-8d2c749e525246 Yong Wu      2021-01-11  375  		larb_mmu->bank[portid] = upper_32_bits(region->iova_base);
-8d2c749e525246 Yong Wu      2021-01-11  376  
-8d2c749e525246 Yong Wu      2021-01-11  377  		dev_dbg(dev, "%s iommu for larb(%s) port %d dom %d bank %d.\n",
-8d2c749e525246 Yong Wu      2021-01-11 @378  			enable ? "enable" : "disable", dev_name(larb_mmu->dev),
-8d2c749e525246 Yong Wu      2021-01-11  379  			portid, domid, larb_mmu->bank[portid]);
-0df4fabe208d95 Yong Wu      2016-02-23  380  
-0df4fabe208d95 Yong Wu      2016-02-23  381  		if (enable)
-0df4fabe208d95 Yong Wu      2016-02-23  382  			larb_mmu->mmu |= MTK_SMI_MMU_EN(portid);
-0df4fabe208d95 Yong Wu      2016-02-23  383  		else
-0df4fabe208d95 Yong Wu      2016-02-23  384  			larb_mmu->mmu &= ~MTK_SMI_MMU_EN(portid);
-0df4fabe208d95 Yong Wu      2016-02-23  385  	}
-0df4fabe208d95 Yong Wu      2016-02-23  386  }
-0df4fabe208d95 Yong Wu      2016-02-23  387  
+vim +/child +538 drivers/pinctrl/pinctrl-th1520.c
 
-:::::: The code at line 378 was first introduced by commit
-:::::: 8d2c749e5252466d8fc1917101f137966c61fd1c iommu/mediatek: Support master use iova over 32bit
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  414  static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  415  					 struct device_node *np,
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  416  					 struct pinctrl_map **maps,
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  417  					 unsigned int *num_maps)
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  418  {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  419  	struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  420  	struct device_node *child;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  421  	struct pinctrl_map *map;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  422  	unsigned long *configs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  423  	unsigned int nconfigs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  424  	unsigned int nmaps;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  425  	int ret;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  426  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  427  	nmaps = 0;
+fb310b5cb13ad2 Drew Fustini         2024-10-05  428  	for_each_available_child_of_node_scoped(np, child) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  429  		int npins = of_property_count_strings(child, "pins");
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  430  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  431  		if (npins <= 0) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  432  			of_node_put(child);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  433  			dev_err(thp->pctl->dev, "no pins selected for %pOFn.%pOFn\n",
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  434  				np, child);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  435  			return -EINVAL;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  436  		}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  437  		nmaps += npins;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  438  		if (of_property_present(child, "function"))
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  439  			nmaps += npins;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  440  	}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  441  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  442  	map = kcalloc(nmaps, sizeof(*map), GFP_KERNEL);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  443  	if (!map)
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  444  		return -ENOMEM;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  445  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  446  	nmaps = 0;
+fb310b5cb13ad2 Drew Fustini         2024-10-05  447  	guard(mutex)(&thp->mutex);
+fb310b5cb13ad2 Drew Fustini         2024-10-05  448  	for_each_available_child_of_node_scoped(np, child) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  449  		unsigned int rollback = nmaps;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  450  		enum th1520_muxtype muxtype;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  451  		struct property *prop;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  452  		const char *funcname;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  453  		const char **pgnames;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  454  		const char *pinname;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  455  		int npins;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  456  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  457  		ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  458  		if (ret) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  459  			dev_err(thp->pctl->dev, "%pOFn.%pOFn: error parsing pin config\n",
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  460  				np, child);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  461  			goto put_child;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  462  		}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  463  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  464  		if (!of_property_read_string(child, "function", &funcname)) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  465  			muxtype = th1520_muxtype_get(funcname);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  466  			if (!muxtype) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  467  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown function '%s'\n",
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  468  					np, child, funcname);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  469  				ret = -EINVAL;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  470  				goto free_configs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  471  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  472  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  473  			funcname = devm_kasprintf(thp->pctl->dev, GFP_KERNEL, "%pOFn.%pOFn",
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  474  						  np, child);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  475  			if (!funcname) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  476  				ret = -ENOMEM;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  477  				goto free_configs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  478  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  479  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  480  			npins = of_property_count_strings(child, "pins");
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  481  			pgnames = devm_kcalloc(thp->pctl->dev, npins, sizeof(*pgnames), GFP_KERNEL);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  482  			if (!pgnames) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  483  				ret = -ENOMEM;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  484  				goto free_configs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  485  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  486  		} else {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  487  			funcname = NULL;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  488  		}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  489  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  490  		npins = 0;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  491  		of_property_for_each_string(child, "pins", prop, pinname) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  492  			unsigned int i;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  493  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  494  			for (i = 0; i < thp->desc.npins; i++) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  495  				if (!strcmp(pinname, thp->desc.pins[i].name))
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  496  					break;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  497  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  498  			if (i == thp->desc.npins) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  499  				nmaps = rollback;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  500  				dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  501  					np, child, pinname);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  502  				goto free_configs;
 
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Will Deacon <will@kernel.org>
+err = -EINVAL?
+
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  503  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  504  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  505  			if (nconfigs) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  506  				map[nmaps].type = PIN_MAP_TYPE_CONFIGS_PIN;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  507  				map[nmaps].data.configs.group_or_pin = thp->desc.pins[i].name;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  508  				map[nmaps].data.configs.configs = configs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  509  				map[nmaps].data.configs.num_configs = nconfigs;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  510  				nmaps += 1;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  511  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  512  			if (funcname) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  513  				pgnames[npins++] = thp->desc.pins[i].name;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  514  				map[nmaps].type = PIN_MAP_TYPE_MUX_GROUP;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  515  				map[nmaps].data.mux.function = funcname;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  516  				map[nmaps].data.mux.group = thp->desc.pins[i].name;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  517  				nmaps += 1;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  518  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  519  		}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  520  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  521  		if (funcname) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  522  			ret = pinmux_generic_add_function(pctldev, funcname, pgnames,
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  523  							  npins, (void *)muxtype);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  524  			if (ret < 0) {
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  525  				dev_err(thp->pctl->dev, "error adding function %s\n", funcname);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  526  				goto put_child;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  527  			}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  528  		}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  529  	}
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  530  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  531  	*maps = map;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  532  	*num_maps = nmaps;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  533  	return 0;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  534  
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  535  free_configs:
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  536  	kfree(configs);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  537  put_child:
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30 @538  	of_node_put(child);
+
+We're using _scoped() loops so this is a double put.
+
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  539  	th1520_pinctrl_dt_free_map(pctldev, map, nmaps);
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  540  	return ret;
+bed5cd6f8a9883 Emil Renner Berthing 2024-09-30  541  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
