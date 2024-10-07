@@ -1,156 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DF02AD05
-	for <oe-kbuild@lists.linux.dev>; Mon,  7 Oct 2024 04:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A51D23AB
+	for <oe-kbuild@lists.linux.dev>; Mon,  7 Oct 2024 05:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728276872; cv=none; b=XH3bZz2TnigU5SZ0v71ZeCE1Fy/pbyL9K0JjUs8gP7HaK3ltOPpAlRGAj8+LFD0dKAPAHGFWIyPyTL97tuVfjsv+aQiXEX4ipQn7o55rXa+bn/13OQFET2JPI7K/A4i512ielWTcAYpAYeCV5oWMExO4HB/XOCynamjjKYFPMVw=
+	t=1728279044; cv=none; b=KDEMM9+sEah5IPwcmlY/vLFJDNmaQ5pI04yb+uWMw5wjjIMMmHIkHUbmJ8lAoAZ8uUP5gfgZyii5FYXgQY7RM+FRP/AHO1e2EliphMd99a7W+eZ6U5Fr0bEwCYWuYBqMYPnVdBJyeQ2XHQap1rHluj+em7Q8t725TTFeNQbaEm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728276872; c=relaxed/simple;
-	bh=qfyUqQ+JWYVxVgrOqoK6pJNeS8BDQGiSjj9wWviEcqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pgWzytAQEjF7EAykadirNTgV/u8H1Sq+BuvJHQ1f34FyCg0ycHVQRTB/+kjtqkEWcmZ0WVsLpdoXYyv2bYEMckVB2tgF2/zDzVFheU3GCohClLTRgEoV22Q/8fHt1Rpp18qPEZbd9G+Ffa5/tQqvD3Fmrn80iv8UHg1YJ2jMXQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqdYhQ5P; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1728279044; c=relaxed/simple;
+	bh=61/XHsZ1jopf5NYw7UwLjUO8TPJmLxd7e7ifHWlBgCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOw+8ZmH4UpmEeGxDZgcNUKY79E5S7psnxGlK71mdn3JGqkRzkvmj880L7fzbc26LCggt6fgugWfcfuTVsMCG0X9z7a8N6Tr3PWwPS1Evex6aY/TbL3G2rE4pXPGYs/OXl8ovifAUgIgIliPZeoMjspM17kbN7HCa/OSN1hJeOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tY91Gt2j; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqdYhQ5P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728276870; x=1759812870;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qfyUqQ+JWYVxVgrOqoK6pJNeS8BDQGiSjj9wWviEcqY=;
-  b=gqdYhQ5Px2WaqdnLaBUQ1aiT00ohCr1vZ0c61Cfvuk2uM6Qs61QtqtFF
-   JCcIdzqjUcWUVEit54dYz5WE09qEQaV+NEmXCrm4J/vVgytnFWbQmE03L
-   a7iRAM88chgkfndBnO+ug8d+pwdD5IF0yP8W9Sp20T9ZZlyLQDimr5mVj
-   1K5mLdAJcZSD+yni7oQIKufOMKAq3S9e69aUVcqPW7CitoH6UbSVidTce
-   mlGTwbFtnsd5CJISNSqQnCrnH059Z3RzW+A8xzlhE0HSknngN0npjtOhr
-   SKLSSAR7sJoiREA5XzNz4Y4MyxKMaNAYeZOcMW8b8Qb3vorAzn7IzV7C9
-   g==;
-X-CSE-ConnectionGUID: NqY2IU7QTtKieRoqOZUyxw==
-X-CSE-MsgGUID: UcNZMJ7DRbCxyiRdlsqFvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="27585317"
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="27585317"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2024 21:54:29 -0700
-X-CSE-ConnectionGUID: uGbJowDYQIKM7sZ7ehoh3w==
-X-CSE-MsgGUID: /chdigJYTt6sO86UrpAZsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="75703758"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Oct 2024 21:54:28 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sxflK-0004bK-0R;
-	Mon, 07 Oct 2024 04:54:26 +0000
-Date: Mon, 7 Oct 2024 12:54:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/i915/display/intel_dp.c:2243:6-9: opportunity for
- str_on_off(dsc)
-Message-ID: <202410071252.cWILJzrH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tY91Gt2j"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cb806623eso35662145e9.2
+        for <oe-kbuild@lists.linux.dev>; Sun, 06 Oct 2024 22:30:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728279040; x=1728883840; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o6L3wlCulCIZNXp2nhC0ahsNA3//0FQzh25y5h+mTbQ=;
+        b=tY91Gt2jVY0ihLnzBa8UwNb7tZ1CDkHsFudtT577ry6DYSJtTE7a2BMKabH18wL6UP
+         IaJrXsZphdRdU5psS8GG5ZPyOuRNcPZUfwDvsOjaC50EyxFl3lhuM0R8KqE6I977XgW7
+         zMU0Pof50cirmpV5A+2DcVWPB0MceqMKXzaFzTAuXAPWYxyYvSdDl13PXW7xrQtZr/o/
+         /UAYvWyAgme3akqJ2C1ihEDT7slqcCDamUZepSKNWf+RrO7lCIG5LFWf7Ou+KryTcuJV
+         DFKb9x7K9AmX0T85l3EObPNQ+7QOSwCthUEAnOFoa8YPf3qcVs7TjrhoYAtgXBACv/cG
+         Pr+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728279040; x=1728883840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o6L3wlCulCIZNXp2nhC0ahsNA3//0FQzh25y5h+mTbQ=;
+        b=eXgNafbKFpR01i1tbt5R6Sqo2qz3xNjLJ95tCLlA177J62jzR5EZ+OxUzlbDPTPcU7
+         t82GtwHk/OOzxDuElSExqgstWxhGiMiMcx1dkEonZyK5sYWJy47545fHqYvyuJZjf9Qg
+         16a6MUj+36FfNSVx9cn/LfgSoHtvUiqqj/OwEY7n2Gx88EMMj8zU4Pyxn6OjOw3g1usd
+         juIKinw3MCU939qV88Id0h2yGx9elYedHA+oDNgYtM7M/siXZw90xRp+t3KNgXnGqzS3
+         0ncKX/c7ue3+tYOGPR7wIDoRsFl0N0pkOF5oVfxwqIihFaHIdn3JauofuEWI47XexP1P
+         XFKw==
+X-Gm-Message-State: AOJu0YykRjDl9FBUgdfaOLNPXtiP/GQLhim3m7KVGe1YhAa8yR32q7Q+
+	aiY/L4+jqrit1BH45z2OFndIgEFQan67i38U1UAYbf+z97JhVvQl8bAhuJV/2Wc=
+X-Google-Smtp-Source: AGHT+IEZ90bHngHVwoQKHkLzmfhGD8UpyENEYH+9iVQjSdoASN9U4OqWs1lk4tSsee4VK9TMar3thQ==
+X-Received: by 2002:a05:600c:1907:b0:42c:bb96:340e with SMTP id 5b1f17b1804b1-42f85af89ebmr77791015e9.31.1728279039828;
+        Sun, 06 Oct 2024 22:30:39 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89eaabd0sm63666035e9.24.2024.10.06.22.30.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Oct 2024 22:30:39 -0700 (PDT)
+Date: Mon, 7 Oct 2024 08:30:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Drew Fustini <dfustini@tenstorrent.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
+Message-ID: <ecb31065-6d66-4295-b3ba-73e26b62dcaf@stanley.mountain>
+References: <20240930-th1520-pinctrl-v3-2-32cea2bdbecb@tenstorrent.com>
+ <9f76efc9-c9c6-4097-a7a0-80e1b941866d@stanley.mountain>
+ <ZwGTyOBUAppE5WAM@x1>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZwGTyOBUAppE5WAM@x1>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Imre Deak <imre.deak@intel.com>
-CC: "Ville Syrjälä" <ville.syrjala@linux.intel.com>
+On Sat, Oct 05, 2024 at 12:30:16PM -0700, Drew Fustini wrote:
+> On Wed, Oct 02, 2024 at 06:54:48PM +0300, Dan Carpenter wrote:
+> > Hi Drew,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Drew-Fustini/dt-bindings-pinctrl-Add-thead-th1520-pinctrl-bindings/20241001-035421
+> > base:   9852d85ec9d492ebef56dc5f229416c925758edc
+> > patch link:    https://lore.kernel.org/r/20240930-th1520-pinctrl-v3-2-32cea2bdbecb%40tenstorrent.com
+> > patch subject: [PATCH v3 2/8] pinctrl: Add driver for the T-Head TH1520 SoC
+> > config: s390-randconfig-r072-20241002 (https://download.01.org/0day-ci/archive/20241002/202410022336.xyWlV0Tf-lkp@intel.com/config)
+> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202410022336.xyWlV0Tf-lkp@intel.com/
+> 
+> I put these tags in the patch I'm about to send but I get this
+> checkpatch warning:
+> 
+> -----------------------------------------------------------
+> WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+> #9:
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> total: 0 errors, 1 warnings, 7 lines checked
+> 
+> NOTE: For some of the reported defects, checkpatch may be able to
+>       mechanically convert to the typical style using --fix or --fix-inplace.
+> 
+> Commit 8d7cdbc31c9f ("pinctrl: th1520: Fix return value for unknown pin error") has style problems, please review.
+> 
+> NOTE: If any of the errors are false positives, please report
+>       them to the maintainer, see CHECKPATCH in MAINTAINERS.
+> -----------------------------------------------------------
+> 
+> If I remove the first Reported-by, then checkpatch no longer complains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-commit: 78015e27b7d75ec497a9b5f14a7dc0ee9288d560 drm/i915/dp: Update the link bpp limits for DSC mode
-date:   1 year ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 1 year ago
-config: x86_64-randconfig-102-20241007 (https://download.01.org/0day-ci/archive/20241007/202410071252.cWILJzrH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+You can always ignore checkpatch.  It's just a script, not an emperor.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410071252.cWILJzrH-lkp@intel.com/
+regards,
+dan carpenter
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_dp.c:2243:6-9: opportunity for str_on_off(dsc)
-
-vim +2243 drivers/gpu/drm/i915/display/intel_dp.c
-
-a4a157777c807d drivers/gpu/drm/i915/intel_dp.c         Manasi Navare 2018-11-28  2192  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2193  /**
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2194   * intel_dp_compute_config_link_bpp_limits - compute output link bpp limits
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2195   * @intel_dp: intel DP
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2196   * @crtc_state: crtc state
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2197   * @dsc: DSC compression mode
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2198   * @limits: link configuration limits
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2199   *
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2200   * Calculates the output link min, max bpp values in @limits based on the
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2201   * pipe bpp range, @crtc_state and @dsc mode.
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2202   *
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2203   * Returns %true in case of success.
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2204   */
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2205  bool
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2206  intel_dp_compute_config_link_bpp_limits(struct intel_dp *intel_dp,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2207  					const struct intel_crtc_state *crtc_state,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2208  					bool dsc,
-72b2d2a6f178b9 drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2209  					struct link_config_limits *limits)
-a4fc5ed69817c7 drivers/gpu/drm/i915/intel_dp.c         Keith Packard 2009-04-07  2210  {
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2211  	struct drm_i915_private *i915 = to_i915(crtc_state->uapi.crtc->dev);
-0c1abaa7fbfb99 drivers/gpu/drm/i915/display/intel_dp.c Ville Syrjälä 2020-03-19  2212  	const struct drm_display_mode *adjusted_mode =
-72b2d2a6f178b9 drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2213  		&crtc_state->hw.adjusted_mode;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2214  	const struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2215  	const struct intel_encoder *encoder = &dp_to_dig_port(intel_dp)->base;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2216  	int max_link_bpp_x16;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2217  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2218  	max_link_bpp_x16 = to_bpp_x16(limits->pipe.max_bpp);
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2219  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2220  	if (!dsc) {
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2221  		max_link_bpp_x16 = rounddown(max_link_bpp_x16, to_bpp_x16(2 * 3));
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2222  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2223  		if (max_link_bpp_x16 < to_bpp_x16(limits->pipe.min_bpp))
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2224  			return false;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2225  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2226  		limits->link.min_bpp_x16 = to_bpp_x16(limits->pipe.min_bpp);
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2227  	} else {
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2228  		/*
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2229  		 * TODO: set the DSC link limits already here, atm these are
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2230  		 * initialized only later in intel_edp_dsc_compute_pipe_bpp() /
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2231  		 * intel_dp_dsc_compute_pipe_bpp()
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2232  		 */
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2233  		limits->link.min_bpp_x16 = 0;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2234  	}
-7c2781e41ec889 drivers/gpu/drm/i915/intel_dp.c         Jani Nikula   2018-04-26  2235  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2236  	limits->link.max_bpp_x16 = max_link_bpp_x16;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2237  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2238  	drm_dbg_kms(&i915->drm,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2239  		    "[ENCODER:%d:%s][CRTC:%d:%s] DP link limits: pixel clock %d kHz DSC %s max lanes %d max rate %d max pipe_bpp %d max link_bpp " BPP_X16_FMT "\n",
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2240  		    encoder->base.base.id, encoder->base.name,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2241  		    crtc->base.base.id, crtc->base.name,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2242  		    adjusted_mode->crtc_clock,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21 @2243  		    dsc ? "on" : "off",
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2244  		    limits->max_lane_count,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2245  		    limits->max_rate,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2246  		    limits->pipe.max_bpp,
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2247  		    BPP_X16_ARGS(limits->link.max_bpp_x16));
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2248  
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2249  	return true;
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2250  }
-78015e27b7d75e drivers/gpu/drm/i915/display/intel_dp.c Imre Deak     2023-09-21  2251  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
