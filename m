@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BE7157E9F
-	for <oe-kbuild@lists.linux.dev>; Tue,  8 Oct 2024 09:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718CEEEC8
+	for <oe-kbuild@lists.linux.dev>; Tue,  8 Oct 2024 10:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728379431; cv=none; b=MVPyxs+lbJ8WLdKxbaJyqE6oNwGeXA1+ohP1ILPprP/2SLGRER628kPuGl4LEOfafs1X5VaHNqU6kOnXDsxHmGAHpaRjTAojo4MLaiNskGdHDaD4RRUX3VYQONVl6e2zHD/UaabS0/zc4F43ckAR4R5Qq48DJlH6NwgL40DxXUc=
+	t=1728382613; cv=none; b=Xyt83yiQ7noe7j5N7YrmbWSKrMCHfjwYTcjIpLvDZ87xDR2Qs/2RM6/8IYVaoW33VlpDeQ/o8J2OaQSPKnRipvY1qVKJjQBNIo2vepiOn67K6r6RNRUC+bEvCmqe/mRsg9c9Ph7se1eV6mDE8+7HAXVP/Xl55xwohhPinm4PJqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728379431; c=relaxed/simple;
-	bh=ZTrfxjpBtEsBHBym/Gg5xxvdfXGRbHUe9PyO3WGhWzQ=;
+	s=arc-20240116; t=1728382613; c=relaxed/simple;
+	bh=DFwwp8Lhp6Lv7bwPT/cJ77pqMCQU8jkM1MW43TBGSMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SHGvGUPZ8/2XQ3T1I5Ool0sWkpqhiYlcSHPQOWY99no4pzaxvVwkGZFn1iicMzyHWwzI9CCsqeeyFSD+V7/uMF2jWBxAwvlT5qhjDi5dxnDbdZYf/swM6VI1SNcpwdovOv/lEwpps8n9/GCw41x8KmiNY76v/DoJIoyl6je+MOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dyGIky/H; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=e8A3Q4/onfk89O4ptdDLGA3Fs4XAUUGFd02L3lyLcs5a+v1PFyVFhas0HvA3TEJmOHAyp9wJxLbjR5P9rAmYvPssE4Reld448MRscujgTQNGcUmwCKlRrgY4lO8TbtdNAEAQ0RkibhencUjG2fgA0zqmZPeclYuwOmEl+Sozrvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGp0/jV/; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dyGIky/H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGp0/jV/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728379429; x=1759915429;
+  t=1728382611; x=1759918611;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZTrfxjpBtEsBHBym/Gg5xxvdfXGRbHUe9PyO3WGhWzQ=;
-  b=dyGIky/HLzflsXYHUKn3y3clTIeisUG2kaAGeMQt7/45FOFJfzQ+zTDo
-   MyY1z9LAP5bI6W2sRTVbEE/MgmlUwnxjK7/oPsV91wKI7sDzN3oGpmGZA
-   8i8l15uc7YbE2TooptrvTft1lLKXvfuYitHZyp1NjL2sjpSRRa9Opat36
-   /jmXp3l3gl0DH27mD/DF5FXiTQhkF0qwUeSuyubN99W1tLy+TVWlz1YT/
-   apUotqGkooJFgRJTzQcvq9p8D7hEz+rAks7lN7TthHgePcXf8mh8NZoqn
-   u4mj2xDhokw3/nAhKyjCm++vNYe3gNeUtW+TEGlMz5pytG/w7VzkwI8Wr
-   w==;
-X-CSE-ConnectionGUID: BwUUadJhQBCTCn9amfzxyw==
-X-CSE-MsgGUID: GJpd4QgnR8KfyQb3mN8HAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31345332"
+  bh=DFwwp8Lhp6Lv7bwPT/cJ77pqMCQU8jkM1MW43TBGSMI=;
+  b=mGp0/jV/WfP2HvYqP69YDPv3q2WgujSLH6Omh3pOdeOSFIQn8uxqN4o0
+   DNsx+ZPjDbnnTK7cOqcAv3ZcSYPiFW8JpH4Pw2DgPa+wvF1VyKsodVGDJ
+   v5i1lQGHYQta7iPcJ+0ARIuJshIfsMyL+cbdpkCCSerDDG/e0/yib7/NT
+   n6ZY6FFqo5IixewnlSu5KW3CnmTqEcVNBKTbVWHMs6ZNT+pbe6zbUK3Wg
+   k6NV0Vb5His6LGh1ZE7h7hWrJqeQCL++B0GzonLzCRaDwkZ1fkjM9XrWg
+   6wYLVdOiZ8WWaPOD5Tg8/YochmdO1QnmMj5AxgMxofprHSUQOoAETMHNg
+   A==;
+X-CSE-ConnectionGUID: v3rY+bwZQQ2p1R7u61q2Lg==
+X-CSE-MsgGUID: Ku/8y8BVQ3ujHEuKFORuMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="31353894"
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="31345332"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 02:23:49 -0700
-X-CSE-ConnectionGUID: Po5DNlTCTY6LsnXsVB1qbw==
-X-CSE-MsgGUID: OAO3uEEoQ7qYLpKUToihyQ==
+   d="scan'208";a="31353894"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 03:16:51 -0700
+X-CSE-ConnectionGUID: cgGYAHaoRMa2FffN2OcaWw==
+X-CSE-MsgGUID: QBG0WFKHSbeA6jFYQ0QoVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="80758760"
+   d="scan'208";a="80218561"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Oct 2024 02:23:48 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 08 Oct 2024 03:16:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sy6RV-0006BS-0t;
-	Tue, 08 Oct 2024 09:23:45 +0000
-Date: Tue, 8 Oct 2024 17:23:01 +0800
+	id 1sy7Gp-0006F2-1X;
+	Tue, 08 Oct 2024 10:16:47 +0000
+Date: Tue, 8 Oct 2024 18:16:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 1/8] ARM: dts: socfpga: fix dtschema issues
-Message-ID: <202410081724.bHrzMAnC-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [ath:ath12k-mlo-qcn9274 22/81]
+ drivers/net/wireless/ath/ath12k/mac.c:9400 ath12k_mac_destroy() error: we
+ previously assumed 'ab' could be null (see line 9389)
+Message-ID: <202410081858.ShABiCCT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,167 +63,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241007133115.1482619-2-l.rubusch@gmail.com>
-References: <20241007133115.1482619-2-l.rubusch@gmail.com>
-TO: Lothar Rubusch <l.rubusch@gmail.com>
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: dinguyen@kernel.org
-TO: marex@denx.de
-TO: s.trumtrar@pengutronix.de
-CC: l.rubusch@gmail.com
-CC: devicetree@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
+CC: Jeff Johnson <jjohnson@kernel.org>
+CC: Kalle Valo <kvalo@kernel.org>
+CC: ath12k@lists.infradead.org
+TO: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
+CC: Kalle Valo <quic_kvalo@quicinc.com>
+CC: Harshitha Prem <quic_hprem@quicinc.com>
 
-Hi Lothar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.12-rc2 next-20241004]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/ARM-dts-socfpga-fix-dtschema-issues/20241007-213514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241007133115.1482619-2-l.rubusch%40gmail.com
-patch subject: [PATCH 1/8] ARM: dts: socfpga: fix dtschema issues
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: arm-randconfig-001-20241008 (https://download.01.org/0day-ci/archive/20241008/202410081724.bHrzMAnC-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241008/202410081724.bHrzMAnC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo-qcn9274
+head:   4ad14f50820745f9c2f425ba07ca8431bf2409ed
+commit: 6c252823bedb7f8f34d53dddadd65761f85bd3c4 [22/81] wifi: ath12k: move ath12k_hw from per device to group
+:::::: branch date: 4 days ago
+:::::: commit date: 5 days ago
+config: csky-randconfig-r072-20241008 (https://download.01.org/0day-ci/archive/20241008/202410081858.ShABiCCT-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410081724.bHrzMAnC-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410081858.ShABiCCT-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.15-96.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:83.15-89.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:422.40-426.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:693.18-766.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:872.19-876.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.15-96.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:83.15-89.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:422.40-426.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:693.18-766.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_arria10.dtsi:872.19-876.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
---
->> arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:90.15-96.5: Warning (simple_bus_reg): /soc/fpga-region: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:563.40-567.5: Warning (simple_bus_reg): /soc/stmmac-axi-config: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:714.18-732.5: Warning (simple_bus_reg): /soc/eccmgr: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:823.13-827.5: Warning (simple_bus_reg): /soc/sdramedac: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga.dtsi:934.19-938.5: Warning (simple_bus_reg): /soc/usbphy: missing or empty reg/ranges property
-   arch/arm/boot/dts/intel/socfpga/socfpga_cyclone5_mcvevk.dts:51.22-72.4: Warning (avoid_unnecessary_addr_size): /soc/i2c@ffc04000/stmpe811@41: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+New smatch warnings:
+drivers/net/wireless/ath/ath12k/mac.c:9400 ath12k_mac_destroy() error: we previously assumed 'ab' could be null (see line 9389)
 
-vim +90 arch/arm/boot/dts/intel/socfpga/socfpga.dtsi
+Old smatch warnings:
+drivers/net/wireless/ath/ath12k/mac.c:1427 ath12k_mac_set_arvif_ies() warn: potential spectre issue 'nontx->data' [r] (local cap)
+drivers/net/wireless/ath/ath12k/mac.c:1415 ath12k_mac_set_arvif_ies() warn: potential spectre issue 'elem->data' [r] (local cap)
+drivers/net/wireless/ath/ath12k/mac.c:4828 ath12k_conf_tx_uapsd() error: uninitialized symbol 'value'.
+drivers/net/wireless/ath/ath12k/mac.c:4830 ath12k_conf_tx_uapsd() error: uninitialized symbol 'value'.
 
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18   7  
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18   8  / {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18   9  	#address-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  10  	#size-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  11  
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  12  	aliases {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  13  		serial0 = &uart0;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  14  		serial1 = &uart1;
-c2ad284412e495 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2013-02-11  15  		timer0 = &timer0;
-c2ad284412e495 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2013-02-11  16  		timer1 = &timer1;
-c2ad284412e495 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2013-02-11  17  		timer2 = &timer2;
-c2ad284412e495 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2013-02-11  18  		timer3 = &timer3;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  19  	};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  20  
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  21  	cpus {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  22  		#address-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  23  		#size-cells = <0>;
-ebbce1bbc4f25c arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2015-05-22  24  		enable-method = "altr,socfpga-smp";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  25  
-e3e6dba1af55cf arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  26  		cpu0: cpu@0 {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  27  			compatible = "arm,cortex-a9";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  28  			device_type = "cpu";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  29  			reg = <0>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  30  			next-level-cache = <&L2>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  31  		};
-e3e6dba1af55cf arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  32  		cpu1: cpu@1 {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  33  			compatible = "arm,cortex-a9";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  34  			device_type = "cpu";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  35  			reg = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  36  			next-level-cache = <&L2>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  37  		};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  38  	};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  39  
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  40  	pmu: pmu@ff111000 {
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  41  		compatible = "arm,cortex-a9-pmu";
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  42  		interrupt-parent = <&intc>;
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  43  		interrupts = <0 176 4>, <0 177 4>;
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  44  		interrupt-affinity = <&cpu0>, <&cpu1>;
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  45  		reg = <0xff111000 0x1000>,
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  46  		      <0xff113000 0x1000>;
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  47  	};
-34869353774bc6 arch/arm/boot/dts/socfpga.dtsi               Florian Vaussard    2017-03-06  48  
-c9bdd50d2019f7 arch/arm/boot/dts/socfpga.dtsi               Krzysztof Kozlowski 2022-04-07  49  	intc: interrupt-controller@fffed000 {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  50  		compatible = "arm,cortex-a9-gic";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  51  		#interrupt-cells = <3>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  52  		interrupt-controller;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  53  		reg = <0xfffed000 0x1000>,
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  54  		      <0xfffec100 0x100>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  55  	};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  56  
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  57  	soc {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  58  		#address-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  59  		#size-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  60  		compatible = "simple-bus";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  61  		device_type = "soc";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  62  		interrupt-parent = <&intc>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  63  		ranges;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  64  
-13d9169e228ba8 arch/arm/boot/dts/intel/socfpga/socfpga.dtsi Lothar Rubusch      2024-10-07  65  		bus {
-2ef7d5f342c12c arch/arm/boot/dts/socfpga.dtsi               Masahiro Yamada     2016-03-09  66  			compatible = "simple-bus";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  67  			#address-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  68  			#size-cells = <1>;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  69  			ranges;
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  70  
-13d9169e228ba8 arch/arm/boot/dts/intel/socfpga/socfpga.dtsi Lothar Rubusch      2024-10-07  71  			pdma: dma-controller@ffe01000 {
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  72  				compatible = "arm,pl330", "arm,primecell";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  73  				reg = <0xffe01000 0x1000>;
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  74  				interrupts = <0 104 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  75  					     <0 105 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  76  					     <0 106 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  77  					     <0 107 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  78  					     <0 108 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  79  					     <0 109 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  80  					     <0 110 4>,
-18d561990a8c5b arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-04-02  81  					     <0 111 4>;
-0d8abbfd96e6eb arch/arm/boot/dts/socfpga.dtsi               Padmavathi Venna    2013-03-04  82  				#dma-cells = <1>;
-672ef909e9b109 arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-01-08  83  				clocks = <&l4_main_clk>;
-672ef909e9b109 arch/arm/boot/dts/socfpga.dtsi               Steffen Trumtrar    2014-01-08  84  				clock-names = "apb_pclk";
-1c909b2dfe6a21 arch/arm/boot/dts/socfpga.dtsi               Simon Goldschmidt   2019-01-29  85  				resets = <&rst DMA_RESET>;
-d8c1ccac448fd2 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2019-07-30  86  				reset-names = "dma";
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  87  			};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  88  		};
-66314223aa5e86 arch/arm/boot/dts/socfpga.dtsi               Dinh Nguyen         2012-07-18  89  
-13d9169e228ba8 arch/arm/boot/dts/intel/socfpga/socfpga.dtsi Lothar Rubusch      2024-10-07 @90  		fpga-region {
+vim +/ab +9400 drivers/net/wireless/ath/ath12k/mac.c
+
+8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9379  
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9380  void ath12k_mac_destroy(struct ath12k_hw_group *ag)
+8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9381  {
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9382  	struct ath12k_pdev *pdev;
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9383  	struct ath12k_base *ab = ag->ab[0];
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9384  	int i, j;
+01f062770f9740 Karthikeyan Periyasamy 2024-04-12  9385  	struct ath12k_hw *ah;
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9386  
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9387  	for (i = 0; i < ag->num_devices; i++) {
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9388  		ab = ag->ab[i];
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12 @9389  		if (!ab)
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9390  			continue;
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9391  
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9392  		for (j = 0; j < ab->num_radios; j++) {
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9393  			pdev = &ab->pdevs[j];
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9394  			if (!pdev->ar)
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9395  				continue;
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9396  			pdev->ar = NULL;
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9397  		}
+6c252823bedb7f Karthikeyan Periyasamy 2024-04-12  9398  	}
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9399  
+e46d266981a601 Karthikeyan Periyasamy 2024-04-12 @9400  	for (i = 0; i < ath12k_get_num_hw(ab); i++) {
+01f062770f9740 Karthikeyan Periyasamy 2024-04-12  9401  		ah = ath12k_ab_to_ah(ab, i);
+01f062770f9740 Karthikeyan Periyasamy 2024-04-12  9402  		if (!ah)
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9403  			continue;
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9404  
+01f062770f9740 Karthikeyan Periyasamy 2024-04-12  9405  		ath12k_mac_hw_destroy(ah);
+01f062770f9740 Karthikeyan Periyasamy 2024-04-12  9406  		ath12k_ab_set_ah(ab, i, NULL);
+6db6e70a17f6fb Karthikeyan Periyasamy 2024-01-18  9407  	}
+8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9408  }
+8a742a79f90e3d Karthikeyan Periyasamy 2024-01-14  9409  
+
+:::::: The code at line 9400 was first introduced by commit
+:::::: e46d266981a6010652a9faeed214067146408943 wifi: ath12k: Add ath12k_get_num_hw api
+
+:::::: TO: Karthikeyan Periyasamy <quic_periyasa@quicinc.com>
+:::::: CC: Kalle Valo <quic_kvalo@quicinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
