@@ -1,133 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBFA1E1A0A
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Oct 2024 20:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AEA17BB0C
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Oct 2024 22:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728504685; cv=none; b=F96Ld44AJRDs26cRRPPPNDLkcblKijTJbVbdUry//hr95mAUyNWRidXrGvtDVaAnpFwaZX0X7TW6ioIZxFPNwP9596Z20iCsG5gwzDQJNHDmHsLjep1eVbw3c6ljIPqeSkBfxBZ+5TzUGiCU3Dc2hRz9Dfw6kc3mwBFQOtNYrb0=
+	t=1728511467; cv=none; b=gcwqfdm3AYZycKRgMspXSIruKEf51pnlS7LCmv01qZ7xXwEpSHqbG3btrn+JBnNprMUruxDall39D2CJ+bpk935pVKTNJEIg0EFopQZtvheBs0valZFV1nofHBTbAcuJuMpoVX1aySHjCzQw/EaNXPbbL/Dexoan5nbAYtBhuOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728504685; c=relaxed/simple;
-	bh=JeqfWrKLp8CSIOrUUCvXxzixq/id9FpTIGPYEkFkhjA=;
+	s=arc-20240116; t=1728511467; c=relaxed/simple;
+	bh=h6Sbv89PH1BtyZg949BgXtRf8kxy05CZMq8tWYiFOLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l0VBn3NuapsxZU+ulZQEtaKH9QFbtfXtISixecrmibVMV/08Wqic8egCR/YB/u1cs2gv8ODRwwXxUFuzjfwAt81TAECmsXNELyn/p0dk3M9zrNKlS0ENKpAxRD2GD8etUBcUzMc3JgQ2ZiEUMB6tPa41Xo5nnEnmOV98XZgZ3iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RdKv+0L0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=PFIe7n5nzQzHZWqz38QuMEypS0g9N0V+x7Xs7MwCwQLIeVCN6JRbqBW+JeoUk5tXmndH3TzE+2K+Zn1/SpHsXmTeWoC1UuUUz+TsDmo6N1BN1n+FkCUE74Dfye4FinZ60bAZkR6jNjCyFohxvjCZZfvsRg+q+dB36TDgjE17Xmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAM25kVH; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdKv+0L0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAM25kVH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728504684; x=1760040684;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JeqfWrKLp8CSIOrUUCvXxzixq/id9FpTIGPYEkFkhjA=;
-  b=RdKv+0L0KxtO8YRx0URg2tXcDJtGH7d6mLEtOPvCk8OXviRQh2+ux+H2
-   8VW83+jZDCAO5z+A07jLf6HWSCuPeT93roZ8V/lFFz5F4QvfsbpoTIMXg
-   0f2d1RNjQlXKJnGzykOMgGN+62P0BY4ENfuiA6CihG1iY9DxRoT4ZQRLD
-   7yyG0up9lfxTWQqtCym/tFagZU/kMFIEZOT6sRVF7ZDdukbrQl1OrRi/X
-   tkduCAPA1tdr5zAJzTqJB4mk3MhPouuDvu5CujHhMGs+/KcwA+VhXr163
-   Pj424SfamZCnRWAm4bWzb2HKKwhhWN36sJvZ4sPJtbYZ4jxSxWLz7ZHMa
-   w==;
-X-CSE-ConnectionGUID: jFacuEX/TWiUh8/o/xyo4Q==
-X-CSE-MsgGUID: 3drRxMP8T/Cb+N0RjHikEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27781129"
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="27781129"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 13:11:21 -0700
-X-CSE-ConnectionGUID: L/Eis91uSjugpmaIExo30w==
-X-CSE-MsgGUID: /co26PLFR82BaFTibAp4mA==
+  t=1728511465; x=1760047465;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=h6Sbv89PH1BtyZg949BgXtRf8kxy05CZMq8tWYiFOLM=;
+  b=bAM25kVHSX05f3O9QK96GaUAfSNqIZqq0oQ2f1mpQmrnpza4vcXC3WEE
+   9ZFKlfYD4cYBLDFC9NvRUULVxaOtA6zDf4kWzRcZ9UB49zIoNtR4ZfERA
+   I4l4jK54EfVBk07aod1fj3K6q9AnCJ8/pfVm1lr9eEKwKv6VKJp/IpqJ5
+   zMFdbBePbxweQAzWLrqaeiGLJHi/sB2fu4OmNtnT9HdqimP5yn2zq/+5r
+   UPjZMLX8CvgSKn2T2wIULwhAiVi3IPZTQ60zQraRf/AgZrr1u9nl4CToR
+   zlQvTZavs+nyvCZGLDk/gw7ShebP/3kU249ifC1vA/Dchb44LRfRaeViN
+   Q==;
+X-CSE-ConnectionGUID: YBvrjqpFTh6F2kBcGIzpxQ==
+X-CSE-MsgGUID: gUjFa+JiRKy8wTjZCR2CVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="38972806"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="38972806"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 15:04:24 -0700
+X-CSE-ConnectionGUID: ZERYqlcoT3qB2/NUhv/Rkg==
+X-CSE-MsgGUID: GQI7W2kmTsy5aNG0T/QGXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,190,1725346800"; 
-   d="scan'208";a="76464299"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="76052263"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Oct 2024 13:11:19 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 09 Oct 2024 15:04:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syd1h-0009lM-08;
-	Wed, 09 Oct 2024 20:11:17 +0000
-Date: Thu, 10 Oct 2024 04:10:44 +0800
+	id 1syen7-0009rA-0x;
+	Wed, 09 Oct 2024 22:04:21 +0000
+Date: Thu, 10 Oct 2024 06:03:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/ufs/core/ufshcd.c:5732:13-19: opportunity for
- str_enabled_disabled(enable)
-Message-ID: <202410100424.yhban3O6-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/avs/boards/es8336.c:210 avs_create_dai_link() warn:
+ excess argument passed to 'devm_kasprintf'
+Message-ID: <202410100508.gyqVZpgQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Bean Huo <beanhuo@micron.com>
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   75b607fab38d149f232f01eae5e6392b394dd659
-commit: dd11376b9f1b73aca3f8c6eb541486bbb6996f05 scsi: ufs: Split the drivers/scsi/ufs directory
-date:   2 years, 5 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 2 years, 5 months ago
-config: x86_64-randconfig-101-20241009 (https://download.01.org/0day-ci/archive/20241010/202410100424.yhban3O6-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+head:   b983b271662bd6104d429b0fd97af3333ba760bf
+commit: 8d5fed3312ebaa83338cf42746b29a01b9d3d13e ASoC: Intel: avs: es8336: Validate machine board configuration
+date:   12 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-141-20241010 (https://download.01.org/0day-ci/archive/20241010/202410100508.gyqVZpgQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410100424.yhban3O6-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410100508.gyqVZpgQ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
-   drivers/ufs/core/ufshcd.c:1054:4-12: opportunity for str_up_down(scale_up)
-   drivers/ufs/core/ufshcd.c:1383:3-11: opportunity for str_up_down(scale_up)
-   drivers/ufs/core/ufshcd.c:5726:13-19: opportunity for str_enable_disable(enable)
-   drivers/ufs/core/ufshcd.c:5763:3-9: opportunity for str_enable_disable(enable)
-   drivers/ufs/core/ufshcd.c:5745:13-16: opportunity for str_enable_disable(set)
->> drivers/ufs/core/ufshcd.c:5732:13-19: opportunity for str_enabled_disabled(enable)
-   drivers/ufs/core/ufshcd.c:5770:13-19: opportunity for str_enabled_disabled(enable)
-   drivers/ufs/core/ufshcd.c:5749:13-16: opportunity for str_enabled_disabled(set)
->> drivers/ufs/core/ufshcd.c:8517:4-6: opportunity for str_on_off(on)
+New smatch warnings:
+sound/soc/intel/avs/boards/es8336.c:210 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +5732 drivers/ufs/core/ufshcd.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/es8336.c:217 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5712  
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5713  int ufshcd_wb_toggle(struct ufs_hba *hba, bool enable)
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5714  {
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5715  	int ret;
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5716  
-79e3520f82cb91 drivers/scsi/ufs/ufshcd.c Stanley Chu 2020-05-08  5717  	if (!ufshcd_is_wb_allowed(hba))
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5718  		return 0;
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5719  
-4cd48995645b45 drivers/scsi/ufs/ufshcd.c Bean Huo    2021-01-19  5720  	if (!(enable ^ hba->dev_info.wb_enabled))
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5721  		return 0;
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5722  
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5723  	ret = __ufshcd_wb_toggle(hba, enable, QUERY_FLAG_IDN_WB_EN);
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5724  	if (ret) {
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5725  		dev_err(hba->dev, "%s Write Booster %s failed %d\n",
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5726  			__func__, enable ? "enable" : "disable", ret);
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5727  		return ret;
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5728  	}
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5729  
-4cd48995645b45 drivers/scsi/ufs/ufshcd.c Bean Huo    2021-01-19  5730  	hba->dev_info.wb_enabled = enable;
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18  5731  	dev_info(hba->dev, "%s Write Booster %s\n",
-3b5f3c0d0548b8 drivers/scsi/ufs/ufshcd.c Yue Hu      2021-03-18 @5732  			__func__, enable ? "enabled" : "disabled");
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5733  
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5734  	return ret;
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5735  }
-3d17b9b5ab1155 drivers/scsi/ufs/ufshcd.c Asutosh Das 2020-04-22  5736  
+vim +/devm_kasprintf +210 sound/soc/intel/avs/boards/es8336.c
 
-:::::: The code at line 5732 was first introduced by commit
-:::::: 3b5f3c0d0548b8d963030b8728e380d6d57aa471 scsi: ufs: core: Tidy up WB configuration code
-
-:::::: TO: Yue Hu <huyue2@yulong.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  176  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  177  static int avs_es8336_be_fixup(struct snd_soc_pcm_runtime *runtime,
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  178  			       struct snd_pcm_hw_params *params)
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  179  {
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  180  	struct snd_interval *rate, *channels;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  181  	struct snd_mask *fmt;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  182  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  183  	rate = hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  184  	channels = hw_param_interval(params, SNDRV_PCM_HW_PARAM_CHANNELS);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  185  	fmt = hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  186  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  187  	/* The ADSP will convert the FE rate to 48k, stereo */
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  188  	rate->min = rate->max = 48000;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  189  	channels->min = channels->max = 2;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  190  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  191  	/* set SSPN to 24 bit */
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  192  	snd_mask_none(fmt);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  193  	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S24_3LE);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  194  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  195  	return 0;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  196  }
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  197  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+8d5fed3312ebaa Amadeusz Sławiński 2023-10-12  198  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  199  {
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  200  	struct snd_soc_dai_link_component *platform;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  201  	struct snd_soc_dai_link *dl;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  202  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  203  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  204  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  205  	if (!dl || !platform)
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  206  		return -ENOMEM;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  207  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  208  	platform->name = platform_name;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  209  
+8d5fed3312ebaa Amadeusz Sławiński 2023-10-12 @210  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+8d5fed3312ebaa Amadeusz Sławiński 2023-10-12  211  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  212  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  213  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  214  	if (!dl->name || !dl->cpus || !dl->codecs)
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  215  		return -ENOMEM;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  216  
+8d5fed3312ebaa Amadeusz Sławiński 2023-10-12  217  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+8d5fed3312ebaa Amadeusz Sławiński 2023-10-12  218  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  219  	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "i2c-ESSX8336:00");
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  220  	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, ES8336_CODEC_DAI);
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  221  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  222  		return -ENOMEM;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  223  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  224  	dl->num_cpus = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  225  	dl->num_codecs = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  226  	dl->platforms = platform;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  227  	dl->num_platforms = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  228  	dl->id = 0;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  229  	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  230  	dl->init = avs_es8336_codec_init;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  231  	dl->exit = avs_es8336_codec_exit;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  232  	dl->be_hw_params_fixup = avs_es8336_be_fixup;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  233  	dl->ops = &avs_es8336_ops;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  234  	dl->nonatomic = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  235  	dl->no_pcm = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  236  	dl->dpcm_capture = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  237  	dl->dpcm_playback = 1;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  238  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  239  	*dai_link = dl;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  240  
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  241  	return 0;
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  242  }
+32e40c8d6ff920 Cezary Rojewski    2023-06-29  243  
 
 -- 
 0-DAY CI Kernel Test Service
