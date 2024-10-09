@@ -1,65 +1,70 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F49319ABB4
-	for <oe-kbuild@lists.linux.dev>; Wed,  9 Oct 2024 14:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF4A18EAD
+	for <oe-kbuild@lists.linux.dev>; Wed,  9 Oct 2024 14:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728485245; cv=none; b=sRVnydeOnVQ1IxaT4oVnlEo/TLDYMcOSppunw2DKb4tqlOt9uE7r2Vb7hLewlTjr6Z2tYD9gtbg4EUo3mvx9JcX/vQQx/CArazu3BG25s72G+SldlWQwPKSWSCr15YRUMqfSr07Y4pqAHvgLst+gQwUoT7B99vS8iHcWSRmyCUU=
+	t=1728485385; cv=none; b=PFQz+jNBqPBoQYfF0ejEvof4MQGbsOF4Iz/8VWDmSPFdTMQiYRPaheoN8qaUMJHTW1MTgG/klD00404dEcmNi840LJL+FnCD7JgCnnG5bhDR6HF9TEY6//J2Quf0Oaz0cfNQDOY60IPua0NLJxqhDLLfASipXulaedMWh/jpJK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728485245; c=relaxed/simple;
-	bh=VJTC2DOZnhmJ68sp/tmxqdeKde2Mhxf3GCsNUffgoW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rFB8F75Ihk7mF/H3d0QxmtPJIXTO6sXxTUyOhLhlmSz59nR6zi7vCGc9yYpBwlminX6AKuRdlpVfvx1xOw3d6C0CBwApoMjdrBgdcEMlboQAVIEiNarlXYT1CLlrJhJbu+9zbhY9fGnJ71oPjD8WspuTQ4to3e+OsjC9rBFHQGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aVFy5Nzd; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1728485385; c=relaxed/simple;
+	bh=bOggnDixrO5nLbLSpilrKci2gazaENMnsyI8ZOFbLVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uannT89Oj8d5XCUfR/hb5OHsXMSF74UiUYPL7Bx91FXtsMN8acjlnAvXzthlTodCmyVu2pNHwv2HuMR8xrwiY/W+EIJbe23nyqa7wExnMh25WiKYe/m7GhBefsA8rh38SELYfVv951su0WctUtmmPDeS+CKaS0WNNZDkSDH5i7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Rie/0Bre; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aVFy5Nzd"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43058268d91so11610415e9.0
-        for <oe-kbuild@lists.linux.dev>; Wed, 09 Oct 2024 07:47:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Rie/0Bre"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-42cc8782869so70587815e9.2
+        for <oe-kbuild@lists.linux.dev>; Wed, 09 Oct 2024 07:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728485241; x=1729090041; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d9rcGsQ0+uAasDNvLrvHwFyI9WspFhavO2dzQQO4dB0=;
-        b=aVFy5NzdeqtjRJXz8XB6I4aa0V9mXcGkARzfQ8F9ugGEt5hEDfKufhmn1ULPwVIkHq
-         hhITpQbg7fV6jxHntpkqSu+KE0rOKCUoceb+kv9+kaIWExK09XwMUabHKUb1dAetvKN8
-         2I+Qp7kEBK8na5buoQsmyalXp/R9EH0dLL++4yw2zv2Nyakj1XkHF0Jsb8OmNxEVa9wR
-         HiMq4P94yKu8sSSUqgdVwfjnKDtlPOFQkhg7lmycY75l3o21Mqp9tJnFV72a8Su186nI
-         JB6dw/RQWWBT5108vlrTGELRKBSNrMFXNudEb/Bg3S57SpkRf2bcY7AEpokiZfwE6+Lk
-         fdcg==
+        d=linaro.org; s=google; t=1728485382; x=1729090182; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W57EVEdRC/Melvgphr74WZFGUZg5zsL69X6rPgnjboU=;
+        b=Rie/0BreJVfVdL481d5k9XhIyFeZK2cWAb89gWP7X5FrmV1d41hTkE1QBqdpAZlDFM
+         qm3S5rwATPRfXrEqhF1Yy3uPRs6a2qssOVmPnOR+UxLBqrvDiEtrNqAeFqNDnoShC1dE
+         804d/ZLY+dMY+yLIZzYGQd0MXUCPKMyGjsrr+I8Mk7PDvZ/fmEKxQw80h7ddelyH0IPv
+         quc9luaTO3yrInIzy2HnOe1nuVV+yKfspE3XDkFJkrNG8EwogFzt+/Z32Y0+AFEMxiz/
+         N/PWuu7/wLPCSKmDjHl2An7ikYW4Mk3PC1aTq0UHq4NqWIIv/Wj+TX6dz/9dDtZItDE7
+         dmKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728485242; x=1729090042;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d9rcGsQ0+uAasDNvLrvHwFyI9WspFhavO2dzQQO4dB0=;
-        b=lQfVnww+IMwAIBFIvUb+hmC9t/2VgYFZtJeTwz2/OI+rVinrYh7c+oiqtMOJ/iaOns
-         mSou83fQBk/bAL43JLuMgbNk0f6WT7AoPYRQHumxyHp1TMQKgverZoAU+mUwrfsV6CO0
-         dl7l9tFC8HEtcrSV1YQEOR4L9+4JI3YhFs4oBXnvCeoCe40HbV+AwlEEyIZFuYw0faLs
-         BemcCaJ6/W0yHbvCZtcZ0v7q5O+BIAmD54aYtxmofySaWqil05lPHVXNSad9bOkwZJQD
-         Pwp9W1nDYcZIVOwXSUhXkVRxd+8YQVeTblhCBhVppjnYv3lre91CneI+mPE4MkHY2O9F
-         UBAw==
-X-Gm-Message-State: AOJu0YwYAwhYN4W8pCWsiu+Hqi5sFuREjwvRSXWnaw7V475EL63juWWS
-	mpEUNucYKe45LKTGmbRqMNcXAR+uZsqgAOjGo07Wv52psomlT2JdwbMfverarxinu191Agm1Pzn
-	O
-X-Google-Smtp-Source: AGHT+IGZ5bNiOSMx5Q1Ih7x+axzAHoaTvA3GlxDEdqAHZC/EUOPneC6RziV3TtFWCRrpAlfq8o5CGg==
-X-Received: by 2002:a05:600c:1c1f:b0:42c:b74c:d8c3 with SMTP id 5b1f17b1804b1-430d7488700mr23141805e9.32.1728485241387;
-        Wed, 09 Oct 2024 07:47:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728485382; x=1729090182;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W57EVEdRC/Melvgphr74WZFGUZg5zsL69X6rPgnjboU=;
+        b=BTwS+UCDechh044CKVzNHuPNRmbt6HqO7Wq7EpN9mcxxELP5uS5ZH550gE9G1AFUFx
+         RiQwBjLcJoFlvZOrv0f8jHP5jFxwFPnm0igkNwW19iXTRdkDS9jN8qglFhny7bUXxyHa
+         m8gUYbeQz0l2xAmQx10urlv+3NFdLri6xeFGq3XQX4eFRUxafOwEAKI7Z3WKmYcrlhsL
+         jQhr+mJbQPuk3Ox0J+kmNFvtyJw6Px/u8TdQGtHEVAynn027ttkJpUcMxT3a7cIDjeOc
+         ZL/5wX84YTcHB+FbF1d3JlotDBqVpns8VilNn/jvjXMqWxv2Tyx/wjW8yUQCvVLUrBiG
+         JrWg==
+X-Gm-Message-State: AOJu0YxgZw6w1imsxo67RxCZllgR1TavI04RjIB0c055rTiBHvygp87v
+	XB5RMLWDZUSsk8FwImVgGs0LEzsEn4uBP5X/7QhVjQzeI5GBfXmx5Hu70sjoYe5g2AzzrJEUYJC
+	E
+X-Google-Smtp-Source: AGHT+IG8lQlSrbDZ+GnOoRNnzmoSfZFSnsDqQssE7hw5pITsIWWfL/VJLC4SiGTGQTR7CJAM1wuBFw==
+X-Received: by 2002:a05:600c:3b87:b0:42c:b5f1:44ff with SMTP id 5b1f17b1804b1-430d6facb85mr23077635e9.24.1728485382199;
+        Wed, 09 Oct 2024 07:49:42 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430ccf31a7esm23151485e9.9.2024.10.09.07.47.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430c908b8f6sm22933035e9.0.2024.10.09.07.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 07:47:20 -0700 (PDT)
-Date: Wed, 9 Oct 2024 17:47:16 +0300
+        Wed, 09 Oct 2024 07:49:41 -0700 (PDT)
+Date: Wed, 9 Oct 2024 17:49:37 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Xu Yang <xu.yang_2@nxp.com>,
-	peter.chen@kernel.org, gregkh@linuxfoundation.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH 2/2] usb: chipidea: udc: create bounce buffer for problem
- sglist entries if possible
-Message-ID: <e8601166-8da4-4698-8855-4f58b36272b6@stanley.mountain>
+To: Anand Moon <linux.amoon@gmail.com>
+Cc: oe-kbuild@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-phy@lists.infradead.org,
+	linux-kernel@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] phy: rockchip-pcie: Use devm_clk_get_enabled()
+ helper
+Message-ID: <20f261b3-5917-4e3e-96be-7dbb993c5a80@stanley.mountain>
+References: <20241007035616.2701-3-linux.amoon@gmail.com>
+ <a86437f6-1f62-4f44-bff1-f1203d04edda@stanley.mountain>
+ <CANAwSgQObCHr19fmwuc2BfQmoiV3ZgDTFumtfCH8PP_9VbQw+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,78 +73,124 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240912045150.915573-2-xu.yang_2@nxp.com>
+In-Reply-To: <CANAwSgQObCHr19fmwuc2BfQmoiV3ZgDTFumtfCH8PP_9VbQw+w@mail.gmail.com>
 
-Hi Xu,
+On Wed, Oct 09, 2024 at 07:59:38PM +0530, Anand Moon wrote:
+> Hi Dan,
+> 
+> Thanks for the report.
+> 
+> On Wed, 9 Oct 2024 at 17:55, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > Hi Anand,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Moon/phy-rockchip-pcie-Simplify-error-handling-with-dev_err_probe/20241007-115910
+> > base:   8f602276d3902642fdc3429b548d73c745446601
+> > patch link:    https://lore.kernel.org/r/20241007035616.2701-3-linux.amoon%40gmail.com
+> > patch subject: [PATCH v2 2/3] phy: rockchip-pcie: Use devm_clk_get_enabled() helper
+> > config: loongarch-randconfig-r071-20241009 (https://download.01.org/0day-ci/archive/20241009/202410092019.vGogfPIO-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 14.1.0
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202410092019.vGogfPIO-lkp@intel.com/
+> >
+> > smatch warnings:
+> > drivers/phy/rockchip/phy-rockchip-pcie.c:278 rockchip_pcie_phy_init() warn: missing error code 'err'
+> >
+> 
+> All the functions in this file explicitly return 0 instead of err, I
+> will fix this.
+> 
+> > vim +/err +278 drivers/phy/rockchip/phy-rockchip-pcie.c
+> >
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  269  static int rockchip_pcie_phy_init(struct phy *phy)
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  270  {
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  271      struct phy_pcie_instance *inst = phy_get_drvdata(phy);
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  272      struct rockchip_pcie_phy *rk_phy = to_pcie_phy(inst);
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  273      int err = 0;
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  274
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  275      mutex_lock(&rk_phy->pcie_mutex);
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  276
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  277      if (rk_phy->init_cnt++)
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19 @278              goto err_out;
+> >
+> > Originally, this path just unlocked at returned zero.
+> >
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  279
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  280      err = reset_control_assert(rk_phy->phy_rst);
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  281      if (err) {
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  282              dev_err(&phy->dev, "assert phy_rst err %d\n", err);
+> > 3114329651e74f drivers/phy/rockchip/phy-rockchip-pcie.c Anand Moon 2024-10-07  283              goto err_out;
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  284      }
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  285
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  286      mutex_unlock(&rk_phy->pcie_mutex);
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  287      return 0;
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  288
+> > 3114329651e74f drivers/phy/rockchip/phy-rockchip-pcie.c Anand Moon 2024-10-07  289  err_out:
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  290      rk_phy->init_cnt--;
+> >
+> > Now it decrements the counter so presumably it leads to an underflow/use after
+> > free.
+> 
+> I was planning to replace the mutex_lock / mutex_unlock
+> with guard(mutex)(&rk_phy->pcie_mutex) in the follow up patch.
+> I will add this in the next revision.
+> 
+> >
+> > 90a7612d070d5c drivers/phy/rockchip/phy-rockchip-pcie.c Shawn Lin  2017-07-19  291      mutex_unlock(&rk_phy->pcie_mutex);
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  292      return err;
+> > fcffee3d54fcad drivers/phy/phy-rockchip-pcie.c          Shawn Lin  2016-09-01  293  }
+> >
+> 
 
-kernel test robot noticed the following build warnings:
+Thanks!
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Here are my modified changes on top of my changes for the review process.
+> -----8<----------8<----------8<----------8<----------8<----------8<-----
+> diff --git a/drivers/phy/rockchip/phy-rockchip-pcie.c
+> b/drivers/phy/rockchip/phy-rockchip-pcie.c
+> index 2c4d6f68f02a..09685dc3fe17 100644
+> --- a/drivers/phy/rockchip/phy-rockchip-pcie.c
+> +++ b/drivers/phy/rockchip/phy-rockchip-pcie.c
+> @@ -248,20 +248,19 @@ static int rockchip_pcie_phy_init(struct phy *phy)
+> 
+>         mutex_lock(&rk_phy->pcie_mutex);
+> 
+> -       if (rk_phy->init_cnt++)
+> -               goto err_out;
+> +       if (rk_phy->init_cnt++) {
+> +               mutex_unlock(&rk_phy->pcie_mutex);
+> +               return err;
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yang/usb-chipidea-udc-create-bounce-buffer-for-problem-sglist-entries-if-possible/20240912-125251
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20240912045150.915573-2-xu.yang_2%40nxp.com
-patch subject: [PATCH 2/2] usb: chipidea: udc: create bounce buffer for problem sglist entries if possible
-config: i386-randconfig-141-20240914 (https://download.01.org/0day-ci/archive/20240914/202409141707.TOsGfePE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Please make this a return 0.  It's faster to not have to look up what a variable
+is.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202409141707.TOsGfePE-lkp@intel.com/
+> +       }
+> 
+>         err = reset_control_assert(rk_phy->phy_rst);
+>         if (err) {
+>                 dev_err(&phy->dev, "assert phy_rst err %d\n", err);
+> -               goto err_out;
+> +               rk_phy->init_cnt--;
+> +               mutex_unlock(&rk_phy->pcie_mutex);
+> +               return err;
+>         }
+> 
+> -       mutex_unlock(&rk_phy->pcie_mutex);
+> -       return 0;
+> -
+> -err_out:
+> -       rk_phy->init_cnt--;
+>         mutex_unlock(&rk_phy->pcie_mutex);
+>         return err;
 
-New smatch warnings:
-drivers/usb/chipidea/udc.c:704 _hardware_enqueue() error: uninitialized symbol 'bounced_size'.
+return 0; here too.
 
-vim +/bounced_size +704 drivers/usb/chipidea/udc.c
-
-8e22978c57087a drivers/usb/chipidea/udc.c       Alexander Shishkin 2013-06-24  671  static int _hardware_enqueue(struct ci_hw_ep *hwep, struct ci_hw_req *hwreq)
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  672  {
-8e22978c57087a drivers/usb/chipidea/udc.c       Alexander Shishkin 2013-06-24  673  	struct ci_hdrc *ci = hwep->ci;
-0e6ca1998e4c80 drivers/usb/gadget/ci13xxx_udc.c Pavankumar Kondeti 2011-02-18  674  	int ret = 0;
-cc9e6c495b0a37 drivers/usb/chipidea/udc.c       Michael Grzeschik  2013-06-13  675  	struct td_node *firstnode, *lastnode;
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  676  	unsigned int bounced_size;
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  677  	struct scatterlist *sg;
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  678  
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  679  	/* don't queue twice */
-2dbc5c4c831418 drivers/usb/chipidea/udc.c       Alexander Shishkin 2013-06-13  680  	if (hwreq->req.status == -EALREADY)
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  681  		return -EALREADY;
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  682  
-2dbc5c4c831418 drivers/usb/chipidea/udc.c       Alexander Shishkin 2013-06-13  683  	hwreq->req.status = -EALREADY;
-aa69a8093ff985 drivers/usb/gadget/ci13xxx_udc.c David Lopo         2008-11-17  684  
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  685  	if (hwreq->req.num_sgs && hwreq->req.length) {
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  686  		ret = sglist_get_invalid_entry(ci->dev->parent, hwep->dir,
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  687  					&hwreq->req);
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  688  		if (ret < hwreq->req.num_sgs) {
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  689  			ret = sglist_do_bounce(hwreq, ret, hwep->dir == TX,
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  690  					&bounced_size);
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  691  			if (ret)
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  692  				return ret;
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  693  		}
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  694  	}
-
-bounced_size not initialized on else path
-
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  695  
-aeb78cda51005f drivers/usb/chipidea/udc.c       Arnd Bergmann      2017-03-13  696  	ret = usb_gadget_map_request_by_dev(ci->dev->parent,
-aeb78cda51005f drivers/usb/chipidea/udc.c       Arnd Bergmann      2017-03-13  697  					    &hwreq->req, hwep->dir);
-5e0aa49ec61e88 drivers/usb/chipidea/udc.c       Alexander Shishkin 2012-05-11  698  	if (ret)
-5e0aa49ec61e88 drivers/usb/chipidea/udc.c       Alexander Shishkin 2012-05-11  699  		return ret;
-5e0aa49ec61e88 drivers/usb/chipidea/udc.c       Alexander Shishkin 2012-05-11  700  
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  701  	if (hwreq->sgt.sgl) {
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  702  		/* We've mapped a bigger buffer, now recover the actual size */
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  703  		sg = sg_last(hwreq->req.sg, hwreq->req.num_sgs);
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12 @704  		sg_dma_len(sg) = min(sg_dma_len(sg), bounced_size);
-                                                                                                                                     ^^^^^^^^^^^^
-
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  705  	}
-91db40933ca942 drivers/usb/chipidea/udc.c       Xu Yang            2024-09-12  706  
-e48aa1eb443f80 drivers/usb/chipidea/udc.c       Peter Chen         2020-02-21  707  	if (hwreq->req.num_mapped_sgs)
-e48aa1eb443f80 drivers/usb/chipidea/udc.c       Peter Chen         2020-02-21  708  		ret = prepare_td_for_sg(hwep, hwreq);
-e48aa1eb443f80 drivers/usb/chipidea/udc.c       Peter Chen         2020-02-21  709  	else
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
