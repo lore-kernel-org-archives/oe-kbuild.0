@@ -1,105 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC85B155316;
-	Wed,  9 Oct 2024 22:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F24ADF44
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 00:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728514737; cv=none; b=KCU5aeMrj6cdo4iI8pwd0ugFi1Yp/9OT53UhkwW37SrMkZmQ2kKVzeqh5+0wczdcGxWWxz15rgTyhN4D0o2+Qhm9VfOocWnU/gWz9uBjQxAKhA4fDS9h7qW0FlhT3ssP3O3PougbPGMrVL5lkzHV74Qn0aM8DT/UT55O4JSRExM=
+	t=1728520779; cv=none; b=kQbv57KlsH6orR9oF4YQYE/ZlGC3wqrrxVm9gAnq7Yz+nxLd+yFzUGPzjarwNZd+pcGmxhBDeAZdyUxl0lyLLkbRm/u/hy2QQmEHRftbtTqFLcwhEh6ePQHQy6Ofpu8mWzDLNZUdFCFBY0q49FPD2GpQH3o8qY/Nj9cpjauDDGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728514737; c=relaxed/simple;
-	bh=SnQ1TywTJdfiF9q3SWAVcOKq00ppyhQzP1+meZIxSns=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=K2lr5uhgQjMSeEbrFjYOssu9oYZ7reLYdXi/WdyKe0DN2t7C8JTWmkQDIrsMtozdiFc8YV7zzVPPFdK9FcrYAanmUONs5EZ3ootXszUefLjacbKqRxmQ+0gry7dvileLwTta1r1KvLN+dpnvWC+OqBb+RTGSLhoRc7Ebll6wLKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aK28biQj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728520779; c=relaxed/simple;
+	bh=bR4ejAVDpRvmD3wXB2wwv2NdJJ5H7yZ5xb3RbMwdevs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ltocbfEsLozl0BcdrrUdO+0eDU77AseQvS0SCdoTx12UTPS59jWvIDM6e4UYdmvR+O99qAGYDF52NGqH5lUpn6+NoFBhGuS1gY/uwHofuyrA0LwRH4kjfpuAMYNpvvG9qJxs0AKEpsDiHEczQfXCNyLCmy0LJmW04PvtODOTRNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IedL1MI4; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aK28biQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64742C4CEC3;
-	Wed,  9 Oct 2024 22:58:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728514736;
-	bh=SnQ1TywTJdfiF9q3SWAVcOKq00ppyhQzP1+meZIxSns=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aK28biQjaP6bjx/B8Atm1VT/A82PqyXoZ3g7jhRZFMu3HMPuADGGTIJr6CWQ3P/6Z
-	 UUWZq4uWl85+ObwDDWHgNfKHs/8gE1tY4srXaezJDL5Ujwpzyz0oUHPNLCwqlFNadC
-	 ELb2C5VHm8ryyqVBJd+N+TawSWYu+cu/eJtBo3eMCe6Cwe9rRTbhdh/banEldPxpDs
-	 rhEqMsL7gv6kMdYWYRkd4JcwAmOKOtjXb6EsWYEPYdX8TkpXWx3+fTG8mEyG9cyuXE
-	 aKrhj8Pds6ZSFXVrO/xWjJymNX/bMAcFEOsSuQlyEm9dLY9WYc4lyEcpnXk5vwg9Q+
-	 GUgTyym4beFkQ==
-Message-ID: <92d5e28d2e7013ff393ed5d0ce1538fd.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IedL1MI4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728520777; x=1760056777;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bR4ejAVDpRvmD3wXB2wwv2NdJJ5H7yZ5xb3RbMwdevs=;
+  b=IedL1MI4jmuPvVBo1+ExH+YRbiFwOEbK8FtdnjVszs06yYMykvT+Kw9T
+   e35yhcImhCCRKKlUFVMYOfLhZW0p1XxlrRz2dujQdIbbRrOdYQCtB1sRe
+   Z6qDp0qOi/YOJgY/M7GQKjsIKH3dcH/0VMaZN3fUDQG79AWRG3BTVRfYn
+   N9uFOihbTxBNnDtJDJai5+0/nHf7LKU3K8HeiYBuvR3tqcfqKSuO7IIuV
+   gtwEgbH0X1VVchnB15QQVn2u/q5JE3I9ZurTYM5RVxX3oMQuhO3d8MqbM
+   Rtj5kvcFSvHg65E44KVkMZ/HQgBQ54qtC3BhYyNZAkKwyNfmlRiVKQTSo
+   Q==;
+X-CSE-ConnectionGUID: BE04fgdXSDeRYBsj5QxP6Q==
+X-CSE-MsgGUID: +Iy1o/trT7iwQxWry8d1Cw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27805824"
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="27805824"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 17:39:37 -0700
+X-CSE-ConnectionGUID: X7pb/6RyTpiptvZkXUl6lw==
+X-CSE-MsgGUID: 0J7uvfJ/S3+LBlLKou2zug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
+   d="scan'208";a="80944323"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2024 17:39:35 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1syhDJ-0009z5-1i;
+	Thu, 10 Oct 2024 00:39:33 +0000
+Date: Thu, 10 Oct 2024 08:39:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 6/9] drm/i915/display: iterare through channels if no
+ feasible frequencies
+Message-ID: <202410100801.8jZBRn3y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain>
-References: <67cf80cf-d96d-4249-ac34-6085d4b32948@suswa.mountain>
-Subject: Re: drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: uninitialized symbol 'ret'.
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-To: Abel Vesa <abel.vesa@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Date: Wed, 09 Oct 2024 15:58:54 -0700
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Quoting Dan Carpenter (2024-09-18 03:29:07)
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   adfc3ded5c33d67e822525f95404ef0becb099b8
-> commit: 9799873717398e8fa1727482e578b9d777da645e spmi: pmic-arb: Add mult=
-i bus support
-> config: mips-randconfig-r072-20240916 (https://download.01.org/0day-ci/ar=
-chive/20240916/202409162313.TnpH4qKB-lkp@intel.com/config)
-> compiler: mips64-linux-gcc (GCC) 14.1.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202409162313.TnpH4qKB-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/spmi/spmi-pmic-arb.c:1782 spmi_pmic_arb_register_buses() error: u=
-ninitialized symbol 'ret'.
->=20
-> vim +/ret +1782 drivers/spmi/spmi-pmic-arb.c
->=20
-> 9799873717398e8 Abel Vesa 2024-05-07  1762  static int spmi_pmic_arb_regi=
-ster_buses(struct spmi_pmic_arb *pmic_arb,
-> 9799873717398e8 Abel Vesa 2024-05-07  1763                               =
-       struct platform_device *pdev)
-> 9799873717398e8 Abel Vesa 2024-05-07  1764  {
-> 9799873717398e8 Abel Vesa 2024-05-07  1765      struct device *dev =3D &p=
-dev->dev;
-> 9799873717398e8 Abel Vesa 2024-05-07  1766      struct device_node *node =
-=3D dev->of_node;
-> 9799873717398e8 Abel Vesa 2024-05-07  1767      struct device_node *child;
-> 9799873717398e8 Abel Vesa 2024-05-07  1768      int ret;
-> 9799873717398e8 Abel Vesa 2024-05-07  1769 =20
-> 9799873717398e8 Abel Vesa 2024-05-07  1770      /* legacy mode doesn't pr=
-ovide child node for the bus */
-> 9799873717398e8 Abel Vesa 2024-05-07  1771      if (of_device_is_compatib=
-le(node, "qcom,spmi-pmic-arb"))
-> 9799873717398e8 Abel Vesa 2024-05-07  1772              return spmi_pmic_=
-arb_bus_init(pdev, node, pmic_arb);
-> 9799873717398e8 Abel Vesa 2024-05-07  1773 =20
-> 9799873717398e8 Abel Vesa 2024-05-07  1774      for_each_available_child_=
-of_node(node, child) {
-> 9799873717398e8 Abel Vesa 2024-05-07  1775              if (of_node_name_=
-eq(child, "spmi")) {
-> 9799873717398e8 Abel Vesa 2024-05-07  1776                      ret =3D s=
-pmi_pmic_arb_bus_init(pdev, child, pmic_arb);
-> 9799873717398e8 Abel Vesa 2024-05-07  1777                      if (ret)
-> 9799873717398e8 Abel Vesa 2024-05-07  1778                              r=
-eturn ret;
-> 9799873717398e8 Abel Vesa 2024-05-07  1779              }
-> 9799873717398e8 Abel Vesa 2024-05-07  1780      }
-> 9799873717398e8 Abel Vesa 2024-05-07  1781 =20
-> 9799873717398e8 Abel Vesa 2024-05-07 @1782      return ret;
->=20
-> Is it possible to not have an spmi node?
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241008082327.342020-7-vinod.govindapillai@intel.com>
+References: <20241008082327.342020-7-vinod.govindapillai@intel.com>
+TO: Vinod Govindapillai <vinod.govindapillai@intel.com>
+TO: intel-gfx@lists.freedesktop.org
+CC: vinod.govindapillai@intel.com
+CC: jani.nikula@intel.com
+CC: ville.syrjala@intel.com
+CC: kai.vehmanen@intel.com
+CC: jani.saarinen@intel.com
 
-I'm amendable to a 'return 0' here.
+Hi Vinod,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc2 next-20241009]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinod-Govindapillai/drm-i915-display-get-rid-of-encoder-param-in-intel_audio_compute_config/20241008-163033
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20241008082327.342020-7-vinod.govindapillai%40intel.com
+patch subject: [PATCH 6/9] drm/i915/display: iterare through channels if no feasible frequencies
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241009 (https://download.01.org/0day-ci/archive/20241010/202410100801.8jZBRn3y-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410100801.8jZBRn3y-lkp@intel.com/
+
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_audio.c:789 intel_audio_compute_sad() error: uninitialized symbol 'sad_freq'.
+
+vim +/sad_freq +789 drivers/gpu/drm/i915/display/intel_audio.c
+
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  763  
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  764  static void intel_audio_compute_sad(struct drm_i915_private *i915,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  765  				    int line_freq_khz, int hblank_slots_lanes,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  766  				    int avail_overhead, int req_overhead,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  767  				    struct cea_sad *sad)
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  768  {
+e2675520fb74591 Vinod Govindapillai 2024-10-08  769  	u8 channels;
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  770  	u8 sad_freq;
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  771  
+e2675520fb74591 Vinod Govindapillai 2024-10-08  772  	/*
+e2675520fb74591 Vinod Govindapillai 2024-10-08  773  	 * If we don't find any supported audio frequencies for a channel,
+e2675520fb74591 Vinod Govindapillai 2024-10-08  774  	 * reduce the channel and try
+e2675520fb74591 Vinod Govindapillai 2024-10-08  775  	 */
+e2675520fb74591 Vinod Govindapillai 2024-10-08  776  	for (channels = sad->channels + 1; channels >= 1; channels--) {
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  777  		sad_freq = intel_audio_get_pruned_audfreq(i915, line_freq_khz,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  778  							  hblank_slots_lanes,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  779  							  avail_overhead,
+e2675520fb74591 Vinod Govindapillai 2024-10-08  780  							  req_overhead,
+e2675520fb74591 Vinod Govindapillai 2024-10-08  781  							  channels,
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  782  							  sad->freq);
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  783  
+e2675520fb74591 Vinod Govindapillai 2024-10-08  784  		/* Supported frequencies exist! No need to proceed further */
+e2675520fb74591 Vinod Govindapillai 2024-10-08  785  		if (sad_freq)
+e2675520fb74591 Vinod Govindapillai 2024-10-08  786  			break;
+e2675520fb74591 Vinod Govindapillai 2024-10-08  787  	}
+e2675520fb74591 Vinod Govindapillai 2024-10-08  788  
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08 @789  	sad->freq = sad_freq;
+e2675520fb74591 Vinod Govindapillai 2024-10-08  790  	sad->channels = channels ? channels - 1 : 0;
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  791  }
+0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  792  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
