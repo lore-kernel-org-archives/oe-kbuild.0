@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C45A206E8F
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 08:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3931A08BC
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 08:42:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728547501; cv=none; b=PH7IS6tUinN7DjVRmQzHvn8Ip5vIeFJ/a0KxPCMkPvqaLF7CcI8l2yvj+Sn91esYm6rIPOPY2RMOr4JwS0A7JgZ5zxsN4Xg0e/56zPwLIHP3JFIB+ucEyL4TTFBjMo226oP9ZRkVqDo+eYF3MAo507Zat92a8JEjSBbBO8d42yc=
+	t=1728549751; cv=none; b=fsAtCgOmzrHrUYRg/+BxncpZqU6U1by+2htZ3Q/559JwZnKiPRHcYBjKszATlMYiLCBkKFXTB7yWXXiBmRi8VoAdF93w/8x5rwnqzNrtOsoexMnXmtsxAhNi6P3hOeKnwMihsN8zJ5tkoGPMyFohPUSPasfKrQn5DKzBpFJXl8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728547501; c=relaxed/simple;
-	bh=mnPXokasmsgfNUFud09oxxGXe8EMrwghnD7MTShuBTE=;
+	s=arc-20240116; t=1728549751; c=relaxed/simple;
+	bh=liESgrUNAjNr62K9nnrQ8ZXrQKqAIZWrvyhjoeAUnJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u2tBJ5KN5sJIU+cI6HlGRKUa7JasFz9ISl4qN7fEuqfI+ZP9rp3HRB3dDjovqlq0n0f5YTkbmjtcHOsxRI2ZAliBpTjN7v6yUf0y1T1mxz6rUFefDhsOuE/3RqPMfTJ7hkhqaqN6kCCZFN5QPAvOsVBQ0Y35MvNAlHNxKpwoCAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ud7/Dgo9; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=XmXMrHgxVPpkC3Bz0wR4d5XHKe1Nn6dXLEr1DK328QtsCgyc/LbmTH0p1oHjmdU1Qweh/srjCaZqVdV/Kz7zPvFy8s4yUkN7zsB53UARI6CdmYTfUyh+cbw8sMS+u/Jb5H8D/QWfT1eZJFLNyzUmB76qIY/7tDO+DTYD7S0scp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DHnbGvtM; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ud7/Dgo9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728547500; x=1760083500;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mnPXokasmsgfNUFud09oxxGXe8EMrwghnD7MTShuBTE=;
-  b=Ud7/Dgo9RB0tE5niFlABVN9H3g1TYJeNUqcjE33GtByM649/cRevh75n
-   3SwjII8zbAyckcmc580eFoeSU5F2YXBoZ8B72y0HvUT3G0hxOvFWgX60J
-   6o/0Jj1xyae+dT253C3uI1sVKRJVeJGePlWKsnKGzc5fAG/UDLeFPuZVC
-   PJ9lcnW1DASStAzx0aTjYNGA2bPHnow4sq6dJzj/l4CHImtBHEIH5fJqv
-   VURBSbqP3od0HzhucL8U5oPdDaFOipQXTMdAh0VnsJziMuu3kMde6bipg
-   y9XFtJLJroBWfyHe7//fd6G85AH/8C+62XkAYmeL56I4ZU1kheIswHukG
-   A==;
-X-CSE-ConnectionGUID: r0lFHNsGSOe0FIZcd3JjjA==
-X-CSE-MsgGUID: suEOmfHLRwmFS4qRXb/d4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="28005450"
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="28005450"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 01:04:58 -0700
-X-CSE-ConnectionGUID: rq/CERqgRLafr2/fy7/1bg==
-X-CSE-MsgGUID: C814pClnRGGTeFUptIYvYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
-   d="scan'208";a="76725885"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 10 Oct 2024 01:04:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1syoAH-000ANR-27;
-	Thu, 10 Oct 2024 08:04:53 +0000
-Date: Thu, 10 Oct 2024 16:04:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DHnbGvtM"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37cc846fbc4so398648f8f.2
+        for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 01:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728549747; x=1729154547; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ED+cepi9AKIjMRyR1qXeMbEFRTtBTVfdWiXsEi6z2Ks=;
+        b=DHnbGvtMrBOh2BXfdwRkXR/Qxql1+KSdhQQTHg1iZF3Pc7HQ6Vjql8BxyuaYWF/1QN
+         FVNLdDyLoCed2Pi+XjGSxo1PNapq2yip71HCEX+jXTNK/3MBdtF6q/ffCgzKSHUREPsd
+         jeC1M7dOHgAhxjxBmx2ZRKsgPiHI40PHEu3MyQmsYF6nSPRllLItLmowNOQlp3znCBtG
+         BnQ24LCckpXVa5t70mSo6BQdduxQ14DzsByeA5yH1vWjY+BX+vaGl99SumafnU2WYzU/
+         0ajmM0sCrQIjq35QyPJQJvZir1TfNEaV7wkSMFHzjq/jD6MKHIMVegW8pyHnKPIEU5AD
+         lmIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728549747; x=1729154547;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ED+cepi9AKIjMRyR1qXeMbEFRTtBTVfdWiXsEi6z2Ks=;
+        b=iaeTCy4hcax9K3OI221wTFrHlmlT+3U8S20LQheFjiLDmqYpDF+u9tKSLhCwSEbGcD
+         1OMvv9pC9vSZ/saSJdXp9pMiR+TfHMnz5sZqyJoJ680iWoe+GcNejvlS/fCWRaCd9klE
+         RFtl0RTH1LDlRDO294PYAEQQ0dm/EaDI/o4XKoPUvi23IbdPaTZFk6nNZ8lPxxNjmAjj
+         5q4UpEuMnzpO+O4pprggn4Cjipq8OcT3npF6vPW+cDsyWsYacgfBNsa8pI/zuopGqNx9
+         TfmiwlezhZP7BiVxwnARe7PZMasNMK53md/fqArBi1oRVcKP0qQyXZgwbyPIyFogdvVi
+         HL8Q==
+X-Gm-Message-State: AOJu0YxA1be/eDB3u2/MZDGE/ThHYWoxmhez3g5q3fjaLnrFPtWMyVRw
+	Z2Pmx/eQqquYOr7DofXLbSL34M9HnbgdECtW1A30CeSLkMXWUH/gp2GYA0K/9/CClBvI19ycL/2
+	h
+X-Google-Smtp-Source: AGHT+IH8Dd3Q2ssIxbkX3XdNsQQ9uYYsbdFWsigd/TF3OZGZ094HwBLU5Itcskr2lHZCtjSjSSXnRw==
+X-Received: by 2002:a5d:4a92:0:b0:37d:4e59:549a with SMTP id ffacd0b85a97d-37d4e595983mr578154f8f.16.1728549747322;
+        Thu, 10 Oct 2024 01:42:27 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6bd057sm863827f8f.35.2024.10.10.01.42.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 01:42:26 -0700 (PDT)
+Date: Thu, 10 Oct 2024 11:42:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:mirror-chromeos-5.10-arcvm 4286/30000]
  drivers/gpu/drm/virtio/virtgpu_ioctl.c:776 virtio_gpu_context_init_ioctl()
  warn: inconsistent returns '&vfpriv->context_lock'.
-Message-ID: <202410101617.JslGNk0O-lkp@intel.com>
+Message-ID: <bc926e4c-644a-41e1-bac3-af0ab806380f@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,33 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
 tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
 head:   a008d597f5ebedde0d000d27364ddb38be189ae4
 commit: 8815d47cf0d4cf662b4209e3a3edfe7bef0a4bca [4286/30000] CHROMIUM: drm/virtio: implement context init: support init ioctl
-:::::: branch date: 25 hours ago
-:::::: commit date: 3 years, 4 months ago
 config: x86_64-randconfig-161-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101617.JslGNk0O-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202410101617.JslGNk0O-lkp@intel.com/
 
 New smatch warnings:
 drivers/gpu/drm/virtio/virtgpu_ioctl.c:776 virtio_gpu_context_init_ioctl() warn: inconsistent returns '&vfpriv->context_lock'.
 
-Old smatch warnings:
-drivers/gpu/drm/virtio/virtgpu_ioctl.c:578 virtio_gpu_get_caps_ioctl() warn: iterator used outside loop: 'cache_ent'
-
 vim +776 drivers/gpu/drm/virtio/virtgpu_ioctl.c
 
-d12c79f730cf11 Gerd Hoffmann      2020-09-23  713  
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  714  static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  715  					 void *data, struct drm_file *file)
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  716  {
@@ -131,19 +125,31 @@ d12c79f730cf11 Gerd Hoffmann      2020-09-23  713
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  752  		case VIRTGPU_CONTEXT_PARAM_CAPSET_ID:
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  753  			if (value > MAX_CAPSET_ID)
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  754  				return -EINVAL;
+
+goto out_lock
+
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  755  
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  756  			if ((vgdev->capset_id_mask & (1 << value)) == 0)
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  757  				return -EINVAL;
+
+same
+
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  758  
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  759  			/* Context capset ID already set */
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  760  			if (vfpriv->context_init &
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  761  			    VIRTIO_GPU_CONTEXT_INIT_CAPSET_ID_MASK)
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  762  				return -EINVAL;
+
+same
+
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  763  
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  764  			vfpriv->context_init |= value;
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  765  			break;
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  766  		default:
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  767  			return -EINVAL;
+
+same
+
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  768  		}
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  769  	}
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  770  
@@ -154,8 +160,8 @@ d12c79f730cf11 Gerd Hoffmann      2020-09-23  713
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  775  	mutex_unlock(&vfpriv->context_lock);
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27 @776  	return ret;
 8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  777  }
-8815d47cf0d4cf Anthoine Bourgeois 2020-03-27  778  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
