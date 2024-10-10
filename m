@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F24ADF44
-	for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 00:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BB4188000
+	for <oe-kbuild@lists.linux.dev>; Thu, 10 Oct 2024 02:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728520779; cv=none; b=kQbv57KlsH6orR9oF4YQYE/ZlGC3wqrrxVm9gAnq7Yz+nxLd+yFzUGPzjarwNZd+pcGmxhBDeAZdyUxl0lyLLkbRm/u/hy2QQmEHRftbtTqFLcwhEh6ePQHQy6Ofpu8mWzDLNZUdFCFBY0q49FPD2GpQH3o8qY/Nj9cpjauDDGA=
+	t=1728528825; cv=none; b=QVGVTihokFJGXrsWeFaWDIy5deJEXDrOZ5ZgcH9Iez6q8hJ+kE/xLphXl+iJOFOc1isOxoJuVKHiG6Gyt6u9ExDUggN5ZqGV8l/ign8VwBM4eWlHhh4onemQl0+JPg8oMAEFEXsftHDteO5oiDHrzVyUzMrP02SXyNkJuDGCeL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728520779; c=relaxed/simple;
-	bh=bR4ejAVDpRvmD3wXB2wwv2NdJJ5H7yZ5xb3RbMwdevs=;
+	s=arc-20240116; t=1728528825; c=relaxed/simple;
+	bh=hg9WTrVoeOjH01IoaXMuSd4LkHKOpBsny9YG3fimhpU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ltocbfEsLozl0BcdrrUdO+0eDU77AseQvS0SCdoTx12UTPS59jWvIDM6e4UYdmvR+O99qAGYDF52NGqH5lUpn6+NoFBhGuS1gY/uwHofuyrA0LwRH4kjfpuAMYNpvvG9qJxs0AKEpsDiHEczQfXCNyLCmy0LJmW04PvtODOTRNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IedL1MI4; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=KRs3UiJyBda4qjnWrmH4V8JIM40DGpOFhAbiEvDvSONGklzVFSnHkT8hws9j22G9/qe1hXxP659sEuoCtFsrKSiJni5NalO0KFEM63+P9l/oaWbIcFUGhpNHdPtVKMQkKXvsf/EJwlGzSnwi4wR2NLkk92xhf9uZRglmOy1A9Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrLQe8Jp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IedL1MI4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrLQe8Jp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728520777; x=1760056777;
+  t=1728528824; x=1760064824;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bR4ejAVDpRvmD3wXB2wwv2NdJJ5H7yZ5xb3RbMwdevs=;
-  b=IedL1MI4jmuPvVBo1+ExH+YRbiFwOEbK8FtdnjVszs06yYMykvT+Kw9T
-   e35yhcImhCCRKKlUFVMYOfLhZW0p1XxlrRz2dujQdIbbRrOdYQCtB1sRe
-   Z6qDp0qOi/YOJgY/M7GQKjsIKH3dcH/0VMaZN3fUDQG79AWRG3BTVRfYn
-   N9uFOihbTxBNnDtJDJai5+0/nHf7LKU3K8HeiYBuvR3tqcfqKSuO7IIuV
-   gtwEgbH0X1VVchnB15QQVn2u/q5JE3I9ZurTYM5RVxX3oMQuhO3d8MqbM
-   Rtj5kvcFSvHg65E44KVkMZ/HQgBQ54qtC3BhYyNZAkKwyNfmlRiVKQTSo
-   Q==;
-X-CSE-ConnectionGUID: BE04fgdXSDeRYBsj5QxP6Q==
-X-CSE-MsgGUID: +Iy1o/trT7iwQxWry8d1Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27805824"
+  bh=hg9WTrVoeOjH01IoaXMuSd4LkHKOpBsny9YG3fimhpU=;
+  b=WrLQe8JpsszQaXvWV4+J57wUT5ku1hEbojzcnLABPv+qkSmKwtsAlMxE
+   Z+DjJz5r154R8G2aedDRQSKc6bKAUUyQf0Iv7vZiNSqkHMlZLibMOCpJ3
+   NVLvbEqpKuFuchkknZWBnCJOofXQrkowt8P1bpY/JnTphGU9BuR6hzN/u
+   4gi7xaS/yYpbPnuULkJmCvQP4RZ9Fp3wHtjxStcs/vOEp0CtJV2uHxMt3
+   OkaW6dCALlIkyeCaubKUvcrzmDU2O4evH3isz7eaGSa6flu4v5L8UBoRy
+   SToNpBJLIYwB1KoVp5mw+14lwfyNfK3xK98X6La4m8wP+ZCuPOJFwNOS1
+   A==;
+X-CSE-ConnectionGUID: /UWyJgeJRJaRe/cCT/Qf7A==
+X-CSE-MsgGUID: irUxDcRBQT+GjVCIE/V5Mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27996545"
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="27805824"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 17:39:37 -0700
-X-CSE-ConnectionGUID: X7pb/6RyTpiptvZkXUl6lw==
-X-CSE-MsgGUID: 0J7uvfJ/S3+LBlLKou2zug==
+   d="scan'208";a="27996545"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 19:53:43 -0700
+X-CSE-ConnectionGUID: NAAANZGyScGXq5EZqrpm8Q==
+X-CSE-MsgGUID: U1IYHhmQQS2yURipeAGCbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,191,1725346800"; 
-   d="scan'208";a="80944323"
+   d="scan'208";a="113925438"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Oct 2024 17:39:35 -0700
+  by orviesa001.jf.intel.com with ESMTP; 09 Oct 2024 19:53:41 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1syhDJ-0009z5-1i;
-	Thu, 10 Oct 2024 00:39:33 +0000
-Date: Thu, 10 Oct 2024 08:39:32 +0800
+	id 1syjJ4-000A5J-11;
+	Thu, 10 Oct 2024 02:53:38 +0000
+Date: Thu, 10 Oct 2024 10:53:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 6/9] drm/i915/display: iterare through channels if no
- feasible frequencies
-Message-ID: <202410100801.8jZBRn3y-lkp@intel.com>
+Subject: drivers/iommu/intel/iommu.c:760 device_lookup_iommu() error: we
+ previously assumed 'pdev' could be null (see line 733)
+Message-ID: <202410101027.p2fluL6L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,76 +64,116 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241008082327.342020-7-vinod.govindapillai@intel.com>
-References: <20241008082327.342020-7-vinod.govindapillai@intel.com>
-TO: Vinod Govindapillai <vinod.govindapillai@intel.com>
-TO: intel-gfx@lists.freedesktop.org
-CC: vinod.govindapillai@intel.com
-CC: jani.nikula@intel.com
-CC: ville.syrjala@intel.com
-CC: kai.vehmanen@intel.com
-CC: jani.saarinen@intel.com
+CC: linux-kernel@vger.kernel.org
+TO: Lu Baolu <baolu.lu@linux.intel.com>
+CC: Joerg Roedel <jroedel@suse.de>
 
-Hi Vinod,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc2 next-20241009]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinod-Govindapillai/drm-i915-display-get-rid-of-encoder-param-in-intel_audio_compute_config/20241008-163033
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20241008082327.342020-7-vinod.govindapillai%40intel.com
-patch subject: [PATCH 6/9] drm/i915/display: iterare through channels if no feasible frequencies
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-161-20241009 (https://download.01.org/0day-ci/archive/20241010/202410100801.8jZBRn3y-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d3d1556696c1a993eec54ac585fe5bf677e07474
+commit: 1903ef8f0d77680e6eb36bd0cc3ea3aa6e95a050 iommu/vt-d: Refactor device_to_iommu() to retrieve iommu directly
+date:   10 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-141-20241010 (https://download.01.org/0day-ci/archive/20241010/202410101027.p2fluL6L-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410100801.8jZBRn3y-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410101027.p2fluL6L-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/i915/display/intel_audio.c:789 intel_audio_compute_sad() error: uninitialized symbol 'sad_freq'.
+New smatch warnings:
+drivers/iommu/intel/iommu.c:760 device_lookup_iommu() error: we previously assumed 'pdev' could be null (see line 733)
 
-vim +/sad_freq +789 drivers/gpu/drm/i915/display/intel_audio.c
+Old smatch warnings:
+drivers/iommu/intel/iommu.c:469 domain_update_iommu_coherency() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:240 clear_context_copied() warn: clear_bit() takes a bit number
+drivers/iommu/intel/iommu.c:2164 switch_to_super_page() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:234 set_context_copied() warn: set_bit() takes a bit number
+drivers/iommu/intel/iommu.c:3286 intel_iommu_add() warn: missing unwind goto?
+drivers/iommu/intel/iommu.c:4282 intel_iommu_tlb_sync() warn: iterator 'i' not incremented
+drivers/iommu/intel/iommu.c:4720 intel_iommu_iotlb_sync_map() warn: iterator 'i' not incremented
 
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  763  
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  764  static void intel_audio_compute_sad(struct drm_i915_private *i915,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  765  				    int line_freq_khz, int hblank_slots_lanes,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  766  				    int avail_overhead, int req_overhead,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  767  				    struct cea_sad *sad)
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  768  {
-e2675520fb74591 Vinod Govindapillai 2024-10-08  769  	u8 channels;
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  770  	u8 sad_freq;
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  771  
-e2675520fb74591 Vinod Govindapillai 2024-10-08  772  	/*
-e2675520fb74591 Vinod Govindapillai 2024-10-08  773  	 * If we don't find any supported audio frequencies for a channel,
-e2675520fb74591 Vinod Govindapillai 2024-10-08  774  	 * reduce the channel and try
-e2675520fb74591 Vinod Govindapillai 2024-10-08  775  	 */
-e2675520fb74591 Vinod Govindapillai 2024-10-08  776  	for (channels = sad->channels + 1; channels >= 1; channels--) {
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  777  		sad_freq = intel_audio_get_pruned_audfreq(i915, line_freq_khz,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  778  							  hblank_slots_lanes,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  779  							  avail_overhead,
-e2675520fb74591 Vinod Govindapillai 2024-10-08  780  							  req_overhead,
-e2675520fb74591 Vinod Govindapillai 2024-10-08  781  							  channels,
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  782  							  sad->freq);
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  783  
-e2675520fb74591 Vinod Govindapillai 2024-10-08  784  		/* Supported frequencies exist! No need to proceed further */
-e2675520fb74591 Vinod Govindapillai 2024-10-08  785  		if (sad_freq)
-e2675520fb74591 Vinod Govindapillai 2024-10-08  786  			break;
-e2675520fb74591 Vinod Govindapillai 2024-10-08  787  	}
-e2675520fb74591 Vinod Govindapillai 2024-10-08  788  
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08 @789  	sad->freq = sad_freq;
-e2675520fb74591 Vinod Govindapillai 2024-10-08  790  	sad->channels = channels ? channels - 1 : 0;
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  791  }
-0f1adcd58da8c47 Vinod Govindapillai 2024-10-08  792  
+vim +/pdev +760 drivers/iommu/intel/iommu.c
+
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  705  
+1903ef8f0d7768 drivers/iommu/intel/iommu.c Lu Baolu          2023-12-18  706  static struct intel_iommu *device_lookup_iommu(struct device *dev, u8 *bus, u8 *devfn)
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  707  {
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  708  	struct dmar_drhd_unit *drhd = NULL;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  709  	struct pci_dev *pdev = NULL;
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  710  	struct intel_iommu *iommu;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  711  	struct device *tmp;
+aa4d066a2a8041 drivers/iommu/intel-iommu.c Yijing Wang       2014-05-26  712  	u16 segment = 0;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  713  	int i;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  714  
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  715  	if (!dev)
+4ed6a540fab8ea drivers/iommu/intel-iommu.c David Woodhouse   2015-05-11  716  		return NULL;
+4ed6a540fab8ea drivers/iommu/intel-iommu.c David Woodhouse   2015-05-11  717  
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  718  	if (dev_is_pci(dev)) {
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  719  		struct pci_dev *pf_pdev;
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  720  
+e3560ee4cfb29e drivers/iommu/intel-iommu.c Jon Derrick       2020-01-21  721  		pdev = pci_real_dma_dev(to_pci_dev(dev));
+5823e330b58c52 drivers/iommu/intel-iommu.c Jon Derrick       2017-08-30  722  
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  723  		/* VFs aren't listed in scope tables; we need to look up
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  724  		 * the PF instead to find the IOMMU. */
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  725  		pf_pdev = pci_physfn(pdev);
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  726  		dev = &pf_pdev->dev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  727  		segment = pci_domain_nr(pdev->bus);
+ca5b74d2675a44 drivers/iommu/intel-iommu.c Rafael J. Wysocki 2015-03-16  728  	} else if (has_acpi_companion(dev))
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  729  		dev = &ACPI_COMPANION(dev)->dev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  730  
+0e242612d9cdb4 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  731  	rcu_read_lock();
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  732  	for_each_iommu(iommu, drhd) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09 @733  		if (pdev && segment != drhd->segment)
+276dbf997043cb drivers/pci/intel-iommu.c   David Woodhouse   2009-04-04  734  			continue;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  735  
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  736  		for_each_active_dev_scope(drhd->devices,
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  737  					  drhd->devices_cnt, i, tmp) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  738  			if (tmp == dev) {
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  739  				/* For a VF use its original BDF# not that of the PF
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  740  				 * which we used for the IOMMU lookup. Strictly speaking
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  741  				 * we could do this for all PCI devices; we only need to
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  742  				 * get the BDF# from the scope table for ACPI matches. */
+5003ae1e735e6b drivers/iommu/intel-iommu.c Koos Vriezen      2017-03-01  743  				if (pdev && pdev->is_virtfn)
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  744  					goto got_pdev;
+1c387188c60f53 drivers/iommu/intel-iommu.c Ashok Raj         2016-10-21  745  
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  746  				if (bus && devfn) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  747  					*bus = drhd->devices[i].bus;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  748  					*devfn = drhd->devices[i].devfn;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  749  				}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  750  				goto out;
+924b6231edfaf1 drivers/pci/intel-iommu.c   David Woodhouse   2009-04-04  751  			}
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  752  
+b9a7f9816483b1 drivers/iommu/intel-iommu.c Eric Auger        2019-06-03  753  			if (is_downstream_to_pci_bridge(dev, tmp))
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  754  				goto got_pdev;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  755  		}
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  756  
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  757  		if (pdev && drhd->include_all) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  758  got_pdev:
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  759  			if (bus && devfn) {
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09 @760  				*bus = pdev->bus->number;
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  761  				*devfn = pdev->devfn;
+dd6692f1b883ba drivers/iommu/intel/iommu.c Lu Baolu          2020-07-24  762  			}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  763  			goto out;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  764  		}
+156baca8d31e1a drivers/iommu/intel-iommu.c David Woodhouse   2014-03-09  765  	}
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  766  	iommu = NULL;
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  767  out:
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  768  	if (iommu_is_dummy(iommu, dev))
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  769  		iommu = NULL;
+2d33b7d631d9dc drivers/iommu/intel/iommu.c Lu Baolu          2020-09-03  770  
+0e242612d9cdb4 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  771  	rcu_read_unlock();
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  772  
+b683b230a244c3 drivers/iommu/intel-iommu.c Jiang Liu         2014-02-19  773  	return iommu;
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  774  }
+c7151a8dfefd11 drivers/pci/intel-iommu.c   Weidong Han       2008-12-08  775  
+
+:::::: The code at line 760 was first introduced by commit
+:::::: 156baca8d31e1aced2c8a14262637aef1ab416b9 iommu/vt-d: Make device_to_iommu() cope with non-PCI devices
+
+:::::: TO: David Woodhouse <David.Woodhouse@intel.com>
+:::::: CC: David Woodhouse <David.Woodhouse@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
