@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5812FB2
-	for <oe-kbuild@lists.linux.dev>; Fri, 11 Oct 2024 04:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB08D20B1F3
+	for <oe-kbuild@lists.linux.dev>; Fri, 11 Oct 2024 09:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728619915; cv=none; b=OAgmtUcnGES1hYwvqbXsEoJPNXg6GsJCVat7xUuWOdoLNIfRTfi5Wa9Y1NxOfoT7gROTSNrfbNdI4tE7s4tWa5fa3VkKXbfxOFlxAYUnl38iUXqqzI15vLshiAqVjXWvgk4NABx1dNyaL7FzguwJ4qmaxBnYCzphrmd+vUxbbKo=
+	t=1728638410; cv=none; b=jiteoz5tQh4TjFJnZ+9ZOiiaKHtRZjUCCwXIM/U3zyF0E31rQ/yifFaDm+VfJ6wXK79Cebr2pV3UBVMwmw1hlnoGgBEyB6WeYofmZoatbTG8W2CgU5Ng1A6WdSf32bteT0yCHGUw+Sir4MhNmmVRGANTboHl3BpLkzcEt+UPeuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728619915; c=relaxed/simple;
-	bh=n2NfQ8PucN8WsSvm3reXXjBNoB0Pb2SXIIaanX48WHE=;
+	s=arc-20240116; t=1728638410; c=relaxed/simple;
+	bh=ZlPiTs6hL8EC99/FOIukAzAS0ZWMUn1BNU3vOxz+Jik=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gK40C6EMS5Qmf88OAS6i0jJYnBjEpv7Gjp/Vats1c5apDdSDn+Qm1+fK7N3B6fMV7TAoxjvf0vm6tIE1aRi5yO9lxZ8j12PF2go5ymlA4VuIUQ4vXAwEJht3DLEHxaLO6LdsdauPM8jNVmYaRsSIjQQN0s+lwHldBPRgCEEP6wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfCW5mDq; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Azi8HaUlWCVLpGBoftop61O91ZEgZmwnwXHb0xTEJAavikTMWO820CURxSaD8AhKBzaxy0G+Wb8EAoa8HoaENuyRThRHRGvc8Z9DigYFpSKlU+kepceDlNqDnqHZPtTVeHk4b+mjY1gd32Nau+ra34aIF0nwqZAtf/Vr5ESOSY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWmGBUAP; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfCW5mDq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWmGBUAP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728619914; x=1760155914;
+  t=1728638408; x=1760174408;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n2NfQ8PucN8WsSvm3reXXjBNoB0Pb2SXIIaanX48WHE=;
-  b=OfCW5mDqdnyJh59bv3LVEs97oyTLRdSkmLEfvApooa8harEhpdi3yTey
-   bXRdHxS/zy8uvsfLvcCIAiAQ/Q5iBJKTxxlamxEVzLEOwIIHptLMMCqUN
-   G1xHrtPKGx+Hhcjq/UgoGIAINodl2ikEG265c/QpynOXh7h3Tq6JVFXkr
-   EQC7ztW0zLtwoBWprCVH3i0EgzWXfI/Es6gajNldCW2Wvs8X5J9GTsEVt
-   PW5OJaK0PAKjX7z9LuutUhUn5BMNbxf5XuDmM34si00ZnM4VX+ipE79RI
-   HOB2wL+eovAG+WVjBPDg6A9PRTiKsk33HRHXxGB6ZwiGNnoke6fwstgHZ
+  bh=ZlPiTs6hL8EC99/FOIukAzAS0ZWMUn1BNU3vOxz+Jik=;
+  b=NWmGBUAPzTUOBTWQ3hKd8sGDvYNLr4kZtll3nsK0yoaFGEBxwdgprMsR
+   FBF4XgbJZV5bong0O+vNtvQedZXJg6VNTPjk32EZhfiYyN/FTEEVI3Ng2
+   cDaJ7Q2pKTXlz9FYHqwzwjv2R+Vf3yGnjAe7pQNAbseoe3KQtZckivwEv
+   OObge8TUxbm+tf0jIY0O7xy0Kyap3atsek+/eHMieBKPcNUWX54v7rlAJ
+   OcityziON7dNr5fvNb7KOIx+LKgW3V76ITDF0ib6qwc6qgAbnx+AdrbUv
+   hhMLAmIODzEYfq62vITwZtR1H3NJ8w9B2yr2+D0FDNuJlX/SUCzczBnOI
    w==;
-X-CSE-ConnectionGUID: JVmV59U9SeeDnD+h6L+9XQ==
-X-CSE-MsgGUID: dmW4abZbSV6cmkPtCWiJuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="39139805"
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="39139805"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:11:53 -0700
-X-CSE-ConnectionGUID: +em1DeEaTl+mXfNnQlbHoA==
-X-CSE-MsgGUID: 8erfBg5DSXiW4k7MviHLnA==
+X-CSE-ConnectionGUID: ledqPdqvSoWrlTYm7WCuFQ==
+X-CSE-MsgGUID: SvDau4PuQJmiudoz7jjaAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="28161419"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="28161419"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 02:20:08 -0700
+X-CSE-ConnectionGUID: oS4FO7xwTF61nvIa+/brdQ==
+X-CSE-MsgGUID: J01q2Iv0Reelm/pIweYePA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="81322041"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="76771414"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Oct 2024 21:11:51 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Oct 2024 02:20:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sz70H-000BkB-1i;
-	Fri, 11 Oct 2024 04:11:49 +0000
-Date: Fri, 11 Oct 2024 12:11:04 +0800
+	id 1szBoa-000C6r-2H;
+	Fri, 11 Oct 2024 09:20:04 +0000
+Date: Fri, 11 Oct 2024 17:19:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/dma/imx-sdma.c:257:5-11: WARNING use flexible-array member
- instead
- (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-Message-ID: <202410111219.U7cN8tpz-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v1 net-next 12/13] rtnetlink: Call
+ rtnl_link_get_net_capable() in do_setlink().
+Message-ID: <202410111738.8ypqnr3c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,91 +64,84 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Vinod Koul <vkoul@kernel.org>
+In-Reply-To: <20241009231656.57830-13-kuniyu@amazon.com>
+References: <20241009231656.57830-13-kuniyu@amazon.com>
+TO: Kuniyuki Iwashima <kuniyu@amazon.com>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+CC: Kuniyuki Iwashima <kuniyu@amazon.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1d227fcc72223cbdd34d0ce13541cbaab5e0d72f
-commit: 1cb49f389d5985bd9ad6ef37f856f368c3120f77 dmaengine: imx-sdma: utilize compiler to calculate ADDRS_ARRAY_SIZE_V<n>
-date:   6 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-r062-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111219.U7cN8tpz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+Hi Kuniyuki,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Allocate-linkinfo-as-struct-rtnl_newlink_tbs/20241010-072158
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241009231656.57830-13-kuniyu%40amazon.com
+patch subject: [PATCH v1 net-next 12/13] rtnetlink: Call rtnl_link_get_net_capable() in do_setlink().
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: i386-randconfig-141-20241011 (https://download.01.org/0day-ci/archive/20241011/202410111738.8ypqnr3c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410111219.U7cN8tpz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410111738.8ypqnr3c-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/dma/imx-sdma.c:257:5-11: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+smatch warnings:
+net/core/rtnetlink.c:3301 rtnl_setlink() error: uninitialized symbol 'tgt_net'.
 
-vim +257 drivers/dma/imx-sdma.c
+vim +/tgt_net +3301 net/core/rtnetlink.c
 
-824a0a02cd7477 Sascha Hauer       2022-04-14  199  
-01eafd4b238058 Shengjiu Wang      2022-07-06  200  /*
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  201   * struct sdma_script_start_addrs - SDMA script start pointers
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  202   *
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  203   * start addresses of the different functions in the physical
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  204   * address space of the SDMA engine.
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  205   */
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  206  struct sdma_script_start_addrs {
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  207  	s32 ap_2_ap_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  208  	s32 ap_2_bp_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  209  	s32 ap_2_ap_fixed_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  210  	s32 bp_2_ap_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  211  	s32 loopback_on_dsp_side_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  212  	s32 mcu_interrupt_only_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  213  	s32 firi_2_per_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  214  	s32 firi_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  215  	s32 per_2_firi_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  216  	s32 mcu_2_firi_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  217  	s32 uart_2_per_addr;
-a3ae97f4c87d95 Kevin Groeneveld   2022-04-10  218  	s32 uart_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  219  	s32 per_2_app_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  220  	s32 mcu_2_app_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  221  	s32 per_2_per_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  222  	s32 uartsh_2_per_addr;
-a3ae97f4c87d95 Kevin Groeneveld   2022-04-10  223  	s32 uartsh_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  224  	s32 per_2_shp_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  225  	s32 mcu_2_shp_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  226  	s32 ata_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  227  	s32 mcu_2_ata_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  228  	s32 app_2_per_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  229  	s32 app_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  230  	s32 shp_2_per_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  231  	s32 shp_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  232  	s32 mshc_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  233  	s32 mcu_2_mshc_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  234  	s32 spdif_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  235  	s32 mcu_2_spdif_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  236  	s32 asrc_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  237  	s32 ext_mem_2_ipu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  238  	s32 descrambler_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  239  	s32 dptc_dvfs_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  240  	s32 utra_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  241  	s32 ram_code_start_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  242  	/* End of v1 array */
-1cb49f389d5985 Frank Li           2024-04-19  243  	union {	s32 v1_end; s32 mcu_2_ssish_addr; };
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  244  	s32 ssish_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  245  	s32 hdmi_dma_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  246  	/* End of v2 array */
-1cb49f389d5985 Frank Li           2024-04-19  247  	union { s32 v2_end; s32 zcanfd_2_mcu_addr; };
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  248  	s32 zqspi_2_mcu_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  249  	s32 mcu_2_ecspi_addr;
-b98ce2f4e32bef Robin Gong         2021-07-14  250  	s32 mcu_2_sai_addr;
-b98ce2f4e32bef Robin Gong         2021-07-14  251  	s32 sai_2_mcu_addr;
-a3ae97f4c87d95 Kevin Groeneveld   2022-04-10  252  	s32 uart_2_mcu_rom_addr;
-a3ae97f4c87d95 Kevin Groeneveld   2022-04-10  253  	s32 uartsh_2_mcu_rom_addr;
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  254  	/* End of v3 array */
-1cb49f389d5985 Frank Li           2024-04-19  255  	union { s32 v3_end; s32 mcu_2_zqspi_addr; };
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  256  	/* End of v4 array */
-1cb49f389d5985 Frank Li           2024-04-19 @257  	s32 v4_end[0];
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  258  };
-8d11cfb0c37547 Vladimir Zapolskiy 2021-06-20  259  
+cc6090e985d7d6 Jiri Pirko        2019-09-30  3264  
+c21ef3e343ae91 David Ahern       2017-04-16  3265  static int rtnl_setlink(struct sk_buff *skb, struct nlmsghdr *nlh,
+c21ef3e343ae91 David Ahern       2017-04-16  3266  			struct netlink_ext_ack *extack)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3267  {
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3268  	struct ifinfomsg *ifm = nlmsg_data(nlh);
+3b1e0a655f8eba YOSHIFUJI Hideaki 2008-03-26  3269  	struct net *net = sock_net(skb->sk);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3270  	struct nlattr *tb[IFLA_MAX+1];
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3271  	struct net_device *dev = NULL;
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3272  	struct net *tgt_net;
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3273  	int err;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3274  
+8cb081746c031f Johannes Berg     2019-04-26  3275  	err = nlmsg_parse_deprecated(nlh, sizeof(*ifm), tb, IFLA_MAX,
+8cb081746c031f Johannes Berg     2019-04-26  3276  				     ifla_policy, extack);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3277  	if (err < 0)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3278  		goto errout;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3279  
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3280  	err = rtnl_ensure_unique_netns(tb, extack, false);
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3281  	if (err < 0)
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3282  		goto errout;
+4ff66cae7f10b6 Christian Brauner 2018-02-07  3283  
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3284  	tgt_net = rtnl_link_get_net_capable(skb, net, tb, CAP_NET_ADMIN);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3285  	if (IS_ERR(tgt_net))
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3286  		return PTR_ERR(tgt_net);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3287  
+0157f60c0caea2 Patrick McHardy   2007-06-13  3288  	if (ifm->ifi_index > 0)
+a3d1289126e7b1 Eric Dumazet      2009-10-21  3289  		dev = __dev_get_by_index(net, ifm->ifi_index);
+76c9ac0ee878f6 Jiri Pirko        2019-09-30  3290  	else if (tb[IFLA_IFNAME] || tb[IFLA_ALT_IFNAME])
+5ea08b5286f66e Florent Fourcot   2022-04-15  3291  		dev = rtnl_dev_get(net, tb);
+0157f60c0caea2 Patrick McHardy   2007-06-13  3292  	else
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3293  		err = -EINVAL;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3294  
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3295  	if (dev)
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3296  		err = do_setlink(skb, dev, tgt_net, ifm, extack, tb, 0);
+3a6cb17da69fbf Kuniyuki Iwashima 2024-10-09  3297  	else if (!err)
+0157f60c0caea2 Patrick McHardy   2007-06-13  3298  		err = -ENODEV;
+0157f60c0caea2 Patrick McHardy   2007-06-13  3299  
+da5e0494c542dd Thomas Graf       2006-08-10  3300  errout:
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09 @3301  	put_net(tgt_net);
+b27f78e2575aa2 Kuniyuki Iwashima 2024-10-09  3302  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3303  	return err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3304  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3305  
 
 -- 
 0-DAY CI Kernel Test Service
