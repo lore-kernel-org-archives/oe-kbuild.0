@@ -1,107 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F041A270
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 08:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBEC14265F
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 09:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728895859; cv=none; b=LMP4FM+OZO85eNH1MtHL+GmWriNyQHM6QTOC/WxaTxfulEKMdGwSAe+xiYbIupNp8CEY3IqH8CpAcJvVx8F09XhDBuMb8gJcvNQxd78Qp18nO0ogNFZS+cMx1kdyDb4ty8sAc4Asj1MVeCGVlF+21Ey8IbticfdW25TBewD6iZs=
+	t=1728898327; cv=none; b=ElKwP00ChGxhgyuwCgLiLXjGqEXpnWWJEtxJDWR8A7ffvPTA1zdtQvA3P8i066l30FVWEy/A9TjphYWmA9XXLpgl4f3LhkU7JkYG8jOMHOckowkQt6gsN44quWNhl78JNMu81utLLNDvDcVQom3yQ40fjmrwNhpBMv45DKxuwcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728895859; c=relaxed/simple;
-	bh=WzDY1FW16YbUzx7iNCrApfI3aAriqe9Y7RIBvtKwGkQ=;
+	s=arc-20240116; t=1728898327; c=relaxed/simple;
+	bh=zsN4ocGIqpGIEpMpWBJW3KHUk09cXq+ThKnZRVWXDQo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cJqnfOLHbG7u742xPUb6vafZ5KWcby9sENQmqE7eCaNOCzhmCg8avtOzZ0YJocO5m5leCgNAD03kJvEGIpWR2yxgPWni4xQTM+9aVWOtXHvK6WXiJF2RksdhHSPtbkJAEsxvnMzrZO6frmHrvgTQQDMq+Jd7nL+O44CaTtSFuVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HU2j7VzC; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=TkjsRlV9nRC6vtB5BphsQFa3HcV2jAuWdkNOUMNC56D0N2zWv4wP4ZwEcT0gUJON5Eq8cd4AwGlJS4VEPsD4WDCQySeaVlC3FYz6XNZ2yM/meoYABGXGi0amxppDU4Ig8HG2BJ18EqY9/nXjMv1rgnXVXRUm1e+NWfCCpzt8WCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5fBqoUn; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HU2j7VzC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5fBqoUn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728895856; x=1760431856;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WzDY1FW16YbUzx7iNCrApfI3aAriqe9Y7RIBvtKwGkQ=;
-  b=HU2j7VzC46EsMRcDU3K7aKhpcVi5Jxbpfn+5j6r1+B8ijx2VJaPeKID3
-   FQTM9wh63CtL9rWLVDZVshL3YxbZuW4LkIplcOjnJ66lQc3+qMHD9jBUX
-   t+FbLViwuR7729NrpkKcxL0JUF5bPJRZmUgxEKzGT/m11FCMK01u5O6Cm
-   QOWmSsMJIobpyEZZVgOGcOtYd5FEHnsP5bej1dsQFcMHddZALEcFJCbGo
-   KEypu4WNC5U44aRFoa70tO8cCZ7yeKPNKG0tAQSMPHGPp8OcSKjwqaeq6
-   owc5jOdad4h07VAlmp++P/XdHb6irCO2YIGINTkYGquGxYyqgCJ2+R4V7
-   A==;
-X-CSE-ConnectionGUID: dRAn2qCBQzqMpUWMOLwUWg==
-X-CSE-MsgGUID: Fi+CU7VaTgS4cBOaUqazFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="39630491"
+  t=1728898325; x=1760434325;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zsN4ocGIqpGIEpMpWBJW3KHUk09cXq+ThKnZRVWXDQo=;
+  b=Z5fBqoUnU4p+D+LCyIWhJtYotE9dJwvrLOe+HX9MSp5xVkuMukHeqqbM
+   0BFsb3fgvvuyPWc3ngMXQTVkULgdjHRlR2KOdiZ6QA1PWox614BOWHpmU
+   hzuhaBB2me1XGjSOKeKy5ZycQ3yNsFAS2N7/LvD2Wbpw+5xUez+GfSpIM
+   E330HgWLboTMw8WfHIBych7q11aEPOkbCgllUVZ3AhBRjKLdKUSfR/o1T
+   UAR7Am4FEr2rf5OxBOaSlpgkp2Zk0DbOb8mQNlimQuLrPcg4/4cfL0V0f
+   Eu9dAQiBaPzFMj0RJJ9JwEeQ6OyKA1cnYjHCWDDPVWPJUUX/fNI3Hf12O
+   w==;
+X-CSE-ConnectionGUID: YOyAcqYHTcKJz8Dt9Cio9w==
+X-CSE-MsgGUID: dX1qnERsTWCFHUYQT52eaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="27696093"
 X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="39630491"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 01:50:56 -0700
-X-CSE-ConnectionGUID: wbZmYYV8QRib4Q3QsdXYtA==
-X-CSE-MsgGUID: PMcZ9f0/RGuNJn1ew5ulXA==
+   d="scan'208";a="27696093"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 02:31:58 -0700
+X-CSE-ConnectionGUID: XneviYTsT9iVriZ+550DeA==
+X-CSE-MsgGUID: sOR23BATTbyLH5ZbWeIdoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="100844867"
+   d="scan'208";a="81515027"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2024 01:50:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 14 Oct 2024 02:31:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0Gmz-000F6N-1K;
-	Mon, 14 Oct 2024 08:50:53 +0000
-Date: Mon, 14 Oct 2024 16:50:38 +0800
+	id 1t0HQh-000F8l-0A;
+	Mon, 14 Oct 2024 09:31:55 +0000
+Date: Mon, 14 Oct 2024 17:31:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [ti:ti-rt-linux-6.1.y-cicd 376/382]
- arch/arm64/boot/dts/ti/k3-am62a-main.dtsi:844.20-847.5: Warning
- (graph_child_address): /bus@f0000/dss@30200000/ports: graph node has single
- child node 'port@0', #address-cells/#size-cells are not necessary
-Message-ID: <202410141649.w0Kd3cHf-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH 2/2] i2c: xiic: Add atomic transfer support
+Message-ID: <202410141724.djfOcA2G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: vigneshr@ti.com
-CC: nm@ti.com
-TO: Aradhya Bhatia <a-bhatia1@ti.com>
-CC: Vignesh Raghavendra <vigneshr@ti.com>
-CC: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20241011104131.733736-3-manikanta.guntupalli@amd.com>
+References: <20241011104131.733736-3-manikanta.guntupalli@amd.com>
+TO: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+TO: git@amd.com
+TO: michal.simek@amd.com
+TO: andi.shyti@kernel.org
+TO: linux-arm-kernel@lists.infradead.org
+TO: linux-i2c@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: radhey.shyam.pandey@amd.com
+CC: srinivas.goud@amd.com
+CC: shubhrajyoti.datta@amd.com
+CC: manion05gk@gmail.com
+CC: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   451df8c0a2a3bcf0656b2f6fdc49d6fb4d05f186
-commit: 1eef2deae95a3f819afbe06798f1fd70a0048e11 [376/382] arm64: dts: ti: k3-am62a7-sk: Add peripherals and pinmux to enable display
-:::::: branch date: 5 days ago
-:::::: commit date: 1 year, 6 months ago
-config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241014/202410141649.w0Kd3cHf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241014/202410141649.w0Kd3cHf-lkp@intel.com/reproduce)
+Hi Manikanta,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.12-rc2]
+[also build test WARNING on linus/master next-20241011]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Guntupalli/i2c-xiic-Relocate-xiic_i2c_runtime_suspend-and-xiic_i2c_runtime_resume-to-facilitate-atomic-mode/20241011-184454
+base:   v6.12-rc2
+patch link:    https://lore.kernel.org/r/20241011104131.733736-3-manikanta.guntupalli%40amd.com
+patch subject: [PATCH 2/2] i2c: xiic: Add atomic transfer support
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arc-randconfig-r052-20241014 (https://download.01.org/0day-ci/archive/20241014/202410141724.djfOcA2G-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410141649.w0Kd3cHf-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410141724.djfOcA2G-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-am62a-main.dtsi:844.20-847.5: Warning (graph_child_address): /bus@f0000/dss@30200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+cocci warnings: (new ones prefixed by >>)
+>> drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1247
+   drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1245
 
-vim +844 arch/arm64/boot/dts/ti/k3-am62a-main.dtsi
+vim +1326 drivers/i2c/busses/i2c-xiic.c
 
-555df2427c6270 Aradhya Bhatia 2023-04-21 @844  		dss_ports: ports {
-
-:::::: The code at line 844 was first introduced by commit
-:::::: 555df2427c62703f82029d150939d027a85c50c2 arm64: dts: ti: k3-am62a-main: Add node for Display SubSystem
-
-:::::: TO: Aradhya Bhatia <a-bhatia1@ti.com>
-:::::: CC: Vignesh Raghavendra <vigneshr@ti.com>
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1238  
+c119e7d00c9168 Marek Vasut          2021-08-23  1239  static int xiic_start_xfer(struct xiic_i2c *i2c, struct i2c_msg *msgs, int num)
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1240  {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1241  	bool broken_read, max_read_len, smbus_blk_read;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1242  	int ret, count;
+c119e7d00c9168 Marek Vasut          2021-08-23  1243  
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1244  	if (i2c->atomic)
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1245  		spin_lock(&i2c->atomic_lock);
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1246  	else
+77c680196791e7 Lars-Peter Clausen   2015-11-16 @1247  		mutex_lock(&i2c->lock);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1248  
+1d4a1adbed2582 Robert Hancock       2024-09-11  1249  	if (i2c->tx_msg || i2c->rx_msg) {
+ee1691d0ae103b Marc Ferland         2024-05-13  1250  		dev_err(i2c->adap.dev.parent,
+ee1691d0ae103b Marc Ferland         2024-05-13  1251  			"cannot start a transfer while busy\n");
+1d4a1adbed2582 Robert Hancock       2024-09-11  1252  		ret = -EBUSY;
+c119e7d00c9168 Marek Vasut          2021-08-23  1253  		goto out;
+ee1691d0ae103b Marc Ferland         2024-05-13  1254  	}
+c119e7d00c9168 Marek Vasut          2021-08-23  1255  
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1256  	i2c->atomic_xfer_state = STATE_DONE;
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1257  
+1d4a1adbed2582 Robert Hancock       2024-09-11  1258  	/* In single master mode bus can only be busy, when in use by this
+1d4a1adbed2582 Robert Hancock       2024-09-11  1259  	 * driver. If the register indicates bus being busy for some reason we
+1d4a1adbed2582 Robert Hancock       2024-09-11  1260  	 * should ignore it, since bus will never be released and i2c will be
+1d4a1adbed2582 Robert Hancock       2024-09-11  1261  	 * stuck forever.
+1d4a1adbed2582 Robert Hancock       2024-09-11  1262  	 */
+1d4a1adbed2582 Robert Hancock       2024-09-11  1263  	if (!i2c->singlemaster) {
+1d4a1adbed2582 Robert Hancock       2024-09-11  1264  		ret = xiic_wait_not_busy(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1265  		if (ret) {
+1d4a1adbed2582 Robert Hancock       2024-09-11  1266  			/* If the bus is stuck in a busy state, such as due to spurious low
+1d4a1adbed2582 Robert Hancock       2024-09-11  1267  			 * pulses on the bus causing a false start condition to be detected,
+1d4a1adbed2582 Robert Hancock       2024-09-11  1268  			 * then try to recover by re-initializing the controller and check
+1d4a1adbed2582 Robert Hancock       2024-09-11  1269  			 * again if the bus is still busy.
+1d4a1adbed2582 Robert Hancock       2024-09-11  1270  			 */
+1d4a1adbed2582 Robert Hancock       2024-09-11  1271  			dev_warn(i2c->adap.dev.parent, "I2C bus busy timeout, reinitializing\n");
+1d4a1adbed2582 Robert Hancock       2024-09-11  1272  			ret = xiic_reinit(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1273  			if (ret)
+1d4a1adbed2582 Robert Hancock       2024-09-11  1274  				goto out;
+1d4a1adbed2582 Robert Hancock       2024-09-11  1275  			ret = xiic_wait_not_busy(i2c);
+1d4a1adbed2582 Robert Hancock       2024-09-11  1276  			if (ret)
+1d4a1adbed2582 Robert Hancock       2024-09-11  1277  				goto out;
+1d4a1adbed2582 Robert Hancock       2024-09-11  1278  		}
+1d4a1adbed2582 Robert Hancock       2024-09-11  1279  	}
+1d4a1adbed2582 Robert Hancock       2024-09-11  1280  
+c119e7d00c9168 Marek Vasut          2021-08-23  1281  	i2c->tx_msg = msgs;
+c119e7d00c9168 Marek Vasut          2021-08-23  1282  	i2c->rx_msg = NULL;
+c119e7d00c9168 Marek Vasut          2021-08-23  1283  	i2c->nmsgs = num;
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1284  
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1285  	if (!i2c->atomic)
+fdacc3c7405d1f Marek Vasut          2021-08-23  1286  		init_completion(&i2c->completion);
+c119e7d00c9168 Marek Vasut          2021-08-23  1287  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1288  	/* Decide standard mode or Dynamic mode */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1289  	i2c->dynamic = true;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1290  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1291  	/* Initialize prev message type */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1292  	i2c->prev_msg_tx = false;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1293  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1294  	/*
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1295  	 * Scan through nmsgs, use dynamic mode when none of the below three
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1296  	 * conditions occur. We need standard mode even if one condition holds
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1297  	 * true in the entire array of messages in a single transfer.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1298  	 * If read transaction as dynamic mode is broken for delayed reads
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1299  	 * in xlnx,axi-iic-2.0 / xlnx,xps-iic-2.00.a IP versions.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1300  	 * If read length is > 255 bytes.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1301  	 * If smbus_block_read transaction.
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1302  	 */
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1303  	for (count = 0; count < i2c->nmsgs; count++) {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1304  		broken_read = (i2c->quirks & DYNAMIC_MODE_READ_BROKEN_BIT) &&
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1305  				(i2c->tx_msg[count].flags & I2C_M_RD);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1306  		max_read_len = (i2c->tx_msg[count].flags & I2C_M_RD) &&
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1307  				(i2c->tx_msg[count].len > MAX_READ_LENGTH_DYNAMIC);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1308  		smbus_blk_read = (i2c->tx_msg[count].flags & I2C_M_RECV_LEN);
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1309  
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1310  		if (broken_read || max_read_len || smbus_blk_read) {
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1311  			i2c->dynamic = false;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1312  			break;
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1313  		}
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1314  	}
+2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1315  
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1316  	ret = xiic_reinit(i2c);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1317  	if (!ret)
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1318  		__xiic_start_xfer(i2c);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1319  
+c119e7d00c9168 Marek Vasut          2021-08-23  1320  out:
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1321  	if (i2c->atomic)
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1322  		spin_unlock(&i2c->atomic_lock);
+393952a12e9d58 Manikanta Guntupalli 2024-10-11  1323  	else
+77c680196791e7 Lars-Peter Clausen   2015-11-16  1324  		mutex_unlock(&i2c->lock);
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1325  
+b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09 @1326  	return ret;
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1327  }
+e1d5b6598cdc33 Richard Röjfors      2010-02-11  1328  
 
 -- 
 0-DAY CI Kernel Test Service
