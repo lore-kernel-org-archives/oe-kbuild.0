@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FCD1C7603
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 19:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90684149C47
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 20:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728933310; cv=none; b=EXZg07PZmUFP51wRh2AqIBYt0pEvV3ZtiH2ee3xI8AIJVtTgGkscgp46pIfFiIwmE7w3Qxw67JmMAYxEzhM25x8I2xycfW9OfCNRNejI+Ifk2fRNLiwn6LOw+zQqjpxzGbk8KWOCdnrpKd6bx+X3XQ99qN+JgqeFtRkPlMwt+q8=
+	t=1728937625; cv=none; b=FJNmEoCReivGjF44iE/MOfioncMeaCG52EWIpYmEXHrFo1w7cZD984Ya3WfOTfahILF15GxWKpKimM02sgx8PG0L3CnnV4xNE3wP2aRZYWxhhEpinwvB4K1DgmUtEUY4qbt+iXFRs1qhHU6tVHl8k5SSOs5X67MEALvJK+sWHO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728933310; c=relaxed/simple;
-	bh=zerGp6zyF5PsjMp1YHHKTK8XOUuZaOaPlJP9DMkJGQ8=;
+	s=arc-20240116; t=1728937625; c=relaxed/simple;
+	bh=8ssZ34D/AOU/LT7BVcCx6sm7QiUCJCeZLLmvqK9Mq0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OnRWpWHmzZjMuy/fTl8yl5NrlR/XQ+R2g6R0/JvWF3O6iM8Z0QgCNeWzL5RlZ0FOnteZDPkhdJDXci2FE0nm7g1gybT1KeCmRHlN+DfilLSTD1yWJLL4jZCqTBMolD45K1AOrCa4qVtQpjeqtyymtlrx6J2aE7Coyn3i+bhQRSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qd3LOL5D; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Tw0u4mR8RoScSBhLKWcCYwvEDjSFO5eJ/7co6I+/eMvRRccWmJIMuG0ClvDGumTV5vyrU+hC3gczE+TcnmeP1X+Es8rB3gizI0YjWFvlyxKfHlzygOl/lu4hnHhtk1mfZqS9xlzp3uTgoHwL6/8NO0qlQETCoMm/FJaAQWOByjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPvbPtaN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qd3LOL5D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPvbPtaN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728933309; x=1760469309;
+  t=1728937624; x=1760473624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zerGp6zyF5PsjMp1YHHKTK8XOUuZaOaPlJP9DMkJGQ8=;
-  b=Qd3LOL5DH6m52IcBh6ASYPt9Yb9CBVZZEXfotKjlr3IMdLeVrxqVtyuj
-   xBptzZQ8D77+eLEmDDQ8n+BTdJcqlVZy+GlgJL8X2jYY0s1VNI8+Z7BtC
-   7lybDBETL5eSsu5ff7HQfHcjexNOvvsNagEJEX73YVeABW8Zp9V1CLmLE
-   xfldxBp4Nj1pCPDPQKsockb6r8iGF4cfhQ6vQ6gj1e7//icVpBnx2wS57
-   sLrP461ju3LfkmDy601jXTDUFrDoAHfF24nX2DyfS5d51Hn7mtfEH3VvA
-   J75JesC0kE3/JROaLq783Lv0XoGQBpv7qeWACYMClh1Zs0oi3SB+w3Djq
-   Q==;
-X-CSE-ConnectionGUID: f7WX6ttjReKTnFLERozrFQ==
-X-CSE-MsgGUID: GrxMre0xQfuAmN/AwaIBdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="27789562"
+  bh=8ssZ34D/AOU/LT7BVcCx6sm7QiUCJCeZLLmvqK9Mq0s=;
+  b=gPvbPtaNnGOtRp1K6xY6omu/IR9VPo/kVyUF4qsD4iIElf67zSfGe6zt
+   s/YWvRTyJUYbXDeS0Eb5qlE+jtAKEdqzShOXrTFAXnPfuALNKhPsKE9m2
+   ntJerAZ4gZNog2O4nDsRr5jhKUXLO50zoyiHKVJyG09tk/hzdmNcfVlR2
+   lqP+aSwScXcwP+8KCLLMNuWS5aPj+/BJdnLnEHYxzAi3hJE5vBqsaeIGP
+   WETJlcRZ002tcvJFtO3mLQRZuJE4jHiaW7iGe8uzG3NwjZke9zoazPHD+
+   4amZfJVdEeqlEoReP9zHi7UKlAju9f1SznmlUlifEZJHXaZZpa9v8GSjP
+   A==;
+X-CSE-ConnectionGUID: 6NfRTVKoS6yts/WswlIyuA==
+X-CSE-MsgGUID: NuOEdgt5TV2/yeenp20lcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32104886"
 X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="27789562"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 12:15:08 -0700
-X-CSE-ConnectionGUID: NOn/TqQsRzOqV8Yf4/YRHw==
-X-CSE-MsgGUID: FCcsz9jySkmAmStQvKKYnA==
+   d="scan'208";a="32104886"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 13:27:03 -0700
+X-CSE-ConnectionGUID: +Cn0qyslS/WEUJjSJ1WFrQ==
+X-CSE-MsgGUID: bj3HoVSOT0eAHlkpuO01Qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
-   d="scan'208";a="78486954"
+   d="scan'208";a="82243112"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Oct 2024 12:15:05 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 14 Oct 2024 13:27:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0QWw-000H32-0c;
-	Mon, 14 Oct 2024 19:14:58 +0000
-Date: Tue, 15 Oct 2024 03:14:47 +0800
+	id 1t0Red-000H5F-2i;
+	Mon, 14 Oct 2024 20:26:59 +0000
+Date: Tue, 15 Oct 2024 04:26:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [jic23-iio:testing 24/26] drivers/iio/light/vl6180.c:231:3-9:
- preceding lock on line 219
-Message-ID: <202410150357.z1206Zoq-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/s390/kernel/hiperdispatch.c:237 hiperdispatch_ctl_handler()
+ warn: (struct ctl_table)->procname cannot be NULL. Expression :
+ ctl->procname
+Message-ID: <202410150456.QJWKP8mj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,88 +65,57 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Abhash Jha <abhashkumarjha123@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Mete Durlu <meted@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   465644ac29536d10178b5ca4684d0b84765b9fa4
-commit: acea0e6dd7d459e267efa0c4e8fa284669762e85 [24/26] iio: light: vl6180: Added Interrupt support for single shot access
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arc-randconfig-r052-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150357.z1206Zoq-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eca631b8fe808748d7585059c4307005ca5c5820
+commit: b9271a533433dd4049723d4668418709e1927e12 s390/hiperdispatch: Add hiperdispatch sysctl interface
+date:   7 weeks ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 weeks ago
+config: s390-randconfig-r073-20241014 (https://download.01.org/0day-ci/archive/20241015/202410150456.QJWKP8mj-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410150357.z1206Zoq-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410150456.QJWKP8mj-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/light/vl6180.c:231:3-9: preceding lock on line 219
+smatch warnings:
+arch/s390/kernel/hiperdispatch.c:237 hiperdispatch_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl->procname
+arch/s390/kernel/hiperdispatch.c:236 hiperdispatch_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl_entry.procname
+arch/s390/kernel/hiperdispatch.c:236 hiperdispatch_ctl_handler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : ctl_entry.proc_handler
 
-vim +231 drivers/iio/light/vl6180.c
+vim +237 arch/s390/kernel/hiperdispatch.c
 
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  211  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  212  static int vl6180_measure(struct vl6180_data *data, int addr)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  213  {
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  214  	struct i2c_client *client = data->client;
-acea0e6dd7d459 Abhash Jha            2024-10-07  215  	unsigned long time_left;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  216  	int tries = 20, ret;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  217  	u16 value;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  218  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19 @219  	mutex_lock(&data->lock);
-acea0e6dd7d459 Abhash Jha            2024-10-07  220  	reinit_completion(&data->completion);
-acea0e6dd7d459 Abhash Jha            2024-10-07  221  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  222  	/* Start single shot measurement */
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  223  	ret = vl6180_write_byte(client,
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  224  		vl6180_chan_regs_table[addr].start_reg, VL6180_STARTSTOP);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  225  	if (ret < 0)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  226  		goto fail;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  227  
-acea0e6dd7d459 Abhash Jha            2024-10-07  228  	if (client->irq) {
-acea0e6dd7d459 Abhash Jha            2024-10-07  229  		time_left = wait_for_completion_timeout(&data->completion, HZ / 10);
-acea0e6dd7d459 Abhash Jha            2024-10-07  230  		if (time_left == 0)
-acea0e6dd7d459 Abhash Jha            2024-10-07 @231  			return -ETIMEDOUT;
-acea0e6dd7d459 Abhash Jha            2024-10-07  232  	} else {
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  233  		while (tries--) {
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  234  			ret = vl6180_read_byte(client, VL6180_INTR_STATUS);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  235  			if (ret < 0)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  236  				goto fail;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  237  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  238  			if (ret & vl6180_chan_regs_table[addr].drdy_mask)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  239  				break;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  240  			msleep(20);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  241  		}
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  242  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  243  		if (tries < 0) {
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  244  			ret = -EIO;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  245  			goto fail;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  246  		}
-acea0e6dd7d459 Abhash Jha            2024-10-07  247  	}
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  248  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  249  	/* Read result value from appropriate registers */
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  250  	ret = vl6180_chan_regs_table[addr].word ?
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  251  		vl6180_read_word(client, vl6180_chan_regs_table[addr].value_reg) :
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  252  		vl6180_read_byte(client, vl6180_chan_regs_table[addr].value_reg);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  253  	if (ret < 0)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  254  		goto fail;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  255  	value = ret;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  256  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  257  	/* Clear the interrupt flag after data read */
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  258  	ret = vl6180_write_byte(client, VL6180_INTR_CLEAR,
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  259  		VL6180_CLEAR_ERROR | VL6180_CLEAR_ALS | VL6180_CLEAR_RANGE);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  260  	if (ret < 0)
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  261  		goto fail;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  262  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  263  	ret = value;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  264  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  265  fail:
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  266  	mutex_unlock(&data->lock);
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  267  
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  268  	return ret;
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  269  }
-5e7f47e495ad36 Manivannan Sadhasivam 2017-03-19  270  
+b9271a533433dd Mete Durlu 2024-08-12  230  
+b9271a533433dd Mete Durlu 2024-08-12  231  static int hiperdispatch_ctl_handler(const struct ctl_table *ctl, int write,
+b9271a533433dd Mete Durlu 2024-08-12  232  				     void *buffer, size_t *lenp, loff_t *ppos)
+b9271a533433dd Mete Durlu 2024-08-12  233  {
+b9271a533433dd Mete Durlu 2024-08-12  234  	int hiperdispatch;
+b9271a533433dd Mete Durlu 2024-08-12  235  	int rc;
+b9271a533433dd Mete Durlu 2024-08-12 @236  	struct ctl_table ctl_entry = {
+b9271a533433dd Mete Durlu 2024-08-12 @237  		.procname	= ctl->procname,
+b9271a533433dd Mete Durlu 2024-08-12  238  		.data		= &hiperdispatch,
+b9271a533433dd Mete Durlu 2024-08-12  239  		.maxlen		= sizeof(int),
+b9271a533433dd Mete Durlu 2024-08-12  240  		.extra1		= SYSCTL_ZERO,
+b9271a533433dd Mete Durlu 2024-08-12  241  		.extra2		= SYSCTL_ONE,
+b9271a533433dd Mete Durlu 2024-08-12  242  	};
+b9271a533433dd Mete Durlu 2024-08-12  243  
+b9271a533433dd Mete Durlu 2024-08-12  244  	hiperdispatch = hd_enabled;
+b9271a533433dd Mete Durlu 2024-08-12  245  	rc = proc_douintvec_minmax(&ctl_entry, write, buffer, lenp, ppos);
+b9271a533433dd Mete Durlu 2024-08-12  246  	if (rc < 0 || !write)
+b9271a533433dd Mete Durlu 2024-08-12  247  		return rc;
+b9271a533433dd Mete Durlu 2024-08-12  248  	mutex_lock(&smp_cpu_state_mutex);
+b9271a533433dd Mete Durlu 2024-08-12  249  	if (hd_set_hiperdispatch_mode(hiperdispatch))
+b9271a533433dd Mete Durlu 2024-08-12  250  		topology_schedule_update();
+b9271a533433dd Mete Durlu 2024-08-12  251  	mutex_unlock(&smp_cpu_state_mutex);
+b9271a533433dd Mete Durlu 2024-08-12  252  	return 0;
+b9271a533433dd Mete Durlu 2024-08-12  253  }
+b9271a533433dd Mete Durlu 2024-08-12  254  
 
 -- 
 0-DAY CI Kernel Test Service
