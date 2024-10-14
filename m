@@ -1,208 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBEC14265F
-	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 09:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8571AC8A2
+	for <oe-kbuild@lists.linux.dev>; Mon, 14 Oct 2024 14:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728898327; cv=none; b=ElKwP00ChGxhgyuwCgLiLXjGqEXpnWWJEtxJDWR8A7ffvPTA1zdtQvA3P8i066l30FVWEy/A9TjphYWmA9XXLpgl4f3LhkU7JkYG8jOMHOckowkQt6gsN44quWNhl78JNMu81utLLNDvDcVQom3yQ40fjmrwNhpBMv45DKxuwcw=
+	t=1728917974; cv=none; b=GobyA49Ws8hr3B/ibYjncOFNdLY4pySeVwcY+zb0xnA8k0R5aWzVbtAdI5V/v3LMaz+g60dadeynaJDTIftodan4T77UgY4ee7ZojR3qVhk27r3FwEP72Cjobyhr33hXO5X2Vb8i7nK8sXEjd80vDJy0q2sOYGq+XdoUUxmTL0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728898327; c=relaxed/simple;
-	bh=zsN4ocGIqpGIEpMpWBJW3KHUk09cXq+ThKnZRVWXDQo=;
+	s=arc-20240116; t=1728917974; c=relaxed/simple;
+	bh=mLSTPyaXrqRNHHy+pLwndiHOwHjpcztOuTd+4UyQyEg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TkjsRlV9nRC6vtB5BphsQFa3HcV2jAuWdkNOUMNC56D0N2zWv4wP4ZwEcT0gUJON5Eq8cd4AwGlJS4VEPsD4WDCQySeaVlC3FYz6XNZ2yM/meoYABGXGi0amxppDU4Ig8HG2BJ18EqY9/nXjMv1rgnXVXRUm1e+NWfCCpzt8WCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z5fBqoUn; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=UqHWSPlbfmu5VyHsY0nZX5vA7bXswgEkSTs2g1f2tHRPM0TsLz++tdK1ZPaozqey2Y2LNSCY2sjmIkRk08hj64Jw0jMxMKXE6dI4wfDivWmle2j5kg9+E4cOZFpy9JBgR5PcbBN0m2uDIUKXcBvZgzX1IoHEbc2KpV0spHYMOYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V1Xv9G2a; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5fBqoUn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1Xv9G2a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728898325; x=1760434325;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zsN4ocGIqpGIEpMpWBJW3KHUk09cXq+ThKnZRVWXDQo=;
-  b=Z5fBqoUnU4p+D+LCyIWhJtYotE9dJwvrLOe+HX9MSp5xVkuMukHeqqbM
-   0BFsb3fgvvuyPWc3ngMXQTVkULgdjHRlR2KOdiZ6QA1PWox614BOWHpmU
-   hzuhaBB2me1XGjSOKeKy5ZycQ3yNsFAS2N7/LvD2Wbpw+5xUez+GfSpIM
-   E330HgWLboTMw8WfHIBych7q11aEPOkbCgllUVZ3AhBRjKLdKUSfR/o1T
-   UAR7Am4FEr2rf5OxBOaSlpgkp2Zk0DbOb8mQNlimQuLrPcg4/4cfL0V0f
-   Eu9dAQiBaPzFMj0RJJ9JwEeQ6OyKA1cnYjHCWDDPVWPJUUX/fNI3Hf12O
+  t=1728917973; x=1760453973;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mLSTPyaXrqRNHHy+pLwndiHOwHjpcztOuTd+4UyQyEg=;
+  b=V1Xv9G2a1ogDNmkUKmaQ6OeUdeCEuSFfxDm9SdbDJE7UDtgAyy4XMjZg
+   Emk8zGdxy/eluunn+sgwPeT4Poo8ZMtQGRlo4eU88IIOq5CfbhZdpRpdp
+   rXFMjOtCnuPwNK9qMeg9UNLnHPZQh3ruRsMF0D/MR69V7m7hK9SFKKRy4
+   Bk6rE3+vXGyRJfJuPKtMaMXbYtgbq940IQLbkqYxZ22TjvBdnSmrXRBAO
+   N5OdAmY1w/9IkEnF4XT+kbQ+nDFHGHHi0Mgig0wVz5mDJnXsEebC9dAlA
+   GotIdR7cuwQ+35ayuirEt5StWI1PPEq1aRzUYo6LctNAP0rwqP6urQ99K
    w==;
-X-CSE-ConnectionGUID: YOyAcqYHTcKJz8Dt9Cio9w==
-X-CSE-MsgGUID: dX1qnERsTWCFHUYQT52eaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11224"; a="27696093"
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="27696093"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 02:31:58 -0700
-X-CSE-ConnectionGUID: XneviYTsT9iVriZ+550DeA==
-X-CSE-MsgGUID: sOR23BATTbyLH5ZbWeIdoA==
+X-CSE-ConnectionGUID: QIjcLuNmT1agp3rHRjKM0g==
+X-CSE-MsgGUID: 6Oku03RXRkORnls3ypyR9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28153847"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28153847"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 07:59:31 -0700
+X-CSE-ConnectionGUID: aBxuElx9T4m+D4zYC2/bfw==
+X-CSE-MsgGUID: Kx96kmqbRryXyaTzqqw70A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="81515027"
+X-IronPort-AV: E=Sophos;i="6.11,203,1725346800"; 
+   d="scan'208";a="77258101"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Oct 2024 02:31:57 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Oct 2024 07:59:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0HQh-000F8l-0A;
-	Mon, 14 Oct 2024 09:31:55 +0000
-Date: Mon, 14 Oct 2024 17:31:36 +0800
+	id 1t0MXf-000G5P-0l;
+	Mon, 14 Oct 2024 14:59:27 +0000
+Date: Mon, 14 Oct 2024 22:58:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH 2/2] i2c: xiic: Add atomic transfer support
-Message-ID: <202410141724.djfOcA2G-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn:
+ missing unwind goto?
+Message-ID: <202410142203.nc2L66Sk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241011104131.733736-3-manikanta.guntupalli@amd.com>
-References: <20241011104131.733736-3-manikanta.guntupalli@amd.com>
-TO: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
-TO: git@amd.com
-TO: michal.simek@amd.com
-TO: andi.shyti@kernel.org
-TO: linux-arm-kernel@lists.infradead.org
-TO: linux-i2c@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: radhey.shyam.pandey@amd.com
-CC: srinivas.goud@amd.com
-CC: shubhrajyoti.datta@amd.com
-CC: manion05gk@gmail.com
-CC: Manikanta Guntupalli <manikanta.guntupalli@amd.com>
+CC: linux-kernel@vger.kernel.org
+TO: Peter Oberparleiter <oberpar@linux.ibm.com>
+CC: Alexander Gordeev <agordeev@linux.ibm.com>
+CC: Alexandra Winter <wintera@linux.ibm.com>
 
-Hi Manikanta,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.12-rc2]
-[also build test WARNING on linus/master next-20241011]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Guntupalli/i2c-xiic-Relocate-xiic_i2c_runtime_suspend-and-xiic_i2c_runtime_resume-to-facilitate-atomic-mode/20241011-184454
-base:   v6.12-rc2
-patch link:    https://lore.kernel.org/r/20241011104131.733736-3-manikanta.guntupalli%40amd.com
-patch subject: [PATCH 2/2] i2c: xiic: Add atomic transfer support
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arc-randconfig-r052-20241014 (https://download.01.org/0day-ci/archive/20241014/202410141724.djfOcA2G-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6485cf5ea253d40d507cd71253c9568c5470cd27
+commit: 607638faf2ff1cede37458111496e7cc6c977f6f s390/qdio: handle deferred cc1
+date:   6 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 months ago
+config: s390-randconfig-r073-20241014 (https://download.01.org/0day-ci/archive/20241014/202410142203.nc2L66Sk-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410141724.djfOcA2G-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410142203.nc2L66Sk-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1247
-   drivers/i2c/busses/i2c-xiic.c:1326:1-7: preceding lock on line 1245
+smatch warnings:
+drivers/s390/cio/qdio_main.c:735 qdio_establish_handle_irq() warn: missing unwind goto?
 
-vim +1326 drivers/i2c/busses/i2c-xiic.c
+vim +735 drivers/s390/cio/qdio_main.c
 
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  1238  
-c119e7d00c9168 Marek Vasut          2021-08-23  1239  static int xiic_start_xfer(struct xiic_i2c *i2c, struct i2c_msg *msgs, int num)
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  1240  {
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1241  	bool broken_read, max_read_len, smbus_blk_read;
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1242  	int ret, count;
-c119e7d00c9168 Marek Vasut          2021-08-23  1243  
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1244  	if (i2c->atomic)
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1245  		spin_lock(&i2c->atomic_lock);
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1246  	else
-77c680196791e7 Lars-Peter Clausen   2015-11-16 @1247  		mutex_lock(&i2c->lock);
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1248  
-1d4a1adbed2582 Robert Hancock       2024-09-11  1249  	if (i2c->tx_msg || i2c->rx_msg) {
-ee1691d0ae103b Marc Ferland         2024-05-13  1250  		dev_err(i2c->adap.dev.parent,
-ee1691d0ae103b Marc Ferland         2024-05-13  1251  			"cannot start a transfer while busy\n");
-1d4a1adbed2582 Robert Hancock       2024-09-11  1252  		ret = -EBUSY;
-c119e7d00c9168 Marek Vasut          2021-08-23  1253  		goto out;
-ee1691d0ae103b Marc Ferland         2024-05-13  1254  	}
-c119e7d00c9168 Marek Vasut          2021-08-23  1255  
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1256  	i2c->atomic_xfer_state = STATE_DONE;
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1257  
-1d4a1adbed2582 Robert Hancock       2024-09-11  1258  	/* In single master mode bus can only be busy, when in use by this
-1d4a1adbed2582 Robert Hancock       2024-09-11  1259  	 * driver. If the register indicates bus being busy for some reason we
-1d4a1adbed2582 Robert Hancock       2024-09-11  1260  	 * should ignore it, since bus will never be released and i2c will be
-1d4a1adbed2582 Robert Hancock       2024-09-11  1261  	 * stuck forever.
-1d4a1adbed2582 Robert Hancock       2024-09-11  1262  	 */
-1d4a1adbed2582 Robert Hancock       2024-09-11  1263  	if (!i2c->singlemaster) {
-1d4a1adbed2582 Robert Hancock       2024-09-11  1264  		ret = xiic_wait_not_busy(i2c);
-1d4a1adbed2582 Robert Hancock       2024-09-11  1265  		if (ret) {
-1d4a1adbed2582 Robert Hancock       2024-09-11  1266  			/* If the bus is stuck in a busy state, such as due to spurious low
-1d4a1adbed2582 Robert Hancock       2024-09-11  1267  			 * pulses on the bus causing a false start condition to be detected,
-1d4a1adbed2582 Robert Hancock       2024-09-11  1268  			 * then try to recover by re-initializing the controller and check
-1d4a1adbed2582 Robert Hancock       2024-09-11  1269  			 * again if the bus is still busy.
-1d4a1adbed2582 Robert Hancock       2024-09-11  1270  			 */
-1d4a1adbed2582 Robert Hancock       2024-09-11  1271  			dev_warn(i2c->adap.dev.parent, "I2C bus busy timeout, reinitializing\n");
-1d4a1adbed2582 Robert Hancock       2024-09-11  1272  			ret = xiic_reinit(i2c);
-1d4a1adbed2582 Robert Hancock       2024-09-11  1273  			if (ret)
-1d4a1adbed2582 Robert Hancock       2024-09-11  1274  				goto out;
-1d4a1adbed2582 Robert Hancock       2024-09-11  1275  			ret = xiic_wait_not_busy(i2c);
-1d4a1adbed2582 Robert Hancock       2024-09-11  1276  			if (ret)
-1d4a1adbed2582 Robert Hancock       2024-09-11  1277  				goto out;
-1d4a1adbed2582 Robert Hancock       2024-09-11  1278  		}
-1d4a1adbed2582 Robert Hancock       2024-09-11  1279  	}
-1d4a1adbed2582 Robert Hancock       2024-09-11  1280  
-c119e7d00c9168 Marek Vasut          2021-08-23  1281  	i2c->tx_msg = msgs;
-c119e7d00c9168 Marek Vasut          2021-08-23  1282  	i2c->rx_msg = NULL;
-c119e7d00c9168 Marek Vasut          2021-08-23  1283  	i2c->nmsgs = num;
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1284  
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1285  	if (!i2c->atomic)
-fdacc3c7405d1f Marek Vasut          2021-08-23  1286  		init_completion(&i2c->completion);
-c119e7d00c9168 Marek Vasut          2021-08-23  1287  
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1288  	/* Decide standard mode or Dynamic mode */
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1289  	i2c->dynamic = true;
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1290  
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1291  	/* Initialize prev message type */
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1292  	i2c->prev_msg_tx = false;
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1293  
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1294  	/*
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1295  	 * Scan through nmsgs, use dynamic mode when none of the below three
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1296  	 * conditions occur. We need standard mode even if one condition holds
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1297  	 * true in the entire array of messages in a single transfer.
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1298  	 * If read transaction as dynamic mode is broken for delayed reads
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1299  	 * in xlnx,axi-iic-2.0 / xlnx,xps-iic-2.00.a IP versions.
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1300  	 * If read length is > 255 bytes.
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1301  	 * If smbus_block_read transaction.
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1302  	 */
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1303  	for (count = 0; count < i2c->nmsgs; count++) {
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1304  		broken_read = (i2c->quirks & DYNAMIC_MODE_READ_BROKEN_BIT) &&
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1305  				(i2c->tx_msg[count].flags & I2C_M_RD);
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1306  		max_read_len = (i2c->tx_msg[count].flags & I2C_M_RD) &&
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1307  				(i2c->tx_msg[count].len > MAX_READ_LENGTH_DYNAMIC);
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1308  		smbus_blk_read = (i2c->tx_msg[count].flags & I2C_M_RECV_LEN);
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1309  
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1310  		if (broken_read || max_read_len || smbus_blk_read) {
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1311  			i2c->dynamic = false;
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1312  			break;
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1313  		}
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1314  	}
-2fd5cf352efa0c Raviteja Narayanam   2023-02-02  1315  
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1316  	ret = xiic_reinit(i2c);
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1317  	if (!ret)
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  1318  		__xiic_start_xfer(i2c);
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1319  
-c119e7d00c9168 Marek Vasut          2021-08-23  1320  out:
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1321  	if (i2c->atomic)
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1322  		spin_unlock(&i2c->atomic_lock);
-393952a12e9d58 Manikanta Guntupalli 2024-10-11  1323  	else
-77c680196791e7 Lars-Peter Clausen   2015-11-16  1324  		mutex_unlock(&i2c->lock);
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09  1325  
-b4c119dbc300c7 Shubhrajyoti Datta   2020-01-09 @1326  	return ret;
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  1327  }
-e1d5b6598cdc33 Richard Röjfors      2010-02-11  1328  
+779e6e1c724d30 Jan Glauber         2008-07-17  724  
+607638faf2ff1c Peter Oberparleiter 2024-04-10  725  static int qdio_establish_handle_irq(struct qdio_irq *irq_ptr, int cstat,
+607638faf2ff1c Peter Oberparleiter 2024-04-10  726  				     int dstat, int dcc)
+779e6e1c724d30 Jan Glauber         2008-07-17  727  {
+4c57542320e73b Jan Glauber         2009-06-12  728  	DBF_DEV_EVENT(DBF_INFO, irq_ptr, "qest irq");
+779e6e1c724d30 Jan Glauber         2008-07-17  729  
+4c57542320e73b Jan Glauber         2009-06-12  730  	if (cstat)
+779e6e1c724d30 Jan Glauber         2008-07-17  731  		goto error;
+4c57542320e73b Jan Glauber         2009-06-12  732  	if (dstat & ~(DEV_STAT_DEV_END | DEV_STAT_CHN_END))
+779e6e1c724d30 Jan Glauber         2008-07-17  733  		goto error;
+607638faf2ff1c Peter Oberparleiter 2024-04-10  734  	if (dcc == 1)
+607638faf2ff1c Peter Oberparleiter 2024-04-10 @735  		return -EAGAIN;
+4c57542320e73b Jan Glauber         2009-06-12  736  	if (!(dstat & DEV_STAT_DEV_END))
+4c57542320e73b Jan Glauber         2009-06-12  737  		goto error;
+4c57542320e73b Jan Glauber         2009-06-12  738  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ESTABLISHED);
+607638faf2ff1c Peter Oberparleiter 2024-04-10  739  	return 0;
+4c57542320e73b Jan Glauber         2009-06-12  740  
+779e6e1c724d30 Jan Glauber         2008-07-17  741  error:
+22f9934767f490 Jan Glauber         2008-12-25  742  	DBF_ERROR("%4x EQ:error", irq_ptr->schid.sch_no);
+22f9934767f490 Jan Glauber         2008-12-25  743  	DBF_ERROR("ds: %2x cs:%2x", dstat, cstat);
+779e6e1c724d30 Jan Glauber         2008-07-17  744  	qdio_set_state(irq_ptr, QDIO_IRQ_STATE_ERR);
+607638faf2ff1c Peter Oberparleiter 2024-04-10  745  	return -EIO;
+779e6e1c724d30 Jan Glauber         2008-07-17  746  }
+779e6e1c724d30 Jan Glauber         2008-07-17  747  
 
 -- 
 0-DAY CI Kernel Test Service
