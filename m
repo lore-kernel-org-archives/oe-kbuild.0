@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F85114F9FB
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 02:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFC8C8F0
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 02:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728958765; cv=none; b=LCrlrnEbKOSiqjd9/p0s/CBC8NFJVTCa5YrftM3GJxuXJWigQyGvT4XzcJBJKs/WYkdiGugXFrxSdxvBaMzp6Kcz45FjBXnunzrzqIBpVsljBYQaMsacOHMAeCv4ZvvplBgxDHc2f1nrcxQXX6hLx83aEosilGGTI08dyOE5do8=
+	t=1728960025; cv=none; b=aKUUvZSDV8QXpiq6+3UZq3uU7c4g+BpRuwx750tQiMR67t6vMmE6A3cxxDuOXlWycAXrnWrBBLHT3/6IVXKjpUQ6rCcXL/tUiIYslUAMaIbd8XvXnp0ojyD6mBjQDNnExCpCy2OSY1FES+1b3G++adUg5jGhTv0RELNRmbZkF64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728958765; c=relaxed/simple;
-	bh=uj8GxVduTCr+4K8KodjL+BVfWDApeMvvallNOQtigxk=;
+	s=arc-20240116; t=1728960025; c=relaxed/simple;
+	bh=VFr/PHpQdQBJgdOEx+H98k5C7F4Ksfr8n2pimw8PaDM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cce4gVv965OsWQE4gsSa2uv1Feo6BXLrVDqjA1OhqOXRL47uvjbUf6EU3NKpb2dggJn5Fu/ZR0tpCDfai/MqPLaFL6jaghroCNa36hXwObHoKGH5FL2hP8qKJxN+JA9esk7swhgeOUub7dwuSET8niP9c0U6xWudIxHx1zULY7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4aQW4sY; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=LBzKj7tBIsKo0dNvY1eH1O2owJ1T0uY7hztPlC3bhixECFhCCLd6Juz98/WPIDdv48+4o2EakWump6gSUpGAYIfOzYYpiRBXfdHBafzK80Y1sDxvmkP1gMK/OhKaYhExFW/u4QZ07Q5aeneFf+smWJ89QyZNRbkU3RekDhV4vqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dd6ceMff; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4aQW4sY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dd6ceMff"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728958763; x=1760494763;
+  t=1728960023; x=1760496023;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uj8GxVduTCr+4K8KodjL+BVfWDApeMvvallNOQtigxk=;
-  b=X4aQW4sY6Hot4rRcMybWPcZmwleOhNqEWtZM3n53gDiBMlgMNWdBbrtY
-   jLvOdm8qimOdakBXtLB6YiR0ggxCC82fZvLdDCpQ9vpe+YJyIVs40j/yu
-   aSqi9rA21HriArNI+QTK4UB4PtYjtG+oCwJ/6XyfMMimQl9buFVN26Oe2
-   sdD9dKvdVdcZM6GN2d6kkcYmh17GLZmIcVONWyAVKy2j3gXTrW4y1jm5+
-   L6Br8CGUj61PyHebikTXfzm4qrQmSrsQTDCFSG5Bisb2xV79PWGTuNOfx
-   +OE2MzrBXEEAIQX5P1z/TPRfu1LO7+bM2tMjioQJDjGRX5G4xZiteA/wd
-   Q==;
-X-CSE-ConnectionGUID: Ve7hLqfnQAqqR/xeaR0g4A==
-X-CSE-MsgGUID: bA9X/4ZyTquWxPLfvYK0Cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28522912"
+  bh=VFr/PHpQdQBJgdOEx+H98k5C7F4Ksfr8n2pimw8PaDM=;
+  b=dd6ceMffz8a17+lSXNXPEP9LXU/6V0AIhoWo/ufPoZ87+ej3RIJsQDTR
+   B1lglfNFKTaFL6+ccxatRuQz9Ev+BI15sRmqnLjFoMXB0dLabS3PnPiBW
+   1pKI0ZjWKyEH6W32HxmSD8fymNGpoPND275E1W+DjnB31ufLxA67koJmX
+   17TR8x+eyXaXGMrWq2YQkXrDBwG6rL8nVUY1mmxBZh7zv4VzjaIVax8MQ
+   kn4FIh1fF5ZBPsQHlPuXQpa8LSyh5qjTo2+f/U34KJxOlfzhpimWr5y5m
+   AZxHfzZ4D8Td59IEXFYN2BE+hDnAmZDd1u765cItrnSedMyLKepG7laSt
+   g==;
+X-CSE-ConnectionGUID: pcsKaKS2TserQ6/J+z4osg==
+X-CSE-MsgGUID: fEDH5iI9R+SahzX16o9MOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="27781697"
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="28522912"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 19:19:22 -0700
-X-CSE-ConnectionGUID: BLjMY/+JTGSffIw9EzDmlw==
-X-CSE-MsgGUID: c1WtI16JSB2XLMug6IMuow==
+   d="scan'208";a="27781697"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 19:40:23 -0700
+X-CSE-ConnectionGUID: 69snN2LjQRKLHIrQcHpSKg==
+X-CSE-MsgGUID: G+RBA0vlRVmFz3EIlcw2hQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="101091225"
+   d="scan'208";a="78097453"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2024 19:19:21 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Oct 2024 19:40:22 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0X9a-000HUD-2J;
-	Tue, 15 Oct 2024 02:19:18 +0000
-Date: Tue, 15 Oct 2024 10:18:57 +0800
+	id 1t0XTv-000HVL-2G;
+	Tue, 15 Oct 2024 02:40:19 +0000
+Date: Tue, 15 Oct 2024 10:40:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/hwtracing/coresight/coresight-stm.c:921 __stm_probe() warn:
- 'drvdata->atclk' from clk_prepare_enable() not released on lines:
- 843,848,854,859,872,883,921.
-Message-ID: <202410151045.SbWkGCfb-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305
+ mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
+Message-ID: <202410151027.kansFjYc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,150 +65,78 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Anshuman Khandual <anshuman.khandual@arm.com>
-CC: Suzuki K Poulose <suzuki.poulose@arm.com>
-CC: James Clark <james.clark@arm.com>
+TO: Maher Sanalla <msanalla@nvidia.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Mark Bloch <mbloch@nvidia.com>
+CC: Tariq Toukan <tariqt@nvidia.com>
+CC: Simon Horman <horms@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   eca631b8fe808748d7585059c4307005ca5c5820
-commit: 057256aaacc862356417a75ceeb1cfa41408dbf0 coresight: stm: Move ACPI support from AMBA driver to platform driver
-date:   6 months ago
+commit: 0f06228d4a2dcc1fca5b3ddb0eefa09c05b102c4 net/mlx5: Reload only IB representors upon lag disable/enable
+date:   5 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-r073-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151045.SbWkGCfb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+:::::: commit date: 5 months ago
+config: i386-randconfig-141-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151027.kansFjYc-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410151045.SbWkGCfb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410151027.kansFjYc-lkp@intel.com/
 
 New smatch warnings:
-drivers/hwtracing/coresight/coresight-stm.c:921 __stm_probe() warn: 'drvdata->atclk' from clk_prepare_enable() not released on lines: 843,848,854,859,872,883,921.
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3305 mlx5_eswitch_reload_ib_reps() warn: iterator 'i' not incremented
 
 Old smatch warnings:
-drivers/hwtracing/coresight/coresight-stm.c:334 stm_generic_link() warn: can 'drvdata' even be NULL?
-drivers/hwtracing/coresight/coresight-stm.c:345 stm_generic_unlink() warn: can 'drvdata' even be NULL?
-drivers/hwtracing/coresight/coresight-stm.c:376 stm_generic_set_options() warn: can 'drvdata' even be NULL?
-drivers/hwtracing/coresight/coresight-stm.c:411 stm_generic_packet() warn: can 'drvdata' even be NULL?
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:1491 esw_vport_tbl_put() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:1507 esw_vport_tbl_get() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2210 mlx5_eswitch_inline_mode_get() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2388 esw_offloads_cleanup_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2401 esw_offloads_init_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2528 __unload_reps_all_vport() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2885 mlx5_esw_offloads_rep_event_unpair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:2919 mlx5_esw_offloads_pair() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3190 esw_offloads_metadata_uninit() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:3203 esw_offloads_metadata_init() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4047 mlx5_eswitch_register_vport_reps() warn: iterator 'i' not incremented
+drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c:4065 mlx5_eswitch_unregister_vport_reps() warn: iterator 'i' not incremented
 
-vim +921 drivers/hwtracing/coresight/coresight-stm.c
+vim +/i +3305 drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c
 
-852e9a32058a73 Anshuman Khandual  2024-03-14  816  
-057256aaacc862 Anshuman Khandual  2024-03-14  817  static int __stm_probe(struct device *dev, struct resource *res)
-237483aa5cf431 Pratik Patel       2016-05-03  818  {
-8d1091c785e159 Mike Leach         2023-01-16  819  	int ret, trace_id;
-237483aa5cf431 Pratik Patel       2016-05-03  820  	void __iomem *base;
-237483aa5cf431 Pratik Patel       2016-05-03  821  	struct coresight_platform_data *pdata = NULL;
-237483aa5cf431 Pratik Patel       2016-05-03  822  	struct stm_drvdata *drvdata;
-237483aa5cf431 Pratik Patel       2016-05-03  823  	struct resource ch_res;
-9486295ad159fa Suzuki K Poulose   2016-08-25  824  	struct coresight_desc desc = { 0 };
-237483aa5cf431 Pratik Patel       2016-05-03  825  
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  826  	desc.name = coresight_alloc_device_name(&stm_devs, dev);
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  827  	if (!desc.name)
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  828  		return -ENOMEM;
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  829  
-237483aa5cf431 Pratik Patel       2016-05-03  830  	drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-237483aa5cf431 Pratik Patel       2016-05-03  831  	if (!drvdata)
-237483aa5cf431 Pratik Patel       2016-05-03  832  		return -ENOMEM;
-237483aa5cf431 Pratik Patel       2016-05-03  833  
-057256aaacc862 Anshuman Khandual  2024-03-14  834  	drvdata->atclk = devm_clk_get(dev, "atclk"); /* optional */
-237483aa5cf431 Pratik Patel       2016-05-03  835  	if (!IS_ERR(drvdata->atclk)) {
-237483aa5cf431 Pratik Patel       2016-05-03  836  		ret = clk_prepare_enable(drvdata->atclk);
-237483aa5cf431 Pratik Patel       2016-05-03  837  		if (ret)
-237483aa5cf431 Pratik Patel       2016-05-03  838  			return ret;
-237483aa5cf431 Pratik Patel       2016-05-03  839  	}
-057256aaacc862 Anshuman Khandual  2024-03-14  840  
-057256aaacc862 Anshuman Khandual  2024-03-14  841  	drvdata->pclk = coresight_get_enable_apb_pclk(dev);
-057256aaacc862 Anshuman Khandual  2024-03-14  842  	if (IS_ERR(drvdata->pclk))
-057256aaacc862 Anshuman Khandual  2024-03-14  843  		return -ENODEV;
-237483aa5cf431 Pratik Patel       2016-05-03  844  	dev_set_drvdata(dev, drvdata);
-237483aa5cf431 Pratik Patel       2016-05-03  845  
-237483aa5cf431 Pratik Patel       2016-05-03  846  	base = devm_ioremap_resource(dev, res);
-237483aa5cf431 Pratik Patel       2016-05-03  847  	if (IS_ERR(base))
-237483aa5cf431 Pratik Patel       2016-05-03  848  		return PTR_ERR(base);
-237483aa5cf431 Pratik Patel       2016-05-03  849  	drvdata->base = base;
-6e736c60a9fe90 Suzuki K Poulose   2021-02-01  850  	desc.access = CSDEV_ACCESS_IOMEM(base);
-237483aa5cf431 Pratik Patel       2016-05-03  851  
-18e46e1109b41a Suzuki K Poulose   2019-06-19  852  	ret = stm_get_stimulus_area(dev, &ch_res);
-237483aa5cf431 Pratik Patel       2016-05-03  853  	if (ret)
-237483aa5cf431 Pratik Patel       2016-05-03  854  		return ret;
-f3864d85624a80 Chunyan Zhang      2016-08-25  855  	drvdata->chs.phys = ch_res.start;
-237483aa5cf431 Pratik Patel       2016-05-03  856  
-237483aa5cf431 Pratik Patel       2016-05-03  857  	base = devm_ioremap_resource(dev, &ch_res);
-237483aa5cf431 Pratik Patel       2016-05-03  858  	if (IS_ERR(base))
-237483aa5cf431 Pratik Patel       2016-05-03  859  		return PTR_ERR(base);
-237483aa5cf431 Pratik Patel       2016-05-03  860  	drvdata->chs.base = base;
-237483aa5cf431 Pratik Patel       2016-05-03  861  
-237483aa5cf431 Pratik Patel       2016-05-03  862  	drvdata->write_bytes = stm_fundamental_data_size(drvdata);
-237483aa5cf431 Pratik Patel       2016-05-03  863  
-a7325a6ca45f6a YueHaibing         2019-02-05  864  	if (boot_nr_channel)
-237483aa5cf431 Pratik Patel       2016-05-03  865  		drvdata->numsp = boot_nr_channel;
-a7325a6ca45f6a YueHaibing         2019-02-05  866  	else
-237483aa5cf431 Pratik Patel       2016-05-03  867  		drvdata->numsp = stm_num_stimulus_port(drvdata);
-a7325a6ca45f6a YueHaibing         2019-02-05  868  
-934a5dc1546b1c Christophe JAILLET 2021-11-03  869  	drvdata->chs.guaranteed = devm_bitmap_zalloc(dev, drvdata->numsp,
-934a5dc1546b1c Christophe JAILLET 2021-11-03  870  						     GFP_KERNEL);
-934a5dc1546b1c Christophe JAILLET 2021-11-03  871  	if (!drvdata->chs.guaranteed)
-237483aa5cf431 Pratik Patel       2016-05-03  872  		return -ENOMEM;
-237483aa5cf431 Pratik Patel       2016-05-03  873  
-237483aa5cf431 Pratik Patel       2016-05-03  874  	spin_lock_init(&drvdata->spinlock);
-237483aa5cf431 Pratik Patel       2016-05-03  875  
-237483aa5cf431 Pratik Patel       2016-05-03  876  	stm_init_default_data(drvdata);
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  877  	stm_init_generic_data(drvdata, desc.name);
-237483aa5cf431 Pratik Patel       2016-05-03  878  
-237483aa5cf431 Pratik Patel       2016-05-03  879  	if (stm_register_device(dev, &drvdata->stm, THIS_MODULE)) {
-237483aa5cf431 Pratik Patel       2016-05-03  880  		dev_info(dev,
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  881  			 "%s : stm_register_device failed, probing deferred\n",
-0f5f9b6ba9e1a7 Suzuki K Poulose   2019-06-19  882  			 desc.name);
-237483aa5cf431 Pratik Patel       2016-05-03  883  		return -EPROBE_DEFER;
-237483aa5cf431 Pratik Patel       2016-05-03  884  	}
-237483aa5cf431 Pratik Patel       2016-05-03  885  
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  886  	pdata = coresight_get_platform_data(dev);
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  887  	if (IS_ERR(pdata)) {
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  888  		ret = PTR_ERR(pdata);
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  889  		goto stm_unregister;
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  890  	}
-057256aaacc862 Anshuman Khandual  2024-03-14  891  	dev->platform_data = pdata;
-af7cfd0f80d7cf Suzuki K Poulose   2019-06-19  892  
-9486295ad159fa Suzuki K Poulose   2016-08-25  893  	desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-9486295ad159fa Suzuki K Poulose   2016-08-25  894  	desc.subtype.source_subtype = CORESIGHT_DEV_SUBTYPE_SOURCE_SOFTWARE;
-9486295ad159fa Suzuki K Poulose   2016-08-25  895  	desc.ops = &stm_cs_ops;
-9486295ad159fa Suzuki K Poulose   2016-08-25  896  	desc.pdata = pdata;
-9486295ad159fa Suzuki K Poulose   2016-08-25  897  	desc.dev = dev;
-9486295ad159fa Suzuki K Poulose   2016-08-25  898  	desc.groups = coresight_stm_groups;
-9486295ad159fa Suzuki K Poulose   2016-08-25  899  	drvdata->csdev = coresight_register(&desc);
-237483aa5cf431 Pratik Patel       2016-05-03  900  	if (IS_ERR(drvdata->csdev)) {
-237483aa5cf431 Pratik Patel       2016-05-03  901  		ret = PTR_ERR(drvdata->csdev);
-237483aa5cf431 Pratik Patel       2016-05-03  902  		goto stm_unregister;
-237483aa5cf431 Pratik Patel       2016-05-03  903  	}
-237483aa5cf431 Pratik Patel       2016-05-03  904  
-8d1091c785e159 Mike Leach         2023-01-16  905  	trace_id = coresight_trace_id_get_system_id();
-8d1091c785e159 Mike Leach         2023-01-16  906  	if (trace_id < 0) {
-8d1091c785e159 Mike Leach         2023-01-16  907  		ret = trace_id;
-8d1091c785e159 Mike Leach         2023-01-16  908  		goto cs_unregister;
-8d1091c785e159 Mike Leach         2023-01-16  909  	}
-8d1091c785e159 Mike Leach         2023-01-16  910  	drvdata->traceid = (u8)trace_id;
-8d1091c785e159 Mike Leach         2023-01-16  911  
-ec62db1b2f18c2 Suzuki K Poulose   2019-06-19  912  	dev_info(&drvdata->csdev->dev, "%s initialized\n",
-852e9a32058a73 Anshuman Khandual  2024-03-14  913  		 stm_csdev_name(drvdata->csdev));
-237483aa5cf431 Pratik Patel       2016-05-03  914  	return 0;
-237483aa5cf431 Pratik Patel       2016-05-03  915  
-8d1091c785e159 Mike Leach         2023-01-16  916  cs_unregister:
-8d1091c785e159 Mike Leach         2023-01-16  917  	coresight_unregister(drvdata->csdev);
-8d1091c785e159 Mike Leach         2023-01-16  918  
-237483aa5cf431 Pratik Patel       2016-05-03  919  stm_unregister:
-237483aa5cf431 Pratik Patel       2016-05-03  920  	stm_unregister_device(&drvdata->stm);
-237483aa5cf431 Pratik Patel       2016-05-03 @921  	return ret;
-237483aa5cf431 Pratik Patel       2016-05-03  922  }
-237483aa5cf431 Pratik Patel       2016-05-03  923  
+184867373d8c6b Eli Britstein 2019-03-04  3287  
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3288  int mlx5_eswitch_reload_ib_reps(struct mlx5_eswitch *esw)
+db202995f5035f Mark Bloch    2021-08-03  3289  {
+db202995f5035f Mark Bloch    2021-08-03  3290  	struct mlx5_eswitch_rep *rep;
+db202995f5035f Mark Bloch    2021-08-03  3291  	unsigned long i;
+db202995f5035f Mark Bloch    2021-08-03  3292  	int ret;
+db202995f5035f Mark Bloch    2021-08-03  3293  
+db202995f5035f Mark Bloch    2021-08-03  3294  	if (!esw || esw->mode != MLX5_ESWITCH_OFFLOADS)
+db202995f5035f Mark Bloch    2021-08-03  3295  		return 0;
+db202995f5035f Mark Bloch    2021-08-03  3296  
+db202995f5035f Mark Bloch    2021-08-03  3297  	rep = mlx5_eswitch_get_rep(esw, MLX5_VPORT_UPLINK);
+db202995f5035f Mark Bloch    2021-08-03  3298  	if (atomic_read(&rep->rep_data[REP_ETH].state) != REP_LOADED)
+db202995f5035f Mark Bloch    2021-08-03  3299  		return 0;
+db202995f5035f Mark Bloch    2021-08-03  3300  
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3301  	ret = __esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f Mark Bloch    2021-08-03  3302  	if (ret)
+db202995f5035f Mark Bloch    2021-08-03  3303  		return ret;
+db202995f5035f Mark Bloch    2021-08-03  3304  
+db202995f5035f Mark Bloch    2021-08-03 @3305  	mlx5_esw_for_each_rep(esw, i, rep) {
+db202995f5035f Mark Bloch    2021-08-03  3306  		if (atomic_read(&rep->rep_data[REP_ETH].state) == REP_LOADED)
+0f06228d4a2dcc Maher Sanalla 2024-05-09  3307  			__esw_offloads_load_rep(esw, rep, REP_IB);
+db202995f5035f Mark Bloch    2021-08-03  3308  	}
+db202995f5035f Mark Bloch    2021-08-03  3309  
+db202995f5035f Mark Bloch    2021-08-03  3310  	return 0;
+db202995f5035f Mark Bloch    2021-08-03  3311  }
+db202995f5035f Mark Bloch    2021-08-03  3312  
 
-:::::: The code at line 921 was first introduced by commit
-:::::: 237483aa5cf43105d148d3f03b29eed47c3e6cf9 coresight: stm: adding driver for CoreSight STM component
+:::::: The code at line 3305 was first introduced by commit
+:::::: db202995f5035f13a11df48a0af05edbb3720659 net/mlx5: E-Switch, add logic to enable shared FDB
 
-:::::: TO: Pratik Patel <pratikp@codeaurora.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Mark Bloch <mbloch@nvidia.com>
+:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
