@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41CDA19F132
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 10:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D391E3786
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 10:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728987228; cv=none; b=sTWit0M14n5ozehwQOA5CKqdzisFWd3D/0yxk1YjmNVUKCyE1Muu20vLdvf69LlQuwxfi6EGQQrewZOJUNdbw2nvCKqVwaMhJY528Uv9QK/hyo2ZeA/XvQhIT2bTaQjbFvOkECl6NBw1KONaD0Fo+vn/WeelmRyOJaKIHz/NU0s=
+	t=1728987831; cv=none; b=eZDddL9T5q0oHaROiVppSOjlqUsqojqtpnBOjgieYJ/q4mN91r6lf7ptCPO1LYWdRlhzkRIHZWqxBQIeX4jAh4IWM35OhVWxllR0IXU5bPe5IllP26Abn0kOEqzzolFAFo1X2b5Qn9p+eyTE155sBcV3Wb14TlJSLOiAFR5fJFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728987228; c=relaxed/simple;
-	bh=agMqWwyb2lm/ccI6SLlc1bAUBmdzgBQB5GlgXz2Fk14=;
+	s=arc-20240116; t=1728987831; c=relaxed/simple;
+	bh=RRCZs+7i9ugMqd7WCqKRjIUrXidL5W8dYFUpWj8yGjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YGaSVRlkuqQS471ADzG06/DwSNGr930/2C7bH77xPysDNqlhb+IXxA0mcWmJX3nXrXU7LVie0UKiqXOWv6v0xGmkupH6HVuY+Voh1r/Am5Ld0sYBdrrmybCD1pp0KXZFB5pdItsBbVVFa9erin+x965wrp7Kqo9whf8xVQOtfms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L3VZowb5; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=hhAFdYozJX3OG6fDl1xSixAFm69KOgHCRfPdb2ewejNQXDEHxjlOJmuFt6Iu6wmfGZ2rqwudtNqKCMcQXgQdlZzrkYdmhtDtkP/SQNnZhMYXpLUhuVLhIgE7UacN4P4FlVaGTEw/FLE2QMfyb2P/GVehXxnGnE/L//IP3SZgQjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GdnXBWjp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L3VZowb5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GdnXBWjp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728987226; x=1760523226;
+  t=1728987829; x=1760523829;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=agMqWwyb2lm/ccI6SLlc1bAUBmdzgBQB5GlgXz2Fk14=;
-  b=L3VZowb5Om0bjBrJnuW9Zi3S8PvKTwPxO85bdcPvy5WQdTdhF61tPfFy
-   mq4HLC6oa6eSGMTygAywTFM6AgDANHhjk/z2lkndAehehSH7F3cOoxb7K
-   BuSjho1ZIuCQ+kQgWXSlyFKJ0VRRjb+urDrgG/idOD5Q2APXhO5XG8VY8
-   TF/txWI4SCX1MK1ALyq5Xj6FdBk07pb8WNJfrg5b2O0GrIgd954gxACgq
-   eW5aVTXWZXQjl2YjseGWjduLjmOOVKjQow02hV1rYbjwXuFKNbpvUAR7z
-   1sXdiRuPhWpll2Jx6zNrA2vos7qRmLrBUGqLiZm9iS5pMQO1o7f82F8bq
-   Q==;
-X-CSE-ConnectionGUID: W63V6opQS36d0teaUOjneQ==
-X-CSE-MsgGUID: p6WZ7JdZQr64siI3wcMTWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39493247"
+  bh=RRCZs+7i9ugMqd7WCqKRjIUrXidL5W8dYFUpWj8yGjw=;
+  b=GdnXBWjpgGsqoXtX2sMJxAzjOKHAozc+xlzAVzxTaFKUZtNSDtITTEYI
+   U4rx9IeIr+8wgUGejmTogcJONW6NWI/g8P+xpQjadxdRVyypFk/4gccm2
+   zh5qZJ14JLRcEewaRMhnRBGfgmQN6+oe8bMdRcM0bXo/3q5C2jvaaDR2H
+   OBlCQzF5y/MyrlgpKCUCyV99GpgVkaqfz7gjl2FDl7ViLmDdKWjKhJWaA
+   44rEsi3gmpxwBKurl1pAc3Jr6H1qUEB2hMkXVDxRdAeF1v9PRCWjtNU2s
+   aGVq3W2OKEKklTGVMXGajCe0/MbkiehCAB9CCB3uAFDlW8w3rKrn17b06
+   w==;
+X-CSE-ConnectionGUID: T7xaBiUhSRiPRxJ6tadjPg==
+X-CSE-MsgGUID: wP5QvCa8Sc2My0M8rfEOag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32065192"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39493247"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:13:46 -0700
-X-CSE-ConnectionGUID: cFpQTeSqTq2KLuWt7W3JJg==
-X-CSE-MsgGUID: xmP50e8mRaGPRpslJFSqOA==
+   d="scan'208";a="32065192"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:23:47 -0700
+X-CSE-ConnectionGUID: 86nFzSwZTS+ssI3apPJUcw==
+X-CSE-MsgGUID: 9NdMvDJESX27S/JVehmv0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77469239"
+   d="scan'208";a="82638548"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2024 03:13:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Oct 2024 03:23:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0eYg-000Hx1-04;
-	Tue, 15 Oct 2024 10:13:42 +0000
-Date: Tue, 15 Oct 2024 18:13:06 +0800
+	id 1t0eiN-000Hxt-14;
+	Tue, 15 Oct 2024 10:23:43 +0000
+Date: Tue, 15 Oct 2024 18:23:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 3253/4439] sound/soc/fsl/imx-card.c:373
- imx_aif_hw_params() error: uninitialized symbol 'codec_dai'.
-Message-ID: <202410151840.i9myCaRQ-lkp@intel.com>
+Subject: arch/arm64/kvm/hyp/include/hyp/switch.h:196
+ __activate_traps_hfgxtr() error: uninitialized symbol 'id'.
+Message-ID: <202410151858.zSPkOZ4L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,124 +64,132 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Chancel Liu <chancel.liu@nxp.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Shengjiu Wang <shengjiu.wang@nxp.com>
-CC: Iuliana Prodan <iuliana.prodan@nxp.com>
+CC: linux-kernel@vger.kernel.org
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Joey Gouly <joey.gouly@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
-commit: 892373e4de626c61e91816e3d3970d82beb50c4b [3253/4439] ASoC: imx-card: Set mclk for codec
-:::::: branch date: 4 hours ago
-:::::: commit date: 5 days ago
-config: sparc64-randconfig-r072-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151840.i9myCaRQ-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eca631b8fe808748d7585059c4307005ca5c5820
+commit: f5a5a406b4b8bb6c1fc7a1e92a872bd86061a53f KVM: arm64: Propagate and handle Fine-Grained UNDEF bits
+date:   8 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151858.zSPkOZ4L-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410151840.i9myCaRQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410151858.zSPkOZ4L-lkp@intel.com/
 
-smatch warnings:
-sound/soc/fsl/imx-card.c:373 imx_aif_hw_params() error: uninitialized symbol 'codec_dai'.
+New smatch warnings:
+arch/arm64/kvm/hyp/include/hyp/switch.h:196 __activate_traps_hfgxtr() error: uninitialized symbol 'id'.
+arch/arm64/kvm/hyp/include/hyp/switch.h:242 __deactivate_traps_hfgxtr() error: uninitialized symbol 'id'.
+arch/arm64/kvm/hyp/include/hyp/switch.h:196 __activate_traps_hfgxtr() error: uninitialized symbol 'id'.
+arch/arm64/kvm/hyp/include/hyp/switch.h:242 __deactivate_traps_hfgxtr() error: uninitialized symbol 'id'.
 
-vim +/codec_dai +373 sound/soc/fsl/imx-card.c
+Old smatch warnings:
+arch/arm64/kvm/hyp/vhe/switch.c:57 __activate_traps() error: uninitialized symbol 'val'.
+arch/arm64/kvm/hyp/include/hyp/switch.h:215 __activate_traps_hfgxtr() error: uninitialized symbol 'id'.
+arch/arm64/kvm/hyp/include/hyp/switch.h:215 __activate_traps_hfgxtr() error: uninitialized symbol 'id'.
 
-aa736700f42fa0 Shengjiu Wang       2021-05-17  288  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  289  static int imx_aif_hw_params(struct snd_pcm_substream *substream,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  290  			     struct snd_pcm_hw_params *params)
-aa736700f42fa0 Shengjiu Wang       2021-05-17  291  {
-b695d8be5bba98 Krzysztof Kozlowski 2024-04-30  292  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-14ec63f678e8be Kuninori Morimoto   2023-09-11  293  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  294  	struct snd_soc_card *card = rtd->card;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  295  	struct imx_card_data *data = snd_soc_card_get_drvdata(card);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  296  	struct dai_link_data *link_data = &data->link_data[rtd->num];
-aa736700f42fa0 Shengjiu Wang       2021-05-17  297  	struct imx_card_plat_data *plat_data = data->plat_data;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  298  	struct device *dev = card->dev;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  299  	struct snd_soc_dai *codec_dai;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  300  	unsigned long mclk_freq;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  301  	unsigned int fmt = rtd->dai_link->dai_fmt;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  302  	unsigned int slots, slot_width;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  303  	int ret, i;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  304  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  305  	slots = link_data->slots;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  306  	slot_width = link_data->slot_width;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  307  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  308  	if (!format_is_tdm(link_data)) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  309  		if (format_is_dsd(params)) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  310  			slots = 1;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  311  			slot_width = params_width(params);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  312  			fmt = (rtd->dai_link->dai_fmt & ~SND_SOC_DAIFMT_FORMAT_MASK) |
-aa736700f42fa0 Shengjiu Wang       2021-05-17  313  			      SND_SOC_DAIFMT_PDM;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  314  		} else {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  315  			slots = 2;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  316  			slot_width = params_physical_width(params);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  317  			fmt = (rtd->dai_link->dai_fmt & ~SND_SOC_DAIFMT_FORMAT_MASK) |
-aa736700f42fa0 Shengjiu Wang       2021-05-17  318  			      SND_SOC_DAIFMT_I2S;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  319  		}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  320  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  321  
-3b14c15a333b82 Charles Keepax      2022-05-19  322  	ret = snd_soc_dai_set_fmt(cpu_dai, snd_soc_daifmt_clock_provider_flipped(fmt));
-aa736700f42fa0 Shengjiu Wang       2021-05-17  323  	if (ret && ret != -ENOTSUPP) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  324  		dev_err(dev, "failed to set cpu dai fmt: %d\n", ret);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  325  		return ret;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  326  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  327  	ret = snd_soc_dai_set_tdm_slot(cpu_dai,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  328  				       BIT(slots) - 1,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  329  				       BIT(slots) - 1,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  330  				       slots, slot_width);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  331  	if (ret && ret != -ENOTSUPP) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  332  		dev_err(dev, "failed to set cpu dai tdm slot: %d\n", ret);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  333  		return ret;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  334  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  335  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  336  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  337  		ret = snd_soc_dai_set_fmt(codec_dai, fmt);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  338  		if (ret && ret != -ENOTSUPP) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  339  			dev_err(dev, "failed to set codec dai[%d] fmt: %d\n", i, ret);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  340  			return ret;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  341  		}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  342  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  343  		ret = snd_soc_dai_set_tdm_slot(codec_dai,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  344  					       BIT(slots) - 1,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  345  					       BIT(slots) - 1,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  346  					       slots, slot_width);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  347  		if (ret && ret != -ENOTSUPP) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  348  			dev_err(dev, "failed to set codec dai[%d] tdm slot: %d\n", i, ret);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  349  			return ret;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  350  		}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  351  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  352  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  353  	/* Set MCLK freq */
-aa736700f42fa0 Shengjiu Wang       2021-05-17  354  	if (codec_is_akcodec(plat_data->type))
-f331ae5fa59fbf Shengjiu Wang       2022-01-04  355  		mclk_freq = akcodec_get_mclk_rate(substream, params, slots, slot_width);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  356  	else
-aa736700f42fa0 Shengjiu Wang       2021-05-17  357  		mclk_freq = params_rate(params) * slots * slot_width;
-c0fabd12a8570c Shengjiu Wang       2022-07-06  358  
-c0fabd12a8570c Shengjiu Wang       2022-07-06  359  	if (format_is_dsd(params)) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  360  		/* Use the maximum freq from DSD512 (512*44100 = 22579200) */
-c0fabd12a8570c Shengjiu Wang       2022-07-06  361  		if (!(params_rate(params) % 11025))
-c0fabd12a8570c Shengjiu Wang       2022-07-06  362  			mclk_freq = IMX_CARD_MCLK_22P5792MHZ;
-c0fabd12a8570c Shengjiu Wang       2022-07-06  363  		else
-c0fabd12a8570c Shengjiu Wang       2022-07-06  364  			mclk_freq = IMX_CARD_MCLK_24P576MHZ;
-c0fabd12a8570c Shengjiu Wang       2022-07-06  365  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  366  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  367  	ret = snd_soc_dai_set_sysclk(cpu_dai, link_data->cpu_sysclk_id, mclk_freq,
-aa736700f42fa0 Shengjiu Wang       2021-05-17  368  				     SND_SOC_CLOCK_OUT);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  369  	if (ret && ret != -ENOTSUPP) {
-aa736700f42fa0 Shengjiu Wang       2021-05-17  370  		dev_err(dev, "failed to set cpui dai mclk1 rate (%lu): %d\n", mclk_freq, ret);
-aa736700f42fa0 Shengjiu Wang       2021-05-17  371  		return ret;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  372  	}
-892373e4de626c Chancel Liu         2024-10-09 @373  	ret = snd_soc_dai_set_sysclk(codec_dai, 0, mclk_freq, SND_SOC_CLOCK_IN);
-892373e4de626c Chancel Liu         2024-10-09  374  	if (ret && ret != -ENOTSUPP) {
-892373e4de626c Chancel Liu         2024-10-09  375  		dev_err(dev, "failed to set codec dai mclk rate (%lu): %d\n", mclk_freq, ret);
-892373e4de626c Chancel Liu         2024-10-09  376  		return ret;
-892373e4de626c Chancel Liu         2024-10-09  377  	}
-aa736700f42fa0 Shengjiu Wang       2021-05-17  378  
-aa736700f42fa0 Shengjiu Wang       2021-05-17  379  	return 0;
-aa736700f42fa0 Shengjiu Wang       2021-05-17  380  }
-aa736700f42fa0 Shengjiu Wang       2021-05-17  381  
+vim +/id +196 arch/arm64/kvm/hyp/include/hyp/switch.h
+
+ce4a36225753a1 Oliver Upton 2023-06-09  155  
+e930694e6145eb Marc Zyngier 2023-08-15  156  static inline void __activate_traps_hfgxtr(struct kvm_vcpu *vcpu)
+ce4a36225753a1 Oliver Upton 2023-06-09  157  {
+e930694e6145eb Marc Zyngier 2023-08-15  158  	struct kvm_cpu_context *hctxt = &this_cpu_ptr(&kvm_host_data)->host_ctxt;
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  159  	struct kvm *kvm = kern_hyp_va(vcpu->kvm);
+ce4a36225753a1 Oliver Upton 2023-06-09  160  	u64 r_clr = 0, w_clr = 0, r_set = 0, w_set = 0, tmp;
+e930694e6145eb Marc Zyngier 2023-08-15  161  	u64 r_val, w_val;
+e930694e6145eb Marc Zyngier 2023-08-15  162  
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  163  	CHECK_FGT_MASKS(HFGRTR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  164  	CHECK_FGT_MASKS(HFGWTR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  165  	CHECK_FGT_MASKS(HFGITR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  166  	CHECK_FGT_MASKS(HDFGRTR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  167  	CHECK_FGT_MASKS(HDFGWTR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  168  	CHECK_FGT_MASKS(HAFGRTR_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  169  	CHECK_FGT_MASKS(HCRX_EL2);
+6c4abbea6d9c09 Fuad Tabba   2023-12-14  170  
+e930694e6145eb Marc Zyngier 2023-08-15  171  	if (!cpus_have_final_cap(ARM64_HAS_FGT))
+e930694e6145eb Marc Zyngier 2023-08-15  172  		return;
+e930694e6145eb Marc Zyngier 2023-08-15  173  
+e930694e6145eb Marc Zyngier 2023-08-15  174  	ctxt_sys_reg(hctxt, HFGRTR_EL2) = read_sysreg_s(SYS_HFGRTR_EL2);
+e930694e6145eb Marc Zyngier 2023-08-15  175  	ctxt_sys_reg(hctxt, HFGWTR_EL2) = read_sysreg_s(SYS_HFGWTR_EL2);
+ce4a36225753a1 Oliver Upton 2023-06-09  176  
+ce4a36225753a1 Oliver Upton 2023-06-09  177  	if (cpus_have_final_cap(ARM64_SME)) {
+ce4a36225753a1 Oliver Upton 2023-06-09  178  		tmp = HFGxTR_EL2_nSMPRI_EL1_MASK | HFGxTR_EL2_nTPIDR2_EL0_MASK;
+ce4a36225753a1 Oliver Upton 2023-06-09  179  
+ce4a36225753a1 Oliver Upton 2023-06-09  180  		r_clr |= tmp;
+ce4a36225753a1 Oliver Upton 2023-06-09  181  		w_clr |= tmp;
+ce4a36225753a1 Oliver Upton 2023-06-09  182  	}
+ce4a36225753a1 Oliver Upton 2023-06-09  183  
+082fdfd13841fa Oliver Upton 2023-06-09  184  	/*
+082fdfd13841fa Oliver Upton 2023-06-09  185  	 * Trap guest writes to TCR_EL1 to prevent it from enabling HA or HD.
+082fdfd13841fa Oliver Upton 2023-06-09  186  	 */
+082fdfd13841fa Oliver Upton 2023-06-09  187  	if (cpus_have_final_cap(ARM64_WORKAROUND_AMPERE_AC03_CPU_38))
+082fdfd13841fa Oliver Upton 2023-06-09  188  		w_set |= HFGxTR_EL2_TCR_EL1_MASK;
+082fdfd13841fa Oliver Upton 2023-06-09  189  
+d4d2dacc7cddc3 Marc Zyngier 2023-08-15  190  	if (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)) {
+d4d2dacc7cddc3 Marc Zyngier 2023-08-15  191  		compute_clr_set(vcpu, HFGRTR_EL2, r_clr, r_set);
+d4d2dacc7cddc3 Marc Zyngier 2023-08-15  192  		compute_clr_set(vcpu, HFGWTR_EL2, w_clr, w_set);
+ce4a36225753a1 Oliver Upton 2023-06-09  193  	}
+ce4a36225753a1 Oliver Upton 2023-06-09  194  
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  195  	compute_undef_clr_set(vcpu, kvm, HFGRTR_EL2, r_clr, r_set);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14 @196  	compute_undef_clr_set(vcpu, kvm, HFGWTR_EL2, w_clr, w_set);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  197  
+1565c881c3df05 Fuad Tabba   2023-12-14  198  	/* The default to trap everything not handled or supported in KVM. */
+1565c881c3df05 Fuad Tabba   2023-12-14  199  	tmp = HFGxTR_EL2_nAMAIR2_EL1 | HFGxTR_EL2_nMAIR2_EL1 | HFGxTR_EL2_nS2POR_EL1 |
+1565c881c3df05 Fuad Tabba   2023-12-14  200  	      HFGxTR_EL2_nPOR_EL1 | HFGxTR_EL2_nPOR_EL0 | HFGxTR_EL2_nACCDATA_EL1;
+1565c881c3df05 Fuad Tabba   2023-12-14  201  
+1565c881c3df05 Fuad Tabba   2023-12-14  202  	r_val = __HFGRTR_EL2_nMASK & ~tmp;
+e930694e6145eb Marc Zyngier 2023-08-15  203  	r_val |= r_set;
+e930694e6145eb Marc Zyngier 2023-08-15  204  	r_val &= ~r_clr;
+ce4a36225753a1 Oliver Upton 2023-06-09  205  
+1565c881c3df05 Fuad Tabba   2023-12-14  206  	w_val = __HFGWTR_EL2_nMASK & ~tmp;
+e930694e6145eb Marc Zyngier 2023-08-15  207  	w_val |= w_set;
+e930694e6145eb Marc Zyngier 2023-08-15  208  	w_val &= ~w_clr;
+e930694e6145eb Marc Zyngier 2023-08-15  209  
+e930694e6145eb Marc Zyngier 2023-08-15  210  	write_sysreg_s(r_val, SYS_HFGRTR_EL2);
+e930694e6145eb Marc Zyngier 2023-08-15  211  	write_sysreg_s(w_val, SYS_HFGWTR_EL2);
+d4d2dacc7cddc3 Marc Zyngier 2023-08-15  212  
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  213  	update_fgt_traps(hctxt, vcpu, kvm, HFGITR_EL2);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  214  	update_fgt_traps(hctxt, vcpu, kvm, HDFGRTR_EL2);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  215  	update_fgt_traps(hctxt, vcpu, kvm, HDFGWTR_EL2);
+d4d2dacc7cddc3 Marc Zyngier 2023-08-15  216  
+0ccd901da1886c Fuad Tabba   2023-12-14  217  	if (cpu_has_amu())
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  218  		update_fgt_traps(hctxt, vcpu, kvm, HAFGRTR_EL2);
+ce4a36225753a1 Oliver Upton 2023-06-09  219  }
+ce4a36225753a1 Oliver Upton 2023-06-09  220  
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  221  #define __deactivate_fgt(htcxt, vcpu, kvm, reg)				\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  222  	do {								\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  223  		if ((vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)) ||	\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  224  		    kvm->arch.fgu[reg_to_fgt_group_id(reg)])		\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  225  			write_sysreg_s(ctxt_sys_reg(hctxt, reg),	\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  226  				       SYS_ ## reg);			\
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  227  	} while(0)
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  228  
+e930694e6145eb Marc Zyngier 2023-08-15  229  static inline void __deactivate_traps_hfgxtr(struct kvm_vcpu *vcpu)
+ce4a36225753a1 Oliver Upton 2023-06-09  230  {
+e930694e6145eb Marc Zyngier 2023-08-15  231  	struct kvm_cpu_context *hctxt = &this_cpu_ptr(&kvm_host_data)->host_ctxt;
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  232  	struct kvm *kvm = kern_hyp_va(vcpu->kvm);
+ce4a36225753a1 Oliver Upton 2023-06-09  233  
+e930694e6145eb Marc Zyngier 2023-08-15  234  	if (!cpus_have_final_cap(ARM64_HAS_FGT))
+e930694e6145eb Marc Zyngier 2023-08-15  235  		return;
+ce4a36225753a1 Oliver Upton 2023-06-09  236  
+e930694e6145eb Marc Zyngier 2023-08-15  237  	write_sysreg_s(ctxt_sys_reg(hctxt, HFGRTR_EL2), SYS_HFGRTR_EL2);
+e930694e6145eb Marc Zyngier 2023-08-15  238  	write_sysreg_s(ctxt_sys_reg(hctxt, HFGWTR_EL2), SYS_HFGWTR_EL2);
+082fdfd13841fa Oliver Upton 2023-06-09  239  
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  240  	__deactivate_fgt(hctxt, vcpu, kvm, HFGITR_EL2);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  241  	__deactivate_fgt(hctxt, vcpu, kvm, HDFGRTR_EL2);
+f5a5a406b4b8bb Marc Zyngier 2024-02-14 @242  	__deactivate_fgt(hctxt, vcpu, kvm, HDFGWTR_EL2);
+676f482354886c Fuad Tabba   2023-12-14  243  
+0ccd901da1886c Fuad Tabba   2023-12-14  244  	if (cpu_has_amu())
+f5a5a406b4b8bb Marc Zyngier 2024-02-14  245  		__deactivate_fgt(hctxt, vcpu, kvm, HAFGRTR_EL2);
+ce4a36225753a1 Oliver Upton 2023-06-09  246  }
+ce4a36225753a1 Oliver Upton 2023-06-09  247  
 
 -- 
 0-DAY CI Kernel Test Service
