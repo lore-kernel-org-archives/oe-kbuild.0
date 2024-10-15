@@ -1,62 +1,58 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563371EBFE0
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 12:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC4691C07D4
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 13:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728995145; cv=none; b=OVbYewO3JBmzdZOmZpOXaWl8CiAtIla+bGlBSTWuH/hn6mbgpaotITjDuKEb13qm9ndA6e/x07jiEhw7De7u5fLuIricC2GMZtHso/1iKzyEEQ+Iei+jDR23cFejdTYGK6S6k9xxQ6On3BAFbejybvJR+wWfZx5a5wiQGAdXYnU=
+	t=1728998366; cv=none; b=XYNJZ/SYtEf4jMd5uvU8avZw3g1k0rnaLR2r8tbDqTlAvrgoQK2VoJhbm8PJ/yU9JzaD3I9ce20B13LWLenq7KwgMoI9Rmvtlm+9iSsJJNH2M1RypnEmbHQi00tCUZU6EJjiysPkuBLxwuJoYEc8plEq7DEDIvfb/DEU0wow5xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728995145; c=relaxed/simple;
-	bh=/fihH2TP5jAc4kFfA/Zru4vSRQ/icfSmfcSO7Hdf1kg=;
+	s=arc-20240116; t=1728998366; c=relaxed/simple;
+	bh=WYTdtf8b/qru9myQZAxZrpi/xKuYqWN42NwDiymcpl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qY7VeGK9RAB8yJL7YUEWWTSvHTYaRol9ntetY7i3a7fYVdvpTEK2N5vd7+Z1HMZk63ijAN8eBjwuT/pNuzMBdUVbP367IAw2qDOe2FTtkvvZrxAZs3sKpNqEn8Rm/urKcGoXBs6mDtcAgRzRUMixJt/guFY4Ytkgp21rUIDlt4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VfBxYhjx; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SaowUoIiTrLumV4g9D251B/R7QO8EuGShq03kp78mJyHIPLdDZFkD3EEo832TS3OIiUdiFDhAwj9wpml34plJrlA3ueFFrxn+BkBexBaq5m0W7+06X+itEDyelz8CLktkctkWztl5V+lOX0U1K7Kt17uFxeYGRST5FTVfAtApuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2vuTsTJ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VfBxYhjx"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5c42f406e29so7113834a12.2
-        for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 05:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728995141; x=1729599941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i/d3qVqqk22QfcnD/K6lapI27GTkLDUZ0y+Zs6+bSDI=;
-        b=VfBxYhjxJSlYBJcEuV4+SN3F62zfGarzBdqjB+TE7n88TKrQNDien1DYkEMqg6MXY4
-         z0Kf+/IA4/rOB29QoOnFI7d2K5FcIPXa3UqPMpXR24e+bTHxh4HJ8LGY1bHb0pU5xTHh
-         4PU4S0eNavqNmc7halS3SGb2Lp1M5c+OlbeCso2FjLuTAZ1/HtdXa7oL+SUAR12fb4Hz
-         LeY3NpjG1zTi7kDcIRB2OsyDjf0MJp+2N8+j49C4gGKa2CHKUnMEcqI3j+wdOjox1PJQ
-         Pe6mWhOorMVHFwzHiteIet3iJ1FgU4/z7x+v+uuhfw8XdOeaPaHF/Ht5Jv2PPL1R4tR8
-         CDnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728995141; x=1729599941;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i/d3qVqqk22QfcnD/K6lapI27GTkLDUZ0y+Zs6+bSDI=;
-        b=bqWh0WGAf+SBajJ7b5pjvKJAGgwsSBIEZdTeMXeOT85hxdDvV+tCbotdNUag/RUkIn
-         Luynp4hvB79uLpwiLtLuXiPKkE7m8QwJ2YCQvWdEK7FxCZ0FhO5GZP2UjlZEeA8Wpc7H
-         Tx2mUOq6ATZO/AuzzuxomPLkOatyyL8QEBfItUdYqCzeYj7C9SGA/eJ0j7T+kPBItWHf
-         +ksVZbm3+StD4lXpt63M1vE1Xz+YTM+6wSmA0ojCm6ZtSNeyXeyhAOkApj9jn2N2nmKX
-         sx5UtAKak3nx0N/A3XL37fvHuO8j6MDmpNSOKfAlsIoa+OFRfp0ztUcHWsvnIHTEIJi7
-         sRvw==
-X-Gm-Message-State: AOJu0YzY90cqpt2LscRq7PiGZdZz9f8YdvtHBnEVFFQ/UT+xXsCvzt38
-	UOJGOsdELU6ToWGoJwj9k69nWtvk7PbkGaVuZLKeyH/Yi+hFV+LvM9ZCmMtyJ7Zw1CMcF0K8q8A
-	T
-X-Google-Smtp-Source: AGHT+IFXsBXCPILt7Y0b3y7N/JjP2t9J+Xd9na8ZFgF5el4RyVXEbaQnHtmkPRUWU6ByjHFpcRCbhA==
-X-Received: by 2002:a05:6402:1e8e:b0:5c9:6fc1:6177 with SMTP id 4fb4d7f45d1cf-5c96fc162e5mr6655232a12.11.1728995141215;
-        Tue, 15 Oct 2024 05:25:41 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d7b4a63sm649034a12.79.2024.10.15.05.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 05:25:40 -0700 (PDT)
-Date: Tue, 15 Oct 2024 15:25:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 3/9] can: m_can: Map WoL to device_set_wakeup_enable
-Message-ID: <e410f909-3932-4a8d-9225-d3c49f949443@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2vuTsTJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728998365; x=1760534365;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WYTdtf8b/qru9myQZAxZrpi/xKuYqWN42NwDiymcpl0=;
+  b=U2vuTsTJMON845yHPq1SBHaR548NmfEU9oyS5HhYT7bKfh6Hdyn4962I
+   n57iImna6LfHSwklaDOv/rygQAIpIhT5TWxhrynCzBB8t0G2ioMoLCGzk
+   ib8cvRmr3VosyVFGK0HJgDhoPtVDsaQJrRA4vS05gCRx8pR6o+uDC2uJZ
+   D2vnLbBs3RAhvOtmKwBAB3/U8Nu02s6fSRgJaupaSaGvs6GKtNbaEgYZa
+   JB34U9dPf6OxRPCTc3Sr7SpYkGkBV3cad/rYboCOc1KgehKBLVTxidnOg
+   A0nzH0ulZB6z7WYg8OEjOg0i6uRq1KlGAnwSW7uHvStXG84HGFIANoW9k
+   Q==;
+X-CSE-ConnectionGUID: sYyPlmDlQny57AYYaUIqyw==
+X-CSE-MsgGUID: sD2X7G7yS7SRgX7hO5Hheg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39766149"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="39766149"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 06:19:24 -0700
+X-CSE-ConnectionGUID: tNO/rprsQPG04Bem0v1ehQ==
+X-CSE-MsgGUID: Kyf7eBvHReGRywuh86d/WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="77507540"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Oct 2024 06:19:23 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t0hSL-000JGT-04;
+	Tue, 15 Oct 2024 13:19:21 +0000
+Date: Tue, 15 Oct 2024 21:18:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret()
+ error: uninitialized symbol 'elr'.
+Message-ID: <202410152147.a5ohQcjr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,56 +61,94 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241011-topic-mcan-wakeup-source-v6-12-v3-3-9752c714ad12@baylibre.com>
 
-Hi Markus,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Marc Zyngier <maz@kernel.org>
+CC: Joey Gouly <joey.gouly@arm.com>
+CC: Oliver Upton <oliver.upton@linux.dev>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-can-m_can-Add-wakeup-properties/20241011-212232
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241011-topic-mcan-wakeup-source-v6-12-v3-3-9752c714ad12%40baylibre.com
-patch subject: [PATCH v3 3/9] can: m_can: Map WoL to device_set_wakeup_enable
-config: i386-randconfig-141-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151950.6UahbF47-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eca631b8fe808748d7585059c4307005ca5c5820
+commit: 213b3d1ea1612c6d26153be446923831c4534689 KVM: arm64: nv: Handle ERETA[AB] instructions
+date:   6 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241015/202410152147.a5ohQcjr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410151950.6UahbF47-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410152147.a5ohQcjr-lkp@intel.com/
 
-smatch warnings:
-drivers/net/can/m_can/m_can.c:2199 m_can_set_wol() warn: add some parenthesis here?
+New smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret() error: uninitialized symbol 'elr'.
 
-vim +2199 drivers/net/can/m_can/m_can.c
+Old smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2082 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2196  static int m_can_set_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2197  {
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2198  	struct m_can_classdev *cdev = netdev_priv(dev);
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11 @2199  	bool wol_enable = !!wol->wolopts & WAKE_PHY;
+vim +/elr +2209 arch/arm64/kvm/emulate-nested.c
 
-!! has higher precedence than &.  This should be bool wol_enable = !!(wol->wolopts & WAKE_PHY);
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2172  
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2173  void kvm_emulate_nested_eret(struct kvm_vcpu *vcpu)
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2174  {
+213b3d1ea1612c Marc Zyngier 2024-04-19  2175  	u64 spsr, elr, esr;
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2176  
+95537f06b9e826 Marc Zyngier 2024-04-19  2177  	/*
+95537f06b9e826 Marc Zyngier 2024-04-19  2178  	 * Forward this trap to the virtual EL2 if the virtual
+95537f06b9e826 Marc Zyngier 2024-04-19  2179  	 * HCR_EL2.NV bit is set and this is coming from !EL2.
+95537f06b9e826 Marc Zyngier 2024-04-19  2180  	 */
+95537f06b9e826 Marc Zyngier 2024-04-19  2181  	if (forward_traps(vcpu, HCR_NV))
+95537f06b9e826 Marc Zyngier 2024-04-19  2182  		return;
+95537f06b9e826 Marc Zyngier 2024-04-19  2183  
+213b3d1ea1612c Marc Zyngier 2024-04-19  2184  	/* Check for an ERETAx */
+213b3d1ea1612c Marc Zyngier 2024-04-19  2185  	esr = kvm_vcpu_get_esr(vcpu);
+213b3d1ea1612c Marc Zyngier 2024-04-19  2186  	if (esr_iss_is_eretax(esr) && !kvm_auth_eretax(vcpu, &elr)) {
+213b3d1ea1612c Marc Zyngier 2024-04-19  2187  		/*
+213b3d1ea1612c Marc Zyngier 2024-04-19  2188  		 * Oh no, ERETAx failed to authenticate.  If we have
+213b3d1ea1612c Marc Zyngier 2024-04-19  2189  		 * FPACCOMBINE, deliver an exception right away.  If we
+213b3d1ea1612c Marc Zyngier 2024-04-19  2190  		 * don't, then let the mangled ELR value trickle down the
+213b3d1ea1612c Marc Zyngier 2024-04-19  2191  		 * ERET handling, and the guest will have a little surprise.
+213b3d1ea1612c Marc Zyngier 2024-04-19  2192  		 */
+213b3d1ea1612c Marc Zyngier 2024-04-19  2193  		if (kvm_has_pauth(vcpu->kvm, FPACCOMBINE)) {
+213b3d1ea1612c Marc Zyngier 2024-04-19  2194  			esr &= ESR_ELx_ERET_ISS_ERETA;
+213b3d1ea1612c Marc Zyngier 2024-04-19  2195  			esr |= FIELD_PREP(ESR_ELx_EC_MASK, ESR_ELx_EC_FPAC);
+213b3d1ea1612c Marc Zyngier 2024-04-19  2196  			kvm_inject_nested_sync(vcpu, esr);
+213b3d1ea1612c Marc Zyngier 2024-04-19  2197  			return;
+213b3d1ea1612c Marc Zyngier 2024-04-19  2198  		}
+213b3d1ea1612c Marc Zyngier 2024-04-19  2199  	}
+213b3d1ea1612c Marc Zyngier 2024-04-19  2200  
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2201  	preempt_disable();
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2202  	kvm_arch_vcpu_put(vcpu);
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2203  
+dd0717a998f77f Marc Zyngier 2024-04-19  2204  	spsr = __vcpu_sys_reg(vcpu, SPSR_EL2);
+dd0717a998f77f Marc Zyngier 2024-04-19  2205  	spsr = kvm_check_illegal_exception_return(vcpu, spsr);
+213b3d1ea1612c Marc Zyngier 2024-04-19  2206  	if (!esr_iss_is_eretax(esr))
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2207  		elr = __vcpu_sys_reg(vcpu, ELR_EL2);
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2208  
+47f3a2fc765ae2 Jintack Lim  2023-02-09 @2209  	trace_kvm_nested_eret(vcpu, elr, spsr);
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2210  
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2211  	/*
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2212  	 * Note that the current exception level is always the virtual EL2,
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2213  	 * since we set HCR_EL2.NV bit only when entering the virtual EL2.
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2214  	 */
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2215  	*vcpu_pc(vcpu) = elr;
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2216  	*vcpu_cpsr(vcpu) = spsr;
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2217  
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2218  	kvm_arch_vcpu_load(vcpu, smp_processor_id());
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2219  	preempt_enable();
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2220  }
+47f3a2fc765ae2 Jintack Lim  2023-02-09  2221  
 
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2200  	int ret;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2201  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2202  	if ((wol->wolopts & WAKE_PHY) != wol->wolopts)
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2203  		return -EINVAL;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2204  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2205  	if (wol_enable == device_may_wakeup(cdev->dev))
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2206  		return 0;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2207  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2208  	ret = device_set_wakeup_enable(cdev->dev, wol_enable);
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2209  	if (ret) {
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2210  		netdev_err(cdev->net, "Failed to set wakeup enable %pE\n",
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2211  			   ERR_PTR(ret));
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2212  		return ret;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2213  	}
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2214  
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2215  	return 0;
-0bd6199a58d117 Markus Schneider-Pargmann 2024-10-11  2216  }
+:::::: The code at line 2209 was first introduced by commit
+:::::: 47f3a2fc765ae2719e6daf39c0a1c757934b152e KVM: arm64: nv: Support virtual EL2 exceptions
+
+:::::: TO: Jintack Lim <jintack.lim@linaro.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
