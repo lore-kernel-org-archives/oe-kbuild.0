@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADAB130E4A
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 05:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048FF9474
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 07:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728968732; cv=none; b=LsC08/33yaVHzUmOE6s8RotiZ3980YTNip5n1Jy0Fh1Vyn2X0VWHG5mGnC+urZhtrt3vo4HvEZzdYJEGqx0mvzuC80U8odUSidB/I0A6ketZ96GPb0VlkvZALiJN9eR1YlOC+xs5MCh39o/ECHtOHLYh5u7hzbWPZUwLlfg3yH4=
+	t=1728976661; cv=none; b=GewRmH4+dRDKh0pP/ptJXsaWhTfA810F5NugJW670hyrTglO5CiVtfFKMxh2pwkj0gkKTGd2Pe3HTEjK7vAEzMRMRTVpyY6tdWED3Y1e5mki/SHz3Yby+tWZrGWkHCCtaxX1Hs8CxmuYVBzzaX32luD5ZV4a0EeIf+fNWOWPp90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728968732; c=relaxed/simple;
-	bh=p5vuEkKAd/YtDT8b2rXODLWGElwQw5Wx/gWLr8w2wTk=;
+	s=arc-20240116; t=1728976661; c=relaxed/simple;
+	bh=0Q+7XP1MutxprUENBC6EhxSZm5lVFtDyfu13eqGPhaQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Aj0K3AdY5H+R8Zf0onSQdRkBbrduqAIYaryqS/CmKsLV0yB5zeJjqZbHY/iY6vVwiuOkzNVCUGaJ5GLZIu/tQyzBI3vKlXGCV1ZB2vaSSlRMjf0rEiqFt3E2elcUI82ZxohKOsWSLxtxcjOoUznD124DcmBgPqIGwU4Y79lyYTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cf+5s+Mv; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=AGp1Yx9x/nxuQ+MpNmpAse8fZ4XOMbRuM+3JVEjY5uw4A6m+HflZcbi1UQd6e2Xfzbzgu03H87uHJ0ylalC9zCOmHkTd1vFkCix1/NcSwgzF67NEb5AgCXJjYrsRewV1fkRCed346iy8kVMIaPMS2xnWvISGFzqNeluyxBKY86A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+zMol09; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cf+5s+Mv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+zMol09"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728968730; x=1760504730;
+  t=1728976660; x=1760512660;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=p5vuEkKAd/YtDT8b2rXODLWGElwQw5Wx/gWLr8w2wTk=;
-  b=cf+5s+MvOXsCajkHc+raIlEWfsixDKUxghIbFpRJXNn012Q5c+C4ZfeH
-   Sffb73uGjuwWEeW6SolT+LQe1QcF0QC8UnOssL60e66TId8TKXTeZED/U
-   EL71VFYHwJPSkpda5nTCZEZUm2hZVF5mLGiHvZ4YwOQ+AyzviM2v5Uygw
-   MQjKRABPpZ26MN+xYCah6pnhm+DNEphhz1PvoXQsK1cv0yczjIN0+6yAR
-   I72m4+OfksK1HXIOeRIw94WIJ6Ml70HdprHu1YxL4NpIDjuRvS94UCjKk
-   LDUDryTJHk4ncDen08tpUa7VgxmUnJjirYJAsM+jSk8f7NhC7lA5nNKqp
+  bh=0Q+7XP1MutxprUENBC6EhxSZm5lVFtDyfu13eqGPhaQ=;
+  b=D+zMol09F5mCzznVURCcA/0VTPGEN/5qUItdSdXWzOQiWDoebRY3tAIp
+   mhyHBcIBIZmFVz+fZaGBy/XObE40YGVxEHZ162vrNbka0K2eJSGlFBj/q
+   yT77XA5mokXX+bEMWKPZEVIHL/ovNytmnFhYJsdlQ9c2GhqvAPTV1T99v
+   w9dJ7pySu+yLeFkc+mzE3YTzOrli4e90eXtNI8CQB9pWt+ZABGYIOn9gv
+   UxTsG351OrnTOgGQZ2WMScAxM2E9c0+c9LM/7ohxf51WwRd0R0fZVUTqP
+   YOzVwGbVWGEg3lOJSblmXx4wnfMRk/sGHGHK33BaiWj5grOeOUzkFj8gr
    g==;
-X-CSE-ConnectionGUID: 6dJlXHgwRN2ot7LUK8zQHg==
-X-CSE-MsgGUID: 0L7Sqn2FT6qmsiinWU+xJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28221469"
+X-CSE-ConnectionGUID: dpUt6ttiTKGoWq40JsEWsg==
+X-CSE-MsgGUID: 6qaGCl0NSNqOREYjINm/3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="32269677"
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="28221469"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 22:05:30 -0700
-X-CSE-ConnectionGUID: psRU8EEpT3Wbesbjd5htng==
-X-CSE-MsgGUID: aQ6IRZcaTHeL9F2dKzAHcw==
+   d="scan'208";a="32269677"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 00:17:37 -0700
+X-CSE-ConnectionGUID: Dosn+NPvQXisYB3OsJTeHA==
+X-CSE-MsgGUID: A1l8ztrnQ6K6nHQmQIwpGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="77785844"
+   d="scan'208";a="115250237"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Oct 2024 22:05:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Oct 2024 00:17:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0ZkM-000He7-1e;
-	Tue, 15 Oct 2024 05:05:26 +0000
-Date: Tue, 15 Oct 2024 13:04:27 +0800
+	id 1t0boD-000Hkb-10;
+	Tue, 15 Oct 2024 07:17:33 +0000
+Date: Tue, 15 Oct 2024 15:17:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 3/6] lib: Move KUnit tests into tests/ subdirectory
-Message-ID: <202410151246.ymPWVzSF-lkp@intel.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
+ uninitialized symbol 'val'.
+Message-ID: <202410151500.MUKUGwc7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,133 +64,149 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241011072509.3068328-5-davidgow@google.com>
-References: <20241011072509.3068328-5-davidgow@google.com>
-TO: David Gow <davidgow@google.com>
+CC: linux-kernel@vger.kernel.org
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Joey Gouly <joey.gouly@arm.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[cannot apply to geert-m68k/for-next geert-m68k/for-linus brauner-vfs/vfs.all linus/master v6.12-rc3 next-20241014]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Gow/lib-math-Move-kunit-tests-into-tests-subdir/20241011-153344
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20241011072509.3068328-5-davidgow%40google.com
-patch subject: [PATCH 3/6] lib: Move KUnit tests into tests/ subdirectory
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: nios2-randconfig-r072-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151246.ymPWVzSF-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   eca631b8fe808748d7585059c4307005ca5c5820
+commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
+date:   8 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151500.MUKUGwc7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410151246.ymPWVzSF-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410151500.MUKUGwc7-lkp@intel.com/
 
-New smatch warnings:
-lib/tests/memcpy_kunit.c:320 init_large() warn: calling memset(x, y, ARRAY_SIZE());
-lib/tests/fortify_kunit.c:479 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
-lib/tests/slub_kunit.c:99 test_first_word() error: dereferencing freed memory 'p'
-lib/tests/overflow_kunit.c:480 shift_overflow_test() warn: '(_a_full << _to_shift)' 32768 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:528 shift_truncate_test() warn: '(_a_full << _to_shift)' 65536 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:566 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: assigning 18446744073709551611 to unsigned variable '*_d'
-lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:827 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:848 overflows_type_test() warn: 't1 + v' 65535 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:857 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:872 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:874 overflows_type_test() warn: value s16min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:903 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:1155 castable_to_type_test() warn: unsigned '(((1 << (8 * 1 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 1 - 1 - (((-1)) < 1))))' is never less than zero.
-lib/tests/overflow_kunit.c:1155 castable_to_type_test() warn: unsigned '(((1 << (8 * 1 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 1 - 1 - (((-1)) < 1))))' is never less than zero.
+smatch warnings:
+arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-lib/tests/fortify_kunit.c:490 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
-lib/tests/fortify_kunit.c:503 fortify_test_strcpy() error: strcpy() 'src' too large for 'pad.buf' (33 vs 32)
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-lib/tests/overflow_kunit.c:489 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:500 shift_overflow_test() warn: '(_a_full << _to_shift)' 34966 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:509 shift_overflow_test() warn: '(_a_full << _to_shift)' 300 can't fit into 127 '*_d'
-lib/tests/overflow_kunit.c:511 shift_overflow_test() warn: '(_a_full << _to_shift)' 69932 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:529 shift_truncate_test() warn: '(_a_full << _to_shift)' 65535 can't fit into 32767 '*_d'
-lib/tests/overflow_kunit.c:567 shift_nonsense_test() warn: '(_a_full << _to_shift)' 18446744073709551611 can't fit into 65535 '*_d'
-lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:830 overflows_type_test() warn: assigning (-128) to unsigned variable 'v'
-lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:850 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:851 overflows_type_test() warn: 't1 + v' 65535 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:860 overflows_type_test() warn: assigning s16min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:873 overflows_type_test() warn: 't1 + v' 32767 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:884 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:886 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:887 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:889 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:890 overflows_type_test() warn: 't1 + v' 4294967295 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:901 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:905 overflows_type_test() warn: 't1 + v' 65536 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:906 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 65535 'v'
-lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:908 overflows_type_test() warn: assigning s32min to unsigned variable 'v'
-lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:920 overflows_type_test() warn: value (-129) can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:921 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 127 'v'
-lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:922 overflows_type_test() warn: value s32min can't fit into (-128) 'v'
-lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:925 overflows_type_test() warn: 't1 + v' 32768 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:926 overflows_type_test() warn: value (-32769) can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:927 overflows_type_test() warn: 't1 + v' 2147483647 can't fit into 32767 'v'
-lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:928 overflows_type_test() warn: value s32min can't fit into s16min 'v'
-lib/tests/overflow_kunit.c:1156 castable_to_type_test() warn: unsigned '(((1 << (8 * 2 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 2 - 1 - (((-1)) < 1))))' is never less than zero.
-lib/tests/overflow_kunit.c:1156 castable_to_type_test() warn: unsigned '(((1 << (8 * 2 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 2 - 1 - (((-1)) < 1))))' is never less than zero.
-lib/tests/overflow_kunit.c:1157 castable_to_type_test() warn: unsigned '(((1 << (8 * 4 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 4 - 1 - (((-1)) < 1))))' is never less than zero.
-lib/tests/overflow_kunit.c:1157 castable_to_type_test() warn: unsigned '(((1 << (8 * 4 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 4 - 1 - (((-1)) < 1))))' is never less than zero.
-lib/tests/overflow_kunit.c:1157 castable_to_type_test() warn: unsigned '(((1 << (8 * 4 - 1 - (((-1)) < 1))) - 1) + (1 << (8 * 4 - 1 - (((-1)) < 1))))' is never less than zero.
+vim +/val +2083 arch/arm64/kvm/emulate-nested.c
 
-vim +320 lib/tests/memcpy_kunit.c
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2009  
+085eabaa74a123 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2011  {
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2012  	union trap_config tc;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2014  	bool is_read;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2015  	u32 sysreg;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2016  	u64 esr, val;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2017  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2021  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2023  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2024  	/*
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2028  	 */
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2029  	if (!tc.val)
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2030  		goto local;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2031  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2032  	/*
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2035  	 */
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2037  		goto local;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2038  
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2041  		break;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2042  
+5a24ea78698572 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
+5a24ea78698572 Marc Zyngier 2023-08-15  2044  		if (is_read)
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
+5a24ea78698572 Marc Zyngier 2023-08-15  2046  		else
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
+5a24ea78698572 Marc Zyngier 2023-08-15  2048  		break;
+5a24ea78698572 Marc Zyngier 2023-08-15  2049  
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2051  		if (is_read)
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2053  		else
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2055  		break;
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2056  
+676f482354886c Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
+676f482354886c Fuad Tabba   2023-12-14  2059  		break;
+676f482354886c Fuad Tabba   2023-12-14  2060  
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2064  			u64 tmp;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2065  
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2067  			break;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2068  
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2073  		}
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2074  		break;
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2075  
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2079  		goto local;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2080  	}
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2081  
+9958d58779c92b Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
+9958d58779c92b Marc Zyngier 2024-02-14 @2083  							val, tc))
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2084  		goto inject;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2085  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2087  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2090  		goto inject;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2091  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2092  local:
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2095  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2097  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2098  		/*
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2102  		 */
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2108  		return true;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2109  	}
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2110  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2112  	return false;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2113  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2114  inject:
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2116  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2118  	return true;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2119  }
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2120  
 
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  309  
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  310  static void init_large(struct kunit *test)
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  311  {
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  312  	/* Get many bit patterns. */
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  313  	get_random_bytes(large_src, ARRAY_SIZE(large_src));
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  314  
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  315  	/* Make sure we have non-zero edges. */
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  316  	set_random_nonzero(test, &large_src[0]);
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  317  	set_random_nonzero(test, &large_src[ARRAY_SIZE(large_src) - 1]);
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  318  
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  319  	/* Explicitly zero the entire destination. */
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28 @320  	memset(large_dst, 0, ARRAY_SIZE(large_dst));
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  321  }
-96fce387d58fa8 lib/memcpy_kunit.c Kees Cook 2022-09-28  322  
+:::::: The code at line 2083 was first introduced by commit
+:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
+
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
