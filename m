@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FC31E633B
-	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 10:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9C21D90CD
+	for <oe-kbuild@lists.linux.dev>; Tue, 15 Oct 2024 11:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728988504; cv=none; b=SUuc8aG3zXzjMBaYIMOccldgnLbApJQi2mqmDYAm9ugdz44wtiHf52xHrCB/JPlfNA2dtJWrnNMQuZbEBWqOagVZ6weOgKsOvxY7a6D/C5okTK6kyrKxVqSuun38g4fTEGte8K2j1tEhHg4dCY9UT4rnJJk4TCFV601rgawGamE=
+	t=1728992879; cv=none; b=sDck2ywaDqJcjtXxkVhkPJeAUHgHRSYJ+9T+WF+03hXQh87syqjkkiZJ/oWgCfR1od8fHcSFeajHHzNYb1SGJVbP8fdNavB18dYPc+7mdRZ/XEPCf1XU2t1CNroRSQDODCljL5ZCrGfh9Ksfoz13ZugCC9ZqpACC5cg8BuWyCrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728988504; c=relaxed/simple;
-	bh=SUUQHzal75GBDij2L259hQWR4JJwJg80oX6oxddhY/w=;
+	s=arc-20240116; t=1728992879; c=relaxed/simple;
+	bh=e4T8PK/veabJ3oocpQOnkamvou+OX99H9XYS5xMI0wo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HVfPon80s4J2WkRb+0r90/fGBIL1XP7s6EBGx/1rVgy1SDESMTC9EQEYqIc6O8kUxk1+GQDShNMscYHnhGA1gPBznNKx05pRtRTRk7ep8HjKnkxA2n3YaR/oz3+x5g30tpIaSc9ozUeU0sXOfFiB2cehd5UtCWQxyCwA8BRX37Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qtah4T/v; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=EwSMidXTLG+Cm6+/D4pTeWJ5amIpK46pJn36JR3rckXmkZrAf0+KH6l/JoAu21/GTY1pSiZdsp2t8igR44QKfzSZ0Fc2zzM4XClN0qP0i26qTfUpvqiNPelfhDf+XmRpGj6k9BIk12zI4U58q3nw9PPjHXj1+hCJVNse0kZOzcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4KmJ812; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qtah4T/v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4KmJ812"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728988503; x=1760524503;
+  t=1728992877; x=1760528877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SUUQHzal75GBDij2L259hQWR4JJwJg80oX6oxddhY/w=;
-  b=Qtah4T/vr4r0LasL3x2DRrQwSbnO5bnF/Ni5fHd2b4NXa1jzcSWP63Su
-   CdThtctb1xU5qFReedLvvRdMLV+92u2j+WYIiryQLBBIojtB/cNRHYTdp
-   VckCRBYVTxWdq0wdYC9MKrct8MyyFp5e/OmiS5zhSdVIyeyuL33LQdogq
-   uM9RomK+QWh5ciKA9PnH6jgsGKS855w8B1TjIkI6yrNTExAvuOVGbuJzQ
-   NRcLGr1tpRnZSeilh/PWSP5wfq00n252DiD2ZscKLANi57bKmUj/7Kvgb
-   tlKp4kOEAwQLeb83vACTDdsNywE+YqIPlF86KeL8mOibOvV3EhHETLorY
+  bh=e4T8PK/veabJ3oocpQOnkamvou+OX99H9XYS5xMI0wo=;
+  b=A4KmJ812gKcLikTk4umUJCL5UbQMiULsBH4/VxYSbLXtNEom+xVhHmBw
+   1tIOWmUiHtUbpRi3B4A0cDunbMJrZ8Z6m5E7IM0QKapsyG/JkAhExabsy
+   oYu167T0TucfmQrR2cmJTfb+9Cll/D1VSiSY6fFT8ib0faYWm8pJdeAvB
+   MpZfpiTZbv5sXAgrrVZ1SAv6EVPAEo7v3Xr2oPCRDjGwHYymSoIJDT+qy
+   m33wvLfrCAS9rN/EHCX3naktpqoXJ2HZViKiFIp9ORuKz58+ibLgwOpZi
+   86bBMu7sJ4m690Tu3SkWiE+hQ+BT76fXbSvxVxVd4gLPoedq70kAUerSs
    A==;
-X-CSE-ConnectionGUID: KcbNhrqOS2uNeZMShsP9gw==
-X-CSE-MsgGUID: YMDkmi1URayo9CagF0ebrQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39495271"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39495271"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 03:34:49 -0700
-X-CSE-ConnectionGUID: dDNO+t2eSIG++Re8x1YVdA==
-X-CSE-MsgGUID: 4XhWAuLUSXaXuFy8ItZb5w==
+X-CSE-ConnectionGUID: 7q/oCkmpQayJNPfuVmdEfQ==
+X-CSE-MsgGUID: HC2ZHZ86RwGgBGNMh9V1Qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="27862075"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="27862075"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 04:47:57 -0700
+X-CSE-ConnectionGUID: r7+DS0n2Qxyr5pRsAe10Xw==
+X-CSE-MsgGUID: zVJ1GUyrSh+iY/n6CuUApQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,204,1725346800"; 
-   d="scan'208";a="82904944"
+X-IronPort-AV: E=Sophos;i="6.11,205,1725346800"; 
+   d="scan'208";a="77877944"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Oct 2024 03:34:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 15 Oct 2024 04:47:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0et2-000Hyf-1e;
-	Tue, 15 Oct 2024 10:34:44 +0000
-Date: Tue, 15 Oct 2024 18:34:01 +0800
+	id 1t0g1p-000IGX-1C;
+	Tue, 15 Oct 2024 11:47:53 +0000
+Date: Tue, 15 Oct 2024 19:46:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [akpm-mm:mm-unstable 81/150] fs/userfaultfd.c:1479
- userfaultfd_unregister() warn: comparison of a potentially tagged address
- (userfaultfd_unregister, -2, __UNIQUE_ID_x_634)
-Message-ID: <202410151806.jyTA2lFc-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 32/44]
+ arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning
+ (avoid_unnecessary_addr_size):
+ /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202410151912.UvNGq634-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,171 +65,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: vigneshr@ti.com
+CC: nm@ti.com
+TO: Apurva Nandan <a-nandan@ti.com>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   d4e7ab0ed929645bee32538532039d3d451efb00
-commit: 4d52e63bbea25e8f1cc6bbd4e659b6f00f451fc4 [81/150] mm: migrate LRU_REFS_MASK bits in folio_migrate_flags
-:::::: branch date: 15 hours ago
-:::::: commit date: 5 days ago
-config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241015/202410151806.jyTA2lFc-lkp@intel.com/config)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   451df8c0a2a3bcf0656b2f6fdc49d6fb4d05f186
+commit: 2640dbd4d366c468dba3337bf5aa5d8d32c63248 [32/44] arm64: dts: k3-j721s2: Add node for OSPI NAND Flash
+:::::: branch date: 7 days ago
+:::::: commit date: 1 year, 4 months ago
+config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241015/202410151912.UvNGq634-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241015/202410151912.UvNGq634-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410151806.jyTA2lFc-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410151912.UvNGq634-lkp@intel.com/
 
-New smatch warnings:
-fs/userfaultfd.c:1479 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, __UNIQUE_ID_x_634)
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning (avoid_unnecessary_addr_size): /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi:1353.34-1362.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:469.21-521.4: Warning (unique_unit_address): /bus@100000/bus@28380000/bus@47000000/spi@47040000/flash@0: duplicate unit-address (also used in node /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0)
 
-Old smatch warnings:
-fs/userfaultfd.c:1317 userfaultfd_register() warn: comparison of a potentially tagged address (userfaultfd_register, -2, end)
-fs/userfaultfd.c:1459 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, start)
-fs/userfaultfd.c:1477 userfaultfd_unregister() warn: comparison of a potentially tagged address (userfaultfd_unregister, -2, start)
+vim +523 arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi
 
-vim +1479 fs/userfaultfd.c
-
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1384  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1385  static int userfaultfd_unregister(struct userfaultfd_ctx *ctx,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1386  				  unsigned long arg)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1387  {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1388  	struct mm_struct *mm = ctx->mm;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1389  	struct vm_area_struct *vma, *prev, *cur;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1390  	int ret;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1391  	struct uffdio_range uffdio_unregister;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1392  	bool found;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1393  	unsigned long start, end, vma_end;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1394  	const void __user *buf = (void __user *)arg;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1395  	struct vma_iterator vmi;
-d61ea1cb009532 Peter Xu            2023-08-21  1396  	bool wp_async = userfaultfd_wp_async_ctx(ctx);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1397  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1398  	ret = -EFAULT;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1399  	if (copy_from_user(&uffdio_unregister, buf, sizeof(uffdio_unregister)))
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1400  		goto out;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1401  
-e71e2ace5721a8 Peter Collingbourne 2021-07-23  1402  	ret = validate_range(mm, uffdio_unregister.start,
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1403  			     uffdio_unregister.len);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1404  	if (ret)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1405  		goto out;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1406  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1407  	start = uffdio_unregister.start;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1408  	end = start + uffdio_unregister.len;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1409  
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1410  	ret = -ENOMEM;
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1411  	if (!mmget_not_zero(mm))
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1412  		goto out;
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1413  
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  1414  	mmap_write_lock(mm);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1415  	ret = -EINVAL;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1416  	vma_iter_init(&vmi, mm, start);
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1417  	vma = vma_find(&vmi, end);
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1418  	if (!vma)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1419  		goto out_unlock;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1420  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1421  	/*
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1422  	 * If the first vma contains huge pages, make sure start address
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1423  	 * is aligned to huge page size.
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1424  	 */
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1425  	if (is_vm_hugetlb_page(vma)) {
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1426  		unsigned long vma_hpagesize = vma_kernel_pagesize(vma);
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1427  
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1428  		if (start & (vma_hpagesize - 1))
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1429  			goto out_unlock;
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1430  	}
-cab350afcbc9c8 Mike Kravetz        2017-02-22  1431  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1432  	/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1433  	 * Search for not compatible vmas.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1434  	 */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1435  	found = false;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1436  	cur = vma;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1437  	do {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1438  		cond_resched();
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1439  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1440  		BUG_ON(!!cur->vm_userfaultfd_ctx.ctx ^
-7677f7fd8be766 Axel Rasmussen      2021-05-04  1441  		       !!(cur->vm_flags & __VM_UFFD_FLAGS));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1442  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1443  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1444  		 * Check not compatible vmas, not strictly required
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1445  		 * here as not compatible vmas cannot have an
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1446  		 * userfaultfd_ctx registered on them, but this
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1447  		 * provides for more strict behavior to notice
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1448  		 * unregistration errors.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1449  		 */
-d61ea1cb009532 Peter Xu            2023-08-21  1450  		if (!vma_can_userfault(cur, cur->vm_flags, wp_async))
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1451  			goto out_unlock;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1452  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1453  		found = true;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1454  	} for_each_vma_range(vmi, cur, end);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1455  	BUG_ON(!found);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1456  
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1457  	vma_iter_set(&vmi, start);
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1458  	prev = vma_prev(&vmi);
-270aa010620697 Peter Xu            2023-05-17  1459  	if (vma->vm_start < start)
-270aa010620697 Peter Xu            2023-05-17  1460  		prev = vma;
-270aa010620697 Peter Xu            2023-05-17  1461  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1462  	ret = 0;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1463  	for_each_vma_range(vmi, vma, end) {
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1464  		cond_resched();
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1465  
-d61ea1cb009532 Peter Xu            2023-08-21  1466  		BUG_ON(!vma_can_userfault(vma, vma->vm_flags, wp_async));
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1467  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1468  		/*
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1469  		 * Nothing to do: this vma is already registered into this
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1470  		 * userfaultfd and with the right tracking mode too.
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1471  		 */
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1472  		if (!vma->vm_userfaultfd_ctx.ctx)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1473  			goto skip;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1474  
-01e881f5a1fca4 Andrea Arcangeli    2018-12-14  1475  		WARN_ON(!(vma->vm_flags & VM_MAYWRITE));
-01e881f5a1fca4 Andrea Arcangeli    2018-12-14  1476  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1477  		if (vma->vm_start > start)
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1478  			start = vma->vm_start;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04 @1479  		vma_end = min(end, vma->vm_end);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1480  
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1481  		if (userfaultfd_missing(vma)) {
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1482  			/*
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1483  			 * Wake any concurrent pending userfault while
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1484  			 * we unregister, so they will not hang
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1485  			 * permanently and it avoids userland to call
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1486  			 * UFFDIO_WAKE explicitly.
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1487  			 */
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1488  			struct userfaultfd_wake_range range;
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1489  			range.start = start;
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1490  			range.len = vma_end - start;
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1491  			wake_userfault(vma->vm_userfaultfd_ctx.ctx, &range);
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1492  		}
-09fa5296a40d01 Andrea Arcangeli    2017-02-22  1493  
-a17c7d8fd2b097 Lorenzo Stoakes     2024-07-29  1494  		vma = userfaultfd_clear_vma(&vmi, prev, vma,
-a17c7d8fd2b097 Lorenzo Stoakes     2024-07-29  1495  					    start, vma_end);
-94d7d923395129 Lorenzo Stoakes     2023-10-11  1496  		if (IS_ERR(vma)) {
-94d7d923395129 Lorenzo Stoakes     2023-10-11  1497  			ret = PTR_ERR(vma);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1498  			break;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1499  		}
-94d7d923395129 Lorenzo Stoakes     2023-10-11  1500  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1501  	skip:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1502  		prev = vma;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1503  		start = vma->vm_end;
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1504  	}
-11a9b90274f6a5 Liam R. Howlett     2023-01-20  1505  
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1506  out_unlock:
-d8ed45c5dcd455 Michel Lespinasse   2020-06-08  1507  	mmap_write_unlock(mm);
-d2005e3f41d4f9 Oleg Nesterov       2016-05-20  1508  	mmput(mm);
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1509  out:
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1510  	return ret;
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1511  }
-86039bd3b4e6a1 Andrea Arcangeli    2015-09-04  1512  
-
-:::::: The code at line 1479 was first introduced by commit
-:::::: 86039bd3b4e6a1129318cbfed4e0a6e001656635 userfaultfd: add new syscall to provide memory externalization
-
-:::::: TO: Andrea Arcangeli <aarcange@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  463  
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  464  &ospi0 {
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  465  	status = "okay";
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  466  	pinctrl-names = "default";
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  467  	pinctrl-0 = <&mcu_fss0_ospi0_pins_default>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  468  
+2640dbd4d366c4 Apurva Nandan     2023-06-08 @469  	ospi0_nor: flash@0 {
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  470  		compatible = "jedec,spi-nor";
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  471  		reg = <0x0>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  472  		spi-tx-bus-width = <8>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  473  		spi-rx-bus-width = <8>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  474  		spi-max-frequency = <25000000>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  475  		cdns,tshsl-ns = <60>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  476  		cdns,tsd2d-ns = <60>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  477  		cdns,tchsh-ns = <60>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  478  		cdns,tslch-ns = <60>;
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  479  		cdns,read-delay = <4>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  480  
+d144560c3191b1 Vaishnav Achath   2023-05-16  481  		partitions {
+d144560c3191b1 Vaishnav Achath   2023-05-16  482  			compatible = "fixed-partitions";
+d144560c3191b1 Vaishnav Achath   2023-05-16  483  			#address-cells = <1>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  484  			#size-cells = <1>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  485  
+d144560c3191b1 Vaishnav Achath   2023-05-16  486  			partition@0 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  487  				label = "ospi.tiboot3";
+d144560c3191b1 Vaishnav Achath   2023-05-16  488  				reg = <0x0 0x80000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  489  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  490  
+d144560c3191b1 Vaishnav Achath   2023-05-16  491  			partition@80000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  492  				label = "ospi.tispl";
+d144560c3191b1 Vaishnav Achath   2023-05-16  493  				reg = <0x80000 0x200000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  494  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  495  
+d144560c3191b1 Vaishnav Achath   2023-05-16  496  			partition@280000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  497  				label = "ospi.u-boot";
+d144560c3191b1 Vaishnav Achath   2023-05-16  498  				reg = <0x280000 0x400000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  499  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  500  
+d144560c3191b1 Vaishnav Achath   2023-05-16  501  			partition@680000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  502  				label = "ospi.env";
+d144560c3191b1 Vaishnav Achath   2023-05-16  503  				reg = <0x680000 0x40000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  504  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  505  
+d144560c3191b1 Vaishnav Achath   2023-05-16  506  			partition@6c0000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  507  				label = "ospi.env.backup";
+d144560c3191b1 Vaishnav Achath   2023-05-16  508  				reg = <0x6c0000 0x40000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  509  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  510  
+d144560c3191b1 Vaishnav Achath   2023-05-16  511  			partition@800000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  512  				label = "ospi.rootfs";
+d144560c3191b1 Vaishnav Achath   2023-05-16  513  				reg = <0x800000 0x37c0000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  514  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  515  
+d144560c3191b1 Vaishnav Achath   2023-05-16  516  			partition@3fc0000 {
+d144560c3191b1 Vaishnav Achath   2023-05-16  517  				label = "ospi.phypattern";
+d144560c3191b1 Vaishnav Achath   2023-05-16  518  				reg = <0x3fc0000 0x40000>;
+d144560c3191b1 Vaishnav Achath   2023-05-16  519  			};
+d144560c3191b1 Vaishnav Achath   2023-05-16  520  		};
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  521  	};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  522  
+2640dbd4d366c4 Apurva Nandan     2023-06-08 @523  	ospi0_nand: nand@0 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  524  		compatible = "spi-nand";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  525  		reg = <0x0>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  526  		spi-tx-bus-width = <8>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  527  		spi-rx-bus-width = <8>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  528  		spi-max-frequency = <25000000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  529  		cdns,tshsl-ns = <60>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  530  		cdns,tsd2d-ns = <60>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  531  		cdns,tchsh-ns = <60>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  532  		cdns,tslch-ns = <60>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  533  		cdns,read-delay = <2>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  534  		#address-cells = <1>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  535  		#size-cells = <1>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  536  		status = "disabled";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  537  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  538  		partitions {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  539  			compatible = "fixed-partitions";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  540  			#address-cells = <1>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  541  			#size-cells = <1>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  542  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  543  			partition@0 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  544  				label = "ospi_nand.tiboot3";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  545  				reg = <0x0 0x80000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  546  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  547  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  548  			partition@80000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  549  				label = "ospi_nand.tispl";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  550  				reg = <0x80000 0x200000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  551  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  552  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  553  			partition@280000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  554  				label = "ospi_nand.u-boot";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  555  				reg = <0x280000 0x400000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  556  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  557  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  558  			partition@680000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  559  				label = "ospi_nand.env";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  560  				reg = <0x680000 0x40000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  561  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  562  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  563  			partition@6c0000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  564  				label = "ospi_nand.env.backup";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  565  				reg = <0x6c0000 0x40000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  566  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  567  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  568  			partition@2000000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  569  				label = "ospi_nand.rootfs";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  570  				reg = <0x2000000 0x5fc0000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  571  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  572  
+2640dbd4d366c4 Apurva Nandan     2023-06-08  573  			partition@7fc0000 {
+2640dbd4d366c4 Apurva Nandan     2023-06-08  574  				label = "ospi_nand.phypattern";
+2640dbd4d366c4 Apurva Nandan     2023-06-08  575  				reg = <0x7fc0000 0x40000>;
+2640dbd4d366c4 Apurva Nandan     2023-06-08  576  			};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  577  		};
+2640dbd4d366c4 Apurva Nandan     2023-06-08  578  	};
+dc3281f7ce6010 Aswath Govindraju 2023-05-02  579  };
+d47dd257a5052f Rahul T R         2023-05-26  580  
 
 -- 
 0-DAY CI Kernel Test Service
