@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265CF2076B9
-	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 10:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0B52071EF
+	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 10:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729074551; cv=none; b=q3ExKN/5UGRs+dKDQIAfYVFVMximwS6XsTErFHOZbZFx6FVGWeTOXFN0whIE/JJnypJ6UjScQCtgeKroFsnHUZITV1G9b/165REmzYzbldydJc6wv068jOdK6Q57d2bxmhEUlI3jwL8RKyPkYuLw3mXA20xvW6ENST/4Dvfq1lc=
+	t=1729074552; cv=none; b=ffc8E8Q0aIzGqcPGZG+ctE9RaFeudojSDXLgEh+n/WQ3bAvMbRJnXqDhiiiMWD4m+hKPfATtR1kTdYkzpquq4Cw/Bt4wmZfcUdr71/nf5EbR20GKUdl71yp4HHLdQkoeDdH+VhNpdSCklERcZdAT0zkb2siFkgrIWwybPfdu4YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729074551; c=relaxed/simple;
-	bh=huSIn4yAbJTj5Rut9nxtlWmoipnydnf4Nfd2NUulDZo=;
+	s=arc-20240116; t=1729074552; c=relaxed/simple;
+	bh=yC2YBfnDTB/l3PdTYPtKvQJkrxTZjdC8q7txK5QJ26E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XnzRZe1/pCExtGQV21TfS6/JO+T3xbBf+dmIVKEIz7YNrJQzwbq/ZeZRiw/PWQSu7vDMoLKnGqn9ZIb8Crg/ntkHOmSAhWZ5s3grROtLSSyXHSx9HWIZE61NeCFpr35kFj/gkGj2ROSHo5igiiiI+2OnM8La1WVBcjNNNfZ0lrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Du4MONIZ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=jVGv5UnCDETdJueJ9544AyA9cAsIqeSgKE4w7tDLGBoq3a1F8W0A48LfDS2yrMhYjcXwGRcsFsTthK7tA+S5KnCDsYVPIgjbRTOdU29vL/pwblg+zbCwcckhgh2xhrfm8BfAWizW9fJ+3p8NrZkjwtTHZeA7gfHnFR8Y5K6N/iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fiqA80Sp; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du4MONIZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fiqA80Sp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729074549; x=1760610549;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=huSIn4yAbJTj5Rut9nxtlWmoipnydnf4Nfd2NUulDZo=;
-  b=Du4MONIZc58N5He17DU/u+MCAGBEMKwulkBzGnY0jqQMu2tSDhSh05pD
-   8EpIhVvD+62W1Q6T3HaCH+yg7LNCweqoUDSZyW7HJsqaU/7uwhyzau1h5
-   lqLhAkTXI4rn7xfEjGs0qfrWwAOxNv0KwM9D4o9tlwo3iEt0LEq0GYb+f
-   4zrWr3YttaTZnhzetbVEPhyqwensXqtBrGktMbtArlDPzhV4YzL11vIba
-   CfQ4XE4MHmGmHSFi7ReocJi8jharKJ4E21lC1Tbyx3jN9S0Md5hT3APmy
-   yoKr6bbG4qNWS/i6MoJ7J3kHmaCH01Aal0/nzMfW93B1MlXh0OFiWaYFh
+  bh=yC2YBfnDTB/l3PdTYPtKvQJkrxTZjdC8q7txK5QJ26E=;
+  b=fiqA80SpKT1xNJtCFVZFl+9wuZeGOE6KfnhmHWiCvKI+X3UZu/SlWmxP
+   I4dhWHV36h+fKw/zklknhSUmttvnaUYFls2Kg+esP/1ZumZ4jUUfMds2k
+   8+jGIFHatgu9j2E0t56hZhfQT8b/++Guamu8AHssRgSGrv6VDv6TsAUbP
+   DjOVQA/gys2D3ZHwb3wrEU5cbbadMw2yGLK2sYpV9uD8JyQgJ6tWMQd7v
+   8mjFe+WB5GYsDICuQVOS/XA0I1nJWM8wvrqGUu0AliGj63+81RiPazNCS
+   a8vOM6jdebWuJSRBM/zWTebr+V5rgvlMq4W7ChwD+L2bczi79sh+fm3TR
    g==;
-X-CSE-ConnectionGUID: CuQ9VW/IRXueyof6O2rv1w==
-X-CSE-MsgGUID: LjwL6H8bSCyLzJ5oZHAIbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="46008971"
+X-CSE-ConnectionGUID: ZVoPGAZWRVeXGV8l4rfybA==
+X-CSE-MsgGUID: ho8gBaeOR6iXTo6CqSMu9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="27986470"
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="46008971"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 03:29:08 -0700
-X-CSE-ConnectionGUID: FzXBEoQtRkeEj44NWCTmIQ==
-X-CSE-MsgGUID: g2grRYaqRGaDT3OrZKVTNQ==
+   d="scan'208";a="27986470"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 03:29:09 -0700
+X-CSE-ConnectionGUID: 1uMp28MGRQuzUUASwaIB2g==
+X-CSE-MsgGUID: 0vYapUkwTVaZbUvhzlZ4tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="78633966"
+   d="scan'208";a="82962370"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 16 Oct 2024 03:29:07 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Oct 2024 03:29:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t11H6-000Km2-31;
+	id 1t11H6-000Km4-36;
 	Wed, 16 Oct 2024 10:29:04 +0000
-Date: Wed, 16 Oct 2024 18:28:30 +0800
+Date: Wed, 16 Oct 2024 18:28:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] misc: misc_minor_alloc to allocate ids for all
- dynamic/misc dynamic minors
-Message-ID: <202410161811.aIPEJHOt-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c:145:8-12: opportunity for
+ str_read_write(read)
+Message-ID: <202410161814.I6p2Nnux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,72 +64,64 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241014131416.27324-1-vimal.agrawal@sophos.com>
-References: <20241014131416.27324-1-vimal.agrawal@sophos.com>
-TO: Vimal Agrawal <avimalin@gmail.com>
-TO: linux-kernel@vger.kernel.org
-TO: gregkh@linuxfoundation.org
-TO: arnd@arndb.de
-CC: avimalin@gmail.com
-CC: vimal.agrawal@sophos.com
+CC: linux-kernel@vger.kernel.org
+TO: Luben Tuikov <luben.tuikov@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
-Hi Vimal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.12-rc3 next-20241016]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Agrawal/misc-misc_minor_alloc-to-allocate-ids-for-all-dynamic-misc-dynamic-minors/20241014-211915
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20241014131416.27324-1-vimal.agrawal%40sophos.com
-patch subject: [PATCH] misc: misc_minor_alloc to allocate ids for all dynamic/misc dynamic minors
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: sparc64-randconfig-r072-20241015 (https://download.01.org/0day-ci/archive/20241016/202410161811.aIPEJHOt-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
+commit: 93ade343bbadd73999324dcc66c933e398e39818 drm/amdgpu: EEPROM respects I2C quirks
+date:   3 years, 4 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 3 years, 4 months ago
+config: i386-randconfig-054-20241016 (https://download.01.org/0day-ci/archive/20241016/202410161814.I6p2Nnux-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410161811.aIPEJHOt-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410161814.I6p2Nnux-lkp@intel.com/
 
-smatch warnings:
-drivers/char/misc.c:89 misc_minor_alloc() error: uninitialized symbol 'ret'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c:145:8-12: opportunity for str_read_write(read)
 
-vim +/ret +89 drivers/char/misc.c
+vim +145 drivers/gpu/drm/amd/amdgpu/amdgpu_eeprom.c
 
-ab760791c0cfbb D Scott Phillips 2022-11-14  65  
-d52c84545e305b Vimal Agrawal    2024-10-14  66  static int misc_minor_alloc(int minor)
-ab760791c0cfbb D Scott Phillips 2022-11-14  67  {
-ab760791c0cfbb D Scott Phillips 2022-11-14  68  	int ret;
-ab760791c0cfbb D Scott Phillips 2022-11-14  69  
-d52c84545e305b Vimal Agrawal    2024-10-14  70  	if (minor == MISC_DYNAMIC_MINOR) {
-d52c84545e305b Vimal Agrawal    2024-10-14  71  		/* allocate free id */
-ab760791c0cfbb D Scott Phillips 2022-11-14  72  		ret = ida_alloc_max(&misc_minors_ida, DYNAMIC_MINORS - 1, GFP_KERNEL);
-ab760791c0cfbb D Scott Phillips 2022-11-14  73  		if (ret >= 0) {
-ab760791c0cfbb D Scott Phillips 2022-11-14  74  			ret = DYNAMIC_MINORS - ret - 1;
-ab760791c0cfbb D Scott Phillips 2022-11-14  75  		} else {
-ab760791c0cfbb D Scott Phillips 2022-11-14  76  			ret = ida_alloc_range(&misc_minors_ida, MISC_DYNAMIC_MINOR + 1,
-ab760791c0cfbb D Scott Phillips 2022-11-14  77  				      MINORMASK, GFP_KERNEL);
-ab760791c0cfbb D Scott Phillips 2022-11-14  78  		}
-d52c84545e305b Vimal Agrawal    2024-10-14  79  	} else {
-d52c84545e305b Vimal Agrawal    2024-10-14  80  		/* specific minor, check if it is in dynamic or misc dynamic range  */
-d52c84545e305b Vimal Agrawal    2024-10-14  81  		if (minor < DYNAMIC_MINORS) {
-d52c84545e305b Vimal Agrawal    2024-10-14  82  			minor = DYNAMIC_MINORS - minor - 1;
-d52c84545e305b Vimal Agrawal    2024-10-14  83  			ret = ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
-d52c84545e305b Vimal Agrawal    2024-10-14  84  		}
-d52c84545e305b Vimal Agrawal    2024-10-14  85  
-d52c84545e305b Vimal Agrawal    2024-10-14  86  		if (minor > MISC_DYNAMIC_MINOR)
-d52c84545e305b Vimal Agrawal    2024-10-14  87  			ret = ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
-d52c84545e305b Vimal Agrawal    2024-10-14  88  	}
-ab760791c0cfbb D Scott Phillips 2022-11-14 @89  	return ret;
-ab760791c0cfbb D Scott Phillips 2022-11-14  90  }
-ab760791c0cfbb D Scott Phillips 2022-11-14  91  
+93ade343bbadd7 Luben Tuikov 2021-01-28  112  
+93ade343bbadd7 Luben Tuikov 2021-01-28  113  /**
+93ade343bbadd7 Luben Tuikov 2021-01-28  114   * amdgpu_eeprom_xfer -- Read/write from/to an I2C EEPROM device
+93ade343bbadd7 Luben Tuikov 2021-01-28  115   * @i2c_adap: pointer to the I2C adapter to use
+93ade343bbadd7 Luben Tuikov 2021-01-28  116   * @slave_addr: I2C address of the slave device
+93ade343bbadd7 Luben Tuikov 2021-01-28  117   * @eeprom_addr: EEPROM address from which to read/write
+93ade343bbadd7 Luben Tuikov 2021-01-28  118   * @eeprom_buf: pointer to data buffer to read into/write from
+93ade343bbadd7 Luben Tuikov 2021-01-28  119   * @buf_size: the size of @eeprom_buf
+93ade343bbadd7 Luben Tuikov 2021-01-28  120   * @read: True if reading from the EEPROM, false if writing
+93ade343bbadd7 Luben Tuikov 2021-01-28  121   *
+93ade343bbadd7 Luben Tuikov 2021-01-28  122   * Returns the number of bytes read/written; -errno on error.
+93ade343bbadd7 Luben Tuikov 2021-01-28  123   */
+93ade343bbadd7 Luben Tuikov 2021-01-28  124  int amdgpu_eeprom_xfer(struct i2c_adapter *i2c_adap,
+93ade343bbadd7 Luben Tuikov 2021-01-28  125  		       u16 slave_addr, u16 eeprom_addr,
+93ade343bbadd7 Luben Tuikov 2021-01-28  126  		       u8 *eeprom_buf, u16 buf_size, bool read)
+93ade343bbadd7 Luben Tuikov 2021-01-28  127  {
+93ade343bbadd7 Luben Tuikov 2021-01-28  128  	const struct i2c_adapter_quirks *quirks = i2c_adap->quirks;
+93ade343bbadd7 Luben Tuikov 2021-01-28  129  	u16 limit;
+93ade343bbadd7 Luben Tuikov 2021-01-28  130  
+93ade343bbadd7 Luben Tuikov 2021-01-28  131  	if (!quirks)
+93ade343bbadd7 Luben Tuikov 2021-01-28  132  		limit = 0;
+93ade343bbadd7 Luben Tuikov 2021-01-28  133  	else if (read)
+93ade343bbadd7 Luben Tuikov 2021-01-28  134  		limit = quirks->max_read_len;
+93ade343bbadd7 Luben Tuikov 2021-01-28  135  	else
+93ade343bbadd7 Luben Tuikov 2021-01-28  136  		limit = quirks->max_write_len;
+93ade343bbadd7 Luben Tuikov 2021-01-28  137  
+93ade343bbadd7 Luben Tuikov 2021-01-28  138  	if (limit == 0) {
+93ade343bbadd7 Luben Tuikov 2021-01-28  139  		return __amdgpu_eeprom_xfer(i2c_adap, slave_addr, eeprom_addr,
+93ade343bbadd7 Luben Tuikov 2021-01-28  140  					    eeprom_buf, buf_size, read);
+93ade343bbadd7 Luben Tuikov 2021-01-28  141  	} else if (limit <= EEPROM_OFFSET_SIZE) {
+93ade343bbadd7 Luben Tuikov 2021-01-28  142  		dev_err_ratelimited(&i2c_adap->dev,
+93ade343bbadd7 Luben Tuikov 2021-01-28  143  				    "maddr:0x%04X size:0x%02X:quirk max_%s_len must be > %d",
+93ade343bbadd7 Luben Tuikov 2021-01-28  144  				    eeprom_addr, buf_size,
+93ade343bbadd7 Luben Tuikov 2021-01-28 @145  				    read ? "read" : "write", EEPROM_OFFSET_SIZE);
 
 -- 
 0-DAY CI Kernel Test Service
