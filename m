@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF3A1097B
-	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 00:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FA6161326
+	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 02:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729040167; cv=none; b=bL+XXS8DSQgrMPWLY06AqYeg6jUD69mNHCUniorgAUt/PViWxGpntvDugNCZwHRh/ZZrJf3Nz5QGAwI7ZuUmy3d214MEkWks5GhsEQDCoglNPbTHoW68QaPGayOr90kCBhm6YgcvwE0tEVo9ZQdvnkYmtJz0YFcxiioqVd0iqIU=
+	t=1729046613; cv=none; b=dSsaE3jD9Cz1OVibtmfrrAm5A7m5HhNd7jJ9fuzVpRw81Ema/vZfDpZIJUkNYsYYJ0ju45huH8xY5QXVakcumdCwK9fPDzak6K3zagD986VCoq0P6mUeputKmBAN0BTpQGune2PnIY70obqTqc9o5rwWooHWn6for0Z6dDIfhMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729040167; c=relaxed/simple;
-	bh=m8UU7WsIjRUrlhWh8WhqxToO+uzNCN/uqCTVFsAdVrs=;
+	s=arc-20240116; t=1729046613; c=relaxed/simple;
+	bh=+j3MpRLujkBuZ/UcNTtc9r6R3HEimxcQtObcZst+WyM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B+CU4iwmac0Aku7t3SLvlle8LVKtOp9pB/f/I3Ky7fK6Hl7nkxlTOv0CNHkXf0ijtyyfyAG2LiYDh6tB6Ja81SBSb2MSu7vp6vI4PG7qeICoYOaV70085fRsOow2zWdNI/3vIGtZLpOsMJE3IxBnX1+i1YEM/z5aYoBKWMYB6B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwLdO6Pi; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=FKPyAqOxCupLi7Mw4VbZYMIY4v6lxfTaKULtj5fhBP7h0jFdvN+TvGILy5lxdm+uxTuVdQVOJj1G6faChgctURwZiGw6NTrDFkS0AI714KhXr6qWhlAVVMLdmUKXp2E3MvSki61V7YoPy5+y6NZrEYEpt5bxKi3KayyVeS+do7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4Zg/o+b; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwLdO6Pi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4Zg/o+b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729040165; x=1760576165;
+  t=1729046612; x=1760582612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m8UU7WsIjRUrlhWh8WhqxToO+uzNCN/uqCTVFsAdVrs=;
-  b=DwLdO6PiLCcSm12uFBBcedjME7iTuJBg1VEkk3VWZnFbtNPPs0U3Lxak
-   hDuvyh7L2X6HBtVyLfwib/u1S6JJPmWMYpdFQV0xtFmTiY2u3Ld1KmOI0
-   NAAQ8O+7RZ4AdUcfB3fTZLSu1zQ29IMC1T1ssYhprjbZg/Iz5Jxs7dUpH
-   9xipruHuaocWYD6ooEbGSZDa034wSWxN40TZUzjML/ip4Rmu8ZPQrrO59
-   bf5Yj0Nya2qLPBC8kKWG2j93hdiiwcmZJMtdnxnODUtXm5h9r5d4kfjUC
-   P92T4vAhtz17MLSqafzApWhHdg80IOxbH1Ru4VLhuA5brwxs1pJg2FVQd
-   A==;
-X-CSE-ConnectionGUID: muvQn3ivSLO67ESqVAq9Kg==
-X-CSE-MsgGUID: iZLFOGPZQiGlsAgaNnypcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28423714"
+  bh=+j3MpRLujkBuZ/UcNTtc9r6R3HEimxcQtObcZst+WyM=;
+  b=H4Zg/o+bvgaR416ws5zO5ErIkMS6nX6/m30qg4Lp0QmO0266ci+GkPna
+   X9V96miLA4c/CDiwQp2VxG1BihQ5gxflCW4VONFducT9VxSz0r+dfX2iE
+   Nz4/NUNGlvMd6T2uG1eqhEBB/BvVnKtptepFgVJliRhTyaj8cglnzLJ0e
+   jnnofJ2hljyQjrNDkb0ASXU9kFwKjbyvfzB44iaHNUJk9if5FBU50Zraf
+   O9B5SwbsoFt+2VaZfbkvzuKRMa69YsbInfYDO8jGdC99n+vTWIv8LxDbK
+   RRWtw4pYt/f1vwCj+28ArKopWIVd2tCsWN80n0vNADtW7IiuuJgmTFF03
+   w==;
+X-CSE-ConnectionGUID: 1jhrzi5RTfSBKtKQT9Lq+A==
+X-CSE-MsgGUID: zuT5IdlUSVar/NqjcO/klw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32168795"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28423714"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 17:56:04 -0700
-X-CSE-ConnectionGUID: cst7TnppSkWMgGuqK0qroQ==
-X-CSE-MsgGUID: JewoPGp1Spiq0WWgPprjAg==
+   d="scan'208";a="32168795"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 19:43:29 -0700
+X-CSE-ConnectionGUID: FJWbEdAPRbytLy6c1FnubA==
+X-CSE-MsgGUID: DV5LQweWTlem0K3fgE9GLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="108807808"
+   d="scan'208";a="82063705"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Oct 2024 17:56:02 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 15 Oct 2024 19:43:27 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0sKW-000K6d-0M;
-	Wed, 16 Oct 2024 00:56:00 +0000
-Date: Wed, 16 Oct 2024 08:55:18 +0800
+	id 1t0u0T-000KBR-0Q;
+	Wed, 16 Oct 2024 02:43:25 +0000
+Date: Wed, 16 Oct 2024 10:42:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/mmu.c:1570 user_mem_abort() error: uninitialized
- symbol 'fault_granule'.
-Message-ID: <202410160848.LYovAPcr-lkp@intel.com>
+Subject: [trace:ftrace/for-next 6/14]
+ kernel/trace/trace_functions_graph.c:902 print_graph_entry_leaf() warn:
+ bitwise AND condition is false here
+Message-ID: <202410161057.D5G3l8BW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,249 +65,144 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Ard Biesheuvel <ardb@kernel.org>
-CC: Marc Zyngier <maz@kernel.org>
+TO: Donglin Peng <pengdonglin@xiaomi.com>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-Hi Ard,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-commit: 11e5ea5242e38d44fcede879473566bb6d68f954 KVM: arm64: Use helpers to classify exception types reported via ESR
-date:   11 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 11 months ago
-config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241016/202410160848.LYovAPcr-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ftrace/for-next
+head:   2d17932da44fdc1ba835ad05110ab996d2912dbf
+commit: 21e92806d39c68af2accd1fb238c2daecfcf9fbd [6/14] function_graph: Support recording and printing the function return address
+:::::: branch date: 5 hours ago
+:::::: commit date: 11 days ago
+config: i386-randconfig-141-20241015 (https://download.01.org/0day-ci/archive/20241016/202410161057.D5G3l8BW-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410160848.LYovAPcr-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410161057.D5G3l8BW-lkp@intel.com/
 
 smatch warnings:
-arch/arm64/kvm/mmu.c:1570 user_mem_abort() error: uninitialized symbol 'fault_granule'.
+kernel/trace/trace_functions_graph.c:902 print_graph_entry_leaf() warn: bitwise AND condition is false here
+kernel/trace/trace_functions_graph.c:950 print_graph_entry_nested() warn: bitwise AND condition is false here
 
-vim +/fault_granule +1570 arch/arm64/kvm/mmu.c
+vim +902 kernel/trace/trace_functions_graph.c
 
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1376  
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1377  static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-98047888bb9fd5 arch/arm/kvm/mmu.c   Christoffer Dall    2014-08-19  1378  			  struct kvm_memory_slot *memslot, unsigned long hva,
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1379  			  bool fault_is_perm)
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1380  {
-ffd1b63a586096 arch/arm64/kvm/mmu.c Will Deacon         2020-09-30  1381  	int ret = 0;
-6396b852e46e56 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1382  	bool write_fault, writable, force_pte = false;
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1383  	bool exec_fault, mte_allowed;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1384  	bool device = false;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1385  	unsigned long mmu_seq;
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1386  	struct kvm *kvm = vcpu->kvm;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1387  	struct kvm_mmu_memory_cache *memcache = &vcpu->arch.mmu_page_cache;
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1388  	struct vm_area_struct *vma;
-1559b7583ff6ed virt/kvm/arm/mmu.c   James Morse         2019-12-17  1389  	short vma_shift;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1390  	gfn_t gfn;
-ba049e93aef7e8 arch/arm/kvm/mmu.c   Dan Williams        2016-01-15  1391  	kvm_pfn_t pfn;
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1392  	bool logging_active = memslot_is_logging(memslot);
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1393  	long vma_pagesize, fault_granule;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1394  	enum kvm_pgtable_prot prot = KVM_PGTABLE_PROT_R;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1395  	struct kvm_pgtable *pgt;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1396  
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1397  	if (fault_is_perm)
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1398  		fault_granule = kvm_vcpu_trap_get_perm_fault_granule(vcpu);
-a7d079cea2dffb arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-09  1399  	write_fault = kvm_is_write_fault(vcpu);
-c4ad98e4b72cb5 arch/arm64/kvm/mmu.c Marc Zyngier        2020-09-15  1400  	exec_fault = kvm_vcpu_trap_is_exec_fault(vcpu);
-d0e22b4ac3ba23 virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1401  	VM_BUG_ON(write_fault && exec_fault);
-d0e22b4ac3ba23 virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1402  
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1403  	if (fault_is_perm && !write_fault && !exec_fault) {
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1404  		kvm_err("Unexpected L2 read permission error\n");
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1405  		return -EFAULT;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1406  	}
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1407  
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1408  	/*
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1409  	 * Permission faults just need to update the existing leaf entry,
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1410  	 * and so normally don't require allocations from the memcache. The
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1411  	 * only exception to this is when dirty logging is enabled at runtime
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1412  	 * and a write fault needs to collapse a block entry into a table.
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1413  	 */
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1414  	if (!fault_is_perm || (logging_active && write_fault)) {
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1415  		ret = kvm_mmu_topup_memory_cache(memcache,
-fe49fd940e2259 arch/arm64/kvm/mmu.c Marc Zyngier        2023-10-12  1416  						 kvm_mmu_cache_min_pages(vcpu->arch.hw_mmu));
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1417  		if (ret)
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1418  			return ret;
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1419  	}
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1420  
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1421  	/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1422  	 * Let's check if we will get back a huge page backed by hugetlbfs, or
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1423  	 * get block mapping for device MMIO region.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1424  	 */
-89154dd5313f77 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1425  	mmap_read_lock(current->mm);
-09eef83a801512 arch/arm64/kvm/mmu.c Liam Howlett        2021-06-28  1426  	vma = vma_lookup(current->mm, hva);
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1427  	if (unlikely(!vma)) {
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1428  		kvm_err("Failed to find VMA for hva 0x%lx\n", hva);
-89154dd5313f77 arch/arm64/kvm/mmu.c Michel Lespinasse   2020-06-08  1429  		mmap_read_unlock(current->mm);
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1430  		return -EFAULT;
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1431  	}
-37b544087ef3f6 arch/arm/kvm/mmu.c   Ard Biesheuvel      2014-09-17  1432  
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1433  	/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1434  	 * logging_active is guaranteed to never be true for VM_PFNMAP
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1435  	 * memslots.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1436  	 */
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1437  	if (logging_active) {
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1438  		force_pte = true;
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1439  		vma_shift = PAGE_SHIFT;
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1440  	} else {
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1441  		vma_shift = get_vma_page_shift(vma, hva);
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1442  	}
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1443  
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1444  	switch (vma_shift) {
-faf000397e7f10 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1445  #ifndef __PAGETABLE_PMD_FOLDED
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1446  	case PUD_SHIFT:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1447  		if (fault_supports_stage2_huge_mapping(memslot, hva, PUD_SIZE))
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1448  			break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1449  		fallthrough;
-faf000397e7f10 arch/arm64/kvm/mmu.c Gavin Shan          2020-11-03  1450  #endif
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1451  	case CONT_PMD_SHIFT:
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1452  		vma_shift = PMD_SHIFT;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1453  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1454  	case PMD_SHIFT:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1455  		if (fault_supports_stage2_huge_mapping(memslot, hva, PMD_SIZE))
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1456  			break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1457  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1458  	case CONT_PTE_SHIFT:
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1459  		vma_shift = PAGE_SHIFT;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1460  		force_pte = true;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1461  		fallthrough;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1462  	case PAGE_SHIFT:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1463  		break;
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1464  	default:
-2f40c46021bbb3 arch/arm64/kvm/mmu.c Gavin Shan          2020-10-26  1465  		WARN_ONCE(1, "Unknown vma_shift %d", vma_shift);
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1466  	}
-a80868f3985548 virt/kvm/arm/mmu.c   Suzuki K Poulose    2019-03-12  1467  
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1468  	vma_pagesize = 1UL << vma_shift;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1469  	if (vma_pagesize == PMD_SIZE || vma_pagesize == PUD_SIZE)
-523b3999e5f620 arch/arm64/kvm/mmu.c Alexandru Elisei    2020-09-10  1470  		fault_ipa &= ~(vma_pagesize - 1);
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1471  
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1472  	gfn = fault_ipa >> PAGE_SHIFT;
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1473  	mte_allowed = kvm_vma_mte_allowed(vma);
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1474  
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1475  	/* Don't use the VMA after the unlock -- it may have vanished */
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1476  	vma = NULL;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1477  
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1478  	/*
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1479  	 * Read mmu_invalidate_seq so that KVM can detect if the results of
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1480  	 * vma_lookup() or __gfn_to_pfn_memslot() become stale prior to
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1481  	 * acquiring kvm->mmu_lock.
-10ba2d17d29729 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1482  	 *
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1483  	 * Rely on mmap_read_unlock() for an implicit smp_rmb(), which pairs
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1484  	 * with the smp_wmb() in kvm_mmu_invalidate_end().
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1485  	 */
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1486  	mmu_seq = vcpu->kvm->mmu_invalidate_seq;
-13ec9308a85702 arch/arm64/kvm/mmu.c David Matlack       2023-03-13  1487  	mmap_read_unlock(current->mm);
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1488  
-c8b88b332bedf4 arch/arm64/kvm/mmu.c Peter Xu            2022-10-11  1489  	pfn = __gfn_to_pfn_memslot(memslot, gfn, false, false, NULL,
-10ba2d17d29729 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1490  				   write_fault, &writable, NULL);
-196f878a7ac2e7 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1491  	if (pfn == KVM_PFN_ERR_HWPOISON) {
-1559b7583ff6ed virt/kvm/arm/mmu.c   James Morse         2019-12-17  1492  		kvm_send_hwpoison_signal(hva, vma_shift);
-196f878a7ac2e7 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1493  		return 0;
-196f878a7ac2e7 virt/kvm/arm/mmu.c   James Morse         2017-06-20  1494  	}
-9ac715954682b2 arch/arm/kvm/mmu.c   Christoffer Dall    2016-08-17  1495  	if (is_error_noslot_pfn(pfn))
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1496  		return -EFAULT;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1497  
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1498  	if (kvm_is_device_pfn(pfn)) {
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1499  		/*
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1500  		 * If the page was identified as device early by looking at
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1501  		 * the VMA flags, vma_pagesize is already representing the
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1502  		 * largest quantity we can map.  If instead it was mapped
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1503  		 * via gfn_to_pfn_prot(), vma_pagesize is set to PAGE_SIZE
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1504  		 * and must not be upgraded.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1505  		 *
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1506  		 * In both cases, we don't let transparent_hugepage_adjust()
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1507  		 * change things at the last minute.
-2aa53d68cee660 arch/arm64/kvm/mmu.c Keqian Zhu          2021-05-07  1508  		 */
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1509  		device = true;
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1510  	} else if (logging_active && !write_fault) {
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1511  		/*
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1512  		 * Only actually map the page as writable if this was a write
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1513  		 * fault.
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1514  		 */
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1515  		writable = false;
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1516  	}
-b88657674d39fc arch/arm/kvm/mmu.c   Kim Phillips        2014-06-26  1517  
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1518  	if (exec_fault && device)
-6d674e28f642e3 virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1519  		return -ENOEXEC;
-6d674e28f642e3 virt/kvm/arm/mmu.c   Marc Zyngier        2019-12-11  1520  
-f783ef1c0e82e4 arch/arm64/kvm/mmu.c Jing Zhang          2022-01-18  1521  	read_lock(&kvm->mmu_lock);
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1522  	pgt = vcpu->arch.hw_mmu->pgt;
-20ec3ebd707c77 arch/arm64/kvm/mmu.c Chao Peng           2022-08-16  1523  	if (mmu_invalidate_retry(kvm, mmu_seq))
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1524  		goto out_unlock;
-15a49a44fc3620 arch/arm/kvm/mmu.c   Mario Smarduch      2015-01-15  1525  
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1526  	/*
-0529c9021252a5 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1527  	 * If we are not forced to use page mapping, check if we are
-0529c9021252a5 arch/arm64/kvm/mmu.c Suzuki K Poulose    2020-05-07  1528  	 * backed by a THP and thus use block mapping if possible.
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1529  	 */
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1530  	if (vma_pagesize == PAGE_SIZE && !(force_pte || device)) {
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1531  		if (fault_is_perm && fault_granule > PAGE_SIZE)
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1532  			vma_pagesize = fault_granule;
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1533  		else
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1534  			vma_pagesize = transparent_hugepage_adjust(kvm, memslot,
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1535  								   hva, &pfn,
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1536  								   &fault_ipa);
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1537  
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1538  		if (vma_pagesize < 0) {
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1539  			ret = vma_pagesize;
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1540  			goto out_unlock;
-e86fc1a3a3e9b4 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1541  		}
-f2cc327303b13a arch/arm64/kvm/mmu.c Marc Zyngier        2021-07-26  1542  	}
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1543  
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28  1544  	if (!fault_is_perm && !device && kvm_has_mte(kvm)) {
-d89585fbb30869 arch/arm64/kvm/mmu.c Peter Collingbourne 2022-11-03  1545  		/* Check the VMM hasn't introduced a new disallowed VMA */
-8c2e8ac8ad4be6 arch/arm64/kvm/mmu.c Marc Zyngier        2023-03-16  1546  		if (mte_allowed) {
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1547  			sanitise_mte_tags(kvm, pfn, vma_pagesize);
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1548  		} else {
-9f03db6673598f arch/arm64/kvm/mmu.c Marc Zyngier        2021-06-22  1549  			ret = -EFAULT;
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1550  			goto out_unlock;
-ea7fc1bb1cd1b9 arch/arm64/kvm/mmu.c Steven Price        2021-06-21  1551  		}
-2dbf12ae132cc7 arch/arm64/kvm/mmu.c Catalin Marinas     2022-11-03  1552  	}
-3f58bf63455588 virt/kvm/arm/mmu.c   Punit Agrawal       2018-12-11  1553  
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1554  	if (writable)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1555  		prot |= KVM_PGTABLE_PROT_W;
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1556  
-25aa28691bb960 arch/arm64/kvm/mmu.c Yanan Wang          2021-06-17  1557  	if (exec_fault)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1558  		prot |= KVM_PGTABLE_PROT_X;
-a9c0e12ebee56e virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1559  
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1560  	if (device)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1561  		prot |= KVM_PGTABLE_PROT_DEVICE;
-d8569fba13850b arch/arm64/kvm/mmu.c Mark Rutland        2023-10-16  1562  	else if (cpus_have_final_cap(ARM64_HAS_CACHE_DIC))
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1563  		prot |= KVM_PGTABLE_PROT_X;
-a15f693935a9f1 virt/kvm/arm/mmu.c   Marc Zyngier        2017-10-23  1564  
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1565  	/*
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1566  	 * Under the premise of getting a FSC_PERM fault, we just need to relax
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1567  	 * permissions only if vma_pagesize equals fault_granule. Otherwise,
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1568  	 * kvm_pgtable_stage2_map() should be called to change block size.
-7d894834a30556 arch/arm64/kvm/mmu.c Yanan Wang          2020-12-02  1569  	 */
-11e5ea5242e38d arch/arm64/kvm/mmu.c Ard Biesheuvel      2023-11-28 @1570  	if (fault_is_perm && vma_pagesize == fault_granule)
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1571  		ret = kvm_pgtable_stage2_relax_perms(pgt, fault_ipa, prot);
-1577cb5823cefd arch/arm64/kvm/mmu.c Oliver Upton        2022-11-07  1572  	else
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1573  		ret = kvm_pgtable_stage2_map(pgt, fault_ipa, vma_pagesize,
-6f745f1bb5bf29 arch/arm64/kvm/mmu.c Will Deacon         2020-09-11  1574  					     __pfn_to_phys(pfn), prot,
-ddcadb297ce5cc arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1575  					     memcache,
-ddcadb297ce5cc arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1576  					     KVM_PGTABLE_WALK_HANDLE_FAULT |
-ddcadb297ce5cc arch/arm64/kvm/mmu.c Oliver Upton        2022-12-02  1577  					     KVM_PGTABLE_WALK_SHARED);
-ad361f093c1e31 arch/arm/kvm/mmu.c   Christoffer Dall    2012-11-01  1578  
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1579  	/* Mark the page dirty only if the fault is handled successfully */
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1580  	if (writable && !ret) {
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1581  		kvm_set_pfn_dirty(pfn);
-10ba2d17d29729 arch/arm64/kvm/mmu.c Gavin Shan          2021-03-16  1582  		mark_page_dirty_in_slot(kvm, memslot, gfn);
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1583  	}
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1584  
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1585  out_unlock:
-f783ef1c0e82e4 arch/arm64/kvm/mmu.c Jing Zhang          2022-01-18  1586  	read_unlock(&kvm->mmu_lock);
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1587  	kvm_release_pfn_clean(pfn);
-509552e65ae828 arch/arm64/kvm/mmu.c Yanan Wang          2021-01-14  1588  	return ret != -EAGAIN ? ret : 0;
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1589  }
-94f8e6418d3915 arch/arm/kvm/mmu.c   Christoffer Dall    2013-01-20  1590  
+a1be9ccc57f07d Donglin Peng             2023-04-08  851  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  852  /* Case of a leaf function on its call entry */
+287b6e68ca7209 Frederic Weisbecker      2008-11-26  853  static enum print_line_t
+83a8df618eb04b Frederic Weisbecker      2008-11-27  854  print_graph_entry_leaf(struct trace_iterator *iter,
+b91facc367366b Frederic Weisbecker      2009-02-06  855  		struct ftrace_graph_ent_entry *entry,
+d7a8d9e907cc29 Jiri Olsa                2010-04-02  856  		struct ftrace_graph_ret_entry *ret_entry,
+d7a8d9e907cc29 Jiri Olsa                2010-04-02  857  		struct trace_seq *s, u32 flags)
+fb52607afcd062 Frederic Weisbecker      2008-11-25  858  {
+2fbcdb35aca614 Steven Rostedt           2009-03-19  859  	struct fgraph_data *data = iter->private;
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  860) 	struct trace_array *tr = iter->tr;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  861  	struct ftrace_graph_ret *graph_ret;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  862  	struct ftrace_graph_ent *call;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  863  	unsigned long long duration;
+4c57d0be528b12 Steven Rostedt           2024-08-13  864  	unsigned long func;
+1fe4293f4b8de7 Changbin Du              2018-01-31  865  	int cpu = iter->cpu;
+1a056155edd458 Frederic Weisbecker      2008-11-28  866  	int i;
+fb52607afcd062 Frederic Weisbecker      2008-11-25  867  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  868  	graph_ret = &ret_entry->ret;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  869  	call = &entry->graph_ent;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  870  	duration = graph_ret->rettime - graph_ret->calltime;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  871  
+4c57d0be528b12 Steven Rostedt           2024-08-13  872  	func = call->func + iter->tr->text_delta;
+4c57d0be528b12 Steven Rostedt           2024-08-13  873  
+2fbcdb35aca614 Steven Rostedt           2009-03-19  874  	if (data) {
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  875  		struct fgraph_cpu_data *cpu_data;
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  876  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  877  		cpu_data = per_cpu_ptr(data->cpu_data, cpu);
+2fbcdb35aca614 Steven Rostedt           2009-03-19  878  
+2fbcdb35aca614 Steven Rostedt           2009-03-19  879  		/*
+2fbcdb35aca614 Steven Rostedt           2009-03-19  880  		 * Comments display at + 1 to depth. Since
+2fbcdb35aca614 Steven Rostedt           2009-03-19  881  		 * this is a leaf function, keep the comments
+2fbcdb35aca614 Steven Rostedt           2009-03-19  882  		 * equal to this depth.
+2fbcdb35aca614 Steven Rostedt           2009-03-19  883  		 */
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  884  		cpu_data->depth = call->depth - 1;
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  885  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  886  		/* No need to keep this function around for this depth */
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  887) 		if (call->depth < FTRACE_RETFUNC_DEPTH &&
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  888) 		    !WARN_ON_ONCE(call->depth < 0))
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  889  			cpu_data->enter_funcs[call->depth] = 0;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  890  	}
+2fbcdb35aca614 Steven Rostedt           2009-03-19  891  
+ffeb80fc30acbf Jiri Olsa                2011-06-03  892  	/* Overhead and duration */
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  893) 	print_graph_duration(tr, duration, s, flags);
+437f24fb897d40 Steven Rostedt           2008-11-26  894  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  895  	/* Function */
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  896) 	for (i = 0; i < call->depth * TRACE_GRAPH_INDENT; i++)
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  897) 		trace_seq_putc(s, ' ');
+287b6e68ca7209 Frederic Weisbecker      2008-11-26  898  
+a1be9ccc57f07d Donglin Peng             2023-04-08  899  	/*
+21e92806d39c68 Donglin Peng             2024-09-14  900  	 * Write out the function return value or return address
+a1be9ccc57f07d Donglin Peng             2023-04-08  901  	 */
+21e92806d39c68 Donglin Peng             2024-09-14 @902  	if (flags & (__TRACE_GRAPH_PRINT_RETVAL | __TRACE_GRAPH_PRINT_RETADDR)) {
+21e92806d39c68 Donglin Peng             2024-09-14  903  		print_graph_retval(s, entry, graph_ret,
+21e92806d39c68 Donglin Peng             2024-09-14  904  				   (void *)graph_ret->func + iter->tr->text_delta,
+21e92806d39c68 Donglin Peng             2024-09-14  905  				   flags, tr->trace_flags);
+21e92806d39c68 Donglin Peng             2024-09-14  906  	} else {
+4c57d0be528b12 Steven Rostedt           2024-08-13  907  		trace_seq_printf(s, "%ps();\n", (void *)func);
+21e92806d39c68 Donglin Peng             2024-09-14  908  	}
+83a8df618eb04b Frederic Weisbecker      2008-11-27  909  
+1fe4293f4b8de7 Changbin Du              2018-01-31  910  	print_graph_irq(iter, graph_ret->func, TRACE_GRAPH_RET,
+1fe4293f4b8de7 Changbin Du              2018-01-31  911  			cpu, iter->ent->pid, flags);
+1fe4293f4b8de7 Changbin Du              2018-01-31  912  
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  913) 	return trace_handle_return(s);
+83a8df618eb04b Frederic Weisbecker      2008-11-27  914  }
+83a8df618eb04b Frederic Weisbecker      2008-11-27  915  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  916  static enum print_line_t
+2fbcdb35aca614 Steven Rostedt           2009-03-19  917  print_graph_entry_nested(struct trace_iterator *iter,
+2fbcdb35aca614 Steven Rostedt           2009-03-19  918  			 struct ftrace_graph_ent_entry *entry,
+d7a8d9e907cc29 Jiri Olsa                2010-04-02  919  			 struct trace_seq *s, int cpu, u32 flags)
+83a8df618eb04b Frederic Weisbecker      2008-11-27  920  {
+83a8df618eb04b Frederic Weisbecker      2008-11-27  921  	struct ftrace_graph_ent *call = &entry->graph_ent;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  922  	struct fgraph_data *data = iter->private;
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  923) 	struct trace_array *tr = iter->tr;
+4c57d0be528b12 Steven Rostedt           2024-08-13  924  	unsigned long func;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  925  	int i;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  926  
+2fbcdb35aca614 Steven Rostedt           2009-03-19  927  	if (data) {
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  928  		struct fgraph_cpu_data *cpu_data;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  929  		int cpu = iter->cpu;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  930  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  931  		cpu_data = per_cpu_ptr(data->cpu_data, cpu);
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  932  		cpu_data->depth = call->depth;
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  933  
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  934  		/* Save this function pointer to see if the exit matches */
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  935) 		if (call->depth < FTRACE_RETFUNC_DEPTH &&
+794de08a16cf1f Steven Rostedt (Red Hat  2016-12-08  936) 		    !WARN_ON_ONCE(call->depth < 0))
+f1c7f517a5dc23 Steven Rostedt           2010-02-26  937  			cpu_data->enter_funcs[call->depth] = call->func;
+2fbcdb35aca614 Steven Rostedt           2009-03-19  938  	}
+83a8df618eb04b Frederic Weisbecker      2008-11-27  939  
+1a056155edd458 Frederic Weisbecker      2008-11-28  940  	/* No time */
+983f938ae69585 Steven Rostedt (Red Hat  2015-09-30  941) 	print_graph_duration(tr, 0, s, flags | FLAGS_FILL_FULL);
+f8b755ac8e0cc3 Frederic Weisbecker      2008-12-09  942  
+83a8df618eb04b Frederic Weisbecker      2008-11-27  943  	/* Function */
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  944) 	for (i = 0; i < call->depth * TRACE_GRAPH_INDENT; i++)
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  945) 		trace_seq_putc(s, ' ');
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  946) 
+4c57d0be528b12 Steven Rostedt           2024-08-13  947  	func = call->func + iter->tr->text_delta;
+4c57d0be528b12 Steven Rostedt           2024-08-13  948  
+21e92806d39c68 Donglin Peng             2024-09-14  949  	trace_seq_printf(s, "%ps() {", (void *)func);
+21e92806d39c68 Donglin Peng             2024-09-14 @950  	if (flags & __TRACE_GRAPH_PRINT_RETADDR  &&
+21e92806d39c68 Donglin Peng             2024-09-14  951  		entry->ent.type == TRACE_GRAPH_RETADDR_ENT)
+21e92806d39c68 Donglin Peng             2024-09-14  952  		print_graph_retaddr(s, (struct fgraph_retaddr_ent_entry *)entry,
+21e92806d39c68 Donglin Peng             2024-09-14  953  			tr->trace_flags, true);
+21e92806d39c68 Donglin Peng             2024-09-14  954  	trace_seq_putc(s, '\n');
+fb52607afcd062 Frederic Weisbecker      2008-11-25  955  
+9d9add34ec7b2c Steven Rostedt (Red Hat  2014-11-12  956) 	if (trace_seq_has_overflowed(s))
+83a8df618eb04b Frederic Weisbecker      2008-11-27  957  		return TRACE_TYPE_PARTIAL_LINE;
+83a8df618eb04b Frederic Weisbecker      2008-11-27  958  
+b91facc367366b Frederic Weisbecker      2009-02-06  959  	/*
+b91facc367366b Frederic Weisbecker      2009-02-06  960  	 * we already consumed the current entry to check the next one
+b91facc367366b Frederic Weisbecker      2009-02-06  961  	 * and see if this is a leaf.
+b91facc367366b Frederic Weisbecker      2009-02-06  962  	 */
+b91facc367366b Frederic Weisbecker      2009-02-06  963  	return TRACE_TYPE_NO_CONSUME;
+287b6e68ca7209 Frederic Weisbecker      2008-11-26  964  }
+fb52607afcd062 Frederic Weisbecker      2008-11-25  965  
 
 -- 
 0-DAY CI Kernel Test Service
