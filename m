@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93708187850
-	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 08:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA0F204F88
+	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 09:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729066933; cv=none; b=dZsMKRwBND+m3gfs5Dlxz3Z44k84B/jhCX4HT5ub7rWyUTgKBq9SG5DoJ3HTH8xjg2Ql9BKf7UFyIYNs9uzNY44Rme8veQhLxdeA6FB3poMYNv8wD71U+n85g83uEAxtQa4zwwZQYbg3q1Rl3X0PrIWzkQNOoggy+y3k0URg6XQ=
+	t=1729070765; cv=none; b=auZGf+XBy+PLc0YGaTavSkJ404ig7E2JTOZ9+cqQNcxWxkRaT6HoT7joNZn4z8barWfuDhBt6/LhrLvoAZ+3JoYKt6iRDr6LY7EfwEOU5NpDc0tHB0ci5VKCpd0lsW89E+IK6ZOPA54lVVB7qRAz8tA4vpESAYbxQX0DPAxSixo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729066933; c=relaxed/simple;
-	bh=Yat/HDkVpyyGqoURWieza9woJKwXzI0Y87n1eF3nmQY=;
+	s=arc-20240116; t=1729070765; c=relaxed/simple;
+	bh=gumGrLjAADREFPX4whKHcONmFAwMugZ/iTzQ1fiH01s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lcJwBuW2PsA3EWoXLE8FHA6ZTVYAai9FmfWmAiy3YCHB2TDDKG2p6Oj2F57gWmzWRnomyjfYucaa8Z7ANL98BAOfRTh+M0v6ifGHdkiK6K7ro3cS5dLY3GiIQ2WWpHTEwXS7oWKylvSPL6aM/rVwhLM9F+GtUgdkmDfm/9XXU/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ag9r5WUb; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=ZdVUNi77CVUinx23V66mRlSZyFFg/BOlx5Sn+4OEZEB4/1SOeB7/zsmLf8GVlOJLy0/bMjwUnR8oZ45jqLgZKjA2R4L5imzxH1EA5yR194AF8PeG69jTL7tD1NhNMaw6GTtm15W3RDR1k5EEVk+EpLJIttNRR3pNia0Rf94OnQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEiArck6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ag9r5WUb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEiArck6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729066932; x=1760602932;
+  t=1729070764; x=1760606764;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yat/HDkVpyyGqoURWieza9woJKwXzI0Y87n1eF3nmQY=;
-  b=ag9r5WUbSIRsMLe7VWVZu79rHkXijVhEdzINR21wcuF5eGWEjuwG0a/D
-   EZuMguWQWprJnKEYUloNo5Hn1zErh++5JnRvyxSKI2fYL3t0jNqBEF31a
-   RpS4PlhpWeCuEejg2z86T6WgrHqS/Yx5701Zq9OI6t3sVxzLJpXaAO3a+
-   FnjJiIycjHbXMf/zK2oO+oeACtzXiMnFOfwWODxGL7qm5wK6uHs7G4q55
-   Dp/hxCg7XAic+jkRik8yuMTNSUNOEn21BMG9T2SqPXWKMwiYmrO7W9LsJ
-   qK8lNLeepKWNrDIyXjEetnPk6XbCOngP0Jiv/SJHuZsgmLlmArOEjkRBs
-   A==;
-X-CSE-ConnectionGUID: lxKTn/nmSKStTKDTe387/w==
-X-CSE-MsgGUID: R3Yb+015S+qRPaSvUsBpwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28288914"
+  bh=gumGrLjAADREFPX4whKHcONmFAwMugZ/iTzQ1fiH01s=;
+  b=ZEiArck6C1vzzDFo9IN+agMqq9wdmzGEKEQwNaCN5Zj8EaRL/3WjOrFA
+   mHavi1DK//r7dI3vSDvU02ny1JRWkdRmonXIIbt3O47JjhMEB4wGl001L
+   CW1ayc/2Thm/FlHbQa9uiDoo+JrzyOxjdsZVju4sEXncXQ79zYpdopzqm
+   e/vCtcF6HVtZNE+XFY8cPMBS/25T4mWkstU1sIMU2W7OO0yGOgYg0ExSL
+   QPXMB+vSS5GQK47qEFl0VQlS8ye0hMkoczTci/rTn7y1Nxvo30HR6zoW6
+   QRrzl9AzLeys0FIMkTMbzXmXvg4s3oCmX5BvG3ToVhc277BLGBVN08e88
+   Q==;
+X-CSE-ConnectionGUID: Jiuhub5DTSuVvmoMU4Osxw==
+X-CSE-MsgGUID: gziW7MkzTpec2tPp1Kdllg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28604938"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28288914"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 01:22:12 -0700
-X-CSE-ConnectionGUID: UOZgjwuQSBWflANah6Aecg==
-X-CSE-MsgGUID: VUf03i+BQ366uA0+8pDLmg==
+   d="scan'208";a="28604938"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 02:26:03 -0700
+X-CSE-ConnectionGUID: 3krHHUdSThGMDTm98WaFsw==
+X-CSE-MsgGUID: EzaJJP0lRlCMx+d+tvL1zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="82811917"
+   d="scan'208";a="77790502"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Oct 2024 01:22:10 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 16 Oct 2024 02:26:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t0zIF-000KbF-1S;
-	Wed, 16 Oct 2024 08:22:07 +0000
-Date: Wed, 16 Oct 2024 16:22:03 +0800
+	id 1t10I4-000Kge-13;
+	Wed, 16 Oct 2024 09:26:00 +0000
+Date: Wed, 16 Oct 2024 17:25:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: mm/memcontrol-v1.c:1505 __mem_cgroup_usage_register_event() error:
- uninitialized symbol 'thresholds'.
-Message-ID: <202410161642.9VkskL2N-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 11/44]
+ arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning
+ (unit_address_vs_reg):
+ /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a
+ unit name, but no reg or ranges property
+Message-ID: <202410161719.zUzN6742-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,213 +65,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Roman Gushchin <roman.gushchin@linux.dev>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: vigneshr@ti.com
+CC: nm@ti.com
+TO: Vaishnav Achath <vaishnav.a@ti.com>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-commit: 66d60c428b23c5b171218985b6880958fb7edbe3 mm: memcg: move legacy memcg event code into memcontrol-v1.c
-date:   3 months ago
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   e680678e5fef8c191b1588d8d7520171011ebe93
+commit: 453e0e54ada305a3320d743e5511ee0fe844f23f [11/44] arm64: dts: ti: k3-j721e-mcu-wakeup: Add HyperBus node
 :::::: branch date: 14 hours ago
-:::::: commit date: 3 months ago
-config: sparc64-randconfig-r072-20241015 (https://download.01.org/0day-ci/archive/20241016/202410161642.9VkskL2N-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+:::::: commit date: 1 year, 4 months ago
+config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241016/202410161719.zUzN6742-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241016/202410161719.zUzN6742-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410161642.9VkskL2N-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410161719.zUzN6742-lkp@intel.com/
 
-smatch warnings:
-mm/memcontrol-v1.c:1505 __mem_cgroup_usage_register_event() error: uninitialized symbol 'thresholds'.
-mm/memcontrol-v1.c:1534 __mem_cgroup_usage_register_event() error: uninitialized symbol 'usage'.
-mm/memcontrol-v1.c:1591 __mem_cgroup_usage_unregister_event() error: uninitialized symbol 'thresholds'.
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning (unit_address_vs_reg): /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:71.39-76.8: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1909.34-1918.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:725.25-751.4: Warning (unique_unit_address): /bus@100000/pcie@2900000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2900000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:773.25-799.4: Warning (unique_unit_address): /bus@100000/pcie@2910000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2910000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:821.25-847.4: Warning (unique_unit_address): /bus@100000/pcie@2920000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2920000)
+--
+>> arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning (unit_address_vs_reg): /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:71.39-76.8: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:725.25-751.4: Warning (unique_unit_address): /bus@100000/pcie@2900000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2900000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:773.25-799.4: Warning (unique_unit_address): /bus@100000/pcie@2910000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2910000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:821.25-847.4: Warning (unique_unit_address): /bus@100000/pcie@2920000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2920000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:869.25-895.4: Warning (unique_unit_address): /bus@100000/pcie@2930000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2930000)
 
-vim +/thresholds +1505 mm/memcontrol-v1.c
+vim +184 arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi
 
-66d60c428b23c5 Roman Gushchin 2024-06-24  1479  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1480  static int __mem_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1481  	struct eventfd_ctx *eventfd, const char *args, enum res_type type)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1482  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1483  	struct mem_cgroup_thresholds *thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1484  	struct mem_cgroup_threshold_ary *new;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1485  	unsigned long threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1486  	unsigned long usage;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1487  	int i, size, ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1488  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1489  	ret = page_counter_memparse(args, "-1", &threshold);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1490  	if (ret)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1491  		return ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1492  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1493  	mutex_lock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1494  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1495  	if (type == _MEM) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1496  		thresholds = &memcg->thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1497  		usage = mem_cgroup_usage(memcg, false);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1498  	} else if (type == _MEMSWAP) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1499  		thresholds = &memcg->memsw_thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1500  		usage = mem_cgroup_usage(memcg, true);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1501  	} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1502  		BUG();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1503  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1504  	/* Check if a threshold crossed before adding a new one */
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1505  	if (thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1506  		__mem_cgroup_threshold(memcg, type == _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1507  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1508  	size = thresholds->primary ? thresholds->primary->size + 1 : 1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1509  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1510  	/* Allocate memory for new array of thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1511  	new = kmalloc(struct_size(new, entries, size), GFP_KERNEL);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1512  	if (!new) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1513  		ret = -ENOMEM;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1514  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1515  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1516  	new->size = size;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1517  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1518  	/* Copy thresholds (if any) to new array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1519  	if (thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1520  		memcpy(new->entries, thresholds->primary->entries,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1521  		       flex_array_size(new, entries, size - 1));
-66d60c428b23c5 Roman Gushchin 2024-06-24  1522  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1523  	/* Add new threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1524  	new->entries[size - 1].eventfd = eventfd;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1525  	new->entries[size - 1].threshold = threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1526  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1527  	/* Sort thresholds. Registering of new threshold isn't time-critical */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1528  	sort(new->entries, size, sizeof(*new->entries),
-66d60c428b23c5 Roman Gushchin 2024-06-24  1529  			compare_thresholds, NULL);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1530  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1531  	/* Find current threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1532  	new->current_threshold = -1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1533  	for (i = 0; i < size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1534  		if (new->entries[i].threshold <= usage) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1535  			/*
-66d60c428b23c5 Roman Gushchin 2024-06-24  1536  			 * new->current_threshold will not be used until
-66d60c428b23c5 Roman Gushchin 2024-06-24  1537  			 * rcu_assign_pointer(), so it's safe to increment
-66d60c428b23c5 Roman Gushchin 2024-06-24  1538  			 * it here.
-66d60c428b23c5 Roman Gushchin 2024-06-24  1539  			 */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1540  			++new->current_threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1541  		} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1542  			break;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1543  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1544  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1545  	/* Free old spare buffer and save old primary buffer as spare */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1546  	kfree(thresholds->spare);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1547  	thresholds->spare = thresholds->primary;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1548  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1549  	rcu_assign_pointer(thresholds->primary, new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1550  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1551  	/* To be sure that nobody uses thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1552  	synchronize_rcu();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1553  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1554  unlock:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1555  	mutex_unlock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1556  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1557  	return ret;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1558  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1559  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1560  static int mem_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1561  	struct eventfd_ctx *eventfd, const char *args)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1562  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1563  	return __mem_cgroup_usage_register_event(memcg, eventfd, args, _MEM);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1564  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1565  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1566  static int memsw_cgroup_usage_register_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1567  	struct eventfd_ctx *eventfd, const char *args)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1568  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1569  	return __mem_cgroup_usage_register_event(memcg, eventfd, args, _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1570  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1571  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1572  static void __mem_cgroup_usage_unregister_event(struct mem_cgroup *memcg,
-66d60c428b23c5 Roman Gushchin 2024-06-24  1573  	struct eventfd_ctx *eventfd, enum res_type type)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1574  {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1575  	struct mem_cgroup_thresholds *thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1576  	struct mem_cgroup_threshold_ary *new;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1577  	unsigned long usage;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1578  	int i, j, size, entries;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1579  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1580  	mutex_lock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1581  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1582  	if (type == _MEM) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1583  		thresholds = &memcg->thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1584  		usage = mem_cgroup_usage(memcg, false);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1585  	} else if (type == _MEMSWAP) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1586  		thresholds = &memcg->memsw_thresholds;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1587  		usage = mem_cgroup_usage(memcg, true);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1588  	} else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1589  		BUG();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1590  
-66d60c428b23c5 Roman Gushchin 2024-06-24 @1591  	if (!thresholds->primary)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1592  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1593  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1594  	/* Check if a threshold crossed before removing */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1595  	__mem_cgroup_threshold(memcg, type == _MEMSWAP);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1596  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1597  	/* Calculate new number of threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1598  	size = entries = 0;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1599  	for (i = 0; i < thresholds->primary->size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1600  		if (thresholds->primary->entries[i].eventfd != eventfd)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1601  			size++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1602  		else
-66d60c428b23c5 Roman Gushchin 2024-06-24  1603  			entries++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1604  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1605  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1606  	new = thresholds->spare;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1607  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1608  	/* If no items related to eventfd have been cleared, nothing to do */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1609  	if (!entries)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1610  		goto unlock;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1611  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1612  	/* Set thresholds array to NULL if we don't have thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1613  	if (!size) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1614  		kfree(new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1615  		new = NULL;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1616  		goto swap_buffers;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1617  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1618  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1619  	new->size = size;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1620  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1621  	/* Copy thresholds and find current threshold */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1622  	new->current_threshold = -1;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1623  	for (i = 0, j = 0; i < thresholds->primary->size; i++) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1624  		if (thresholds->primary->entries[i].eventfd == eventfd)
-66d60c428b23c5 Roman Gushchin 2024-06-24  1625  			continue;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1626  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1627  		new->entries[j] = thresholds->primary->entries[i];
-66d60c428b23c5 Roman Gushchin 2024-06-24  1628  		if (new->entries[j].threshold <= usage) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1629  			/*
-66d60c428b23c5 Roman Gushchin 2024-06-24  1630  			 * new->current_threshold will not be used
-66d60c428b23c5 Roman Gushchin 2024-06-24  1631  			 * until rcu_assign_pointer(), so it's safe to increment
-66d60c428b23c5 Roman Gushchin 2024-06-24  1632  			 * it here.
-66d60c428b23c5 Roman Gushchin 2024-06-24  1633  			 */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1634  			++new->current_threshold;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1635  		}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1636  		j++;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1637  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1638  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1639  swap_buffers:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1640  	/* Swap primary and spare array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1641  	thresholds->spare = thresholds->primary;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1642  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1643  	rcu_assign_pointer(thresholds->primary, new);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1644  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1645  	/* To be sure that nobody uses thresholds */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1646  	synchronize_rcu();
-66d60c428b23c5 Roman Gushchin 2024-06-24  1647  
-66d60c428b23c5 Roman Gushchin 2024-06-24  1648  	/* If all events are unregistered, free the spare array */
-66d60c428b23c5 Roman Gushchin 2024-06-24  1649  	if (!new) {
-66d60c428b23c5 Roman Gushchin 2024-06-24  1650  		kfree(thresholds->spare);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1651  		thresholds->spare = NULL;
-66d60c428b23c5 Roman Gushchin 2024-06-24  1652  	}
-66d60c428b23c5 Roman Gushchin 2024-06-24  1653  unlock:
-66d60c428b23c5 Roman Gushchin 2024-06-24  1654  	mutex_unlock(&memcg->thresholds_lock);
-66d60c428b23c5 Roman Gushchin 2024-06-24  1655  }
-66d60c428b23c5 Roman Gushchin 2024-06-24  1656  
+453e0e54ada305 Vaishnav Achath 2023-06-07 @184  		hbmc_mux: mux-controller@47000004 {
 
 -- 
 0-DAY CI Kernel Test Service
