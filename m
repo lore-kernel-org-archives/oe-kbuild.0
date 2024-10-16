@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CB41AF0DF
-	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 09:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265CF2076B9
+	for <oe-kbuild@lists.linux.dev>; Wed, 16 Oct 2024 10:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729072029; cv=none; b=OOITMHUM+5nJLQ2VUUhbKNYXDHiX3rHGi4VWXggP8CXicEA9f7R8dhZIm4Ar/w4CoegZENHCHgl1YXHhFCVUs/IYH8ghoniUQt+Rpdh15ae8tfYCcDdH81gnjcHTonTul5rzGM7fYyeu8P0EVIwp5EHtoCk9xfXI2eRiZxqOhNk=
+	t=1729074551; cv=none; b=q3ExKN/5UGRs+dKDQIAfYVFVMximwS6XsTErFHOZbZFx6FVGWeTOXFN0whIE/JJnypJ6UjScQCtgeKroFsnHUZITV1G9b/165REmzYzbldydJc6wv068jOdK6Q57d2bxmhEUlI3jwL8RKyPkYuLw3mXA20xvW6ENST/4Dvfq1lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729072029; c=relaxed/simple;
-	bh=T7pHpubVr3fWlfuhBBzPkEUqQHNX90PbS3UoTgzSxtk=;
+	s=arc-20240116; t=1729074551; c=relaxed/simple;
+	bh=huSIn4yAbJTj5Rut9nxtlWmoipnydnf4Nfd2NUulDZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dov2GmlgrJV0dI/c4Iy4Am1iiOnrVDOJEbLMReSZB3UgfnoXrmur3pPgqITU7SE5ENUWJhLv9r9Pa3H0aEEppqbvJFtr2c+14NY3H7Rt2GgsN9ncnFMhwVyB2LUQIB/rVLG/tAd52Ytvo1kNEbBiIx3w8mrr9nW2lVnlMmu5Nwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5vOs0kh; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=XnzRZe1/pCExtGQV21TfS6/JO+T3xbBf+dmIVKEIz7YNrJQzwbq/ZeZRiw/PWQSu7vDMoLKnGqn9ZIb8Crg/ntkHOmSAhWZ5s3grROtLSSyXHSx9HWIZE61NeCFpr35kFj/gkGj2ROSHo5igiiiI+2OnM8La1WVBcjNNNfZ0lrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Du4MONIZ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5vOs0kh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du4MONIZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729072027; x=1760608027;
+  t=1729074549; x=1760610549;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T7pHpubVr3fWlfuhBBzPkEUqQHNX90PbS3UoTgzSxtk=;
-  b=b5vOs0kh3IQICnZmXJVYEuMP7yYSV4XYVoB0fltgbaLiAinSq5E9auVy
-   KcWSeJrbrHYM31LhB4hpoqo5bHFkB9xNjIGJEuFjgy2iO/5oy7rPZFClN
-   B7PaYRpvg83RVeIdqCWXwRyrhQ+fVK7j3Gdo4Z7RVuolMIIqnneE2d9QC
-   kPek13DRcbxcZoZhEPP/0ohF/M90xeYOfDKfxMpDSyRV/tliKIUsgGvpg
-   MqMBs8WklcOGkGoBzg/7USx7gesDMOPLnmK3NSkqSy7VFiOo0BxPRUjw4
-   YyHBrEKhlCXyrnlObxt4BhsYLPeK5nQioWPBVrUA7e8lsylLdsM3ASbcx
-   w==;
-X-CSE-ConnectionGUID: HrgVUjYvQCmz+CMW2lYimA==
-X-CSE-MsgGUID: a3d5vexDRAa3d4s3W94tUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28606559"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28606559"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 02:47:07 -0700
-X-CSE-ConnectionGUID: 35lwalOeT2is3xKSXFF44Q==
-X-CSE-MsgGUID: Jvv+dqC5RXeD6gnQ1ZCTvw==
+  bh=huSIn4yAbJTj5Rut9nxtlWmoipnydnf4Nfd2NUulDZo=;
+  b=Du4MONIZc58N5He17DU/u+MCAGBEMKwulkBzGnY0jqQMu2tSDhSh05pD
+   8EpIhVvD+62W1Q6T3HaCH+yg7LNCweqoUDSZyW7HJsqaU/7uwhyzau1h5
+   lqLhAkTXI4rn7xfEjGs0qfrWwAOxNv0KwM9D4o9tlwo3iEt0LEq0GYb+f
+   4zrWr3YttaTZnhzetbVEPhyqwensXqtBrGktMbtArlDPzhV4YzL11vIba
+   CfQ4XE4MHmGmHSFi7ReocJi8jharKJ4E21lC1Tbyx3jN9S0Md5hT3APmy
+   yoKr6bbG4qNWS/i6MoJ7J3kHmaCH01Aal0/nzMfW93B1MlXh0OFiWaYFh
+   g==;
+X-CSE-ConnectionGUID: CuQ9VW/IRXueyof6O2rv1w==
+X-CSE-MsgGUID: LjwL6H8bSCyLzJ5oZHAIbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="46008971"
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="46008971"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 03:29:08 -0700
+X-CSE-ConnectionGUID: FzXBEoQtRkeEj44NWCTmIQ==
+X-CSE-MsgGUID: g2grRYaqRGaDT3OrZKVTNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
-   d="scan'208";a="79002870"
+   d="scan'208";a="78633966"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Oct 2024 02:47:05 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Oct 2024 03:29:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t10cQ-000KiH-2x;
-	Wed, 16 Oct 2024 09:47:02 +0000
-Date: Wed, 16 Oct 2024 17:46:54 +0800
+	id 1t11H6-000Km2-31;
+	Wed, 16 Oct 2024 10:29:04 +0000
+Date: Wed, 16 Oct 2024 18:28:30 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret()
- error: uninitialized symbol 'elr'.
-Message-ID: <202410161739.QGwRqrE5-lkp@intel.com>
+Subject: Re: [PATCH] misc: misc_minor_alloc to allocate ids for all
+ dynamic/misc dynamic minors
+Message-ID: <202410161811.aIPEJHOt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,90 +64,72 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Joey Gouly <joey.gouly@arm.com>
-CC: Oliver Upton <oliver.upton@linux.dev>
+In-Reply-To: <20241014131416.27324-1-vimal.agrawal@sophos.com>
+References: <20241014131416.27324-1-vimal.agrawal@sophos.com>
+TO: Vimal Agrawal <avimalin@gmail.com>
+TO: linux-kernel@vger.kernel.org
+TO: gregkh@linuxfoundation.org
+TO: arnd@arndb.de
+CC: avimalin@gmail.com
+CC: vimal.agrawal@sophos.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-commit: 213b3d1ea1612c6d26153be446923831c4534689 KVM: arm64: nv: Handle ERETA[AB] instructions
-date:   6 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241016/202410161739.QGwRqrE5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+Hi Vimal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus soc/for-next linus/master v6.12-rc3 next-20241016]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vimal-Agrawal/misc-misc_minor_alloc-to-allocate-ids-for-all-dynamic-misc-dynamic-minors/20241014-211915
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20241014131416.27324-1-vimal.agrawal%40sophos.com
+patch subject: [PATCH] misc: misc_minor_alloc to allocate ids for all dynamic/misc dynamic minors
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: sparc64-randconfig-r072-20241015 (https://download.01.org/0day-ci/archive/20241016/202410161811.aIPEJHOt-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410161739.QGwRqrE5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410161811.aIPEJHOt-lkp@intel.com/
 
-New smatch warnings:
-arch/arm64/kvm/emulate-nested.c:2209 kvm_emulate_nested_eret() error: uninitialized symbol 'elr'.
+smatch warnings:
+drivers/char/misc.c:89 misc_minor_alloc() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-arch/arm64/kvm/emulate-nested.c:2082 triage_sysreg_trap() error: uninitialized symbol 'val'.
+vim +/ret +89 drivers/char/misc.c
 
-vim +/elr +2209 arch/arm64/kvm/emulate-nested.c
-
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2172  
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2173  void kvm_emulate_nested_eret(struct kvm_vcpu *vcpu)
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2174  {
-213b3d1ea1612c Marc Zyngier 2024-04-19  2175  	u64 spsr, elr, esr;
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2176  
-95537f06b9e826 Marc Zyngier 2024-04-19  2177  	/*
-95537f06b9e826 Marc Zyngier 2024-04-19  2178  	 * Forward this trap to the virtual EL2 if the virtual
-95537f06b9e826 Marc Zyngier 2024-04-19  2179  	 * HCR_EL2.NV bit is set and this is coming from !EL2.
-95537f06b9e826 Marc Zyngier 2024-04-19  2180  	 */
-95537f06b9e826 Marc Zyngier 2024-04-19  2181  	if (forward_traps(vcpu, HCR_NV))
-95537f06b9e826 Marc Zyngier 2024-04-19  2182  		return;
-95537f06b9e826 Marc Zyngier 2024-04-19  2183  
-213b3d1ea1612c Marc Zyngier 2024-04-19  2184  	/* Check for an ERETAx */
-213b3d1ea1612c Marc Zyngier 2024-04-19  2185  	esr = kvm_vcpu_get_esr(vcpu);
-213b3d1ea1612c Marc Zyngier 2024-04-19  2186  	if (esr_iss_is_eretax(esr) && !kvm_auth_eretax(vcpu, &elr)) {
-213b3d1ea1612c Marc Zyngier 2024-04-19  2187  		/*
-213b3d1ea1612c Marc Zyngier 2024-04-19  2188  		 * Oh no, ERETAx failed to authenticate.  If we have
-213b3d1ea1612c Marc Zyngier 2024-04-19  2189  		 * FPACCOMBINE, deliver an exception right away.  If we
-213b3d1ea1612c Marc Zyngier 2024-04-19  2190  		 * don't, then let the mangled ELR value trickle down the
-213b3d1ea1612c Marc Zyngier 2024-04-19  2191  		 * ERET handling, and the guest will have a little surprise.
-213b3d1ea1612c Marc Zyngier 2024-04-19  2192  		 */
-213b3d1ea1612c Marc Zyngier 2024-04-19  2193  		if (kvm_has_pauth(vcpu->kvm, FPACCOMBINE)) {
-213b3d1ea1612c Marc Zyngier 2024-04-19  2194  			esr &= ESR_ELx_ERET_ISS_ERETA;
-213b3d1ea1612c Marc Zyngier 2024-04-19  2195  			esr |= FIELD_PREP(ESR_ELx_EC_MASK, ESR_ELx_EC_FPAC);
-213b3d1ea1612c Marc Zyngier 2024-04-19  2196  			kvm_inject_nested_sync(vcpu, esr);
-213b3d1ea1612c Marc Zyngier 2024-04-19  2197  			return;
-213b3d1ea1612c Marc Zyngier 2024-04-19  2198  		}
-213b3d1ea1612c Marc Zyngier 2024-04-19  2199  	}
-213b3d1ea1612c Marc Zyngier 2024-04-19  2200  
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2201  	preempt_disable();
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2202  	kvm_arch_vcpu_put(vcpu);
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2203  
-dd0717a998f77f Marc Zyngier 2024-04-19  2204  	spsr = __vcpu_sys_reg(vcpu, SPSR_EL2);
-dd0717a998f77f Marc Zyngier 2024-04-19  2205  	spsr = kvm_check_illegal_exception_return(vcpu, spsr);
-213b3d1ea1612c Marc Zyngier 2024-04-19  2206  	if (!esr_iss_is_eretax(esr))
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2207  		elr = __vcpu_sys_reg(vcpu, ELR_EL2);
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2208  
-47f3a2fc765ae2 Jintack Lim  2023-02-09 @2209  	trace_kvm_nested_eret(vcpu, elr, spsr);
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2210  
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2211  	/*
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2212  	 * Note that the current exception level is always the virtual EL2,
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2213  	 * since we set HCR_EL2.NV bit only when entering the virtual EL2.
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2214  	 */
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2215  	*vcpu_pc(vcpu) = elr;
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2216  	*vcpu_cpsr(vcpu) = spsr;
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2217  
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2218  	kvm_arch_vcpu_load(vcpu, smp_processor_id());
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2219  	preempt_enable();
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2220  }
-47f3a2fc765ae2 Jintack Lim  2023-02-09  2221  
-
-:::::: The code at line 2209 was first introduced by commit
-:::::: 47f3a2fc765ae2719e6daf39c0a1c757934b152e KVM: arm64: nv: Support virtual EL2 exceptions
-
-:::::: TO: Jintack Lim <jintack.lim@linaro.org>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+ab760791c0cfbb D Scott Phillips 2022-11-14  65  
+d52c84545e305b Vimal Agrawal    2024-10-14  66  static int misc_minor_alloc(int minor)
+ab760791c0cfbb D Scott Phillips 2022-11-14  67  {
+ab760791c0cfbb D Scott Phillips 2022-11-14  68  	int ret;
+ab760791c0cfbb D Scott Phillips 2022-11-14  69  
+d52c84545e305b Vimal Agrawal    2024-10-14  70  	if (minor == MISC_DYNAMIC_MINOR) {
+d52c84545e305b Vimal Agrawal    2024-10-14  71  		/* allocate free id */
+ab760791c0cfbb D Scott Phillips 2022-11-14  72  		ret = ida_alloc_max(&misc_minors_ida, DYNAMIC_MINORS - 1, GFP_KERNEL);
+ab760791c0cfbb D Scott Phillips 2022-11-14  73  		if (ret >= 0) {
+ab760791c0cfbb D Scott Phillips 2022-11-14  74  			ret = DYNAMIC_MINORS - ret - 1;
+ab760791c0cfbb D Scott Phillips 2022-11-14  75  		} else {
+ab760791c0cfbb D Scott Phillips 2022-11-14  76  			ret = ida_alloc_range(&misc_minors_ida, MISC_DYNAMIC_MINOR + 1,
+ab760791c0cfbb D Scott Phillips 2022-11-14  77  				      MINORMASK, GFP_KERNEL);
+ab760791c0cfbb D Scott Phillips 2022-11-14  78  		}
+d52c84545e305b Vimal Agrawal    2024-10-14  79  	} else {
+d52c84545e305b Vimal Agrawal    2024-10-14  80  		/* specific minor, check if it is in dynamic or misc dynamic range  */
+d52c84545e305b Vimal Agrawal    2024-10-14  81  		if (minor < DYNAMIC_MINORS) {
+d52c84545e305b Vimal Agrawal    2024-10-14  82  			minor = DYNAMIC_MINORS - minor - 1;
+d52c84545e305b Vimal Agrawal    2024-10-14  83  			ret = ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
+d52c84545e305b Vimal Agrawal    2024-10-14  84  		}
+d52c84545e305b Vimal Agrawal    2024-10-14  85  
+d52c84545e305b Vimal Agrawal    2024-10-14  86  		if (minor > MISC_DYNAMIC_MINOR)
+d52c84545e305b Vimal Agrawal    2024-10-14  87  			ret = ida_alloc_range(&misc_minors_ida, minor, minor, GFP_KERNEL);
+d52c84545e305b Vimal Agrawal    2024-10-14  88  	}
+ab760791c0cfbb D Scott Phillips 2022-11-14 @89  	return ret;
+ab760791c0cfbb D Scott Phillips 2022-11-14  90  }
+ab760791c0cfbb D Scott Phillips 2022-11-14  91  
 
 -- 
 0-DAY CI Kernel Test Service
