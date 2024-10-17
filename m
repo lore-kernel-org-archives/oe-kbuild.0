@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22308111AD
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Oct 2024 01:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC1D1DA5A
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Oct 2024 01:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729127695; cv=none; b=HpU2sZkOHydugYzMnHCDSztuFLRtNl34W+uJ3w8CCPNnfPWgE2Alill70us+LzjX1Rv1bd9NbEDqtuX6kGkYOg4RsRLm8de0ppDCYCrWI6BlHtVOoQ2KW5/KSei3mCyMAQFnf/LS7pt3Ltj/yb0Chi4JW3ZUUxEE3zv6LUsG7PQ=
+	t=1729128295; cv=none; b=TdJMAiTZ+ITSyqrGAOLYXtQQGz8nCjZ471xb6WX4FfAgyedMYx6u9JdVzzlHGFeVVJ1gobS9a4zkTOycXUZQk23WWOhWL130Mq/Gd+szQ/3SDuAo3Nuh9DNJhAiKc7JK9HXkwAky+ep/O/sTYQErT+b6uvz5CgB6HBwsi6EMyqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729127695; c=relaxed/simple;
-	bh=kSMWQo8yJPmvMsVZ79lZ83Z/Bdar3mv3GMfW14N4B38=;
+	s=arc-20240116; t=1729128295; c=relaxed/simple;
+	bh=4AiLXYPijbMirKw03tgY9DxvyBxLZPyw57R16/zhNpo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bvb7EI273XA0S5fbrs5pt+fP3/BiJO2STBOzzHEquHlnm90oA2tyPjWadJpvSn9CFoEmgL/1kaO3GH6D/6Xmuv+4xbJiAyVtSHYsKhUT6af+OdUnIU56DonVgooOi9xIFUSO2cqFPiMfv+d0vmc/rh5HFrGAPucRKlxqnhg03v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKI3GoBc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=orCB6ctMQrdlfBXcaK0fxYgFhaiwbqGOS1kduwyX5QMAFoRNo8UbbBAPxI1uAnn1ZkwQ0Hkz/Nj8vNke66MlqP5ZjoLZdBp9VOOZ1o1ueAdU9n06Z3DqNhceoG0A3mIU2Bl5/5Dl5xJq/i2N8gwEvOpVhiYgE+oWlZzB0aeDRsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MtSkaWP8; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKI3GoBc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtSkaWP8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729127693; x=1760663693;
+  t=1729128293; x=1760664293;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kSMWQo8yJPmvMsVZ79lZ83Z/Bdar3mv3GMfW14N4B38=;
-  b=CKI3GoBclGvF0oQh+BgLTNuZNg+44FH+YcufpdAq7+uFfzGJ2j4VZJJs
-   k1JK+nJLowwOZeDZ5qXWmTuiNTuuLxX2c8crdY/7HHjcCLWRCjrKg//Pq
-   FLIgmAlcBeImrj3J6ipNIQ+MOQCQHwrjmEdsRHAALfN3yWEyKwKv2Cf99
-   yorsQY2VVXlc4+alA/0B8yKYK1QhrwvhigOziipU+Uabk0OpMNVMhxHfJ
-   mPk6MhQYZQTnFcwEV1wP5gecPqVEGFHjWQC6sktn2PbgLYumxby+xS1Lu
-   fsvi2/hSuyUaGKw5HO/657MwMHgR6NEFhA9/TjBE36f1PVNTjgQDrYTGR
+  bh=4AiLXYPijbMirKw03tgY9DxvyBxLZPyw57R16/zhNpo=;
+  b=MtSkaWP8RQJ2zyCXWFOXyYAxQl+WNUVDGxNt2mT47lPWwauDHg9JKOzm
+   xqxY7vj3Fdl1diNiiACqN23tbErW3j4PJUwh4b07YqHJNfhBsKZ/rhWk9
+   9ZrAaUuM4Y+NHLmYuwZrviKIQ5YKWqIk3Dv2uLwCVV//2gBWVQXmg0ntY
+   A6wPjEwFvHWKpcT+wjOh8kpHz122Aep+FATGMmv/zbzNtxmm0VeRgsOtr
+   xawC5HSFnLFfOOkj85yJl7jQ0qyfc3WzeroNU0jYT906jkVe1GMoLelZ1
+   22adZS6w032UlVynqAi2dkiXOcK7jOizWLj/Wj8pKZGZC+NCf2B81ZtBC
    w==;
-X-CSE-ConnectionGUID: +XfBGyU3Sp2IptKF0KzAbw==
-X-CSE-MsgGUID: +Kr57lS/SiOOBUrilAtcmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28553230"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28553230"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 18:14:52 -0700
-X-CSE-ConnectionGUID: FiH7vhEySPKSQxPzYl7c1A==
-X-CSE-MsgGUID: KoP9kmytT9q/ntIfudG8Uw==
+X-CSE-ConnectionGUID: b/plRv+YTpGr2h2pewPBFg==
+X-CSE-MsgGUID: AookEu5STEe9chpMbQPeig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28042247"
+X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; 
+   d="scan'208";a="28042247"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 18:24:52 -0700
+X-CSE-ConnectionGUID: Dgx8xdWkQfOmrtLlRYD7HQ==
+X-CSE-MsgGUID: i9omFbDXQ0Sg9FR3+HoQAw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="83225826"
+X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; 
+   d="scan'208";a="82353559"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Oct 2024 18:14:51 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 16 Oct 2024 18:24:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1F6G-000LaX-1n;
-	Thu, 17 Oct 2024 01:14:48 +0000
-Date: Thu, 17 Oct 2024 09:14:12 +0800
+	id 1t1FFw-000Lal-27;
+	Thu, 17 Oct 2024 01:24:48 +0000
+Date: Thu, 17 Oct 2024 09:24:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
- we previously assumed 'fwspec' could be null (see line 465)
-Message-ID: <202410170948.gfVfAuei-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/scsi/mpt3sas/mpt3sas_base.c:3026:3-24: opportunity for
+ str_enabled_disabled(ioc -> high_iops_queues)
+Message-ID: <202410170920.EQOPoCZq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,98 +65,103 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Robin Murphy <robin.murphy@arm.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jerry Snitselaar <jsnitsel@redhat.com>
+TO: Suganath Prabu S <suganath-prabu.subramani@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c964ced7726294d40913f2127c3f185a92cb4a41
-commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241017/202410170948.gfVfAuei-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+commit: 18fd3d8cf903404b2c7cd31a083be4db2e6a2a76 scsi: mpt3sas: Add flag high_iops_queues
+date:   5 years ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 years ago
+config: i386-randconfig-051-20241016 (https://download.01.org/0day-ci/archive/20241017/202410170920.EQOPoCZq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410170948.gfVfAuei-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410170920.EQOPoCZq-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/scsi/mpt3sas/mpt3sas_base.c:3026:3-24: opportunity for str_enabled_disabled(ioc -> high_iops_queues)
 
-vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
+vim +3026 drivers/scsi/mpt3sas/mpt3sas_base.c
 
-b17336c55d8928c Honghui Zhang 2016-06-08  451  
-ad9b10e533f6fb3 Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
-b17336c55d8928c Honghui Zhang 2016-06-08  453  {
-a9bf2eec5a6fc01 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-b17336c55d8928c Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
-ad9b10e533f6fb3 Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
-635319a4a7444ca Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
-635319a4a7444ca Yong Wu       2022-01-17  458  	struct device_link *link;
-635319a4a7444ca Yong Wu       2022-01-17  459  	struct device *larbdev;
-b17336c55d8928c Honghui Zhang 2016-06-08  460  
-822a2ed8c606caf Yong Wu       2022-01-17  461  	/*
-822a2ed8c606caf Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
-822a2ed8c606caf Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
-822a2ed8c606caf Yong Wu       2022-01-17  464  	 */
-822a2ed8c606caf Yong Wu       2022-01-17 @465  	if (fwspec) {
-822a2ed8c606caf Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
-822a2ed8c606caf Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
-822a2ed8c606caf Yong Wu       2022-01-17  468  	}
-822a2ed8c606caf Yong Wu       2022-01-17  469  
-f90a9a85fb946e1 Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
-f90a9a85fb946e1 Yong Wu       2021-04-12  471  					   "#iommu-cells",
-f90a9a85fb946e1 Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
-b17336c55d8928c Honghui Zhang 2016-06-08  473  
-ad9b10e533f6fb3 Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
-f90a9a85fb946e1 Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
-f90a9a85fb946e1 Yong Wu       2021-04-12  476  		if (err)
-f90a9a85fb946e1 Yong Wu       2021-04-12  477  			return ERR_PTR(err);
-da5d2748e4a4512 Joerg Roedel  2019-01-23  478  
-da5d2748e4a4512 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
-da5d2748e4a4512 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
-f90a9a85fb946e1 Yong Wu       2021-04-12  481  		idx++;
-b17336c55d8928c Honghui Zhang 2016-06-08  482  	}
-b17336c55d8928c Honghui Zhang 2016-06-08  483  
-57dbf81f50c82a0 Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
-b17336c55d8928c Honghui Zhang 2016-06-08  485  
-635319a4a7444ca Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
-635319a4a7444ca Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
-de78657e16f4141 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
-de78657e16f4141 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
-de78657e16f4141 Miles Chen    2022-05-05  490  
-635319a4a7444ca Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
-635319a4a7444ca Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
-635319a4a7444ca Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
-635319a4a7444ca Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
-635319a4a7444ca Yong Wu       2022-01-17  495  				larbid, larbidx);
-635319a4a7444ca Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
-635319a4a7444ca Yong Wu       2022-01-17  497  		}
-635319a4a7444ca Yong Wu       2022-01-17  498  	}
-635319a4a7444ca Yong Wu       2022-01-17  499  
-635319a4a7444ca Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
-de78657e16f4141 Miles Chen    2022-05-05  501  	if (!larbdev)
-de78657e16f4141 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
-de78657e16f4141 Miles Chen    2022-05-05  503  
-635319a4a7444ca Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
-635319a4a7444ca Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-635319a4a7444ca Yong Wu       2022-01-17  506  	if (!link)
-635319a4a7444ca Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-635319a4a7444ca Yong Wu       2022-01-17  508  
-57dbf81f50c82a0 Joerg Roedel  2020-04-29  509  	return &data->iommu;
-57dbf81f50c82a0 Joerg Roedel  2020-04-29  510  }
-57dbf81f50c82a0 Joerg Roedel  2020-04-29  511  
-
-:::::: The code at line 487 was first introduced by commit
-:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
-
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+f92363d1235949 Sreekanth Reddy          2012-11-30  2956  
+f92363d1235949 Sreekanth Reddy          2012-11-30  2957  /**
+f92363d1235949 Sreekanth Reddy          2012-11-30  2958   * _base_enable_msix - enables msix, failback to io_apic
+f92363d1235949 Sreekanth Reddy          2012-11-30  2959   * @ioc: per adapter object
+f92363d1235949 Sreekanth Reddy          2012-11-30  2960   *
+f92363d1235949 Sreekanth Reddy          2012-11-30  2961   */
+f92363d1235949 Sreekanth Reddy          2012-11-30  2962  static int
+f92363d1235949 Sreekanth Reddy          2012-11-30  2963  _base_enable_msix(struct MPT3SAS_ADAPTER *ioc)
+f92363d1235949 Sreekanth Reddy          2012-11-30  2964  {
+f92363d1235949 Sreekanth Reddy          2012-11-30  2965  	int r;
+bb3506612346c2 Suganath Prabu Subramani 2016-10-26  2966  	int i, local_max_msix_vectors;
+f92363d1235949 Sreekanth Reddy          2012-11-30  2967  	u8 try_msix = 0;
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  2968  	unsigned int irq_flags = PCI_IRQ_MSIX;
+f92363d1235949 Sreekanth Reddy          2012-11-30  2969  
+f92363d1235949 Sreekanth Reddy          2012-11-30  2970  	if (msix_disable == -1 || msix_disable == 0)
+f92363d1235949 Sreekanth Reddy          2012-11-30  2971  		try_msix = 1;
+f92363d1235949 Sreekanth Reddy          2012-11-30  2972  
+f92363d1235949 Sreekanth Reddy          2012-11-30  2973  	if (!try_msix)
+f92363d1235949 Sreekanth Reddy          2012-11-30  2974  		goto try_ioapic;
+f92363d1235949 Sreekanth Reddy          2012-11-30  2975  
+f92363d1235949 Sreekanth Reddy          2012-11-30  2976  	if (_base_check_enable_msix(ioc) != 0)
+f92363d1235949 Sreekanth Reddy          2012-11-30  2977  		goto try_ioapic;
+f92363d1235949 Sreekanth Reddy          2012-11-30  2978  
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2979  	ioc_info(ioc, "MSI-X vectors supported: %d\n", ioc->msix_vector_count);
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2980  	pr_info("\t no of cores: %d, max_msix_vectors: %d\n",
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2981  		ioc->cpu_count, max_msix_vectors);
+f92363d1235949 Sreekanth Reddy          2012-11-30  2982  
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2983  	_base_check_and_enable_high_iops_queues(ioc, ioc->msix_vector_count);
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2984  	ioc->reply_queue_count =
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2985  		min_t(int, ioc->cpu_count + ioc->high_iops_queues,
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  2986  		ioc->msix_vector_count);
+9c5000606d2a0d Sreekanth Reddy          2013-08-14  2987  
+9b05c91ae7fbff Sreekanth Reddy          2014-09-12  2988  	if (!ioc->rdpq_array_enable && max_msix_vectors == -1)
+06f5f976a6ee0f Sreekanth Reddy          2017-10-10  2989  		local_max_msix_vectors = (reset_devices) ? 1 : 8;
+bb3506612346c2 Suganath Prabu Subramani 2016-10-26  2990  	else
+bb3506612346c2 Suganath Prabu Subramani 2016-10-26  2991  		local_max_msix_vectors = max_msix_vectors;
+9b05c91ae7fbff Sreekanth Reddy          2014-09-12  2992  
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  2993  	if (local_max_msix_vectors > 0)
+bb3506612346c2 Suganath Prabu Subramani 2016-10-26  2994  		ioc->reply_queue_count = min_t(int, local_max_msix_vectors,
+9c5000606d2a0d Sreekanth Reddy          2013-08-14  2995  			ioc->reply_queue_count);
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  2996  	else if (local_max_msix_vectors == 0)
+9b05c91ae7fbff Sreekanth Reddy          2014-09-12  2997  		goto try_ioapic;
+9c5000606d2a0d Sreekanth Reddy          2013-08-14  2998  
+64038301baed7d Suganath Prabu Subramani 2016-02-08  2999  	if (ioc->msix_vector_count < ioc->cpu_count)
+64038301baed7d Suganath Prabu Subramani 2016-02-08  3000  		smp_affinity_enable = 0;
+64038301baed7d Suganath Prabu Subramani 2016-02-08  3001  
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3002  	if (smp_affinity_enable)
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3003  		irq_flags |= PCI_IRQ_AFFINITY;
+f92363d1235949 Sreekanth Reddy          2012-11-30  3004  
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3005  	r = pci_alloc_irq_vectors(ioc->pdev, 1, ioc->reply_queue_count,
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3006  				  irq_flags);
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3007  	if (r < 0) {
+919d8a3f3fef99 Joe Perches              2018-09-17  3008  		dfailprintk(ioc,
+919d8a3f3fef99 Joe Perches              2018-09-17  3009  			    ioc_info(ioc, "pci_alloc_irq_vectors failed (r=%d) !!!\n",
+919d8a3f3fef99 Joe Perches              2018-09-17  3010  				     r));
+f92363d1235949 Sreekanth Reddy          2012-11-30  3011  		goto try_ioapic;
+f92363d1235949 Sreekanth Reddy          2012-11-30  3012  	}
+f92363d1235949 Sreekanth Reddy          2012-11-30  3013  
+f92363d1235949 Sreekanth Reddy          2012-11-30  3014  	ioc->msix_enable = 1;
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3015  	ioc->reply_queue_count = r;
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3016  	for (i = 0; i < ioc->reply_queue_count; i++) {
+1d55abc0e98a0b Hannes Reinecke          2017-02-22  3017  		r = _base_request_irq(ioc, i);
+f92363d1235949 Sreekanth Reddy          2012-11-30  3018  		if (r) {
+f92363d1235949 Sreekanth Reddy          2012-11-30  3019  			_base_free_irq(ioc);
+f92363d1235949 Sreekanth Reddy          2012-11-30  3020  			_base_disable_msix(ioc);
+f92363d1235949 Sreekanth Reddy          2012-11-30  3021  			goto try_ioapic;
+f92363d1235949 Sreekanth Reddy          2012-11-30  3022  		}
+f92363d1235949 Sreekanth Reddy          2012-11-30  3023  	}
+f92363d1235949 Sreekanth Reddy          2012-11-30  3024  
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  3025  	ioc_info(ioc, "High IOPs queues : %s\n",
+18fd3d8cf90340 Suganath Prabu S         2019-05-31 @3026  			ioc->high_iops_queues ? "enabled" : "disabled");
+18fd3d8cf90340 Suganath Prabu S         2019-05-31  3027  
+f92363d1235949 Sreekanth Reddy          2012-11-30  3028  	return 0;
+f92363d1235949 Sreekanth Reddy          2012-11-30  3029  
 
 -- 
 0-DAY CI Kernel Test Service
