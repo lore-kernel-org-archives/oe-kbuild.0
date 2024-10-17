@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BA11DD0E9
-	for <oe-kbuild@lists.linux.dev>; Thu, 17 Oct 2024 13:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8FC40858
+	for <oe-kbuild@lists.linux.dev>; Thu, 17 Oct 2024 19:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729170106; cv=none; b=PfKUiNRroE1hqh58VCe4I0Ium84LrzvZXKVmdrir8mXFkl8/4ah6KSRH5BCkAUcAMU7VfCd3GXJxhqbpCq9zkhiMbXtiVgIhOCyZjpIZRJV5zwrONhIty965K0bzd+mOnsg/SqMsO9n/wxoXuw9fycmkjrHPccutf10S7mYiwgA=
+	t=1729193512; cv=none; b=krT1gxhER3s4gTxyNar61y5r1XpVzYEA27zYvH8Xxo7qnomrdNMPxidFsLjItdXsIEeeTMjpfOiG4zXuXs3hx8M8mi464JQOjZtRv6rR37EovpfFGIDeiEKVZY4vPFPGOMpwnioNGEFs//bJiUZn32VUVzPXtCyPqwOYaL1OQsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729170106; c=relaxed/simple;
-	bh=5N55mt7QaVhrQFPwfua4stgiaydqPmAEw87bxcBlDuU=;
+	s=arc-20240116; t=1729193512; c=relaxed/simple;
+	bh=vI8S9OKjkj9oeTZxVPdUKAyL7nkI8jLVZjd+lE9WlkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XpbfEbV4eRC4/Vm2gDSxyzK9x/pmOu3CMTp4ZyS4ph/oHcw7SbGi6YJEElhIKDpq7cwBJ7lnqk0ZlTDaJamJz1mTwsyBH3Va+Nf8p3MPmMTSRnzZ57YmvBd2Tn/QMCYVYJtqqpiFJV++rRGng5exyOiAW9jCgaNaF5gRaFQgJac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+1SVWJa; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=JxZrqUUrk0N5L3mtF7nBM8nP9e+emHcfNb/qlLyvLr2e1tcSq8lDS4x7BcOwXkCZvZu/QSRcY7sah9ZG3Wlikdtlggff5WFWXS/56S5ljeurxLhj+Ipc1o0dpzY1Xoyzst08lhy5bwhtwZH9hF8JQ9hKDELKFwZVlfHjRW6Rwd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgXgHXuF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+1SVWJa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgXgHXuF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729170103; x=1760706103;
+  t=1729193507; x=1760729507;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5N55mt7QaVhrQFPwfua4stgiaydqPmAEw87bxcBlDuU=;
-  b=P+1SVWJa3Qq1ZbJKGMBehyHhvDBT78kq/5r5vPj+WoOJETSHylwwsIBG
-   2Rm0Wk4ERtTOw9fCU5qZy1w9OXgADJ7Nqn4+InJBCRv+bmkZYhZSgRF24
-   IA2+PXGJ1zTWDlNeOAb6Y4TCyZCQE3GvRo/I+PlhOn4wnpNU25WfWbe1I
-   CMKAZOotZy6cu2VyVwQOREE1bGi8qc3etybmoKtSpKOa0Ad5TXHPY7x1m
-   b74XPGnZTxZanKYLFzPfyZ+TZmlnYHZQk6TUlG5k2VW8Kum2JmDdG2NJ1
-   P8pe+f3FBulUJkd46ktYbX/UwzkH3t9dKzNEyS/ChIXfE08xgoddJD5qL
+  bh=vI8S9OKjkj9oeTZxVPdUKAyL7nkI8jLVZjd+lE9WlkI=;
+  b=RgXgHXuFPPgvri27bkBnk3txN6y+zPrBLrISR2Om1LNUOSOMNMtSLQxR
+   3tfgcoZh4RK6tZGaQ1IUhomLmnbHyWxj7BZ3pXkqSNVlLTCjDhOZkmD54
+   D1sjmWK/tWBNARmxlrgKmFUgvvLliIQcJ2QHcQw5mEkqlaaM4KGug8sAI
+   RZ6Jb1Bo92L30eWuQDAgg7lIQ1FhJgbm6MaJe/lG6TWBYddSE1Lvza2rj
+   LDiy01JfKH5eKUHk6Vf6ExnuY3oG3ydnuuO8glX2O51I6Aw5IxqEIt4oi
+   hzAE8iYPwvJ3wgfuZ4sFICjKTy4UyhaFVxFI4+QGocI3mtsAs8VxMgy7j
    w==;
-X-CSE-ConnectionGUID: nvJ5HFxrTHmNUGXcwBydog==
-X-CSE-MsgGUID: 2vx8d2QwTUW6UXidoqWSRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28606543"
+X-CSE-ConnectionGUID: Bl1AFOxiS4ul0Sei23ppLQ==
+X-CSE-MsgGUID: Pbs0MjhtRAyLLUU4jG4p7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28854699"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28606543"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:01:41 -0700
-X-CSE-ConnectionGUID: SpAi5EDqSBGqpm76Vo20Ww==
-X-CSE-MsgGUID: vxY4hVBJQd2MiikQnFDPow==
+   d="scan'208";a="28854699"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 12:31:45 -0700
+X-CSE-ConnectionGUID: SbTmLHHuSzmgJaEy4mrkVA==
+X-CSE-MsgGUID: wCQ4DpYNSoC3JmPnliIKww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="83186858"
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
+   d="scan'208";a="83204465"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 06:01:23 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 17 Oct 2024 12:31:44 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1Q81-000MKx-0A;
-	Thu, 17 Oct 2024 13:01:21 +0000
-Date: Thu, 17 Oct 2024 21:01:20 +0800
+	id 1t1WDm-000MpL-09;
+	Thu, 17 Oct 2024 19:31:42 +0000
+Date: Fri, 18 Oct 2024 03:31:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v9 3/5] arm64: dts: imx8ulp-evk: add nxp secure enclave
- firmware
-Message-ID: <202410172027.P9HUVmQB-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] f2fs: multidevice: add stats in debugfs
+Message-ID: <202410180307.GcJVXKTl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,213 +61,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241016-imx-se-if-v9-3-fd8fa0c04eab@nxp.com>
-References: <20241016-imx-se-if-v9-3-fd8fa0c04eab@nxp.com>
-TO: Pankaj Gupta <pankaj.gupta@nxp.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Shawn Guo <shawnguo@kernel.org>
-TO: Sascha Hauer <s.hauer@pengutronix.de>
-TO: Pengutronix Kernel Team <kernel@pengutronix.de>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: Pankaj Gupta <pankaj.gupta@nxp.com>
-CC: linux-doc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: imx@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20241016082420.610844-1-chao@kernel.org>
+References: <20241016082420.610844-1-chao@kernel.org>
+TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-Hi Pankaj,
+Hi Chao,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev linus/master v6.12-rc3 next-20241017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20241017-002539
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241016-imx-se-if-v9-3-fd8fa0c04eab%40nxp.com
-patch subject: [PATCH v9 3/5] arm64: dts: imx8ulp-evk: add nxp secure enclave firmware
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-randconfig-001-20241017 (https://download.01.org/0day-ci/archive/20241017/202410172027.P9HUVmQB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410172027.P9HUVmQB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-multidevice-add-stats-in-debugfs/20241016-162613
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20241016082420.610844-1-chao%40kernel.org
+patch subject: [PATCH] f2fs: multidevice: add stats in debugfs
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-r073-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180307.GcJVXKTl-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410172027.P9HUVmQB-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410180307.GcJVXKTl-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8ulp.dtsi:169.11-196.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+smatch warnings:
+fs/f2fs/debug.c:118 update_multidevice_stats() warn: check sign expansion for '-1'
 
-vim +169 arch/arm64/boot/dts/freescale/imx8ulp.dtsi
+vim +118 fs/f2fs/debug.c
 
-fe6291e963134d Jacky Bai           2021-11-26   13  
-fe6291e963134d Jacky Bai           2021-11-26   14  / {
-fe6291e963134d Jacky Bai           2021-11-26   15  	interrupt-parent = <&gic>;
-fe6291e963134d Jacky Bai           2021-11-26   16  	#address-cells = <2>;
-fe6291e963134d Jacky Bai           2021-11-26   17  	#size-cells = <2>;
-fe6291e963134d Jacky Bai           2021-11-26   18  
-fe6291e963134d Jacky Bai           2021-11-26   19  	aliases {
-683d7ffb7daaab Wei Fang            2022-07-27   20  		ethernet0 = &fec;
-fe6291e963134d Jacky Bai           2021-11-26   21  		gpio0 = &gpiod;
-fe6291e963134d Jacky Bai           2021-11-26   22  		gpio1 = &gpioe;
-fe6291e963134d Jacky Bai           2021-11-26   23  		gpio2 = &gpiof;
-fe6291e963134d Jacky Bai           2021-11-26   24  		mmc0 = &usdhc0;
-fe6291e963134d Jacky Bai           2021-11-26   25  		mmc1 = &usdhc1;
-fe6291e963134d Jacky Bai           2021-11-26   26  		mmc2 = &usdhc2;
-fe6291e963134d Jacky Bai           2021-11-26   27  		serial0 = &lpuart4;
-fe6291e963134d Jacky Bai           2021-11-26   28  		serial1 = &lpuart5;
-fe6291e963134d Jacky Bai           2021-11-26   29  		serial2 = &lpuart6;
-fe6291e963134d Jacky Bai           2021-11-26   30  		serial3 = &lpuart7;
-fe6291e963134d Jacky Bai           2021-11-26   31  	};
-fe6291e963134d Jacky Bai           2021-11-26   32  
-fe6291e963134d Jacky Bai           2021-11-26   33  	cpus {
-fe6291e963134d Jacky Bai           2021-11-26   34  		#address-cells = <2>;
-fe6291e963134d Jacky Bai           2021-11-26   35  		#size-cells = <0>;
-fe6291e963134d Jacky Bai           2021-11-26   36  
-fe6291e963134d Jacky Bai           2021-11-26   37  		A35_0: cpu@0 {
-fe6291e963134d Jacky Bai           2021-11-26   38  			device_type = "cpu";
-fe6291e963134d Jacky Bai           2021-11-26   39  			compatible = "arm,cortex-a35";
-fe6291e963134d Jacky Bai           2021-11-26   40  			reg = <0x0 0x0>;
-fe6291e963134d Jacky Bai           2021-11-26   41  			enable-method = "psci";
-fe6291e963134d Jacky Bai           2021-11-26   42  			next-level-cache = <&A35_L2>;
-db2c35aa68efba Peng Fan            2023-07-24   43  			cpu-idle-states = <&cpu_sleep>;
-fe6291e963134d Jacky Bai           2021-11-26   44  		};
-fe6291e963134d Jacky Bai           2021-11-26   45  
-fe6291e963134d Jacky Bai           2021-11-26   46  		A35_1: cpu@1 {
-fe6291e963134d Jacky Bai           2021-11-26   47  			device_type = "cpu";
-fe6291e963134d Jacky Bai           2021-11-26   48  			compatible = "arm,cortex-a35";
-fe6291e963134d Jacky Bai           2021-11-26   49  			reg = <0x0 0x1>;
-fe6291e963134d Jacky Bai           2021-11-26   50  			enable-method = "psci";
-fe6291e963134d Jacky Bai           2021-11-26   51  			next-level-cache = <&A35_L2>;
-db2c35aa68efba Peng Fan            2023-07-24   52  			cpu-idle-states = <&cpu_sleep>;
-fe6291e963134d Jacky Bai           2021-11-26   53  		};
-fe6291e963134d Jacky Bai           2021-11-26   54  
-fe6291e963134d Jacky Bai           2021-11-26   55  		A35_L2: l2-cache0 {
-fe6291e963134d Jacky Bai           2021-11-26   56  			compatible = "cache";
-3b450831e5f1af Pierre Gondois      2022-11-07   57  			cache-level = <2>;
-d2bd947176f855 Krzysztof Kozlowski 2023-04-22   58  			cache-unified;
-fe6291e963134d Jacky Bai           2021-11-26   59  		};
-db2c35aa68efba Peng Fan            2023-07-24   60  
-db2c35aa68efba Peng Fan            2023-07-24   61  		idle-states {
-db2c35aa68efba Peng Fan            2023-07-24   62  			entry-method = "psci";
-db2c35aa68efba Peng Fan            2023-07-24   63  
-db2c35aa68efba Peng Fan            2023-07-24   64  			cpu_sleep: cpu-sleep {
-db2c35aa68efba Peng Fan            2023-07-24   65  				compatible = "arm,idle-state";
-db2c35aa68efba Peng Fan            2023-07-24   66  				arm,psci-suspend-param = <0x0>;
-db2c35aa68efba Peng Fan            2023-07-24   67  				local-timer-stop;
-db2c35aa68efba Peng Fan            2023-07-24   68  				entry-latency-us = <1000>;
-db2c35aa68efba Peng Fan            2023-07-24   69  				exit-latency-us = <700>;
-db2c35aa68efba Peng Fan            2023-07-24   70  				min-residency-us = <2700>;
-db2c35aa68efba Peng Fan            2023-07-24   71  			};
-db2c35aa68efba Peng Fan            2023-07-24   72  		};
-fe6291e963134d Jacky Bai           2021-11-26   73  	};
-fe6291e963134d Jacky Bai           2021-11-26   74  
-fe6291e963134d Jacky Bai           2021-11-26   75  	gic: interrupt-controller@2d400000 {
-fe6291e963134d Jacky Bai           2021-11-26   76  		compatible = "arm,gic-v3";
-fe6291e963134d Jacky Bai           2021-11-26   77  		reg = <0x0 0x2d400000 0 0x10000>, /* GIC Dist */
-fe6291e963134d Jacky Bai           2021-11-26   78  		      <0x0 0x2d440000 0 0xc0000>; /* GICR (RD_base + SGI_base) */
-fe6291e963134d Jacky Bai           2021-11-26   79  		#interrupt-cells = <3>;
-fe6291e963134d Jacky Bai           2021-11-26   80  		interrupt-controller;
-fe6291e963134d Jacky Bai           2021-11-26   81  		interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-fe6291e963134d Jacky Bai           2021-11-26   82  	};
-fe6291e963134d Jacky Bai           2021-11-26   83  
-ed4b58fa5ae715 Peng Fan            2022-08-31   84  	pmu {
-ed4b58fa5ae715 Peng Fan            2022-08-31   85  		compatible = "arm,cortex-a35-pmu";
-ed4b58fa5ae715 Peng Fan            2022-08-31   86  		interrupt-parent = <&gic>;
-ed4b58fa5ae715 Peng Fan            2022-08-31   87  		interrupts = <GIC_PPI 7
-ed4b58fa5ae715 Peng Fan            2022-08-31   88  			     (GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
-ed4b58fa5ae715 Peng Fan            2022-08-31   89  		interrupt-affinity = <&A35_0>, <&A35_1>;
-ed4b58fa5ae715 Peng Fan            2022-08-31   90  	};
-ed4b58fa5ae715 Peng Fan            2022-08-31   91  
-fe6291e963134d Jacky Bai           2021-11-26   92  	psci {
-fe6291e963134d Jacky Bai           2021-11-26   93  		compatible = "arm,psci-1.0";
-fe6291e963134d Jacky Bai           2021-11-26   94  		method = "smc";
-fe6291e963134d Jacky Bai           2021-11-26   95  	};
-fe6291e963134d Jacky Bai           2021-11-26   96  
-a9624b4e7ea2fa Peng Fan            2023-07-24   97  	thermal-zones {
-a9624b4e7ea2fa Peng Fan            2023-07-24   98  		cpu-thermal {
-a9624b4e7ea2fa Peng Fan            2023-07-24   99  			polling-delay-passive = <250>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  100  			polling-delay = <2000>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  101  			thermal-sensors = <&scmi_sensor 0>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  102  
-a9624b4e7ea2fa Peng Fan            2023-07-24  103  			trips {
-a9624b4e7ea2fa Peng Fan            2023-07-24  104  				cpu_alert0: trip0 {
-a9624b4e7ea2fa Peng Fan            2023-07-24  105  					temperature = <85000>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  106  					hysteresis = <2000>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  107  					type = "passive";
-a9624b4e7ea2fa Peng Fan            2023-07-24  108  				};
-a9624b4e7ea2fa Peng Fan            2023-07-24  109  
-a9624b4e7ea2fa Peng Fan            2023-07-24  110  				cpu_crit0: trip1 {
-a9624b4e7ea2fa Peng Fan            2023-07-24  111  					temperature = <95000>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  112  					hysteresis = <2000>;
-a9624b4e7ea2fa Peng Fan            2023-07-24  113  					type = "critical";
-a9624b4e7ea2fa Peng Fan            2023-07-24  114  				};
-a9624b4e7ea2fa Peng Fan            2023-07-24  115  			};
-a9624b4e7ea2fa Peng Fan            2023-07-24  116  		};
-a9624b4e7ea2fa Peng Fan            2023-07-24  117  	};
-a9624b4e7ea2fa Peng Fan            2023-07-24  118  
-fe6291e963134d Jacky Bai           2021-11-26  119  	timer {
-fe6291e963134d Jacky Bai           2021-11-26  120  		compatible = "arm,armv8-timer";
-fe6291e963134d Jacky Bai           2021-11-26  121  		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>, /* Physical Secure */
-fe6291e963134d Jacky Bai           2021-11-26  122  			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>, /* Physical Non-Secure */
-fe6291e963134d Jacky Bai           2021-11-26  123  			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>, /* Virtual */
-fe6291e963134d Jacky Bai           2021-11-26  124  			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>; /* Hypervisor */
-fe6291e963134d Jacky Bai           2021-11-26  125  	};
-fe6291e963134d Jacky Bai           2021-11-26  126  
-fe6291e963134d Jacky Bai           2021-11-26  127  	frosc: clock-frosc {
-fe6291e963134d Jacky Bai           2021-11-26  128  		compatible = "fixed-clock";
-fe6291e963134d Jacky Bai           2021-11-26  129  		clock-frequency = <192000000>;
-fe6291e963134d Jacky Bai           2021-11-26  130  		clock-output-names = "frosc";
-fe6291e963134d Jacky Bai           2021-11-26  131  		#clock-cells = <0>;
-fe6291e963134d Jacky Bai           2021-11-26  132  	};
-fe6291e963134d Jacky Bai           2021-11-26  133  
-fe6291e963134d Jacky Bai           2021-11-26  134  	lposc: clock-lposc {
-fe6291e963134d Jacky Bai           2021-11-26  135  		compatible = "fixed-clock";
-fe6291e963134d Jacky Bai           2021-11-26  136  		clock-frequency = <1000000>;
-fe6291e963134d Jacky Bai           2021-11-26  137  		clock-output-names = "lposc";
-fe6291e963134d Jacky Bai           2021-11-26  138  		#clock-cells = <0>;
-fe6291e963134d Jacky Bai           2021-11-26  139  	};
-fe6291e963134d Jacky Bai           2021-11-26  140  
-fe6291e963134d Jacky Bai           2021-11-26  141  	rosc: clock-rosc {
-fe6291e963134d Jacky Bai           2021-11-26  142  		compatible = "fixed-clock";
-fe6291e963134d Jacky Bai           2021-11-26  143  		clock-frequency = <32768>;
-fe6291e963134d Jacky Bai           2021-11-26  144  		clock-output-names = "rosc";
-fe6291e963134d Jacky Bai           2021-11-26  145  		#clock-cells = <0>;
-fe6291e963134d Jacky Bai           2021-11-26  146  	};
-fe6291e963134d Jacky Bai           2021-11-26  147  
-fe6291e963134d Jacky Bai           2021-11-26  148  	sosc: clock-sosc {
-fe6291e963134d Jacky Bai           2021-11-26  149  		compatible = "fixed-clock";
-fe6291e963134d Jacky Bai           2021-11-26  150  		clock-frequency = <24000000>;
-fe6291e963134d Jacky Bai           2021-11-26  151  		clock-output-names = "sosc";
-fe6291e963134d Jacky Bai           2021-11-26  152  		#clock-cells = <0>;
-fe6291e963134d Jacky Bai           2021-11-26  153  	};
-fe6291e963134d Jacky Bai           2021-11-26  154  
-7c6e27034e39eb Pankaj Gupta        2024-10-16  155  	sram0: sram@2201f000 {
-a38771d7a49baf Peng Fan            2021-12-08  156  		compatible = "mmio-sram";
-a38771d7a49baf Peng Fan            2021-12-08  157  		reg = <0x0 0x2201f000 0x0 0x1000>;
-a38771d7a49baf Peng Fan            2021-12-08  158  
-a38771d7a49baf Peng Fan            2021-12-08  159  		#address-cells = <1>;
-a38771d7a49baf Peng Fan            2021-12-08  160  		#size-cells = <1>;
-a38771d7a49baf Peng Fan            2021-12-08  161  		ranges = <0 0x0 0x2201f000 0x1000>;
-a38771d7a49baf Peng Fan            2021-12-08  162  
-b2ca63697b0d9b Peng Fan            2022-08-31  163  		scmi_buf: scmi-sram-section@0 {
-a38771d7a49baf Peng Fan            2021-12-08  164  			compatible = "arm,scmi-shmem";
-a38771d7a49baf Peng Fan            2021-12-08  165  			reg = <0x0 0x400>;
-a38771d7a49baf Peng Fan            2021-12-08  166  		};
-a38771d7a49baf Peng Fan            2021-12-08  167  	};
-a38771d7a49baf Peng Fan            2021-12-08  168  
-a38771d7a49baf Peng Fan            2021-12-08 @169  	firmware {
+902829aa0b7225 Greg Kroah-Hartman 2012-11-03   61  
+fc7100ea2a52fc Hridya Valsaraju   2020-01-22   62  #ifdef CONFIG_DEBUG_FS
+e0f06ffda84d64 Chao Yu            2024-10-16   63  static void update_multidevice_stats(struct f2fs_sb_info *sbi)
+e0f06ffda84d64 Chao Yu            2024-10-16   64  {
+e0f06ffda84d64 Chao Yu            2024-10-16   65  	struct f2fs_stat_info *si = F2FS_STAT(sbi);
+e0f06ffda84d64 Chao Yu            2024-10-16   66  	struct f2fs_dev_stats *dev_stats = si->dev_stats;
+e0f06ffda84d64 Chao Yu            2024-10-16   67  	int i, j;
+e0f06ffda84d64 Chao Yu            2024-10-16   68  
+e0f06ffda84d64 Chao Yu            2024-10-16   69  	if (!f2fs_is_multi_device(sbi))
+e0f06ffda84d64 Chao Yu            2024-10-16   70  		return;
+e0f06ffda84d64 Chao Yu            2024-10-16   71  
+e0f06ffda84d64 Chao Yu            2024-10-16   72  	memset(dev_stats, 0, sizeof(struct f2fs_dev_stats) * sbi->s_ndevs);
+e0f06ffda84d64 Chao Yu            2024-10-16   73  	for (i = 0; i < sbi->s_ndevs; i++) {
+e0f06ffda84d64 Chao Yu            2024-10-16   74  		unsigned int start_segno, end_segno;
+e0f06ffda84d64 Chao Yu            2024-10-16   75  		block_t start_blk, end_blk;
+e0f06ffda84d64 Chao Yu            2024-10-16   76  
+e0f06ffda84d64 Chao Yu            2024-10-16   77  		if (i == 0) {
+e0f06ffda84d64 Chao Yu            2024-10-16   78  			start_blk = MAIN_BLKADDR(sbi);
+e0f06ffda84d64 Chao Yu            2024-10-16   79  			end_blk = FDEV(i).end_blk + 1 - SEG0_BLKADDR(sbi);
+e0f06ffda84d64 Chao Yu            2024-10-16   80  		} else {
+e0f06ffda84d64 Chao Yu            2024-10-16   81  			start_blk = FDEV(i).start_blk;
+e0f06ffda84d64 Chao Yu            2024-10-16   82  			end_blk = FDEV(i).end_blk + 1;
+e0f06ffda84d64 Chao Yu            2024-10-16   83  		}
+e0f06ffda84d64 Chao Yu            2024-10-16   84  
+e0f06ffda84d64 Chao Yu            2024-10-16   85  		start_segno = GET_SEGNO(sbi, start_blk);
+e0f06ffda84d64 Chao Yu            2024-10-16   86  		end_segno = GET_SEGNO(sbi, end_blk);
+e0f06ffda84d64 Chao Yu            2024-10-16   87  
+e0f06ffda84d64 Chao Yu            2024-10-16   88  		for (j = start_segno; j < end_segno; j++) {
+e0f06ffda84d64 Chao Yu            2024-10-16   89  			unsigned int seg_blks, sec_blks;
+e0f06ffda84d64 Chao Yu            2024-10-16   90  
+e0f06ffda84d64 Chao Yu            2024-10-16   91  			seg_blks = get_seg_entry(sbi, j)->valid_blocks;
+e0f06ffda84d64 Chao Yu            2024-10-16   92  
+e0f06ffda84d64 Chao Yu            2024-10-16   93  			/* update segment stats */
+e0f06ffda84d64 Chao Yu            2024-10-16   94  			if (IS_CURSEG(sbi, j))
+e0f06ffda84d64 Chao Yu            2024-10-16   95  				dev_stats[i].devstats[0][DEVSTAT_INUSE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16   96  			else if (seg_blks == BLKS_PER_SEG(sbi))
+e0f06ffda84d64 Chao Yu            2024-10-16   97  				dev_stats[i].devstats[0][DEVSTAT_FULL]++;
+e0f06ffda84d64 Chao Yu            2024-10-16   98  			else if (seg_blks != 0)
+e0f06ffda84d64 Chao Yu            2024-10-16   99  				dev_stats[i].devstats[0][DEVSTAT_DIRTY]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  100  			else if (!test_bit(j, FREE_I(sbi)->free_segmap))
+e0f06ffda84d64 Chao Yu            2024-10-16  101  				dev_stats[i].devstats[0][DEVSTAT_FREE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  102  			else
+e0f06ffda84d64 Chao Yu            2024-10-16  103  				dev_stats[i].devstats[0][DEVSTAT_PREFREE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  104  
+e0f06ffda84d64 Chao Yu            2024-10-16  105  			if (!__is_large_section(sbi) ||
+e0f06ffda84d64 Chao Yu            2024-10-16  106  				(j % SEGS_PER_SEC(sbi)) != 0)
+e0f06ffda84d64 Chao Yu            2024-10-16  107  				continue;
+e0f06ffda84d64 Chao Yu            2024-10-16  108  
+e0f06ffda84d64 Chao Yu            2024-10-16  109  			sec_blks = get_sec_entry(sbi, j)->valid_blocks;
+e0f06ffda84d64 Chao Yu            2024-10-16  110  
+e0f06ffda84d64 Chao Yu            2024-10-16  111  			/* update section stats */
+e0f06ffda84d64 Chao Yu            2024-10-16  112  			if (IS_CURSEC(sbi, GET_SEC_FROM_SEG(sbi, j)))
+e0f06ffda84d64 Chao Yu            2024-10-16  113  				dev_stats[i].devstats[1][DEVSTAT_INUSE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  114  			else if (sec_blks == BLKS_PER_SEC(sbi))
+e0f06ffda84d64 Chao Yu            2024-10-16  115  				dev_stats[i].devstats[1][DEVSTAT_FULL]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  116  			else if (sec_blks != 0)
+e0f06ffda84d64 Chao Yu            2024-10-16  117  				dev_stats[i].devstats[1][DEVSTAT_DIRTY]++;
+e0f06ffda84d64 Chao Yu            2024-10-16 @118  			else if (!test_bit(GET_SEC_FROM_SEG(sbi, j),
+e0f06ffda84d64 Chao Yu            2024-10-16  119  					FREE_I(sbi)->free_secmap))
+e0f06ffda84d64 Chao Yu            2024-10-16  120  				dev_stats[i].devstats[1][DEVSTAT_FREE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  121  			else
+e0f06ffda84d64 Chao Yu            2024-10-16  122  				dev_stats[i].devstats[1][DEVSTAT_PREFREE]++;
+e0f06ffda84d64 Chao Yu            2024-10-16  123  		}
+e0f06ffda84d64 Chao Yu            2024-10-16  124  	}
+e0f06ffda84d64 Chao Yu            2024-10-16  125  }
+e0f06ffda84d64 Chao Yu            2024-10-16  126  
 
 -- 
 0-DAY CI Kernel Test Service
