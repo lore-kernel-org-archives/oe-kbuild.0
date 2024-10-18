@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B7C183CBB
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 06:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B40B189F55
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 06:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729232954; cv=none; b=OWWC0z/l80lXxvo/hkiwdicKO78FO2CPdS6mn4fPqMRrgyrL5jP3B41JPSFdC4pDefWq6M66F6VugcBJJz8XSpa3Gyqyk80iOTCzqMP8CcgvPbU2ekiytJCRyMroyazCLpU4NMOzlNU2wTlS6xOMxAPBcVCFkfe3j91pXD5aYYE=
+	t=1729233615; cv=none; b=oeowewUl93ZGOHxfeSP2+RcJDoxyWloldL1FNvTuHoN5N4e2eAxk7B750u6kLcyFSuElVA/Trs/140xAgTIvdhnwR757jJf7rnQfbPbn4ZaT0rE0Xd2q0luT960croRhsb8z3Wkn/crKzLURMTwyhiJuAkCH+MOltieo/rnFxUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729232954; c=relaxed/simple;
-	bh=Ueo0S1HAg0CxzXvDz/H+UdEwNm1+Cu3mCZvtnlSZ58E=;
+	s=arc-20240116; t=1729233615; c=relaxed/simple;
+	bh=Bxf7ouxlXs3oj10dNL7muAnR5r5/nyK69iaC/pFUl0s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gifOCzd8IYkHT0fwMn2FXhg5wJHX4PTuv5MfVwtWFoXMMz4ihtINWm/YfunzdibF5iutyCVioua6/KhEiEjx4u+0YhACNLflfP+H6ppgbMpTC1J9xBQigV3/vevvGOKRV2Es8jwZFBSsb6Cr/kHmz4S1+OpnUjH5/Lak+Lv9lMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fB4LdQVU; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=FsvhKrrq7G/Mo+rDDul8clA6M1koYP7lj64NjTVQqnGCxlkYfhzCOUfCw5T41BnBNaG8i2XH26WQV6sHkvM5tT6GCMdtwX0NOi899bYzyQFopP7VmCUxhD10O3b83Lk/y//BpQn3vnyynfWbvh7Pr9b/HCuZpuzzi3eJG77V8ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSive0OV; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fB4LdQVU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSive0OV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729232952; x=1760768952;
+  t=1729233613; x=1760769613;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ueo0S1HAg0CxzXvDz/H+UdEwNm1+Cu3mCZvtnlSZ58E=;
-  b=fB4LdQVU8nopJwWlleX4fDj9LD1QLXsmhwQfcS6z4aCjBYHzgy0NXj5o
-   khZh/c+t5SulkVgpEZVWYuOefH2dEn6cus+/uQfQizccgc0quu/Q+TT+N
-   RbB1NJrUR9GnMhnCwKITkRcybdr/3FiGka80Jml/M8g7mVZzf2MXhLaYG
-   YXSydxIpdL0FdERNKwm6Wx2mmyaMJ7kGngSD96OHukxLEl8plO+Gqb6IA
-   HQWtaVyNoPCwq+lsv99HKNteD/ijrm2VLrYlPlGUR8Jkh+p6ssotPxoL7
-   ILiLaEJ0K+F/qlIQp7gLS7lGVhOLQX+Dp9Y6AWOiZQy1C+lSBStfTOWt0
-   Q==;
-X-CSE-ConnectionGUID: 4EYa+1/lQsCze6boqbN/WA==
-X-CSE-MsgGUID: B7pyMNaFSySKZWjPSUMyqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="40115613"
+  bh=Bxf7ouxlXs3oj10dNL7muAnR5r5/nyK69iaC/pFUl0s=;
+  b=HSive0OVfETtlweYt8bp9iC4IcosfCl+SZLePPhuP4uDGwJcUcmKnxoo
+   /p18UDBpIZ0b97qvKbogXc+WLIa9ZYK5s/dg9cC3WlUNfK5wgVQhqErSG
+   At0bIE6zdABhbLsslJSye0lSDB0CznmPSTcL+u/Q0UnmTZoCZ75boCBEJ
+   gh6epGVAaPveEZ9xlDjKPiy87ooak57NZjjc/yj4XxFC4d51YzghCz8C+
+   wuyLS1cGHzeQDIc2+GEmjoQLc05YMESr19h6vtiG+IGH20lgI0YB5IrRi
+   9IVGxnKW5Fa9KpE+2rwDF5ZOxiW3x8p7SjKJLQSdqzXLJBAPzEdVTFwlX
+   w==;
+X-CSE-ConnectionGUID: l75GJTvqRTWfjIdSr75Dgg==
+X-CSE-MsgGUID: MjnYxfriQtaEEnr9tLlWUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="40116511"
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="40115613"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 23:29:11 -0700
-X-CSE-ConnectionGUID: lUUU+S8zTqCYgVjULJWBCA==
-X-CSE-MsgGUID: w+Ray/QXRW6F6fFBJFH9hg==
+   d="scan'208";a="40116511"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 23:40:12 -0700
+X-CSE-ConnectionGUID: RB6+FxkMQhyBeQkAySpLWQ==
+X-CSE-MsgGUID: TQRU96/lST2udNUUAS8New==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="78440072"
+   d="scan'208";a="83557385"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Oct 2024 23:29:10 -0700
+  by orviesa005.jf.intel.com with ESMTP; 17 Oct 2024 23:40:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1gU0-000NMf-0o;
-	Fri, 18 Oct 2024 06:29:08 +0000
-Date: Fri, 18 Oct 2024 14:28:36 +0800
+	id 1t1gee-000NNF-2Z;
+	Fri, 18 Oct 2024 06:40:08 +0000
+Date: Fri, 18 Oct 2024 14:39:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/cgroup/misc.c:338 misc_cg_peak_show() warn: we never enter
- this loop
-Message-ID: <202410181457.ewYC5PYf-lkp@intel.com>
+Subject: [tip:timers/vdso 11/12] arch/powerpc/mm/pgtable-frag.c:25
+ pte_frag_destroy() warn: mask and shift to zero: expr='(pte_frag & ~(~(((1)
+ << 12) - 1))) >> 12'
+Message-ID: <202410181428.acQIyAPI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,53 +66,52 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Xiu Jianfeng <xiujianfeng@huawei.com>
-CC: Tejun Heo <tj@kernel.org>
+CC: x86@kernel.org
+TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4d939780b70592e0f4bc6c397e52e518f8fb7916
-commit: 1028f391d5f9d4248e2f49193e6de2516ad630f8 cgroup/misc: Introduce misc.peak
-date:   4 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 months ago
-config: xtensa-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241018/202410181457.ewYC5PYf-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   6febe0efb2df49105b839d6a3a45ab63d40f315a
+commit: efe8419ae78d65e83edc31aad74b605c12e7d60c [11/12] vdso: Introduce vdso/page.h
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: powerpc-randconfig-r072-20241018 (https://download.01.org/0day-ci/archive/20241018/202410181428.acQIyAPI-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410181457.ewYC5PYf-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410181428.acQIyAPI-lkp@intel.com/
 
 smatch warnings:
-kernel/cgroup/misc.c:338 misc_cg_peak_show() warn: we never enter this loop
+arch/powerpc/mm/pgtable-frag.c:25 pte_frag_destroy() warn: mask and shift to zero: expr='(pte_frag & ~(~(((1) << 12) - 1))) >> 12'
 
-vim +338 kernel/cgroup/misc.c
+vim +25 arch/powerpc/mm/pgtable-frag.c
 
-a72232eabdfcfe Vipin Sharma 2021-03-29  323  
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  324  /**
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  325   * misc_cg_peak_show() - Show the peak usage of the misc cgroup.
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  326   * @sf: Interface file
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  327   * @v: Arguments passed
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  328   *
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  329   * Context: Any context.
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  330   * Return: 0 to denote successful print.
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  331   */
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  332  static int misc_cg_peak_show(struct seq_file *sf, void *v)
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  333  {
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  334  	int i;
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  335  	u64 watermark;
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  336  	struct misc_cg *cg = css_misc(seq_css(sf));
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  337  
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03 @338  	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  339  		watermark = atomic64_read(&cg->res[i].watermark);
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  340  		if (READ_ONCE(misc_res_capacity[i]) || watermark)
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  341  			seq_printf(sf, "%s %llu\n", misc_res_name[i], watermark);
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  342  	}
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  343  
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  344  	return 0;
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  345  }
-1028f391d5f9d4 Xiu Jianfeng 2024-07-03  346  
+a95d133c8643ca Christophe Leroy      2018-11-29  17  
+a95d133c8643ca Christophe Leroy      2018-11-29  18  void pte_frag_destroy(void *pte_frag)
+a95d133c8643ca Christophe Leroy      2018-11-29  19  {
+a95d133c8643ca Christophe Leroy      2018-11-29  20  	int count;
+4eaca96140b33e Vishal Moola (Oracle  2023-08-07  21) 	struct ptdesc *ptdesc;
+a95d133c8643ca Christophe Leroy      2018-11-29  22  
+4eaca96140b33e Vishal Moola (Oracle  2023-08-07  23) 	ptdesc = virt_to_ptdesc(pte_frag);
+a95d133c8643ca Christophe Leroy      2018-11-29  24  	/* drop all the pending references */
+a95d133c8643ca Christophe Leroy      2018-11-29 @25  	count = ((unsigned long)pte_frag & ~PAGE_MASK) >> PTE_FRAG_SIZE_SHIFT;
+a95d133c8643ca Christophe Leroy      2018-11-29  26  	/* We allow PTE_FRAG_NR fragments from a PTE page */
+4eaca96140b33e Vishal Moola (Oracle  2023-08-07  27) 	if (atomic_sub_and_test(PTE_FRAG_NR - count, &ptdesc->pt_frag_refcount)) {
+4eaca96140b33e Vishal Moola (Oracle  2023-08-07  28) 		pagetable_pte_dtor(ptdesc);
+4eaca96140b33e Vishal Moola (Oracle  2023-08-07  29) 		pagetable_free(ptdesc);
+a95d133c8643ca Christophe Leroy      2018-11-29  30  	}
+a95d133c8643ca Christophe Leroy      2018-11-29  31  }
+a95d133c8643ca Christophe Leroy      2018-11-29  32  
+
+:::::: The code at line 25 was first introduced by commit
+:::::: a95d133c8643cae40a35f82184640d312ba9f11f powerpc/mm: Move pte_fragment_alloc() to a common location
+
+:::::: TO: Christophe Leroy <christophe.leroy@c-s.fr>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
