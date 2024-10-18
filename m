@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2282D05D
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 03:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B13B15F3FF
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 05:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729220584; cv=none; b=Id+q3nSyT2Kg2GWRVzTy67hu6mH5fQt3zd6NmCrRHQWZyCntr7XyJ39Cp7MQtXbKQmfgpMN2q6CLod9E27PdwfG6mYu8XMepDRsRnIu9xc0ybAv7V+de6IO/J+GoIE4Co06SeZr0f0JxYgd0SMRP6rcnYKOUttUx0rs3qFYquRY=
+	t=1729228028; cv=none; b=TnDb3T9O4YCkcpETCU1JFNPqVaX0W5+eqaDM+bDu51w0DQRtyOcYG7VNtGOElgbesCV/33tIs52YsucCmLFvw3FzVsG73lbV/2iMu28GVIExyapKRmWbl2Kd9kKDABgBZoSL8HLgqWrZsOvvrkK5T2rbCKvvxUignKfNb4y6324=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729220584; c=relaxed/simple;
-	bh=3j4wfsMlVAH2LoEANtXjSqOJUCiJD7sNCdARR16qPOA=;
+	s=arc-20240116; t=1729228028; c=relaxed/simple;
+	bh=bJhSS25mgg73OJOojG9WnMHgD+RC4QFept4QI1iYZZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gSAyDUUQbFiuXdzF+zhyYlk0n5u/w3p87AQvBEoiEH01WWNwlkAUQBZD1gEwYyk4nmvehaiO9tp832zl2QM9zxJ2TXmPSGmo9R74VaN9zU9XhhOHnPSmUXYpiB8uq7Y4HObI9p19PjsFAf6cRecnj2Hnrl9yXKD4lTKSDiOZEuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHsdHvYX; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=iiGfTrNMSGKwXjn4TA4EYBMXVzPbCOaGo9LOha1wQrDBqawd7EcnoLroIGaM7nV3kCP1rD/2lnoPnt4kpc1zp004xT78zJEU3SfZ2B62JLP/NT2BWViqAM1jC08mI7aj651zsZrNR841888RJqBgeAHuYA9Vb6Fhs+zEKcKxQmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K8NstJC3; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHsdHvYX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K8NstJC3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729220582; x=1760756582;
+  t=1729228027; x=1760764027;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3j4wfsMlVAH2LoEANtXjSqOJUCiJD7sNCdARR16qPOA=;
-  b=IHsdHvYXIa8uX7T4qoLUkB8IPycUo/oMKliRQsnj8xqF4SgHwpWwjgSA
-   1uFftnEtFrBwWwCI4AxmlGUKqigRQzF+o9kOyuhSHXOpVko8BHKSFop0C
-   Wah2VZ/lZz/tQctkT3p7Veq9Ht5yrjjstDgkZLvcWqxD/AlZeDim37qgn
-   wlKFqRjty7p4I97LIxyzNebAunyurITf/+Lk6Op00sCMQ0OX4LpjQ1r9o
-   4fRTvH9kRMie4aM83hGqjEE5H3S1c3350P1m3gNymEPi6+hcpLHUCnzMh
-   neH6IHXehqH44X8uAwJS3RGLGrIQTWbEp1ljB13EC1X4HF2/TsiC4th6j
-   Q==;
-X-CSE-ConnectionGUID: YFQkCU3SQke1Fn6+qS1GMQ==
-X-CSE-MsgGUID: Cc+d92AkTTyRNxbo9CMp/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="32665160"
+  bh=bJhSS25mgg73OJOojG9WnMHgD+RC4QFept4QI1iYZZ0=;
+  b=K8NstJC3WwSaE5aewJHKAoQUZjhzcAAwx2Xq0DnnfDrEWtmRZVw5Ukd5
+   ZnN5hmxyPprQqD6Zi5vK/nfsz/1ZXkRhgP1PzENVs83NGZdtRZKmEe2LP
+   Hzm0wsrgaOHPuTnQxtxd59V0HtNCCYeRB0NBG5/bfhHkMsHUVLcajc5MG
+   wDzDLGsahSRklZjydz3wPQOEoUNvTqHc3s85uNoy6kCRjqVy82Vj6prKw
+   eeWyXAHNgK41kKL6taQFhQ7BFtTEtWce8RKc/g5FlK28Gp++fwcF7PpUf
+   fEjGqMlTAcFyBLXeruVwNZtpadMJTJQ+vQOaxaUACBLbdxlbhBHdfFtt3
+   w==;
+X-CSE-ConnectionGUID: CIW9SLa7QJCnbk23/21B4w==
+X-CSE-MsgGUID: h2youUjqSNib5NnEi++V6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="16363473"
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="32665160"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 20:03:02 -0700
-X-CSE-ConnectionGUID: lXHZTyWCQxW236CZdt9gkg==
-X-CSE-MsgGUID: lmUrbusVRkSmwNrCxl1VTA==
+   d="scan'208";a="16363473"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 22:07:06 -0700
+X-CSE-ConnectionGUID: /jtIy+RKRDy4ZPQQXWT2wg==
+X-CSE-MsgGUID: 5U+62S0bT9+D6YRbb2SbfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="109479769"
+   d="scan'208";a="78369886"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2024 20:03:00 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 17 Oct 2024 22:07:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1dGU-000NCR-1i;
-	Fri, 18 Oct 2024 03:02:58 +0000
-Date: Fri, 18 Oct 2024 11:02:19 +0800
+	id 1t1fCZ-000NI9-0K;
+	Fri, 18 Oct 2024 05:07:03 +0000
+Date: Fri, 18 Oct 2024 13:06:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
- uninitialized symbol 'val'.
-Message-ID: <202410181158.l0ccJIwd-lkp@intel.com>
+Subject: drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error:
+ uninitialized symbol 'stat'.
+Message-ID: <202410181254.6WsDukva-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,148 +65,72 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Oliver Upton <oliver.upton@linux.dev>
-CC: Joey Gouly <joey.gouly@arm.com>
+TO: Linus Walleij <linus.walleij@linaro.org>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6efbea77b390604a7be7364583e19cd2d6a1291b
-commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
+head:   4d939780b70592e0f4bc6c397e52e518f8fb7916
+commit: 12658af54f2ed10d812dcd0a769d62cb9e9291e5 mmc: mxcmmc: Use sg_miter for PIO
 date:   8 months ago
-:::::: branch date: 10 hours ago
+:::::: branch date: 5 hours ago
 :::::: commit date: 8 months ago
-config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241018/202410181158.l0ccJIwd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241018/202410181254.6WsDukva-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410181158.l0ccJIwd-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410181254.6WsDukva-lkp@intel.com/
 
-smatch warnings:
-arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
+New smatch warnings:
+drivers/mmc/host/mxcmmc.c:626 mxcmci_transfer_data() error: uninitialized symbol 'stat'.
 
-vim +/val +2083 arch/arm64/kvm/emulate-nested.c
+Old smatch warnings:
+drivers/mmc/host/mxcmmc.c:558 mxcmci_pull() error: __builtin_memcpy() '&tmp' too small (4 vs u32max)
+drivers/mmc/host/mxcmmc.c:584 mxcmci_push() error: __builtin_memcpy() '&tmp' too small (4 vs u32max)
 
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2009  
-085eabaa74a123 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2011  {
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2012  	union trap_config tc;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2014  	bool is_read;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2015  	u32 sysreg;
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2016  	u64 esr, val;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2017  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2021  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2023  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2024  	/*
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2028  	 */
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2029  	if (!tc.val)
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2030  		goto local;
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2031  
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2032  	/*
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2035  	 */
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2037  		goto local;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2038  
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2041  		break;
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2042  
-5a24ea78698572 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
-5a24ea78698572 Marc Zyngier 2023-08-15  2044  		if (is_read)
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
-5a24ea78698572 Marc Zyngier 2023-08-15  2046  		else
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
-5a24ea78698572 Marc Zyngier 2023-08-15  2048  		break;
-5a24ea78698572 Marc Zyngier 2023-08-15  2049  
-d0be0b2ede1324 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
-d0be0b2ede1324 Marc Zyngier 2023-08-15  2051  		if (is_read)
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
-d0be0b2ede1324 Marc Zyngier 2023-08-15  2053  		else
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
-d0be0b2ede1324 Marc Zyngier 2023-08-15  2055  		break;
-d0be0b2ede1324 Marc Zyngier 2023-08-15  2056  
-676f482354886c Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
-676f482354886c Fuad Tabba   2023-12-14  2059  		break;
-676f482354886c Fuad Tabba   2023-12-14  2060  
-039f9f12de5fc7 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2064  			u64 tmp;
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2065  
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2067  			break;
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2068  
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
-76b457a5cdeae4 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
-03fb54d0aa73cc Marc Zyngier 2023-08-15  2073  		}
-039f9f12de5fc7 Marc Zyngier 2023-08-15  2074  		break;
-039f9f12de5fc7 Marc Zyngier 2023-08-15  2075  
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2079  		goto local;
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2080  	}
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2081  
-9958d58779c92b Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
-9958d58779c92b Marc Zyngier 2024-02-14 @2083  							val, tc))
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2084  		goto inject;
-15b4d82d69d7b0 Marc Zyngier 2023-08-15  2085  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2087  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2090  		goto inject;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2091  
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2092  local:
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2095  
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2097  
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2098  		/*
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2102  		 */
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2108  		return true;
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2109  	}
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2110  
-cc5f84fbb008ff Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2112  	return false;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2113  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2114  inject:
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2116  
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2118  	return true;
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2119  }
-e58ec47bf68d2b Marc Zyngier 2023-08-15  2120  
+vim +/stat +626 drivers/mmc/host/mxcmmc.c
 
-:::::: The code at line 2083 was first introduced by commit
-:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Oliver Upton <oliver.upton@linux.dev>
+d96be879ff4697 Sascha Hauer  2009-01-06  590  
+d96be879ff4697 Sascha Hauer  2009-01-06  591  static int mxcmci_transfer_data(struct mxcmci_host *host)
+d96be879ff4697 Sascha Hauer  2009-01-06  592  {
+d96be879ff4697 Sascha Hauer  2009-01-06  593  	struct mmc_data *data = host->req->data;
+12658af54f2ed1 Linus Walleij 2024-01-27  594  	struct sg_mapping_iter sgm;
+12658af54f2ed1 Linus Walleij 2024-01-27  595  	int stat;
+12658af54f2ed1 Linus Walleij 2024-01-27  596  	u32 *buf;
+d96be879ff4697 Sascha Hauer  2009-01-06  597  
+d96be879ff4697 Sascha Hauer  2009-01-06  598  	host->data = data;
+d96be879ff4697 Sascha Hauer  2009-01-06  599  	host->datasize = 0;
+12658af54f2ed1 Linus Walleij 2024-01-27  600  	sg_miter_start(&sgm, data->sg, data->sg_len,
+12658af54f2ed1 Linus Walleij 2024-01-27  601  		       (data->flags & MMC_DATA_READ) ? SG_MITER_TO_SG : SG_MITER_FROM_SG);
+d96be879ff4697 Sascha Hauer  2009-01-06  602  
+d96be879ff4697 Sascha Hauer  2009-01-06  603  	if (data->flags & MMC_DATA_READ) {
+12658af54f2ed1 Linus Walleij 2024-01-27  604  		while (sg_miter_next(&sgm)) {
+12658af54f2ed1 Linus Walleij 2024-01-27  605  			buf = sgm.addr;
+12658af54f2ed1 Linus Walleij 2024-01-27  606  			stat = mxcmci_pull(host, buf, sgm.length);
+d96be879ff4697 Sascha Hauer  2009-01-06  607  			if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  608  				goto transfer_error;
+12658af54f2ed1 Linus Walleij 2024-01-27  609  			host->datasize += sgm.length;
+d96be879ff4697 Sascha Hauer  2009-01-06  610  		}
+d96be879ff4697 Sascha Hauer  2009-01-06  611  	} else {
+12658af54f2ed1 Linus Walleij 2024-01-27  612  		while (sg_miter_next(&sgm)) {
+12658af54f2ed1 Linus Walleij 2024-01-27  613  			buf = sgm.addr;
+12658af54f2ed1 Linus Walleij 2024-01-27  614  			stat = mxcmci_push(host, buf, sgm.length);
+d96be879ff4697 Sascha Hauer  2009-01-06  615  			if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  616  				goto transfer_error;
+12658af54f2ed1 Linus Walleij 2024-01-27  617  			host->datasize += sgm.length;
+d96be879ff4697 Sascha Hauer  2009-01-06  618  		}
+d96be879ff4697 Sascha Hauer  2009-01-06  619  		stat = mxcmci_poll_status(host, STATUS_WRITE_OP_DONE);
+d96be879ff4697 Sascha Hauer  2009-01-06  620  		if (stat)
+12658af54f2ed1 Linus Walleij 2024-01-27  621  			goto transfer_error;
+d96be879ff4697 Sascha Hauer  2009-01-06  622  	}
+12658af54f2ed1 Linus Walleij 2024-01-27  623  
+12658af54f2ed1 Linus Walleij 2024-01-27  624  transfer_error:
+12658af54f2ed1 Linus Walleij 2024-01-27  625  	sg_miter_stop(&sgm);
+12658af54f2ed1 Linus Walleij 2024-01-27 @626  	return stat;
+d96be879ff4697 Sascha Hauer  2009-01-06  627  }
+d96be879ff4697 Sascha Hauer  2009-01-06  628  
 
 -- 
 0-DAY CI Kernel Test Service
