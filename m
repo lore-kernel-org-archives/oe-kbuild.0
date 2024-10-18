@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31AB288BD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAC520E30E
 	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 00:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729211398; cv=none; b=Y/v6ovch9SXNZBcSBJlJUgq79bAvMVhnF9MvDJto50QFQ0lloYADYRMbGUuuiT1kIw2A+uZxUe2ub9DS3Y4LwHAmICsLUuSouj0fnNazLHkO+NiHyIyZPTxZHUT8CaQBtBQPChYQXhursCqIBffP3Mat8TbDxo7kAkajzNj/jwM=
+	t=1729211398; cv=none; b=o+9S0c6F5DVbgLd6gz9Bk3BJuzFURlLciT4JVRcE5eZhIghHXKhujIJHUyxyp6IXT9nChrVnsM47PjHE1ngGDH/StkAb6h9l9s1r9OMmr8/tXOs6cNEoGUCbaa8XhiupVUmH+KprjdEGr1D9v/YuSvph5L+lZYDcpkxPoWrLv3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729211398; c=relaxed/simple;
-	bh=U42AjCLPqolc4QGD1dwVJqEGotrDWlC8vw2UGY3I+Ms=;
+	bh=M7WPzgCEv9McxzffRAwq8+9fKYVJiS193Je5odiwLQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VyVfG/eAtz0ECugRpO+NInZQ2BKjJdNfve3edhsqfMXmBpqVIy3DdNs6kX4Ak30XgnyE8VqfGcHsTAMDzv64BEfSZR6LscyWuYAWHCYgLHi2ejdk+s2KDugKGuduHWoOHbZO+m7NWghZIG8LTFctIl2Z/KgAWTIYvbnDvdxguQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ickpLjIA; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Anrm7lCocHCr/lweQUbbLOwt1RkHcKrhbQSBugDemgThF4X3C9spyIaLNdRYMLOFJazs40ar+fW1OgMnfDD0ZLhQQEg+3Sji3g7NKhT47CdL49WTrb0utnFd79OanhHD659rdH+Nx+sGqa1/ARWkbeATRcaPl5nLnXZxIlNoGCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhyBcIgN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ickpLjIA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhyBcIgN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729211397; x=1760747397;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U42AjCLPqolc4QGD1dwVJqEGotrDWlC8vw2UGY3I+Ms=;
-  b=ickpLjIAfp/UrlQSPxgnV+pu3jTd2M8xbTY/5Nb3Pk+QWOFNqsHua3Wk
-   PbQLbz0ZG2SgUP/kDRNAcOZfKinQZ4uW33l4qK8TabzgtqqXXZknIGRPB
-   Zp8DWAJacdSD47VPPSr0fV28EeqEn059vlNSGJ//EKVdn3VwcEsBeEGD9
-   y7mKmjMtM0J9mTtSoNVo9yLTPrDqpQkwWV/e6b1la/ir0GfdIHGFT5W59
-   Mg/OuZxS6Pv7Q2bGOxquaJzl7j1vtNJlBOF7V9C5kADNpBa/7PUr/ww9d
-   LQzxQ2IbL+/4FaRnguYqi3aEI7XV51D1EIixZU1Cbgsa6NL73lYoQSXeu
+  bh=M7WPzgCEv9McxzffRAwq8+9fKYVJiS193Je5odiwLQk=;
+  b=LhyBcIgNhJt8Pyv6hQBjJyAFuUwmGV7qiJB6z+TVcSR7lWLRHTaQ9Ulj
+   sfkGpB9z1rRwNJSTF1h1jZ6OyXtsxckDn4DtYDt/2Z4DlDJaAUOIo4RXM
+   riMnrmjJxUwo6rP4ZLXpFBGFUCwB6VvCjPEbiy2OebG2P5ukQnQF93N/t
+   XbYkoUPTym2gsjuF90JOQhNFSNkyNxg1zlfANyyovrVhg2tZNoRS7aQRR
+   yQ0tLeR69LIfjp4vHkBoF8003/48wxeEqTMHG0J/23CWHJ42SI/7maX6l
+   6amU0FtZ+ZZ39QiJ6cPDQCO3ohk48u46ocM9TT/4gzRD+LHqPFaN0CNF0
    Q==;
-X-CSE-ConnectionGUID: iTcokBPTTkCROdp2VUSgUQ==
-X-CSE-MsgGUID: yQ9ToMQCTkuDfpDUFWNY0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="32656147"
-X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="32656147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 17:29:56 -0700
-X-CSE-ConnectionGUID: jwsb4oWJTvibyl6TetXLoA==
-X-CSE-MsgGUID: mVx8piRxQ3m2PuIJSfAslw==
+X-CSE-ConnectionGUID: wsZZtUK/Qha9uZ3BVJPPvQ==
+X-CSE-MsgGUID: 4x0Xe70ISaW06rrFPGbG5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28825997"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28825997"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 17:29:56 -0700
+X-CSE-ConnectionGUID: b538gGFyT7eDiMsYUJaKfg==
+X-CSE-MsgGUID: w3LajunITbKSi8/4b8x7CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="82672560"
+   d="scan'208";a="109526704"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Oct 2024 17:29:55 -0700
+  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 17:29:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1asK-000N4T-2r;
+	id 1t1asK-000N4R-2n;
 	Fri, 18 Oct 2024 00:29:52 +0000
 Date: Fri, 18 Oct 2024 08:29:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: arch/s390/pci/pci_event.c:301:0-1: preceding lock on line 270
-Message-ID: <202410180804.d4Yn6AWs-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
+ we previously assumed 'fwspec' could be null (see line 465)
+Message-ID: <202410180850.cPRZbNtX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,82 +65,98 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Gerd Bayer <gbayer@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
-CC: Niklas Schnelle <schnelle@linux.ibm.com>
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jerry Snitselaar <jsnitsel@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6efbea77b390604a7be7364583e19cd2d6a1291b
-commit: bcb5d6c769039c8358a2359e7c3ea5d97ce93108 s390/pci: introduce lock to synchronize state of zpci_dev's
-date:   8 months ago
+commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
+date:   11 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-r064-20241018 (https://download.01.org/0day-ci/archive/20241018/202410180804.d4Yn6AWs-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+:::::: commit date: 11 months ago
+config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241018/202410180850.cPRZbNtX-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410180804.d4Yn6AWs-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410180850.cPRZbNtX-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/s390/pci/pci_event.c:301:0-1: preceding lock on line 270
+smatch warnings:
+drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
 
-vim +301 arch/s390/pci/pci_event.c
+vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
 
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  257  
-aa3b7c296732b4 Sebastian Ott   2013-12-12  258  static void __zpci_event_error(struct zpci_ccdf_err *ccdf)
-d795ddad36cbc8 Sebastian Ott   2013-11-15  259  {
-d795ddad36cbc8 Sebastian Ott   2013-11-15  260  	struct zpci_dev *zdev = get_zdev_by_fid(ccdf->fid);
-9a99649f2a89fd Sebastian Ott   2016-01-29  261  	struct pci_dev *pdev = NULL;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  262  	pci_ers_result_t ers_res;
-d795ddad36cbc8 Sebastian Ott   2013-11-15  263  
-6526a597a2e856 Niklas Schnelle 2021-09-15  264  	zpci_dbg(3, "err fid:%x, fh:%x, pec:%x\n",
-6526a597a2e856 Niklas Schnelle 2021-09-15  265  		 ccdf->fid, ccdf->fh, ccdf->pec);
-d795ddad36cbc8 Sebastian Ott   2013-11-15  266  	zpci_err("error CCDF:\n");
-d795ddad36cbc8 Sebastian Ott   2013-11-15  267  	zpci_err_hex(ccdf, sizeof(*ccdf));
-d795ddad36cbc8 Sebastian Ott   2013-11-15  268  
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  269  	if (zdev) {
-bcb5d6c769039c Gerd Bayer      2023-11-10 @270  		mutex_lock(&zdev->state_lock);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  271  		zpci_update_fh(zdev, ccdf->fh);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  272  		if (zdev->zbus->bus)
-44510d6fa0c00a Pierre Morel    2020-04-22  273  			pdev = pci_get_slot(zdev->zbus->bus, zdev->devfn);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  274  	}
-9a99649f2a89fd Sebastian Ott   2016-01-29  275  
-d795ddad36cbc8 Sebastian Ott   2013-11-15  276  	pr_err("%s: Event 0x%x reports an error for PCI function 0x%x\n",
-515f022e8b59ce Sebastian Ott   2015-07-28  277  	       pdev ? pci_name(pdev) : "n/a", ccdf->pec, ccdf->fid);
-8ead7efb637935 Sebastian Ott   2016-01-22  278  
-8ead7efb637935 Sebastian Ott   2016-01-22  279  	if (!pdev)
-c122383d221dfa Niklas Schnelle 2021-09-20  280  		goto no_pdev;
-8ead7efb637935 Sebastian Ott   2016-01-22  281  
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  282  	switch (ccdf->pec) {
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  283  	case 0x003a: /* Service Action or Error Recovery Successful */
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  284  		ers_res = zpci_event_attempt_error_recovery(pdev);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  285  		if (ers_res != PCI_ERS_RESULT_RECOVERED)
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  286  			zpci_event_io_failure(pdev, pci_channel_io_perm_failure);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  287  		break;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  288  	default:
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  289  		/*
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  290  		 * Mark as frozen not permanently failed because the device
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  291  		 * could be subsequently recovered by the platform.
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  292  		 */
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  293  		zpci_event_io_failure(pdev, pci_channel_io_frozen);
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  294  		break;
-4cdf2f4e24ff0d Niklas Schnelle 2021-07-07  295  	}
-9a99649f2a89fd Sebastian Ott   2016-01-29  296  	pci_dev_put(pdev);
-c122383d221dfa Niklas Schnelle 2021-09-20  297  no_pdev:
-bcb5d6c769039c Gerd Bayer      2023-11-10  298  	if (zdev)
-bcb5d6c769039c Gerd Bayer      2023-11-10  299  		mutex_unlock(&zdev->state_lock);
-c122383d221dfa Niklas Schnelle 2021-09-20  300  	zpci_zdev_put(zdev);
-d795ddad36cbc8 Sebastian Ott   2013-11-15 @301  }
-d795ddad36cbc8 Sebastian Ott   2013-11-15  302  
+b17336c55d8928 Honghui Zhang 2016-06-08  451  
+ad9b10e533f6fb Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
+b17336c55d8928 Honghui Zhang 2016-06-08  453  {
+a9bf2eec5a6fc0 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+b17336c55d8928 Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
+ad9b10e533f6fb Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
+635319a4a7444c Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
+635319a4a7444c Yong Wu       2022-01-17  458  	struct device_link *link;
+635319a4a7444c Yong Wu       2022-01-17  459  	struct device *larbdev;
+b17336c55d8928 Honghui Zhang 2016-06-08  460  
+822a2ed8c606ca Yong Wu       2022-01-17  461  	/*
+822a2ed8c606ca Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
+822a2ed8c606ca Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
+822a2ed8c606ca Yong Wu       2022-01-17  464  	 */
+822a2ed8c606ca Yong Wu       2022-01-17 @465  	if (fwspec) {
+822a2ed8c606ca Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
+822a2ed8c606ca Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
+822a2ed8c606ca Yong Wu       2022-01-17  468  	}
+822a2ed8c606ca Yong Wu       2022-01-17  469  
+f90a9a85fb946e Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
+f90a9a85fb946e Yong Wu       2021-04-12  471  					   "#iommu-cells",
+f90a9a85fb946e Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
+b17336c55d8928 Honghui Zhang 2016-06-08  473  
+ad9b10e533f6fb Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
+f90a9a85fb946e Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
+f90a9a85fb946e Yong Wu       2021-04-12  476  		if (err)
+f90a9a85fb946e Yong Wu       2021-04-12  477  			return ERR_PTR(err);
+da5d2748e4a451 Joerg Roedel  2019-01-23  478  
+da5d2748e4a451 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
+da5d2748e4a451 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
+f90a9a85fb946e Yong Wu       2021-04-12  481  		idx++;
+b17336c55d8928 Honghui Zhang 2016-06-08  482  	}
+b17336c55d8928 Honghui Zhang 2016-06-08  483  
+57dbf81f50c82a Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
+b17336c55d8928 Honghui Zhang 2016-06-08  485  
+635319a4a7444c Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
+635319a4a7444c Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
+de78657e16f414 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
+de78657e16f414 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
+de78657e16f414 Miles Chen    2022-05-05  490  
+635319a4a7444c Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
+635319a4a7444c Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
+635319a4a7444c Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
+635319a4a7444c Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
+635319a4a7444c Yong Wu       2022-01-17  495  				larbid, larbidx);
+635319a4a7444c Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
+635319a4a7444c Yong Wu       2022-01-17  497  		}
+635319a4a7444c Yong Wu       2022-01-17  498  	}
+635319a4a7444c Yong Wu       2022-01-17  499  
+635319a4a7444c Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
+de78657e16f414 Miles Chen    2022-05-05  501  	if (!larbdev)
+de78657e16f414 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
+de78657e16f414 Miles Chen    2022-05-05  503  
+635319a4a7444c Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
+635319a4a7444c Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
+635319a4a7444c Yong Wu       2022-01-17  506  	if (!link)
+635319a4a7444c Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
+635319a4a7444c Yong Wu       2022-01-17  508  
+57dbf81f50c82a Joerg Roedel  2020-04-29  509  	return &data->iommu;
+57dbf81f50c82a Joerg Roedel  2020-04-29  510  }
+57dbf81f50c82a Joerg Roedel  2020-04-29  511  
 
-:::::: The code at line 301 was first introduced by commit
-:::::: d795ddad36cbc828176c898a5084549030539162 s390/pci: implement hotplug notifications
+:::::: The code at line 487 was first introduced by commit
+:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
 
-:::::: TO: Sebastian Ott <sebott@linux.vnet.ibm.com>
-:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
+:::::: TO: Yong Wu <yong.wu@mediatek.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
