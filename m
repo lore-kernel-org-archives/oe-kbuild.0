@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51DB188010
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 23:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63313191F6C
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 23:45:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729293251; cv=none; b=Yd/yxVeNdHaAw5qmbuOBLBkKOd1nfs5nnlVMt7q0xP/aI6pnwphMc6zsCDO88HdKXujjNnh1OiSCAyhLqyTx75Ksk7xahGcn58fjPkqfs3EJK6+IfqvLfgI5eA1JnIPUXIzTMYZB6HDRZfduYfzrQ7cqMLv7Nb6SsojnBTcmCc4=
+	t=1729295113; cv=none; b=KMS7ppHUdBwo3UTG+WaCxJFkkuBG5AZCxvSMo2crqxh4LXKUzWRggMaFfc2v6j9C2g3KgTDas6XxN2StUh0375lj2ACFLT1QoMlsTEBQDwPQNSIe8WfpWWKit4dai+Pxhv++yxLBkMTXSuf2SXxjWEhYNSGGMlR8YOt6eCEXM6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729293251; c=relaxed/simple;
-	bh=prY1ENkZ+T6MIgrM2OxsY+Ia0+eO8zIT683fnYetU+4=;
+	s=arc-20240116; t=1729295113; c=relaxed/simple;
+	bh=/EgmrCpTgH9ZXJp2AG8m0fuwv82k0StfiS8NvmOgYNk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gl6dMSnZUzCCHaFYQPguew8CNQ0Hpn5TAvqb7P8PoTWmEA8OLdDDMnks6u7kPEYNcLLWGcipJli7TTQyG9Neklo0342k3nhKjWC8bulWsE9FIaocft2kIUKOGXtnbYQkNRPhHjdfhrmVucYcfdV7r88914vQfb+5mgiIxFrllXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j0iwkQgU; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=K+pmiFlu8R+63LW5HJKn0iVIqAkjSu4v+66/y6T9ijACxU46Wc2g2u7WBLnwlECP35X0EQPtn31ROr/Fvh+rCvdO3peeube9bEr02g8IE0dmbvRFrmXWPwqiTp9GnsBfEJ8kPb76FD4l/NpNmO7xdgje/0HMwSkuUoig16i8c94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JREghzI3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j0iwkQgU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JREghzI3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729293249; x=1760829249;
+  t=1729295110; x=1760831110;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=prY1ENkZ+T6MIgrM2OxsY+Ia0+eO8zIT683fnYetU+4=;
-  b=j0iwkQgUh8TQQ//IEIrMnbO0ys4SyRjqAvbHVfXi8/71ZH76aqV1Zgq/
-   ES6kMnBSFu91x8cVqP5VphmZP8DHvHqASZmmlUddcGi99CDF+icZNU//t
-   M/iHZS4bkQhHfgm5E8jvhjhhgCdktPBjHcXFyqj4spBCK87kGVeYYXDE9
-   pvpqtxQYrKltjpgnrR8DMp/cTERYzR2/GUkIvSQ5ixD2MiVq5bOpltv8F
-   yZTgaaqpo4pgPg2e8/O7Xz7FyKNreBK1Fp3IwK5xM5+8o+IPRZ+TYX3jO
-   Tm3audKkfwtED+cPwzZP1k6shLn7Dp+E13chZ0cU4hH4f9uPVfkNDXF0c
-   g==;
-X-CSE-ConnectionGUID: zCyU0P3oRIuIxNyJAZzDTA==
-X-CSE-MsgGUID: 37WB7n4xTh2muGHbnfe11A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39395648"
+  bh=/EgmrCpTgH9ZXJp2AG8m0fuwv82k0StfiS8NvmOgYNk=;
+  b=JREghzI3qQvf7NCV6iFxOiO+noRjvXggBBxbti7UR6ym9rNJ/2gIXQb0
+   b5qD/YGWbSpQp66B9KKIhXFKNG97EmHBKpK7EjlmsqoYim0zOf23+63mq
+   9VIbPpqm96j3GqyhiwajFLVPlfaI7c8fWJkt2vJZuOrgVgDfSGi2gyiF7
+   QjmgcVmLri8c5u/LrhqMe5MTNT8SxTGyguKCCDK2h9IynalvlkvfPkHoS
+   ZvreO10tf6aEcgXOpcgMWGgcTB7MJJIrHN5qNjB4qniVWitHO7eX8cGKk
+   Xf0sRywhbCS7/fLcvLbt5kuyyJz4bnX/oh9LS04MRijNtZMar8iX0hWVy
+   w==;
+X-CSE-ConnectionGUID: 82d1XCDgTQaoEY+PmvYAOA==
+X-CSE-MsgGUID: +nml5sVXQ96eNuw7i4W/iA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28799595"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39395648"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 16:14:08 -0700
-X-CSE-ConnectionGUID: F/kebnjXSEqdy8uGGJO/HA==
-X-CSE-MsgGUID: EeEPKzxORvaG1aNMGQO/Jw==
+   d="scan'208";a="28799595"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 16:45:10 -0700
+X-CSE-ConnectionGUID: AjKZF+49Q0m8BT5OzdoKZQ==
+X-CSE-MsgGUID: CgbWyg8KQEeMxJdtqDkusw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="83822040"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="78968391"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Oct 2024 16:14:08 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2024 16:45:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1wAX-000OOI-0Z;
-	Fri, 18 Oct 2024 23:14:05 +0000
-Date: Sat, 19 Oct 2024 07:13:13 +0800
+	id 1t1weY-000OQZ-1n;
+	Fri, 18 Oct 2024 23:45:06 +0000
+Date: Sat, 19 Oct 2024 07:44:41 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/mips/boot/dts/ingenic/rs90.dtb: /: memory@1fc00000:
- 'bank-width', 'compatible', 'device-width' do not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202410190728.Vno23GyN-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: kernel/cgroup/misc.c:338 misc_cg_peak_show() warn: we never enter
+ this loop
+Message-ID: <202410190730.0Nu5gEQ4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,76 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+TO: Xiu Jianfeng <xiujianfeng@huawei.com>
+CC: Tejun Heo <tj@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   b04ae0f45168973edb658ac2385045ac13c5aca7
-commit: 04318868abaa82f7c6e9e0ce323aa5460b7fc9da mips: dts: ingenic: Remove unneeded probe-type properties
-date:   1 year ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 1 year ago
-config: mips-randconfig-052-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190728.Vno23GyN-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190728.Vno23GyN-lkp@intel.com/reproduce)
+commit: 1028f391d5f9d4248e2f49193e6de2516ad630f8 cgroup/misc: Introduce misc.peak
+date:   4 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 months ago
+config: xtensa-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241019/202410190730.0Nu5gEQ4-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410190728.Vno23GyN-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410190730.0Nu5gEQ4-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/ingenic/rs90.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 33554432]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: /: keys@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: /: keys@1: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/mips/boot/dts/ingenic/rs90.dtb: /: memory@1fc00000: 'bank-width', 'compatible', 'device-width' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: /: memory@1fc00000: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: cpu@0: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: adc@10070000: '#address-cells', '#size-cells', 'ranges' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/ingenic,adc.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: nand-controller@1: Unevaluated properties are not allowed ('rb-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ingenic,nand.yaml#
-   arch/mips/boot/dts/ingenic/rs90.dtb: lcd-controller@13050000: 'memory-region' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: /: analog-amplifier@1: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: /: i2c-controller@3: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory@1fc00000: 'bank-width', 'compatible', 'device-width' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: /: memory@1fc00000: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: cpu@0: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mips/cpus.yaml#
-   arch/mips/boot/dts/ingenic/gcw0.dtb: interrupt-controller@10001000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ingenic,jz4770-intc'] is too short
-   	'ingenic,jz4770-intc' is not one of ['ingenic,jz4740-intc', 'ingenic,jz4760-intc', 'ingenic,jz4780-intc']
-   	'ingenic,x1000-intc' was expected
-   	'ingenic,jz4725b-intc' was expected
+smatch warnings:
+kernel/cgroup/misc.c:338 misc_cg_peak_show() warn: we never enter this loop
+
+vim +338 kernel/cgroup/misc.c
+
+a72232eabdfcfe Vipin Sharma 2021-03-29  323  
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  324  /**
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  325   * misc_cg_peak_show() - Show the peak usage of the misc cgroup.
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  326   * @sf: Interface file
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  327   * @v: Arguments passed
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  328   *
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  329   * Context: Any context.
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  330   * Return: 0 to denote successful print.
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  331   */
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  332  static int misc_cg_peak_show(struct seq_file *sf, void *v)
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  333  {
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  334  	int i;
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  335  	u64 watermark;
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  336  	struct misc_cg *cg = css_misc(seq_css(sf));
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  337  
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03 @338  	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  339  		watermark = atomic64_read(&cg->res[i].watermark);
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  340  		if (READ_ONCE(misc_res_capacity[i]) || watermark)
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  341  			seq_printf(sf, "%s %llu\n", misc_res_name[i], watermark);
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  342  	}
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  343  
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  344  	return 0;
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  345  }
+1028f391d5f9d4 Xiu Jianfeng 2024-07-03  346  
 
 -- 
 0-DAY CI Kernel Test Service
