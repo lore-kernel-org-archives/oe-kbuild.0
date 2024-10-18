@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAC520E30E
-	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 00:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2282D05D
+	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 03:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729211398; cv=none; b=o+9S0c6F5DVbgLd6gz9Bk3BJuzFURlLciT4JVRcE5eZhIghHXKhujIJHUyxyp6IXT9nChrVnsM47PjHE1ngGDH/StkAb6h9l9s1r9OMmr8/tXOs6cNEoGUCbaa8XhiupVUmH+KprjdEGr1D9v/YuSvph5L+lZYDcpkxPoWrLv3E=
+	t=1729220584; cv=none; b=Id+q3nSyT2Kg2GWRVzTy67hu6mH5fQt3zd6NmCrRHQWZyCntr7XyJ39Cp7MQtXbKQmfgpMN2q6CLod9E27PdwfG6mYu8XMepDRsRnIu9xc0ybAv7V+de6IO/J+GoIE4Co06SeZr0f0JxYgd0SMRP6rcnYKOUttUx0rs3qFYquRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729211398; c=relaxed/simple;
-	bh=M7WPzgCEv9McxzffRAwq8+9fKYVJiS193Je5odiwLQk=;
+	s=arc-20240116; t=1729220584; c=relaxed/simple;
+	bh=3j4wfsMlVAH2LoEANtXjSqOJUCiJD7sNCdARR16qPOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Anrm7lCocHCr/lweQUbbLOwt1RkHcKrhbQSBugDemgThF4X3C9spyIaLNdRYMLOFJazs40ar+fW1OgMnfDD0ZLhQQEg+3Sji3g7NKhT47CdL49WTrb0utnFd79OanhHD659rdH+Nx+sGqa1/ARWkbeATRcaPl5nLnXZxIlNoGCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhyBcIgN; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=gSAyDUUQbFiuXdzF+zhyYlk0n5u/w3p87AQvBEoiEH01WWNwlkAUQBZD1gEwYyk4nmvehaiO9tp832zl2QM9zxJ2TXmPSGmo9R74VaN9zU9XhhOHnPSmUXYpiB8uq7Y4HObI9p19PjsFAf6cRecnj2Hnrl9yXKD4lTKSDiOZEuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IHsdHvYX; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhyBcIgN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IHsdHvYX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729211397; x=1760747397;
+  t=1729220582; x=1760756582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M7WPzgCEv9McxzffRAwq8+9fKYVJiS193Je5odiwLQk=;
-  b=LhyBcIgNhJt8Pyv6hQBjJyAFuUwmGV7qiJB6z+TVcSR7lWLRHTaQ9Ulj
-   sfkGpB9z1rRwNJSTF1h1jZ6OyXtsxckDn4DtYDt/2Z4DlDJaAUOIo4RXM
-   riMnrmjJxUwo6rP4ZLXpFBGFUCwB6VvCjPEbiy2OebG2P5ukQnQF93N/t
-   XbYkoUPTym2gsjuF90JOQhNFSNkyNxg1zlfANyyovrVhg2tZNoRS7aQRR
-   yQ0tLeR69LIfjp4vHkBoF8003/48wxeEqTMHG0J/23CWHJ42SI/7maX6l
-   6amU0FtZ+ZZ39QiJ6cPDQCO3ohk48u46ocM9TT/4gzRD+LHqPFaN0CNF0
+  bh=3j4wfsMlVAH2LoEANtXjSqOJUCiJD7sNCdARR16qPOA=;
+  b=IHsdHvYXIa8uX7T4qoLUkB8IPycUo/oMKliRQsnj8xqF4SgHwpWwjgSA
+   1uFftnEtFrBwWwCI4AxmlGUKqigRQzF+o9kOyuhSHXOpVko8BHKSFop0C
+   Wah2VZ/lZz/tQctkT3p7Veq9Ht5yrjjstDgkZLvcWqxD/AlZeDim37qgn
+   wlKFqRjty7p4I97LIxyzNebAunyurITf/+Lk6Op00sCMQ0OX4LpjQ1r9o
+   4fRTvH9kRMie4aM83hGqjEE5H3S1c3350P1m3gNymEPi6+hcpLHUCnzMh
+   neH6IHXehqH44X8uAwJS3RGLGrIQTWbEp1ljB13EC1X4HF2/TsiC4th6j
    Q==;
-X-CSE-ConnectionGUID: wsZZtUK/Qha9uZ3BVJPPvQ==
-X-CSE-MsgGUID: 4x0Xe70ISaW06rrFPGbG5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28825997"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28825997"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 17:29:56 -0700
-X-CSE-ConnectionGUID: b538gGFyT7eDiMsYUJaKfg==
-X-CSE-MsgGUID: w3LajunITbKSi8/4b8x7CQ==
+X-CSE-ConnectionGUID: YFQkCU3SQke1Fn6+qS1GMQ==
+X-CSE-MsgGUID: Cc+d92AkTTyRNxbo9CMp/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="32665160"
+X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
+   d="scan'208";a="32665160"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 20:03:02 -0700
+X-CSE-ConnectionGUID: lXHZTyWCQxW236CZdt9gkg==
+X-CSE-MsgGUID: lmUrbusVRkSmwNrCxl1VTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="109526704"
+   d="scan'208";a="109479769"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 17 Oct 2024 17:29:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2024 20:03:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1asK-000N4R-2n;
-	Fri, 18 Oct 2024 00:29:52 +0000
-Date: Fri, 18 Oct 2024 08:29:02 +0800
+	id 1t1dGU-000NCR-1i;
+	Fri, 18 Oct 2024 03:02:58 +0000
+Date: Fri, 18 Oct 2024 11:02:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
- we previously assumed 'fwspec' could be null (see line 465)
-Message-ID: <202410180850.cPRZbNtX-lkp@intel.com>
+Subject: arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error:
+ uninitialized symbol 'val'.
+Message-ID: <202410181158.l0ccJIwd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,98 +65,148 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Robin Murphy <robin.murphy@arm.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jerry Snitselaar <jsnitsel@redhat.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Joey Gouly <joey.gouly@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6efbea77b390604a7be7364583e19cd2d6a1291b
-commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241018/202410180850.cPRZbNtX-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+commit: 085eabaa74a12345b7dd083b160519fe3a52f2ce KVM: arm64: Rename __check_nv_sr_forward() to triage_sysreg_trap()
+date:   8 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 8 months ago
+config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241018/202410181158.l0ccJIwd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410180850.cPRZbNtX-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410181158.l0ccJIwd-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
+arch/arm64/kvm/emulate-nested.c:2083 triage_sysreg_trap() error: uninitialized symbol 'val'.
 
-vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
+vim +/val +2083 arch/arm64/kvm/emulate-nested.c
 
-b17336c55d8928 Honghui Zhang 2016-06-08  451  
-ad9b10e533f6fb Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
-b17336c55d8928 Honghui Zhang 2016-06-08  453  {
-a9bf2eec5a6fc0 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-b17336c55d8928 Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
-ad9b10e533f6fb Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
-635319a4a7444c Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
-635319a4a7444c Yong Wu       2022-01-17  458  	struct device_link *link;
-635319a4a7444c Yong Wu       2022-01-17  459  	struct device *larbdev;
-b17336c55d8928 Honghui Zhang 2016-06-08  460  
-822a2ed8c606ca Yong Wu       2022-01-17  461  	/*
-822a2ed8c606ca Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
-822a2ed8c606ca Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
-822a2ed8c606ca Yong Wu       2022-01-17  464  	 */
-822a2ed8c606ca Yong Wu       2022-01-17 @465  	if (fwspec) {
-822a2ed8c606ca Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
-822a2ed8c606ca Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
-822a2ed8c606ca Yong Wu       2022-01-17  468  	}
-822a2ed8c606ca Yong Wu       2022-01-17  469  
-f90a9a85fb946e Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
-f90a9a85fb946e Yong Wu       2021-04-12  471  					   "#iommu-cells",
-f90a9a85fb946e Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
-b17336c55d8928 Honghui Zhang 2016-06-08  473  
-ad9b10e533f6fb Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
-f90a9a85fb946e Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
-f90a9a85fb946e Yong Wu       2021-04-12  476  		if (err)
-f90a9a85fb946e Yong Wu       2021-04-12  477  			return ERR_PTR(err);
-da5d2748e4a451 Joerg Roedel  2019-01-23  478  
-da5d2748e4a451 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
-da5d2748e4a451 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
-f90a9a85fb946e Yong Wu       2021-04-12  481  		idx++;
-b17336c55d8928 Honghui Zhang 2016-06-08  482  	}
-b17336c55d8928 Honghui Zhang 2016-06-08  483  
-57dbf81f50c82a Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
-b17336c55d8928 Honghui Zhang 2016-06-08  485  
-635319a4a7444c Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
-635319a4a7444c Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
-de78657e16f414 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
-de78657e16f414 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
-de78657e16f414 Miles Chen    2022-05-05  490  
-635319a4a7444c Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
-635319a4a7444c Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
-635319a4a7444c Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
-635319a4a7444c Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
-635319a4a7444c Yong Wu       2022-01-17  495  				larbid, larbidx);
-635319a4a7444c Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
-635319a4a7444c Yong Wu       2022-01-17  497  		}
-635319a4a7444c Yong Wu       2022-01-17  498  	}
-635319a4a7444c Yong Wu       2022-01-17  499  
-635319a4a7444c Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
-de78657e16f414 Miles Chen    2022-05-05  501  	if (!larbdev)
-de78657e16f414 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
-de78657e16f414 Miles Chen    2022-05-05  503  
-635319a4a7444c Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
-635319a4a7444c Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-635319a4a7444c Yong Wu       2022-01-17  506  	if (!link)
-635319a4a7444c Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-635319a4a7444c Yong Wu       2022-01-17  508  
-57dbf81f50c82a Joerg Roedel  2020-04-29  509  	return &data->iommu;
-57dbf81f50c82a Joerg Roedel  2020-04-29  510  }
-57dbf81f50c82a Joerg Roedel  2020-04-29  511  
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2009  
+085eabaa74a123 Marc Zyngier 2024-02-14  2010  bool triage_sysreg_trap(struct kvm_vcpu *vcpu, int *sr_index)
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2011  {
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2012  	union trap_config tc;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2013  	enum trap_behaviour b;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2014  	bool is_read;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2015  	u32 sysreg;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2016  	u64 esr, val;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2017  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2018  	esr = kvm_vcpu_get_esr(vcpu);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2019  	sysreg = esr_sys64_to_sysreg(esr);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2020  	is_read = (esr & ESR_ELx_SYS64_ISS_DIR_MASK) == ESR_ELx_SYS64_ISS_DIR_READ;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2021  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2022  	tc = get_trap_config(sysreg);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2023  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2024  	/*
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2025  	 * A value of 0 for the whole entry means that we know nothing
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2026  	 * for this sysreg, and that it cannot be re-injected into the
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2027  	 * nested hypervisor. In this situation, let's cut it short.
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2028  	 */
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2029  	if (!tc.val)
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2030  		goto local;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2031  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2032  	/*
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2033  	 * If we're not nesting, immediately return to the caller, with the
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2034  	 * sysreg index, should we have it.
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2035  	 */
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2036  	if (!vcpu_has_nv(vcpu) || is_hyp_ctxt(vcpu))
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2037  		goto local;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2038  
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2039  	switch ((enum fgt_group_id)tc.fgt) {
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2040  	case __NO_FGT_GROUP__:
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2041  		break;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2042  
+5a24ea78698572 Marc Zyngier 2023-08-15  2043  	case HFGxTR_GROUP:
+5a24ea78698572 Marc Zyngier 2023-08-15  2044  		if (is_read)
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2045  			val = __vcpu_sys_reg(vcpu, HFGRTR_EL2);
+5a24ea78698572 Marc Zyngier 2023-08-15  2046  		else
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2047  			val = __vcpu_sys_reg(vcpu, HFGWTR_EL2);
+5a24ea78698572 Marc Zyngier 2023-08-15  2048  		break;
+5a24ea78698572 Marc Zyngier 2023-08-15  2049  
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2050  	case HDFGRTR_GROUP:
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2051  		if (is_read)
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2052  			val = __vcpu_sys_reg(vcpu, HDFGRTR_EL2);
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2053  		else
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2054  			val = __vcpu_sys_reg(vcpu, HDFGWTR_EL2);
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2055  		break;
+d0be0b2ede1324 Marc Zyngier 2023-08-15  2056  
+676f482354886c Fuad Tabba   2023-12-14  2057  	case HAFGRTR_GROUP:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2058  		val = __vcpu_sys_reg(vcpu, HAFGRTR_EL2);
+676f482354886c Fuad Tabba   2023-12-14  2059  		break;
+676f482354886c Fuad Tabba   2023-12-14  2060  
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2061  	case HFGITR_GROUP:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2062  		val = __vcpu_sys_reg(vcpu, HFGITR_EL2);
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2063  		switch (tc.fgf) {
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2064  			u64 tmp;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2065  
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2066  		case __NO_FGF__:
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2067  			break;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2068  
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2069  		case HCRX_FGTnXS:
+76b457a5cdeae4 Marc Zyngier 2024-02-14  2070  			tmp = __vcpu_sys_reg(vcpu, HCRX_EL2);
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2071  			if (tmp & HCRX_EL2_FGTnXS)
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2072  				tc.fgt = __NO_FGT_GROUP__;
+03fb54d0aa73cc Marc Zyngier 2023-08-15  2073  		}
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2074  		break;
+039f9f12de5fc7 Marc Zyngier 2023-08-15  2075  
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2076  	case __NR_FGT_GROUP_IDS__:
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2077  		/* Something is really wrong, bail out */
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2078  		WARN_ONCE(1, "__NR_FGT_GROUP_IDS__");
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2079  		goto local;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2080  	}
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2081  
+9958d58779c92b Marc Zyngier 2024-02-14  2082  	if (tc.fgt != __NO_FGT_GROUP__ && check_fgt_bit(vcpu->kvm, is_read,
+9958d58779c92b Marc Zyngier 2024-02-14 @2083  							val, tc))
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2084  		goto inject;
+15b4d82d69d7b0 Marc Zyngier 2023-08-15  2085  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2086  	b = compute_trap_behaviour(vcpu, tc);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2087  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2088  	if (((b & BEHAVE_FORWARD_READ) && is_read) ||
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2089  	    ((b & BEHAVE_FORWARD_WRITE) && !is_read))
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2090  		goto inject;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2091  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2092  local:
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2093  	if (!tc.sri) {
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2094  		struct sys_reg_params params;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2095  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2096  		params = esr_sys64_to_params(esr);
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2097  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2098  		/*
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2099  		 * Check for the IMPDEF range, as per DDI0487 J.a,
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2100  		 * D18.3.2 Reserved encodings for IMPLEMENTATION
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2101  		 * DEFINED registers.
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2102  		 */
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2103  		if (!(params.Op0 == 3 && (params.CRn & 0b1011) == 0b1011))
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2104  			print_sys_reg_msg(&params,
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2105  					  "Unsupported guest access at: %lx\n",
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2106  					  *vcpu_pc(vcpu));
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2107  		kvm_inject_undefined(vcpu);
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2108  		return true;
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2109  	}
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2110  
+cc5f84fbb008ff Marc Zyngier 2024-02-14  2111  	*sr_index = tc.sri - 1;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2112  	return false;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2113  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2114  inject:
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2115  	trace_kvm_forward_sysreg_trap(vcpu, sysreg, is_read);
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2116  
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2117  	kvm_inject_nested_sync(vcpu, kvm_vcpu_get_esr(vcpu));
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2118  	return true;
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2119  }
+e58ec47bf68d2b Marc Zyngier 2023-08-15  2120  
 
-:::::: The code at line 487 was first introduced by commit
-:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
+:::::: The code at line 2083 was first introduced by commit
+:::::: 9958d58779c92b72ef5b29284d073ecaa2a28764 KVM: arm64: nv: Correctly handle negative polarity FGTs
 
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Oliver Upton <oliver.upton@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
