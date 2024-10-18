@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C9C13D52E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938AE152E02
 	for <oe-kbuild@lists.linux.dev>; Fri, 18 Oct 2024 22:01:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729288869; cv=none; b=pY3v3DfCcIJCuW6GSUn3Godn7q/bN3poyqTRwoSNyD0S0SVfQEj+8ASMLGPLRgTaORHac7z0QKATbizSrodOibAfaObNow/lKNTBhn6azqZGW0/iVfb7JgFDYgsLWzRgGsYGpt0mbgTV516KvHaIkB4yY+fCSK56xrgxEiwOJhQ=
+	t=1729288870; cv=none; b=INGAJPU4xUz9bCXE4v9m/HLY5itsXrcNlIDHe4GZEQKoNUsL6edNSGMw/S3HAdeIH0GfpC/29HTk7aluQPjUIwngJwmO4H7tkqDXqZjf5phmRvUdc6O5I2yGJpcrr/aypGp68G5ceBvJGB6kZDHg2eW2BkvwmxmgUPoNt2VkmPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729288869; c=relaxed/simple;
-	bh=IizYhkj7rFrSwwUHj5BLPNSsuQdeIpCCAjBnCGBYfeY=;
+	s=arc-20240116; t=1729288870; c=relaxed/simple;
+	bh=EWiWq5GHrmhdMt9G+R9Wgc3XrkX6wvyRD7rA5+48a64=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eYXpA/qFPsymrFbcWOtfRq0xXEYbI3dzxBZ5N2NLR3uuiZEavgB30bwUkoiyPVAqaer4e4lbhrrbDREHjVYNJ5ET6zAvfi2eXvxG/eWeXRiUduqOWBPRZgur9z828b7TOLAkTV04r8/MmYDcVvYRtOxf7Oh0yrmN51I1fz0uU1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqXi/KQC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=qTMafAAHg7lw5ybkAcXrW43aMRV37spUQZtEHpPEUbw5sL6fXrNJwCMmngBx3XpoIPbgSnqule6U/0nLnHSCQS9q4lWJ6fZheLb21lz0C0YnLV0/u/6HVFut4yjgLkl7c3QvHKSqXXyQO6xZdbbG0kDSB19rG+0d8uoHOaCEQDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3QBYYyd; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqXi/KQC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3QBYYyd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729288868; x=1760824868;
+  t=1729288867; x=1760824867;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IizYhkj7rFrSwwUHj5BLPNSsuQdeIpCCAjBnCGBYfeY=;
-  b=CqXi/KQC5TjmCYdnVKGdNZTa/YtQzyN31YMvNVoPncA0fYHCXD0aKLEE
-   IXdEf+kp42hHcEagu5g2rJMbN4GzfhMh7GihbeZCiApcMBLz3IQmUiRHF
-   TZ7tdsQah/GYaAYZI1nfoZJhsdAAJMZg66fpuw0mp6StHSM3NbZYMvKIZ
-   AB/SS2wpUuWo1MUGSVAgwdNOPxmgo6F+tXqosLvpDrL85nvT01fAniJ+W
-   IVjoL6xluHK6h2BDVu7m/Bxbak8GncrZl7Lxq0H7cPXC8+C7ynZrC4Uxi
-   b+2KCkuZocOZPVIAD5dI4Kb3uLhBaL5YRaE8+cRO0W/uevL6F8MfCFJ1p
-   g==;
-X-CSE-ConnectionGUID: 8Y5loEMKRXyRl5yPmUWxkQ==
-X-CSE-MsgGUID: b1mcd9eeQ/6mLKiLET+0vA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28996363"
+  bh=EWiWq5GHrmhdMt9G+R9Wgc3XrkX6wvyRD7rA5+48a64=;
+  b=R3QBYYydZT5l2hjlg887CMxewwmfWXDH00EcloA2DnKKq+2t4o8MlXAf
+   9N34XRcU6VamLUqlE8sryKxf7Mx7IAUhjG1o4OvaBxDit2SURt/SN5Fkm
+   2jhUNwVBGfviJSRqlgY83rhJhdel1GZZpmyLYSg1Tb84RxUzZITB0aWCc
+   F2Q1hSp8MryIw7e2NbRe5waprmDpsogZO3tbdSxYOcke2YE8QpfTofybb
+   wK5HOg0ORGXTqo7WEsjJGiiaNWyeYGfsT4FQMRXcZQ5RPn418rK+rB8Ux
+   VKuNO3KJE39jdvhe+0jit6CR1qs8S2n8MQ3/0+Q8mE1Agv1LlZ7tvMpgX
+   w==;
+X-CSE-ConnectionGUID: NLcckP8SQe6xssoqFwFMQA==
+X-CSE-MsgGUID: 0MSJizZiQQaWPUjOGm/PGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39963941"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28996363"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 15:01:07 -0700
-X-CSE-ConnectionGUID: CATyfEZ8RFeCvt5tKL3Q1g==
-X-CSE-MsgGUID: XoVDZKoJRLOlZjL4lbkNlA==
+   d="scan'208";a="39963941"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 15:01:07 -0700
+X-CSE-ConnectionGUID: ZOMFPkBmSM2ddCPAIVuAEg==
+X-CSE-MsgGUID: Rw6QujelS2m2fQ57MsxerQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="83611224"
+   d="scan'208";a="83777992"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2024 15:01:06 -0700
+  by orviesa005.jf.intel.com with ESMTP; 18 Oct 2024 15:01:06 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1v1r-000OLr-2C;
+	id 1t1v1r-000OLp-27;
 	Fri, 18 Oct 2024 22:01:03 +0000
-Date: Sat, 19 Oct 2024 06:00:59 +0800
+Date: Sat, 19 Oct 2024 06:01:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: arch/mips/boot/dts/ingenic/cu1830-neo.dtb: expander@0: $nodename:0:
- 'expander@0' does not match '^serial(@.*)?$'
-Message-ID: <202410190534.u1V9W5Lw-lkp@intel.com>
+Subject: [esmil:th1520 45/45]
+ arch/riscv/boot/dts/thead/th1520.dtsi:241.18-248.5: Warning
+ (simple_bus_reg): /soc/cpurst: missing or empty reg/ranges property
+Message-ID: <202410190543.FV0fPnW3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,55 +64,266 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
 :::::: 
 
 BCC: lkp@intel.com
+CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-CC: Rob Herring <robh@kernel.org>
+TO: Han Gao <gaohan@iscas.ac.cn>
+CC: Emil Renner Berthing <emil.renner.berthing@canonical.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b04ae0f45168973edb658ac2385045ac13c5aca7
-commit: 0d447e927ee86e9ff89010085a47a275c2bb5594 dt-bindings: sc16is7xx: convert to YAML
-date:   1 year, 1 month ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: mips-randconfig-052-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190534.u1V9W5Lw-lkp@intel.com/config)
+tree:   https://github.com/esmil/linux th1520
+head:   221850f11052260cccf575e41ed6986af4a2ebe3
+commit: 221850f11052260cccf575e41ed6986af4a2ebe3 [45/45] [NOT-FOR-UPSTREAM] riscv: dts: thead: Add TH1520 CPU reset node
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20241019/202410190543.FV0fPnW3-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190534.u1V9W5Lw-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190543.FV0fPnW3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410190534.u1V9W5Lw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410190543.FV0fPnW3-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /serial@10031000: failed to match any schema with compatible: ['ingenic,x1830-uart', 'ingenic,x1000-uart']
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: spi@10043000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ingenic,x1830-spi', 'ingenic,x1000-spi'] is too long
-   	'ingenic,x1830-spi' is not one of ['ingenic,jz4750-spi', 'ingenic,jz4775-spi', 'ingenic,jz4780-spi', 'ingenic,x1000-spi', 'ingenic,x2000-spi']
-   	'ingenic,x1830-spi' is not one of ['ingenic,jz4760-spi', 'ingenic,jz4770-spi']
-   	'ingenic,jz4750-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/ingenic,spi.yaml#
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: spi@10043000: Unevaluated properties are not allowed ('clock-names', 'compatible' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/spi/ingenic,spi.yaml#
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /spi@10043000: failed to match any schema with compatible: ['ingenic,x1830-spi', 'ingenic,x1000-spi']
->> arch/mips/boot/dts/ingenic/cu1830-neo.dtb: expander@0: $nodename:0: 'expander@0' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/nxp,sc16is7xx.yaml#
->> arch/mips/boot/dts/ingenic/cu1830-neo.dtb: expander@0: Unevaluated properties are not allowed ('sc16is752' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/serial/nxp,sc16is7xx.yaml#
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: spi@10044000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['ingenic,x1830-spi', 'ingenic,x1000-spi'] is too long
-   	'ingenic,x1830-spi' is not one of ['ingenic,jz4750-spi', 'ingenic,jz4775-spi', 'ingenic,jz4780-spi', 'ingenic,x1000-spi', 'ingenic,x2000-spi']
-   	'ingenic,x1830-spi' is not one of ['ingenic,jz4760-spi', 'ingenic,jz4770-spi']
-   	'ingenic,jz4750-spi' was expected
-   	from schema $id: http://devicetree.org/schemas/spi/ingenic,spi.yaml#
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: /spi@10044000: failed to match any schema with compatible: ['ingenic,x1830-spi', 'ingenic,x1000-spi']
-   arch/mips/boot/dts/ingenic/cu1830-neo.dtb: i2c-controller@10050000: $nodename:0: 'i2c-controller@10050000' does not match '^i2c@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/i2c/ingenic,i2c.yaml#
+>> arch/riscv/boot/dts/thead/th1520.dtsi:241.18-248.5: Warning (simple_bus_reg): /soc/cpurst: missing or empty reg/ranges property
+
+vim +241 arch/riscv/boot/dts/thead/th1520.dtsi
+
+8e396880a864b8 Jisheng Zhang        2023-06-18   10  
+8e396880a864b8 Jisheng Zhang        2023-06-18   11  / {
+8e396880a864b8 Jisheng Zhang        2023-06-18   12  	compatible = "thead,th1520";
+8e396880a864b8 Jisheng Zhang        2023-06-18   13  	#address-cells = <2>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   14  	#size-cells = <2>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   15  
+8e396880a864b8 Jisheng Zhang        2023-06-18   16  	cpus: cpus {
+8e396880a864b8 Jisheng Zhang        2023-06-18   17  		#address-cells = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   18  		#size-cells = <0>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   19  		timebase-frequency = <3000000>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   20  
+8e396880a864b8 Jisheng Zhang        2023-06-18   21  		c910_0: cpu@0 {
+8e396880a864b8 Jisheng Zhang        2023-06-18   22  			compatible = "thead,c910", "riscv";
+8e396880a864b8 Jisheng Zhang        2023-06-18   23  			device_type = "cpu";
+8e396880a864b8 Jisheng Zhang        2023-06-18   24  			riscv,isa = "rv64imafdc";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   25  			riscv,isa-base = "rv64i";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   26  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+0804f3bec9e9a3 Conor Dooley         2023-10-22   27  					       "zifencei", "zihpm";
+8e396880a864b8 Jisheng Zhang        2023-06-18   28  			reg = <0>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   29  			i-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   30  			i-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   31  			i-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   32  			d-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   33  			d-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   34  			d-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   35  			next-level-cache = <&l2_cache>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   36  			mmu-type = "riscv,sv39";
+8e396880a864b8 Jisheng Zhang        2023-06-18   37  
+8e396880a864b8 Jisheng Zhang        2023-06-18   38  			cpu0_intc: interrupt-controller {
+8e396880a864b8 Jisheng Zhang        2023-06-18   39  				compatible = "riscv,cpu-intc";
+8e396880a864b8 Jisheng Zhang        2023-06-18   40  				interrupt-controller;
+8e396880a864b8 Jisheng Zhang        2023-06-18   41  				#interrupt-cells = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   42  			};
+8e396880a864b8 Jisheng Zhang        2023-06-18   43  		};
+8e396880a864b8 Jisheng Zhang        2023-06-18   44  
+8e396880a864b8 Jisheng Zhang        2023-06-18   45  		c910_1: cpu@1 {
+8e396880a864b8 Jisheng Zhang        2023-06-18   46  			compatible = "thead,c910", "riscv";
+8e396880a864b8 Jisheng Zhang        2023-06-18   47  			device_type = "cpu";
+8e396880a864b8 Jisheng Zhang        2023-06-18   48  			riscv,isa = "rv64imafdc";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   49  			riscv,isa-base = "rv64i";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   50  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+0804f3bec9e9a3 Conor Dooley         2023-10-22   51  					       "zifencei", "zihpm";
+8e396880a864b8 Jisheng Zhang        2023-06-18   52  			reg = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   53  			i-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   54  			i-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   55  			i-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   56  			d-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   57  			d-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   58  			d-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   59  			next-level-cache = <&l2_cache>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   60  			mmu-type = "riscv,sv39";
+8e396880a864b8 Jisheng Zhang        2023-06-18   61  
+8e396880a864b8 Jisheng Zhang        2023-06-18   62  			cpu1_intc: interrupt-controller {
+8e396880a864b8 Jisheng Zhang        2023-06-18   63  				compatible = "riscv,cpu-intc";
+8e396880a864b8 Jisheng Zhang        2023-06-18   64  				interrupt-controller;
+8e396880a864b8 Jisheng Zhang        2023-06-18   65  				#interrupt-cells = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   66  			};
+8e396880a864b8 Jisheng Zhang        2023-06-18   67  		};
+8e396880a864b8 Jisheng Zhang        2023-06-18   68  
+8e396880a864b8 Jisheng Zhang        2023-06-18   69  		c910_2: cpu@2 {
+8e396880a864b8 Jisheng Zhang        2023-06-18   70  			compatible = "thead,c910", "riscv";
+8e396880a864b8 Jisheng Zhang        2023-06-18   71  			device_type = "cpu";
+8e396880a864b8 Jisheng Zhang        2023-06-18   72  			riscv,isa = "rv64imafdc";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   73  			riscv,isa-base = "rv64i";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   74  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+0804f3bec9e9a3 Conor Dooley         2023-10-22   75  					       "zifencei", "zihpm";
+8e396880a864b8 Jisheng Zhang        2023-06-18   76  			reg = <2>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   77  			i-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   78  			i-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   79  			i-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   80  			d-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   81  			d-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   82  			d-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   83  			next-level-cache = <&l2_cache>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   84  			mmu-type = "riscv,sv39";
+8e396880a864b8 Jisheng Zhang        2023-06-18   85  
+8e396880a864b8 Jisheng Zhang        2023-06-18   86  			cpu2_intc: interrupt-controller {
+8e396880a864b8 Jisheng Zhang        2023-06-18   87  				compatible = "riscv,cpu-intc";
+8e396880a864b8 Jisheng Zhang        2023-06-18   88  				interrupt-controller;
+8e396880a864b8 Jisheng Zhang        2023-06-18   89  				#interrupt-cells = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18   90  			};
+8e396880a864b8 Jisheng Zhang        2023-06-18   91  		};
+8e396880a864b8 Jisheng Zhang        2023-06-18   92  
+8e396880a864b8 Jisheng Zhang        2023-06-18   93  		c910_3: cpu@3 {
+8e396880a864b8 Jisheng Zhang        2023-06-18   94  			compatible = "thead,c910", "riscv";
+8e396880a864b8 Jisheng Zhang        2023-06-18   95  			device_type = "cpu";
+8e396880a864b8 Jisheng Zhang        2023-06-18   96  			riscv,isa = "rv64imafdc";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   97  			riscv,isa-base = "rv64i";
+0804f3bec9e9a3 Conor Dooley         2023-10-22   98  			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+0804f3bec9e9a3 Conor Dooley         2023-10-22   99  					       "zifencei", "zihpm";
+8e396880a864b8 Jisheng Zhang        2023-06-18  100  			reg = <3>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  101  			i-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  102  			i-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  103  			i-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  104  			d-cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  105  			d-cache-size = <65536>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  106  			d-cache-sets = <512>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  107  			next-level-cache = <&l2_cache>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  108  			mmu-type = "riscv,sv39";
+8e396880a864b8 Jisheng Zhang        2023-06-18  109  
+8e396880a864b8 Jisheng Zhang        2023-06-18  110  			cpu3_intc: interrupt-controller {
+8e396880a864b8 Jisheng Zhang        2023-06-18  111  				compatible = "riscv,cpu-intc";
+8e396880a864b8 Jisheng Zhang        2023-06-18  112  				interrupt-controller;
+8e396880a864b8 Jisheng Zhang        2023-06-18  113  				#interrupt-cells = <1>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  114  			};
+8e396880a864b8 Jisheng Zhang        2023-06-18  115  		};
+8e396880a864b8 Jisheng Zhang        2023-06-18  116  
+8e396880a864b8 Jisheng Zhang        2023-06-18  117  		l2_cache: l2-cache {
+8e396880a864b8 Jisheng Zhang        2023-06-18  118  			compatible = "cache";
+8e396880a864b8 Jisheng Zhang        2023-06-18  119  			cache-block-size = <64>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  120  			cache-level = <2>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  121  			cache-size = <1048576>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  122  			cache-sets = <1024>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  123  			cache-unified;
+8e396880a864b8 Jisheng Zhang        2023-06-18  124  		};
+8e396880a864b8 Jisheng Zhang        2023-06-18  125  	};
+8e396880a864b8 Jisheng Zhang        2023-06-18  126  
+c61fea676bcb5f Inochi Amaoto        2024-05-30  127  	pmu {
+c61fea676bcb5f Inochi Amaoto        2024-05-30  128  		compatible = "riscv,pmu";
+c61fea676bcb5f Inochi Amaoto        2024-05-30  129  		riscv,event-to-mhpmcounters =
+c61fea676bcb5f Inochi Amaoto        2024-05-30  130  			<0x00003 0x00003 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  131  			<0x00004 0x00004 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  132  			<0x00005 0x00005 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  133  			<0x00006 0x00006 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  134  			<0x00007 0x00007 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  135  			<0x00008 0x00008 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  136  			<0x00009 0x00009 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  137  			<0x0000a 0x0000a 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  138  			<0x10000 0x10000 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  139  			<0x10001 0x10001 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  140  			<0x10002 0x10002 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  141  			<0x10003 0x10003 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  142  			<0x10010 0x10010 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  143  			<0x10011 0x10011 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  144  			<0x10012 0x10012 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  145  			<0x10013 0x10013 0x0007fff8>;
+c61fea676bcb5f Inochi Amaoto        2024-05-30  146  		riscv,event-to-mhpmevent =
+c61fea676bcb5f Inochi Amaoto        2024-05-30  147  			<0x00003 0x00000000 0x00000001>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  148  			<0x00004 0x00000000 0x00000002>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  149  			<0x00006 0x00000000 0x00000006>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  150  			<0x00005 0x00000000 0x00000007>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  151  			<0x00007 0x00000000 0x00000008>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  152  			<0x00008 0x00000000 0x00000009>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  153  			<0x00009 0x00000000 0x0000000a>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  154  			<0x0000a 0x00000000 0x0000000b>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  155  			<0x10000 0x00000000 0x0000000c>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  156  			<0x10001 0x00000000 0x0000000d>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  157  			<0x10002 0x00000000 0x0000000e>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  158  			<0x10003 0x00000000 0x0000000f>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  159  			<0x10010 0x00000000 0x00000010>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  160  			<0x10011 0x00000000 0x00000011>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  161  			<0x10012 0x00000000 0x00000012>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  162  			<0x10013 0x00000000 0x00000013>;
+c61fea676bcb5f Inochi Amaoto        2024-05-30  163  		riscv,raw-event-to-mhpmcounters =
+c61fea676bcb5f Inochi Amaoto        2024-05-30  164  			<0x00000000 0x00000001 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  165  			<0x00000000 0x00000002 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  166  			<0x00000000 0x00000003 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  167  			<0x00000000 0x00000004 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  168  			<0x00000000 0x00000005 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  169  			<0x00000000 0x00000006 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  170  			<0x00000000 0x00000007 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  171  			<0x00000000 0x00000008 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  172  			<0x00000000 0x00000009 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  173  			<0x00000000 0x0000000a 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  174  			<0x00000000 0x0000000b 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  175  			<0x00000000 0x0000000c 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  176  			<0x00000000 0x0000000d 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  177  			<0x00000000 0x0000000e 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  178  			<0x00000000 0x0000000f 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  179  			<0x00000000 0x00000010 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  180  			<0x00000000 0x00000011 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  181  			<0x00000000 0x00000012 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  182  			<0x00000000 0x00000013 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  183  			<0x00000000 0x00000014 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  184  			<0x00000000 0x00000015 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  185  			<0x00000000 0x00000016 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  186  			<0x00000000 0x00000017 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  187  			<0x00000000 0x00000018 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  188  			<0x00000000 0x00000019 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  189  			<0x00000000 0x0000001a 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  190  			<0x00000000 0x0000001b 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  191  			<0x00000000 0x0000001c 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  192  			<0x00000000 0x0000001d 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  193  			<0x00000000 0x0000001e 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  194  			<0x00000000 0x0000001f 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  195  			<0x00000000 0x00000020 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  196  			<0x00000000 0x00000021 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  197  			<0x00000000 0x00000022 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  198  			<0x00000000 0x00000023 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  199  			<0x00000000 0x00000024 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  200  			<0x00000000 0x00000025 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  201  			<0x00000000 0x00000026 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  202  			<0x00000000 0x00000027 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  203  			<0x00000000 0x00000028 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  204  			<0x00000000 0x00000029 0xffffffff 0xffffffff 0x0007fff8>,
+c61fea676bcb5f Inochi Amaoto        2024-05-30  205  			<0x00000000 0x0000002a 0xffffffff 0xffffffff 0x0007fff8>;
+c61fea676bcb5f Inochi Amaoto        2024-05-30  206  	};
+c61fea676bcb5f Inochi Amaoto        2024-05-30  207  
+8e396880a864b8 Jisheng Zhang        2023-06-18  208  	osc: oscillator {
+8e396880a864b8 Jisheng Zhang        2023-06-18  209  		compatible = "fixed-clock";
+8e396880a864b8 Jisheng Zhang        2023-06-18  210  		clock-output-names = "osc_24m";
+8e396880a864b8 Jisheng Zhang        2023-06-18  211  		#clock-cells = <0>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  212  	};
+8e396880a864b8 Jisheng Zhang        2023-06-18  213  
+8e396880a864b8 Jisheng Zhang        2023-06-18  214  	osc_32k: 32k-oscillator {
+8e396880a864b8 Jisheng Zhang        2023-06-18  215  		compatible = "fixed-clock";
+8e396880a864b8 Jisheng Zhang        2023-06-18  216  		clock-output-names = "osc_32k";
+8e396880a864b8 Jisheng Zhang        2023-06-18  217  		#clock-cells = <0>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  218  	};
+8e396880a864b8 Jisheng Zhang        2023-06-18  219  
+32c242c5307635 Emil Renner Berthing 2024-10-13  220  	aonsys_clk: clock-73728000 {
+32c242c5307635 Emil Renner Berthing 2024-10-13  221  		compatible = "fixed-clock";
+32c242c5307635 Emil Renner Berthing 2024-10-13  222  		clock-frequency = <73728000>;
+32c242c5307635 Emil Renner Berthing 2024-10-13  223  		clock-output-names = "aonsys_clk";
+32c242c5307635 Emil Renner Berthing 2024-10-13  224  		#clock-cells = <0>;
+32c242c5307635 Emil Renner Berthing 2024-10-13  225  	};
+32c242c5307635 Emil Renner Berthing 2024-10-13  226  
+83190bd54caa56 Emil Renner Berthing 2024-09-30  227  	stmmac_axi_config: stmmac-axi-config {
+83190bd54caa56 Emil Renner Berthing 2024-09-30  228  		snps,wr_osr_lmt = <15>;
+83190bd54caa56 Emil Renner Berthing 2024-09-30  229  		snps,rd_osr_lmt = <15>;
+83190bd54caa56 Emil Renner Berthing 2024-09-30  230  		snps,blen = <0 0 64 32 0 0 0>;
+83190bd54caa56 Emil Renner Berthing 2024-09-30  231  	};
+83190bd54caa56 Emil Renner Berthing 2024-09-30  232  
+8e396880a864b8 Jisheng Zhang        2023-06-18  233  	soc {
+8e396880a864b8 Jisheng Zhang        2023-06-18  234  		compatible = "simple-bus";
+8e396880a864b8 Jisheng Zhang        2023-06-18  235  		interrupt-parent = <&plic>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  236  		#address-cells = <2>;
+8e396880a864b8 Jisheng Zhang        2023-06-18  237  		#size-cells = <2>;
+759426c758c705 Jisheng Zhang        2023-09-12  238  		dma-noncoherent;
+8e396880a864b8 Jisheng Zhang        2023-06-18  239  		ranges;
+8e396880a864b8 Jisheng Zhang        2023-06-18  240  
+221850f1105226 Han Gao              2023-09-21 @241  		cpurst: cpurst {
 
 -- 
 0-DAY CI Kernel Test Service
