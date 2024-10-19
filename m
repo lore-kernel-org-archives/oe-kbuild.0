@@ -1,117 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CB8AD52
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Oct 2024 13:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D292207A
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Oct 2024 13:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729343436; cv=none; b=L9WwCvT8wiD8696fKuDD3rTV0ketz/lSt8XrYetKKq4gaPdEv0CRgGj/8QMUQqKcXN8udtnTUw8d6fmVXCdZPnGS73+j9gyqLR7WdQXnARVAiJlNIJRtFSqdflIWJ9SpkQ7ksCupvjGCVwsZHP9myerJsawnPu8wFLT6ZUeKZpo=
+	t=1729344097; cv=none; b=Kb1yymUtbY9MQ7fFeRn805tV2sgyospXUUHR3MqpU2ry8sc8wmrkkP/8Djej7gnazayxEFIwOj/WO2QVBbi5UyygIGCLDy6D6OqxB1078MBizqmL5htReTDKHufmCKW+C+iO2aqC50VS8KEEuEojN3gwc3zHfCyIHlDqhxEO7vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729343436; c=relaxed/simple;
-	bh=Lzqj7kddrXNWEuQJoXnVoD4NjHl+PCXtJVSpCNrdoT0=;
+	s=arc-20240116; t=1729344097; c=relaxed/simple;
+	bh=/h2omJlqDhH6JQY6QqFNKEpDxyNPBKrQXSNu1NHXt64=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=amb1bgyxJILQ23XulGCMz5ENPlh3Rcgfz+V7DJcfXP7dlJ5hoK1jvSdJsvWWt2nkNFqV5IVvX2tMzBLDEY4P43xj8kJSFSS5RgPbECug57KcDuq35T68Ni8XjkztL3idcn8LNJ2mx2iNWc+QZk6Y+2ToA62vdK8sVx6YWe6Jy8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FODbnNjD; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=cSn031bEA1d/UqmYBQ5G2dRIY27kAlRb0LFzlHSjYnoNF6OYuFnNXQSF42TReHc2RTps4FrcZiR7Mwb5/xAyhhdAoizSAVAO/6TrWuya0hkPd81xWHpt+0PgY0VU3JpZmGuYBpYfw5tzcV07exJ+Dwj1hbLB3b0g89nQrRnj/wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIZc1SX7; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FODbnNjD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIZc1SX7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729343435; x=1760879435;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lzqj7kddrXNWEuQJoXnVoD4NjHl+PCXtJVSpCNrdoT0=;
-  b=FODbnNjDmMixGkI85eb38tlqkYUxiI7aRnW5czr505Z8xAHgKUAvoOon
-   KAkCms0aNxlNnmnxnBj06RNbEjviTBcpf+fpddC+w9pNrZfXu87FZTS0U
-   /fiiERUuyj+8851H9ContyRpBd3QAAQQUigdTz0olW02i9LVtawaIDGJx
-   HHLACQUQ2O6kbRl9Z/LPDTutaAqSJgdoHYIMtI+oy52vP0wAIcZDga3Ru
-   Pj1q731DWIsXbgbWbrYN27dTWO1rRCpF4Zlp1lgxxrYB92MIf78ZRgPgt
-   CHAo4EBC78k5+sbmXKTWzw1ajkvr4WTkqKd/aV1ak8++QZLfTD/KVQac5
-   w==;
-X-CSE-ConnectionGUID: C8p41PHOTrC+LmHn4pRmwQ==
-X-CSE-MsgGUID: +wC1q3FiSXCGdt1ve+jbbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="54284832"
-X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="54284832"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:10:34 -0700
-X-CSE-ConnectionGUID: 7sumAD73Qum/hnZ5IZJF5A==
-X-CSE-MsgGUID: AIS5RRcZSlO8CSoG8JYzVA==
+  t=1729344095; x=1760880095;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/h2omJlqDhH6JQY6QqFNKEpDxyNPBKrQXSNu1NHXt64=;
+  b=IIZc1SX7IokK10C3qZ7oRfoo5UL9g3JE2nmQ5bToQm9LLtlpM22bpwGS
+   yd68rw8cHGI7K1BaJvY+od5hEWpyqHRXBGb4CfiIguM8XYZqrzDBGYmUJ
+   f0TI1qM13XdJUe808ZQntvjgt/e1o+KGZz/9aYsgs3W2Z3imRoW7aF/V7
+   PKtG9IKZxMJ/7XxN0f9S8DXwtd9wTqpENZAAGcPjXYNFPgZEyTShr9N1L
+   ZqSrC+76zjVWu+Oa0BK9j8Nz/BJfo4NMaLtFTFU8LCYEDVDULUoFaF+m4
+   gVBvP1qcRYCcRdZdpbirGu2OuehZP0hE3gSaHT/pcy5pWHSOqfKJyl5Pv
+   Q==;
+X-CSE-ConnectionGUID: 6gcF8W4PTX2DAIkbOHAOAA==
+X-CSE-MsgGUID: HwHCnhRzR2iHipEuu5G5Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39422446"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39422446"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:21:35 -0700
+X-CSE-ConnectionGUID: 3/DCLSv8QKimAF6K9TnXrQ==
+X-CSE-MsgGUID: 1qyv790IR/+KK81c2HL5Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="79130765"
+   d="scan'208";a="109937919"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 19 Oct 2024 06:10:33 -0700
+  by orviesa002.jf.intel.com with ESMTP; 19 Oct 2024 06:21:33 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t29Dy-000P1R-2q;
-	Sat, 19 Oct 2024 13:10:30 +0000
-Date: Sat, 19 Oct 2024 21:10:17 +0800
+	id 1t29Oc-000P1d-39;
+	Sat, 19 Oct 2024 13:21:30 +0000
+Date: Sat, 19 Oct 2024 21:20:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: kernel/cgroup/misc.c:385 __misc_events_show() warn: we never enter
- this loop
-Message-ID: <202410192128.SLQHUGv7-lkp@intel.com>
+Subject: Re: [PATCH v5 1/5] media: mediatek: vcodec: setting request complete
+ before buffer done
+Message-ID: <202410192150.2YkqysDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241012064333.27269-2-yunfei.dong@mediatek.com>
+References: <20241012064333.27269-2-yunfei.dong@mediatek.com>
+TO: Yunfei Dong <yunfei.dong@mediatek.com>
+TO: "Nícolas F . R . A . Prado" <nfraprado@collabora.com>
+TO: Sebastian Fricke <sebastian.fricke@collabora.com>
+TO: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+TO: Hans Verkuil <hverkuil@xs4all.nl>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+TO: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+TO: Nathan Hebert <nhebert@chromium.org>
+TO: Daniel Almeida <daniel.almeida@collabora.com>
+CC: "Hsin-Yi Wang" <hsinyi@chromium.org>
+CC: Fritz Koenig <frkoenig@chromium.org>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: Steve Cho <stevecho@chromium.org>
+CC: Yunfei Dong <yunfei.dong@mediatek.com>
+CC: linux-media@vger.kernel.org
+CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-TO: Xiu Jianfeng <xiujianfeng@huawei.com>
-CC: Tejun Heo <tj@kernel.org>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Project_Global_Chrome_Upstream_Group@mediatek.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
-commit: 6a26f9c68901797261bc145975a02f85be0c1d8f cgroup/misc: Introduce misc.events.local
-date:   3 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 months ago
-config: xtensa-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241019/202410192128.SLQHUGv7-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
+Hi Yunfei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-setting-request-complete-before-buffer-done/20241012-144607
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20241012064333.27269-2-yunfei.dong%40mediatek.com
+patch subject: [PATCH v5 1/5] media: mediatek: vcodec: setting request complete before buffer done
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192150.2YkqysDO-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410192128.SLQHUGv7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410192150.2YkqysDO-lkp@intel.com/
 
 smatch warnings:
-kernel/cgroup/misc.c:385 __misc_events_show() warn: we never enter this loop
+drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c:272 mtk_vdec_stateless_cap_to_disp() warn: variable dereferenced before check 'vb2_v4l2_src' (see line 268)
 
-vim +385 kernel/cgroup/misc.c
+vim +/vb2_v4l2_src +272 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
 
-a72232eabdfcfe Vipin Sharma 2021-03-29  378  
-6a26f9c6890179 Xiu Jianfeng 2024-07-11  379  static int __misc_events_show(struct seq_file *sf, bool local)
-f279294b329363 Chunguang Xu 2021-09-17  380  {
-f279294b329363 Chunguang Xu 2021-09-17  381  	struct misc_cg *cg = css_misc(seq_css(sf));
-32bf85c60ca358 Haitao Huang 2023-07-17  382  	u64 events;
-32bf85c60ca358 Haitao Huang 2023-07-17  383  	int i;
-f279294b329363 Chunguang Xu 2021-09-17  384  
-f279294b329363 Chunguang Xu 2021-09-17 @385  	for (i = 0; i < MISC_CG_RES_TYPES; i++) {
-6a26f9c6890179 Xiu Jianfeng 2024-07-11  386  		if (local)
-6a26f9c6890179 Xiu Jianfeng 2024-07-11  387  			events = atomic64_read(&cg->res[i].events_local);
-6a26f9c6890179 Xiu Jianfeng 2024-07-11  388  		else
-32bf85c60ca358 Haitao Huang 2023-07-17  389  			events = atomic64_read(&cg->res[i].events);
-f279294b329363 Chunguang Xu 2021-09-17  390  		if (READ_ONCE(misc_res_capacity[i]) || events)
-32bf85c60ca358 Haitao Huang 2023-07-17  391  			seq_printf(sf, "%s.max %llu\n", misc_res_name[i], events);
-f279294b329363 Chunguang Xu 2021-09-17  392  	}
-f279294b329363 Chunguang Xu 2021-09-17  393  	return 0;
-f279294b329363 Chunguang Xu 2021-09-17  394  }
-f279294b329363 Chunguang Xu 2021-09-17  395  
-
-:::::: The code at line 385 was first introduced by commit
-:::::: f279294b329363eb6ada568e494d609ef78e3e8e misc_cgroup: introduce misc.events to count failures
-
-:::::: TO: Chunguang Xu <brookxu@tencent.com>
-:::::: CC: Tejun Heo <tj@kernel.org>
+8cdc3794b2e34b drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c              Yunfei Dong 2021-08-06  246  
+01abf5fbb081c0 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  247  static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  248  					   struct vb2_v4l2_buffer *vb2_v4l2_src)
+8cdc3794b2e34b drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c              Yunfei Dong 2021-08-06  249  {
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  250  	struct vb2_v4l2_buffer *vb2_dst;
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  251  	enum vb2_buffer_state state;
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  252  	struct media_request *src_buf_req;
+8cdc3794b2e34b drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c              Yunfei Dong 2021-08-06  253  
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  254  	if (error)
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  255  		state = VB2_BUF_STATE_ERROR;
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  256  	else
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  257  		state = VB2_BUF_STATE_DONE;
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  258  
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  259  	vb2_dst = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  260  	if (vb2_dst) {
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  261  		v4l2_m2m_buf_done(vb2_dst, state);
+41f03c673cb7b5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  262  		mtk_v4l2_vdec_dbg(2, ctx, "free frame buffer id:%d to done list",
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  263  				  vb2_dst->vb2_buf.index);
+d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  264  	} else {
+41f03c673cb7b5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  265  		mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
+d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  266  	}
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  267  
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12 @268  	src_buf_req = vb2_v4l2_src->vb2_buf.req_obj.req;
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  269  	if (src_buf_req)
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  270  		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  271  
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12 @272  	if (vb2_v4l2_src)
+5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  273  		v4l2_m2m_buf_done(vb2_v4l2_src, state);
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  274  }
+7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  275  
 
 -- 
 0-DAY CI Kernel Test Service
