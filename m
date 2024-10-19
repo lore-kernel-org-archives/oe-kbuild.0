@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD5A1A276
-	for <oe-kbuild@lists.linux.dev>; Sat, 19 Oct 2024 14:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F34E5A7AA
+	for <oe-kbuild@lists.linux.dev>; Sat, 19 Oct 2024 14:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729348419; cv=none; b=FVlzDmvpJqgCJFmOirYuQmfpFfdFqanrTmU2FMVrnGXvueI4Bm1KUGNZcqRP5ShO1uyBFYG+3FEycvBQCFlwkjviGn516PAldXmTQlZstS5sy6dt0dxCrUtuybqoTpPFPFef0sw9cv0/zzpar1k7DpT4YQki6jyVeqhTuoThdbY=
+	t=1729348421; cv=none; b=pQz/DZ5FSxw1Bv7oklKG80lnneIbjITA11zxx8UXeOX0yvXaqeY+AalM4T6J6RxMgEfSE/mKjEmzMRbty8dGOGwUwOkcC+tzzWJdZYXOmyT6qmWJqZaPF31dH4NhgScCxvParSYiziDHBGrnrlDhu2QFN7GPgJYMfvE06HSunjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729348419; c=relaxed/simple;
-	bh=eLcogRRZEIVUvYkIC9JALFfyc5X3yXKzMhLaiP3/0Pc=;
+	s=arc-20240116; t=1729348421; c=relaxed/simple;
+	bh=Uud01JDOfDrr2GlbFSQ/d6Bq+1GGeAhf8TVhAhkW1XU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=haJlNjsOCUtkptpQVIxD8s2rl/JYxozAuC+a+EL+zMoNDklL1JFbY3cO+4BkU6filYCmMEVK9xxAfG86UAqVGmIgHFGu+tFBXTKvUvQ6f3upsWdaRVFo3HcUYynnvs+eABaH+CVw0kuyrgsCEmPL5B7SlK123IybzFpfISqXYyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcTjKeDP; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=aUjywfrtcfhYI2wp2Fd/sf+BXvIJbNc/HD+wMoaDl/bZn8NM7VRYqHXXYg4iKQmwpnIBaN21m2WroFVytDCefKcQZbGCrn/Dy+LIk2/zSz0r4nqW0ZnT2qPi2/pJJsvvuJZ4RdJlLzJOUt57HvzFdweK3aYFtiYIrQkQvxT6qTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHMCqLgn; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcTjKeDP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHMCqLgn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729348418; x=1760884418;
+  t=1729348419; x=1760884419;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eLcogRRZEIVUvYkIC9JALFfyc5X3yXKzMhLaiP3/0Pc=;
-  b=XcTjKeDP/Vh3katiMTnBPTl40F+7yszHKqTamCMP+o7+Q/NO8pPyP044
-   l0vyv5/uls+G1yYk3ZZ0D4clK/WEbu9zItEm/lH+kOgqia0i62d7q58mt
-   B/GI4xFbAC2j9z8zmViQjkuZjIjKwDDtJpzlcCAdPljB4l+SEWZ1apdh3
-   spIloQTCtwPFv4TYWJyiIWid7aCA+gAt1WHR3dxGzlxOkfMS0DImg1zBu
-   HrLDEUUeWKZywszGtElts8E4OISk5Ad/r/u5+sxBh58qZRLCyyjSY/m0P
-   maqolK/dH/ONblC4/qBbzAbpMfwDhI86b31r/19jJIydUErJY/xNJzhf2
+  bh=Uud01JDOfDrr2GlbFSQ/d6Bq+1GGeAhf8TVhAhkW1XU=;
+  b=cHMCqLgnYoH74jtmCpVQrzOiQNb1RTIG1gc1A4ko9Y1WkI7+ABa6n8i4
+   sCyY/yIeCvMt7QpGb4FrajVJWCB++6lYv8d3ZQnf1O5QOF4w5gjB5TEhu
+   /mfc2sHPyBbVkV4t1VnH0CyvIGhIsnQK7r/0+mpoZO+ZuQWgCX90uMGnd
+   3/VZwp7aX1GKKAUP7zHMWOGs49javnPeUW84wE2XywWKp0xoAacLEfL/2
+   sS2lpg+h5AZ0Fi/iWoSMdEW6zxm3n7OD7+GJ+WH8MeR6qJCvJG3YaGY9l
+   689MRwdOmnxB/eHt3RLv14NrXD6/gefWjnq3IG5Aab5QObvwr/1KF9VqL
    Q==;
-X-CSE-ConnectionGUID: sH4i1q7gQPSfvp/Rm/7mUQ==
-X-CSE-MsgGUID: iIJO3q48Ta2bzD+uspxkSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28964020"
-X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="28964020"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:33:36 -0700
-X-CSE-ConnectionGUID: 5InKX9QhQaOu+VtfzZ9KoA==
-X-CSE-MsgGUID: i1m4F8OySpOa4Ikeu0vDhQ==
-X-ExtLoop1: 1
+X-CSE-ConnectionGUID: XIT914GdQW2hmMhwxwT1dg==
+X-CSE-MsgGUID: +Foz+79zSuqgxkR+eEwhyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28754773"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="83944843"
+   d="scan'208";a="28754773"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:33:36 -0700
+X-CSE-ConnectionGUID: oY5eEr7hRkKoW1bITgKeRw==
+X-CSE-MsgGUID: v6iiX2T4TPao+4It7aKTPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
+   d="scan'208";a="83744080"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Oct 2024 07:33:35 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 19 Oct 2024 07:33:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2AWK-000P4h-2z;
+	id 1t2AWK-000P4c-2r;
 	Sat, 19 Oct 2024 14:33:32 +0000
-Date: Sat, 19 Oct 2024 22:33:17 +0800
+Date: Sat, 19 Oct 2024 22:33:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error
- code 'ret'
-Message-ID: <202410192220.MeTyHPxI-lkp@intel.com>
+Subject: arch/arm64/kvm/nested.c:174 get_s2_mmu_nested() error: we previously
+ assumed 's2_mmu' could be null (see line 152)
+Message-ID: <202410192211.6zHd8Ix2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,120 +65,82 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Brijesh Singh <brijesh.singh@amd.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Alexey Kardashevskiy <aik@amd.com>
-CC: Ashish Kalra <ashish.kalra@amd.com>
-CC: Tom Lendacky <thomas.lendacky@amd.com>
-CC: Liam Merwick <liam.merwick@oracle.com>
-CC: Michael Roth <michael.roth@amd.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Oliver Upton <oliver.upton@linux.dev>
+CC: Christoffer Dall <christoffer.dall@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
-commit: 88caf544c9305313e1c48ac1a437faa5df8fff06 KVM: SEV: Provide support for SNP_GUEST_REQUEST NAE event
-date:   3 months ago
+commit: 4f128f8e1aaac189f83d0f828bcdb2986d8d2e51 KVM: arm64: nv: Support multiple nested Stage-2 mmu structures
+date:   4 months ago
 :::::: branch date: 15 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-161-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192220.MeTyHPxI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+:::::: commit date: 4 months ago
+config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241019/202410192211.6zHd8Ix2-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410192220.MeTyHPxI-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410192211.6zHd8Ix2-lkp@intel.com/
 
-New smatch warnings:
-arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error code 'ret'
+smatch warnings:
+arch/arm64/kvm/nested.c:174 get_s2_mmu_nested() error: we previously assumed 's2_mmu' could be null (see line 152)
 
-Old smatch warnings:
-arch/x86/kvm/svm/sev.c:801 sev_launch_update_data() error: uninitialized symbol 'ret'.
-arch/x86/kvm/svm/sev.c:951 sev_launch_update_vmsa() warn: iterator 'i' not incremented
-arch/x86/kvm/svm/sev.c:1912 sev_lock_vcpus_for_migration() warn: iterator 'i' not incremented
-arch/x86/kvm/svm/sev.c:1932 sev_lock_vcpus_for_migration() warn: iterator 'j' not incremented
-arch/x86/kvm/svm/sev.c:1952 sev_unlock_vcpus_for_migration() warn: iterator 'i' not incremented
-arch/x86/kvm/svm/sev.c:2013 sev_migrate_from() warn: iterator 'i' not incremented
-arch/x86/kvm/svm/sev.c:2056 sev_check_source_vcpus() warn: iterator 'i' not incremented
-arch/x86/kvm/svm/sev.c:2352 sev_gmem_post_populate() warn: maybe return -EFAULT instead of the bytes remaining?
-arch/x86/kvm/svm/sev.c:2450 snp_launch_update_vmsa() warn: iterator 'i' not incremented
-include/linux/kvm_host.h:977 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+vim +/s2_mmu +174 arch/arm64/kvm/nested.c
 
-vim +/ret +454 arch/x86/kvm/svm/sev.c
-
-88caf544c93053 Brijesh Singh         2024-07-01  401  
-4f5defae708992 Paolo Bonzini         2024-04-04  402  static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
-4f5defae708992 Paolo Bonzini         2024-04-04  403  			    struct kvm_sev_init *data,
-4f5defae708992 Paolo Bonzini         2024-04-04  404  			    unsigned long vm_type)
-eaf78265a4ab33 Joerg Roedel          2020-03-24  405  {
-eaf78265a4ab33 Joerg Roedel          2020-03-24  406  	struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
-1ca5614b84eed5 Brijesh Singh         2024-01-25  407  	struct sev_platform_init_args init_args = {0};
-4f5defae708992 Paolo Bonzini         2024-04-04  408  	bool es_active = vm_type != KVM_X86_SEV_VM;
-4f5defae708992 Paolo Bonzini         2024-04-04  409  	u64 valid_vmsa_features = es_active ? sev_supported_vmsa_features : 0;
-cc4ce37bed8598 Sean Christopherson   2024-01-31  410  	int ret;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  411  
-8727906fde6ea6 Sean Christopherson   2021-03-30  412  	if (kvm->created_vcpus)
-8727906fde6ea6 Sean Christopherson   2021-03-30  413  		return -EINVAL;
-8727906fde6ea6 Sean Christopherson   2021-03-30  414  
-4f5defae708992 Paolo Bonzini         2024-04-04  415  	if (data->flags)
-4f5defae708992 Paolo Bonzini         2024-04-04  416  		return -EINVAL;
-4f5defae708992 Paolo Bonzini         2024-04-04  417  
-4f5defae708992 Paolo Bonzini         2024-04-04  418  	if (data->vmsa_features & ~valid_vmsa_features)
-26c44aa9e076ed Paolo Bonzini         2024-04-04  419  		return -EINVAL;
-26c44aa9e076ed Paolo Bonzini         2024-04-04  420  
-4af663c2f64a8d Michael Roth          2024-05-01  421  	if (data->ghcb_version > GHCB_VERSION_MAX || (!es_active && data->ghcb_version))
-4af663c2f64a8d Michael Roth          2024-05-01  422  		return -EINVAL;
-4af663c2f64a8d Michael Roth          2024-05-01  423  
-eaf78265a4ab33 Joerg Roedel          2020-03-24  424  	if (unlikely(sev->active))
-fdd58834d13204 Sean Christopherson   2024-01-31  425  		return -EINVAL;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  426  
-a41fb26e616973 Sean Christopherson   2021-11-09  427  	sev->active = true;
-4f5defae708992 Paolo Bonzini         2024-04-04  428  	sev->es_active = es_active;
-4f5defae708992 Paolo Bonzini         2024-04-04  429  	sev->vmsa_features = data->vmsa_features;
-4af663c2f64a8d Michael Roth          2024-05-01  430  	sev->ghcb_version = data->ghcb_version;
-4af663c2f64a8d Michael Roth          2024-05-01  431  
-4af663c2f64a8d Michael Roth          2024-05-01  432  	/*
-4af663c2f64a8d Michael Roth          2024-05-01  433  	 * Currently KVM supports the full range of mandatory features defined
-4af663c2f64a8d Michael Roth          2024-05-01  434  	 * by version 2 of the GHCB protocol, so default to that for SEV-ES
-4af663c2f64a8d Michael Roth          2024-05-01  435  	 * guests created via KVM_SEV_INIT2.
-4af663c2f64a8d Michael Roth          2024-05-01  436  	 */
-4af663c2f64a8d Michael Roth          2024-05-01  437  	if (sev->es_active && !sev->ghcb_version)
-4af663c2f64a8d Michael Roth          2024-05-01  438  		sev->ghcb_version = GHCB_VERSION_DEFAULT;
-605bbdc12bc883 Paolo Bonzini         2024-04-04  439  
-1dfe571c12cf99 Brijesh Singh         2024-05-01  440  	if (vm_type == KVM_X86_SNP_VM)
-1dfe571c12cf99 Brijesh Singh         2024-05-01  441  		sev->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
-1dfe571c12cf99 Brijesh Singh         2024-05-01  442  
-cc4ce37bed8598 Sean Christopherson   2024-01-31  443  	ret = sev_asid_new(sev);
-cc4ce37bed8598 Sean Christopherson   2024-01-31  444  	if (ret)
-fd49e8ee70b306 Paolo Bonzini         2021-04-22  445  		goto e_no_asid;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  446  
-1ca5614b84eed5 Brijesh Singh         2024-01-25  447  	init_args.probe = false;
-1ca5614b84eed5 Brijesh Singh         2024-01-25  448  	ret = sev_platform_init(&init_args);
-eaf78265a4ab33 Joerg Roedel          2020-03-24  449  	if (ret)
-eaf78265a4ab33 Joerg Roedel          2020-03-24  450  		goto e_free;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  451  
-88caf544c93053 Brijesh Singh         2024-07-01  452  	/* This needs to happen after SEV/SNP firmware initialization. */
-88caf544c93053 Brijesh Singh         2024-07-01  453  	if (vm_type == KVM_X86_SNP_VM && snp_guest_req_init(kvm))
-88caf544c93053 Brijesh Singh         2024-07-01 @454  		goto e_free;
-88caf544c93053 Brijesh Singh         2024-07-01  455  
-eaf78265a4ab33 Joerg Roedel          2020-03-24  456  	INIT_LIST_HEAD(&sev->regions_list);
-b2125513dfc0dd Peter Gonda           2022-02-11  457  	INIT_LIST_HEAD(&sev->mirror_vms);
-26c44aa9e076ed Paolo Bonzini         2024-04-04  458  	sev->need_init = false;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  459  
-c538dc792ff7e4 Suravee Suthikulpanit 2022-04-08  460  	kvm_set_apicv_inhibit(kvm, APICV_INHIBIT_REASON_SEV);
-c538dc792ff7e4 Suravee Suthikulpanit 2022-04-08  461  
-eaf78265a4ab33 Joerg Roedel          2020-03-24  462  	return 0;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  463  
-eaf78265a4ab33 Joerg Roedel          2020-03-24  464  e_free:
-1ca5614b84eed5 Brijesh Singh         2024-01-25  465  	argp->error = init_args.error;
-7aef27f0b2a8a5 Vipin Sharma          2021-03-29  466  	sev_asid_free(sev);
-7aef27f0b2a8a5 Vipin Sharma          2021-03-29  467  	sev->asid = 0;
-fd49e8ee70b306 Paolo Bonzini         2021-04-22  468  e_no_asid:
-605bbdc12bc883 Paolo Bonzini         2024-04-04  469  	sev->vmsa_features = 0;
-fd49e8ee70b306 Paolo Bonzini         2021-04-22  470  	sev->es_active = false;
-a41fb26e616973 Sean Christopherson   2021-11-09  471  	sev->active = false;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  472  	return ret;
-eaf78265a4ab33 Joerg Roedel          2020-03-24  473  }
-eaf78265a4ab33 Joerg Roedel          2020-03-24  474  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  142  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  143  static struct kvm_s2_mmu *get_s2_mmu_nested(struct kvm_vcpu *vcpu)
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  144  {
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  145  	struct kvm *kvm = vcpu->kvm;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  146  	struct kvm_s2_mmu *s2_mmu;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  147  	int i;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  148  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  149  	lockdep_assert_held_write(&vcpu->kvm->mmu_lock);
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  150  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  151  	s2_mmu = lookup_s2_mmu(vcpu);
+4f128f8e1aaac1 Marc Zyngier 2024-06-14 @152  	if (s2_mmu)
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  153  		goto out;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  154  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  155  	/*
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  156  	 * Make sure we don't always search from the same point, or we
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  157  	 * will always reuse a potentially active context, leaving
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  158  	 * free contexts unused.
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  159  	 */
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  160  	for (i = kvm->arch.nested_mmus_next;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  161  	     i < (kvm->arch.nested_mmus_size + kvm->arch.nested_mmus_next);
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  162  	     i++) {
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  163  		s2_mmu = &kvm->arch.nested_mmus[i % kvm->arch.nested_mmus_size];
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  164  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  165  		if (atomic_read(&s2_mmu->refcnt) == 0)
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  166  			break;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  167  	}
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  168  	BUG_ON(atomic_read(&s2_mmu->refcnt)); /* We have struct MMUs to spare */
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  169  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  170  	/* Set the scene for the next search */
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  171  	kvm->arch.nested_mmus_next = (i + 1) % kvm->arch.nested_mmus_size;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  172  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  173  	/* Clear the old state */
+4f128f8e1aaac1 Marc Zyngier 2024-06-14 @174  	if (kvm_s2_mmu_valid(s2_mmu))
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  175  		kvm_stage2_unmap_range(s2_mmu, 0, kvm_phys_size(s2_mmu));
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  176  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  177  	/*
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  178  	 * The virtual VMID (modulo CnP) will be used as a key when matching
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  179  	 * an existing kvm_s2_mmu.
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  180  	 *
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  181  	 * We cache VTCR at allocation time, once and for all. It'd be great
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  182  	 * if the guest didn't screw that one up, as this is not very
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  183  	 * forgiving...
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  184  	 */
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  185  	s2_mmu->tlb_vttbr = vcpu_read_sys_reg(vcpu, VTTBR_EL2) & ~VTTBR_CNP_BIT;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  186  	s2_mmu->tlb_vtcr = vcpu_read_sys_reg(vcpu, VTCR_EL2);
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  187  	s2_mmu->nested_stage2_enabled = vcpu_read_sys_reg(vcpu, HCR_EL2) & HCR_VM;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  188  
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  189  out:
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  190  	atomic_inc(&s2_mmu->refcnt);
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  191  	return s2_mmu;
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  192  }
+4f128f8e1aaac1 Marc Zyngier 2024-06-14  193  
 
 -- 
 0-DAY CI Kernel Test Service
