@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891364C7D
-	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 13:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9E61E87B
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 14:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729431648; cv=none; b=N56mAWJ9lxo5RDIm3TycUhB3OXpG3uRz29bVJJY1+VNsc2hPHGI11DBocv8kTVlTmab5McZbN9/oYqu6eUhEo9Y34D1mNB+MGjaUEVjP2uBsrZdtxmEqbJqCk8ihPKY2VYA6y9GzI2ceL8hxEm7QONGoKgdalxG0jNRd6b9IHEQ=
+	t=1729435431; cv=none; b=Q0TLQy1fAmQmE+QZ7pMYC9GjhWTk07PTK8xMxBbg1JqKdoWceDo5N9lW8GogrO+1qOTLoJ+UCg6JPrvGB/3RNvEvWlFRwU1iXhK1tXAHBQuPVbvAHxCHC6yIvF9UPkF8Eaj3enzP3udGF8j1K0/XLpoWSN11Hpmo8IqUVCpO6og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729431648; c=relaxed/simple;
-	bh=3iW20ZGpluZOec1LFqyx4wX/4s9HOdOsgjgdONJIPGg=;
+	s=arc-20240116; t=1729435431; c=relaxed/simple;
+	bh=QgZMthPz/lFcNXBt9gKMGhNrC+NVac0yh96I4p9x/xw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ioS0UjfRwgRHnPc9RYpbOD7IriIUGzo0HKUpu1aPMLatORovj72jAjx4fLe9MjfZ5p1gPUyhF4eUbHki2qVTjPgboc9vY2xiVKByh1t7+I5u6VRmJqFTRzobknBzSEjMwUT0TVZjVeDgQ4hjv0u5ysntaBwzG2vn/yGxGZO3e9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=URpu9Xsv; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=ukDcoEhxEvJXZxi+ivguiFpWTqbR3I7xY1Xs2z7RG4a+VGzFwEzQGJA+LGaZmFs3rDDZnIgf7I87G7cFRnSCP6QCeLlEvqZr3rjCL6X/ka+nxXiflioz+ZjG4DMaX9dFfMQUDlyQBGlnMJS/fCyYRodQXmEnkHtErHYBlD2UI3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dv9z0z3O; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="URpu9Xsv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dv9z0z3O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729431646; x=1760967646;
+  t=1729435429; x=1760971429;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3iW20ZGpluZOec1LFqyx4wX/4s9HOdOsgjgdONJIPGg=;
-  b=URpu9XsvJNfrFQ28hrze/q0d8kppTAuRiDBYYpTFlsWmXAweTJamBSJq
-   pec5iL+zmOqjP2GV4x0f63G99sgQU9BfSFnjoRpv2QV+4FPtO7kicgiuM
-   0seyL7GIvf+QrsWr+okCj9w0sKZLocIbVSw0ib03LdHJIKCVlbn1E0u+R
-   dRtou8ZW1YwPbsWfxsl/QqCSO+pqV+touGsqLHUjNnc76hwGbWC7kOISn
-   Rc5qT7mnU55fUSFucIIFoF4lJy0+OUezdQYvITq1RRBx4Msf0VSlP4pZW
-   by1TBnB9pZFnZPN3M/Hfe+rgkDjX9Pmn3WbLmTXzLe5AVSMncAo/vijLx
+  bh=QgZMthPz/lFcNXBt9gKMGhNrC+NVac0yh96I4p9x/xw=;
+  b=Dv9z0z3OSFQIIhjbZlAYKhAdM3VHokaxx6/ABtpL18e2xKnbvRmeqga+
+   lfDqxTjo9BmSqw9FJ0qTUgHkUCw6YIHRoLd61Dhmpzt3EslKQpOtXpnQ8
+   7Zsd29Fx/01Q/lGGkpLH7bLC2plZYHI9D/3bB68X0LiFYVUCQsJlwR1cz
+   yK5xHwS6/aO+1kxxh+IvgQuosGP677Lh5JMtb/XOsQiALt+V+JUrhFY8y
+   2w1o4+OSR9qm28J7RwYrqwNJeCAxGFUqePrjFpZs2xeX15VHYkE7K/P8s
+   EKEQpSeXnHtWj6686JxCLJXp3q/VwTcFVMVIdm233TuVahlOs3BM+Mk8M
    w==;
-X-CSE-ConnectionGUID: TGA2q0HxTvGi3sR/8STb9w==
-X-CSE-MsgGUID: EFqC3XnTTOGFOc2dqkIRvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="39535710"
+X-CSE-ConnectionGUID: GpB0Hd+ySKGC6A2gjIkLUg==
+X-CSE-MsgGUID: Ln6Qd5+zTcGYLbGDxDOK8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="32719954"
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="39535710"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 06:40:45 -0700
-X-CSE-ConnectionGUID: A5oM73Y/RQ26kDT6nFNYEA==
-X-CSE-MsgGUID: wTXctc4VTXCXdAjCWPdsbQ==
+   d="scan'208";a="32719954"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 07:43:48 -0700
+X-CSE-ConnectionGUID: BYgKV+V1TQqEA0dJGWPblw==
+X-CSE-MsgGUID: Zs45heDkT8+qZ4GxHF+cZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="79299131"
+   d="scan'208";a="79631919"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Oct 2024 06:40:43 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 20 Oct 2024 07:43:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2WAj-000QKJ-0s;
-	Sun, 20 Oct 2024 13:40:41 +0000
-Date: Sun, 20 Oct 2024 21:40:24 +0800
+	id 1t2X9k-000QNd-2I;
+	Sun, 20 Oct 2024 14:43:44 +0000
+Date: Sun, 20 Oct 2024 22:42:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp()
- error: we previously assumed 'res->dattr' could be null (see line 985)
-Message-ID: <202410202140.TMNDJ4l1-lkp@intel.com>
+Subject: drivers/mmc/host/atmel-mci.c:2552 atmci_probe() warn: passing zero
+ to 'dev_err_probe'
+Message-ID: <202410210023.6s07Bozp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,251 +65,183 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Selvin Xavier <selvin.xavier@broadcom.com>
-CC: Leon Romanovsky <leon@kernel.org>
-CC: Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   715ca9dd687f89ddaac8ec8ccb3b5e5a30311a99
-commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
-date:   10 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20241020 (https://download.01.org/0day-ci/archive/20241020/202410202140.TMNDJ4l1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: e38063b94324bc1409a29d699c73938c3d008126 mmc: atmel-mci: Switch to use dev_err_probe()
+date:   6 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241021/202410210023.6s07Bozp-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410202140.TMNDJ4l1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410210023.6s07Bozp-lkp@intel.com/
 
 New smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
+drivers/mmc/host/atmel-mci.c:2552 atmci_probe() warn: passing zero to 'dev_err_probe'
 
 Old smatch warnings:
-drivers/infiniband/hw/bnxt_re/qplib_fp.c:495 bnxt_qplib_nq_start_irq() warn: 'msix_vector' from request_irq() not released on lines: 495.
+drivers/mmc/host/atmel-mci.c:1338 atmci_start_request() error: we previously assumed 'data' could be null (see line 1329)
+drivers/mmc/host/atmel-mci.c:2590 atmci_probe() warn: 'host->mck' from clk_prepare_enable() not released on lines: 2590.
 
-vim +1090 drivers/infiniband/hw/bnxt_re/qplib_fp.c
+vim +/dev_err_probe +2552 drivers/mmc/host/atmel-mci.c
 
-fddcbbb02af42a Devesh Sharma      2020-04-02   966  
-1ac5a404797523 Selvin Xavier      2017-02-10   967  int bnxt_qplib_create_qp(struct bnxt_qplib_res *res, struct bnxt_qplib_qp *qp)
-1ac5a404797523 Selvin Xavier      2017-02-10   968  {
-1ac5a404797523 Selvin Xavier      2017-02-10   969  	struct bnxt_qplib_rcfw *rcfw = res->rcfw;
-0c4dcd60281750 Devesh Sharma      2020-02-15   970  	struct bnxt_qplib_hwq_attr hwq_attr = {};
-0c4dcd60281750 Devesh Sharma      2020-02-15   971  	struct bnxt_qplib_sg_info sginfo = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   972  	struct creq_create_qp_resp resp = {};
-ff015bcd213b5d Selvin Xavier      2023-03-30   973  	struct bnxt_qplib_cmdqmsg msg = {};
-1ac5a404797523 Selvin Xavier      2017-02-10   974  	struct bnxt_qplib_q *sq = &qp->sq;
-1ac5a404797523 Selvin Xavier      2017-02-10   975  	struct bnxt_qplib_q *rq = &qp->rq;
-ff015bcd213b5d Selvin Xavier      2023-03-30   976  	struct cmdq_create_qp req = {};
-fddcbbb02af42a Devesh Sharma      2020-04-02   977  	int rc, req_size, psn_sz = 0;
-1ac5a404797523 Selvin Xavier      2017-02-10   978  	struct bnxt_qplib_hwq *xrrq;
-c50866e2853a03 Devesh Sharma      2019-02-22   979  	struct bnxt_qplib_pbl *pbl;
-c50866e2853a03 Devesh Sharma      2019-02-22   980  	u32 qp_flags = 0;
-99bf84e24eb83d Devesh Sharma      2020-04-02   981  	u8 pg_sz_lvl;
-84cf229f4001c1 Selvin Xavier      2020-08-24   982  	u32 tbl_indx;
-159fb4ceacd79b Devesh Sharma      2020-07-15   983  	u16 nsge;
-1ac5a404797523 Selvin Xavier      2017-02-10   984  
-07f830ae4913d0 Selvin Xavier      2023-12-07  @985  	if (res->dattr)
-07f830ae4913d0 Selvin Xavier      2023-12-07   986  		qp->dev_cap_flags = res->dattr->dev_cap_flags;
-07f830ae4913d0 Selvin Xavier      2023-12-07   987  
-3a4304d8269501 Chandramohan Akula 2023-10-23   988  	sq->dbinfo.flags = 0;
-e576adf583b525 Selvin Xavier      2023-03-30   989  	bnxt_qplib_rcfw_cmd_prep((struct cmdq_base *)&req,
-e576adf583b525 Selvin Xavier      2023-03-30   990  				 CMDQ_BASE_OPCODE_CREATE_QP,
-e576adf583b525 Selvin Xavier      2023-03-30   991  				 sizeof(req));
-1ac5a404797523 Selvin Xavier      2017-02-10   992  
-1ac5a404797523 Selvin Xavier      2017-02-10   993  	/* General */
-1ac5a404797523 Selvin Xavier      2017-02-10   994  	req.type = qp->type;
-1ac5a404797523 Selvin Xavier      2017-02-10   995  	req.dpi = cpu_to_le32(qp->dpi->dpi);
-1ac5a404797523 Selvin Xavier      2017-02-10   996  	req.qp_handle = cpu_to_le64(qp->qp_handle);
-1ac5a404797523 Selvin Xavier      2017-02-10   997  
-1ac5a404797523 Selvin Xavier      2017-02-10   998  	/* SQ */
-37f91cff2de017 Devesh Sharma      2019-02-07   999  	if (qp->type == CMDQ_CREATE_QP_TYPE_RC) {
-1801d87b3598b1 Selvin Xavier      2023-12-07  1000  		psn_sz = bnxt_qplib_is_chip_gen_p5_p7(res->cctx) ?
-37f91cff2de017 Devesh Sharma      2019-02-07  1001  			 sizeof(struct sq_psn_search_ext) :
-37f91cff2de017 Devesh Sharma      2019-02-07  1002  			 sizeof(struct sq_psn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1003  
-07f830ae4913d0 Selvin Xavier      2023-12-07  1004  		if (BNXT_RE_HW_RETX(qp->dev_cap_flags)) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1005  			psn_sz = sizeof(struct sq_msn_search);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1006  			qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1007  		}
-37f91cff2de017 Devesh Sharma      2019-02-07  1008  	}
-0c4dcd60281750 Devesh Sharma      2020-02-15  1009  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1010  	hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1011  	hwq_attr.sginfo = &sq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1012  	hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1013  	hwq_attr.depth = bnxt_qplib_get_depth(sq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1014  	hwq_attr.aux_stride = psn_sz;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1015  	hwq_attr.aux_depth = bnxt_qplib_set_sq_size(sq, qp->wqe_mode);
-07f830ae4913d0 Selvin Xavier      2023-12-07  1016  	/* Update msn tbl size */
-07f830ae4913d0 Selvin Xavier      2023-12-07  1017  	if (BNXT_RE_HW_RETX(qp->dev_cap_flags) && psn_sz) {
-07f830ae4913d0 Selvin Xavier      2023-12-07  1018  		hwq_attr.aux_depth = roundup_pow_of_two(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-07f830ae4913d0 Selvin Xavier      2023-12-07  1019  		qp->msn_tbl_sz = hwq_attr.aux_depth;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1020  		qp->msn = 0;
-07f830ae4913d0 Selvin Xavier      2023-12-07  1021  	}
-07f830ae4913d0 Selvin Xavier      2023-12-07  1022  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1023  	hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1024  	rc = bnxt_qplib_alloc_init_hwq(&sq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1025  	if (rc)
-07d5ce14b2aa22 Kalesh AP          2023-05-18  1026  		return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1027  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1028  	rc = bnxt_qplib_alloc_init_swq(sq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1029  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1030  		goto fail_sq;
-fddcbbb02af42a Devesh Sharma      2020-04-02  1031  
-fddcbbb02af42a Devesh Sharma      2020-04-02  1032  	if (psn_sz)
-fddcbbb02af42a Devesh Sharma      2020-04-02  1033  		bnxt_qplib_init_psn_ptr(qp, psn_sz);
-fddcbbb02af42a Devesh Sharma      2020-04-02  1034  
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1035  	req.sq_size = cpu_to_le32(bnxt_qplib_set_sq_size(sq, qp->wqe_mode));
-1ac5a404797523 Selvin Xavier      2017-02-10  1036  	pbl = &sq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1037  	req.sq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1038  	pg_sz_lvl = (bnxt_qplib_base_pg_size(&sq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1039  		     CMDQ_CREATE_QP_SQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1040  	pg_sz_lvl |= (sq->hwq.level & CMDQ_CREATE_QP_SQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1041  	req.sq_pg_size_sq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1042  	req.sq_fwo_sq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1043  		cpu_to_le16(((sq->max_sge & CMDQ_CREATE_QP_SQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1044  			     CMDQ_CREATE_QP_SQ_SGE_SFT) | 0);
-1ac5a404797523 Selvin Xavier      2017-02-10  1045  	req.scq_cid = cpu_to_le32(qp->scq->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1046  
-1ac5a404797523 Selvin Xavier      2017-02-10  1047  	/* RQ */
-159fb4ceacd79b Devesh Sharma      2020-07-15  1048  	if (!qp->srq) {
-3a4304d8269501 Chandramohan Akula 2023-10-23  1049  		rq->dbinfo.flags = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1050  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1051  		hwq_attr.sginfo = &rq->sg_info;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1052  		hwq_attr.stride = sizeof(struct sq_sge);
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1053  		hwq_attr.depth = bnxt_qplib_get_depth(rq);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1054  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1055  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1056  		hwq_attr.type = HWQ_TYPE_QUEUE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1057  		rc = bnxt_qplib_alloc_init_hwq(&rq->hwq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1058  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1059  			goto sq_swq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1060  		rc = bnxt_qplib_alloc_init_swq(rq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1061  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1062  			goto fail_rq;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1063  
-159fb4ceacd79b Devesh Sharma      2020-07-15  1064  		req.rq_size = cpu_to_le32(rq->max_wqe);
-1ac5a404797523 Selvin Xavier      2017-02-10  1065  		pbl = &rq->hwq.pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1066  		req.rq_pbl = cpu_to_le64(pbl->pg_map_arr[0]);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1067  		pg_sz_lvl = (bnxt_qplib_base_pg_size(&rq->hwq) <<
-99bf84e24eb83d Devesh Sharma      2020-04-02  1068  			     CMDQ_CREATE_QP_RQ_PG_SIZE_SFT);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1069  		pg_sz_lvl |= (rq->hwq.level & CMDQ_CREATE_QP_RQ_LVL_MASK);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1070  		req.rq_pg_size_rq_lvl = pg_sz_lvl;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1071  		nsge = (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_STATIC) ?
-159fb4ceacd79b Devesh Sharma      2020-07-15  1072  			6 : rq->max_sge;
-159fb4ceacd79b Devesh Sharma      2020-07-15  1073  		req.rq_fwo_rq_sge =
-159fb4ceacd79b Devesh Sharma      2020-07-15  1074  			cpu_to_le16(((nsge &
-159fb4ceacd79b Devesh Sharma      2020-07-15  1075  				      CMDQ_CREATE_QP_RQ_SGE_MASK) <<
-159fb4ceacd79b Devesh Sharma      2020-07-15  1076  				     CMDQ_CREATE_QP_RQ_SGE_SFT) | 0);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1077  	} else {
-37cb11acf1f72a Devesh Sharma      2018-01-11  1078  		/* SRQ */
-37cb11acf1f72a Devesh Sharma      2018-01-11  1079  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_SRQ_USED;
-37cb11acf1f72a Devesh Sharma      2018-01-11  1080  		req.srq_cid = cpu_to_le32(qp->srq->id);
-37cb11acf1f72a Devesh Sharma      2018-01-11  1081  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1082  	req.rcq_cid = cpu_to_le32(qp->rcq->id);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1083  
-99bf84e24eb83d Devesh Sharma      2020-04-02  1084  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_RESERVED_LKEY_ENABLE;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1085  	qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FR_PMR_ENABLED;
-99bf84e24eb83d Devesh Sharma      2020-04-02  1086  	if (qp->sig_type)
-99bf84e24eb83d Devesh Sharma      2020-04-02  1087  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_FORCE_COMPLETION;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1088  	if (qp->wqe_mode == BNXT_QPLIB_WQE_MODE_VARIABLE)
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1089  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_VARIABLE_SIZED_WQE_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15 @1090  	if (_is_ext_stats_supported(res->dattr->dev_cap_flags) && !res->is_vf)
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1091  		qp_flags |= CMDQ_CREATE_QP_QP_FLAGS_EXT_STATS_ENABLED;
-9a381f7e5aa299 Selvin Xavier      2021-09-15  1092  
-1ac5a404797523 Selvin Xavier      2017-02-10  1093  	req.qp_flags = cpu_to_le32(qp_flags);
-99bf84e24eb83d Devesh Sharma      2020-04-02  1094  
-1ac5a404797523 Selvin Xavier      2017-02-10  1095  	/* ORRQ and IRRQ */
-1ac5a404797523 Selvin Xavier      2017-02-10  1096  	if (psn_sz) {
-1ac5a404797523 Selvin Xavier      2017-02-10  1097  		xrrq = &qp->orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1098  		xrrq->max_elements =
-1ac5a404797523 Selvin Xavier      2017-02-10  1099  			ORD_LIMIT_TO_ORRQ_SLOTS(qp->max_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1100  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1101  			   BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1102  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1103  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1104  		sginfo.pgshft = PAGE_SHIFT;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1105  
-0c4dcd60281750 Devesh Sharma      2020-02-15  1106  		hwq_attr.res = res;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1107  		hwq_attr.sginfo = &sginfo;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1108  		hwq_attr.depth = xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1109  		hwq_attr.stride = BNXT_QPLIB_MAX_ORRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1110  		hwq_attr.aux_stride = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1111  		hwq_attr.aux_depth = 0;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1112  		hwq_attr.type = HWQ_TYPE_CTX;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1113  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1114  		if (rc)
-159fb4ceacd79b Devesh Sharma      2020-07-15  1115  			goto rq_swq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1116  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1117  		req.orrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1118  
-1ac5a404797523 Selvin Xavier      2017-02-10  1119  		xrrq = &qp->irrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1120  		xrrq->max_elements = IRD_LIMIT_TO_IRRQ_SLOTS(
-1ac5a404797523 Selvin Xavier      2017-02-10  1121  						qp->max_dest_rd_atomic);
-1ac5a404797523 Selvin Xavier      2017-02-10  1122  		req_size = xrrq->max_elements *
-1ac5a404797523 Selvin Xavier      2017-02-10  1123  			   BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE + PAGE_SIZE - 1;
-1ac5a404797523 Selvin Xavier      2017-02-10  1124  		req_size &= ~(PAGE_SIZE - 1);
-0c4dcd60281750 Devesh Sharma      2020-02-15  1125  		sginfo.pgsize = req_size;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1126  		hwq_attr.depth =  xrrq->max_elements;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1127  		hwq_attr.stride = BNXT_QPLIB_MAX_IRRQE_ENTRY_SIZE;
-0c4dcd60281750 Devesh Sharma      2020-02-15  1128  		rc = bnxt_qplib_alloc_init_hwq(xrrq, &hwq_attr);
-1ac5a404797523 Selvin Xavier      2017-02-10  1129  		if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1130  			goto fail_orrq;
-1ac5a404797523 Selvin Xavier      2017-02-10  1131  
-1ac5a404797523 Selvin Xavier      2017-02-10  1132  		pbl = &xrrq->pbl[PBL_LVL_0];
-1ac5a404797523 Selvin Xavier      2017-02-10  1133  		req.irrq_addr = cpu_to_le64(pbl->pg_map_arr[0]);
-1ac5a404797523 Selvin Xavier      2017-02-10  1134  	}
-1ac5a404797523 Selvin Xavier      2017-02-10  1135  	req.pd_id = cpu_to_le32(qp->pd->id);
-1ac5a404797523 Selvin Xavier      2017-02-10  1136  
-ff015bcd213b5d Selvin Xavier      2023-03-30  1137  	bnxt_qplib_fill_cmdqmsg(&msg, &req, &resp, NULL, sizeof(req),
-ff015bcd213b5d Selvin Xavier      2023-03-30  1138  				sizeof(resp), 0);
-ff015bcd213b5d Selvin Xavier      2023-03-30  1139  	rc = bnxt_qplib_rcfw_send_message(rcfw, &msg);
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1140  	if (rc)
-1ac5a404797523 Selvin Xavier      2017-02-10  1141  		goto fail;
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1142  
-cc1ec769b87c7d Devesh Sharma      2017-05-22  1143  	qp->id = le32_to_cpu(resp.xid);
-1ac5a404797523 Selvin Xavier      2017-02-10  1144  	qp->cur_qp_state = CMDQ_MODIFY_QP_NEW_STATE_RESET;
-f218d67ef00431 Selvin Xavier      2017-06-29  1145  	INIT_LIST_HEAD(&qp->sq_flush);
-f218d67ef00431 Selvin Xavier      2017-06-29  1146  	INIT_LIST_HEAD(&qp->rq_flush);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1147  	qp->cctx = res->cctx;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1148  	sq->dbinfo.hwq = &sq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1149  	sq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1150  	sq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1151  	sq->dbinfo.max_slot = bnxt_qplib_set_sq_max_slot(qp->wqe_mode);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1152  	if (rq->max_wqe) {
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1153  		rq->dbinfo.hwq = &rq->hwq;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1154  		rq->dbinfo.xid = qp->id;
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1155  		rq->dbinfo.db = qp->dpi->dbr;
-2bb3c32c5c5fe9 Devesh Sharma      2020-07-15  1156  		rq->dbinfo.max_slot = bnxt_qplib_set_rq_max_slot(rq->wqe_size);
-6f53196bc5e7fd Devesh Sharma      2020-02-15  1157  	}
-84cf229f4001c1 Selvin Xavier      2020-08-24  1158  	tbl_indx = map_qp_id_to_tbl_indx(qp->id, rcfw);
-84cf229f4001c1 Selvin Xavier      2020-08-24  1159  	rcfw->qp_tbl[tbl_indx].qp_id = qp->id;
-84cf229f4001c1 Selvin Xavier      2020-08-24  1160  	rcfw->qp_tbl[tbl_indx].qp_handle = (void *)qp;
-1ac5a404797523 Selvin Xavier      2017-02-10  1161  
-1ac5a404797523 Selvin Xavier      2017-02-10  1162  	return 0;
-1ac5a404797523 Selvin Xavier      2017-02-10  1163  fail:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1164  	bnxt_qplib_free_hwq(res, &qp->irrq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1165  fail_orrq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1166  	bnxt_qplib_free_hwq(res, &qp->orrq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1167  rq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1168  	kfree(rq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1169  fail_rq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1170  	bnxt_qplib_free_hwq(res, &rq->hwq);
-159fb4ceacd79b Devesh Sharma      2020-07-15  1171  sq_swq:
-159fb4ceacd79b Devesh Sharma      2020-07-15  1172  	kfree(sq->swq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1173  fail_sq:
-0c4dcd60281750 Devesh Sharma      2020-02-15  1174  	bnxt_qplib_free_hwq(res, &sq->hwq);
-1ac5a404797523 Selvin Xavier      2017-02-10  1175  	return rc;
-1ac5a404797523 Selvin Xavier      2017-02-10  1176  }
-1ac5a404797523 Selvin Xavier      2017-02-10  1177  
-
-:::::: The code at line 1090 was first introduced by commit
-:::::: 9a381f7e5aa299de3500b8afa2237e5d1eab63fb RDMA/bnxt_re: Add extended statistics counters
-
-:::::: TO: Selvin Xavier <selvin.xavier@broadcom.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+74465b4ff9ac1d Dan Williams                2009-01-06  2443  
+ab050b9269aa54 ludovic.desroches@atmel.com 2014-12-01  2444  static int atmci_probe(struct platform_device *pdev)
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2445  {
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2446  	struct device			*dev = &pdev->dev;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2447  	struct atmel_mci		*host;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2448  	struct resource			*regs;
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2449  	unsigned int			nr_slots;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2450  	int				irq;
+528bc7808f4e36 Pramod Gurav                2014-09-23  2451  	int				ret, i;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2452  
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2453  	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2454  	if (!regs)
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2455  		return -ENXIO;
+ba7916180ea233 Andy Shevchenko             2024-04-17  2456  
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2457  	irq = platform_get_irq(pdev, 0);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2458  	if (irq < 0)
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2459  		return irq;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2460  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2461  	host = devm_kzalloc(dev, sizeof(*host), GFP_KERNEL);
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2462  	if (!host)
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2463  		return -ENOMEM;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2464  
+d07ebeaa651a9e Andy Shevchenko             2024-04-17  2465  	host->dev = dev;
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2466  	spin_lock_init(&host->lock);
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2467  	INIT_LIST_HEAD(&host->queue);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2468  
+0a454e95230886 Andy Shevchenko             2024-04-25  2469  	ret = atmci_of_init(host);
+0a454e95230886 Andy Shevchenko             2024-04-25  2470  	if (ret)
+0a454e95230886 Andy Shevchenko             2024-04-25  2471  		return dev_err_probe(dev, ret, "Slot information not available\n");
+0a454e95230886 Andy Shevchenko             2024-04-25  2472  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2473  	host->mck = devm_clk_get(dev, "mci_clk");
+7bca646e0fc34b Pramod Gurav                2014-09-23  2474  	if (IS_ERR(host->mck))
+7bca646e0fc34b Pramod Gurav                2014-09-23  2475  		return PTR_ERR(host->mck);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2476  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2477  	host->regs = devm_ioremap(dev, regs->start, resource_size(regs));
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2478  	if (!host->regs)
+7bca646e0fc34b Pramod Gurav                2014-09-23  2479  		return -ENOMEM;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2480  
+b3894f267d9614 Boris Brezillon             2013-07-18  2481  	ret = clk_prepare_enable(host->mck);
+b3894f267d9614 Boris Brezillon             2013-07-18  2482  	if (ret)
+7bca646e0fc34b Pramod Gurav                2014-09-23  2483  		return ret;
+7bca646e0fc34b Pramod Gurav                2014-09-23  2484  
+03fc9a7f0c48a0 Ludovic Desroches           2011-08-11  2485  	atmci_writel(host, ATMCI_CR, ATMCI_CR_SWRST);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2486  	host->bus_hz = clk_get_rate(host->mck);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2487  
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2488  	host->mapbase = regs->start;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2489  
+82a5d372ed0180 Emil Renner Berthing        2021-02-04  2490  	tasklet_setup(&host->tasklet, atmci_tasklet_func);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2491  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2492  	ret = request_irq(irq, atmci_interrupt, 0, dev_name(dev), host);
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2493  	if (ret) {
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2494  		clk_disable_unprepare(host->mck);
+7bca646e0fc34b Pramod Gurav                2014-09-23  2495  		return ret;
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2496  	}
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2497  
+796211b7953bd1 Ludovic Desroches           2011-08-11  2498  	/* Get MCI capabilities and set operations according to it */
+796211b7953bd1 Ludovic Desroches           2011-08-11  2499  	atmci_get_cap(host);
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2500  	ret = atmci_configure_dma(host);
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2501  	if (ret == -EPROBE_DEFER)
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2502  		goto err_dma_probe_defer;
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2503  	if (ret == 0) {
+796211b7953bd1 Ludovic Desroches           2011-08-11  2504  		host->prepare_data = &atmci_prepare_data_dma;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2505  		host->submit_data = &atmci_submit_data_dma;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2506  		host->stop_transfer = &atmci_stop_transfer_dma;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2507  	} else if (host->caps.has_pdc) {
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2508  		dev_info(dev, "using PDC\n");
+796211b7953bd1 Ludovic Desroches           2011-08-11  2509  		host->prepare_data = &atmci_prepare_data_pdc;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2510  		host->submit_data = &atmci_submit_data_pdc;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2511  		host->stop_transfer = &atmci_stop_transfer_pdc;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2512  	} else {
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2513  		dev_info(dev, "using PIO\n");
+796211b7953bd1 Ludovic Desroches           2011-08-11  2514  		host->prepare_data = &atmci_prepare_data;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2515  		host->submit_data = &atmci_submit_data;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2516  		host->stop_transfer = &atmci_stop_transfer;
+796211b7953bd1 Ludovic Desroches           2011-08-11  2517  	}
+796211b7953bd1 Ludovic Desroches           2011-08-11  2518  
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2519  	platform_set_drvdata(pdev, host);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2520  
+2ee4f6200597bd Kees Cook                   2017-10-24  2521  	timer_setup(&host->timer, atmci_timeout_timer, 0);
+b87cc1b5d3a96e Ludovic Desroches           2012-05-23  2522  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2523  	pm_runtime_get_noresume(dev);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2524  	pm_runtime_set_active(dev);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2525  	pm_runtime_set_autosuspend_delay(dev, AUTOSUSPEND_DELAY);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2526  	pm_runtime_use_autosuspend(dev);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2527  	pm_runtime_enable(dev);
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2528  
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2529  	/* We need at least one slot to succeed */
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2530  	nr_slots = 0;
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2531  	ret = -ENODEV;
+0a454e95230886 Andy Shevchenko             2024-04-25  2532  	if (host->pdata[0].bus_width) {
+0a454e95230886 Andy Shevchenko             2024-04-25  2533  		ret = atmci_init_slot(host, &host->pdata[0],
+2c96a293bbd6b3 Ludovic Desroches           2011-08-11  2534  				0, ATMCI_SDCSEL_SLOT_A, ATMCI_SDIOIRQA);
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2535  		if (!ret) {
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2536  			nr_slots++;
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2537  			host->buf_size = host->slot[0]->mmc->max_req_size;
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2538  		}
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2539  	}
+0a454e95230886 Andy Shevchenko             2024-04-25  2540  	if (host->pdata[1].bus_width) {
+0a454e95230886 Andy Shevchenko             2024-04-25  2541  		ret = atmci_init_slot(host, &host->pdata[1],
+2c96a293bbd6b3 Ludovic Desroches           2011-08-11  2542  				1, ATMCI_SDCSEL_SLOT_B, ATMCI_SDIOIRQB);
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2543  		if (!ret) {
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2544  			nr_slots++;
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2545  			if (host->slot[1]->mmc->max_req_size > host->buf_size)
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2546  				host->buf_size =
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2547  					host->slot[1]->mmc->max_req_size;
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2548  		}
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2549  	}
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2550  
+04d699c3643fbf Rob Emanuele                2009-09-22  2551  	if (!nr_slots) {
+e38063b94324bc Andy Shevchenko             2024-04-25 @2552  		dev_err_probe(dev, ret, "init failed: no slot defined\n");
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2553  		goto err_init_slot;
+04d699c3643fbf Rob Emanuele                2009-09-22  2554  	}
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2555  
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2556  	if (!host->caps.has_rwproof) {
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2557  		host->buffer = dma_alloc_coherent(dev, host->buf_size,
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2558  		                                  &host->buf_phys_addr,
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2559  						  GFP_KERNEL);
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2560  		if (!host->buffer) {
+e38063b94324bc Andy Shevchenko             2024-04-25  2561  			ret = dev_err_probe(dev, -ENOMEM, "buffer allocation failed\n");
+528bc7808f4e36 Pramod Gurav                2014-09-23  2562  			goto err_dma_alloc;
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2563  		}
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2564  	}
+7a90dcc2d7ceb6 Ludovic Desroches           2012-05-16  2565  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2566  	dev_info(dev, "Atmel MCI controller at 0x%08lx irq %d, %u slots\n",
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2567  		 host->mapbase, irq, nr_slots);
+deec9ae31e6079 Haavard Skinnemoen          2008-07-24  2568  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2569  	pm_runtime_mark_last_busy(dev);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2570  	pm_runtime_put_autosuspend(dev);
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2571  
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2572  	return 0;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2573  
+528bc7808f4e36 Pramod Gurav                2014-09-23  2574  err_dma_alloc:
+528bc7808f4e36 Pramod Gurav                2014-09-23  2575  	for (i = 0; i < ATMCI_MAX_NR_SLOTS; i++) {
+528bc7808f4e36 Pramod Gurav                2014-09-23  2576  		if (host->slot[i])
+528bc7808f4e36 Pramod Gurav                2014-09-23  2577  			atmci_cleanup_slot(host->slot[i], i);
+528bc7808f4e36 Pramod Gurav                2014-09-23  2578  	}
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2579  err_init_slot:
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2580  	clk_disable_unprepare(host->mck);
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2581  
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2582  	pm_runtime_disable(dev);
+5c30bd24a89dc3 Andy Shevchenko             2024-04-17  2583  	pm_runtime_put_noidle(dev);
+ae552ab02cd556 Wenyou Yang                 2014-10-30  2584  
+528bc7808f4e36 Pramod Gurav                2014-09-23  2585  	del_timer_sync(&host->timer);
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2586  	if (!IS_ERR(host->dma.chan))
+74465b4ff9ac1d Dan Williams                2009-01-06  2587  		dma_release_channel(host->dma.chan);
+467e081d23e67f ludovic.desroches@atmel.com 2014-12-01  2588  err_dma_probe_defer:
+965ebf33ea5afb Haavard Skinnemoen          2008-09-17  2589  	free_irq(irq, host);
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2590  	return ret;
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2591  }
+7d2be0749a5909 Haavard Skinnemoen          2008-06-30  2592  
 
 -- 
 0-DAY CI Kernel Test Service
