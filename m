@@ -1,162 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73895D53F
-	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 05:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361B32904
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 06:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729402943; cv=none; b=OlDr98dNYTC8wDhrgIb6G2UamzBTnc4OcFRQ2EDTHOd0nnbC2Pd3tHsHpu10P/q9MWFsjWZOKTMV+Emb62w1/Scl2s4ybpiEWg9wuKZfVKmiYANfbz7C1ZGSa24qdqkcl0bol+6qjRnzdR1OIHtHMRD3y23vMgzGHaUC9dRU5Xc=
+	t=1729405405; cv=none; b=PfC0XPnne+a/XWvFDIPvUat1MdYlFkG/Q0BTDPFn185TBp9dvxCXU+4155CR9belXVHdTwVL8jRD8nJ+NCU51vMYow4k4kEdx1yC8OVhpFQDNGqRBzA+DXBNsreo3OE1nnzVBU27WZhLtsGZBK/giXsRjcrmuDQr7XdWbtr+/mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729402943; c=relaxed/simple;
-	bh=GeB5upwCmC8qdyxRi5mGQ3OPdIIPPu8wWqM5cUOVv1Q=;
+	s=arc-20240116; t=1729405405; c=relaxed/simple;
+	bh=xqSbFF0r5aapMp+pHDiHGvIXmKgy2vZZ5KPk8xn4w3E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Emm/5aZDUxmRb1VjzBdZWMY8wQw6E7VkRt0FwvALw7kjzgMDKA2NmypErPvgIvyeXl24RouF37DFUKLBQM287HncmSX9VywpP4HgFSg9C2dEo0N71pUOX9ce1Qz7bBgcE7xr+i6MPU/9qjDdFpEHgw/uu9bIvrVBoFlAB8wt/1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwKmWLQB; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ZrwOmXwE+glWVRMK25l2OJkGlizzpuKysVH9jOeMhs+jTe40p4F7mFCvPIysZOca9YeBLnSGslsxIHaKW1ZI1OeTIxJCVQqs5cjpqsnb9Rt4p/+uZNIjVJa+TQH8OPHHQchI5aKFYh+lhE49c56wOQtXZZYMBT9A6JT0yGli0ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6GSwl+A; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwKmWLQB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6GSwl+A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729402941; x=1760938941;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GeB5upwCmC8qdyxRi5mGQ3OPdIIPPu8wWqM5cUOVv1Q=;
-  b=bwKmWLQB4xScTjxGNqxa47ySFLTm/ntDN8Emawi/EDk10ULQ2Ecf8RaV
-   9Yn2R0A3FffgXM7O25lr6PWj7HAUrxnXetIqrJFUbzffbSOmW/9E4Hm1v
-   4TSnxskCsR19iJsfttnVfKPjElMuf/gKl6Y85I1i6GQWs1bYbgsHP1Czy
-   fL3vs65U+0o/R7WzhqR515XKGT1gwfsQtm7mcXqoQrOduTyFZ88qkGfOy
-   mMysGeU+pl3ftMbIbclDFQ7N6otjkJTmofsW0MGotQ8GtPGV+vHxSnV1v
-   bcn61nzLKyd8uQUq2kUyr5N+z01dR1a6MAkSxqBpByPG+JRyDKxRLpykM
-   w==;
-X-CSE-ConnectionGUID: IIMUlad+QIqkqXd+OAs3rQ==
-X-CSE-MsgGUID: 4x/B9AdIRRCOqQESH3biFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28997943"
+  t=1729405403; x=1760941403;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xqSbFF0r5aapMp+pHDiHGvIXmKgy2vZZ5KPk8xn4w3E=;
+  b=M6GSwl+AIKVGJukJIOVOrxDGUnXmC2rYVNJQFQOGT3CCKi+ywpz51fxX
+   1ZMQn9nl5IO9FDPeHg0W8UeUruK3wWHAlTODz4u/CVG1LTKqvymHwr5rW
+   zPq0lTGrA4nWf1+6cWOzgVAnQBGT1HJxaO8UZfZt6LiSglaErHJScbbLJ
+   AWEKNmbxgNt7CiQ9Fh15XLBkRru98++4o/IGvT+nLigVkxjF1Gc9Ao5/m
+   KKiwHf8lBH7e7LN6fe1q5Hy35sdhONV/VxrnbqWRGozAmNEtio+8WHg2H
+   m7S/6vxdVz8NBgXhodMqvGxIo7U4wUjQXei+sgr4+5OfO9to7TQv/ywGK
+   Q==;
+X-CSE-ConnectionGUID: naMh/4COTV+CPqxVvVu85w==
+X-CSE-MsgGUID: iyKjAm9GTBGhsJLXFhLnHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28777823"
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="28997943"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 22:42:20 -0700
-X-CSE-ConnectionGUID: SCpKpBa5S8CWkp/pbTDBgg==
-X-CSE-MsgGUID: EtLKg0vtQra3IPnUkEn7/g==
+   d="scan'208";a="28777823"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 23:23:23 -0700
+X-CSE-ConnectionGUID: BqgO6TVORRWq4WCd/L74dA==
+X-CSE-MsgGUID: xxawObu5TGKi6YiO6r+dGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="110061120"
+   d="scan'208";a="78815496"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 19 Oct 2024 22:42:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Oct 2024 23:23:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2Ohk-000PwD-0i;
-	Sun, 20 Oct 2024 05:42:16 +0000
-Date: Sun, 20 Oct 2024 13:41:47 +0800
+	id 1t2PLT-000Pyh-15;
+	Sun, 20 Oct 2024 06:23:19 +0000
+Date: Sun, 20 Oct 2024 14:23:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error:
- we previously assumed 'fwspec' could be null (see line 465)
-Message-ID: <202410201535.n0b34Sb1-lkp@intel.com>
+Subject: drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn:
+ 'irq' from request_irq() not released on lines: 219.
+Message-ID: <202410201429.S7TgZNrT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Robin Murphy <robin.murphy@arm.com>
-CC: Joerg Roedel <jroedel@suse.de>
-CC: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jerry Snitselaar <jsnitsel@redhat.com>
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   715ca9dd687f89ddaac8ec8ccb3b5e5a30311a99
-commit: e7080665c977ea1aafb8547a9c7bd08b199311d6 iommu: Clean up open-coded ownership checks
-date:   11 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241020/202410201535.n0b34Sb1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   6 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 months ago
+config: sparc64-randconfig-r073-20241020 (https://download.01.org/0day-ci/archive/20241020/202410201429.S7TgZNrT-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410201535.n0b34Sb1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410201429.S7TgZNrT-lkp@intel.com/
 
 smatch warnings:
-drivers/iommu/mtk_iommu_v1.c:487 mtk_iommu_v1_probe_device() error: we previously assumed 'fwspec' could be null (see line 465)
+drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn: 'irq' from request_irq() not released on lines: 219.
 
-vim +/fwspec +487 drivers/iommu/mtk_iommu_v1.c
+vim +/irq +247 drivers/clocksource/timer-atmel-st.c
 
-b17336c55d8928 Honghui Zhang 2016-06-08  451  
-ad9b10e533f6fb Yong Wu       2022-05-03  452  static struct iommu_device *mtk_iommu_v1_probe_device(struct device *dev)
-b17336c55d8928 Honghui Zhang 2016-06-08  453  {
-a9bf2eec5a6fc0 Joerg Roedel  2018-11-29  454  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
-b17336c55d8928 Honghui Zhang 2016-06-08  455  	struct of_phandle_args iommu_spec;
-ad9b10e533f6fb Yong Wu       2022-05-03  456  	struct mtk_iommu_v1_data *data;
-635319a4a7444c Yong Wu       2022-01-17  457  	int err, idx = 0, larbid, larbidx;
-635319a4a7444c Yong Wu       2022-01-17  458  	struct device_link *link;
-635319a4a7444c Yong Wu       2022-01-17  459  	struct device *larbdev;
-b17336c55d8928 Honghui Zhang 2016-06-08  460  
-822a2ed8c606ca Yong Wu       2022-01-17  461  	/*
-822a2ed8c606ca Yong Wu       2022-01-17  462  	 * In the deferred case, free the existed fwspec.
-822a2ed8c606ca Yong Wu       2022-01-17  463  	 * Always initialize the fwspec internally.
-822a2ed8c606ca Yong Wu       2022-01-17  464  	 */
-822a2ed8c606ca Yong Wu       2022-01-17 @465  	if (fwspec) {
-822a2ed8c606ca Yong Wu       2022-01-17  466  		iommu_fwspec_free(dev);
-822a2ed8c606ca Yong Wu       2022-01-17  467  		fwspec = dev_iommu_fwspec_get(dev);
-822a2ed8c606ca Yong Wu       2022-01-17  468  	}
-822a2ed8c606ca Yong Wu       2022-01-17  469  
-f90a9a85fb946e Yong Wu       2021-04-12  470  	while (!of_parse_phandle_with_args(dev->of_node, "iommus",
-f90a9a85fb946e Yong Wu       2021-04-12  471  					   "#iommu-cells",
-f90a9a85fb946e Yong Wu       2021-04-12  472  					   idx, &iommu_spec)) {
-b17336c55d8928 Honghui Zhang 2016-06-08  473  
-ad9b10e533f6fb Yong Wu       2022-05-03  474  		err = mtk_iommu_v1_create_mapping(dev, &iommu_spec);
-f90a9a85fb946e Yong Wu       2021-04-12  475  		of_node_put(iommu_spec.np);
-f90a9a85fb946e Yong Wu       2021-04-12  476  		if (err)
-f90a9a85fb946e Yong Wu       2021-04-12  477  			return ERR_PTR(err);
-da5d2748e4a451 Joerg Roedel  2019-01-23  478  
-da5d2748e4a451 Joerg Roedel  2019-01-23  479  		/* dev->iommu_fwspec might have changed */
-da5d2748e4a451 Joerg Roedel  2019-01-23  480  		fwspec = dev_iommu_fwspec_get(dev);
-f90a9a85fb946e Yong Wu       2021-04-12  481  		idx++;
-b17336c55d8928 Honghui Zhang 2016-06-08  482  	}
-b17336c55d8928 Honghui Zhang 2016-06-08  483  
-57dbf81f50c82a Joerg Roedel  2020-04-29  484  	data = dev_iommu_priv_get(dev);
-b17336c55d8928 Honghui Zhang 2016-06-08  485  
-635319a4a7444c Yong Wu       2022-01-17  486  	/* Link the consumer device with the smi-larb device(supplier) */
-635319a4a7444c Yong Wu       2022-01-17 @487  	larbid = mt2701_m4u_to_larb(fwspec->ids[0]);
-de78657e16f414 Miles Chen    2022-05-05  488  	if (larbid >= MT2701_LARB_NR_MAX)
-de78657e16f414 Miles Chen    2022-05-05  489  		return ERR_PTR(-EINVAL);
-de78657e16f414 Miles Chen    2022-05-05  490  
-635319a4a7444c Yong Wu       2022-01-17  491  	for (idx = 1; idx < fwspec->num_ids; idx++) {
-635319a4a7444c Yong Wu       2022-01-17  492  		larbidx = mt2701_m4u_to_larb(fwspec->ids[idx]);
-635319a4a7444c Yong Wu       2022-01-17  493  		if (larbid != larbidx) {
-635319a4a7444c Yong Wu       2022-01-17  494  			dev_err(dev, "Can only use one larb. Fail@larb%d-%d.\n",
-635319a4a7444c Yong Wu       2022-01-17  495  				larbid, larbidx);
-635319a4a7444c Yong Wu       2022-01-17  496  			return ERR_PTR(-EINVAL);
-635319a4a7444c Yong Wu       2022-01-17  497  		}
-635319a4a7444c Yong Wu       2022-01-17  498  	}
-635319a4a7444c Yong Wu       2022-01-17  499  
-635319a4a7444c Yong Wu       2022-01-17  500  	larbdev = data->larb_imu[larbid].dev;
-de78657e16f414 Miles Chen    2022-05-05  501  	if (!larbdev)
-de78657e16f414 Miles Chen    2022-05-05  502  		return ERR_PTR(-EINVAL);
-de78657e16f414 Miles Chen    2022-05-05  503  
-635319a4a7444c Yong Wu       2022-01-17  504  	link = device_link_add(dev, larbdev,
-635319a4a7444c Yong Wu       2022-01-17  505  			       DL_FLAG_PM_RUNTIME | DL_FLAG_STATELESS);
-635319a4a7444c Yong Wu       2022-01-17  506  	if (!link)
-635319a4a7444c Yong Wu       2022-01-17  507  		dev_err(dev, "Unable to link %s\n", dev_name(larbdev));
-635319a4a7444c Yong Wu       2022-01-17  508  
-57dbf81f50c82a Joerg Roedel  2020-04-29  509  	return &data->iommu;
-57dbf81f50c82a Joerg Roedel  2020-04-29  510  }
-57dbf81f50c82a Joerg Roedel  2020-04-29  511  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  179  
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  180  /*
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  181   * ST (system timer) module supports both clockevents and clocksource.
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  182   */
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  183  static int __init atmel_st_timer_init(struct device_node *node)
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  184  {
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  185  	struct clk *sclk;
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  186  	unsigned int sclk_rate, val;
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  187  	int irq, ret;
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  188  
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  189  	regmap_st = syscon_node_to_regmap(node);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  190  	if (IS_ERR(regmap_st)) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  191  		pr_err("Unable to get regmap\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  192  		return PTR_ERR(regmap_st);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  193  	}
+454c46df839456 arch/arm/mach-at91/at91rm9200_time.c Joachim Eastwood  2012-10-28  194  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  195  	/* Disable all timer interrupts, and clear any pending ones */
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  196  	regmap_write(regmap_st, AT91_ST_IDR,
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  197  		AT91_ST_PITS | AT91_ST_WDOVF | AT91_ST_RTTINC | AT91_ST_ALMS);
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  198  	regmap_read(regmap_st, AT91_ST_SR, &val);
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  199  
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  200  	/* Get the interrupts property */
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  201  	irq  = irq_of_parse_and_map(node, 0);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  202  	if (!irq) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  203  		pr_err("Unable to get IRQ from DT\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  204  		return -EINVAL;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  205  	}
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  206  
+2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  207  	/* Make IRQs happen for the system timer */
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  208  	ret = request_irq(irq, at91rm9200_timer_interrupt,
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  209  			  IRQF_SHARED | IRQF_TIMER | IRQF_IRQPOLL,
+0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  210  			  "at91_tick", regmap_st);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  211  	if (ret) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  212  		pr_err("Unable to setup IRQ\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  213  		return ret;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  214  	}
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  215  
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  216  	sclk = of_clk_get(node, 0);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  217  	if (IS_ERR(sclk)) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  218  		pr_err("Unable to get slow clock\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  219  		return PTR_ERR(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  220  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  221  
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  222  	ret = clk_prepare_enable(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  223  	if (ret) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  224  		pr_err("Could not enable slow clock\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  225  		return ret;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  226  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  227  
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  228  	sclk_rate = clk_get_rate(sclk);
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  229  	if (!sclk_rate) {
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  230  		pr_err("Invalid slow clock rate\n");
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  231  		return -EINVAL;
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  232  	}
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  233  	timer_latch = (sclk_rate + HZ / 2) / HZ;
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  234  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  235  	/* The 32KiHz "Slow Clock" (tick every 30517.58 nanoseconds) is used
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  236  	 * directly for the clocksource and all clockevents, after adjusting
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  237  	 * its prescaler from the 1 Hz default.
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  238  	 */
+adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  239  	regmap_write(regmap_st, AT91_ST_RTMR, 1);
+73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  240  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  241  	/* Setup timer clockevent, with minimum of two ticks (important!!) */
+320ab2b0b1e08e arch/arm/mach-at91/at91rm9200_time.c Rusty Russell     2008-12-13  242  	clkevt.cpumask = cpumask_of(0);
+216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  243  	clockevents_config_and_register(&clkevt, sclk_rate,
+1c283531115bda arch/arm/mach-at91/at91rm9200_time.c Uwe Kleine-König  2013-10-08  244  					2, AT91_ST_ALMV);
+2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  245  
+5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  246  	/* register clocksource */
+adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06 @247  	return clocksource_register_hz(&clk32k, sclk_rate);
 
-:::::: The code at line 487 was first introduced by commit
-:::::: 635319a4a7444ca97124d781cd96deb277ff4d40 media: iommu/mediatek: Add device_link between the consumer and the larb devices
+:::::: The code at line 247 was first introduced by commit
+:::::: adbaf5254152f322b873d0a9cd0f150dd30c64aa clocksource/drivers/atmel-st: Convert init function to return error
 
-:::::: TO: Yong Wu <yong.wu@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
