@@ -1,170 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361B32904
-	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 06:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2EE17C79
+	for <oe-kbuild@lists.linux.dev>; Sun, 20 Oct 2024 06:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729405405; cv=none; b=PfC0XPnne+a/XWvFDIPvUat1MdYlFkG/Q0BTDPFn185TBp9dvxCXU+4155CR9belXVHdTwVL8jRD8nJ+NCU51vMYow4k4kEdx1yC8OVhpFQDNGqRBzA+DXBNsreo3OE1nnzVBU27WZhLtsGZBK/giXsRjcrmuDQr7XdWbtr+/mA=
+	t=1729406666; cv=none; b=rxAUYdxLXD0RtYL+e8gqQZA/A6g8VFF5nvru+vJ2HkVmPo2DnxsOcpJu5RYQGHlKdauaW7u0aAjXZVI0VwCjafhbnV4zHmOsaP49UvXKpgp7+YcyKHZdZlHTPzMyNlEKeARNcRCxzo63V9XLvG90du+fqeB3ckl8hWqS4szspps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729405405; c=relaxed/simple;
-	bh=xqSbFF0r5aapMp+pHDiHGvIXmKgy2vZZ5KPk8xn4w3E=;
+	s=arc-20240116; t=1729406666; c=relaxed/simple;
+	bh=fh93dQ0RiuK7+iKw7ePLusLCn8+QuGbxetn1ENldcQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZrwOmXwE+glWVRMK25l2OJkGlizzpuKysVH9jOeMhs+jTe40p4F7mFCvPIysZOca9YeBLnSGslsxIHaKW1ZI1OeTIxJCVQqs5cjpqsnb9Rt4p/+uZNIjVJa+TQH8OPHHQchI5aKFYh+lhE49c56wOQtXZZYMBT9A6JT0yGli0ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6GSwl+A; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=reMQDUAVRq0ewyyM5MfGeO/8rMBMmlAdoLNxGSAABWuXG94UMNn70uHLOgMAMh1S9rqwJDBtkt29P860LJ+Mbkm0z70L/D+f9mQwxdKojLW1z02sDxz7E4TWoOklftKzz9RAKkeZZapd1w0TgCLxOQYISUYSDvnOGhRy9sRJTZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbFEHCK9; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6GSwl+A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbFEHCK9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729405403; x=1760941403;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xqSbFF0r5aapMp+pHDiHGvIXmKgy2vZZ5KPk8xn4w3E=;
-  b=M6GSwl+AIKVGJukJIOVOrxDGUnXmC2rYVNJQFQOGT3CCKi+ywpz51fxX
-   1ZMQn9nl5IO9FDPeHg0W8UeUruK3wWHAlTODz4u/CVG1LTKqvymHwr5rW
-   zPq0lTGrA4nWf1+6cWOzgVAnQBGT1HJxaO8UZfZt6LiSglaErHJScbbLJ
-   AWEKNmbxgNt7CiQ9Fh15XLBkRru98++4o/IGvT+nLigVkxjF1Gc9Ao5/m
-   KKiwHf8lBH7e7LN6fe1q5Hy35sdhONV/VxrnbqWRGozAmNEtio+8WHg2H
-   m7S/6vxdVz8NBgXhodMqvGxIo7U4wUjQXei+sgr4+5OfO9to7TQv/ywGK
-   Q==;
-X-CSE-ConnectionGUID: naMh/4COTV+CPqxVvVu85w==
-X-CSE-MsgGUID: iyKjAm9GTBGhsJLXFhLnHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28777823"
-X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="28777823"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 23:23:23 -0700
-X-CSE-ConnectionGUID: BqgO6TVORRWq4WCd/L74dA==
-X-CSE-MsgGUID: xxawObu5TGKi6YiO6r+dGQ==
+  t=1729406664; x=1760942664;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fh93dQ0RiuK7+iKw7ePLusLCn8+QuGbxetn1ENldcQI=;
+  b=UbFEHCK9McbI0lh+co5oVcYP4b/eXGcLYrsGs+lJAcHDRaxw39TmsZ/M
+   3X0L2JiSt71sAYuWOaxUQH6mDNZNggVPfPZFRGbb9jOXp8LRNzbP0keHw
+   tjoDr56NBIkJLR1EhR1uddfLRxhYz9VW5Yqq3WhoEb6fC3MUHCm3hI67N
+   KSVaCdUhiJnx7kCtUO94ZeAaZV8U3z0dyB5wMEagBZS9NSCNlug69voqw
+   9FZ/WnVH/W+e6csOnyRX7sEiaETn5vRrGP2QNnTjQomdGlFnarIPMytL/
+   sGEPv4zH5z4/yIfX89xg3tnTHty7AMDSBwmNwAqanP+FYU+k/d94qNiqD
+   w==;
+X-CSE-ConnectionGUID: 8ePU7MqaTV6/QajRK97RZg==
+X-CSE-MsgGUID: Zd+6/4xAQzebxMpg+ZHQhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32581884"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="32581884"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 23:44:24 -0700
+X-CSE-ConnectionGUID: 5krkVgoIRi6apZLbKsGm6Q==
+X-CSE-MsgGUID: 3je5Iz2wQbmih/Vopf6HWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="78815496"
+   d="scan'208";a="79385305"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Oct 2024 23:23:21 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2024 23:44:22 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2PLT-000Pyh-15;
-	Sun, 20 Oct 2024 06:23:19 +0000
-Date: Sun, 20 Oct 2024 14:23:04 +0800
+	id 1t2Pfo-000Q07-0M;
+	Sun, 20 Oct 2024 06:44:20 +0000
+Date: Sun, 20 Oct 2024 14:43:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn:
- 'irq' from request_irq() not released on lines: 219.
-Message-ID: <202410201429.S7TgZNrT-lkp@intel.com>
+Subject: internal error: arch/alpha/include/asm/io_trivial.h:64 SQL error #2:
+ near "and": syntax error
+Message-ID: <202410201454.Gvsif6Dr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
+TO: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   715ca9dd687f89ddaac8ec8ccb3b5e5a30311a99
-commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+commit: a4184174be36369c3af8d937e165f28a43ef1e02 alpha: drop pre-EV56 support
 date:   6 months ago
-:::::: branch date: 6 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 6 months ago
-config: sparc64-randconfig-r073-20241020 (https://download.01.org/0day-ci/archive/20241020/202410201429.S7TgZNrT-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+config: alpha-randconfig-r073-20241020 (https://download.01.org/0day-ci/archive/20241020/202410201454.Gvsif6Dr-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410201429.S7TgZNrT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410201454.Gvsif6Dr-lkp@intel.com/
 
-smatch warnings:
-drivers/clocksource/timer-atmel-st.c:247 atmel_st_timer_init() warn: 'irq' from request_irq() not released on lines: 219.
+New smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+drivers/comedi/drivers/adv_pci1710.c:876 pci1710_auto_attach() warn: 'pcidev->irq' from request_irq() not released on lines: 840.
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:64 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
 
-vim +/irq +247 drivers/clocksource/timer-atmel-st.c
-
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  179  
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  180  /*
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  181   * ST (system timer) module supports both clockevents and clocksource.
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  182   */
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  183  static int __init atmel_st_timer_init(struct device_node *node)
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  184  {
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  185  	struct clk *sclk;
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  186  	unsigned int sclk_rate, val;
-0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  187  	int irq, ret;
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  188  
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  189  	regmap_st = syscon_node_to_regmap(node);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  190  	if (IS_ERR(regmap_st)) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  191  		pr_err("Unable to get regmap\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  192  		return PTR_ERR(regmap_st);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  193  	}
-454c46df839456 arch/arm/mach-at91/at91rm9200_time.c Joachim Eastwood  2012-10-28  194  
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  195  	/* Disable all timer interrupts, and clear any pending ones */
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  196  	regmap_write(regmap_st, AT91_ST_IDR,
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  197  		AT91_ST_PITS | AT91_ST_WDOVF | AT91_ST_RTTINC | AT91_ST_ALMS);
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  198  	regmap_read(regmap_st, AT91_ST_SR, &val);
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  199  
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  200  	/* Get the interrupts property */
-0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  201  	irq  = irq_of_parse_and_map(node, 0);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  202  	if (!irq) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  203  		pr_err("Unable to get IRQ from DT\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  204  		return -EINVAL;
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  205  	}
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  206  
-2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  207  	/* Make IRQs happen for the system timer */
-0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  208  	ret = request_irq(irq, at91rm9200_timer_interrupt,
-0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  209  			  IRQF_SHARED | IRQF_TIMER | IRQF_IRQPOLL,
-0afb46b248eff6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-13  210  			  "at91_tick", regmap_st);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  211  	if (ret) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  212  		pr_err("Unable to setup IRQ\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  213  		return ret;
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  214  	}
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  215  
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  216  	sclk = of_clk_get(node, 0);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  217  	if (IS_ERR(sclk)) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  218  		pr_err("Unable to get slow clock\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  219  		return PTR_ERR(sclk);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  220  	}
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  221  
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  222  	ret = clk_prepare_enable(sclk);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  223  	if (ret) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  224  		pr_err("Could not enable slow clock\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  225  		return ret;
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  226  	}
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  227  
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  228  	sclk_rate = clk_get_rate(sclk);
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  229  	if (!sclk_rate) {
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  230  		pr_err("Invalid slow clock rate\n");
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  231  		return -EINVAL;
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06  232  	}
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  233  	timer_latch = (sclk_rate + HZ / 2) / HZ;
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  234  
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  235  	/* The 32KiHz "Slow Clock" (tick every 30517.58 nanoseconds) is used
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  236  	 * directly for the clocksource and all clockevents, after adjusting
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  237  	 * its prescaler from the 1 Hz default.
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  238  	 */
-adf2edfd6003c4 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-03-12  239  	regmap_write(regmap_st, AT91_ST_RTMR, 1);
-73a59c1c4af06c arch/arm/mach-at91rm9200/time.c      SAN People        2006-01-09  240  
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  241  	/* Setup timer clockevent, with minimum of two ticks (important!!) */
-320ab2b0b1e08e arch/arm/mach-at91/at91rm9200_time.c Rusty Russell     2008-12-13  242  	clkevt.cpumask = cpumask_of(0);
-216ab8f155fba6 drivers/clocksource/timer-atmel-st.c Alexandre Belloni 2015-08-16  243  	clockevents_config_and_register(&clkevt, sclk_rate,
-1c283531115bda arch/arm/mach-at91/at91rm9200_time.c Uwe Kleine-König  2013-10-08  244  					2, AT91_ST_ALMV);
-2a6f9902c6a799 arch/arm/mach-at91rm9200/time.c      Andrew Victor     2006-06-19  245  
-5e802dfab7bbbe arch/arm/mach-at91/at91rm9200_time.c David Brownell    2007-07-31  246  	/* register clocksource */
-adbaf5254152f3 drivers/clocksource/timer-atmel-st.c Daniel Lezcano    2016-06-06 @247  	return clocksource_register_hz(&clk32k, sclk_rate);
-
-:::::: The code at line 247 was first introduced by commit
-:::::: adbaf5254152f322b873d0a9cd0f150dd30c64aa clocksource/drivers/atmel-st: Convert init function to return error
-
-:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-:::::: CC: Daniel Lezcano <daniel.lezcano@linaro.org>
+Old smatch warnings:
+internal error: arch/alpha/include/asm/io_trivial.h:18 SQL error #2: near "and": syntax error
+internal error: arch/alpha/include/asm/io_trivial.h:18 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+drivers/comedi/drivers/gsc_hpdi.c:671 gsc_hpdi_auto_attach() warn: 'pcidev->irq' from request_irq() not released on lines: 628,640,645,650,654.
+drivers/comedi/drivers/cb_pcidas64.c:4044 auto_attach() warn: 'pcidev->irq' from request_irq() not released on lines: 4042.
 
 -- 
 0-DAY CI Kernel Test Service
