@@ -1,79 +1,68 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405561D1744
-	for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 07:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095141D14FB
+	for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 07:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729495590; cv=none; b=WH4i5MHFV1XmtFf7Q/XKlZ15zTNLd8y/3CriNwcbshQg09vxZLS0P8cpZoBV7JFLV9/1hK6oXOKAlcPwxrd7jFecloXTWiKg3VvLZAMPiTd3GFSFOHAjJh0Tlizrua06hiWb+TUEx1Hm6upetGOtRQEwoVdnuUtbm/GIOhhprLk=
+	t=1729495696; cv=none; b=pxO1B1EfviOg6ZaznhY9d43rjG8U9QbeWYXTgUM70Ok33t1mx5ZtVhZLn34j90jcItU7HnJQT2dDG4llJsG09ojgbNbhj8wy4gB7Jk4yT/i2IiLQXAGMzGDQmup1IhBS/QTv76FsiTe0J+yGDcl6Yenm1ArTzLrADn3xDgOWyS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729495590; c=relaxed/simple;
-	bh=wcTkMgi7iBvojm44oD0zd50eV0TUlF7xRf+s2cIomW4=;
+	s=arc-20240116; t=1729495696; c=relaxed/simple;
+	bh=yLt4P+aFKsbYRKyQBp9kIVZtjx4+ma6tx6NpxMwTg08=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TFCyUQstp0QoB4ljzrbNcKqry968IS+rbbO6sMZ0bIhvO7liq+FvWAdVAGe+409WAUGzRQv50u9XNpB17Iw66r8u51hfuFKqY2VvPwRxQFYNAlDy3B5kDLPC7+M0GnkCVUy7jf/0eIRL5vkVFwRS2M6bZTbxNqX41/QvAnsV3CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HJGcqj5U; arc=none smtp.client-ip=209.85.221.51
+	 Content-Disposition; b=egEos6DDA+aM1rphxejrF5YOWStnv2Qs/gxHN0o9NW9YHsTCYSQmnkrlCiRzqibgiEkdRoww9KJCq1UjKMl5Yat9m9UYCAhrjaxdtMWNIAcDfqouhJsOd/3gTXVtW4noD72PL8SpN+dePDe5+T7g4kFaKMj46qxMxCXRrHXt7Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BMTHXH3k; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HJGcqj5U"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d538fe5f2so3215453f8f.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 00:26:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BMTHXH3k"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so32804875e9.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 00:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729495586; x=1730100386; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WzxieUov7gUMeB2aP814TI9QYjdp88kKTPX9D7imhU4=;
-        b=HJGcqj5UmlBUoRWpf+MdVrJPxAJru73SQs2GpVfJA4p9SU+BkdvlBFSmfxtruB6CGa
-         Il9gvcopSUw2SMnSBiZxltZ4Ej4yTf+0LmgD2viWBoQnLL2rhCLYX6ozaA5HWyYoOPnR
-         Bvd7S+56kFRaxdmT22g8uFe803gDfXl5d5HibW8PcvRSYxCb84Q4dh9I4nK9nbmDKy8m
-         8cxyMkm/NqCo6z6jggiOAomvQ/ZC9E309bEep+/7QZr/rirgh+f7w17fzUbVRvHL5aKZ
-         WSk0jfY8j7xkiffJABoseS9ELQPR81tSC8grpGjvEuvHfMTAbF6SNJmE7PpV3xlDyi5W
-         BvCA==
+        d=linaro.org; s=google; t=1729495691; x=1730100491; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EbzFOFCkLwBY6/I+BFLuJ0WlPPJIPe8WCwwU3mX1OLM=;
+        b=BMTHXH3kuEsNlfSMhlCxjr1k5xmr+UNzUMwWng/TLgJ7d7qI5+d1+wpATn9f/4YcJR
+         aJYSy4Nl+LT7cEqnhlj/Pb2ARcfCwnu0zLJ+cnpynI2p3IJPTofGJyi5VZU48aR4FtGN
+         wok0xomp4hrydMq//gktCTgqUCs4Aj8lkoJz5DB5wB8lednLk2t9oZAD5+Ly2Erv06st
+         SH4TSTqnRnJqSEhCVcC75cJFq9AePSs8AnFs7mvnlEYRe38tHZjb8oJM2LgcDg+M13Mz
+         tHStvVM/ePoCtNaNnG/Ph8vkuI7J4NCbdhh1bizHQ8RMz9KiuAwJ4LW+x0tVhwveeAK0
+         +FkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729495586; x=1730100386;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WzxieUov7gUMeB2aP814TI9QYjdp88kKTPX9D7imhU4=;
-        b=k3+MlBUs9I9stpfPNz6BKrwVfIqH/PPjzdd+hlX1nIc2jH4WeufRI45Gu0Tp2gAtKi
-         7bQ3kwdFi8A+AjFTZ/bpRGqKp+FOI4kP1Cm+SkQG1roUsRIRTEkEGe8Fnl1k5IZe06rj
-         B0+GQD3g6nBLe0EcBc7mBxTJ8vzgSevoQUozbmqG+LQ8+Uqnj9bw65ohwuxRn1QeeUKn
-         0nyUrRyT7qIk6IGCKVcra5O+06zHaN9YtdAPxbynGkcELQjkymIDIFbYqVFhUGPB3Yxa
-         1B4jrYskiXpqYxly2Vt25IIE7rQgd4Xf5nLFIY7RyhV1D093EffIxnbEyqhlAfo7xVvc
-         pJUg==
-X-Gm-Message-State: AOJu0YybCdmk6ZtGU7RHy6sTFYrPrEairUjWewKmu2Z47p/THu8beaAK
-	IBM+orm6PAu5N7kbKtez+feyPGMf5/o8bMNmusRcddqc3xCGt3wfDk5t0ge5WlyGWDqcH9gnvsI
-	m
-X-Google-Smtp-Source: AGHT+IGRWrE0//mu6WZwxi/0r2C3AHfF6+eS6gx1UzTzYGI7pL3TplO6Tw+K257ZLYnvYye8kQkAuQ==
-X-Received: by 2002:a5d:4983:0:b0:37d:4d31:e86c with SMTP id ffacd0b85a97d-37eb487a580mr6500095f8f.44.1729495586128;
-        Mon, 21 Oct 2024 00:26:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729495691; x=1730100491;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EbzFOFCkLwBY6/I+BFLuJ0WlPPJIPe8WCwwU3mX1OLM=;
+        b=V2M2qrC56Vd5OR5R/ru5QTrzjaV9xL8ckMJ+7mgzWR2WLzgs5niG/DZOk9IR1S2PhC
+         KhuTEM8xtnX/tG5aqG0S9n8Bb8ATRuvsNEz3+LhK8YUUz+Bl/x2fytqzYrbDiHaG6vBJ
+         NF1Ch44OCU+wzVXW6fxMGwFVh8zmUO/LjpN1Fj8CxZpJ8xBMecXn9kwFo3qFMb/1V+Hq
+         MPgjCjks/bKdbG59xDsg3UXZL8FnUCORXy94kt+ZPw6atTv2q71wGKwmq+KkMnFo9r6o
+         LkCkgg41pn5EmgjiAWS5D2GyAQPBSvCRA9T1ZEKSLwfLiIITGHQZ9z5jxVtHlCB5bb57
+         t72g==
+X-Gm-Message-State: AOJu0YyQHMEd3MAIIkgoRN67VGV6RIfq7OBvuputQSEXUlKfCQvQp4i+
+	4Ecqpn4kv0Z2gydtRQWyvipPHMbCLhPg48wfjwj0g45AsNAXiL8SlXCJGCQQHupOQmmyEBP5+dX
+	O
+X-Google-Smtp-Source: AGHT+IF/fDrVSWGmNnEMi7ykD0TpQR91iOtOLsFC59sXFMSL/cnwNC7Tm2avPeNPtwtwqCyDjTGo5Q==
+X-Received: by 2002:a05:600c:5124:b0:431:5bf2:2d4 with SMTP id 5b1f17b1804b1-431616a388cmr85325755e9.29.1729495691015;
+        Mon, 21 Oct 2024 00:28:11 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9baa7sm3523765f8f.96.2024.10.21.00.26.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5c3173sm47208225e9.33.2024.10.21.00.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 00:26:25 -0700 (PDT)
-Date: Mon, 21 Oct 2024 10:26:22 +0300
+        Mon, 21 Oct 2024 00:28:10 -0700 (PDT)
+Date: Mon, 21 Oct 2024 10:28:06 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yunfei Dong <yunfei.dong@mediatek.com>,
-	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>
+To: oe-kbuild@lists.linux.dev, Brijesh Singh <brijesh.singh@amd.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v5 1/5] media: mediatek: vcodec: setting request complete
- before buffer done
-Message-ID: <f08b11c7-43b7-4fe5-be36-f069527cbd69@stanley.mountain>
+	linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Ashish Kalra <ashish.kalra@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Liam Merwick <liam.merwick@oracle.com>,
+	Michael Roth <michael.roth@amd.com>
+Subject: arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error
+ code 'ret'
+Message-ID: <148feb5b-cdd8-4065-8570-d0304383cc62@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -82,66 +71,99 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241012064333.27269-2-yunfei.dong@mediatek.com>
 
-Hi Yunfei,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-setting-request-complete-before-buffer-done/20241012-144607
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20241012064333.27269-2-yunfei.dong%40mediatek.com
-patch subject: [PATCH v5 1/5] media: mediatek: vcodec: setting request complete before buffer done
-config: arm-randconfig-r072-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192150.2YkqysDO-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
+commit: 88caf544c9305313e1c48ac1a437faa5df8fff06 KVM: SEV: Provide support for SNP_GUEST_REQUEST NAE event
+config: x86_64-randconfig-161-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192220.MeTyHPxI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410192150.2YkqysDO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410192220.MeTyHPxI-lkp@intel.com/
 
-smatch warnings:
-drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c:272 mtk_vdec_stateless_cap_to_disp() warn: variable dereferenced before check 'vb2_v4l2_src' (see line 268)
+New smatch warnings:
+arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error code 'ret'
 
-vim +/vb2_v4l2_src +272 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
+vim +/ret +454 arch/x86/kvm/svm/sev.c
 
-01abf5fbb081c0 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  247  static void mtk_vdec_stateless_cap_to_disp(struct mtk_vcodec_dec_ctx *ctx, int error,
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  248  					   struct vb2_v4l2_buffer *vb2_v4l2_src)
-8cdc3794b2e34b drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c              Yunfei Dong 2021-08-06  249  {
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  250  	struct vb2_v4l2_buffer *vb2_dst;
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  251  	enum vb2_buffer_state state;
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  252  	struct media_request *src_buf_req;
-8cdc3794b2e34b drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateless.c              Yunfei Dong 2021-08-06  253  
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  254  	if (error)
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  255  		state = VB2_BUF_STATE_ERROR;
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  256  	else
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  257  		state = VB2_BUF_STATE_DONE;
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  258  
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  259  	vb2_dst = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
-d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  260  	if (vb2_dst) {
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  261  		v4l2_m2m_buf_done(vb2_dst, state);
-41f03c673cb7b5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  262  		mtk_v4l2_vdec_dbg(2, ctx, "free frame buffer id:%d to done list",
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  263  				  vb2_dst->vb2_buf.index);
-d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  264  	} else {
-41f03c673cb7b5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2023-07-29  265  		mtk_v4l2_vdec_err(ctx, "dst buffer is NULL");
-d879f770e4d1d5 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-11-17  266  	}
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  267  
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12 @268  	src_buf_req = vb2_v4l2_src->vb2_buf.req_obj.req;
-                                                                                                                                      ^^^^^^^^^^^^^^^
-Dereference
+4f5defae708992 Paolo Bonzini         2024-04-04  402  static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
+4f5defae708992 Paolo Bonzini         2024-04-04  403  			    struct kvm_sev_init *data,
+4f5defae708992 Paolo Bonzini         2024-04-04  404  			    unsigned long vm_type)
+eaf78265a4ab33 Joerg Roedel          2020-03-24  405  {
+eaf78265a4ab33 Joerg Roedel          2020-03-24  406  	struct kvm_sev_info *sev = &to_kvm_svm(kvm)->sev_info;
+1ca5614b84eed5 Brijesh Singh         2024-01-25  407  	struct sev_platform_init_args init_args = {0};
+4f5defae708992 Paolo Bonzini         2024-04-04  408  	bool es_active = vm_type != KVM_X86_SEV_VM;
+4f5defae708992 Paolo Bonzini         2024-04-04  409  	u64 valid_vmsa_features = es_active ? sev_supported_vmsa_features : 0;
+cc4ce37bed8598 Sean Christopherson   2024-01-31  410  	int ret;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  411  
+8727906fde6ea6 Sean Christopherson   2021-03-30  412  	if (kvm->created_vcpus)
+8727906fde6ea6 Sean Christopherson   2021-03-30  413  		return -EINVAL;
+8727906fde6ea6 Sean Christopherson   2021-03-30  414  
+4f5defae708992 Paolo Bonzini         2024-04-04  415  	if (data->flags)
+4f5defae708992 Paolo Bonzini         2024-04-04  416  		return -EINVAL;
+4f5defae708992 Paolo Bonzini         2024-04-04  417  
+4f5defae708992 Paolo Bonzini         2024-04-04  418  	if (data->vmsa_features & ~valid_vmsa_features)
+26c44aa9e076ed Paolo Bonzini         2024-04-04  419  		return -EINVAL;
+26c44aa9e076ed Paolo Bonzini         2024-04-04  420  
+4af663c2f64a8d Michael Roth          2024-05-01  421  	if (data->ghcb_version > GHCB_VERSION_MAX || (!es_active && data->ghcb_version))
+4af663c2f64a8d Michael Roth          2024-05-01  422  		return -EINVAL;
+4af663c2f64a8d Michael Roth          2024-05-01  423  
+eaf78265a4ab33 Joerg Roedel          2020-03-24  424  	if (unlikely(sev->active))
+fdd58834d13204 Sean Christopherson   2024-01-31  425  		return -EINVAL;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  426  
+a41fb26e616973 Sean Christopherson   2021-11-09  427  	sev->active = true;
+4f5defae708992 Paolo Bonzini         2024-04-04  428  	sev->es_active = es_active;
+4f5defae708992 Paolo Bonzini         2024-04-04  429  	sev->vmsa_features = data->vmsa_features;
+4af663c2f64a8d Michael Roth          2024-05-01  430  	sev->ghcb_version = data->ghcb_version;
+4af663c2f64a8d Michael Roth          2024-05-01  431  
+4af663c2f64a8d Michael Roth          2024-05-01  432  	/*
+4af663c2f64a8d Michael Roth          2024-05-01  433  	 * Currently KVM supports the full range of mandatory features defined
+4af663c2f64a8d Michael Roth          2024-05-01  434  	 * by version 2 of the GHCB protocol, so default to that for SEV-ES
+4af663c2f64a8d Michael Roth          2024-05-01  435  	 * guests created via KVM_SEV_INIT2.
+4af663c2f64a8d Michael Roth          2024-05-01  436  	 */
+4af663c2f64a8d Michael Roth          2024-05-01  437  	if (sev->es_active && !sev->ghcb_version)
+4af663c2f64a8d Michael Roth          2024-05-01  438  		sev->ghcb_version = GHCB_VERSION_DEFAULT;
+605bbdc12bc883 Paolo Bonzini         2024-04-04  439  
+1dfe571c12cf99 Brijesh Singh         2024-05-01  440  	if (vm_type == KVM_X86_SNP_VM)
+1dfe571c12cf99 Brijesh Singh         2024-05-01  441  		sev->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
+1dfe571c12cf99 Brijesh Singh         2024-05-01  442  
+cc4ce37bed8598 Sean Christopherson   2024-01-31  443  	ret = sev_asid_new(sev);
+cc4ce37bed8598 Sean Christopherson   2024-01-31  444  	if (ret)
+fd49e8ee70b306 Paolo Bonzini         2021-04-22  445  		goto e_no_asid;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  446  
+1ca5614b84eed5 Brijesh Singh         2024-01-25  447  	init_args.probe = false;
+1ca5614b84eed5 Brijesh Singh         2024-01-25  448  	ret = sev_platform_init(&init_args);
+eaf78265a4ab33 Joerg Roedel          2020-03-24  449  	if (ret)
+eaf78265a4ab33 Joerg Roedel          2020-03-24  450  		goto e_free;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  451  
+88caf544c93053 Brijesh Singh         2024-07-01  452  	/* This needs to happen after SEV/SNP firmware initialization. */
+88caf544c93053 Brijesh Singh         2024-07-01  453  	if (vm_type == KVM_X86_SNP_VM && snp_guest_req_init(kvm))
+88caf544c93053 Brijesh Singh         2024-07-01 @454  		goto e_free;
 
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  269  	if (src_buf_req)
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  270  		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  271  
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12 @272  	if (vb2_v4l2_src)
-                                                                                                                            ^^^^^^^^^^^^
-Checked too late
+Hard to tell if this is an error path or not.
 
-5c46486b8d2760 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c Yunfei Dong 2024-10-12  273  		v4l2_m2m_buf_done(vb2_v4l2_src, state);
-7b182b8d9c8523 drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_stateless.c         Yunfei Dong 2022-05-12  274  }
+88caf544c93053 Brijesh Singh         2024-07-01  455  
+eaf78265a4ab33 Joerg Roedel          2020-03-24  456  	INIT_LIST_HEAD(&sev->regions_list);
+b2125513dfc0dd Peter Gonda           2022-02-11  457  	INIT_LIST_HEAD(&sev->mirror_vms);
+26c44aa9e076ed Paolo Bonzini         2024-04-04  458  	sev->need_init = false;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  459  
+c538dc792ff7e4 Suravee Suthikulpanit 2022-04-08  460  	kvm_set_apicv_inhibit(kvm, APICV_INHIBIT_REASON_SEV);
+c538dc792ff7e4 Suravee Suthikulpanit 2022-04-08  461  
+eaf78265a4ab33 Joerg Roedel          2020-03-24  462  	return 0;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  463  
+eaf78265a4ab33 Joerg Roedel          2020-03-24  464  e_free:
+1ca5614b84eed5 Brijesh Singh         2024-01-25  465  	argp->error = init_args.error;
+7aef27f0b2a8a5 Vipin Sharma          2021-03-29  466  	sev_asid_free(sev);
+7aef27f0b2a8a5 Vipin Sharma          2021-03-29  467  	sev->asid = 0;
+fd49e8ee70b306 Paolo Bonzini         2021-04-22  468  e_no_asid:
+605bbdc12bc883 Paolo Bonzini         2024-04-04  469  	sev->vmsa_features = 0;
+fd49e8ee70b306 Paolo Bonzini         2021-04-22  470  	sev->es_active = false;
+a41fb26e616973 Sean Christopherson   2021-11-09  471  	sev->active = false;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  472  	return ret;
+eaf78265a4ab33 Joerg Roedel          2020-03-24  473  }
 
 -- 
 0-DAY CI Kernel Test Service
