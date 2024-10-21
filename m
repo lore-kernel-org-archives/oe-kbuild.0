@@ -1,120 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4C7198837
-	for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 09:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437BD78C76
+	for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 11:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729503641; cv=none; b=cjrtZNUdzPp7d5kpMAydnJ/a3daoVAwWi3UKblO3M3Jr+hSizJcLw9JoRkbpMq9Kk+/KH2b4ZAhs+xEXJr5rRWa18p8w4JgMgdEfEGW6gSCj6+oPzvSZw+agCslK8m8ayhGJYhy4JLM3/bPCpeAZJ/CL3Q0TFnclXJZTtAyXbvk=
+	t=1729511122; cv=none; b=L5j0L95iLENTUDRitcoXhdHsXUqqAUi2JghHMJ6W1XHa7R+xZFSXk4KL9PqtjyxYrhxIQVVw7iayD8Ft3u1E8tDHH5P2eNo9teKgCPub0UrqA5/xr1gauqniRVqNZcGtKe+AY74s3dk1/lk1T7NDoOGf6sH7uOy+N1zjCrHsN6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729503641; c=relaxed/simple;
-	bh=b3m+R6+mux4Hz9tNH9u8W2d3qsvFXUPDqfBBsDPa8UI=;
+	s=arc-20240116; t=1729511122; c=relaxed/simple;
+	bh=8/D9BZIBjnRHyMz8KShhrvGMif8aJF7ry2q7s9OJ5Cs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EauQUhSQD+bGp/Y6UllrO96+zv1RpiuutJPWbAMZ4oKFG0CB25G1retxMzHweQVnu+qa63yEQsAtKgzbhuWUcvQklpbf3hvBUn2v40Z9jhxqQhtNNOK9rIwUdRUQnye8yivX5QSqOhAYixafnYnkN32qwhkjP/BmFyQMhN9HqB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ctC4uduI; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=tur2+pRQAcn7WiXONpAk/5X7/5ZMm4itOYiD60PjEmAI1azH6HV2ue2SfiPAvNT/iXqG6kP955jJI+CHaQWyPXYAWxraSGyMEXP96JgZXwCZxDfseD2mNThVOZ8ObJgMp3kzPmSuv+W+eVOHbD+ttSobn5NDW6o1Bdg9khZhbqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOrfORJY; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ctC4uduI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOrfORJY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729503640; x=1761039640;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=b3m+R6+mux4Hz9tNH9u8W2d3qsvFXUPDqfBBsDPa8UI=;
-  b=ctC4uduIJnkgHYkzvg0cFRvqX3sfT/RUeTFnPCnHgPHUNpcNpH+02z6v
-   J54j+ihGSSrkD/jlXKCCoeMG+ns/wSicUWw9kXblcMgmwZCClrZeMyaE4
-   xL36bzafpgOLX9g8QSD38I9M9ZoFUCFnjIbZa4cWa4pY0XFjS1lvlPrc3
-   rP1B0aUo0x10KJ554pcBa17eD+/Tpgx5ZB5I3Z1lxjogYhXrgIqCMwduG
-   jwCi24wbZTEFGlIcvgXKpfgScU786JlCNn4OSfDZQOP56yNi4S9hBwG5b
-   Yce4f8R17vnx/88UuN2BPpOfK197UkYHro8JKFq7fnrMtWHNjG3vIou4U
+  t=1729511120; x=1761047120;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8/D9BZIBjnRHyMz8KShhrvGMif8aJF7ry2q7s9OJ5Cs=;
+  b=GOrfORJYpd3LcMp5EyaPmF8rM/NrA9oNLBCgY0NJOIncaz7MlQnDznVJ
+   jnGFxWUa1ws/cswWJMZ5AVsDkum4AgJkLynk2xSkvLKcZr4AeStybanbS
+   PnZhW4YeJLTuoeXkVsSnNu5rIFvLkSAGrWZcTnfiJX6Nxv5Jei7ZsKe3N
+   wscL4/c4s2iMAxYfkzH+zoxYi38beIPscqJT4tE4Rk3d/TWx3g8r35/5K
+   LEw7M/dAaHnYyTwCngyNeZayhqKPBWPVFRRS9m1sHJzhvLaBPtIuCOckV
+   btqhFl38YVij2vQwaavukgSNaQaFWFtTz1yW38VqI/joYa9J07a1MrfcO
    w==;
-X-CSE-ConnectionGUID: ADtTPD9JQtyOjr2G/ifUPg==
-X-CSE-MsgGUID: LXs2eTOfTrivzLJ13HtVmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="40374881"
+X-CSE-ConnectionGUID: guw2XoOUS4itXHmLNEJQDQ==
+X-CSE-MsgGUID: sVPxit9BRgCulV7r7GdS9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="46481765"
 X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="40374881"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 02:40:39 -0700
-X-CSE-ConnectionGUID: qbOzCigDRZ+0LRwuJQOnxA==
-X-CSE-MsgGUID: YlImqaxAQpONI2/xrrFlCw==
+   d="scan'208";a="46481765"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 04:45:13 -0700
+X-CSE-ConnectionGUID: aWfDsOtMRwmrn/ndc3hY4Q==
+X-CSE-MsgGUID: Xgf4sEJjRvWzdtkASG7nEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="102795413"
+   d="scan'208";a="79445876"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Oct 2024 02:40:37 -0700
+  by orviesa009.jf.intel.com with ESMTP; 21 Oct 2024 04:45:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2otv-000RPx-22;
-	Mon, 21 Oct 2024 09:40:35 +0000
-Date: Mon, 21 Oct 2024 17:38:59 +0800
+	id 1t2qqT-000S57-1a;
+	Mon, 21 Oct 2024 11:45:09 +0000
+Date: Mon, 21 Oct 2024 19:44:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [asahilinux:asahi 6/210]
- arch/arm64/boot/dts/apple/t8112-j413.dts:133.14-152.5: Warning
- (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg
- or ranges property
-Message-ID: <202410211759.RvwCuGSZ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the
+ index variable of the iterator on line 375
+Message-ID: <202410211904.YUfoJSKr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
-CC: llvm@lists.linux.dev
 CC: oe-kbuild-all@lists.linux.dev
-TO: "Martin Povišer" <povik+lin@cutebit.org>
-CC: Janne Grunau <j@jannau.net>
+CC: linux-kernel@vger.kernel.org
+TO: Stephan Gerhold <stephan@gerhold.net>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-tree:   https://github.com/AsahiLinux/linux asahi
-head:   de1c5a8be0ee99602e472f3ca861cc2d249597da
-commit: 95ae01eb93958c24677e2b4a543f728fdeceed81 [6/210] arm64: dts: apple: t8112*: Put in audio nodes
-:::::: branch date: 4 weeks ago
-:::::: commit date: 5 weeks ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241021/202410211759.RvwCuGSZ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211759.RvwCuGSZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   42f7652d3eb527d03665b09edac47f85fb600924
+commit: 2b391c4ca735d0633bcdca5f83939c9791405225 pmdomain: core: Scale down parent/child performance states in reverse order
+date:   8 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 months ago
+config: i386-randconfig-051-20241021 (https://download.01.org/0day-ci/archive/20241021/202410211904.YUfoJSKr-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410211759.RvwCuGSZ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410211904.YUfoJSKr-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/apple/t8112-j413.dts:133.14-152.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j413.dts:154.14-163.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
-   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
---
->> arch/arm64/boot/dts/apple/t8112-j473.dts:103.14-112.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j473.dts:114.14-123.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
-   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
---
->> arch/arm64/boot/dts/apple/t8112-j493.dts:122.14-141.5: Warning (unit_address_vs_reg): /sound/dai-link@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112-j493.dts:143.14-152.5: Warning (unit_address_vs_reg): /sound/dai-link@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/apple/t8112.dtsi:658.28-734.5: Warning (simple_bus_reg): /soc/spmi@23d0d9300: simple-bus unit address format error, expected "23d714000"
-   arch/arm64/boot/dts/apple/t8112.dtsi:698.43-701.8: Warning (unique_unit_address_if_enabled): /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/boot-error-count@2: duplicate unit-address (also used in node /soc/spmi@23d0d9300/pmu@e/legacy_nvmem@f700/panic-count@2)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/pmdomain/core.c:385:7-11: ERROR: invalid reference to the index variable of the iterator on line 375
 
-vim +133 arch/arm64/boot/dts/apple/t8112-j413.dts
+vim +385 drivers/pmdomain/core.c
 
-95ae01eb93958c Martin Povišer 2022-02-19  127  
-95ae01eb93958c Martin Povišer 2022-02-19  128  / {
-95ae01eb93958c Martin Povišer 2022-02-19  129  	sound {
-95ae01eb93958c Martin Povišer 2022-02-19  130  		compatible = "apple,j413-macaudio", "apple,macaudio";
-95ae01eb93958c Martin Povišer 2022-02-19  131  		model = "MacBook Air J413 integrated audio";
-95ae01eb93958c Martin Povišer 2022-02-19  132  
-95ae01eb93958c Martin Povišer 2022-02-19 @133  		dai-link@0 {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  363  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  364  static int _genpd_set_performance_state(struct generic_pm_domain *genpd,
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  365  					unsigned int state, int depth)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  366  {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  367  	struct gpd_link *link = NULL;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  368  	int ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  369  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  370  	if (state == genpd->performance_state)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  371  		return 0;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  372  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  373  	/* When scaling up, propagate to parents first in normal order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  374  	if (state > genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @375  		list_for_each_entry(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  376  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  377  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  378  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  379  		}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  380  	}
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  381  
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  382  	if (genpd->set_performance_state) {
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  383  		ret = genpd->set_performance_state(genpd, state);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  384  		if (ret) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03 @385  			if (link)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  386  				goto rollback_parents_up;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  387  			return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  388  		}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  389  	}
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  390  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  391  	/* When scaling down, propagate to parents last in reverse order */
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  392  	if (state < genpd->performance_state) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  393  		list_for_each_entry_reverse(link, &genpd->child_links, child_node) {
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  394  			ret = _genpd_set_parent_state(genpd, link, state, depth);
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  395  			if (ret)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  396  				goto rollback_parents_down;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  397  		}
+079c42a0ed7350 drivers/base/power/domain.c Dmitry Osipenko 2021-01-21  398  	}
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  399  
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  400  	genpd->performance_state = state;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  401  	return 0;
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  402  
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  403  rollback_parents_up:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  404  	list_for_each_entry_continue_reverse(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  405  		_genpd_rollback_parent_state(link, depth);
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  406  	return ret;
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  407  rollback_parents_down:
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  408  	list_for_each_entry_continue(link, &genpd->child_links, child_node)
+2b391c4ca735d0 drivers/pmdomain/core.c     Stephan Gerhold 2024-01-03  409  		_genpd_rollback_parent_state(link, depth);
+18edf49c45544c drivers/base/power/domain.c Viresh Kumar    2018-11-02  410  	return ret;
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  411  }
+cd50c6d3eb91bd drivers/base/power/domain.c Viresh Kumar    2018-10-31  412  
 
 -- 
 0-DAY CI Kernel Test Service
