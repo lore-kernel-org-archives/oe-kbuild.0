@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE2E1A0BFE
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 15:13:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6BA1B86EF
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 16:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729610027; cv=none; b=WoPDNCZmv6c3i404ojb1K/dkoaXmgD3ua4SKucLZqz1g+xUMymth9KMPFZe/CLwZK4SsUlLvf9UP8zA0NTtUaQnBEwj6b/2x5AtpyPjgykKmCANHuBpSZm9f9N4Oee4T80UE+qZ7H7GQAMz7UGfaRucqtfV58t3j9v28Ze4LxDY=
+	t=1729615012; cv=none; b=MU4YwM5OG+iOxF5/azVLKSOSidoH8iQU4MXlLaQFXkPiYF5H1/zfqw9Oqykm2t1gwP9JenWKvXEB03GzRj8H+ScimdrUkrWfr2sz8ufN+nMLF6k7phlZ4nF0UcppEPFOUeZQRRTfvqU+JWRQd8rpbMzsmK75RsT1nRycqjrLjVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729610027; c=relaxed/simple;
-	bh=4MbufFQkLGWg7dh9pN+QnDoOW71WrCpuI7I3FPcibCs=;
+	s=arc-20240116; t=1729615012; c=relaxed/simple;
+	bh=nlHZqitwM0kwjbNsiecdh1UItzH41Y4iLnbsNHzDqAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZHpesgpzKmWH5V/a9MEunQwj2bZElQIhl6GUCNMTWZPxUo8C6TKsaesP1hvNDb/1p2KEYKkqjyc+tcoKhNQMVsFR38tIR44urCTD1kf1tl6Np1ie69X4JLI8Zr3mccFJDAMfo5QaNrCGApjVTPcFUt/mkiVeAwXCQ2Ou9e5Uw/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BlXX30HX; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=MnjvdHLGCTP7qUuGL9eAcpPb6m/M0RrUW4DMzkfFhGnkCZRgHeCTKihtmU3ApuqHmQfe1Ib5i2Ii4+58N1ryY7lMiiXqnR+DExWLN3UqbLQcKbqdIB9ONxLwaFfQXWUYF+IdJAdDlrHPp33PbCcCBfhroSrrWrXpuClT8d0k4mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQbnNf0l; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BlXX30HX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQbnNf0l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729610025; x=1761146025;
+  t=1729615010; x=1761151010;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4MbufFQkLGWg7dh9pN+QnDoOW71WrCpuI7I3FPcibCs=;
-  b=BlXX30HXMjwJOrdkn/ufXb9j+y27+xpcJJ+ZYsWZu2mHXeebYUsdw+YE
-   w3HUGfft8QqjLzatPwmq4Upl5VsikY6q+kk+/a578xq7il8C2eGHZjgxi
-   qWDR8eWvRK7XfW2ISCTuM/7S2SKtKiSuP0YiUod83bblv9atf338ApoSI
-   Ocr/NUwtY4Lx+pE5Y8SeIEFgLpkhyRxIg8tEdrxbQqQzQFTx7EFIApOPS
-   7Y+GdoIL9ZoJ39K5OlteOn1a+n15myPzsuM8Z3w1eOzkh27Wu9dCYkW2+
-   nr0cIZp9bpVvN9PVO7RQ1/nCjuWhef++9dgEWAhxl8M/I07kUZoZra7MZ
-   g==;
-X-CSE-ConnectionGUID: fNHt6/3LQbyJcYp42GNnqw==
-X-CSE-MsgGUID: AeYJn+y2QbuYDz7WwtkOnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39735835"
+  bh=nlHZqitwM0kwjbNsiecdh1UItzH41Y4iLnbsNHzDqAE=;
+  b=XQbnNf0lLspY4u+IKdSXvwEr16CVTUaxlYbpgMCzK0CjIkxwymjDkJWw
+   Augt1o63Vqbcx2Efe+tWVUNybIMONd6sIIgg9z+m/0G6epDZvUyCFKAKn
+   Rbwpl3mlDqZ7bXecnrXpU7/1KIYvFPOwI5qT8pewbBvG7fs2zLMj4fBn+
+   Ly1MGO5/JCB8Mjs6LUJA0fVmU7fzqBypsjTuAQ9DGiVPXGiWeK6NV2shl
+   lPIhmUhkjW8Ed/kzpadsjvky5kxuKeajFP4JKXnI0UKzAXwMUGbXaeChq
+   WP0RsVaxMYcHJCO4a1hor8pzunOCDozt0K288wu1qeVPWoiqa3XTz8EaW
+   Q==;
+X-CSE-ConnectionGUID: lTuaPIgISXaFUd4VI7Gdjg==
+X-CSE-MsgGUID: UHsdOKbHT7eTFpch8DWFFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39746260"
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="39735835"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:13:44 -0700
-X-CSE-ConnectionGUID: R4WcMfhNTWCGP4DP+OGVKw==
-X-CSE-MsgGUID: t9g2htmNQQ6P6TzoCVwqdw==
+   d="scan'208";a="39746260"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 09:36:50 -0700
+X-CSE-ConnectionGUID: rV06dkOjQpK6MB3FcJMTZA==
+X-CSE-MsgGUID: +mGC0K9/SsmtqZkiQwutWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="79841372"
+   d="scan'208";a="79502030"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Oct 2024 08:13:43 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2024 09:36:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3GZo-000TiA-1j;
-	Tue, 22 Oct 2024 15:13:40 +0000
-Date: Tue, 22 Oct 2024 23:13:30 +0800
+	id 1t3HsE-000Tox-1h;
+	Tue, 22 Oct 2024 16:36:46 +0000
+Date: Wed, 23 Oct 2024 00:36:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [rafael-pm:thermal-core-testing 3/27]
- drivers/thermal/thermal_thresholds.c:156:4-34: opportunity for
- str_up_down(temperature > last_temperature)
-Message-ID: <202410222338.z3SU3JyP-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/loongarch/kernel/hw_breakpoint.c:510 arch_hw_breakpoint_init()
+ warn: we never enter this loop
+Message-ID: <202410230002.sbJRhNZY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,72 +64,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-acpi@vger.kernel.org
-CC: devel@acpica.org
-CC: linux-pm@vger.kernel.org
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: linux-kernel@vger.kernel.org
+TO: Tiezhu Yang <yangtiezhu@loongson.cn>
+CC: Huacai Chen <chenhuacai@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal-core-testing
-head:   84a08c4f3bebd5ddb3f1e41a2240ea0bde1a5881
-commit: 445936f9e258eca624c8239056bd8cd6e853b3fd [3/27] thermal: core: Add user thresholds support
-:::::: branch date: 5 hours ago
-:::::: commit date: 12 days ago
-config: csky-randconfig-r063-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222338.z3SU3JyP-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 5685d7fcb55fd729d7e0452c157a0ac8d72ca7b6 LoongArch: Give a chance to build with !CONFIG_SMP
+date:   5 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 5 months ago
+config: loongarch-randconfig-r071-20241022 (https://download.01.org/0day-ci/archive/20241023/202410230002.sbJRhNZY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410222338.z3SU3JyP-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410230002.sbJRhNZY-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/thermal/thermal_thresholds.c:156:4-34: opportunity for str_up_down(temperature > last_temperature)
+smatch warnings:
+arch/loongarch/kernel/hw_breakpoint.c:510 arch_hw_breakpoint_init() warn: we never enter this loop
 
-vim +156 drivers/thermal/thermal_thresholds.c
+vim +510 arch/loongarch/kernel/hw_breakpoint.c
 
-445936f9e258ec Daniel Lezcano 2024-09-23  118  
-445936f9e258ec Daniel Lezcano 2024-09-23  119  void thermal_thresholds_handle(struct thermal_zone_device *tz, int *low, int *high)
-445936f9e258ec Daniel Lezcano 2024-09-23  120  {
-445936f9e258ec Daniel Lezcano 2024-09-23  121  	struct list_head *thresholds = &tz->user_thresholds;
-445936f9e258ec Daniel Lezcano 2024-09-23  122  
-445936f9e258ec Daniel Lezcano 2024-09-23  123  	int temperature = tz->temperature;
-445936f9e258ec Daniel Lezcano 2024-09-23  124  	int last_temperature = tz->last_temperature;
-445936f9e258ec Daniel Lezcano 2024-09-23  125  	bool notify;
-445936f9e258ec Daniel Lezcano 2024-09-23  126  
-445936f9e258ec Daniel Lezcano 2024-09-23  127  	lockdep_assert_held(&tz->lock);
-445936f9e258ec Daniel Lezcano 2024-09-23  128  
-445936f9e258ec Daniel Lezcano 2024-09-23  129  	/*
-445936f9e258ec Daniel Lezcano 2024-09-23  130  	 * We need a second update in order to detect a threshold being crossed
-445936f9e258ec Daniel Lezcano 2024-09-23  131  	 */
-445936f9e258ec Daniel Lezcano 2024-09-23  132  	if (last_temperature == THERMAL_TEMP_INVALID)
-445936f9e258ec Daniel Lezcano 2024-09-23  133  		return;
-445936f9e258ec Daniel Lezcano 2024-09-23  134  
-445936f9e258ec Daniel Lezcano 2024-09-23  135  	/*
-445936f9e258ec Daniel Lezcano 2024-09-23  136  	 * The temperature is stable, so obviously we can not have
-445936f9e258ec Daniel Lezcano 2024-09-23  137  	 * crossed a threshold.
-445936f9e258ec Daniel Lezcano 2024-09-23  138  	 */
-445936f9e258ec Daniel Lezcano 2024-09-23  139  	if (last_temperature == temperature)
-445936f9e258ec Daniel Lezcano 2024-09-23  140  		return;
-445936f9e258ec Daniel Lezcano 2024-09-23  141  
-445936f9e258ec Daniel Lezcano 2024-09-23  142  	/*
-445936f9e258ec Daniel Lezcano 2024-09-23  143  	 * Since last update the temperature:
-445936f9e258ec Daniel Lezcano 2024-09-23  144  	 * - increased : thresholds are crossed the way up
-445936f9e258ec Daniel Lezcano 2024-09-23  145  	 * - decreased : thresholds are crossed the way down
-445936f9e258ec Daniel Lezcano 2024-09-23  146  	 */
-445936f9e258ec Daniel Lezcano 2024-09-23  147  	if (temperature > last_temperature)
-445936f9e258ec Daniel Lezcano 2024-09-23  148  		notify = thermal_thresholds_handle_raising(thresholds, temperature,
-445936f9e258ec Daniel Lezcano 2024-09-23  149  							   last_temperature, low, high);
-445936f9e258ec Daniel Lezcano 2024-09-23  150  	else
-445936f9e258ec Daniel Lezcano 2024-09-23  151  		notify = thermal_thresholds_handle_dropping(thresholds, temperature,
-445936f9e258ec Daniel Lezcano 2024-09-23  152  							    last_temperature, low, high);
-445936f9e258ec Daniel Lezcano 2024-09-23  153  
-445936f9e258ec Daniel Lezcano 2024-09-23  154  	if (notify)
-445936f9e258ec Daniel Lezcano 2024-09-23  155  		pr_debug("A threshold has been crossed the way %s, with a temperature=%d, last_temperature=%d\n",
-445936f9e258ec Daniel Lezcano 2024-09-23 @156  			 temperature > last_temperature ? "up" : "down", temperature, last_temperature);
-445936f9e258ec Daniel Lezcano 2024-09-23  157  }
-445936f9e258ec Daniel Lezcano 2024-09-23  158  
+edffa33c7bb5a7 Qing Zhang 2023-02-25  499  
+edffa33c7bb5a7 Qing Zhang 2023-02-25  500  static int __init arch_hw_breakpoint_init(void)
+edffa33c7bb5a7 Qing Zhang 2023-02-25  501  {
+edffa33c7bb5a7 Qing Zhang 2023-02-25  502  	int cpu;
+edffa33c7bb5a7 Qing Zhang 2023-02-25  503  
+edffa33c7bb5a7 Qing Zhang 2023-02-25  504  	boot_cpu_data.watch_ireg_count = get_num_brps();
+edffa33c7bb5a7 Qing Zhang 2023-02-25  505  	boot_cpu_data.watch_dreg_count = get_num_wrps();
+edffa33c7bb5a7 Qing Zhang 2023-02-25  506  
+edffa33c7bb5a7 Qing Zhang 2023-02-25  507  	pr_info("Found %d breakpoint and %d watchpoint registers.\n",
+edffa33c7bb5a7 Qing Zhang 2023-02-25  508  		boot_cpu_data.watch_ireg_count, boot_cpu_data.watch_dreg_count);
+edffa33c7bb5a7 Qing Zhang 2023-02-25  509  
+edffa33c7bb5a7 Qing Zhang 2023-02-25 @510  	for (cpu = 1; cpu < NR_CPUS; cpu++) {
+edffa33c7bb5a7 Qing Zhang 2023-02-25  511  		cpu_data[cpu].watch_ireg_count = boot_cpu_data.watch_ireg_count;
+edffa33c7bb5a7 Qing Zhang 2023-02-25  512  		cpu_data[cpu].watch_dreg_count = boot_cpu_data.watch_dreg_count;
+edffa33c7bb5a7 Qing Zhang 2023-02-25  513  	}
+edffa33c7bb5a7 Qing Zhang 2023-02-25  514  
+edffa33c7bb5a7 Qing Zhang 2023-02-25  515  	return 0;
+edffa33c7bb5a7 Qing Zhang 2023-02-25  516  }
+edffa33c7bb5a7 Qing Zhang 2023-02-25  517  arch_initcall(arch_hw_breakpoint_init);
+edffa33c7bb5a7 Qing Zhang 2023-02-25  518  
+
+:::::: The code at line 510 was first introduced by commit
+:::::: edffa33c7bb5a73e90c754c7a497162b77d7c55f LoongArch: Add hardware breakpoints/watchpoints support
+
+:::::: TO: Qing Zhang <zhangqing@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
