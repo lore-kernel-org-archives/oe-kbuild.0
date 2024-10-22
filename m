@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1173A19C540
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 14:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F501A262A
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 14:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729607566; cv=none; b=mPsk90TDD2lWev7ADZzxQ+5aAPYBiBTMc8AnVSXTfwT5e67uAT/XfsgEaWrW4V+NhGb2j1ckUG6dEQGV/cVbMkImAvayeV1TSa93kGz+o4GGLi7bQkWAO9kZgbqcAb+Uh4LiVf34qx5b/zvtNkei4OG4iICQ+56Z1zBP6yOV7jg=
+	t=1729608351; cv=none; b=DFWWQCBCq3bFstDO7/i4mOets5m0mShYNYfczSp3TPa+HbqFPXbtfBQlNYaQ6/+TqOS+3nZ+MGFfFkoD54uu3wEiOK5JcF9x8pRP7uOi4yK23DOAfPt2Ht2ZaekLB8TESSsg8Xs+43KBSOhsLp8vTmdxygLns4TJcUH/YBTTX/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729607566; c=relaxed/simple;
-	bh=3WTZP4HBjTEmkrVpEA8R2DDSNrbRAkvdNjzfMkGcrMk=;
+	s=arc-20240116; t=1729608351; c=relaxed/simple;
+	bh=iPeA0xIA/17KTa13ow3RRCLpwAo+d6qgRmS6c1VLA3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LYzclruwCNNNffLhwOYq3PrLLJlcQR/kpvzBASL7O6HNYyIp0tfJZL6kpDe4i1+o1FiUpUMtstvwHt4dsDIbYtPHgxRUtEHAxceYkLRK2omIVIh3CseoFJPXAp6F8DVEZY3XvgzAoHugqJ7x/T4W2E0PThiBX8ZCIPui/lE+I10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hby5/SJw; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=s+4HQAsxhm7uPKa8S7sX4nQWrmiLbjACMIQbMoAdFFKTy4NTL78IOjWlo2LIAjpzQFiCGiadrhuxKY8qBcrgsrfMHgCcmb5qdseYgrC7ARckxBbMgaktM5hYnCQBjoSg1XmJVNOQGkxaxPI6DeiFpcut2I+fewPWRdiv8w4sXmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KlXGV52l; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hby5/SJw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729607564; x=1761143564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3WTZP4HBjTEmkrVpEA8R2DDSNrbRAkvdNjzfMkGcrMk=;
-  b=hby5/SJwAig2ODfqnIKMhAW2nQXNGAyJ3QOAQ8TmGYXHXJxN/LlHNezQ
-   yKFaIhxoRj6PE5C6HNlAUTvcp/O/NZxvKz3Lbado6u0Zpu3bOg37U+GoE
-   j8qFXQoQZDUHAcPvdPTLNWM+1osmfIWJldgPrH2ohTkDx7qubPR/dBVtc
-   gx9ekS5YLMA1I90dTzEveoq40TRvwPHTkhuvVdI58O2qk6VrUZtN8jLtS
-   OJa7/96cPSWf6lDSGVoILQX4Il8PRS9OqJMY+p+ZShLK2Os7yLWXIC0VN
-   tZFm94IOFGrrPdW9u8YR3jY5MOLMk4aiSOdS12f9Oxi7N7YxxD3aEAgPr
-   g==;
-X-CSE-ConnectionGUID: 69dkaM7lQgukEQCno7UqaQ==
-X-CSE-MsgGUID: lGDWXJBZQV6bHtJihT2aBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29093096"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29093096"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 07:32:43 -0700
-X-CSE-ConnectionGUID: 9x6U50wgQdyKRb1H2utxiw==
-X-CSE-MsgGUID: iNS3KVYZSw+O2irHHjHpuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="103182104"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Oct 2024 07:32:41 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3Fw7-000TgM-1J;
-	Tue, 22 Oct 2024 14:32:39 +0000
-Date: Tue, 22 Oct 2024 22:32:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KlXGV52l"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4316f3d3c21so27785655e9.3
+        for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 07:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729608347; x=1730213147; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VfScArnpdJrnqq5kLDA8YBUAiGNEl3nVLr0jXTaCRoA=;
+        b=KlXGV52lI/IXWwZGAsFxl0mNWP4MCI4dHoxIbdNSAKP5HF7M/VXIg3Whwz13oonvit
+         WHwhzN2B1jfgzqYajUQoowz9W/P2Uekyz3gQOzbzI9Zyt7gNWevWubRXGgbpureIxiHc
+         nLqcGrY9IlzlGy4/FY67AUkATmO+SfjZorp/WgHK8XblQAt2/JY2bfR6yIQwUaOmZW5N
+         3HbVqe73DD7pw+qnnof8HnKsqvkX4QaHKcBHyZKbs6qRSybqwJSGl5ZRECRt1/Pi8lJ6
+         BlUUse1SARC0GSInNcIK0Z0w2cFhN6ySPY3EOvKfQTPjrJqh6ugf+6hAxsewoU9DrAU1
+         dz0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729608347; x=1730213147;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VfScArnpdJrnqq5kLDA8YBUAiGNEl3nVLr0jXTaCRoA=;
+        b=ut0FfbqqG+Ag2YaNkcHYP9B1ELyZe9la9XXFbZKssezMoSyTdOyDd6IR6xmbtkxyin
+         1uKy6WBrkHVyUkAPJ7S2Rgw2J1riEzcziFYBCLpxr2x25oY+8aazAk+c93BpifWk9KCM
+         P5YTNl5uRKUbKWf/SdXHBAHTraDiDpoDFOoAgD9i+nBIq7rc5WghMAjpMfnYhHCbhMyo
+         azJRyoeNt97qYQO7jvIElLdzllPuhBj75mR4Nk82MTrokXDmMt1B/bCtRW377zF8jTTk
+         dXJ2qudS2Sv18lp5WryITtre+JU0lWVQfkuod1LYClzlyaRzqHncAocBNNqDqw8hHrQX
+         yG6A==
+X-Gm-Message-State: AOJu0YwXDZTVSJTWn0Nt9DwlA+0e7GN5rngeyyL1y0arXsZiubRDE5oE
+	I1q4nnu7ylaO13xxZjUs9d4A1wmYcqPg5Q5OrermLIsz3jKWNtNwPEY3O6JTk7z6wd/nMcAF2aF
+	hgnM=
+X-Google-Smtp-Source: AGHT+IHdpnJLiOWWqS9RdieKHG3lEkycJ1QHEFPRnSHFxc+XCnvp2QLfFdCfT4PNJ2GXkhNPlTY1Jg==
+X-Received: by 2002:a05:600c:4ed3:b0:42f:8287:c24d with SMTP id 5b1f17b1804b1-4317b8edf96mr34054885e9.21.1729608346482;
+        Tue, 22 Oct 2024 07:45:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a4ad48sm6778121f8f.42.2024.10.22.07.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 07:45:46 -0700 (PDT)
+Date: Tue, 22 Oct 2024 17:45:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Nathan Chancellor <nathan@kernel.org>
 Subject: Re: [PATCH] media: dvbdev: Avoid using uninitialized ret in
  dvb_register_device()
-Message-ID: <202410222222.usQ05jBM-lkp@intel.com>
+Message-ID: <a3da0f19-d0b0-4c44-ad27-df099263b075@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,40 +71,23 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
 In-Reply-To: <20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5@kernel.org>
-References: <20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5@kernel.org>
-TO: Nathan Chancellor <nathan@kernel.org>
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: llvm@lists.linux.dev
-CC: patches@lists.linux.dev
-CC: kernel test robot <lkp@intel.com>
-CC: Dan Carpenter <error27@gmail.com>
-CC: Nathan Chancellor <nathan@kernel.org>
 
 Hi Nathan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ba9cf6b430433e57bfc8072364e944b7c0eca2a4]
-
 url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/media-dvbdev-Avoid-using-uninitialized-ret-in-dvb_register_device/20241022-000519
 base:   ba9cf6b430433e57bfc8072364e944b7c0eca2a4
 patch link:    https://lore.kernel.org/r/20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5%40kernel.org
 patch subject: [PATCH] media: dvbdev: Avoid using uninitialized ret in dvb_register_device()
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
 config: i386-randconfig-141-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222222.usQ05jBM-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202410222222.usQ05jBM-lkp@intel.com/
 
 smatch warnings:
@@ -102,7 +95,6 @@ drivers/media/dvb-core/dvbdev.c:600 dvb_register_device() warn: inconsistent ret
 
 vim +600 drivers/media/dvb-core/dvbdev.c
 
-8211b187ec6461 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-08-21  453  
 ^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  454  int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
 6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  455  			const struct dvb_device *template, void *priv,
 6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  456  			enum dvb_device_type type, int demux_sink_pads)
@@ -202,6 +194,12 @@ f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05
 972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  550  		list_del(&dvbdev->list_head);
 972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  551  		kfree(dvbdev);
 972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  552  		*pdvbdev = NULL;
+
+up_write(&minor_rwsem);
+
+Heh.  Obviously you didn't introduce this bug but your commit triggers the
+warning because now Smatch knows it's an error path.
+
 972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  553  		mutex_unlock(&dvbdev_register_lock);
 922fbcc41a2134 drivers/media/dvb-core/dvbdev.c     Nathan Chancellor     2024-10-21  554  		return -EINVAL;
 972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  555  	}
@@ -251,9 +249,8 @@ b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10
 627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  599  	mutex_unlock(&dvbdev_register_lock);
 ^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16 @600  	return 0;
 ^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  601  }
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  602  EXPORT_SYMBOL(dvb_register_device);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  603  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
