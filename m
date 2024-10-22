@@ -1,68 +1,59 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F501A262A
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 14:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE2E1A0BFE
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 15:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729608351; cv=none; b=DFWWQCBCq3bFstDO7/i4mOets5m0mShYNYfczSp3TPa+HbqFPXbtfBQlNYaQ6/+TqOS+3nZ+MGFfFkoD54uu3wEiOK5JcF9x8pRP7uOi4yK23DOAfPt2Ht2ZaekLB8TESSsg8Xs+43KBSOhsLp8vTmdxygLns4TJcUH/YBTTX/M=
+	t=1729610027; cv=none; b=WoPDNCZmv6c3i404ojb1K/dkoaXmgD3ua4SKucLZqz1g+xUMymth9KMPFZe/CLwZK4SsUlLvf9UP8zA0NTtUaQnBEwj6b/2x5AtpyPjgykKmCANHuBpSZm9f9N4Oee4T80UE+qZ7H7GQAMz7UGfaRucqtfV58t3j9v28Ze4LxDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729608351; c=relaxed/simple;
-	bh=iPeA0xIA/17KTa13ow3RRCLpwAo+d6qgRmS6c1VLA3Y=;
+	s=arc-20240116; t=1729610027; c=relaxed/simple;
+	bh=4MbufFQkLGWg7dh9pN+QnDoOW71WrCpuI7I3FPcibCs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=s+4HQAsxhm7uPKa8S7sX4nQWrmiLbjACMIQbMoAdFFKTy4NTL78IOjWlo2LIAjpzQFiCGiadrhuxKY8qBcrgsrfMHgCcmb5qdseYgrC7ARckxBbMgaktM5hYnCQBjoSg1XmJVNOQGkxaxPI6DeiFpcut2I+fewPWRdiv8w4sXmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KlXGV52l; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=ZHpesgpzKmWH5V/a9MEunQwj2bZElQIhl6GUCNMTWZPxUo8C6TKsaesP1hvNDb/1p2KEYKkqjyc+tcoKhNQMVsFR38tIR44urCTD1kf1tl6Np1ie69X4JLI8Zr3mccFJDAMfo5QaNrCGApjVTPcFUt/mkiVeAwXCQ2Ou9e5Uw/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BlXX30HX; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KlXGV52l"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4316f3d3c21so27785655e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 07:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729608347; x=1730213147; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VfScArnpdJrnqq5kLDA8YBUAiGNEl3nVLr0jXTaCRoA=;
-        b=KlXGV52lI/IXWwZGAsFxl0mNWP4MCI4dHoxIbdNSAKP5HF7M/VXIg3Whwz13oonvit
-         WHwhzN2B1jfgzqYajUQoowz9W/P2Uekyz3gQOzbzI9Zyt7gNWevWubRXGgbpureIxiHc
-         nLqcGrY9IlzlGy4/FY67AUkATmO+SfjZorp/WgHK8XblQAt2/JY2bfR6yIQwUaOmZW5N
-         3HbVqe73DD7pw+qnnof8HnKsqvkX4QaHKcBHyZKbs6qRSybqwJSGl5ZRECRt1/Pi8lJ6
-         BlUUse1SARC0GSInNcIK0Z0w2cFhN6ySPY3EOvKfQTPjrJqh6ugf+6hAxsewoU9DrAU1
-         dz0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729608347; x=1730213147;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VfScArnpdJrnqq5kLDA8YBUAiGNEl3nVLr0jXTaCRoA=;
-        b=ut0FfbqqG+Ag2YaNkcHYP9B1ELyZe9la9XXFbZKssezMoSyTdOyDd6IR6xmbtkxyin
-         1uKy6WBrkHVyUkAPJ7S2Rgw2J1riEzcziFYBCLpxr2x25oY+8aazAk+c93BpifWk9KCM
-         P5YTNl5uRKUbKWf/SdXHBAHTraDiDpoDFOoAgD9i+nBIq7rc5WghMAjpMfnYhHCbhMyo
-         azJRyoeNt97qYQO7jvIElLdzllPuhBj75mR4Nk82MTrokXDmMt1B/bCtRW377zF8jTTk
-         dXJ2qudS2Sv18lp5WryITtre+JU0lWVQfkuod1LYClzlyaRzqHncAocBNNqDqw8hHrQX
-         yG6A==
-X-Gm-Message-State: AOJu0YwXDZTVSJTWn0Nt9DwlA+0e7GN5rngeyyL1y0arXsZiubRDE5oE
-	I1q4nnu7ylaO13xxZjUs9d4A1wmYcqPg5Q5OrermLIsz3jKWNtNwPEY3O6JTk7z6wd/nMcAF2aF
-	hgnM=
-X-Google-Smtp-Source: AGHT+IHdpnJLiOWWqS9RdieKHG3lEkycJ1QHEFPRnSHFxc+XCnvp2QLfFdCfT4PNJ2GXkhNPlTY1Jg==
-X-Received: by 2002:a05:600c:4ed3:b0:42f:8287:c24d with SMTP id 5b1f17b1804b1-4317b8edf96mr34054885e9.21.1729608346482;
-        Tue, 22 Oct 2024 07:45:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a4ad48sm6778121f8f.42.2024.10.22.07.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 07:45:46 -0700 (PDT)
-Date: Tue, 22 Oct 2024 17:45:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] media: dvbdev: Avoid using uninitialized ret in
- dvb_register_device()
-Message-ID: <a3da0f19-d0b0-4c44-ad27-df099263b075@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BlXX30HX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729610025; x=1761146025;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4MbufFQkLGWg7dh9pN+QnDoOW71WrCpuI7I3FPcibCs=;
+  b=BlXX30HXMjwJOrdkn/ufXb9j+y27+xpcJJ+ZYsWZu2mHXeebYUsdw+YE
+   w3HUGfft8QqjLzatPwmq4Upl5VsikY6q+kk+/a578xq7il8C2eGHZjgxi
+   qWDR8eWvRK7XfW2ISCTuM/7S2SKtKiSuP0YiUod83bblv9atf338ApoSI
+   Ocr/NUwtY4Lx+pE5Y8SeIEFgLpkhyRxIg8tEdrxbQqQzQFTx7EFIApOPS
+   7Y+GdoIL9ZoJ39K5OlteOn1a+n15myPzsuM8Z3w1eOzkh27Wu9dCYkW2+
+   nr0cIZp9bpVvN9PVO7RQ1/nCjuWhef++9dgEWAhxl8M/I07kUZoZra7MZ
+   g==;
+X-CSE-ConnectionGUID: fNHt6/3LQbyJcYp42GNnqw==
+X-CSE-MsgGUID: AeYJn+y2QbuYDz7WwtkOnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39735835"
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
+   d="scan'208";a="39735835"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:13:44 -0700
+X-CSE-ConnectionGUID: R4WcMfhNTWCGP4DP+OGVKw==
+X-CSE-MsgGUID: t9g2htmNQQ6P6TzoCVwqdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
+   d="scan'208";a="79841372"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 22 Oct 2024 08:13:43 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3GZo-000TiA-1j;
+	Tue, 22 Oct 2024 15:13:40 +0000
+Date: Tue, 22 Oct 2024 23:13:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [rafael-pm:thermal-core-testing 3/27]
+ drivers/thermal/thermal_thresholds.c:156:4-34: opportunity for
+ str_up_down(temperature > last_temperature)
+Message-ID: <202410222338.z3SU3JyP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,186 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5@kernel.org>
 
-Hi Nathan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-acpi@vger.kernel.org
+CC: devel@acpica.org
+CC: linux-pm@vger.kernel.org
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/media-dvbdev-Avoid-using-uninitialized-ret-in-dvb_register_device/20241022-000519
-base:   ba9cf6b430433e57bfc8072364e944b7c0eca2a4
-patch link:    https://lore.kernel.org/r/20241021-dvbdev-fix-uninitialized-return-v1-1-a704945f20e5%40kernel.org
-patch subject: [PATCH] media: dvbdev: Avoid using uninitialized ret in dvb_register_device()
-config: i386-randconfig-141-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222222.usQ05jBM-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal-core-testing
+head:   84a08c4f3bebd5ddb3f1e41a2240ea0bde1a5881
+commit: 445936f9e258eca624c8239056bd8cd6e853b3fd [3/27] thermal: core: Add user thresholds support
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 days ago
+config: csky-randconfig-r063-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222338.z3SU3JyP-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410222222.usQ05jBM-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410222338.z3SU3JyP-lkp@intel.com/
 
-smatch warnings:
-drivers/media/dvb-core/dvbdev.c:600 dvb_register_device() warn: inconsistent returns '&minor_rwsem'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/thermal/thermal_thresholds.c:156:4-34: opportunity for str_up_down(temperature > last_temperature)
 
-vim +600 drivers/media/dvb-core/dvbdev.c
+vim +156 drivers/thermal/thermal_thresholds.c
 
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  454  int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
-6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  455  			const struct dvb_device *template, void *priv,
-6bbf7a855d200d drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2017-09-19  456  			enum dvb_device_type type, int demux_sink_pads)
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  457  {
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  458  	struct dvb_device *dvbdev;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  459  	struct file_operations *dvbdevfops = NULL;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  460  	struct dvbdevfops_node *node = NULL, *new_node = NULL;
-5f553388b06532 drivers/media/dvb/dvb-core/dvbdev.c Kay Sievers           2007-08-15  461  	struct device *clsdev;
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  462  	int minor;
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  463  	int id, ret;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  464  
-c278850206fd9d drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-03-10  465  	mutex_lock(&dvbdev_register_lock);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  466  
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  467  	id = dvbdev_get_free_id(adap, type);
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  468  	if (id < 0) {
-1e4baed379a2bf drivers/media/dvb/dvb-core/dvbdev.c Ingo Molnar           2006-01-15  469  		mutex_unlock(&dvbdev_register_lock);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  470  		*pdvbdev = NULL;
-b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  471  		pr_err("%s: couldn't find free device id\n", __func__);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  472  		return -ENFILE;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  473  	}
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  474  
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  475  	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  476  	if (!dvbdev) {
-1e4baed379a2bf drivers/media/dvb/dvb-core/dvbdev.c Ingo Molnar           2006-01-15  477  		mutex_unlock(&dvbdev_register_lock);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  478  		return -ENOMEM;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  479  	}
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  480  
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  481  	/*
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  482  	 * When a device of the same type is probe()d more than once,
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  483  	 * the first allocated fops are used. This prevents memory leaks
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  484  	 * that can occur when the same device is probe()d repeatedly.
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  485  	 */
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  486  	list_for_each_entry(node, &dvbdevfops_list, list_head) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  487  		if (node->fops->owner == adap->module &&
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  488  		    node->type == type && node->template == template) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  489  			dvbdevfops = node->fops;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  490  			break;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  491  		}
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  492  	}
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  493  
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  494  	if (!dvbdevfops) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  495  		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  496  		if (!dvbdevfops) {
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  497  			kfree(dvbdev);
-8c64f4cdf4e6cc drivers/media/dvb-core/dvbdev.c     Zhipeng Lu            2024-02-03  498  			*pdvbdev = NULL;
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  499  			mutex_unlock(&dvbdev_register_lock);
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  500  			return -ENOMEM;
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  501  		}
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  502  
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  503  		new_node = kzalloc(sizeof(*new_node), GFP_KERNEL);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  504  		if (!new_node) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  505  			kfree(dvbdevfops);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  506  			kfree(dvbdev);
-8c64f4cdf4e6cc drivers/media/dvb-core/dvbdev.c     Zhipeng Lu            2024-02-03  507  			*pdvbdev = NULL;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  508  			mutex_unlock(&dvbdev_register_lock);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  509  			return -ENOMEM;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  510  		}
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  511  
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  512  		new_node->fops = dvbdevfops;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  513  		new_node->type = type;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  514  		new_node->template = template;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  515  		list_add_tail(&new_node->list_head, &dvbdevfops_list);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  516  	}
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  517  
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  518  	memcpy(dvbdev, template, sizeof(struct dvb_device));
-3a664569b71b0a drivers/media/dvb-core/dvbdev.c     Lin Ma                2022-11-28  519  	kref_init(&dvbdev->ref);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  520  	dvbdev->type = type;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  521  	dvbdev->id = id;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  522  	dvbdev->adapter = adap;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  523  	dvbdev->priv = priv;
-b61901024776b2 drivers/media/dvb/dvb-core/dvbdev.c Marcel Siegert        2007-02-13  524  	dvbdev->fops = dvbdevfops;
-ca5be9cd051662 drivers/media/dvb/dvb-core/dvbdev.c Markus Rechberger     2007-04-14  525  	init_waitqueue_head(&dvbdev->wait_queue);
-784e29d2031b53 drivers/media/dvb/dvb-core/dvbdev.c Jan Engelhardt        2009-01-11  526  	dvbdevfops->owner = adap->module;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  527  	list_add_tail(&dvbdev->list_head, &adap->device_list);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  528  	down_write(&minor_rwsem);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  529  #ifdef CONFIG_DVB_DYNAMIC_MINORS
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  530  	for (minor = 0; minor < MAX_DVB_MINORS; minor++)
-f28701cc24fcfd drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2023-05-13  531  		if (!dvb_minors[minor])
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  532  			break;
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  533  	if (minor >= MAX_DVB_MINORS) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  534  		if (new_node) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  535  			list_del(&new_node->list_head);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  536  			kfree(dvbdevfops);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  537  			kfree(new_node);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  538  		}
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  539  		list_del(&dvbdev->list_head);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  540  		kfree(dvbdev);
-8c64f4cdf4e6cc drivers/media/dvb-core/dvbdev.c     Zhipeng Lu            2024-02-03  541  		*pdvbdev = NULL;
-82163edcdfa4eb drivers/media/dvb/dvb-core/dvbdev.c Santosh Nayak         2012-06-23  542  		up_write(&minor_rwsem);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  543  		mutex_unlock(&dvbdev_register_lock);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  544  		return -EINVAL;
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  545  	}
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  546  #else
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  547  	minor = nums2minor(adap->num, type, id);
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  548  	if (minor >= MAX_DVB_MINORS) {
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  549  		dvb_media_device_free(dvbdev);
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  550  		list_del(&dvbdev->list_head);
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  551  		kfree(dvbdev);
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  552  		*pdvbdev = NULL;
-
-up_write(&minor_rwsem);
-
-Heh.  Obviously you didn't introduce this bug but your commit triggers the
-warning because now Smatch knows it's an error path.
-
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  553  		mutex_unlock(&dvbdev_register_lock);
-922fbcc41a2134 drivers/media/dvb-core/dvbdev.c     Nathan Chancellor     2024-10-21  554  		return -EINVAL;
-972e63e895abbe drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2024-10-15  555  	}
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  556  #endif
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  557  	dvbdev->minor = minor;
-0fc044b2b5e2d0 drivers/media/dvb-core/dvbdev.c     Lin Ma                2022-08-07  558  	dvb_minors[minor] = dvb_device_get(dvbdev);
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  559  	up_write(&minor_rwsem);
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  560  	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  561  	if (ret) {
-b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  562  		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  563  		       __func__);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  564  		if (new_node) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  565  			list_del(&new_node->list_head);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  566  			kfree(dvbdevfops);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  567  			kfree(new_node);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  568  		}
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  569  		dvb_media_device_free(dvbdev);
-1fec2ecc252301 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2021-06-09  570  		list_del(&dvbdev->list_head);
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  571  		kfree(dvbdev);
-8c64f4cdf4e6cc drivers/media/dvb-core/dvbdev.c     Zhipeng Lu            2024-02-03  572  		*pdvbdev = NULL;
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  573  		mutex_unlock(&dvbdev_register_lock);
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  574  		return ret;
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  575  	}
-f50d51661af375 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2015-09-04  576  
-a9b12619f7b6f1 drivers/media/dvb/dvb-core/dvbdev.c Greg Kroah-Hartman    2008-07-21  577  	clsdev = device_create(dvb_class, adap->device,
-b7496780e80006 drivers/media/dvb/dvb-core/dvbdev.c Hans Verkuil          2008-11-03  578  			       MKDEV(DVB_MAJOR, minor),
-a5f4c0ce682efa drivers/media/dvb/dvb-core/dvbdev.c Kay Sievers           2008-10-27  579  			       dvbdev, "dvb%d.%s%d", adap->num, dnames[type], id);
-4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  580  	if (IS_ERR(clsdev)) {
-b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  581  		pr_err("%s: failed to create device dvb%d.%s%d (%ld)\n",
-46b4f7c176a2dd drivers/media/dvb/dvb-core/dvbdev.c Harvey Harrison       2008-04-08  582  		       __func__, adap->num, dnames[type], id, PTR_ERR(clsdev));
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  583  		if (new_node) {
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  584  			list_del(&new_node->list_head);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  585  			kfree(dvbdevfops);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  586  			kfree(new_node);
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  587  		}
-167faadfcf9339 drivers/media/dvb-core/dvbdev.c     Dinghao Liu           2020-08-24  588  		dvb_media_device_free(dvbdev);
-1fec2ecc252301 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2021-06-09  589  		list_del(&dvbdev->list_head);
-167faadfcf9339 drivers/media/dvb-core/dvbdev.c     Dinghao Liu           2020-08-24  590  		kfree(dvbdev);
-8c64f4cdf4e6cc drivers/media/dvb-core/dvbdev.c     Zhipeng Lu            2024-02-03  591  		*pdvbdev = NULL;
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  592  		mutex_unlock(&dvbdev_register_lock);
-4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  593  		return PTR_ERR(clsdev);
-4abdcf933f6477 drivers/media/dvb/dvb-core/dvbdev.c Simon Arlott          2007-05-06  594  	}
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  595  
-b3ad24d2e0b039 drivers/media/dvb-core/dvbdev.c     Mauro Carvalho Chehab 2016-10-13  596  	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
-5dd3f3071070f5 drivers/media/dvb/dvb-core/dvbdev.c Andreas Oberritter    2008-10-23  597  		adap->num, dnames[type], id, minor, minor);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  598  
-627bb528b086b4 drivers/media/dvb-core/dvbdev.c     Hyunwoo Kim           2022-11-17  599  	mutex_unlock(&dvbdev_register_lock);
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16 @600  	return 0;
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvbdev.c Linus Torvalds        2005-04-16  601  }
+445936f9e258ec Daniel Lezcano 2024-09-23  118  
+445936f9e258ec Daniel Lezcano 2024-09-23  119  void thermal_thresholds_handle(struct thermal_zone_device *tz, int *low, int *high)
+445936f9e258ec Daniel Lezcano 2024-09-23  120  {
+445936f9e258ec Daniel Lezcano 2024-09-23  121  	struct list_head *thresholds = &tz->user_thresholds;
+445936f9e258ec Daniel Lezcano 2024-09-23  122  
+445936f9e258ec Daniel Lezcano 2024-09-23  123  	int temperature = tz->temperature;
+445936f9e258ec Daniel Lezcano 2024-09-23  124  	int last_temperature = tz->last_temperature;
+445936f9e258ec Daniel Lezcano 2024-09-23  125  	bool notify;
+445936f9e258ec Daniel Lezcano 2024-09-23  126  
+445936f9e258ec Daniel Lezcano 2024-09-23  127  	lockdep_assert_held(&tz->lock);
+445936f9e258ec Daniel Lezcano 2024-09-23  128  
+445936f9e258ec Daniel Lezcano 2024-09-23  129  	/*
+445936f9e258ec Daniel Lezcano 2024-09-23  130  	 * We need a second update in order to detect a threshold being crossed
+445936f9e258ec Daniel Lezcano 2024-09-23  131  	 */
+445936f9e258ec Daniel Lezcano 2024-09-23  132  	if (last_temperature == THERMAL_TEMP_INVALID)
+445936f9e258ec Daniel Lezcano 2024-09-23  133  		return;
+445936f9e258ec Daniel Lezcano 2024-09-23  134  
+445936f9e258ec Daniel Lezcano 2024-09-23  135  	/*
+445936f9e258ec Daniel Lezcano 2024-09-23  136  	 * The temperature is stable, so obviously we can not have
+445936f9e258ec Daniel Lezcano 2024-09-23  137  	 * crossed a threshold.
+445936f9e258ec Daniel Lezcano 2024-09-23  138  	 */
+445936f9e258ec Daniel Lezcano 2024-09-23  139  	if (last_temperature == temperature)
+445936f9e258ec Daniel Lezcano 2024-09-23  140  		return;
+445936f9e258ec Daniel Lezcano 2024-09-23  141  
+445936f9e258ec Daniel Lezcano 2024-09-23  142  	/*
+445936f9e258ec Daniel Lezcano 2024-09-23  143  	 * Since last update the temperature:
+445936f9e258ec Daniel Lezcano 2024-09-23  144  	 * - increased : thresholds are crossed the way up
+445936f9e258ec Daniel Lezcano 2024-09-23  145  	 * - decreased : thresholds are crossed the way down
+445936f9e258ec Daniel Lezcano 2024-09-23  146  	 */
+445936f9e258ec Daniel Lezcano 2024-09-23  147  	if (temperature > last_temperature)
+445936f9e258ec Daniel Lezcano 2024-09-23  148  		notify = thermal_thresholds_handle_raising(thresholds, temperature,
+445936f9e258ec Daniel Lezcano 2024-09-23  149  							   last_temperature, low, high);
+445936f9e258ec Daniel Lezcano 2024-09-23  150  	else
+445936f9e258ec Daniel Lezcano 2024-09-23  151  		notify = thermal_thresholds_handle_dropping(thresholds, temperature,
+445936f9e258ec Daniel Lezcano 2024-09-23  152  							    last_temperature, low, high);
+445936f9e258ec Daniel Lezcano 2024-09-23  153  
+445936f9e258ec Daniel Lezcano 2024-09-23  154  	if (notify)
+445936f9e258ec Daniel Lezcano 2024-09-23  155  		pr_debug("A threshold has been crossed the way %s, with a temperature=%d, last_temperature=%d\n",
+445936f9e258ec Daniel Lezcano 2024-09-23 @156  			 temperature > last_temperature ? "up" : "down", temperature, last_temperature);
+445936f9e258ec Daniel Lezcano 2024-09-23  157  }
+445936f9e258ec Daniel Lezcano 2024-09-23  158  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
