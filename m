@@ -1,59 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E0B26281
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 03:02:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A2B1EB31
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 03:22:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729566132; cv=none; b=qNAjZ/BiU0v4yL8Lod7OSfK/sy5FSK/hSKl8CxsKFi4d5siRElRaTcaTvvlJv4CNFWS9zFSQnlDqohsFPUfSHvlJpTXUdJhsZO3FVdTyNG3LLZ6SGXvAZJif37yv6f+CebLbk5lad6k7Fqpvh83F7sfKooejQdkC6YBtwp/F2wI=
+	t=1729567334; cv=none; b=kwW1GH/+578mtdXZYKsiAj9Rgen90zNjSN49DGgiFR2PVYOv4lkgy8a+GYcIeWTHUlfBvxydDnZ+pmmfNbogRCtQM+0Lqk1iFiguS/As+usNOTExLVAduowwzwJfbKa+dMqfpqeEehaevKq5NwFiTAm04xc+krCrYLm0T+RFEJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729566132; c=relaxed/simple;
-	bh=1tg76k9yu+xjiEI5dFXvVf8ij/XVyEoMb4b/zMs6Lww=;
+	s=arc-20240116; t=1729567334; c=relaxed/simple;
+	bh=wQtocC+TMw0rtRv+z2GBxUYzGjB1xd4vqLvtYu6e4Xs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fVINHruZtcf5JhFokaRFckA+b4SsMzXQHYit0SLGyRZBFaVXh/HMjNfM70apM0O3+EkI1hu6HhQccE+zJ7RWnHfK3uKwQqRIznNvtUKp8N4cEBW0csdxMi3OAvFvRxp9CGF/wv1PYHGwMAk1dny31BhqwydNOl/sbCpBmy2Qiyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifW9pko7; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=J9hMWG+410X6ceSlAZ2NdQ4PspX3If2bVFn8e1Vc+NP8cRvnS8/3+JSzM1dQoGnLJmvWT0M9VMC7/ScuR8wrRzngsrXTiTn58F1D5j4YRa7+C1Gon6r0iV8APYl7zUSilwdzoq7Pz0dCviDjYqCzsSYZFT49nRlVV4K1iOZKQ14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLQp+HeM; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifW9pko7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLQp+HeM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729566130; x=1761102130;
+  t=1729567333; x=1761103333;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1tg76k9yu+xjiEI5dFXvVf8ij/XVyEoMb4b/zMs6Lww=;
-  b=ifW9pko79dvRPvGVeUa3dI51lKp25FcoIMZiIf0rLeyYuzr6qMv5mjq1
-   AebVkf8ZzkqSABID525F9daKsiylrOFucfVi3W0MT5XKJImE1vx1FN2Wb
-   N+PAyLcTejI+MTU9uCG+E9mhAOX56e8Xc6jYqCIzJf46XcYKaFAF/M46p
-   5cbJ7tmPzrO6MgaAwJBU3kvOCVDTXGwA4R+V6wlBb0M7LQ7csucTSS6YX
-   ZVrBmWVkEYzWq1ULfEPsMhBQxK4jOk7MOR+8Ty8fYVqZfZE5Pj5p9EvKg
-   1EheGGvs141dk9UJW41294PaPG4XcNS7AywZrbbij1X1zpaHu32ugE6wf
+  bh=wQtocC+TMw0rtRv+z2GBxUYzGjB1xd4vqLvtYu6e4Xs=;
+  b=LLQp+HeMC4yptwqjfV4c4tKwHAprmMpiTmlZkQYpzdGf/YIPKpMvzuw8
+   mohnTg4WT86EEwnUBtI2CnSojIqb+PYpOVDWXx7ozEWhN5WYzClVMlF5K
+   p9t5054PkfSwDUSCIpruysYLpqMCurU4oJrEggtKovrIcLfdrW/PDy/2S
+   dzntZLecAirTv6a+3weN2eFQkuYiQKFd5hvf5ndukI1Q6061VhC96CzLJ
+   pa8Ir9RpSoJw+bc2Viht80hRRleJE7jAc6NsAOmpC7G1QplWPwSGGQGiO
+   PP/jzJtArFMKaNo6QI3KJgk98Zx0Cf9XcFVsizDCX4mmT0ObGHyPIqAPa
    Q==;
-X-CSE-ConnectionGUID: 2kmsfN9GSD+0PM2MpjBAxw==
-X-CSE-MsgGUID: QHtoFdbMRN+oO+9tpkw6oQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="32885582"
+X-CSE-ConnectionGUID: vytcSkSLTsiFTjRUCieVvA==
+X-CSE-MsgGUID: hEkvsa+ZQD6gLAU4PujZdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="32890137"
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="32885582"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 20:02:09 -0700
-X-CSE-ConnectionGUID: 8xM526FBSGOUG6kCcns4Bg==
-X-CSE-MsgGUID: 60fHvdAEQkGEWCgThFgsWA==
+   d="scan'208";a="32890137"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 20:22:12 -0700
+X-CSE-ConnectionGUID: xECSjT6yR82xlCdWJHlFJw==
+X-CSE-MsgGUID: 0H9fre22QPuwi1jjhmDcew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="79799441"
+   d="scan'208";a="79295997"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 20:02:08 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 Oct 2024 20:22:10 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t359p-000SyF-3A;
-	Tue, 22 Oct 2024 03:02:05 +0000
-Date: Tue, 22 Oct 2024 11:01:13 +0800
+	id 1t35TE-000Sze-0o;
+	Tue, 22 Oct 2024 03:22:08 +0000
+Date: Tue, 22 Oct 2024 11:21:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 5970/6324]
- drivers/pinctrl/spacemit/pinctrl-k1.c:577 spacemit_pinconf_generate_config()
- error: uninitialized symbol 'drv_strength'.
-Message-ID: <202410221148.OT1sWsE1-lkp@intel.com>
+Subject: Re: [PATCH v1 2/6] mm/hugetlb_vmemmap: add arch-independent helpers
+Message-ID: <202410221109.SuinuBiD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,136 +63,251 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yixun Lan <dlan@gentoo.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20241021042218.746659-3-yuzhao@google.com>
+References: <20241021042218.746659-3-yuzhao@google.com>
+TO: Yu Zhao <yuzhao@google.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Catalin Marinas <catalin.marinas@arm.com>
+TO: Marc Zyngier <maz@kernel.org>
+TO: Muchun Song <muchun.song@linux.dev>
+TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Will Deacon <will@kernel.org>
+CC: Douglas Anderson <dianders@chromium.org>
+CC: Mark Rutland <mark.rutland@arm.com>
+CC: Nanyong Sun <sunnanyong@huawei.com>
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
+CC: Yu Zhao <yuzhao@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   63b3ff03d91ae8f875fe8747c781a521f78cde17
-commit: a83c29e1d145cca5240952100acd1cd60f25fb5f [5970/6324] pinctrl: spacemit: add support for SpacemiT K1 SoC
-:::::: branch date: 21 hours ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r072-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221148.OT1sWsE1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+Hi Yu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Zhao/mm-hugetlb_vmemmap-batch-update-PTEs/20241021-122330
+base:   42f7652d3eb527d03665b09edac47f85fb600924
+patch link:    https://lore.kernel.org/r/20241021042218.746659-3-yuzhao%40google.com
+patch subject: [PATCH v1 2/6] mm/hugetlb_vmemmap: add arch-independent helpers
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: x86_64-randconfig-161-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221109.SuinuBiD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410221148.OT1sWsE1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410221109.SuinuBiD-lkp@intel.com/
 
-New smatch warnings:
-drivers/pinctrl/spacemit/pinctrl-k1.c:577 spacemit_pinconf_generate_config() error: uninitialized symbol 'drv_strength'.
-drivers/pinctrl/spacemit/pinctrl-k1.c:587 spacemit_pinconf_generate_config() error: uninitialized symbol 'slew_rate'.
+smatch warnings:
+mm/hugetlb_vmemmap.c:609 hugetlb_vmemmap_restore_folios() warn: bitwise AND condition is false here
+mm/hugetlb_vmemmap.c:740 hugetlb_vmemmap_optimize_folios() warn: bitwise AND condition is false here
 
-Old smatch warnings:
-drivers/pinctrl/spacemit/pinctrl-k1.c:593 spacemit_pinconf_generate_config() error: uninitialized symbol 'slew_rate'.
+vim +609 mm/hugetlb_vmemmap.c
 
-vim +/drv_strength +577 drivers/pinctrl/spacemit/pinctrl-k1.c
-
-a83c29e1d145cc Yixun Lan 2024-10-16  499  
-a83c29e1d145cc Yixun Lan 2024-10-16  500  #define ENABLE_DRV_STRENGTH	BIT(1)
-a83c29e1d145cc Yixun Lan 2024-10-16  501  #define ENABLE_SLEW_RATE	BIT(2)
-a83c29e1d145cc Yixun Lan 2024-10-16  502  static int spacemit_pinconf_generate_config(const struct spacemit_pin *spin,
-a83c29e1d145cc Yixun Lan 2024-10-16  503  					    unsigned long *configs,
-a83c29e1d145cc Yixun Lan 2024-10-16  504  					    unsigned int num_configs,
-a83c29e1d145cc Yixun Lan 2024-10-16  505  					    u32 *value)
-a83c29e1d145cc Yixun Lan 2024-10-16  506  {
-a83c29e1d145cc Yixun Lan 2024-10-16  507  	enum spacemit_pin_io_type type;
-a83c29e1d145cc Yixun Lan 2024-10-16  508  	int i, param;
-a83c29e1d145cc Yixun Lan 2024-10-16  509  	u32 v = 0, voltage = 0, arg, val;
-a83c29e1d145cc Yixun Lan 2024-10-16  510  	u32 flag = 0, drv_strength, slew_rate;
-a83c29e1d145cc Yixun Lan 2024-10-16  511  
-a83c29e1d145cc Yixun Lan 2024-10-16  512  	if (!spin)
-a83c29e1d145cc Yixun Lan 2024-10-16  513  		return -EINVAL;
-a83c29e1d145cc Yixun Lan 2024-10-16  514  
-a83c29e1d145cc Yixun Lan 2024-10-16  515  	for (i = 0; i < num_configs; i++) {
-a83c29e1d145cc Yixun Lan 2024-10-16  516  		param = pinconf_to_config_param(configs[i]);
-a83c29e1d145cc Yixun Lan 2024-10-16  517  		arg = pinconf_to_config_argument(configs[i]);
-a83c29e1d145cc Yixun Lan 2024-10-16  518  
-a83c29e1d145cc Yixun Lan 2024-10-16  519  		switch (param) {
-a83c29e1d145cc Yixun Lan 2024-10-16  520  		case PIN_CONFIG_BIAS_DISABLE:
-a83c29e1d145cc Yixun Lan 2024-10-16  521  			v &= ~(PAD_PULL_EN | PAD_PULLDOWN | PAD_PULLUP);
-a83c29e1d145cc Yixun Lan 2024-10-16  522  			v &= ~PAD_STRONG_PULL;
-a83c29e1d145cc Yixun Lan 2024-10-16  523  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  524  		case PIN_CONFIG_BIAS_PULL_DOWN:
-a83c29e1d145cc Yixun Lan 2024-10-16  525  			v &= ~(PAD_PULLUP | PAD_STRONG_PULL);
-a83c29e1d145cc Yixun Lan 2024-10-16  526  			v |= (PAD_PULL_EN | PAD_PULLDOWN);
-a83c29e1d145cc Yixun Lan 2024-10-16  527  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  528  		case PIN_CONFIG_BIAS_PULL_UP:
-a83c29e1d145cc Yixun Lan 2024-10-16  529  			v &= ~PAD_PULLDOWN;
-a83c29e1d145cc Yixun Lan 2024-10-16  530  			v |= (PAD_PULL_EN | PAD_PULLUP);
-a83c29e1d145cc Yixun Lan 2024-10-16  531  
-a83c29e1d145cc Yixun Lan 2024-10-16  532  			if (arg == 1)
-a83c29e1d145cc Yixun Lan 2024-10-16  533  				v |= PAD_STRONG_PULL;
-a83c29e1d145cc Yixun Lan 2024-10-16  534  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  535  		case PIN_CONFIG_DRIVE_STRENGTH:
-a83c29e1d145cc Yixun Lan 2024-10-16  536  			flag |= ENABLE_DRV_STRENGTH;
-a83c29e1d145cc Yixun Lan 2024-10-16  537  			drv_strength = arg;
-a83c29e1d145cc Yixun Lan 2024-10-16  538  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  539  		case PIN_CONFIG_INPUT_SCHMITT:
-a83c29e1d145cc Yixun Lan 2024-10-16  540  			v &= ~PAD_SCHMITT;
-a83c29e1d145cc Yixun Lan 2024-10-16  541  			v |= FIELD_PREP(PAD_SCHMITT, arg);
-a83c29e1d145cc Yixun Lan 2024-10-16  542  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  543  		case PIN_CONFIG_POWER_SOURCE:
-a83c29e1d145cc Yixun Lan 2024-10-16  544  			voltage = arg;
-a83c29e1d145cc Yixun Lan 2024-10-16  545  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  546  		case PIN_CONFIG_SLEW_RATE:
-a83c29e1d145cc Yixun Lan 2024-10-16  547  			if (arg) {
-a83c29e1d145cc Yixun Lan 2024-10-16  548  				flag |= ENABLE_SLEW_RATE;
-a83c29e1d145cc Yixun Lan 2024-10-16  549  				v |= PAD_SLEW_RATE_EN;
-a83c29e1d145cc Yixun Lan 2024-10-16  550  				slew_rate = arg;
-a83c29e1d145cc Yixun Lan 2024-10-16  551  			} else {
-a83c29e1d145cc Yixun Lan 2024-10-16  552  				v &= ~PAD_SLEW_RATE_EN;
-a83c29e1d145cc Yixun Lan 2024-10-16  553  			}
-a83c29e1d145cc Yixun Lan 2024-10-16  554  			break;
-a83c29e1d145cc Yixun Lan 2024-10-16  555  		default:
-a83c29e1d145cc Yixun Lan 2024-10-16  556  			return -EINVAL;
-a83c29e1d145cc Yixun Lan 2024-10-16  557  		}
-a83c29e1d145cc Yixun Lan 2024-10-16  558  	}
-a83c29e1d145cc Yixun Lan 2024-10-16  559  
-a83c29e1d145cc Yixun Lan 2024-10-16  560  	if (flag & ENABLE_DRV_STRENGTH) {
-a83c29e1d145cc Yixun Lan 2024-10-16  561  		type = spacemit_to_pin_io_type(spin);
-a83c29e1d145cc Yixun Lan 2024-10-16  562  
-a83c29e1d145cc Yixun Lan 2024-10-16  563  		/* fix external io type */
-a83c29e1d145cc Yixun Lan 2024-10-16  564  		if (type == IO_TYPE_EXTERNAL) {
-a83c29e1d145cc Yixun Lan 2024-10-16  565  			switch (voltage) {
-a83c29e1d145cc Yixun Lan 2024-10-16  566  			case 1800:
-a83c29e1d145cc Yixun Lan 2024-10-16  567  				type = IO_TYPE_1V8;
-a83c29e1d145cc Yixun Lan 2024-10-16  568  				break;
-a83c29e1d145cc Yixun Lan 2024-10-16  569  			case 3300:
-a83c29e1d145cc Yixun Lan 2024-10-16  570  				type = IO_TYPE_3V3;
-a83c29e1d145cc Yixun Lan 2024-10-16  571  				break;
-a83c29e1d145cc Yixun Lan 2024-10-16  572  			default:
-a83c29e1d145cc Yixun Lan 2024-10-16  573  				return -EINVAL;
-a83c29e1d145cc Yixun Lan 2024-10-16  574  			}
-a83c29e1d145cc Yixun Lan 2024-10-16  575  		}
-a83c29e1d145cc Yixun Lan 2024-10-16  576  
-a83c29e1d145cc Yixun Lan 2024-10-16 @577  		val = spacemit_get_driver_strength(type, drv_strength);
-a83c29e1d145cc Yixun Lan 2024-10-16  578  
-a83c29e1d145cc Yixun Lan 2024-10-16  579  		v &= ~PAD_DRIVE;
-a83c29e1d145cc Yixun Lan 2024-10-16  580  		v |= FIELD_PREP(PAD_DRIVE, val);
-a83c29e1d145cc Yixun Lan 2024-10-16  581  	}
-a83c29e1d145cc Yixun Lan 2024-10-16  582  
-a83c29e1d145cc Yixun Lan 2024-10-16  583  	if (flag & ENABLE_SLEW_RATE) {
-a83c29e1d145cc Yixun Lan 2024-10-16  584  		/* check, driver strength & slew rate */
-a83c29e1d145cc Yixun Lan 2024-10-16  585  		if (flag & ENABLE_DRV_STRENGTH) {
-a83c29e1d145cc Yixun Lan 2024-10-16  586  			val = FIELD_GET(PAD_SLEW_RATE, v) + 2;
-a83c29e1d145cc Yixun Lan 2024-10-16 @587  			if (slew_rate > 1 && slew_rate != val) {
-a83c29e1d145cc Yixun Lan 2024-10-16  588  				pr_err("slew rate conflict with drive strength\n");
-a83c29e1d145cc Yixun Lan 2024-10-16  589  				return -EINVAL;
-a83c29e1d145cc Yixun Lan 2024-10-16  590  			}
-a83c29e1d145cc Yixun Lan 2024-10-16  591  		} else {
-a83c29e1d145cc Yixun Lan 2024-10-16  592  			v &= ~PAD_SLEW_RATE;
-a83c29e1d145cc Yixun Lan 2024-10-16  593  			slew_rate = slew_rate > 1 ? (slew_rate - 2) : 0;
-a83c29e1d145cc Yixun Lan 2024-10-16  594  			v |= FIELD_PREP(PAD_SLEW_RATE, slew_rate);
-a83c29e1d145cc Yixun Lan 2024-10-16  595  		}
-a83c29e1d145cc Yixun Lan 2024-10-16  596  	}
-a83c29e1d145cc Yixun Lan 2024-10-16  597  
-a83c29e1d145cc Yixun Lan 2024-10-16  598  	*value = v;
-a83c29e1d145cc Yixun Lan 2024-10-16  599  
-a83c29e1d145cc Yixun Lan 2024-10-16  600  	return 0;
-a83c29e1d145cc Yixun Lan 2024-10-16  601  }
-a83c29e1d145cc Yixun Lan 2024-10-16  602  
+c24f188b228929 Mike Kravetz 2023-10-18  571  
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  572  /**
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  573   * hugetlb_vmemmap_restore_folios - restore vmemmap for every folio on the list.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  574   * @h:			hstate.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  575   * @folio_list:		list of folios.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  576   * @non_hvo_folios:	Output list of folios for which vmemmap exists.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  577   *
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  578   * Return: number of folios for which vmemmap was restored, or an error code
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  579   *		if an error was encountered restoring vmemmap for a folio.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  580   *		Folios that have vmemmap are moved to the non_hvo_folios
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  581   *		list.  Processing of entries stops when the first error is
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  582   *		encountered. The folio that experienced the error and all
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  583   *		non-processed folios will remain on folio_list.
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  584   */
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  585  long hugetlb_vmemmap_restore_folios(const struct hstate *h,
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  586  					struct list_head *folio_list,
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  587  					struct list_head *non_hvo_folios)
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  588  {
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  589  	struct folio *folio, *t_folio;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  590  	long restored = 0;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  591  	long ret = 0;
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  592  	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
+bd225530a4c717 Yu Zhao      2024-06-27  593  
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  594  	list_for_each_entry_safe(folio, t_folio, folio_list, lru) {
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  595  		if (folio_test_hugetlb_vmemmap_optimized(folio)) {
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  596  			ret = __hugetlb_vmemmap_restore_folio(h, folio, flags);
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  597  			/* only need to synchronize_rcu() once for each batch */
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  598  			flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  599  
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  600  			if (ret)
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  601  				break;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  602  			restored++;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  603  		}
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  604  
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  605  		/* Add non-optimized folios to output list */
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  606  		list_move(&folio->lru, non_hvo_folios);
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  607  	}
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  608  
+65e43809317a90 Yu Zhao      2024-10-20 @609  	if (restored && !(VMEMMAP_ARCH_TLB_FLUSH_FLAGS & VMEMMAP_REMAP_NO_TLB_FLUSH))
+c24f188b228929 Mike Kravetz 2023-10-18  610  		flush_tlb_all();
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  611  	if (!ret)
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  612  		ret = restored;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  613  	return ret;
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  614  }
+cfb8c75099dbf1 Mike Kravetz 2023-10-18  615  
+6213834c10de95 Muchun Song  2022-06-28  616  /* Return true iff a HugeTLB whose vmemmap should and can be optimized. */
+ebc20dcac4ce98 Muchun Song  2023-11-27  617  static bool vmemmap_should_optimize_folio(const struct hstate *h, struct folio *folio)
+66361095129b3b Muchun Song  2022-06-17  618  {
+ebc20dcac4ce98 Muchun Song  2023-11-27  619  	if (folio_test_hugetlb_vmemmap_optimized(folio))
+79359d6d24df2f Mike Kravetz 2023-10-18  620  		return false;
+79359d6d24df2f Mike Kravetz 2023-10-18  621  
+cf5472e5611338 Muchun Song  2022-06-28  622  	if (!READ_ONCE(vmemmap_optimize_enabled))
+6213834c10de95 Muchun Song  2022-06-28  623  		return false;
+6213834c10de95 Muchun Song  2022-06-28  624  
+6213834c10de95 Muchun Song  2022-06-28  625  	if (!hugetlb_vmemmap_optimizable(h))
+6213834c10de95 Muchun Song  2022-06-28  626  		return false;
+66361095129b3b Muchun Song  2022-06-17  627  
+6213834c10de95 Muchun Song  2022-06-28  628  	return true;
+66361095129b3b Muchun Song  2022-06-17  629  }
+66361095129b3b Muchun Song  2022-06-17  630  
+c5ad3233ead566 Usama Arif   2023-10-11  631  static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+c5ad3233ead566 Usama Arif   2023-10-11  632  					    struct folio *folio,
+f13b83fdd99640 Joao Martins 2023-10-18  633  					    struct list_head *vmemmap_pages,
+f13b83fdd99640 Joao Martins 2023-10-18  634  					    unsigned long flags)
+f41f2ed43ca525 Muchun Song  2021-06-30  635  {
+91f386bf0772c1 Mike Kravetz 2023-10-18  636  	int ret = 0;
+ebc20dcac4ce98 Muchun Song  2023-11-27  637  	unsigned long vmemmap_start = (unsigned long)&folio->page, vmemmap_end;
+6213834c10de95 Muchun Song  2022-06-28  638  	unsigned long vmemmap_reuse;
+f41f2ed43ca525 Muchun Song  2021-06-30  639  
+ebc20dcac4ce98 Muchun Song  2023-11-27  640  	VM_WARN_ON_ONCE_FOLIO(!folio_test_hugetlb(folio), folio);
+bd225530a4c717 Yu Zhao      2024-06-27  641  	VM_WARN_ON_ONCE_FOLIO(folio_ref_count(folio), folio);
+bd225530a4c717 Yu Zhao      2024-06-27  642  
+ebc20dcac4ce98 Muchun Song  2023-11-27  643  	if (!vmemmap_should_optimize_folio(h, folio))
+91f386bf0772c1 Mike Kravetz 2023-10-18  644  		return ret;
+f41f2ed43ca525 Muchun Song  2021-06-30  645  
+78f39084b41d28 Muchun Song  2022-05-13  646  	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  647  
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  648  	if (flags & VMEMMAP_SYNCHRONIZE_RCU)
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  649  		synchronize_rcu();
+f13b83fdd99640 Joao Martins 2023-10-18  650  	/*
+f13b83fdd99640 Joao Martins 2023-10-18  651  	 * Very Subtle
+f13b83fdd99640 Joao Martins 2023-10-18  652  	 * If VMEMMAP_REMAP_NO_TLB_FLUSH is set, TLB flushing is not performed
+f13b83fdd99640 Joao Martins 2023-10-18  653  	 * immediately after remapping.  As a result, subsequent accesses
+f13b83fdd99640 Joao Martins 2023-10-18  654  	 * and modifications to struct pages associated with the hugetlb
+f13b83fdd99640 Joao Martins 2023-10-18  655  	 * page could be to the OLD struct pages.  Set the vmemmap optimized
+f13b83fdd99640 Joao Martins 2023-10-18  656  	 * flag here so that it is copied to the new head page.  This keeps
+f13b83fdd99640 Joao Martins 2023-10-18  657  	 * the old and new struct pages in sync.
+f13b83fdd99640 Joao Martins 2023-10-18  658  	 * If there is an error during optimization, we will immediately FLUSH
+f13b83fdd99640 Joao Martins 2023-10-18  659  	 * the TLB and clear the flag below.
+f13b83fdd99640 Joao Martins 2023-10-18  660  	 */
+c5ad3233ead566 Usama Arif   2023-10-11  661  	folio_set_hugetlb_vmemmap_optimized(folio);
+78f39084b41d28 Muchun Song  2022-05-13  662  
+6213834c10de95 Muchun Song  2022-06-28  663  	vmemmap_end	= vmemmap_start + hugetlb_vmemmap_size(h);
+6213834c10de95 Muchun Song  2022-06-28  664  	vmemmap_reuse	= vmemmap_start;
+6213834c10de95 Muchun Song  2022-06-28  665  	vmemmap_start	+= HUGETLB_VMEMMAP_RESERVE_SIZE;
+f41f2ed43ca525 Muchun Song  2021-06-30  666  
+f41f2ed43ca525 Muchun Song  2021-06-30  667  	/*
+6213834c10de95 Muchun Song  2022-06-28  668  	 * Remap the vmemmap virtual address range [@vmemmap_start, @vmemmap_end)
+91f386bf0772c1 Mike Kravetz 2023-10-18  669  	 * to the page which @vmemmap_reuse is mapped to.  Add pages previously
+91f386bf0772c1 Mike Kravetz 2023-10-18  670  	 * mapping the range to vmemmap_pages list so that they can be freed by
+91f386bf0772c1 Mike Kravetz 2023-10-18  671  	 * the caller.
+f41f2ed43ca525 Muchun Song  2021-06-30  672  	 */
+f13b83fdd99640 Joao Martins 2023-10-18  673  	ret = vmemmap_remap_free(vmemmap_start, vmemmap_end, vmemmap_reuse,
+f13b83fdd99640 Joao Martins 2023-10-18  674  				 vmemmap_pages, flags);
+f13b83fdd99640 Joao Martins 2023-10-18  675  	if (ret) {
+78f39084b41d28 Muchun Song  2022-05-13  676  		static_branch_dec(&hugetlb_optimize_vmemmap_key);
+c5ad3233ead566 Usama Arif   2023-10-11  677  		folio_clear_hugetlb_vmemmap_optimized(folio);
+f13b83fdd99640 Joao Martins 2023-10-18  678  	}
+91f386bf0772c1 Mike Kravetz 2023-10-18  679  
+91f386bf0772c1 Mike Kravetz 2023-10-18  680  	return ret;
+91f386bf0772c1 Mike Kravetz 2023-10-18  681  }
+91f386bf0772c1 Mike Kravetz 2023-10-18  682  
+91f386bf0772c1 Mike Kravetz 2023-10-18  683  /**
+c5ad3233ead566 Usama Arif   2023-10-11  684   * hugetlb_vmemmap_optimize_folio - optimize @folio's vmemmap pages.
+91f386bf0772c1 Mike Kravetz 2023-10-18  685   * @h:		struct hstate.
+c5ad3233ead566 Usama Arif   2023-10-11  686   * @folio:     the folio whose vmemmap pages will be optimized.
+91f386bf0772c1 Mike Kravetz 2023-10-18  687   *
+c5ad3233ead566 Usama Arif   2023-10-11  688   * This function only tries to optimize @folio's vmemmap pages and does not
+91f386bf0772c1 Mike Kravetz 2023-10-18  689   * guarantee that the optimization will succeed after it returns. The caller
+c5ad3233ead566 Usama Arif   2023-10-11  690   * can use folio_test_hugetlb_vmemmap_optimized(@folio) to detect if @folio's
+c5ad3233ead566 Usama Arif   2023-10-11  691   * vmemmap pages have been optimized.
+91f386bf0772c1 Mike Kravetz 2023-10-18  692   */
+c5ad3233ead566 Usama Arif   2023-10-11  693  void hugetlb_vmemmap_optimize_folio(const struct hstate *h, struct folio *folio)
+91f386bf0772c1 Mike Kravetz 2023-10-18  694  {
+91f386bf0772c1 Mike Kravetz 2023-10-18  695  	LIST_HEAD(vmemmap_pages);
+91f386bf0772c1 Mike Kravetz 2023-10-18  696  
+65e43809317a90 Yu Zhao      2024-10-20  697  	__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages,
+65e43809317a90 Yu Zhao      2024-10-20  698  			VMEMMAP_SYNCHRONIZE_RCU | VMEMMAP_ARCH_TLB_FLUSH_FLAGS);
+91f386bf0772c1 Mike Kravetz 2023-10-18  699  	free_vmemmap_page_list(&vmemmap_pages);
+f41f2ed43ca525 Muchun Song  2021-06-30  700  }
+774905878fc9b0 Muchun Song  2021-06-30  701  
+ebc20dcac4ce98 Muchun Song  2023-11-27  702  static int hugetlb_vmemmap_split_folio(const struct hstate *h, struct folio *folio)
+f4b7e3efaddbf8 Joao Martins 2023-10-18  703  {
+ebc20dcac4ce98 Muchun Song  2023-11-27  704  	unsigned long vmemmap_start = (unsigned long)&folio->page, vmemmap_end;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  705  	unsigned long vmemmap_reuse;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  706  
+ebc20dcac4ce98 Muchun Song  2023-11-27  707  	if (!vmemmap_should_optimize_folio(h, folio))
+f4b7e3efaddbf8 Joao Martins 2023-10-18  708  		return 0;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  709  
+f4b7e3efaddbf8 Joao Martins 2023-10-18  710  	vmemmap_end	= vmemmap_start + hugetlb_vmemmap_size(h);
+f4b7e3efaddbf8 Joao Martins 2023-10-18  711  	vmemmap_reuse	= vmemmap_start;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  712  	vmemmap_start	+= HUGETLB_VMEMMAP_RESERVE_SIZE;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  713  
+f4b7e3efaddbf8 Joao Martins 2023-10-18  714  	/*
+f4b7e3efaddbf8 Joao Martins 2023-10-18  715  	 * Split PMDs on the vmemmap virtual address range [@vmemmap_start,
+f4b7e3efaddbf8 Joao Martins 2023-10-18  716  	 * @vmemmap_end]
+f4b7e3efaddbf8 Joao Martins 2023-10-18  717  	 */
+f4b7e3efaddbf8 Joao Martins 2023-10-18  718  	return vmemmap_remap_split(vmemmap_start, vmemmap_end, vmemmap_reuse);
+f4b7e3efaddbf8 Joao Martins 2023-10-18  719  }
+f4b7e3efaddbf8 Joao Martins 2023-10-18  720  
+79359d6d24df2f Mike Kravetz 2023-10-18  721  void hugetlb_vmemmap_optimize_folios(struct hstate *h, struct list_head *folio_list)
+79359d6d24df2f Mike Kravetz 2023-10-18  722  {
+79359d6d24df2f Mike Kravetz 2023-10-18  723  	struct folio *folio;
+91f386bf0772c1 Mike Kravetz 2023-10-18  724  	LIST_HEAD(vmemmap_pages);
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  725  	unsigned long flags = VMEMMAP_REMAP_NO_TLB_FLUSH | VMEMMAP_SYNCHRONIZE_RCU;
+79359d6d24df2f Mike Kravetz 2023-10-18  726  
+f4b7e3efaddbf8 Joao Martins 2023-10-18  727  	list_for_each_entry(folio, folio_list, lru) {
+ebc20dcac4ce98 Muchun Song  2023-11-27  728  		int ret = hugetlb_vmemmap_split_folio(h, folio);
+f4b7e3efaddbf8 Joao Martins 2023-10-18  729  
+f4b7e3efaddbf8 Joao Martins 2023-10-18  730  		/*
+f4b7e3efaddbf8 Joao Martins 2023-10-18  731  		 * Spliting the PMD requires allocating a page, thus lets fail
+f4b7e3efaddbf8 Joao Martins 2023-10-18  732  		 * early once we encounter the first OOM. No point in retrying
+f4b7e3efaddbf8 Joao Martins 2023-10-18  733  		 * as it can be dynamically done on remap with the memory
+f4b7e3efaddbf8 Joao Martins 2023-10-18  734  		 * we get back from the vmemmap deduplication.
+f4b7e3efaddbf8 Joao Martins 2023-10-18  735  		 */
+f4b7e3efaddbf8 Joao Martins 2023-10-18  736  		if (ret == -ENOMEM)
+f4b7e3efaddbf8 Joao Martins 2023-10-18  737  			break;
+f4b7e3efaddbf8 Joao Martins 2023-10-18  738  	}
+f4b7e3efaddbf8 Joao Martins 2023-10-18  739  
+65e43809317a90 Yu Zhao      2024-10-20 @740  	if (!(VMEMMAP_ARCH_TLB_FLUSH_FLAGS & VMEMMAP_SPLIT_NO_TLB_FLUSH))
+f4b7e3efaddbf8 Joao Martins 2023-10-18  741  		flush_tlb_all();
+f4b7e3efaddbf8 Joao Martins 2023-10-18  742  
+91f386bf0772c1 Mike Kravetz 2023-10-18  743  	list_for_each_entry(folio, folio_list, lru) {
+ebc20dcac4ce98 Muchun Song  2023-11-27  744  		int ret;
+ebc20dcac4ce98 Muchun Song  2023-11-27  745  
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  746  		ret = __hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  747  		/* only need to synchronize_rcu() once for each batch */
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  748  		flags &= ~VMEMMAP_SYNCHRONIZE_RCU;
+91f386bf0772c1 Mike Kravetz 2023-10-18  749  
+91f386bf0772c1 Mike Kravetz 2023-10-18  750  		/*
+91f386bf0772c1 Mike Kravetz 2023-10-18  751  		 * Pages to be freed may have been accumulated.  If we
+91f386bf0772c1 Mike Kravetz 2023-10-18  752  		 * encounter an ENOMEM,  free what we have and try again.
+f13b83fdd99640 Joao Martins 2023-10-18  753  		 * This can occur in the case that both spliting fails
+f13b83fdd99640 Joao Martins 2023-10-18  754  		 * halfway and head page allocation also failed. In this
+c5ad3233ead566 Usama Arif   2023-10-11  755  		 * case __hugetlb_vmemmap_optimize_folio() would free memory
+f13b83fdd99640 Joao Martins 2023-10-18  756  		 * allowing more vmemmap remaps to occur.
+91f386bf0772c1 Mike Kravetz 2023-10-18  757  		 */
+91f386bf0772c1 Mike Kravetz 2023-10-18  758  		if (ret == -ENOMEM && !list_empty(&vmemmap_pages)) {
+65e43809317a90 Yu Zhao      2024-10-20  759  			if (!(VMEMMAP_ARCH_TLB_FLUSH_FLAGS & VMEMMAP_REMAP_NO_TLB_FLUSH))
+f13b83fdd99640 Joao Martins 2023-10-18  760  				flush_tlb_all();
+91f386bf0772c1 Mike Kravetz 2023-10-18  761  			free_vmemmap_page_list(&vmemmap_pages);
+91f386bf0772c1 Mike Kravetz 2023-10-18  762  			INIT_LIST_HEAD(&vmemmap_pages);
+c2a967f6ab0ec8 Yu Zhao      2024-07-18  763  			__hugetlb_vmemmap_optimize_folio(h, folio, &vmemmap_pages, flags);
+91f386bf0772c1 Mike Kravetz 2023-10-18  764  		}
+91f386bf0772c1 Mike Kravetz 2023-10-18  765  	}
+91f386bf0772c1 Mike Kravetz 2023-10-18  766  
+65e43809317a90 Yu Zhao      2024-10-20  767  	if (!(VMEMMAP_ARCH_TLB_FLUSH_FLAGS & VMEMMAP_REMAP_NO_TLB_FLUSH))
+f13b83fdd99640 Joao Martins 2023-10-18  768  		flush_tlb_all();
+91f386bf0772c1 Mike Kravetz 2023-10-18  769  	free_vmemmap_page_list(&vmemmap_pages);
+79359d6d24df2f Mike Kravetz 2023-10-18  770  }
+79359d6d24df2f Mike Kravetz 2023-10-18  771  
 
 -- 
 0-DAY CI Kernel Test Service
