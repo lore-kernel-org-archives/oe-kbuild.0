@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F7919E994
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 14:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD97019EED0
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 14:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729606967; cv=none; b=oq2KoS2yaTnxlUfzdGrqtDhF1L4rUu0/ZihyqPqzOsBqxnfJhg+tIDojZw9mhrox3e+UZ+pr17i1odhJLHpIEebSIUyzwePBXbImQZ+N0OCfJq+FZsRQDWxkx3I8B9h6+iQhXMbbl0TyObSFfScz1bLC2f4zqgEvCWnZdBTt194=
+	t=1729607221; cv=none; b=gNtYcbYmQtW5kJ5S4KbAFpL5FNVsq1mKBHW1oBKWCkSop3AN57rU3hnQE0mbq4rvCAbZztk2o9ek6XWx2+Df/3if8qInB1adqTjp+IhfSo22C5J1doDi6N6PzuPdHMYnnurIuGdvTUtfPuGJXqmp6TXMJ0M1tqJTJR90Z7Fu7jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729606967; c=relaxed/simple;
-	bh=sfSMhmYFYbGPE7bVTalM42iq+fUbmneXPe8utQIfwhA=;
+	s=arc-20240116; t=1729607221; c=relaxed/simple;
+	bh=507NDW79tuPRDE8H+1d34456NlCtuWxRfjtZGl+MC7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bjzjWpJo774oXrYnOHW9Oj/zm4zqPIZXn53DUlCxANuLlGQJ1pAeT7hBGeVGEwS55qVJAAaV8aSPA5O7RNII33JPauX/fxZ2YTg/h97A57JOR9Okedm/FFpLM4BEZ9o1YS1JYz+AK0oT8rPjtYF92h7qyPSNbTUujH0nDgmfLM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHeYFbUV; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=p3HHj3ViRjTGAUTN1P7irueG8MZzdokqB/ANin+1WybutmiSVVgCmhp8fZWgAuiEl2IJ6JeoQEhEPpTMZfPDdNZWypDhG8QoDh7kJkYo95VQyxNOSstWdiYDaLyBwEnlo/UzkquAzZv925FP5x0D416zivcwUe1oWGM8zR+Z5UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bfkJ+I96; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHeYFbUV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729606963; x=1761142963;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sfSMhmYFYbGPE7bVTalM42iq+fUbmneXPe8utQIfwhA=;
-  b=dHeYFbUVt2mEGWzzgXRLKFuDmCgNqByWXw+2HzpB5JepypR+dTSJdx+I
-   EWr9AJCNAHM1ID6JWNwCb68pVnURkM0WMMNOJbl3ltMGC9ClK3rh51YiW
-   zNIr7BNj5FuzdSUTBmGslXqhx+ubgOJjmbvC+apcEZQIZR3oxNdDuZF6X
-   Fn+6Zr6nzleIhtWCMandfHWyD0XRsifKjwSywSygXPHvgCff63ZqOx8z7
-   yFe2Ndvn5qk8Dy4LK8zjM9f6Q6rjvu2StnDIufNrd9CnNVCBjTphNj+nc
-   EkFMY0eM5awo0+Z8Zqr5uQlt160N9dHHZ5klBHwkihlq6/Mp1gxixHwIV
-   A==;
-X-CSE-ConnectionGUID: 4V/plqapQnOwN9joPwfKJw==
-X-CSE-MsgGUID: gH3t3z8FSJCKr2PYg3SjCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29303441"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29303441"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 07:22:43 -0700
-X-CSE-ConnectionGUID: e5bvpZ0GS9mgLwkeflHbUQ==
-X-CSE-MsgGUID: OzLvt+bhS9m3Mw+KZ/meQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="79951127"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Oct 2024 07:22:41 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3FmR-000Tg2-0s;
-	Tue, 22 Oct 2024 14:22:39 +0000
-Date: Tue, 22 Oct 2024 22:21:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bfkJ+I96"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43163667f0eso41741205e9.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 07:26:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729607218; x=1730212018; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SnNY11DlBcywSr7FidTmtJE0zuhfmLO2xoiETxhwzmg=;
+        b=bfkJ+I96B1cPHSAt49V28XxkHn31OpiPM/G5kCSazzlEPjg14TbMZMdKPLtVCc35oj
+         bvVO3y9H0M7C3n9wsJfxZqufMs86LY/1+lwD8c4tqv0o3D45vfCMDnbyILbSe/BhyAOV
+         GOk5JxHYdmpuDyZIcjQvPB1Pn5oAgvitzXaGphJueZd/mkth9Nm44b7+kmjjKiTLeLte
+         Dp0X3m1yqdVOnr2yBgyTdaQHkaVXRtGy1GZPbMEZja6aPI8VfyqEXqPEHdPKl0WokpRj
+         i0uUOwAjY8xVYUlFjXd9fPRsZZ6cED+jfuK4t+bVWXb9OOIvY1tsDTIhOU988tgMyvBU
+         6ruA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729607218; x=1730212018;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SnNY11DlBcywSr7FidTmtJE0zuhfmLO2xoiETxhwzmg=;
+        b=ooUfj+oVKNVmuRunRvBpYyA8Z7ACt770w60LJ9+CsoSj6bbW3X+Som9aClj6uEqT67
+         ctpVXQw4dp8PEnioKIPchSgmQcpY5hOntpk6OhGGn6m6mlG4Ho+nn0x+tBAAkeZEX5yC
+         aaeTWj95wjaKcuCW+Bks3mQ2SRbyd5LTq2PTnj1jgApdJhwJEEwMErbjoorV56muc0F3
+         UZuWVBFUOIpYyFH4bZL7h1n0oNGk+/7dKJmb7ptf3PUWmeHsys8rMNVYnsgm9d7/Sswd
+         Wt1OqAvuD1Zs0mDIqLKJT1xVzb/3ts5BSacx3RHfe/FtWOpucZIxni4RtQ5i5uDXl0HO
+         zGiw==
+X-Gm-Message-State: AOJu0YzKg9+iMvnxLDQxz36sXQCR8gdr+CNbAVux3Iky37j1uWQGf43z
+	fzPa5kwg12pqhFdrfBgh476JcmgbPFZiKHiScGftmUqQCrSGZFYeBJSkDdyZOMMuYJspqvhhtNY
+	jzgk=
+X-Google-Smtp-Source: AGHT+IG3CjPCVujE1g44pgMXAG7vbovdiq+SKSLL3j/8dKFNZxkb5J3YUjlEcELTWRCtCPIkX86Naw==
+X-Received: by 2002:a05:600c:3b9b:b0:42c:bae0:f065 with SMTP id 5b1f17b1804b1-431616332c3mr137901035e9.5.1729607217437;
+        Tue, 22 Oct 2024 07:26:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5cc596sm88861275e9.44.2024.10.22.07.26.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 07:26:56 -0700 (PDT)
+Date: Tue, 22 Oct 2024 17:26:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-5.10 4612/30000] fs/ntfs3/attrib.c:1660
  attr_allocate_frame() error: we previously assumed 'attr_b' could be null
  (see line 1573)
-Message-ID: <202410222227.KBnc3TTD-lkp@intel.com>
+Message-ID: <6b6e4146-ce58-4101-bda1-e00cae515bd6@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,44 +68,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   31421c83a2aaf8ecc1d8f377ea9e7e7a37cdb2bf
 commit: c213d417e466b7a7d9e02939bb67fcf5d82a3f2f [4612/30000] fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
-:::::: branch date: 3 hours ago
-:::::: commit date: 2 years, 9 months ago
 config: x86_64-randconfig-161-20241012 (https://download.01.org/0day-ci/archive/20241022/202410222227.KBnc3TTD-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202410222227.KBnc3TTD-lkp@intel.com/
 
 New smatch warnings:
 fs/ntfs3/attrib.c:1660 attr_allocate_frame() error: we previously assumed 'attr_b' could be null (see line 1573)
-fs/ntfs3/fslog.c:2197 last_log_lsn() warn: possible memory leak of 'page_bufs'
-
-Old smatch warnings:
-fs/ntfs3/fslog.c:2409 find_log_rec() error: we previously assumed 'rh' could be null (see line 2396)
-fs/ntfs3/fslog.c:2535 find_client_next_lsn() warn: address of NULL pointer 'hdr'
-fs/ntfs3/fslog.c:625 enum_rstbl() error: we previously assumed 't' could be null (see line 614)
-fs/ntfs3/fslog.c:3146 do_action() warn: variable dereferenced before check 'mi' (see line 3107)
-fs/ntfs3/fslog.c:4540 log_replay() warn: Function too hairy.  No more merges.
 
 vim +/attr_b +1660 fs/ntfs3/attrib.c
 
-6a00145b61696d Konstantin Komarov 2022-01-28  1443  
-6a00145b61696d Konstantin Komarov 2022-01-28  1444  /*
-a68089bd730ee3 Kari Argillander   2022-01-28  1445   * attr_allocate_frame - Allocate/free clusters for @frame.
-6a00145b61696d Konstantin Komarov 2022-01-28  1446   *
-a68089bd730ee3 Kari Argillander   2022-01-28  1447   * Assumed: down_write(&ni->file.run_lock);
-6a00145b61696d Konstantin Komarov 2022-01-28  1448   */
 6a00145b61696d Konstantin Komarov 2022-01-28  1449  int attr_allocate_frame(struct ntfs_inode *ni, CLST frame, size_t compr_size,
 6a00145b61696d Konstantin Komarov 2022-01-28  1450  			u64 new_valid)
 6a00145b61696d Konstantin Komarov 2022-01-28  1451  {
@@ -228,6 +212,9 @@ a68089bd730ee3 Kari Argillander   2022-01-28  1569  			/* Layout of records is c
 6a00145b61696d Konstantin Komarov 2022-01-28 @1573  			if (!attr_b) {
 6a00145b61696d Konstantin Komarov 2022-01-28  1574  				err = -ENOENT;
 6a00145b61696d Konstantin Komarov 2022-01-28  1575  				goto out;
+
+This error path will crash.  attr_b is NULL.
+
 6a00145b61696d Konstantin Komarov 2022-01-28  1576  			}
 6a00145b61696d Konstantin Komarov 2022-01-28  1577  
 6a00145b61696d Konstantin Komarov 2022-01-28  1578  			attr = attr_b;
@@ -320,14 +307,8 @@ a68089bd730ee3 Kari Argillander   2022-01-28  1607  				/* Last attribute segmen
 6a00145b61696d Konstantin Komarov 2022-01-28  1665  
 6a00145b61696d Konstantin Komarov 2022-01-28  1666  	return err;
 6a00145b61696d Konstantin Komarov 2022-01-28  1667  }
-6a00145b61696d Konstantin Komarov 2022-01-28  1668  
-
-:::::: The code at line 1660 was first introduced by commit
-:::::: 6a00145b61696d455360ecca33ad9eaae08be33f fs/ntfs3: Add attrib operations
-
-:::::: TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-:::::: CC: Zheng Zengkai <zhengzengkai@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
