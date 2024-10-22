@@ -1,120 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6BA1B86EF
-	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 16:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAA91BDA9C
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 17:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729615012; cv=none; b=MU4YwM5OG+iOxF5/azVLKSOSidoH8iQU4MXlLaQFXkPiYF5H1/zfqw9Oqykm2t1gwP9JenWKvXEB03GzRj8H+ScimdrUkrWfr2sz8ufN+nMLF6k7phlZ4nF0UcppEPFOUeZQRRTfvqU+JWRQd8rpbMzsmK75RsT1nRycqjrLjVs=
+	t=1729618142; cv=none; b=pHWNlFYVki9ACzyG1o8jAWhHPdMcRUAq+lrWZGpueRIVFcB4ydYvdMvxwOmZtdhClCeL9/MRqG8s/13JcVRgjFv3e1J2cjcxOwjpbyl03bp6TknrXiLWmTDIJ8h4+ZZ7kgdpUWHSPXTLZ2XWnVfsCCPS6/KOYv4hApawvtfRXB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729615012; c=relaxed/simple;
-	bh=nlHZqitwM0kwjbNsiecdh1UItzH41Y4iLnbsNHzDqAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MnjvdHLGCTP7qUuGL9eAcpPb6m/M0RrUW4DMzkfFhGnkCZRgHeCTKihtmU3ApuqHmQfe1Ib5i2Ii4+58N1ryY7lMiiXqnR+DExWLN3UqbLQcKbqdIB9ONxLwaFfQXWUYF+IdJAdDlrHPp33PbCcCBfhroSrrWrXpuClT8d0k4mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQbnNf0l; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729618142; c=relaxed/simple;
+	bh=VV6QKVF0gjjf8hHfaPPcTEmbDgUc5yY0WnBeyT5UWGA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=stxdTw/Mant8fKvSG/maCe/cS0ZfXxhQhD6ggyn+k+s8Ns6ExdmFeHCZup9TAYbeWS7x41ctGApzKBB8i9ovSU57+Y3NRpIg3XeMGXS1SZu/Kv1EAG1muQbU18aZDXmIUKoLFQFV0NKHXglCIQxqBZsR4aIQsw65UHX54uiLlME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NJtCalYr; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQbnNf0l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729615010; x=1761151010;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nlHZqitwM0kwjbNsiecdh1UItzH41Y4iLnbsNHzDqAE=;
-  b=XQbnNf0lLspY4u+IKdSXvwEr16CVTUaxlYbpgMCzK0CjIkxwymjDkJWw
-   Augt1o63Vqbcx2Efe+tWVUNybIMONd6sIIgg9z+m/0G6epDZvUyCFKAKn
-   Rbwpl3mlDqZ7bXecnrXpU7/1KIYvFPOwI5qT8pewbBvG7fs2zLMj4fBn+
-   Ly1MGO5/JCB8Mjs6LUJA0fVmU7fzqBypsjTuAQ9DGiVPXGiWeK6NV2shl
-   lPIhmUhkjW8Ed/kzpadsjvky5kxuKeajFP4JKXnI0UKzAXwMUGbXaeChq
-   WP0RsVaxMYcHJCO4a1hor8pzunOCDozt0K288wu1qeVPWoiqa3XTz8EaW
-   Q==;
-X-CSE-ConnectionGUID: lTuaPIgISXaFUd4VI7Gdjg==
-X-CSE-MsgGUID: UHsdOKbHT7eTFpch8DWFFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39746260"
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="39746260"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 09:36:50 -0700
-X-CSE-ConnectionGUID: rV06dkOjQpK6MB3FcJMTZA==
-X-CSE-MsgGUID: +mGC0K9/SsmtqZkiQwutWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="79502030"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Oct 2024 09:36:49 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3HsE-000Tox-1h;
-	Tue, 22 Oct 2024 16:36:46 +0000
-Date: Wed, 23 Oct 2024 00:36:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/loongarch/kernel/hw_breakpoint.c:510 arch_hw_breakpoint_init()
- warn: we never enter this loop
-Message-ID: <202410230002.sbJRhNZY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NJtCalYr"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e35a643200so119733927b3.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 10:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729618139; x=1730222939; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=88wx3+4q+1K9X5I+DhSnOFWj6qOcMcVFHAzwKhzigV8=;
+        b=NJtCalYrEzaVUyAm/iP/cVGjTlvX4FAyOfjrHF4s0pwnx6qLHFhpW1bjbPREbMJ4pR
+         QydL+m4rEfOdimNne/7XB5OWfULI+/Puqe8MrUZbLpb2Tk9Y8jmPxSPbd7Z/o1DBN1xS
+         F0uy++AUjKyFfVoX+sd48/4Kvg2/MF97cZ3jmnXIRAfAv4mBnQ7A1cq/et2VgYhFJt5G
+         BfTPCeZyFvCPyTyFZYpM4sILh0Kbky4m5nn1FB7m706Mwz6RxGjhTLpK6MPVFGu7zywd
+         rIn1ZVV90mqnEPFqGu+UQRgE7LCxwyuyxApj5z58I+7cOBxI/xc+UZxoqhbLnkZkroZH
+         9igg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729618139; x=1730222939;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=88wx3+4q+1K9X5I+DhSnOFWj6qOcMcVFHAzwKhzigV8=;
+        b=uVYCVAWLYieN/hlkw1GENEjaXwU4q0MvPI8uR6yt/4C4xQUF0zBwcQ2PB4VqM6voJh
+         67qdfgFwMtYptvffXdaOJ/fKNkmQ3SN0zFp7/mka0wgidlQCaecFjfM9EAFxMBYCqzOA
+         IXxlX8hPfaFRYe5afT+9mAtEQQWr0oUVJwwMJkmrBCeQaFC4VngCR8MXfID6nGCMQHOE
+         3+rkXhxjVT4y5zvg/+e4qXDFsCUI25+6W6v6/pHilq7K5B7IDXAXYDGZY9PcqTdZH3Ah
+         0duOL9sdiSgUF0iLR0rBzzkOZ3470z3/Rlp6VuIaBmwr4Fxebz6ujUBgoq9mSINqghwc
+         I7tA==
+X-Gm-Message-State: AOJu0YzOHROqJqkCYDr9Lo0TYUCUU+cDNm3EARz21YINYinIY2dJnVEM
+	ef5Ey8leq3gMhXt5mIgX65RIsa9+TLK3mLK5RV7J1UXDtui2CZMW4tF+CE8Bln7U8Ny7nxK4BYg
+	BAg==
+X-Google-Smtp-Source: AGHT+IFdc0ZQv7mh7e81tsPtMekWG2+yIBem7weGPBwgYcNYPCIjb5/j3ncVZ+x2Nweve08TuyHo7YHd8LQ=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:23c6:b0:6de:19f:34d7 with SMTP id
+ 00721157ae682-6e5bfbd6b2cmr1234057b3.2.1729618138968; Tue, 22 Oct 2024
+ 10:28:58 -0700 (PDT)
+Date: Tue, 22 Oct 2024 10:28:57 -0700
+In-Reply-To: <148feb5b-cdd8-4065-8570-d0304383cc62@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <148feb5b-cdd8-4065-8570-d0304383cc62@stanley.mountain>
+Message-ID: <Zxfg2bTkTgObpexL@google.com>
+Subject: Re: arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error
+ code 'ret'
+From: Sean Christopherson <seanjc@google.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Brijesh Singh <brijesh.singh@amd.com>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Alexey Kardashevskiy <aik@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Liam Merwick <liam.merwick@oracle.com>, 
+	Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tiezhu Yang <yangtiezhu@loongson.cn>
-CC: Huacai Chen <chenhuacai@kernel.org>
+On Mon, Oct 21, 2024, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
+> commit: 88caf544c9305313e1c48ac1a437faa5df8fff06 KVM: SEV: Provide support for SNP_GUEST_REQUEST NAE event
+> config: x86_64-randconfig-161-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192220.MeTyHPxI-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410192220.MeTyHPxI-lkp@intel.com/
+> 
+> New smatch warnings:
+> arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error code 'ret'
+> 
+> 88caf544c93053 Brijesh Singh         2024-07-01  452  	/* This needs to happen after SEV/SNP firmware initialization. */
+> 88caf544c93053 Brijesh Singh         2024-07-01  453  	if (vm_type == KVM_X86_SNP_VM && snp_guest_req_init(kvm))
+> 88caf544c93053 Brijesh Singh         2024-07-01 @454  		goto e_free;
+> 
+> Hard to tell if this is an error path or not.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: 5685d7fcb55fd729d7e0452c157a0ac8d72ca7b6 LoongArch: Give a chance to build with !CONFIG_SMP
-date:   5 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 5 months ago
-config: loongarch-randconfig-r071-20241022 (https://download.01.org/0day-ci/archive/20241023/202410230002.sbJRhNZY-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+It's an error path.  Luckily, the fallout is only that userspace will be confused,
+e.g. KVM doesn't continue configuring state thinking that pervious steps succeeded.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410230002.sbJRhNZY-lkp@intel.com/
+I'll send a patch.
 
-smatch warnings:
-arch/loongarch/kernel/hw_breakpoint.c:510 arch_hw_breakpoint_init() warn: we never enter this loop
-
-vim +510 arch/loongarch/kernel/hw_breakpoint.c
-
-edffa33c7bb5a7 Qing Zhang 2023-02-25  499  
-edffa33c7bb5a7 Qing Zhang 2023-02-25  500  static int __init arch_hw_breakpoint_init(void)
-edffa33c7bb5a7 Qing Zhang 2023-02-25  501  {
-edffa33c7bb5a7 Qing Zhang 2023-02-25  502  	int cpu;
-edffa33c7bb5a7 Qing Zhang 2023-02-25  503  
-edffa33c7bb5a7 Qing Zhang 2023-02-25  504  	boot_cpu_data.watch_ireg_count = get_num_brps();
-edffa33c7bb5a7 Qing Zhang 2023-02-25  505  	boot_cpu_data.watch_dreg_count = get_num_wrps();
-edffa33c7bb5a7 Qing Zhang 2023-02-25  506  
-edffa33c7bb5a7 Qing Zhang 2023-02-25  507  	pr_info("Found %d breakpoint and %d watchpoint registers.\n",
-edffa33c7bb5a7 Qing Zhang 2023-02-25  508  		boot_cpu_data.watch_ireg_count, boot_cpu_data.watch_dreg_count);
-edffa33c7bb5a7 Qing Zhang 2023-02-25  509  
-edffa33c7bb5a7 Qing Zhang 2023-02-25 @510  	for (cpu = 1; cpu < NR_CPUS; cpu++) {
-edffa33c7bb5a7 Qing Zhang 2023-02-25  511  		cpu_data[cpu].watch_ireg_count = boot_cpu_data.watch_ireg_count;
-edffa33c7bb5a7 Qing Zhang 2023-02-25  512  		cpu_data[cpu].watch_dreg_count = boot_cpu_data.watch_dreg_count;
-edffa33c7bb5a7 Qing Zhang 2023-02-25  513  	}
-edffa33c7bb5a7 Qing Zhang 2023-02-25  514  
-edffa33c7bb5a7 Qing Zhang 2023-02-25  515  	return 0;
-edffa33c7bb5a7 Qing Zhang 2023-02-25  516  }
-edffa33c7bb5a7 Qing Zhang 2023-02-25  517  arch_initcall(arch_hw_breakpoint_init);
-edffa33c7bb5a7 Qing Zhang 2023-02-25  518  
-
-:::::: The code at line 510 was first introduced by commit
-:::::: edffa33c7bb5a73e90c754c7a497162b77d7c55f LoongArch: Add hardware breakpoints/watchpoints support
-
-:::::: TO: Qing Zhang <zhangqing@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
