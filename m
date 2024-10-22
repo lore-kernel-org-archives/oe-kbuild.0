@@ -1,110 +1,161 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067BE1E51D;
-	Tue, 22 Oct 2024 01:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF671EB31
+	for <oe-kbuild@lists.linux.dev>; Tue, 22 Oct 2024 02:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729562086; cv=none; b=OAi6fm6ZlHaBzGOs2D7sooSs9GPZxRD0aiBNmYJcPIxnjPGs/71E3ftqfGIiWAK7xGVIUEnEufDa/tsgtb0VzqS7axNK7AeLO/8syhby1swtF1J/hIUr6X5fIkUFpL4sRwwtwiqKm51UEdVxBS8nvGMxXpw5T9QsC/X3lbmpMvs=
+	t=1729563567; cv=none; b=lSSOTw8w4+abpXjac3Pg2g+W2tTNcSm3lPZ2PrALiNhffq3QKIq6XmuRppXEtB3pUMsCEYWz9uLtZNdROZxFUCay4dE1HkT2zYFx/h84E4S2bWzg8+IS5Xf/ib4KTcr4eZUpJYRURINaLS2Q1748O0zf5wYHCKZzp8dLBsWR7NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729562086; c=relaxed/simple;
-	bh=LfEOqGm0ls6BIYjVb+4/LvIwf6YOWxWIxcy5uf+hnGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UM4YLdpxZ1YMb40/fyltFe0XAehZUMKc4R2m03/+OsxpCLo3hLNke2IulKDTDrNaxNQ3VUWl8gpoejgom54rcNZ9H7R/U1s80x0uckIr4jPeWFWaZBnYu8K67pEr1DOOALgKHfzdmAHNjit81rQuQkDtHxP/08KVRMNSi0UJmJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=g7qMAmvi; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1729563567; c=relaxed/simple;
+	bh=zvacXZGOjIqAYBWDpLnhPOJVF9y3KXuVwYZsLmHtFi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hN4pfjsl2XCaJcOI2FyUGJQkNFI4Fab7ThJ241ux0MjWF3BkKOvN4/ZsIfKW4hjg81fuI89HwFOm/E5DLbj5XQQIDw7sfzbkn3yHflalCcYYCg0FmdWvhbCBvA1ldTqcZt37C1xzR8fHou4s9Mbm7OXTEAayOEsQjK23o7KKcpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTGOUGya; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="g7qMAmvi"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1729562074; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=O13sI1AHb9SVp0WIrZBCnG4QTD1a8k/+2urAePRh+BE=;
-	b=g7qMAmvijD5fANZZ+Jk//1BhRA1GMn+IX/2UJcKmhwiN35GaIuSpdFk9oFy1LKwdoxc0A4HfEhDIZ8ybyoNNhI26gwPkXT/vegiRxGqqqY8KTlnlsmtoVAJbwHPsEwc6OO5XyW92lgvl87Mw5xIpk4zy4OMHDt0yea5Ewj1/pgQ=
-Received: from 30.178.82.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHg1zHf_1729562072 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 22 Oct 2024 09:54:34 +0800
-Message-ID: <56519e26-029d-46a1-b7cf-9391775da5bc@linux.alibaba.com>
-Date: Tue, 22 Oct 2024 09:54:32 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTGOUGya"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729563565; x=1761099565;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zvacXZGOjIqAYBWDpLnhPOJVF9y3KXuVwYZsLmHtFi0=;
+  b=hTGOUGyasvRmesOHVREMYRTWkbj53Z1RIDMCa6rBq7Jv42OYlBdj/SM6
+   h5dnltwsj8bsKhikWupXHArFuMZq5skkrT8O7LUOhQp28p3Mqn8Pxivle
+   YpBS3Rz68wN0zzHJTCJa+vVMx1aSb3DWffNvEHpgW6QpdH7MFp1IqaVsD
+   RyMdTpTG3ccSnSCv2Yg63b3f6N2Zv02DmlqdH79wTKWGtrcHqJ+60Y6I+
+   gdNWIOKOObhV2EaaOf8GHGP7FDiIXRVu8b435P+Zc6iXvbD7q4LIUKYZe
+   Ki331L2Wgy6aQ7Zduh3+oMi+czxbLBVSMOdAUWuUEmvb6scYJX6Rj34BU
+   g==;
+X-CSE-ConnectionGUID: IlwgG/WLRSeRc5g7/5T6Og==
+X-CSE-MsgGUID: TUkdw9hoRp+gqLhJQOUDSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29173098"
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="29173098"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 19:19:24 -0700
+X-CSE-ConnectionGUID: Bt1Z/CR1RTKc6ywHo+O+dA==
+X-CSE-MsgGUID: RUlMvSpYSeq0cyzydDJ0kw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="79348531"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 21 Oct 2024 19:08:06 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t34JY-000Sv8-0M;
+	Tue, 22 Oct 2024 02:08:04 +0000
+Date: Tue, 22 Oct 2024 10:07:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/iommu/iommufd/hw_pagetable.c:226:1-7: preceding lock on line
+ 197
+Message-ID: <202410221009.PVaONXAs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH] PCI: optimize proc sequential file read
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- bhelgaas@google.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
-References: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Nicolin Chen <nicolinc@nvidia.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Yi Liu <yi.l.liu@intel.com>
+CC: Kevin Tian <kevin.tian@intel.com>
 
-在 2024/10/21 15:17, Dan Carpenter 写道:
-> Hi Guixin,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guixin-Liu/PCI-optimize-proc-sequential-file-read/20241018-135026
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20241018054728.116519-1-kanie%40linux.alibaba.com
-> patch subject: [PATCH] PCI: optimize proc sequential file read
-> config: i386-randconfig-141-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190659.9MCI8EyL-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202410190659.9MCI8EyL-lkp@intel.com/
->
-> smatch warnings:
-> drivers/pci/proc.c:365 pci_seq_tree_remove_dev() warn: variable dereferenced before check 'dev' (see line 361)
->
-> vim +/dev +365 drivers/pci/proc.c
->
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  359  void pci_seq_tree_remove_dev(struct pci_dev *dev)
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  360  {
-> 4ca256d9a0e58a Guixin Liu 2024-10-18 @361  	unsigned long idx = dev->proc_seq_idx;
->                                                                      ^^^^^^^^^^^^^^^^^
-> Dereferenced
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: b5021cb264e67baf051569a41debe277c279952b iommufd: Share iommufd_hwpt_alloc with IOMMUFD_OBJ_HWPT_NESTED
+date:   12 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 12 months ago
+config: s390-randconfig-r062-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221009.PVaONXAs-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
 
-Thanks, changed in v2.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410221009.PVaONXAs-lkp@intel.com/
 
-Best Regards,
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/hw_pagetable.c:226:1-7: preceding lock on line 197
 
-Guixin Liu
+vim +226 drivers/iommu/iommufd/hw_pagetable.c
 
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  362  	struct pci_dev *latest_dev = NULL;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  363  	struct pci_dev *ret;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  364
-> 4ca256d9a0e58a Guixin Liu 2024-10-18 @365  	if (!dev)
->                                                      ^^^^
-> Checked too late
->
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  366  		return;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  367
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  368  	xa_lock(&pci_seq_tree);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  369  	__xa_erase(&pci_seq_tree, idx);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  370  	pci_dev_put(dev);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  371  	/*
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  372  	 * Move the latest pci_dev to this idx to keep the continuity.
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  373  	 */
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  374  	if (idx != pci_max_idx - 1) {
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  375  		latest_dev = __xa_erase(&pci_seq_tree, pci_max_idx - 1);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  376  		ret = __xa_cmpxchg(&pci_seq_tree, idx, NULL, latest_dev,
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  377  				GFP_KERNEL);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  378  		if (!ret)
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  379  			latest_dev->proc_seq_idx = idx;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  380  		WARN_ON(ret);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  381  	}
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  382  	pci_max_idx--;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  383  	xa_unlock(&pci_seq_tree);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  384  }
->
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  170  
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  171  int iommufd_hwpt_alloc(struct iommufd_ucmd *ucmd)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  172  {
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  173  	struct iommu_hwpt_alloc *cmd = ucmd->cmd;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  174  	struct iommufd_hw_pagetable *hwpt;
+b5021cb264e67b Nicolin Chen    2023-10-25  175  	struct iommufd_ioas *ioas = NULL;
+b5021cb264e67b Nicolin Chen    2023-10-25  176  	struct iommufd_object *pt_obj;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  177  	struct iommufd_device *idev;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  178  	int rc;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  179  
+b5021cb264e67b Nicolin Chen    2023-10-25  180  	if (cmd->__reserved)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  181  		return -EOPNOTSUPP;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  182  
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  183  	idev = iommufd_get_device(ucmd, cmd->dev_id);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  184  	if (IS_ERR(idev))
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  185  		return PTR_ERR(idev);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  186  
+b5021cb264e67b Nicolin Chen    2023-10-25  187  	pt_obj = iommufd_get_object(ucmd->ictx, cmd->pt_id, IOMMUFD_OBJ_ANY);
+b5021cb264e67b Nicolin Chen    2023-10-25  188  	if (IS_ERR(pt_obj)) {
+b5021cb264e67b Nicolin Chen    2023-10-25  189  		rc = -EINVAL;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  190  		goto out_put_idev;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  191  	}
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  192  
+b5021cb264e67b Nicolin Chen    2023-10-25  193  	if (pt_obj->type == IOMMUFD_OBJ_IOAS) {
+b5021cb264e67b Nicolin Chen    2023-10-25  194  		struct iommufd_hwpt_paging *hwpt_paging;
+b5021cb264e67b Nicolin Chen    2023-10-25  195  
+b5021cb264e67b Nicolin Chen    2023-10-25  196  		ioas = container_of(pt_obj, struct iommufd_ioas, obj);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17 @197  		mutex_lock(&ioas->mutex);
+89db31635c87a7 Nicolin Chen    2023-10-25  198  		hwpt_paging = iommufd_hwpt_paging_alloc(ucmd->ictx, ioas, idev,
+89db31635c87a7 Nicolin Chen    2023-10-25  199  							cmd->flags, false);
+89db31635c87a7 Nicolin Chen    2023-10-25  200  		if (IS_ERR(hwpt_paging)) {
+89db31635c87a7 Nicolin Chen    2023-10-25  201  			rc = PTR_ERR(hwpt_paging);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  202  			goto out_unlock;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  203  		}
+89db31635c87a7 Nicolin Chen    2023-10-25  204  		hwpt = &hwpt_paging->common;
+b5021cb264e67b Nicolin Chen    2023-10-25  205  	} else {
+b5021cb264e67b Nicolin Chen    2023-10-25  206  		rc = -EINVAL;
+b5021cb264e67b Nicolin Chen    2023-10-25  207  		goto out_put_pt;
+b5021cb264e67b Nicolin Chen    2023-10-25  208  	}
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  209  
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  210  	cmd->out_hwpt_id = hwpt->obj.id;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  211  	rc = iommufd_ucmd_respond(ucmd, sizeof(*cmd));
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  212  	if (rc)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  213  		goto out_hwpt;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  214  	iommufd_object_finalize(ucmd->ictx, &hwpt->obj);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  215  	goto out_unlock;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  216  
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  217  out_hwpt:
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  218  	iommufd_object_abort_and_destroy(ucmd->ictx, &hwpt->obj);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  219  out_unlock:
+b5021cb264e67b Nicolin Chen    2023-10-25  220  	if (ioas)
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  221  		mutex_unlock(&ioas->mutex);
+b5021cb264e67b Nicolin Chen    2023-10-25  222  out_put_pt:
+b5021cb264e67b Nicolin Chen    2023-10-25  223  	iommufd_put_object(pt_obj);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  224  out_put_idev:
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  225  	iommufd_put_object(&idev->obj);
+7074d7bd67d495 Jason Gunthorpe 2023-07-17 @226  	return rc;
+7074d7bd67d495 Jason Gunthorpe 2023-07-17  227  }
+e2a4b294784957 Joao Martins    2023-10-24  228  
+
+:::::: The code at line 226 was first introduced by commit
+:::::: 7074d7bd67d495cb3f6fe7c7c96b357a3b9d4ec2 iommufd: Add IOMMU_HWPT_ALLOC
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
