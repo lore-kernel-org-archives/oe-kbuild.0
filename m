@@ -1,119 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584551E1027
-	for <oe-kbuild@lists.linux.dev>; Mon, 21 Oct 2024 23:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067BE1E51D;
+	Tue, 22 Oct 2024 01:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729553700; cv=none; b=FonDhAoPEX5OT5aVYyO/NPbo77bl63c21o4+oBX5yDKT/6aWxVfCtVRcFQojBG1DR+teXObkPAlLV0kA7wG4pxSiN3dc9Ih1RIQR1uJxS+4GuYWe9hcXkrZZUkQimcOcOc2MpRCoW/j7KCX4ebF6ohDH5YDzdKiqLDqCE8hA3/M=
+	t=1729562086; cv=none; b=OAi6fm6ZlHaBzGOs2D7sooSs9GPZxRD0aiBNmYJcPIxnjPGs/71E3ftqfGIiWAK7xGVIUEnEufDa/tsgtb0VzqS7axNK7AeLO/8syhby1swtF1J/hIUr6X5fIkUFpL4sRwwtwiqKm51UEdVxBS8nvGMxXpw5T9QsC/X3lbmpMvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729553700; c=relaxed/simple;
-	bh=rT6S+q89Be7DqGfZUke/v4Dx+lZsxvYLlLqV5VBm60A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZJWFz9C4mfdL0IH5QBJsGwP9MHGU5z6GSXVOy44upAf3RruMYI3/thXinkOBoZvVxZrZ2+j4Vm8G3OG37/XTxI++eLPdJmqQYvb5XhEV5EVgc7gei0qZTdq1IdOo/sJDikbqDgJafnMsa+9n0UiBfK9C9EcGzgAIxl4V4vJBqEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IwfoS/gv; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729562086; c=relaxed/simple;
+	bh=LfEOqGm0ls6BIYjVb+4/LvIwf6YOWxWIxcy5uf+hnGA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UM4YLdpxZ1YMb40/fyltFe0XAehZUMKc4R2m03/+OsxpCLo3hLNke2IulKDTDrNaxNQ3VUWl8gpoejgom54rcNZ9H7R/U1s80x0uckIr4jPeWFWaZBnYu8K67pEr1DOOALgKHfzdmAHNjit81rQuQkDtHxP/08KVRMNSi0UJmJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=g7qMAmvi; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IwfoS/gv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729553699; x=1761089699;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=rT6S+q89Be7DqGfZUke/v4Dx+lZsxvYLlLqV5VBm60A=;
-  b=IwfoS/gv6qEFuvdI958R1021VN47Zj84/Hw0u4vSaThztkH8pATffnax
-   2OtgXuNdjVV+kWXipSyPPD9UZ5Ibm9VJGqd70BSX550aDKZaEInLxWZ/z
-   doqAswTTPKlgJLs+Ggj5ngNII2hegmthqdGjrORbbeYvYw4RPryr7mr+E
-   strK57vPiB26Oyr9l5Pg95Po43qHsruulAuvSGSlLCXcM2AL4QGxg99BK
-   zQzDtg6k3WTlbDaGGmy28Rd3hqTW9yAmcsIO0oNFhxa/03Gk5Bnld1yvg
-   DUANqgvYUKXZZ3ATuT5zzi4IFMOqcsTRdr+BuoJZJkV/nIspZJQUMIm3Z
-   g==;
-X-CSE-ConnectionGUID: d6wXjPLqStKWB1PEUcX7jA==
-X-CSE-MsgGUID: aRmkK3egSPW5VVNTD9M5JQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="39678711"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="39678711"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 16:34:59 -0700
-X-CSE-ConnectionGUID: amC5a25hTBeZ2QQDYEuv8g==
-X-CSE-MsgGUID: fId5zZQZQYeKIqtWmr5mrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="110507093"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2024 16:34:57 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t31vK-000Sl8-2Q;
-	Mon, 21 Oct 2024 23:34:54 +0000
-Date: Tue, 22 Oct 2024 07:33:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 1386/6324]
- drivers/gpu/drm/panthor/panthor_sched.c:2851
- panthor_fdinfo_gather_group_samples() warn: iterator 'i' not incremented
-Message-ID: <202410220946.419WL4YJ-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="g7qMAmvi"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1729562074; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=O13sI1AHb9SVp0WIrZBCnG4QTD1a8k/+2urAePRh+BE=;
+	b=g7qMAmvijD5fANZZ+Jk//1BhRA1GMn+IX/2UJcKmhwiN35GaIuSpdFk9oFy1LKwdoxc0A4HfEhDIZ8ybyoNNhI26gwPkXT/vegiRxGqqqY8KTlnlsmtoVAJbwHPsEwc6OO5XyW92lgvl87Mw5xIpk4zy4OMHDt0yea5Ewj1/pgQ=
+Received: from 30.178.82.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHg1zHf_1729562072 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 22 Oct 2024 09:54:34 +0800
+Message-ID: <56519e26-029d-46a1-b7cf-9391775da5bc@linux.alibaba.com>
+Date: Tue, 22 Oct 2024 09:54:32 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
+Subject: Re: [PATCH] PCI: optimize proc sequential file read
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+ bhelgaas@google.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
+References: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
+From: Guixin Liu <kanie@linux.alibaba.com>
+In-Reply-To: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: "Adrián Larumbe" <adrian.larumbe@collabora.com>
-CC: Boris Brezillon <bbrezillon@kernel.org>
-CC: Steven Price <steven.price@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   63b3ff03d91ae8f875fe8747c781a521f78cde17
-commit: e16635d88fa07ba5801aa9e57ad7fe3c053234e4 [1386/6324] drm/panthor: add DRM fdinfo support
-:::::: branch date: 20 hours ago
-:::::: commit date: 3 weeks ago
-config: alpha-randconfig-r072-20241020 (https://download.01.org/0day-ci/archive/20241022/202410220946.419WL4YJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
+åœ¨ 2024/10/21 15:17, Dan Carpenter å†™é“:
+> Hi Guixin,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guixin-Liu/PCI-optimize-proc-sequential-file-read/20241018-135026
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/20241018054728.116519-1-kanie%40linux.alibaba.com
+> patch subject: [PATCH] PCI: optimize proc sequential file read
+> config: i386-randconfig-141-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190659.9MCI8EyL-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410190659.9MCI8EyL-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/pci/proc.c:365 pci_seq_tree_remove_dev() warn: variable dereferenced before check 'dev' (see line 361)
+>
+> vim +/dev +365 drivers/pci/proc.c
+>
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  359  void pci_seq_tree_remove_dev(struct pci_dev *dev)
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  360  {
+> 4ca256d9a0e58a Guixin Liu 2024-10-18 @361  	unsigned long idx = dev->proc_seq_idx;
+>                                                                      ^^^^^^^^^^^^^^^^^
+> Dereferenced
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410220946.419WL4YJ-lkp@intel.com/
+Thanks, changed in v2.
 
-New smatch warnings:
-drivers/gpu/drm/panthor/panthor_sched.c:2851 panthor_fdinfo_gather_group_samples() warn: iterator 'i' not incremented
+Best Regards,
 
-Old smatch warnings:
-drivers/gpu/drm/panthor/panthor_sched.c:3575 panthor_group_pool_destroy() warn: iterator 'i' not incremented
+Guixin Liu
 
-vim +/i +2851 drivers/gpu/drm/panthor/panthor_sched.c
-
-e16635d88fa07b Adrián Larumbe 2024-09-24  2841  
-e16635d88fa07b Adrián Larumbe 2024-09-24  2842  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
-e16635d88fa07b Adrián Larumbe 2024-09-24  2843  {
-e16635d88fa07b Adrián Larumbe 2024-09-24  2844  	struct panthor_group_pool *gpool = pfile->groups;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2845  	struct panthor_group *group;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2846  	unsigned long i;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2847  
-e16635d88fa07b Adrián Larumbe 2024-09-24  2848  	if (IS_ERR_OR_NULL(gpool))
-e16635d88fa07b Adrián Larumbe 2024-09-24  2849  		return;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2850  
-e16635d88fa07b Adrián Larumbe 2024-09-24 @2851  	xa_for_each(&gpool->xa, i, group) {
-e16635d88fa07b Adrián Larumbe 2024-09-24  2852  		mutex_lock(&group->fdinfo.lock);
-e16635d88fa07b Adrián Larumbe 2024-09-24  2853  		pfile->stats.cycles += group->fdinfo.data.cycles;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2854  		pfile->stats.time += group->fdinfo.data.time;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2855  		group->fdinfo.data.cycles = 0;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2856  		group->fdinfo.data.time = 0;
-e16635d88fa07b Adrián Larumbe 2024-09-24  2857  		mutex_unlock(&group->fdinfo.lock);
-e16635d88fa07b Adrián Larumbe 2024-09-24  2858  	}
-e16635d88fa07b Adrián Larumbe 2024-09-24  2859  }
-e16635d88fa07b Adrián Larumbe 2024-09-24  2860  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  362  	struct pci_dev *latest_dev = NULL;
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  363  	struct pci_dev *ret;
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  364
+> 4ca256d9a0e58a Guixin Liu 2024-10-18 @365  	if (!dev)
+>                                                      ^^^^
+> Checked too late
+>
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  366  		return;
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  367
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  368  	xa_lock(&pci_seq_tree);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  369  	__xa_erase(&pci_seq_tree, idx);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  370  	pci_dev_put(dev);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  371  	/*
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  372  	 * Move the latest pci_dev to this idx to keep the continuity.
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  373  	 */
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  374  	if (idx != pci_max_idx - 1) {
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  375  		latest_dev = __xa_erase(&pci_seq_tree, pci_max_idx - 1);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  376  		ret = __xa_cmpxchg(&pci_seq_tree, idx, NULL, latest_dev,
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  377  				GFP_KERNEL);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  378  		if (!ret)
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  379  			latest_dev->proc_seq_idx = idx;
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  380  		WARN_ON(ret);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  381  	}
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  382  	pci_max_idx--;
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  383  	xa_unlock(&pci_seq_tree);
+> 4ca256d9a0e58a Guixin Liu 2024-10-18  384  }
+>
