@@ -1,65 +1,57 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38082156C72
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 13:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812C92EAEA
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 16:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729688933; cv=none; b=enrdrvIvd1ZQzbw9l5NmdPhT9NSpf9qAvAaI2EEj2wqdLkKmftbeJg2CbpxVlU2MWCjsholbHy9YcuOMOv7kTuiOJneaZzD9oBn4nszBxCG/zt9fVhXPI989UJYvri8AKwen43RjRSbQZzQSTouWvk5Oj+qbBVAtKA7aab0//aw=
+	t=1729700210; cv=none; b=lnsPR/qu5esLTe3Cc17BVWRJfZMOAU6OndXCsXqifrXDn2W/QmfudDG2+/8Mo7QWfAB0sZjec0aIRKrKOtl508HVY2KTZeoyeQR2MQlgK93g066fpnvpZZKXMB4hJit7h/Wz+DX/tSwTBE5dnSyMPsu62eIZsuZ4Lt2PMKf4TPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729688933; c=relaxed/simple;
-	bh=dV1gbO1qLb6NKBW03Yj7HQfwxoH+NP+YUmjI9o87CxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iL6S+Ywfp1IO83ly2HllVeMAGZpdbq0rptChppg/G9EaAQ0pvVnBQCZkKYFTZW4kpVXrN+BEDGCYZkn+NH+gAcDwAV2/yx6kCbhJHH/ax+k5voX/oIqNHpJYilWD6DIfT32lCFPARJsd+1M/7vciAubsGyrVZurDf/2eBEEqjKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BszB8n7c; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729700210; c=relaxed/simple;
+	bh=5YpytxSHY0n6cCxFEmUewhWdDuD+bJwAe+GptqumZBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hnbeLC/o11PADIOmMJHVQaGYyMYP25qMYrGJzQ+xKRj8qB+RQDA+oH3LJNYs89G9R26cGoxJyEPy3gwmHbrEqqp/7i6Y+uyGqTp/zqOiL/5E/14P3p9ypTZKLbuBOfI0zpwCvVcYrG5urkxgua+7hX2RTWYO5PyvT9oXBMeoLc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+ERezMW; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BszB8n7c"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539e7e73740so6089177e87.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 06:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729688929; x=1730293729; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WnD2nZJAklMiOeWZJa3ROELAJ4NyTZ2a7s0JkiTjll4=;
-        b=BszB8n7c5dC+NgCQeBYQdh1vw+3vNdsb/34Z1XYIBbKZ3wTkfZgK5kRA4meOw9ZRkr
-         0n4p3T3SCjnbVXyMa/yRGhLPxC6UsbqDLowD/uq1BcxRdEEv+iKXHLFiNqeVA4YhI8m8
-         VgpnsooBJjAdxvlFcZwVe5KKac37ruVQANRwGAuCeuSO0zbb0UQ5Z6XEr2b1TjAwzRDN
-         +GsVadY/5dWjGdQunT+lYGTZV8x2U7vXjpO6x0iw+G6fmD1Y5eUOIzcxwL+1ef037VC9
-         egRWJZR/DhkkgarmbxiWMAl2jUmNpoYJe0Na/ORuMmIiEvkQGUg9WIiXRGMfl5Ct9MIA
-         +7gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729688929; x=1730293729;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WnD2nZJAklMiOeWZJa3ROELAJ4NyTZ2a7s0JkiTjll4=;
-        b=posfR1xYNp7w5Cae1PQ5caeNbEgTouWCM1OwsK6lQnzYaHTUExzl9ep4O+SvmZX2An
-         0OSJXCrsS90NJPwr9fG72r/OGhw2KaE7MoRrwHwHYJ2+EQG18CVFicQMN9RVc5PtMr3k
-         y6iObSAoBdUVFTmDHi+5pkysCfYA1LIenPFKUZEW0EGmgjNufr7Mi94FQsxNI4alis2U
-         +QZGx20LCbT063wlkesZhkssuW0/j8OlWYd9t2fFgjhAcPU5NW/wI6cLI5LhqkEEpU4c
-         zy4Z82S7XIghaT+YPnZHG/aEkzEg/WCH45yYlfecZQiKuWIE8bUwx8NGrc135VXgIHPC
-         3T5Q==
-X-Gm-Message-State: AOJu0YwQ/io1/stMmmIBimIJjV9WZ+RTX2jpPlXyG6KUZFf830OClU1x
-	hBtuKc/py892yjZgg04vK1c+fcS1cBES8TQY/py7rdTTMkTEB8beCsRrr6tER0o=
-X-Google-Smtp-Source: AGHT+IFw5ht7rmnC4d2saXeTVIgInQdtV2P7ds7Hv2UrhifS4vHmObILRq5jgIoeA5fMxxeePNLDug==
-X-Received: by 2002:a05:6512:3082:b0:53b:15dc:f15d with SMTP id 2adb3069b0e04-53b1a375f5fmr1493195e87.50.1729688929224;
-        Wed, 23 Oct 2024 06:08:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43186bd223dsm16159645e9.1.2024.10.23.06.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 06:08:48 -0700 (PDT)
-Date: Wed, 23 Oct 2024 16:08:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: arch/arm64/kvm/at.c:71 at_s1e1p_fast() error: uninitialized
- symbol 'fail'.
-Message-ID: <50405e9c-7921-49ee-bd97-f2b603987f0f@stanley.mountain>
-References: <7612de9a-d262-4d40-addb-64449768b35a@stanley.mountain>
- <864j533s88.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+ERezMW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729700208; x=1761236208;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5YpytxSHY0n6cCxFEmUewhWdDuD+bJwAe+GptqumZBM=;
+  b=h+ERezMWRDfk+rrAkUr5JLAhE1U9rn3W4JLArRJQrqs0U8LXblYMFTG2
+   T78et4aO7XEPcIfWzFX/E7ZrpKBc9yop847NAjy+POasCOnIz00nSD1M1
+   bdJlHCcVDppTZYuaZ/W+1Ao6lgSH2j+9jm59XSqRR39c6Kc1HfgWwyy65
+   kCCR4DHQZ26b3LzJ4Ni1s62+EyCarYHWPLUnVZwQw4BjVgxMuGHJbcWui
+   MV7B+3lQbrqk56EtsbU4mjxLFYGM/WgEbbgbJ9iXAy+oTglACmFEwTzxh
+   bNPjfQy9Sfy/F+totJZbDJ3hv2sv8nv+HEtXfjqlrajfk6IPLPjdLIQTP
+   A==;
+X-CSE-ConnectionGUID: vXUS0y8DQ5y1BPeULSI4KQ==
+X-CSE-MsgGUID: qqgEbX+6RcS+Tp3znNw/HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29459902"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29459902"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 09:16:47 -0700
+X-CSE-ConnectionGUID: obENzCkORSawbhrMS0v+yQ==
+X-CSE-MsgGUID: BE6WJvWSSvCIkK6H0hSHhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
+   d="scan'208";a="80201746"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2024 09:16:46 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3e2O-000V8S-0t;
+	Wed, 23 Oct 2024 16:16:44 +0000
+Date: Thu, 24 Oct 2024 00:16:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: Re: [PATCH v2] LoongArch: Fix cpu hotplug issue
+Message-ID: <202410240011.yyn65q8W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,68 +60,80 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <864j533s88.wl-maz@kernel.org>
 
-On Wed, Oct 23, 2024 at 01:43:03PM +0100, Marc Zyngier wrote:
-> On Mon, 21 Oct 2024 08:29:41 +0100,
-> Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
-> > commit: be0135bde1df5e80cffacd2ed6f952e6d38d6f71 KVM: arm64: nv: Add basic emulation of AT S1E1{R,W}P
-> > date:   7 weeks ago
-> > config: arm64-randconfig-r071-20241015 (https://download.01.org/0day-ci/archive/20241020/202410200209.bAXXL58Q-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 14.1.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202410200209.bAXXL58Q-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > arch/arm64/kvm/at.c:71 at_s1e1p_fast() error: uninitialized symbol 'fail'.
-> > 
-> > vim +/fail +71 arch/arm64/kvm/at.c
-> > 
-> > be0135bde1df5e Marc Zyngier 2024-07-14  52  static bool at_s1e1p_fast(struct kvm_vcpu *vcpu, u32 op, u64 vaddr)
-> > be0135bde1df5e Marc Zyngier 2024-07-14  53  {
-> > be0135bde1df5e Marc Zyngier 2024-07-14  54  	u64 host_pan;
-> > be0135bde1df5e Marc Zyngier 2024-07-14  55  	bool fail;
-> > be0135bde1df5e Marc Zyngier 2024-07-14  56  
-> > be0135bde1df5e Marc Zyngier 2024-07-14  57  	host_pan = read_sysreg_s(SYS_PSTATE_PAN);
-> > be0135bde1df5e Marc Zyngier 2024-07-14  58  	write_sysreg_s(*vcpu_cpsr(vcpu) & PSTATE_PAN, SYS_PSTATE_PAN);
-> > be0135bde1df5e Marc Zyngier 2024-07-14  59  
-> > be0135bde1df5e Marc Zyngier 2024-07-14  60  	switch (op) {
-> > be0135bde1df5e Marc Zyngier 2024-07-14  61  	case OP_AT_S1E1RP:
-> > be0135bde1df5e Marc Zyngier 2024-07-14  62  		fail = __kvm_at(OP_AT_S1E1RP, vaddr);
-> > be0135bde1df5e Marc Zyngier 2024-07-14  63  		break;
-> > be0135bde1df5e Marc Zyngier 2024-07-14  64  	case OP_AT_S1E1WP:
-> > be0135bde1df5e Marc Zyngier 2024-07-14  65  		fail = __kvm_at(OP_AT_S1E1WP, vaddr);
-> > be0135bde1df5e Marc Zyngier 2024-07-14  66  		break;
-> > 
-> > default case?
-> 
-> There is no bug here, as evidenced by the *only* caller of this
-> function (__kvm_at_s1e01_fast()):
-> 
-> 	switch (op) {
-> 	case OP_AT_S1E1RP:
-> 	case OP_AT_S1E1WP:
-> 		fail = at_s1e1p_fast(vcpu, op, vaddr);
-> 		break;
-> 
-> So 'op' can only be one of these two values, and at_s1e1p_fast()
-> always initialises 'fail'.
-> 
-> I guess this is a case of smatch not seeing beyond function scope.
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241021080418.644342-1-maobibo@loongson.cn>
+References: <20241021080418.644342-1-maobibo@loongson.cn>
+TO: Bibo Mao <maobibo@loongson.cn>
+TO: Huacai Chen <chenhuacai@kernel.org>
+TO: Jianmin Lv <lvjianmin@loongson.cn>
+CC: loongarch@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+CC: lixianglai@loongson.cn
+CC: WANG Xuerui <kernel@xen0n.name>
 
-Yeah. I don't know why I sent this report.  :/ The kbuild-bot doesn't have cross
-function information, but I have a system with that right infront of me.
+Hi Bibo,
 
-Sorry.
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Fix-cpu-hotplug-issue/20241021-160525
+base:   42f7652d3eb527d03665b09edac47f85fb600924
+patch link:    https://lore.kernel.org/r/20241021080418.644342-1-maobibo%40loongson.cn
+patch subject: [PATCH v2] LoongArch: Fix cpu hotplug issue
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: loongarch-randconfig-r051-20241023 (https://download.01.org/0day-ci/archive/20241024/202410240011.yyn65q8W-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410240011.yyn65q8W-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> arch/loongarch/kernel/smp.c:295:6-9: WARNING: Unsigned expression compared with zero: cpu < 0
+
+vim +295 arch/loongarch/kernel/smp.c
+
+316863cb62fe7aa Bibo Mao    2024-05-06  279  
+88d4d957edc707e Binbin Zhou 2022-12-10  280  static void __init fdt_smp_setup(void)
+88d4d957edc707e Binbin Zhou 2022-12-10  281  {
+88d4d957edc707e Binbin Zhou 2022-12-10  282  #ifdef CONFIG_OF
+88d4d957edc707e Binbin Zhou 2022-12-10  283  	unsigned int cpu, cpuid;
+88d4d957edc707e Binbin Zhou 2022-12-10  284  	struct device_node *node = NULL;
+88d4d957edc707e Binbin Zhou 2022-12-10  285  
+88d4d957edc707e Binbin Zhou 2022-12-10  286  	for_each_of_cpu_node(node) {
+88d4d957edc707e Binbin Zhou 2022-12-10  287  		if (!of_device_is_available(node))
+88d4d957edc707e Binbin Zhou 2022-12-10  288  			continue;
+88d4d957edc707e Binbin Zhou 2022-12-10  289  
+88d4d957edc707e Binbin Zhou 2022-12-10  290  		cpuid = of_get_cpu_hwid(node, 0);
+88d4d957edc707e Binbin Zhou 2022-12-10  291  		if (cpuid >= nr_cpu_ids)
+88d4d957edc707e Binbin Zhou 2022-12-10  292  			continue;
+88d4d957edc707e Binbin Zhou 2022-12-10  293  
+1c3dd9a636b13c7 Bibo Mao    2024-10-21  294  		cpu = topo_add_cpu(cpuid);
+1c3dd9a636b13c7 Bibo Mao    2024-10-21 @295  		if (cpu < 0)
+1c3dd9a636b13c7 Bibo Mao    2024-10-21  296  			continue;
+88d4d957edc707e Binbin Zhou 2022-12-10  297  
+88d4d957edc707e Binbin Zhou 2022-12-10  298  		num_processors++;
+88d4d957edc707e Binbin Zhou 2022-12-10  299  		set_cpu_possible(cpu, true);
+88d4d957edc707e Binbin Zhou 2022-12-10  300  		set_cpu_present(cpu, true);
+88d4d957edc707e Binbin Zhou 2022-12-10  301  		__cpu_number_map[cpuid] = cpu;
+88d4d957edc707e Binbin Zhou 2022-12-10  302  		__cpu_logical_map[cpu] = cpuid;
+3de9c42d02a79a5 Jiaxun Yang 2024-06-03  303  
+1c3dd9a636b13c7 Bibo Mao    2024-10-21  304  		early_numa_add_cpu(cpuid, 0);
+3de9c42d02a79a5 Jiaxun Yang 2024-06-03  305  		set_cpuid_to_node(cpuid, 0);
+88d4d957edc707e Binbin Zhou 2022-12-10  306  	}
+88d4d957edc707e Binbin Zhou 2022-12-10  307  
+88d4d957edc707e Binbin Zhou 2022-12-10  308  	loongson_sysconf.nr_cpus = num_processors;
+ce68ff3528e6eff Huacai Chen 2024-01-17  309  	set_bit(0, loongson_sysconf.cores_io_master);
+88d4d957edc707e Binbin Zhou 2022-12-10  310  #endif
+88d4d957edc707e Binbin Zhou 2022-12-10  311  }
+88d4d957edc707e Binbin Zhou 2022-12-10  312  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
