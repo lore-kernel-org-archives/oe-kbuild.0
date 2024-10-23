@@ -1,125 +1,77 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7381913DB9F
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 07:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F4119B5AC
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 09:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729669098; cv=none; b=W1MjgFEcJe/jyn6BSEbkdv+ugE4lrd7eKX+1nfC4JBX9v5fwFJyhh2c4h2+fInfL0/U5CWdmlwDOmi7+3/dAYaSS2bQJimLD8TW3ATA6G/mXWAbP3/iyIuZr9JDzG6Omr5enddRHhpDby9jJmFxn4VRz+mIZ5+5tvPFhJ/bh29w=
+	t=1729674242; cv=none; b=K8geqMM+XWJ7uwHWglzbvYSLd3FAUIi4lxbRbC9r17xgFRKgygHh72Ux8DluEPMYY5205Lr3gS3w1i2t7mrUnbcVF2AbtjOwjIOVXQXx13fsByAFTe7opDiUdBAEcTU0QbGYiAihFfGGmEjXg3OkehKlKPn77Zw7xFGr6QLJcI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729669098; c=relaxed/simple;
-	bh=nXPzMclz3nXaozUblDi+1q2LpZPAFo82Yk8wKHOx4RA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TYHgnVCSmriuT50XuA8BB4s103awq/8cp370/tG6+rUDzlGJWn4gAIByBkMkFtOp9rWTG3n3Ip+NsUwPwZE9vvKZfDOY3tZCvj3EEyU9uuHI9hA685sZNZiJQiynb7wrCYvx/eVQCf0k/+/Mjr+swGqM+KsnzzXna85n6E1xOvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tQ+AmG20; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tQ+AmG20"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so5810429f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 00:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729669095; x=1730273895; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Izd4rZebQ7y8hQL9rGqqYb2xqbH/AuKR6LjqM8RIkOU=;
-        b=tQ+AmG20mVV5t0sttU8B9rYuExmus+amRjiE2M5nAFuaqVEbyFaSr890rAoupta9+J
-         zyXoX1gh29MNRKEixsh9688Tcqg++B0xVG1QtjloRwzoehvv4rH5kUPB4WCLWip4gVyM
-         k4jTeH+ObHc49a8qB9RqdR8XCY70EGxarUnT5O3PoT+KpE+4jjWheMF3I4QnDcmExQiW
-         fyl8H0LnEl+NpCR4vePT0e3hljfU4XosrwFcMJUVr7RYG/huq7a144Gmk2a4zoh0/IU8
-         HTwxiYiFfAtCQilpKDt/MJMw1bkLjKoC6L/QphTkk6bUCxW4cyTyUbJ6PzcKw/8EQCSl
-         DO8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729669095; x=1730273895;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Izd4rZebQ7y8hQL9rGqqYb2xqbH/AuKR6LjqM8RIkOU=;
-        b=CwHGuglSScpBELoBUxKgCPIOB6ORX6Ngf0qEYrLz7ADZqnyCOBNBt4caMZgSYWFvpK
-         w0gdR0jVT6bQbTejtwQjZ6oUcmdhqCBeURTaCfKM8Jd/s2pnYPXxDyLi/g+cn+9hnzXo
-         FkirmS4//n+fdtiYB7oovTXijVg7n4xPfMBobRusUTw8FnLjfnZ3KCWqNPW89paSjjL0
-         lWWzTzqv/eXmU2dIgMLKaqfygHf1sn2ZYM8+LmUyeaHBEanDc29gH1WPA8wdzenNkDr1
-         klylWlt54gBXQ23gDYL6GaNq6asLdBHQmtAIWRvWwt6Y05QnY0fLe6YvRVv/Z/fC7XlO
-         oxwA==
-X-Gm-Message-State: AOJu0YwVC/FrUPnar0rnHbe23iLGh7jucvjIlxW09eBTrPW8ShYUzUsS
-	v90EwjwJSZVNQ2e28rsmeBoNC3y7UHUQuH1WvMpafS5DIBBc1WWuVelUBvq90dv3/RiAD7PoNmD
-	WfK8=
-X-Google-Smtp-Source: AGHT+IGVfOx2MFMafq++3ld4fk//SAc9KA8h9Cp96SGBaQB1n47UMGfxDyD9GlwfkRyJYxaS8onAXQ==
-X-Received: by 2002:adf:f7c2:0:b0:37d:5318:bf0a with SMTP id ffacd0b85a97d-37efcee59ffmr1250154f8f.1.1729669094492;
-        Wed, 23 Oct 2024 00:38:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b943fasm8288253f8f.69.2024.10.23.00.38.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 00:38:13 -0700 (PDT)
-Date: Wed, 23 Oct 2024 10:38:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>
-Subject: drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn:
- 'tegra->domain' is an error pointer or valid
-Message-ID: <0671f92b-915d-4089-acbc-81249f3423fe@stanley.mountain>
+	s=arc-20240116; t=1729674242; c=relaxed/simple;
+	bh=B0dcN+BupGltjscxxKKIw6/MugI4xtnT804Z0BJXYIM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D/Z9kM5Mk7GAk+gUJSV+bsyQ59xKXSpHGDm6tLkw2QU5Q5wnNRfDdSaO0qGbWf80e4ljRMKIDKvyvOFDVtzw3i+nbOjDRjJd6fHbslqJQzRIlRuZzj3NutYhyryYEmOzgyoA8eyx5dEZ69buWHkUBqJsaw6EvW34cJWOuVLz2AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4XYNNL4S8zzyTdq;
+	Wed, 23 Oct 2024 17:02:26 +0800 (CST)
+Received: from kwepemf500004.china.huawei.com (unknown [7.202.181.242])
+	by mail.maildlp.com (Postfix) with ESMTPS id 107BB1401E0;
+	Wed, 23 Oct 2024 17:03:58 +0800 (CST)
+Received: from lihuafei.huawei.com (10.90.53.74) by
+ kwepemf500004.china.huawei.com (7.202.181.242) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 23 Oct 2024 17:03:57 +0800
+From: Li Huafei <lihuafei1@huawei.com>
+To: <rostedt@goodmis.org>
+CC: <dan.carpenter@linaro.org>, <mhiramat@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<oe-kbuild@lists.linux.dev>, <lkp@intel.com>, <lihuafei1@huawei.com>
+Subject: [PATCH] fgraph: Fix missing unlock in register_ftrace_graph()
+Date: Thu, 24 Oct 2024 01:04:48 +0800
+Message-ID: <20241023170448.808512-1-lihuafei1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemf500004.china.huawei.com (7.202.181.242)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: 45c690aea8ee5b7d012cd593bd288540a4bfdbf0 drm/tegra: Use iommu_paging_domain_alloc()
-config: arc-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241023/202410231515.U2XBsu6b-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+Instead of returning an error, goto the mutex unlock at the end of the
+function.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410231515.U2XBsu6b-lkp@intel.com/
+Fixes smatch warning:
 
-smatch warnings:
-drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn: 'tegra->domain' is an error pointer or valid
+kernel/trace/fgraph.c:1317 register_ftrace_graph() warn: inconsistent returns '&ftrace_lock'.
 
-vim +1155 drivers/gpu/drm/tegra/drm.c
+Fixes: 2c02f7375e65 ("fgraph: Use CPU hotplug mechanism to initialize idle shadow stacks")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202410220121.wxg0olfd-lkp@intel.com/
+Signed-off-by: Li Huafei <lihuafei1@huawei.com>
+---
+ kernel/trace/fgraph.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1136  static int host1x_drm_probe(struct host1x_device *dev)
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1137  {
-45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1138  	struct device *dma_dev = dev->dev.parent;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1139  	struct tegra_drm *tegra;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1140  	struct drm_device *drm;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1141  	int err;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1142  
-70a59dd82959f8 drivers/gpu/drm/tegra/drm.c  Daniel Vetter     2020-11-04  1143  	drm = drm_dev_alloc(&tegra_drm_driver, &dev->dev);
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1144  	if (IS_ERR(drm))
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1145  		return PTR_ERR(drm);
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1146  
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1147  	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1148  	if (!tegra) {
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1149  		err = -ENOMEM;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1150  		goto put;
-2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1151  	}
-fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1152  
-45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1153  	if (host1x_drm_wants_iommu(dev) && device_iommu_mapped(dma_dev)) {
-45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1154  		tegra->domain = iommu_paging_domain_alloc(dma_dev);
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28 @1155  		if (!tegra->domain) {
-
-I already sent a patch for this a month back:
-https://lore.kernel.org/all/ba31cf3a-af3d-4ff1-87a8-f05aaf8c780b@stanley.mountain/
-
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1156  			err = -ENOMEM;
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1157  			goto free;
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1158  		}
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1159  
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1160  		err = iova_cache_get();
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1161  		if (err < 0)
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1162  			goto domain;
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1163  	}
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1164  
-a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1165  	mutex_init(&tegra->clients_lock);
-
+diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
+index 41e7a15dcb50..98fa7b2a4903 100644
+--- a/kernel/trace/fgraph.c
++++ b/kernel/trace/fgraph.c
+@@ -1259,7 +1259,7 @@ int register_ftrace_graph(struct fgraph_ops *gops)
+ 					fgraph_cpu_init, NULL);
+ 		if (ret < 0) {
+ 			pr_warn("fgraph: Error to init cpu hotplug support\n");
+-			return ret;
++			goto out;
+ 		}
+ 		fgraph_initialized = true;
+ 		ret = 0;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
 
