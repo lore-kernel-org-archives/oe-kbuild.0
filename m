@@ -1,159 +1,267 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813301459FD
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 06:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DD1155A25
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 07:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729665937; cv=none; b=nk7K/CC5K3MLyJMOq6IH7gqvHtmIO7wcc9YXgF5L5CsRDJz8xSn6wOpnvsEiVMWI9B8uPoDxmZEKJGt/ev/fIaLMXvG0+7Z/hXe0+SWVRQLikkjcAqoWRoJ6Mm5OqiqD7/uZE48nPPCfqioT8uV+LTZOQqXrY+FUgl1CZf7xheY=
+	t=1729667197; cv=none; b=gqILsbe2R4a2Aozfrfzo5Ov1JLPin/VNT+EAx446cwhj7mXqxbLGCobUOFOBp7f9k5+PRuBLsETEpVpX37ikkInfAxUesH+SELe7hPHn8HZE9Qz0j1yUHbZgId7COo4NSa6j4pkRCIfH7Nqpe5ln5Rf+MuvZ3ucPghrCAa6TH+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729665937; c=relaxed/simple;
-	bh=Yp5Lrf35AhNgAiw9glPGB4PFN3JNrMAHC9ZNWVFQQ54=;
+	s=arc-20240116; t=1729667197; c=relaxed/simple;
+	bh=AJMz3y8a+rW3UCcpbOGWpgpC08swW/OAywT6pr33dhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IJAO2nfzqrbATdnn+LSArsYJYYqWahoGnO19TVW5b/dX6tDdJPJ96gy4fFG8e3NZCLQxT0PVKQcjraYqeO9IeEcrL+sqQ27j64i2FFMrG0T0MJ68hzhD6R65gSLaUIgJQ4JX8w1GkV4v2/PnNm4Y4UkqvvGTf5UrQGh9Md6eN8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i/Hezouf; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=qFEUu+u1fl2N2ZJQR+BPEvxHmKfBRh6Ee2OZVVL3tOhvVZs31k/bEPna8p5++7OpTzGEk7gxLHBma7ZZUT77AwCgqvXjQ8i1PkfUMj0JeO2AWp1C99v1EcsQ7RlC3Vxd2zyLAMtfOfBgR/1Yibkr8SFUoS8i0zSpF9AIWXe2HNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF7lNCyT; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i/Hezouf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF7lNCyT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729665936; x=1761201936;
+  t=1729667195; x=1761203195;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=Yp5Lrf35AhNgAiw9glPGB4PFN3JNrMAHC9ZNWVFQQ54=;
-  b=i/Hezouf9JbHEjjLLIGk2SW6+0qZg3uNQubGtRxDGer8TYSPaD1/om3A
-   PA9NftGO0b5PG8fgsa4GuDlCPg88lBbHiu5byq38J7pQa94rgyKc9T9Ya
-   2hwmUNhqY9nbG4+3OVQVIbmCkX1jzFld3SEk+mR0cLP40rAWFmRRA0dK5
-   37cd7GVZ0NuY56Xm/3vl9lXXXYASV+ra2AZrF/s2Ex/X+ApZYtSJLGQEN
-   eD0BXa1TTBiPQ/juL1SNMZNAbl/z/d/ftDFDiOrHT312BIVZ4KNHx9z6x
-   aG2xYSw0AW2NKoIwNwmUK6KfrYLxmdVtELlkP55NUieBb1RYDTCnOFVEW
-   A==;
-X-CSE-ConnectionGUID: C0ym4KTqR0mn6XdPwG7EqA==
-X-CSE-MsgGUID: 0QI9mR10TSC/SrZ1bMdkJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="40607197"
-X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="40607197"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 23:45:35 -0700
-X-CSE-ConnectionGUID: u4oAujWKSwm9gEyLIqML4w==
-X-CSE-MsgGUID: MASeAcVWT9O0eG44Z5GJew==
+  bh=AJMz3y8a+rW3UCcpbOGWpgpC08swW/OAywT6pr33dhU=;
+  b=PF7lNCyTm2DoTl+qVli1AoKdooHQsHuNXtwNEGCM2JUVzFDiEFmLLqlh
+   z0mqB+Dibpsao11p+Nyxbs/GDjLnUWhYwr9cx4umDA1HQjqD09qvejT8/
+   BSMDuSUNfhqsuR2li9w2Agu6epgrLnPxVSa9oKZh3sKvscPx4/81qONQT
+   KcKn41OdKkijIQuLsqrg0RhvQpkCE4qFkhILTS8p49GXdJbnE9hjItd2o
+   6IS9w780vqrGxELfaqK7606ogRc/0KqNVXXxjjVKFl4nZMSPsxe53cfV8
+   QT4cSteLsUgXbTuxEA647WFZfR6FVplXOfrsUaOaRHfbXRaezcRB7QrIv
+   w==;
+X-CSE-ConnectionGUID: HU1NREuKRmmZRuS27A0iVg==
+X-CSE-MsgGUID: lspSTZoqROyMl/+AX63COQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32934050"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="32934050"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 00:06:35 -0700
+X-CSE-ConnectionGUID: 0G6e7TEzTJC2Olz0Ppo6hw==
+X-CSE-MsgGUID: i139fYLtSZmJySMIr5vbWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="117574576"
+   d="scan'208";a="80517162"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Oct 2024 23:45:34 -0700
+  by orviesa007.jf.intel.com with ESMTP; 23 Oct 2024 00:06:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3V7a-000UaQ-33;
-	Wed, 23 Oct 2024 06:45:30 +0000
-Date: Wed, 23 Oct 2024 14:45:26 +0800
+	id 1t3VRv-000UbD-28;
+	Wed, 23 Oct 2024 07:06:31 +0000
+Date: Wed, 23 Oct 2024 15:06:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [shawnguo:imx/dt 8/17]
- arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:56.9-74.4: Warning
- (avoid_unnecessary_addr_size): /clocks: unnecessary
- #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg"
- property
-Message-ID: <202410231417.lDwnMaS9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn:
+ 'tegra->domain' is an error pointer or valid
+Message-ID: <202410231515.U2XBsu6b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Fabio Estevam <festevam@denx.de>
-CC: Shawn Guo <shawnguo@kernel.org>
+CC: linux-kernel@vger.kernel.org
+TO: Lu Baolu <baolu.lu@linux.intel.com>
+CC: Lyude Paul <lyude@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git imx/dt
-head:   a5c45d49932a856fa709027cbc07a9060f2960bc
-commit: b5707f8ac5fa21eae70815a2919cf9a700bdc005 [8/17] ARM: dts: imx6qdl-tx6: Fix 'fixed-clock' description
-:::::: branch date: 24 hours ago
-:::::: commit date: 2 days ago
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241023/202410231417.lDwnMaS9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231417.lDwnMaS9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 45c690aea8ee5b7d012cd593bd288540a4bfdbf0 drm/tegra: Use iommu_paging_domain_alloc()
+date:   6 weeks ago
+:::::: branch date: 32 hours ago
+:::::: commit date: 6 weeks ago
+config: arc-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241023/202410231515.U2XBsu6b-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410231417.lDwnMaS9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410231515.U2XBsu6b-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:56.9-74.4: Warning (avoid_unnecessary_addr_size): /clocks: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:905.28-913.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
---
->> arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:56.9-74.4: Warning (avoid_unnecessary_addr_size): /clocks: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:905.28-913.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
+smatch warnings:
+drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn: 'tegra->domain' is an error pointer or valid
 
-vim +56 arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi
+vim +1155 drivers/gpu/drm/tegra/drm.c
 
-07134a365f1c4b arch/arm/boot/dts/imx6qdl.dtsi Lucas Stach    2014-03-05   9  
-7d740f87fd0741 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2011-09-06  10  / {
-7f107887d1995c arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2016-11-12  11  	#address-cells = <1>;
-7f107887d1995c arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2016-11-12  12  	#size-cells = <1>;
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  13  	/*
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  14  	 * The decompressor and also some bootloaders rely on a
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  15  	 * pre-existing /chosen node to be available to insert the
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  16  	 * command line and merge other ATAGS info.
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  17  	 */
-a971c5545c3d45 arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2017-01-23  18  	chosen {};
-7f107887d1995c arch/arm/boot/dts/imx6qdl.dtsi Fabio Estevam  2016-11-12  19  
-7d740f87fd0741 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2011-09-06  20  	aliases {
-22970070e027cb arch/arm/boot/dts/imx6qdl.dtsi Marek Vasut    2014-02-28  21  		ethernet0 = &fec;
-5f8fbc2cd2e1bf arch/arm/boot/dts/imx6qdl.dtsi Lothar Waßmann 2013-12-12  22  		can0 = &can1;
-5f8fbc2cd2e1bf arch/arm/boot/dts/imx6qdl.dtsi Lothar Waßmann 2013-12-12  23  		can1 = &can2;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  24  		gpio0 = &gpio1;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  25  		gpio1 = &gpio2;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  26  		gpio2 = &gpio3;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  27  		gpio3 = &gpio4;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  28  		gpio4 = &gpio5;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  29  		gpio5 = &gpio6;
-5230f8fe9ad870 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2012-08-05  30  		gpio6 = &gpio7;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  31  		i2c0 = &i2c1;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  32  		i2c1 = &i2c2;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  33  		i2c2 = &i2c3;
-41beef39cdc8f2 arch/arm/boot/dts/imx6qdl.dtsi Philipp Zabel  2015-12-02  34  		ipu0 = &ipu1;
-fb06d65ccc6a09 arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2014-01-16  35  		mmc0 = &usdhc1;
-fb06d65ccc6a09 arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2014-01-16  36  		mmc1 = &usdhc2;
-fb06d65ccc6a09 arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2014-01-16  37  		mmc2 = &usdhc3;
-fb06d65ccc6a09 arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2014-01-16  38  		mmc3 = &usdhc4;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  39  		serial0 = &uart1;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  40  		serial1 = &uart2;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  41  		serial2 = &uart3;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  42  		serial3 = &uart4;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  43  		serial4 = &uart5;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  44  		spi0 = &ecspi1;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  45  		spi1 = &ecspi2;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  46  		spi2 = &ecspi3;
-80fa058471999b arch/arm/boot/dts/imx6qdl.dtsi Sascha Hauer   2013-06-25  47  		spi3 = &ecspi4;
-5c8b3b8a182cbc arch/arm/boot/dts/imx6qdl.dtsi Peng Fan       2020-11-01  48  		usb0 = &usbotg;
-5c8b3b8a182cbc arch/arm/boot/dts/imx6qdl.dtsi Peng Fan       2020-11-01  49  		usb1 = &usbh1;
-5c8b3b8a182cbc arch/arm/boot/dts/imx6qdl.dtsi Peng Fan       2020-11-01  50  		usb2 = &usbh2;
-5c8b3b8a182cbc arch/arm/boot/dts/imx6qdl.dtsi Peng Fan       2020-11-01  51  		usb3 = &usbh3;
-8189c51f18463b arch/arm/boot/dts/imx6qdl.dtsi Peter Chen     2013-12-20  52  		usbphy0 = &usbphy1;
-8189c51f18463b arch/arm/boot/dts/imx6qdl.dtsi Peter Chen     2013-12-20  53  		usbphy1 = &usbphy2;
-7d740f87fd0741 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2011-09-06  54  	};
-7d740f87fd0741 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2011-09-06  55  
-7d740f87fd0741 arch/arm/boot/dts/imx6q.dtsi   Shawn Guo      2011-09-06 @56  	clocks {
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1135  
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1136  static int host1x_drm_probe(struct host1x_device *dev)
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1137  {
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1138  	struct device *dma_dev = dev->dev.parent;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1139  	struct tegra_drm *tegra;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1140  	struct drm_device *drm;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1141  	int err;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1142  
+70a59dd82959f8 drivers/gpu/drm/tegra/drm.c  Daniel Vetter     2020-11-04  1143  	drm = drm_dev_alloc(&tegra_drm_driver, &dev->dev);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1144  	if (IS_ERR(drm))
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1145  		return PTR_ERR(drm);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1146  
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1147  	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1148  	if (!tegra) {
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1149  		err = -ENOMEM;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1150  		goto put;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1151  	}
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1152  
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1153  	if (host1x_drm_wants_iommu(dev) && device_iommu_mapped(dma_dev)) {
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1154  		tegra->domain = iommu_paging_domain_alloc(dma_dev);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28 @1155  		if (!tegra->domain) {
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1156  			err = -ENOMEM;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1157  			goto free;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1158  		}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1159  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1160  		err = iova_cache_get();
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1161  		if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1162  			goto domain;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1163  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1164  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1165  	mutex_init(&tegra->clients_lock);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1166  	INIT_LIST_HEAD(&tegra->clients);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1167  
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1168  	dev_set_drvdata(&dev->dev, drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1169  	drm->dev_private = tegra;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1170  	tegra->drm = drm;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1171  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1172  	drm_mode_config_init(drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1173  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1174  	drm->mode_config.min_width = 0;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1175  	drm->mode_config.min_height = 0;
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1176  	drm->mode_config.max_width = 0;
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1177  	drm->mode_config.max_height = 0;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1178  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1179  	drm->mode_config.normalize_zpos = true;
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1180  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1181  	drm->mode_config.funcs = &tegra_drm_mode_config_funcs;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1182  	drm->mode_config.helper_private = &tegra_drm_mode_config_helpers;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1183  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1184  	drm_kms_helper_poll_init(drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1185  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1186  	err = host1x_device_init(dev);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1187  	if (err < 0)
+71ec16f45ef8d1 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2023-03-30  1188  		goto poll;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1189  
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1190  	/*
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1191  	 * Now that all display controller have been initialized, the maximum
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1192  	 * supported resolution is known and the bitmask for horizontal and
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1193  	 * vertical bitfields can be computed.
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1194  	 */
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1195  	tegra->hmask = drm->mode_config.max_width - 1;
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1196  	tegra->vmask = drm->mode_config.max_height - 1;
+042c0bd76d7b05 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2021-03-26  1197  
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1198  	if (tegra->use_explicit_iommu) {
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1199  		u64 carveout_start, carveout_end, gem_start, gem_end;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1200  		u64 dma_mask = dma_get_mask(&dev->dev);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1201  		dma_addr_t start, end;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1202  		unsigned long order;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1203  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1204  		start = tegra->domain->geometry.aperture_start & dma_mask;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1205  		end = tegra->domain->geometry.aperture_end & dma_mask;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1206  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1207  		gem_start = start;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1208  		gem_end = end - CARVEOUT_SZ;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1209  		carveout_start = gem_end + 1;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1210  		carveout_end = end;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1211  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1212  		order = __ffs(tegra->domain->pgsize_bitmap);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1213  		init_iova_domain(&tegra->carveout.domain, 1UL << order,
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1214  				 carveout_start >> order);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1215  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1216  		tegra->carveout.shift = iova_shift(&tegra->carveout.domain);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1217  		tegra->carveout.limit = carveout_end >> tegra->carveout.shift;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1218  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1219  		drm_mm_init(&tegra->mm, gem_start, gem_end - gem_start + 1);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1220  		mutex_init(&tegra->mm_lock);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1221  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1222  		DRM_DEBUG_DRIVER("IOMMU apertures:\n");
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1223  		DRM_DEBUG_DRIVER("  GEM: %#llx-%#llx\n", gem_start, gem_end);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1224  		DRM_DEBUG_DRIVER("  Carveout: %#llx-%#llx\n", carveout_start,
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1225  				 carveout_end);
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1226  	} else if (tegra->domain) {
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1227  		iommu_domain_free(tegra->domain);
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1228  		tegra->domain = NULL;
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1229  		iova_cache_put();
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1230  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1231  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1232  	if (tegra->hub) {
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1233  		err = tegra_display_hub_prepare(tegra->hub);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1234  		if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1235  			goto device;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1236  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1237  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1238  	/* syncpoints are used for full 32-bit hardware VBLANK counters */
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1239  	drm->max_vblank_count = 0xffffffff;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1240  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1241  	err = drm_vblank_init(drm, drm->mode_config.num_crtc);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1242  	if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1243  		goto hub;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1244  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1245  	drm_mode_config_reset(drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1246  
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1247  	/*
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1248  	 * Only take over from a potential firmware framebuffer if any CRTCs
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1249  	 * have been registered. This must not be a fatal error because there
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1250  	 * are other accelerators that are exposed via this driver.
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1251  	 *
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1252  	 * Another case where this happens is on Tegra234 where the display
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1253  	 * hardware is no longer part of the host1x complex, so this driver
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1254  	 * will not expose any modesetting features.
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1255  	 */
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1256  	if (drm->mode_config.num_crtc > 0) {
+62aeaeaa1b267c drivers/gpu/drm/tegra/drm.c  Daniel Vetter     2023-04-06  1257  		err = drm_aperture_remove_framebuffers(&tegra_drm_driver);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1258  		if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1259  			goto hub;
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1260  	} else {
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1261  		/*
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1262  		 * Indicate to userspace that this doesn't expose any display
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1263  		 * capabilities.
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1264  		 */
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1265  		drm->driver_features &= ~(DRIVER_MODESET | DRIVER_ATOMIC);
+86bf8cfda6d2a6 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2024-02-23  1266  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1267  
+71ec16f45ef8d1 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2023-03-30  1268  	err = drm_dev_register(drm, 0);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1269  	if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1270  		goto hub;
+6e4228fbaf0fce drivers/gpu/drm/tegra/drm.c  MichaÅ‚ MirosÅ‚aw   2018-09-01  1271  
+71ec16f45ef8d1 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2023-03-30  1272  	tegra_fbdev_setup(drm);
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1273  
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1274  	return 0;
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1275  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1276  hub:
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1277  	if (tegra->hub)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1278  		tegra_display_hub_cleanup(tegra->hub);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1279  device:
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1280  	if (tegra->domain) {
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1281  		mutex_destroy(&tegra->mm_lock);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1282  		drm_mm_takedown(&tegra->mm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1283  		put_iova_domain(&tegra->carveout.domain);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1284  		iova_cache_put();
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1285  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1286  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1287  	host1x_device_exit(dev);
+71ec16f45ef8d1 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2023-03-30  1288  poll:
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1289  	drm_kms_helper_poll_fini(drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1290  	drm_mode_config_cleanup(drm);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1291  domain:
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1292  	if (tegra->domain)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1293  		iommu_domain_free(tegra->domain);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1294  free:
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1295  	kfree(tegra);
+9c942096baeb37 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2018-09-26  1296  put:
+9c942096baeb37 drivers/gpu/drm/tegra/drm.c  Thomas Zimmermann 2018-09-26  1297  	drm_dev_put(drm);
+9910f5c455de10 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2014-05-22  1298  	return err;
+776dc38403676f drivers/gpu/host1x/drm/drm.c Thierry Reding    2013-10-14  1299  }
+776dc38403676f drivers/gpu/host1x/drm/drm.c Thierry Reding    2013-10-14  1300  
 
-:::::: The code at line 56 was first introduced by commit
-:::::: 7d740f87fd0741c00231a4b13074660d526d5630 arm/imx6q: add device tree source
+:::::: The code at line 1155 was first introduced by commit
+:::::: a7303f7735717c95bf5f65c18c901c72e91dc55b drm/tegra: Do not use ->load() and ->unload() callbacks
 
-:::::: TO: Shawn Guo <shawn.guo@linaro.org>
-:::::: CC: Arnd Bergmann <arnd@arndb.de>
+:::::: TO: Thierry Reding <treding@nvidia.com>
+:::::: CC: Thierry Reding <treding@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
