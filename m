@@ -1,115 +1,147 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03781D0418
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 18:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74821AC438
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 18:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729708901; cv=none; b=XP/+eSZZX2DxQaNB6iDvdlWogQk8Oj4MLwDDSsSUn7hkWVrBs8XI2Mi2npvm07ehCgJVXtOC4OVoKwCsP9nQnFsy0Zn3irQFkJHiJ+QYoo48MB5o+eUIgqZye2CrRYZoklBcYIVzt7qPMBU7VuRmnfVfiBfKu35X79X703TWZ3U=
+	t=1729709460; cv=none; b=kmYLy0geBAGj2XXpftiNL07myQa2gdOwK3idd7jDcfZkGmF4F1oiXEjSZSnWAqsegFqKlj5s3i1ZraOOVfRBeO7z0VYSApNtJjzpr/Z/pTNb9FWzbQ6L0LxtIhCPU+59gQtxZ7L4x651Jn8uDwAfvyKrJJS/wHgmIbUo5xelCgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729708901; c=relaxed/simple;
-	bh=dH++wIz2jILlL8Cwg5Cs91oBMKbdtJDc7kkIq/+MDSo=;
+	s=arc-20240116; t=1729709460; c=relaxed/simple;
+	bh=dK5HHwPazscxu77S1sH0RlPn6snVxuM93baoRreyu7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=k9HTtls9Xe7uift10SpJq6fSUDR7OHajTu/7pwnoBU+GKNOR7SsXoIkVCgXgU/N9Y/2+svuolzxjKeyhJWRWclVEW5t863MyZ6bG/R785Qvdd4kNVkyMzxQALcZQ0Wh54BDBx9eOegJU9gbsNRkZXfNbxRSZJTymtljpHUFIhQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VwywEgSH; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=o5W3YrPXB85xunomQh1k6UN7zJuW5NE/nmxW4JDQI5WccHIV1ZWQQjdWgccorXw3/fPZmk/UnAUCfL/IAZDeh2eCVJv3kREeEq2MxjtgGf6SYci8ecwsuaE8HUxl8eewn4z30LKrrTSF+YLi/2Faw1bhnMTA6b95NjkeEaQQjhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gdknf8Pd; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VwywEgSH"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so10957f8f.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 11:41:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729708898; x=1730313698; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4TqZD3SqTFJM7qgZ4e+Cj509mRJMvGph0Tf/cL3xnu4=;
-        b=VwywEgSHrUr4msxEuP+D/tjF3VjsFNo2dZq3JeowM4cL3lv5HJfy4NBf8AuVn1n0R6
-         uXb/xk03eUUVs1ZaXfRW0C08ri1mWKPeOtFt78fhILMAYuYsha480F06WXpGuWSCwWDd
-         KsNQRQLd+wkbiRKTYxr5tNjKB18wOUAcqJPPGkDV0GMH3zYL2Qh0jMg2b3NNsxmPjmsk
-         mH+nF/WkP4gDIo01b4j2QEEqzq0wNyl2snRJOBiSZ3VW5I/FbSh7cjSKCk1V92V4dXph
-         wMCc+4EOXr9fxnzT0o2AQI5HtTjj1cINea1MpqkLITcAyTMjX0pBFJ7GugPnHM8c+0Kb
-         c2Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729708898; x=1730313698;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4TqZD3SqTFJM7qgZ4e+Cj509mRJMvGph0Tf/cL3xnu4=;
-        b=nkpHPwpl38CKecOPhAcV38rTvsxzoEf7Bjdg9GCU0WuiErKP785DiN8lbkVsMjz7aG
-         uRQP7h+L27R4b34dXMaSb4qm2KjWdmEiUFecqqvsve6wUL0JdYLLC0IejIsOkD+i1gg8
-         KKNQUtpZfEzHEgINVh+ctSFIfWhXv6rfNrvLGKVBx3+4ur4ORp7RuA/uDJg8tVr/fO7Y
-         Y075mrQstthjrBUQOcJ+m90qKRZ4uuoPdlaTy6LWUHmn+RgGbpDoTEWdLNWu2mP+ah2u
-         AZG0GGR1enxtPLQF7S7+O4Bof9fXMWIyqxZ49GOgIT72Kajh7cDRa03JPRMQsHh0XQJH
-         c2dA==
-X-Gm-Message-State: AOJu0YwQGaKCgejtab3QWn7kOvreJLUEihIh9x8qWUBwF9U4uorb+P4g
-	F5Z/3SEmw6J4jAJQh1HV9pf4p87xj1osj1ygXztmO9LlfZp4QVhSjToHyRaqL/K9dUXrL2YUcLX
-	j
-X-Google-Smtp-Source: AGHT+IFrynAelsTrxyfC4Y3kGm4XUvho3tTzCdhMzOW6+OsYrBd5ljOqyht4la4Kev6vsQqqbnX5Iw==
-X-Received: by 2002:a05:6000:1b03:b0:37d:4cf9:e08b with SMTP id ffacd0b85a97d-37efcf1952emr2899863f8f.31.1729708897883;
-        Wed, 23 Oct 2024 11:41:37 -0700 (PDT)
-Received: from localhost ([41.210.146.127])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9cd48sm9468061f8f.111.2024.10.23.11.41.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 11:41:37 -0700 (PDT)
-Date: Wed, 23 Oct 2024 21:41:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Keith Busch <kbusch@meta.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCHv8 6/6] nvme: enable FDP support
-Message-ID: <10427c97-1952-4446-bc93-c41460ef549d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gdknf8Pd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729709459; x=1761245459;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dK5HHwPazscxu77S1sH0RlPn6snVxuM93baoRreyu7A=;
+  b=Gdknf8PdCYNQAYf+MBs5YWsmnOAxG+AV8VFDxKsVHS3yHIGFWvZYNYKg
+   SxCuDH7JDEmCdE2q48sreeqiDTFIARGL4A8YBUXQC0Qj5gDuxGQp5Ye00
+   izPRP7kX2xX2m755K2sT5CRwtEDPtIUIkmCYmYUMLtKDmpXPGeMi77LHD
+   bHf3pyTJwsFAmxOMqEZub4FUKOafy6qH/4cOisIJjYncuRrUKfypLCCsy
+   clsPtC2njybyxLYgR6tIbbKfepMbW89ZKUZgd5vg0dlOFIRpOu7bCp6Sc
+   KpMh4pkicnx+ak3mFdyupGDkUQxVwKJMghe+yqZWNFIgauA7uHqoiR4pL
+   Q==;
+X-CSE-ConnectionGUID: bit+AD+lTaODy33o+KPpEw==
+X-CSE-MsgGUID: 4IvwV0qYR8WROq06tWBVIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29095061"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29095061"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 11:50:58 -0700
+X-CSE-ConnectionGUID: KGElv/1FS9qB8IBFMNimuw==
+X-CSE-MsgGUID: qhahLp4LQ0OJ35Pq2YUKnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
+   d="scan'208";a="103658711"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 23 Oct 2024 11:50:57 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3gRa-000VIq-2Z;
+	Wed, 23 Oct 2024 18:50:54 +0000
+Date: Thu, 24 Oct 2024 02:50:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: sound/soc/intel/avs/boards/rt5682.c:219 avs_create_dai_link() warn:
+ excess argument passed to 'devm_kasprintf'
+Message-ID: <202410240230.Zlkr83mc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241017160937.2283225-7-kbusch@meta.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Keith,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Amadeusz Sławiński" <amadeuszx.slawinski@linux.intel.com>
+CC: Mark Brown <broonie@kernel.org>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/block-fs-restore-kiocb-based-write-hint-processing/20241018-041459
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20241017160937.2283225-7-kbusch%40meta.com
-patch subject: [PATCHv8 6/6] nvme: enable FDP support
-config: nios2-randconfig-r072-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200200.VgMAv2Cj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 2172c5b90d80aedc7cbe571e353ae45040e03a3b ASoC: Intel: avs: rt5682: Validate machine board configuration
+date:   1 year ago
+:::::: branch date: 2 days ago
+:::::: commit date: 1 year ago
+config: sparc64-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241024/202410240230.Zlkr83mc-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410200200.VgMAv2Cj-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410240230.Zlkr83mc-lkp@intel.com/
 
 New smatch warnings:
-drivers/nvme/host/core.c:2150 nvme_fetch_fdp_plids() warn: sizeof(NUMBER)?
+sound/soc/intel/avs/boards/rt5682.c:219 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-vim +2150 drivers/nvme/host/core.c
+Old smatch warnings:
+sound/soc/intel/avs/boards/rt5682.c:226 avs_create_dai_link() warn: excess argument passed to 'devm_kasprintf'
 
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2139  static int nvme_fetch_fdp_plids(struct nvme_ns *ns, u32 nsid)
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2140  {
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2141  	struct nvme_fdp_ruh_status_desc *ruhsd;
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2142  	struct nvme_ns_head *head = ns->head;
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2143  	struct nvme_fdp_ruh_status *ruhs;
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2144  	struct nvme_command c = {};
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2145  	int size, ret, i;
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2146  
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2147  	if (head->plids)
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2148  		return 0;
-b5bb76d576eb00 Kanchan Joshi 2024-10-17  2149  
-b5bb76d576eb00 Kanchan Joshi 2024-10-17 @2150  	size = struct_size(ruhs, ruhsd, NVME_MAX_PLIDS);
+vim +/devm_kasprintf +219 sound/soc/intel/avs/boards/rt5682.c
 
-NVME_MAX_PLIDS is defined as:
+d24dbc865c2bd5 Amadeusz Sławiński 2023-03-03  205  
+748102786b3ce0 Cezary Rojewski    2022-05-11  206  static int avs_create_dai_link(struct device *dev, const char *platform_name, int ssp_port,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  207  			       int tdm_slot, struct snd_soc_dai_link **dai_link)
+748102786b3ce0 Cezary Rojewski    2022-05-11  208  {
+748102786b3ce0 Cezary Rojewski    2022-05-11  209  	struct snd_soc_dai_link_component *platform;
+748102786b3ce0 Cezary Rojewski    2022-05-11  210  	struct snd_soc_dai_link *dl;
+748102786b3ce0 Cezary Rojewski    2022-05-11  211  
+748102786b3ce0 Cezary Rojewski    2022-05-11  212  	dl = devm_kzalloc(dev, sizeof(*dl), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  213  	platform = devm_kzalloc(dev, sizeof(*platform), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  214  	if (!dl || !platform)
+748102786b3ce0 Cezary Rojewski    2022-05-11  215  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  216  
+748102786b3ce0 Cezary Rojewski    2022-05-11  217  	platform->name = platform_name;
+748102786b3ce0 Cezary Rojewski    2022-05-11  218  
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12 @219  	dl->name = devm_kasprintf(dev, GFP_KERNEL,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  220  				  AVS_STRING_FMT("SSP", "-Codec", ssp_port, tdm_slot));
+748102786b3ce0 Cezary Rojewski    2022-05-11  221  	dl->cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  222  	dl->codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
+748102786b3ce0 Cezary Rojewski    2022-05-11  223  	if (!dl->name || !dl->cpus || !dl->codecs)
+748102786b3ce0 Cezary Rojewski    2022-05-11  224  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  225  
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  226  	dl->cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+2172c5b90d80ae Amadeusz Sławiński 2023-10-12  227  					    AVS_STRING_FMT("SSP", " Pin", ssp_port, tdm_slot));
+748102786b3ce0 Cezary Rojewski    2022-05-11  228  	dl->codecs->name = devm_kasprintf(dev, GFP_KERNEL, "i2c-10EC5682:00");
+19bb7c3053ee54 Amadeusz Sławiński 2022-11-29  229  	dl->codecs->dai_name = devm_kasprintf(dev, GFP_KERNEL, AVS_RT5682_CODEC_DAI_NAME);
+748102786b3ce0 Cezary Rojewski    2022-05-11  230  	if (!dl->cpus->dai_name || !dl->codecs->name || !dl->codecs->dai_name)
+748102786b3ce0 Cezary Rojewski    2022-05-11  231  		return -ENOMEM;
+748102786b3ce0 Cezary Rojewski    2022-05-11  232  
+748102786b3ce0 Cezary Rojewski    2022-05-11  233  	dl->num_cpus = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  234  	dl->num_codecs = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  235  	dl->platforms = platform;
+748102786b3ce0 Cezary Rojewski    2022-05-11  236  	dl->num_platforms = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  237  	dl->id = 0;
+27cd41698de49c Cezary Rojewski    2023-06-29  238  	dl->dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_CBC_CFC;
+748102786b3ce0 Cezary Rojewski    2022-05-11  239  	dl->init = avs_rt5682_codec_init;
+a9d8723c72eada Amadeusz Sławiński 2022-11-29  240  	dl->exit = avs_rt5682_codec_exit;
+d24dbc865c2bd5 Amadeusz Sławiński 2023-03-03  241  	dl->be_hw_params_fixup = avs_rt5682_be_fixup;
+748102786b3ce0 Cezary Rojewski    2022-05-11  242  	dl->ops = &avs_rt5682_ops;
+748102786b3ce0 Cezary Rojewski    2022-05-11  243  	dl->nonatomic = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  244  	dl->no_pcm = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  245  	dl->dpcm_capture = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  246  	dl->dpcm_playback = 1;
+748102786b3ce0 Cezary Rojewski    2022-05-11  247  
+748102786b3ce0 Cezary Rojewski    2022-05-11  248  	*dai_link = dl;
+748102786b3ce0 Cezary Rojewski    2022-05-11  249  
+748102786b3ce0 Cezary Rojewski    2022-05-11  250  	return 0;
+748102786b3ce0 Cezary Rojewski    2022-05-11  251  }
+748102786b3ce0 Cezary Rojewski    2022-05-11  252  
 
-#define NVME_MAX_PLIDS   (NVME_CTRL_PAGE_SIZE / sizeof(16))
-
-Probably it should be just 16.  Or possibly sizeof(int) but that seems unlikely.
-
-regards,
-dan carpenter
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
