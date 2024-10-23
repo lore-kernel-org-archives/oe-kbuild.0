@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812C92EAEA
-	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 16:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA4E1CC154
+	for <oe-kbuild@lists.linux.dev>; Wed, 23 Oct 2024 17:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729700210; cv=none; b=lnsPR/qu5esLTe3Cc17BVWRJfZMOAU6OndXCsXqifrXDn2W/QmfudDG2+/8Mo7QWfAB0sZjec0aIRKrKOtl508HVY2KTZeoyeQR2MQlgK93g066fpnvpZZKXMB4hJit7h/Wz+DX/tSwTBE5dnSyMPsu62eIZsuZ4Lt2PMKf4TPQ=
+	t=1729703274; cv=none; b=UmklcvZOqC/uYYSwGxwnLeoRKr7I7Ozruszu5/7xulnDL/+kIq18CFXhrnAw7bWc7akLBjEL7IG3v4jLg2PRphScrN2YaFkbt+msvdPIkqFeBfCgWAj/vI5MuNisovF2uxGHaVL0LsBLa0TzHFLZthk28sw/ltLM+f12CdIPro0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729700210; c=relaxed/simple;
-	bh=5YpytxSHY0n6cCxFEmUewhWdDuD+bJwAe+GptqumZBM=;
+	s=arc-20240116; t=1729703274; c=relaxed/simple;
+	bh=3ie3tOC4gOEqgMo+kx7AMj4JGUH2QFBDvtJWtHN+/R4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hnbeLC/o11PADIOmMJHVQaGYyMYP25qMYrGJzQ+xKRj8qB+RQDA+oH3LJNYs89G9R26cGoxJyEPy3gwmHbrEqqp/7i6Y+uyGqTp/zqOiL/5E/14P3p9ypTZKLbuBOfI0zpwCvVcYrG5urkxgua+7hX2RTWYO5PyvT9oXBMeoLc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+ERezMW; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=WiyCBJxBgplqbmr0G/7v96HtMa+u4XkONqpXVltYf0U3tJ+mPtky/VOwe9YRDygrERmZrDG+bI7gJsH4sJjafR+IDrum5o/3Xxjm2KgExycdeuKuoexx2M0ffIoShv7ZLFIQkjTtV0jg793o0nyOLFa3FzzTZZcFvPPLMpSmf1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VgW4jHI2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+ERezMW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VgW4jHI2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729700208; x=1761236208;
+  t=1729703273; x=1761239273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5YpytxSHY0n6cCxFEmUewhWdDuD+bJwAe+GptqumZBM=;
-  b=h+ERezMWRDfk+rrAkUr5JLAhE1U9rn3W4JLArRJQrqs0U8LXblYMFTG2
-   T78et4aO7XEPcIfWzFX/E7ZrpKBc9yop847NAjy+POasCOnIz00nSD1M1
-   bdJlHCcVDppTZYuaZ/W+1Ao6lgSH2j+9jm59XSqRR39c6Kc1HfgWwyy65
-   kCCR4DHQZ26b3LzJ4Ni1s62+EyCarYHWPLUnVZwQw4BjVgxMuGHJbcWui
-   MV7B+3lQbrqk56EtsbU4mjxLFYGM/WgEbbgbJ9iXAy+oTglACmFEwTzxh
-   bNPjfQy9Sfy/F+totJZbDJ3hv2sv8nv+HEtXfjqlrajfk6IPLPjdLIQTP
+  bh=3ie3tOC4gOEqgMo+kx7AMj4JGUH2QFBDvtJWtHN+/R4=;
+  b=VgW4jHI2SP5LSYetUqtXaTPPLF+7yY+1dPrse1JrGYB8gkzNG5hmbs8y
+   ve6/aDQ213i0chqgJMG/pdUXu00vlYRhFgRKL9ESmpZ0hPACnHLWjzTVd
+   LgzjN6GfbchaeLYayXpi6rqyiojNQkc7J9FOUP9LIpwtndrOPfwSvZCmj
+   n6y8jd/RCH17YN9SwgpL7NlKwq/Vkxbjr2tQp4R8ZXi0DrMICe7oSkgx2
+   7y/+j6HFNB5IjuoSaGRKlV/31FG3js8LmIFaFA0g79RNU1LIk9iYveOH5
+   +hneNp1oiHGqZk7tUD2SEZ5pYbttoSeHt6ckTiqieEzjIQhB2H33SCB6K
    A==;
-X-CSE-ConnectionGUID: vXUS0y8DQ5y1BPeULSI4KQ==
-X-CSE-MsgGUID: qqgEbX+6RcS+Tp3znNw/HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29459902"
+X-CSE-ConnectionGUID: KvOfn8cyRQCl32UmkWR4iQ==
+X-CSE-MsgGUID: QCXTTmt3RGS1qbt9a8ndhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29465825"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29459902"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 09:16:47 -0700
-X-CSE-ConnectionGUID: obENzCkORSawbhrMS0v+yQ==
-X-CSE-MsgGUID: BE6WJvWSSvCIkK6H0hSHhA==
+   d="scan'208";a="29465825"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 10:07:52 -0700
+X-CSE-ConnectionGUID: igGSoQBKSl2XI8CM252eNg==
+X-CSE-MsgGUID: /mpX/ITiS3aPg5W+s4m8LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="80201746"
+   d="scan'208";a="80313144"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2024 09:16:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2024 10:07:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3e2O-000V8S-0t;
-	Wed, 23 Oct 2024 16:16:44 +0000
-Date: Thu, 24 Oct 2024 00:16:04 +0800
+	id 1t3epo-000VCC-0i;
+	Wed, 23 Oct 2024 17:07:48 +0000
+Date: Thu, 24 Oct 2024 01:07:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH v2] LoongArch: Fix cpu hotplug issue
-Message-ID: <202410240011.yyn65q8W-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net] net: netfilter: Fix use-after-free in get_info()
+Message-ID: <202410240020.Cqi2d68p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,76 +63,99 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241021080418.644342-1-maobibo@loongson.cn>
-References: <20241021080418.644342-1-maobibo@loongson.cn>
-TO: Bibo Mao <maobibo@loongson.cn>
-TO: Huacai Chen <chenhuacai@kernel.org>
-TO: Jianmin Lv <lvjianmin@loongson.cn>
-CC: loongarch@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: lixianglai@loongson.cn
-CC: WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <20241022085753.2069639-1-dongchenchen2@huawei.com>
+References: <20241022085753.2069639-1-dongchenchen2@huawei.com>
+TO: Dong Chenchen <dongchenchen2@huawei.com>
+TO: pablo@netfilter.org
+TO: kadlec@netfilter.org
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: fw@strlen.de
+TO: kuniyu@amazon.com
+CC: netfilter-devel@vger.kernel.org
+CC: netdev@vger.kernel.org
+CC: yuehaibing@huawei.com
+CC: Dong Chenchen <dongchenchen2@huawei.com>
 
-Hi Bibo,
+Hi Dong,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+[auto build test WARNING on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Fix-cpu-hotplug-issue/20241021-160525
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241021080418.644342-1-maobibo%40loongson.cn
-patch subject: [PATCH v2] LoongArch: Fix cpu hotplug issue
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: loongarch-randconfig-r051-20241023 (https://download.01.org/0day-ci/archive/20241024/202410240011.yyn65q8W-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dong-Chenchen/net-netfilter-Fix-use-after-free-in-get_info/20241022-165936
+base:   net/main
+patch link:    https://lore.kernel.org/r/20241022085753.2069639-1-dongchenchen2%40huawei.com
+patch subject: [PATCH net] net: netfilter: Fix use-after-free in get_info()
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: x86_64-randconfig-161-20241023 (https://download.01.org/0day-ci/archive/20241024/202410240020.Cqi2d68p-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410240011.yyn65q8W-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410240020.Cqi2d68p-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/loongarch/kernel/smp.c:295:6-9: WARNING: Unsigned expression compared with zero: cpu < 0
+smatch warnings:
+net/netfilter/x_tables.c:1280 xt_find_table_lock() warn: passing zero to 'ERR_PTR'
 
-vim +295 arch/loongarch/kernel/smp.c
+vim +/ERR_PTR +1280 net/netfilter/x_tables.c
 
-316863cb62fe7aa Bibo Mao    2024-05-06  279  
-88d4d957edc707e Binbin Zhou 2022-12-10  280  static void __init fdt_smp_setup(void)
-88d4d957edc707e Binbin Zhou 2022-12-10  281  {
-88d4d957edc707e Binbin Zhou 2022-12-10  282  #ifdef CONFIG_OF
-88d4d957edc707e Binbin Zhou 2022-12-10  283  	unsigned int cpu, cpuid;
-88d4d957edc707e Binbin Zhou 2022-12-10  284  	struct device_node *node = NULL;
-88d4d957edc707e Binbin Zhou 2022-12-10  285  
-88d4d957edc707e Binbin Zhou 2022-12-10  286  	for_each_of_cpu_node(node) {
-88d4d957edc707e Binbin Zhou 2022-12-10  287  		if (!of_device_is_available(node))
-88d4d957edc707e Binbin Zhou 2022-12-10  288  			continue;
-88d4d957edc707e Binbin Zhou 2022-12-10  289  
-88d4d957edc707e Binbin Zhou 2022-12-10  290  		cpuid = of_get_cpu_hwid(node, 0);
-88d4d957edc707e Binbin Zhou 2022-12-10  291  		if (cpuid >= nr_cpu_ids)
-88d4d957edc707e Binbin Zhou 2022-12-10  292  			continue;
-88d4d957edc707e Binbin Zhou 2022-12-10  293  
-1c3dd9a636b13c7 Bibo Mao    2024-10-21  294  		cpu = topo_add_cpu(cpuid);
-1c3dd9a636b13c7 Bibo Mao    2024-10-21 @295  		if (cpu < 0)
-1c3dd9a636b13c7 Bibo Mao    2024-10-21  296  			continue;
-88d4d957edc707e Binbin Zhou 2022-12-10  297  
-88d4d957edc707e Binbin Zhou 2022-12-10  298  		num_processors++;
-88d4d957edc707e Binbin Zhou 2022-12-10  299  		set_cpu_possible(cpu, true);
-88d4d957edc707e Binbin Zhou 2022-12-10  300  		set_cpu_present(cpu, true);
-88d4d957edc707e Binbin Zhou 2022-12-10  301  		__cpu_number_map[cpuid] = cpu;
-88d4d957edc707e Binbin Zhou 2022-12-10  302  		__cpu_logical_map[cpu] = cpuid;
-3de9c42d02a79a5 Jiaxun Yang 2024-06-03  303  
-1c3dd9a636b13c7 Bibo Mao    2024-10-21  304  		early_numa_add_cpu(cpuid, 0);
-3de9c42d02a79a5 Jiaxun Yang 2024-06-03  305  		set_cpuid_to_node(cpuid, 0);
-88d4d957edc707e Binbin Zhou 2022-12-10  306  	}
-88d4d957edc707e Binbin Zhou 2022-12-10  307  
-88d4d957edc707e Binbin Zhou 2022-12-10  308  	loongson_sysconf.nr_cpus = num_processors;
-ce68ff3528e6eff Huacai Chen 2024-01-17  309  	set_bit(0, loongson_sysconf.cores_io_master);
-88d4d957edc707e Binbin Zhou 2022-12-10  310  #endif
-88d4d957edc707e Binbin Zhou 2022-12-10  311  }
-88d4d957edc707e Binbin Zhou 2022-12-10  312  
+1ef4d6d1af2d0c Florian Westphal  2021-04-21  1233  
+03d13b6868a261 Florian Westphal  2017-12-08  1234  /* Find table by name, grabs mutex & ref.  Returns ERR_PTR on error. */
+76108cea065cda Jan Engelhardt    2008-10-08  1235  struct xt_table *xt_find_table_lock(struct net *net, u_int8_t af,
+76108cea065cda Jan Engelhardt    2008-10-08  1236  				    const char *name)
+2e4e6a17af35be Harald Welte      2006-01-12  1237  {
+1d610d4d31a8ed Florian Westphal  2021-04-01  1238  	struct xt_pernet *xt_net = net_generic(net, xt_pernet_id);
+fdacd57c79b79a Florian Westphal  2021-08-03  1239  	struct module *owner = NULL;
+fdacd57c79b79a Florian Westphal  2021-08-03  1240  	struct xt_template *tmpl;
+fdacd57c79b79a Florian Westphal  2021-08-03  1241  	struct xt_table *t;
+f4f502d5a8ea29 Dong Chenchen     2024-10-22  1242  	int err = -ENOENT;
+2e4e6a17af35be Harald Welte      2006-01-12  1243  
+7926dbfa4bc14e Pablo Neira Ayuso 2014-07-31  1244  	mutex_lock(&xt[af].mutex);
+1d610d4d31a8ed Florian Westphal  2021-04-01  1245  	list_for_each_entry(t, &xt_net->tables[af], list)
+2e4e6a17af35be Harald Welte      2006-01-12  1246  		if (strcmp(t->name, name) == 0 && try_module_get(t->me))
+2e4e6a17af35be Harald Welte      2006-01-12  1247  			return t;
+b9e69e12739718 Florian Westphal  2016-02-25  1248  
+fdacd57c79b79a Florian Westphal  2021-08-03  1249  	/* Table doesn't exist in this netns, check larval list */
+fdacd57c79b79a Florian Westphal  2021-08-03  1250  	list_for_each_entry(tmpl, &xt_templates[af], list) {
+fdacd57c79b79a Florian Westphal  2021-08-03  1251  		if (strcmp(tmpl->name, name))
+b9e69e12739718 Florian Westphal  2016-02-25  1252  			continue;
+fdacd57c79b79a Florian Westphal  2021-08-03  1253  		if (!try_module_get(tmpl->me))
+03d13b6868a261 Florian Westphal  2017-12-08  1254  			goto out;
+fdacd57c79b79a Florian Westphal  2021-08-03  1255  
+fdacd57c79b79a Florian Westphal  2021-08-03  1256  		owner = tmpl->me;
+fdacd57c79b79a Florian Westphal  2021-08-03  1257  
+b9e69e12739718 Florian Westphal  2016-02-25  1258  		mutex_unlock(&xt[af].mutex);
+fdacd57c79b79a Florian Westphal  2021-08-03  1259  		err = tmpl->table_init(net);
+03d13b6868a261 Florian Westphal  2017-12-08  1260  		if (err < 0) {
+fdacd57c79b79a Florian Westphal  2021-08-03  1261  			module_put(owner);
+03d13b6868a261 Florian Westphal  2017-12-08  1262  			return ERR_PTR(err);
+b9e69e12739718 Florian Westphal  2016-02-25  1263  		}
+b9e69e12739718 Florian Westphal  2016-02-25  1264  
+b9e69e12739718 Florian Westphal  2016-02-25  1265  		mutex_lock(&xt[af].mutex);
+b9e69e12739718 Florian Westphal  2016-02-25  1266  		break;
+b9e69e12739718 Florian Westphal  2016-02-25  1267  	}
+b9e69e12739718 Florian Westphal  2016-02-25  1268  
+f4f502d5a8ea29 Dong Chenchen     2024-10-22  1269  	if (err < 0)
+f4f502d5a8ea29 Dong Chenchen     2024-10-22  1270  		goto out;
+f4f502d5a8ea29 Dong Chenchen     2024-10-22  1271  
+b9e69e12739718 Florian Westphal  2016-02-25  1272  	/* and once again: */
+1d610d4d31a8ed Florian Westphal  2021-04-01  1273  	list_for_each_entry(t, &xt_net->tables[af], list)
+b9e69e12739718 Florian Westphal  2016-02-25  1274  		if (strcmp(t->name, name) == 0)
+b9e69e12739718 Florian Westphal  2016-02-25  1275  			return t;
+b9e69e12739718 Florian Westphal  2016-02-25  1276  
+fdacd57c79b79a Florian Westphal  2021-08-03  1277  	module_put(owner);
+b9e69e12739718 Florian Westphal  2016-02-25  1278   out:
+9e19bb6d7a0959 Ingo Molnar       2006-03-25  1279  	mutex_unlock(&xt[af].mutex);
+f4f502d5a8ea29 Dong Chenchen     2024-10-22 @1280  	return ERR_PTR(err);
+2e4e6a17af35be Harald Welte      2006-01-12  1281  }
+2e4e6a17af35be Harald Welte      2006-01-12  1282  EXPORT_SYMBOL_GPL(xt_find_table_lock);
+2e4e6a17af35be Harald Welte      2006-01-12  1283  
 
 -- 
 0-DAY CI Kernel Test Service
