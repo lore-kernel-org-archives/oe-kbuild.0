@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C39189F3E
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 21:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF022B641
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 22:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729807111; cv=none; b=Z6Mp2+RfU3Wjokh4a6brG2FIYoZVS/s1f409MU6Otb/fPqMRaD9I1Qs0TgVEJpB8of2MPrJs/jgEMIgYML4l9RZuv8hwcMk3mPAa+Y86g/We9QZ3NfsiDRA91ThmraB/bWLs7Fs15JUT33gZkypmcvGfl20zEbvYAeFbYHbho0o=
+	t=1729809571; cv=none; b=XJvTFwWcC/qRQulUvSFYhUalhLMPT51idonnTUPZufPddeZ0VZ9MldrLlMKrFjPZxGywCcwneWoMg+6yz7lDHr4qdDdynpFsPgS39d9ENIxGpPmRnEPn9t6RGZkdl3vfHPUAzZsNG2loz86lorSPpSsWFYw+WUXaZhiEE6WnSU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729807111; c=relaxed/simple;
-	bh=kdami/2xAQl7FSah2fvdRe4KvsOuYn7Aa69RWOFY0xg=;
+	s=arc-20240116; t=1729809571; c=relaxed/simple;
+	bh=xXbS4v4zsBQUqQ4eD0/HKqbd2vMgYOhkuklFXs0Kmz0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kNDYCBcEqvvtlEuvrahQRTp4f5GsrJhLr8BVYZpXKfXMpBK8fgREH7zt8PyTwIZrCdAnf7TZsJBFD+Ick7OQw8SLzZFTwJqjE0EzR+6PAYLS+wQ5FPOHwtHXTRnjfL87stuMNP9e986f2RYTEqVqfXf3aXqxe4hb3ajK4uNfDH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLUfGZh4; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=B2fNPWlHn8eJt+wdHxgQ9UIwvgw4fSkFNq7OHEPeQ/f5ebo/aCyyYMAcN2tnHStx/Dl887f6XtskW46U0wkLsJSVApTk5FBLKxsc3he+Us1/vK0bHFSyAldyopRkv7fit/NJhYWCgYceSxFK8jEFd4Ssiv1BkurwOUq1PefyZiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H82HY/T1; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLUfGZh4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H82HY/T1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729807109; x=1761343109;
+  t=1729809568; x=1761345568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kdami/2xAQl7FSah2fvdRe4KvsOuYn7Aa69RWOFY0xg=;
-  b=KLUfGZh4NWRYMzFN8GKPORjENa2zcgdxzvxsu98gvy5Sh+CFFuucScu/
-   oGlZce9qBi+mXmpEGEXlWsup822u9qVHYZbp6I/O2lc8X2aQrn7JrBJAw
-   ywkPL9y14pZivwNWw+Kn1amp8wzquXcy6/ZuRAvznZhSO673EGibub1+W
-   1/7HOiIovJoS8ERWCINxM+14GM75zuG/pj2j3draqSo58HyTSENUTQcpo
-   oEuqVewYMlbxcz5y1Mmn7P3EdrmygbaIq3F4ncgEBv2s6VTjPC6aI/sk2
-   z/LPFMNSjxM6eOTQvnfpuqtcjBdEr2fdvrpq4QL27yNAYx4fqmCF8lpv8
-   A==;
-X-CSE-ConnectionGUID: NR3/GY2qSoKIv4wybGs3sA==
-X-CSE-MsgGUID: DXK8LsdbR4a86dcSNpf/4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52016476"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52016476"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 14:58:25 -0700
-X-CSE-ConnectionGUID: ANsThX+bQCahQhqwGDzwWQ==
-X-CSE-MsgGUID: uG7UqIobTROQMSdL+mLEqw==
+  bh=xXbS4v4zsBQUqQ4eD0/HKqbd2vMgYOhkuklFXs0Kmz0=;
+  b=H82HY/T1fyPZXiR5Rzxc8QvKul7VCvEvU8DV5ndkj1iXal/xQKzjjNvv
+   a9Ki0Aqd7z7BabCtr4e623bBcoAIZEVP/FHRlbuCEVPUu61fpPrEdx4DF
+   w9Q1dBodfUsMiBmUJDYfFGQfWd3jtx+8+kgitT4oRaeQLkldrIyjdNNgj
+   6J1jIrYfDxLFm7WnuPAYPM6U7FbqZHpZ0Q7AB4MYQTrxpZHVZlKgCfWbc
+   QmaAfe1qSOI3FLghHEHOQj7Azb4SLfgPvs1o/dTP5UHmP1gOeE6B+xZ5W
+   WU21td/BBXLIpcABMZ8ZYTBW7sj/kM7TAQnz8bcBqdrJcuklDdfjIjdZd
+   g==;
+X-CSE-ConnectionGUID: beTlKuwuQTOYiLWMfSWuEg==
+X-CSE-MsgGUID: lzAkQMXzTFmGCGKxYKvkFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="54869948"
+X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
+   d="scan'208";a="54869948"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 15:39:27 -0700
+X-CSE-ConnectionGUID: 358lc29qQZq/l9CowRwkEA==
+X-CSE-MsgGUID: z57uu2DrTTWvL0vYF2ZBUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="84685135"
+   d="scan'208";a="80643467"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 14:58:24 -0700
+  by orviesa009.jf.intel.com with ESMTP; 24 Oct 2024 15:39:27 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t45qX-000XBe-2r;
-	Thu, 24 Oct 2024 21:58:21 +0000
-Date: Fri, 25 Oct 2024 05:57:23 +0800
+	id 1t46UF-000XEd-2R;
+	Thu, 24 Oct 2024 22:39:23 +0000
+Date: Fri, 25 Oct 2024 06:39:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
- inconsistent returns '&mm->mmap_lock'.
-Message-ID: <202410250552.XsMLl1sx-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:645
+ mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
+Message-ID: <202410250608.Ly4Aj2NI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,109 +65,117 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
+TO: Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
-date:   1 year ago
-:::::: branch date: 3 days ago
-:::::: commit date: 1 year ago
-config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250552.XsMLl1sx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
+head:   4e46774408d942efe4eb35dc62e5af3af71b9a30
+commit: 9679ca7326e52282cc923c4d71d81c999cb6cd55 wifi: mt76: mt7925: fix a potential array-index-out-of-bounds issue for clc
+date:   7 weeks ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 weeks ago
+config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250608.Ly4Aj2NI-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410250552.XsMLl1sx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410250608.Ly4Aj2NI-lkp@intel.com/
 
-smatch warnings:
-arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:645 mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
 
-vim +566 arch/s390/mm/fault.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:648 mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:652 mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:1158 mt7925_mcu_set_mlo_roc() warn: variable dereferenced before check 'mconf' (see line 1130)
 
-17a363dcd2f745 Heiko Carstens    2021-04-09  497  
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
-5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
-9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
-85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
-3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
-3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
-3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
-3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
-5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
-85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
-85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
-85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
-85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
-85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
-85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
-3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
-3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
-85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
-7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
-7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
-cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
-ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
+vim +645 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
 
-:::::: The code at line 566 was first introduced by commit
-:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
+c948b5da6bbec7 Deren Wu       2023-09-18  588  
+c948b5da6bbec7 Deren Wu       2023-09-18  589  static int mt7925_load_clc(struct mt792x_dev *dev, const char *fw_name)
+c948b5da6bbec7 Deren Wu       2023-09-18  590  {
+c948b5da6bbec7 Deren Wu       2023-09-18  591  	const struct mt76_connac2_fw_trailer *hdr;
+c948b5da6bbec7 Deren Wu       2023-09-18  592  	const struct mt76_connac2_fw_region *region;
+c948b5da6bbec7 Deren Wu       2023-09-18  593  	const struct mt7925_clc *clc;
+c948b5da6bbec7 Deren Wu       2023-09-18  594  	struct mt76_dev *mdev = &dev->mt76;
+c948b5da6bbec7 Deren Wu       2023-09-18  595  	struct mt792x_phy *phy = &dev->phy;
+c948b5da6bbec7 Deren Wu       2023-09-18  596  	const struct firmware *fw;
+c948b5da6bbec7 Deren Wu       2023-09-18  597  	int ret, i, len, offset = 0;
+c948b5da6bbec7 Deren Wu       2023-09-18  598  	u8 *clc_base = NULL;
+c948b5da6bbec7 Deren Wu       2023-09-18  599  
+c948b5da6bbec7 Deren Wu       2023-09-18  600  	if (mt7925_disable_clc ||
+c948b5da6bbec7 Deren Wu       2023-09-18  601  	    mt76_is_usb(&dev->mt76))
+c948b5da6bbec7 Deren Wu       2023-09-18  602  		return 0;
+c948b5da6bbec7 Deren Wu       2023-09-18  603  
+c948b5da6bbec7 Deren Wu       2023-09-18  604  	ret = request_firmware(&fw, fw_name, mdev->dev);
+c948b5da6bbec7 Deren Wu       2023-09-18  605  	if (ret)
+c948b5da6bbec7 Deren Wu       2023-09-18  606  		return ret;
+c948b5da6bbec7 Deren Wu       2023-09-18  607  
+c948b5da6bbec7 Deren Wu       2023-09-18  608  	if (!fw || !fw->data || fw->size < sizeof(*hdr)) {
+c948b5da6bbec7 Deren Wu       2023-09-18  609  		dev_err(mdev->dev, "Invalid firmware\n");
+c948b5da6bbec7 Deren Wu       2023-09-18  610  		ret = -EINVAL;
+c948b5da6bbec7 Deren Wu       2023-09-18  611  		goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  612  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  613  
+c948b5da6bbec7 Deren Wu       2023-09-18  614  	hdr = (const void *)(fw->data + fw->size - sizeof(*hdr));
+c948b5da6bbec7 Deren Wu       2023-09-18  615  	for (i = 0; i < hdr->n_region; i++) {
+c948b5da6bbec7 Deren Wu       2023-09-18  616  		region = (const void *)((const u8 *)hdr -
+c948b5da6bbec7 Deren Wu       2023-09-18  617  					(hdr->n_region - i) * sizeof(*region));
+c948b5da6bbec7 Deren Wu       2023-09-18  618  		len = le32_to_cpu(region->len);
+c948b5da6bbec7 Deren Wu       2023-09-18  619  
+c948b5da6bbec7 Deren Wu       2023-09-18  620  		/* check if we have valid buffer size */
+c948b5da6bbec7 Deren Wu       2023-09-18  621  		if (offset + len > fw->size) {
+c948b5da6bbec7 Deren Wu       2023-09-18  622  			dev_err(mdev->dev, "Invalid firmware region\n");
+c948b5da6bbec7 Deren Wu       2023-09-18  623  			ret = -EINVAL;
+c948b5da6bbec7 Deren Wu       2023-09-18  624  			goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  625  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  626  
+c948b5da6bbec7 Deren Wu       2023-09-18  627  		if ((region->feature_set & FW_FEATURE_NON_DL) &&
+c948b5da6bbec7 Deren Wu       2023-09-18  628  		    region->type == FW_TYPE_CLC) {
+c948b5da6bbec7 Deren Wu       2023-09-18  629  			clc_base = (u8 *)(fw->data + offset);
+c948b5da6bbec7 Deren Wu       2023-09-18  630  			break;
+c948b5da6bbec7 Deren Wu       2023-09-18  631  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  632  		offset += len;
+c948b5da6bbec7 Deren Wu       2023-09-18  633  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  634  
+c948b5da6bbec7 Deren Wu       2023-09-18  635  	if (!clc_base)
+c948b5da6bbec7 Deren Wu       2023-09-18  636  		goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  637  
+c948b5da6bbec7 Deren Wu       2023-09-18  638  	for (offset = 0; offset < len; offset += le32_to_cpu(clc->len)) {
+c948b5da6bbec7 Deren Wu       2023-09-18  639  		clc = (const struct mt7925_clc *)(clc_base + offset);
+c948b5da6bbec7 Deren Wu       2023-09-18  640  
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  641  		if (clc->idx > ARRAY_SIZE(phy->clc))
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  642  			break;
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  643  
+c948b5da6bbec7 Deren Wu       2023-09-18  644  		/* do not init buf again if chip reset triggered */
+c948b5da6bbec7 Deren Wu       2023-09-18 @645  		if (phy->clc[clc->idx])
+c948b5da6bbec7 Deren Wu       2023-09-18  646  			continue;
+c948b5da6bbec7 Deren Wu       2023-09-18  647  
+c948b5da6bbec7 Deren Wu       2023-09-18  648  		phy->clc[clc->idx] = devm_kmemdup(mdev->dev, clc,
+c948b5da6bbec7 Deren Wu       2023-09-18  649  						  le32_to_cpu(clc->len),
+c948b5da6bbec7 Deren Wu       2023-09-18  650  						  GFP_KERNEL);
+c948b5da6bbec7 Deren Wu       2023-09-18  651  
+c948b5da6bbec7 Deren Wu       2023-09-18  652  		if (!phy->clc[clc->idx]) {
+c948b5da6bbec7 Deren Wu       2023-09-18  653  			ret = -ENOMEM;
+c948b5da6bbec7 Deren Wu       2023-09-18  654  			goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  655  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  656  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  657  
+c948b5da6bbec7 Deren Wu       2023-09-18  658  	ret = mt7925_mcu_set_clc(dev, "00", ENVIRON_INDOOR);
+c948b5da6bbec7 Deren Wu       2023-09-18  659  out:
+c948b5da6bbec7 Deren Wu       2023-09-18  660  	release_firmware(fw);
+c948b5da6bbec7 Deren Wu       2023-09-18  661  
+c948b5da6bbec7 Deren Wu       2023-09-18  662  	return ret;
+c948b5da6bbec7 Deren Wu       2023-09-18  663  }
+c948b5da6bbec7 Deren Wu       2023-09-18  664  
 
-:::::: TO: Heiko Carstens <hca@linux.ibm.com>
-:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+:::::: The code at line 645 was first introduced by commit
+:::::: c948b5da6bbec742b433138e3e3f9537a85af2e5 wifi: mt76: mt7925: add Mediatek Wi-Fi7 driver for mt7925 chips
+
+:::::: TO: Deren Wu <deren.wu@mediatek.com>
+:::::: CC: Felix Fietkau <nbd@nbd.name>
 
 -- 
 0-DAY CI Kernel Test Service
