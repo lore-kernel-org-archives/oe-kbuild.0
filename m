@@ -1,451 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825F322B640
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 19:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2623322B659
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 19:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729797679; cv=none; b=Mv0ElWopb8mGqR+B9fy/VO4mQexxA7hAlJw1HhvG0atDP8W1hTrHIBV8kRJsplxopwvGzaPYGI6yfSta8FNYRXuP4Wk/KfYHF5s3VyNSNCf2rxlDCvt67RCU27VYGqF9ScFOTzUjgCHAGlACSBJt5cjoHCnqemn7NtUTDHl6w00=
+	t=1729798340; cv=none; b=LBp/Fyf67A8UTAiMs/rBQHDUFAJYLZ4NncDxs+6T0c6p5Rb29kE9hakZFbIBmss17A0ySkBRUUBQYaAWKtuhVXxO5QXysgDfJMf4USviTy4WrdUMXrhNy2kRgoCjIKGgDFMJNu2deK3lWuzC6FfKDNaevcAg0gZP6Uz3Eeu9uiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729797679; c=relaxed/simple;
-	bh=oKUctg4QdwcTp1qF+7Ky2daRTwxd2LYy1mllPSZochc=;
+	s=arc-20240116; t=1729798340; c=relaxed/simple;
+	bh=IJy+PoAouMfAuIDagu8g9Ukq5PRkqrlqbcQfve5oZW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Om4S3KhDWMK/RaIRsoZC2St9iAr/4Qqwbf4p+ENZ3SOdqfHeCWIByLGT4U1OPA4npD++1tB6iKEH/8Xg6CP1CJczpN4/4fTHP+1a3+xvAQa2i5591JLO7GjR+bII06NcCc+w2j/IstlZtzZ9Y/6QEuVshFivYas3/FZu0smpX28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcXRQC0x; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=jBVFQiMiQ/GHb6JaAf9AL1Pl12h98VKwHPXxPJ1FKVRQH7iwyT+IWVvTltuPPgcIjbFP4dR9q9jIb7s0h0OniDjUNGP7V050NgfRHs0tcKZDEQqfRRgoxt5Gj5ORUkpdJKN+i5hYJc+KpQEwTUJkiWQ2FN9pDlUdkNkIItZON84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMBGo+Qu; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcXRQC0x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMBGo+Qu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729797675; x=1761333675;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oKUctg4QdwcTp1qF+7Ky2daRTwxd2LYy1mllPSZochc=;
-  b=XcXRQC0xxYcujAuLJHuI6BlT0uYQVbHSWsoam6409umOyC2pweBIzozA
-   P1JzCLNL2qtO4CXJlsA+5f4Wz7cdtQ6r1VheSS42+7sHgCiAaj3Ofqwcl
-   ERfzqp9PRI1NNio4yZeVLMj0fyu4+QnFAWtd+aBEx3tkrdnZa4OTdSkvN
-   SZfbG2IqZpOk3cerEmur+ZaqporQxWeCj59Yk9+Fxew46cIwpMTqPAbUg
-   /HtN+DoxafOtMPUS0BKNmgHKKXe/F5TZEQ33feaN6co4WC8vzkuLvb1zu
-   nb0Xj78HHTOkSQPeypTQs3WfkDWiEA3k5To9j4/Bm1E1d8dOQuIJ3AJSC
-   g==;
-X-CSE-ConnectionGUID: 6psVYXBXTQS6sCNg16Qq2g==
-X-CSE-MsgGUID: X8Jcbaw0RTC5GEDItsC2tQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40070791"
-X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="40070791"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 12:21:15 -0700
-X-CSE-ConnectionGUID: 0ABUjfk3Se+lMvAG9800ug==
-X-CSE-MsgGUID: wK1RqhcORFWabZm5MB+Ifw==
+  t=1729798337; x=1761334337;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IJy+PoAouMfAuIDagu8g9Ukq5PRkqrlqbcQfve5oZW0=;
+  b=JMBGo+QuUvkPIdr1mPlXcEBcvKaaBiP3Rt2vdBiXUuu5vatrQobx5sHM
+   L6yUpevZfBjnxaO0NxpCk7oR8YJ6HHovvg9xRrWdzNyFD4Jxgmta2Uupl
+   ajUKfqYPgPhBuAP4Fws5oEy/FNU6YlqobAOuWh4FiNYeqb7nJ2BhD41ic
+   YJEH3Juqnz8LcJAMhAO3U+vj+TK5HKS/jj2mBZZ/PuF074wdGKmWamPxP
+   0H9eMouyh/x+6X+q9ofTsiv3UFHMKM7uF1jA9d6TsDhMtnQdQ/crYaB6H
+   l7067lZHY3nRUZLPpmUWFThGX7OxbzoQSHfrZ5E/GQnMcNMLLpehbPq7h
+   Q==;
+X-CSE-ConnectionGUID: V+rWVOF3RIWDVq2w61CvNg==
+X-CSE-MsgGUID: W8dzaqAFRouL5sw1kZcjug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52004053"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52004053"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 12:32:16 -0700
+X-CSE-ConnectionGUID: jF/uslVkSwCtKY42K5MKDw==
+X-CSE-MsgGUID: A44lKPMvTla9FEpMyVBByg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="80993122"
+   d="scan'208";a="85286910"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2024 12:21:13 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Oct 2024 12:32:15 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t43OR-000Wuq-2J;
-	Thu, 24 Oct 2024 19:21:11 +0000
-Date: Fri, 25 Oct 2024 03:20:56 +0800
+	id 1t43Z6-000Wvs-3D;
+	Thu, 24 Oct 2024 19:32:13 +0000
+Date: Fri, 25 Oct 2024 03:31:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [frank-w-bpi-r2-4.14:6.12-mt7988upstream 31/34]
- arch/arm64/boot/dts/mediatek/mt7988a.dtsi:343.22-358.5: ERROR
- (phandle_references): /soc/spi@11008000: Reference to non-existent node or
- label "spi1_pins"
-Message-ID: <202410250312.c2pWQDN7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/video/fbdev/sh_mobile_lcdcfb.c:2649 sh_mobile_lcdc_probe()
+ warn: 'irq' from request_irq() not released on lines: 2649.
+Message-ID: <202410250325.afFicEO2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "low confidence static check warning: arch/arm64/boot/dts/mediatek/mt7988a.dtsi:343.22-358.5: ERROR (phandle_references): /soc/spi@11008000: Reference to non-existent node or label "spi1_pins""
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: linux-kernel@vger.kernel.org
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.12-mt7988upstream
-head:   83bb8720d9e6b85a432f94ae9d12e66718e00752
-commit: 804377a27aba1d83029f43e3c94c924263d16df2 [31/34] amr64: dts: mediatek: mt7988: drop pins with second function
-:::::: branch date: 7 hours ago
-:::::: commit date: 12 days ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410250312.c2pWQDN7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250312.c2pWQDN7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 5284984a4fbacb0883bfebe905902cdda2891a07 bug: Fix no-return-statement warning with !CONFIG_BUG
+date:   7 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 7 months ago
+config: nios2-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250325.afFicEO2-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410250312.c2pWQDN7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410250325.afFicEO2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/video/fbdev/sh_mobile_lcdcfb.c:2649 sh_mobile_lcdc_probe() warn: 'irq' from request_irq() not released on lines: 2649.
+drivers/video/fbdev/sh_mobile_lcdcfb.c:2649 sh_mobile_lcdc_probe() warn: 'priv->base' from ioremap() not released on lines: 2649.
+drivers/mmc/host/omap_hsmmc.c:1155 omap_hsmmc_switch_opcond() warn: 'host->dbclk' from clk_prepare_enable() not released on lines: 1155.
+drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->hdmi' from clk_prepare_enable() not released on lines: 1308,1317.
+drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->mixer' from clk_prepare_enable() not released on lines: 1300,1308,1317.
+drivers/gpu/drm/exynos/exynos_mixer.c:1322 exynos_mixer_resume() warn: 'ctx->vp' from clk_prepare_enable() not released on lines: 1317.
 
->> ERROR: Input tree has errors, aborting (use -f to force output)
+vim +/irq +2649 drivers/video/fbdev/sh_mobile_lcdcfb.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2505  
+48c68c4f1b5424 drivers/video/sh_mobile_lcdcfb.c       Greg Kroah-Hartman        2012-12-21  2506  static int sh_mobile_lcdc_probe(struct platform_device *pdev)
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2507  {
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2508  	struct sh_mobile_lcdc_info *pdata = pdev->dev.platform_data;
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2509  	struct sh_mobile_lcdc_priv *priv;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2510  	struct resource *res;
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2511  	int num_channels;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2512  	int error;
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2513  	int irq, i;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2514  
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2515  	if (!pdata) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2516  		dev_err(&pdev->dev, "no platform data defined\n");
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2517  		return -EINVAL;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2518  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2519  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2520  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2521  	irq = platform_get_irq(pdev, 0);
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2522  	if (!res || irq < 0) {
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2523  		dev_err(&pdev->dev, "cannot get platform resources\n");
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2524  		return -ENOENT;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2525  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2526  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2527  	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+e281018b0b2562 drivers/video/fbdev/sh_mobile_lcdcfb.c Markus Elfring            2018-04-26  2528  	if (!priv)
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2529  		return -ENOMEM;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2530  
+4774c12aacafc0 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-09-07  2531  	priv->dev = &pdev->dev;
+9076aa994a9e3b drivers/video/fbdev/sh_mobile_lcdcfb.c Bartlomiej Zolnierkiewicz 2018-05-14  2532  
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2533  	for (i = 0; i < ARRAY_SIZE(priv->ch); i++)
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2534  		mutex_init(&priv->ch[i].open_lock);
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2535  	platform_set_drvdata(pdev, priv);
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2536  
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2537  	error = request_irq(irq, sh_mobile_lcdc_irq, 0,
+7ad33e74857f16 drivers/video/sh_mobile_lcdcfb.c       Kay Sievers               2009-03-24  2538  			    dev_name(&pdev->dev), priv);
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2539  	if (error) {
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2540  		dev_err(&pdev->dev, "unable to request irq\n");
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2541  		goto err1;
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2542  	}
+8564557a03c12a drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-12-19  2543  
+7374ccc0c322a6 drivers/video/fbdev/sh_mobile_lcdcfb.c Geert Uytterhoeven        2015-04-03  2544  	priv->irq = irq;
+5ef6b505d9df45 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2545  	atomic_set(&priv->hw_usecnt, -1);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2546  
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2547  	for (i = 0, num_channels = 0; i < ARRAY_SIZE(pdata->ch); i++) {
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2548  		struct sh_mobile_lcdc_chan *ch = priv->ch + num_channels;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2549  
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2550  		ch->lcdc = priv;
+b5ef967df13d4d drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-11-22  2551  		ch->cfg = &pdata->ch[i];
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2552  
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2553  		error = sh_mobile_lcdc_check_interface(ch);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2554  		if (error) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2555  			dev_err(&pdev->dev, "unsupported interface type\n");
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2556  			goto err1;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2557  		}
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2558  		init_waitqueue_head(&ch->frame_end_wait);
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2559  		init_completion(&ch->vsync_completion);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2560  
+3b0fd9d7559858 drivers/video/sh_mobile_lcdcfb.c       Alexandre Courbot         2011-02-16  2561  		/* probe the backlight is there is one defined */
+b5ef967df13d4d drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-11-22  2562  		if (ch->cfg->bl_info.max_brightness)
+3b0fd9d7559858 drivers/video/sh_mobile_lcdcfb.c       Alexandre Courbot         2011-02-16  2563  			ch->bl = sh_mobile_lcdc_bl_probe(&pdev->dev, ch);
+3b0fd9d7559858 drivers/video/sh_mobile_lcdcfb.c       Alexandre Courbot         2011-02-16  2564  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2565  		switch (pdata->ch[i].chan) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2566  		case LCDC_CHAN_MAINLCD:
+ce1c0b0873bf4e drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-07-13  2567  			ch->enabled = LDCNT2R_ME;
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2568  			ch->reg_offs = lcdc_offs_mainlcd;
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2569  			num_channels++;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2570  			break;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2571  		case LCDC_CHAN_SUBLCD:
+ce1c0b0873bf4e drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-07-13  2572  			ch->enabled = LDCNT2R_SE;
+01ac25b59f08c0 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-09-03  2573  			ch->reg_offs = lcdc_offs_sublcd;
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2574  			num_channels++;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2575  			break;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2576  		}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2577  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2578  
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2579  	if (!num_channels) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2580  		dev_err(&pdev->dev, "no channels defined\n");
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2581  		error = -EINVAL;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2582  		goto err1;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2583  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2584  
+edd153a3e4f734 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-13  2585  	/* for dual channel LCDC (MAIN + SUB) force shared format setting */
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2586  	if (num_channels == 2)
+edd153a3e4f734 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-13  2587  		priv->forced_fourcc = pdata->ch[0].fourcc;
+417d48274e755e drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2011-01-05  2588  
+4bdc0d676a6431 drivers/video/fbdev/sh_mobile_lcdcfb.c Christoph Hellwig         2020-01-06  2589  	priv->base = ioremap(res->start, resource_size(res));
+b49898ce606da2 drivers/video/fbdev/sh_mobile_lcdcfb.c Wei Yongjun               2017-02-08  2590  	if (!priv->base) {
+b49898ce606da2 drivers/video/fbdev/sh_mobile_lcdcfb.c Wei Yongjun               2017-02-08  2591  		error = -ENOMEM;
+dba6f385b83d7f drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-06-30  2592  		goto err1;
+b49898ce606da2 drivers/video/fbdev/sh_mobile_lcdcfb.c Wei Yongjun               2017-02-08  2593  	}
+dba6f385b83d7f drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-06-30  2594  
+0a7f17aa3d6b69 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-09-07  2595  	error = sh_mobile_lcdc_setup_clocks(priv, pdata->clock_source);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2596  	if (error) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2597  		dev_err(&pdev->dev, "unable to setup clocks\n");
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2598  		goto err1;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2599  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2600  
+4774c12aacafc0 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-09-07  2601  	/* Enable runtime PM. */
+4774c12aacafc0 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-09-07  2602  	pm_runtime_enable(&pdev->dev);
+7caa4342ca5b37 drivers/video/sh_mobile_lcdcfb.c       Damian Hobson-Garcia      2011-05-18  2603  
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2604  	for (i = 0; i < num_channels; i++) {
+0707330b337cec drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2012-08-13  2605  		struct sh_mobile_lcdc_chan *ch = &priv->ch[i];
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2606  
+0707330b337cec drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2012-08-13  2607  		error = sh_mobile_lcdc_channel_init(ch);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2608  		if (error)
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2609  			goto err1;
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2610  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2611  
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2612  	for (i = 0; i < ARRAY_SIZE(pdata->overlays); i++) {
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2613  		struct sh_mobile_lcdc_overlay *ovl = &priv->overlays[i];
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2614  
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2615  		ovl->cfg = &pdata->overlays[i];
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2616  		ovl->channel = &priv->ch[0];
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2617  
+0707330b337cec drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2012-08-13  2618  		error = sh_mobile_lcdc_overlay_init(ovl);
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2619  		if (error)
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2620  			goto err1;
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2621  	}
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2622  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2623  	error = sh_mobile_lcdc_start(priv);
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2624  	if (error) {
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2625  		dev_err(&pdev->dev, "unable to start hardware\n");
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2626  		goto err1;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2627  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2628  
+3ce05599907c60 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-08-31  2629  	for (i = 0; i < num_channels; i++) {
+1c6a307a54668e drivers/video/sh_mobile_lcdcfb.c       Paul Mundt                2009-07-01  2630  		struct sh_mobile_lcdc_chan *ch = priv->ch + i;
+1c6a307a54668e drivers/video/sh_mobile_lcdcfb.c       Paul Mundt                2009-07-01  2631  
+a67f379d364874 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-11-29  2632  		error = sh_mobile_lcdc_channel_fb_register(ch);
+a67f379d364874 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-11-29  2633  		if (error)
+1c6a307a54668e drivers/video/sh_mobile_lcdcfb.c       Paul Mundt                2009-07-01  2634  			goto err1;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2635  	}
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2636  
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2637  	for (i = 0; i < ARRAY_SIZE(pdata->overlays); i++) {
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2638  		struct sh_mobile_lcdc_overlay *ovl = &priv->overlays[i];
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2639  
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2640  		error = sh_mobile_lcdc_overlay_fb_register(ovl);
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2641  		if (error)
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2642  			goto err1;
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2643  	}
+c5deac3c9b2284 drivers/video/sh_mobile_lcdcfb.c       Laurent Pinchart          2011-12-12  2644  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2645  	return 0;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2646  err1:
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2647  	sh_mobile_lcdc_remove(pdev);
+8bed90557d2600 drivers/video/sh_mobile_lcdcfb.c       Guennadi Liakhovetski     2010-04-30  2648  
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23 @2649  	return error;
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2650  }
+cfb4f5d1750e05 drivers/video/sh_mobile_lcdcfb.c       Magnus Damm               2008-07-23  2651  
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt7988a.dtsi:343.22-358.5: ERROR (phandle_references): /soc/spi@11008000: Reference to non-existent node or label "spi1_pins"
+:::::: The code at line 2649 was first introduced by commit
+:::::: cfb4f5d1750e05f43902197713c50c29e7dfbc99 fbdev: SuperH Mobile LCDC Driver
 
-vim +/spi1_pins +343 arch/arm64/boot/dts/mediatek/mt7988a.dtsi
-
-6c1d134a103f68c Rafał Miłecki    2024-01-08    8  
-6c1d134a103f68c Rafał Miłecki    2024-01-08    9  / {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   10  	compatible = "mediatek,mt7988a";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   11  	interrupt-parent = <&gic>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   12  	#address-cells = <2>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   13  	#size-cells = <2>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   14  
-6c1d134a103f68c Rafał Miłecki    2024-01-08   15  	cpus {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   16  		#address-cells = <1>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   17  		#size-cells = <0>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   18  
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   19  		cpu0: cpu@0 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   20  			compatible = "arm,cortex-a73";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   21  			reg = <0x0>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   22  			device_type = "cpu";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   23  			enable-method = "psci";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   24  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   25  				 <&topckgen CLK_TOP_XTAL>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   26  			clock-names = "cpu", "intermediate";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   27  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   28  		};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   29  
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   30  		cpu1: cpu@1 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   31  			compatible = "arm,cortex-a73";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   32  			reg = <0x1>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   33  			device_type = "cpu";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   34  			enable-method = "psci";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   35  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   36  				 <&topckgen CLK_TOP_XTAL>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   37  			clock-names = "cpu", "intermediate";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   38  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   39  		};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   40  
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   41  		cpu2: cpu@2 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   42  			compatible = "arm,cortex-a73";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   43  			reg = <0x2>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   44  			device_type = "cpu";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   45  			enable-method = "psci";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   46  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   47  				 <&topckgen CLK_TOP_XTAL>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   48  			clock-names = "cpu", "intermediate";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   49  			operating-points-v2 = <&cluster0_opp>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   50  		};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   51  
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   52  		cpu3: cpu@3 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   53  			compatible = "arm,cortex-a73";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   54  			reg = <0x3>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   55  			device_type = "cpu";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   56  			enable-method = "psci";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   57  			clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   58  				 <&topckgen CLK_TOP_XTAL>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   59  			clock-names = "cpu", "intermediate";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   60  			operating-points-v2 = <&cluster0_opp>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   61  		};
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   62  
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   63  		cluster0_opp: opp-table-0 {
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   64  			compatible = "operating-points-v2";
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   65  			opp-shared;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   66  			opp00 {
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   67  				opp-hz = /bits/ 64 <800000000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   68  				opp-microvolt = <850000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   69  			};
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   70  			opp01 {
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   71  				opp-hz = /bits/ 64 <1100000000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   72  				opp-microvolt = <850000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   73  			};
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   74  			opp02 {
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   75  				opp-hz = /bits/ 64 <1500000000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   76  				opp-microvolt = <850000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   77  			};
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   78  			opp03 {
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   79  				opp-hz = /bits/ 64 <1800000000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   80  				opp-microvolt = <900000>;
-8ac21b111d4a46e Frank Wunderlich 2024-10-05   81  			};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   82  		};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   83  	};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   84  
-6c1d134a103f68c Rafał Miłecki    2024-01-08   85  	oscillator-40m {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   86  		compatible = "fixed-clock";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   87  		clock-frequency = <40000000>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   88  		#clock-cells = <0>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   89  		clock-output-names = "clkxtal";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   90  	};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   91  
-6c1d134a103f68c Rafał Miłecki    2024-01-08   92  	pmu {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   93  		compatible = "arm,cortex-a73-pmu";
-6c1d134a103f68c Rafał Miłecki    2024-01-08   94  		interrupt-parent = <&gic>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   95  		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08   96  	};
-6c1d134a103f68c Rafał Miłecki    2024-01-08   97  
-6c1d134a103f68c Rafał Miłecki    2024-01-08   98  	psci {
-6c1d134a103f68c Rafał Miłecki    2024-01-08   99  		compatible = "arm,psci-0.2";
-6c1d134a103f68c Rafał Miłecki    2024-01-08  100  		method = "smc";
-6c1d134a103f68c Rafał Miłecki    2024-01-08  101  	};
-6c1d134a103f68c Rafał Miłecki    2024-01-08  102  
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  103  	reg_1p8v: regulator-1p8v {
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  104  		compatible = "regulator-fixed";
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  105  		regulator-name = "fixed-1.8V";
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  106  		regulator-min-microvolt = <1800000>;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  107  		regulator-max-microvolt = <1800000>;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  108  		regulator-boot-on;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  109  		regulator-always-on;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  110  	};
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  111  
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  112  	reg_3p3v: regulator-3p3v {
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  113  		compatible = "regulator-fixed";
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  114  		regulator-name = "fixed-3.3V";
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  115  		regulator-min-microvolt = <3300000>;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  116  		regulator-max-microvolt = <3300000>;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  117  		regulator-boot-on;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  118  		regulator-always-on;
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  119  	};
-4ede69bcf924ef2 Frank Wunderlich 2024-10-05  120  
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  121  	reserved-memory {
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  122  		#address-cells = <2>;
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  123  		#size-cells = <2>;
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  124  		ranges;
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  125  
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  126  		/* 320 KiB reserved for ARM Trusted Firmware (BL31 and BL32) */
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  127  		secmon_reserved: secmon@43000000 {
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  128  			reg = <0 0x43000000 0 0x50000>;
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  129  			no-map;
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  130  		};
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  131  	};
-f57d0dbf69e64b1 Frank Wunderlich 2024-10-05  132  
-6c1d134a103f68c Rafał Miłecki    2024-01-08  133  	soc {
-6c1d134a103f68c Rafał Miłecki    2024-01-08  134  		compatible = "simple-bus";
-6c1d134a103f68c Rafał Miłecki    2024-01-08  135  		ranges;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  136  		#address-cells = <2>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  137  		#size-cells = <2>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  138  
-6c1d134a103f68c Rafał Miłecki    2024-01-08  139  		gic: interrupt-controller@c000000 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08  140  			compatible = "arm,gic-v3";
-6c1d134a103f68c Rafał Miłecki    2024-01-08  141  			reg = <0 0x0c000000 0 0x40000>,  /* GICD */
-6c1d134a103f68c Rafał Miłecki    2024-01-08  142  			      <0 0x0c080000 0 0x200000>, /* GICR */
-6c1d134a103f68c Rafał Miłecki    2024-01-08  143  			      <0 0x0c400000 0 0x2000>,   /* GICC */
-6c1d134a103f68c Rafał Miłecki    2024-01-08  144  			      <0 0x0c410000 0 0x1000>,   /* GICH */
-6c1d134a103f68c Rafał Miłecki    2024-01-08  145  			      <0 0x0c420000 0 0x2000>;   /* GICV */
-6c1d134a103f68c Rafał Miłecki    2024-01-08  146  			interrupt-parent = <&gic>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  147  			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  148  			interrupt-controller;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  149  			#interrupt-cells = <3>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  150  		};
-6c1d134a103f68c Rafał Miłecki    2024-01-08  151  
-09346afaba0a896 Rafał Miłecki    2024-02-13  152  		infracfg: clock-controller@10001000 {
-b616b403cbffc68 Rafał Miłecki    2024-01-08  153  			compatible = "mediatek,mt7988-infracfg", "syscon";
-b616b403cbffc68 Rafał Miłecki    2024-01-08  154  			reg = <0 0x10001000 0 0x1000>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  155  			#clock-cells = <1>;
-449ca7346794934 Frank Wunderlich 2024-10-05  156  			#reset-cells = <1>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  157  		};
-b616b403cbffc68 Rafał Miłecki    2024-01-08  158  
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  159  		topckgen: clock-controller@1001b000 {
-b616b403cbffc68 Rafał Miłecki    2024-01-08  160  			compatible = "mediatek,mt7988-topckgen", "syscon";
-b616b403cbffc68 Rafał Miłecki    2024-01-08  161  			reg = <0 0x1001b000 0 0x1000>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  162  			#clock-cells = <1>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  163  		};
-b616b403cbffc68 Rafał Miłecki    2024-01-08  164  
-b616b403cbffc68 Rafał Miłecki    2024-01-08  165  		watchdog: watchdog@1001c000 {
-6c1d134a103f68c Rafał Miłecki    2024-01-08  166  			compatible = "mediatek,mt7988-wdt";
-6c1d134a103f68c Rafał Miłecki    2024-01-08  167  			reg = <0 0x1001c000 0 0x1000>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  168  			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  169  			#reset-cells = <1>;
-6c1d134a103f68c Rafał Miłecki    2024-01-08  170  		};
-b616b403cbffc68 Rafał Miłecki    2024-01-08  171  
-7535d1b91834c44 Frank Wunderlich 2024-10-04  172  		apmixedsys: clock-controller@1001e000 {
-b616b403cbffc68 Rafał Miłecki    2024-01-08  173  			compatible = "mediatek,mt7988-apmixedsys";
-b616b403cbffc68 Rafał Miłecki    2024-01-08  174  			reg = <0 0x1001e000 0 0x1000>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  175  			#clock-cells = <1>;
-b616b403cbffc68 Rafał Miłecki    2024-01-08  176  		};
-b616b403cbffc68 Rafał Miłecki    2024-01-08  177  
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  178  		pio: pinctrl@1001f000 {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  179  			compatible = "mediatek,mt7988-pinctrl";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  180  			reg = <0 0x1001f000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  181  			      <0 0x11c10000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  182  			      <0 0x11d00000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  183  			      <0 0x11d20000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  184  			      <0 0x11e00000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  185  			      <0 0x11f00000 0 0x1000>,
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  186  			      <0 0x1000b000 0 0x1000>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  187  			reg-names = "gpio", "iocfg_tr",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  188  				    "iocfg_br", "iocfg_rb",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  189  				    "iocfg_lb", "iocfg_tl", "eint";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  190  			gpio-controller;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  191  			#gpio-cells = <2>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  192  			gpio-ranges = <&pio 0 0 84>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  193  			interrupt-controller;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  194  			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  195  			interrupt-parent = <&gic>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  196  			#interrupt-cells = <2>;
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  197  
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  198  			pcie0_pins: pcie0-pins {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  199  				mux {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  200  					function = "pcie";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  201  					groups = "pcie_2l_0_pereset", "pcie_clk_req_n0_0",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  202  						 "pcie_wake_n0_0";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  203  				};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  204  			};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  205  
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  206  			pcie1_pins: pcie1-pins {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  207  				mux {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  208  					function = "pcie";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  209  					groups = "pcie_2l_1_pereset", "pcie_clk_req_n1",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  210  						 "pcie_wake_n1_0";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  211  				};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  212  			};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  213  
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  214  			pcie2_pins: pcie2-pins {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  215  				mux {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  216  					function = "pcie";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  217  					groups = "pcie_1l_0_pereset", "pcie_clk_req_n2_0",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  218  						 "pcie_wake_n2_0";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  219  				};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  220  			};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  221  
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  222  			pcie3_pins: pcie3-pins {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  223  				mux {
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  224  					function = "pcie";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  225  					groups = "pcie_1l_1_pereset", "pcie_clk_req_n3",
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  226  						 "pcie_wake_n3_0";
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  227  				};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  228  			};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  229  		};
-0e6d7a2feeeaeb1 Frank Wunderlich 2024-10-03  230  
-a0cafafa12c462e Frank Wunderlich 2024-10-06  231  		pwm: pwm@10048000 {
-09ff2216a035709 Rafał Miłecki    2024-06-04  232  			compatible = "mediatek,mt7988-pwm";
-09ff2216a035709 Rafał Miłecki    2024-06-04  233  			reg = <0 0x10048000 0 0x1000>;
-09ff2216a035709 Rafał Miłecki    2024-06-04  234  			clocks = <&infracfg CLK_INFRA_66M_PWM_BCK>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  235  				 <&infracfg CLK_INFRA_66M_PWM_HCK>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  236  				 <&infracfg CLK_INFRA_66M_PWM_CK1>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  237  				 <&infracfg CLK_INFRA_66M_PWM_CK2>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  238  				 <&infracfg CLK_INFRA_66M_PWM_CK3>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  239  				 <&infracfg CLK_INFRA_66M_PWM_CK4>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  240  				 <&infracfg CLK_INFRA_66M_PWM_CK5>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  241  				 <&infracfg CLK_INFRA_66M_PWM_CK6>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  242  				 <&infracfg CLK_INFRA_66M_PWM_CK7>,
-09ff2216a035709 Rafał Miłecki    2024-06-04  243  				 <&infracfg CLK_INFRA_66M_PWM_CK8>;
-09ff2216a035709 Rafał Miłecki    2024-06-04  244  			clock-names = "top", "main", "pwm1", "pwm2", "pwm3",
-09ff2216a035709 Rafał Miłecki    2024-06-04  245  				      "pwm4", "pwm5", "pwm6", "pwm7", "pwm8";
-09ff2216a035709 Rafał Miłecki    2024-06-04  246  			#pwm-cells = <2>;
-09ff2216a035709 Rafał Miłecki    2024-06-04  247  			status = "disabled";
-09ff2216a035709 Rafał Miłecki    2024-06-04  248  		};
-09ff2216a035709 Rafał Miłecki    2024-06-04  249  
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  250  		mcusys: mcusys@100e0000 {
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  251  			compatible = "mediatek,mt7988-mcusys", "syscon";
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  252  			reg = <0 0x100e0000 0 0x1000>;
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  253  			#clock-cells = <1>;
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  254  		};
-e6578fd4aac7812 Frank Wunderlich 2024-10-05  255  
-2e5e41c205c3155 Frank Wunderlich 2024-10-06  256  		serial0: serial@11000000 {
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  257  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  258  			reg = <0 0x11000000 0 0x100>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  259  			interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  260  			interrupt-names = "uart", "wakeup";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  261  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  262  				 <&infracfg CLK_INFRA_52M_UART0_CK>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  263  			clock-names = "baud", "bus";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  264  			status = "disabled";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  265  		};
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  266  
-2e5e41c205c3155 Frank Wunderlich 2024-10-06  267  		serial1: serial@11000100 {
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  268  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  269  			reg = <0 0x11000100 0 0x100>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  270  			interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  271  			interrupt-names = "uart", "wakeup";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  272  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  273  				 <&infracfg CLK_INFRA_52M_UART1_CK>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  274  			clock-names = "baud", "bus";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  275  			status = "disabled";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  276  		};
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  277  
-2e5e41c205c3155 Frank Wunderlich 2024-10-06  278  		serial2: serial@11000200 {
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  279  			compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  280  			reg = <0 0x11000200 0 0x100>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  281  			interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  282  			interrupt-names = "uart", "wakeup";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  283  			clocks = <&topckgen CLK_TOP_UART_SEL>,
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  284  				 <&infracfg CLK_INFRA_52M_UART2_CK>;
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  285  			clock-names = "baud", "bus";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  286  			status = "disabled";
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  287  		};
-c321cb96d3c14ef Rafał Miłecki    2024-06-05  288  
-4af694952138ac0 Frank Wunderlich 2024-10-05  289  		i2c0: i2c@11003000 {
-660c230bf302803 Rafał Miłecki    2024-06-04  290  			compatible = "mediatek,mt7981-i2c";
-660c230bf302803 Rafał Miłecki    2024-06-04  291  			reg = <0 0x11003000 0 0x1000>,
-660c230bf302803 Rafał Miłecki    2024-06-04  292  			      <0 0x10217080 0 0x80>;
-660c230bf302803 Rafał Miłecki    2024-06-04  293  			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
-660c230bf302803 Rafał Miłecki    2024-06-04  294  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf302803 Rafał Miłecki    2024-06-04  295  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf302803 Rafał Miłecki    2024-06-04  296  			clock-names = "main", "dma";
-660c230bf302803 Rafał Miłecki    2024-06-04  297  			#address-cells = <1>;
-660c230bf302803 Rafał Miłecki    2024-06-04  298  			#size-cells = <0>;
-660c230bf302803 Rafał Miłecki    2024-06-04  299  			status = "disabled";
-660c230bf302803 Rafał Miłecki    2024-06-04  300  		};
-660c230bf302803 Rafał Miłecki    2024-06-04  301  
-4af694952138ac0 Frank Wunderlich 2024-10-05  302  		i2c1: i2c@11004000 {
-660c230bf302803 Rafał Miłecki    2024-06-04  303  			compatible = "mediatek,mt7981-i2c";
-660c230bf302803 Rafał Miłecki    2024-06-04  304  			reg = <0 0x11004000 0 0x1000>,
-660c230bf302803 Rafał Miłecki    2024-06-04  305  			      <0 0x10217100 0 0x80>;
-660c230bf302803 Rafał Miłecki    2024-06-04  306  			interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
-660c230bf302803 Rafał Miłecki    2024-06-04  307  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf302803 Rafał Miłecki    2024-06-04  308  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf302803 Rafał Miłecki    2024-06-04  309  			clock-names = "main", "dma";
-660c230bf302803 Rafał Miłecki    2024-06-04  310  			#address-cells = <1>;
-660c230bf302803 Rafał Miłecki    2024-06-04  311  			#size-cells = <0>;
-660c230bf302803 Rafał Miłecki    2024-06-04  312  			status = "disabled";
-660c230bf302803 Rafał Miłecki    2024-06-04  313  		};
-660c230bf302803 Rafał Miłecki    2024-06-04  314  
-4af694952138ac0 Frank Wunderlich 2024-10-05  315  		i2c2: i2c@11005000 {
-660c230bf302803 Rafał Miłecki    2024-06-04  316  			compatible = "mediatek,mt7981-i2c";
-660c230bf302803 Rafał Miłecki    2024-06-04  317  			reg = <0 0x11005000 0 0x1000>,
-660c230bf302803 Rafał Miłecki    2024-06-04  318  			      <0 0x10217180 0 0x80>;
-660c230bf302803 Rafał Miłecki    2024-06-04  319  			interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
-660c230bf302803 Rafał Miłecki    2024-06-04  320  			clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-660c230bf302803 Rafał Miłecki    2024-06-04  321  				 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-660c230bf302803 Rafał Miłecki    2024-06-04  322  			clock-names = "main", "dma";
-660c230bf302803 Rafał Miłecki    2024-06-04  323  			#address-cells = <1>;
-660c230bf302803 Rafał Miłecki    2024-06-04  324  			#size-cells = <0>;
-660c230bf302803 Rafał Miłecki    2024-06-04  325  			status = "disabled";
-660c230bf302803 Rafał Miłecki    2024-06-04  326  		};
-660c230bf302803 Rafał Miłecki    2024-06-04  327  
-a00bf82895f44ab Frank Wunderlich 2024-10-05  328  		spi0: spi@11007000 {
-a00bf82895f44ab Frank Wunderlich 2024-10-05  329  			compatible = "mediatek,ipm-spi-quad", "mediatek,spi-ipm";
-a00bf82895f44ab Frank Wunderlich 2024-10-05  330  			reg = <0 0x11007000 0 0x100>;
-a00bf82895f44ab Frank Wunderlich 2024-10-05  331  			interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-a00bf82895f44ab Frank Wunderlich 2024-10-05  332  			clocks = <&topckgen CLK_TOP_MPLL_D2>,
-a00bf82895f44ab Frank Wunderlich 2024-10-05  333  				 <&topckgen CLK_TOP_SPI_SEL>,
-a00bf82895f44ab Frank Wunderlich 2024-10-05  334  				 <&infracfg CLK_INFRA_104M_SPI0>,
-a00bf82895f44ab Frank Wunderlich 2024-10-05  335  				 <&infracfg CLK_INFRA_66M_SPI0_HCK>;
-a00bf82895f44ab Frank Wunderlich 2024-10-05  336  			clock-names = "parent-clk", "sel-clk", "spi-clk",
-a00bf82895f44ab Frank Wunderlich 2024-10-05  337  				      "hclk";
-a00bf82895f44ab Frank Wunderlich 2024-10-05  338  			#address-cells = <1>;
-a00bf82895f44ab Frank Wunderlich 2024-10-05  339  			#size-cells = <0>;
-a00bf82895f44ab Frank Wunderlich 2024-10-05  340  			status = "disabled";
-a00bf82895f44ab Frank Wunderlich 2024-10-05  341  		};
-a00bf82895f44ab Frank Wunderlich 2024-10-05  342  
-a00bf82895f44ab Frank Wunderlich 2024-10-05 @343  		spi1: spi@11008000 {
-
-:::::: The code at line 343 was first introduced by commit
-:::::: a00bf82895f44ab46e64c2c47f25ac97e7be424a arm64: dts: mediatek: mt7988: add spi controllers
-
-:::::: TO: Frank Wunderlich <frank-w@public-files.de>
-:::::: CC: Frank Wunderlich <frank-w@public-files.de>
+:::::: TO: Magnus Damm <magnus.damm@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
