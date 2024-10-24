@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CD022B642
-	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 20:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F011216A0C
+	for <oe-kbuild@lists.linux.dev>; Thu, 24 Oct 2024 21:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729800866; cv=none; b=il3J/FIa5of90+5dxbi5JfbprZSsUAac28Xh/+Ah3cL/w1852nWvEVqC2Xfz5j4RAQr+xCQbK1XwaBtJ3dzS22kL/Khh/CSBvWr7lWP8gOSPhkzaBm5fwQjRrXXX4UGQIpWkslApEm0F+BemsyZxSbECri6iPATlbd2MkJ6rqzI=
+	t=1729804586; cv=none; b=DnMohI+XLDlEamDd7QuuVPFTZP7aIgc5F97ZgEVuAHlSK/HixYO006Jq5SOo2UB3CjMTa5FDcK4RTbLH15CbW4NCG+O6OAtCmnwMsVyinC1ygfBkcVe2siWUOyOcK4nKdvPrhBZH7w5x8UUSI3MpLAcephfl6+g7stQaaBOPpMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729800866; c=relaxed/simple;
-	bh=5qtpm2rS5uBsv5OTflVyq4r5lkytuzCQ9S99m5KO5yU=;
+	s=arc-20240116; t=1729804586; c=relaxed/simple;
+	bh=vHyBjQXoCqcpsExT13MmZXfP6YbL+GVnNak4JWOdodU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AwPPnSobw0DtK5k4Ok1fRvds3tVa3iCptHeCxWR5iaQPzWBUChQb73wXVHPa6iFwDFuQIHxpMnT9Hw3wOUcveK1IykdCZb+2TdiMvoGWxfT98ZGX+b27iO6xLcChzBXOs1t/DdUE+hjWL+1Bvw7UtOZlRgmwNPqx9GUM13hknkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=enATE3ox; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=eD/ii4KufkLio0EKqQfA+MKXYL7Ashs+XTO+kyN3WVsLbLh1UUasKSqSryUbEspVeNLRgbQ2xF/Hi7a+/YHCkcZiDXWyfDVnBINiTAtbSm7Ejj477UCB0IGIqqk0rhzhFqiRVdRaN0IG4RsYw5Ym7ONspXBb1tOq12x1gkhMTsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7i/GGGx; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="enATE3ox"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7i/GGGx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729800864; x=1761336864;
+  t=1729804584; x=1761340584;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5qtpm2rS5uBsv5OTflVyq4r5lkytuzCQ9S99m5KO5yU=;
-  b=enATE3oxbvzCdpA9EEf1l/+kZdtf3SHdEw2gI+I8sk4CFk1Yu9PdRPX5
-   5p0gXkkOG8yRxBwkqKAbtrWmBBuaKfhGRWydEKv4ecZl3fiPR36CAAWdA
-   QXMednGr02HSF4onU64q0crYrHA6w8mBFAFgHSVxRD5F4UTYH5C5pTCkd
-   FVrlHPCz0pTgypKv/SdxT12Oa2pAmYGbEjR5cNzQzGj4IbLGcr9k4BkWU
-   0URvKESU/xja3fIfdaOF5FROK8gwTpL0jkUanCBxKh4Kf9uMTyjPF2maZ
-   0N6KFdgXIOsxYxTddYsQ9JQ7Rrz6CbRF1eWBf6O6BAIT48QzT46QN02Pt
-   Q==;
-X-CSE-ConnectionGUID: 45Lq475QSX2IYVbrDIlLtg==
-X-CSE-MsgGUID: ufRU6Py1S1CJ8ylsMMz6yg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29392979"
+  bh=vHyBjQXoCqcpsExT13MmZXfP6YbL+GVnNak4JWOdodU=;
+  b=H7i/GGGxP+CHSJW0ZS57pYAvbT28TMXKtmWi/cXGWhPhaVjYiKCX6vIb
+   HOm7fGATWqLx9xwhPpD3pEdh8SgqYuC69ySSwvZ/iezVyXWJHA3p30ZKT
+   s+CBeC+slAeldckBmOdwHNCwQl66PgdK7K/rf1s4w+36vtEiy6rBHCaMc
+   BnuBCT6RpPPIVXYFIM+rDvK7T/zHapHEUIjh+02YTvma9S1Wue9Hjv28h
+   qrG1+n6eFdEb/xYZnELu4Z2cgQ+StH4hnJkXXn0QFUAPda6ChBF2jGD+n
+   91ZbUbYgAKdt3x/Psocq78It28X/DAccveBOooOPlB/Zb5jaGzQPdRD7J
+   A==;
+X-CSE-ConnectionGUID: qkAcy5rBTWOOLRi0odgxCw==
+X-CSE-MsgGUID: VN+E+C3PRcyVvbP+XOSgUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40571976"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29392979"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 13:14:22 -0700
-X-CSE-ConnectionGUID: Xb4jkVVxTYaq3H3S/Oyu2Q==
-X-CSE-MsgGUID: goBcggN3S9SYZmdcTN3sPA==
+   d="scan'208";a="40571976"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 14:16:24 -0700
+X-CSE-ConnectionGUID: kHSWG9VjTdunCvjKlHYtvg==
+X-CSE-MsgGUID: 0fIEiOEnRQ+Z94IXCVeFQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="85495943"
+   d="scan'208";a="111565580"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 24 Oct 2024 13:14:21 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Oct 2024 14:16:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t44Do-000X2w-35;
-	Thu, 24 Oct 2024 20:14:16 +0000
-Date: Fri, 25 Oct 2024 04:13:50 +0800
+	id 1t45Bs-000X9y-2F;
+	Thu, 24 Oct 2024 21:16:20 +0000
+Date: Fri, 25 Oct 2024 05:15:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [qcom:arm64-for-6.13 73/99]
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: crypto@1dfa000: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202410250410.C6tWcriK-lkp@intel.com>
+Subject: Re: [PATCH v2 2/5] arm64: dts: exynos8895: Add clock management unit
+ nodes
+Message-ID: <202410250411.9yICHpQp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,86 +68,68 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yuvaraj Ranganathan <quic_yrangana@quicinc.com>
-CC: Bjorn Andersson <andersson@kernel.org>
+In-Reply-To: <20241023091734.538682-3-ivo.ivanov.ivanov1@gmail.com>
+References: <20241023091734.538682-3-ivo.ivanov.ivanov1@gmail.com>
+TO: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Andi Shyti <andi.shyti@kernel.org>
+TO: Mark Brown <broonie@kernel.org>
+TO: Alim Akhtar <alim.akhtar@samsung.com>
+TO: Rob Herring <robh@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: linux-samsung-soc@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-kernel@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux arm64-for-6.13
-head:   267643b3e3a4e6cb7996da77f6d7f89ed8f5d554
-commit: 7ff3da43ef4453a6295bf82cb942168414043119 [73/99] arm64: dts: qcom: sa8775p: add QCrypto nodes
-:::::: branch date: 5 hours ago
+Hi Ivaylo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on next-20241024]
+[cannot apply to tip/timers/core robh/for-next krzk-dt/for-next linus/master v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivaylo-Ivanov/dt-bindings-timer-exynos4210-mct-Add-samsung-exynos8895-mct-compatible/20241023-172002
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241023091734.538682-3-ivo.ivanov.ivanov1%40gmail.com
+patch subject: [PATCH v2 2/5] arm64: dts: exynos8895: Add clock management unit nodes
+:::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: arm64-randconfig-051-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250410.C6tWcriK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250410.C6tWcriK-lkp@intel.com/reproduce)
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241025/202410250411.9yICHpQp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250411.9yICHpQp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410250410.C6tWcriK-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410250411.9yICHpQp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm64/boot/dts/exynos/exynos8895-dreamlte.dts:9:
+>> arch/arm64/boot/dts/exynos/exynos8895.dtsi:8:10: fatal error: dt-bindings/clock/samsung,exynos8895.h: No such file or directory
+       8 | #include <dt-bindings/clock/samsung,exynos8895.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
-   	'qcom,crypto-v5.1' was expected
-   	'qcom,crypto-v5.4' was expected
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
-   	'qcom,sa8775p-qce' is not one of ['qcom,sc7280-qce', 'qcom,sm6350-qce', 'qcom,sm8250-qce', 'qcom,sm8350-qce', 'qcom,sm8450-qce', 'qcom,sm8550-qce', 'qcom,sm8650-qce']
-   	'qcom,ipq4019-qce' was expected
-   	'qcom,sm8150-qce' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: /soc@0/crypto@1dfa000: failed to match any schema with compatible: ['qcom,sa8775p-qce', 'qcom,qce']
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: usb@a4f8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
---
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: qcom,gpi-dma@800000: $nodename:0: 'qcom,gpi-dma@800000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: qcom,gpi-dma@900000: $nodename:0: 'qcom,gpi-dma@900000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: qcom,gpi-dma@a00000: $nodename:0: 'qcom,gpi-dma@a00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: qcom,gpi-dma@b00000: $nodename:0: 'qcom,gpi-dma@b00000' does not match '^dma-controller(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/dma/qcom,gpi.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: crypto@1dfa000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too long
-   	['qcom,sa8775p-qce', 'qcom,qce'] is too short
-   	'qcom,crypto-v5.1' was expected
-   	'qcom,crypto-v5.4' was expected
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq4019-qce', 'qcom,sm8150-qce']
-   	'qcom,sa8775p-qce' is not one of ['qcom,ipq6018-qce', 'qcom,ipq8074-qce', 'qcom,ipq9574-qce', 'qcom,msm8996-qce', 'qcom,qcm2290-qce', 'qcom,sdm845-qce', 'qcom,sm6115-qce']
-   	'qcom,sa8775p-qce' is not one of ['qcom,sc7280-qce', 'qcom,sm6350-qce', 'qcom,sm8250-qce', 'qcom,sm8350-qce', 'qcom,sm8450-qce', 'qcom,sm8550-qce', 'qcom,sm8650-qce']
-   	'qcom,ipq4019-qce' was expected
-   	'qcom,sm8150-qce' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/qcom-qce.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: /soc@0/crypto@1dfa000: failed to match any schema with compatible: ['qcom,sa8775p-qce', 'qcom,qce']
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: usb@a4f8800: interrupt-names: ['pwr_event', 'hs_phy_irq', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: rsc@18200000: 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23000000: Unevaluated properties are not allowed ('interconnect-names', 'interconnects', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride-r3.dtb: ethernet@23040000: tx-queues-config: 'snps,tx-sched-sp' does not match any of the regexes: '^queue[0-9]$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> In file included from arch/arm64/boot/dts/exynos/exynos8895-dreamlte.dts:9:
+   arch/arm64/boot/dts/exynos/exynos8895.dtsi:8:10: fatal error: dt-bindings/clock/samsung,exynos8895.h: No such file or directory
+       8 | #include <dt-bindings/clock/samsung,exynos8895.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+vim +8 arch/arm64/boot/dts/exynos/exynos8895.dtsi
+
+9cc9aaadb0aa92 Ivaylo Ivanov 2024-10-23  @8  #include <dt-bindings/clock/samsung,exynos8895.h>
+dcabaa8ae45764 Ivaylo Ivanov 2024-09-20   9  #include <dt-bindings/interrupt-controller/arm-gic.h>
+dcabaa8ae45764 Ivaylo Ivanov 2024-09-20  10  
 
 -- 
 0-DAY CI Kernel Test Service
