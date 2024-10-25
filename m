@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FC7A50
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 01:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C0A12CD88
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 03:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729818215; cv=none; b=u5Sr6xG1XKZDzubFh+OY57E9dmMGz5S9evxSsRcve6HlL/9Gdx6QTgYPX0tW+2h7il8DP7vJPd6ThxQF1CUJhmBPiIPaXnWTo80HdMoswZt8CaJP+StmfKmHW+b1unW1vM7c60lItj7h613AUaQJap5phmeHa5hYSLJ0XSeLdjo=
+	t=1729827703; cv=none; b=bez6B1L00aauakXewHoNRvG9l5im+ZIh/CWr9PDo43wDYfHw08EW2fK4rRuGhpNG71Y07f0TbmP4r3duwFg996V50r0jjdrtVxtRyGJMiUQjy+7FwaLJwyvrd+OqkirwmtZSk/y04aBRfB3tjiBcCyAJeYVANIE6PzATq+PU8S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729818215; c=relaxed/simple;
-	bh=A32w2hGN57mYbOOwii56oU574fy3NF1zH4rRLdSzyFk=;
+	s=arc-20240116; t=1729827703; c=relaxed/simple;
+	bh=WMN7uORcstezwuvXxKxWzclXAtLL3h73h9MH1EwGJQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XK41atzOFP3xg7znPkQiTxHUy706ml8PU8ydG7lAeaD0Gbxe1GgkRjfF3moYdoU58n+dMmPQNUjq/x99uzYl4wvnRoLjpG7os3UaM/Kl1yeAoR8ewHNFz3G7wKsdF+2ssnKiLdzvOW/wL88+18rXAzXMAp+LCJ5CFoD8wU33StI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XplIERYS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=efvWXFKE6AyV5+6lGLLHPJOJ0NLjxNe7QbTkxPiyRCQAgs3HdeGy9Gf9r2nWlZEgVTrSNz0AoHZehGTEWOwrX7e/JUyphiucuugMpFZYwhovoQutVjIFbQQfVoZkvOmi2jukAI8TnM79EnSv/033oNIvIOGJeTu4Hpx0Gin8XnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lFmJsCtO; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XplIERYS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFmJsCtO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729818212; x=1761354212;
+  t=1729827701; x=1761363701;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A32w2hGN57mYbOOwii56oU574fy3NF1zH4rRLdSzyFk=;
-  b=XplIERYSvi47X5whNTE7Vmv4klTWdfjikbCKdjLyNSX1vwgz4pJ+ep/E
-   +V15+sDjzYXyzR+npGRBCA6Va0HiT06bpuJjcwHewiHcvMGGkaP3l7rfD
-   BV1+qlgwWsV4k2ZaUaVapX23vLc/mqD9bPBvm6UWOEHFi2BHctjkQux2i
-   Jvt26Yi9ZnQQGCTEVFYHZj+zFlo11vWyiodHg/owDgD8T6ICn6Gqadnuw
-   Li6ZSl+dqFcOxo0K77O+VO/6abJ8fuO5xY5jUJ9d+txBmhUbaR+Wlylse
-   WXDL3eAJ/N3kPVR6Kwb2fLwRJ561Rx/cXyvWMBbQrW0R3hGhOpKCeSuEw
+  bh=WMN7uORcstezwuvXxKxWzclXAtLL3h73h9MH1EwGJQM=;
+  b=lFmJsCtOYOSC46og6OhQ/7xAAMgSuzLp8Yga5BtDVPBzh5X0w33AMu85
+   MTgHYd+Yddx8r8C6c5fqNB/uWx5wbJcRlIu0VsAIMFDIx+4qYkRRRwgzm
+   sqmvZy61G3BcCaYdZ+q56hMMWgdvSgIBz4vvIKA4/9MYyRt+Mxux/liXC
+   HWiavYMyoSNGM4qlFN4ujDt4FGCPQDDmeSffjv/gcAbcvf3B3TrwGAQej
+   INpYRcx7HZ0EntVP1/2mHnO0cvST9qaC9YPsc/xFfyr8VMISCHdbvBK7+
+   UWqeHaXvzujO4sTzbht7YMclmnHn5KRUoXabTD7nEt5am0SSOscFRKyWl
    g==;
-X-CSE-ConnectionGUID: IeXZZMfGTHSURLIgv73qbA==
-X-CSE-MsgGUID: KNvfrzhwQSuox8yc53Px4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="17107027"
-X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="17107027"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 18:03:31 -0700
-X-CSE-ConnectionGUID: Q6IKITrwSmiDUxSAFUlfuA==
-X-CSE-MsgGUID: K2On7rOvTCejCduF6XzBNw==
+X-CSE-ConnectionGUID: 1zU6QXgjSRil7P3esR44dA==
+X-CSE-MsgGUID: 58wOgdn6TEm+ofrJE9k4ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29347608"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29347608"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 20:41:41 -0700
+X-CSE-ConnectionGUID: oiH12sA4R9areoY233/XIA==
+X-CSE-MsgGUID: sAmjk3UoSuugve9Ta92BlA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="80866448"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="111633858"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Oct 2024 18:03:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 24 Oct 2024 20:41:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t48jf-000XLQ-1q;
-	Fri, 25 Oct 2024 01:03:27 +0000
-Date: Fri, 25 Oct 2024 09:02:30 +0800
+	id 1t4BCj-000XXo-16;
+	Fri, 25 Oct 2024 03:41:37 +0000
+Date: Fri, 25 Oct 2024 11:40:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 4308/6766]
- drivers/net/wireless/ath/ath12k/mac.c:4306 ath12k_mac_op_set_key() error:
- uninitialized symbol 'ret'.
-Message-ID: <202410250847.8S8Q6uC7-lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in
+ ath10k_flush()
+Message-ID: <202410251152.A5axJliR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,129 +64,90 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Rameshkumar Sundaram <quic_ramess@quicinc.com>
-CC: Jeff Johnson <quic_jjohnson@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+In-Reply-To: <0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk@triplefau.lt>
+References: <0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk@triplefau.lt>
+TO: Remi Pommarel <repk@triplefau.lt>
+TO: ath10k@lists.infradead.org
+TO: linux-wireless@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: Kalle Valo <kvalo@kernel.org>
+CC: Jeff Johnson <jjohnson@kernel.org>
+CC: Cedric Veilleux <veilleux.cedric@gmail.com>
+CC: Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>
+CC: Remi Pommarel <repk@triplefau.lt>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   fd21fa4a912ebbf8a6a341c31d8456f61e7d4170
-commit: 25e18b9d6b4bfd9cb3dd32e7b081eef306cd2517 [4308/6766] wifi: ath12k: modify ath12k_mac_op_set_key() for MLO
-:::::: branch date: 19 hours ago
-:::::: commit date: 8 days ago
-config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250847.8S8Q6uC7-lkp@intel.com/config)
+Hi Remi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ath/ath-next]
+[also build test WARNING on wireless/main wireless-next/main linus/master v6.12-rc4 next-20241024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Pommarel/wifi-ath10k-Implement-ieee80211-flush_sta-callback/20241022-172038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk%40triplefau.lt
+patch subject: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in ath10k_flush()
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251152.A5axJliR-lkp@intel.com/config)
 compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410250847.8S8Q6uC7-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410251152.A5axJliR-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/wireless/ath/ath12k/mac.c:4306 ath12k_mac_op_set_key() error: uninitialized symbol 'ret'.
+drivers/net/wireless/ath/ath10k/mac.c:8076 _ath10k_mac_wait_tx_complete() error: uninitialized symbol 'empty'.
+drivers/net/wireless/ath/ath10k/mac.c:8076 _ath10k_mac_wait_tx_complete() error: uninitialized symbol 'empty'.
 
 Old smatch warnings:
-drivers/net/wireless/ath/ath12k/mac.c:1451 ath12k_mac_set_arvif_ies() warn: potential spectre issue 'nontx->data' [r] (local cap)
-drivers/net/wireless/ath/ath12k/mac.c:1439 ath12k_mac_set_arvif_ies() warn: potential spectre issue 'elem->data' [r] (local cap)
-drivers/net/wireless/ath/ath12k/mac.c:5103 ath12k_conf_tx_uapsd() error: uninitialized symbol 'value'.
-drivers/net/wireless/ath/ath12k/mac.c:5105 ath12k_conf_tx_uapsd() error: uninitialized symbol 'value'.
+drivers/net/wireless/ath/ath10k/mac.c:5191 ath10k_start() warn: missing error code 'ret'
 
-vim +/ret +4306 drivers/net/wireless/ath/ath12k/mac.c
+vim +/empty +8076 drivers/net/wireless/ath/ath10k/mac.c
 
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4221  
-b5068bc9180d06 Sriram R             2024-04-09  4222  static int ath12k_mac_op_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
-b5068bc9180d06 Sriram R             2024-04-09  4223  				 struct ieee80211_vif *vif, struct ieee80211_sta *sta,
-b5068bc9180d06 Sriram R             2024-04-09  4224  				 struct ieee80211_key_conf *key)
-b5068bc9180d06 Sriram R             2024-04-09  4225  {
-3dd2c68f206ef7 Sriram R             2024-10-15  4226  	struct ath12k_vif *ahvif = ath12k_vif_to_ahvif(vif);
-3dd2c68f206ef7 Sriram R             2024-10-15  4227  	struct ath12k_link_vif *arvif;
-b89b5dbea65294 Sriram R             2024-10-15  4228  	struct ath12k_link_sta *arsta = NULL;
-b5068bc9180d06 Sriram R             2024-04-09  4229  	struct ath12k_vif_cache *cache;
-b89b5dbea65294 Sriram R             2024-10-15  4230  	struct ath12k_sta *ahsta;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4231  	unsigned long links;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4232  	u8 link_id;
-b5068bc9180d06 Sriram R             2024-04-09  4233  	int ret;
-b5068bc9180d06 Sriram R             2024-04-09  4234  
-b8c67509b91ec2 Kalle Valo           2024-10-07  4235  	lockdep_assert_wiphy(hw->wiphy);
-b8c67509b91ec2 Kalle Valo           2024-10-07  4236  
-b5068bc9180d06 Sriram R             2024-04-09  4237  	/* BIP needs to be done in software */
-b5068bc9180d06 Sriram R             2024-04-09  4238  	if (key->cipher == WLAN_CIPHER_SUITE_AES_CMAC ||
-b5068bc9180d06 Sriram R             2024-04-09  4239  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_128 ||
-b5068bc9180d06 Sriram R             2024-04-09  4240  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_256 ||
-3dd2c68f206ef7 Sriram R             2024-10-15  4241  	    key->cipher == WLAN_CIPHER_SUITE_BIP_CMAC_256) {
-b5068bc9180d06 Sriram R             2024-04-09  4242  		return 1;
-3dd2c68f206ef7 Sriram R             2024-10-15  4243  	}
-b5068bc9180d06 Sriram R             2024-04-09  4244  
-b5068bc9180d06 Sriram R             2024-04-09  4245  	if (key->keyidx > WMI_MAX_KEY_INDEX)
-b5068bc9180d06 Sriram R             2024-04-09  4246  		return -ENOSPC;
-b5068bc9180d06 Sriram R             2024-04-09  4247  
-b5068bc9180d06 Sriram R             2024-04-09  4248  	if (sta) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4249  		ahsta = ath12k_sta_to_ahsta(sta);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4250  		/* For an ML STA Pairwise key is same for all associated link Stations,
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4251  		 * hence do set key for all link STAs which are active.
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4252  		 */
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4253  		if (sta->mlo) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4254  			links = ahsta->links_map;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4255  			for_each_set_bit(link_id, &links, IEEE80211_MLD_MAX_NUM_LINKS) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4256  				arvif = wiphy_dereference(hw->wiphy,
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4257  							  ahvif->link[link_id]);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4258  				arsta = wiphy_dereference(hw->wiphy,
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4259  							  ahsta->link[link_id]);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4260  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4261  				if (WARN_ON(!arvif || !arsta))
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4262  					/* arvif and arsta are expected to be valid when
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4263  					 * STA is present.
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4264  					 */
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4265  					continue;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4266  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4267  				ret = ath12k_mac_set_key(arvif->ar, cmd, arvif,
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4268  							 arsta, key);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4269  				if (ret)
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4270  					break;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4271  			}
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4272  		} else {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4273  			arsta = &ahsta->deflink;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4274  			arvif = arsta->arvif;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4275  			if (WARN_ON(!arvif)) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4276  				ret = -EINVAL;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4277  				goto out;
-b5068bc9180d06 Sriram R             2024-04-09  4278  			}
-b5068bc9180d06 Sriram R             2024-04-09  4279  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4280  			ret = ath12k_mac_set_key(arvif->ar, cmd, arvif, arsta, key);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4281  		}
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4282  	} else {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4283  		if (key->link_id >= 0 && key->link_id < IEEE80211_MLD_MAX_NUM_LINKS) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4284  			link_id = key->link_id;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4285  			arvif = wiphy_dereference(hw->wiphy, ahvif->link[link_id]);
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4286  		} else {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4287  			link_id = 0;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4288  			arvif = &ahvif->deflink;
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4289  		}
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4290  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4291  		if (!arvif || !arvif->is_created) {
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4292  			cache = ath12k_ahvif_get_link_cache(ahvif, link_id);
-b5068bc9180d06 Sriram R             2024-04-09  4293  			if (!cache)
-b5068bc9180d06 Sriram R             2024-04-09  4294  				return -ENOSPC;
-3dd2c68f206ef7 Sriram R             2024-10-15  4295  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4296  			ret = ath12k_mac_update_key_cache(cache, cmd, sta, key);
-3dd2c68f206ef7 Sriram R             2024-10-15  4297  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4298  			return ret;
-b5068bc9180d06 Sriram R             2024-04-09  4299  		}
-b5068bc9180d06 Sriram R             2024-04-09  4300  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4301  		ret = ath12k_mac_set_key(arvif->ar, cmd, arvif, NULL, key);
-b89b5dbea65294 Sriram R             2024-10-15  4302  	}
-b89b5dbea65294 Sriram R             2024-10-15  4303  
-25e18b9d6b4bfd Rameshkumar Sundaram 2024-10-15  4304  out:
-3dd2c68f206ef7 Sriram R             2024-10-15  4305  
-d889913205cf7e Kalle Valo           2022-11-28 @4306  	return ret;
-d889913205cf7e Kalle Valo           2022-11-28  4307  }
-d889913205cf7e Kalle Valo           2022-11-28  4308  
-
-:::::: The code at line 4306 was first introduced by commit
-:::::: d889913205cf7ebda905b1e62c5867ed4e39f6c2 wifi: ath12k: driver for Qualcomm Wi-Fi 7 devices
-
-:::::: TO: Kalle Valo <quic_kvalo@quicinc.com>
-:::::: CC: Kalle Valo <quic_kvalo@quicinc.com>
+92092fe528e79c Michal Kazior     2015-08-03  8061  
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8062  static void _ath10k_mac_wait_tx_complete(struct ath10k *ar,
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8063  					 unsigned long queues)
+5e3dd157d7e70f Kalle Valo        2013-06-12  8064  {
+affd321733eebc Michal Kazior     2013-07-16  8065  	bool skip;
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8066  	long time_left;
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8067  	unsigned int q;
+5e3dd157d7e70f Kalle Valo        2013-06-12  8068  
+5e3dd157d7e70f Kalle Valo        2013-06-12  8069  	/* mac80211 doesn't care if we really xmit queued frames or not
+d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8070  	 * we'll collect those frames either way if we stop/delete vdevs
+d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8071  	 */
+548db54cc1890b Michal Kazior     2013-07-05  8072  
+affd321733eebc Michal Kazior     2013-07-16  8073  	if (ar->state == ATH10K_STATE_WEDGED)
+828853ac58265c Wen Gong          2018-08-28  8074  		return;
+affd321733eebc Michal Kazior     2013-07-16  8075  
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15 @8076  	time_left = wait_event_timeout(ar->htt.empty_tx_wq, ({
+5e3dd157d7e70f Kalle Valo        2013-06-12  8077  			bool empty;
+affd321733eebc Michal Kazior     2013-07-16  8078  
+edb8236df4d042 Michal Kazior     2013-07-05  8079  			spin_lock_bh(&ar->htt.tx_lock);
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8080  			for_each_set_bit(q, &queues, ar->hw->queues) {
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8081  				empty = (ar->htt.num_pending_per_queue[q] == 0);
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8082  				if (!empty)
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8083  					break;
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8084  			}
+edb8236df4d042 Michal Kazior     2013-07-05  8085  			spin_unlock_bh(&ar->htt.tx_lock);
+affd321733eebc Michal Kazior     2013-07-16  8086  
+7962b0d898accd Michal Kazior     2014-10-28  8087  			skip = (ar->state == ATH10K_STATE_WEDGED) ||
+7962b0d898accd Michal Kazior     2014-10-28  8088  			       test_bit(ATH10K_FLAG_CRASH_FLUSH,
+7962b0d898accd Michal Kazior     2014-10-28  8089  					&ar->dev_flags);
+affd321733eebc Michal Kazior     2013-07-16  8090  
+affd321733eebc Michal Kazior     2013-07-16  8091  			(empty || skip);
+5e3dd157d7e70f Kalle Valo        2013-06-12  8092  		}), ATH10K_FLUSH_TIMEOUT_HZ);
+affd321733eebc Michal Kazior     2013-07-16  8093  
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8094  	if (time_left == 0 || skip)
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8095  		ath10k_warn(ar, "failed to flush transmit queue (skip %i ar-state %i): %ld\n",
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8096  			    skip, ar->state, time_left);
+828853ac58265c Wen Gong          2018-08-28  8097  }
+548db54cc1890b Michal Kazior     2013-07-05  8098  
 
 -- 
 0-DAY CI Kernel Test Service
