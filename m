@@ -1,63 +1,63 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687AB18C935
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 07:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E20618C935
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 07:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729841755; cv=none; b=aCjDyQIVkUTKzYjeWCBP+X1qDTGsVEUQgvcqTo/VF1w60PkLYfYvaHztu+yhT6uKkBhPDAOacZUE/EypqAkbeqWnRYgYKlmQeCJH3Lu9YJ/zAGYJAmwYKtVxYNz2lXm9HRBZ7iUkYDppL1Wsi+pWJ0fz+lQYq8+3ZVr8hl+AAmY=
+	t=1729841821; cv=none; b=CFeR6gxYsv34f9T2t3twwruLW/ZPDNQXMtViJyYM9OPQPpjh/Ooc6J0RcP10uxbQvUoN+JN8ofRKKAdUV3ASAWTkZethQ5oYuylkRt6zQwpwmSfgQYRdEyTHHW4SAMxE57nUSz3/QKsuSMQjOnbEKU/vqsxDlLNN0rq7rrSF85o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729841755; c=relaxed/simple;
-	bh=3vHEWOAoO3sunonStkvYOWjQXz7fiPqp+eVdjriQS4o=;
+	s=arc-20240116; t=1729841821; c=relaxed/simple;
+	bh=Z7SiB+LqEbLMO/o1Bt1vSxMTz1GWzTnzXMO4ACTmoK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uF9Fi1ZjKrsm5et13LyOVQbgNVKr3hudiR8w+EjNJIy7bdZZ9LpAMWAftJ/k4jpGoJbFbDTkw046qlgP9MRm2Rbtcj+L7fyg8GbRsEPS7xxtABNzuNhng+j6BHLybMBepBYHOB9CTq1QZd80SlhITFRcr7SgD1p0WOwE16wZIR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y1eAJJ4s; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition; b=ZVLpS/ACpVQOfQZz14LE/2oPylI3+opgEMJUu/qCEKg7QxhB6jAl7ToMWEGh6yd0qPnKB9rofvWIXFCeSC21R97Ao0Y6QzW3Wm/VD8eqW8xOmGFwobivzq6QrpAAumktkhoMCxpxm2/Z2NL8n32qd8kRLu2Ve0blu2209M1wWys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L020sck+; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y1eAJJ4s"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4319399a411so2872175e9.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 00:35:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L020sck+"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37f52925fc8so1198460f8f.1
+        for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 00:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729841751; x=1730446551; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1729841817; x=1730446617; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
-        b=y1eAJJ4sEgmCngip0vHHQRyBse5TSJos51Wxyjh3kTe9GKQO48gucGXThSYcqjYQLt
-         cqM8Ynx3QK8aM4HygPvJIqdc+qL8IB3h5HVIZDigIkgVh+KXwF/MrI0jGHzYYJDgNm4c
-         K2lgPhRfofFBMHvHZedxaTkMoPeZC2k5DFxPcQeBrNER7u2ue6Owq2bEDrZV1yRQ1mXo
-         CVdryJtnIFo+5g0S8VmQkKxm2oX8LwRmh/RjUIGvaPJNqXfV0ENdJKW/6K9I2ySz4Zp0
-         ISINQmzaWRNpPt5bXbASpsvE0+chde7CX3uB6UMFc2lO/X5XJ6bdzBG1v/TrVbaQ+EB7
-         65Zw==
+        bh=veXYQwtmDRavjPuCQQXGHKCeeVy6UPnN7/+dsEWJD4k=;
+        b=L020sck+wEh9kzDKTNGyeBO0rBMLWI02PNxu+ob04CK6Mxsg6qgGlW/MkrLSuddror
+         MpFzKulS8hVPBcTT2Kv5ynJZcfyH6RuCJ2wXtZd/F/VXu5VrBxOj5VVLMkv0YBEc6aS7
+         Q/sBYongZy//KMlTlO5+4nbzh/V+dHYod+U0HHJq8x4MOflwnT0IgS+xTqhmdez6uhnj
+         rnO0DCti1tGZvqhN5hqhYTfWXejMzEptLH1GD2CkOGqu0iCS78sx7FSRKxKMhqPtvqg6
+         +sp+OwBxWUVMQMmTI4A6oL5x6aiiJoUjzl878HT9dhR4nEi0+mhaX+lrwLusrT//aK5T
+         rziQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729841751; x=1730446551;
+        d=1e100.net; s=20230601; t=1729841817; x=1730446617;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
-        b=IMwfL2AEsJHNJaTgrg8TfEJ5R0fdZ5f9gS9m58UvSPBT7xkHvzHue7Mdx/D916rvyU
-         MsWtpcJDK3RLo3pzZMeyZSBDIFTRBsR947lh7j7uFzoAH4NkULiGEKYnFc2TJHJcFQxV
-         dAAxOazqWgekhLXHM0oQejhuYVjqn19MzcR895eCcKk6j2o7xH8Q2yhUGlatfK0Eo1Di
-         EZKqcr52uijPCs+c+GjdfidG6wNm5Y3ikAHegkuAsYjWxNlsHqNlDshjsvrBC0rB4Gi8
-         n3WvZOzvve6d0sk2EbjR1+M+d02a5tEYDiWvzpeHsrzydANKV0GXNvQNy/wkROESR1o/
-         Xzbg==
-X-Gm-Message-State: AOJu0YweEHKykuivqKtdGNRWnGrtGCQcwrds/57AkDs01CRAh7uOrY/z
-	5XN76ToBEVHo9EAE4QkLS9jW06BjuqqGEf/cC91a9RfTnFK8BC524aczwoK4R1760bYJqOcFNrt
-	jTZXNCw==
-X-Google-Smtp-Source: AGHT+IFA0MpYO6p8LtVohkgtXalPje3I4kcSbExFnIgWpEgGOG/y0/xxVoo/UXawUg5OUEBPa1KxKw==
-X-Received: by 2002:a05:600c:45c6:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-4318c6dd96cmr40125075e9.1.1729841751532;
-        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
+        bh=veXYQwtmDRavjPuCQQXGHKCeeVy6UPnN7/+dsEWJD4k=;
+        b=qKsbd52+ZSARFYZ6uBQdOVzQDeTUgvs0lx0JxQHFOGKu3ya6DW5k5fykYS9ur7NLgs
+         PAcrN6Du/c3vsejKjYqDjgb05yUrt91MsxYfcSNUG7PC5ZnOnWajBqSda2lGIlnt+am/
+         X8afi9aFWa5iJhgrz0XxTCvbPWWK53bzO0aiLCi0PBhZOwvYprpSiYDuYMUAxunPGi52
+         piFg7KLEB9TdAiX9l1FP97Mk78XKwgVQKLWws2rtZVjxbsSJ0ofgQa1nDqXl/YZ5YCJE
+         r9ITJqvWD/XvmeNjoBt0QLPqodVOr+H9RGRFBdPk0dWQ5jXwibzPH0aPzdpnsNdPsmCI
+         FyFg==
+X-Gm-Message-State: AOJu0YyKWFqaBTj2xezfE2ZHwWAFxt9gbCak+ZHTat59aeVZavEnY/FB
+	wWJwr4MK3MYLa5nQPoODjKLDJS1zVA8MGcLU0q3BNRQLDOMeIL5wGtbp6lVVP9AJO/x0lueID7T
+	2c0fZQw==
+X-Google-Smtp-Source: AGHT+IE1HMa+UJGOQlVpyW2tRbd/xNeDb7P38b7MEb//J1ghs6sMp6lGLK5DVdY5NBNrPabhy9MTBw==
+X-Received: by 2002:a05:6000:e07:b0:37d:446b:7dfb with SMTP id ffacd0b85a97d-37efcf843d1mr5972300f8f.45.1729841816056;
+        Fri, 25 Oct 2024 00:36:56 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b92f11sm809687f8f.101.2024.10.25.00.35.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b712cbsm819573f8f.77.2024.10.25.00.36.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
-Date: Fri, 25 Oct 2024 10:35:47 +0300
+        Fri, 25 Oct 2024 00:36:55 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:36:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Heiko Carstens <hca@linux.ibm.com>
+To: oe-kbuild@lists.linux.dev, Ming Yen Hsieh <mingyen.hsieh@mediatek.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>
-Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
- inconsistent returns '&mm->mmap_lock'.
-Message-ID: <5e4a2c40-9fc4-439a-8166-3a694e705d8e@stanley.mountain>
+	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>
+Subject: drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:645
+ mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
+Message-ID: <e3c426c9-c3d0-4b72-b2db-8780d61b1583@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,96 +68,103 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
-config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250552.XsMLl1sx-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
+head:   4e46774408d942efe4eb35dc62e5af3af71b9a30
+commit: 9679ca7326e52282cc923c4d71d81c999cb6cd55 wifi: mt76: mt7925: fix a potential array-index-out-of-bounds issue for clc
+config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250608.Ly4Aj2NI-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410250552.XsMLl1sx-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410250608.Ly4Aj2NI-lkp@intel.com/
 
-smatch warnings:
-arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:645 mt7925_load_clc() error: buffer overflow 'phy->clc' 2 <= 2
 
-vim +566 arch/s390/mm/fault.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7925/mcu.c:1158 mt7925_mcu_set_mlo_roc() warn: variable dereferenced before check 'mconf' (see line 1130)
 
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
-5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
-9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
-85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
-3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
-3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
-3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
-3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
-5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
-85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
-85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
-85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
-85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
-85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
-85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
-3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
-3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
-85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
-7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
-7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+vim +645 drivers/net/wireless/mediatek/mt76/mt7925/mcu.c
 
-mmap_read_unlock() before returning?
+c948b5da6bbec7 Deren Wu       2023-09-18  589  static int mt7925_load_clc(struct mt792x_dev *dev, const char *fw_name)
+c948b5da6bbec7 Deren Wu       2023-09-18  590  {
+c948b5da6bbec7 Deren Wu       2023-09-18  591  	const struct mt76_connac2_fw_trailer *hdr;
+c948b5da6bbec7 Deren Wu       2023-09-18  592  	const struct mt76_connac2_fw_region *region;
+c948b5da6bbec7 Deren Wu       2023-09-18  593  	const struct mt7925_clc *clc;
+c948b5da6bbec7 Deren Wu       2023-09-18  594  	struct mt76_dev *mdev = &dev->mt76;
+c948b5da6bbec7 Deren Wu       2023-09-18  595  	struct mt792x_phy *phy = &dev->phy;
+c948b5da6bbec7 Deren Wu       2023-09-18  596  	const struct firmware *fw;
+c948b5da6bbec7 Deren Wu       2023-09-18  597  	int ret, i, len, offset = 0;
+c948b5da6bbec7 Deren Wu       2023-09-18  598  	u8 *clc_base = NULL;
+c948b5da6bbec7 Deren Wu       2023-09-18  599  
+c948b5da6bbec7 Deren Wu       2023-09-18  600  	if (mt7925_disable_clc ||
+c948b5da6bbec7 Deren Wu       2023-09-18  601  	    mt76_is_usb(&dev->mt76))
+c948b5da6bbec7 Deren Wu       2023-09-18  602  		return 0;
+c948b5da6bbec7 Deren Wu       2023-09-18  603  
+c948b5da6bbec7 Deren Wu       2023-09-18  604  	ret = request_firmware(&fw, fw_name, mdev->dev);
+c948b5da6bbec7 Deren Wu       2023-09-18  605  	if (ret)
+c948b5da6bbec7 Deren Wu       2023-09-18  606  		return ret;
+c948b5da6bbec7 Deren Wu       2023-09-18  607  
+c948b5da6bbec7 Deren Wu       2023-09-18  608  	if (!fw || !fw->data || fw->size < sizeof(*hdr)) {
+c948b5da6bbec7 Deren Wu       2023-09-18  609  		dev_err(mdev->dev, "Invalid firmware\n");
+c948b5da6bbec7 Deren Wu       2023-09-18  610  		ret = -EINVAL;
+c948b5da6bbec7 Deren Wu       2023-09-18  611  		goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  612  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  613  
+c948b5da6bbec7 Deren Wu       2023-09-18  614  	hdr = (const void *)(fw->data + fw->size - sizeof(*hdr));
+c948b5da6bbec7 Deren Wu       2023-09-18  615  	for (i = 0; i < hdr->n_region; i++) {
+c948b5da6bbec7 Deren Wu       2023-09-18  616  		region = (const void *)((const u8 *)hdr -
+c948b5da6bbec7 Deren Wu       2023-09-18  617  					(hdr->n_region - i) * sizeof(*region));
+c948b5da6bbec7 Deren Wu       2023-09-18  618  		len = le32_to_cpu(region->len);
+c948b5da6bbec7 Deren Wu       2023-09-18  619  
+c948b5da6bbec7 Deren Wu       2023-09-18  620  		/* check if we have valid buffer size */
+c948b5da6bbec7 Deren Wu       2023-09-18  621  		if (offset + len > fw->size) {
+c948b5da6bbec7 Deren Wu       2023-09-18  622  			dev_err(mdev->dev, "Invalid firmware region\n");
+c948b5da6bbec7 Deren Wu       2023-09-18  623  			ret = -EINVAL;
+c948b5da6bbec7 Deren Wu       2023-09-18  624  			goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  625  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  626  
+c948b5da6bbec7 Deren Wu       2023-09-18  627  		if ((region->feature_set & FW_FEATURE_NON_DL) &&
+c948b5da6bbec7 Deren Wu       2023-09-18  628  		    region->type == FW_TYPE_CLC) {
+c948b5da6bbec7 Deren Wu       2023-09-18  629  			clc_base = (u8 *)(fw->data + offset);
+c948b5da6bbec7 Deren Wu       2023-09-18  630  			break;
+c948b5da6bbec7 Deren Wu       2023-09-18  631  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  632  		offset += len;
+c948b5da6bbec7 Deren Wu       2023-09-18  633  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  634  
+c948b5da6bbec7 Deren Wu       2023-09-18  635  	if (!clc_base)
+c948b5da6bbec7 Deren Wu       2023-09-18  636  		goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  637  
+c948b5da6bbec7 Deren Wu       2023-09-18  638  	for (offset = 0; offset < len; offset += le32_to_cpu(clc->len)) {
+c948b5da6bbec7 Deren Wu       2023-09-18  639  		clc = (const struct mt7925_clc *)(clc_base + offset);
+c948b5da6bbec7 Deren Wu       2023-09-18  640  
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  641  		if (clc->idx > ARRAY_SIZE(phy->clc))
 
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
-cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
-ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
+This should be >= instead of >.
+
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  642  			break;
+9679ca7326e522 Ming Yen Hsieh 2024-08-19  643  
+c948b5da6bbec7 Deren Wu       2023-09-18  644  		/* do not init buf again if chip reset triggered */
+c948b5da6bbec7 Deren Wu       2023-09-18 @645  		if (phy->clc[clc->idx])
+c948b5da6bbec7 Deren Wu       2023-09-18  646  			continue;
+c948b5da6bbec7 Deren Wu       2023-09-18  647  
+c948b5da6bbec7 Deren Wu       2023-09-18  648  		phy->clc[clc->idx] = devm_kmemdup(mdev->dev, clc,
+c948b5da6bbec7 Deren Wu       2023-09-18  649  						  le32_to_cpu(clc->len),
+c948b5da6bbec7 Deren Wu       2023-09-18  650  						  GFP_KERNEL);
+c948b5da6bbec7 Deren Wu       2023-09-18  651  
+c948b5da6bbec7 Deren Wu       2023-09-18  652  		if (!phy->clc[clc->idx]) {
+c948b5da6bbec7 Deren Wu       2023-09-18  653  			ret = -ENOMEM;
+c948b5da6bbec7 Deren Wu       2023-09-18  654  			goto out;
+c948b5da6bbec7 Deren Wu       2023-09-18  655  		}
+c948b5da6bbec7 Deren Wu       2023-09-18  656  	}
+c948b5da6bbec7 Deren Wu       2023-09-18  657  
+c948b5da6bbec7 Deren Wu       2023-09-18  658  	ret = mt7925_mcu_set_clc(dev, "00", ENVIRON_INDOOR);
+c948b5da6bbec7 Deren Wu       2023-09-18  659  out:
+c948b5da6bbec7 Deren Wu       2023-09-18  660  	release_firmware(fw);
+c948b5da6bbec7 Deren Wu       2023-09-18  661  
+c948b5da6bbec7 Deren Wu       2023-09-18  662  	return ret;
+c948b5da6bbec7 Deren Wu       2023-09-18  663  }
 
 -- 
 0-DAY CI Kernel Test Service
