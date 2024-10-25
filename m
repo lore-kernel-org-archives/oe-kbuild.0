@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104471A4F2F
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 06:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687AB18C935
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 07:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729839530; cv=none; b=k9U2OZZ3ZMh6LwikXv9ILU5p3lmxbes8tQ5/6PvbaOXrKykuF4a2oqdEPWpTkizlh83y4JUbzPR3ruhRLWKOS+NINSlWoLupVG8XA8qb/fjCmXMx7vUC69fjIHlJVRiHgFVJ4hdhXvsw6S9P3Wq+LfqkpQCJkxYN72iKADLtVfk=
+	t=1729841755; cv=none; b=aCjDyQIVkUTKzYjeWCBP+X1qDTGsVEUQgvcqTo/VF1w60PkLYfYvaHztu+yhT6uKkBhPDAOacZUE/EypqAkbeqWnRYgYKlmQeCJH3Lu9YJ/zAGYJAmwYKtVxYNz2lXm9HRBZ7iUkYDppL1Wsi+pWJ0fz+lQYq8+3ZVr8hl+AAmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729839530; c=relaxed/simple;
-	bh=tepivbPJzhPlHEmZvojDQ5upY2eoVl8NnmLEoiArLC0=;
+	s=arc-20240116; t=1729841755; c=relaxed/simple;
+	bh=3vHEWOAoO3sunonStkvYOWjQXz7fiPqp+eVdjriQS4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IgGphcTvHpg4o4hbohpsgJNsoOyM10A8XP/mDI+9QyuWNlSvsKmhV7keCb8BrI6V0Wo9ntA4kGUnPxaYwblnv3jtI6kHgytzh66V4KYSWu1IU0kb0Vv1Y1wbuQKmBUjm0C+u6FnlOqJmzVEJOlhofp8pM1RDWV2HBiBC7EcAzLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIP8bKKy; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=uF9Fi1ZjKrsm5et13LyOVQbgNVKr3hudiR8w+EjNJIy7bdZZ9LpAMWAftJ/k4jpGoJbFbDTkw046qlgP9MRm2Rbtcj+L7fyg8GbRsEPS7xxtABNzuNhng+j6BHLybMBepBYHOB9CTq1QZd80SlhITFRcr7SgD1p0WOwE16wZIR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y1eAJJ4s; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIP8bKKy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729839528; x=1761375528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tepivbPJzhPlHEmZvojDQ5upY2eoVl8NnmLEoiArLC0=;
-  b=KIP8bKKy7+9xS6M3WwvePMtqEd2XNwVxD02+rDRsE8GH6IPQW248aBTP
-   IIjZhQlaEVSJfT13YIR0GCj8Aa9oK+uuPcsFMnOjgKyFYEm2ij45Zj+Qa
-   kR5QUpBqey+ro0TQQb5LCwLY7tEnXG2Jpnzm7MRqcUCQ6wFJux3v1FwbC
-   TEM8saDgZ7m0TaEHL4PFQI0HOSifomDVImIoIosjOwLq4+l+H3wsqLcKh
-   tlzKxNK9soMQGa4lvKn515i+EwfZ1+y9NrJvUhBYxZdSOIOWlbERo8O0e
-   9S5qEb8pBZKJcA4IDk4e7VKJCydMYF6j/HhV9gNst7Rxy4+/v8ONo8+Gr
-   A==;
-X-CSE-ConnectionGUID: eOAxexWaRnaiOavA+6cV5A==
-X-CSE-MsgGUID: LdjRNDp4QPajTqPw83CipA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40896362"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="40896362"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 23:58:47 -0700
-X-CSE-ConnectionGUID: fohGj+hkTk+RMmZwVmPm0A==
-X-CSE-MsgGUID: 3XWKtl2ZQluw6z0TMxOnrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85414966"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Oct 2024 23:58:46 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4EHU-000XkK-0I;
-	Fri, 25 Oct 2024 06:58:44 +0000
-Date: Fri, 25 Oct 2024 14:57:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [dhowells-fs:netfs-writeback 25/30] fs/afs/inode.c:51 afs_get_link()
- error: we previously assumed 'vnode->directory' could be null (see line 45)
-Message-ID: <202410251424.vvxKgzBC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y1eAJJ4s"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4319399a411so2872175e9.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 00:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729841751; x=1730446551; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
+        b=y1eAJJ4sEgmCngip0vHHQRyBse5TSJos51Wxyjh3kTe9GKQO48gucGXThSYcqjYQLt
+         cqM8Ynx3QK8aM4HygPvJIqdc+qL8IB3h5HVIZDigIkgVh+KXwF/MrI0jGHzYYJDgNm4c
+         K2lgPhRfofFBMHvHZedxaTkMoPeZC2k5DFxPcQeBrNER7u2ue6Owq2bEDrZV1yRQ1mXo
+         CVdryJtnIFo+5g0S8VmQkKxm2oX8LwRmh/RjUIGvaPJNqXfV0ENdJKW/6K9I2ySz4Zp0
+         ISINQmzaWRNpPt5bXbASpsvE0+chde7CX3uB6UMFc2lO/X5XJ6bdzBG1v/TrVbaQ+EB7
+         65Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729841751; x=1730446551;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
+        b=IMwfL2AEsJHNJaTgrg8TfEJ5R0fdZ5f9gS9m58UvSPBT7xkHvzHue7Mdx/D916rvyU
+         MsWtpcJDK3RLo3pzZMeyZSBDIFTRBsR947lh7j7uFzoAH4NkULiGEKYnFc2TJHJcFQxV
+         dAAxOazqWgekhLXHM0oQejhuYVjqn19MzcR895eCcKk6j2o7xH8Q2yhUGlatfK0Eo1Di
+         EZKqcr52uijPCs+c+GjdfidG6wNm5Y3ikAHegkuAsYjWxNlsHqNlDshjsvrBC0rB4Gi8
+         n3WvZOzvve6d0sk2EbjR1+M+d02a5tEYDiWvzpeHsrzydANKV0GXNvQNy/wkROESR1o/
+         Xzbg==
+X-Gm-Message-State: AOJu0YweEHKykuivqKtdGNRWnGrtGCQcwrds/57AkDs01CRAh7uOrY/z
+	5XN76ToBEVHo9EAE4QkLS9jW06BjuqqGEf/cC91a9RfTnFK8BC524aczwoK4R1760bYJqOcFNrt
+	jTZXNCw==
+X-Google-Smtp-Source: AGHT+IFA0MpYO6p8LtVohkgtXalPje3I4kcSbExFnIgWpEgGOG/y0/xxVoo/UXawUg5OUEBPa1KxKw==
+X-Received: by 2002:a05:600c:45c6:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-4318c6dd96cmr40125075e9.1.1729841751532;
+        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b92f11sm809687f8f.101.2024.10.25.00.35.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:35:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Heiko Carstens <hca@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <5e4a2c40-9fc4-439a-8166-3a694e705d8e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,53 +67,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   d206dc1726472ebe2d929cc1ee51e4c272707977
-commit: 525269c389deeb648c24b505ee2b067a40936167 [25/30] afs: Use netfslib for symlinks, allowing them to be cached
-:::::: branch date: 9 hours ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251424.vvxKgzBC-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250552.XsMLl1sx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410251424.vvxKgzBC-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410250552.XsMLl1sx-lkp@intel.com/
 
 smatch warnings:
-fs/afs/inode.c:51 afs_get_link() error: we previously assumed 'vnode->directory' could be null (see line 45)
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
 
-vim +51 fs/afs/inode.c
+vim +566 arch/s390/mm/fault.c
 
-525269c389deeb David Howells 2024-07-26  35  
-525269c389deeb David Howells 2024-07-26  36  const char *afs_get_link(struct dentry *dentry, struct inode *inode,
-525269c389deeb David Howells 2024-07-26  37  			 struct delayed_call *callback)
-525269c389deeb David Howells 2024-07-26  38  {
-525269c389deeb David Howells 2024-07-26  39  	struct afs_vnode *vnode = AFS_FS_I(inode);
-525269c389deeb David Howells 2024-07-26  40  	struct folio *folio;
-525269c389deeb David Howells 2024-07-26  41  	char *content;
-525269c389deeb David Howells 2024-07-26  42  	ssize_t ret;
-525269c389deeb David Howells 2024-07-26  43  
-525269c389deeb David Howells 2024-07-26  44  	if (atomic64_read(&vnode->cb_expires_at) == AFS_NO_CB_PROMISE ||
-525269c389deeb David Howells 2024-07-26 @45  	    !vnode->directory) {
-525269c389deeb David Howells 2024-07-26  46  		ret = afs_read_single(vnode, NULL);
-525269c389deeb David Howells 2024-07-26  47  		if (ret < 0)
-525269c389deeb David Howells 2024-07-26  48  			return ERR_PTR(ret);
-525269c389deeb David Howells 2024-07-26  49  	}
-525269c389deeb David Howells 2024-07-26  50  
-525269c389deeb David Howells 2024-07-26 @51  	folio = folioq_folio(vnode->directory, 0);
-525269c389deeb David Howells 2024-07-26  52  	folio_get(folio);
-525269c389deeb David Howells 2024-07-26  53  	content = kmap_local_folio(folio, 0);
-525269c389deeb David Howells 2024-07-26  54  	set_delayed_call(callback, afs_put_link, content);
-525269c389deeb David Howells 2024-07-26  55  	return content;
-525269c389deeb David Howells 2024-07-26  56  }
-525269c389deeb David Howells 2024-07-26  57  
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+
+mmap_read_unlock() before returning?
+
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
