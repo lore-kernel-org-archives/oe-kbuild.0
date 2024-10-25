@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F3170803
-	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 13:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801C038F97
+	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 14:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729861510; cv=none; b=Yd5fQRRK73sdAs50+4H47OELF/+3M0mYCKmi6tlxKLncJ7Hz6B9+ek3UoHlkzFmACIsSA0XNCKFAaBhWCbD3O7mwnUjyix83/8Ard6zLZMFDzkawrPm26OS+wBP7/RQzjUCdDMhqW3Si7eUXOxif0Ix8x0fKDAXn5E9tFUVgf7A=
+	t=1729866372; cv=none; b=IeNElqsEBg9TXPNbWYew8SWFBcy1zlE+Lhudcv9o2i1//Oq8e4P0RardCPkhAX9PsOJcRgclZWkuxklN2l4NpmlWyH7FZ38NlU6USl6LdzXZqwIBBH09VdBYSqAKQodjVOEULdUNSYDn9ILTe3YTYBWXVzNt26YtXN4ucr5tipY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729861510; c=relaxed/simple;
-	bh=R9APtkNVotKh5JltS1PH6AZRNH+iuc1XKGkzYXYPmnE=;
+	s=arc-20240116; t=1729866372; c=relaxed/simple;
+	bh=VSMhmEZiUfI5gFISZXz6h8q6JlHRNayOHjJ1bLuqDkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nkFApsdc2sbrfNdov+s7EL5b4+Yq3em7pPJT5HobkAvEH2OZc46HD3ecTElQ8WfnGLRxLrYGghpvMmdaZLQ+7rIwfctLlLsollg7BpZs0jGrULn1Fz++Q6SKtiAp9KeSkuM6S/9M7/Q3/XSWCPcm+sj5/VOcNqyQfZr4jPOiEDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMrYw/Vq; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=N/bm44XJ/kid2E5pWzENHfik3LpCgAQZieqF4W3XDJf9rPc0pOg96Ym0YsiG4jNk/x0O3QcPP8ma+S2ffYGbiVCJKvUknNp5Gafr4jAOB9FpwEmgQ2X42TfSwpF3wRK7/QE16GPkhr7uTGu7mK3US6VC3WP0rHF5a7Ye6bNdsIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRnkyj0i; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMrYw/Vq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRnkyj0i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729861508; x=1761397508;
+  t=1729866370; x=1761402370;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R9APtkNVotKh5JltS1PH6AZRNH+iuc1XKGkzYXYPmnE=;
-  b=mMrYw/VqeQTaALcGoVdZnTBuNOErTj4PVqLZu4bJZ0VD1dZ2fE4Dm6vQ
-   8B7v0Dp/wRdZuT1btfP0BuCzsKTvOcTWPSAvdqhjt77FwmSBF9nDc0W+d
-   B7Sqtuv3THkBHHotjb0FQemLT3FtoWHIp0OWtfQHrCmQNYmu9Afl/8hD9
-   kg6RloQKUL6NcPnqgZcAO0J58QNMrKZ8ULzpcqM1/9acNBJ2ikQ64yjRX
-   dFY+tI197Lcm6EzfPEvRq2FF1B96TPKjB59/rR+HKh7GiIOd5MDODagQw
-   1HDKVp84FGG263CYwHNSShR2mImTOZQXjOM9bEgGtxBl2V7cB6S5mLJw5
-   w==;
-X-CSE-ConnectionGUID: uv9RiwlfSLSWoHkpxGu9Bg==
-X-CSE-MsgGUID: mO7ssmACRvKSOXlndhH7KQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="47012317"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="47012317"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:03:07 -0700
-X-CSE-ConnectionGUID: wYGaxpJCSwax4HsyPcqkOw==
-X-CSE-MsgGUID: XS88JJLqRYiGiPXc98xfXQ==
+  bh=VSMhmEZiUfI5gFISZXz6h8q6JlHRNayOHjJ1bLuqDkc=;
+  b=FRnkyj0icMZfQhpjH/2ph/fygqedJVzcWZQZ70LGb8XTENBeNF7Q3SiQ
+   tU9rwwmy+f05fX6MV8d47hN6KPy+fmjd4yILVBcGWh5tS5xjvu9vShv69
+   BvoxD6sLL96/Z8i8cE5fNabKpTJMNImB2qDkem2wwAuP5YklBDy93o6RI
+   2rfNVpCfaR+hrC9hMrS5nuZubm2F3gfZXf3mEdkEjRAhJgo7MNpfCEynL
+   KT0C4unfPtCTsmpvJ8UYU9VvDTiBCL+MB2qvszT42HOL8Y8eUWR2DxIK+
+   lKVL5ITwRksyxjBMFAIw3MbZDA4wrGI8n9n2bDGdlG9FLdIqDSnEjF4Rp
+   g==;
+X-CSE-ConnectionGUID: KuVdCIDQTViIZwXEaQxsnQ==
+X-CSE-MsgGUID: Rkl4Bu5gTe6Hb2QInscdHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40089135"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40089135"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 07:26:09 -0700
+X-CSE-ConnectionGUID: TMvoOsJgTCSKxMebMD47Cw==
+X-CSE-MsgGUID: XL7776tTTyaftcyVJfrtQg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="118369475"
+X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; 
+   d="scan'208";a="80523629"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Oct 2024 06:03:05 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 25 Oct 2024 07:26:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4Jy3-000YGi-01;
-	Fri, 25 Oct 2024 13:03:03 +0000
-Date: Fri, 25 Oct 2024 21:02:07 +0800
+	id 1t4LGP-000YLw-1w;
+	Fri, 25 Oct 2024 14:26:05 +0000
+Date: Fri, 25 Oct 2024 22:25:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linux-next:master 4500/7183] drivers/gpu/drm/xe/xe_gsc.c:283
- gsc_upload_and_init() error: uninitialized symbol 'fw_ref'.
-Message-ID: <202410252023.jnZWtvCj-lkp@intel.com>
+Subject: Re: [PATCH 3/3] drm/panel: add Fitipower EK79007AD3 panel driver
+Message-ID: <202410252201.QglvauIC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,79 +63,100 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Badal Nilawar <badal.nilawar@intel.com>
-CC: Nirmoy Das <nirmoy.das@intel.com>
+In-Reply-To: <20241023124411.1153552-3-r.czerwinski@pengutronix.de>
+References: <20241023124411.1153552-3-r.czerwinski@pengutronix.de>
+TO: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+TO: Jessica Zhang <quic_jesszhan@quicinc.com>
+TO: Sam Ravnborg <sam@ravnborg.org>
+TO: linux-kernel@vger.kernel.org
+TO: dri-devel@lists.freedesktop.org
+CC: kernel@pengutronix.de
+CC: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: David Airlie <airlied@gmail.com>
+CC: Daniel Vetter <daniel@ffwll.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
-commit: 21eb4f178d719ef32b9b1910afb33bc87395ea6d [4500/7183] drm/xe/gsc: Update handling of xe_force_wake_get return
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-141-20241023 (https://download.01.org/0day-ci/archive/20241025/202410252023.jnZWtvCj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Rouven,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c2ee9f594da826bea183ed14f2cc029c719bf4da]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rouven-Czerwinski/dt-bindings-display-panel-add-YAML-schema-for-LXD-M9189A/20241023-204826
+base:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+patch link:    https://lore.kernel.org/r/20241023124411.1153552-3-r.czerwinski%40pengutronix.de
+patch subject: [PATCH 3/3] drm/panel: add Fitipower EK79007AD3 panel driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: nios2-randconfig-r072-20241025 (https://download.01.org/0day-ci/archive/20241025/202410252201.QglvauIC-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410252023.jnZWtvCj-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410252201.QglvauIC-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/xe/xe_gsc.c:283 gsc_upload_and_init() error: uninitialized symbol 'fw_ref'.
+drivers/gpu/drm/panel/panel-lxd-m9189a.c:193 ek79007ad3_probe() error: uninitialized symbol 'ret'.
 
-vim +/fw_ref +283 drivers/gpu/drm/xe/xe_gsc.c
+vim +/ret +193 drivers/gpu/drm/panel/panel-lxd-m9189a.c
 
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  259  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  260  static int gsc_upload_and_init(struct xe_gsc *gsc)
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  261  {
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  262  	struct xe_gt *gt = gsc_to_gt(gsc);
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  263  	struct xe_tile *tile = gt_to_tile(gt);
-21eb4f178d719e Himal Prasad Ghimiray  2024-10-14  264  	unsigned int fw_ref;
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  265  	int ret;
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  266  
-e422c0bfd9e47e Daniele Ceraolo Spurio 2024-08-07  267  	if (XE_WA(tile->primary_gt, 14018094691)) {
-21eb4f178d719e Himal Prasad Ghimiray  2024-10-14  268  		fw_ref = xe_force_wake_get(gt_to_fw(tile->primary_gt), XE_FORCEWAKE_ALL);
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  269  
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  270  		/*
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  271  		 * If the forcewake fails we want to keep going, because the worst
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  272  		 * case outcome in failing to apply the WA is that PXP won't work,
-21eb4f178d719e Himal Prasad Ghimiray  2024-10-14  273  		 * which is not fatal. Forcewake get warns implicitly in case of failure
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  274  		 */
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  275  		xe_gt_mcr_multicast_write(tile->primary_gt,
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  276  					  EU_SYSTOLIC_LIC_THROTTLE_CTL_WITH_LOCK,
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  277  					  EU_SYSTOLIC_LIC_THROTTLE_CTL_LOCK_BIT);
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  278  	}
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  279  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  280  	ret = gsc_upload(gsc);
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  281  
-e422c0bfd9e47e Daniele Ceraolo Spurio 2024-08-07  282  	if (XE_WA(tile->primary_gt, 14018094691))
-21eb4f178d719e Himal Prasad Ghimiray  2024-10-14 @283  		xe_force_wake_put(gt_to_fw(tile->primary_gt), fw_ref);
-d62753a57de254 Daniele Ceraolo Spurio 2024-03-26  284  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  285  	if (ret)
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  286  		return ret;
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  287  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  288  	xe_uc_fw_change_status(&gsc->fw, XE_UC_FIRMWARE_TRANSFERRED);
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  289  
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  290  	/* GSC load is done, restore expected GT frequencies */
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  291  	xe_gt_sanitize_freq(gt);
-3b1592fb783549 Vinay Belgaumkar       2024-06-20  292  
-dd0e89e5edc20d Daniele Ceraolo Spurio 2023-11-17  293  	xe_gt_dbg(gt, "GSC FW async load completed\n");
-dd0e89e5edc20d Daniele Ceraolo Spurio 2023-11-17  294  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  295  	/* HuC auth failure is not fatal */
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  296  	if (xe_huc_is_authenticated(&gt->uc.huc, XE_HUC_AUTH_VIA_GUC))
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  297  		xe_huc_auth(&gt->uc.huc, XE_HUC_AUTH_VIA_GSC);
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  298  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  299  	ret = xe_gsc_proxy_start(gsc);
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  300  	if (ret)
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  301  		return ret;
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  302  
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  303  	xe_gt_dbg(gt, "GSC proxy init completed\n");
-997a55caa1c3b7 Daniele Ceraolo Spurio 2024-01-17  304  
-dd0e89e5edc20d Daniele Ceraolo Spurio 2023-11-17  305  	return 0;
-dd0e89e5edc20d Daniele Ceraolo Spurio 2023-11-17  306  }
-dd0e89e5edc20d Daniele Ceraolo Spurio 2023-11-17  307  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  180  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  181  static int ek79007ad3_probe(struct mipi_dsi_device *dsi)
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  182  {
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  183  	struct device *dev = &dsi->dev;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  184  	struct ek79007ad3_panel *ctx;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  185  	int ret;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  186  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  187  	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  188  	if (!ctx)
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  189  		return -ENOMEM;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  190  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  191  	ctx->supply = devm_regulator_get(dev, "vdd");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  192  	if (IS_ERR(ctx->supply))
+a69b961abc36b3 Rouven Czerwinski 2024-10-23 @193  		return dev_err_probe(dev, ret, "Failed to get regulator\n");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  194  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  195  	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  196  	if (IS_ERR(ctx->reset_gpio))
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  197  		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  198  				     "Failed to get reset-gpios\n");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  199  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  200  	ctx->standby_gpio = devm_gpiod_get(dev, "standby", GPIOD_OUT_LOW);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  201  	if (IS_ERR(ctx->standby_gpio))
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  202  		return dev_err_probe(dev, PTR_ERR(ctx->standby_gpio),
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  203  				     "Failed to get standby-gpios\n");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  204  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  205  	ctx->dsi = dsi;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  206  	mipi_dsi_set_drvdata(dsi, ctx);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  207  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  208  	dsi->lanes = 4;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  209  	dsi->format = MIPI_DSI_FMT_RGB888;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  210  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  211  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  212  	drm_panel_init(&ctx->panel, dev, &ek79007ad3_panel_funcs,
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  213  		       DRM_MODE_CONNECTOR_DSI);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  214  	ctx->panel.prepare_prev_first = true;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  215  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  216  	ret = drm_panel_of_backlight(&ctx->panel);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  217  	if (ret)
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  218  		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  219  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  220  	drm_panel_add(&ctx->panel);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  221  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  222  	ret = mipi_dsi_attach(dsi);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  223  	if (ret < 0) {
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  224  		dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  225  		drm_panel_remove(&ctx->panel);
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  226  		return ret;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  227  	}
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  228  
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  229  	return 0;
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  230  }
+a69b961abc36b3 Rouven Czerwinski 2024-10-23  231  
 
 -- 
 0-DAY CI Kernel Test Service
