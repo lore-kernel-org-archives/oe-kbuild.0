@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA8E1D4152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FA31D4156
 	for <oe-kbuild@lists.linux.dev>; Fri, 25 Oct 2024 09:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729846916; cv=none; b=cVBWnhsUrwxT6xn50ImthJD8JECau+c12wxe+NamiHxWRTY7/dEORwLBUbhkcFNwHjYoflGsh0EW2WFHLNaBcmFjAqdif+p7eqoMzf+7gKOl370PqWFEe2UIaslNb0InAMSXTyhiEBbnmh9Tp3l9cv3pQxO/7+f90JzwQlGoexg=
+	t=1729846916; cv=none; b=sU/auamXGn9/k554KDwE4m/oGGomKIs9IWrfHDktEO0j2E5+wtTzTxu56yNlKWaJ5f9pC+GUVqvii7TuFJDTCIf4UVXUqzWydQRUHAHdr248ssaBM0Ab4S5UCRqjakJDa9kMsi6UHD4AlRwedbUTL/SN0wkURvqJjdkEmH6W7GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729846916; c=relaxed/simple;
-	bh=qutBNnIpBKXmKjYBgmhSjED9VoL4985fpRHwkUIsZKM=;
+	bh=06MGEO474+FAKHkMngrBTkYtveCLwI1S5YLwdTkTqpI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GWZDHCFwH9GVzA9ndBwj8BDqpzth9PpertzGA2RuZ22zpT44/RUpbGXK8Z9buOFigFn2LfH9GdkYo2+XfFwAE8sOPIQjBGU7IfXl88lRri1nhZwl832HPDXRkOZH024beNohYE6sOIRgW5ewlpa4sHonsLQgbgho0BTlO31mxX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RJ3C8jFe; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=NLlAhG55cmlm5zCDKdJh9UK6OhgQbbYc51tcPZNLwlUEzBHyIXFlDIk5QUZWBCvMokGLKcYXagsrW/YjdDywYLcfrHBMmMRaQbN5DdmhGSMiKi2qNJuu14MnPmUsGTZdteseK6Mz8K+PlXdZ46AvsAYiM43bjer7EFCFyHW22/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cw1EF8uB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJ3C8jFe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cw1EF8uB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729846914; x=1761382914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qutBNnIpBKXmKjYBgmhSjED9VoL4985fpRHwkUIsZKM=;
-  b=RJ3C8jFenAJfg7EV2JJYhCfzoc3H5qJwCYExvZ1nwU/KrRvMb4yyRsIt
-   +eylErir3cLr60spdKtSBfLWB9YZPvFZ/1VYCiriXF28K/VM+bshrwZ7q
-   OxAY0ZXYiRFYcbk0STRNFpGBVVuIo3pBl+k7mt08TSUiySS0gTqmU/NLT
-   FXt5G7zA17j8/4bJCHiRiDXCHaVcnseLn8EKUq/w/xyDzO57qgs8hSRjZ
-   T1vBpVrqyOcjUjPNxmGcX6p27fhX/vBAJV81w7ar/r9pNxmekZ7mVKPcJ
-   WziMbaCCiOl9znlM1ibtxt4gLDOsvV0CI5Pqv++3RHzlBc6AQG+Ny9frE
-   g==;
-X-CSE-ConnectionGUID: tb+nswkOQMSOnJq2dP25XA==
-X-CSE-MsgGUID: 6U70pkdNSD6++fo8mQh17w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="28951070"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="28951070"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:01:53 -0700
-X-CSE-ConnectionGUID: Bef1njx3Ts+pCSN67+utBA==
-X-CSE-MsgGUID: lWiwUV6lQBq31pdooCxTOg==
+  bh=06MGEO474+FAKHkMngrBTkYtveCLwI1S5YLwdTkTqpI=;
+  b=cw1EF8uB6zwzg6sL85OCfp6qqS3FCTcyfQKPYOFn/Su+rWrrv4UBa9m9
+   TPIGEw/Xzus7cZS7j6CEVcyFxE58eB5CstoYsELSAby3LBzYlX0UEuQDj
+   VQy5KYPJLntZsy0ndXJ2ispwS0p1FT4yrgZi6xDDLsnrOMFR9aSvL2Qea
+   qHkOYVY1W+YBvANhva36ES/ZhoYmQRHTfBHOZv8kiIkwoeJ5h7eou7ps1
+   LveWm3mG2AEa0Yfi1RIogeyg1FMe/EdnMAhicZin9tkz5OYf4ASv+EIdS
+   RZH61N64+5wUu54EaZdmmnJDEROB9oIFd/Ik8LZ/0LEiR6/XDoL3+Z62m
+   Q==;
+X-CSE-ConnectionGUID: EkFh9tQKT8SC1B/8cVXyZQ==
+X-CSE-MsgGUID: V/f5mJkHRlGpYYjBMnxkDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52064589"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52064589"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:01:54 -0700
+X-CSE-ConnectionGUID: ZAxpcYbJTwu4+R/CfDZ/xQ==
+X-CSE-MsgGUID: J4xKNpKrRy28ju+42EIF+g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85961296"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="85620161"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2024 02:01:52 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Oct 2024 02:01:52 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4GCb-000XuW-2B;
+	id 1t4GCb-000Xux-31;
 	Fri, 25 Oct 2024 09:01:49 +0000
-Date: Fri, 25 Oct 2024 17:01:19 +0800
+Date: Fri, 25 Oct 2024 17:01:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [dhowells-fs:netfs-writeback 27/30] fs/afs/file.c:357
- afs_issue_read() warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <202410251654.LD7CMJ6p-lkp@intel.com>
+Subject: [linux-next:master 5084/7183] drivers/mtd/nand/raw/atmel/pmecc.c:384
+ atmel_pmecc_create_user() warn: passing devm_ allocated variable to kfree.
+ 'user'
+Message-ID: <202410251731.GvzYXvLn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,80 +65,103 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: David Howells <dhowells@redhat.com>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   d206dc1726472ebe2d929cc1ee51e4c272707977
-commit: 5d3a97d9f8785ae6e48b12908966f4b82c054f06 [27/30] afs: Make {Y,}FS.FetchData an asynchronous operation
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251654.LD7CMJ6p-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fd21fa4a912ebbf8a6a341c31d8456f61e7d4170
+commit: 6d734f1bfc336aaea91313a5632f2f197608fadd [5084/7183] mtd: rawnand: atmel: Fix possible memory leak
+:::::: branch date: 27 hours ago
+:::::: commit date: 4 days ago
+config: sparc64-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241025/202410251731.GvzYXvLn-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410251654.LD7CMJ6p-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410251731.GvzYXvLn-lkp@intel.com/
 
 smatch warnings:
-fs/afs/file.c:357 afs_issue_read() warn: passing a valid pointer to 'PTR_ERR'
+drivers/mtd/nand/raw/atmel/pmecc.c:384 atmel_pmecc_create_user() warn: passing devm_ allocated variable to kfree. 'user'
 
-vim +/PTR_ERR +357 fs/afs/file.c
+vim +/user +384 drivers/mtd/nand/raw/atmel/pmecc.c
 
-5d3a97d9f8785ae David Howells  2024-10-10  321  
-d2ddc776a4581d9 David Howells  2017-11-02  322  /*
-d2ddc776a4581d9 David Howells  2017-11-02  323   * Fetch file data from the volume.
-d2ddc776a4581d9 David Howells  2017-11-02  324   */
-5d3a97d9f8785ae David Howells  2024-10-10  325  static void afs_issue_read(struct netfs_io_subrequest *subreq)
-d2ddc776a4581d9 David Howells  2017-11-02  326  {
-e49c7b2f6de7ff8 David Howells  2020-04-10  327  	struct afs_operation *op;
-007b0b9c4879d02 David Howells  2024-10-10  328  	struct afs_vnode *vnode = AFS_FS_I(subreq->rreq->inode);
-007b0b9c4879d02 David Howells  2024-10-10  329  	struct key *key = subreq->rreq->netfs_priv;
-d2ddc776a4581d9 David Howells  2017-11-02  330  
-3b6492df4153b85 David Howells  2018-10-20  331  	_enter("%s{%llx:%llu.%u},%x,,,",
-d2ddc776a4581d9 David Howells  2017-11-02  332  	       vnode->volume->name,
-d2ddc776a4581d9 David Howells  2017-11-02  333  	       vnode->fid.vid,
-d2ddc776a4581d9 David Howells  2017-11-02  334  	       vnode->fid.vnode,
-d2ddc776a4581d9 David Howells  2017-11-02  335  	       vnode->fid.unique,
-007b0b9c4879d02 David Howells  2024-10-10  336  	       key_serial(key));
-d2ddc776a4581d9 David Howells  2017-11-02  337  
-007b0b9c4879d02 David Howells  2024-10-10  338  	op = afs_alloc_operation(key, vnode->volume);
-5cbf03985c67c7f David Howells  2020-02-06  339  	if (IS_ERR(op)) {
-007b0b9c4879d02 David Howells  2024-10-10  340  		subreq->error = PTR_ERR(op);
-007b0b9c4879d02 David Howells  2024-10-10  341  		netfs_read_subreq_terminated(subreq);
-007b0b9c4879d02 David Howells  2024-10-10  342  		return;
-5cbf03985c67c7f David Howells  2020-02-06  343  	}
-d2ddc776a4581d9 David Howells  2017-11-02  344  
-e49c7b2f6de7ff8 David Howells  2020-04-10  345  	afs_op_set_vnode(op, 0, vnode);
-76a5cb6fc1e22a2 David Howells  2018-04-06  346  
-007b0b9c4879d02 David Howells  2024-10-10  347  	op->fetch.subreq = subreq;
-e49c7b2f6de7ff8 David Howells  2020-04-10  348  	op->ops		= &afs_fetch_data_operation;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  349  
-ee4cdf7ba857a89 David Howells  2024-07-02  350  	trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-5d3a97d9f8785ae David Howells  2024-10-10  351  
-5d3a97d9f8785ae David Howells  2024-10-10  352  	if (subreq->rreq->origin == NETFS_READAHEAD ||
-5d3a97d9f8785ae David Howells  2024-10-10  353  	    subreq->rreq->iocb) {
-5d3a97d9f8785ae David Howells  2024-10-10  354  		op->flags |= AFS_OPERATION_ASYNC;
-5d3a97d9f8785ae David Howells  2024-10-10  355  
-5d3a97d9f8785ae David Howells  2024-10-10  356  		if (!afs_begin_vnode_operation(op)) {
-5d3a97d9f8785ae David Howells  2024-10-10 @357  			subreq->error = PTR_ERR(op);
-5d3a97d9f8785ae David Howells  2024-10-10  358  			netfs_read_subreq_terminated(subreq);
-5d3a97d9f8785ae David Howells  2024-10-10  359  			afs_put_operation(op);
-5d3a97d9f8785ae David Howells  2024-10-10  360  			return;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  361  		}
-9b3f26c9110dcea David Howells  2009-04-03  362  
-5d3a97d9f8785ae David Howells  2024-10-10  363  		if (!afs_select_fileserver(op)) {
-5d3a97d9f8785ae David Howells  2024-10-10  364  			afs_end_read(op);
-5d3a97d9f8785ae David Howells  2024-10-10  365  			return;
-5d3a97d9f8785ae David Howells  2024-10-10  366  		}
-5d3a97d9f8785ae David Howells  2024-10-10  367  
-5d3a97d9f8785ae David Howells  2024-10-10  368  		afs_issue_read_call(op);
-5d3a97d9f8785ae David Howells  2024-10-10  369  	} else {
-5d3a97d9f8785ae David Howells  2024-10-10  370  		afs_do_sync_operation(op);
-5d3a97d9f8785ae David Howells  2024-10-10  371  	}
-2e45b922977c07b David Howells  2024-06-13  372  }
-2e45b922977c07b David Howells  2024-06-13  373  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  341  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  342  struct atmel_pmecc_user *
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  343  atmel_pmecc_create_user(struct atmel_pmecc *pmecc,
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  344  			struct atmel_pmecc_user_req *req)
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  345  {
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  346  	struct atmel_pmecc_user *user;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  347  	const struct atmel_pmecc_gf_tables *gf_tables;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  348  	int strength, size, ret;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  349  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  350  	ret = atmel_pmecc_prepare_user_req(pmecc, req);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  351  	if (ret)
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  352  		return ERR_PTR(ret);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  353  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  354  	size = sizeof(*user);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  355  	size = ALIGN(size, sizeof(u16));
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  356  	/* Reserve space for partial_syn, si and smu */
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  357  	size += ((2 * req->ecc.strength) + 1) * sizeof(u16) *
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  358  		(2 + req->ecc.strength + 2);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  359  	/* Reserve space for lmu. */
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  360  	size += (req->ecc.strength + 1) * sizeof(u16);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  361  	/* Reserve space for mu, dmu and delta. */
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  362  	size = ALIGN(size, sizeof(s32));
+36de80740008e6 drivers/mtd/nand/atmel/pmecc.c     Richard Genoud  2017-09-27  363  	size += (req->ecc.strength + 1) * sizeof(s32) * 3;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  364  
+6d734f1bfc336a drivers/mtd/nand/raw/atmel/pmecc.c Miquel Raynal   2024-10-01  365  	user = devm_kzalloc(pmecc->dev, size, GFP_KERNEL);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  366  	if (!user)
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  367  		return ERR_PTR(-ENOMEM);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  368  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  369  	user->pmecc = pmecc;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  370  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  371  	user->partial_syn = (s16 *)PTR_ALIGN(user + 1, sizeof(u16));
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  372  	user->si = user->partial_syn + ((2 * req->ecc.strength) + 1);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  373  	user->lmu = user->si + ((2 * req->ecc.strength) + 1);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  374  	user->smu = user->lmu + (req->ecc.strength + 1);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  375  	user->mu = (s32 *)PTR_ALIGN(user->smu +
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  376  				    (((2 * req->ecc.strength) + 1) *
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  377  				     (req->ecc.strength + 2)),
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  378  				    sizeof(s32));
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  379  	user->dmu = user->mu + req->ecc.strength + 1;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  380  	user->delta = user->dmu + req->ecc.strength + 1;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  381  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  382  	gf_tables = atmel_pmecc_get_gf_tables(req);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  383  	if (IS_ERR(gf_tables)) {
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16 @384  		kfree(user);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  385  		return ERR_CAST(gf_tables);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  386  	}
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  387  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  388  	user->gf_tables = gf_tables;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  389  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  390  	user->eccbytes = req->ecc.bytes / req->ecc.nsectors;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  391  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  392  	for (strength = 0; strength < pmecc->caps->nstrengths; strength++) {
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  393  		if (pmecc->caps->strengths[strength] == req->ecc.strength)
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  394  			break;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  395  	}
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  396  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  397  	user->cache.cfg = PMECC_CFG_BCH_STRENGTH(strength) |
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  398  			  PMECC_CFG_NSECTORS(req->ecc.nsectors);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  399  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  400  	if (req->ecc.sectorsize == 1024)
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  401  		user->cache.cfg |= PMECC_CFG_SECTOR1024;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  402  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  403  	user->cache.sarea = req->oobsize - 1;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  404  	user->cache.saddr = req->ecc.ooboffset;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  405  	user->cache.eaddr = req->ecc.ooboffset + req->ecc.bytes - 1;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  406  
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  407  	return user;
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  408  }
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  409  EXPORT_SYMBOL_GPL(atmel_pmecc_create_user);
+f88fc122cc34c2 drivers/mtd/nand/atmel/pmecc.c     Boris Brezillon 2017-03-16  410  
+
+:::::: The code at line 384 was first introduced by commit
+:::::: f88fc122cc34c2545dec9562eaab121494e401ef mtd: nand: Cleanup/rework the atmel_nand driver
+
+:::::: TO: Boris Brezillon <boris.brezillon@free-electrons.com>
+:::::: CC: Boris Brezillon <boris.brezillon@free-electrons.com>
 
 -- 
 0-DAY CI Kernel Test Service
