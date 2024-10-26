@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8831C7B7F
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Oct 2024 11:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3B638DD3
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Oct 2024 12:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729942444; cv=none; b=plcl1yvxZLvPJak1c1lRFnTD507sh2DKYXep2WO08yrfi6lLx7z4n7vwf8Z/FDHK+XiO0gLgBkBmpUz//RV6W3rGLpjwRwhlui5rtMF9vjGEy4t3hEHgvdvzkNm1UICii0TXSziZkjjmfzsN2CCrv2DcF6GwruI6MLe/5qi7dIs=
+	t=1729946167; cv=none; b=WoUfVY85q7zp2+57SEf1B0PbA1bksV14cfGP5l06ZFQzz3yQGhIeTqLKwallz0JyufGky/VQIklOAbKjV2JIC6R8r/f3ojcFjpBIcvXCf9yRNO3YzwMxjrxQh3RE+oSJpvA29jNia6N15l+nSC9ITLufRlvlVVRg2ZeCKHZWJsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729942444; c=relaxed/simple;
-	bh=8YPtGxwk6cMGGuktBBaLRsf+A7+VfSkLVL25GVCKLY4=;
+	s=arc-20240116; t=1729946167; c=relaxed/simple;
+	bh=Uz1hNeeXxfl6EW+mpHX46+aHo6BXYwarCOOUMfiI+lU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JONecUXkiVD/pAaqm8onm8eLfS2O4Un2m6qa41mus4NycEcVou0XrxpTa5VIMoMnsiASz8BP8IAyxAHF62fbaSeXlAKmK2oMycf2R85nH8EqEeP4NN6jICZlcn41noiT9e4d11r3PRxtFQ/8bAidOMgH9Gq+p4647Xp4W0/scUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aar7wQeH; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=KTrACM3tJbC9dYgKx0lWd8Ko64I55I3E0AHUMlNzFZvnl4gY+94BDRInerR/pnE+cINTuko+1pMLt0m5cgUr7nYye5HmGJfCetZv3Lu3MB8xiJs1jHPtxMkWL1jfYiLBM0Mexhu9VdYYsUUExd5kMQLRqN3FmsHUDNuwMjdeXwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlwnpXBT; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aar7wQeH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlwnpXBT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729942441; x=1761478441;
+  t=1729946164; x=1761482164;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8YPtGxwk6cMGGuktBBaLRsf+A7+VfSkLVL25GVCKLY4=;
-  b=aar7wQeH3XLUVIWk8rCZ7VXrqpelBpIW60JAVq01BjF6ZK5vSx6xU/6X
-   1ND5VZyxwMd6sS+VVMm4eWcSbuOeiMN+Ac3UBp595OP0JFuDHCr3Nhhkl
-   ZHY6FCmNotRPXjGW/h7L8+FCJSFVluaSNqZAa0RXr3Tedo2wDzCfZAzGD
-   6YlW7wnMZb5PY9NbRARf1t+C4/ZxFT8q8j822JOD2GV9OvkXUn5d8xbkF
-   cGOe9i7HchD+THI+kUIAvvJzaq2xLfO9/AH1EuKSWNC/KWkYgUib2fi/2
-   63XhXf7Ng32X+XSGG0Cskxy4X+V7Ao0jfiXcbM167QpG20qJrEyEDCtgd
-   Q==;
-X-CSE-ConnectionGUID: ZXuBZLsHSz2T+nZRM4d2gA==
-X-CSE-MsgGUID: KwNYu+8nQkiZzlr11KgzpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29792010"
+  bh=Uz1hNeeXxfl6EW+mpHX46+aHo6BXYwarCOOUMfiI+lU=;
+  b=XlwnpXBTeujljT/SJHRmnZ88F2yqbDGwh4cvJaYiJAArQTKi5rIHG8ql
+   q1J49oFnAGbUrfeEGJpttJPVfLH/n4W20ldIpHMy+Y0KG2euRyuzpQoyH
+   HnG2rXNkt0iS7XHaiOe+KgcOpe1MqLGtBew/tsepwjjjYCuP9udhMDqwO
+   d+4A5oNtm7cqOKRilH58Jl6+c6T11SfVUlUjz6PMxcmEscm8X5rNbKkJm
+   JGuMiuv9/WaI9mAjhBAMXpScfDAv2PRQTsUND0L0NNk1Uk/2Eo8NvOnyn
+   aK+JEyDh1nn/uw4Nd6E65YIL4Su1VSz149s231CG+PIzgEKp25IxQ976g
+   A==;
+X-CSE-ConnectionGUID: WYF1oBmIRzyU1biBXw2cjg==
+X-CSE-MsgGUID: ujpsM+SKRTCzGONTNDkfsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29469272"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29792010"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 04:34:00 -0700
-X-CSE-ConnectionGUID: 9jRbfhhMQU6sZLq7XMweuw==
-X-CSE-MsgGUID: c7inyOqqSHKGHObE88vcmw==
+   d="scan'208";a="29469272"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 05:36:03 -0700
+X-CSE-ConnectionGUID: wZysWG5VQw+xYxJjPFc9cw==
+X-CSE-MsgGUID: JYA+sMX/SOivMVZTW0POMw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="86290409"
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
+   d="scan'208";a="80808688"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 26 Oct 2024 04:33:59 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2024 05:36:03 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4f3M-000ZZo-1n;
-	Sat, 26 Oct 2024 11:33:56 +0000
-Date: Sat, 26 Oct 2024 19:33:48 +0800
+	id 1t4g1Q-000Zdx-0C;
+	Sat, 26 Oct 2024 12:36:00 +0000
+Date: Sat, 26 Oct 2024 20:35:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 08/12] nilfs2: convert checkpoint file to be folio-based
-Message-ID: <202410261934.HqwZEx2G-lkp@intel.com>
+Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <202410262052.CRR7XezU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,124 +64,97 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241024092602.13395-9-konishi.ryusuke@gmail.com>
-References: <20241024092602.13395-9-konishi.ryusuke@gmail.com>
-TO: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+In-Reply-To: <20241024095539.1637280-3-herve.codina@bootlin.com>
+References: <20241024095539.1637280-3-herve.codina@bootlin.com>
+TO: Herve Codina <herve.codina@bootlin.com>
+TO: Andrzej Hajda <andrzej.hajda@intel.com>
+TO: Neil Armstrong <neil.armstrong@linaro.org>
+TO: Robert Foss <rfoss@kernel.org>
+TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+TO: Jonas Karlman <jonas@kwiboo.se>
+TO: Jernej Skrabec <jernej.skrabec@gmail.com>
+TO: David Airlie <airlied@gmail.com>
+TO: Simona Vetter <simona@ffwll.ch>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+TO: Maxime Ripard <mripard@kernel.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Marek Vasut <marex@denx.de>
+CC: dri-devel@lists.freedesktop.org
+CC: devicetree@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Luca Ceresoli <luca.ceresoli@bootlin.com>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Herve Codina <herve.codina@bootlin.com>
 
-Hi Ryusuke,
+Hi Herve,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on konis-nilfs2/upstream]
-[also build test WARNING on linus/master v6.12-rc4 next-20241025]
-[cannot apply to akpm-mm/mm-everything]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.12-rc4 next-20241025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryusuke-Konishi/nilfs2-convert-segment-buffer-to-be-folio-based/20241024-173025
-base:   https://github.com/konis/nilfs2 upstream
-patch link:    https://lore.kernel.org/r/20241024092602.13395-9-konishi.ryusuke%40gmail.com
-patch subject: [PATCH 08/12] nilfs2: convert checkpoint file to be folio-based
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/dt-bindings-display-bridge-sn65dsi83-Add-interrupt/20241024-175758
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241024095539.1637280-3-herve.codina%40bootlin.com
+patch subject: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery mechanism
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: i386-randconfig-141-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261934.HqwZEx2G-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+config: csky-randconfig-r073-20241026 (https://download.01.org/0day-ci/archive/20241026/202410262052.CRR7XezU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410261934.HqwZEx2G-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410262052.CRR7XezU-lkp@intel.com/
 
-New smatch warnings:
-fs/nilfs2/cpfile.c:662 nilfs_cpfile_do_get_ssinfo() warn: passing freed memory 'bh'
+smatch warnings:
+drivers/gpu/drm/bridge/ti-sn65dsi83.c:360 sn65dsi83_reset_pipeline() error: uninitialized symbol 'state'.
 
-Old smatch warnings:
-fs/nilfs2/cpfile.c:687 nilfs_cpfile_do_get_ssinfo() warn: passing freed memory 'bh'
+vim +/state +360 drivers/gpu/drm/bridge/ti-sn65dsi83.c
 
-vim +/bh +662 fs/nilfs2/cpfile.c
-
-29619809727a4e Koji Sato       2009-04-06  622  
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  623  static ssize_t nilfs_cpfile_do_get_ssinfo(struct inode *cpfile, __u64 *cnop,
-0c6c44cb9f93f7 Ryusuke Konishi 2016-05-23  624  					  void *buf, unsigned int cisz,
-0c6c44cb9f93f7 Ryusuke Konishi 2016-05-23  625  					  size_t nci)
-29619809727a4e Koji Sato       2009-04-06  626  {
-29619809727a4e Koji Sato       2009-04-06  627  	struct buffer_head *bh;
-29619809727a4e Koji Sato       2009-04-06  628  	struct nilfs_cpfile_header *header;
-29619809727a4e Koji Sato       2009-04-06  629  	struct nilfs_checkpoint *cp;
-003ff182fddde0 Ryusuke Konishi 2009-05-12  630  	struct nilfs_cpinfo *ci = buf;
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  631  	__u64 curr = *cnop, next;
-29619809727a4e Koji Sato       2009-04-06  632  	unsigned long curr_blkoff, next_blkoff;
-02954476a4ce12 Ryusuke Konishi 2024-10-24  633  	size_t offset;
-7fa10d20012296 Ryusuke Konishi 2009-04-06  634  	int n = 0, ret;
-29619809727a4e Koji Sato       2009-04-06  635  
-29619809727a4e Koji Sato       2009-04-06  636  	down_read(&NILFS_MDT(cpfile)->mi_sem);
-29619809727a4e Koji Sato       2009-04-06  637  
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  638  	if (curr == 0) {
-29619809727a4e Koji Sato       2009-04-06  639  		ret = nilfs_cpfile_get_header_block(cpfile, &bh);
-29619809727a4e Koji Sato       2009-04-06  640  		if (ret < 0)
-29619809727a4e Koji Sato       2009-04-06  641  			goto out;
-02954476a4ce12 Ryusuke Konishi 2024-10-24  642  		header = kmap_local_folio(bh->b_folio, 0);
-29619809727a4e Koji Sato       2009-04-06  643  		curr = le64_to_cpu(header->ch_snapshot_list.ssl_next);
-02954476a4ce12 Ryusuke Konishi 2024-10-24  644  		kunmap_local(header);
-29619809727a4e Koji Sato       2009-04-06  645  		brelse(bh);
-29619809727a4e Koji Sato       2009-04-06  646  		if (curr == 0) {
-29619809727a4e Koji Sato       2009-04-06  647  			ret = 0;
-29619809727a4e Koji Sato       2009-04-06  648  			goto out;
-29619809727a4e Koji Sato       2009-04-06  649  		}
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  650  	} else if (unlikely(curr == ~(__u64)0)) {
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  651  		ret = 0;
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  652  		goto out;
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  653  	}
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  654  
-29619809727a4e Koji Sato       2009-04-06  655  	curr_blkoff = nilfs_cpfile_get_blkoff(cpfile, curr);
-29619809727a4e Koji Sato       2009-04-06  656  	ret = nilfs_cpfile_get_checkpoint_block(cpfile, curr, 0, &bh);
-7fa10d20012296 Ryusuke Konishi 2009-04-06  657  	if (unlikely(ret < 0)) {
-7fa10d20012296 Ryusuke Konishi 2009-04-06  658  		if (ret == -ENOENT)
-7fa10d20012296 Ryusuke Konishi 2009-04-06  659  			ret = 0; /* No snapshots (started from a hole block) */
-29619809727a4e Koji Sato       2009-04-06  660  		goto out;
-7fa10d20012296 Ryusuke Konishi 2009-04-06  661  	}
-02954476a4ce12 Ryusuke Konishi 2024-10-24 @662  	offset = nilfs_cpfile_checkpoint_offset(cpfile, curr, bh);
-02954476a4ce12 Ryusuke Konishi 2024-10-24  663  	cp = kmap_local_folio(bh->b_folio, offset);
-7fa10d20012296 Ryusuke Konishi 2009-04-06  664  	while (n < nci) {
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  665  		curr = ~(__u64)0; /* Terminator */
-7fa10d20012296 Ryusuke Konishi 2009-04-06  666  		if (unlikely(nilfs_checkpoint_invalid(cp) ||
-7fa10d20012296 Ryusuke Konishi 2009-04-06  667  			     !nilfs_checkpoint_snapshot(cp)))
-29619809727a4e Koji Sato       2009-04-06  668  			break;
-003ff182fddde0 Ryusuke Konishi 2009-05-12  669  		nilfs_cpfile_checkpoint_to_cpinfo(cpfile, cp, ci);
-003ff182fddde0 Ryusuke Konishi 2009-05-12  670  		ci = (void *)ci + cisz;
-003ff182fddde0 Ryusuke Konishi 2009-05-12  671  		n++;
-7fa10d20012296 Ryusuke Konishi 2009-04-06  672  		next = le64_to_cpu(cp->cp_snapshot_list.ssl_next);
-7fa10d20012296 Ryusuke Konishi 2009-04-06  673  		if (next == 0)
-7fa10d20012296 Ryusuke Konishi 2009-04-06  674  			break; /* reach end of the snapshot list */
-7fa10d20012296 Ryusuke Konishi 2009-04-06  675  
-02954476a4ce12 Ryusuke Konishi 2024-10-24  676  		kunmap_local(cp);
-29619809727a4e Koji Sato       2009-04-06  677  		next_blkoff = nilfs_cpfile_get_blkoff(cpfile, next);
-29619809727a4e Koji Sato       2009-04-06  678  		if (curr_blkoff != next_blkoff) {
-29619809727a4e Koji Sato       2009-04-06  679  			brelse(bh);
-29619809727a4e Koji Sato       2009-04-06  680  			ret = nilfs_cpfile_get_checkpoint_block(cpfile, next,
-29619809727a4e Koji Sato       2009-04-06  681  								0, &bh);
-7fa10d20012296 Ryusuke Konishi 2009-04-06  682  			if (unlikely(ret < 0)) {
-7fa10d20012296 Ryusuke Konishi 2009-04-06  683  				WARN_ON(ret == -ENOENT);
-29619809727a4e Koji Sato       2009-04-06  684  				goto out;
-7fa10d20012296 Ryusuke Konishi 2009-04-06  685  			}
-29619809727a4e Koji Sato       2009-04-06  686  		}
-02954476a4ce12 Ryusuke Konishi 2024-10-24  687  		offset = nilfs_cpfile_checkpoint_offset(cpfile, next, bh);
-02954476a4ce12 Ryusuke Konishi 2024-10-24  688  		cp = kmap_local_folio(bh->b_folio, offset);
-29619809727a4e Koji Sato       2009-04-06  689  		curr = next;
-29619809727a4e Koji Sato       2009-04-06  690  		curr_blkoff = next_blkoff;
-29619809727a4e Koji Sato       2009-04-06  691  	}
-02954476a4ce12 Ryusuke Konishi 2024-10-24  692  	kunmap_local(cp);
-29619809727a4e Koji Sato       2009-04-06  693  	brelse(bh);
-b028fcfc4cd198 Ryusuke Konishi 2009-04-06  694  	*cnop = curr;
-29619809727a4e Koji Sato       2009-04-06  695  	ret = n;
-29619809727a4e Koji Sato       2009-04-06  696  
-29619809727a4e Koji Sato       2009-04-06  697   out:
-29619809727a4e Koji Sato       2009-04-06  698  	up_read(&NILFS_MDT(cpfile)->mi_sem);
-29619809727a4e Koji Sato       2009-04-06  699  	return ret;
-29619809727a4e Koji Sato       2009-04-06  700  }
-29619809727a4e Koji Sato       2009-04-06  701  
+ceb515ba29ba6b Marek Vasut  2021-06-07  329  
+caeb909b9ed830 Herve Codina 2024-10-24  330  static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
+caeb909b9ed830 Herve Codina 2024-10-24  331  {
+caeb909b9ed830 Herve Codina 2024-10-24  332  	struct drm_device *dev = sn65dsi83->bridge.dev;
+caeb909b9ed830 Herve Codina 2024-10-24  333  	struct drm_modeset_acquire_ctx ctx;
+caeb909b9ed830 Herve Codina 2024-10-24  334  	struct drm_atomic_state *state;
+caeb909b9ed830 Herve Codina 2024-10-24  335  	int err;
+caeb909b9ed830 Herve Codina 2024-10-24  336  
+caeb909b9ed830 Herve Codina 2024-10-24  337  	/* Use operation done in drm_atomic_helper_suspend() followed by
+caeb909b9ed830 Herve Codina 2024-10-24  338  	 * operation done in drm_atomic_helper_resume() but without releasing
+caeb909b9ed830 Herve Codina 2024-10-24  339  	 * the lock between suspend()/resume()
+caeb909b9ed830 Herve Codina 2024-10-24  340  	 */
+caeb909b9ed830 Herve Codina 2024-10-24  341  
+caeb909b9ed830 Herve Codina 2024-10-24  342  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+caeb909b9ed830 Herve Codina 2024-10-24  343  
+caeb909b9ed830 Herve Codina 2024-10-24  344  	state = drm_atomic_helper_duplicate_state(dev, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  345  	if (IS_ERR(state)) {
+caeb909b9ed830 Herve Codina 2024-10-24  346  		err = PTR_ERR(state);
+caeb909b9ed830 Herve Codina 2024-10-24  347  		goto unlock;
+caeb909b9ed830 Herve Codina 2024-10-24  348  	}
+caeb909b9ed830 Herve Codina 2024-10-24  349  
+caeb909b9ed830 Herve Codina 2024-10-24  350  	err = drm_atomic_helper_disable_all(dev, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  351  	if (err < 0)
+caeb909b9ed830 Herve Codina 2024-10-24  352  		goto unlock;
+caeb909b9ed830 Herve Codina 2024-10-24  353  
+caeb909b9ed830 Herve Codina 2024-10-24  354  	drm_mode_config_reset(dev);
+caeb909b9ed830 Herve Codina 2024-10-24  355  
+caeb909b9ed830 Herve Codina 2024-10-24  356  	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  357  
+caeb909b9ed830 Herve Codina 2024-10-24  358  unlock:
+caeb909b9ed830 Herve Codina 2024-10-24  359  	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+caeb909b9ed830 Herve Codina 2024-10-24 @360  	if (!IS_ERR(state))
+caeb909b9ed830 Herve Codina 2024-10-24  361  		drm_atomic_state_put(state);
+caeb909b9ed830 Herve Codina 2024-10-24  362  	return err;
+caeb909b9ed830 Herve Codina 2024-10-24  363  }
+caeb909b9ed830 Herve Codina 2024-10-24  364  
 
 -- 
 0-DAY CI Kernel Test Service
