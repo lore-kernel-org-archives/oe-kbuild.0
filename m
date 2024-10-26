@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3B638DD3
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Oct 2024 12:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C41F9C1
+	for <oe-kbuild@lists.linux.dev>; Sat, 26 Oct 2024 15:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729946167; cv=none; b=WoUfVY85q7zp2+57SEf1B0PbA1bksV14cfGP5l06ZFQzz3yQGhIeTqLKwallz0JyufGky/VQIklOAbKjV2JIC6R8r/f3ojcFjpBIcvXCf9yRNO3YzwMxjrxQh3RE+oSJpvA29jNia6N15l+nSC9ITLufRlvlVVRg2ZeCKHZWJsA=
+	t=1729956672; cv=none; b=nhz5facIh2DbMKoDRUHlBaR3ekYQBmLMlu/sz9sSvxtoydf7SQusno0u79gYEqWxXTOE8uUhDNi42/wX6PsbWifRJDS4+LBOikGM3Lv7EULgQz8kMPbr2AgGKE+GSMO5KWhLxBlWIhWRpC0umZQJlwyIpQ1x1/VAF9pXs3bIUuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729946167; c=relaxed/simple;
-	bh=Uz1hNeeXxfl6EW+mpHX46+aHo6BXYwarCOOUMfiI+lU=;
+	s=arc-20240116; t=1729956672; c=relaxed/simple;
+	bh=aWuWmS5NdmDa+JZbBMvOcnvdKMBTI0fLyXG6fhosO9E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KTrACM3tJbC9dYgKx0lWd8Ko64I55I3E0AHUMlNzFZvnl4gY+94BDRInerR/pnE+cINTuko+1pMLt0m5cgUr7nYye5HmGJfCetZv3Lu3MB8xiJs1jHPtxMkWL1jfYiLBM0Mexhu9VdYYsUUExd5kMQLRqN3FmsHUDNuwMjdeXwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlwnpXBT; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=coTsk8Z10C1wPks0s2jmQZ3CMx3wGVHH1C8ZqLkwKCuJ1CV9+Wx/JHrJjOsOyymoa7IiTe5G8YrxXFzrrfvmZdxinbtXQ4ffBjdJi6VonI0yhscM/iDOQb2obB31dkdHTJp9WBp/W2HhFGdkkzaVls7SIUN70wHY/5qReqaDMus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx/HVOp8; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlwnpXBT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx/HVOp8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729946164; x=1761482164;
+  t=1729956670; x=1761492670;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Uz1hNeeXxfl6EW+mpHX46+aHo6BXYwarCOOUMfiI+lU=;
-  b=XlwnpXBTeujljT/SJHRmnZ88F2yqbDGwh4cvJaYiJAArQTKi5rIHG8ql
-   q1J49oFnAGbUrfeEGJpttJPVfLH/n4W20ldIpHMy+Y0KG2euRyuzpQoyH
-   HnG2rXNkt0iS7XHaiOe+KgcOpe1MqLGtBew/tsepwjjjYCuP9udhMDqwO
-   d+4A5oNtm7cqOKRilH58Jl6+c6T11SfVUlUjz6PMxcmEscm8X5rNbKkJm
-   JGuMiuv9/WaI9mAjhBAMXpScfDAv2PRQTsUND0L0NNk1Uk/2Eo8NvOnyn
-   aK+JEyDh1nn/uw4Nd6E65YIL4Su1VSz149s231CG+PIzgEKp25IxQ976g
-   A==;
-X-CSE-ConnectionGUID: WYF1oBmIRzyU1biBXw2cjg==
-X-CSE-MsgGUID: ujpsM+SKRTCzGONTNDkfsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29469272"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29469272"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 05:36:03 -0700
-X-CSE-ConnectionGUID: wZysWG5VQw+xYxJjPFc9cw==
-X-CSE-MsgGUID: JYA+sMX/SOivMVZTW0POMw==
+  bh=aWuWmS5NdmDa+JZbBMvOcnvdKMBTI0fLyXG6fhosO9E=;
+  b=Sx/HVOp8Y21D4U3+GF6Cu0scgEkh++9Ypc3IlcIrYbogWWEEzLPIcK1j
+   zVq+uO2aNhF9SQBgpz6ea6+Bgk5LW5SkA35qaEe73/8XxFPNzJ8R1iEVx
+   q9ncFiFeh1gyL6AIhqUAPZGjGSJlu/AN5Qv00ekWmKnyk5KhqxM8STOju
+   niBai0VPPrMncZLHr1rAdea7eK7Tx7plLRzQS+FWXqt8Vqa2MffGkGFaC
+   4by1K/ZKkTfzbh3w2dY/CfGSPEe9iDUsR4mF/ePUzSqHkdoET8lIAN2aS
+   qTxlMh2/2UudrWHTAk+q09VxpkdFZ6VtA8hUdBgPtDQNt2ED603wLhNQv
+   w==;
+X-CSE-ConnectionGUID: oLFidEOeTEylIwHzcKEX1g==
+X-CSE-MsgGUID: YCuLn2M2RQiNUxyNEdzS3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="47102689"
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
+   d="scan'208";a="47102689"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 08:31:09 -0700
+X-CSE-ConnectionGUID: 6703BICrRBOvQ7SosGZWTQ==
+X-CSE-MsgGUID: 9cey/x45RTSVbcniC2MXjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="80808688"
+   d="scan'208";a="85159271"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Oct 2024 05:36:03 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2024 08:31:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4g1Q-000Zdx-0C;
-	Sat, 26 Oct 2024 12:36:00 +0000
-Date: Sat, 26 Oct 2024 20:35:17 +0800
+	id 1t4ikr-000Zlw-1k;
+	Sat, 26 Oct 2024 15:31:05 +0000
+Date: Sat, 26 Oct 2024 23:30:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <202410262052.CRR7XezU-lkp@intel.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <202410262304.gfSWpFtO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,97 +64,110 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241024095539.1637280-3-herve.codina@bootlin.com>
-References: <20241024095539.1637280-3-herve.codina@bootlin.com>
-TO: Herve Codina <herve.codina@bootlin.com>
-TO: Andrzej Hajda <andrzej.hajda@intel.com>
-TO: Neil Armstrong <neil.armstrong@linaro.org>
-TO: Robert Foss <rfoss@kernel.org>
-TO: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-TO: Jonas Karlman <jonas@kwiboo.se>
-TO: Jernej Skrabec <jernej.skrabec@gmail.com>
-TO: David Airlie <airlied@gmail.com>
-TO: Simona Vetter <simona@ffwll.ch>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Maxime Ripard <mripard@kernel.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Marek Vasut <marex@denx.de>
-CC: dri-devel@lists.freedesktop.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: Luca Ceresoli <luca.ceresoli@bootlin.com>
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: Herve Codina <herve.codina@bootlin.com>
+TO: Heiko Carstens <hca@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
-Hi Herve,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on drm-misc/drm-misc-next linus/master v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/dt-bindings-display-bridge-sn65dsi83-Add-interrupt/20241024-175758
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241024095539.1637280-3-herve.codina%40bootlin.com
-patch subject: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery mechanism
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: csky-randconfig-r073-20241026 (https://download.01.org/0day-ci/archive/20241026/202410262052.CRR7XezU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+date:   1 year ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 1 year ago
+config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241026/202410262304.gfSWpFtO-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410262052.CRR7XezU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410262304.gfSWpFtO-lkp@intel.com/
 
 smatch warnings:
-drivers/gpu/drm/bridge/ti-sn65dsi83.c:360 sn65dsi83_reset_pipeline() error: uninitialized symbol 'state'.
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
 
-vim +/state +360 drivers/gpu/drm/bridge/ti-sn65dsi83.c
+vim +566 arch/s390/mm/fault.c
 
-ceb515ba29ba6b Marek Vasut  2021-06-07  329  
-caeb909b9ed830 Herve Codina 2024-10-24  330  static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
-caeb909b9ed830 Herve Codina 2024-10-24  331  {
-caeb909b9ed830 Herve Codina 2024-10-24  332  	struct drm_device *dev = sn65dsi83->bridge.dev;
-caeb909b9ed830 Herve Codina 2024-10-24  333  	struct drm_modeset_acquire_ctx ctx;
-caeb909b9ed830 Herve Codina 2024-10-24  334  	struct drm_atomic_state *state;
-caeb909b9ed830 Herve Codina 2024-10-24  335  	int err;
-caeb909b9ed830 Herve Codina 2024-10-24  336  
-caeb909b9ed830 Herve Codina 2024-10-24  337  	/* Use operation done in drm_atomic_helper_suspend() followed by
-caeb909b9ed830 Herve Codina 2024-10-24  338  	 * operation done in drm_atomic_helper_resume() but without releasing
-caeb909b9ed830 Herve Codina 2024-10-24  339  	 * the lock between suspend()/resume()
-caeb909b9ed830 Herve Codina 2024-10-24  340  	 */
-caeb909b9ed830 Herve Codina 2024-10-24  341  
-caeb909b9ed830 Herve Codina 2024-10-24  342  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-caeb909b9ed830 Herve Codina 2024-10-24  343  
-caeb909b9ed830 Herve Codina 2024-10-24  344  	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-caeb909b9ed830 Herve Codina 2024-10-24  345  	if (IS_ERR(state)) {
-caeb909b9ed830 Herve Codina 2024-10-24  346  		err = PTR_ERR(state);
-caeb909b9ed830 Herve Codina 2024-10-24  347  		goto unlock;
-caeb909b9ed830 Herve Codina 2024-10-24  348  	}
-caeb909b9ed830 Herve Codina 2024-10-24  349  
-caeb909b9ed830 Herve Codina 2024-10-24  350  	err = drm_atomic_helper_disable_all(dev, &ctx);
-caeb909b9ed830 Herve Codina 2024-10-24  351  	if (err < 0)
-caeb909b9ed830 Herve Codina 2024-10-24  352  		goto unlock;
-caeb909b9ed830 Herve Codina 2024-10-24  353  
-caeb909b9ed830 Herve Codina 2024-10-24  354  	drm_mode_config_reset(dev);
-caeb909b9ed830 Herve Codina 2024-10-24  355  
-caeb909b9ed830 Herve Codina 2024-10-24  356  	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
-caeb909b9ed830 Herve Codina 2024-10-24  357  
-caeb909b9ed830 Herve Codina 2024-10-24  358  unlock:
-caeb909b9ed830 Herve Codina 2024-10-24  359  	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-caeb909b9ed830 Herve Codina 2024-10-24 @360  	if (!IS_ERR(state))
-caeb909b9ed830 Herve Codina 2024-10-24  361  		drm_atomic_state_put(state);
-caeb909b9ed830 Herve Codina 2024-10-24  362  	return err;
-caeb909b9ed830 Herve Codina 2024-10-24  363  }
-caeb909b9ed830 Herve Codina 2024-10-24  364  
+17a363dcd2f745 Heiko Carstens    2021-04-09  497  
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
+
+:::::: The code at line 566 was first introduced by commit
+:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
+
+:::::: TO: Heiko Carstens <hca@linux.ibm.com>
+:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
