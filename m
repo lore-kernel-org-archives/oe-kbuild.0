@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8D1172BB9
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 18:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DAC17798F
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 18:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730053284; cv=none; b=KWc5MULwRTuncq5s15JBsj+vyS79U38zaFWhtr3AEsy9P52Qb1EoLKsjTEqkyIH+V50jGqcSrgylsF0Jrv/EeBppRPTojS+q1bF1zABmfWiZTjBIzc9ksB3sVggtC58O2OPvvPE5AuvDHPRg/VeGvsWGYFEEkTT/kaHlCR3EWFg=
+	t=1730053287; cv=none; b=SKq6CBFWE5Hap9yuFYSXkbR5dE3vGWsqUag3kGsv8tKaxdMq/fkJomAvTix4n47ow2aS1OoY1N0BkqD5nuNfjpdJURELvCjXCWdU2xbEL7INHqCFm5/nWXZtGsemz6qS2XqsCSQmGlJUxpEhl+S3xpsC6wPny4nYnA56WllkIE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730053284; c=relaxed/simple;
-	bh=dHAhxFnkgt4i/1Lnenn0DtPL9W/obbmSQdq7Cko3IAw=;
+	s=arc-20240116; t=1730053287; c=relaxed/simple;
+	bh=bhDuPS5aQEBN2WfPWGIFSVjHwvbeJedLx/FL2W89BcE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y9cd6MEa5xo+uQXDnCHYEKsj5tY3e3SIptY38ypFZSHTr33oyI9Hpj6ZzzWz0tapdfIfdbQnYCSh4HyNVHie1h+blDJihKIo8YjUJ2m0wAyN+wdx5inc+A0tcSuNaEWvC67uuNlEhp/W/xKEKzMTuA+k5psj6lnZkiWvDUWdRDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGwPHPk+; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=SgRYzWfjLSoKYz7Nr823uI+rjcHvTzo6024LBg9k+MywxLYg7vWModzZsvRy/FcXEHRLCKUUo44PATcR95It7mMOE0gfmlMNMSkEQmaR33cKBUnCfIiX1DkxNJybqYwQzVIfvj9tkN20QLCMmFne22pCHuyk8wEFC9E5uFo6UOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dn6MRFgX; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGwPHPk+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dn6MRFgX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730053282; x=1761589282;
+  t=1730053284; x=1761589284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dHAhxFnkgt4i/1Lnenn0DtPL9W/obbmSQdq7Cko3IAw=;
-  b=UGwPHPk+LHSKi+e8ys4lgH537iEL8Y0d9M/EkMUgkpcfw94WBtQAS/zj
-   j72FXAK5IwSLMwPh/LUrJRv43cB3I8ljUWuUAS7HK2sJFJ/MLiq2RN5wx
-   RAQx3ZWf5xqtiBT/XPe+f6jEl/XjDSPc7Yb0EOJ/0MhWHFNvyz3ljnGJA
-   BHziJNrAyD8fiASrPiEHxf0v2t41zy6qejskwoh9qfn7ZtT7lAvpCwb3C
-   KteRYHV4dCYK5oWG4Unu5I1pEO6GCgGvs8489IP6k8AM57P05Wfu+guic
-   MHUaNFxebIUU/PTx/zr8xgSKsO3IzT3aZcP7eDYN3x7kEaKGBlPdEOcYQ
-   Q==;
-X-CSE-ConnectionGUID: IEhG0bLkSEWb0UqMR0u8yA==
-X-CSE-MsgGUID: +GoX/2TlSVWuR5RQcd1Vig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="33564711"
+  bh=bhDuPS5aQEBN2WfPWGIFSVjHwvbeJedLx/FL2W89BcE=;
+  b=dn6MRFgXlLAHavMGbqFSCpDLsZW7kh57rT2DSoeVOVitvgoVQ+miQ3bD
+   8hNaocDP0j/MTm/vcOVoWENzub2kFwku6gUf7Urh1h/ne9KVkBzB5yYSL
+   HtMCf597tbbulXqFZLP80dB3iXrSoomoRbMVltZISo7hCNsQWlZCPDD1U
+   kchNgZzHPV+kEJHJp9Y9SZZKnRMlOAadgbXL3McLHYO9Qdquu+FTEeB/4
+   5k/QZUQUwfebc33CUD/7bLZFMvcIYK+MWI/4Trkd7VUGwhQuiZtiI+qX8
+   yUgOo/9xoa5upoGW1ioWVWCVARfJm5EiH59uA7AQq2O5ARJmijGmOL9JN
+   g==;
+X-CSE-ConnectionGUID: 0LclpUnfQziANtMDYPeTBA==
+X-CSE-MsgGUID: YNpVNhRfRlKk61b563rxIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="40234058"
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="33564711"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 11:21:21 -0700
-X-CSE-ConnectionGUID: pWcuq4+eQRGBsu/N4+qFKQ==
-X-CSE-MsgGUID: q+FXLIuqRlK6nYwrHX9KNA==
+   d="scan'208";a="40234058"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 11:21:21 -0700
+X-CSE-ConnectionGUID: j7rAo5csSbe5qgHUJ3AXgg==
+X-CSE-MsgGUID: I0yiGeWwR7G1M63IsTMbyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="81353166"
+   d="scan'208";a="82229932"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2024 11:21:20 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Oct 2024 11:21:20 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t57t7-000au1-2k;
+	id 1t57t7-000aty-2g;
 	Sun, 27 Oct 2024 18:21:17 +0000
-Date: Mon, 28 Oct 2024 02:20:27 +0800
+Date: Mon, 28 Oct 2024 02:20:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/kernel/topology.c:640 polarization_ctl_handler() warn:
- (struct ctl_table)->procname cannot be NULL. Expression : ctl->procname
-Message-ID: <202410280223.57tUit6c-lkp@intel.com>
+Subject: Re: [PATCH 5/5] btrfs: add io_uring command for encoded reads
+Message-ID: <202410280225.FkBGqjhy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,58 +63,188 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tobias Huschle <huschle@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
+In-Reply-To: <20241022145024.1046883-6-maharmstone@fb.com>
+References: <20241022145024.1046883-6-maharmstone@fb.com>
+TO: Mark Harmstone <maharmstone@fb.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
-commit: 9dd333e7afc4a4855f821a7be83733b8ef48d5ba s390/topology: Add sysctl handler for polarization
-date:   8 weeks ago
-:::::: branch date: 2 days ago
-:::::: commit date: 8 weeks ago
-config: s390-randconfig-r072-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280223.57tUit6c-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+Hi Mark,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20241025]
+[cannot apply to linus/master v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-remove-pointless-addition-in-btrfs_encoded_read/20241022-225240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241022145024.1046883-6-maharmstone%40fb.com
+patch subject: [PATCH 5/5] btrfs: add io_uring command for encoded reads
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-161-20241026 (https://download.01.org/0day-ci/archive/20241028/202410280225.FkBGqjhy-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410280223.57tUit6c-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410280225.FkBGqjhy-lkp@intel.com/
 
 New smatch warnings:
-arch/s390/kernel/topology.c:640 polarization_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl->procname
-arch/s390/kernel/topology.c:639 polarization_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl_entry.procname
-arch/s390/kernel/topology.c:639 polarization_ctl_handler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : ctl_entry.proc_handler
+fs/btrfs/ioctl.c:4980 btrfs_uring_encoded_read() warn: potential user controlled sizeof overflow '16 * args.iovcnt' '16 * 0-u64max'
 
 Old smatch warnings:
-arch/s390/kernel/topology.c:611 topology_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl->procname
-arch/s390/kernel/topology.c:610 topology_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl_entry.procname
-arch/s390/kernel/topology.c:610 topology_ctl_handler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : ctl_entry.proc_handler
+fs/btrfs/ioctl.c:4990 btrfs_uring_encoded_read() warn: potential user controlled sizeof overflow '16 * args.iovcnt' '16 * 0-u64max'
 
-vim +640 arch/s390/kernel/topology.c
+vim +4980 fs/btrfs/ioctl.c
 
-51dce3867c6c63c Heiko Carstens 2017-09-14  633  
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  634  static int polarization_ctl_handler(const struct ctl_table *ctl, int write,
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  635  				    void *buffer, size_t *lenp, loff_t *ppos)
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  636  {
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  637  	int polarization;
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  638  	int rc;
-9dd333e7afc4a48 Tobias Huschle 2024-08-12 @639  	struct ctl_table ctl_entry = {
-9dd333e7afc4a48 Tobias Huschle 2024-08-12 @640  		.procname	= ctl->procname,
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  641  		.data		= &polarization,
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  642  		.maxlen		= sizeof(int),
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  643  		.extra1		= SYSCTL_ZERO,
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  644  		.extra2		= SYSCTL_ONE,
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  645  	};
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  646  
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  647  	polarization = cpu_management;
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  648  	rc = proc_douintvec_minmax(&ctl_entry, write, buffer, lenp, ppos);
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  649  	if (rc < 0 || !write)
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  650  		return rc;
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  651  	return set_polarization(polarization);
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  652  }
-9dd333e7afc4a48 Tobias Huschle 2024-08-12  653  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4875  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4876  static int btrfs_uring_encoded_read(struct io_uring_cmd *cmd,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4877  				    unsigned int issue_flags)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4878  {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4879  	size_t copy_end_kernel = offsetofend(struct btrfs_ioctl_encoded_io_args,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4880  					     flags);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4881  	size_t copy_end;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4882  	struct btrfs_ioctl_encoded_io_args args = { 0 };
+dd13a57c79e014 Mark Harmstone 2024-10-22  4883  	int ret;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4884  	u64 disk_bytenr, disk_io_size;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4885  	struct file *file = cmd->file;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4886  	struct btrfs_inode *inode = BTRFS_I(file->f_inode);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4887  	struct btrfs_fs_info *fs_info = inode->root->fs_info;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4888  	struct extent_io_tree *io_tree = &inode->io_tree;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4889  	struct iovec iovstack[UIO_FASTIOV];
+dd13a57c79e014 Mark Harmstone 2024-10-22  4890  	struct iovec *iov = iovstack;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4891  	struct iov_iter iter;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4892  	loff_t pos;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4893  	struct kiocb kiocb;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4894  	struct extent_state *cached_state = NULL;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4895  	u64 start, lockend;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4896  	void __user *sqe_addr = u64_to_user_ptr(READ_ONCE(cmd->sqe->addr));
+dd13a57c79e014 Mark Harmstone 2024-10-22  4897  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4898  	if (!capable(CAP_SYS_ADMIN)) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4899  		ret = -EPERM;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4900  		goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4901  	}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4902  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4903  	if (issue_flags & IO_URING_F_COMPAT) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4904  #if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4905  		struct btrfs_ioctl_encoded_io_args_32 args32;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4906  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4907  		copy_end = offsetofend(struct btrfs_ioctl_encoded_io_args_32,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4908  				       flags);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4909  		if (copy_from_user(&args32, sqe_addr, copy_end)) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4910  			ret = -EFAULT;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4911  			goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4912  		}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4913  		args.iov = compat_ptr(args32.iov);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4914  		args.iovcnt = args32.iovcnt;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4915  		args.offset = args32.offset;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4916  		args.flags = args32.flags;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4917  #else
+dd13a57c79e014 Mark Harmstone 2024-10-22  4918  		return -ENOTTY;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4919  #endif
+dd13a57c79e014 Mark Harmstone 2024-10-22  4920  	} else {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4921  		copy_end = copy_end_kernel;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4922  		if (copy_from_user(&args, sqe_addr, copy_end)) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4923  			ret = -EFAULT;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4924  			goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4925  		}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4926  	}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4927  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4928  	if (args.flags != 0)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4929  		return -EINVAL;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4930  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4931  	ret = import_iovec(ITER_DEST, args.iov, args.iovcnt, ARRAY_SIZE(iovstack),
+dd13a57c79e014 Mark Harmstone 2024-10-22  4932  			   &iov, &iter);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4933  	if (ret < 0)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4934  		goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4935  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4936  	if (iov_iter_count(&iter) == 0) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4937  		ret = 0;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4938  		goto out_free;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4939  	}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4940  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4941  	pos = args.offset;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4942  	ret = rw_verify_area(READ, file, &pos, args.len);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4943  	if (ret < 0)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4944  		goto out_free;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4945  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4946  	init_sync_kiocb(&kiocb, file);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4947  	kiocb.ki_pos = pos;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4948  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4949  	if (issue_flags & IO_URING_F_NONBLOCK)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4950  		kiocb.ki_flags |= IOCB_NOWAIT;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4951  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4952  	start = ALIGN_DOWN(pos, fs_info->sectorsize);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4953  	lockend = start + BTRFS_MAX_UNCOMPRESSED - 1;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4954  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4955  	ret = btrfs_encoded_read(&kiocb, &iter, &args, &cached_state,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4956  				 &disk_bytenr, &disk_io_size);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4957  	if (ret < 0 && ret != -EIOCBQUEUED)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4958  		goto out_free;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4959  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4960  	file_accessed(file);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4961  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4962  	if (copy_to_user(sqe_addr + copy_end, (char *)&args + copy_end_kernel,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4963  			 sizeof(args) - copy_end_kernel)) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4964  		if (ret == -EIOCBQUEUED) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4965  			unlock_extent(io_tree, start, lockend, &cached_state);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4966  			btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4967  		}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4968  		ret = -EFAULT;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4969  		goto out_free;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4970  	}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4971  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4972  	if (ret == -EIOCBQUEUED) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4973  		u64 count;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4974  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4975  		/*
+dd13a57c79e014 Mark Harmstone 2024-10-22  4976  		 * If we've optimized things by storing the iovecs on the stack,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4977  		 * undo this.
+dd13a57c79e014 Mark Harmstone 2024-10-22  4978  		 */
+dd13a57c79e014 Mark Harmstone 2024-10-22  4979  		if (!iov) {
+dd13a57c79e014 Mark Harmstone 2024-10-22 @4980  			iov = kmalloc(sizeof(struct iovec) * args.iovcnt,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4981  				      GFP_NOFS);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4982  			if (!iov) {
+dd13a57c79e014 Mark Harmstone 2024-10-22  4983  				unlock_extent(io_tree, start, lockend,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4984  					      &cached_state);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4985  				btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4986  				ret = -ENOMEM;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4987  				goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  4988  			}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4989  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4990  			memcpy(iov, iovstack,
+dd13a57c79e014 Mark Harmstone 2024-10-22  4991  			       sizeof(struct iovec) * args.iovcnt);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4992  		}
+dd13a57c79e014 Mark Harmstone 2024-10-22  4993  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4994  		count = min_t(u64, iov_iter_count(&iter), disk_io_size);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4995  
+dd13a57c79e014 Mark Harmstone 2024-10-22  4996  		/* Match ioctl by not returning past EOF if uncompressed */
+dd13a57c79e014 Mark Harmstone 2024-10-22  4997  		if (!args.compression)
+dd13a57c79e014 Mark Harmstone 2024-10-22  4998  			count = min_t(u64, count, args.len);
+dd13a57c79e014 Mark Harmstone 2024-10-22  4999  
+dd13a57c79e014 Mark Harmstone 2024-10-22  5000  		ret = btrfs_uring_read_extent(&kiocb, &iter, start, lockend,
+dd13a57c79e014 Mark Harmstone 2024-10-22  5001  					      cached_state, disk_bytenr,
+dd13a57c79e014 Mark Harmstone 2024-10-22  5002  					      disk_io_size, count,
+dd13a57c79e014 Mark Harmstone 2024-10-22  5003  					      args.compression, iov, cmd);
+dd13a57c79e014 Mark Harmstone 2024-10-22  5004  
+dd13a57c79e014 Mark Harmstone 2024-10-22  5005  		goto out_acct;
+dd13a57c79e014 Mark Harmstone 2024-10-22  5006  	}
+dd13a57c79e014 Mark Harmstone 2024-10-22  5007  
+dd13a57c79e014 Mark Harmstone 2024-10-22  5008  out_free:
+dd13a57c79e014 Mark Harmstone 2024-10-22  5009  	kfree(iov);
+dd13a57c79e014 Mark Harmstone 2024-10-22  5010  
+dd13a57c79e014 Mark Harmstone 2024-10-22  5011  out_acct:
+dd13a57c79e014 Mark Harmstone 2024-10-22  5012  	if (ret > 0)
+dd13a57c79e014 Mark Harmstone 2024-10-22  5013  		add_rchar(current, ret);
+dd13a57c79e014 Mark Harmstone 2024-10-22  5014  	inc_syscr(current);
+dd13a57c79e014 Mark Harmstone 2024-10-22  5015  
+dd13a57c79e014 Mark Harmstone 2024-10-22  5016  	return ret;
+dd13a57c79e014 Mark Harmstone 2024-10-22  5017  }
+dd13a57c79e014 Mark Harmstone 2024-10-22  5018  
 
 -- 
 0-DAY CI Kernel Test Service
