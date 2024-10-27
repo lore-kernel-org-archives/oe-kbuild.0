@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF90F9E6
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 07:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C7C28382
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 08:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730013213; cv=none; b=iUwP4MJJE7OJ/GKL6mEpD6LnSjkJxvIXiOjdiVsrDgNO6PivgD23uAYLWy5GVbsJASSvwN2hckFyseGDVKhsKQ6E2AYryerD73eY0vIAj88N3kEKJBDK5zEcCf+B9U1TnjCMqarOmcq6CjuuBdh6BpgIijMBrLpVOu8GJyQA+UY=
+	t=1730018766; cv=none; b=jNGu4txIze+q/bJE8NTAzEWYDVpENxmE7LiheteIF0piDzYFsCaGO25IKU8z2lTAg1By60hmJOX0wNvUrm0ONyz847lTum6VBD+EJyjnp1cyqMusk3WMDtL1lkAn3SEPH34CLVvlPtKVc7vuxT6f6j5JeaD645vbKQ9mfIbY7VQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730013213; c=relaxed/simple;
-	bh=sZ4gy50Q9DsjPJnU11Y85sy8n9cbYF2y5SOkrCsMueg=;
+	s=arc-20240116; t=1730018766; c=relaxed/simple;
+	bh=U+WHa4DVg5dSq65cRJM86sCyNXZIxEDMLor73yANo74=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U9wC+vFT5w96wDIwht/CHgeXvH+G41EDDt5rqMYGxKgW0Y09JtPJdx7/J9VO0AzZVETuWcVZmLyP4ipgWj5QJn0G5I84KexMylklmuz9CRacRIyEwqNnyrrmnZ/JKzF/hRAzJJluXuxLDoNYmNYbrU4nNXrg/Y+em0P+vkBUY14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCFaJDWn; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=JQjLnj5WP5USCfD9c9aSMzvaVpRPzw36dswYWPbuwBXVFgn1oa7P4kXB+fzGAZGLR5DP6x8VSGyuTp1BG7z7u0pHKpm6stPYiikcG1gNCeiL3QDiAlP+3Yqtol7qbP52Om8VidO1O7ny1S1j2gejP2hThtxKz9NnH258mebqFy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlgd9ff4; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCFaJDWn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlgd9ff4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730013210; x=1761549210;
+  t=1730018761; x=1761554761;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sZ4gy50Q9DsjPJnU11Y85sy8n9cbYF2y5SOkrCsMueg=;
-  b=iCFaJDWnx+zaPT0e85B2TwHX+upFJXUfgBMnrnqymg+NuZz7dfm/lsUD
-   BPRoZPgx06IADybdXFpWwtYfskWx7e9soq8xnH3D5TZ4yzMnsSQa9e4Gz
-   bmYKHL1vezY7MKfrIpX1OtfdnBx6tkHJqpQPJPF63vapoMGka5r1xcHMo
-   077x3FPreO8Ak6i6QaHXCMxwm7eA9ACDt8Qv8cOpIQgaHpab5Xcy7C2TI
-   XrfXRW5zCrSlpcHuyDD5sC8litNGwVXotppGeIFsotVGEJpCqFozVAhAz
-   bfq53YKIQOBCL8aH3bNVMul4wMU4tO5FiN+PeBbWPhVyYM5+GEITH3wzL
+  bh=U+WHa4DVg5dSq65cRJM86sCyNXZIxEDMLor73yANo74=;
+  b=dlgd9ff4VRhC3nYMSrKgFrJTc6ApWfvwQrXSllvcBaWl4nItAviwFKpe
+   gN2wECwHT8B3JcqFiOnt42l5kiRw8B0wtuydppADLFhtJEzh++a9mqvU/
+   nnFI01he31S+2kFHo5k/ilHpseZ4Fr7UxvGu8J3J9f2TRaOCG140obqEg
+   j8KG57SYNoI9mn7fB0Qe6UgAxXi2bh+OiUYWDnIsrr0ZGQG/PFtmevudk
+   TDImNvCKEA1UAcIYlDEWTRJeSCqeprnF6Unnnv7LZzF77bFFkbqqGRv8C
+   lbSjFgaH1lZUMZPc/CJCidOiVczGHTA1a3j08QfApI34DcNNwbux2DiqP
    A==;
-X-CSE-ConnectionGUID: cWBdXebrRl2fxvzR5qKd0Q==
-X-CSE-MsgGUID: YYfkYpuuQLG0RKLqIfEDhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="55042624"
-X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="55042624"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 00:13:30 -0700
-X-CSE-ConnectionGUID: Qz8+0BmKQGiv5MztJlkrHA==
-X-CSE-MsgGUID: vbdbdF5dTqG2cMpahFsTQg==
+X-CSE-ConnectionGUID: iNLkNi3yS4yYrozRYD6gKQ==
+X-CSE-MsgGUID: muRJzdyATLqs2+YtI2bWGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47096893"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="47096893"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 01:46:01 -0700
+X-CSE-ConnectionGUID: d2N6VNJpRZOGWzhHVdMzPA==
+X-CSE-MsgGUID: 0Vs8DIuuQRCFsMCe4lV/8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="81471036"
+   d="scan'208";a="81443747"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Oct 2024 00:13:29 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 27 Oct 2024 01:46:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4xSo-000aT6-0J;
-	Sun, 27 Oct 2024 07:13:26 +0000
-Date: Sun, 27 Oct 2024 15:13:18 +0800
+	id 1t4yuL-000aYJ-1U;
+	Sun, 27 Oct 2024 08:45:57 +0000
+Date: Sun, 27 Oct 2024 16:45:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v1: vfio: avoid unnecessary pin memory when dma map io
- address space 2/2]  vfio: avoid unnecessary pin memory when dma map io
- address space
-Message-ID: <202410271506.dI0NxVtb-lkp@intel.com>
+Subject: Re: [PATCH v2 3/3] drm/panel: add LXD M9189A panel driver
+Message-ID: <202410271613.ZF6z2wGh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,134 +63,100 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan@linux.alibaba.com>
-References: <15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan@linux.alibaba.com>
-TO: Qinyun Tan <qinyuntan@linux.alibaba.com>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alex Williamson <alex.williamson@redhat.com>
-CC: kvm@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: Qinyun Tan <qinyuntan@linux.alibaba.com>
-CC: Guanghui Feng <guanghuifeng@linux.alibaba.com>
-CC: Xunlei Pang <xlpang@linux.alibaba.com>
+In-Reply-To: <20241025141130.3179166-3-r.czerwinski@pengutronix.de>
+References: <20241025141130.3179166-3-r.czerwinski@pengutronix.de>
+TO: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+TO: Jessica Zhang <quic_jesszhan@quicinc.com>
+TO: Sam Ravnborg <sam@ravnborg.org>
+TO: linux-kernel@vger.kernel.org
+TO: dri-devel@lists.freedesktop.org
+CC: kernel@pengutronix.de
+CC: Rouven Czerwinski <r.czerwinski@pengutronix.de>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: David Airlie <airlied@gmail.com>
+CC: Daniel Vetter <daniel@ffwll.ch>
 
-Hi Qinyun,
+Hi Rouven,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on awilliam-vfio/next]
-[also build test WARNING on akpm-mm/mm-everything awilliam-vfio/for-linus linus/master v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c2ee9f594da826bea183ed14f2cc029c719bf4da]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Qinyun-Tan/vfio-avoid-unnecessary-pin-memory-when-dma-map-io-address-space/20241024-183456
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan%40linux.alibaba.com
-patch subject: [PATCH v1: vfio: avoid unnecessary pin memory when dma map io address space 2/2]  vfio: avoid unnecessary pin memory when dma map io address space
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-141-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271506.dI0NxVtb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Rouven-Czerwinski/dt-bindings-display-panel-add-YAML-schema-for-LXD-M9189A/20241025-221252
+base:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+patch link:    https://lore.kernel.org/r/20241025141130.3179166-3-r.czerwinski%40pengutronix.de
+patch subject: [PATCH v2 3/3] drm/panel: add LXD M9189A panel driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-r071-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271613.ZF6z2wGh-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410271506.dI0NxVtb-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410271613.ZF6z2wGh-lkp@intel.com/
 
-New smatch warnings:
-drivers/vfio/vfio_iommu_type1.c:1482 vfio_pin_map_dma() warn: bitwise AND condition is false here
+smatch warnings:
+drivers/gpu/drm/panel/panel-lxd-m9189a.c:173 lxd_m9189_probe() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/vfio/vfio_iommu_type1.c:2371 vfio_iommu_type1_attach_group() warn: '&group->next' not removed from list
+vim +/ret +173 drivers/gpu/drm/panel/panel-lxd-m9189a.c
 
-vim +1482 drivers/vfio/vfio_iommu_type1.c
-
-73fa0d10d077d9 Alex Williamson 2012-07-31  1444  
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1445  static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
-19cc190329de5e Qinyun Tan      2024-10-24  1446  			    size_t map_size, unsigned int map_flags)
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1447  {
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1448  	dma_addr_t iova = dma->iova;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1449  	unsigned long vaddr = dma->vaddr;
-4b6c33b3229678 Daniel Jordan   2021-02-19  1450  	struct vfio_batch batch;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1451  	size_t size = map_size;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1452  	long npage;
-7cb671e7a34d73 Alex Williamson 2017-04-17  1453  	unsigned long pfn, limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1454  	int ret = 0;
-19cc190329de5e Qinyun Tan      2024-10-24  1455  	struct mm_struct *mm = current->mm;
-19cc190329de5e Qinyun Tan      2024-10-24  1456  	bool mmio_dont_pin = map_flags & VFIO_DMA_MAP_FLAG_MMIO_DONT_PIN;
-19cc190329de5e Qinyun Tan      2024-10-24  1457  
-19cc190329de5e Qinyun Tan      2024-10-24  1458  	/* This code path is only user initiated */
-19cc190329de5e Qinyun Tan      2024-10-24  1459  	if (!mm) {
-19cc190329de5e Qinyun Tan      2024-10-24  1460  		ret = -ENODEV;
-19cc190329de5e Qinyun Tan      2024-10-24  1461  		goto out;
-19cc190329de5e Qinyun Tan      2024-10-24  1462  	}
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1463  
-4b6c33b3229678 Daniel Jordan   2021-02-19  1464  	vfio_batch_init(&batch);
-4b6c33b3229678 Daniel Jordan   2021-02-19  1465  
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1466  	while (size) {
-19cc190329de5e Qinyun Tan      2024-10-24  1467  		struct vm_area_struct *vma;
-19cc190329de5e Qinyun Tan      2024-10-24  1468  		unsigned long start = vaddr + dma->size;
-19cc190329de5e Qinyun Tan      2024-10-24  1469  		bool do_pin_pages = true;
-19cc190329de5e Qinyun Tan      2024-10-24  1470  
-19cc190329de5e Qinyun Tan      2024-10-24  1471  		if (mmio_dont_pin) {
-19cc190329de5e Qinyun Tan      2024-10-24  1472  			mmap_read_lock(mm);
-19cc190329de5e Qinyun Tan      2024-10-24  1473  
-19cc190329de5e Qinyun Tan      2024-10-24  1474  			vma = find_vma_intersection(mm, start, start+1);
-19cc190329de5e Qinyun Tan      2024-10-24  1475  
-19cc190329de5e Qinyun Tan      2024-10-24  1476  			/*
-19cc190329de5e Qinyun Tan      2024-10-24  1477  			 * If this dma address rang belongs to the IO address space with VMA flags
-19cc190329de5e Qinyun Tan      2024-10-24  1478  			 * VM_IO | VM_PFNMAP | VM_PGOFF_IS_PFN, it doesn't need to be pinned.
-19cc190329de5e Qinyun Tan      2024-10-24  1479  			 * Simply skip the pin operation to avoid unnecessary overhead.
-19cc190329de5e Qinyun Tan      2024-10-24  1480  			 */
-19cc190329de5e Qinyun Tan      2024-10-24  1481  			if (vma && (vma->vm_flags & VM_PFNMAP) && (vma->vm_flags & VM_IO)
-19cc190329de5e Qinyun Tan      2024-10-24 @1482  							&& (vma->vm_flags & VM_PGOFF_IS_PFN)) {
-19cc190329de5e Qinyun Tan      2024-10-24  1483  				pfn = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
-19cc190329de5e Qinyun Tan      2024-10-24  1484  				npage = min_t(long, (vma->vm_end - start), size) >> PAGE_SHIFT;
-19cc190329de5e Qinyun Tan      2024-10-24  1485  				do_pin_pages = false;
-19cc190329de5e Qinyun Tan      2024-10-24  1486  			}
-19cc190329de5e Qinyun Tan      2024-10-24  1487  			mmap_read_unlock(mm);
-19cc190329de5e Qinyun Tan      2024-10-24  1488  		}
-19cc190329de5e Qinyun Tan      2024-10-24  1489  
-19cc190329de5e Qinyun Tan      2024-10-24  1490  		if (do_pin_pages) {
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1491  			/* Pin a contiguous chunk of memory */
-19cc190329de5e Qinyun Tan      2024-10-24  1492  			npage = vfio_pin_pages_remote(dma, start, size >> PAGE_SHIFT, &pfn,
-19cc190329de5e Qinyun Tan      2024-10-24  1493  							limit, &batch);
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1494  			if (npage <= 0) {
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1495  				WARN_ON(!npage);
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1496  				ret = (int)npage;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1497  				break;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1498  			}
-19cc190329de5e Qinyun Tan      2024-10-24  1499  		}
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1500  
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1501  		/* Map it! */
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1502  		ret = vfio_iommu_map(iommu, iova + dma->size, pfn, npage,
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1503  				     dma->prot);
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1504  		if (ret) {
-19cc190329de5e Qinyun Tan      2024-10-24  1505  			if (do_pin_pages) {
-a54eb55045ae9b Kirti Wankhede  2016-11-17  1506  				vfio_unpin_pages_remote(dma, iova + dma->size, pfn,
-a54eb55045ae9b Kirti Wankhede  2016-11-17  1507  							npage, true);
-4d83de6da265cd Daniel Jordan   2021-02-19  1508  				vfio_batch_unpin(&batch, dma);
-19cc190329de5e Qinyun Tan      2024-10-24  1509  			}
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1510  			break;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1511  		}
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1512  
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1513  		size -= npage << PAGE_SHIFT;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1514  		dma->size += npage << PAGE_SHIFT;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1515  	}
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1516  
-4b6c33b3229678 Daniel Jordan   2021-02-19  1517  	vfio_batch_fini(&batch);
-a54eb55045ae9b Kirti Wankhede  2016-11-17  1518  	dma->iommu_mapped = true;
-a54eb55045ae9b Kirti Wankhede  2016-11-17  1519  
-19cc190329de5e Qinyun Tan      2024-10-24  1520  out:
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1521  	if (ret)
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1522  		vfio_remove_dma(iommu, dma);
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1523  
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1524  	return ret;
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1525  }
-8f0d5bb95f763c Kirti Wankhede  2016-11-17  1526  
+25cef47404912c Rouven Czerwinski 2024-10-25  160  
+25cef47404912c Rouven Czerwinski 2024-10-25  161  static int lxd_m9189_probe(struct mipi_dsi_device *dsi)
+25cef47404912c Rouven Czerwinski 2024-10-25  162  {
+25cef47404912c Rouven Czerwinski 2024-10-25  163  	struct device *dev = &dsi->dev;
+25cef47404912c Rouven Czerwinski 2024-10-25  164  	struct m9189_panel *m9189;
+25cef47404912c Rouven Czerwinski 2024-10-25  165  	int ret;
+25cef47404912c Rouven Czerwinski 2024-10-25  166  
+25cef47404912c Rouven Czerwinski 2024-10-25  167  	m9189 = devm_kzalloc(dev, sizeof(*m9189), GFP_KERNEL);
+25cef47404912c Rouven Czerwinski 2024-10-25  168  	if (!m9189)
+25cef47404912c Rouven Czerwinski 2024-10-25  169  		return -ENOMEM;
+25cef47404912c Rouven Czerwinski 2024-10-25  170  
+25cef47404912c Rouven Czerwinski 2024-10-25  171  	m9189->supply = devm_regulator_get(dev, "vdd");
+25cef47404912c Rouven Czerwinski 2024-10-25  172  	if (IS_ERR(m9189->supply))
+25cef47404912c Rouven Czerwinski 2024-10-25 @173  		return dev_err_probe(dev, ret, "Failed to get regulator\n");
+25cef47404912c Rouven Czerwinski 2024-10-25  174  
+25cef47404912c Rouven Czerwinski 2024-10-25  175  	m9189->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+25cef47404912c Rouven Czerwinski 2024-10-25  176  	if (IS_ERR(m9189->reset_gpio))
+25cef47404912c Rouven Czerwinski 2024-10-25  177  		return dev_err_probe(dev, PTR_ERR(m9189->reset_gpio),
+25cef47404912c Rouven Czerwinski 2024-10-25  178  				     "Failed to get reset-gpios\n");
+25cef47404912c Rouven Czerwinski 2024-10-25  179  
+25cef47404912c Rouven Czerwinski 2024-10-25  180  	m9189->standby_gpio = devm_gpiod_get(dev, "standby", GPIOD_OUT_LOW);
+25cef47404912c Rouven Czerwinski 2024-10-25  181  	if (IS_ERR(m9189->standby_gpio))
+25cef47404912c Rouven Czerwinski 2024-10-25  182  		return dev_err_probe(dev, PTR_ERR(m9189->standby_gpio),
+25cef47404912c Rouven Czerwinski 2024-10-25  183  				     "Failed to get standby-gpios\n");
+25cef47404912c Rouven Czerwinski 2024-10-25  184  
+25cef47404912c Rouven Czerwinski 2024-10-25  185  	m9189->dsi = dsi;
+25cef47404912c Rouven Czerwinski 2024-10-25  186  	mipi_dsi_set_drvdata(dsi, m9189);
+25cef47404912c Rouven Czerwinski 2024-10-25  187  
+25cef47404912c Rouven Czerwinski 2024-10-25  188  	dsi->lanes = 4;
+25cef47404912c Rouven Czerwinski 2024-10-25  189  	dsi->format = MIPI_DSI_FMT_RGB888;
+25cef47404912c Rouven Czerwinski 2024-10-25  190  	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST;
+25cef47404912c Rouven Czerwinski 2024-10-25  191  
+25cef47404912c Rouven Czerwinski 2024-10-25  192  	drm_panel_init(&m9189->panel, dev, &m9189_panel_funcs,
+25cef47404912c Rouven Czerwinski 2024-10-25  193  		       DRM_MODE_CONNECTOR_DSI);
+25cef47404912c Rouven Czerwinski 2024-10-25  194  	m9189->panel.prepare_prev_first = true;
+25cef47404912c Rouven Czerwinski 2024-10-25  195  
+25cef47404912c Rouven Czerwinski 2024-10-25  196  	ret = drm_panel_of_backlight(&m9189->panel);
+25cef47404912c Rouven Czerwinski 2024-10-25  197  	if (ret)
+25cef47404912c Rouven Czerwinski 2024-10-25  198  		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+25cef47404912c Rouven Czerwinski 2024-10-25  199  
+25cef47404912c Rouven Czerwinski 2024-10-25  200  	drm_panel_add(&m9189->panel);
+25cef47404912c Rouven Czerwinski 2024-10-25  201  
+25cef47404912c Rouven Czerwinski 2024-10-25  202  	ret = mipi_dsi_attach(dsi);
+25cef47404912c Rouven Czerwinski 2024-10-25  203  	if (ret < 0) {
+25cef47404912c Rouven Czerwinski 2024-10-25  204  		dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
+25cef47404912c Rouven Czerwinski 2024-10-25  205  		drm_panel_remove(&m9189->panel);
+25cef47404912c Rouven Czerwinski 2024-10-25  206  		return ret;
+25cef47404912c Rouven Czerwinski 2024-10-25  207  	}
+25cef47404912c Rouven Czerwinski 2024-10-25  208  
+25cef47404912c Rouven Czerwinski 2024-10-25  209  	return 0;
+25cef47404912c Rouven Czerwinski 2024-10-25  210  }
+25cef47404912c Rouven Czerwinski 2024-10-25  211  
 
 -- 
 0-DAY CI Kernel Test Service
