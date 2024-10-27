@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097638460
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 06:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF90F9E6
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 07:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730010197; cv=none; b=HvW5dgGyTXgHcWDS/wr0AyYAva4rWcBsDiK9LS6tzlpa60iz4hrvyxNn//+pxqONvah4A1A71WLiKQoqMjhZsQdivL4sjC0V8yR4K7YZo87VnFACvFRvmD9a6hA/RE3Y2RZC5LZ7UWhFMZwESgDRcHkiL/OjHJILWMEtv8OdNEU=
+	t=1730013213; cv=none; b=iUwP4MJJE7OJ/GKL6mEpD6LnSjkJxvIXiOjdiVsrDgNO6PivgD23uAYLWy5GVbsJASSvwN2hckFyseGDVKhsKQ6E2AYryerD73eY0vIAj88N3kEKJBDK5zEcCf+B9U1TnjCMqarOmcq6CjuuBdh6BpgIijMBrLpVOu8GJyQA+UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730010197; c=relaxed/simple;
-	bh=jEt52zMFtMSH/an8uozcQoY7NqyuhjcnDEFpT651+D4=;
+	s=arc-20240116; t=1730013213; c=relaxed/simple;
+	bh=sZ4gy50Q9DsjPJnU11Y85sy8n9cbYF2y5SOkrCsMueg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=arEZ9Zhjdpl+jxyllBmck/vnpfTf2ADCsr0eQYsRyi+2HL9/jhdu9q3ARM4mJzgqvQlxNoblLSIY/pSWDR9GIlBxHbVmyv4CBH/cpbQRw1wZvS4QNDw7Oqfti7xVIxZpxEnR7W0d6vWuRveO6NmzuXB0PiecS0bseebM8vkNriU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iUif4xhF; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=U9wC+vFT5w96wDIwht/CHgeXvH+G41EDDt5rqMYGxKgW0Y09JtPJdx7/J9VO0AzZVETuWcVZmLyP4ipgWj5QJn0G5I84KexMylklmuz9CRacRIyEwqNnyrrmnZ/JKzF/hRAzJJluXuxLDoNYmNYbrU4nNXrg/Y+em0P+vkBUY14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCFaJDWn; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iUif4xhF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCFaJDWn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730010194; x=1761546194;
+  t=1730013210; x=1761549210;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jEt52zMFtMSH/an8uozcQoY7NqyuhjcnDEFpT651+D4=;
-  b=iUif4xhFqdcG9ajNvgIhQAIXoNt1bszUAbci5KF3X+BcISh59KVSFY7z
-   39PA59BB/XMu9yyYAjjqFiBRsavRh7ULgeeLgHbeZ27MJzGERYdV8kCWy
-   NJLE3tmty5CSkZP+ffuaZcV1yKkXFk1rNJlUnPHEo02caovMYRbje2ez4
-   EQIkAZLSzdtOeGLBg0GCo48SDjxRLSP4DWqvu37LBHvqA4DoxLdZBNVgI
-   2PpIaHLUE2fYB8qaMsLbKuou8yAPnPRS7r/vM3X+aXULx3TeIjbxQBoGH
-   oH+P0+sAkmmqCehbEJ1R0vdWE8jXL4Vr0WJk0sSYnsCDutoVVXhMp4Sym
-   Q==;
-X-CSE-ConnectionGUID: Sx5JUxo3Rxq3MNtWfHgCDQ==
-X-CSE-MsgGUID: ucBbT8+GT1WcGo6QRATP6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="29846727"
+  bh=sZ4gy50Q9DsjPJnU11Y85sy8n9cbYF2y5SOkrCsMueg=;
+  b=iCFaJDWnx+zaPT0e85B2TwHX+upFJXUfgBMnrnqymg+NuZz7dfm/lsUD
+   BPRoZPgx06IADybdXFpWwtYfskWx7e9soq8xnH3D5TZ4yzMnsSQa9e4Gz
+   bmYKHL1vezY7MKfrIpX1OtfdnBx6tkHJqpQPJPF63vapoMGka5r1xcHMo
+   077x3FPreO8Ak6i6QaHXCMxwm7eA9ACDt8Qv8cOpIQgaHpab5Xcy7C2TI
+   XrfXRW5zCrSlpcHuyDD5sC8litNGwVXotppGeIFsotVGEJpCqFozVAhAz
+   bfq53YKIQOBCL8aH3bNVMul4wMU4tO5FiN+PeBbWPhVyYM5+GEITH3wzL
+   A==;
+X-CSE-ConnectionGUID: cWBdXebrRl2fxvzR5qKd0Q==
+X-CSE-MsgGUID: YYfkYpuuQLG0RKLqIfEDhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="55042624"
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="29846727"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 23:23:13 -0700
-X-CSE-ConnectionGUID: W2kIAjTQTgCaSdMrqAX+6Q==
-X-CSE-MsgGUID: oD4QDb3OSS2Kl0uk22yg0g==
+   d="scan'208";a="55042624"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 00:13:30 -0700
+X-CSE-ConnectionGUID: Qz8+0BmKQGiv5MztJlkrHA==
+X-CSE-MsgGUID: vbdbdF5dTqG2cMpahFsTQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="82129728"
+   d="scan'208";a="81471036"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2024 23:23:12 -0700
+  by orviesa006.jf.intel.com with ESMTP; 27 Oct 2024 00:13:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4wg9-000aQq-1y;
-	Sun, 27 Oct 2024 06:23:09 +0000
-Date: Sun, 27 Oct 2024 14:22:24 +0800
+	id 1t4xSo-000aT6-0J;
+	Sun, 27 Oct 2024 07:13:26 +0000
+Date: Sun, 27 Oct 2024 15:13:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] pinctrl: mediatek: add eint new design for mt8196
-Message-ID: <202410271443.Oun7sJxS-lkp@intel.com>
+Subject: Re: [PATCH v1: vfio: avoid unnecessary pin memory when dma map io
+ address space 2/2]  vfio: avoid unnecessary pin memory when dma map io
+ address space
+Message-ID: <202410271506.dI0NxVtb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,262 +65,134 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241025031814.21442-1-ot_chhao.chang@mediatek.com>
-References: <20241025031814.21442-1-ot_chhao.chang@mediatek.com>
-TO: chang hao <ot_chhao.chang@mediatek.com>
-TO: matthias.bgg@gmail.com
-TO: angelogioacchino.delregno@collabora.com
-TO: sean.wang@kernel.org
-TO: linus.walleij@linaro.org
-CC: linux-mediatek@lists.infradead.org
-CC: linux-gpio@vger.kernel.org
+In-Reply-To: <15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan@linux.alibaba.com>
+References: <15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan@linux.alibaba.com>
+TO: Qinyun Tan <qinyuntan@linux.alibaba.com>
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alex Williamson <alex.williamson@redhat.com>
+CC: kvm@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: Chhao Chang <ot_chhao.chang@mediatek.com>
+CC: Qinyun Tan <qinyuntan@linux.alibaba.com>
+CC: Guanghui Feng <guanghuifeng@linux.alibaba.com>
+CC: Xunlei Pang <xlpang@linux.alibaba.com>
 
-Hi chang,
+Hi Qinyun,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next linus/master v6.12-rc4 next-20241025]
+[auto build test WARNING on awilliam-vfio/next]
+[also build test WARNING on akpm-mm/mm-everything awilliam-vfio/for-linus linus/master v6.12-rc4 next-20241025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/chang-hao/pinctrl-mediatek-add-eint-new-design-for-mt8196/20241025-111952
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241025031814.21442-1-ot_chhao.chang%40mediatek.com
-patch subject: [PATCH] pinctrl: mediatek: add eint new design for mt8196
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm-randconfig-r071-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271443.Oun7sJxS-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+url:    https://github.com/intel-lab-lkp/linux/commits/Qinyun-Tan/vfio-avoid-unnecessary-pin-memory-when-dma-map-io-address-space/20241024-183456
+base:   https://github.com/awilliam/linux-vfio.git next
+patch link:    https://lore.kernel.org/r/15b38c90ef1eb0825b7492d633d46d901e428f7d.1729760996.git.qinyuntan%40linux.alibaba.com
+patch subject: [PATCH v1: vfio: avoid unnecessary pin memory when dma map io address space 2/2]  vfio: avoid unnecessary pin memory when dma map io address space
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-141-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271506.dI0NxVtb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410271443.Oun7sJxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410271506.dI0NxVtb-lkp@intel.com/
 
-smatch warnings:
-drivers/pinctrl/mediatek/mtk-eint.c:116 mtk_eint_get_stat() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:117 mtk_eint_get_mask() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:118 mtk_eint_get_sens() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:119 mtk_eint_get_pol() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:120 mtk_eint_get_dom_en() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:121 mtk_eint_get_event() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:122 mtk_eint_get_raw_stat() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:154 mtk_eint_can_en_debounce() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:219 mtk_eint_mask() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:239 mtk_eint_unmask() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:268 mtk_eint_ack() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:286 mtk_eint_soft_set() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:304 mtk_eint_soft_clr() error: uninitialized symbol 'index'.
-drivers/pinctrl/mediatek/mtk-eint.c:344 mtk_eint_set_type() error: uninitialized symbol 'index'.
+New smatch warnings:
+drivers/vfio/vfio_iommu_type1.c:1482 vfio_pin_map_dma() warn: bitwise AND condition is false here
 
-vim +/index +116 drivers/pinctrl/mediatek/mtk-eint.c
+Old smatch warnings:
+drivers/vfio/vfio_iommu_type1.c:2371 vfio_iommu_type1_attach_group() warn: '&group->next' not removed from list
 
-ecd65c2fde9b3e Chhao Chang     2024-10-25  115  
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @116  DEFINE_EINT_GET_FUNCTION(stat, eint->comp->regs->stat);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @117  DEFINE_EINT_GET_FUNCTION(mask, eint->comp->regs->mask);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @118  DEFINE_EINT_GET_FUNCTION(sens, eint->comp->regs->sens);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @119  DEFINE_EINT_GET_FUNCTION(pol, eint->comp->regs->pol);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @120  DEFINE_EINT_GET_FUNCTION(dom_en, eint->comp->regs->dom_en);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @121  DEFINE_EINT_GET_FUNCTION(event, eint->comp->regs->event);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @122  DEFINE_EINT_GET_FUNCTION(raw_stat, eint->comp->regs->raw_stat);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  123  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  124  int dump_eint_pin_status(unsigned int eint_num)
-ecd65c2fde9b3e Chhao Chang     2024-10-25  125  {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  126         unsigned int stat, raw_stat, mask, sens, pol, dom_en, event;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  127  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  128         if (eint_num < 0 || eint_num > global_eintc->total_pin_number)
-ecd65c2fde9b3e Chhao Chang     2024-10-25  129                 return ENODEV;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  130  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  131         stat = mtk_eint_get_stat(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  132         raw_stat = mtk_eint_get_raw_stat(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  133         mask = mtk_eint_get_mask(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  134         sens = mtk_eint_get_sens(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  135         pol = mtk_eint_get_pol(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  136         dom_en = mtk_eint_get_dom_en(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  137         event = mtk_eint_get_event(global_eintc, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  138         dev_info(global_eintc->dev, "%s eint_num:%u=stat:%u,raw:%u, \
-ecd65c2fde9b3e Chhao Chang     2024-10-25  139  		       mask:%u, sens:%u,pol:%u,dom_en:%u,event:%u\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  140  		       __func__, eint_num, stat, raw_stat, mask, sens,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  141  		       pol, dom_en, event);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  142         return 0;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  143  }
-ecd65c2fde9b3e Chhao Chang     2024-10-25  144  EXPORT_SYMBOL_GPL(dump_eint_pin_status);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  145  
-e46df235b4e605 Sean Wang       2018-05-21  146  static unsigned int mtk_eint_can_en_debounce(struct mtk_eint *eint,
-e46df235b4e605 Sean Wang       2018-05-21  147  					     unsigned int eint_num)
-e46df235b4e605 Sean Wang       2018-05-21  148  {
-e46df235b4e605 Sean Wang       2018-05-21  149  	unsigned int sens;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  150  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  151  	void __iomem *reg = mtk_eint_get_ofset(eint, eint_num,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  152  						eint->comp->regs->sens,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  153  						&instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @154  	unsigned int bit = BIT(index & 0x1f);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  155  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  156  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  157  		dev_err(eint->dev, "%s invalid eint_num %d\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  158  			__func__, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  159  		return 0;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  160  	}
-e46df235b4e605 Sean Wang       2018-05-21  161  
-e46df235b4e605 Sean Wang       2018-05-21  162  	if (readl(reg) & bit)
-e46df235b4e605 Sean Wang       2018-05-21  163  		sens = MTK_EINT_LEVEL_SENSITIVE;
-e46df235b4e605 Sean Wang       2018-05-21  164  	else
-e46df235b4e605 Sean Wang       2018-05-21  165  		sens = MTK_EINT_EDGE_SENSITIVE;
-e46df235b4e605 Sean Wang       2018-05-21  166  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  167  	if (eint->pins[eint_num].debounce &&
-ecd65c2fde9b3e Chhao Chang     2024-10-25  168  	    sens != MTK_EINT_EDGE_SENSITIVE)
-e46df235b4e605 Sean Wang       2018-05-21  169  		return 1;
-e46df235b4e605 Sean Wang       2018-05-21  170  	else
-e46df235b4e605 Sean Wang       2018-05-21  171  		return 0;
-e46df235b4e605 Sean Wang       2018-05-21  172  }
-e46df235b4e605 Sean Wang       2018-05-21  173  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  174  static int mtk_eint_flip_edge(struct mtk_eint *eint, int eint_num)
-e46df235b4e605 Sean Wang       2018-05-21  175  {
-e46df235b4e605 Sean Wang       2018-05-21  176  	int start_level, curr_level;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  177  	unsigned int reg_ofset;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  178  	unsigned int instance, index, mask, port;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  179  	void __iomem *reg;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  180  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  181  	reg = mtk_eint_get_ofset(eint, eint_num, MTK_EINT_NO_OFSET,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  182  				  &instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  183  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  184  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  185  		dev_err(eint->dev, "%s invalid eint_num %d\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  186  			__func__, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  187  		return 0;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  188  	}
-ecd65c2fde9b3e Chhao Chang     2024-10-25  189  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  190  	mask = BIT(index & 0x1f);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  191  	port = index >> REG_GROUP;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  192  	reg = eint->instances[instance].base + port * REG_OFSET;
-e46df235b4e605 Sean Wang       2018-05-21  193  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  194  	curr_level = eint->gpio_xlate->get_gpio_state(eint->pctl, eint_num);
-e46df235b4e605 Sean Wang       2018-05-21  195  
-e46df235b4e605 Sean Wang       2018-05-21  196  	do {
-e46df235b4e605 Sean Wang       2018-05-21  197  		start_level = curr_level;
-e46df235b4e605 Sean Wang       2018-05-21  198  		if (start_level)
-ecd65c2fde9b3e Chhao Chang     2024-10-25  199  			reg_ofset = eint->comp->regs->pol_clr;
-e46df235b4e605 Sean Wang       2018-05-21  200  		else
-ecd65c2fde9b3e Chhao Chang     2024-10-25  201  			reg_ofset = eint->comp->regs->pol_set;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  202  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  203  		writel(mask, reg + reg_ofset);
-e46df235b4e605 Sean Wang       2018-05-21  204  
-e46df235b4e605 Sean Wang       2018-05-21  205  		curr_level = eint->gpio_xlate->get_gpio_state(eint->pctl,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  206  							      eint_num);
-e46df235b4e605 Sean Wang       2018-05-21  207  	} while (start_level != curr_level);
-e46df235b4e605 Sean Wang       2018-05-21  208  
-e46df235b4e605 Sean Wang       2018-05-21  209  	return start_level;
-e46df235b4e605 Sean Wang       2018-05-21  210  }
-e46df235b4e605 Sean Wang       2018-05-21  211  
-e46df235b4e605 Sean Wang       2018-05-21  212  static void mtk_eint_mask(struct irq_data *d)
-e46df235b4e605 Sean Wang       2018-05-21  213  {
-e46df235b4e605 Sean Wang       2018-05-21  214  	struct mtk_eint *eint = irq_data_get_irq_chip_data(d);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  215  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  216  	void __iomem *reg = mtk_eint_get_ofset(eint, d->hwirq,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  217  						eint->comp->regs->mask_set,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  218  						&instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @219  	u32 mask = BIT(index & 0x1f);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  220  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  221  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  222  		dev_err(eint->dev, "%s invalid eint_num %lu\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  223  			__func__, d->hwirq);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  224  		return;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  225  	}
-e46df235b4e605 Sean Wang       2018-05-21  226  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  227  	eint->instances[instance].cur_mask[index >> REG_GROUP] &= ~mask;
-9d957a959bc8c3 Nicolas Boichat 2019-06-26  228  
-e46df235b4e605 Sean Wang       2018-05-21  229  	writel(mask, reg);
-e46df235b4e605 Sean Wang       2018-05-21  230  }
-e46df235b4e605 Sean Wang       2018-05-21  231  
-e46df235b4e605 Sean Wang       2018-05-21  232  static void mtk_eint_unmask(struct irq_data *d)
-e46df235b4e605 Sean Wang       2018-05-21  233  {
-e46df235b4e605 Sean Wang       2018-05-21  234  	struct mtk_eint *eint = irq_data_get_irq_chip_data(d);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  235  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  236  	void __iomem *reg = mtk_eint_get_ofset(eint, d->hwirq,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  237  						eint->comp->regs->mask_clr,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  238  						&instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @239  	u32 mask = BIT(index & 0x1f);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  240  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  241  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  242  		dev_err(eint->dev, "%s invalid eint_num %lu\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  243  			__func__, d->hwirq);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  244  		return;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  245  	}
-e46df235b4e605 Sean Wang       2018-05-21  246  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  247  	eint->instances[instance].cur_mask[index >> REG_GROUP] |= mask;
-9d957a959bc8c3 Nicolas Boichat 2019-06-26  248  
-e46df235b4e605 Sean Wang       2018-05-21  249  	writel(mask, reg);
-e46df235b4e605 Sean Wang       2018-05-21  250  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  251  	if (eint->pins[d->hwirq].dual_edge)
-e46df235b4e605 Sean Wang       2018-05-21  252  		mtk_eint_flip_edge(eint, d->hwirq);
-e46df235b4e605 Sean Wang       2018-05-21  253  }
-e46df235b4e605 Sean Wang       2018-05-21  254  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  255  static void mtk_eint_ack(struct irq_data *d)
-ecd65c2fde9b3e Chhao Chang     2024-10-25  256  {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  257  	struct mtk_eint *eint = irq_data_get_irq_chip_data(d);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  258  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  259  	void __iomem *reg;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  260  	unsigned int bit;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  261  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  262  	if (eint->comp->ops.ack)
-ecd65c2fde9b3e Chhao Chang     2024-10-25  263  		eint->comp->ops.ack(d);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  264  	else {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  265  		reg = mtk_eint_get_ofset(eint, d->hwirq,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  266  					  eint->comp->regs->ack,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  267  					  &instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @268  		bit = BIT(index & 0x1f);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  269  		if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  270  			dev_err(eint->dev, "%s invalid eint_num %lu\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  271  				__func__, d->hwirq);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  272  			return;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  273  		}
-ecd65c2fde9b3e Chhao Chang     2024-10-25  274  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  275  		writel(bit, reg);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  276  	}
-ecd65c2fde9b3e Chhao Chang     2024-10-25  277  }
-ecd65c2fde9b3e Chhao Chang     2024-10-25  278  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  279  static void mtk_eint_soft_set(struct mtk_eint *eint,
-e46df235b4e605 Sean Wang       2018-05-21  280  				      unsigned int eint_num)
-e46df235b4e605 Sean Wang       2018-05-21  281  {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  282  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  283  	void __iomem *reg = mtk_eint_get_ofset(eint, eint_num,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  284  						eint->comp->regs->soft_set,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  285  						&instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @286  	unsigned int bit = BIT(index & 0x1f);
-e46df235b4e605 Sean Wang       2018-05-21  287  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  288  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  289  		dev_err(eint->dev, "%s invalid eint_num %d\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  290  			__func__, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  291  		return;
-e46df235b4e605 Sean Wang       2018-05-21  292  	}
-e46df235b4e605 Sean Wang       2018-05-21  293  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  294  	writel(bit, reg);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  295  }
-ecd65c2fde9b3e Chhao Chang     2024-10-25  296  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  297  static void mtk_eint_soft_clr(struct mtk_eint *eint,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  298  				      unsigned int eint_num)
-e46df235b4e605 Sean Wang       2018-05-21  299  {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  300  	unsigned int instance, index;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  301  	void __iomem *reg = mtk_eint_get_ofset(eint, eint_num,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  302  						eint->comp->regs->soft_clr,
-ecd65c2fde9b3e Chhao Chang     2024-10-25  303  						&instance, &index);
-ecd65c2fde9b3e Chhao Chang     2024-10-25 @304  	unsigned int bit = BIT(index & 0x1f);
-e46df235b4e605 Sean Wang       2018-05-21  305  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  306  	if (!reg) {
-ecd65c2fde9b3e Chhao Chang     2024-10-25  307  		dev_err(eint->dev, "%s invalid eint_num %d\n",
-ecd65c2fde9b3e Chhao Chang     2024-10-25  308  			__func__, eint_num);
-ecd65c2fde9b3e Chhao Chang     2024-10-25  309  		return;
-ecd65c2fde9b3e Chhao Chang     2024-10-25  310  	}
-ecd65c2fde9b3e Chhao Chang     2024-10-25  311  
-ecd65c2fde9b3e Chhao Chang     2024-10-25  312  	writel(bit, reg);
-e46df235b4e605 Sean Wang       2018-05-21  313  }
-e46df235b4e605 Sean Wang       2018-05-21  314  
+vim +1482 drivers/vfio/vfio_iommu_type1.c
+
+73fa0d10d077d9 Alex Williamson 2012-07-31  1444  
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1445  static int vfio_pin_map_dma(struct vfio_iommu *iommu, struct vfio_dma *dma,
+19cc190329de5e Qinyun Tan      2024-10-24  1446  			    size_t map_size, unsigned int map_flags)
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1447  {
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1448  	dma_addr_t iova = dma->iova;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1449  	unsigned long vaddr = dma->vaddr;
+4b6c33b3229678 Daniel Jordan   2021-02-19  1450  	struct vfio_batch batch;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1451  	size_t size = map_size;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1452  	long npage;
+7cb671e7a34d73 Alex Williamson 2017-04-17  1453  	unsigned long pfn, limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1454  	int ret = 0;
+19cc190329de5e Qinyun Tan      2024-10-24  1455  	struct mm_struct *mm = current->mm;
+19cc190329de5e Qinyun Tan      2024-10-24  1456  	bool mmio_dont_pin = map_flags & VFIO_DMA_MAP_FLAG_MMIO_DONT_PIN;
+19cc190329de5e Qinyun Tan      2024-10-24  1457  
+19cc190329de5e Qinyun Tan      2024-10-24  1458  	/* This code path is only user initiated */
+19cc190329de5e Qinyun Tan      2024-10-24  1459  	if (!mm) {
+19cc190329de5e Qinyun Tan      2024-10-24  1460  		ret = -ENODEV;
+19cc190329de5e Qinyun Tan      2024-10-24  1461  		goto out;
+19cc190329de5e Qinyun Tan      2024-10-24  1462  	}
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1463  
+4b6c33b3229678 Daniel Jordan   2021-02-19  1464  	vfio_batch_init(&batch);
+4b6c33b3229678 Daniel Jordan   2021-02-19  1465  
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1466  	while (size) {
+19cc190329de5e Qinyun Tan      2024-10-24  1467  		struct vm_area_struct *vma;
+19cc190329de5e Qinyun Tan      2024-10-24  1468  		unsigned long start = vaddr + dma->size;
+19cc190329de5e Qinyun Tan      2024-10-24  1469  		bool do_pin_pages = true;
+19cc190329de5e Qinyun Tan      2024-10-24  1470  
+19cc190329de5e Qinyun Tan      2024-10-24  1471  		if (mmio_dont_pin) {
+19cc190329de5e Qinyun Tan      2024-10-24  1472  			mmap_read_lock(mm);
+19cc190329de5e Qinyun Tan      2024-10-24  1473  
+19cc190329de5e Qinyun Tan      2024-10-24  1474  			vma = find_vma_intersection(mm, start, start+1);
+19cc190329de5e Qinyun Tan      2024-10-24  1475  
+19cc190329de5e Qinyun Tan      2024-10-24  1476  			/*
+19cc190329de5e Qinyun Tan      2024-10-24  1477  			 * If this dma address rang belongs to the IO address space with VMA flags
+19cc190329de5e Qinyun Tan      2024-10-24  1478  			 * VM_IO | VM_PFNMAP | VM_PGOFF_IS_PFN, it doesn't need to be pinned.
+19cc190329de5e Qinyun Tan      2024-10-24  1479  			 * Simply skip the pin operation to avoid unnecessary overhead.
+19cc190329de5e Qinyun Tan      2024-10-24  1480  			 */
+19cc190329de5e Qinyun Tan      2024-10-24  1481  			if (vma && (vma->vm_flags & VM_PFNMAP) && (vma->vm_flags & VM_IO)
+19cc190329de5e Qinyun Tan      2024-10-24 @1482  							&& (vma->vm_flags & VM_PGOFF_IS_PFN)) {
+19cc190329de5e Qinyun Tan      2024-10-24  1483  				pfn = vma->vm_pgoff + ((start - vma->vm_start) >> PAGE_SHIFT);
+19cc190329de5e Qinyun Tan      2024-10-24  1484  				npage = min_t(long, (vma->vm_end - start), size) >> PAGE_SHIFT;
+19cc190329de5e Qinyun Tan      2024-10-24  1485  				do_pin_pages = false;
+19cc190329de5e Qinyun Tan      2024-10-24  1486  			}
+19cc190329de5e Qinyun Tan      2024-10-24  1487  			mmap_read_unlock(mm);
+19cc190329de5e Qinyun Tan      2024-10-24  1488  		}
+19cc190329de5e Qinyun Tan      2024-10-24  1489  
+19cc190329de5e Qinyun Tan      2024-10-24  1490  		if (do_pin_pages) {
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1491  			/* Pin a contiguous chunk of memory */
+19cc190329de5e Qinyun Tan      2024-10-24  1492  			npage = vfio_pin_pages_remote(dma, start, size >> PAGE_SHIFT, &pfn,
+19cc190329de5e Qinyun Tan      2024-10-24  1493  							limit, &batch);
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1494  			if (npage <= 0) {
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1495  				WARN_ON(!npage);
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1496  				ret = (int)npage;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1497  				break;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1498  			}
+19cc190329de5e Qinyun Tan      2024-10-24  1499  		}
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1500  
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1501  		/* Map it! */
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1502  		ret = vfio_iommu_map(iommu, iova + dma->size, pfn, npage,
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1503  				     dma->prot);
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1504  		if (ret) {
+19cc190329de5e Qinyun Tan      2024-10-24  1505  			if (do_pin_pages) {
+a54eb55045ae9b Kirti Wankhede  2016-11-17  1506  				vfio_unpin_pages_remote(dma, iova + dma->size, pfn,
+a54eb55045ae9b Kirti Wankhede  2016-11-17  1507  							npage, true);
+4d83de6da265cd Daniel Jordan   2021-02-19  1508  				vfio_batch_unpin(&batch, dma);
+19cc190329de5e Qinyun Tan      2024-10-24  1509  			}
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1510  			break;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1511  		}
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1512  
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1513  		size -= npage << PAGE_SHIFT;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1514  		dma->size += npage << PAGE_SHIFT;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1515  	}
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1516  
+4b6c33b3229678 Daniel Jordan   2021-02-19  1517  	vfio_batch_fini(&batch);
+a54eb55045ae9b Kirti Wankhede  2016-11-17  1518  	dma->iommu_mapped = true;
+a54eb55045ae9b Kirti Wankhede  2016-11-17  1519  
+19cc190329de5e Qinyun Tan      2024-10-24  1520  out:
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1521  	if (ret)
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1522  		vfio_remove_dma(iommu, dma);
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1523  
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1524  	return ret;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1525  }
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1526  
 
 -- 
 0-DAY CI Kernel Test Service
