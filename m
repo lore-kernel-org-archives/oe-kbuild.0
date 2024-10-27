@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DAC17798F
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 18:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D605538A
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 20:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730053287; cv=none; b=SKq6CBFWE5Hap9yuFYSXkbR5dE3vGWsqUag3kGsv8tKaxdMq/fkJomAvTix4n47ow2aS1OoY1N0BkqD5nuNfjpdJURELvCjXCWdU2xbEL7INHqCFm5/nWXZtGsemz6qS2XqsCSQmGlJUxpEhl+S3xpsC6wPny4nYnA56WllkIE4=
+	t=1730061459; cv=none; b=BcuzQ7BzrY450KT34c/8e1mQKBBOYB/uYjgf3HY46QEHpoePm5P9PuQbtluwjo2Mn1z1SAlhm4I/n8vDioimJXCIiZ+CxcPFaoT7Vla9Mim2Dxs9l+pZWHLaBgi+5jx4B96yKR9XjVPO+BDwY29RRSRwmRDqz8YwJ/KvouX5e5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730053287; c=relaxed/simple;
-	bh=bhDuPS5aQEBN2WfPWGIFSVjHwvbeJedLx/FL2W89BcE=;
+	s=arc-20240116; t=1730061459; c=relaxed/simple;
+	bh=HDYWqgD4Pa1xxMoMKjRKjuGjg9ZFKHtkvmw7nBl7v80=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SgRYzWfjLSoKYz7Nr823uI+rjcHvTzo6024LBg9k+MywxLYg7vWModzZsvRy/FcXEHRLCKUUo44PATcR95It7mMOE0gfmlMNMSkEQmaR33cKBUnCfIiX1DkxNJybqYwQzVIfvj9tkN20QLCMmFne22pCHuyk8wEFC9E5uFo6UOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dn6MRFgX; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=A6ak0BdiYMtrPftp4jqVV+1mWNinJ3wG++/NCemhe+F7QQaK0kPe2GM6HYozexh108SwDa5hXzSlt0B/W/IaIfJMQPnNuwSaB+aVEShe8oZCR3tifP3AQL4OyJAJoFsePQcvGNIwJr0/9HQXIhz6ai2QPDuELRbQN6Q1Sz/Uo48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoW0oOxg; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dn6MRFgX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoW0oOxg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730053284; x=1761589284;
+  t=1730061456; x=1761597456;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bhDuPS5aQEBN2WfPWGIFSVjHwvbeJedLx/FL2W89BcE=;
-  b=dn6MRFgXlLAHavMGbqFSCpDLsZW7kh57rT2DSoeVOVitvgoVQ+miQ3bD
-   8hNaocDP0j/MTm/vcOVoWENzub2kFwku6gUf7Urh1h/ne9KVkBzB5yYSL
-   HtMCf597tbbulXqFZLP80dB3iXrSoomoRbMVltZISo7hCNsQWlZCPDD1U
-   kchNgZzHPV+kEJHJp9Y9SZZKnRMlOAadgbXL3McLHYO9Qdquu+FTEeB/4
-   5k/QZUQUwfebc33CUD/7bLZFMvcIYK+MWI/4Trkd7VUGwhQuiZtiI+qX8
-   yUgOo/9xoa5upoGW1ioWVWCVARfJm5EiH59uA7AQq2O5ARJmijGmOL9JN
-   g==;
-X-CSE-ConnectionGUID: 0LclpUnfQziANtMDYPeTBA==
-X-CSE-MsgGUID: YNpVNhRfRlKk61b563rxIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="40234058"
-X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="40234058"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 11:21:21 -0700
-X-CSE-ConnectionGUID: j7rAo5csSbe5qgHUJ3AXgg==
-X-CSE-MsgGUID: I0yiGeWwR7G1M63IsTMbyA==
+  bh=HDYWqgD4Pa1xxMoMKjRKjuGjg9ZFKHtkvmw7nBl7v80=;
+  b=QoW0oOxgHokBMfjY+FeIVM6xOLdxOqqWT6SvtPFPIMhybTLf5nvPWlBK
+   LV21zx3sM3odU+TW7Sw/jUqZiPcXcTGCMMKIXDtJaCMphlm9GrYX3n0jr
+   kcfupE6GpKki7xiKyynw9emXS9qWJ/LfasI/w0iJxV3bIpmWg7M4hyfyb
+   5YKKtGz3Nz6Ji1Ri2JZNbS+0D+F+2vkilP7rVQtTaZHWPuliwHZN27tTi
+   3U7Gml7DHjxz6mbx87anPLEp6pTitoA9Vv1+XCLFkttk2yWjQHOcsq9eZ
+   3w3HhH5dAwiUA5KkZYyj3ZljeyP4ydazfUNy7Od0HbUD2idYu4bBy0lnP
+   w==;
+X-CSE-ConnectionGUID: HRI5+i2rS323hVg7I1Fr3g==
+X-CSE-MsgGUID: nQdN5o2URR2vcc/qv2T7Uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29794347"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29794347"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 13:37:36 -0700
+X-CSE-ConnectionGUID: U6MeSmarQr20c5fXkeg6Hw==
+X-CSE-MsgGUID: xWoH7U6dRPW3a8lqtWLTxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="82229932"
+   d="scan'208";a="104748991"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Oct 2024 11:21:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 13:37:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t57t7-000aty-2g;
-	Sun, 27 Oct 2024 18:21:17 +0000
-Date: Mon, 28 Oct 2024 02:20:28 +0800
+	id 1t5A0x-000ayc-2m;
+	Sun, 27 Oct 2024 20:37:31 +0000
+Date: Mon, 28 Oct 2024 04:37:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH 5/5] btrfs: add io_uring command for encoded reads
-Message-ID: <202410280225.FkBGqjhy-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/bcachefs/fsck.c:1505:12-13: WARNING opportunity for min()
+Message-ID: <202410280453.DRQjCxt8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,188 +63,199 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241022145024.1046883-6-maharmstone@fb.com>
-References: <20241022145024.1046883-6-maharmstone@fb.com>
-TO: Mark Harmstone <maharmstone@fb.com>
+CC: linux-kernel@vger.kernel.org
+TO: Kent Overstreet <kent.overstreet@linux.dev>
 
-Hi Mark,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on next-20241025]
-[cannot apply to linus/master v6.12-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-remove-pointless-addition-in-btrfs_encoded_read/20241022-225240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241022145024.1046883-6-maharmstone%40fb.com
-patch subject: [PATCH 5/5] btrfs: add io_uring command for encoded reads
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-161-20241026 (https://download.01.org/0day-ci/archive/20241028/202410280225.FkBGqjhy-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea1fda89f5b23734e10c62762990120d5ae23c43
+commit: fa8e94faeece12c20b541f647059f29867e98bc0 bcachefs: Heap allocate printbufs
+date:   1 year ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 1 year ago
+config: m68k-randconfig-r051-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280453.DRQjCxt8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410280225.FkBGqjhy-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410280453.DRQjCxt8-lkp@intel.com/
 
-New smatch warnings:
-fs/btrfs/ioctl.c:4980 btrfs_uring_encoded_read() warn: potential user controlled sizeof overflow '16 * args.iovcnt' '16 * 0-u64max'
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/fsck.c:1505:12-13: WARNING opportunity for min()
+   fs/bcachefs/fsck.c:1187:12-13: WARNING opportunity for min()
 
-Old smatch warnings:
-fs/btrfs/ioctl.c:4990 btrfs_uring_encoded_read() warn: potential user controlled sizeof overflow '16 * args.iovcnt' '16 * 0-u64max'
+vim +1505 fs/bcachefs/fsck.c
 
-vim +4980 fs/btrfs/ioctl.c
-
-dd13a57c79e014 Mark Harmstone 2024-10-22  4875  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4876  static int btrfs_uring_encoded_read(struct io_uring_cmd *cmd,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4877  				    unsigned int issue_flags)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4878  {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4879  	size_t copy_end_kernel = offsetofend(struct btrfs_ioctl_encoded_io_args,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4880  					     flags);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4881  	size_t copy_end;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4882  	struct btrfs_ioctl_encoded_io_args args = { 0 };
-dd13a57c79e014 Mark Harmstone 2024-10-22  4883  	int ret;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4884  	u64 disk_bytenr, disk_io_size;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4885  	struct file *file = cmd->file;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4886  	struct btrfs_inode *inode = BTRFS_I(file->f_inode);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4887  	struct btrfs_fs_info *fs_info = inode->root->fs_info;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4888  	struct extent_io_tree *io_tree = &inode->io_tree;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4889  	struct iovec iovstack[UIO_FASTIOV];
-dd13a57c79e014 Mark Harmstone 2024-10-22  4890  	struct iovec *iov = iovstack;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4891  	struct iov_iter iter;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4892  	loff_t pos;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4893  	struct kiocb kiocb;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4894  	struct extent_state *cached_state = NULL;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4895  	u64 start, lockend;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4896  	void __user *sqe_addr = u64_to_user_ptr(READ_ONCE(cmd->sqe->addr));
-dd13a57c79e014 Mark Harmstone 2024-10-22  4897  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4898  	if (!capable(CAP_SYS_ADMIN)) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4899  		ret = -EPERM;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4900  		goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4901  	}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4902  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4903  	if (issue_flags & IO_URING_F_COMPAT) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4904  #if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4905  		struct btrfs_ioctl_encoded_io_args_32 args32;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4906  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4907  		copy_end = offsetofend(struct btrfs_ioctl_encoded_io_args_32,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4908  				       flags);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4909  		if (copy_from_user(&args32, sqe_addr, copy_end)) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4910  			ret = -EFAULT;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4911  			goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4912  		}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4913  		args.iov = compat_ptr(args32.iov);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4914  		args.iovcnt = args32.iovcnt;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4915  		args.offset = args32.offset;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4916  		args.flags = args32.flags;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4917  #else
-dd13a57c79e014 Mark Harmstone 2024-10-22  4918  		return -ENOTTY;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4919  #endif
-dd13a57c79e014 Mark Harmstone 2024-10-22  4920  	} else {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4921  		copy_end = copy_end_kernel;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4922  		if (copy_from_user(&args, sqe_addr, copy_end)) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4923  			ret = -EFAULT;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4924  			goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4925  		}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4926  	}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4927  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4928  	if (args.flags != 0)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4929  		return -EINVAL;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4930  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4931  	ret = import_iovec(ITER_DEST, args.iov, args.iovcnt, ARRAY_SIZE(iovstack),
-dd13a57c79e014 Mark Harmstone 2024-10-22  4932  			   &iov, &iter);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4933  	if (ret < 0)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4934  		goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4935  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4936  	if (iov_iter_count(&iter) == 0) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4937  		ret = 0;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4938  		goto out_free;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4939  	}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4940  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4941  	pos = args.offset;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4942  	ret = rw_verify_area(READ, file, &pos, args.len);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4943  	if (ret < 0)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4944  		goto out_free;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4945  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4946  	init_sync_kiocb(&kiocb, file);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4947  	kiocb.ki_pos = pos;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4948  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4949  	if (issue_flags & IO_URING_F_NONBLOCK)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4950  		kiocb.ki_flags |= IOCB_NOWAIT;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4951  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4952  	start = ALIGN_DOWN(pos, fs_info->sectorsize);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4953  	lockend = start + BTRFS_MAX_UNCOMPRESSED - 1;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4954  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4955  	ret = btrfs_encoded_read(&kiocb, &iter, &args, &cached_state,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4956  				 &disk_bytenr, &disk_io_size);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4957  	if (ret < 0 && ret != -EIOCBQUEUED)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4958  		goto out_free;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4959  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4960  	file_accessed(file);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4961  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4962  	if (copy_to_user(sqe_addr + copy_end, (char *)&args + copy_end_kernel,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4963  			 sizeof(args) - copy_end_kernel)) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4964  		if (ret == -EIOCBQUEUED) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4965  			unlock_extent(io_tree, start, lockend, &cached_state);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4966  			btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4967  		}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4968  		ret = -EFAULT;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4969  		goto out_free;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4970  	}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4971  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4972  	if (ret == -EIOCBQUEUED) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4973  		u64 count;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4974  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4975  		/*
-dd13a57c79e014 Mark Harmstone 2024-10-22  4976  		 * If we've optimized things by storing the iovecs on the stack,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4977  		 * undo this.
-dd13a57c79e014 Mark Harmstone 2024-10-22  4978  		 */
-dd13a57c79e014 Mark Harmstone 2024-10-22  4979  		if (!iov) {
-dd13a57c79e014 Mark Harmstone 2024-10-22 @4980  			iov = kmalloc(sizeof(struct iovec) * args.iovcnt,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4981  				      GFP_NOFS);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4982  			if (!iov) {
-dd13a57c79e014 Mark Harmstone 2024-10-22  4983  				unlock_extent(io_tree, start, lockend,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4984  					      &cached_state);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4985  				btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4986  				ret = -ENOMEM;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4987  				goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  4988  			}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4989  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4990  			memcpy(iov, iovstack,
-dd13a57c79e014 Mark Harmstone 2024-10-22  4991  			       sizeof(struct iovec) * args.iovcnt);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4992  		}
-dd13a57c79e014 Mark Harmstone 2024-10-22  4993  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4994  		count = min_t(u64, iov_iter_count(&iter), disk_io_size);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4995  
-dd13a57c79e014 Mark Harmstone 2024-10-22  4996  		/* Match ioctl by not returning past EOF if uncompressed */
-dd13a57c79e014 Mark Harmstone 2024-10-22  4997  		if (!args.compression)
-dd13a57c79e014 Mark Harmstone 2024-10-22  4998  			count = min_t(u64, count, args.len);
-dd13a57c79e014 Mark Harmstone 2024-10-22  4999  
-dd13a57c79e014 Mark Harmstone 2024-10-22  5000  		ret = btrfs_uring_read_extent(&kiocb, &iter, start, lockend,
-dd13a57c79e014 Mark Harmstone 2024-10-22  5001  					      cached_state, disk_bytenr,
-dd13a57c79e014 Mark Harmstone 2024-10-22  5002  					      disk_io_size, count,
-dd13a57c79e014 Mark Harmstone 2024-10-22  5003  					      args.compression, iov, cmd);
-dd13a57c79e014 Mark Harmstone 2024-10-22  5004  
-dd13a57c79e014 Mark Harmstone 2024-10-22  5005  		goto out_acct;
-dd13a57c79e014 Mark Harmstone 2024-10-22  5006  	}
-dd13a57c79e014 Mark Harmstone 2024-10-22  5007  
-dd13a57c79e014 Mark Harmstone 2024-10-22  5008  out_free:
-dd13a57c79e014 Mark Harmstone 2024-10-22  5009  	kfree(iov);
-dd13a57c79e014 Mark Harmstone 2024-10-22  5010  
-dd13a57c79e014 Mark Harmstone 2024-10-22  5011  out_acct:
-dd13a57c79e014 Mark Harmstone 2024-10-22  5012  	if (ret > 0)
-dd13a57c79e014 Mark Harmstone 2024-10-22  5013  		add_rchar(current, ret);
-dd13a57c79e014 Mark Harmstone 2024-10-22  5014  	inc_syscr(current);
-dd13a57c79e014 Mark Harmstone 2024-10-22  5015  
-dd13a57c79e014 Mark Harmstone 2024-10-22  5016  	return ret;
-dd13a57c79e014 Mark Harmstone 2024-10-22  5017  }
-dd13a57c79e014 Mark Harmstone 2024-10-22  5018  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1481  
+914f2786b89232 Kent Overstreet 2021-07-14  1482  static int check_dirent(struct btree_trans *trans, struct btree_iter *iter,
+914f2786b89232 Kent Overstreet 2021-07-14  1483  			struct bch_hash_info *hash_info,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1484  			struct inode_walker *dir,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1485  			struct inode_walker *target,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1486  			struct snapshots_seen *s)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1487  {
+914f2786b89232 Kent Overstreet 2021-07-14  1488  	struct bch_fs *c = trans->c;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1489  	struct bkey_s_c k;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1490  	struct bkey_s_c_dirent d;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1491  	struct inode_walker_entry *i;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1492  	struct printbuf buf = PRINTBUF;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1493  	int ret = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1494  
+914f2786b89232 Kent Overstreet 2021-07-14  1495  	k = bch2_btree_iter_peek(iter);
+914f2786b89232 Kent Overstreet 2021-07-14  1496  	if (!k.k)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1497  		goto out;
+914f2786b89232 Kent Overstreet 2021-07-14  1498  
+914f2786b89232 Kent Overstreet 2021-07-14  1499  	ret = bkey_err(k);
+8a85b20cd757d9 Kent Overstreet 2021-04-06  1500  	if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1501  		goto err;
+914f2786b89232 Kent Overstreet 2021-07-14  1502  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1503  	ret = check_key_has_snapshot(trans, iter, k);
+fa8e94faeece12 Kent Overstreet 2022-02-25  1504  	if (ret) {
+fa8e94faeece12 Kent Overstreet 2022-02-25 @1505  		ret = ret < 0 ? ret : 0;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1506  		goto out;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1507  	}
+8a85b20cd757d9 Kent Overstreet 2021-04-06  1508  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1509  	ret = snapshots_seen_update(c, s, k.k->p);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1510  	if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1511  		goto err;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1512  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1513  	if (k.k->type == KEY_TYPE_whiteout)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1514  		goto out;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1515  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1516  	if (dir->cur_inum != k.k->p.inode) {
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1517  		ret = check_subdir_count(trans, dir);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1518  		if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1519  			goto err;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1520  	}
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1521  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1522  	ret = __walk_inode(trans, dir, k.k->p);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1523  	if (ret < 0)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1524  		goto err;
+8a85b20cd757d9 Kent Overstreet 2021-04-06  1525  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1526  	if (fsck_err_on(ret == INT_MAX, c,
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1527  			"dirent in nonexisting directory:\n%s",
+fa8e94faeece12 Kent Overstreet 2022-02-25  1528  			(printbuf_reset(&buf),
+fa8e94faeece12 Kent Overstreet 2022-02-25  1529  			 bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+fa8e94faeece12 Kent Overstreet 2022-02-25  1530  		ret = bch2_btree_delete_at(trans, iter,
+285b181ad460bb Kent Overstreet 2021-10-28  1531  				BTREE_UPDATE_INTERNAL_SNAPSHOT_NODE);
+fa8e94faeece12 Kent Overstreet 2022-02-25  1532  		goto out;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1533  	}
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1534  
+fa8e94faeece12 Kent Overstreet 2022-02-25  1535  	if (ret == INT_MAX) {
+fa8e94faeece12 Kent Overstreet 2022-02-25  1536  		ret = 0;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1537  		goto out;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1538  	}
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1539  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1540  	i = dir->d + ret;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1541  	ret = 0;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1542  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1543  	if (fsck_err_on(!S_ISDIR(i->inode.bi_mode), c,
+285b181ad460bb Kent Overstreet 2021-10-28  1544  			"dirent in non directory inode type %s:\n%s",
+285b181ad460bb Kent Overstreet 2021-10-28  1545  			bch2_d_type_str(inode_d_type(&i->inode)),
+fa8e94faeece12 Kent Overstreet 2022-02-25  1546  			(printbuf_reset(&buf),
+fa8e94faeece12 Kent Overstreet 2022-02-25  1547  			 bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
+fa8e94faeece12 Kent Overstreet 2022-02-25  1548  		ret = bch2_btree_delete_at(trans, iter, 0);
+fa8e94faeece12 Kent Overstreet 2022-02-25  1549  		goto out;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1550  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1551  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1552  	if (dir->first_this_inode)
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1553  		*hash_info = bch2_hash_info_init(c, &dir->d[0].inode);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1554  
+914f2786b89232 Kent Overstreet 2021-07-14  1555  	ret = hash_check_key(trans, bch2_dirent_hash_desc,
+914f2786b89232 Kent Overstreet 2021-07-14  1556  			     hash_info, iter, k);
+914f2786b89232 Kent Overstreet 2021-07-14  1557  	if (ret < 0)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1558  		goto err;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1559  	if (ret) {
+fa8e94faeece12 Kent Overstreet 2022-02-25  1560  		/* dirent has been deleted */
+fa8e94faeece12 Kent Overstreet 2022-02-25  1561  		ret = 0;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1562  		goto out;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1563  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1564  
+26609b619fa230 Kent Overstreet 2018-11-01  1565  	if (k.k->type != KEY_TYPE_dirent)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1566  		goto out;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1567  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1568  	d = bkey_s_c_to_dirent(k);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1569  
+4db650277d42c0 Kent Overstreet 2021-10-12  1570  	if (d.v->d_type == DT_SUBVOL) {
+4db650277d42c0 Kent Overstreet 2021-10-12  1571  		struct bch_inode_unpacked subvol_root;
+4db650277d42c0 Kent Overstreet 2021-10-12  1572  		u32 target_subvol = le32_to_cpu(d.v->d_child_subvol);
+4db650277d42c0 Kent Overstreet 2021-10-12  1573  		u32 target_snapshot;
+4db650277d42c0 Kent Overstreet 2021-10-12  1574  		u64 target_inum;
+4db650277d42c0 Kent Overstreet 2021-10-12  1575  
+4db650277d42c0 Kent Overstreet 2021-10-12  1576  		ret = __subvol_lookup(trans, target_subvol,
+4db650277d42c0 Kent Overstreet 2021-10-12  1577  				      &target_snapshot, &target_inum);
+b9e1adf57988fb Kent Overstreet 2021-03-16  1578  		if (ret && ret != -ENOENT)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1579  			goto err;
+b9e1adf57988fb Kent Overstreet 2021-03-16  1580  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1581  		if (fsck_err_on(ret, c,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1582  				"dirent points to missing subvolume %llu",
+fa8e94faeece12 Kent Overstreet 2022-02-25  1583  				le64_to_cpu(d.v->d_child_subvol))) {
+fa8e94faeece12 Kent Overstreet 2022-02-25  1584  			ret = __remove_dirent(trans, d.k->p);
+fa8e94faeece12 Kent Overstreet 2022-02-25  1585  			goto err;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1586  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1587  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1588  		ret = __lookup_inode(trans, target_inum,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1589  				   &subvol_root, &target_snapshot);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1590  		if (ret && ret != -ENOENT)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1591  			goto err;
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1592  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1593  		if (fsck_err_on(ret, c,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1594  				"subvolume %u points to missing subvolume root %llu",
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1595  				target_subvol,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1596  				target_inum)) {
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1597  			bch_err(c, "repair not implemented yet");
+fa8e94faeece12 Kent Overstreet 2022-02-25  1598  			ret = -EINVAL;
+fa8e94faeece12 Kent Overstreet 2022-02-25  1599  			goto err;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1600  		}
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1601  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1602  		if (fsck_err_on(subvol_root.bi_subvol != target_subvol, c,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1603  				"subvol root %llu has wrong bi_subvol field: got %u, should be %u",
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1604  				target_inum,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1605  				subvol_root.bi_subvol, target_subvol)) {
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1606  			subvol_root.bi_subvol = target_subvol;
+285b181ad460bb Kent Overstreet 2021-10-28  1607  			ret = __write_inode(trans, &subvol_root, target_snapshot);
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1608  			if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1609  				goto err;
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1610  		}
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1611  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1612  		ret = check_dirent_target(trans, iter, d, &subvol_root,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1613  					  target_snapshot);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1614  		if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1615  			goto err;
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1616  	} else {
+4db650277d42c0 Kent Overstreet 2021-10-12  1617  		ret = __get_visible_inodes(trans, target, s, le64_to_cpu(d.v->d_inum));
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1618  		if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1619  			goto err;
+8a85b20cd757d9 Kent Overstreet 2021-04-06  1620  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1621  		if (fsck_err_on(!target->nr, c,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1622  				"dirent points to missing inode:\n%s",
+fa8e94faeece12 Kent Overstreet 2022-02-25  1623  				(printbuf_reset(&buf),
+fa8e94faeece12 Kent Overstreet 2022-02-25  1624  				 bch2_bkey_val_to_text(&buf, c, k),
+fa8e94faeece12 Kent Overstreet 2022-02-25  1625  				 buf.buf))) {
+285b181ad460bb Kent Overstreet 2021-10-28  1626  			ret = __remove_dirent(trans, d.k->p);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1627  			if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1628  				goto err;
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1629  		}
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1630  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1631  		for (i = target->d; i < target->d + target->nr; i++) {
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1632  			ret = check_dirent_target(trans, iter, d,
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1633  						  &i->inode, i->snapshot);
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1634  			if (ret)
+fa8e94faeece12 Kent Overstreet 2022-02-25  1635  				goto err;
+d3ff7fec9c604e Kent Overstreet 2021-04-07  1636  		}
+b9e1adf57988fb Kent Overstreet 2021-03-16  1637  	}
+b9e1adf57988fb Kent Overstreet 2021-03-16  1638  
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1639  	if (d.v->d_type == DT_DIR)
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1640  		for_each_visible_inode(c, s, dir, d.k->p.snapshot, i)
+ef1669ffc69c49 Kent Overstreet 2021-04-20  1641  			i->count++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1642  
+fa8e94faeece12 Kent Overstreet 2022-02-25  1643  out:
+fa8e94faeece12 Kent Overstreet 2022-02-25  1644  err:
+914f2786b89232 Kent Overstreet 2021-07-14  1645  fsck_err:
+fa8e94faeece12 Kent Overstreet 2022-02-25  1646  	printbuf_exit(&buf);
+914f2786b89232 Kent Overstreet 2021-07-14  1647  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  1648  }
+8a85b20cd757d9 Kent Overstreet 2021-04-06  1649  
 
 -- 
 0-DAY CI Kernel Test Service
