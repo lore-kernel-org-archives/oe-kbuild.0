@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C41F9C1
-	for <oe-kbuild@lists.linux.dev>; Sat, 26 Oct 2024 15:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F318F62
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 00:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729956672; cv=none; b=nhz5facIh2DbMKoDRUHlBaR3ekYQBmLMlu/sz9sSvxtoydf7SQusno0u79gYEqWxXTOE8uUhDNi42/wX6PsbWifRJDS4+LBOikGM3Lv7EULgQz8kMPbr2AgGKE+GSMO5KWhLxBlWIhWRpC0umZQJlwyIpQ1x1/VAF9pXs3bIUuU=
+	t=1729988438; cv=none; b=Om9g4jD3uBpagBjmfZS1gDD0LOXplgrfPXWebU+F3kFZfj0ViVDVe5H0TG0hWTGJue+ksgvzhoJKweqSqnpSpuywNNYNB3JUEyjMQZZZg4/4JxrKWWibGQqfCbUcVZ1LoHdO0LOEDYS/ChhQfaWLXRs4HVDBuIj03XyJL14zv+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729956672; c=relaxed/simple;
-	bh=aWuWmS5NdmDa+JZbBMvOcnvdKMBTI0fLyXG6fhosO9E=;
+	s=arc-20240116; t=1729988438; c=relaxed/simple;
+	bh=8DJV0sNuR44hH5+pLWTUalCyh+D23txk7g1FcEyrZvg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=coTsk8Z10C1wPks0s2jmQZ3CMx3wGVHH1C8ZqLkwKCuJ1CV9+Wx/JHrJjOsOyymoa7IiTe5G8YrxXFzrrfvmZdxinbtXQ4ffBjdJi6VonI0yhscM/iDOQb2obB31dkdHTJp9WBp/W2HhFGdkkzaVls7SIUN70wHY/5qReqaDMus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx/HVOp8; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=a3Nw0VMa9xI34cXt1XtPAcOutTc0ncclRYXl01n7v+/I0qjEOyWtP7+ielp5foFoJ2V//G0ES7bUIxktZBz+v4M+taYEuSZYNbgfuC7tYtYdzQ6l65Lahky9P+5t4x2zQAXUAwISmZo4tMMUvRt5L4zW0sKbOyV8Az7g7CikE9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrlAMZif; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx/HVOp8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrlAMZif"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729956670; x=1761492670;
+  t=1729988436; x=1761524436;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aWuWmS5NdmDa+JZbBMvOcnvdKMBTI0fLyXG6fhosO9E=;
-  b=Sx/HVOp8Y21D4U3+GF6Cu0scgEkh++9Ypc3IlcIrYbogWWEEzLPIcK1j
-   zVq+uO2aNhF9SQBgpz6ea6+Bgk5LW5SkA35qaEe73/8XxFPNzJ8R1iEVx
-   q9ncFiFeh1gyL6AIhqUAPZGjGSJlu/AN5Qv00ekWmKnyk5KhqxM8STOju
-   niBai0VPPrMncZLHr1rAdea7eK7Tx7plLRzQS+FWXqt8Vqa2MffGkGFaC
-   4by1K/ZKkTfzbh3w2dY/CfGSPEe9iDUsR4mF/ePUzSqHkdoET8lIAN2aS
-   qTxlMh2/2UudrWHTAk+q09VxpkdFZ6VtA8hUdBgPtDQNt2ED603wLhNQv
+  bh=8DJV0sNuR44hH5+pLWTUalCyh+D23txk7g1FcEyrZvg=;
+  b=TrlAMZifwuTRr6MPk6BmYlWpBE8IOJHNfs1BBCqYnr10VqGqj2bR99tZ
+   fm1vwDQNsGaaix8Iw3fv8LkeLDW6U9g2nsaSZhKvFyYt/a+moWRLp9nzO
+   y+96pr25Sm8CcKdPpo8F9Hf5+1BDpMDD9AbYjJtrbBD+mboJqkHirw6vz
+   zFVyIULkNvmVTzYUDuZFJbEDHtOqPZwmT5xYkXxuEy3Sh0XC0i8JoqfjK
+   9b1AJvJamF+G0BYSWBcdOCvkIrXkdrjI9IIxVAP8bqsdQcY1fX0/SnmM3
+   wyXaznO0ypK50P1oxht0EMev9NUzG4gFVlLcahQ2ngqj/nGbzksVwOC4G
    w==;
-X-CSE-ConnectionGUID: oLFidEOeTEylIwHzcKEX1g==
-X-CSE-MsgGUID: YCuLn2M2RQiNUxyNEdzS3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="47102689"
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="47102689"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 08:31:09 -0700
-X-CSE-ConnectionGUID: 6703BICrRBOvQ7SosGZWTQ==
-X-CSE-MsgGUID: 9cey/x45RTSVbcniC2MXjg==
+X-CSE-ConnectionGUID: pNagFpe+RGOutoK/QeFadQ==
+X-CSE-MsgGUID: VUSCb9JOSlutCROg7JYlwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="29840924"
+X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
+   d="scan'208";a="29840924"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 17:20:32 -0700
+X-CSE-ConnectionGUID: YFfigcCWRVC8W2MdjDHo6Q==
+X-CSE-MsgGUID: I9k+hogbRC+Jd/nKzyBKKg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="85159271"
+X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
+   d="scan'208";a="85866204"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2024 08:31:07 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Oct 2024 17:20:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4ikr-000Zlw-1k;
-	Sat, 26 Oct 2024 15:31:05 +0000
-Date: Sat, 26 Oct 2024 23:30:51 +0800
+	id 1t4r1B-000aCI-10;
+	Sun, 27 Oct 2024 00:20:29 +0000
+Date: Sun, 27 Oct 2024 08:19:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
- inconsistent returns '&mm->mmap_lock'.
-Message-ID: <202410262304.gfSWpFtO-lkp@intel.com>
+Subject: Re: [PATCH 7/8] ACPI: platform_profile: Add support for multiple
+ handlers
+Message-ID: <202410270821.oxnIPyOE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,110 +64,175 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Heiko Carstens <hca@linux.ibm.com>
-CC: Vasily Gorbik <gor@linux.ibm.com>
+In-Reply-To: <20241025193055.2235-8-mario.limonciello@amd.com>
+References: <20241025193055.2235-8-mario.limonciello@amd.com>
+TO: Mario Limonciello <mario.limonciello@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
-commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
-date:   1 year ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 1 year ago
-config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241026/202410262304.gfSWpFtO-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
+Hi Mario,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 1349dd7dc21c63c9bad0e91fd1bf5f1ada34b0e2]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-platform-profile-Add-a-name-member-to-handlers/20241026-033443
+base:   1349dd7dc21c63c9bad0e91fd1bf5f1ada34b0e2
+patch link:    https://lore.kernel.org/r/20241025193055.2235-8-mario.limonciello%40amd.com
+patch subject: [PATCH 7/8] ACPI: platform_profile: Add support for multiple handlers
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: i386-randconfig-141-20241026 (https://download.01.org/0day-ci/archive/20241027/202410270821.oxnIPyOE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410262304.gfSWpFtO-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202410270821.oxnIPyOE-lkp@intel.com/
 
 smatch warnings:
-arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
+drivers/acpi/platform_profile.c:123 platform_profile_store() error: uninitialized symbol 'err'.
+drivers/acpi/platform_profile.c:125 platform_profile_store() error: uninitialized symbol 'profile'.
+drivers/acpi/platform_profile.c:207 platform_profile_cycle() error: uninitialized symbol 'err'.
+drivers/acpi/platform_profile.c:209 platform_profile_cycle() error: uninitialized symbol 'profile'.
 
-vim +566 arch/s390/mm/fault.c
+vim +/err +123 drivers/acpi/platform_profile.c
 
-17a363dcd2f745 Heiko Carstens    2021-04-09  497  
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
-5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
-9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
-85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
-3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
-3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
-3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
-3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
-5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
-85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
-85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
-85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
-85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
-85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
-85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
-85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
-3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
-3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
-85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
-85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
-85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
-7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
-b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
-7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
-7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
-cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
-ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  569  NOKPROBE_SYMBOL(do_secure_storage_access);
-084ea4d611a3d0 Vasily Gorbik     2020-01-21  570  
-
-:::::: The code at line 566 was first introduced by commit
-:::::: ae626f686351d220d5eab746dc3a19e90bb1de9a s390/mm,fault: replace WARN_ON_ONCE() with unreachable()
-
-:::::: TO: Heiko Carstens <hca@linux.ibm.com>
-:::::: CC: Vasily Gorbik <gor@linux.ibm.com>
+a2ff95e018f1d2 Mark Pearson      2020-12-29   86  
+a2ff95e018f1d2 Mark Pearson      2020-12-29   87  static ssize_t platform_profile_store(struct device *dev,
+a2ff95e018f1d2 Mark Pearson      2020-12-29   88  			    struct device_attribute *attr,
+a2ff95e018f1d2 Mark Pearson      2020-12-29   89  			    const char *buf, size_t count)
+a2ff95e018f1d2 Mark Pearson      2020-12-29   90  {
+77d5986ac45fab Mario Limonciello 2024-10-25   91  	struct platform_profile_handler *handler;
+77d5986ac45fab Mario Limonciello 2024-10-25   92  	enum platform_profile_option profile;
+a2ff95e018f1d2 Mark Pearson      2020-12-29   93  	int err, i;
+a2ff95e018f1d2 Mark Pearson      2020-12-29   94  
+a2ff95e018f1d2 Mark Pearson      2020-12-29   95  	/* Scan for a matching profile */
+a2ff95e018f1d2 Mark Pearson      2020-12-29   96  	i = sysfs_match_string(profile_names, buf);
+a2ff95e018f1d2 Mark Pearson      2020-12-29   97  	if (i < 0) {
+a2ff95e018f1d2 Mark Pearson      2020-12-29   98  		return -EINVAL;
+a2ff95e018f1d2 Mark Pearson      2020-12-29   99  	}
+a2ff95e018f1d2 Mark Pearson      2020-12-29  100  
+77d5986ac45fab Mario Limonciello 2024-10-25  101  	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+77d5986ac45fab Mario Limonciello 2024-10-25  102  		if (!platform_profile_is_registered())
+77d5986ac45fab Mario Limonciello 2024-10-25  103  			return -ENODEV;
+a2ff95e018f1d2 Mark Pearson      2020-12-29  104  
+77d5986ac45fab Mario Limonciello 2024-10-25  105  		/* Check that all handlers support this profile choice */
+77d5986ac45fab Mario Limonciello 2024-10-25  106  		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25  107  			if (!test_bit(i, handler->choices))
+77d5986ac45fab Mario Limonciello 2024-10-25  108  				return -EOPNOTSUPP;
+b25d5a1cd19896 Hans de Goede     2021-08-16  109  
+77d5986ac45fab Mario Limonciello 2024-10-25  110  			/* save the profile so that it can be reverted if necessary */
+77d5986ac45fab Mario Limonciello 2024-10-25  111  			err = handler->profile_get(handler, &profile);
+a2ff95e018f1d2 Mark Pearson      2020-12-29  112  			if (err)
+a2ff95e018f1d2 Mark Pearson      2020-12-29  113  				return err;
+77d5986ac45fab Mario Limonciello 2024-10-25  114  		}
+77d5986ac45fab Mario Limonciello 2024-10-25  115  
+77d5986ac45fab Mario Limonciello 2024-10-25  116  		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25  117  			err = handler->profile_set(handler, i);
+77d5986ac45fab Mario Limonciello 2024-10-25  118  			if (err) {
+77d5986ac45fab Mario Limonciello 2024-10-25  119  				pr_err("Failed to set profile for handler %s\n", handler->name);
+77d5986ac45fab Mario Limonciello 2024-10-25  120  				break;
+77d5986ac45fab Mario Limonciello 2024-10-25  121  			}
+77d5986ac45fab Mario Limonciello 2024-10-25  122  		}
+77d5986ac45fab Mario Limonciello 2024-10-25 @123  		if (err) {
+77d5986ac45fab Mario Limonciello 2024-10-25  124  			list_for_each_entry_continue_reverse(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25 @125  				if (handler->profile_set(handler, profile))
+77d5986ac45fab Mario Limonciello 2024-10-25  126  					pr_err("Failed to revert profile for handler %s\n", handler->name);
+77d5986ac45fab Mario Limonciello 2024-10-25  127  			}
+77d5986ac45fab Mario Limonciello 2024-10-25  128  			return err;
+77d5986ac45fab Mario Limonciello 2024-10-25  129  		}
+77d5986ac45fab Mario Limonciello 2024-10-25  130  	}
+77d5986ac45fab Mario Limonciello 2024-10-25  131  
+77d5986ac45fab Mario Limonciello 2024-10-25  132  	sysfs_notify(acpi_kobj, NULL, "platform_profile");
+a2ff95e018f1d2 Mark Pearson      2020-12-29  133  	return count;
+a2ff95e018f1d2 Mark Pearson      2020-12-29  134  }
+a2ff95e018f1d2 Mark Pearson      2020-12-29  135  
+a2ff95e018f1d2 Mark Pearson      2020-12-29  136  static DEVICE_ATTR_RO(platform_profile_choices);
+a2ff95e018f1d2 Mark Pearson      2020-12-29  137  static DEVICE_ATTR_RW(platform_profile);
+a2ff95e018f1d2 Mark Pearson      2020-12-29  138  
+a2ff95e018f1d2 Mark Pearson      2020-12-29  139  static struct attribute *platform_profile_attrs[] = {
+a2ff95e018f1d2 Mark Pearson      2020-12-29  140  	&dev_attr_platform_profile_choices.attr,
+a2ff95e018f1d2 Mark Pearson      2020-12-29  141  	&dev_attr_platform_profile.attr,
+a2ff95e018f1d2 Mark Pearson      2020-12-29  142  	NULL
+a2ff95e018f1d2 Mark Pearson      2020-12-29  143  };
+a2ff95e018f1d2 Mark Pearson      2020-12-29  144  
+a2ff95e018f1d2 Mark Pearson      2020-12-29  145  static const struct attribute_group platform_profile_group = {
+a2ff95e018f1d2 Mark Pearson      2020-12-29  146  	.attrs = platform_profile_attrs
+a2ff95e018f1d2 Mark Pearson      2020-12-29  147  };
+a2ff95e018f1d2 Mark Pearson      2020-12-29  148  
+a2ff95e018f1d2 Mark Pearson      2020-12-29  149  void platform_profile_notify(void)
+a2ff95e018f1d2 Mark Pearson      2020-12-29  150  {
+77d5986ac45fab Mario Limonciello 2024-10-25  151  	guard(mutex)(&profile_lock);
+77d5986ac45fab Mario Limonciello 2024-10-25  152  	if (!platform_profile_is_registered())
+a2ff95e018f1d2 Mark Pearson      2020-12-29  153  		return;
+a2ff95e018f1d2 Mark Pearson      2020-12-29  154  	sysfs_notify(acpi_kobj, NULL, "platform_profile");
+a2ff95e018f1d2 Mark Pearson      2020-12-29  155  }
+a2ff95e018f1d2 Mark Pearson      2020-12-29  156  EXPORT_SYMBOL_GPL(platform_profile_notify);
+a2ff95e018f1d2 Mark Pearson      2020-12-29  157  
+ba95eb44676d68 Gergo Koteles     2024-04-08  158  int platform_profile_cycle(void)
+ba95eb44676d68 Gergo Koteles     2024-04-08  159  {
+77d5986ac45fab Mario Limonciello 2024-10-25  160  	struct platform_profile_handler *handler;
+ba95eb44676d68 Gergo Koteles     2024-04-08  161  	enum platform_profile_option profile;
+77d5986ac45fab Mario Limonciello 2024-10-25  162  	enum platform_profile_option next = PLATFORM_PROFILE_LAST;
+77d5986ac45fab Mario Limonciello 2024-10-25  163  	enum platform_profile_option next2 = PLATFORM_PROFILE_LAST;
+ba95eb44676d68 Gergo Koteles     2024-04-08  164  	int err;
+ba95eb44676d68 Gergo Koteles     2024-04-08  165  
+77d5986ac45fab Mario Limonciello 2024-10-25  166  	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+77d5986ac45fab Mario Limonciello 2024-10-25  167  		/* first pass, make sure all handlers agree on the definition of "next" profile */
+77d5986ac45fab Mario Limonciello 2024-10-25  168  		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25  169  
+77d5986ac45fab Mario Limonciello 2024-10-25  170  			err = handler->profile_get(handler, &profile);
+ba95eb44676d68 Gergo Koteles     2024-04-08  171  			if (err)
+ba95eb44676d68 Gergo Koteles     2024-04-08  172  				return err;
+ba95eb44676d68 Gergo Koteles     2024-04-08  173  
+77d5986ac45fab Mario Limonciello 2024-10-25  174  			if (next == PLATFORM_PROFILE_LAST)
+77d5986ac45fab Mario Limonciello 2024-10-25  175  				next = find_next_bit_wrap(handler->choices,
+77d5986ac45fab Mario Limonciello 2024-10-25  176  							  PLATFORM_PROFILE_LAST,
+77d5986ac45fab Mario Limonciello 2024-10-25  177  							  profile + 1);
+77d5986ac45fab Mario Limonciello 2024-10-25  178  			else
+77d5986ac45fab Mario Limonciello 2024-10-25  179  				next2 = find_next_bit_wrap(handler->choices,
+77d5986ac45fab Mario Limonciello 2024-10-25  180  							   PLATFORM_PROFILE_LAST,
+77d5986ac45fab Mario Limonciello 2024-10-25  181  							   profile + 1);
+ba95eb44676d68 Gergo Koteles     2024-04-08  182  
+77d5986ac45fab Mario Limonciello 2024-10-25  183  			if (WARN_ON(next == PLATFORM_PROFILE_LAST))
+77d5986ac45fab Mario Limonciello 2024-10-25  184  				return -EINVAL;
+ba95eb44676d68 Gergo Koteles     2024-04-08  185  
+77d5986ac45fab Mario Limonciello 2024-10-25  186  			if (next2 == PLATFORM_PROFILE_LAST)
+77d5986ac45fab Mario Limonciello 2024-10-25  187  				continue;
+ba95eb44676d68 Gergo Koteles     2024-04-08  188  
+77d5986ac45fab Mario Limonciello 2024-10-25  189  			if (next != next2) {
+77d5986ac45fab Mario Limonciello 2024-10-25  190  				pr_warn("Next profile to cycle to is ambiguous between platform_profile handlers\n");
+ba95eb44676d68 Gergo Koteles     2024-04-08  191  				return -EINVAL;
+ba95eb44676d68 Gergo Koteles     2024-04-08  192  			}
+77d5986ac45fab Mario Limonciello 2024-10-25  193  			next = next2;
+77d5986ac45fab Mario Limonciello 2024-10-25  194  		}
+ba95eb44676d68 Gergo Koteles     2024-04-08  195  
+77d5986ac45fab Mario Limonciello 2024-10-25  196  		/*
+77d5986ac45fab Mario Limonciello 2024-10-25  197  		 * Second pass: apply "next" to each handler
+77d5986ac45fab Mario Limonciello 2024-10-25  198  		 * If any failures occur unwind and revert all back to the original profile
+77d5986ac45fab Mario Limonciello 2024-10-25  199  		 */
+77d5986ac45fab Mario Limonciello 2024-10-25  200  		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25  201  			err = handler->profile_set(handler, next);
+77d5986ac45fab Mario Limonciello 2024-10-25  202  			if (err) {
+77d5986ac45fab Mario Limonciello 2024-10-25  203  				pr_err("Failed to set profile for handler %s\n", handler->name);
+77d5986ac45fab Mario Limonciello 2024-10-25  204  				break;
+77d5986ac45fab Mario Limonciello 2024-10-25  205  			}
+77d5986ac45fab Mario Limonciello 2024-10-25  206  		}
+77d5986ac45fab Mario Limonciello 2024-10-25 @207  		if (err) {
+77d5986ac45fab Mario Limonciello 2024-10-25  208  			list_for_each_entry_continue_reverse(handler, &platform_profile_handler_list, list) {
+77d5986ac45fab Mario Limonciello 2024-10-25 @209  				err = handler->profile_set(handler, profile);
+77d5986ac45fab Mario Limonciello 2024-10-25  210  				if (err)
+77d5986ac45fab Mario Limonciello 2024-10-25  211  					pr_err("Failed to revert profile for handler %s\n", handler->name);
+77d5986ac45fab Mario Limonciello 2024-10-25  212  			}
+77d5986ac45fab Mario Limonciello 2024-10-25  213  		}
+77d5986ac45fab Mario Limonciello 2024-10-25  214  	}
+ba95eb44676d68 Gergo Koteles     2024-04-08  215  
+ba95eb44676d68 Gergo Koteles     2024-04-08  216  	sysfs_notify(acpi_kobj, NULL, "platform_profile");
+ba95eb44676d68 Gergo Koteles     2024-04-08  217  
+77d5986ac45fab Mario Limonciello 2024-10-25  218  	return 0;
+ba95eb44676d68 Gergo Koteles     2024-04-08  219  }
+ba95eb44676d68 Gergo Koteles     2024-04-08  220  EXPORT_SYMBOL_GPL(platform_profile_cycle);
+ba95eb44676d68 Gergo Koteles     2024-04-08  221  
 
 -- 
 0-DAY CI Kernel Test Service
