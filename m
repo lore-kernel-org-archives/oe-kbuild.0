@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D605538A
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 20:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958C3126BFF
+	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 20:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730061459; cv=none; b=BcuzQ7BzrY450KT34c/8e1mQKBBOYB/uYjgf3HY46QEHpoePm5P9PuQbtluwjo2Mn1z1SAlhm4I/n8vDioimJXCIiZ+CxcPFaoT7Vla9Mim2Dxs9l+pZWHLaBgi+5jx4B96yKR9XjVPO+BDwY29RRSRwmRDqz8YwJ/KvouX5e5E=
+	t=1730062119; cv=none; b=MHGkCvy4LglgYxkakfWFmBNpOWyG4zkQ5psxZovwO41m2FjQrV9wz+QX2dhobcC/33xi1erJOO12VBV5lqcZJK3rQDNBo8dlbrnlF08UULoMjh385AESJxKZ4veE/MDYccanUwsDcR1E+KpjKqzIkcCAJZ1c/wdyntsAmq0agQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730061459; c=relaxed/simple;
-	bh=HDYWqgD4Pa1xxMoMKjRKjuGjg9ZFKHtkvmw7nBl7v80=;
+	s=arc-20240116; t=1730062119; c=relaxed/simple;
+	bh=fay/4qPtSKlTdsIyNZpmK9MDD2EOEKk2fbZPK9PIUI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A6ak0BdiYMtrPftp4jqVV+1mWNinJ3wG++/NCemhe+F7QQaK0kPe2GM6HYozexh108SwDa5hXzSlt0B/W/IaIfJMQPnNuwSaB+aVEShe8oZCR3tifP3AQL4OyJAJoFsePQcvGNIwJr0/9HQXIhz6ai2QPDuELRbQN6Q1Sz/Uo48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoW0oOxg; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=WdrgMJ8+SdOEmBdPa9LB+0JivRQcIbwdYdSugY+sdb2Diz0KnfqgVX25RrfzBltf2UByLMuHgC4onb14kmkdETFSLB2TcIRWZdANYUpKAzB4wXCFRCeTsTomYPMbhku64OVwjfPVvYMmVK0jIv1vnmEVPmM15WOdYX6/GvIG6ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwaTWk6o; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoW0oOxg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwaTWk6o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730061456; x=1761597456;
+  t=1730062117; x=1761598117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HDYWqgD4Pa1xxMoMKjRKjuGjg9ZFKHtkvmw7nBl7v80=;
-  b=QoW0oOxgHokBMfjY+FeIVM6xOLdxOqqWT6SvtPFPIMhybTLf5nvPWlBK
-   LV21zx3sM3odU+TW7Sw/jUqZiPcXcTGCMMKIXDtJaCMphlm9GrYX3n0jr
-   kcfupE6GpKki7xiKyynw9emXS9qWJ/LfasI/w0iJxV3bIpmWg7M4hyfyb
-   5YKKtGz3Nz6Ji1Ri2JZNbS+0D+F+2vkilP7rVQtTaZHWPuliwHZN27tTi
-   3U7Gml7DHjxz6mbx87anPLEp6pTitoA9Vv1+XCLFkttk2yWjQHOcsq9eZ
-   3w3HhH5dAwiUA5KkZYyj3ZljeyP4ydazfUNy7Od0HbUD2idYu4bBy0lnP
-   w==;
-X-CSE-ConnectionGUID: HRI5+i2rS323hVg7I1Fr3g==
-X-CSE-MsgGUID: nQdN5o2URR2vcc/qv2T7Uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29794347"
+  bh=fay/4qPtSKlTdsIyNZpmK9MDD2EOEKk2fbZPK9PIUI8=;
+  b=NwaTWk6oqG4SQKHR5gmiFn8tMxMUh7vT2Oxu5Wd2gQ4beOmmmes8p6MQ
+   ouaU03KLnBAflGev9ryg9Q5dsmHLhDH4+9jY7vIRXHs5yWxiI46KwtX9C
+   on8wqv4GSbWLXHRlgneNF5RaD/jGmuunQzh+kwdoKMz00CdR6AgwNXTI9
+   ShKA9tcj2BrDaK2DWj8oNSKcGtd0SU/a7PKde6VScCy01Ef0Pb7kphz7A
+   h1l6vDaRrRN+WhJq4zHyiK8NrsH7/3Vbne4kf0oY9W6gCl0IrPvvZJ//M
+   JMQSIp4/Ts5h8/IzUicBrzr6n1Ho9enD7uZYmWlQTLlVFWut2XdaANvAy
+   Q==;
+X-CSE-ConnectionGUID: dsHNBLB0RmuKgJeSkipx4A==
+X-CSE-MsgGUID: lspG1GNBTNmh8Qf+Wvi78g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52214185"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29794347"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 13:37:36 -0700
-X-CSE-ConnectionGUID: U6MeSmarQr20c5fXkeg6Hw==
-X-CSE-MsgGUID: xWoH7U6dRPW3a8lqtWLTxA==
+   d="scan'208";a="52214185"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 13:48:36 -0700
+X-CSE-ConnectionGUID: IiRcv+I5T/2fFMD/n+krlQ==
+X-CSE-MsgGUID: aiaIweQEQ9eMZZz1ggYgLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="104748991"
+   d="scan'208";a="86535960"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 13:37:34 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2024 13:48:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5A0x-000ayc-2m;
-	Sun, 27 Oct 2024 20:37:31 +0000
-Date: Mon, 28 Oct 2024 04:37:20 +0800
+	id 1t5ABc-000azI-2T;
+	Sun, 27 Oct 2024 20:48:32 +0000
+Date: Mon, 28 Oct 2024 04:47:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/bcachefs/fsck.c:1505:12-13: WARNING opportunity for min()
-Message-ID: <202410280453.DRQjCxt8-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: arch/s390/kernel/hiperdispatch.c:237 hiperdispatch_ctl_handler()
+ warn: (struct ctl_table)->procname cannot be NULL. Expression :
+ ctl->procname
+Message-ID: <202410280431.LHZQhsYJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,198 +66,56 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+TO: Mete Durlu <meted@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1fda89f5b23734e10c62762990120d5ae23c43
-commit: fa8e94faeece12c20b541f647059f29867e98bc0 bcachefs: Heap allocate printbufs
-date:   1 year ago
+commit: b9271a533433dd4049723d4668418709e1927e12 s390/hiperdispatch: Add hiperdispatch sysctl interface
+date:   8 weeks ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 1 year ago
-config: m68k-randconfig-r051-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280453.DRQjCxt8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
+:::::: commit date: 8 weeks ago
+config: s390-randconfig-r072-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280431.LHZQhsYJ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410280453.DRQjCxt8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410280431.LHZQhsYJ-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/fsck.c:1505:12-13: WARNING opportunity for min()
-   fs/bcachefs/fsck.c:1187:12-13: WARNING opportunity for min()
+smatch warnings:
+arch/s390/kernel/hiperdispatch.c:237 hiperdispatch_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl->procname
+arch/s390/kernel/hiperdispatch.c:236 hiperdispatch_ctl_handler() warn: (struct ctl_table)->procname cannot be NULL. Expression : ctl_entry.procname
+arch/s390/kernel/hiperdispatch.c:236 hiperdispatch_ctl_handler() warn: (struct ctl_table)->proc_handler cannot be NULL. Expression : ctl_entry.proc_handler
 
-vim +1505 fs/bcachefs/fsck.c
+vim +237 arch/s390/kernel/hiperdispatch.c
 
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1481  
-914f2786b89232 Kent Overstreet 2021-07-14  1482  static int check_dirent(struct btree_trans *trans, struct btree_iter *iter,
-914f2786b89232 Kent Overstreet 2021-07-14  1483  			struct bch_hash_info *hash_info,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1484  			struct inode_walker *dir,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1485  			struct inode_walker *target,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1486  			struct snapshots_seen *s)
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1487  {
-914f2786b89232 Kent Overstreet 2021-07-14  1488  	struct bch_fs *c = trans->c;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1489  	struct bkey_s_c k;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1490  	struct bkey_s_c_dirent d;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1491  	struct inode_walker_entry *i;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1492  	struct printbuf buf = PRINTBUF;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1493  	int ret = 0;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1494  
-914f2786b89232 Kent Overstreet 2021-07-14  1495  	k = bch2_btree_iter_peek(iter);
-914f2786b89232 Kent Overstreet 2021-07-14  1496  	if (!k.k)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1497  		goto out;
-914f2786b89232 Kent Overstreet 2021-07-14  1498  
-914f2786b89232 Kent Overstreet 2021-07-14  1499  	ret = bkey_err(k);
-8a85b20cd757d9 Kent Overstreet 2021-04-06  1500  	if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1501  		goto err;
-914f2786b89232 Kent Overstreet 2021-07-14  1502  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1503  	ret = check_key_has_snapshot(trans, iter, k);
-fa8e94faeece12 Kent Overstreet 2022-02-25  1504  	if (ret) {
-fa8e94faeece12 Kent Overstreet 2022-02-25 @1505  		ret = ret < 0 ? ret : 0;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1506  		goto out;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1507  	}
-8a85b20cd757d9 Kent Overstreet 2021-04-06  1508  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1509  	ret = snapshots_seen_update(c, s, k.k->p);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1510  	if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1511  		goto err;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1512  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1513  	if (k.k->type == KEY_TYPE_whiteout)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1514  		goto out;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1515  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1516  	if (dir->cur_inum != k.k->p.inode) {
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1517  		ret = check_subdir_count(trans, dir);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1518  		if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1519  			goto err;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1520  	}
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1521  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1522  	ret = __walk_inode(trans, dir, k.k->p);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1523  	if (ret < 0)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1524  		goto err;
-8a85b20cd757d9 Kent Overstreet 2021-04-06  1525  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1526  	if (fsck_err_on(ret == INT_MAX, c,
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1527  			"dirent in nonexisting directory:\n%s",
-fa8e94faeece12 Kent Overstreet 2022-02-25  1528  			(printbuf_reset(&buf),
-fa8e94faeece12 Kent Overstreet 2022-02-25  1529  			 bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
-fa8e94faeece12 Kent Overstreet 2022-02-25  1530  		ret = bch2_btree_delete_at(trans, iter,
-285b181ad460bb Kent Overstreet 2021-10-28  1531  				BTREE_UPDATE_INTERNAL_SNAPSHOT_NODE);
-fa8e94faeece12 Kent Overstreet 2022-02-25  1532  		goto out;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1533  	}
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1534  
-fa8e94faeece12 Kent Overstreet 2022-02-25  1535  	if (ret == INT_MAX) {
-fa8e94faeece12 Kent Overstreet 2022-02-25  1536  		ret = 0;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1537  		goto out;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1538  	}
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1539  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1540  	i = dir->d + ret;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1541  	ret = 0;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1542  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1543  	if (fsck_err_on(!S_ISDIR(i->inode.bi_mode), c,
-285b181ad460bb Kent Overstreet 2021-10-28  1544  			"dirent in non directory inode type %s:\n%s",
-285b181ad460bb Kent Overstreet 2021-10-28  1545  			bch2_d_type_str(inode_d_type(&i->inode)),
-fa8e94faeece12 Kent Overstreet 2022-02-25  1546  			(printbuf_reset(&buf),
-fa8e94faeece12 Kent Overstreet 2022-02-25  1547  			 bch2_bkey_val_to_text(&buf, c, k), buf.buf))) {
-fa8e94faeece12 Kent Overstreet 2022-02-25  1548  		ret = bch2_btree_delete_at(trans, iter, 0);
-fa8e94faeece12 Kent Overstreet 2022-02-25  1549  		goto out;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1550  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1551  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1552  	if (dir->first_this_inode)
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1553  		*hash_info = bch2_hash_info_init(c, &dir->d[0].inode);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1554  
-914f2786b89232 Kent Overstreet 2021-07-14  1555  	ret = hash_check_key(trans, bch2_dirent_hash_desc,
-914f2786b89232 Kent Overstreet 2021-07-14  1556  			     hash_info, iter, k);
-914f2786b89232 Kent Overstreet 2021-07-14  1557  	if (ret < 0)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1558  		goto err;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1559  	if (ret) {
-fa8e94faeece12 Kent Overstreet 2022-02-25  1560  		/* dirent has been deleted */
-fa8e94faeece12 Kent Overstreet 2022-02-25  1561  		ret = 0;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1562  		goto out;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1563  	}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1564  
-26609b619fa230 Kent Overstreet 2018-11-01  1565  	if (k.k->type != KEY_TYPE_dirent)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1566  		goto out;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1567  
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1568  	d = bkey_s_c_to_dirent(k);
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1569  
-4db650277d42c0 Kent Overstreet 2021-10-12  1570  	if (d.v->d_type == DT_SUBVOL) {
-4db650277d42c0 Kent Overstreet 2021-10-12  1571  		struct bch_inode_unpacked subvol_root;
-4db650277d42c0 Kent Overstreet 2021-10-12  1572  		u32 target_subvol = le32_to_cpu(d.v->d_child_subvol);
-4db650277d42c0 Kent Overstreet 2021-10-12  1573  		u32 target_snapshot;
-4db650277d42c0 Kent Overstreet 2021-10-12  1574  		u64 target_inum;
-4db650277d42c0 Kent Overstreet 2021-10-12  1575  
-4db650277d42c0 Kent Overstreet 2021-10-12  1576  		ret = __subvol_lookup(trans, target_subvol,
-4db650277d42c0 Kent Overstreet 2021-10-12  1577  				      &target_snapshot, &target_inum);
-b9e1adf57988fb Kent Overstreet 2021-03-16  1578  		if (ret && ret != -ENOENT)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1579  			goto err;
-b9e1adf57988fb Kent Overstreet 2021-03-16  1580  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1581  		if (fsck_err_on(ret, c,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1582  				"dirent points to missing subvolume %llu",
-fa8e94faeece12 Kent Overstreet 2022-02-25  1583  				le64_to_cpu(d.v->d_child_subvol))) {
-fa8e94faeece12 Kent Overstreet 2022-02-25  1584  			ret = __remove_dirent(trans, d.k->p);
-fa8e94faeece12 Kent Overstreet 2022-02-25  1585  			goto err;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1586  		}
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1587  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1588  		ret = __lookup_inode(trans, target_inum,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1589  				   &subvol_root, &target_snapshot);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1590  		if (ret && ret != -ENOENT)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1591  			goto err;
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1592  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1593  		if (fsck_err_on(ret, c,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1594  				"subvolume %u points to missing subvolume root %llu",
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1595  				target_subvol,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1596  				target_inum)) {
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1597  			bch_err(c, "repair not implemented yet");
-fa8e94faeece12 Kent Overstreet 2022-02-25  1598  			ret = -EINVAL;
-fa8e94faeece12 Kent Overstreet 2022-02-25  1599  			goto err;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1600  		}
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1601  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1602  		if (fsck_err_on(subvol_root.bi_subvol != target_subvol, c,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1603  				"subvol root %llu has wrong bi_subvol field: got %u, should be %u",
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1604  				target_inum,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1605  				subvol_root.bi_subvol, target_subvol)) {
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1606  			subvol_root.bi_subvol = target_subvol;
-285b181ad460bb Kent Overstreet 2021-10-28  1607  			ret = __write_inode(trans, &subvol_root, target_snapshot);
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1608  			if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1609  				goto err;
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1610  		}
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1611  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1612  		ret = check_dirent_target(trans, iter, d, &subvol_root,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1613  					  target_snapshot);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1614  		if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1615  			goto err;
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1616  	} else {
-4db650277d42c0 Kent Overstreet 2021-10-12  1617  		ret = __get_visible_inodes(trans, target, s, le64_to_cpu(d.v->d_inum));
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1618  		if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1619  			goto err;
-8a85b20cd757d9 Kent Overstreet 2021-04-06  1620  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1621  		if (fsck_err_on(!target->nr, c,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1622  				"dirent points to missing inode:\n%s",
-fa8e94faeece12 Kent Overstreet 2022-02-25  1623  				(printbuf_reset(&buf),
-fa8e94faeece12 Kent Overstreet 2022-02-25  1624  				 bch2_bkey_val_to_text(&buf, c, k),
-fa8e94faeece12 Kent Overstreet 2022-02-25  1625  				 buf.buf))) {
-285b181ad460bb Kent Overstreet 2021-10-28  1626  			ret = __remove_dirent(trans, d.k->p);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1627  			if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1628  				goto err;
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1629  		}
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1630  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1631  		for (i = target->d; i < target->d + target->nr; i++) {
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1632  			ret = check_dirent_target(trans, iter, d,
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1633  						  &i->inode, i->snapshot);
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1634  			if (ret)
-fa8e94faeece12 Kent Overstreet 2022-02-25  1635  				goto err;
-d3ff7fec9c604e Kent Overstreet 2021-04-07  1636  		}
-b9e1adf57988fb Kent Overstreet 2021-03-16  1637  	}
-b9e1adf57988fb Kent Overstreet 2021-03-16  1638  
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1639  	if (d.v->d_type == DT_DIR)
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1640  		for_each_visible_inode(c, s, dir, d.k->p.snapshot, i)
-ef1669ffc69c49 Kent Overstreet 2021-04-20  1641  			i->count++;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1642  
-fa8e94faeece12 Kent Overstreet 2022-02-25  1643  out:
-fa8e94faeece12 Kent Overstreet 2022-02-25  1644  err:
-914f2786b89232 Kent Overstreet 2021-07-14  1645  fsck_err:
-fa8e94faeece12 Kent Overstreet 2022-02-25  1646  	printbuf_exit(&buf);
-914f2786b89232 Kent Overstreet 2021-07-14  1647  	return ret;
-1c6fdbd8f2465d Kent Overstreet 2017-03-16  1648  }
-8a85b20cd757d9 Kent Overstreet 2021-04-06  1649  
+b9271a533433dd Mete Durlu 2024-08-12  230  
+b9271a533433dd Mete Durlu 2024-08-12  231  static int hiperdispatch_ctl_handler(const struct ctl_table *ctl, int write,
+b9271a533433dd Mete Durlu 2024-08-12  232  				     void *buffer, size_t *lenp, loff_t *ppos)
+b9271a533433dd Mete Durlu 2024-08-12  233  {
+b9271a533433dd Mete Durlu 2024-08-12  234  	int hiperdispatch;
+b9271a533433dd Mete Durlu 2024-08-12  235  	int rc;
+b9271a533433dd Mete Durlu 2024-08-12 @236  	struct ctl_table ctl_entry = {
+b9271a533433dd Mete Durlu 2024-08-12 @237  		.procname	= ctl->procname,
+b9271a533433dd Mete Durlu 2024-08-12  238  		.data		= &hiperdispatch,
+b9271a533433dd Mete Durlu 2024-08-12  239  		.maxlen		= sizeof(int),
+b9271a533433dd Mete Durlu 2024-08-12  240  		.extra1		= SYSCTL_ZERO,
+b9271a533433dd Mete Durlu 2024-08-12  241  		.extra2		= SYSCTL_ONE,
+b9271a533433dd Mete Durlu 2024-08-12  242  	};
+b9271a533433dd Mete Durlu 2024-08-12  243  
+b9271a533433dd Mete Durlu 2024-08-12  244  	hiperdispatch = hd_enabled;
+b9271a533433dd Mete Durlu 2024-08-12  245  	rc = proc_douintvec_minmax(&ctl_entry, write, buffer, lenp, ppos);
+b9271a533433dd Mete Durlu 2024-08-12  246  	if (rc < 0 || !write)
+b9271a533433dd Mete Durlu 2024-08-12  247  		return rc;
+b9271a533433dd Mete Durlu 2024-08-12  248  	mutex_lock(&smp_cpu_state_mutex);
+b9271a533433dd Mete Durlu 2024-08-12  249  	if (hd_set_hiperdispatch_mode(hiperdispatch))
+b9271a533433dd Mete Durlu 2024-08-12  250  		topology_schedule_update();
+b9271a533433dd Mete Durlu 2024-08-12  251  	mutex_unlock(&smp_cpu_state_mutex);
+b9271a533433dd Mete Durlu 2024-08-12  252  	return 0;
+b9271a533433dd Mete Durlu 2024-08-12  253  }
+b9271a533433dd Mete Durlu 2024-08-12  254  
 
 -- 
 0-DAY CI Kernel Test Service
