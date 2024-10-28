@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8562413A244
-	for <oe-kbuild@lists.linux.dev>; Sun, 27 Oct 2024 23:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C31189902
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 03:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730072102; cv=none; b=On+kZlp4iWCsg+sy9y+1SofwC5aHowNeEFjNwdwynAYZ1Vv7Oli+UncXwIu3KHTWRmAZfY+hr5TJwgeto58YFBdYRAVdj8SXZQO/nNv+L7HjiZBBcWoVfiJRQa/xGrkjuY+Le5+YjQdaZTxB1rXle9g2icQv+t7fFaIHce+wvvE=
+	t=1730087593; cv=none; b=Wd3iEk+7kZSFNRMKP1pHt+ry7xwIb0VzJhLGEwT3F5O4/OEN4jz+52aeGVf040oKf4x1/wWkduQ0XwA8MZ8q656VoORQ/UfRcPoNPnRhXqT19UOGZ72RKyo7ssTq0YobqNxVIVnk5rwEhAFhpSQjYa3Daw3VBLwx2o5lmuaxMcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730072102; c=relaxed/simple;
-	bh=zO0yKavtyGDKSJjc2yBaZMVwdunYz1RJlY2SJcYV44g=;
+	s=arc-20240116; t=1730087593; c=relaxed/simple;
+	bh=nyYxCWIt7wGVrp5kC/Ag8sMf1/u0Xm4xCXbYBHvHJhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EFmReyE6hx44JUyoVZ2TUgeaWs6U95kgGOj+EbsypcBU3lm9iNtoi/ciycip+Ikfs1EfzOj6BsQFQ4MO7LqObOqCK017eMQuFSCbN1FdaIieqZheVAC7+6ozHCEPB0YGBkrVz5ggunYb7ICT3w9KqbUdzv5TC4bSSmk4FrQQS+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAFvRDMM; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=KbHEcVBDs8k+SgVJf5m5or1tdM7LHhRQiFhjkBubownZP1LCzkoUkLZIYMdRHKaJIevE4bONAnKcE/7QL+GfBUD3XUYVy1gZQiCRw98hnArdZwNOkDlrwRrfVMAuPerpltAOb006ckROiJKnY7lnnuQiGIpJORxQajRCz0I5pms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6FKe6gH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAFvRDMM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6FKe6gH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730072100; x=1761608100;
+  t=1730087590; x=1761623590;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zO0yKavtyGDKSJjc2yBaZMVwdunYz1RJlY2SJcYV44g=;
-  b=mAFvRDMMHfV2P7Bepa+DCDkaEGpWCpVRKJoGCn6BGeR1UiT4gIbTSXH4
-   DzK8Y/QN4kC0ZkcZhKNrLvzdfUBHbWEpYYXcsFOrAFHPxyIx2K9NLGSFT
-   H6bEKQfFlhLQqhChwT6V2s0nAoh3HXE24pQ5I/Vw6hpGdoXdqMFi0J8K4
-   13rFtRp/3m4fU8s1THBVUeMzPBKiYTbn1V5uTGfT1dxjk/a2eUEDtM34J
-   LD8OQA5EmHOHPRAF69cwPjkR+P3qcdeNNLbBn+epRcwja5rN6xe46CQzx
-   I2P3WWMkeup9LgTJX4ECbVKDLxs2qdVqmQiGlggox22YLy8Y9+MFjIqJw
+  bh=nyYxCWIt7wGVrp5kC/Ag8sMf1/u0Xm4xCXbYBHvHJhY=;
+  b=m6FKe6gHC5K/yE6rZ9o//HkqymX0y964uNjCJbor7s4nKL6ge7h1RqlH
+   u0u1LOAubSMSYTVH46HAUJqWx+wy1DrOjlOIirRIQ0U+Pg0MeHKzimBkq
+   3F5ZG0u08rCzpifAbwn4CDZ9DMcZdkQsUCbtEbXXvt0/hTCCVAhXOGar+
+   Ux9BxmmsqunFI2J6TsGoUCxot9f4YKensz3GlNfro2pTlmSIgvCcNwWfo
+   f+woI0cGNjY5eENLOJNZtHEfWcB4Ay2Dgk6KYDZAV2zSWLGHPgKWCgjHR
+   USspqywRG3oo3DWi5fyxGuxWEZdxoRnpjjWCOymGdLq2ZttPyiDECs1eS
    w==;
-X-CSE-ConnectionGUID: mwKnDbPWTWSSklUUofqRRQ==
-X-CSE-MsgGUID: 2q0HAXjDRgqge/Lj2UL/cQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="29121354"
-X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="29121354"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 16:35:00 -0700
-X-CSE-ConnectionGUID: vb2TYKcLSmiBfRozDIH7Xw==
-X-CSE-MsgGUID: rwaPNqeqSoWBqk4pguepnw==
+X-CSE-ConnectionGUID: APaHQAESQnabDvUWmBJDBA==
+X-CSE-MsgGUID: 0l6pC/bbRdKI0z2WoDXxxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29634388"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29634388"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 20:53:10 -0700
+X-CSE-ConnectionGUID: TE1yGfyDQT2PwNj5gr3CCA==
+X-CSE-MsgGUID: dJnoet+cT/ugSjUwOjirUA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="86554003"
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="81059993"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2024 16:34:58 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Oct 2024 20:53:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Cme-000b58-16;
-	Sun, 27 Oct 2024 23:34:56 +0000
-Date: Mon, 28 Oct 2024 07:34:14 +0800
+	id 1t5GoU-000bEW-0h;
+	Mon, 28 Oct 2024 03:53:06 +0000
+Date: Mon, 28 Oct 2024 11:52:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [hch-xfs:xfs-zoned 32/46] fs/xfs/xfs_zone_gc.c:439:33-34: WARNING
- opportunity for min()
-Message-ID: <202410280737.tWbSQyhz-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
+Message-ID: <202410281155.jEN0wSbS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,95 +63,122 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Christoph Hellwig <hch@lst.de>
+In-Reply-To: <20241025094734.1614-3-ansuelsmth@gmail.com>
+References: <20241025094734.1614-3-ansuelsmth@gmail.com>
+TO: Christian Marangi <ansuelsmth@gmail.com>
+TO: Christian Marangi <ansuelsmth@gmail.com>
+TO: Herbert Xu <herbert@gondor.apana.org.au>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Antoine Tenart <atenart@kernel.org>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Will Deacon <will@kernel.org>
+TO: Waiman Long <longman@redhat.com>
+TO: Boqun Feng <boqun.feng@gmail.com>
+TO: Nathan Chancellor <nathan@kernel.org>
+TO: Nick Desaulniers <ndesaulniers@google.com>
+TO: Bill Wendling <morbo@google.com>
+TO: Justin Stitt <justinstitt@google.com>
+TO: linux-crypto@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: llvm@lists.linux.dev
+TO: upstream@airoha.com
+CC: Richard van Schagen <vschagen@icloud.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   79473ee0b7f1157cefef5e4b180fa14e30641d36
-commit: 579e1d3d43db665e6d4e6c24418cf9d2e1f4384d [32/46] xfs: support zoned RT devices
-:::::: branch date: 4 days ago
-:::::: commit date: 5 days ago
-config: mips-randconfig-r061-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280737.tWbSQyhz-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.1.0
+Hi Christian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master tip/locking/core linus/master v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-crypto-Add-Inside-Secure-SafeXcel-EIP-93-crypto-engine/20241025-175032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20241025094734.1614-3-ansuelsmth%40gmail.com
+patch subject: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: csky-randconfig-r071-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281155.jEN0wSbS-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410280737.tWbSQyhz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410281155.jEN0wSbS-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_zone_gc.c:439:33-34: WARNING opportunity for min()
---
->> fs/xfs/xfs_zone_alloc.c:551:58-61: ERROR: invalid reference to the index variable of the iterator on line 544
+New smatch warnings:
+drivers/crypto/inside-secure/eip93/eip93-cipher.c:118 eip93_skcipher_setkey() error: uninitialized symbol 'ret'.
+drivers/crypto/inside-secure/eip93/eip93-aead.c:125 eip93_aead_setkey() error: uninitialized symbol 'ret'.
+drivers/crypto/inside-secure/eip93/eip93-hash.c:26 eip93_hash_free_data_blocks() error: dereferencing freed memory 'block'
+drivers/crypto/inside-secure/eip93/eip93-hash.c:162 _eip93_hash_init() error: uninitialized symbol 'sa_record_hmac'.
 
-vim +439 fs/xfs/xfs_zone_gc.c
+Old smatch warnings:
+drivers/crypto/inside-secure/eip93/eip93-hash.c:285 eip93_send_hash_req() error: uninitialized symbol 'crypto_async_idr'.
 
-579e1d3d43db66 Christoph Hellwig 2024-05-31  406  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  407  static int
-579e1d3d43db66 Christoph Hellwig 2024-05-31  408  xfs_zone_gc_query(
-579e1d3d43db66 Christoph Hellwig 2024-05-31  409  	struct xfs_mount	*mp,
-579e1d3d43db66 Christoph Hellwig 2024-05-31  410  	struct xfs_zone_gc_iter	*iter)
-579e1d3d43db66 Christoph Hellwig 2024-05-31  411  {
-579e1d3d43db66 Christoph Hellwig 2024-05-31  412  	struct xfs_rtgroup	*rtg = iter->victim_rtg;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  413  	struct xfs_rmap_irec	ri_low = { };
-579e1d3d43db66 Christoph Hellwig 2024-05-31  414  	struct xfs_rmap_irec	ri_high;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  415  	struct xfs_btree_cur	*cur;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  416  	struct xfs_trans	*tp;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  417  	int			error;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  418  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  419  	ASSERT(iter->next_startblock <= rtg->rtg_extents);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  420  	if (iter->next_startblock == rtg->rtg_extents)
-579e1d3d43db66 Christoph Hellwig 2024-05-31  421  		goto done;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  422  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  423  	ASSERT(iter->next_startblock < rtg->rtg_extents);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  424  	ri_low.rm_startblock = iter->next_startblock;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  425  	memset(&ri_high, 0xFF, sizeof(ri_high));
-579e1d3d43db66 Christoph Hellwig 2024-05-31  426  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  427  	iter->rec_idx = 0;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  428  	iter->rec_count = 0;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  429  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  430  	error = xfs_trans_alloc_empty(mp, &tp);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  431  	if (error)
-579e1d3d43db66 Christoph Hellwig 2024-05-31  432  		return error;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  433  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  434  	xfs_rtgroup_lock(rtg, XFS_RTGLOCK_RMAP);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  435  	xfs_rtgroup_trans_join(tp, rtg, XFS_RTGLOCK_RMAP);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  436  	cur = xfs_rtrmapbt_init_cursor(tp, rtg);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  437  	error = xfs_rmap_query_range(cur, &ri_low, &ri_high,
-579e1d3d43db66 Christoph Hellwig 2024-05-31  438  			xfs_zone_gc_query_cb, iter);
-579e1d3d43db66 Christoph Hellwig 2024-05-31 @439  	xfs_btree_del_cursor(cur, error < 0 ? error : 0);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  440  	xfs_trans_cancel(tp);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  441  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  442  	if (error < 0)
-579e1d3d43db66 Christoph Hellwig 2024-05-31  443  		return error;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  444  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  445  	/*
-579e1d3d43db66 Christoph Hellwig 2024-05-31  446  	 * Sort the rmap records by inode number and increasing offset to
-579e1d3d43db66 Christoph Hellwig 2024-05-31  447  	 * defragment the mappings.
-579e1d3d43db66 Christoph Hellwig 2024-05-31  448  	 *
-579e1d3d43db66 Christoph Hellwig 2024-05-31  449  	 * This could be further enhanced by an even bigger look ahead window,
-579e1d3d43db66 Christoph Hellwig 2024-05-31  450  	 * but that's better left until we have better detection of changes to
-579e1d3d43db66 Christoph Hellwig 2024-05-31  451  	 * inode mapping to avoid the potential of GCing already dead data.
-579e1d3d43db66 Christoph Hellwig 2024-05-31  452  	 */
-579e1d3d43db66 Christoph Hellwig 2024-05-31  453  	sort(iter->recs, iter->rec_count, sizeof(iter->recs[0]),
-579e1d3d43db66 Christoph Hellwig 2024-05-31  454  		xfs_zone_gc_rmap_rec_cmp, NULL);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  455  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  456  	if (error == 0) {
-579e1d3d43db66 Christoph Hellwig 2024-05-31  457  		/*
-579e1d3d43db66 Christoph Hellwig 2024-05-31  458  		 * We finished iterating through the zone.
-579e1d3d43db66 Christoph Hellwig 2024-05-31  459  		 */
-579e1d3d43db66 Christoph Hellwig 2024-05-31  460  		iter->next_startblock = rtg->rtg_extents;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  461  		if (iter->rec_count == 0)
-579e1d3d43db66 Christoph Hellwig 2024-05-31  462  			goto done;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  463  	}
-579e1d3d43db66 Christoph Hellwig 2024-05-31  464  
-579e1d3d43db66 Christoph Hellwig 2024-05-31  465  	return 0;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  466  done:
-579e1d3d43db66 Christoph Hellwig 2024-05-31  467  	xfs_rtgroup_rele(iter->victim_rtg);
-579e1d3d43db66 Christoph Hellwig 2024-05-31  468  	iter->victim_rtg = NULL;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  469  	return 0;
-579e1d3d43db66 Christoph Hellwig 2024-05-31  470  }
-579e1d3d43db66 Christoph Hellwig 2024-05-31  471  
+vim +/ret +118 drivers/crypto/inside-secure/eip93/eip93-cipher.c
+
+883ad7684f17d2 Christian Marangi 2024-10-25   77  
+883ad7684f17d2 Christian Marangi 2024-10-25   78  static int eip93_skcipher_setkey(struct crypto_skcipher *ctfm, const u8 *key,
+883ad7684f17d2 Christian Marangi 2024-10-25   79  				 unsigned int len)
+883ad7684f17d2 Christian Marangi 2024-10-25   80  {
+883ad7684f17d2 Christian Marangi 2024-10-25   81  	struct crypto_tfm *tfm = crypto_skcipher_tfm(ctfm);
+883ad7684f17d2 Christian Marangi 2024-10-25   82  	struct eip93_crypto_ctx *ctx = crypto_tfm_ctx(tfm);
+883ad7684f17d2 Christian Marangi 2024-10-25   83  	struct eip93_alg_template *tmpl = container_of(tfm->__crt_alg,
+883ad7684f17d2 Christian Marangi 2024-10-25   84  						     struct eip93_alg_template,
+883ad7684f17d2 Christian Marangi 2024-10-25   85  						     alg.skcipher.base);
+883ad7684f17d2 Christian Marangi 2024-10-25   86  	struct sa_record *sa_record = ctx->sa_record;
+883ad7684f17d2 Christian Marangi 2024-10-25   87  	unsigned int keylen = len;
+883ad7684f17d2 Christian Marangi 2024-10-25   88  	u32 flags = tmpl->flags;
+883ad7684f17d2 Christian Marangi 2024-10-25   89  	u32 nonce = 0;
+883ad7684f17d2 Christian Marangi 2024-10-25   90  	int ret;
+883ad7684f17d2 Christian Marangi 2024-10-25   91  
+883ad7684f17d2 Christian Marangi 2024-10-25   92  	if (!key || !keylen)
+883ad7684f17d2 Christian Marangi 2024-10-25   93  		return -EINVAL;
+883ad7684f17d2 Christian Marangi 2024-10-25   94  
+883ad7684f17d2 Christian Marangi 2024-10-25   95  	if (IS_RFC3686(flags)) {
+883ad7684f17d2 Christian Marangi 2024-10-25   96  		if (len < CTR_RFC3686_NONCE_SIZE)
+883ad7684f17d2 Christian Marangi 2024-10-25   97  			return -EINVAL;
+883ad7684f17d2 Christian Marangi 2024-10-25   98  
+883ad7684f17d2 Christian Marangi 2024-10-25   99  		keylen = len - CTR_RFC3686_NONCE_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  100  		memcpy(&nonce, key + keylen, CTR_RFC3686_NONCE_SIZE);
+883ad7684f17d2 Christian Marangi 2024-10-25  101  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  102  
+883ad7684f17d2 Christian Marangi 2024-10-25  103  	if (flags & EIP93_ALG_DES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  104  		ctx->blksize = DES_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  105  		ret = verify_skcipher_des_key(ctfm, key);
+883ad7684f17d2 Christian Marangi 2024-10-25  106  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  107  	if (flags & EIP93_ALG_3DES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  108  		ctx->blksize = DES3_EDE_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  109  		ret = verify_skcipher_des3_key(ctfm, key);
+883ad7684f17d2 Christian Marangi 2024-10-25  110  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  111  
+883ad7684f17d2 Christian Marangi 2024-10-25  112  	if (flags & EIP93_ALG_AES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  113  		struct crypto_aes_ctx aes;
+883ad7684f17d2 Christian Marangi 2024-10-25  114  
+883ad7684f17d2 Christian Marangi 2024-10-25  115  		ctx->blksize = AES_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  116  		ret = aes_expandkey(&aes, key, keylen);
+883ad7684f17d2 Christian Marangi 2024-10-25  117  	}
+883ad7684f17d2 Christian Marangi 2024-10-25 @118  	if (ret)
+883ad7684f17d2 Christian Marangi 2024-10-25  119  		return ret;
+883ad7684f17d2 Christian Marangi 2024-10-25  120  
+883ad7684f17d2 Christian Marangi 2024-10-25  121  	eip93_set_sa_record(sa_record, keylen, flags);
+883ad7684f17d2 Christian Marangi 2024-10-25  122  
+883ad7684f17d2 Christian Marangi 2024-10-25  123  	memcpy(sa_record->sa_key, key, keylen);
+883ad7684f17d2 Christian Marangi 2024-10-25  124  	ctx->sa_nonce = nonce;
+883ad7684f17d2 Christian Marangi 2024-10-25  125  	sa_record->sa_nonce = nonce;
+883ad7684f17d2 Christian Marangi 2024-10-25  126  
+883ad7684f17d2 Christian Marangi 2024-10-25  127  	return 0;
+883ad7684f17d2 Christian Marangi 2024-10-25  128  }
+883ad7684f17d2 Christian Marangi 2024-10-25  129  
 
 -- 
 0-DAY CI Kernel Test Service
