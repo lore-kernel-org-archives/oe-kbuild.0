@@ -1,58 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA57519047C
-	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E22E155C97
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730104967; cv=none; b=f9hOJ7WenDrZrt3flxSWjeO1+0oHPsrEKyI3zkbGHpZjXJGqMOBBIqf78yDWKibsSHlaTHb2F1lSrolpnRqzvWHzh0O9+0aWO1SF676Gis/VvalurZ13hDgBPvYnsvWJaEXgwRsA7aX3Vu2Lj3olXO9VoWjDruihwt74H4WwXAI=
+	t=1730105243; cv=none; b=op89LQTTNjPorUPkeuAYOdAZL0c4IMNx7+8E2ot36+GwWR6zNUtYbeb5O+7/CF6R1C20okogxfn9Qv+rGPE3QG8iw68ic3WqmsyRot9/V0ez4g0sHSyG/nxVJW16iwHz0zQXswARZ/2s2HNujRFDxIK8KFAmB2vf4Un4O82LA0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730104967; c=relaxed/simple;
-	bh=GfwdOTWDMieICEre1eiMA1kYyJ8en4kqt/1MnFJZZrs=;
+	s=arc-20240116; t=1730105243; c=relaxed/simple;
+	bh=njnWG0K8KmElAsg3GtSVx4MGRnTG4hORKk/QVzoFZPg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p9hLda49y3zivwihesCF/HZYCiN5KXLEMo7XPtRMs6QaU0vPkvOk2pP8wunHw7sPQHeo6KmYA8jLLFqy/CxELrrWQJtJipb4PiUmTaco1bDB4Rdr386ki5eXCsoEE79ayQNIJcgERDA4alPWEnW6uRucZQAVdVe/Y1weYP8jPaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFPYjW9M; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=WcUmzES6lopXboFjPBK9/Xg9wtRG9pqZ3lvurvfpMMP0L67A3vskoRZJ0DQcrhkxbfPQgD0oIDYVkJvmTIlqUSRVDLs9sWqDVLkFXU8cqfri8awuegwFwwiu/nsWhEWR+0QvqJvIUkwPtoimjPuAgtpWjbp+8lkJKcOPw/HUo7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z7LHU0ld; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFPYjW9M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730104965; x=1761640965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GfwdOTWDMieICEre1eiMA1kYyJ8en4kqt/1MnFJZZrs=;
-  b=fFPYjW9MJxLtUH1BlV14X1RQUmfshS8Djg4HLYTR+ENhRqGzJBf/UjBr
-   fEj1pNbEWWVuHTgmLOYALHOXpNbwmqs/vPxT5Gqmqc3Sus3iZYFkfMdit
-   hdVRAux8oaUbo+Rfz6vnrqZRbf+iM2SOkxFITwfZiTLjxhfoHb5hVG2Im
-   MzyefrQ99HsnHLLkl6PyggbfURSCYP2Kf5KQz/Z9hyibQxY0SpA4wNmEJ
-   gLiTYsvswPsxzyULYXQ0bholk2Gt7N2QQO9bqjavi4GP8yCaSvWC9QaX7
-   LYMDyERbgb0xDFhVER97QxMEKVZcO+EN32Bdf1KDFjS4JkyUyKNEiVKiQ
-   Q==;
-X-CSE-ConnectionGUID: suo1XIjPSk25/UoqOy1waw==
-X-CSE-MsgGUID: AYcVSaNpTeW8QVY14TETKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29467606"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29467606"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 01:42:44 -0700
-X-CSE-ConnectionGUID: wOcW2m2IR8yt/xbtiGfirA==
-X-CSE-MsgGUID: SVc2TGoMSf+SRH+4r2rUNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="82363724"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Oct 2024 01:42:43 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5LKj-000cDV-0O;
-	Mon, 28 Oct 2024 08:42:41 +0000
-Date: Mon, 28 Oct 2024 16:41:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/crypto/intel/iaa/iaa_crypto_main.c:1826
- iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
-Message-ID: <202410281615.ubVWh99w-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z7LHU0ld"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d4b0943c7so2756686f8f.1
+        for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 01:47:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730105238; x=1730710038; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dQpxxEorCaC54I/E/d76w9ruRK2/NSSTmUB/SeU0xA0=;
+        b=z7LHU0ldDT2INYgvY7y4XzX5Q3nbGlh17vSsPCBsQWg2qQsLTJe6yjUOeDBSRoEcQ2
+         8dKQJczY5k8XnxqJf+VKsM3oW+0D5IAYTrLFuUFGOknUjcjQgFlme3GXoRksjL0PRtCg
+         Jmxn9wfa6VXtU+zY0qZa6eU06W5XxM3fD47wctSsjYA+frANlhYBYDurD9aEM9ZYaPrz
+         Xkjw3wPjTp6aFhG1i2tZVAmwbY8i1jmm/dW0PrWrbZpliMfUPQgPD8fL7eIiO/uH3kdA
+         oGV7tpbPwbp9Zk71nKIAR2CgVww1lnUe66KWXZIXQ4v3Wo+k9CgFbHJjOL94066NAIY/
+         NmnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730105238; x=1730710038;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dQpxxEorCaC54I/E/d76w9ruRK2/NSSTmUB/SeU0xA0=;
+        b=J7qkO48g/EfZKVJOFjnFrfgGub4zsD/XW7k5o2UU4SbU01MeJNPxt8jB9rodLfgb19
+         Qd+rxnee6u3AVp/OOubzDqTXq8bFLEeSfKNGe1eGSc8oU+aCIipEkd5o4Qds/wSsC5D/
+         zXi3uXYY/IOnwpL9mLkySMZk4WH+sST780g/+1u+N3eIXYA9NJVUGCfHpww5cJjzu/B/
+         TvDu4gCUZ9W8S5gljEN5SEQzLV1ukwpmcmfGdjt6tRIGIQKW1dNwbK70HAwaXsPlQ0Qz
+         p2Jq/5QuMJTqB5oMNHusGUm0v9qx+sVch2x6pOQAu8nMuAvXDBLOEFXkE+Z9vrS13mN7
+         axqQ==
+X-Gm-Message-State: AOJu0YxDW2mNLWYL+U3RFNSn5lLjcJn9tEvwmomyJxf0cHMuX7uxLbE1
+	QpfD1xPBSrOm3WHqO5sYec2/BVqAJqkAhGc9GeXAR0qji/rAlCjTZjlciLfs3qzaHLXv36l2dCR
+	yzTI=
+X-Google-Smtp-Source: AGHT+IG2t0dSOV9asrka5oPrm2z358/r92i5q+Ouvdn8AKmm/swXDcwzRiW8ilfEO772hmMSoFc9yA==
+X-Received: by 2002:adf:a450:0:b0:37d:4ebe:1644 with SMTP id ffacd0b85a97d-380611e34b4mr4999920f8f.43.1730105237991;
+        Mon, 28 Oct 2024 01:47:17 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b71231sm8824106f8f.66.2024.10.28.01.47.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 01:47:17 -0700 (PDT)
+Date: Mon, 28 Oct 2024 11:47:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Antoine Tenart <atenart@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-crypto@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, upstream@airoha.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Richard van Schagen <vschagen@icloud.com>
+Subject: Re: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
+Message-ID: <8011818d-bdc1-433a-a348-648955c55535@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,89 +81,94 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241025094734.1614-3-ansuelsmth@gmail.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Tom Zanussi <tom.zanussi@linux.intel.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+Hi Christian,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   81983758430957d9a5cb3333fe324fd70cf63e7e
-commit: 2ec6761df889fdf896fde761abd447596dd8f8c2 crypto: iaa - Add support for deflate-iaa compression algorithm
-date:   11 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281615.ubVWh99w-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-crypto-Add-Inside-Secure-SafeXcel-EIP-93-crypto-engine/20241025-175032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20241025094734.1614-3-ansuelsmth%40gmail.com
+patch subject: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
+config: csky-randconfig-r071-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281155.jEN0wSbS-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410281615.ubVWh99w-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410281155.jEN0wSbS-lkp@intel.com/
 
 New smatch warnings:
-drivers/crypto/intel/iaa/iaa_crypto_main.c:1826 iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
+drivers/crypto/inside-secure/eip93/eip93-cipher.c:118 eip93_skcipher_setkey() error: uninitialized symbol 'ret'.
+drivers/crypto/inside-secure/eip93/eip93-aead.c:125 eip93_aead_setkey() error: uninitialized symbol 'ret'.
+drivers/crypto/inside-secure/eip93/eip93-hash.c:26 eip93_hash_free_data_blocks() error: dereferencing freed memory 'block'
+drivers/crypto/inside-secure/eip93/eip93-hash.c:162 _eip93_hash_init() error: uninitialized symbol 'sa_record_hmac'.
 
 Old smatch warnings:
-drivers/crypto/intel/iaa/iaa_crypto_main.c:435 init_device_compression_mode() error: not allocating enough for = 'device_mode->aecs_decomp_table' 5352 vs 1600
-drivers/crypto/intel/iaa/iaa_crypto_main.c:508 remove_device_compression_modes() error: double free of 'device_mode'
+drivers/crypto/inside-secure/eip93/eip93-hash.c:285 eip93_send_hash_req() error: uninitialized symbol 'crypto_async_idr'.
 
-vim +/PTR_ERR +1826 drivers/crypto/intel/iaa/iaa_crypto_main.c
+vim +/ret +118 drivers/crypto/inside-secure/eip93/eip93-cipher.c
 
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1813  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1814  static int __init iaa_crypto_init_module(void)
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1815  {
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1816  	int ret = 0;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1817  
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1818  	nr_cpus = num_online_cpus();
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1819  	nr_nodes = num_online_nodes();
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1820  	nr_cpus_per_node = nr_cpus / nr_nodes;
-f57bf3f78377d6 Tom Zanussi 2023-12-05  1821  
-2ec6761df889fd Tom Zanussi 2023-12-05  1822  	if (crypto_has_comp("deflate-generic", 0, 0))
-2ec6761df889fd Tom Zanussi 2023-12-05  1823  		deflate_generic_tfm = crypto_alloc_comp("deflate-generic", 0, 0);
-2ec6761df889fd Tom Zanussi 2023-12-05  1824  
-2ec6761df889fd Tom Zanussi 2023-12-05  1825  	if (IS_ERR_OR_NULL(deflate_generic_tfm)) {
-2ec6761df889fd Tom Zanussi 2023-12-05 @1826  		pr_err("IAA could not alloc %s tfm: errcode = %ld\n",
-2ec6761df889fd Tom Zanussi 2023-12-05  1827  		       "deflate-generic", PTR_ERR(deflate_generic_tfm));
-2ec6761df889fd Tom Zanussi 2023-12-05  1828  		return -ENOMEM;
-2ec6761df889fd Tom Zanussi 2023-12-05  1829  	}
-2ec6761df889fd Tom Zanussi 2023-12-05  1830  
-b190447e0fa3ef Tom Zanussi 2023-12-05  1831  	ret = iaa_aecs_init_fixed();
-b190447e0fa3ef Tom Zanussi 2023-12-05  1832  	if (ret < 0) {
-b190447e0fa3ef Tom Zanussi 2023-12-05  1833  		pr_debug("IAA fixed compression mode init failed\n");
-2ec6761df889fd Tom Zanussi 2023-12-05  1834  		goto err_aecs_init;
-b190447e0fa3ef Tom Zanussi 2023-12-05  1835  	}
-b190447e0fa3ef Tom Zanussi 2023-12-05  1836  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1837  	ret = idxd_driver_register(&iaa_crypto_driver);
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1838  	if (ret) {
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1839  		pr_debug("IAA wq sub-driver registration failed\n");
-b190447e0fa3ef Tom Zanussi 2023-12-05  1840  		goto err_driver_reg;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1841  	}
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1842  
-2ec6761df889fd Tom Zanussi 2023-12-05  1843  	ret = driver_create_file(&iaa_crypto_driver.drv,
-2ec6761df889fd Tom Zanussi 2023-12-05  1844  				 &driver_attr_verify_compress);
-2ec6761df889fd Tom Zanussi 2023-12-05  1845  	if (ret) {
-2ec6761df889fd Tom Zanussi 2023-12-05  1846  		pr_debug("IAA verify_compress attr creation failed\n");
-2ec6761df889fd Tom Zanussi 2023-12-05  1847  		goto err_verify_attr_create;
-2ec6761df889fd Tom Zanussi 2023-12-05  1848  	}
-2ec6761df889fd Tom Zanussi 2023-12-05  1849  
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1850  	pr_debug("initialized\n");
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1851  out:
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1852  	return ret;
-b190447e0fa3ef Tom Zanussi 2023-12-05  1853  
-2ec6761df889fd Tom Zanussi 2023-12-05  1854  err_verify_attr_create:
-2ec6761df889fd Tom Zanussi 2023-12-05  1855  	idxd_driver_unregister(&iaa_crypto_driver);
-b190447e0fa3ef Tom Zanussi 2023-12-05  1856  err_driver_reg:
-b190447e0fa3ef Tom Zanussi 2023-12-05  1857  	iaa_aecs_cleanup_fixed();
-2ec6761df889fd Tom Zanussi 2023-12-05  1858  err_aecs_init:
-2ec6761df889fd Tom Zanussi 2023-12-05  1859  	crypto_free_comp(deflate_generic_tfm);
-b190447e0fa3ef Tom Zanussi 2023-12-05  1860  
-b190447e0fa3ef Tom Zanussi 2023-12-05  1861  	goto out;
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1862  }
-ea7a5cbb43696c Tom Zanussi 2023-12-05  1863  
+883ad7684f17d2 Christian Marangi 2024-10-25   78  static int eip93_skcipher_setkey(struct crypto_skcipher *ctfm, const u8 *key,
+883ad7684f17d2 Christian Marangi 2024-10-25   79  				 unsigned int len)
+883ad7684f17d2 Christian Marangi 2024-10-25   80  {
+883ad7684f17d2 Christian Marangi 2024-10-25   81  	struct crypto_tfm *tfm = crypto_skcipher_tfm(ctfm);
+883ad7684f17d2 Christian Marangi 2024-10-25   82  	struct eip93_crypto_ctx *ctx = crypto_tfm_ctx(tfm);
+883ad7684f17d2 Christian Marangi 2024-10-25   83  	struct eip93_alg_template *tmpl = container_of(tfm->__crt_alg,
+883ad7684f17d2 Christian Marangi 2024-10-25   84  						     struct eip93_alg_template,
+883ad7684f17d2 Christian Marangi 2024-10-25   85  						     alg.skcipher.base);
+883ad7684f17d2 Christian Marangi 2024-10-25   86  	struct sa_record *sa_record = ctx->sa_record;
+883ad7684f17d2 Christian Marangi 2024-10-25   87  	unsigned int keylen = len;
+883ad7684f17d2 Christian Marangi 2024-10-25   88  	u32 flags = tmpl->flags;
+883ad7684f17d2 Christian Marangi 2024-10-25   89  	u32 nonce = 0;
+883ad7684f17d2 Christian Marangi 2024-10-25   90  	int ret;
+883ad7684f17d2 Christian Marangi 2024-10-25   91  
+883ad7684f17d2 Christian Marangi 2024-10-25   92  	if (!key || !keylen)
+883ad7684f17d2 Christian Marangi 2024-10-25   93  		return -EINVAL;
+883ad7684f17d2 Christian Marangi 2024-10-25   94  
+883ad7684f17d2 Christian Marangi 2024-10-25   95  	if (IS_RFC3686(flags)) {
+883ad7684f17d2 Christian Marangi 2024-10-25   96  		if (len < CTR_RFC3686_NONCE_SIZE)
+883ad7684f17d2 Christian Marangi 2024-10-25   97  			return -EINVAL;
+883ad7684f17d2 Christian Marangi 2024-10-25   98  
+883ad7684f17d2 Christian Marangi 2024-10-25   99  		keylen = len - CTR_RFC3686_NONCE_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  100  		memcpy(&nonce, key + keylen, CTR_RFC3686_NONCE_SIZE);
+883ad7684f17d2 Christian Marangi 2024-10-25  101  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  102  
+883ad7684f17d2 Christian Marangi 2024-10-25  103  	if (flags & EIP93_ALG_DES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  104  		ctx->blksize = DES_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  105  		ret = verify_skcipher_des_key(ctfm, key);
+883ad7684f17d2 Christian Marangi 2024-10-25  106  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  107  	if (flags & EIP93_ALG_3DES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  108  		ctx->blksize = DES3_EDE_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  109  		ret = verify_skcipher_des3_key(ctfm, key);
+883ad7684f17d2 Christian Marangi 2024-10-25  110  	}
+883ad7684f17d2 Christian Marangi 2024-10-25  111  
+883ad7684f17d2 Christian Marangi 2024-10-25  112  	if (flags & EIP93_ALG_AES) {
+883ad7684f17d2 Christian Marangi 2024-10-25  113  		struct crypto_aes_ctx aes;
+883ad7684f17d2 Christian Marangi 2024-10-25  114  
+883ad7684f17d2 Christian Marangi 2024-10-25  115  		ctx->blksize = AES_BLOCK_SIZE;
+883ad7684f17d2 Christian Marangi 2024-10-25  116  		ret = aes_expandkey(&aes, key, keylen);
+883ad7684f17d2 Christian Marangi 2024-10-25  117  	}
+
+What about if none the flags are set?
+
+883ad7684f17d2 Christian Marangi 2024-10-25 @118  	if (ret)
+883ad7684f17d2 Christian Marangi 2024-10-25  119  		return ret;
+883ad7684f17d2 Christian Marangi 2024-10-25  120  
+883ad7684f17d2 Christian Marangi 2024-10-25  121  	eip93_set_sa_record(sa_record, keylen, flags);
+883ad7684f17d2 Christian Marangi 2024-10-25  122  
+883ad7684f17d2 Christian Marangi 2024-10-25  123  	memcpy(sa_record->sa_key, key, keylen);
+883ad7684f17d2 Christian Marangi 2024-10-25  124  	ctx->sa_nonce = nonce;
+883ad7684f17d2 Christian Marangi 2024-10-25  125  	sa_record->sa_nonce = nonce;
+883ad7684f17d2 Christian Marangi 2024-10-25  126  
+883ad7684f17d2 Christian Marangi 2024-10-25  127  	return 0;
+883ad7684f17d2 Christian Marangi 2024-10-25  128  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
