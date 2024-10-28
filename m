@@ -1,65 +1,58 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D26017CA1B
-	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA57519047C
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730104549; cv=none; b=ss09AyM6I+YhqHr+oVCnNEfaafJ9bGRmwVsPnR3q9W86BdLoHgVRRZ7sYHgVd/tWDLUtdOFRVdHML7sbzGWs9iknstWsBIIHnxNUmVo2+ki6S2NVMiupVRVbn608hXICcw2ZNf6xl5S5d96SnIGm4++IdV1AxF3h0Tly8NtxX+w=
+	t=1730104967; cv=none; b=f9hOJ7WenDrZrt3flxSWjeO1+0oHPsrEKyI3zkbGHpZjXJGqMOBBIqf78yDWKibsSHlaTHb2F1lSrolpnRqzvWHzh0O9+0aWO1SF676Gis/VvalurZ13hDgBPvYnsvWJaEXgwRsA7aX3Vu2Lj3olXO9VoWjDruihwt74H4WwXAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730104549; c=relaxed/simple;
-	bh=P8lI1lay1x+GaaB2apksJXWv2VLbTRlDo04+gH+Wl98=;
+	s=arc-20240116; t=1730104967; c=relaxed/simple;
+	bh=GfwdOTWDMieICEre1eiMA1kYyJ8en4kqt/1MnFJZZrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J6zKUXnI8WCEiJwtT6DfJVSRCth103ngNHupLO+CP3JBOz8aW76ILNP99L3OiECskambdOqgQwWEIS19Yb9mjdPiHqbJN0CAJ8EoaJ/QdPhpvkzcEVMfC88KeoNd0ig6oObEuNtbl14YhfhHxhNsQPeT0xN2i1wZJECrBPDS0fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mClUavq1; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=p9hLda49y3zivwihesCF/HZYCiN5KXLEMo7XPtRMs6QaU0vPkvOk2pP8wunHw7sPQHeo6KmYA8jLLFqy/CxELrrWQJtJipb4PiUmTaco1bDB4Rdr386ki5eXCsoEE79ayQNIJcgERDA4alPWEnW6uRucZQAVdVe/Y1weYP8jPaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFPYjW9M; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mClUavq1"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d3ecad390so3643080f8f.1
-        for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 01:35:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730104545; x=1730709345; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u31EBV70pjXiqnYAeflEhLBiqLsm8DBZP0IlSJFiLBM=;
-        b=mClUavq1OwvdQErcMxR8F1ZidyLQOgUDzKrCbGeL5kp9i5EA4OWVgrRI4ucqqBwFUj
-         dxUofE1UBPPMzt/mu7ufH4m6PK3QYqP9ICQYH6kJMK4kQM+1V/pCnsrHLM0cji2UNIqM
-         wHcVHElvFdtLCnv2iCsKLu0OgO6MN8n086+LbI9K0jOwAN1qdfEiuG8abUYnjGf1NlYp
-         AcdXirL8skHQYDG/7s+8R+UYD5EVb6cDuzp7wWstPrVkFrBZwa3Z1iP8ieMQeLzvavOI
-         mq5VeHJLCE9xJ+S87l7oq3bTxFH9RYlexelALD3eL21DOK62SeqhRVFIkR+wHmiTd71V
-         LbGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730104545; x=1730709345;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u31EBV70pjXiqnYAeflEhLBiqLsm8DBZP0IlSJFiLBM=;
-        b=ghBi02l1pJiLDdTwHvkHdo5ManD/rg3Y84BqPWX73INVGNuy+XIwJlZDdWbMJSkgDb
-         SgiApUYlurt3HfcTwpWq70OhtbuA1dSzjVIN9dsZO0a3Gp949+2aOIlE7bIzKxX+6XuB
-         y91pUa9zXZn7/Nh7m3w21YYQsIAym7M+Qp1EhPu8tuBVgz6yGSPYXgJBHKc6gzi2xGId
-         SUSbfocpAy0tZD7Cp+bl7BYYZA4rJ84BZ40EGPBl5tBGgzPMU3bZiW1+OOfAxMq+zve4
-         nRq+KcIgMuxJwqac4sEgcs+/A6xahZ8FTTZ8Kx5k7I8diJyDh/sUA7vSf66K4iq8VA2B
-         Xkfg==
-X-Gm-Message-State: AOJu0YxOuvKUlarh6Wm6fttvGtXll+mtFkZjUjplB1Vg4TQNSww+IlYx
-	YFHMfoOgjL5quzipvErGIHUyyL4ni+ie8IWRYpGLTdqGhuNOHlkAIh6CEmGEbV0r0JXZJMrWjeT
-	9azs=
-X-Google-Smtp-Source: AGHT+IG7V2/KyJh3HaaT1kGnOmZdo9MCVq5OCETyqzWB69NHishESA/bMptAKAS3tkCmFkY12dYJRQ==
-X-Received: by 2002:a5d:6a02:0:b0:376:dbb5:10c2 with SMTP id ffacd0b85a97d-38060f56d0fmr5400857f8f.29.1730104544865;
-        Mon, 28 Oct 2024 01:35:44 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9d008sm8773854f8f.107.2024.10.28.01.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 01:35:44 -0700 (PDT)
-Date: Mon, 28 Oct 2024 11:35:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Ben Chuang <ben.chuang@genesyslogic.com.tw>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: [ulfh-mmc:next 49/61] drivers/mmc/host/sdhci-uhs2.c:436
- sdhci_uhs2_do_detect_init() error: we previously assumed 'host->ops' could
- be null (see line 416)
-Message-ID: <fbbdcf40-d6ab-42e7-8e26-f1864368a7b5@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFPYjW9M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730104965; x=1761640965;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GfwdOTWDMieICEre1eiMA1kYyJ8en4kqt/1MnFJZZrs=;
+  b=fFPYjW9MJxLtUH1BlV14X1RQUmfshS8Djg4HLYTR+ENhRqGzJBf/UjBr
+   fEj1pNbEWWVuHTgmLOYALHOXpNbwmqs/vPxT5Gqmqc3Sus3iZYFkfMdit
+   hdVRAux8oaUbo+Rfz6vnrqZRbf+iM2SOkxFITwfZiTLjxhfoHb5hVG2Im
+   MzyefrQ99HsnHLLkl6PyggbfURSCYP2Kf5KQz/Z9hyibQxY0SpA4wNmEJ
+   gLiTYsvswPsxzyULYXQ0bholk2Gt7N2QQO9bqjavi4GP8yCaSvWC9QaX7
+   LYMDyERbgb0xDFhVER97QxMEKVZcO+EN32Bdf1KDFjS4JkyUyKNEiVKiQ
+   Q==;
+X-CSE-ConnectionGUID: suo1XIjPSk25/UoqOy1waw==
+X-CSE-MsgGUID: AYcVSaNpTeW8QVY14TETKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29467606"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29467606"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 01:42:44 -0700
+X-CSE-ConnectionGUID: wOcW2m2IR8yt/xbtiGfirA==
+X-CSE-MsgGUID: SVc2TGoMSf+SRH+4r2rUNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="82363724"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 28 Oct 2024 01:42:43 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5LKj-000cDV-0O;
+	Mon, 28 Oct 2024 08:42:41 +0000
+Date: Mon, 28 Oct 2024 16:41:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/crypto/intel/iaa/iaa_crypto_main.c:1826
+ iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
+Message-ID: <202410281615.ubVWh99w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,66 +62,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git next
-head:   3c0946b6a378fb92658aabcda5c70ea3e83143bf
-commit: 379e4dc5b68a6642fc13b94543be33307ed09704 [49/61] mmc: sdhci-uhs2: add pre-detect_init hook
-config: arm-randconfig-r071-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271835.tqz9s9JV-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   81983758430957d9a5cb3333fe324fd70cf63e7e
+commit: 2ec6761df889fdf896fde761abd447596dd8f8c2 crypto: iaa - Add support for deflate-iaa compression algorithm
+date:   11 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-161-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281615.ubVWh99w-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410271835.tqz9s9JV-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410281615.ubVWh99w-lkp@intel.com/
 
-smatch warnings:
-drivers/mmc/host/sdhci-uhs2.c:436 sdhci_uhs2_do_detect_init() error: we previously assumed 'host->ops' could be null (see line 416)
+New smatch warnings:
+drivers/crypto/intel/iaa/iaa_crypto_main.c:1826 iaa_crypto_init_module() warn: passing zero to 'PTR_ERR'
 
-vim +436 drivers/mmc/host/sdhci-uhs2.c
+Old smatch warnings:
+drivers/crypto/intel/iaa/iaa_crypto_main.c:435 init_device_compression_mode() error: not allocating enough for = 'device_mode->aecs_decomp_table' 5352 vs 1600
+drivers/crypto/intel/iaa/iaa_crypto_main.c:508 remove_device_compression_modes() error: double free of 'device_mode'
 
-4f412f7918048c Victor Shih 2024-10-18  410  static int sdhci_uhs2_do_detect_init(struct mmc_host *mmc)
-4f412f7918048c Victor Shih 2024-10-18  411  {
-4f412f7918048c Victor Shih 2024-10-18  412  	struct sdhci_host *host = mmc_priv(mmc);
-4f412f7918048c Victor Shih 2024-10-18  413  
-4f412f7918048c Victor Shih 2024-10-18  414  	DBG("Begin do uhs2 detect init.\n");
-4f412f7918048c Victor Shih 2024-10-18  415  
-379e4dc5b68a66 Ben Chuang  2024-10-18 @416  	if (host->ops && host->ops->uhs2_pre_detect_init)
+vim +/PTR_ERR +1826 drivers/crypto/intel/iaa/iaa_crypto_main.c
 
-host->ops probably can't be NULL here.  Smatch doesn't print a warning if it
-can determine the check doesn't matter one way or another, but the kbuid bot
-can't use cross function analysis (it's very slow and doesn't scale to the level
-that kbuild bot needs).  I'm wondering if it's worth reporting these when they're
-probably fine.
-
-379e4dc5b68a66 Ben Chuang  2024-10-18  417  		host->ops->uhs2_pre_detect_init(host);
-379e4dc5b68a66 Ben Chuang  2024-10-18  418  
-4f412f7918048c Victor Shih 2024-10-18  419  	if (sdhci_uhs2_interface_detect(host)) {
-4f412f7918048c Victor Shih 2024-10-18  420  		pr_warn("%s: cannot detect UHS2 interface.\n", mmc_hostname(host->mmc));
-4f412f7918048c Victor Shih 2024-10-18  421  		return -EIO;
-4f412f7918048c Victor Shih 2024-10-18  422  	}
-4f412f7918048c Victor Shih 2024-10-18  423  
-4f412f7918048c Victor Shih 2024-10-18  424  	if (sdhci_uhs2_init(host)) {
-4f412f7918048c Victor Shih 2024-10-18  425  		pr_warn("%s: UHS2 init fail.\n", mmc_hostname(host->mmc));
-4f412f7918048c Victor Shih 2024-10-18  426  		return -EIO;
-4f412f7918048c Victor Shih 2024-10-18  427  	}
-4f412f7918048c Victor Shih 2024-10-18  428  
-4f412f7918048c Victor Shih 2024-10-18  429  	/* Init complete, do soft reset and enable UHS2 error irqs. */
-4f412f7918048c Victor Shih 2024-10-18  430  	sdhci_uhs2_reset(host, SDHCI_UHS2_SW_RESET_SD);
-4f412f7918048c Victor Shih 2024-10-18  431  	sdhci_uhs2_clear_set_irqs(host, SDHCI_INT_ALL_MASK, SDHCI_UHS2_INT_ERROR_MASK);
-4f412f7918048c Victor Shih 2024-10-18  432  	/*
-4f412f7918048c Victor Shih 2024-10-18  433  	 * N.B SDHCI_INT_ENABLE and SDHCI_SIGNAL_ENABLE was cleared
-4f412f7918048c Victor Shih 2024-10-18  434  	 * by SDHCI_UHS2_SW_RESET_SD
-4f412f7918048c Victor Shih 2024-10-18  435  	 */
-4f412f7918048c Victor Shih 2024-10-18 @436  	sdhci_writel(host, host->ier, SDHCI_INT_ENABLE);
-                                                             ^^^^
-If host->ops were NULL it would crash here
-
-4f412f7918048c Victor Shih 2024-10-18  437  	sdhci_writel(host, host->ier, SDHCI_SIGNAL_ENABLE);
-4f412f7918048c Victor Shih 2024-10-18  438  
-4f412f7918048c Victor Shih 2024-10-18  439  	return 0;
-4f412f7918048c Victor Shih 2024-10-18  440  }
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1813  
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1814  static int __init iaa_crypto_init_module(void)
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1815  {
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1816  	int ret = 0;
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1817  
+f57bf3f78377d6 Tom Zanussi 2023-12-05  1818  	nr_cpus = num_online_cpus();
+f57bf3f78377d6 Tom Zanussi 2023-12-05  1819  	nr_nodes = num_online_nodes();
+f57bf3f78377d6 Tom Zanussi 2023-12-05  1820  	nr_cpus_per_node = nr_cpus / nr_nodes;
+f57bf3f78377d6 Tom Zanussi 2023-12-05  1821  
+2ec6761df889fd Tom Zanussi 2023-12-05  1822  	if (crypto_has_comp("deflate-generic", 0, 0))
+2ec6761df889fd Tom Zanussi 2023-12-05  1823  		deflate_generic_tfm = crypto_alloc_comp("deflate-generic", 0, 0);
+2ec6761df889fd Tom Zanussi 2023-12-05  1824  
+2ec6761df889fd Tom Zanussi 2023-12-05  1825  	if (IS_ERR_OR_NULL(deflate_generic_tfm)) {
+2ec6761df889fd Tom Zanussi 2023-12-05 @1826  		pr_err("IAA could not alloc %s tfm: errcode = %ld\n",
+2ec6761df889fd Tom Zanussi 2023-12-05  1827  		       "deflate-generic", PTR_ERR(deflate_generic_tfm));
+2ec6761df889fd Tom Zanussi 2023-12-05  1828  		return -ENOMEM;
+2ec6761df889fd Tom Zanussi 2023-12-05  1829  	}
+2ec6761df889fd Tom Zanussi 2023-12-05  1830  
+b190447e0fa3ef Tom Zanussi 2023-12-05  1831  	ret = iaa_aecs_init_fixed();
+b190447e0fa3ef Tom Zanussi 2023-12-05  1832  	if (ret < 0) {
+b190447e0fa3ef Tom Zanussi 2023-12-05  1833  		pr_debug("IAA fixed compression mode init failed\n");
+2ec6761df889fd Tom Zanussi 2023-12-05  1834  		goto err_aecs_init;
+b190447e0fa3ef Tom Zanussi 2023-12-05  1835  	}
+b190447e0fa3ef Tom Zanussi 2023-12-05  1836  
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1837  	ret = idxd_driver_register(&iaa_crypto_driver);
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1838  	if (ret) {
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1839  		pr_debug("IAA wq sub-driver registration failed\n");
+b190447e0fa3ef Tom Zanussi 2023-12-05  1840  		goto err_driver_reg;
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1841  	}
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1842  
+2ec6761df889fd Tom Zanussi 2023-12-05  1843  	ret = driver_create_file(&iaa_crypto_driver.drv,
+2ec6761df889fd Tom Zanussi 2023-12-05  1844  				 &driver_attr_verify_compress);
+2ec6761df889fd Tom Zanussi 2023-12-05  1845  	if (ret) {
+2ec6761df889fd Tom Zanussi 2023-12-05  1846  		pr_debug("IAA verify_compress attr creation failed\n");
+2ec6761df889fd Tom Zanussi 2023-12-05  1847  		goto err_verify_attr_create;
+2ec6761df889fd Tom Zanussi 2023-12-05  1848  	}
+2ec6761df889fd Tom Zanussi 2023-12-05  1849  
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1850  	pr_debug("initialized\n");
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1851  out:
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1852  	return ret;
+b190447e0fa3ef Tom Zanussi 2023-12-05  1853  
+2ec6761df889fd Tom Zanussi 2023-12-05  1854  err_verify_attr_create:
+2ec6761df889fd Tom Zanussi 2023-12-05  1855  	idxd_driver_unregister(&iaa_crypto_driver);
+b190447e0fa3ef Tom Zanussi 2023-12-05  1856  err_driver_reg:
+b190447e0fa3ef Tom Zanussi 2023-12-05  1857  	iaa_aecs_cleanup_fixed();
+2ec6761df889fd Tom Zanussi 2023-12-05  1858  err_aecs_init:
+2ec6761df889fd Tom Zanussi 2023-12-05  1859  	crypto_free_comp(deflate_generic_tfm);
+b190447e0fa3ef Tom Zanussi 2023-12-05  1860  
+b190447e0fa3ef Tom Zanussi 2023-12-05  1861  	goto out;
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1862  }
+ea7a5cbb43696c Tom Zanussi 2023-12-05  1863  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
