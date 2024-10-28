@@ -1,57 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4AF18C03B
-	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11409190671
+	for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 08:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730103045; cv=none; b=RIWbBq9zWH5REIA8Bylkyd5rU05ejLkLI6csNroE/S2J4LUwkipONMMp1PoAe4D31y7VFmT7v5El/umNkaz8SkomZWDYDwMqwUOIWL1erO5IfdCaLTn5PNZi4F7/wAz9qIjm6ULHjtDh3HBK/z/U/FyZ4/YJzHZAKb4uTZnoOnI=
+	t=1730104110; cv=none; b=uhJJjLhet1eZClJ52spWhVikuaDDeLJD9mw6Oj/1AE3meQSLInZklHgRMz9Fj6csU/iflnuGkFGt1Mn1OUOd44DkyqDcpn8RsMz/eLuhMRCnl9U60QU535R4VpvFm51vrRJ3KMvcdZuqjRHnntoauuOVMtOXbbVsIY9MLdQ019Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730103045; c=relaxed/simple;
-	bh=GkQg0lPywfNpN8RdOLRbyKNoZ6QybOuS4peLqj5po2I=;
+	s=arc-20240116; t=1730104110; c=relaxed/simple;
+	bh=NVqXPS/L5BH4Gj7hbSyrhwDNjVwxjaH3REBBB+8AaVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L5+Rvi6BR6B7VdX6pxriiW9QraY5FAY3xm691qcEHXMW0E4nFYpOwJ0l7jktWcfeMZjNS1Ti+P3i//Ma8Q2ud6D/Ou+0wP4E3c73vyCUJiWK3O4+jMe1WhyAQuvd55czGuWs+ZqJQeCwZKHCHM3tQW4rzyVeHfY70SVGz4FIjsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIi+TdBm; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=p+jPu6wKDEYbQ+bLxlZL4ohwH2upFe+SaTV+to719Az5jiLN438shuYN84ZV2UYvpOhqFiayuHuaQ5b5GGkzbOkj+OieBYf0MxziCcPR37GnJl0Vz1hzT3c0b0wJzzXQBdRUFlLsARUYtMIflPyoj2XSEou0ZDb/8dx89t+5Qpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TGaFi+wl; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIi+TdBm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730103042; x=1761639042;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GkQg0lPywfNpN8RdOLRbyKNoZ6QybOuS4peLqj5po2I=;
-  b=FIi+TdBmDmtyOhWMAxqEPutfHeGs+YlMtRqrjKMgcVYQ0wDRGAiNcWOj
-   brGcffwbQYAafOP6VX+ViRJqTYd1/PIr77cmIJrsjrwAujztGam+u5AKu
-   ldby7y7nvP4y6gZ8xMxNagSa6HZx5ybaLzRqP8+4aq98Uu5ABYkvbJQep
-   ypGukffRCeeiz1Yhp6Ncq1WLzin0PF2xkBIOMFTT9/JBOq1GqNoN+aLp2
-   /+K6WACvVl4uaq/HRv1Odes59CSGEdUs52AQrPXSUe3tSMTZ+lKiW0W/+
-   hOJJ+7WzOUZ5VSOhAVzNC77xtL+vh0T/gKskDOT+YsHoRmDh/wCVS20D/
-   Q==;
-X-CSE-ConnectionGUID: HMaxq/EgQl+qaNJ5CncfdA==
-X-CSE-MsgGUID: wDAxL6W3TbuWDt4cwyUN9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33384886"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="33384886"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 01:10:42 -0700
-X-CSE-ConnectionGUID: NcLHiE6OQkiloziTwtNc9Q==
-X-CSE-MsgGUID: hHSp3tVGSgCXSwEtphPviQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="81130705"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2024 01:10:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5Kpj-000cB8-0E;
-	Mon, 28 Oct 2024 08:10:39 +0000
-Date: Mon, 28 Oct 2024 16:10:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/bcachefs/inode.c:694:13-14: WARNING opportunity for min()
-Message-ID: <202410281600.5Nkl7FA4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TGaFi+wl"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so40696405e9.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 28 Oct 2024 01:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730104105; x=1730708905; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ed5R3HTvhdD4zg/QXCYj0XYDAVw0ReLkpicM5ODvyHk=;
+        b=TGaFi+wluyuHSPcCFknFi5DJ36Ghhd9IEcMh6ofVPFbE1Iei1MrQXSeaaRETJ5LfzL
+         qiaWcIxuDQO3vfyCV7Up+msurbne9mGltk6y7DUv9G7iLQORSrpjjYRQ1aE0viPLGdhH
+         IBVo67GLNjZm0iA2DJTQHn1DRKzb2iCIRWKaC4PCfCH6II798WZF2fxoXTj2x6Z1eNx8
+         Zgxh5dcuOiuLYcdaPqXRIvGr7zpGxev0i2PSqEyz5FZ1FgnTOvLrUjdmW5OZ/ydxTlZ8
+         rXvmPNFaJVEaKaTwoSB8akcPIumHwNZwVkcik5GWtbCkchz9SRT6+UPnwwWwCwuNsQM1
+         Ir9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730104105; x=1730708905;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ed5R3HTvhdD4zg/QXCYj0XYDAVw0ReLkpicM5ODvyHk=;
+        b=ANJupGCoImxklaeiatF0SOFI0U0yuIH1ncQUDNYBsMO8ief9IIW3w3CEpwcvG6K9zc
+         QyJ2nzV7of0OvJTDujzJ+/6mk0D8yTdmrev4CZzQ+G9OwBtuRMuF+sp1cgnzqoneDCgQ
+         +LBPm952mrc0PEjufGKKi4++ZswBZFA16iuvKvptbfGNsC07LSab5zBqgxQ5egpsxPLF
+         3Q8y3GWjZOsQEQ/pSXR3koprvAlknNzHiKIDNSki0/Eqaa1GOYUoFuwHxkKVoJ20pbJt
+         tpl6tOuTrZrPijeCeGJAQllJW8t0byMPpIQ+gEmOVHpg0qp6dyGqU8/bKcr/A56Uh5Hv
+         D4Tw==
+X-Gm-Message-State: AOJu0Yz8NG/B3ODVtDdak6K40BHZZ48kA7LF9ik0T0zllZwYuIf7Y2Qd
+	osYIBCzVtVAqH/Yawq6Mji0r/ztBsCLT9AAiuTnD/uzavsQJjYGHJNL6VOpEZHNkknTb87q/ZEA
+	ik8c=
+X-Google-Smtp-Source: AGHT+IEYWIsUxoaKX8/fpnoCrdG/jrvGQXwhIqgHw0yNtoMJow/Z0Cqr6QdJVulUYioxSRFShPxQEA==
+X-Received: by 2002:a05:6000:10d0:b0:37d:30e7:3865 with SMTP id ffacd0b85a97d-380611a3e4amr5808602f8f.34.1730104105211;
+        Mon, 28 Oct 2024 01:28:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b1c4cdsm8808039f8f.24.2024.10.28.01.28.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 01:28:24 -0700 (PDT)
+Date: Mon, 28 Oct 2024 11:28:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Herve Codina <herve.codina@bootlin.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <9a16ee73-cdc9-47bc-88f7-2fed5fdad2ff@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,69 +84,78 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241024095539.1637280-3-herve.codina@bootlin.com>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+Hi Herve,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   81983758430957d9a5cb3333fe324fd70cf63e7e
-commit: 9b23fdbd5d29beb5bd272c304e0d978edd32f513 bcachefs: bcachefs_metadata_version_inode_has_child_snapshots
-date:   3 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 weeks ago
-config: m68k-randconfig-r051-20241027 (https://download.01.org/0day-ci/archive/20241028/202410281600.5Nkl7FA4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Herve-Codina/dt-bindings-display-bridge-sn65dsi83-Add-interrupt/20241024-175758
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241024095539.1637280-3-herve.codina%40bootlin.com
+patch subject: [PATCH 2/2] drm: bridge: ti-sn65dsi83: Add error recovery mechanism
+config: csky-randconfig-r073-20241026 (https://download.01.org/0day-ci/archive/20241026/202410262052.CRR7XezU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410281600.5Nkl7FA4-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410262052.CRR7XezU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/bcachefs/inode.c:694:13-14: WARNING opportunity for min()
+smatch warnings:
+drivers/gpu/drm/bridge/ti-sn65dsi83.c:360 sn65dsi83_reset_pipeline() error: uninitialized symbol 'state'.
 
-vim +694 fs/bcachefs/inode.c
+vim +/state +360 drivers/gpu/drm/bridge/ti-sn65dsi83.c
 
-9b23fdbd5d29be Kent Overstreet 2024-09-29  678  
-9b23fdbd5d29be Kent Overstreet 2024-09-29  679  static int update_parent_inode_has_children(struct btree_trans *trans, struct bpos pos,
-9b23fdbd5d29be Kent Overstreet 2024-09-29  680  					    bool have_child)
-9b23fdbd5d29be Kent Overstreet 2024-09-29  681  {
-9b23fdbd5d29be Kent Overstreet 2024-09-29  682  	struct btree_iter iter;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  683  	struct bkey_s_c k = bch2_inode_get_iter_snapshot_parent(trans,
-9b23fdbd5d29be Kent Overstreet 2024-09-29  684  						&iter, pos, BTREE_ITER_with_updates);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  685  	int ret = bkey_err(k);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  686  	if (ret)
-9b23fdbd5d29be Kent Overstreet 2024-09-29  687  		return ret;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  688  	if (!k.k)
-9b23fdbd5d29be Kent Overstreet 2024-09-29  689  		return 0;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  690  
-9b23fdbd5d29be Kent Overstreet 2024-09-29  691  	if (!have_child) {
-9b23fdbd5d29be Kent Overstreet 2024-09-29  692  		ret = bch2_inode_has_child_snapshots(trans, k.k->p);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  693  		if (ret) {
-9b23fdbd5d29be Kent Overstreet 2024-09-29 @694  			ret = ret < 0 ? ret : 0;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  695  			goto err;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  696  		}
-9b23fdbd5d29be Kent Overstreet 2024-09-29  697  	}
-9b23fdbd5d29be Kent Overstreet 2024-09-29  698  
-9b23fdbd5d29be Kent Overstreet 2024-09-29  699  	u64 f = bkey_inode_flags(k);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  700  	if (have_child != !!(f & BCH_INODE_has_child_snapshot)) {
-9b23fdbd5d29be Kent Overstreet 2024-09-29  701  		struct bkey_i *update = bch2_bkey_make_mut(trans, &iter, &k,
-9b23fdbd5d29be Kent Overstreet 2024-09-29  702  					     BTREE_UPDATE_internal_snapshot_node);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  703  		ret = PTR_ERR_OR_ZERO(update);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  704  		if (ret)
-9b23fdbd5d29be Kent Overstreet 2024-09-29  705  			goto err;
-9b23fdbd5d29be Kent Overstreet 2024-09-29  706  
-9b23fdbd5d29be Kent Overstreet 2024-09-29  707  		bkey_inode_flags_set(bkey_i_to_s(update), f ^ BCH_INODE_has_child_snapshot);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  708  	}
-9b23fdbd5d29be Kent Overstreet 2024-09-29  709  err:
-9b23fdbd5d29be Kent Overstreet 2024-09-29  710  	bch2_trans_iter_exit(trans, &iter);
-9b23fdbd5d29be Kent Overstreet 2024-09-29  711  	return ret;
-dde8cb11645b7d Kent Overstreet 2023-07-17  712  }
-dde8cb11645b7d Kent Overstreet 2023-07-17  713  
+caeb909b9ed830 Herve Codina 2024-10-24  330  static int sn65dsi83_reset_pipeline(struct sn65dsi83 *sn65dsi83)
+caeb909b9ed830 Herve Codina 2024-10-24  331  {
+caeb909b9ed830 Herve Codina 2024-10-24  332  	struct drm_device *dev = sn65dsi83->bridge.dev;
+caeb909b9ed830 Herve Codina 2024-10-24  333  	struct drm_modeset_acquire_ctx ctx;
+caeb909b9ed830 Herve Codina 2024-10-24  334  	struct drm_atomic_state *state;
+
+Almost everyone has their compiler set to zero out stack variables these days.
+You should set this to struct drm_atomic_state *state = ERR_PTR(-EINVAL);.
+
+caeb909b9ed830 Herve Codina 2024-10-24  335  	int err;
+caeb909b9ed830 Herve Codina 2024-10-24  336  
+caeb909b9ed830 Herve Codina 2024-10-24  337  	/* Use operation done in drm_atomic_helper_suspend() followed by
+caeb909b9ed830 Herve Codina 2024-10-24  338  	 * operation done in drm_atomic_helper_resume() but without releasing
+caeb909b9ed830 Herve Codina 2024-10-24  339  	 * the lock between suspend()/resume()
+caeb909b9ed830 Herve Codina 2024-10-24  340  	 */
+caeb909b9ed830 Herve Codina 2024-10-24  341  
+caeb909b9ed830 Herve Codina 2024-10-24  342  	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+
+This macro has a goto in it.
+
+caeb909b9ed830 Herve Codina 2024-10-24  343  
+caeb909b9ed830 Herve Codina 2024-10-24  344  	state = drm_atomic_helper_duplicate_state(dev, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  345  	if (IS_ERR(state)) {
+caeb909b9ed830 Herve Codina 2024-10-24  346  		err = PTR_ERR(state);
+caeb909b9ed830 Herve Codina 2024-10-24  347  		goto unlock;
+caeb909b9ed830 Herve Codina 2024-10-24  348  	}
+caeb909b9ed830 Herve Codina 2024-10-24  349  
+caeb909b9ed830 Herve Codina 2024-10-24  350  	err = drm_atomic_helper_disable_all(dev, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  351  	if (err < 0)
+caeb909b9ed830 Herve Codina 2024-10-24  352  		goto unlock;
+caeb909b9ed830 Herve Codina 2024-10-24  353  
+caeb909b9ed830 Herve Codina 2024-10-24  354  	drm_mode_config_reset(dev);
+caeb909b9ed830 Herve Codina 2024-10-24  355  
+caeb909b9ed830 Herve Codina 2024-10-24  356  	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
+caeb909b9ed830 Herve Codina 2024-10-24  357  
+caeb909b9ed830 Herve Codina 2024-10-24  358  unlock:
+caeb909b9ed830 Herve Codina 2024-10-24  359  	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+caeb909b9ed830 Herve Codina 2024-10-24 @360  	if (!IS_ERR(state))
+caeb909b9ed830 Herve Codina 2024-10-24  361  		drm_atomic_state_put(state);
+
+Calling drm_atomic_state_put(NULL) leads to an Oops.
+
+caeb909b9ed830 Herve Codina 2024-10-24  362  	return err;
+caeb909b9ed830 Herve Codina 2024-10-24  363  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
