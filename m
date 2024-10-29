@@ -1,67 +1,69 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C09202657
-	for <oe-kbuild@lists.linux.dev>; Tue, 29 Oct 2024 07:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CF6202F65
+	for <oe-kbuild@lists.linux.dev>; Tue, 29 Oct 2024 08:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730187495; cv=none; b=MXNn6MemVnffzq6LqGfA60yxNvoMwxEyLUZXtwnT1t2UTQPGod/ndMuGERgJVQuI5zDX57QUr8DrHE+Xx4L2OiLCULob54mAJYX86xKBqgkVz/lfRwc/EHPsdGaRUu8Uw85Q4cqsx3+c3/D/Q8kV+2Afpoikz4Nk1txooRiT18Y=
+	t=1730189235; cv=none; b=jV2MEBMqZGK3jWEbYu7LDeAlgp/tdo86QRhCmHaRy/AMO6OoPhbrTy+iTF9YDtv+m9zMRNBnDjOQDNG3AsW/PNutL1kWSLBD5Hhh51hIoG5R/EfPdnk9YkepTFhHB59zbGRy/sHI2U0HpN4hcvohADiB/8G8h04jKoBf8v/GHZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730187495; c=relaxed/simple;
-	bh=8tO57yzbepSW3GqmEVB8NsDZtxXUlFlQ/nEWfs4Fl4Q=;
+	s=arc-20240116; t=1730189235; c=relaxed/simple;
+	bh=tXuUWJqSpVglQII4ixnCWmF/nh5P59YMWadDSqaw5mc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fI1gE8PSga4Di9hMZppzKcQP0KYmLAswKLBkMd0XVkhkTEuvWEbZwJ8v9HbWfIOBvs9ADQAdTdkNQ37yREeapjRUE/FX7X80f5XuvSc39ulvGSEuYglLLEw/o3IVyyxgVAjzdvhrKNeBKYA/J4APHCKoUAaE92WUPr7kSZ0QI/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V7t4Jynm; arc=none smtp.client-ip=209.85.208.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdJnD1YBThqZQBDqf1sL5JT3uH1YMFfZIUXogvIG/nJQewppEB6Xq6/A2PMEi+ypgZoAm8lt5+e4y2PiYKUdljZQXpe93it9RVfNkNlZ9vD1pfrYSbOrcU9ST1qrg3AeW/bGLI2X/u56mpZILeeRXraSBmP9UQMmGqrE2jxRTeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YXd1TltC; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V7t4Jynm"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c94861ee25so2919600a12.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 29 Oct 2024 00:38:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YXd1TltC"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9709c9b0cso7254207a12.1
+        for <oe-kbuild@lists.linux.dev>; Tue, 29 Oct 2024 01:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730187492; x=1730792292; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730189232; x=1730794032; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cV9yDfIVAjckEzAdmwXTwTo2IzjdqwOl2D1fRgidvv4=;
-        b=V7t4JynmH8tyLnk/97BQ5vFMUrIqRXjA2WUwB3pTqGD3rMJlHKR4MiYHvQbPBSbE77
-         aYNkep23hK6T+9UX7ZojEIJmU/BIi3yNM0R3A7Zd7uxZ/B2Ot9uKdMst/Iku+HMzNwaa
-         7I2JsRzZhHabAF9M6VYCeqLPyGHWgbZnUR5YTt+9sSW5R0pO/9ZzE3vUokz/0REG7Z7X
-         lrRpIgYKgckbMSAmDj4FOlsJucrQnflOvRHfCbrvtfrm0uu9vdGCAOC+wgSJRTzEgHov
-         0akdvcAUD+W0ZOqG+jd6VMAhm7+q6IOgPjRPC6lT+LpUqYahqF6+QqG2204ZcCnJzkPz
-         /lYA==
+        bh=+T+utu6wQonBd+x7P2V+J6y0wVjSr8LnD1mI33sJ9Uw=;
+        b=YXd1TltClAGr0NpzsXqm3ydgHq0lZqBJzA3KfR//9Qc98nctQXKYXW+M8ydkcspB2f
+         TyH+ttASwNFLMd5M72tzsaqR23U/0ETWIqcHYBcbMsRpBN3YAOIwWCMCI9uB7ppRXl+m
+         rwgc7HxZUhyIc3MoZk0i9LwjS1zQsVUzAZNIrAOhbN1pj0MffT4g27RAHxjUPjHmr1hJ
+         kelug3FiJ6cfHp6gDVk7jBzPKHyIpufN4N1Yyx5qMmip8SLktquN5RRACmnPMVSyOiRE
+         /CK5jDkKG7AKQcjdE1lY/lf+jx3L5xq9ZPQpI4ptPTw5LHtAV3K2zHuavG4DpeQKL4r6
+         yzEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730187492; x=1730792292;
+        d=1e100.net; s=20230601; t=1730189232; x=1730794032;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cV9yDfIVAjckEzAdmwXTwTo2IzjdqwOl2D1fRgidvv4=;
-        b=jJx6R1EkqI+BxNY5RxJOnAySBRYaFiQKeFxwpbG61bXSnUutD01M/LOkazzMjJQecm
-         99U6Cvredi/cwXEWsvlD6/6zGSkKG41ICU46UB/LodU1cptgfT2rEmrxtjty9jkNl1mn
-         WDiJ4RzmRxGFFgS9TtNuZWuxdkO42o4TsbhwZNyEnPRkrYdRtFCcAJOzULou6kdSYVR6
-         ujm2ngbySf5ugLHdsJnuNLjZjc4vCFMHWmZ0YzBDteA+1OgZkUcXAPAfNzWppoeY3yv5
-         y+NeEbSUO4fN2VcF530wvbMbAGBO8IXddRb5cj/7+u1Hh6DI6Tmw7U+692aDkrQu60b/
-         NvuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrwK4BYoTm7UgTKk1U7lzlOUataW/BXO5zTSThurFSdtmofsODuQSuUD7dy9//Hcj2YKoiUG0ZNAY=@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJ37nir3gMwk9MarlKnchJWhpQb6trI8lHPYSyn+jmZSVONQyj
-	72pVueQzrigD+Zbu3S2hMmU6xWz4UHTyhmsYthQNlPKxBZpxssxnUArJPxeXspVO20+f33TQDn2
-	f
-X-Google-Smtp-Source: AGHT+IF47bz1F7DhgPoiWr+IviDyyt9/wcQ7nPRiMlBiRDx7vWXP2gLN6e2f8LT8h/R+Iygma5dhDg==
-X-Received: by 2002:a05:6402:1e93:b0:5c9:40f5:1518 with SMTP id 4fb4d7f45d1cf-5cbbfafd4d9mr12319081a12.35.1730187491686;
-        Tue, 29 Oct 2024 00:38:11 -0700 (PDT)
+        bh=+T+utu6wQonBd+x7P2V+J6y0wVjSr8LnD1mI33sJ9Uw=;
+        b=j1A7BcI6bHgY/uAg54VknpbD2pXR2Kt1g9F61wrFiEWLM2y271UULCLI7Znsz6dx1S
+         OdRyBjUpg9+RtXpI9VRPxt33od+VkAVYncC4gQuujUfGCxV/waUr7Ai5e6WFZEmFQW4F
+         p84vhFqolFafQBMjeUSq5XASiVKAiryiMsKssswxvIrCIUQ6rMqKcD23xa4MDru5l+Lh
+         32OmIQpN6XV5ouFpY+1YOW7UMVoS252kA6tSqJW9oihCM5CvrBHoobW/ebfIST4V0Gbt
+         Jt1KpV6WB3FCN7td5ncUjZq4aZW2qe0o2vSFqPQvyVMU6l0jvMC6eQv8e0i00DJz78Lq
+         dYyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWD7FSmLjfC9GJ0ShYxoH32TqV/FMCQoWLcNhz0w/swNpaByfeAZYxM30xtjHkjnz5oolnhytfjSAM=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzu1L3Sr5ST40gxHB2uv6abzpUUUD+Nlct2J7KryYgI8WkeWMhA
+	b/7KJjFHS431LKu78mWZmij9p9GdNgIkmEPexbpxWL3k000U8MYZ5/mG1olmyW0=
+X-Google-Smtp-Source: AGHT+IFlS/2bOJzmSSwcAfE5aV0lP34QNs4GrtfDDXnqpV/04HeTDMnTLLbECdisvIqSJHMH/jyIpg==
+X-Received: by 2002:a05:6402:249d:b0:5cb:6718:7326 with SMTP id 4fb4d7f45d1cf-5cbbf8caef6mr8643251a12.21.1730189231684;
+        Tue, 29 Oct 2024 01:07:11 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb62c14c4sm3706291a12.44.2024.10.29.00.38.10
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb629c4c0sm3726166a12.24.2024.10.29.01.07.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 00:38:11 -0700 (PDT)
-Date: Tue, 29 Oct 2024 10:38:07 +0300
+        Tue, 29 Oct 2024 01:07:10 -0700 (PDT)
+Date: Tue, 29 Oct 2024 11:07:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthew Sakai <msakai@redhat.com>, oe-kbuild@lists.linux.dev,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Cc: Mike Snitzer <snitzer@kernel.org>, linux-kernel@vger.kernel.org
+To: Philip Li <philip.li@intel.com>
+Cc: Matthew Sakai <msakai@redhat.com>, oe-kbuild@lists.linux.dev,
+	Mike Snitzer <snitzer@kernel.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
  inconsistent returns '&pool->lock'.
-Message-ID: <fb2df01d-07d5-482b-af6c-1ff53129f7c4@stanley.mountain>
+Message-ID: <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
 References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
  <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
+ <ZyBQa45RTWXiXJke@rli9-mobl>
+ <ZyCLo51ZyjxX7eQK@rli9-mobl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -70,75 +72,59 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
+In-Reply-To: <ZyCLo51ZyjxX7eQK@rli9-mobl>
 
-On Mon, Oct 28, 2024 at 07:00:40PM -0400, Matthew Sakai wrote:
-> This should be addressed upstream by commit
-> 872564c501b72ae0c84af51084753e8652e4a84b ("dm vdo data-vio: silence sparse
-> warnings about locking context imbalances")
+On Tue, Oct 29, 2024 at 03:15:47PM +0800, Philip Li wrote:
+> On Tue, Oct 29, 2024 at 11:03:07AM +0800, Philip Li wrote:
+> > On Mon, Oct 28, 2024 at 07:00:40PM -0400, Matthew Sakai wrote:
+> > > This should be addressed upstream by commit
+> > > 872564c501b72ae0c84af51084753e8652e4a84b ("dm vdo data-vio: silence sparse
+> > > warnings about locking context imbalances")
+> > > 
+> > > That commit is from February. Would it be possible for these checks to use a
+> > > more up-to-date version of the code before warning us about things that have
+> > > already been addressed?
+> > 
+> > Sorry about this Matt, the bot side will check why this happens and fix
+> > the issue asap to avoid meaningless report.
 > 
-> That commit is from February. Would it be possible for these checks to use a
-> more up-to-date version of the code before warning us about things that have
-> already been addressed?
+> Hi Matt and Dan, would you mind do a further check of this, per the re-test,
+> smatch warns as below on v6.12-rc3
+> 
+> 	drivers/md/dm-vdo/data-vio.c:982 vdo_launch_bio() warn: inconsistent returns '&pool->lock'.
+> 	  Locked on  : 972,977
+> 	  Unlocked on: 982
+> 
+> The corresponding code of drivers/md/dm-vdo/data-vio.c is below
 > 
 
-Sorry, these emails are auto generated by kbuild.  I don't get a lot of
-context outside of what's in the email so I didn't realize it had already
-been fixed. 
+Ah.  Right.
 
-I looked at today's linux-next and that doesn't trigger the warning any more.
+The cross function DB doesn't scale well enough for the zero day bot to use so
+it didn't detect the fix.  If we had the cross function DB then that silences
+the warning.
+
+1) I re-wrote the locking check so it detected this bug where before it didn't.
+2) The kbuild bot was using the new check on old code because Matthew Sakai
+   did a branch based on 8 month old code.
+3) The kbuild bot detected the bug, but unfortunately the cross function DB
+   doesn't scale well enough for the kbuild bot to use so it didn't detect the
+   fix.
+4) I reviewed the code based on the information in the email and determined that
+   it was buggy.
+
+All those steps had to happen for the warning  to be sent out.  In a normal
+situation, I would have sent the warning out at the time when the code was
+written and you wouldn't be getting warning emails eight months later.  The
+kbuild-bot generally avoids sending duplicate warnings.
+
+Sometimes the kbuild bot does send duplicate warnings, but I normally delete
+those.  Perhaps some people might argue that if you do a branch from 8 month old
+code, maybe you would want the warnings, but I think you should look at the
+Fixes tags instead.  Not everyone gets the Fixes tags right, of course...  But
+I trust kernel developers to Fix their bugs and generally they do so duplicates
+are normally false positives which have been deliberately ignored.
 
 regards,
 dan carpenter
 
-> Matt
-> 
-> On 10/21/24 3:19 AM, Dan Carpenter wrote:
-> > Hi Mike,
-> > 
-> > First bad commit (maybe != root cause):
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
-> > commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
-> > config: x86_64-randconfig-161-20241019 (https://download.01.org/0day-ci/archive/20241019/202410191209.osrd8z9H-lkp@intel.com/config)
-> > compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202410191209.osrd8z9H-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn: inconsistent returns '&pool->lock'.
-> > 
-> > vim +976 drivers/md/dm-vdo/data-vio.c
-> > 
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  958  void vdo_launch_bio(struct data_vio_pool *pool, struct bio *bio)
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  959  {
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  960  	struct data_vio *data_vio;
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  961
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  962  	ASSERT_LOG_ONLY(!vdo_is_state_quiescent(&pool->state),
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  963  			"data_vio_pool not quiescent on acquire");
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  964
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  965  	bio->bi_private = (void *) jiffies;
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  966  	spin_lock(&pool->lock);
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  967  	if ((bio_op(bio) == REQ_OP_DISCARD) &&
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  968  	    !acquire_permit(&pool->discard_limiter, bio))
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  969  		return;
-> >                                                          ^^^^^^
-> > 
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  970
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  971  	if (!acquire_permit(&pool->limiter, bio))
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  972  		return;
-> >                                                          ^^^^^^
-> > Still holding pool->lock on these paths.
-> > 
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  973
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  974  	data_vio = get_available_data_vio(pool);
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  975  	spin_unlock(&pool->lock);
-> > 79535a7881c0cb Matthew Sakai 2023-11-16 @976  	launch_bio(pool->completion.vdo, data_vio, bio);
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  977  }
-> > 79535a7881c0cb Matthew Sakai 2023-11-16  978
-> > 
