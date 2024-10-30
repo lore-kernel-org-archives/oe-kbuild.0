@@ -1,68 +1,57 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A0B1D12E9
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 20:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1681E130F
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 20:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730318751; cv=none; b=fDRgZGyaVYRM0+uKsB2HFBd58DsmzgLT82CqfXUiCwSXW1ytaeMwWlleiGiALdFQnAaWwIg43JQXbGcjzSwxwVExyQe2MnKZMLSD2gQqq17xN+y4Pbiji95vOE6aJnkGEc46Yfz+HkNJ0C/OJ/5kme+hylnTZokLgPWsdh7Qw8A=
+	t=1730320537; cv=none; b=UBM3NTMcO5fmq6cCVhjwpiGnjMvrKeLcnOiDF0FvBRjMxMC+E/00wDumerla4n7nInxtIdp7QEzmSzpVO0SowYoY9RpUJfcNhSk/2PxEfpkDmz9/UZGQaqEF7piZdBekcJlCZW1tkbBOfx5tPHOCqtodYy3ypCVAJTE94vN3nYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730318751; c=relaxed/simple;
-	bh=lkwtoRA5tvMUiCpjLAGYONGPDcS+xn0HGuOJP0Bh3dc=;
+	s=arc-20240116; t=1730320537; c=relaxed/simple;
+	bh=f6hT99Pg8gLT01zDVuvsRioNqahAxV+ag+9bUsxwRd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=kA0xQviWo6Q2Fq8I+4xrZaacF4Qt0eHJIq62a/0z9d7RroctmUasmJUBOsXALzrL0+ZQrpKIW19yt9zrSTF4NgMLvOLDK0sla7XQlLuQ0i8xtT2fQiP8U5mt/mAGEI6zWxWbDe+YipsR1W8C5RM/LZgKs/OJ6cAeRrL0/yB2BKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vw4KAY6h; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=O/6lx8LWVBx3Vqg8Dd1viwFWtQifSP9LUELMZmpIjrg5UZnxwwUjvc8kAmo+H6dhjHCOjyyuwyK9HUd31w6dk3JrsSQ+mqE4CCytoC18LdFeJA2QhkWkrOTmzLMLV/tLlZwdbDYupLMpc6Ssr1YeGdc5lE89kEVHDU9tK/TCFIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTUkWaST; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vw4KAY6h"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso1758485e9.3
-        for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 13:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730318746; x=1730923546; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BMYzWn3a9BZHBJmSLCvIY/w+pubGzIYYisFrSZ78I48=;
-        b=Vw4KAY6hbu0eC6uNWiKyc4F5G0Lj2yk8XpeZQaajSIpnfwFu4qpFGDVZ+XoPVY0NbM
-         Wat+ypsNn56C6jyYoOvY2um9s4+1VYR5n5LdlBSsnHoBwvt+/EMcaLLIb0UOyc1DUyTs
-         8x5niaF3Y8xN7gwWLXSTJri1mujZW+jSSE7UOJTq7sKCS60bX2Q77IqS2FmS0eQQNR67
-         z2fbBHhoQQgmjSNgr6ejrtyRC0FGBFH0OqO0bXIe+O/6iL80fNybQllyRXiokwLC16/R
-         MI6VqvlaWSdN/YxyX/AZEFxL2MbySLwxGBR6/c9IAJ7PWFCe7xHAb78NIHNFdYGpf4qh
-         2z3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730318746; x=1730923546;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BMYzWn3a9BZHBJmSLCvIY/w+pubGzIYYisFrSZ78I48=;
-        b=Z8UaHGbXuhY9hRFYMwocEm4vey+u+xN0fmODDSoyDzg2Wg8bd6MST+9JPW8Iy8kmIZ
-         /O2xjCcJUl/0ck/tjGJHEk7qb54DN+BgiFzV9GAZtMLL1oFSSYWzcNt8n7sr1LBy7jpy
-         bqPp10oXuvnOeRKDxZQSnxsFueqr/hkze7GnySQh/1wfN0sIjlDvFQJctabKU/0L1MXj
-         Lm3r4miR2QBBB7z5bUyYPdZ9w38j/xnli/oewS7Oktedbm6jSo0NNSfMay3wDvDUJDFJ
-         xT1sXVV8/Vi+/sWhUaqIfp9D3VTIN2+Qsiyw/ZPtLfjL3o7dasdAMlrqTrnHSQ6lc3D4
-         Z5+Q==
-X-Gm-Message-State: AOJu0YxM79eEm3/1DGtfFYwlDoYv14lku6hxTIght9LD1SZZ3OQIM2sB
-	T1GNKDTRLrw9+YPn7g2lBQXCnNScfieTuLbn3SXiVNwnQTTcpdsc9uD5wq6U5+Ejg14fzb94xuH
-	a
-X-Google-Smtp-Source: AGHT+IEDH4m+a8rcy96TqWsPWN9s2UOIanCX22F1aRjED1fm8KzovyJb8Oo8tcsdMdF1fJbXALgUwQ==
-X-Received: by 2002:a05:600c:1d28:b0:431:6060:8b16 with SMTP id 5b1f17b1804b1-4327b80055dmr7553265e9.30.1730318746063;
-        Wed, 30 Oct 2024 13:05:46 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9a9a53sm30796495e9.30.2024.10.30.13.05.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 13:05:45 -0700 (PDT)
-Date: Wed, 30 Oct 2024 23:05:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Johannes Thumshirn <jth@kernel.org>,
-	John Garry <john.g.garry@oracle.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
-	axboe@kernel.dk, song@kernel.org, yukuai3@huawei.com, hch@lst.de,
-	martin.petersen@oracle.com, hare@suse.de,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH] btrfs: handle bio_split() error
-Message-ID: <1cab6d9b-8493-4baf-8a44-602dc035ded6@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTUkWaST"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730320534; x=1761856534;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f6hT99Pg8gLT01zDVuvsRioNqahAxV+ag+9bUsxwRd8=;
+  b=YTUkWaSTMBmLWz/5WN5tx3C2vhk+4lSCRtXFhqgDMWxW8OZj+5WDQ643
+   NXZ3/82i1KmBYdvPPKrI53zGZKmNse0BSXaNBlVayiqh+5rVc4xnSARHe
+   iHo0SGq3bSqMvt36O1wi29K9CzmJCwz67kcsYjCe9NHrflq6rhMwGkILV
+   BptE9de2zJBK/ra4ijpXPvsb2ymlPCHH3IHFdrKM1w2OdT0GTQT94/82V
+   Z6ZsVZw78WKHnisBAXqJUJo5Np2iSzan0U7l/hcZbzmaIjTjFHj/+XEDW
+   x6xQrs0Xng4pB47J6TnPXDS+vx3Jxx3miL0DARikbISAYrRtyGqijrzlv
+   w==;
+X-CSE-ConnectionGUID: Dk3p7Kj8QS6+/GL0V38kAA==
+X-CSE-MsgGUID: I0jInUYxSRqirc0BDoGDEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47504641"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="47504641"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 13:35:34 -0700
+X-CSE-ConnectionGUID: TFdoWYxyTieGOakxmZHozA==
+X-CSE-MsgGUID: XULxHePhTfmO+pr/0h3y7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
+   d="scan'208";a="82588676"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2024 13:35:32 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6FPe-000fHk-27;
+	Wed, 30 Oct 2024 20:35:30 +0000
+Date: Thu, 31 Oct 2024 04:34:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/xfs/xfs_exchrange.c:114:11-12: WARNING opportunity for max()
+Message-ID: <202410310411.md7m3UAl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,154 +60,117 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029091121.16281-1-jth@kernel.org>
 
-Hi Johannes,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/btrfs-handle-bio_split-error/20241029-171227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241029091121.16281-1-jth%40kernel.org
-patch subject: [PATCH] btrfs: handle bio_split() error
-config: openrisc-randconfig-r072-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310231.WMcRwBhG-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4236f913808cebef1b9e078726a4e5d56064f7ad
+commit: 42672471f938cdab2573f32ce23915b78f0578f4 xfs: bind together the front and back ends of the file range exchange code
+date:   7 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 7 months ago
+config: alpha-randconfig-r064-20241031 (https://download.01.org/0day-ci/archive/20241031/202410310411.md7m3UAl-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410310231.WMcRwBhG-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410310411.md7m3UAl-lkp@intel.com/
 
-smatch warnings:
-fs/btrfs/bio.c:763 btrfs_submit_chunk() error: 'bbio' dereferencing possible ERR_PTR()
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_exchrange.c:114:11-12: WARNING opportunity for max()
+   fs/xfs/xfs_exchrange.c:115:11-12: WARNING opportunity for max()
 
-vim +/bbio +763 fs/btrfs/bio.c
+vim +114 fs/xfs/xfs_exchrange.c
 
-ae42a154ca8972 Christoph Hellwig  2023-03-07  660  static bool btrfs_submit_chunk(struct btrfs_bio *bbio, int mirror_num)
-103c19723c80bf Christoph Hellwig  2022-11-15  661  {
-d5e4377d505189 Christoph Hellwig  2023-01-21  662  	struct btrfs_inode *inode = bbio->inode;
-4317ff0056bedf Qu Wenruo          2023-03-23  663  	struct btrfs_fs_info *fs_info = bbio->fs_info;
-ae42a154ca8972 Christoph Hellwig  2023-03-07  664  	struct bio *bio = &bbio->bio;
-adbe7e388e4239 Anand Jain         2023-04-15  665  	u64 logical = bio->bi_iter.bi_sector << SECTOR_SHIFT;
-103c19723c80bf Christoph Hellwig  2022-11-15  666  	u64 length = bio->bi_iter.bi_size;
-103c19723c80bf Christoph Hellwig  2022-11-15  667  	u64 map_length = length;
-921603c76246a7 Christoph Hellwig  2022-12-12  668  	bool use_append = btrfs_use_zone_append(bbio);
-103c19723c80bf Christoph Hellwig  2022-11-15  669  	struct btrfs_io_context *bioc = NULL;
-103c19723c80bf Christoph Hellwig  2022-11-15  670  	struct btrfs_io_stripe smap;
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  671  	blk_status_t ret;
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  672  	int error;
-103c19723c80bf Christoph Hellwig  2022-11-15  673  
-f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  674  	if (!bbio->inode || btrfs_is_data_reloc_root(inode->root))
-f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  675  		smap.rst_search_commit_root = true;
-f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  676  	else
-f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  677  		smap.rst_search_commit_root = false;
-9acaa64187f9b4 Johannes Thumshirn 2023-09-14  678  
-103c19723c80bf Christoph Hellwig  2022-11-15  679  	btrfs_bio_counter_inc_blocked(fs_info);
-cd4efd210edfb3 Christoph Hellwig  2023-05-31  680  	error = btrfs_map_block(fs_info, btrfs_op(bio), logical, &map_length,
-9fb2acc2fe07f1 Qu Wenruo          2023-09-17  681  				&bioc, &smap, &mirror_num);
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  682  	if (error) {
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  683  		ret = errno_to_blk_status(error);
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  684  		goto fail;
-103c19723c80bf Christoph Hellwig  2022-11-15  685  	}
-103c19723c80bf Christoph Hellwig  2022-11-15  686  
-852eee62d31abd Christoph Hellwig  2023-01-21  687  	map_length = min(map_length, length);
-d5e4377d505189 Christoph Hellwig  2023-01-21  688  	if (use_append)
-b35243a447b9fe Christoph Hellwig  2024-08-26  689  		map_length = btrfs_append_map_length(bbio, map_length);
-d5e4377d505189 Christoph Hellwig  2023-01-21  690  
-103c19723c80bf Christoph Hellwig  2022-11-15  691  	if (map_length < length) {
-b35243a447b9fe Christoph Hellwig  2024-08-26  692  		bbio = btrfs_split_bio(fs_info, bbio, map_length);
-28c02a018d50ae Johannes Thumshirn 2024-10-29  693  		if (IS_ERR(bbio)) {
-28c02a018d50ae Johannes Thumshirn 2024-10-29  694  			ret = PTR_ERR(bbio);
-28c02a018d50ae Johannes Thumshirn 2024-10-29  695  			goto fail;
-
-We hit this goto.  We know from the if statement that map_length < length.
-
-28c02a018d50ae Johannes Thumshirn 2024-10-29  696  		}
-2cef0c79bb81d8 Christoph Hellwig  2023-03-07  697  		bio = &bbio->bio;
-103c19723c80bf Christoph Hellwig  2022-11-15  698  	}
-103c19723c80bf Christoph Hellwig  2022-11-15  699  
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  700  	/*
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  701  	 * Save the iter for the end_io handler and preload the checksums for
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  702  	 * data reads.
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  703  	 */
-fbe960877b6f43 Christoph Hellwig  2023-05-31  704  	if (bio_op(bio) == REQ_OP_READ && is_data_bbio(bbio)) {
-0d3acb25e70d5f Christoph Hellwig  2023-01-21  705  		bbio->saved_iter = bio->bi_iter;
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  706  		ret = btrfs_lookup_bio_sums(bbio);
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  707  		if (ret)
-10d9d8c3512f16 Qu Wenruo          2024-08-17  708  			goto fail;
-1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  709  	}
-7276aa7d38255b Christoph Hellwig  2023-01-21  710  
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  711  	if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
-d5e4377d505189 Christoph Hellwig  2023-01-21  712  		if (use_append) {
-d5e4377d505189 Christoph Hellwig  2023-01-21  713  			bio->bi_opf &= ~REQ_OP_WRITE;
-d5e4377d505189 Christoph Hellwig  2023-01-21  714  			bio->bi_opf |= REQ_OP_ZONE_APPEND;
-69ccf3f4244abc Christoph Hellwig  2023-01-21  715  		}
-69ccf3f4244abc Christoph Hellwig  2023-01-21  716  
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  717  		if (is_data_bbio(bbio) && bioc &&
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  718  		    btrfs_need_stripe_tree_update(bioc->fs_info, bioc->map_type)) {
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  719  			/*
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  720  			 * No locking for the list update, as we only add to
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  721  			 * the list in the I/O submission path, and list
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  722  			 * iteration only happens in the completion path, which
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  723  			 * can't happen until after the last submission.
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  724  			 */
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  725  			btrfs_get_bioc(bioc);
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  726  			list_add_tail(&bioc->rst_ordered_entry, &bbio->ordered->bioc_list);
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  727  		}
-02c372e1f016e5 Johannes Thumshirn 2023-09-14  728  
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  729  		/*
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  730  		 * Csum items for reloc roots have already been cloned at this
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  731  		 * point, so they are handled as part of the no-checksum case.
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  732  		 */
-4317ff0056bedf Qu Wenruo          2023-03-23  733  		if (inode && !(inode->flags & BTRFS_INODE_NODATASUM) &&
-169aaaf2e0be61 Qu Wenruo          2024-06-14  734  		    !test_bit(BTRFS_FS_STATE_NO_DATA_CSUMS, &fs_info->fs_state) &&
-d5e4377d505189 Christoph Hellwig  2023-01-21  735  		    !btrfs_is_data_reloc_root(inode->root)) {
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  736  			if (should_async_write(bbio) &&
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  737  			    btrfs_wq_submit_bio(bbio, bioc, &smap, mirror_num))
-852eee62d31abd Christoph Hellwig  2023-01-21  738  				goto done;
-103c19723c80bf Christoph Hellwig  2022-11-15  739  
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  740  			ret = btrfs_bio_csum(bbio);
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  741  			if (ret)
-10d9d8c3512f16 Qu Wenruo          2024-08-17  742  				goto fail;
-cebae292e0c32a Johannes Thumshirn 2024-06-07  743  		} else if (use_append ||
-cebae292e0c32a Johannes Thumshirn 2024-06-07  744  			   (btrfs_is_zoned(fs_info) && inode &&
-cebae292e0c32a Johannes Thumshirn 2024-06-07  745  			    inode->flags & BTRFS_INODE_NODATASUM)) {
-cbfce4c7fbde23 Christoph Hellwig  2023-05-24  746  			ret = btrfs_alloc_dummy_sum(bbio);
-cbfce4c7fbde23 Christoph Hellwig  2023-05-24  747  			if (ret)
-10d9d8c3512f16 Qu Wenruo          2024-08-17  748  				goto fail;
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  749  		}
-103c19723c80bf Christoph Hellwig  2022-11-15  750  	}
-f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  751  
-22b4ef50dc1d11 David Sterba       2024-08-27  752  	btrfs_submit_bio(bio, bioc, &smap, mirror_num);
-852eee62d31abd Christoph Hellwig  2023-01-21  753  done:
-852eee62d31abd Christoph Hellwig  2023-01-21  754  	return map_length == length;
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  755  
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  756  fail:
-9ba0004bd95e05 Christoph Hellwig  2023-01-21  757  	btrfs_bio_counter_dec(fs_info);
-10d9d8c3512f16 Qu Wenruo          2024-08-17  758  	/*
-10d9d8c3512f16 Qu Wenruo          2024-08-17  759  	 * We have split the original bbio, now we have to end both the current
-10d9d8c3512f16 Qu Wenruo          2024-08-17  760  	 * @bbio and remaining one, as the remaining one will never be submitted.
-10d9d8c3512f16 Qu Wenruo          2024-08-17  761  	 */
-10d9d8c3512f16 Qu Wenruo          2024-08-17  762  	if (map_length < length) {
-10d9d8c3512f16 Qu Wenruo          2024-08-17 @763  		struct btrfs_bio *remaining = bbio->private;
-                                                                                              ^^^^^^^^^^^^^
-Error pointer dereference
-
-10d9d8c3512f16 Qu Wenruo          2024-08-17  764  
-10d9d8c3512f16 Qu Wenruo          2024-08-17  765  		ASSERT(bbio->bio.bi_pool == &btrfs_clone_bioset);
-10d9d8c3512f16 Qu Wenruo          2024-08-17  766  		ASSERT(remaining);
-10d9d8c3512f16 Qu Wenruo          2024-08-17  767  
-9ca0e58cb752b0 Qu Wenruo          2024-08-24  768  		btrfs_bio_end_io(remaining, ret);
-10d9d8c3512f16 Qu Wenruo          2024-08-17  769  	}
-9ca0e58cb752b0 Qu Wenruo          2024-08-24  770  	btrfs_bio_end_io(bbio, ret);
-852eee62d31abd Christoph Hellwig  2023-01-21  771  	/* Do not submit another chunk */
-852eee62d31abd Christoph Hellwig  2023-01-21  772  	return true;
-852eee62d31abd Christoph Hellwig  2023-01-21  773  }
+42672471f938cd Darrick J. Wong 2024-04-15   76  
+42672471f938cd Darrick J. Wong 2024-04-15   77  /*
+42672471f938cd Darrick J. Wong 2024-04-15   78   * Obtain a quota reservation to make sure we don't hit EDQUOT.  We can skip
+42672471f938cd Darrick J. Wong 2024-04-15   79   * this if quota enforcement is disabled or if both inodes' dquots are the
+42672471f938cd Darrick J. Wong 2024-04-15   80   * same.  The qretry structure must be initialized to zeroes before the first
+42672471f938cd Darrick J. Wong 2024-04-15   81   * call to this function.
+42672471f938cd Darrick J. Wong 2024-04-15   82   */
+42672471f938cd Darrick J. Wong 2024-04-15   83  STATIC int
+42672471f938cd Darrick J. Wong 2024-04-15   84  xfs_exchrange_reserve_quota(
+42672471f938cd Darrick J. Wong 2024-04-15   85  	struct xfs_trans		*tp,
+42672471f938cd Darrick J. Wong 2024-04-15   86  	const struct xfs_exchmaps_req	*req,
+42672471f938cd Darrick J. Wong 2024-04-15   87  	unsigned int			*qretry)
+42672471f938cd Darrick J. Wong 2024-04-15   88  {
+42672471f938cd Darrick J. Wong 2024-04-15   89  	int64_t				ddelta, rdelta;
+42672471f938cd Darrick J. Wong 2024-04-15   90  	int				ip1_error = 0;
+42672471f938cd Darrick J. Wong 2024-04-15   91  	int				error;
+42672471f938cd Darrick J. Wong 2024-04-15   92  
+42672471f938cd Darrick J. Wong 2024-04-15   93  	/*
+42672471f938cd Darrick J. Wong 2024-04-15   94  	 * Don't bother with a quota reservation if we're not enforcing them
+42672471f938cd Darrick J. Wong 2024-04-15   95  	 * or the two inodes have the same dquots.
+42672471f938cd Darrick J. Wong 2024-04-15   96  	 */
+42672471f938cd Darrick J. Wong 2024-04-15   97  	if (!XFS_IS_QUOTA_ON(tp->t_mountp) || req->ip1 == req->ip2 ||
+42672471f938cd Darrick J. Wong 2024-04-15   98  	    (req->ip1->i_udquot == req->ip2->i_udquot &&
+42672471f938cd Darrick J. Wong 2024-04-15   99  	     req->ip1->i_gdquot == req->ip2->i_gdquot &&
+42672471f938cd Darrick J. Wong 2024-04-15  100  	     req->ip1->i_pdquot == req->ip2->i_pdquot))
+42672471f938cd Darrick J. Wong 2024-04-15  101  		return 0;
+42672471f938cd Darrick J. Wong 2024-04-15  102  
+42672471f938cd Darrick J. Wong 2024-04-15  103  	*qretry = 0;
+42672471f938cd Darrick J. Wong 2024-04-15  104  
+42672471f938cd Darrick J. Wong 2024-04-15  105  	/*
+42672471f938cd Darrick J. Wong 2024-04-15  106  	 * For each file, compute the net gain in the number of regular blocks
+42672471f938cd Darrick J. Wong 2024-04-15  107  	 * that will be mapped into that file and reserve that much quota.  The
+42672471f938cd Darrick J. Wong 2024-04-15  108  	 * quota counts must be able to absorb at least that much space.
+42672471f938cd Darrick J. Wong 2024-04-15  109  	 */
+42672471f938cd Darrick J. Wong 2024-04-15  110  	ddelta = req->ip2_bcount - req->ip1_bcount;
+42672471f938cd Darrick J. Wong 2024-04-15  111  	rdelta = req->ip2_rtbcount - req->ip1_rtbcount;
+42672471f938cd Darrick J. Wong 2024-04-15  112  	if (ddelta > 0 || rdelta > 0) {
+42672471f938cd Darrick J. Wong 2024-04-15  113  		error = xfs_trans_reserve_quota_nblks(tp, req->ip1,
+42672471f938cd Darrick J. Wong 2024-04-15 @114  				ddelta > 0 ? ddelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  115  				rdelta > 0 ? rdelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  116  				false);
+42672471f938cd Darrick J. Wong 2024-04-15  117  		if (error == -EDQUOT || error == -ENOSPC) {
+42672471f938cd Darrick J. Wong 2024-04-15  118  			/*
+42672471f938cd Darrick J. Wong 2024-04-15  119  			 * Save this error and see what happens if we try to
+42672471f938cd Darrick J. Wong 2024-04-15  120  			 * reserve quota for ip2.  Then report both.
+42672471f938cd Darrick J. Wong 2024-04-15  121  			 */
+42672471f938cd Darrick J. Wong 2024-04-15  122  			*qretry |= QRETRY_IP1;
+42672471f938cd Darrick J. Wong 2024-04-15  123  			ip1_error = error;
+42672471f938cd Darrick J. Wong 2024-04-15  124  			error = 0;
+42672471f938cd Darrick J. Wong 2024-04-15  125  		}
+42672471f938cd Darrick J. Wong 2024-04-15  126  		if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  127  			return error;
+42672471f938cd Darrick J. Wong 2024-04-15  128  	}
+42672471f938cd Darrick J. Wong 2024-04-15  129  	if (ddelta < 0 || rdelta < 0) {
+42672471f938cd Darrick J. Wong 2024-04-15  130  		error = xfs_trans_reserve_quota_nblks(tp, req->ip2,
+42672471f938cd Darrick J. Wong 2024-04-15  131  				ddelta < 0 ? -ddelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  132  				rdelta < 0 ? -rdelta : 0,
+42672471f938cd Darrick J. Wong 2024-04-15  133  				false);
+42672471f938cd Darrick J. Wong 2024-04-15  134  		if (error == -EDQUOT || error == -ENOSPC)
+42672471f938cd Darrick J. Wong 2024-04-15  135  			*qretry |= QRETRY_IP2;
+42672471f938cd Darrick J. Wong 2024-04-15  136  		if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  137  			return error;
+42672471f938cd Darrick J. Wong 2024-04-15  138  	}
+42672471f938cd Darrick J. Wong 2024-04-15  139  	if (ip1_error)
+42672471f938cd Darrick J. Wong 2024-04-15  140  		return ip1_error;
+42672471f938cd Darrick J. Wong 2024-04-15  141  
+42672471f938cd Darrick J. Wong 2024-04-15  142  	/*
+42672471f938cd Darrick J. Wong 2024-04-15  143  	 * For each file, forcibly reserve the gross gain in mapped blocks so
+42672471f938cd Darrick J. Wong 2024-04-15  144  	 * that we don't trip over any quota block reservation assertions.
+42672471f938cd Darrick J. Wong 2024-04-15  145  	 * We must reserve the gross gain because the quota code subtracts from
+42672471f938cd Darrick J. Wong 2024-04-15  146  	 * bcount the number of blocks that we unmap; it does not add that
+42672471f938cd Darrick J. Wong 2024-04-15  147  	 * quantity back to the quota block reservation.
+42672471f938cd Darrick J. Wong 2024-04-15  148  	 */
+42672471f938cd Darrick J. Wong 2024-04-15  149  	error = xfs_trans_reserve_quota_nblks(tp, req->ip1, req->ip1_bcount,
+42672471f938cd Darrick J. Wong 2024-04-15  150  			req->ip1_rtbcount, true);
+42672471f938cd Darrick J. Wong 2024-04-15  151  	if (error)
+42672471f938cd Darrick J. Wong 2024-04-15  152  		return error;
+42672471f938cd Darrick J. Wong 2024-04-15  153  
+42672471f938cd Darrick J. Wong 2024-04-15  154  	return xfs_trans_reserve_quota_nblks(tp, req->ip2, req->ip2_bcount,
+42672471f938cd Darrick J. Wong 2024-04-15  155  			req->ip2_rtbcount, true);
+42672471f938cd Darrick J. Wong 2024-04-15  156  }
+42672471f938cd Darrick J. Wong 2024-04-15  157  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
