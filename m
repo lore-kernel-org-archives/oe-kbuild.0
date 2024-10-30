@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519A113FEE
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 19:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F658199385
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 19:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730315495; cv=none; b=rVSVMNUg4tg7b6dSPTdzs3wUJLOqCk1QLdtcGtX9neek5wHOCUu8YUqtyOXSDDzbsDios3AuINlCsm3n43c1jqDsQ1dngGLHYlBKWjhbTqxjDc+n/D8+90rjSaoPq8KaQCv4C0RSx5/8EsKPlHFCCDSqHhlDAyNp3mjlT1ZcVOI=
+	t=1730316756; cv=none; b=PUVWf/BiKwhP47bZ2+vsIJNeUWlNPLJtR/5nY/PyvCQ7cM4IIM3rlrjiJp+LrWXXYJ0xTDLs1PoAdR85YStQmNEgFlbutIT7OrgX+hcK0aQGd+pjLLwJGpmEHLpy+XF8CQzjZYOHw4aQT4qiiRnDoZbG8MHNJfY6TNybiU+s+Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730315495; c=relaxed/simple;
-	bh=wYjDZjXMx4uq3C1pgmWnQzqHf6MedaNVxXx3cVk+si4=;
+	s=arc-20240116; t=1730316756; c=relaxed/simple;
+	bh=Xv44w3ccOTolbiwGXvvIHzVpkv7ELwQaZxIbXAIdHE0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hi9pg6RTMSXC83BnUiLuVqCzBBPXhpX9OjW/1yf5eto/PV0FRg0YdeP2vs9ic/W5a3E8Vf3/qZR940chF5Ix8XoM3Fe/tX1kPQh5tbl8d6PbOSxj/Lj7b0cnuJfjU2X/m90jT/HLKAcj0OSGkTm7wMO6z5YkyG6u25twjS7+wOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PetM51oV; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=hfE9LaG6hK/SD5neQvc/BQGAZeRPH72xctRFzBWy6SrV0SUajo5frhEt6JNyf/27xZQ9DfRcq8FqrCKBIK/Asa8mXHKMYYuv1Ic/rxnEDeCXUr8ZKajmk1A93aiOPUc0B1iJoa2Cms+xpFoEpHdrykSTf4WVLK9mik5DMmLeL24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfZah8ru; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PetM51oV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfZah8ru"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730315493; x=1761851493;
+  t=1730316753; x=1761852753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wYjDZjXMx4uq3C1pgmWnQzqHf6MedaNVxXx3cVk+si4=;
-  b=PetM51oVWx8GPzlb2LjTwg3i7ftTNTD2avn0TmwiImqLlKMSY8X+z0QZ
-   5Ci9+v4kntNFapRkKB5oQj38XBVOc8MyhFf2uFm7WBTauVag28ZC4Gor9
-   8BzlFK+aNt/11fBhxB7hzT/omErfHOjWTiANQB69m7fpcvfpi1RjTtUgv
-   /HTHjbO92QgTdxSLf57ryg73r3xdCz0MEfyKDlsZA3z8W2csGScOf7ER+
-   ApgZZMzz8mG/B11TWt7uN95QVghQn86rmF8xauVbOOIIOyW/JhY5o/Dac
-   Lfg4DCdz97JaEQd9X95w4PWz8w6cS+7REhiU2CZ61QuQ4+xYSfSS+yRak
+  bh=Xv44w3ccOTolbiwGXvvIHzVpkv7ELwQaZxIbXAIdHE0=;
+  b=MfZah8ruJqy087M+2ROzsoStBHntg0N9em3csB3a0GpzzK/ljU/bTGsV
+   ScHonQM/xfKe91fCEPT7SE8G6//0nZ0Gi9DwildpBppGmgFJUVfUgPtK/
+   91p+g8MRFt4quS6NpUvkQRssITjbHfx6XWsWZIkNXgF6aYF4q4PK+OLPE
+   TyN0n+AKx/pKyjaZxkHMUY1DQvst4ikVn+4ZBbeAfnzLzQMEV6j0ac7w/
+   F13Ot98rpGvCktc0qTH6WfkAYAFLiTS+jLdDZCmBa2j61dCtHsGIjSZtE
+   15DerFVji9IgSshkKwkw92e/oP6HUNgb62LR6E/KvddvTQcQ5q37nPZn6
    A==;
-X-CSE-ConnectionGUID: 7XUQENwvSb60qJDBC07UMg==
-X-CSE-MsgGUID: OiTW6dMnRjeQ3TM5sdUQ9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="17679972"
+X-CSE-ConnectionGUID: 0iaNEgNPSuKnsHRIbnqQbg==
+X-CSE-MsgGUID: rtGcP3KWR/y3SayAhAoLPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="47514136"
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="17679972"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:11:32 -0700
-X-CSE-ConnectionGUID: 9DpwvLeuSNKATisHqzrnVA==
-X-CSE-MsgGUID: AuNBPQ/qSLmidC5iSYAcpA==
+   d="scan'208";a="47514136"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:32:32 -0700
+X-CSE-ConnectionGUID: S8FIvJjyQSqqxXnus7QlAQ==
+X-CSE-MsgGUID: LfwXyP91T7GUZxeHB3Tz1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="82501761"
+   d="scan'208";a="113270470"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Oct 2024 12:11:30 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2024 12:32:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6E6K-000fEE-1H;
-	Wed, 30 Oct 2024 19:11:28 +0000
-Date: Thu, 31 Oct 2024 03:11:03 +0800
+	id 1t6EQe-000fEu-2M;
+	Wed, 30 Oct 2024 19:32:28 +0000
+Date: Thu, 31 Oct 2024 03:31:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error:
- uninitialized symbol 'cpu_id'.
-Message-ID: <202410310318.7azAzKkJ-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
+ for str_enabled_disabled(dw24 . ts_pll_enable)
+Message-ID: <202410310330.8TPsnZiY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,72 +65,179 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Andrew Jones <ajones@ventanamicro.com>
-CC: Palmer Dabbelt <palmer@rivosinc.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
+TO: Karol Kolacinski <karol.kolacinski@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
+CC: Jacob Keller <jacob.e.keller@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   c1e939a21eb111a6d6067b38e8e04b8809b64c4e
-commit: 53b2b22850e1ff9e2729ce8efe2d846ed7d3bff4 RISC-V: Move the hwprobe syscall to its own file
-date:   10 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-r071-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310318.7azAzKkJ-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
+date:   5 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 5 months ago
+config: xtensa-randconfig-r054-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310330.8TPsnZiY-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202410310318.7azAzKkJ-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410310330.8TPsnZiY-lkp@intel.com/
 
-smatch warnings:
-arch/riscv/kernel/sys_hwprobe.c:42 hwprobe_arch_id() error: uninitialized symbol 'cpu_id'.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
 
-vim +/cpu_id +42 arch/riscv/kernel/sys_hwprobe.c
+vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
 
-53b2b22850e1ff Andrew Jones 2023-11-22  17  
-53b2b22850e1ff Andrew Jones 2023-11-22  18  
-53b2b22850e1ff Andrew Jones 2023-11-22  19  static void hwprobe_arch_id(struct riscv_hwprobe *pair,
-53b2b22850e1ff Andrew Jones 2023-11-22  20  			    const struct cpumask *cpus)
-53b2b22850e1ff Andrew Jones 2023-11-22  21  {
-53b2b22850e1ff Andrew Jones 2023-11-22  22  	u64 id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  23  	bool first = true;
-53b2b22850e1ff Andrew Jones 2023-11-22  24  	int cpu;
-53b2b22850e1ff Andrew Jones 2023-11-22  25  
-53b2b22850e1ff Andrew Jones 2023-11-22  26  	for_each_cpu(cpu, cpus) {
-53b2b22850e1ff Andrew Jones 2023-11-22  27  		u64 cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  28  
-53b2b22850e1ff Andrew Jones 2023-11-22  29  		switch (pair->key) {
-53b2b22850e1ff Andrew Jones 2023-11-22  30  		case RISCV_HWPROBE_KEY_MVENDORID:
-53b2b22850e1ff Andrew Jones 2023-11-22  31  			cpu_id = riscv_cached_mvendorid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  32  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  33  		case RISCV_HWPROBE_KEY_MIMPID:
-53b2b22850e1ff Andrew Jones 2023-11-22  34  			cpu_id = riscv_cached_mimpid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  35  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  36  		case RISCV_HWPROBE_KEY_MARCHID:
-53b2b22850e1ff Andrew Jones 2023-11-22  37  			cpu_id = riscv_cached_marchid(cpu);
-53b2b22850e1ff Andrew Jones 2023-11-22  38  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  39  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  40  
-53b2b22850e1ff Andrew Jones 2023-11-22  41  		if (first) {
-53b2b22850e1ff Andrew Jones 2023-11-22 @42  			id = cpu_id;
-53b2b22850e1ff Andrew Jones 2023-11-22  43  			first = false;
-53b2b22850e1ff Andrew Jones 2023-11-22  44  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  45  
-53b2b22850e1ff Andrew Jones 2023-11-22  46  		/*
-53b2b22850e1ff Andrew Jones 2023-11-22  47  		 * If there's a mismatch for the given set, return -1 in the
-53b2b22850e1ff Andrew Jones 2023-11-22  48  		 * value.
-53b2b22850e1ff Andrew Jones 2023-11-22  49  		 */
-53b2b22850e1ff Andrew Jones 2023-11-22  50  		if (id != cpu_id) {
-53b2b22850e1ff Andrew Jones 2023-11-22  51  			id = -1ULL;
-53b2b22850e1ff Andrew Jones 2023-11-22  52  			break;
-53b2b22850e1ff Andrew Jones 2023-11-22  53  		}
-53b2b22850e1ff Andrew Jones 2023-11-22  54  	}
-53b2b22850e1ff Andrew Jones 2023-11-22  55  
-53b2b22850e1ff Andrew Jones 2023-11-22  56  	pair->value = id;
-53b2b22850e1ff Andrew Jones 2023-11-22  57  }
-53b2b22850e1ff Andrew Jones 2023-11-22  58  
+3a7496234d179a Jacob Keller       2021-10-13  336  
+3a7496234d179a Jacob Keller       2021-10-13  337  /**
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
+d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
+3a7496234d179a Jacob Keller       2021-10-13  351   */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
+3a7496234d179a Jacob Keller       2021-10-13  355  {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
+3a7496234d179a Jacob Keller       2021-10-13  362  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
+3a7496234d179a Jacob Keller       2021-10-13  368  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  373  	}
+3a7496234d179a Jacob Keller       2021-10-13  374  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
+3a7496234d179a Jacob Keller       2021-10-13  380  	}
+3a7496234d179a Jacob Keller       2021-10-13  381  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  385  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  389  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  393  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  400  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  404  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
+3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
+3a7496234d179a Jacob Keller       2021-10-13  408  	}
+3a7496234d179a Jacob Keller       2021-10-13  409  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  415  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  420  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
+3a7496234d179a Jacob Keller       2021-10-13  423  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  427  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
+3a7496234d179a Jacob Keller       2021-10-13  432  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  435  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
+3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  439  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  444  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  448  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  452  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  455  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  459  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  462  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  466  
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
+3a7496234d179a Jacob Keller       2021-10-13  470  	}
+3a7496234d179a Jacob Keller       2021-10-13  471  
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
+39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
+b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
+3a7496234d179a Jacob Keller       2021-10-13  478  
+3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
+3a7496234d179a Jacob Keller       2021-10-13  480  }
+3a7496234d179a Jacob Keller       2021-10-13  481  
 
 -- 
 0-DAY CI Kernel Test Service
