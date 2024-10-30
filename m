@@ -1,58 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F658199385
-	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 19:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A0B1D12E9
+	for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 20:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730316756; cv=none; b=PUVWf/BiKwhP47bZ2+vsIJNeUWlNPLJtR/5nY/PyvCQ7cM4IIM3rlrjiJp+LrWXXYJ0xTDLs1PoAdR85YStQmNEgFlbutIT7OrgX+hcK0aQGd+pjLLwJGpmEHLpy+XF8CQzjZYOHw4aQT4qiiRnDoZbG8MHNJfY6TNybiU+s+Ws=
+	t=1730318751; cv=none; b=fDRgZGyaVYRM0+uKsB2HFBd58DsmzgLT82CqfXUiCwSXW1ytaeMwWlleiGiALdFQnAaWwIg43JQXbGcjzSwxwVExyQe2MnKZMLSD2gQqq17xN+y4Pbiji95vOE6aJnkGEc46Yfz+HkNJ0C/OJ/5kme+hylnTZokLgPWsdh7Qw8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730316756; c=relaxed/simple;
-	bh=Xv44w3ccOTolbiwGXvvIHzVpkv7ELwQaZxIbXAIdHE0=;
+	s=arc-20240116; t=1730318751; c=relaxed/simple;
+	bh=lkwtoRA5tvMUiCpjLAGYONGPDcS+xn0HGuOJP0Bh3dc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hfE9LaG6hK/SD5neQvc/BQGAZeRPH72xctRFzBWy6SrV0SUajo5frhEt6JNyf/27xZQ9DfRcq8FqrCKBIK/Asa8mXHKMYYuv1Ic/rxnEDeCXUr8ZKajmk1A93aiOPUc0B1iJoa2Cms+xpFoEpHdrykSTf4WVLK9mik5DMmLeL24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfZah8ru; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=kA0xQviWo6Q2Fq8I+4xrZaacF4Qt0eHJIq62a/0z9d7RroctmUasmJUBOsXALzrL0+ZQrpKIW19yt9zrSTF4NgMLvOLDK0sla7XQlLuQ0i8xtT2fQiP8U5mt/mAGEI6zWxWbDe+YipsR1W8C5RM/LZgKs/OJ6cAeRrL0/yB2BKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vw4KAY6h; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfZah8ru"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730316753; x=1761852753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xv44w3ccOTolbiwGXvvIHzVpkv7ELwQaZxIbXAIdHE0=;
-  b=MfZah8ruJqy087M+2ROzsoStBHntg0N9em3csB3a0GpzzK/ljU/bTGsV
-   ScHonQM/xfKe91fCEPT7SE8G6//0nZ0Gi9DwildpBppGmgFJUVfUgPtK/
-   91p+g8MRFt4quS6NpUvkQRssITjbHfx6XWsWZIkNXgF6aYF4q4PK+OLPE
-   TyN0n+AKx/pKyjaZxkHMUY1DQvst4ikVn+4ZBbeAfnzLzQMEV6j0ac7w/
-   F13Ot98rpGvCktc0qTH6WfkAYAFLiTS+jLdDZCmBa2j61dCtHsGIjSZtE
-   15DerFVji9IgSshkKwkw92e/oP6HUNgb62LR6E/KvddvTQcQ5q37nPZn6
-   A==;
-X-CSE-ConnectionGUID: 0iaNEgNPSuKnsHRIbnqQbg==
-X-CSE-MsgGUID: rtGcP3KWR/y3SayAhAoLPg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="47514136"
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="47514136"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:32:32 -0700
-X-CSE-ConnectionGUID: S8FIvJjyQSqqxXnus7QlAQ==
-X-CSE-MsgGUID: LfwXyP91T7GUZxeHB3Tz1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="113270470"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 30 Oct 2024 12:32:31 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6EQe-000fEu-2M;
-	Wed, 30 Oct 2024 19:32:28 +0000
-Date: Thu, 31 Oct 2024 03:31:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity
- for str_enabled_disabled(dw24 . ts_pll_enable)
-Message-ID: <202410310330.8TPsnZiY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vw4KAY6h"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso1758485e9.3
+        for <oe-kbuild@lists.linux.dev>; Wed, 30 Oct 2024 13:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730318746; x=1730923546; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BMYzWn3a9BZHBJmSLCvIY/w+pubGzIYYisFrSZ78I48=;
+        b=Vw4KAY6hbu0eC6uNWiKyc4F5G0Lj2yk8XpeZQaajSIpnfwFu4qpFGDVZ+XoPVY0NbM
+         Wat+ypsNn56C6jyYoOvY2um9s4+1VYR5n5LdlBSsnHoBwvt+/EMcaLLIb0UOyc1DUyTs
+         8x5niaF3Y8xN7gwWLXSTJri1mujZW+jSSE7UOJTq7sKCS60bX2Q77IqS2FmS0eQQNR67
+         z2fbBHhoQQgmjSNgr6ejrtyRC0FGBFH0OqO0bXIe+O/6iL80fNybQllyRXiokwLC16/R
+         MI6VqvlaWSdN/YxyX/AZEFxL2MbySLwxGBR6/c9IAJ7PWFCe7xHAb78NIHNFdYGpf4qh
+         2z3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730318746; x=1730923546;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BMYzWn3a9BZHBJmSLCvIY/w+pubGzIYYisFrSZ78I48=;
+        b=Z8UaHGbXuhY9hRFYMwocEm4vey+u+xN0fmODDSoyDzg2Wg8bd6MST+9JPW8Iy8kmIZ
+         /O2xjCcJUl/0ck/tjGJHEk7qb54DN+BgiFzV9GAZtMLL1oFSSYWzcNt8n7sr1LBy7jpy
+         bqPp10oXuvnOeRKDxZQSnxsFueqr/hkze7GnySQh/1wfN0sIjlDvFQJctabKU/0L1MXj
+         Lm3r4miR2QBBB7z5bUyYPdZ9w38j/xnli/oewS7Oktedbm6jSo0NNSfMay3wDvDUJDFJ
+         xT1sXVV8/Vi+/sWhUaqIfp9D3VTIN2+Qsiyw/ZPtLfjL3o7dasdAMlrqTrnHSQ6lc3D4
+         Z5+Q==
+X-Gm-Message-State: AOJu0YxM79eEm3/1DGtfFYwlDoYv14lku6hxTIght9LD1SZZ3OQIM2sB
+	T1GNKDTRLrw9+YPn7g2lBQXCnNScfieTuLbn3SXiVNwnQTTcpdsc9uD5wq6U5+Ejg14fzb94xuH
+	a
+X-Google-Smtp-Source: AGHT+IEDH4m+a8rcy96TqWsPWN9s2UOIanCX22F1aRjED1fm8KzovyJb8Oo8tcsdMdF1fJbXALgUwQ==
+X-Received: by 2002:a05:600c:1d28:b0:431:6060:8b16 with SMTP id 5b1f17b1804b1-4327b80055dmr7553265e9.30.1730318746063;
+        Wed, 30 Oct 2024 13:05:46 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9a9a53sm30796495e9.30.2024.10.30.13.05.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 13:05:45 -0700 (PDT)
+Date: Wed, 30 Oct 2024 23:05:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Johannes Thumshirn <jth@kernel.org>,
+	John Garry <john.g.garry@oracle.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org,
+	axboe@kernel.dk, song@kernel.org, yukuai3@huawei.com, hch@lst.de,
+	martin.petersen@oracle.com, hare@suse.de,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH] btrfs: handle bio_split() error
+Message-ID: <1cab6d9b-8493-4baf-8a44-602dc035ded6@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,184 +71,154 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241029091121.16281-1-jth@kernel.org>
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Karol Kolacinski <karol.kolacinski@intel.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-CC: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Jacob Keller <jacob.e.keller@intel.com>
+Hi Johannes,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c1e939a21eb111a6d6067b38e8e04b8809b64c4e
-commit: b390ecc2e375f8973c512a5041a69555069f502a ice: Change CGU regs struct to anonymous
-date:   5 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 5 months ago
-config: xtensa-randconfig-r054-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310330.8TPsnZiY-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.1.0
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/btrfs-handle-bio_split-error/20241029-171227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241029091121.16281-1-jth%40kernel.org
+patch subject: [PATCH] btrfs: handle bio_split() error
+config: openrisc-randconfig-r072-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310231.WMcRwBhG-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202410310330.8TPsnZiY-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410310231.WMcRwBhG-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:396:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:474:4-22: opportunity for str_enabled_disabled(dw24 . ts_pll_enable)
+smatch warnings:
+fs/btrfs/bio.c:763 btrfs_submit_chunk() error: 'bbio' dereferencing possible ERR_PTR()
 
-vim +396 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
+vim +/bbio +763 fs/btrfs/bio.c
 
-3a7496234d179a Jacob Keller       2021-10-13  336  
-3a7496234d179a Jacob Keller       2021-10-13  337  /**
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  338   * ice_cfg_cgu_pll_e82x - Configure the Clock Generation Unit
-d551d075b04382 Karol Kolacinski   2024-05-28  339   * @hw: pointer to the HW struct
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  340   * @clk_freq: Clock frequency to program
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  341   * @clk_src: Clock source to select (TIME_REF, or TCX0)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  342   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  343   * Configure the Clock Generation Unit with the desired clock frequency and
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  344   * time reference, enabling the PLL which drives the PTP hardware clock.
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  345   *
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  346   * Return:
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  347   * * %0       - success
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  348   * * %-EINVAL - input parameters are incorrect
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  349   * * %-EBUSY  - failed to lock TS PLL
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  350   * * %other   - CGU read/write failure
-3a7496234d179a Jacob Keller       2021-10-13  351   */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  352  static int ice_cfg_cgu_pll_e82x(struct ice_hw *hw,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  353  				enum ice_time_ref_freq clk_freq,
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  354  				enum ice_clk_src clk_src)
-3a7496234d179a Jacob Keller       2021-10-13  355  {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  356  	union tspll_ro_bwm_lf bwm_lf;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  357  	union nac_cgu_dword19 dw19;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  358  	union nac_cgu_dword22 dw22;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  359  	union nac_cgu_dword24 dw24;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  360  	union nac_cgu_dword9 dw9;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  361  	int err;
-3a7496234d179a Jacob Keller       2021-10-13  362  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  363  	if (clk_freq >= NUM_ICE_TIME_REF_FREQ) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  364  		dev_warn(ice_hw_to_dev(hw), "Invalid TIME_REF frequency %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  365  			 clk_freq);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  366  		return -EINVAL;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  367  	}
-3a7496234d179a Jacob Keller       2021-10-13  368  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  369  	if (clk_src >= NUM_ICE_CLK_SRC) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  370  		dev_warn(ice_hw_to_dev(hw), "Invalid clock source %u\n",
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  371  			 clk_src);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  372  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  373  	}
-3a7496234d179a Jacob Keller       2021-10-13  374  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  375  	if (clk_src == ICE_CLK_SRC_TCX0 &&
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  376  	    clk_freq != ICE_TIME_REF_FREQ_25_000) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  377  		dev_warn(ice_hw_to_dev(hw),
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  378  			 "TCX0 only supports 25 MHz frequency\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  379  		return -EINVAL;
-3a7496234d179a Jacob Keller       2021-10-13  380  	}
-3a7496234d179a Jacob Keller       2021-10-13  381  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  382  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD9, &dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  383  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  384  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  385  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  386  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  387  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  388  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  389  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  390  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  391  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  392  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  393  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  394  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  395  	ice_debug(hw, ICE_DBG_PTP, "Current CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28 @396  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  397  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  398  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  399  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  400  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  401  	/* Disable the PLL before changing the clock source or frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  402  	if (dw24.ts_pll_enable) {
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  403  		dw24.ts_pll_enable = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  404  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  405  		err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  406  		if (err)
-3a7496234d179a Jacob Keller       2021-10-13  407  			return err;
-3a7496234d179a Jacob Keller       2021-10-13  408  	}
-3a7496234d179a Jacob Keller       2021-10-13  409  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  410  	/* Set the frequency */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  411  	dw9.time_ref_freq_sel = clk_freq;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  412  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD9, dw9.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  413  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  414  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  415  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  416  	/* Configure the TS PLL feedback divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  417  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD19, &dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  418  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  419  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  420  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  421  	dw19.tspll_fbdiv_intgr = e822_cgu_params[clk_freq].feedback_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  422  	dw19.tspll_ndivratio = 1;
-3a7496234d179a Jacob Keller       2021-10-13  423  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  424  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD19, dw19.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  425  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  426  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  427  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  428  	/* Configure the TS PLL post divisor */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  429  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD22, &dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  430  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  431  		return err;
-3a7496234d179a Jacob Keller       2021-10-13  432  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  433  	dw22.time1588clk_div = e822_cgu_params[clk_freq].post_pll_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  434  	dw22.time1588clk_sel_div2 = 0;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  435  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  436  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD22, dw22.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  437  	if (err)
-3a7496234d179a Jacob Keller       2021-10-13  438  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  439  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  440  	/* Configure the TS PLL pre divisor and clock source */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  441  	err = ice_read_cgu_reg_e82x(hw, NAC_CGU_DWORD24, &dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  442  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  443  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  444  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  445  	dw24.ref1588_ck_div = e822_cgu_params[clk_freq].refclk_pre_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  446  	dw24.tspll_fbdiv_frac = e822_cgu_params[clk_freq].frac_n_div;
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  447  	dw24.time_ref_sel = clk_src;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  448  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  449  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  450  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  451  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  452  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  453  	/* Finally, enable the PLL */
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  454  	dw24.ts_pll_enable = 1;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  455  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  456  	err = ice_write_cgu_reg_e82x(hw, NAC_CGU_DWORD24, dw24.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  457  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  458  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  459  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  460  	/* Wait to verify if the PLL locks */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  461  	usleep_range(1000, 5000);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  462  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  463  	err = ice_read_cgu_reg_e82x(hw, TSPLL_RO_BWM_LF, &bwm_lf.val);
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  464  	if (err)
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  465  		return err;
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  466  
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  467  	if (!bwm_lf.plllock_true_lock_cri) {
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  468  		dev_warn(ice_hw_to_dev(hw), "CGU PLL failed to lock\n");
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  469  		return -EBUSY;
-3a7496234d179a Jacob Keller       2021-10-13  470  	}
-3a7496234d179a Jacob Keller       2021-10-13  471  
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  472  	/* Log the current clock configuration */
-39ecb29df855ce Sergey Temerkhanov 2024-05-28  473  	ice_debug(hw, ICE_DBG_PTP, "New CGU configuration -- %s, clk_src %s, clk_freq %s, PLL %s\n",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  474  		  dw24.ts_pll_enable ? "enabled" : "disabled",
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  475  		  ice_clk_src_str(dw24.time_ref_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  476  		  ice_clk_freq_str(dw9.time_ref_freq_sel),
-b390ecc2e375f8 Karol Kolacinski   2024-05-28  477  		  bwm_lf.plllock_true_lock_cri ? "locked" : "unlocked");
-3a7496234d179a Jacob Keller       2021-10-13  478  
-3a7496234d179a Jacob Keller       2021-10-13  479  	return 0;
-3a7496234d179a Jacob Keller       2021-10-13  480  }
-3a7496234d179a Jacob Keller       2021-10-13  481  
+ae42a154ca8972 Christoph Hellwig  2023-03-07  660  static bool btrfs_submit_chunk(struct btrfs_bio *bbio, int mirror_num)
+103c19723c80bf Christoph Hellwig  2022-11-15  661  {
+d5e4377d505189 Christoph Hellwig  2023-01-21  662  	struct btrfs_inode *inode = bbio->inode;
+4317ff0056bedf Qu Wenruo          2023-03-23  663  	struct btrfs_fs_info *fs_info = bbio->fs_info;
+ae42a154ca8972 Christoph Hellwig  2023-03-07  664  	struct bio *bio = &bbio->bio;
+adbe7e388e4239 Anand Jain         2023-04-15  665  	u64 logical = bio->bi_iter.bi_sector << SECTOR_SHIFT;
+103c19723c80bf Christoph Hellwig  2022-11-15  666  	u64 length = bio->bi_iter.bi_size;
+103c19723c80bf Christoph Hellwig  2022-11-15  667  	u64 map_length = length;
+921603c76246a7 Christoph Hellwig  2022-12-12  668  	bool use_append = btrfs_use_zone_append(bbio);
+103c19723c80bf Christoph Hellwig  2022-11-15  669  	struct btrfs_io_context *bioc = NULL;
+103c19723c80bf Christoph Hellwig  2022-11-15  670  	struct btrfs_io_stripe smap;
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  671  	blk_status_t ret;
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  672  	int error;
+103c19723c80bf Christoph Hellwig  2022-11-15  673  
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  674  	if (!bbio->inode || btrfs_is_data_reloc_root(inode->root))
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  675  		smap.rst_search_commit_root = true;
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  676  	else
+f4d39cf1cebfb8 Johannes Thumshirn 2024-07-31  677  		smap.rst_search_commit_root = false;
+9acaa64187f9b4 Johannes Thumshirn 2023-09-14  678  
+103c19723c80bf Christoph Hellwig  2022-11-15  679  	btrfs_bio_counter_inc_blocked(fs_info);
+cd4efd210edfb3 Christoph Hellwig  2023-05-31  680  	error = btrfs_map_block(fs_info, btrfs_op(bio), logical, &map_length,
+9fb2acc2fe07f1 Qu Wenruo          2023-09-17  681  				&bioc, &smap, &mirror_num);
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  682  	if (error) {
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  683  		ret = errno_to_blk_status(error);
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  684  		goto fail;
+103c19723c80bf Christoph Hellwig  2022-11-15  685  	}
+103c19723c80bf Christoph Hellwig  2022-11-15  686  
+852eee62d31abd Christoph Hellwig  2023-01-21  687  	map_length = min(map_length, length);
+d5e4377d505189 Christoph Hellwig  2023-01-21  688  	if (use_append)
+b35243a447b9fe Christoph Hellwig  2024-08-26  689  		map_length = btrfs_append_map_length(bbio, map_length);
+d5e4377d505189 Christoph Hellwig  2023-01-21  690  
+103c19723c80bf Christoph Hellwig  2022-11-15  691  	if (map_length < length) {
+b35243a447b9fe Christoph Hellwig  2024-08-26  692  		bbio = btrfs_split_bio(fs_info, bbio, map_length);
+28c02a018d50ae Johannes Thumshirn 2024-10-29  693  		if (IS_ERR(bbio)) {
+28c02a018d50ae Johannes Thumshirn 2024-10-29  694  			ret = PTR_ERR(bbio);
+28c02a018d50ae Johannes Thumshirn 2024-10-29  695  			goto fail;
+
+We hit this goto.  We know from the if statement that map_length < length.
+
+28c02a018d50ae Johannes Thumshirn 2024-10-29  696  		}
+2cef0c79bb81d8 Christoph Hellwig  2023-03-07  697  		bio = &bbio->bio;
+103c19723c80bf Christoph Hellwig  2022-11-15  698  	}
+103c19723c80bf Christoph Hellwig  2022-11-15  699  
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  700  	/*
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  701  	 * Save the iter for the end_io handler and preload the checksums for
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  702  	 * data reads.
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  703  	 */
+fbe960877b6f43 Christoph Hellwig  2023-05-31  704  	if (bio_op(bio) == REQ_OP_READ && is_data_bbio(bbio)) {
+0d3acb25e70d5f Christoph Hellwig  2023-01-21  705  		bbio->saved_iter = bio->bi_iter;
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  706  		ret = btrfs_lookup_bio_sums(bbio);
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  707  		if (ret)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  708  			goto fail;
+1c2b3ee3b0ec4b Christoph Hellwig  2023-01-21  709  	}
+7276aa7d38255b Christoph Hellwig  2023-01-21  710  
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  711  	if (btrfs_op(bio) == BTRFS_MAP_WRITE) {
+d5e4377d505189 Christoph Hellwig  2023-01-21  712  		if (use_append) {
+d5e4377d505189 Christoph Hellwig  2023-01-21  713  			bio->bi_opf &= ~REQ_OP_WRITE;
+d5e4377d505189 Christoph Hellwig  2023-01-21  714  			bio->bi_opf |= REQ_OP_ZONE_APPEND;
+69ccf3f4244abc Christoph Hellwig  2023-01-21  715  		}
+69ccf3f4244abc Christoph Hellwig  2023-01-21  716  
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  717  		if (is_data_bbio(bbio) && bioc &&
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  718  		    btrfs_need_stripe_tree_update(bioc->fs_info, bioc->map_type)) {
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  719  			/*
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  720  			 * No locking for the list update, as we only add to
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  721  			 * the list in the I/O submission path, and list
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  722  			 * iteration only happens in the completion path, which
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  723  			 * can't happen until after the last submission.
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  724  			 */
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  725  			btrfs_get_bioc(bioc);
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  726  			list_add_tail(&bioc->rst_ordered_entry, &bbio->ordered->bioc_list);
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  727  		}
+02c372e1f016e5 Johannes Thumshirn 2023-09-14  728  
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  729  		/*
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  730  		 * Csum items for reloc roots have already been cloned at this
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  731  		 * point, so they are handled as part of the no-checksum case.
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  732  		 */
+4317ff0056bedf Qu Wenruo          2023-03-23  733  		if (inode && !(inode->flags & BTRFS_INODE_NODATASUM) &&
+169aaaf2e0be61 Qu Wenruo          2024-06-14  734  		    !test_bit(BTRFS_FS_STATE_NO_DATA_CSUMS, &fs_info->fs_state) &&
+d5e4377d505189 Christoph Hellwig  2023-01-21  735  		    !btrfs_is_data_reloc_root(inode->root)) {
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  736  			if (should_async_write(bbio) &&
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  737  			    btrfs_wq_submit_bio(bbio, bioc, &smap, mirror_num))
+852eee62d31abd Christoph Hellwig  2023-01-21  738  				goto done;
+103c19723c80bf Christoph Hellwig  2022-11-15  739  
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  740  			ret = btrfs_bio_csum(bbio);
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  741  			if (ret)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  742  				goto fail;
+cebae292e0c32a Johannes Thumshirn 2024-06-07  743  		} else if (use_append ||
+cebae292e0c32a Johannes Thumshirn 2024-06-07  744  			   (btrfs_is_zoned(fs_info) && inode &&
+cebae292e0c32a Johannes Thumshirn 2024-06-07  745  			    inode->flags & BTRFS_INODE_NODATASUM)) {
+cbfce4c7fbde23 Christoph Hellwig  2023-05-24  746  			ret = btrfs_alloc_dummy_sum(bbio);
+cbfce4c7fbde23 Christoph Hellwig  2023-05-24  747  			if (ret)
+10d9d8c3512f16 Qu Wenruo          2024-08-17  748  				goto fail;
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  749  		}
+103c19723c80bf Christoph Hellwig  2022-11-15  750  	}
+f8a53bb58ec7e2 Christoph Hellwig  2023-01-21  751  
+22b4ef50dc1d11 David Sterba       2024-08-27  752  	btrfs_submit_bio(bio, bioc, &smap, mirror_num);
+852eee62d31abd Christoph Hellwig  2023-01-21  753  done:
+852eee62d31abd Christoph Hellwig  2023-01-21  754  	return map_length == length;
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  755  
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  756  fail:
+9ba0004bd95e05 Christoph Hellwig  2023-01-21  757  	btrfs_bio_counter_dec(fs_info);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  758  	/*
+10d9d8c3512f16 Qu Wenruo          2024-08-17  759  	 * We have split the original bbio, now we have to end both the current
+10d9d8c3512f16 Qu Wenruo          2024-08-17  760  	 * @bbio and remaining one, as the remaining one will never be submitted.
+10d9d8c3512f16 Qu Wenruo          2024-08-17  761  	 */
+10d9d8c3512f16 Qu Wenruo          2024-08-17  762  	if (map_length < length) {
+10d9d8c3512f16 Qu Wenruo          2024-08-17 @763  		struct btrfs_bio *remaining = bbio->private;
+                                                                                              ^^^^^^^^^^^^^
+Error pointer dereference
+
+10d9d8c3512f16 Qu Wenruo          2024-08-17  764  
+10d9d8c3512f16 Qu Wenruo          2024-08-17  765  		ASSERT(bbio->bio.bi_pool == &btrfs_clone_bioset);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  766  		ASSERT(remaining);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  767  
+9ca0e58cb752b0 Qu Wenruo          2024-08-24  768  		btrfs_bio_end_io(remaining, ret);
+10d9d8c3512f16 Qu Wenruo          2024-08-17  769  	}
+9ca0e58cb752b0 Qu Wenruo          2024-08-24  770  	btrfs_bio_end_io(bbio, ret);
+852eee62d31abd Christoph Hellwig  2023-01-21  771  	/* Do not submit another chunk */
+852eee62d31abd Christoph Hellwig  2023-01-21  772  	return true;
+852eee62d31abd Christoph Hellwig  2023-01-21  773  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
