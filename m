@@ -1,62 +1,58 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A5C1C9EC6
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 20:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AA219CC05
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 22:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730405705; cv=none; b=cZ2URgnnRahf+GLZJmwwrdw9CNgmMwJ/oKBmRaRcn7Z9LS6Zp3VKc48MVDUNExIEFKMlss2vuvTZRzJzZnUv5QacdBjpV99zwE8nAYtf1aEK3qCYYTuMFtZOIhfOYOHycNpGJxvTob4N9yaEx1GJrH0d882v6AdyO126UZUnzVM=
+	t=1730415058; cv=none; b=exIVuH76B4bWrQ8MBxRphFLxRRikqJ/eNN6nlfqjsfxCRmymxDSPExdVGMAA3VEJs4nQFaJnX6LJ3Cit8QroyczdxQQmmDYEB4HsRfyV2PoCtvnGfl5U8+ZB0BfjGxkcleyF0ecpXQCfhtvuVbWBv/HdLUsNWBe2nzJhsMVrDhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730405705; c=relaxed/simple;
-	bh=F1PXddJIyO5h0PSkrxMPB6bJl9U50pncdKZ9TRVqScQ=;
+	s=arc-20240116; t=1730415058; c=relaxed/simple;
+	bh=oKPkRNXvjCqT0IjAsez1XH6EA7739ipw9sNzzRzZyFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nDie2si1zN+IgxgzAEtRK4g6vaURSzBBwkOCCvuFV2E4YetkJHPOLeCJEhlL/gilV5L1NzFP4DeMQAdAbiB4b4lkwwX53WECQQwT4s9HOv6hSGYWn1qeCsSoRErDAACSu0OPSsxFV4sW43/hPj55XNB7Hc9A5i0X/zEDio/JIJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xhg6Cyfj; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Rir9baXckkYsgpfE5bBVZrFYca8yIJ0B9/cwkKpsQegCaE5tOlI9LS6apXhNvVr8mqsCbaLIHbzs+eMJyiyLLgEEl1waaDVVzGljPGOIGuwsaiO7pVNsL1xChR3YID5Okx+BNZ3Iwrh7KmuFouMc3gYCpAervDrwtxXgLEkXmGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+edDpcx; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xhg6Cyfj"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so1038585f8f.3
-        for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 13:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730405702; x=1731010502; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IrludKBBDIBzNRS8PzIYG2KuwgL5KcmDs8aNBJDfVxM=;
-        b=xhg6CyfjqFUGm0C6VPHKyHQAe+j/sD4v2FcLKJDn0aZ3d0T+OA8y7z+fOGhO3ycaaW
-         Q7VU5IggNiOg7UBMx8Jcy0tjgk932GsmCGUK4oE3Gk3swGvknPW/B9Iv+Z14ZAKEtNuS
-         8TlcWDEh60111B3jTFKrQlAuW/1HMu6BQkPSgKWt0CNzADaIhkReQ443CkszajxN95ZP
-         N/MJk4rSh3LL+qhnYMcafm8fWyT8jiwBvRzbY3E/qwUAuA334VOJga4DIVEaatAN+uVN
-         /n17k3CLrQTb3pgZ8zndLuv1oEuJN9ww2E7hKI8FDv4nas5jtvH9SH2hCUayh+ERmWLU
-         RktA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730405702; x=1731010502;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IrludKBBDIBzNRS8PzIYG2KuwgL5KcmDs8aNBJDfVxM=;
-        b=fF2K2x1Zl3Lloc6KgaFoPrBWGibCF/XL5eHQcfygfpb19CjKn2ZTKVmipX5qoDE44t
-         0Dy+NrOhNKkQ3JfaWrAYIT3gmoH7EmlDEEFPKVlTNktgIeLztO9CLjGqMw+/HF1WI2q3
-         P30TqMuUDtAOiP1Syy6siAxOcOW6OzafZn8D/IN03Bx/S8ulECgqoDxQ1z581hARhLur
-         VXXiKIYi2or1Z2fJkDl9+011TFwDOGLg0gt/3B/jT7LFuKNdjc5iF3krlzhnIkoObCq8
-         X1jByjbB+EHiuX7Qhif4e6XIlkkroBI+7+1ya/0V2yqMgmoaxJFgrmBea2FsHkQOZRIB
-         XXsA==
-X-Gm-Message-State: AOJu0YxvhRWLoFUtYzl/CH/13w7osvUnhbqxXz7GGWK4HsgRo9/z9/nN
-	SJkaiAaXabXEnAElu0jLdmTDKyN9N2FzFd5gjvUoaRDW+8EpVtjTrZgSCy3g8A4GV3EWEhSSVAP
-	0
-X-Google-Smtp-Source: AGHT+IGOYG5R83od9ifwFQcrF3qBEgFnACBjU/IjigZnNl6SG03NC9aar2K7mHgmVAKLHOGvdTR+sA==
-X-Received: by 2002:a05:6000:1866:b0:37d:95a7:9e57 with SMTP id ffacd0b85a97d-381c7a469c3mr1223628f8f.2.1730405701457;
-        Thu, 31 Oct 2024 13:15:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e7c9asm39408905e9.21.2024.10.31.13.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 13:15:01 -0700 (PDT)
-Date: Thu, 31 Oct 2024 23:14:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 779/30000] drivers/md/dm.c:2295
- dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
-Message-ID: <20e3f66a-fd3f-47cf-95e1-8e54c9e32a5c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+edDpcx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730415052; x=1761951052;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oKPkRNXvjCqT0IjAsez1XH6EA7739ipw9sNzzRzZyFQ=;
+  b=R+edDpcx+KSjMQfu1JMQYXkzOEy8DyVuit3ol5GofY2TUn4WKK/PEFIE
+   8qI4ogSLZzGfhY4mZDM/8V3qBf40jhX+1LQ6h6uQmeDbmebK/rfg4FOpB
+   YyB3/fsKwX3JXyNBKDWctPJiJ11Hx8vKdYCB566eyULnJe+CqePG4hPkj
+   gpVzbQrz/HnCzPakxBxgHr9+ssf3z16Ofb7C2oeoassxKJQ/40mC2Qq//
+   GzMItQ9V3n2i9mZM55gVkdmmVHqDIkAwY4U8y4epUayzqBMUOV92SEOTT
+   RYrHrJOAKJMEzHi0LkGS53nq8Me7g5QQQ1huazvNbQAIGvD/rNmjoMH12
+   w==;
+X-CSE-ConnectionGUID: NsxErZeQTLas2iZkLh3+5g==
+X-CSE-MsgGUID: nPgCQ86XSb+yLvrWkNvPBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30366930"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30366930"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 15:50:51 -0700
+X-CSE-ConnectionGUID: A2XDee3BQRCYhXZg4GR9FA==
+X-CSE-MsgGUID: Nlua+bmERYiz3XaBo973gA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="86710877"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 31 Oct 2024 15:50:49 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6e07-000gni-2E;
+	Thu, 31 Oct 2024 22:50:47 +0000
+Date: Fri, 1 Nov 2024 06:50:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android11-kiwi-5.4 1029/30000] fs/incfs/vfs.c:1223
+ ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
+Message-ID: <202411010656.uTqqtdZy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,53 +62,232 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: cros-kernel-buildreports@googlegroups.com
+
 tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
 head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: 695cfeb08863e147e56b4895443440692cfcebff [779/30000] ANDROID: dm: add support for passing through inline crypto support
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010347.BzF0LDj0-lkp@intel.com/config)
+commit: 1be052b20ba04b635cf87bcff80de5314697953e [1029/30000] ANDROID: Initial commit of Incremental FS
+:::::: branch date: 4 days ago
+:::::: commit date: 4 years, 9 months ago
+config: i386-randconfig-141-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010656.uTqqtdZy-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411010347.BzF0LDj0-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411010656.uTqqtdZy-lkp@intel.com/
 
 New smatch warnings:
-drivers/md/dm.c:2295 dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
+fs/incfs/vfs.c:1223 ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
+fs/incfs/vfs.c:1523 dir_lookup() warn: passing zero to 'ERR_PTR'
+fs/incfs/vfs.c:2154 incfs_mount_fs() warn: passing zero to 'ERR_PTR'
 
 Old smatch warnings:
-drivers/md/dm.c:1152 dm_dax_supported() warn: inconsistent returns '&md->io_barrier'.
+fs/incfs/data_mgmt.h:263 get_incfs_node() warn: always true condition '(inode->i_sb->s_magic != (357661101641)) => (0-u32max != 357661101641)'
 
-vim +2295 drivers/md/dm.c
+vim +/named_file_dentry +1223 fs/incfs/vfs.c
 
-695cfeb08863e1 Eric Biggers 2020-01-21  2275  static int dm_keyslot_evict(struct keyslot_manager *ksm,
-695cfeb08863e1 Eric Biggers 2020-01-21  2276  			    const struct blk_crypto_key *key, unsigned int slot)
-695cfeb08863e1 Eric Biggers 2020-01-21  2277  {
-695cfeb08863e1 Eric Biggers 2020-01-21  2278  	struct mapped_device *md = keyslot_manager_private(ksm);
-695cfeb08863e1 Eric Biggers 2020-01-21  2279  	struct dm_keyslot_evict_args args = { key };
-695cfeb08863e1 Eric Biggers 2020-01-21  2280  	struct dm_table *t;
-695cfeb08863e1 Eric Biggers 2020-01-21  2281  	int srcu_idx;
-695cfeb08863e1 Eric Biggers 2020-01-21  2282  	int i;
-695cfeb08863e1 Eric Biggers 2020-01-21  2283  	struct dm_target *ti;
-695cfeb08863e1 Eric Biggers 2020-01-21  2284  
-695cfeb08863e1 Eric Biggers 2020-01-21  2285  	t = dm_get_live_table(md, &srcu_idx);
-695cfeb08863e1 Eric Biggers 2020-01-21  2286  	if (!t)
-695cfeb08863e1 Eric Biggers 2020-01-21  2287  		return 0;
-
-We must call dm_put_live_table() even if dm_get_live_table() returns NULL.
-
-695cfeb08863e1 Eric Biggers 2020-01-21  2288  	for (i = 0; i < dm_table_get_num_targets(t); i++) {
-695cfeb08863e1 Eric Biggers 2020-01-21  2289  		ti = dm_table_get_target(t, i);
-695cfeb08863e1 Eric Biggers 2020-01-21  2290  		if (!ti->type->iterate_devices)
-695cfeb08863e1 Eric Biggers 2020-01-21  2291  			continue;
-695cfeb08863e1 Eric Biggers 2020-01-21  2292  		ti->type->iterate_devices(ti, dm_keyslot_evict_callback, &args);
-695cfeb08863e1 Eric Biggers 2020-01-21  2293  	}
-695cfeb08863e1 Eric Biggers 2020-01-21  2294  	dm_put_live_table(md, srcu_idx);
-695cfeb08863e1 Eric Biggers 2020-01-21 @2295  	return args.err;
-695cfeb08863e1 Eric Biggers 2020-01-21  2296  }
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1156  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1157  static long ioctl_create_file(struct mount_info *mi,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1158  			struct incfs_new_file_args __user *usr_args)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1159  {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1160  	struct incfs_new_file_args args;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1161  	char *file_id_str = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1162  	struct dentry *index_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1163  	struct dentry *named_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1164  	struct path parent_dir_path = {};
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1165  	struct inode *index_dir_inode = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1166  	__le64 size_attr_value = 0;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1167  	char *file_name = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1168  	char *attr_value = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1169  	int error = 0;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1170  	bool locked = false;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1171  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1172  	if (!mi || !mi->mi_index_dir) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1173  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1174  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1175  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1176  	if (!access_ok(usr_args, sizeof(args))) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1177  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1178  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1179  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1180  	if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1181  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1182  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1183  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1184  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1185  	file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1186  	if (IS_ERR(file_name)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1187  		error = PTR_ERR(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1188  		file_name = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1189  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1190  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1191  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1192  	error = validate_name(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1193  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1194  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1195  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1196  	file_id_str = file_id_to_str(args.file_id);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1197  	if (!file_id_str) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1198  		error = -ENOMEM;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1199  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1200  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1201  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1202  	error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1203  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1204  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1205  	locked = true;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1206  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1207  	/* Find a directory to put the file into. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1208  	error = dir_relative_path_resolve(mi,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1209  			u64_to_user_ptr(args.directory_path),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1210  			&parent_dir_path);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1211  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1212  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1213  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1214  	if (parent_dir_path.dentry == mi->mi_index_dir) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1215  		/* Can't create a file directly inside .index */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1216  		error = -EBUSY;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1217  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1218  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1219  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1220  	/* Look up a dentry in the parent dir. It should be negative. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1221  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1222  					file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18 @1223  	if (!named_file_dentry) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1224  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1225  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1226  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1227  	if (IS_ERR(named_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1228  		error = PTR_ERR(named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1229  		named_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1230  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1231  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1232  	if (d_really_is_positive(named_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1233  		/* File with this path already exists. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1234  		error = -EEXIST;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1235  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1236  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1237  	/* Look up a dentry in the .index dir. It should be negative. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1238  	index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1239  	if (!index_file_dentry) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1240  		error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1241  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1242  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1243  	if (IS_ERR(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1244  		error = PTR_ERR(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1245  		index_file_dentry = NULL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1246  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1247  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1248  	if (d_really_is_positive(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1249  		/* File with this ID already exists in index. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1250  		error = -EEXIST;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1251  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1252  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1253  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1254  	/* Creating a file in the .index dir. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1255  	index_dir_inode = d_inode(mi->mi_index_dir);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1256  	inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1257  	error = vfs_create(index_dir_inode, index_file_dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1258  			args.mode, true);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1259  	inode_unlock(index_dir_inode);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1260  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1261  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1262  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1263  	if (!d_really_is_positive(index_file_dentry)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1264  		error = -EINVAL;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1265  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1266  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1267  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1268  	/* Save the file's ID as an xattr for easy fetching in future. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1269  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1270  		file_id_str, strlen(file_id_str), XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1271  	if (error) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1272  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1273  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1274  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1275  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1276  	/* Save the file's size as an xattr for easy fetching in future. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1277  	size_attr_value = cpu_to_le64(args.size);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1278  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1279  		(char *)&size_attr_value, sizeof(size_attr_value),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1280  		XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1281  	if (error) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1282  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1283  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1284  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1285  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1286  	/* Save the file's attrubute as an xattr */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1287  	if (args.file_attr_len && args.file_attr) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1288  		if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1289  			error = -E2BIG;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1290  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1291  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1292  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1293  		attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1294  		if (!attr_value) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1295  			error = -ENOMEM;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1296  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1297  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1298  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1299  		if (!access_ok(u64_to_user_ptr(args.file_attr),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1300  			       args.file_attr_len)) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1301  			error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1302  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1303  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1304  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1305  		if (copy_from_user(attr_value,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1306  				u64_to_user_ptr(args.file_attr),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1307  				args.file_attr_len) > 0) {
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1308  			error = -EFAULT;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1309  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1310  		}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1311  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1312  		error = vfs_setxattr(index_file_dentry,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1313  				INCFS_XATTR_METADATA_NAME,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1314  				attr_value, args.file_attr_len,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1315  				XATTR_CREATE);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1316  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1317  		if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1318  			goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1319  	}
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1320  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1321  	/* Initializing a newly created file. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1322  	error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1323  			range(attr_value, args.file_attr_len),
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1324  			(struct incfs_file_signature_info __user *)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1325  				args.signature_info);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1326  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1327  		goto delete_index_file;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1328  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1329  	/* Linking a file with it's real name from the requested dir. */
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1330  	error = incfs_link(index_file_dentry, named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1331  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1332  	if (!error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1333  		goto out;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1334  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1335  delete_index_file:
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1336  	incfs_unlink(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1337  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1338  out:
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1339  	if (error)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1340  		pr_debug("incfs: %s err:%d\n", __func__, error);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1341  
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1342  	kfree(file_id_str);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1343  	kfree(file_name);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1344  	kfree(attr_value);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1345  	dput(named_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1346  	dput(index_file_dentry);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1347  	path_put(&parent_dir_path);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1348  	if (locked)
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1349  		mutex_unlock(&mi->mi_dir_struct_mutex);
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1350  	return error;
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1351  }
+1be052b20ba04b Eugene Zemtsov 2019-11-18  1352  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
