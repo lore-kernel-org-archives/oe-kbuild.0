@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC903FB8B
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 00:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6C671B3A
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 01:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730334167; cv=none; b=fLMv18TsBPcw1deR15dPUlHxfhw6jpSKaYFRCFaIr69qsDwbdysFvN0D15sgamfRaIBEgwRdEcPicSwJlNwr3TIMPoXoiUlHujYVUWM9CE97fQMu/vzrBVN/QEndfWp5C7YeqBqM2lnzCsK8VzjPYR0gCN5tq+fMkkt5Fsww/HM=
+	t=1730338670; cv=none; b=kvojtNWxkVqanDrSkFTD9Cp6KfjAatG3L7QUyMRIdECcW7q6LY10FFTsy/dbZsvneusGlIHAxo34R5vBaltMQQS28y0Q/RWAqITvleEsa949bKDI+JoPKsi9GbiVKQRxfxc5x+4Klek6OFK1OzbBMFN6yOinHs27wyLzJfHq0G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730334167; c=relaxed/simple;
-	bh=K9qcG9jfdDNu9c0ivR5EQD7Zv1RGsHb3/EkR93gxVdQ=;
+	s=arc-20240116; t=1730338670; c=relaxed/simple;
+	bh=xNnVHyCsUQ0M92w8jg/zdSWiaTWvgZnXiUyIPALNie8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lqrKp+2SbcQcNwDxNAsoFkf2YVfz7x84KV7ktnUSykYk1jHmHAghyX6GLO8j/XlTO++puFl2i5lvB8ExhxonWJJKDkbwzA5eyELLQisCDJnOICmhWH0mfmDtQibIQ1/P9/ZfhCKJd/t2h3e9F6urSE7/eYY1mXOonJKjlBhT37s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1wLme+P; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=DNkiXz3NiC6AN2F9bjB48kEX8JXTElBVCUQeB+T+SnIsGoOqMyJlvwSvR0yeq7cL5v87/Zwaa9xpAt6vkB7XOf9dV2GJhzqnBadE4KVsIH6ivxuTcmwddc7gEgHOn/YoYSlPk9vLHrGZAOsU6osWYsXeb67y/9fmhEfqKaKzTEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ndgfhs/X; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1wLme+P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ndgfhs/X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730334165; x=1761870165;
+  t=1730338667; x=1761874667;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K9qcG9jfdDNu9c0ivR5EQD7Zv1RGsHb3/EkR93gxVdQ=;
-  b=a1wLme+PIiu0eACm1MqN7gmMBsk5o3BbLyZKnXWZbsHOVEtzbWp097Om
-   1HqPZ6t7vTfF57MF/MuNBkMnO67Hvy0f92xfSsnEKGh+zAHsOJLPx1dgt
-   hJ3BZNZJ+1GF0nCB+w3xldMaNXBJkAOC9+5VTzE+8cXBwMo1vCwJ9q2qg
-   GBL5LaOwUi7Y+BPD+R+WQ9ZvJL2NrzyXqjZ39V2aEiNx5Q0E1bvhRhElt
-   BOM1kFRmz8drZPaI/Y/Gpz78vITx0RpYJFAfRihERRYM8QxWy0njUnx5U
-   6+G7AT8q8oIlAGyIF92ohYjsCKTT3VfE6reDktY7JInmjVTMLTlj6ON9R
-   Q==;
-X-CSE-ConnectionGUID: d2p0vaPnT6aNkSldW3Fkiw==
-X-CSE-MsgGUID: wBE3ZSlASTyOHRlN9CvHSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="29477469"
+  bh=xNnVHyCsUQ0M92w8jg/zdSWiaTWvgZnXiUyIPALNie8=;
+  b=Ndgfhs/XPeDhYZZUCXx+GBlSwptVtGtbWMF/2d1TOxxnQKwZlahZEQYd
+   84Z/tjhsJyvG59Os6TtdoKAo3f7H/JD/wXQm0jynS+AyTwx2SBlMrkGcl
+   xYxnfpH1Ar33mGpPJG6UtBk26WyqPyDxbK4Sd2qOSZS/Ru041jPeCbvhX
+   TO4k86QT5sm7TMG8JkhBTjRpezMrVtnDMDs7r6UxBllDN2609is23+fga
+   P72MNHrLd/6XFZF8OUZabfg6bbZKy9S9fPCqneT2rjqi/j3WZJAUTwHfm
+   ONo+6h7MggAdadQxfzta5lnRceyJ7jqBvByQH7dKjKoqD+C163XVxjjt7
+   A==;
+X-CSE-ConnectionGUID: IMZFL+E9TdaLqneg0ShAGQ==
+X-CSE-MsgGUID: tFQZYr1gT3abTk5BM077lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="30170018"
 X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="29477469"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 17:22:44 -0700
-X-CSE-ConnectionGUID: O0t3JBrBTkeNDiMo19h6Tw==
-X-CSE-MsgGUID: EDiWjKrlTXmHWpVRF8sFRg==
+   d="scan'208";a="30170018"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 18:37:46 -0700
+X-CSE-ConnectionGUID: 3vSRCwbyTm2g+F7iCoiNKg==
+X-CSE-MsgGUID: T/bKT9TEQWKrL8+V8DvQQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="87032662"
+   d="scan'208";a="87630243"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Oct 2024 17:22:43 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2024 18:37:45 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6IxU-000fSO-0g;
-	Thu, 31 Oct 2024 00:22:40 +0000
-Date: Thu, 31 Oct 2024 08:22:34 +0800
+	id 1t6K87-000fVs-06;
+	Thu, 31 Oct 2024 01:37:43 +0000
+Date: Thu, 31 Oct 2024 09:37:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-desktop 13256/23113]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202410310802.FbvkcjH9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH net] net: phy: dp83869: fix status reporting for
+ 1000base-x autonegotiation
+Message-ID: <202410310949.CLirAHxH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,135 +62,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241029-dp83869-1000base-x-v1-1-fcafe360bd98@bootlin.com>
+References: <20241029-dp83869-1000base-x-v1-1-fcafe360bd98@bootlin.com>
+TO: Romain Gantois <romain.gantois@bootlin.com>
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Heiner Kallweit <hkallweit1@gmail.com>
+TO: Russell King <linux@armlinux.org.uk>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev@vger.kernel.org
+TO: Eric Dumazet <edumazet@google.com>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: Paolo Abeni <pabeni@redhat.com>
+TO: Dan Murphy <dmurphy@ti.com>
+TO: Florian Fainelli <f.fainelli@gmail.com>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Maxime Chevallier <maxime.chevallier@bootlin.com>
+CC: linux-kernel@vger.kernel.org
+CC: stable@vger.kernel.org
+CC: Romain Gantois <romain.gantois@bootlin.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   493e12c36ca8506b8d553838170e4773d5878b36
-commit: 851e91f44acdef60982a319ab23a152db843b98e [13256/23113] CHROMIUM: arm64: dts: mt8183: Add katsu board
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310802.FbvkcjH9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310802.FbvkcjH9-lkp@intel.com/reproduce)
+Hi Romain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 94c11e852955b2eef5c4f0b36cfeae7dcf11a759]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/net-phy-dp83869-fix-status-reporting-for-1000base-x-autonegotiation/20241029-173146
+base:   94c11e852955b2eef5c4f0b36cfeae7dcf11a759
+patch link:    https://lore.kernel.org/r/20241029-dp83869-1000base-x-v1-1-fcafe360bd98%40bootlin.com
+patch subject: [PATCH net] net: phy: dp83869: fix status reporting for 1000base-x autonegotiation
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241031 (https://download.01.org/0day-ci/archive/20241031/202410310949.CLirAHxH-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410310802.FbvkcjH9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202410310949.CLirAHxH-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:159.25-192.4: Warning (unit_address_vs_reg): /soc/i2c@11008000/sensor_sub: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:100.27-134.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/sensor_main: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:136.33-142.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/camera_main_af: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dts:19.31-30.4: Warning (i2c_bus_reg): /soc/i2c@11007000/touchscreen@5D: I2C bus unit address format error, expected "5d"
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:159.25-192.4: Warning (i2c_bus_reg): /soc/i2c@11008000/sensor_sub: I2C bus unit address format error, expected "3d"
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:100.27-134.4: Warning (i2c_bus_reg): /soc/i2c@11009000/sensor_main: I2C bus unit address format error, expected "10"
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:136.33-142.4: Warning (i2c_bus_reg): /soc/i2c@11009000/camera_main_af: I2C bus unit address format error, expected "c"
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,katsu-sku38', 'google,katsu', 'mediatek,mt8183'] is too long
-   	['google,katsu-sku38', 'google,katsu', 'mediatek,mt8183'] is too short
-   	'google,katsu-sku38' is not one of ['mediatek,mt2701-evb']
-   	'google,katsu-sku38' is not one of ['mediatek,mt2712-evb']
-   	'google,katsu-sku38' is not one of ['mediatek,mt6580-evbp1']
-   	'google,katsu-sku38' is not one of ['prestigio,pmt5008-3g']
-   	'google,katsu-sku38' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,katsu-sku38' is not one of ['mediatek,mt6592-evb']
-   	'google,katsu-sku38' is not one of ['mediatek,mt6755-evb']
-   	'google,katsu-sku38' is not one of ['mediatek,mt6765-evb']
---
-   	'google,kakadu-rev2-sku22' was expected
-   	'google,kodama' was expected
-   	'google,willow' was expected
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,spherion-rev1' was expected
-   	'google,kakadu' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /: failed to match any schema with compatible: ['google,katsu-sku38', 'google,katsu', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /: failed to match any schema with compatible: ['google,katsu-sku38', 'google,katsu', 'mediatek,mt8183']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
---
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku38.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+smatch warnings:
+drivers/net/phy/dp83869.c:206 dp83869_config_aneg() error: uninitialized symbol 'adv'.
+
+vim +/adv +206 drivers/net/phy/dp83869.c
+
+01db923e83779b Dan Murphy     2019-11-13  168  
+99f7e4c674a2fd Romain Gantois 2024-10-29  169  static int dp83869_config_aneg(struct phy_device *phydev)
+99f7e4c674a2fd Romain Gantois 2024-10-29  170  {
+99f7e4c674a2fd Romain Gantois 2024-10-29  171  	struct dp83869_private *dp83869 = phydev->priv;
+99f7e4c674a2fd Romain Gantois 2024-10-29  172  	unsigned long *advertising;
+99f7e4c674a2fd Romain Gantois 2024-10-29  173  	int err, changed = false;
+99f7e4c674a2fd Romain Gantois 2024-10-29  174  	u32 adv;
+99f7e4c674a2fd Romain Gantois 2024-10-29  175  
+99f7e4c674a2fd Romain Gantois 2024-10-29  176  	if (dp83869->mode != DP83869_RGMII_1000_BASE)
+99f7e4c674a2fd Romain Gantois 2024-10-29  177  		return genphy_config_aneg(phydev);
+99f7e4c674a2fd Romain Gantois 2024-10-29  178  
+99f7e4c674a2fd Romain Gantois 2024-10-29  179  	/* Forcing speed or duplex isn't supported in 1000base-x mode */
+99f7e4c674a2fd Romain Gantois 2024-10-29  180  	if (phydev->autoneg != AUTONEG_ENABLE)
+99f7e4c674a2fd Romain Gantois 2024-10-29  181  		return 0;
+99f7e4c674a2fd Romain Gantois 2024-10-29  182  
+99f7e4c674a2fd Romain Gantois 2024-10-29  183  	/* In fiber modes, register locations 0xc0... get mapped to offset 0.
+99f7e4c674a2fd Romain Gantois 2024-10-29  184  	 * Unfortunately, the fiber-specific autonegotiation advertisement
+99f7e4c674a2fd Romain Gantois 2024-10-29  185  	 * register at address 0xc04 does not have the same bit layout as the
+99f7e4c674a2fd Romain Gantois 2024-10-29  186  	 * corresponding standard MII_ADVERTISE register. Thus, functions such
+99f7e4c674a2fd Romain Gantois 2024-10-29  187  	 * as genphy_config_advert() will write the advertisement register
+99f7e4c674a2fd Romain Gantois 2024-10-29  188  	 * incorrectly.
+99f7e4c674a2fd Romain Gantois 2024-10-29  189  	 */
+99f7e4c674a2fd Romain Gantois 2024-10-29  190  	advertising = phydev->advertising;
+99f7e4c674a2fd Romain Gantois 2024-10-29  191  
+99f7e4c674a2fd Romain Gantois 2024-10-29  192  	/* Only allow advertising what this PHY supports */
+99f7e4c674a2fd Romain Gantois 2024-10-29  193  	linkmode_and(advertising, advertising,
+99f7e4c674a2fd Romain Gantois 2024-10-29  194  		     phydev->supported);
+99f7e4c674a2fd Romain Gantois 2024-10-29  195  
+99f7e4c674a2fd Romain Gantois 2024-10-29  196  	if (linkmode_test_bit(ETHTOOL_LINK_MODE_1000baseX_Full_BIT, advertising))
+99f7e4c674a2fd Romain Gantois 2024-10-29  197  		adv |= DP83869_BP_FULL_DUPLEX;
+99f7e4c674a2fd Romain Gantois 2024-10-29  198  	if (linkmode_test_bit(ETHTOOL_LINK_MODE_Pause_BIT, advertising))
+99f7e4c674a2fd Romain Gantois 2024-10-29  199  		adv |= DP83869_BP_PAUSE;
+99f7e4c674a2fd Romain Gantois 2024-10-29  200  	if (linkmode_test_bit(ETHTOOL_LINK_MODE_Asym_Pause_BIT, advertising))
+99f7e4c674a2fd Romain Gantois 2024-10-29  201  		adv |= DP83869_BP_ASYMMETRIC_PAUSE;
+99f7e4c674a2fd Romain Gantois 2024-10-29  202  
+99f7e4c674a2fd Romain Gantois 2024-10-29  203  	err = phy_modify_changed(phydev, DP83869_FX_ANADV,
+99f7e4c674a2fd Romain Gantois 2024-10-29  204  				 DP83869_BP_FULL_DUPLEX | DP83869_BP_PAUSE |
+99f7e4c674a2fd Romain Gantois 2024-10-29  205  				 DP83869_BP_ASYMMETRIC_PAUSE,
+99f7e4c674a2fd Romain Gantois 2024-10-29 @206  				 adv);
+99f7e4c674a2fd Romain Gantois 2024-10-29  207  
+99f7e4c674a2fd Romain Gantois 2024-10-29  208  	if (err < 0)
+99f7e4c674a2fd Romain Gantois 2024-10-29  209  		return err;
+99f7e4c674a2fd Romain Gantois 2024-10-29  210  	else if (err)
+99f7e4c674a2fd Romain Gantois 2024-10-29  211  		changed = true;
+99f7e4c674a2fd Romain Gantois 2024-10-29  212  
+99f7e4c674a2fd Romain Gantois 2024-10-29  213  	return genphy_check_and_restart_aneg(phydev, changed);
+99f7e4c674a2fd Romain Gantois 2024-10-29  214  }
+99f7e4c674a2fd Romain Gantois 2024-10-29  215  
 
 -- 
 0-DAY CI Kernel Test Service
