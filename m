@@ -1,60 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455D9131BDD
-	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 09:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14448479
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 11:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730367191; cv=none; b=PeqEkWH5yzOkdwqEhEtXaUIPuPd3WzhTLtJeW+R+hdgB64IRgGRBWlJEBW0DNRRvV8cznL4G371nX9ZvhuY1dDJ7P8J4HWq5oCU7QMAzOu61Y3taebxoSGL/O1Vo+vq6GcOKSMxqeFXeaU39vwy80DUzstl4LgqOqR5XnII5SAU=
+	t=1730373375; cv=none; b=cR7SQaE+njorRIGjmEoovtiGHAShX1j2Sg2xE02Evzi3hsW3/IJPw3VpbOLhsBWSVvAnTMqIouFwYQKIEVvYFBCbq1HfVmV6mF70CLQWRj3Rh50Ez8L19xe9xCV/D6ei6e0qmgfYDCr0UNZyNZYUHcIKoWIq8O/HxpcN/u7papE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730367191; c=relaxed/simple;
-	bh=UhgrWtTjIeHxyt3QdK6CInC4cHekaU+A+4+uGgVnilI=;
+	s=arc-20240116; t=1730373375; c=relaxed/simple;
+	bh=VhdJX5PBENJJzWRaDJnHMMsIjxIgPak28vDaXwHwv0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iExj9m8rs5dOlUMaDIpNTsJXUDKiW/FVL0QYVHDrtdiVjLZ8tOcgxeJ1KvTXo4Z+HyjtH8SwkNjeUqoRz5uF68C8RlMuWZw1GNIw5QhgFdcbvonIw+eq+8WNRuqrADonS50/mlECF6Pp2cRJWYEgcLh6uphBBpWV1upPqV7/1YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdVPqDX2; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=EoEB4AnyDnF5eTrW3G6q2Iy+Q22b/+hyFixLfcSTx3F9rPdmEwYgqkNhWTL1bRBSRMfMN6iXNyjkI2qE755XJf043m8XvwzsffAB54tMOaRojGJTBf3F/G1SbmfxgkuRRvCXjF2r9+LZbsOmRrJeaZJE/GaFWJaS2vBQM34SySU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=baZ/WmbP; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdVPqDX2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="baZ/WmbP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730367188; x=1761903188;
+  t=1730373373; x=1761909373;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UhgrWtTjIeHxyt3QdK6CInC4cHekaU+A+4+uGgVnilI=;
-  b=ZdVPqDX24QVJM3DkN/waXFtOj2ZU/bdAVRa/2H972Y5OoucYQsuA/OCF
-   EaXnhdyGYpoZal7meoaMT9dp5DdukqPnTJePY56xAKquh7F0zQTFETWx5
-   +OafOiFSrvSrc1SEMb33WSuvghw0LKuepoWwaz6ZM94O/3cpJv4DJoyA6
-   Sh1kQLWSnGrZSeRZseFgwb+YpfmG+aKTE3AViN9LY1T4BKs032nLA1NqT
-   IYl35didaQW78+ZoGAIP7+LuGsh1eoASOdN4mnNfqaC2jr8JtS/SNBusf
-   C0IVT3As7zIxAjjs4TgUzSSzJ2AWFNx2t85mlrc+/68liSu9WCGG9ze/P
-   Q==;
-X-CSE-ConnectionGUID: P0g2BHFpSNKPWNKzbZOnZQ==
-X-CSE-MsgGUID: jHgBVouqSBG/TNVABI3yXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="34026242"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="34026242"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 02:33:07 -0700
-X-CSE-ConnectionGUID: OuRriR7wSJuEfPTU2X3b1Q==
-X-CSE-MsgGUID: sPUqm6eDRPenBW0Qjt3pgw==
+  bh=VhdJX5PBENJJzWRaDJnHMMsIjxIgPak28vDaXwHwv0c=;
+  b=baZ/WmbP1DqRkAjldwRsdL8+fhaflQsj/srm7Kg4XMDZnfur42T/kT2z
+   YbJEwr2SCc+00rvjpIVU+ltiXIG3Qu4/UvEi1H6/vhOy1+TpjscBS5Y7C
+   UYZWSkPcL2BfHZOCPTDeKO4fPvP2BezVreZlrmkCdzKxYx3J7s+O13QME
+   07+j2VLWfzKjNWx4uvluAfwyoeD1PRKoDIwClHKvLbQSfb1eYcBUVdB83
+   yX3Ack0EwHCkklSz7cafCSKPOAI6lBPBDaRsp8iLQmHIhbrcwVac5lPHY
+   chVvS3nqofIqb752J8wsLLEb3zC1LXmVdLL+wtFPal720UgD67uIj5Gjt
+   g==;
+X-CSE-ConnectionGUID: DyWGRXW2R2WNS6kiXgoo7A==
+X-CSE-MsgGUID: yYqklgMJSyiZQizcHPvxXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52659539"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52659539"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 04:16:13 -0700
+X-CSE-ConnectionGUID: 8G/F6hpTTPWF5+64Dvi/aQ==
+X-CSE-MsgGUID: vDB2XnphQZmWpaeiQm9kAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="82892548"
+   d="scan'208";a="113447259"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 31 Oct 2024 02:33:06 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2024 04:16:10 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6RY8-000fvI-1j;
-	Thu, 31 Oct 2024 09:33:04 +0000
-Date: Thu, 31 Oct 2024 17:32:53 +0800
+	id 1t6T9s-000g24-0d;
+	Thu, 31 Oct 2024 11:16:08 +0000
+Date: Thu, 31 Oct 2024 19:15:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-desktop 13257/23113]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb:
- /soc/thermal@1100b000: failed to match any schema with compatible:
- ['mediatek,mt8183-thermal']
-Message-ID: <202410311709.gEauSC2v-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
+Message-ID: <202410311931.twiNKosB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,89 +61,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+CC: linux-kernel@vger.kernel.org
+TO: Adrian Hunter <adrian.hunter@intel.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   493e12c36ca8506b8d553838170e4773d5878b36
-commit: 5abed9956efbf9235c9353d0d170b68791b2c11d [13257/23113] CHROMIUM: arm64: dts: mt8183: Add kakadu rev1
-:::::: branch date: 21 hours ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241031/202410311709.gEauSC2v-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311709.gEauSC2v-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0fc810ae3ae110f9e2fcccce80fc8c8d62f97907
+commit: fcf190c369149c3b04539797cedf28741eb14164 timekeeping: Make delta calculation overflow safe
+date:   7 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311931.twiNKosB-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410311709.gEauSC2v-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410311931.twiNKosB-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: da7219@1a: interrupts: [[165, 8], [165, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> kernel/time/timekeeping.c:807:19-20: WARNING opportunity for min()
+
+vim +807 kernel/time/timekeeping.c
+
+cc06268c6a87db1 Thomas Gleixner    2011-11-13  787  
+8524070b7982d76 John Stultz        2007-05-08  788  /**
+155ec60226ae0ae Martin Schwidefsky 2009-08-14  789   * timekeeping_forward_now - update clock to the current time
+6e5a91901c2dff3 Alex Shi           2020-11-13  790   * @tk:		Pointer to the timekeeper to update
+8524070b7982d76 John Stultz        2007-05-08  791   *
+9a055117d3d9cb5 Roman Zippel       2008-08-20  792   * Forward the current clock to update its state since the last call to
+9a055117d3d9cb5 Roman Zippel       2008-08-20  793   * update_wall_time(). This is useful before significant clock changes,
+9a055117d3d9cb5 Roman Zippel       2008-08-20  794   * as it avoids having to deal with this time offset explicitly.
+8524070b7982d76 John Stultz        2007-05-08  795   */
+f726a697d06102e John Stultz        2012-07-13  796  static void timekeeping_forward_now(struct timekeeper *tk)
+8524070b7982d76 John Stultz        2007-05-08  797  {
+a5a1d1c2914b531 Thomas Gleixner    2016-12-21  798  	u64 cycle_now, delta;
+8524070b7982d76 John Stultz        2007-05-08  799  
+ceea5e3771ed237 John Stultz        2017-06-08  800  	cycle_now = tk_clock_read(&tk->tkr_mono);
+876e78818def298 Peter Zijlstra     2015-03-19  801  	delta = clocksource_delta(cycle_now, tk->tkr_mono.cycle_last, tk->tkr_mono.mask);
+876e78818def298 Peter Zijlstra     2015-03-19  802  	tk->tkr_mono.cycle_last = cycle_now;
+4a4ad80d32cea69 Peter Zijlstra     2015-03-19  803  	tk->tkr_raw.cycle_last  = cycle_now;
+8524070b7982d76 John Stultz        2007-05-08  804  
+fcf190c369149c3 Adrian Hunter      2024-03-25  805  	while (delta > 0) {
+fcf190c369149c3 Adrian Hunter      2024-03-25  806  		u64 max = tk->tkr_mono.clock->max_cycles;
+fcf190c369149c3 Adrian Hunter      2024-03-25 @807  		u64 incr = delta < max ? delta : max;
+fc6eead7c1e2e53 John Stultz        2017-05-22  808  
+fcf190c369149c3 Adrian Hunter      2024-03-25  809  		tk->tkr_mono.xtime_nsec += incr * tk->tkr_mono.mult;
+fcf190c369149c3 Adrian Hunter      2024-03-25  810  		tk->tkr_raw.xtime_nsec += incr * tk->tkr_raw.mult;
+fc6eead7c1e2e53 John Stultz        2017-05-22  811  		tk_normalize_xtime(tk);
+fcf190c369149c3 Adrian Hunter      2024-03-25  812  		delta -= incr;
+fcf190c369149c3 Adrian Hunter      2024-03-25  813  	}
+8524070b7982d76 John Stultz        2007-05-08  814  }
+8524070b7982d76 John Stultz        2007-05-08  815  
 
 -- 
 0-DAY CI Kernel Test Service
