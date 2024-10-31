@@ -1,125 +1,137 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4C613D503;
-	Thu, 31 Oct 2024 02:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2367E28FD
+	for <oe-kbuild@lists.linux.dev>; Thu, 31 Oct 2024 02:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730342675; cv=none; b=Ut5FXLAbzVtrRtUy3LnmvTC8Bs026WVgT2hlbACcv15Pk3GGr9QxX9DiRq9EbhARrGP2tyuSo7383b9nSZK7hzbh18u0lyt1L/aRXPhFKOd3BimzCi8TvDYqgh2LNaeivY6rTEAj9vWhdtRKUi/t7gHp3Fvc6z95Y0lNfCrFLpg=
+	t=1730343052; cv=none; b=BPRFaT/b8fShEs7c2u8c0aG3WWtCH7bMs0BoDrYwd23xrV7bdcAJfOvj+4lbpUD6uzInzGbtlHvQDu52CuDMYzjCkyU2WC06FREZJr0/tWW0jU4/GF98Tu9wOFIUKenU5ZP52EVsvRn/L8cLrW/2nR7CoDW+YIBJbGfjRaAZCZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730342675; c=relaxed/simple;
-	bh=vErYlCn4AJI0PAECmCWSX+UKPnh2/wH3fixpTX0m4vg=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=D2lnQpokUiuubyWfTU6UQ/33Eio418szyaDJGoJJpDDytdiXZE3lNK3yulTroCIzZDtPlf1DYEkKOCg+O0Brra/Xz/PcThwhXBvaxLXzfatlfY2Zcshm5E+Cpi3K+25SfwZcEuqd4awUcB2lvU2gZvDCCeX9G4BGdk80ROG/aPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.216])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4Xf7c55lglz4f3jHn;
-	Thu, 31 Oct 2024 10:44:05 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 8656E1A0197;
-	Thu, 31 Oct 2024 10:44:23 +0800 (CST)
-Received: from [10.174.176.117] (unknown [10.174.176.117])
-	by APP1 (Coremail) with SMTP id cCh0CgD3n7EC7yJnYLWmAQ--.1140S2;
-	Thu, 31 Oct 2024 10:44:21 +0800 (CST)
-Subject: Re: [PATCH bpf-next 08/16] bpf: Handle bpf_dynptr_user in bpf syscall
- when it is used as input
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- bpf@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- Martin KaFai Lau <martin.lau@linux.dev>, Alexei Starovoitov
- <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Hao Luo <haoluo@google.com>, Yonghong Song <yonghong.song@linux.dev>,
- Daniel Borkmann <daniel@iogearbox.net>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, xukuohai@huawei.com
-References: <47cda1ac-3d40-415a-a36c-833efbbfa19c@stanley.mountain>
-From: Hou Tao <houtao@huaweicloud.com>
-Message-ID: <aa5dde4f-6e27-1c61-921f-e2254cfc7adb@huaweicloud.com>
-Date: Thu, 31 Oct 2024 10:44:18 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1730343052; c=relaxed/simple;
+	bh=0U956QjESfWmcJ/kIDfohpEt1kwR6kAG+t1jZnPQGjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eZfma2IK9uC2oLP6LqtDMVRrpcroQutu6SmQWKHQnP+2KniVu1tF0sqzkTBBBvsdqcF1khkQV+OC8jBKR8k4LoyrMdskS1jIiHO/TNq8GUrHY4UxVBpbvdG4ttTZNRVjWmboD6+CBUtPpng3LENmLeMyf9NeMS2kBwEU109KWqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWyFp9sw; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWyFp9sw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730343050; x=1761879050;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0U956QjESfWmcJ/kIDfohpEt1kwR6kAG+t1jZnPQGjA=;
+  b=BWyFp9swEX86umfzC7J2rr47hpWLxRLcDLnx530PdAeIMN0kRMKzKcKS
+   JUKxf7J0waZeAW+BhmkQfACUSBYmFTa4MWN83pcY88V/afCrqFMFFngR9
+   kAmk62JmOGSGT8RmXr7e0hnzEZr7ulf6vGvWFGePWKpdGhHJs4cIZXxGV
+   mXrHmowg4NN90yUCyaOAlm2FVYUHG8zUUT2TBjQPjRZAgEYHOkTuLRDdr
+   eGAB0PwIFJO2Mxk3tFNrZ+G12adyBY2uuRAtrBrVJSNi0DP5FMI7sy/W1
+   UicPxN8Q0EmvXZoHBYXM8S+JArIAy/O7cgb5M5Qj7B8PKRFx7edc4NPgx
+   Q==;
+X-CSE-ConnectionGUID: F9EiH60ZRe+E6P5aN/LeUA==
+X-CSE-MsgGUID: Bcg/4YJSSJe6WeeqvcW7jA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="29485557"
+X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
+   d="scan'208";a="29485557"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 19:50:49 -0700
+X-CSE-ConnectionGUID: RdlzZ22hSpizFGF/FCqKyw==
+X-CSE-MsgGUID: SoImXxCZQ5G3pcdLo8qqWA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
+   d="scan'208";a="87286438"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2024 19:50:48 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6LGn-000fa4-2b;
+	Thu, 31 Oct 2024 02:50:45 +0000
+Date: Thu, 31 Oct 2024 10:50:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line
+ 501.
+Message-ID: <202410311031.fBcDKD5n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <47cda1ac-3d40-415a-a36c-833efbbfa19c@stanley.mountain>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-CM-TRANSID:cCh0CgD3n7EC7yJnYLWmAQ--.1140S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxur17AF4xXFyDtr1kCryrXrb_yoW5Wry7pa
-	4rW3Wqqr4Yqr98AayDKw4xCw4rJw1rX343GFZxGryrWr4jqF90gw1xtay3WFnaqFWxGFya
-	yrWfJr15G34kZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
-	e2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4I
-	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
-	WwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
-	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjxUxo7KDUUUU
-X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Christoph Hellwig <hch@lst.de>
 
-On 10/13/2024 9:08 PM, Dan Carpenter wrote:
-> Hi Hou,
->
-> kernel test robot noticed the following build warnings:
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/bpf-Introduce-map-flag-BPF_F_DYNPTR_IN_KEY/20241008-171136
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20241008091501.8302-9-houtao%40huaweicloud.com
-> patch subject: [PATCH bpf-next 08/16] bpf: Handle bpf_dynptr_user in bpf syscall when it is used as input
-> config: x86_64-randconfig-161-20241011 (https://download.01.org/0day-ci/archive/20241012/202410120530.zUoa1scp-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202410120530.zUoa1scp-lkp@intel.com/
->
-> smatch warnings:
-> kernel/bpf/syscall.c:1557 bpf_copy_from_dynptr_ukey() warn: 'key' is an error pointer or valid
->
-> vim +/key +1557 kernel/bpf/syscall.c
->
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1543  static void *bpf_copy_from_dynptr_ukey(const struct bpf_map *map, bpfptr_t ukey)
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1544  {
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1545  	const struct btf_record *record;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1546  	const struct btf_field *field;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1547  	struct bpf_dynptr_user *uptr;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1548  	struct bpf_dynptr_kern *kptr;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1549  	void *key, *new_key, *kdata;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1550  	unsigned int key_size, size;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1551  	bpfptr_t udata;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1552  	unsigned int i;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1553  	int err;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1554  
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1555  	key_size = map->key_size;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1556  	key = kvmemdup_bpfptr(ukey, key_size);
-> e1883aa78ac1fe9 Hou Tao            2024-10-08 @1557  	if (!key)
->
-> This should be if (IS_ERR(key))
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0fc810ae3ae110f9e2fcccce80fc8c8d62f97907
+commit: 5e1c7d0b29f7e05b01e448d2579a469cf3a0d350 xfs: invalidate dentries for a file before moving it to the orphanage
+date:   6 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-104-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311031.fBcDKD5n-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-Thanks for the report. You are right, the check of key which is returned
-by kvmemdup_bpfptr is incorrect(). Will fix it in the next revision and
-will try to add some test cases for these error paths.
->
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1558  		return ERR_PTR(-ENOMEM);
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1559  
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1560  	size = key_size;
-> e1883aa78ac1fe9 Hou Tao            2024-10-08  1561  	record = map->key_record;
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202410311031.fBcDKD5n-lkp@intel.com/
 
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/scrub/orphanage.c:495:9-16: Missing call to dput() at line 501.
+
+vim +495 fs/xfs/scrub/orphanage.c
+
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  460  
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  461  /*
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  462   * Invalidate all dentries for the name that was added to the orphanage
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  463   * directory, and all dentries pointing to the child inode that was moved.
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  464   *
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  465   * There should not be any positive entries for the name, since we've
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  466   * maintained our lock on the orphanage directory.
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  467   */
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  468  static void
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  469  xrep_adoption_zap_dcache(
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  470  	struct xrep_adoption	*adopt)
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  471  {
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  472  	struct qstr		qname = QSTR_INIT(adopt->xname->name,
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  473  						  adopt->xname->len);
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  474  	struct xfs_scrub	*sc = adopt->sc;
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  475  	struct dentry		*d_orphanage, *d_child;
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  476  
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  477  	/* Invalidate all dentries for the adoption name */
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  478  	d_orphanage = d_find_alias(VFS_I(sc->orphanage));
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  479  	if (!d_orphanage)
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  480  		return;
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  481  
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  482  	d_child = d_hash_and_lookup(d_orphanage, &qname);
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  483  	while (d_child != NULL) {
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  484  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  485  
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  486  		ASSERT(d_is_negative(d_child));
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  487  		d_invalidate(d_child);
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  488  		dput(d_child);
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  489  		d_child = d_lookup(d_orphanage, &qname);
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  490  	}
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  491  
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  492  	dput(d_orphanage);
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  493  
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  494  	/* Invalidate all the dentries pointing down to this file. */
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22 @495  	while ((d_child = d_find_alias(VFS_I(sc->ip))) != NULL) {
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  496  		trace_xrep_adoption_invalidate_child(sc->mp, d_child);
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  497  
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  498  		d_invalidate(d_child);
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  499  		dput(d_child);
+5e1c7d0b29f7e05 Darrick J. Wong 2024-04-22  500  	}
+73597e3e42b4a15 Darrick J. Wong 2024-04-15 @501  }
+73597e3e42b4a15 Darrick J. Wong 2024-04-15  502  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
