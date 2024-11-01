@@ -1,62 +1,58 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D896E1BC2A
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 13:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609732CAB
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 15:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730467403; cv=none; b=AHGWnMkwUxg4HYKGx1VjQ85ZqQHGvkimb4vNpeWMElo+oQkdn2E0NTkjLaSucnv/JKu9peGpleb0k4G/nWSj5bCKxSKdpk/dt5UIZYD1knH3D1SGNKyoOKZacBwubweAslr5OUDmxxWk05CgSdcEac3muuoupk3dbCV5VoDclB4=
+	t=1730475950; cv=none; b=rsCVDMs1bsoW8z+cdIcsrds6uAU1JO8VAk0m+1unpYVEcqaU3pKZvkwtRbjD2cG62GHQ2K0wrX++dvNymByIhuOhWPHiEnh60IqhmBUQafp3qCyJ5nCYBYhGbc3f7ZsWaM2TOEng6rRqClkVjfFz8hFhzOr8yK5qiF0BV+xdoTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730467403; c=relaxed/simple;
-	bh=WNFYm7cUFdBfgBGT5+nfdKTA41JaJY+jQpwY55l8Fu8=;
+	s=arc-20240116; t=1730475950; c=relaxed/simple;
+	bh=HtOuP/w1khpjwC819kYxTok8AHx7tT50uEInj0rbG+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MaAxPf2oFAWk1TWzcUb6l5pIMqFW3R9b/CnQ7kKbeNkfKt/y0RZNXvwdTuMXQUML+FuJecy4JUqBNdys15YViTjMUxyATOCx6jezaQKdvjsB4rom/DN2Q7g51zIa80jiDIyEKg0wylhkQZd0cUOFTI+CazzhWzdN6U3+i+EaeFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrkkbPOE; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=uQ35C6S/FXPsx7M9esDnL5yqLLphXhIClY3gQX4hc7sDssff2pT1MCbUO5ZeqUJyWQYFNhpqZrHt2pIGT+h4S4RPCC1NMXZV3rz4+ujvZzv5SVzoiANdUwnsgZrn1tx3vDb4rB/vk6Vf4ifU21253xAN2YpqBxngLPTNn8Kcxc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OnPJTmFz; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrkkbPOE"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d49a7207cso1327506f8f.0
-        for <oe-kbuild@lists.linux.dev>; Fri, 01 Nov 2024 06:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730467399; x=1731072199; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
-        b=mrkkbPOEk3Ky7Ew/5S5+agI1wr+dqvd70q2XV+kaik2YjA5xejfCz5Ez2RKHJ+8IBD
-         kSKHFTgSOtNhOgJtp2drQsN83tXkTzfGTE/hGwKoUsQCN4U9Qik3vvGNmgv3IvSNQ4Kn
-         /lkJ+Sf9l3BG4YJyWEQeGxHQIcykotEXoyqHMvnG4K4Rd7Wo4TRCozG+0LfbMafDn7v3
-         qcxY8R5yqPoy8GmflnpkQXlbCg7hAk97yCJ+YM/bZfazU7o2LGEW/81Y/juUCf7z03JK
-         SKVs8T1YRcZyQ0w70R4zDj6v90okGtispOU0KRduikQpxyTNKAzumCOnSNz0vB1vvaIG
-         HWkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730467399; x=1731072199;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
-        b=jkuoJJIVBZDoyNQo+ErpS4VyZEN934yPSaHHHG4R5A3OTblXcrBWNaL1bFLlOqBJxa
-         p8GXbZ1oGupmvW/B2FgCbBp/8POQj3/8oNlhTRkv6DsPoVjvWXptyHQBxeX/BXS18eMo
-         /RvjRxwHO8bO9nGq3TQMqUUEbrxSAbOC3PonJOH/uUJ960FaxW7hCzNtj8Tf99YMk324
-         0tuSxEZoLhsTsVB1+5wpyP7f7U3hJfprGkfEebAcdZTpdlZz/fWzcpJD1QvFWBGQoU89
-         kOawx9BzsnzjHJnulHxf3VqrrXAMSwxi4HzHgFTgXTw8IQW/XHjGXtdKjTIksypUGk/a
-         SfUA==
-X-Gm-Message-State: AOJu0YzbMmEvzVaJb6+YueIWb3RBknjqLk1KIXQIfuyNmOYiO2vaKOC/
-	nrbYdf597LmW6gTKQVvRKC3SeLq04lgkez+P3dR5uOmWmiYMV3KrSK7ElxGKNN66DsJdu7PZq91
-	s
-X-Google-Smtp-Source: AGHT+IHrQPLC+hz5zDCLZ3Vdt7Vmbn353qZAkOC/IpUsmtGsVVkuzpjLAo+M5zDt8yFLl9EjoYCqkA==
-X-Received: by 2002:a5d:5c01:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-381c7ab30b1mr3307612f8f.48.1730467398923;
-        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4d1fsm5159542f8f.38.2024.11.01.06.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
-Date: Fri, 1 Nov 2024 16:23:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 387/387] drivers/md/dm-bow.c:666
- dm_bow_ctr() warn: missing error code 'ret'
-Message-ID: <baa5e619-53ed-45a8-876c-6a2e2afecb1d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OnPJTmFz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730475947; x=1762011947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=HtOuP/w1khpjwC819kYxTok8AHx7tT50uEInj0rbG+Q=;
+  b=OnPJTmFzCCK9K9ZrCAtBuCcyljLqYXo5ohCtxcb6jb9KtBeMaohKcNRJ
+   An+ySyvZp3/SMeHfsg1pY37YNd+uDqVoDeEGFMA2iEjR3ZtXjzoGf8Ztj
+   WPAVIKJlY4pSAaVT2qvTwTqJVmblXjGVAnu4xxqVG0mnBKHBnY1RCCxGB
+   bQAPuyFmP5ReM38+IoGBhnDLaOnl5oQw3XxrI+R7L3dXfnn7qGtPn+dBG
+   2nn78e7JsrPuM0ZeTvu4zU1Qmee/JgkSL0Y69HbexGOTF+NlQuT4xneAx
+   2gzsH+w4z8tbufNOgaVM1Xf+NEBFf3D0ac6UywK2LDCV9hjHjKRwoUgic
+   Q==;
+X-CSE-ConnectionGUID: kTBmVINnRvC5bNz5ti/siw==
+X-CSE-MsgGUID: U2S0Zc8HSCC4kIEC0q/fKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="17874855"
+X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
+   d="scan'208";a="17874855"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 08:45:46 -0700
+X-CSE-ConnectionGUID: CVfcUWFcQNu6oAeVBN8Mjw==
+X-CSE-MsgGUID: Bn8lXpyiQN2XM9AiSISvLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
+   d="scan'208";a="83139356"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2024 08:45:45 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6tqJ-000hij-0Q;
+	Fri, 01 Nov 2024 15:45:43 +0000
+Date: Fri, 1 Nov 2024 23:45:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [linux-next:master 7514/8858] fs/jfs/jfs_dtree.c:3090 dtReadFirst()
+ warn: impossible condition '(stbl[0] > 127) => (0-127 > 127)'
+Message-ID: <202411012327.YK94Bkiq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,139 +62,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: 0ce3eb37e9eab307def1bad31c028d86ae7b2ea1 [387/387] ANDROID: dm-bow: Add dm-bow feature
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411012054.D1zpW7a2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+CC: Dave Kleikamp <dave.kleikamp@oracle.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c88416ba074a8913cf6d61b789dd834bbca6681c
+commit: ca84a2c9be482836b86d780244f0357e5a778c46 [7514/8858] jfs: array-index-out-of-bounds fix in dtReadFirst
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 days ago
+config: m68k-randconfig-r073-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012327.YK94Bkiq-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411012054.D1zpW7a2-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411012327.YK94Bkiq-lkp@intel.com/
 
 smatch warnings:
-drivers/md/dm-bow.c:666 dm_bow_ctr() warn: missing error code 'ret'
+fs/jfs/jfs_dtree.c:3090 dtReadFirst() warn: impossible condition '(stbl[0] > 127) => (0-127 > 127)'
 
-vim +/ret +666 drivers/md/dm-bow.c
+vim +3090 fs/jfs/jfs_dtree.c
 
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  622  static int dm_bow_ctr(struct dm_target *ti, unsigned int argc, char **argv)
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  623  {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  624  	struct bow_context *bc;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  625  	struct bow_range *br;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  626  	int ret;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  627  	struct mapped_device *md = dm_table_get_md(ti->table);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  628  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  629  	if (argc != 1) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  630  		ti->error = "Invalid argument count";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  631  		return -EINVAL;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  632  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  633  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  634  	bc = kzalloc(sizeof(*bc), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  635  	if (!bc) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  636  		ti->error = "Cannot allocate bow context";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  637  		return -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  638  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  639  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  640  	ti->num_flush_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  641  	ti->num_discard_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  642  	ti->num_write_same_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  643  	ti->private = bc;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  644  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  645  	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  646  			    &bc->dev);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  647  	if (ret) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  648  		ti->error = "Device lookup failed";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  649  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  650  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  651  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  652  	if (bc->dev->bdev->bd_queue->limits.max_discard_sectors == 0) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  653  		bc->dev->bdev->bd_queue->limits.discard_granularity = 1 << 12;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  654  		bc->dev->bdev->bd_queue->limits.max_hw_discard_sectors = 1 << 15;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  655  		bc->dev->bdev->bd_queue->limits.max_discard_sectors = 1 << 15;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  656  		bc->forward_trims = false;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  657  	} else {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  658  		bc->forward_trims = true;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  659  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  660  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  661  	bc->block_size = bc->dev->bdev->bd_queue->limits.logical_block_size;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  662  	bc->block_shift = ilog2(bc->block_size);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  663  	bc->log_sector = kzalloc(bc->block_size, GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  664  	if (!bc->log_sector) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  665  		ti->error = "Cannot allocate log sector";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23 @666  		goto bad;
-
-Needs a "ret = -ENOMEM;"
-
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  667  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  668  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  669  	init_completion(&bc->kobj_holder.completion);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  670  	ret = kobject_init_and_add(&bc->kobj_holder.kobj, &bow_ktype,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  671  				   &disk_to_dev(dm_disk(md))->kobj, "%s",
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  672  				   "bow");
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  673  	if (ret) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  674  		ti->error = "Cannot create sysfs node";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  675  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  676  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  677  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  678  	mutex_init(&bc->ranges_lock);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  679  	bc->ranges = RB_ROOT;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  680  	bc->bufio = dm_bufio_client_create(bc->dev->bdev, bc->block_size, 1, 0,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  681  					   NULL, NULL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  682  	if (IS_ERR(bc->bufio)) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  683  		ti->error = "Cannot initialize dm-bufio";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  684  		ret = PTR_ERR(bc->bufio);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  685  		bc->bufio = NULL;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  686  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  687  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  688  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  689  	bc->workqueue = alloc_workqueue("dm-bow",
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  690  					WQ_CPU_INTENSIVE | WQ_MEM_RECLAIM
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  691  					| WQ_UNBOUND, num_online_cpus());
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  692  	if (!bc->workqueue) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  693  		ti->error = "Cannot allocate workqueue";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  694  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  695  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  696  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  697  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  698  	INIT_LIST_HEAD(&bc->trimmed_list);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  699  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  700  	br = kzalloc(sizeof(*br), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  701  	if (!br) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  702  		ti->error = "Cannot allocate ranges";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  703  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  704  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  705  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  706  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  707  	br->sector = ti->len;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  708  	br->type = TOP;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  709  	rb_link_node(&br->node, NULL, &bc->ranges.rb_node);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  710  	rb_insert_color(&br->node, &bc->ranges);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  711  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  712  	br = kzalloc(sizeof(*br), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  713  	if (!br) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  714  		ti->error = "Cannot allocate ranges";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  715  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  716  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  717  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  718  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  719  	br->sector = 0;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  720  	br->type = UNCHANGED;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  721  	rb_link_node(&br->node, bc->ranges.rb_node,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  722  		     &bc->ranges.rb_node->rb_left);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  723  	rb_insert_color(&br->node, &bc->ranges);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  724  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  725  	ti->discards_supported = true;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  726  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  727  	return 0;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  728  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  729  bad:
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  730  	dm_bow_dtr(ti);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  731  	return ret;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  732  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3032  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3033  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3034  /*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3035   *	dtReadFirst()
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3036   *
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3037   * function: get the leftmost page of the directory
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3038   */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3039  static int dtReadFirst(struct inode *ip, struct btstack * btstack)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3040  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3041  	int rc = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3042  	s64 bn;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3043  	int psize = 288;	/* initial in-line directory */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3044  	struct metapage *mp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3045  	dtpage_t *p;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3046  	s8 *stbl;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3047  	struct btframe *btsp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3048  	pxd_t *xd;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3049  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3050  	BT_CLR(btstack);	/* reset stack */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3051  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3052  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3053  	 *	descend leftmost path of the tree
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3054  	 *
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3055  	 * by convention, root bn = 0.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3056  	 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3057  	for (bn = 0;;) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3058  		DT_GETPAGE(ip, bn, mp, psize, p, rc);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3059  		if (rc)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3060  			return rc;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3061  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3062  		/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3063  		 * leftmost leaf page
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3064  		 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3065  		if (p->header.flag & BT_LEAF) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3066  			/* return leftmost entry */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3067  			btsp = btstack->top;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3068  			btsp->bn = bn;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3069  			btsp->index = 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3070  			btsp->mp = mp;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3071  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3072  			return 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3073  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3074  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3075  		/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3076  		 * descend down to leftmost child page
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3077  		 */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3078  		if (BT_STACK_FULL(btstack)) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3079  			DT_PUTPAGE(mp);
+eb8630d7d2fd13 Joe Perches       2013-06-04  3080  			jfs_error(ip->i_sb, "btstack overrun\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3081  			BT_STACK_DUMP(btstack);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3082  			return -EIO;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3083  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3084  		/* push (bn, index) of the parent page/entry */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3085  		BT_PUSH(btstack, bn, 0);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3086  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3087  		/* get the leftmost entry */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3088  		stbl = DT_GETSTBL(p);
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3089  
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28 @3090  		if (stbl[0] < 0 || stbl[0] > 127) {
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3091  			DT_PUTPAGE(mp);
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3092  			jfs_error(ip->i_sb, "stbl[0] out of bound\n");
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3093  			return -EIO;
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3094  		}
+ca84a2c9be4828 Ghanshyam Agrawal 2024-09-28  3095  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3096  		xd = (pxd_t *) & p->slot[stbl[0]];
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3097  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3098  		/* get the child page block address */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3099  		bn = addressPXD(xd);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3100  		psize = lengthPXD(xd) << JFS_SBI(ip->i_sb)->l2bsize;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3101  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3102  		/* unpin the parent page */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3103  		DT_PUTPAGE(mp);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3104  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3105  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3106  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
