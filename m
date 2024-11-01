@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725E02A1B2
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 11:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EB5C13C
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 12:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730461660; cv=none; b=Tf8H1BUBxjMEqQ5xTYP3GWyqow4Nd0w4jmNkx17kK+vLBwdxubmRRlRo/VM2bYKGWVOJ78huWIsWj5wj5qt2R5jBtl3uIuKuWuouHMECqxHet1jjiuuxueYoYjtvBMj7mq7fAmtExUS2LahWPQMU9oqsxdDuomu3a4yproBLkB8=
+	t=1730463523; cv=none; b=skAJgJbVchWkysXb/ZCXpFUGmJR3dsKIU/tctnZZNgyzD8IWvtwJg1b8OUMifRliKsgCFhC8EEvk+t5cHQBBKMTicJCuXQa3u3yBko3xr91AZGCQGqjWRfe4KzlY3AzFpO2HmEUkav98GKgEIstI9H00mgN+7DcN+QiCBhadJ7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730461660; c=relaxed/simple;
-	bh=Ca0R1Y2X0FknJYOYVq2S7iNA10cVqcMGroAPLrgt4hg=;
+	s=arc-20240116; t=1730463523; c=relaxed/simple;
+	bh=Cuntx4xTP3nxfJIRN7mx0k/kgc40hH4nSW2awbtKlSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uYsQsXOctENpdtGaTGXLEV9J4vSFFWFinSMNytbxm2q9XY9gWzW2btcnu6T+tdmuBCSuEfyt1q+UQlYZsOTxHdNkJ16SG11skC60BxV/moA/H++OLb17cfk4AcDSal53+bqKAsz878yGeWSEMjy4pWuLvXB4P+OQBokBRi7WLaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FRAGjdLx; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=kV9/HplQh1VwqKZ5iDD1kPKnqqA55Fgeo4suM5kRIIUWK4bmtz73T6vAJ9tCMuewCZTO0NxFl8/gUCgt7e035hAXAz79f/8NnOPMqMttRC4jiiB3yHi6D9iR7j3XWuXw2xz+jDyj/5kBWEVx+natQWGYigt73Ueg+zbQ+tKbI2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LXq8ivuh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FRAGjdLx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LXq8ivuh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730461657; x=1761997657;
+  t=1730463521; x=1761999521;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ca0R1Y2X0FknJYOYVq2S7iNA10cVqcMGroAPLrgt4hg=;
-  b=FRAGjdLx1dX7lsJxVmOCOLZP31LROkP5jQBNWOBN9wgFn5zmLTcRm2MH
-   IYQTrBbt8AuKe40HyoeGdGTT4so+fszyZjj+YzvseuLa5Wvy3gYvN1bkm
-   +mUfUDUWsjTphhVm2Drhh34rZCvzVl4Bh/2hGUdcuLmMcwJW8H4NR+NgO
-   Ck3GASRenKFr00g3qYT0TXM+02euaM9FIuyu4DZ24ZoqPAzGN0suem2K9
-   KLic3p/n2C9mJa42c8F6UmWllwQYTH/3/by9DyqF7ebrkrLoodetN19Bt
-   x8FIV1FCjtDcNJ7NpxRsOPhkKJ6aCzwiQLL4+jYgd+mHmd9oc7Y8fRelk
+  bh=Cuntx4xTP3nxfJIRN7mx0k/kgc40hH4nSW2awbtKlSM=;
+  b=LXq8ivuhkJHsIXy+xVLbQtamqqbpUQH8PqRXLqCWRh4U5q6wrR10VjEA
+   l7YCYjaakTIcbB0Dgi53WQUXo25v1SUAP72rSw8LJeMHFMMNfdH1eM30i
+   AKOSGxpJi99RwjiWQfC0PVzfP9z8IGXkdvkBWmSWZxdafFl4eodD49NQI
+   2NdCrZL/Epz+cCWUgTTmtuL+HZ8rhTAHCzqMRe1M6R3sEb3F1rvU79IIS
+   kaL+yncflyF0C+qYChsIRc+VXzUzVzSqXz20qkbcqU611YQW4wcbbhc1O
+   WCq4KTuCtV4ILW+4QCYfnsnP8E7N4UZZPcsrWHnSoKBGRQwDSfUp/kdjn
    w==;
-X-CSE-ConnectionGUID: l1pHAQiCSlyGLb273dBsJg==
-X-CSE-MsgGUID: lnn1TSPcSYyXorw95sFDXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30185788"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30185788"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 04:47:37 -0700
-X-CSE-ConnectionGUID: /OgMS4wZS3S32ie+Y3uLJw==
-X-CSE-MsgGUID: IvbxmAApQ7KTOVK0ROed9w==
+X-CSE-ConnectionGUID: LjTIVxFATNiKTYDby2hOuQ==
+X-CSE-MsgGUID: Pi/8NnPYQR+gXya6k6TK6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="55627236"
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="55627236"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 05:18:39 -0700
+X-CSE-ConnectionGUID: JxbvEGEjRaCLSKqgyu8ajQ==
+X-CSE-MsgGUID: ku+i+4B4S7OrLfeh0M95sA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="113776232"
+   d="scan'208";a="83091411"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Nov 2024 04:47:36 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2024 05:18:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6q7p-000hUr-2K;
-	Fri, 01 Nov 2024 11:47:33 +0000
-Date: Fri, 1 Nov 2024 19:47:02 +0800
+	id 1t6qbr-000hWz-0L;
+	Fri, 01 Nov 2024 12:18:35 +0000
+Date: Fri, 1 Nov 2024 20:17:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/net/wireless/ath/ath12k/mac.c:2552:21-27: opportunity for
- str_enable_disable(psmode)
-Message-ID: <202411011943.yYxnp7QA-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c:225:67-70: opportunity for
+ str_on_off(val)
+Message-ID: <202411012052.w6SjsURO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,77 +65,46 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Baochen Qiang <quic_bqiang@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+TO: Yang Wang <kevinyang.wang@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   6c52d4da1c742cd01a797a4d0a2d3c5a60dc9bfe
-commit: 54ca3308a23c5fc0cd5c53d86918217834626c44 wifi: ath12k: enable 802.11 power save mode in station mode
-date:   9 months ago
+commit: 4051844c6616c0bf33dd16342967ea5b931746ae drm/amdgpu: add amdgpu mca debug sysfs support
+date:   1 year, 1 month ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-103-20241101 (https://download.01.org/0day-ci/archive/20241101/202411011943.yYxnp7QA-lkp@intel.com/config)
+:::::: commit date: 1 year, 1 month ago
+config: i386-randconfig-052-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012052.w6SjsURO-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411011943.yYxnp7QA-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411012052.w6SjsURO-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath12k/mac.c:2552:21-27: opportunity for str_enable_disable(psmode)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c:225:67-70: opportunity for str_on_off(val)
 
-vim +2552 drivers/net/wireless/ath/ath12k/mac.c
+vim +225 drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
 
-d889913205cf7eb Kalle Valo    2022-11-28  2512  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2513  static void ath12k_mac_vif_setup_ps(struct ath12k_vif *arvif)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2514  {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2515  	struct ath12k *ar = arvif->ar;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2516  	struct ieee80211_vif *vif = arvif->vif;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2517  	struct ieee80211_conf *conf = &ath12k_ar_to_hw(ar)->conf;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2518  	enum wmi_sta_powersave_param param;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2519  	enum wmi_sta_ps_mode psmode;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2520  	int ret;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2521  	int timeout;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2522  	bool enable_ps;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2523  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2524  	lockdep_assert_held(&ar->conf_mutex);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2525  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2526  	if (vif->type != NL80211_IFTYPE_STATION)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2527  		return;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2528  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2529  	enable_ps = arvif->ps;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2530  	if (enable_ps) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2531  		psmode = WMI_STA_PS_MODE_ENABLED;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2532  		param = WMI_STA_PS_PARAM_INACTIVITY_TIME;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2533  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2534  		timeout = conf->dynamic_ps_timeout;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2535  		if (timeout == 0) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2536  			/* firmware doesn't like 0 */
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2537  			timeout = ieee80211_tu_to_usec(vif->bss_conf.beacon_int) / 1000;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2538  		}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2539  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2540  		ret = ath12k_wmi_set_sta_ps_param(ar, arvif->vdev_id, param,
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2541  						  timeout);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2542  		if (ret) {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2543  			ath12k_warn(ar->ab, "failed to set inactivity time for vdev %d: %i\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2544  				    arvif->vdev_id, ret);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2545  			return;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2546  		}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2547  	} else {
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2548  		psmode = WMI_STA_PS_MODE_DISABLED;
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2549  	}
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2550  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2551  	ath12k_dbg(ar->ab, ATH12K_DBG_MAC, "mac vdev %d psmode %s\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01 @2552  		   arvif->vdev_id, psmode ? "enable" : "disable");
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2553  
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2554  	ret = ath12k_wmi_pdev_set_ps_mode(ar, arvif->vdev_id, psmode);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2555  	if (ret)
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2556  		ath12k_warn(ar->ab, "failed to set sta power save mode %d for vdev %d: %d\n",
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2557  			    psmode, arvif->vdev_id, ret);
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2558  }
-54ca3308a23c5fc Baochen Qiang 2024-02-01  2559  
+7ff607e2723386 Yang Wang 2023-09-05  214  
+4051844c6616c0 Yang Wang 2023-09-06  215  #if defined(CONFIG_DEBUG_FS)
+4051844c6616c0 Yang Wang 2023-09-06  216  static int amdgpu_mca_smu_debug_mode_set(void *data, u64 val)
+4051844c6616c0 Yang Wang 2023-09-06  217  {
+4051844c6616c0 Yang Wang 2023-09-06  218  	struct amdgpu_device *adev = (struct amdgpu_device *)data;
+4051844c6616c0 Yang Wang 2023-09-06  219  	int ret;
+4051844c6616c0 Yang Wang 2023-09-06  220  
+4051844c6616c0 Yang Wang 2023-09-06  221  	ret = amdgpu_mca_smu_set_debug_mode(adev, val ? true : false);
+4051844c6616c0 Yang Wang 2023-09-06  222  	if (ret)
+4051844c6616c0 Yang Wang 2023-09-06  223  		return ret;
+4051844c6616c0 Yang Wang 2023-09-06  224  
+4051844c6616c0 Yang Wang 2023-09-06 @225  	dev_info(adev->dev, "amdgpu set smu mca debug mode %s success\n", val ? "on" : "off");
+4051844c6616c0 Yang Wang 2023-09-06  226  
+4051844c6616c0 Yang Wang 2023-09-06  227  	return 0;
+4051844c6616c0 Yang Wang 2023-09-06  228  }
+4051844c6616c0 Yang Wang 2023-09-06  229  
 
 -- 
 0-DAY CI Kernel Test Service
