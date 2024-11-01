@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5901DA53
-	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 12:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D896E1BC2A
+	for <oe-kbuild@lists.linux.dev>; Fri,  1 Nov 2024 13:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730465986; cv=none; b=rUXa/OQ2zc31Rp5HB2xT5i1q/6g+sUlEgsQU9udExZ/AqmQdB4N0ld1rRQHWHSNE06V4evqwtWPbXiOQpliw2J/sw3kFNOCD3weBbAEWSpb0gv74JPkn/4ndpwTBZAUMPmobvyDDYdVEVZjR71vF95hufHh9T+hsAa/vGNluyCk=
+	t=1730467403; cv=none; b=AHGWnMkwUxg4HYKGx1VjQ85ZqQHGvkimb4vNpeWMElo+oQkdn2E0NTkjLaSucnv/JKu9peGpleb0k4G/nWSj5bCKxSKdpk/dt5UIZYD1knH3D1SGNKyoOKZacBwubweAslr5OUDmxxWk05CgSdcEac3muuoupk3dbCV5VoDclB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730465986; c=relaxed/simple;
-	bh=nZdrGwmaFtJGqPwVsJCZVaw+6JfYD5LZsKt8PLbbfGY=;
+	s=arc-20240116; t=1730467403; c=relaxed/simple;
+	bh=WNFYm7cUFdBfgBGT5+nfdKTA41JaJY+jQpwY55l8Fu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X6o14hfc/+iLcDoUxFZ4X7PhHCUUvq6oT2d09GYIDOZgmaSQlpWNFOPAzVFud//SNawaC9tnaXpW082HCNODEZXP0UEmn7hGlT6sI+89gKrgCRmVnSYqrrzqAfagPr38sJqKwOBhpGYiClLw7uhzGHKM0q8sANTiFOoQp4QsWuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bk1YUe3C; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=MaAxPf2oFAWk1TWzcUb6l5pIMqFW3R9b/CnQ7kKbeNkfKt/y0RZNXvwdTuMXQUML+FuJecy4JUqBNdys15YViTjMUxyATOCx6jezaQKdvjsB4rom/DN2Q7g51zIa80jiDIyEKg0wylhkQZd0cUOFTI+CazzhWzdN6U3+i+EaeFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrkkbPOE; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bk1YUe3C"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730465983; x=1762001983;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nZdrGwmaFtJGqPwVsJCZVaw+6JfYD5LZsKt8PLbbfGY=;
-  b=Bk1YUe3CEULhY1Nrjd+3IW19WHBeIxyszZnnA9FAiyO1glUT/SxRtYCz
-   3lwrILZTEXa4q6Ro9tLvawt7cjtWGk/l6EdSHqkbO9wP9A3raMJSHAhQT
-   tmPeTAAnbSSSnd8Z4Cwk1gBw9M9qXEGeyxmv0A0F8RgMQ6PMO/qN8sGZl
-   ZzFpTyZEYaPRBJ2xrLAAPHMiJ4PFrWtImi6o0+3GMhN/dUNvEAwqmiPyU
-   PgxV1gCw9tmVc0h26WfN3oxi9kMlpkuvLhR/FoekqM5hhQiQYxx/HioUO
-   pFTZ/yNGc0rj3/lpCQRbB86SjAUK1GtdpQWhobBWakCY+qU8LVrSEu8Am
-   Q==;
-X-CSE-ConnectionGUID: 4TFcgythTSq4bIuZERAtQg==
-X-CSE-MsgGUID: MgRNl9e7RIm4VWjb8akyhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52797085"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52797085"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 05:59:40 -0700
-X-CSE-ConnectionGUID: fUVkzaF1Q567Sc8JpVO9hA==
-X-CSE-MsgGUID: SSfssxu+Q5mybc63vuwwXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="83097126"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2024 05:59:38 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6rFY-000hYs-0J;
-	Fri, 01 Nov 2024 12:59:36 +0000
-Date: Fri, 1 Nov 2024 20:58:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrkkbPOE"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d49a7207cso1327506f8f.0
+        for <oe-kbuild@lists.linux.dev>; Fri, 01 Nov 2024 06:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730467399; x=1731072199; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
+        b=mrkkbPOEk3Ky7Ew/5S5+agI1wr+dqvd70q2XV+kaik2YjA5xejfCz5Ez2RKHJ+8IBD
+         kSKHFTgSOtNhOgJtp2drQsN83tXkTzfGTE/hGwKoUsQCN4U9Qik3vvGNmgv3IvSNQ4Kn
+         /lkJ+Sf9l3BG4YJyWEQeGxHQIcykotEXoyqHMvnG4K4Rd7Wo4TRCozG+0LfbMafDn7v3
+         qcxY8R5yqPoy8GmflnpkQXlbCg7hAk97yCJ+YM/bZfazU7o2LGEW/81Y/juUCf7z03JK
+         SKVs8T1YRcZyQ0w70R4zDj6v90okGtispOU0KRduikQpxyTNKAzumCOnSNz0vB1vvaIG
+         HWkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730467399; x=1731072199;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
+        b=jkuoJJIVBZDoyNQo+ErpS4VyZEN934yPSaHHHG4R5A3OTblXcrBWNaL1bFLlOqBJxa
+         p8GXbZ1oGupmvW/B2FgCbBp/8POQj3/8oNlhTRkv6DsPoVjvWXptyHQBxeX/BXS18eMo
+         /RvjRxwHO8bO9nGq3TQMqUUEbrxSAbOC3PonJOH/uUJ960FaxW7hCzNtj8Tf99YMk324
+         0tuSxEZoLhsTsVB1+5wpyP7f7U3hJfprGkfEebAcdZTpdlZz/fWzcpJD1QvFWBGQoU89
+         kOawx9BzsnzjHJnulHxf3VqrrXAMSwxi4HzHgFTgXTw8IQW/XHjGXtdKjTIksypUGk/a
+         SfUA==
+X-Gm-Message-State: AOJu0YzbMmEvzVaJb6+YueIWb3RBknjqLk1KIXQIfuyNmOYiO2vaKOC/
+	nrbYdf597LmW6gTKQVvRKC3SeLq04lgkez+P3dR5uOmWmiYMV3KrSK7ElxGKNN66DsJdu7PZq91
+	s
+X-Google-Smtp-Source: AGHT+IHrQPLC+hz5zDCLZ3Vdt7Vmbn353qZAkOC/IpUsmtGsVVkuzpjLAo+M5zDt8yFLl9EjoYCqkA==
+X-Received: by 2002:a5d:5c01:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-381c7ab30b1mr3307612f8f.48.1730467398923;
+        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4d1fsm5159542f8f.38.2024.11.01.06.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
+Date: Fri, 1 Nov 2024 16:23:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android11-kiwi-5.4 387/387] drivers/md/dm-bow.c:666
  dm_bow_ctr() warn: missing error code 'ret'
-Message-ID: <202411012054.D1zpW7a2-lkp@intel.com>
+Message-ID: <baa5e619-53ed-45a8-876c-6a2e2afecb1d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,22 +66,16 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
 tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
 head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
 commit: 0ce3eb37e9eab307def1bad31c028d86ae7b2ea1 [387/387] ANDROID: dm-bow: Add dm-bow feature
-:::::: branch date: 4 days ago
-:::::: commit date: 6 years ago
 config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411012054.D1zpW7a2-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
 | Closes: https://lore.kernel.org/r/202411012054.D1zpW7a2-lkp@intel.com/
 
 smatch warnings:
@@ -85,7 +83,6 @@ drivers/md/dm-bow.c:666 dm_bow_ctr() warn: missing error code 'ret'
 
 vim +/ret +666 drivers/md/dm-bow.c
 
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  621  
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  622  static int dm_bow_ctr(struct dm_target *ti, unsigned int argc, char **argv)
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  623  {
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  624  	struct bow_context *bc;
@@ -131,6 +128,9 @@ vim +/ret +666 drivers/md/dm-bow.c
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  664  	if (!bc->log_sector) {
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  665  		ti->error = "Cannot allocate log sector";
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23 @666  		goto bad;
+
+Needs a "ret = -ENOMEM;"
+
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  667  	}
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  668  
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  669  	init_completion(&bc->kobj_holder.completion);
@@ -197,8 +197,8 @@ vim +/ret +666 drivers/md/dm-bow.c
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  730  	dm_bow_dtr(ti);
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  731  	return ret;
 0ce3eb37e9eab3 Paul Lawrence 2018-10-23  732  }
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  733  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
