@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF4F433B9
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 16:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0655D19CC25
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 17:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730565708; cv=none; b=iatgjl2mKeZsxKJ+VXPTxqJeM8fhLiMfXDQ1ZFAC57TwoDIjV89IwXOJyQcmBKhwv/Hy8/dsM88pJjP34dVc34SFWzHeQvnQm9CDoz8dC7hB3wsY2mnRcqKtsJI5t7E9I90p9RcDTiDvQ+ao2AClERTrbkY6kAftetDyAb+N8Eo=
+	t=1730567570; cv=none; b=Qw//+X1ABWMOT/gtheNP/NTdP8edlMBxWP28bx6pQtKs3SO1w8tuqzzdXAZKg8n/eDPlt9YW1gjlSkH5ovG9omBRHEQW+pY1tWyDte+V/kGL9b1bxZXrEqZyOKHZ7YKR/cECYp8jwGFaoPMP3YylgguhxwGAOfAykV2Ifxm8Fp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730565708; c=relaxed/simple;
-	bh=Fw46zBgBS4MCxUQgdX4pk+WUum1LNC5nyLpTkSNMvls=;
+	s=arc-20240116; t=1730567570; c=relaxed/simple;
+	bh=sge3iSEpwStrQz2hd1T8ax0G3UwjnHbl9ah0L2ULXlA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OBMgjeptLttt8J5b+s07X/6YfoKj2C4ZUCaY4uVjivsQsTMrinunIBnaj7LiIE4CZORGRChtA7j6YYvcDVbaRls64t0cj+gCJyg+8ZW4J0B/8j6k9oxUXES+35Ic1qOZtSpbGkrZNh5jYIzSXucUrrGLtnj578OLi2XPJ/Igyxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brJogfFM; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=jhBZc9tAoQL4cgmkrcCPnB4lFC3jGf4JYCaDhYCMp1AnTmkWYJyRU1TcTFKHllQoA7Su4vDdhjmrj4QHzQGOS9oqJLFjGaRhtgYR76ebCOfV3Y84G1Zqir3u+jPY09txaVkJDZBFUZfh2OGW1DBo9HthpUWo5jL33qYJeGtq+LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huwXKsrL; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brJogfFM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huwXKsrL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730565707; x=1762101707;
+  t=1730567568; x=1762103568;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fw46zBgBS4MCxUQgdX4pk+WUum1LNC5nyLpTkSNMvls=;
-  b=brJogfFMsZFn4G1x8b5cKscw33/W+HwmqbRbNYzHo5/L2eOFVx7GHAIH
-   XbC0gMIADPi/Uihx3BcS/2HBtYvaY38JHdbKQqprWwiCROQZhCd8qQX/b
-   +R2MANeodthWSzSZ9EWKHQgx5OKwlYgKXrUPBhKIFVBmc6drJ/iGs76GR
-   m8SsvXfe+MHbpg+i0OGpw/z77agH5nqjaMVdspHbQWKPFWs/wU2npgTiI
-   z+f3lJmltquYkuh5ok3mi07tlCvhjitNgLnCLsHmSqOxOQQPidD3n4m3l
-   94pSfjAYCeb9PsTwClpcDAwwqCcv1pvuNjw03KwrnkAkxmloJhUK943vq
+  bh=sge3iSEpwStrQz2hd1T8ax0G3UwjnHbl9ah0L2ULXlA=;
+  b=huwXKsrLy9utUYp4+k/+WlvWhNdqNPgX4qCzbAIluNRzqJtxjSJwsPqD
+   Z/J2g36AuonQMnmPnGAtAxGg0QNmEuqAlcGBl3Rya8MAhC4c5dosb15L1
+   nLRTdSthRhN2TTcvYoTNmtX0B6UTNGurmS4x5b3IaId9rp+qBTHkUwW02
+   mk7sB3KXAyDQcfLrWgVQTE1uWWR0HRmA09fNO1UazMnVTB3TR1Ry0aCB2
+   iDLqT4LOX7l76LDGMZAAvWgbBcq79FTMijnntXpcxMOFx3Ii92oWrbXD6
+   Ubt1M3Uj4PcF/UOyLkZwkzrFSksnoRWnSbSa7dif5tlXW9ma+O2AO6E0e
    A==;
-X-CSE-ConnectionGUID: ACJk+518Sl+6u+fhMFslIA==
-X-CSE-MsgGUID: SFP/FQuqSpi8xAjWnOEC6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34000597"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34000597"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 09:41:46 -0700
-X-CSE-ConnectionGUID: K7II8+MbSwGC+JPTBfA2Sw==
-X-CSE-MsgGUID: y58UJY0wQcSpA6I0OEXS9g==
+X-CSE-ConnectionGUID: DdD3vSyqRfKspdZE15g+Yg==
+X-CSE-MsgGUID: UBq1LwSdRxOE7gdmAGH59A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="30424505"
+X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
+   d="scan'208";a="30424505"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 10:12:47 -0700
+X-CSE-ConnectionGUID: PiwPz8r1TemBUrEg9wpp1Q==
+X-CSE-MsgGUID: n0sGIh11QJejR0UmGGj+7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="120697690"
+   d="scan'208";a="114033132"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 02 Nov 2024 09:41:45 -0700
+  by orviesa002.jf.intel.com with ESMTP; 02 Nov 2024 10:12:46 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7HC2-000jAb-1j;
-	Sat, 02 Nov 2024 16:41:42 +0000
-Date: Sun, 3 Nov 2024 00:41:01 +0800
+	id 1t7Hg3-000jCJ-2m;
+	Sat, 02 Nov 2024 17:12:43 +0000
+Date: Sun, 3 Nov 2024 01:12:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
-Message-ID: <202411030036.PSKG1pW3-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb:
+ /soc/thermal@1100b000: failed to match any schema with compatible:
+ ['mediatek,mt8183-thermal']
+Message-ID: <202411030116.wxqCp6se-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,107 +64,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241101161624.568527-2-mrpre@163.com>
-References: <20241101161624.568527-2-mrpre@163.com>
-TO: mrpre <mrpre@163.com>
-TO: yonghong.song@linux.dev
-TO: john.fastabend@gmail.com
-TO: martin.lau@kernel.org
-TO: edumazet@google.com
-TO: jakub@cloudflare.com
-TO: davem@davemloft.net
-TO: dsahern@kernel.org
-TO: kuba@kernel.org
-TO: pabeni@redhat.com
-TO: netdev@vger.kernel.org
-TO: bpf@vger.kernel.org
-TO: linux-kernel@vger.kernel.org
-CC: mrpre <mrpre@163.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-Hi mrpre,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master net-next/main net/main linus/master v6.12-rc5 next-20241101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-Introduce-cpu-affinity-for-sockmap/20241102-001844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241101161624.568527-2-mrpre%40163.com
-patch subject: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-config: i386-randconfig-141-20241102 (https://download.01.org/0day-ci/archive/20241103/202411030036.PSKG1pW3-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
+commit: 5abed9956efbf9235c9353d0d170b68791b2c11d [1/1] CHROMIUM: arm64: dts: mt8183: Add kakadu rev1
+:::::: branch date: 2 days ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241103/202411030116.wxqCp6se-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411030116.wxqCp6se-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411030036.PSKG1pW3-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411030116.wxqCp6se-lkp@intel.com/
 
-smatch warnings:
-net/core/sock_map.c:511 sock_map_update_common() warn: variable dereferenced before check 'psock' (see line 492)
-
-vim +/psock +511 net/core/sock_map.c
-
-604326b41a6fb9 Daniel Borkmann 2018-10-13  466  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  467  static int sock_map_update_common(struct bpf_map *map, u32 idx,
-ffed654afa8dc1 mrpre           2024-11-02  468  				  struct sock *sk, u64 flags, s32 target_cpu)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  469  {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  470  	struct bpf_stab *stab = container_of(map, struct bpf_stab, map);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  471  	struct sk_psock_link *link;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  472  	struct sk_psock *psock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  473  	struct sock *osk;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  474  	int ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  475  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  476  	WARN_ON_ONCE(!rcu_read_lock_held());
-604326b41a6fb9 Daniel Borkmann 2018-10-13  477  	if (unlikely(flags > BPF_EXIST))
-604326b41a6fb9 Daniel Borkmann 2018-10-13  478  		return -EINVAL;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  479  	if (unlikely(idx >= map->max_entries))
-604326b41a6fb9 Daniel Borkmann 2018-10-13  480  		return -E2BIG;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  481  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  482  	link = sk_psock_init_link();
-604326b41a6fb9 Daniel Borkmann 2018-10-13  483  	if (!link)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  484  		return -ENOMEM;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  485  
-2004fdbd8a2b56 Cong Wang       2021-03-30  486  	ret = sock_map_link(map, sk);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  487  	if (ret < 0)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  488  		goto out_free;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  489  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  490  	psock = sk_psock(sk);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  491  	WARN_ON_ONCE(!psock);
-ffed654afa8dc1 mrpre           2024-11-02 @492  	psock->target_cpu = target_cpu;
-35d2b7ffffc1d9 John Fastabend  2023-08-29  493  	spin_lock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  494  	osk = stab->sks[idx];
-604326b41a6fb9 Daniel Borkmann 2018-10-13  495  	if (osk && flags == BPF_NOEXIST) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  496  		ret = -EEXIST;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  497  		goto out_unlock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  498  	} else if (!osk && flags == BPF_EXIST) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  499  		ret = -ENOENT;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  500  		goto out_unlock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  501  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  502  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  503  	sock_map_add_link(psock, link, map, &stab->sks[idx]);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  504  	stab->sks[idx] = sk;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  505  	if (osk)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  506  		sock_map_unref(osk, &stab->sks[idx]);
-35d2b7ffffc1d9 John Fastabend  2023-08-29  507  	spin_unlock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  508  	return 0;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  509  out_unlock:
-35d2b7ffffc1d9 John Fastabend  2023-08-29  510  	spin_unlock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13 @511  	if (psock)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  512  		sk_psock_put(sk, psock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  513  out_free:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  514  	sk_psock_free_link(link);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  515  	return ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  516  }
-604326b41a6fb9 Daniel Borkmann 2018-10-13  517  
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: da7219@1a: interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu-rev1.dtb: bt-sco: '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
