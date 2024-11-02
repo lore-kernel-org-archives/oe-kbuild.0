@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D8D2C18C
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 02:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC9EA29
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 05:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730515036; cv=none; b=N6Gm3SI25bRPqHPAkp0CwMDAiHdk04SEJM0D43AdYFkeh5uX8fcTGt/G99yQiSLzy8D790dxvj82UjvQXUaFJhAfGI+Zb/ho3Km0LD02AAdYXCpFXVdbnPzzwugQObIQAduLlfFaFKdNlWa5dPsDrN+Uea9+mV911aGU5R/gRaM=
+	t=1730523743; cv=none; b=e4Pq3sT0DqSm2CHfvk8XLkYhrjSFR1JfYDTcUfky60VcHRudnmj7Jr/sKfKZU9BGVvSJBOghuReysoctb1NeljmEU7FUoXr5rHmIByPRp8/elyQTJui94nPm7ksBYmYNEFQOqyYUQOV3/Q8f8WSsM6z2fIFypQmNNMlFcwNAKng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730515036; c=relaxed/simple;
-	bh=ca/7YsmTFR6R2eRMoXJWafuFe2vburj1rvmt+LVl6P4=;
+	s=arc-20240116; t=1730523743; c=relaxed/simple;
+	bh=09cuST9Glgg8e01ebIyJ2QggwqiyDu42UWYUjWLF84c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nF4FHXp1wpGtDV4dLzTnDnTy+5sh7fjtdNEo1g76PtbCmJKnwqSRj8quBfMGDatyiDLSQrvRGfrgRxvxLaZqvDZKHVw4V6Esd296bDK4LFN+MGfabEC9ZSAO+B325GSKK0Lx0OnN07DmLVqVZtLKzDHvKdPARXAYmVMyMEoYrzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/MAdskf; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=lhSAIaIsTv1kM7A3fD9A+u7Do0Hw8sGa31+y9Tn1oKPb7X43Ax64lsTndc56bIsnY7nRuzibZHn161XrXbcj5ijA4qH8bjy+JIZx/CKjBv70bMxQYWyWNOFfHtoPmJHDH/4kBzX8FliWueM6qRqz9453Ps9VBf4ZSF3yxwWZgN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5My157u; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/MAdskf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5My157u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730515034; x=1762051034;
+  t=1730523741; x=1762059741;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ca/7YsmTFR6R2eRMoXJWafuFe2vburj1rvmt+LVl6P4=;
-  b=d/MAdskfPadtAtvpzeSd9J8qgv+dxXmAVLPxLzOciGvoAjQuT/HqGlTn
-   hLQxkKeitVltQoISghi5aaTjKWJ5I+wac/yua6epHOJ7FDr9SLvDT9/eA
-   LGjNcTZ/Ip/g7raFsAG8tQ9hr1k1IrRg9YIXXD739DH5IqbUz5upbWA7N
-   ejUTCzOj347rYbkKT60w3uvl25M4AbIC52mN0SDh+PD/lgOmmwN0Fc14P
-   ZuFMbVXbLrx1U/MVuM6hKzI6dxVdWBN1r2UrTyB6sSOEDS+NLGkeo7e3W
-   hrUYZ3dpUPwUotT9gNKIM34pgkV6OjTCdg2J5LeymgR7rbFCNSzlhvkob
-   A==;
-X-CSE-ConnectionGUID: 7vr/8EBIQMuLyQfIlYpk2Q==
-X-CSE-MsgGUID: rpk+3390TqeCQtE+lVPPYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="40920304"
+  bh=09cuST9Glgg8e01ebIyJ2QggwqiyDu42UWYUjWLF84c=;
+  b=d5My157u6pEsGmImiDgBT1Gz4BZASxlYtbZjF41SOMt1wJwaaOj5XPbk
+   +WLVOHydRF+75f4VOAjE1AUzX6j8LcK5A672zas2OLKCmP9M+UoXUhFag
+   zZYIxzUHsZwzp8jgaHu51bzO3Q87Hsw2DhqXN8hcQkzWc/T1U59Kk1fY2
+   +ZkFoAo52Hn+jlxNeHTOL7kKSUuRen/H8HSh3cgl4Kek+aCNUC3uXvEvx
+   z8sS9BT+ceRq4lViNj06rw1zoo/Ix1D5Tvj7Nf0w5EQRlWHVyPjh1prQD
+   GaY0FZpeaVtIvSCDxZJjXLaLw+bjjOC4+JJnlncy0TrgXWtU724liCwOm
+   Q==;
+X-CSE-ConnectionGUID: BWR98FzwS4GY4/l7rTZwmw==
+X-CSE-MsgGUID: 9Qtb62C7TrmglJMyInM8TQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="55684081"
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="40920304"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 19:37:13 -0700
-X-CSE-ConnectionGUID: CwUt/stJTo+Gw22uFhbV1w==
-X-CSE-MsgGUID: gTyTL5lbR8Kyw64aTeKn+A==
+   d="scan'208";a="55684081"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 22:02:17 -0700
+X-CSE-ConnectionGUID: dIVp+4vmRYWEuuEV4VzdFg==
+X-CSE-MsgGUID: Z8Zj2YUYQ36j0aCkH+0QqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="106473609"
+   d="scan'208";a="82680852"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2024 19:37:12 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 01 Nov 2024 22:02:16 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t740j-000iKP-24;
-	Sat, 02 Nov 2024 02:37:09 +0000
-Date: Sat, 2 Nov 2024 10:36:11 +0800
+	id 1t76H8-000iRP-02;
+	Sat, 02 Nov 2024 05:02:14 +0000
+Date: Sat, 2 Nov 2024 13:02:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [djiang:cxl/extended-linear 2/5] drivers/acpi/numa/hmat.c:149:15-21:
- ERROR: invalid reference to the index variable of the iterator on line 133
-Message-ID: <202411021032.pnDujBiz-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [android-common:android11-kiwi-5.4 387/387]
+ drivers/staging/android/ion/heaps/ion_page_pool.c:136 ion_page_pool_create()
+ warn: use 'gfp_mask' here instead of GFP_KERNEL?
+Message-ID: <202411021240.cjx5vtwX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,72 +65,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Dave Jiang <dave.jiang@intel.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/extended-linear
-head:   1fb9ccd70e5e5188307656236f4d290c72f40288
-commit: afc604fb5d91bd3bdde83f084d9be2407d3338c4 [2/5] acpi/hmat / cxl: Add extended linear cache support for CXL
-:::::: branch date: 6 hours ago
-:::::: commit date: 28 hours ago
-config: arm64-randconfig-r063-20241102 (https://download.01.org/0day-ci/archive/20241102/202411021032.pnDujBiz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+Hi Sandeep,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
+commit: f1f5ca63b954de2cca0f16ad2a15948820a742da [387/387] staging: ion: Move ion heaps into their own directory
+:::::: branch date: 5 days ago
+:::::: commit date: 5 years ago
+config: i386-randconfig-141-20241029 (https://download.01.org/0day-ci/archive/20241102/202411021240.cjx5vtwX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411021032.pnDujBiz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411021240.cjx5vtwX-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/numa/hmat.c:149:15-21: ERROR: invalid reference to the index variable of the iterator on line 133
+smatch warnings:
+drivers/staging/android/ion/heaps/ion_page_pool.c:136 ion_page_pool_create() warn: use 'gfp_mask' here instead of GFP_KERNEL?
 
-vim +149 drivers/acpi/numa/hmat.c
+vim +/gfp_mask +136 drivers/staging/android/ion/heaps/ion_page_pool.c
 
-665ac7e92757fb drivers/acpi/hmat/hmat.c Keith Busch 2019-03-11  110  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  111  /**
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  112   * hmat_get_extended_linear_cache_size - Retrieve the extended linear cache size
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  113   * @backing_res: resource from the backing media
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  114   * @nid: node id for the memory region
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  115   * @cache_size: (Output) size of extended linear cache.
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  116   *
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  117   * Return: 0 on success. Errno on failure.
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  118   *
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  119   */
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  120  int hmat_get_extended_linear_cache_size(struct resource *backing_res, int nid,
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  121  					resource_size_t *cache_size)
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  122  {
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  123  	unsigned int pxm = node_to_pxm(nid);
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  124  	struct memory_target *target;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  125  	struct target_cache *tcache;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  126  	bool cache_found = false;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  127  	struct resource *res;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  128  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  129  	target = find_mem_target(pxm);
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  130  	if (!target)
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  131  		return -ENOENT;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  132  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12 @133  	list_for_each_entry(tcache, &target->caches, node) {
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  134  		if (tcache->cache_attrs.mode == NODE_CACHE_MODE_EXTENDED_LINEAR) {
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  135  			res = &target->memregions;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  136  			if (!resource_contains(res, backing_res))
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  137  				continue;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  138  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  139  			cache_found = true;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  140  			break;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  141  		}
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  142  	}
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  143  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  144  	if (!cache_found) {
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  145  		*cache_size = 0;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  146  		return 0;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  147  	}
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  148  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12 @149  	*cache_size = tcache->cache_attrs.size;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  150  
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  151  	return 0;
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  152  }
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  153  EXPORT_SYMBOL_NS_GPL(hmat_get_extended_linear_cache_size, CXL);
-afc604fb5d91bd drivers/acpi/numa/hmat.c Dave Jiang  2024-08-12  154  
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  133  
+d92a1fabde9630 drivers/staging/android/ion/ion_page_pool.c Yisheng Xie           2018-02-12  134  struct ion_page_pool *ion_page_pool_create(gfp_t gfp_mask, unsigned int order)
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  135  {
+8fb78ad6e55d84 drivers/staging/android/ion/ion_page_pool.c Ben Marsh             2016-02-01 @136  	struct ion_page_pool *pool = kmalloc(sizeof(*pool), GFP_KERNEL);
+8fb78ad6e55d84 drivers/staging/android/ion/ion_page_pool.c Ben Marsh             2016-02-01  137  
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  138  	if (!pool)
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  139  		return NULL;
+0fb9b815fe2010 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  140  	pool->high_count = 0;
+0fb9b815fe2010 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  141  	pool->low_count = 0;
+0fb9b815fe2010 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  142  	INIT_LIST_HEAD(&pool->low_items);
+0fb9b815fe2010 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  143  	INIT_LIST_HEAD(&pool->high_items);
+bdeb9f1c427686 drivers/staging/android/ion/ion_page_pool.c Heesub Shin           2014-05-28  144  	pool->gfp_mask = gfp_mask | __GFP_COMP;
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  145  	pool->order = order;
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  146  	mutex_init(&pool->mutex);
+797a95c48c48d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  147  	plist_node_init(&pool->list, order);
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  148  
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  149  	return pool;
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  150  }
+0214c7f20bf4d5 drivers/staging/android/ion/ion_page_pool.c Rebecca Schultz Zavin 2013-12-13  151  
+
+:::::: The code at line 136 was first introduced by commit
+:::::: 8fb78ad6e55d8456de9202279b8463f26b012088 Staging: Android: memory allocation style change in ion_page_pool.c
+
+:::::: TO: Ben Marsh <bmarsh94@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
