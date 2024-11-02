@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E831E515
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 13:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF4F433B9
+	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 16:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730553762; cv=none; b=pJVvup0SijDHAWhedwoUsSQHi/5oJTLBm6remmtSV7ZVdNQAR4Y+lytoXJi4NZjP/7Z+hSSDokwlnnoeB85DeEP5UKMvQPWia6dKkVVazhdHzpynUK/MQfnqZWe22RuFrbrGwim4Cl2GCcypNXDh97ULOMx44Q55W/vuC6YoUAA=
+	t=1730565708; cv=none; b=iatgjl2mKeZsxKJ+VXPTxqJeM8fhLiMfXDQ1ZFAC57TwoDIjV89IwXOJyQcmBKhwv/Hy8/dsM88pJjP34dVc34SFWzHeQvnQm9CDoz8dC7hB3wsY2mnRcqKtsJI5t7E9I90p9RcDTiDvQ+ao2AClERTrbkY6kAftetDyAb+N8Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730553762; c=relaxed/simple;
-	bh=Kw72MuYdtkadn0+DCdvtZsI+OqhfyDXSp9Fof6H479Y=;
+	s=arc-20240116; t=1730565708; c=relaxed/simple;
+	bh=Fw46zBgBS4MCxUQgdX4pk+WUum1LNC5nyLpTkSNMvls=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pvmrkw3nxROw4CWdOv4rkkmKCPwgkQvmiu/vCtAiJhZ4qiPuPQ5SDCCuEBQiZDQnK1vJq1oqAIVnhOKtm9Qo0wmgWepufm2rdpyjbZpfdtBeOQzituLLgC+e6yCvGLn/7k8R2mj6z5XjP7YUWeg4lwhOsWrCSazAFIUxtjYTyQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jlGK2GnO; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=OBMgjeptLttt8J5b+s07X/6YfoKj2C4ZUCaY4uVjivsQsTMrinunIBnaj7LiIE4CZORGRChtA7j6YYvcDVbaRls64t0cj+gCJyg+8ZW4J0B/8j6k9oxUXES+35Ic1qOZtSpbGkrZNh5jYIzSXucUrrGLtnj578OLi2XPJ/Igyxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brJogfFM; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jlGK2GnO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brJogfFM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730553760; x=1762089760;
+  t=1730565707; x=1762101707;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kw72MuYdtkadn0+DCdvtZsI+OqhfyDXSp9Fof6H479Y=;
-  b=jlGK2GnOu6vqav1ajpvEmigiu+7shiMCDscLhyCaTBZA+yclNl9fX6zF
-   H3RuBQXrjV0ndvlymtCXL/cUk0JfqY/W1xKeArtT2g4exlCTZCdrB/bmN
-   /E+gY7zMuD7Yssj9SQWAwmCPJbEDYjaujSbw3DB5P4qYau2sozwp3+pXG
-   dFdwz4gB2orGxP25Pq4Dgw5ESvF7M54mpJPRvAmf+VhRz7zWcej+Qa4Ds
-   udEf3Esap58mM6DlJvWFQVRxW6ECW3XJ4AKDepDXliMxLTZWuD0mrSUGY
-   Dqnme+o3TTaAlArMlhONEt/ZrtIA6Lh8+1xK+fNuZWSLcyjZccI+yAewc
+  bh=Fw46zBgBS4MCxUQgdX4pk+WUum1LNC5nyLpTkSNMvls=;
+  b=brJogfFMsZFn4G1x8b5cKscw33/W+HwmqbRbNYzHo5/L2eOFVx7GHAIH
+   XbC0gMIADPi/Uihx3BcS/2HBtYvaY38JHdbKQqprWwiCROQZhCd8qQX/b
+   +R2MANeodthWSzSZ9EWKHQgx5OKwlYgKXrUPBhKIFVBmc6drJ/iGs76GR
+   m8SsvXfe+MHbpg+i0OGpw/z77agH5nqjaMVdspHbQWKPFWs/wU2npgTiI
+   z+f3lJmltquYkuh5ok3mi07tlCvhjitNgLnCLsHmSqOxOQQPidD3n4m3l
+   94pSfjAYCeb9PsTwClpcDAwwqCcv1pvuNjw03KwrnkAkxmloJhUK943vq
    A==;
-X-CSE-ConnectionGUID: mZYAmm2tQia3Zhko/MqkUQ==
-X-CSE-MsgGUID: o3bkHug+QdeA6WKtDzoYjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="29727655"
-X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="29727655"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 06:22:39 -0700
-X-CSE-ConnectionGUID: yWYIdyBESiCmDI885obyDw==
-X-CSE-MsgGUID: o/ofquMuTQa/ZK7/zH7N7Q==
+X-CSE-ConnectionGUID: ACJk+518Sl+6u+fhMFslIA==
+X-CSE-MsgGUID: SFP/FQuqSpi8xAjWnOEC6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34000597"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34000597"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 09:41:46 -0700
+X-CSE-ConnectionGUID: K7II8+MbSwGC+JPTBfA2Sw==
+X-CSE-MsgGUID: y58UJY0wQcSpA6I0OEXS9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="114031335"
+   d="scan'208";a="120697690"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2024 06:22:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 02 Nov 2024 09:41:45 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7E5L-000j13-3C;
-	Sat, 02 Nov 2024 13:22:35 +0000
-Date: Sat, 2 Nov 2024 21:22:06 +0800
+	id 1t7HC2-000jAb-1j;
+	Sat, 02 Nov 2024 16:41:42 +0000
+Date: Sun, 3 Nov 2024 00:41:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android11-kiwi-5.4 387/387] drivers/md/dm.c:2371
- dm_derive_raw_secret() warn: inconsistent returns '&md->io_barrier'.
-Message-ID: <202411022119.ekQQcrka-lkp@intel.com>
+Subject: Re: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+Message-ID: <202411030036.PSKG1pW3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,71 +63,105 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241101161624.568527-2-mrpre@163.com>
+References: <20241101161624.568527-2-mrpre@163.com>
+TO: mrpre <mrpre@163.com>
+TO: yonghong.song@linux.dev
+TO: john.fastabend@gmail.com
+TO: martin.lau@kernel.org
+TO: edumazet@google.com
+TO: jakub@cloudflare.com
+TO: davem@davemloft.net
+TO: dsahern@kernel.org
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: netdev@vger.kernel.org
+TO: bpf@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+CC: mrpre <mrpre@163.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: a1423568e2aecd27a202e7053945905dddcc6045 [387/387] ANDROID: dm: add support for passing through derive_raw_secret
-:::::: branch date: 5 days ago
-:::::: commit date: 4 years, 8 months ago
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241102/202411022119.ekQQcrka-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi mrpre,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master net-next/main net/main linus/master v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-Introduce-cpu-affinity-for-sockmap/20241102-001844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241101161624.568527-2-mrpre%40163.com
+patch subject: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+:::::: branch date: 24 hours ago
+:::::: commit date: 24 hours ago
+config: i386-randconfig-141-20241102 (https://download.01.org/0day-ci/archive/20241103/202411030036.PSKG1pW3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411022119.ekQQcrka-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411030036.PSKG1pW3-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/dm.c:2371 dm_derive_raw_secret() warn: inconsistent returns '&md->io_barrier'.
+smatch warnings:
+net/core/sock_map.c:511 sock_map_update_common() warn: variable dereferenced before check 'psock' (see line 492)
 
-Old smatch warnings:
-drivers/md/dm.c:1152 dm_dax_supported() warn: inconsistent returns '&md->io_barrier'.
-drivers/md/dm.c:2301 dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
+vim +/psock +511 net/core/sock_map.c
 
-vim +2371 drivers/md/dm.c
-
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2334  
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2335  /*
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2336   * Retrieve the raw_secret from the underlying device. Given that
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2337   * only only one raw_secret can exist for a particular wrappedkey,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2338   * retrieve it only from the first device that supports derive_raw_secret()
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2339   */
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2340  static int dm_derive_raw_secret(struct keyslot_manager *ksm,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2341  				const u8 *wrapped_key,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2342  				unsigned int wrapped_key_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2343  				u8 *secret, unsigned int secret_size)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2344  {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2345  	struct mapped_device *md = keyslot_manager_private(ksm);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2346  	struct dm_derive_raw_secret_args args = {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2347  		.wrapped_key = wrapped_key,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2348  		.wrapped_key_size = wrapped_key_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2349  		.secret = secret,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2350  		.secret_size = secret_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2351  		.err = -EOPNOTSUPP,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2352  	};
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2353  	struct dm_table *t;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2354  	int srcu_idx;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2355  	int i;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2356  	struct dm_target *ti;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2357  
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2358  	t = dm_get_live_table(md, &srcu_idx);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2359  	if (!t)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2360  		return -EOPNOTSUPP;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2361  	for (i = 0; i < dm_table_get_num_targets(t); i++) {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2362  		ti = dm_table_get_target(t, i);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2363  		if (!ti->type->iterate_devices)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2364  			continue;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2365  		ti->type->iterate_devices(ti, dm_derive_raw_secret_callback,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2366  					  &args);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2367  		if (!args.err)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2368  			break;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2369  	}
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2370  	dm_put_live_table(md, srcu_idx);
-a1423568e2aecd Barani Muthukumaran 2020-02-06 @2371  	return args.err;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2372  }
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2373  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  466  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  467  static int sock_map_update_common(struct bpf_map *map, u32 idx,
+ffed654afa8dc1 mrpre           2024-11-02  468  				  struct sock *sk, u64 flags, s32 target_cpu)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  469  {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  470  	struct bpf_stab *stab = container_of(map, struct bpf_stab, map);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  471  	struct sk_psock_link *link;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  472  	struct sk_psock *psock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  473  	struct sock *osk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  474  	int ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  475  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  476  	WARN_ON_ONCE(!rcu_read_lock_held());
+604326b41a6fb9 Daniel Borkmann 2018-10-13  477  	if (unlikely(flags > BPF_EXIST))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  478  		return -EINVAL;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  479  	if (unlikely(idx >= map->max_entries))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  480  		return -E2BIG;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  481  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  482  	link = sk_psock_init_link();
+604326b41a6fb9 Daniel Borkmann 2018-10-13  483  	if (!link)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  484  		return -ENOMEM;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  485  
+2004fdbd8a2b56 Cong Wang       2021-03-30  486  	ret = sock_map_link(map, sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  487  	if (ret < 0)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  488  		goto out_free;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  489  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  490  	psock = sk_psock(sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  491  	WARN_ON_ONCE(!psock);
+ffed654afa8dc1 mrpre           2024-11-02 @492  	psock->target_cpu = target_cpu;
+35d2b7ffffc1d9 John Fastabend  2023-08-29  493  	spin_lock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  494  	osk = stab->sks[idx];
+604326b41a6fb9 Daniel Borkmann 2018-10-13  495  	if (osk && flags == BPF_NOEXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  496  		ret = -EEXIST;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  497  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  498  	} else if (!osk && flags == BPF_EXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  499  		ret = -ENOENT;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  500  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  501  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  502  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  503  	sock_map_add_link(psock, link, map, &stab->sks[idx]);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  504  	stab->sks[idx] = sk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  505  	if (osk)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  506  		sock_map_unref(osk, &stab->sks[idx]);
+35d2b7ffffc1d9 John Fastabend  2023-08-29  507  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  508  	return 0;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  509  out_unlock:
+35d2b7ffffc1d9 John Fastabend  2023-08-29  510  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13 @511  	if (psock)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  512  		sk_psock_put(sk, psock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  513  out_free:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  514  	sk_psock_free_link(link);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  515  	return ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  516  }
+604326b41a6fb9 Daniel Borkmann 2018-10-13  517  
 
 -- 
 0-DAY CI Kernel Test Service
