@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209921AB515
-	for <oe-kbuild@lists.linux.dev>; Sat,  2 Nov 2024 23:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E03DC2FB
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Nov 2024 02:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730590445; cv=none; b=CRhXlzQIrhL+k4RWGGXK7OwZPTPk86vatKXGf8OBz6tklH47g2ed/q00Hmg5A6y0dJOKPL+Vv8GFOcrmM0V+fhbTiGxHKDmKnssK/YQqHycTwKsAcQs+/M0zKQuGFNlVbdHgQFBHo0W4MQw+UoViIR4N4mMmbwium+GiH5r2vIQ=
+	t=1730601553; cv=none; b=KWHjActIH8a+UuC4hmD7g0hSMk3yeDerBbsB7e9ZFfSxB9Tq/d53eUermWnSTTZbrgYB7QJKx+MtVPKRdYR9V90ZCwzPYW8EV33eNikvUbijPH1jSU3aQCvutKKfDK+NhHWyNQRnf4oqujorDSsfTT0NRrwbMMiUOa338tcgmR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730590445; c=relaxed/simple;
-	bh=dCXLZtezpqwbXEzwg0oNYa6GtbuCA1pt1TLzirKuYBw=;
+	s=arc-20240116; t=1730601553; c=relaxed/simple;
+	bh=VF/9SK8HmDPVp5LAF8RIxUB01Ivo3H5/9gHwGD27ysQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VfABjAuzSm6YpRLkvR/BD6K4kBdr/Cs2TEoSEATvjF270PifiNh1AzG6s6Z3M3BTSLfKFiF8eUrG4KZmv5+/FbrKBT1637atGnOUd1IPTOcHQAgRICY5QSI9KVUhAzXme0BtMojCbNLcABh255XItgbsjEw1p4ZWJvLsAu1RNxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnBlryzK; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=uibX2o9p6B9Oh1QR1PFdULkB7Mv4PwnMOjm/iaOpLwyu4mteOSD9k3X3ZoiIDeUrL95V0T9MaSETP8BMuH1a1uX6PWMoy1OxG9E58RpdPkvfQ0NVc3tS2VEVxFS/8L7y3Tc/ulHF5WtgFqpYR2XB3BH2Q/HOAsEl6BIBN6wv4K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A09ns1V/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnBlryzK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A09ns1V/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730590443; x=1762126443;
+  t=1730601550; x=1762137550;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dCXLZtezpqwbXEzwg0oNYa6GtbuCA1pt1TLzirKuYBw=;
-  b=WnBlryzKYvxsmEel4eStae1WmZL3s1rwETsP/94PRdAvZeTCovJi+D+L
-   +fLPwLrQ2eyFqXie/3yZE0vHqYxKcorZI9Nall1BKwMD+m3cdnA/IkQH4
-   pHnJQ3NxpPzz7xhDxE59s3VtFKM2m+IQwNa2f0izaTlXjyzQdcPFAcYQk
-   wn6vaUbElLw2L5SDkPOQ54rgqnq7o5cJmyavtvMV8SCUo9OmKpvvMZ+m2
-   m1uJoaDZKqoOp2klg45ZBaB9HgLdwsgC3kDnryXlfI23I88Xk7/IAtXh/
-   gpw3+vGj/XTZz7sSE3b2weolfGhR2RSEJ57C/QbRRh+gs7htcsHapiVhO
-   g==;
-X-CSE-ConnectionGUID: D/hZekgYQ1WW3CNF3puWvg==
-X-CSE-MsgGUID: UUq26edWQEqM/bfzzrDN8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52883294"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52883294"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 16:34:02 -0700
-X-CSE-ConnectionGUID: Tp5qcmnKQpK6a+YB392+jQ==
-X-CSE-MsgGUID: DsMplTLWQrSO61foxoUUuQ==
+  bh=VF/9SK8HmDPVp5LAF8RIxUB01Ivo3H5/9gHwGD27ysQ=;
+  b=A09ns1V/oZ+aDgg1RnGVSRlTBtSThnqRv20f0eTHQ3urbp0XK5xTx5Zr
+   O6joGcWvgZXTxe7X96RoPyd5ZwK4hXB1WX87csTEtFObSuuMdlMA+0mkG
+   dR26EWKOxfa4z7LFe6DWXSvAAB1AsjALyU7GpnAtFTuw+LFglAvwnHNKl
+   Xi/d86A7sl1pU70COd2s7/C2ICwt+EoNH1IX68JGFAiwTSdAtsXVswfwz
+   p8NJF4dDSAiwsBi+HGetxD7i1fnAPNNr5qcE1JrxCEWfp/Uk98/vJ3G7D
+   kLGEDEeT/m/W1Mk9bIAhe7qgidESRCKkMWox04BPhKGEyXy4yAFFX3Nmn
+   Q==;
+X-CSE-ConnectionGUID: bNSZPwExT4Co+dsa0hON8Q==
+X-CSE-MsgGUID: lc8kKQzxQNi8YfXmVZCAAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="55723200"
+X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
+   d="scan'208";a="55723200"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 19:39:09 -0700
+X-CSE-ConnectionGUID: nHWrhLnuSviMyHQ5ZVPn2A==
+X-CSE-MsgGUID: HjoAWYOCQ6+Ozao8+65/Kg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="83636076"
+X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
+   d="scan'208";a="83423188"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2024 16:34:01 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2024 19:39:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7Nd1-000jS7-0Y;
-	Sat, 02 Nov 2024 23:33:59 +0000
-Date: Sun, 3 Nov 2024 07:33:12 +0800
+	id 1t7QWA-000jbd-17;
+	Sun, 03 Nov 2024 02:39:06 +0000
+Date: Sun, 3 Nov 2024 10:38:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [android-common:android11-kiwi-5.4 387/387] fs/incfs/vfs.c:1223
- ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
-Message-ID: <202411030731.34PPiO81-lkp@intel.com>
+Subject: Re: [PATCH v2 1/6] mm/huge_memory: add two new (yet used) functions
+ for folio_split()
+Message-ID: <202411031007.BB8Mwi65-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,229 +64,263 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241101150357.1752726-2-ziy@nvidia.com>
+References: <20241101150357.1752726-2-ziy@nvidia.com>
+TO: Zi Yan <ziy@nvidia.com>
+TO: linux-mm@kvack.org
+TO: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Ryan Roberts <ryan.roberts@arm.com>
+CC: Hugh Dickins <hughd@google.com>
+CC: David Hildenbrand <david@redhat.com>
+CC: Yang Shi <yang@os.amperecomputing.com>
+CC: Miaohe Lin <linmiaohe@huawei.com>
+CC: Kefeng Wang <wangkefeng.wang@huawei.com>
+CC: Yu Zhao <yuzhao@google.com>
+CC: John Hubbard <jhubbard@nvidia.com>
+CC: linux-kernel@vger.kernel.org
+CC: Zi Yan <ziy@nvidia.com>
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: 1be052b20ba04b635cf87bcff80de5314697953e [387/387] ANDROID: Initial commit of Incremental FS
-:::::: branch date: 6 days ago
-:::::: commit date: 4 years, 9 months ago
-config: i386-randconfig-141-20241029 (https://download.01.org/0day-ci/archive/20241103/202411030731.34PPiO81-lkp@intel.com/config)
+Hi Zi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-add-two-new-yet-used-functions-for-folio_split/20241101-230623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241101150357.1752726-2-ziy%40nvidia.com
+patch subject: [PATCH v2 1/6] mm/huge_memory: add two new (yet used) functions for folio_split()
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241103/202411031007.BB8Mwi65-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411030731.34PPiO81-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411031007.BB8Mwi65-lkp@intel.com/
 
-New smatch warnings:
-fs/incfs/vfs.c:1223 ioctl_create_file() warn: 'named_file_dentry' is an error pointer or valid
-fs/incfs/vfs.c:1523 dir_lookup() warn: passing zero to 'ERR_PTR'
-fs/incfs/vfs.c:2154 incfs_mount_fs() warn: passing zero to 'ERR_PTR'
+smatch warnings:
+mm/huge_memory.c:3671 __folio_split_without_mapping() error: we previously assumed 'swap_cache' could be null (see line 3658)
+mm/huge_memory.c:3673 __folio_split_without_mapping() error: we previously assumed 'mapping' could be null (see line 3585)
 
-Old smatch warnings:
-fs/incfs/data_mgmt.h:263 get_incfs_node() warn: always true condition '(inode->i_sb->s_magic != (357661101641)) => (0-u32max != 357661101641)'
+vim +/swap_cache +3671 mm/huge_memory.c
 
-vim +/named_file_dentry +1223 fs/incfs/vfs.c
-
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1156  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1157  static long ioctl_create_file(struct mount_info *mi,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1158  			struct incfs_new_file_args __user *usr_args)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1159  {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1160  	struct incfs_new_file_args args;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1161  	char *file_id_str = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1162  	struct dentry *index_file_dentry = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1163  	struct dentry *named_file_dentry = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1164  	struct path parent_dir_path = {};
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1165  	struct inode *index_dir_inode = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1166  	__le64 size_attr_value = 0;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1167  	char *file_name = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1168  	char *attr_value = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1169  	int error = 0;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1170  	bool locked = false;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1171  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1172  	if (!mi || !mi->mi_index_dir) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1173  		error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1174  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1175  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1176  	if (!access_ok(usr_args, sizeof(args))) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1177  		error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1178  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1179  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1180  	if (copy_from_user(&args, usr_args, sizeof(args)) > 0) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1181  		error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1182  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1183  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1184  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1185  	file_name = strndup_user(u64_to_user_ptr(args.file_name), PATH_MAX);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1186  	if (IS_ERR(file_name)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1187  		error = PTR_ERR(file_name);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1188  		file_name = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1189  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1190  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1191  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1192  	error = validate_name(file_name);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1193  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1194  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1195  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1196  	file_id_str = file_id_to_str(args.file_id);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1197  	if (!file_id_str) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1198  		error = -ENOMEM;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1199  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1200  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1201  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1202  	error = mutex_lock_interruptible(&mi->mi_dir_struct_mutex);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1203  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1204  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1205  	locked = true;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1206  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1207  	/* Find a directory to put the file into. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1208  	error = dir_relative_path_resolve(mi,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1209  			u64_to_user_ptr(args.directory_path),
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1210  			&parent_dir_path);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1211  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1212  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1213  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1214  	if (parent_dir_path.dentry == mi->mi_index_dir) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1215  		/* Can't create a file directly inside .index */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1216  		error = -EBUSY;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1217  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1218  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1219  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1220  	/* Look up a dentry in the parent dir. It should be negative. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1221  	named_file_dentry = incfs_lookup_dentry(parent_dir_path.dentry,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1222  					file_name);
-1be052b20ba04b Eugene Zemtsov 2019-11-18 @1223  	if (!named_file_dentry) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1224  		error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1225  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1226  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1227  	if (IS_ERR(named_file_dentry)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1228  		error = PTR_ERR(named_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1229  		named_file_dentry = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1230  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1231  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1232  	if (d_really_is_positive(named_file_dentry)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1233  		/* File with this path already exists. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1234  		error = -EEXIST;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1235  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1236  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1237  	/* Look up a dentry in the .index dir. It should be negative. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1238  	index_file_dentry = incfs_lookup_dentry(mi->mi_index_dir, file_id_str);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1239  	if (!index_file_dentry) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1240  		error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1241  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1242  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1243  	if (IS_ERR(index_file_dentry)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1244  		error = PTR_ERR(index_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1245  		index_file_dentry = NULL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1246  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1247  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1248  	if (d_really_is_positive(index_file_dentry)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1249  		/* File with this ID already exists in index. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1250  		error = -EEXIST;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1251  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1252  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1253  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1254  	/* Creating a file in the .index dir. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1255  	index_dir_inode = d_inode(mi->mi_index_dir);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1256  	inode_lock_nested(index_dir_inode, I_MUTEX_PARENT);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1257  	error = vfs_create(index_dir_inode, index_file_dentry,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1258  			args.mode, true);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1259  	inode_unlock(index_dir_inode);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1260  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1261  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1262  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1263  	if (!d_really_is_positive(index_file_dentry)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1264  		error = -EINVAL;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1265  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1266  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1267  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1268  	/* Save the file's ID as an xattr for easy fetching in future. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1269  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_ID_NAME,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1270  		file_id_str, strlen(file_id_str), XATTR_CREATE);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1271  	if (error) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1272  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1273  		goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1274  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1275  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1276  	/* Save the file's size as an xattr for easy fetching in future. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1277  	size_attr_value = cpu_to_le64(args.size);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1278  	error = vfs_setxattr(index_file_dentry, INCFS_XATTR_SIZE_NAME,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1279  		(char *)&size_attr_value, sizeof(size_attr_value),
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1280  		XATTR_CREATE);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1281  	if (error) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1282  		pr_debug("incfs: vfs_setxattr err:%d\n", error);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1283  		goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1284  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1285  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1286  	/* Save the file's attrubute as an xattr */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1287  	if (args.file_attr_len && args.file_attr) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1288  		if (args.file_attr_len > INCFS_MAX_FILE_ATTR_SIZE) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1289  			error = -E2BIG;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1290  			goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1291  		}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1292  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1293  		attr_value = kmalloc(args.file_attr_len, GFP_NOFS);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1294  		if (!attr_value) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1295  			error = -ENOMEM;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1296  			goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1297  		}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1298  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1299  		if (!access_ok(u64_to_user_ptr(args.file_attr),
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1300  			       args.file_attr_len)) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1301  			error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1302  			goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1303  		}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1304  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1305  		if (copy_from_user(attr_value,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1306  				u64_to_user_ptr(args.file_attr),
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1307  				args.file_attr_len) > 0) {
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1308  			error = -EFAULT;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1309  			goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1310  		}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1311  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1312  		error = vfs_setxattr(index_file_dentry,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1313  				INCFS_XATTR_METADATA_NAME,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1314  				attr_value, args.file_attr_len,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1315  				XATTR_CREATE);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1316  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1317  		if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1318  			goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1319  	}
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1320  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1321  	/* Initializing a newly created file. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1322  	error = init_new_file(mi, index_file_dentry, &args.file_id, args.size,
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1323  			range(attr_value, args.file_attr_len),
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1324  			(struct incfs_file_signature_info __user *)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1325  				args.signature_info);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1326  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1327  		goto delete_index_file;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1328  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1329  	/* Linking a file with it's real name from the requested dir. */
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1330  	error = incfs_link(index_file_dentry, named_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1331  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1332  	if (!error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1333  		goto out;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1334  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1335  delete_index_file:
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1336  	incfs_unlink(index_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1337  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1338  out:
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1339  	if (error)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1340  		pr_debug("incfs: %s err:%d\n", __func__, error);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1341  
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1342  	kfree(file_id_str);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1343  	kfree(file_name);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1344  	kfree(attr_value);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1345  	dput(named_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1346  	dput(index_file_dentry);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1347  	path_put(&parent_dir_path);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1348  	if (locked)
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1349  		mutex_unlock(&mi->mi_dir_struct_mutex);
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1350  	return error;
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1351  }
-1be052b20ba04b Eugene Zemtsov 2019-11-18  1352  
+faebec76111eb2 Zi Yan 2024-11-01  3499  
+faebec76111eb2 Zi Yan 2024-11-01  3500  #define for_each_folio_until_end_safe(iter, iter2, start, end)	\
+faebec76111eb2 Zi Yan 2024-11-01  3501  	for (iter = start, iter2 = folio_next(start);		\
+faebec76111eb2 Zi Yan 2024-11-01  3502  	     iter != end;					\
+faebec76111eb2 Zi Yan 2024-11-01  3503  	     iter = iter2, iter2 = folio_next(iter2))
+faebec76111eb2 Zi Yan 2024-11-01  3504  
+faebec76111eb2 Zi Yan 2024-11-01  3505  /*
+faebec76111eb2 Zi Yan 2024-11-01  3506   * It splits a @folio (without mapping) to lower order smaller folios in two
+faebec76111eb2 Zi Yan 2024-11-01  3507   * ways.
+faebec76111eb2 Zi Yan 2024-11-01  3508   * 1. uniform split: the given @folio into multiple @new_order small folios,
+faebec76111eb2 Zi Yan 2024-11-01  3509   *    where all small folios have the same order. This is done when
+faebec76111eb2 Zi Yan 2024-11-01  3510   *    uniform_split is true.
+faebec76111eb2 Zi Yan 2024-11-01  3511   * 2. buddy allocator like split: the given @folio is split into half and one
+faebec76111eb2 Zi Yan 2024-11-01  3512   *    of the half (containing the given page) is split into half until the
+faebec76111eb2 Zi Yan 2024-11-01  3513   *    given @page's order becomes @new_order. This is done when uniform_split is
+faebec76111eb2 Zi Yan 2024-11-01  3514   *    false.
+faebec76111eb2 Zi Yan 2024-11-01  3515   *
+faebec76111eb2 Zi Yan 2024-11-01  3516   * The high level flow for these two methods are:
+faebec76111eb2 Zi Yan 2024-11-01  3517   * 1. uniform split: a single __split_folio_to_order() is called to split the
+faebec76111eb2 Zi Yan 2024-11-01  3518   *    @folio into @new_order, then we traverse all the resulting folios one by
+faebec76111eb2 Zi Yan 2024-11-01  3519   *    one in PFN ascending order and perform stats, unfreeze, adding to list,
+faebec76111eb2 Zi Yan 2024-11-01  3520   *    and file mapping index operations.
+faebec76111eb2 Zi Yan 2024-11-01  3521   * 2. buddy allocator like split: in general, folio_order - @new_order calls to
+faebec76111eb2 Zi Yan 2024-11-01  3522   *    __split_folio_to_order() are called in the for loop to split the @folio
+faebec76111eb2 Zi Yan 2024-11-01  3523   *    to one lower order at a time. The resulting small folios are processed
+faebec76111eb2 Zi Yan 2024-11-01  3524   *    like what is done during the traversal in 1, except the one containing
+faebec76111eb2 Zi Yan 2024-11-01  3525   *    @page, which is split in next for loop.
+faebec76111eb2 Zi Yan 2024-11-01  3526   *
+faebec76111eb2 Zi Yan 2024-11-01  3527   * After splitting, the caller's folio reference will be transferred to the
+faebec76111eb2 Zi Yan 2024-11-01  3528   * folio containing @page. The other folios may be freed if they are not mapped.
+faebec76111eb2 Zi Yan 2024-11-01  3529   *
+faebec76111eb2 Zi Yan 2024-11-01  3530   * In terms of locking, after splitting,
+faebec76111eb2 Zi Yan 2024-11-01  3531   * 1. uniform split leaves @page (or the folio contains it) locked;
+faebec76111eb2 Zi Yan 2024-11-01  3532   * 2. buddy allocator like split leaves @folio locked.
+faebec76111eb2 Zi Yan 2024-11-01  3533   *
+faebec76111eb2 Zi Yan 2024-11-01  3534   * If @list is null, tail pages will be added to LRU list, otherwise, to @list.
+faebec76111eb2 Zi Yan 2024-11-01  3535   *
+faebec76111eb2 Zi Yan 2024-11-01  3536   * For !uniform_split, when -ENOMEM is returned, the original folio might be
+faebec76111eb2 Zi Yan 2024-11-01  3537   * split. The caller needs to check the input folio.
+faebec76111eb2 Zi Yan 2024-11-01  3538   */
+faebec76111eb2 Zi Yan 2024-11-01  3539  static int __folio_split_without_mapping(struct folio *folio, int new_order,
+faebec76111eb2 Zi Yan 2024-11-01  3540  		struct page *page, struct list_head *list, pgoff_t end,
+faebec76111eb2 Zi Yan 2024-11-01  3541  		struct xa_state *xas, struct address_space *mapping,
+faebec76111eb2 Zi Yan 2024-11-01  3542  		bool uniform_split)
+faebec76111eb2 Zi Yan 2024-11-01  3543  {
+faebec76111eb2 Zi Yan 2024-11-01  3544  	struct lruvec *lruvec;
+faebec76111eb2 Zi Yan 2024-11-01  3545  	struct address_space *swap_cache = NULL;
+faebec76111eb2 Zi Yan 2024-11-01  3546  	struct folio *origin_folio = folio;
+faebec76111eb2 Zi Yan 2024-11-01  3547  	struct folio *next_folio = folio_next(folio);
+faebec76111eb2 Zi Yan 2024-11-01  3548  	struct folio *new_folio;
+faebec76111eb2 Zi Yan 2024-11-01  3549  	struct folio *next;
+faebec76111eb2 Zi Yan 2024-11-01  3550  	int order = folio_order(folio);
+faebec76111eb2 Zi Yan 2024-11-01  3551  	int split_order = order - 1;
+faebec76111eb2 Zi Yan 2024-11-01  3552  	int nr_dropped = 0;
+faebec76111eb2 Zi Yan 2024-11-01  3553  	int ret = 0;
+faebec76111eb2 Zi Yan 2024-11-01  3554  
+faebec76111eb2 Zi Yan 2024-11-01  3555  	if (folio_test_anon(folio) && folio_test_swapcache(folio)) {
+faebec76111eb2 Zi Yan 2024-11-01  3556  		if (!uniform_split)
+faebec76111eb2 Zi Yan 2024-11-01  3557  			return -EINVAL;
+faebec76111eb2 Zi Yan 2024-11-01  3558  
+faebec76111eb2 Zi Yan 2024-11-01  3559  		swap_cache = swap_address_space(folio->swap);
+faebec76111eb2 Zi Yan 2024-11-01  3560  		xa_lock(&swap_cache->i_pages);
+faebec76111eb2 Zi Yan 2024-11-01  3561  	}
+faebec76111eb2 Zi Yan 2024-11-01  3562  
+faebec76111eb2 Zi Yan 2024-11-01  3563  	if (folio_test_anon(folio))
+faebec76111eb2 Zi Yan 2024-11-01  3564  		mod_mthp_stat(order, MTHP_STAT_NR_ANON, -1);
+faebec76111eb2 Zi Yan 2024-11-01  3565  
+faebec76111eb2 Zi Yan 2024-11-01  3566  	/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
+faebec76111eb2 Zi Yan 2024-11-01  3567  	lruvec = folio_lruvec_lock(folio);
+faebec76111eb2 Zi Yan 2024-11-01  3568  
+faebec76111eb2 Zi Yan 2024-11-01  3569  	/*
+faebec76111eb2 Zi Yan 2024-11-01  3570  	 * split to new_order one order at a time. For uniform split,
+faebec76111eb2 Zi Yan 2024-11-01  3571  	 * intermediate orders are skipped
+faebec76111eb2 Zi Yan 2024-11-01  3572  	 */
+faebec76111eb2 Zi Yan 2024-11-01  3573  	for (split_order = order - 1; split_order >= new_order; split_order--) {
+faebec76111eb2 Zi Yan 2024-11-01  3574  		int old_order = folio_order(folio);
+faebec76111eb2 Zi Yan 2024-11-01  3575  		struct folio *release;
+faebec76111eb2 Zi Yan 2024-11-01  3576  		struct folio *end_folio = folio_next(folio);
+faebec76111eb2 Zi Yan 2024-11-01  3577  		int status;
+faebec76111eb2 Zi Yan 2024-11-01  3578  		bool stop_split = false;
+faebec76111eb2 Zi Yan 2024-11-01  3579  
+faebec76111eb2 Zi Yan 2024-11-01  3580  		if (folio_test_anon(folio) && split_order == 1)
+faebec76111eb2 Zi Yan 2024-11-01  3581  			continue;
+faebec76111eb2 Zi Yan 2024-11-01  3582  		if (uniform_split && split_order != new_order)
+faebec76111eb2 Zi Yan 2024-11-01  3583  			continue;
+faebec76111eb2 Zi Yan 2024-11-01  3584  
+faebec76111eb2 Zi Yan 2024-11-01 @3585  		if (mapping) {
+faebec76111eb2 Zi Yan 2024-11-01  3586  			/*
+faebec76111eb2 Zi Yan 2024-11-01  3587  			 * uniform split has xas_split_alloc() called before
+faebec76111eb2 Zi Yan 2024-11-01  3588  			 * irq is disabled, since xas_nomem() might not be
+faebec76111eb2 Zi Yan 2024-11-01  3589  			 * able to allocate enough memory.
+faebec76111eb2 Zi Yan 2024-11-01  3590  			 */
+faebec76111eb2 Zi Yan 2024-11-01  3591  			if (uniform_split)
+faebec76111eb2 Zi Yan 2024-11-01  3592  				xas_split(xas, folio, old_order);
+faebec76111eb2 Zi Yan 2024-11-01  3593  			else {
+faebec76111eb2 Zi Yan 2024-11-01  3594  				xas_set_order(xas, folio->index, split_order);
+faebec76111eb2 Zi Yan 2024-11-01  3595  				xas_set_err(xas, -ENOMEM);
+faebec76111eb2 Zi Yan 2024-11-01  3596  				if (xas_nomem(xas, 0))
+faebec76111eb2 Zi Yan 2024-11-01  3597  					xas_split(xas, folio, old_order);
+faebec76111eb2 Zi Yan 2024-11-01  3598  				else {
+faebec76111eb2 Zi Yan 2024-11-01  3599  					stop_split = true;
+faebec76111eb2 Zi Yan 2024-11-01  3600  					ret = -ENOMEM;
+faebec76111eb2 Zi Yan 2024-11-01  3601  					goto after_split;
+faebec76111eb2 Zi Yan 2024-11-01  3602  				}
+faebec76111eb2 Zi Yan 2024-11-01  3603  			}
+faebec76111eb2 Zi Yan 2024-11-01  3604  		}
+faebec76111eb2 Zi Yan 2024-11-01  3605  
+faebec76111eb2 Zi Yan 2024-11-01  3606  		split_page_memcg(&folio->page, old_order, split_order);
+faebec76111eb2 Zi Yan 2024-11-01  3607  		split_page_owner(&folio->page, old_order, split_order);
+faebec76111eb2 Zi Yan 2024-11-01  3608  		pgalloc_tag_split(folio, old_order, split_order);
+faebec76111eb2 Zi Yan 2024-11-01  3609  
+faebec76111eb2 Zi Yan 2024-11-01  3610  		status = __split_folio_to_order(folio, split_order);
+faebec76111eb2 Zi Yan 2024-11-01  3611  
+faebec76111eb2 Zi Yan 2024-11-01  3612  		if (status < 0)
+faebec76111eb2 Zi Yan 2024-11-01  3613  			return status;
+faebec76111eb2 Zi Yan 2024-11-01  3614  
+faebec76111eb2 Zi Yan 2024-11-01  3615  after_split:
+faebec76111eb2 Zi Yan 2024-11-01  3616  		/*
+faebec76111eb2 Zi Yan 2024-11-01  3617  		 * Iterate through after-split folios and perform related
+faebec76111eb2 Zi Yan 2024-11-01  3618  		 * operations. But in buddy allocator like split, the folio
+faebec76111eb2 Zi Yan 2024-11-01  3619  		 * containing the specified page is skipped until its order
+faebec76111eb2 Zi Yan 2024-11-01  3620  		 * is new_order, since the folio will be worked on in next
+faebec76111eb2 Zi Yan 2024-11-01  3621  		 * iteration.
+faebec76111eb2 Zi Yan 2024-11-01  3622  		 */
+faebec76111eb2 Zi Yan 2024-11-01  3623  		for_each_folio_until_end_safe(release, next, folio, end_folio) {
+faebec76111eb2 Zi Yan 2024-11-01  3624  			if (page_in_folio_offset(page, release) >= 0) {
+faebec76111eb2 Zi Yan 2024-11-01  3625  				folio = release;
+faebec76111eb2 Zi Yan 2024-11-01  3626  				if (split_order != new_order && !stop_split)
+faebec76111eb2 Zi Yan 2024-11-01  3627  					continue;
+faebec76111eb2 Zi Yan 2024-11-01  3628  			}
+faebec76111eb2 Zi Yan 2024-11-01  3629  			if (folio_test_anon(release))
+faebec76111eb2 Zi Yan 2024-11-01  3630  				mod_mthp_stat(folio_order(release),
+faebec76111eb2 Zi Yan 2024-11-01  3631  						MTHP_STAT_NR_ANON, 1);
+faebec76111eb2 Zi Yan 2024-11-01  3632  
+faebec76111eb2 Zi Yan 2024-11-01  3633  			/*
+faebec76111eb2 Zi Yan 2024-11-01  3634  			 * Unfreeze refcount first. Additional reference from
+faebec76111eb2 Zi Yan 2024-11-01  3635  			 * page cache.
+faebec76111eb2 Zi Yan 2024-11-01  3636  			 */
+faebec76111eb2 Zi Yan 2024-11-01  3637  			folio_ref_unfreeze(release,
+faebec76111eb2 Zi Yan 2024-11-01  3638  				1 + ((!folio_test_anon(origin_folio) ||
+faebec76111eb2 Zi Yan 2024-11-01  3639  				     folio_test_swapcache(origin_folio)) ?
+faebec76111eb2 Zi Yan 2024-11-01  3640  					     folio_nr_pages(release) : 0));
+faebec76111eb2 Zi Yan 2024-11-01  3641  
+faebec76111eb2 Zi Yan 2024-11-01  3642  			if (release != origin_folio)
+faebec76111eb2 Zi Yan 2024-11-01  3643  				lru_add_page_tail(origin_folio, &release->page,
+faebec76111eb2 Zi Yan 2024-11-01  3644  						lruvec, list);
+faebec76111eb2 Zi Yan 2024-11-01  3645  
+faebec76111eb2 Zi Yan 2024-11-01  3646  			/* Some pages can be beyond EOF: drop them from page cache */
+faebec76111eb2 Zi Yan 2024-11-01  3647  			if (release->index >= end) {
+faebec76111eb2 Zi Yan 2024-11-01  3648  				if (shmem_mapping(origin_folio->mapping))
+faebec76111eb2 Zi Yan 2024-11-01  3649  					nr_dropped++;
+faebec76111eb2 Zi Yan 2024-11-01  3650  				else if (folio_test_clear_dirty(release))
+faebec76111eb2 Zi Yan 2024-11-01  3651  					folio_account_cleaned(release,
+faebec76111eb2 Zi Yan 2024-11-01  3652  						inode_to_wb(origin_folio->mapping->host));
+faebec76111eb2 Zi Yan 2024-11-01  3653  				__filemap_remove_folio(release, NULL);
+faebec76111eb2 Zi Yan 2024-11-01  3654  				folio_put(release);
+faebec76111eb2 Zi Yan 2024-11-01  3655  			} else if (!folio_test_anon(release)) {
+faebec76111eb2 Zi Yan 2024-11-01  3656  				__xa_store(&origin_folio->mapping->i_pages,
+faebec76111eb2 Zi Yan 2024-11-01  3657  						release->index, &release->page, 0);
+faebec76111eb2 Zi Yan 2024-11-01 @3658  			} else if (swap_cache) {
+faebec76111eb2 Zi Yan 2024-11-01  3659  				__xa_store(&swap_cache->i_pages,
+faebec76111eb2 Zi Yan 2024-11-01  3660  						swap_cache_index(release->swap),
+faebec76111eb2 Zi Yan 2024-11-01  3661  						&release->page, 0);
+faebec76111eb2 Zi Yan 2024-11-01  3662  			}
+faebec76111eb2 Zi Yan 2024-11-01  3663  		}
+faebec76111eb2 Zi Yan 2024-11-01  3664  		xas_destroy(xas);
+faebec76111eb2 Zi Yan 2024-11-01  3665  	}
+faebec76111eb2 Zi Yan 2024-11-01  3666  
+faebec76111eb2 Zi Yan 2024-11-01  3667  	unlock_page_lruvec(lruvec);
+faebec76111eb2 Zi Yan 2024-11-01  3668  
+faebec76111eb2 Zi Yan 2024-11-01  3669  	if (folio_test_anon(origin_folio)) {
+faebec76111eb2 Zi Yan 2024-11-01  3670  		if (folio_test_swapcache(origin_folio))
+faebec76111eb2 Zi Yan 2024-11-01 @3671  			xa_unlock(&swap_cache->i_pages);
+faebec76111eb2 Zi Yan 2024-11-01  3672  	} else
+faebec76111eb2 Zi Yan 2024-11-01 @3673  		xa_unlock(&mapping->i_pages);
+faebec76111eb2 Zi Yan 2024-11-01  3674  
+faebec76111eb2 Zi Yan 2024-11-01  3675  	/* Caller disabled irqs, so they are still disabled here */
+faebec76111eb2 Zi Yan 2024-11-01  3676  	local_irq_enable();
+faebec76111eb2 Zi Yan 2024-11-01  3677  
+faebec76111eb2 Zi Yan 2024-11-01  3678  	if (nr_dropped)
+faebec76111eb2 Zi Yan 2024-11-01  3679  		shmem_uncharge(mapping->host, nr_dropped);
+faebec76111eb2 Zi Yan 2024-11-01  3680  
+faebec76111eb2 Zi Yan 2024-11-01  3681  	remap_page(origin_folio, 1 << order,
+faebec76111eb2 Zi Yan 2024-11-01  3682  			folio_test_anon(origin_folio) ?
+faebec76111eb2 Zi Yan 2024-11-01  3683  				RMP_USE_SHARED_ZEROPAGE : 0);
+faebec76111eb2 Zi Yan 2024-11-01  3684  
+faebec76111eb2 Zi Yan 2024-11-01  3685  	/*
+faebec76111eb2 Zi Yan 2024-11-01  3686  	 * At this point, folio should contain the specified page, so that it
+faebec76111eb2 Zi Yan 2024-11-01  3687  	 * will be left to the caller to unlock it.
+faebec76111eb2 Zi Yan 2024-11-01  3688  	 */
+faebec76111eb2 Zi Yan 2024-11-01  3689  	for_each_folio_until_end_safe(new_folio, next, origin_folio, next_folio) {
+faebec76111eb2 Zi Yan 2024-11-01  3690  		if (uniform_split && new_folio == folio)
+faebec76111eb2 Zi Yan 2024-11-01  3691  			continue;
+faebec76111eb2 Zi Yan 2024-11-01  3692  		if (!uniform_split && new_folio == origin_folio)
+faebec76111eb2 Zi Yan 2024-11-01  3693  			continue;
+faebec76111eb2 Zi Yan 2024-11-01  3694  
+faebec76111eb2 Zi Yan 2024-11-01  3695  		folio_unlock(new_folio);
+faebec76111eb2 Zi Yan 2024-11-01  3696  		/*
+faebec76111eb2 Zi Yan 2024-11-01  3697  		 * Subpages may be freed if there wasn't any mapping
+faebec76111eb2 Zi Yan 2024-11-01  3698  		 * like if add_to_swap() is running on a lru page that
+faebec76111eb2 Zi Yan 2024-11-01  3699  		 * had its mapping zapped. And freeing these pages
+faebec76111eb2 Zi Yan 2024-11-01  3700  		 * requires taking the lru_lock so we do the put_page
+faebec76111eb2 Zi Yan 2024-11-01  3701  		 * of the tail pages after the split is complete.
+faebec76111eb2 Zi Yan 2024-11-01  3702  		 */
+faebec76111eb2 Zi Yan 2024-11-01  3703  		free_page_and_swap_cache(&new_folio->page);
+faebec76111eb2 Zi Yan 2024-11-01  3704  	}
+faebec76111eb2 Zi Yan 2024-11-01  3705  	return ret;
+faebec76111eb2 Zi Yan 2024-11-01  3706  }
+faebec76111eb2 Zi Yan 2024-11-01  3707  
 
 -- 
 0-DAY CI Kernel Test Service
