@@ -1,329 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F203B3F9D5
-	for <oe-kbuild@lists.linux.dev>; Sun,  3 Nov 2024 06:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D58D2F2E
+	for <oe-kbuild@lists.linux.dev>; Sun,  3 Nov 2024 06:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730615961; cv=none; b=M0q6gUivE7WWIzRt9hj+2fyPO4f1wUJU3Ox5Y3qc4vq55lRRjmUESInm9PMEDeGSrL300IOWsa4vjP6KP3AUclGIPicXFBcKuguSzBEEk42O9efSkPeLJAcx9c2VbUpCuViOQbbRlb5xs4EhBK8Q+uyTaTKQ7AeuAFu4lQ9S3gA=
+	t=1730616623; cv=none; b=Kyll1vvKMJjQxi4KCw2rp9UKa1Ag4eUlKMcl1Y7JNKEzeNx3We1da1HaVr5j2NdvZcnmTw9yrW3uFW+aDCk5qgbdvR6ToORufsfj1Nfadf9+nxhFJa39UjwaepQ1HRFPY+Qvc1XnOZnIMgFHhgfYEZX8EH4gwX2ICwbb/t29Bjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730615961; c=relaxed/simple;
-	bh=LlY9rTxYNqDa8xNec47hkPXG/XGKd2CmfFgse6qr0Kw=;
+	s=arc-20240116; t=1730616623; c=relaxed/simple;
+	bh=v32LrNDhD1ZtEaN/ZXw4VX125DvjFwSKlGSmKehAkVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=COj8AxrJlBj2TGhT7ib+Pm3z/+N/cMpVmJ7bm00noy2L8D/M4F0LjzX2EDMClMNEJWlPT+B/hh5lZXNmXnBS1CIzqeYOPnVjr7rl37kQEvIYJur9w5fzsWdFmvXp6oS+T8LVsR+rurMdbRxCv0ILLAvAwdFsNIO67JH+y78wOVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ec5nTe+m; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=AEadMYPE+uvzleBdaCcF1mz3xfqlOJfe3/hB3CWeWfRFgt/y2ABmF8ryRWLQ8bNE8KOfZF4flUqUGRJCH0xZSrNg7WSkTIdYZT0am8PVhCZyiWrrs/N7ZBqHqHasgmRS6FRAhJtu+TeWPkBkvZ+QymX4jewS2sKyXKmE39/QWXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCb3EuGI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ec5nTe+m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCb3EuGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730615959; x=1762151959;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LlY9rTxYNqDa8xNec47hkPXG/XGKd2CmfFgse6qr0Kw=;
-  b=ec5nTe+mdWPZC8uBaU+o0aEFyHCiSxP3h3vuHzMkYTDgaD7r7BnEuG6F
-   gJ0MNZAfbBcrB4xonb1Sj8zMKe054VsGsM78duPTB/f3yWW3805Br6t1A
-   hCeH/u50LMKwCQAbq7k6wEgWxVUWyw0PgwhfX0WRKrMQNFc2HcdxKARmx
-   FfQW/l++LtFVoXvi9xu/qab0T0uK6iFR8uuku1t6HkGNjO9IQPaA71i0W
-   uujXlc2ewiKQXx0349FYtle9FmGi4KzpAckBpJ9rM1sp0CXPrRQIuIFdN
-   EgRM72dRWxz8erML0ZFy/QVMtVwR1lqgUyGR3h0THXYXoeNhbgZztZI9T
-   A==;
-X-CSE-ConnectionGUID: fQWdhjSbQS21YMgtS9Dc7A==
-X-CSE-MsgGUID: gNtInpPdR2CKx0+opE8sNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="34255968"
+  t=1730616622; x=1762152622;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=v32LrNDhD1ZtEaN/ZXw4VX125DvjFwSKlGSmKehAkVA=;
+  b=jCb3EuGI9DE2Azc/NeP+HTvWkIgNka8WZBSgMGotykpoeF2biNJHgBNb
+   Q3rSYjqE+AA6Ib4mjb2iYqAbc4tHfVhguKsO5ud4Fm5f3GO2RULojjyHY
+   OpcqRmOJ+j/Rf6PfpoKUkJvPnGsKBLEvzbJi14tQe5FlhBKXHuP9ufTzk
+   AFRfYtvcehufv+v1EnPV7fcSYULDc6JO2HzdlUCXgd8PfSX8kYCADNVTy
+   JK7ZwMcQOZSAhzLhT/GSc8H4ZAlLKjw9y5iQJp0f/Alm98g1XXN1oTqsl
+   9bFhlaeNGPBnWE+Y2YimH/Z8VcPrSx5E0JmNcewvb+Nx4MEdSZphWf6k8
+   Q==;
+X-CSE-ConnectionGUID: bLn3A8g5TsS6yiKKKb8Wjg==
+X-CSE-MsgGUID: XY8GmZ3eTAKJ0YTH7DPj0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="40907427"
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="34255968"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 23:39:18 -0700
-X-CSE-ConnectionGUID: FrQanJ8rSjWbxGA9iGbgQw==
-X-CSE-MsgGUID: y1/edyxHRiuF8J7N+yjUpw==
+   d="scan'208";a="40907427"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 23:50:18 -0700
+X-CSE-ConnectionGUID: c5AjlFqjQZefrx9ahDFYtg==
+X-CSE-MsgGUID: eU1W4AtoT2eUw0z7oMHSQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="84155044"
+   d="scan'208";a="87860931"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 02 Nov 2024 23:39:17 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2024 23:50:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7UGY-000jl8-11;
-	Sun, 03 Nov 2024 06:39:14 +0000
-Date: Sun, 3 Nov 2024 14:39:12 +0800
+	id 1t7URC-000jlN-1H;
+	Sun, 03 Nov 2024 06:50:14 +0000
+Date: Sun, 3 Nov 2024 14:49:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-desktop 1/1]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202411031433.pz3q8W2j-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2 1/3] futex: Use explicit sizes for
+ compat_exit_robust_list
+Message-ID: <202411031424.iuL1KR5o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
+Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241101162147.284993-2-andrealmeid@igalia.com>
+References: <20241101162147.284993-2-andrealmeid@igalia.com>
+TO: "André Almeida" <andrealmeid@igalia.com>
+TO: Thomas Gleixner <tglx@linutronix.de>
+TO: Ingo Molnar <mingo@redhat.com>
+TO: Peter Zijlstra <peterz@infradead.org>
+TO: Darren Hart <dvhart@infradead.org>
+TO: Davidlohr Bueso <dave@stgolabs.net>
+TO: Arnd Bergmann <arnd@arndb.de>
+TO: sonicadvance1@gmail.com
+CC: linux-kernel@vger.kernel.org
+CC: kernel-dev@igalia.com
+CC: linux-api@vger.kernel.org
+CC: Nathan Chancellor <nathan@kernel.org>
+CC: "André Almeida" <andrealmeid@igalia.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
-commit: b0e8f19e77a26eaad28d34770d7e115c48c035a7 [1/1] CHROMIUM: arm64: dts: mt8183: Add kukui-jacuzzi-makomo board
-:::::: branch date: 3 days ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241103/202411031433.pz3q8W2j-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411031433.pz3q8W2j-lkp@intel.com/reproduce)
+Hi André,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on tip/sched/core linus/master tip/x86/asm v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Use-explicit-sizes-for-compat_exit_robust_list/20241102-002419
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20241101162147.284993-2-andrealmeid%40igalia.com
+patch subject: [PATCH v2 1/3] futex: Use explicit sizes for compat_exit_robust_list
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241102 (https://download.01.org/0day-ci/archive/20241103/202411031424.iuL1KR5o-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411031433.pz3q8W2j-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411031424.iuL1KR5o-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:523.27-527.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam0@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:529.27-533.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam1@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183'] is too long
-   	['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183'] is too short
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt2701-evb']
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt2712-evb']
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6580-evbp1']
-   	'google,makomo-rev4-sku0' is not one of ['prestigio,pmt5008-3g']
-   	'google,makomo-rev4-sku0' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6592-evb']
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6755-evb']
-   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6765-evb']
---
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,spherion-rev1' was expected
-   	'google,kakadu' was expected
-   	'google,elm-rev5' was expected
-   	'google,hana-rev3' was expected
-   	'google,spherion-rev0' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins_clk: 'pinmux' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: uart1-pins-default:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: uart1-pins-sleep:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: da7219@1a: interrupts: [[165, 8], [165, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:523.27-527.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam0@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:529.27-533.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam1@2: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183'] is too long
-   	['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183'] is too short
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt2701-evb']
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt2712-evb']
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6580-evbp1']
-   	'google,makomo-rev4-sku1' is not one of ['prestigio,pmt5008-3g']
-   	'google,makomo-rev4-sku1' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6592-evb']
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6755-evb']
-   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6765-evb']
---
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,spherion-rev1' was expected
-   	'google,kakadu' was expected
-   	'google,elm-rev5' was expected
-   	'google,hana-rev3' was expected
-   	'google,spherion-rev0' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins_clk: 'pinmux' is a required property
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: uart1-pins-default:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: uart1-pins-sleep:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+smatch warnings:
+kernel/futex/core.c:839 exit_robust_list64() warn: check for integer overflow 'futex_offset'
+
+vim +/futex_offset +839 kernel/futex/core.c
+
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  792  
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  793  #ifdef CONFIG_64BIT
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  794  /*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  795   * Walk curr->robust_list (very carefully, it's a userspace list!)
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  796   * and mark any locks found there dead, and notify any waiters.
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  797   *
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  798   * We silently return on any sign of list-walking problem.
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  799   */
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  800  static void exit_robust_list64(struct task_struct *curr)
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  801  {
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  802  	struct robust_list_head __user *head = curr->robust_list;
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  803  	struct robust_list __user *entry, *next_entry, *pending;
+4c115e951d80af kernel/futex.c      Darren Hart        2010-11-04  804  	unsigned int limit = ROBUST_LIST_LIMIT, pi, pip;
+3f649ab728cda8 kernel/futex.c      Kees Cook          2020-06-03  805  	unsigned int next_pi;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  806  	unsigned long futex_offset;
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  807  	int rc;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  808  
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  809  	/*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  810  	 * Fetch the list head (which was registered earlier, via
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  811  	 * sys_set_robust_list()):
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  812  	 */
+e3f2ddeac718c7 kernel/futex.c      Ingo Molnar        2006-07-29  813  	if (fetch_robust_entry(&entry, &head->list.next, &pi))
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  814  		return;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  815  	/*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  816  	 * Fetch the relative futex offset:
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  817  	 */
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  818  	if (get_user(futex_offset, &head->futex_offset))
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  819  		return;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  820  	/*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  821  	 * Fetch any possibly pending lock-add first, and handle it
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  822  	 * if it exists:
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  823  	 */
+e3f2ddeac718c7 kernel/futex.c      Ingo Molnar        2006-07-29  824  	if (fetch_robust_entry(&pending, &head->list_op_pending, &pip))
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  825  		return;
+e3f2ddeac718c7 kernel/futex.c      Ingo Molnar        2006-07-29  826  
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  827  	next_entry = NULL;	/* avoid warning with gcc */
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  828  	while (entry != &head->list) {
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  829  		/*
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  830  		 * Fetch the next entry in the list before calling
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  831  		 * handle_futex_death:
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  832  		 */
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  833  		rc = fetch_robust_entry(&next_entry, &entry->next, &next_pi);
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  834  		/*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  835  		 * A pending lock might already be on the list, so
+c87e2837be82df kernel/futex.c      Ingo Molnar        2006-06-27  836  		 * don't process it twice:
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  837  		 */
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  838  		if (entry != pending) {
+ba46df984b8e81 kernel/futex.c      Al Viro            2006-10-10 @839  			if (handle_futex_death((void __user *)entry + futex_offset,
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  840  						curr, pi, HANDLE_DEATH_LIST))
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  841  				return;
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  842  		}
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  843  		if (rc)
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  844  			return;
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  845  		entry = next_entry;
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  846  		pi = next_pi;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  847  		/*
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  848  		 * Avoid excessively long or circular lists:
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  849  		 */
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  850  		if (!--limit)
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  851  			break;
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  852  
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  853  		cond_resched();
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  854  	}
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  855  
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  856  	if (pending) {
+9f96cb1e8bca17 kernel/futex.c      Martin Schwidefsky 2007-10-01  857  		handle_futex_death((void __user *)pending + futex_offset,
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  858  				   curr, pip, HANDLE_DEATH_PENDING);
+ca16d5bee59807 kernel/futex.c      Yang Tao           2019-11-06  859  	}
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  860  }
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  861  #else
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  862  static void exit_robust_list64(struct task_struct *curr)
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  863  {
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  864  	pr_warn("32bit kernel should not allow ROBUST_LIST_64BIT");
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  865  	return;
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  866  }
+3b56fe6b46cffe kernel/futex/core.c André Almeida      2024-11-01  867  #endif
+0771dfefc9e538 kernel/futex.c      Ingo Molnar        2006-03-27  868  
 
 -- 
 0-DAY CI Kernel Test Service
