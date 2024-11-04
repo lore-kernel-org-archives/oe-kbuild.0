@@ -1,156 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585923A6
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 19:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CA370837;
+	Mon,  4 Nov 2024 20:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730749597; cv=none; b=eLRiVCVbh5dsVliOebZRQA0HXi04PwCSMbpPBiojbrlVLqFvDZWReWVg9Sv2GhshprPHa0wAb8NuuIDUivV1AM9aSkmw0PHrta7HIZVyKJJMTSsaIdv8yqojFfBbgHC4gXeWxYbBgSS2yGtTx8h8CuZaE1kUk61v5bWHwVFaQ0Q=
+	t=1730751493; cv=none; b=qNBg7nIf+YZk/AdPPLPdc1VOhQE2g//fSspWZ3G/DsRURvB2hQWvME01s1kVcmtXptj0UfFzTZdjeWZKvOqvx5bnQ1dEG6sDWEX/FFWEOP8/eB0MXFY/c6aa6fPEojQkSmYjD/9C+wa5JWxeNAWICCtMbgTWtN+IrlfgnJscR/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730749597; c=relaxed/simple;
-	bh=VIGru9dkgTRNDA+AxheGc3oz5K9RgEOg/i5IlxSlLaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nYPXdd2gxGlKNa/b2fjOnd37egs3lWyrl620FFgXheOB46MnDcAT25S4Asv9PSmDLeu9ESTCZ2eUAdXmZH6Nz5tbR4Djw62EpnqQv+RniKPQalni0XkP1SK8EcP7X0i0UuihZhpxylN7HbfTy9gzQbI1Fdumwf82hzCE35xRh4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S95TOxhq; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730751493; c=relaxed/simple;
+	bh=pflxZGIfk80/m0RGcrJkM9Byb5SifgUbCWlGSC0xRiM=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=NFPVlV3FLsYFx9TaLIpKDSCcJOePJesMWN4b/g8CAmKewocfRyqBfHtHNqveqwC2ettf9MZLAtGqxC8IV3ChMe2y+f1Ic+3aZIrJczXqMcR6GTYJ8mj4xzECHP0FytwQad4mBpBaqh6BROp5sbJ023eP90AlRFJyyZVAm7f6lTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OK4BDwoC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S95TOxhq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730749595; x=1762285595;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VIGru9dkgTRNDA+AxheGc3oz5K9RgEOg/i5IlxSlLaw=;
-  b=S95TOxhqezkHy2NohTipaMne3HpF0KHW4YqMsd0HvM2xs5Jj4fWNK77E
-   mE0Ly8BeQvjzIS94Cmq5sbQH4TZ0CcwpSveWqcstUy+ZxEY0tGzR1mQrG
-   B0wdK1aZdmRijzl8yERoivp1qBLIuhB32dLQE6JHpgeo6l1m5M5Hdt7zC
-   IcjpV/8Fpor6715s/w5KMuifNtgcYn4aPAnrpXX5erzK86M8CZC51j8mN
-   aKFLSPNvvXiz3PL+bfEHFWdpTKpcM8v8+IvRh3GSvEkKnhb69RIBK9P8f
-   UXUD38CfYVm9yeGnjf8TCncTCD51VgZ+Ws4zZalFYsTUFWslk1/Tecv9l
-   g==;
-X-CSE-ConnectionGUID: YC8T9CrnQCucFvkzM20GOg==
-X-CSE-MsgGUID: 8FSUQDo0TS+PRalK7VsVxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41015235"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41015235"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 11:46:34 -0800
-X-CSE-ConnectionGUID: /eDPcS+aRseyrz1TMlIFcg==
-X-CSE-MsgGUID: f/Uqg+PSTzWjeR+lk4u0KQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="84184523"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2024 11:46:33 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t831z-000lDl-0R;
-	Mon, 04 Nov 2024 19:46:31 +0000
-Date: Tue, 5 Nov 2024 03:46:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index
- variable of the iterator on line 575
-Message-ID: <202411050329.t2a3my0s-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OK4BDwoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527A4C4CECE;
+	Mon,  4 Nov 2024 20:18:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730751491;
+	bh=pflxZGIfk80/m0RGcrJkM9Byb5SifgUbCWlGSC0xRiM=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=OK4BDwoCcNFfPsQlHeyrck13aWOd0AB4dkZrPIx3Dd9T6udaQChmF97UcsPEKYIov
+	 4UPJ0MFbuKR7ajfn84gqL/xQCFw8WrBZ8smLsnYjBVxhiVMwLbNKFXxUtrPRMGqbNC
+	 Mug1ZfcAmVu+w6wnWFVu5fXj08L5drgq/XJ2BR820hEbq5ACThyDbuSU/U9qoS9Oqd
+	 1siQvXlzyPUMkpjaNNiD5DqO93+0ankSii92sjJYKVMw99Eg3PLqLd0oSBseXJbXmW
+	 VzdJbL9EI0rEC2X3EE/mDgsnXrRHrAPpFDqh+67gskt1Mk2XYsa6SAb0wpPBfSgVRC
+	 nHE13BfrQ3cyA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  Rameshkumar Sundaram
+ <quic_ramess@quicinc.com>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,
+  Jeff Johnson <jjohnson@kernel.org>,  ath12k@lists.infradead.org
+Subject: Re: [ath:ath12k-mlo-qcn9274 /81]
+ drivers/net/wireless/ath/ath12k/mac.c:4304 ath12k_mac_op_set_key() error:
+ uninitialized symbol 'ret'.
+References: <7e7afd00-ad84-4744-8d94-416bab7e7dd9@stanley.mountain>
+Date: Mon, 04 Nov 2024 22:18:07 +0200
+In-Reply-To: <7e7afd00-ad84-4744-8d94-416bab7e7dd9@stanley.mountain> (Dan
+	Carpenter's message of "Wed, 9 Oct 2024 14:09:53 +0300")
+Message-ID: <87a5ee7ny8.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Anand Jain <anand.jain@oracle.com>
-CC: David Sterba <dsterba@suse.com>
+Dan Carpenter <dan.carpenter@linaro.org> writes:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   557329bcecc2f55e134db8974953b32b69db9d15
-commit: a5b8a5f9f8355d27a4f8d0afa93427f16d2f3c1e btrfs: support cloned-device mount capability
-date:   1 year, 1 month ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: x86_64-randconfig-103-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050329.t2a3my0s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo-qcn9274
+> head:   7435d14d41d5d479a5e6a8a2cd4efdac9d928823
+> commit: 573de29145bf929c428f9e2dc55ad3f5f3da8453 [/81] wifi: ath12k: modify ath12k_mac_op_set_key for MLO
+> config: csky-randconfig-r072-20241008
+> (https://download.01.org/0day-ci/archive/20241009/202410090311.SK1SO5GL-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 14.1.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410090311.SK1SO5GL-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/net/wireless/ath/ath12k/mac.c:4304 ath12k_mac_op_set_key() error: uninitialized symbol 'ret'.
+>
+> vim +/ret +4304 drivers/net/wireless/ath/ath12k/mac.c
+>
+> b5068bc9180d06 Sriram R 2024-04-09 4222 static int
+> ath12k_mac_op_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
+> b5068bc9180d06 Sriram R 2024-04-09 4223 struct ieee80211_vif *vif,
+> struct ieee80211_sta *sta,
+> b5068bc9180d06 Sriram R             2024-04-09  4224  				 struct ieee80211_key_conf *key)
+> b5068bc9180d06 Sriram R             2024-04-09  4225  {
+> 18333c4baa4d72 Sriram R             2024-01-27  4226  	struct ath12k_vif *ahvif = ath12k_vif_to_ahvif(vif);
+> 18333c4baa4d72 Sriram R             2024-01-27  4227  	struct ath12k_link_vif *arvif;
+> 611aacdb3540ff Sriram R             2024-04-14  4228  	struct ath12k_link_sta *arsta = NULL;
+> b5068bc9180d06 Sriram R             2024-04-09  4229  	struct ath12k_vif_cache *cache;
+> 611aacdb3540ff Sriram R             2024-04-14  4230  	struct ath12k_sta *ahsta;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4231  	unsigned long links;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4232  	u8 link_id;
+> b5068bc9180d06 Sriram R             2024-04-09  4233  	int ret;
+> b5068bc9180d06 Sriram R             2024-04-09  4234  
+> d4243fd891671d Kalle Valo           2024-09-25  4235  	lockdep_assert_wiphy(hw->wiphy);
+> d4243fd891671d Kalle Valo           2024-09-25  4236  
+> b5068bc9180d06 Sriram R             2024-04-09  4237  	/* BIP needs to be done in software */
+> b5068bc9180d06 Sriram R             2024-04-09  4238  	if (key->cipher == WLAN_CIPHER_SUITE_AES_CMAC ||
+> b5068bc9180d06 Sriram R             2024-04-09  4239  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_128 ||
+> b5068bc9180d06 Sriram R             2024-04-09  4240  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_256 ||
+> 18333c4baa4d72 Sriram R             2024-01-27  4241  	    key->cipher == WLAN_CIPHER_SUITE_BIP_CMAC_256) {
+> b5068bc9180d06 Sriram R             2024-04-09  4242  		return 1;
+> 18333c4baa4d72 Sriram R             2024-01-27  4243  	}
+> b5068bc9180d06 Sriram R             2024-04-09  4244  
+> b5068bc9180d06 Sriram R             2024-04-09  4245  	if (key->keyidx > WMI_MAX_KEY_INDEX)
+> b5068bc9180d06 Sriram R             2024-04-09  4246  		return -ENOSPC;
+> b5068bc9180d06 Sriram R             2024-04-09  4247  
+> b5068bc9180d06 Sriram R             2024-04-09  4248  	if (sta) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4249  		ahsta = ath12k_sta_to_ahsta(sta);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4250 /* For an ML STA
+> Pairwise key is same for all associated link Stations,
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4251 * hence do set key
+> for all link STAs which are active.
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4252  		 */
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4253  		if (sta->mlo) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4254  			links = ahsta->links_map;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4255
+> for_each_set_bit(link_id, &links, IEEE80211_MLD_MAX_NUM_LINKS) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4256 arvif =
+> wiphy_dereference(hw->wiphy, ahvif->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4257 arsta =
+> wiphy_dereference(hw->wiphy, ahsta->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4258  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4259  				if (WARN_ON(!arvif || !arsta))
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4260 /* arvif and arsta
+> are expected to be valid when
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4261  					 * STA is present.
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4262  					 */
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4263  					continue;
+>
+> Is it possible that there are no set bits or that we always hit this continue?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411050329.t2a3my0s-lkp@intel.com/
+Actually I'm not fully sure if links_map can be zero but I would not
+assume so.
 
-cocci warnings: (new ones prefixed by >>)
->> fs/btrfs/volumes.c:591:7-22: ERROR: invalid reference to the index variable of the iterator on line 575
-   fs/btrfs/volumes.c:600:10-25: ERROR: invalid reference to the index variable of the iterator on line 575
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4264  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4265 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif,
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4266 arsta, key);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4267  				if (ret)
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4268  					break;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4269  			}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4270  		} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4271  			arsta = &ahsta->deflink;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4272  			arvif = arsta->arvif;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4273  			if (WARN_ON(!arvif)) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4274  				ret = -EINVAL;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4275  				goto out;
+> b5068bc9180d06 Sriram R             2024-04-09  4276  			}
+> b5068bc9180d06 Sriram R             2024-04-09  4277  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4278 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif, arsta, key);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4279  		}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4280  	} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4281 if (key->link_id
+>>= 0 && key->link_id < IEEE80211_MLD_MAX_NUM_LINKS) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4282  			link_id = key->link_id;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4283 arvif =
+> wiphy_dereference(hw->wiphy, ahvif->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4284  		} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4285  			link_id = 0;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4286  			arvif = &ahvif->deflink;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4287  		}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4288  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4289  		if (!arvif || !arvif->is_created) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4290 cache =
+> ath12k_ahvif_get_link_cache(ahvif, link_id);
+> b5068bc9180d06 Sriram R             2024-04-09  4291  			if (!cache)
+> b5068bc9180d06 Sriram R             2024-04-09  4292  				return -ENOSPC;
+> 18333c4baa4d72 Sriram R             2024-01-27  4293  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4294 ret =
+> ath12k_mac_update_key_cache(cache, cmd, sta, key);
+> 18333c4baa4d72 Sriram R             2024-01-27  4295  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4296  			return ret;
+> b5068bc9180d06 Sriram R             2024-04-09  4297  		}
+> b5068bc9180d06 Sriram R             2024-04-09  4298  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4299 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif, NULL, key);
+> 611aacdb3540ff Sriram R             2024-04-14  4300  	}
+> 611aacdb3540ff Sriram R             2024-04-14  4301  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4302  out:
+> 18333c4baa4d72 Sriram R             2024-01-27  4303  
+> d889913205cf7e Kalle Valo           2022-11-28 @4304  	return ret;
+>
+> If so then ret is uninitialized
 
-vim +591 fs/btrfs/volumes.c
+Thanks for the report, I fixed it like this in ath12k-mlo branch (not
+yet submitted for review):
 
-4fde46f0cc71c7 Anand Jain 2015-06-17  555  
-69d427f34ca097 Anand Jain 2023-09-28  556  static struct btrfs_fs_devices *find_fsid_by_device(
-a5b8a5f9f8355d Anand Jain 2023-09-28  557  					struct btrfs_super_block *disk_super,
-a5b8a5f9f8355d Anand Jain 2023-09-28  558  					dev_t devt, bool *same_fsid_diff_dev)
-69d427f34ca097 Anand Jain 2023-09-28  559  {
-69d427f34ca097 Anand Jain 2023-09-28  560  	struct btrfs_fs_devices *fsid_fs_devices;
-a5b8a5f9f8355d Anand Jain 2023-09-28  561  	struct btrfs_fs_devices *devt_fs_devices;
-69d427f34ca097 Anand Jain 2023-09-28  562  	const bool has_metadata_uuid = (btrfs_super_incompat_flags(disk_super) &
-69d427f34ca097 Anand Jain 2023-09-28  563  					BTRFS_FEATURE_INCOMPAT_METADATA_UUID);
-a5b8a5f9f8355d Anand Jain 2023-09-28  564  	bool found_by_devt = false;
-69d427f34ca097 Anand Jain 2023-09-28  565  
-69d427f34ca097 Anand Jain 2023-09-28  566  	/* Find the fs_device by the usual method, if found use it. */
-69d427f34ca097 Anand Jain 2023-09-28  567  	fsid_fs_devices = find_fsid(disk_super->fsid,
-69d427f34ca097 Anand Jain 2023-09-28  568  		    has_metadata_uuid ? disk_super->metadata_uuid : NULL);
-69d427f34ca097 Anand Jain 2023-09-28  569  
-a5b8a5f9f8355d Anand Jain 2023-09-28  570  	/* The temp_fsid feature is supported only with single device filesystem. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  571  	if (btrfs_super_num_devices(disk_super) != 1)
-69d427f34ca097 Anand Jain 2023-09-28  572  		return fsid_fs_devices;
-a5b8a5f9f8355d Anand Jain 2023-09-28  573  
-a5b8a5f9f8355d Anand Jain 2023-09-28  574  	/* Try to find a fs_devices by matching devt. */
-a5b8a5f9f8355d Anand Jain 2023-09-28 @575  	list_for_each_entry(devt_fs_devices, &fs_uuids, fs_list) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  576  		struct btrfs_device *device;
-a5b8a5f9f8355d Anand Jain 2023-09-28  577  
-a5b8a5f9f8355d Anand Jain 2023-09-28  578  		list_for_each_entry(device, &devt_fs_devices->devices, dev_list) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  579  			if (device->devt == devt) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  580  				found_by_devt = true;
-a5b8a5f9f8355d Anand Jain 2023-09-28  581  				break;
-a5b8a5f9f8355d Anand Jain 2023-09-28  582  			}
-a5b8a5f9f8355d Anand Jain 2023-09-28  583  		}
-a5b8a5f9f8355d Anand Jain 2023-09-28  584  		if (found_by_devt)
-a5b8a5f9f8355d Anand Jain 2023-09-28  585  			break;
-a5b8a5f9f8355d Anand Jain 2023-09-28  586  	}
-a5b8a5f9f8355d Anand Jain 2023-09-28  587  
-a5b8a5f9f8355d Anand Jain 2023-09-28  588  	if (found_by_devt) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  589  		/* Existing device. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  590  		if (fsid_fs_devices == NULL) {
-a5b8a5f9f8355d Anand Jain 2023-09-28 @591  			if (devt_fs_devices->opened == 0) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  592  				/* Stale device. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  593  				return NULL;
-a5b8a5f9f8355d Anand Jain 2023-09-28  594  			} else {
-a5b8a5f9f8355d Anand Jain 2023-09-28  595  				/* temp_fsid is mounting a subvol. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  596  				return devt_fs_devices;
-a5b8a5f9f8355d Anand Jain 2023-09-28  597  			}
-a5b8a5f9f8355d Anand Jain 2023-09-28  598  		} else {
-a5b8a5f9f8355d Anand Jain 2023-09-28  599  			/* Regular or temp_fsid device mounting a subvol. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  600  			return devt_fs_devices;
-a5b8a5f9f8355d Anand Jain 2023-09-28  601  		}
-a5b8a5f9f8355d Anand Jain 2023-09-28  602  	} else {
-a5b8a5f9f8355d Anand Jain 2023-09-28  603  		/* New device. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  604  		if (fsid_fs_devices == NULL) {
-a5b8a5f9f8355d Anand Jain 2023-09-28  605  			return NULL;
-a5b8a5f9f8355d Anand Jain 2023-09-28  606  		} else {
-a5b8a5f9f8355d Anand Jain 2023-09-28  607  			/* sb::fsid is already used create a new temp_fsid. */
-a5b8a5f9f8355d Anand Jain 2023-09-28  608  			*same_fsid_diff_dev = true;
-a5b8a5f9f8355d Anand Jain 2023-09-28  609  			return NULL;
-a5b8a5f9f8355d Anand Jain 2023-09-28  610  		}
-a5b8a5f9f8355d Anand Jain 2023-09-28  611  	}
-a5b8a5f9f8355d Anand Jain 2023-09-28  612  
-a5b8a5f9f8355d Anand Jain 2023-09-28  613  	/* Not reached. */
-69d427f34ca097 Anand Jain 2023-09-28  614  }
-69d427f34ca097 Anand Jain 2023-09-28  615  
+https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git/commit/?h=ath12k-mlo&id=1ed8ae547f604b6c6176aeadd98bd192c9031066
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
