@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDF42A9B
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 14:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728BD178CDE
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 14:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730730319; cv=none; b=mzL3a5fcO1tINL6wulTphYz1mvy4f8cD3ocgQV4OmWIe0XVK7sqBEQxOYYGyBMWTG2/rxGVjrpzCGzQSrSkPNXEtcC1lQTBZcD3gEfzUJAjeO30mrmZM1y5t3NDBbcfgjkJp6y5462BE9+6lZ1WclOXmiR8xl2H88lGyp1gQW7I=
+	t=1730730321; cv=none; b=EhXfRDUekPlPh+6wq4bBwU8C0+AP1hveZhDybXYpSxiU9JthGnlqI6is49g4EkB9dEEQDAZWiK9srVkw4skrBWgaJEx7W9n5O92EYxNSH4TUCd0h4Xog2DKQ1/HNu8a7amBy7/dd00Yu2KN+SicWsaRK808OYS4o5FR3BoHN7KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730730319; c=relaxed/simple;
-	bh=g8ue4P5HFY6S2y860sel4IfGNN1rWcBEBd6otQq1kBA=;
+	s=arc-20240116; t=1730730321; c=relaxed/simple;
+	bh=aYWcuCqt/OglqZVxwlHr+qHb4S/LbWN5FSmwgIRfFrM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C5BJuoKv4Qep3O6tNXDbdZkrZHGE0s1KGU8AqEmeRDnUu4urL8NWgBkzFUfvbzyxoBu1qNWEXnecq2RBcKLb7XaKWv58WDXkMG/VytdA+YzgHEIeiWaG94hO9iuwurDDBSLWmViC/UvAcc3N8ZYHlpU+Z8R2lsdk7qVNO1emlJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/uHG4QI; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=M2v7TKx4w5EJp3UtITrc/1Z6yCrPxI2cNuBISSGyARsdKL8WkhhEK42zC4bfGFLbKOr3nHpREl96wkIV8s+Cn+rFUKnv31+mUMiJe/OOenIt5VnCFz6GJxGrIHfZRueXzm5OY3tXUVp4m2SNJ/X8U9Xwhl9NknbzOxRfEP4KKP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YENYPGBI; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/uHG4QI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YENYPGBI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730730317; x=1762266317;
+  t=1730730319; x=1762266319;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g8ue4P5HFY6S2y860sel4IfGNN1rWcBEBd6otQq1kBA=;
-  b=m/uHG4QIxXHn4eHOQ0/OPDMHHXw2osnQPNl7SXYMnOKWdXOfIv2BORoF
-   hUNeSsHJ3NYL2Bw/0PUYeI5JpPrAjtnKeEqxUGH6AHFP8vLSpOgixVjV6
-   aWsCjg8qLZw30V0e37POvvnI3G3+Ubdee5cURuAtRt3F++84p5ip9recR
-   l1hxF05jMXYOa2f48oNOQw+eqgzYfiHl0Onfz8Uzq5B3SwRGT/9m2/HZC
-   jtK3cYJv1x2Wiby1E9+8zMLr77qldkd70+jZyfeFbQ9B3waaIYzKI41Jn
-   ayOUNjsOBPlN/ebNIaiJII2D5lTXaFXkzH5oY5K5RdgbQxQioaCfbt8N8
-   A==;
-X-CSE-ConnectionGUID: 0dZYt/HjTZqp33dcHGgizA==
-X-CSE-MsgGUID: +oeTGhqlT7+H2/fyCeZWWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52993361"
+  bh=aYWcuCqt/OglqZVxwlHr+qHb4S/LbWN5FSmwgIRfFrM=;
+  b=YENYPGBILC8Y7bI3SKsvPe2sEkjVhmnAvNqC1CrfejCTnVrzrZjWeAr4
+   hJfrYbQHWO6AGagMB+LNgkYwBKb7innOJNTnhgQhWlHIpB8P4tjJ1hfbR
+   1leoKzI3zkgO7Py1bQZ5Wd2FYsAplLTUD0XKwdfw5tsohX4xhA12Mzc//
+   +9vHOEC50MWz06dcum702vLaRbakiIWgJegm2czC1UvLcuuSwch780e4Z
+   aPjfyWBOGtn7PwIeZ8GjjjOeCQXvesjjzr2VTGRIeAVQwrEqt7y512wPI
+   fIjBAk0PrrULz5EJPrYMMcyKk2O7dqA5k3//kFbbhw70C1FhXkuS770XS
+   w==;
+X-CSE-ConnectionGUID: 9ISuvNE4QM2BT8TDF5HRqw==
+X-CSE-MsgGUID: aTyzhGhLTMuJBAyo9IJI2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52993362"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52993361"
+   d="scan'208";a="52993362"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:25:16 -0800
-X-CSE-ConnectionGUID: IXUNKcY+R0ylyYgt112G1w==
-X-CSE-MsgGUID: +rOOGTlPT8qZaQ1KLmEkFw==
+X-CSE-ConnectionGUID: sDurnRNdTgSrL0GegaJ4xg==
+X-CSE-MsgGUID: 0ui5BlyWSfyy40ofAO0cxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="84113958"
+   d="scan'208";a="84113963"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 04 Nov 2024 06:25:16 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7y13-000ktx-1P;
+	id 1t7y13-000ku2-1Z;
 	Mon, 04 Nov 2024 14:25:13 +0000
 Date: Mon, 4 Nov 2024 22:24:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-desktop 1/1]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to
- match any schema with compatible: ['google,pico-sku1', 'google,pico',
- 'mediatek,mt8183']
-Message-ID: <202411042239.YItwcZ1v-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 4/5] xfs: add infrastructure to support AF allocation
+ algorithm
+Message-ID: <202411042202.Kp6I9Ntp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,52 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
+In-Reply-To: <20241104014439.3786609-5-zhangshida@kylinos.cn>
+References: <20241104014439.3786609-5-zhangshida@kylinos.cn>
+TO: zhangshida <starzhangzsd@gmail.com>
+TO: djwong@kernel.org
+TO: dchinner@redhat.com
+TO: leo.lilong@huawei.com
+TO: wozizhi@huawei.com
+TO: osandov@fb.com
+TO: xiang@kernel.org
+TO: zhangjiachen.jaycee@bytedance.com
+CC: linux-xfs@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: zhangshida@kylinos.cn
+CC: starzhangzsd@gmail.com
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
-commit: cbae8f3e9b30d9136bff1155071d3d2505c45e64 [1/1] CHROMIUM: arm64: dts: mt8183: Use icarus dtsi for pico dts file
-:::::: branch date: 4 days ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241104/202411042239.YItwcZ1v-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411042239.YItwcZ1v-lkp@intel.com/reproduce)
+Hi zhangshida,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241104]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/zhangshida/xfs-add-two-wrappers-for-iterating-ags-in-a-AF/20241104-094751
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20241104014439.3786609-5-zhangshida%40kylinos.cn
+patch subject: [PATCH 4/5] xfs: add infrastructure to support AF allocation algorithm
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: x86_64-randconfig-161-20241104 (https://download.01.org/0day-ci/archive/20241104/202411042202.Kp6I9Ntp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411042239.YItwcZ1v-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411042202.Kp6I9Ntp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'google,kakadu-rev2-sku22' was expected
-   	'google,kodama' was expected
-   	'google,willow' was expected
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,spherion-rev1' was expected
-   	'google,kakadu' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to match any schema with compatible: ['google,pico-sku1', 'google,pico', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to match any schema with compatible: ['google,pico-sku1', 'google,pico', 'mediatek,mt8183']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+New smatch warnings:
+fs/xfs/libxfs/xfs_bmap.c:3767 xfs_bmap_btalloc_best_length_iterate_afs() error: uninitialized symbol 'error'.
+
+Old smatch warnings:
+fs/xfs/libxfs/xfs_bmap.c:6126 xfs_bmap_split_extent() warn: iterator 'i' not incremented
+
+vim +/error +3767 fs/xfs/libxfs/xfs_bmap.c
+
+85843327094f9de Dave Chinner 2023-02-13  3743  
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3744  static int
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3745  xfs_bmap_btalloc_best_length_iterate_afs(
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3746  	struct xfs_bmalloca	*ap,
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3747  	struct xfs_alloc_arg	*args,
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3748  	int			stripe_align)
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3749  {
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3750  	struct xfs_mount	*mp = ap->ip->i_mount;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3751  	int			error;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3752  	unsigned int i;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3753  
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3754  	args->curr_af = 0;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3755  
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3756  	for (i = 0; args->curr_af < mp->m_sb.sb_agcount; i++) {
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3757  		args->next_af = mp->m_sb.sb_agcount - mp->m_af[i];
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3758  		error = xfs_bmap_btalloc_best_length(ap, args, stripe_align);
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3759  		if (error || args->fsbno != NULLFSBLOCK)
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3760  			break;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3761  
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3762  		args->curr_af = args->next_af;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3763  		/* Exit LOWMODE when going to the next AF. */
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3764  		ap->tp->t_flags &= ~XFS_TRANS_LOWMODE;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3765  	}
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3766  
+0d8c7e0ac00c17e Shida Zhang  2024-11-04 @3767  	return error;
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3768  }
+0d8c7e0ac00c17e Shida Zhang  2024-11-04  3769  
 
 -- 
 0-DAY CI Kernel Test Service
