@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0B11C2317
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 17:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC7F33FE
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 17:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730740833; cv=none; b=hWEYJfwTBb+V0L/7uVBtCkqCdPo/siHD8M1lujmJ1fk1aQO3NVn3iSsvY9cLR4hSl7GZtIOetTEuKEad9oXJKstoZIiCcr8U/qXWPXcqKHceio4Y1WjGjX891H/T71TvUOxa26aeC32ZHcyvkNpSdgnGpc526D7voHzY6eq7o+4=
+	t=1730742032; cv=none; b=unEdAU1cyc2ZluuBLUPQAASxCEd1RrcGr8pAKgAvBMBIhqAU7RaQncZ1k80gwC+8kp9aNrY6MtAHbaVhbWbKSppxj4K4hyfi3OyTQ022qvpsNuJprx+cBIab1dMpm3HK+Eb0KIZ6g2dzGvSOdzRYgQ0RcCy9zUZVGnEjD6YTbIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730740833; c=relaxed/simple;
-	bh=jMYUb/LJeeBzAIFLPMp3+0fKStveQ8aIo29LbKToh8E=;
+	s=arc-20240116; t=1730742032; c=relaxed/simple;
+	bh=uaIs9IF+AlCbQqAYDcWjawnJLkKIVsCunoZkiHIR2ok=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pHaEs1mVae7AQ8dDVkEpQtUNHaQAvxec9KLjgkkSK8OjNEDPdHjYWD5N06Bzua5X34oyQqXA15BrXKBq5XaMK+l34NP76I60jXnWofTALJIOKgQIPLY+XksxJ2B/w9oEFeqnIv7hmi1ktiwDd8w5HkU5h1ILNPZl7pbFUsh5vbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xszc7h7J; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=m9xHhdOZod1MFBUpCCfopfol8k7LnFmrao769cLs6L0AHXeI6ksaAiVPPoOQWy0UaC+xk/FstxBN1iQRoZ3LEI4vdKjC8umQwpYnY40otu6cgHjsQaaoX/n319z2vL7yQjoGZAaQz4G/CZt4msR/hBoPBYqnqhGenRCscibXRmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M95g5xlF; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xszc7h7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M95g5xlF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730740831; x=1762276831;
+  t=1730742030; x=1762278030;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jMYUb/LJeeBzAIFLPMp3+0fKStveQ8aIo29LbKToh8E=;
-  b=Xszc7h7Jq21XpzisR+jpuJGzV0fR3VFR1pW+EmQe1hYaHw35C6R+c8TN
-   Qzl3Eo04kNRtd0QdswX1Txbj4pW2XZije2JNynTeDKsm2sHeRsEflnRVS
-   cyDf6X1Tej/y2XRmeYQeLoTM1ZpcGT3/7Io4Fjd71gNYbZSyGDqWjJKr3
-   RMR5/ws2WYHWqFQ44bQ1DUOde1ztrrb2cfiHcOxUs2I7ZYMnXniOSXXM7
-   loFH4PVMcxnJUG9VPVvnf6LIhJVK+VHXSb+sh5Np5i1kh/Qiaha9nxGWR
-   iXYFQUFLfpzFBeEStqQvHfVR+M9sK27aGazTvpHkPpYHYvG7byo/9uoCO
+  bh=uaIs9IF+AlCbQqAYDcWjawnJLkKIVsCunoZkiHIR2ok=;
+  b=M95g5xlFJKD4xr/FKnKv1zTgWbWk1WCWGb+0vyxy51vCP1i7VsfKuS5H
+   CK0RPZ/DFvYRtTUrwwzVZRsbidBtOiu3F7ddcOpsgP8+JQmBkNafNhklB
+   mHhEEuI+gGU5l9DPZkpITyJlPsaxkyv8LfQBZY1gFSHrMTKk2pnpcvDP6
+   3L/8EHVe9dn45w2aGGhLZrD2dl14brHcbee7pOX5wJSz7d1JC4VWBtozM
+   +ZkU1LaWTezqE+iqfamNP/gTkPvN6CI6ntaXj0M7uIWG+bxVak7JoXWWo
+   /2LpvV/Nojooq/dQzHGcvMlDuHw9Holsi9BVZ73Q7bJgwvURgpcpHfVE/
    g==;
-X-CSE-ConnectionGUID: yIjGNXrcT82rnyOCwJx+Eg==
-X-CSE-MsgGUID: n0LRavRkTZ2NhVnAuRWT0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="18070823"
+X-CSE-ConnectionGUID: DGu58z5RSTqkPzEeQpjt3A==
+X-CSE-MsgGUID: OiHaM7iXRSi25MX+3RRm9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="29881925"
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="18070823"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 09:20:29 -0800
-X-CSE-ConnectionGUID: P7/XpeYsQDWO3HfrzchxkA==
-X-CSE-MsgGUID: gkEEVyvFTQOPrpGfWENgrg==
+   d="scan'208";a="29881925"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 09:40:29 -0800
+X-CSE-ConnectionGUID: OkZXwlEYRwm3QCDV/9/ZSQ==
+X-CSE-MsgGUID: TueXzIGFQHeADSnq0pTpug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="83841232"
+   d="scan'208";a="114513849"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Nov 2024 09:20:28 -0800
+  by orviesa002.jf.intel.com with ESMTP; 04 Nov 2024 09:40:28 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t80kb-000l3t-15;
-	Mon, 04 Nov 2024 17:20:25 +0000
-Date: Tue, 5 Nov 2024 01:19:37 +0800
+	id 1t813x-000l4n-2k;
+	Mon, 04 Nov 2024 17:40:25 +0000
+Date: Tue, 5 Nov 2024 01:40:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] smb: client: Fix use-after-free of network namespace.
-Message-ID: <202411050141.wasHP8Hl-lkp@intel.com>
+Subject: arch/openrisc/kernel/signal.c:50 restore_fp_state() warn: maybe
+ return -EFAULT instead of the bytes remaining?
+Message-ID: <202411050108.7hvptsS6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,151 +64,65 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241102212438.76691-1-kuniyu@amazon.com>
-References: <20241102212438.76691-1-kuniyu@amazon.com>
-TO: Kuniyuki Iwashima <kuniyu@amazon.com>
+CC: linux-kernel@vger.kernel.org
+TO: Stafford Horne <shorne@gmail.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cifs/for-next]
-[also build test WARNING on linus/master v6.12-rc6]
-[cannot apply to next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/smb-client-Fix-use-after-free-of-network-namespace/20241103-052634
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20241102212438.76691-1-kuniyu%40amazon.com
-patch subject: [PATCH v2] smb: client: Fix use-after-free of network namespace.
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: sparc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050141.wasHP8Hl-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
+commit: 4dc70e1aadfadf968676d983587c6f5d455aba85 openrisc: Move FPU state out of pt_regs
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+config: openrisc-randconfig-r072-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050108.7hvptsS6-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411050141.wasHP8Hl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411050108.7hvptsS6-lkp@intel.com/
 
 smatch warnings:
-fs/smb/client/connect.c:3082 generic_ip_connect() error: we previously assumed 'server->ssocket' could be null (see line 3069)
+arch/openrisc/kernel/signal.c:50 restore_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
+arch/openrisc/kernel/signal.c:67 save_fp_state() warn: maybe return -EFAULT instead of the bytes remaining?
 
-vim +3082 fs/smb/client/connect.c
+vim +50 arch/openrisc/kernel/signal.c
 
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3039  
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3040  static int
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3041  generic_ip_connect(struct TCP_Server_Info *server)
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3042  {
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3043  	struct sockaddr *saddr;
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3044  	struct socket *socket;
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3045  	int slen, sfamily;
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3046  	__be16 sport;
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3047  	int rc = 0;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3048  
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3049  	saddr = (struct sockaddr *) &server->dstaddr;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3050  
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3051  	if (server->dstaddr.ss_family == AF_INET6) {
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3052  		struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)&server->dstaddr;
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3053  
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3054  		sport = ipv6->sin6_port;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3055  		slen = sizeof(struct sockaddr_in6);
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3056  		sfamily = AF_INET6;
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3057  		cifs_dbg(FYI, "%s: connecting to [%pI6]:%d\n", __func__, &ipv6->sin6_addr,
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3058  				ntohs(sport));
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3059  	} else {
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3060  		struct sockaddr_in *ipv4 = (struct sockaddr_in *)&server->dstaddr;
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3061  
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3062  		sport = ipv4->sin_port;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3063  		slen = sizeof(struct sockaddr_in);
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3064  		sfamily = AF_INET;
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3065  		cifs_dbg(FYI, "%s: connecting to %pI4:%d\n", __func__, &ipv4->sin_addr,
-def6e1dc1781682 fs/cifs/connect.c       Samuel Cabrero         2020-10-16  3066  				ntohs(sport));
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3067  	}
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3068  
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19 @3069  	if (server->ssocket) {
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3070  		socket = server->ssocket;
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3071  	} else {
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3072  		struct net *net = cifs_net_ns(server);
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3073  		struct sock *sk;
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3074  
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3075  		rc = __sock_create(net, sfamily, SOCK_STREAM,
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3076  				   IPPROTO_TCP, &server->ssocket, 1);
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3077  		if (rc < 0) {
-afe6f65353b644f fs/cifs/connect.c       Ronnie Sahlberg        2019-08-28  3078  			cifs_server_dbg(VFS, "Error %d creating socket\n", rc);
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3079  			return rc;
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3080  		}
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3081  
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02 @3082  		sk = server->ssocket->sk;
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3083  		__netns_tracker_free(net, &sk->ns_tracker, false);
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3084  		sk->sk_net_refcnt = 1;
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3085  		get_net_track(net, &sk->ns_tracker, GFP_KERNEL);
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3086  		sock_inuse_add(net, 1);
-59ac25049633459 fs/smb/client/connect.c Kuniyuki Iwashima      2024-11-02  3087  
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3088  		/* BB other socket options to set KEEPALIVE, NODELAY? */
-f96637be081141d fs/cifs/connect.c       Joe Perches            2013-05-04  3089  		cifs_dbg(FYI, "Socket created\n");
-f0b6a834a8f0d26 fs/smb/client/connect.c Paulo Alcantara        2023-06-19  3090  		socket = server->ssocket;
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3091  		socket->sk->sk_allocation = GFP_NOFS;
-98123866fcf3fe9 fs/cifs/connect.c       Benjamin Coddington    2022-12-16  3092  		socket->sk->sk_use_task_frag = false;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3093  		if (sfamily == AF_INET6)
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3094  			cifs_reclassify_socket6(socket);
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3095  		else
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3096  			cifs_reclassify_socket4(socket);
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3097  	}
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3098  
-3eb9a8893a76cf1 fs/cifs/connect.c       Ben Greear             2010-09-01  3099  	rc = bind_socket(server);
-3eb9a8893a76cf1 fs/cifs/connect.c       Ben Greear             2010-09-01  3100  	if (rc < 0)
-3eb9a8893a76cf1 fs/cifs/connect.c       Ben Greear             2010-09-01  3101  		return rc;
-3eb9a8893a76cf1 fs/cifs/connect.c       Ben Greear             2010-09-01  3102  
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3103  	/*
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3104  	 * Eventually check for other socket options to change from
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3105  	 * the default. sock_setsockopt not used because it expects
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3106  	 * user space buffer
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3107  	 */
-d5c5605c27c92da fs/cifs/connect.c       Jeff Layton            2008-12-01  3108  	socket->sk->sk_rcvtimeo = 7 * HZ;
-da505c386c9f993 fs/cifs/connect.c       Steve French           2009-01-19  3109  	socket->sk->sk_sndtimeo = 5 * HZ;
-6a5fa2362b628ee fs/cifs/connect.c       Steve French           2010-01-01  3110  
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3111  	/* make the bufsizes depend on wsize/rsize and max requests */
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3112  	if (server->noautotune) {
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3113  		if (socket->sk->sk_sndbuf < (200 * 1024))
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3114  			socket->sk->sk_sndbuf = 200 * 1024;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3115  		if (socket->sk->sk_rcvbuf < (140 * 1024))
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3116  			socket->sk->sk_rcvbuf = 140 * 1024;
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3117  	}
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3118  
-12abc5ee7873a08 fs/cifs/connect.c       Christoph Hellwig      2020-05-28  3119  	if (server->tcp_nodelay)
-12abc5ee7873a08 fs/cifs/connect.c       Christoph Hellwig      2020-05-28  3120  		tcp_sock_set_nodelay(socket->sk);
-6a5fa2362b628ee fs/cifs/connect.c       Steve French           2010-01-01  3121  
-f96637be081141d fs/cifs/connect.c       Joe Perches            2013-05-04  3122  	cifs_dbg(FYI, "sndbuf %d rcvbuf %d rcvtimeo 0x%lx\n",
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3123  		 socket->sk->sk_sndbuf,
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3124  		 socket->sk->sk_rcvbuf, socket->sk->sk_rcvtimeo);
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3125  
-cedc019b9f260fa fs/smb/client/connect.c Jordan Rife            2023-10-03  3126  	rc = kernel_connect(socket, saddr, slen,
-8eecd1c2e5bc73d fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-07-16  3127) 			    server->noblockcnt ? O_NONBLOCK : 0);
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3128) 	/*
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3129) 	 * When mounting SMB root file systems, we do not want to block in
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3130) 	 * connect. Otherwise bail out and then let cifs_reconnect() perform
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3131) 	 * reconnect failover - if possible.
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3132) 	 */
-d532cc7efdfd7bf fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-10-10  3133) 	if (server->noblockcnt && rc == -EINPROGRESS)
-8eecd1c2e5bc73d fs/cifs/connect.c       Paulo Alcantara (SUSE  2019-07-16  3134) 		rc = 0;
-ee1b3ea9e6171d7 fs/cifs/connect.c       Jeff Layton            2011-06-21  3135  	if (rc < 0) {
-f96637be081141d fs/cifs/connect.c       Joe Perches            2013-05-04  3136  		cifs_dbg(FYI, "Error %d connecting to server\n", rc);
-d7171cd1acf70eb fs/cifs/connect.c       Steve French           2021-11-04  3137  		trace_smb3_connect_err(server->hostname, server->conn_id, &server->dstaddr, rc);
-ee1b3ea9e6171d7 fs/cifs/connect.c       Jeff Layton            2011-06-21  3138  		sock_release(socket);
-ee1b3ea9e6171d7 fs/cifs/connect.c       Jeff Layton            2011-06-21  3139  		server->ssocket = NULL;
-ee1b3ea9e6171d7 fs/cifs/connect.c       Jeff Layton            2011-06-21  3140  		return rc;
-ee1b3ea9e6171d7 fs/cifs/connect.c       Jeff Layton            2011-06-21  3141  	}
-d7171cd1acf70eb fs/cifs/connect.c       Steve French           2021-11-04  3142  	trace_smb3_connect_done(server->hostname, server->conn_id, &server->dstaddr);
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3143  	if (sport == htons(RFC1001_PORT))
-a9f1b85e5ba8051 fs/cifs/connect.c       Pavel Shilovsky        2010-12-13  3144  		rc = ip_rfc1001_connect(server);
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3145  
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3146  	return rc;
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3147  }
-^1da177e4c3f415 fs/cifs/connect.c       Linus Torvalds         2005-04-16  3148  
+1c4de499e6134e Stafford Horne 2023-08-20  39  
+1c4de499e6134e Stafford Horne 2023-08-20  40  asmlinkage int do_work_pending(struct pt_regs *regs, unsigned int thread_flags,
+1c4de499e6134e Stafford Horne 2023-08-20  41  			       int syscall);
+1c4de499e6134e Stafford Horne 2023-08-20  42  
+4dc70e1aadfadf Stafford Horne 2024-03-30  43  #ifdef CONFIG_FPU
+4dc70e1aadfadf Stafford Horne 2024-03-30  44  static long restore_fp_state(struct sigcontext __user *sc)
+4dc70e1aadfadf Stafford Horne 2024-03-30  45  {
+4dc70e1aadfadf Stafford Horne 2024-03-30  46  	long err;
+4dc70e1aadfadf Stafford Horne 2024-03-30  47  
+4dc70e1aadfadf Stafford Horne 2024-03-30  48  	err = __copy_from_user(&current->thread.fpcsr, &sc->fpcsr, sizeof(unsigned long));
+4dc70e1aadfadf Stafford Horne 2024-03-30  49  	if (unlikely(err))
+4dc70e1aadfadf Stafford Horne 2024-03-30 @50  		return err;
+4dc70e1aadfadf Stafford Horne 2024-03-30  51  
+4dc70e1aadfadf Stafford Horne 2024-03-30  52  	/* Restore the FPU state */
+4dc70e1aadfadf Stafford Horne 2024-03-30  53  	restore_fpu(current);
+4dc70e1aadfadf Stafford Horne 2024-03-30  54  
+4dc70e1aadfadf Stafford Horne 2024-03-30  55  	return 0;
+4dc70e1aadfadf Stafford Horne 2024-03-30  56  }
+4dc70e1aadfadf Stafford Horne 2024-03-30  57  
+4dc70e1aadfadf Stafford Horne 2024-03-30  58  static long save_fp_state(struct sigcontext __user *sc)
+4dc70e1aadfadf Stafford Horne 2024-03-30  59  {
+4dc70e1aadfadf Stafford Horne 2024-03-30  60  	long err;
+4dc70e1aadfadf Stafford Horne 2024-03-30  61  
+4dc70e1aadfadf Stafford Horne 2024-03-30  62  	/* Sync the user FPU state so we can copy to sigcontext */
+4dc70e1aadfadf Stafford Horne 2024-03-30  63  	save_fpu(current);
+4dc70e1aadfadf Stafford Horne 2024-03-30  64  
+4dc70e1aadfadf Stafford Horne 2024-03-30  65  	err = __copy_to_user(&sc->fpcsr, &current->thread.fpcsr, sizeof(unsigned long));
+4dc70e1aadfadf Stafford Horne 2024-03-30  66  
+4dc70e1aadfadf Stafford Horne 2024-03-30 @67  	return err;
+4dc70e1aadfadf Stafford Horne 2024-03-30  68  }
+4dc70e1aadfadf Stafford Horne 2024-03-30  69  #else
+4dc70e1aadfadf Stafford Horne 2024-03-30  70  #define save_fp_state(sc) (0)
+4dc70e1aadfadf Stafford Horne 2024-03-30  71  #define restore_fp_state(sc) (0)
+4dc70e1aadfadf Stafford Horne 2024-03-30  72  #endif
+4dc70e1aadfadf Stafford Horne 2024-03-30  73  
 
 -- 
 0-DAY CI Kernel Test Service
