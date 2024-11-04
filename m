@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B7179C8
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 12:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDF42A9B
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 14:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730724676; cv=none; b=T70MwGQU6s9/P30a7FzRVILogHn4CVLqK09JE3QURmMZZORztcl4KUKApY5FXqUtFvitYRsjuDvaAMrW8BXc2Y7NHVmuhdp7JcJifTZON/3NZdNorVGqXFUfOs48J1xSuU2sY817qtO95EsFnH3b3JMFfHhha/wxhL97E56YrPw=
+	t=1730730319; cv=none; b=mzL3a5fcO1tINL6wulTphYz1mvy4f8cD3ocgQV4OmWIe0XVK7sqBEQxOYYGyBMWTG2/rxGVjrpzCGzQSrSkPNXEtcC1lQTBZcD3gEfzUJAjeO30mrmZM1y5t3NDBbcfgjkJp6y5462BE9+6lZ1WclOXmiR8xl2H88lGyp1gQW7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730724676; c=relaxed/simple;
-	bh=1EYt31HyxE3Vs8NftsX4jOQBAEEcjddKxxqoqFgkoCM=;
+	s=arc-20240116; t=1730730319; c=relaxed/simple;
+	bh=g8ue4P5HFY6S2y860sel4IfGNN1rWcBEBd6otQq1kBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YoL11nvKCWgeql08begpT02nRvZOaYOXDDl+pK/qIHBX0nhPjSxZB3g1tjkLlZZvTKYcWxcvKYYqqkCuCyZV0tDo0ekFbDWZTUEkiwMQDg8OoDYZt2MTAwwJ1X1SUbn/15kwfAqqJ3b9P5Q/iD1Mc2K7nrw5P8u+Zb7naYZuPF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ap8RDmDZ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=C5BJuoKv4Qep3O6tNXDbdZkrZHGE0s1KGU8AqEmeRDnUu4urL8NWgBkzFUfvbzyxoBu1qNWEXnecq2RBcKLb7XaKWv58WDXkMG/VytdA+YzgHEIeiWaG94hO9iuwurDDBSLWmViC/UvAcc3N8ZYHlpU+Z8R2lsdk7qVNO1emlJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/uHG4QI; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ap8RDmDZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/uHG4QI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730724675; x=1762260675;
+  t=1730730317; x=1762266317;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1EYt31HyxE3Vs8NftsX4jOQBAEEcjddKxxqoqFgkoCM=;
-  b=ap8RDmDZORJnCYLRu4IIDwytbmxSrSSQzSugOffOOLK8DWX88WyKBb5P
-   A5VJtdyzCmvzgqIJd4XRFcLxKBSYyRqFT0S0Zc4BYsCanD38z9lHUwKDq
-   aMEa29/NFIh5PiyJYHu57xELtGBbo52M4U+q3XcAATBpXsvil41F8PQ0H
-   wpx7hfAvlzCeQOdWHWa21neRbfBNiVmokeMfRKu85pZdP9Ev1wpPqgm/H
-   BTRRaAxHjsw1XPp9cQdy+ans3oOgm6wiH9Os3P2SX533RmSf5sQLxuRO2
-   AofMzvp+ZoB68XQJNVkWYNWx7asEacOkTnpYHNMxw2oK2EoN/BWtwp53H
-   g==;
-X-CSE-ConnectionGUID: Lg+DpA1UTSGitDNCaXUGgg==
-X-CSE-MsgGUID: raE+uHlaSwO25Mw3JNPm+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="34206769"
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="34206769"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 04:51:14 -0800
-X-CSE-ConnectionGUID: lnqh/by2Q22Q17OMsi/MYg==
-X-CSE-MsgGUID: K15cQn2jQseZzp7Gg3oCyA==
+  bh=g8ue4P5HFY6S2y860sel4IfGNN1rWcBEBd6otQq1kBA=;
+  b=m/uHG4QIxXHn4eHOQ0/OPDMHHXw2osnQPNl7SXYMnOKWdXOfIv2BORoF
+   hUNeSsHJ3NYL2Bw/0PUYeI5JpPrAjtnKeEqxUGH6AHFP8vLSpOgixVjV6
+   aWsCjg8qLZw30V0e37POvvnI3G3+Ubdee5cURuAtRt3F++84p5ip9recR
+   l1hxF05jMXYOa2f48oNOQw+eqgzYfiHl0Onfz8Uzq5B3SwRGT/9m2/HZC
+   jtK3cYJv1x2Wiby1E9+8zMLr77qldkd70+jZyfeFbQ9B3waaIYzKI41Jn
+   ayOUNjsOBPlN/ebNIaiJII2D5lTXaFXkzH5oY5K5RdgbQxQioaCfbt8N8
+   A==;
+X-CSE-ConnectionGUID: 0dZYt/HjTZqp33dcHGgizA==
+X-CSE-MsgGUID: +oeTGhqlT7+H2/fyCeZWWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52993361"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52993361"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:25:16 -0800
+X-CSE-ConnectionGUID: IXUNKcY+R0ylyYgt112G1w==
+X-CSE-MsgGUID: +rOOGTlPT8qZaQ1KLmEkFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="83746910"
+   d="scan'208";a="84113958"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Nov 2024 04:51:13 -0800
+  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2024 06:25:16 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7wY2-000kpV-1z;
-	Mon, 04 Nov 2024 12:51:10 +0000
-Date: Mon, 4 Nov 2024 20:50:38 +0800
+	id 1t7y13-000ktx-1P;
+	Mon, 04 Nov 2024 14:25:13 +0000
+Date: Mon, 4 Nov 2024 22:24:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176
- mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r]
- (local cap)
-Message-ID: <202411042047.FpydCvXU-lkp@intel.com>
+Cc: lkp@intel.com
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to
+ match any schema with compatible: ['google,pico-sku1', 'google,pico',
+ 'mediatek,mt8183']
+Message-ID: <202411042239.YItwcZ1v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,95 +64,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+:::::: 
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
+:::::: 
+
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Chank Chen <chank.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Shayne Chen <shayne.chen@mediatek.com>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-commit: e35f43aa34d36e6cb1de00705c08026b023ef5ed wifi: mt76: connac: add MBSSID support for mt7996
-date:   1 year, 1 month ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: sh-randconfig-r073-20241104 (https://download.01.org/0day-ci/archive/20241104/202411042047.FpydCvXU-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
+commit: cbae8f3e9b30d9136bff1155071d3d2505c45e64 [1/1] CHROMIUM: arm64: dts: mt8183: Use icarus dtsi for pico dts file
+:::::: branch date: 4 days ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241104/202411042239.YItwcZ1v-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411042239.YItwcZ1v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411042047.FpydCvXU-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411042239.YItwcZ1v-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2168 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
-
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:345 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:427 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:434 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
-drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:439 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
-
-vim +2176 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
-
-98686cd21624c7 Shayne Chen 2022-11-22  2149  
-e35f43aa34d36e Chank Chen  2023-08-31  2150  static void
-e35f43aa34d36e Chank Chen  2023-08-31  2151  mt7996_mcu_beacon_mbss(struct sk_buff *rskb, struct sk_buff *skb,
-e35f43aa34d36e Chank Chen  2023-08-31  2152  		       struct ieee80211_vif *vif, struct bss_bcn_content_tlv *bcn,
-e35f43aa34d36e Chank Chen  2023-08-31  2153  		       struct ieee80211_mutable_offsets *offs)
-e35f43aa34d36e Chank Chen  2023-08-31  2154  {
-e35f43aa34d36e Chank Chen  2023-08-31  2155  	struct bss_bcn_mbss_tlv *mbss;
-e35f43aa34d36e Chank Chen  2023-08-31  2156  	const struct element *elem;
-e35f43aa34d36e Chank Chen  2023-08-31  2157  	struct tlv *tlv;
-e35f43aa34d36e Chank Chen  2023-08-31  2158  
-e35f43aa34d36e Chank Chen  2023-08-31  2159  	if (!vif->bss_conf.bssid_indicator)
-e35f43aa34d36e Chank Chen  2023-08-31  2160  		return;
-e35f43aa34d36e Chank Chen  2023-08-31  2161  
-e35f43aa34d36e Chank Chen  2023-08-31  2162  	tlv = mt7996_mcu_add_uni_tlv(rskb, UNI_BSS_INFO_BCN_MBSSID, sizeof(*mbss));
-e35f43aa34d36e Chank Chen  2023-08-31  2163  
-e35f43aa34d36e Chank Chen  2023-08-31  2164  	mbss = (struct bss_bcn_mbss_tlv *)tlv;
-e35f43aa34d36e Chank Chen  2023-08-31  2165  	mbss->offset[0] = cpu_to_le16(offs->tim_offset);
-e35f43aa34d36e Chank Chen  2023-08-31  2166  	mbss->bitmap = cpu_to_le32(1);
-e35f43aa34d36e Chank Chen  2023-08-31  2167  
-e35f43aa34d36e Chank Chen  2023-08-31 @2168  	for_each_element_id(elem, WLAN_EID_MULTIPLE_BSSID,
-e35f43aa34d36e Chank Chen  2023-08-31  2169  			    &skb->data[offs->mbssid_off],
-e35f43aa34d36e Chank Chen  2023-08-31  2170  			    skb->len - offs->mbssid_off) {
-e35f43aa34d36e Chank Chen  2023-08-31  2171  		const struct element *sub_elem;
-e35f43aa34d36e Chank Chen  2023-08-31  2172  
-e35f43aa34d36e Chank Chen  2023-08-31  2173  		if (elem->datalen < 2)
-e35f43aa34d36e Chank Chen  2023-08-31  2174  			continue;
-e35f43aa34d36e Chank Chen  2023-08-31  2175  
-e35f43aa34d36e Chank Chen  2023-08-31 @2176  		for_each_element(sub_elem, elem->data + 1, elem->datalen - 1) {
-e35f43aa34d36e Chank Chen  2023-08-31  2177  			const struct ieee80211_bssid_index *idx;
-e35f43aa34d36e Chank Chen  2023-08-31  2178  			const u8 *idx_ie;
-e35f43aa34d36e Chank Chen  2023-08-31  2179  
-e35f43aa34d36e Chank Chen  2023-08-31  2180  			/* not a valid BSS profile */
-e35f43aa34d36e Chank Chen  2023-08-31  2181  			if (sub_elem->id || sub_elem->datalen < 4)
-e35f43aa34d36e Chank Chen  2023-08-31  2182  				continue;
-e35f43aa34d36e Chank Chen  2023-08-31  2183  
-e35f43aa34d36e Chank Chen  2023-08-31  2184  			/* Find WLAN_EID_MULTI_BSSID_IDX
-e35f43aa34d36e Chank Chen  2023-08-31  2185  			 * in the merged nontransmitted profile
-e35f43aa34d36e Chank Chen  2023-08-31  2186  			 */
-e35f43aa34d36e Chank Chen  2023-08-31  2187  			idx_ie = cfg80211_find_ie(WLAN_EID_MULTI_BSSID_IDX,
-e35f43aa34d36e Chank Chen  2023-08-31  2188  						  sub_elem->data, sub_elem->datalen);
-e35f43aa34d36e Chank Chen  2023-08-31  2189  			if (!idx_ie || idx_ie[1] < sizeof(*idx))
-e35f43aa34d36e Chank Chen  2023-08-31  2190  				continue;
-e35f43aa34d36e Chank Chen  2023-08-31  2191  
-e35f43aa34d36e Chank Chen  2023-08-31  2192  			idx = (void *)(idx_ie + 2);
-e35f43aa34d36e Chank Chen  2023-08-31  2193  			if (!idx->bssid_index || idx->bssid_index > 31)
-e35f43aa34d36e Chank Chen  2023-08-31  2194  				continue;
-e35f43aa34d36e Chank Chen  2023-08-31  2195  
-e35f43aa34d36e Chank Chen  2023-08-31  2196  			mbss->offset[idx->bssid_index] = cpu_to_le16(idx_ie -
-e35f43aa34d36e Chank Chen  2023-08-31  2197  								     skb->data);
-e35f43aa34d36e Chank Chen  2023-08-31  2198  			mbss->bitmap |= cpu_to_le32(BIT(idx->bssid_index));
-e35f43aa34d36e Chank Chen  2023-08-31  2199  		}
-e35f43aa34d36e Chank Chen  2023-08-31  2200  	}
-e35f43aa34d36e Chank Chen  2023-08-31  2201  }
-e35f43aa34d36e Chank Chen  2023-08-31  2202  
+dtcheck warnings: (new ones prefixed by >>)
+   	'google,kakadu-rev2-sku22' was expected
+   	'google,kodama' was expected
+   	'google,willow' was expected
+   	'mediatek,mt8365' was expected
+   	'mediatek,mt8516' was expected
+   	'google,elm-rev6' was expected
+   	'google,hana-rev4' was expected
+   	'google,spherion-rev1' was expected
+   	'google,kakadu' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to match any schema with compatible: ['google,pico-sku1', 'google,pico', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: failed to match any schema with compatible: ['google,pico-sku1', 'google,pico', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
 
 -- 
 0-DAY CI Kernel Test Service
