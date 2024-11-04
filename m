@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406A81B5EBC
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 19:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599731BFE03
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 19:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730747136; cv=none; b=B0/d8X1FDbJt1wJQ3AddrB2ATqlRxUnd66old+GJnHYF3yhFEVx6pWMD4uAYD3OTTGnktEN12cANFyMiCMHUPaPud5fcgo/YThdy7J4Ol1pEcCxh8MIfxpLabjiYa08iKDD8vGFN27FPOg1Eu16Q/z4CMRBGNzuKAAJZzlJUPSE=
+	t=1730748997; cv=none; b=jKk5elPFg7RtH40TqQiZ68FkpDDkpipL9J1F5+YykQEEUwgIe2qs/TFy8OOXKbG7Uf70ojQkmqK2OYESVzGATGPRFdNFZvlqr601cYnxoFeFVVfaUNxaJIPxSUbPfwxNyBTc3iKHLmDyhsSm7Q+o4A3qjCbE/JKl48Ux3PtWCLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730747136; c=relaxed/simple;
-	bh=SoTqqhz4YSCZKZ9fZ/6u2Ju0l0W6IKj3HUKGv8y84bo=;
+	s=arc-20240116; t=1730748997; c=relaxed/simple;
+	bh=6fthz9F9NqdvzcFRMdG+qd+tsKSycMcHkJc6UNN9G2Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JPNKoSUlfrxt74taGSWIBIR4vNGx+0reu3xmGZ4iuPXUfalqHra8VjtWMfNGtSNI4Swy99HAll+wL0upbg0qyoJBTWlUAGm8YA+rS+I9uuBxkYhTOMUeOn4qBA7wgqaFnHeSxpgFMx11IwTRIN4MSDV3YNs8LehcMo5mnQCIZnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StRJzEGh; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=b2VjBmGVcx0MNr4mrT9JcUIV46clUYoYSCKnDJGe6MUJID+vvcOpzZz2ElozW119xT81uclo7LRAQR/J4hgYj2nNvslv4VOjLxbD/TtlMqzGxkvYe2Gj9akjks5u1FxXrCo+Kp4XDBZL12fF7O+ypRKzHYy+7DZmdrYlGaqGDfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4dygdlS; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StRJzEGh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4dygdlS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730747135; x=1762283135;
+  t=1730748995; x=1762284995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SoTqqhz4YSCZKZ9fZ/6u2Ju0l0W6IKj3HUKGv8y84bo=;
-  b=StRJzEGhJyGk4wJX7V5Uu0G3//+dGp/I5brlC85nxt8LevtN9kD2FVYU
-   QmeWJ+82Di+0VcgxUd395BiRllOk6cex3QcUHhmf7K+OfJgIiSkWR7qG9
-   IBSCyLo84x5haxhX6YUk2C/RRX71m7zSrY/xnVAJnpo0z/sggcQ4svQsm
-   T/uJhqOgMWTXEjz3bLgMFC/htTRO1rUFQkKvzTqo3KRgce6hXdfv+vV1L
-   IiEu6/QxeZNULNVYhOQCJ+ng+i6R83EXX05tkkTGHCMytwv1B/FPn/Zr0
-   7iMEP78qv/KX9KYVih7kasysPPcewcxL/wKUHMBHeSHtOnh5aM1TlEn2M
-   g==;
-X-CSE-ConnectionGUID: 3IQofHB2TDSNp+E2+XeHTQ==
-X-CSE-MsgGUID: gJCjvniOQs2Ery2KEQCMOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30626763"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30626763"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 11:05:34 -0800
-X-CSE-ConnectionGUID: PAPIvUa3T8mg47n4vneUtA==
-X-CSE-MsgGUID: r6FCsH6gTku0oDitnLjUiw==
+  bh=6fthz9F9NqdvzcFRMdG+qd+tsKSycMcHkJc6UNN9G2Y=;
+  b=h4dygdlSED2PhKuHAUQ/PjlTjxJVZwcifY2HDDcSXX+NLVHS/mKZinQo
+   9QJDEyMxi3NsY832AJZ9iIckKG1MjGHwUPNvxNzx+wcGWE+V68ndPTD4T
+   daK9dfJOGlT0bbhC2IdabsFpFadJXgmxUZmi+5zHF1msHzCYYBR4TCybq
+   zukwX/if1LC/LCphNIJ4LvKMRrfzlNkOIO4eXS3rcA+Sg/Pm9zdYjUlhc
+   9AyOy8pUCN2N8ga+p+6yudlRpnHlLwVtqXrYkGBLsWAGcLKM7cLi2ZBjF
+   4qoTDmj0+ayW9VZHFP4D+SdJg87wKHbqga5M3rP7MlMe8fDXwh1vft6UW
+   Q==;
+X-CSE-ConnectionGUID: gWKBCBbESCOxaf6GS+SUqg==
+X-CSE-MsgGUID: y02Hd9WQSv+QKrR4q8CTew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30578520"
+X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
+   d="scan'208";a="30578520"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 11:36:34 -0800
+X-CSE-ConnectionGUID: MPZnDUXQT2WIinVGLGf79g==
+X-CSE-MsgGUID: v+9m5w5vTcScMCH1wCzJug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="84179262"
+   d="scan'208";a="121229495"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Nov 2024 11:05:31 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2024 11:36:33 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t82OH-000l9q-0n;
-	Mon, 04 Nov 2024 19:05:29 +0000
-Date: Tue, 5 Nov 2024 03:04:49 +0800
+	id 1t82sI-000lD7-2t;
+	Mon, 04 Nov 2024 19:36:30 +0000
+Date: Tue, 5 Nov 2024 03:35:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [linyunsheng:mpmc_v2 3/3] mm/page_frag_test.c:190 objpool_push()
- error: uninitialized symbol 'rc'.
-Message-ID: <202411050345.dl2bIHjE-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186
+ mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
+Message-ID: <202411050315.cahqHi8j-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,66 +64,153 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Yunsheng Lin <linyunsheng@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Sujuan Chen <sujuan.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Lorenzo Bianconi <lorenzo@kernel.org>
 
-tree:   https://github.com/gestionlin/linux.git mpmc_v2
-head:   b1b3f4485a8277decc8e13a8a8986b3d9298f316
-commit: b1b3f4485a8277decc8e13a8a8986b3d9298f316 [3/3] mm: page_frag: numa-aware push
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: openrisc-randconfig-r072-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050345.dl2bIHjE-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
+commit: 83eafc9251d6d30574b629ac637c56d168fcbdd9 wifi: mt76: mt7996: add wed tx support
+date:   11 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 11 months ago
+config: sh-randconfig-r073-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050315.cahqHi8j-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411050345.dl2bIHjE-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411050315.cahqHi8j-lkp@intel.com/
 
-smatch warnings:
-mm/page_frag_test.c:190 objpool_push() error: uninitialized symbol 'rc'.
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186 mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
 
-vim +/rc +190 mm/page_frag_test.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/pci.c:192 mt7996_pci_probe() error: uninitialized symbol 'hif2_dev'.
 
-fe0f006f768f10 Yunsheng Lin 2024-07-31  160  
-fe0f006f768f10 Yunsheng Lin 2024-07-31  161  /* reclaim an object to object pool */
-fe0f006f768f10 Yunsheng Lin 2024-07-31  162  static int objpool_push(void *obj, struct objpool_head *pool)
-fe0f006f768f10 Yunsheng Lin 2024-07-31  163  {
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  164  	const struct cpumask *prev = cpu_none_mask;
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  165  	int numa_node = numa_mem_id();
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  166  	const struct cpumask *mask;
-fe0f006f768f10 Yunsheng Lin 2024-07-31  167  	unsigned long flags;
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  168  	int start_cpu, cpu;
-fe0f006f768f10 Yunsheng Lin 2024-07-31  169  	int rc;
-fe0f006f768f10 Yunsheng Lin 2024-07-31  170  
-fe0f006f768f10 Yunsheng Lin 2024-07-31  171  	/* disable local irq to avoid preemption & interruption */
-fe0f006f768f10 Yunsheng Lin 2024-07-31  172  	raw_local_irq_save(flags);
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  173  	rcu_read_lock();
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  174  
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  175  	start_cpu = raw_smp_processor_id();
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  176  	for_each_numa_hop_mask(mask, numa_node) {
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  177  		for_each_cpu_andnot_wrap(cpu, mask, prev, start_cpu) {
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  178  			rc = objpool_try_add_slot(obj, pool, cpu);
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  179  			if (!rc)
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  180  				goto out;
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  181  		}
-fe0f006f768f10 Yunsheng Lin 2024-07-31  182  
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  183  		start_cpu = 0;
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  184  		prev = mask;
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  185  	}
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  186  
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  187  out:
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  188  	rcu_read_unlock();
-b1b3f4485a8277 Yunsheng Lin 2024-11-03  189  	raw_local_irq_restore(flags);
-fe0f006f768f10 Yunsheng Lin 2024-07-31 @190  	return rc;
-fe0f006f768f10 Yunsheng Lin 2024-07-31  191  }
-fe0f006f768f10 Yunsheng Lin 2024-07-31  192  
+vim +/hif2_irq +186 drivers/net/wireless/mediatek/mt76/mt7996/pci.c
 
-:::::: The code at line 190 was first introduced by commit
-:::::: fe0f006f768f106d5d3e40ab87e252107ceb0624 mm: page_frag: add a test module for page_frag
-
-:::::: TO: Yunsheng Lin <linyunsheng@huawei.com>
-:::::: CC: Yunsheng Lin <linyunsheng@huawei.com>
+98686cd21624c7 Shayne Chen 2022-11-22   90  
+98686cd21624c7 Shayne Chen 2022-11-22   91  static int mt7996_pci_probe(struct pci_dev *pdev,
+98686cd21624c7 Shayne Chen 2022-11-22   92  			    const struct pci_device_id *id)
+98686cd21624c7 Shayne Chen 2022-11-22   93  {
+98686cd21624c7 Shayne Chen 2022-11-22   94  	struct pci_dev *hif2_dev;
+83eafc9251d6d3 Sujuan Chen 2023-10-20   95  	struct mt7996_hif *hif2;
+98686cd21624c7 Shayne Chen 2022-11-22   96  	struct mt7996_dev *dev;
+83eafc9251d6d3 Sujuan Chen 2023-10-20   97  	int irq, hif2_irq, ret;
+98686cd21624c7 Shayne Chen 2022-11-22   98  	struct mt76_dev *mdev;
+98686cd21624c7 Shayne Chen 2022-11-22   99  
+98686cd21624c7 Shayne Chen 2022-11-22  100  	ret = pcim_enable_device(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  101  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  102  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  103  
+98686cd21624c7 Shayne Chen 2022-11-22  104  	ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
+98686cd21624c7 Shayne Chen 2022-11-22  105  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  106  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  107  
+98686cd21624c7 Shayne Chen 2022-11-22  108  	pci_set_master(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  109  
+98686cd21624c7 Shayne Chen 2022-11-22  110  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+98686cd21624c7 Shayne Chen 2022-11-22  111  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  112  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  113  
+98686cd21624c7 Shayne Chen 2022-11-22  114  	mt76_pci_disable_aspm(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  115  
+98686cd21624c7 Shayne Chen 2022-11-22  116  	if (id->device == 0x7991)
+98686cd21624c7 Shayne Chen 2022-11-22  117  		return mt7996_pci_hif2_probe(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  118  
+98686cd21624c7 Shayne Chen 2022-11-22  119  	dev = mt7996_mmio_probe(&pdev->dev, pcim_iomap_table(pdev)[0],
+98686cd21624c7 Shayne Chen 2022-11-22  120  				id->device);
+98686cd21624c7 Shayne Chen 2022-11-22  121  	if (IS_ERR(dev))
+98686cd21624c7 Shayne Chen 2022-11-22  122  		return PTR_ERR(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  123  
+98686cd21624c7 Shayne Chen 2022-11-22  124  	mdev = &dev->mt76;
+98686cd21624c7 Shayne Chen 2022-11-22  125  	mt7996_wfsys_reset(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  126  	hif2 = mt7996_pci_init_hif2(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  127  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  128  	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  129  	if (ret < 0)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  130  		goto free_wed_or_irq_vector;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  131  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  132  	if (!ret) {
+98686cd21624c7 Shayne Chen 2022-11-22  133  		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+98686cd21624c7 Shayne Chen 2022-11-22  134  		if (ret < 0)
+98686cd21624c7 Shayne Chen 2022-11-22  135  			goto free_device;
+98686cd21624c7 Shayne Chen 2022-11-22  136  
+98686cd21624c7 Shayne Chen 2022-11-22  137  		irq = pdev->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  138  	}
+83eafc9251d6d3 Sujuan Chen 2023-10-20  139  
+98686cd21624c7 Shayne Chen 2022-11-22  140  	ret = devm_request_irq(mdev->dev, irq, mt7996_irq_handler,
+98686cd21624c7 Shayne Chen 2022-11-22  141  			       IRQF_SHARED, KBUILD_MODNAME, dev);
+98686cd21624c7 Shayne Chen 2022-11-22  142  	if (ret)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  143  		goto free_wed_or_irq_vector;
+98686cd21624c7 Shayne Chen 2022-11-22  144  
+98686cd21624c7 Shayne Chen 2022-11-22  145  	mt76_wr(dev, MT_INT_MASK_CSR, 0);
+98686cd21624c7 Shayne Chen 2022-11-22  146  	/* master switch of PCIe tnterrupt enable */
+98686cd21624c7 Shayne Chen 2022-11-22  147  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+98686cd21624c7 Shayne Chen 2022-11-22  148  
+98686cd21624c7 Shayne Chen 2022-11-22  149  	if (hif2) {
+98686cd21624c7 Shayne Chen 2022-11-22  150  		hif2_dev = container_of(hif2->dev, struct pci_dev, dev);
+98686cd21624c7 Shayne Chen 2022-11-22  151  		dev->hif2 = hif2;
+98686cd21624c7 Shayne Chen 2022-11-22  152  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  153  		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  154  		if (ret < 0)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  155  			goto free_hif2_wed_irq_vector;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  156  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  157  		if (!ret) {
+83eafc9251d6d3 Sujuan Chen 2023-10-20  158  			ret = pci_alloc_irq_vectors(hif2_dev, 1, 1,
+83eafc9251d6d3 Sujuan Chen 2023-10-20  159  						    PCI_IRQ_ALL_TYPES);
+98686cd21624c7 Shayne Chen 2022-11-22  160  			if (ret < 0)
+98686cd21624c7 Shayne Chen 2022-11-22  161  				goto free_hif2;
+98686cd21624c7 Shayne Chen 2022-11-22  162  
+98686cd21624c7 Shayne Chen 2022-11-22  163  			dev->hif2->irq = hif2_dev->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  164  			hif2_irq = dev->hif2->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  165  		}
+83eafc9251d6d3 Sujuan Chen 2023-10-20  166  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  167  		ret = devm_request_irq(mdev->dev, hif2_irq, mt7996_irq_handler,
+83eafc9251d6d3 Sujuan Chen 2023-10-20  168  				       IRQF_SHARED, KBUILD_MODNAME "-hif",
+83eafc9251d6d3 Sujuan Chen 2023-10-20  169  				       dev);
+98686cd21624c7 Shayne Chen 2022-11-22  170  		if (ret)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  171  			goto free_hif2_wed_irq_vector;
+98686cd21624c7 Shayne Chen 2022-11-22  172  
+98686cd21624c7 Shayne Chen 2022-11-22  173  		mt76_wr(dev, MT_INT1_MASK_CSR, 0);
+98686cd21624c7 Shayne Chen 2022-11-22  174  		/* master switch of PCIe tnterrupt enable */
+98686cd21624c7 Shayne Chen 2022-11-22  175  		mt76_wr(dev, MT_PCIE1_MAC_INT_ENABLE, 0xff);
+98686cd21624c7 Shayne Chen 2022-11-22  176  	}
+98686cd21624c7 Shayne Chen 2022-11-22  177  
+98686cd21624c7 Shayne Chen 2022-11-22  178  	ret = mt7996_register_device(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  179  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  180  		goto free_hif2_irq;
+98686cd21624c7 Shayne Chen 2022-11-22  181  
+98686cd21624c7 Shayne Chen 2022-11-22  182  	return 0;
+98686cd21624c7 Shayne Chen 2022-11-22  183  
+98686cd21624c7 Shayne Chen 2022-11-22  184  free_hif2_irq:
+98686cd21624c7 Shayne Chen 2022-11-22  185  	if (dev->hif2)
+83eafc9251d6d3 Sujuan Chen 2023-10-20 @186  		devm_free_irq(mdev->dev, hif2_irq, dev);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  187  free_hif2_wed_irq_vector:
+83eafc9251d6d3 Sujuan Chen 2023-10-20  188  	if (dev->hif2) {
+83eafc9251d6d3 Sujuan Chen 2023-10-20  189  		if (mtk_wed_device_active(&dev->mt76.mmio.wed_hif2))
+83eafc9251d6d3 Sujuan Chen 2023-10-20  190  			mtk_wed_device_detach(&dev->mt76.mmio.wed_hif2);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  191  		else
+98686cd21624c7 Shayne Chen 2022-11-22  192  			pci_free_irq_vectors(hif2_dev);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  193  	}
+98686cd21624c7 Shayne Chen 2022-11-22  194  free_hif2:
+98686cd21624c7 Shayne Chen 2022-11-22  195  	if (dev->hif2)
+98686cd21624c7 Shayne Chen 2022-11-22  196  		put_device(dev->hif2->dev);
+98686cd21624c7 Shayne Chen 2022-11-22  197  	devm_free_irq(mdev->dev, irq, dev);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  198  free_wed_or_irq_vector:
+83eafc9251d6d3 Sujuan Chen 2023-10-20  199  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+83eafc9251d6d3 Sujuan Chen 2023-10-20  200  		mtk_wed_device_detach(&dev->mt76.mmio.wed);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  201  	else
+98686cd21624c7 Shayne Chen 2022-11-22  202  		pci_free_irq_vectors(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  203  free_device:
+98686cd21624c7 Shayne Chen 2022-11-22  204  	mt76_free_device(&dev->mt76);
+98686cd21624c7 Shayne Chen 2022-11-22  205  
+98686cd21624c7 Shayne Chen 2022-11-22  206  	return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  207  }
+98686cd21624c7 Shayne Chen 2022-11-22  208  
 
 -- 
 0-DAY CI Kernel Test Service
