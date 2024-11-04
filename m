@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9503538F97
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 06:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF709191F6E
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 07:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730701850; cv=none; b=Q72QrrmnJYL/xRp28ytsSX8qPnS1b3OIFV/H6OWLYjvPxZ00J9a4uKmV2i8pPwd5QYgg6MntzYaSQpWejxeDZ6FCzkGD2D3ox04CPi/rVWi6DV+rTNkyjHWCMqI2yNiEPoFf9RHzINTj54mePAyE59HSSTcBOQ370Ofa3MErLfI=
+	t=1730705020; cv=none; b=VYseHt2Rr80JjcMkf8WYZej12u07j4rcT1uBKg1xuFxL6femjxSq+z4Bt7WHoPRf1q7DEaryYavSauc583IQ//moLWU3jPpmUgHqgycpnvUjyYwrDQt2ONobsewnLKYmHTnR03neB4rouEd9iwbheaONczbUmi3omPLqxjT2v0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730701850; c=relaxed/simple;
-	bh=zrC+Xr5VT+/LCo2LHfeOyz7h5sT6RBnFzaH8ZCiM8GA=;
+	s=arc-20240116; t=1730705020; c=relaxed/simple;
+	bh=BzZ86BxrPlQC9+39mi52+0OlxseZ8YqyYhJ2yPkZFts=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pwVVay1lNGaLeXcTlCC3KhYUHOsgW0z8w4Rr1Onfi0jE363LJeiRAev5x9Xx2XilH+zBYuzEdEfWcwRn9vD7nQzOsmKYTBeppb55F8J+fUXiUj/NlA3uJACsslTT7NQYpzOoSfAhieK+m/gR1AyYmb7M+0643KTdIHJVFNo6ULI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iAsYer6k; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=MVdxFqz1Rw5DAwRYlY6dBK3X9E20OVWxuvhrqVKTcm5KA5py7Kw7JpijS7RtYRZGBHjg+7k5X3ak5qAXa19wBzniK35ujoh1AD3SbEyapHbAUHfJ2maQITGkAbntmxigpHMW1TBv9dBGXzz4KNwz5g+w7QhznBUF/zrI9q3wom4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fUoPqv2a; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iAsYer6k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730701848; x=1762237848;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zrC+Xr5VT+/LCo2LHfeOyz7h5sT6RBnFzaH8ZCiM8GA=;
-  b=iAsYer6kcZIMhMRcRw+Qw1eCo7e8TbJPZyZ5B+bs4PUlHAZCGL/YBRje
-   Umsh2+f3n2m6OVjVRa/nWrPlz8s6odwfn6PQnZgy0q1Mfgh+PUfYfSMGw
-   Nq+bfpKvZ8vQkNJBhSMmGtQZHXfiLLM5x8/Ss4iJ6BnPOF5JpN8nJESbt
-   vp9OESJciW7rU1hPVb5nRSQ9ZAihQUmv0uNgEsB8lnVTNJJqCbg76GFC6
-   CytObQRuLFEAVWa3X0oA316Fk2vnLJtiQJ59POPn2vJA8Bw5BpRjUB9H9
-   HnywggmtqkcRHHm9jPgZp27YrOsG3Bs2JmTDGW/hoNIwMSXB3CjInGLQ0
-   g==;
-X-CSE-ConnectionGUID: VTl5GIJ4SoyQYdSDguBV6g==
-X-CSE-MsgGUID: g/AKpTJLSbeb0tGPW43gsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34080787"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34080787"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 22:30:47 -0800
-X-CSE-ConnectionGUID: N662rpDzT1KIaljTT+Iwfw==
-X-CSE-MsgGUID: 5XFNo8zsSsa5cKak3/Xshw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83686928"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 Nov 2024 22:30:46 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7qbs-000kXj-0D;
-	Mon, 04 Nov 2024 06:30:44 +0000
-Date: Mon, 4 Nov 2024 14:30:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [openeuler:OLK-6.6 1360/1360]
- Documentation/devicetree/bindings/gpu/phytium,dc.yaml:40:8: [warning] wrong
- indentation: expected 2 but found 7 (indentation)
-Message-ID: <202411041414.IJjJzikx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fUoPqv2a"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43152b79d25so32817645e9.1
+        for <oe-kbuild@lists.linux.dev>; Sun, 03 Nov 2024 23:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730705017; x=1731309817; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
+        b=fUoPqv2aVNJ48LVhiz6+/dTw3I+kICmQJy9KSsbWzIVK+zpHfASOgXvcWwou+WDQtM
+         lggczTqVeSNyq9fcmR2Ban34qR9zjoFQ6farOVQyscQkKwGzu8ZGxd0ruZpBlvPNWKSv
+         uajI0amHjn+F4qMcNzxgkf2NZEgrWqAS0dxUfrrBe1FMGIdVBWbxvxw9sTSFUJb4Tn1N
+         vxZ9vf0qEy6m5nz9X8Wjw3PBYRai0Fvp04aOdZSpBQbG2atiBSCijJQr7BKpHZPccalb
+         ynK7bfLuB6ZFJerW3UCVQmiRrubg6alWDXMhWTmQDtKmhtZQ6wknrYVd4H7nv2F+2YB9
+         iQ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730705017; x=1731309817;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
+        b=ck5tLnWOM3U1jTGA8ILmXTW5uYvcEPGYKTaRCmLB6rj3EJhI3Bok2tsJ0SIZaCgJY9
+         kpV2Nc6s/PhLg4vV3e+scbD4xL2hY+rKgxFhwl6U5wMEGM9szX/JYomXIh34fbT5upfn
+         ikRxSts1OrCPK1VQKybH2QfgcEL2bJIZ8cGw9PyTp+/hT327/2OGvjLsM2eLS00gdQZb
+         vnrYMAbga0Zkjz9DG1DpG3GPPy7AG5JnxAiUh7arBWWazwYlQSSPj+W81j+ufOZ/H9yN
+         VnDuB68gqYX1YpbVPdTb/MfOGfbXAFIUGNFUJ/cg/bb9Ob4rYr5ezfnnojecrb3kl8ZT
+         1A7A==
+X-Gm-Message-State: AOJu0Yy2oLj8yzuuaoC7IGptsn7zxm7UaatSMRfVhWxtVrgLaSTboQvN
+	ufakNvMcHFWToXf8rBW6zyo7/Eg1hxjeofCrUcJDPDAvA2+KqMYRDo/xrpDb4GLdQ0T6lHvnKbG
+	o
+X-Google-Smtp-Source: AGHT+IH40kTx91Wk2I+uwvpntqh9B6wAV6h1+3zOozojDZ54UMaVhhfVF5oyrYpKHhmXEoEXhdGeTQ==
+X-Received: by 2002:a05:600c:3507:b0:431:4e3f:9dee with SMTP id 5b1f17b1804b1-4327b6f46d3mr123743255e9.4.1730705017060;
+        Sun, 03 Nov 2024 23:23:37 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5abfefsm144395155e9.4.2024.11.03.23.23.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Nov 2024 23:23:36 -0800 (PST)
+Date: Mon, 4 Nov 2024 10:23:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, mrpre <mrpre@163.com>,
+	yonghong.song@linux.dev, john.fastabend@gmail.com,
+	martin.lau@kernel.org, edumazet@google.com, jakub@cloudflare.com,
+	davem@davemloft.net, dsahern@kernel.org, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mrpre <mrpre@163.com>
+Subject: Re: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+Message-ID: <53444aeb-aa22-4076-95dd-f079861567c9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,100 +70,94 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241101161624.568527-2-mrpre@163.com>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+Hi mrpre,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: lishuo <lishuo@phytium.com.cn>
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4d3056ab32e02139d7656adf048416e877e283b0
-commit: ab9ff1e38569313e41ba5a036591f93cb55e5d87 [1360/1360] DRM: Phytium display DRM doc
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
-config: loongarch-randconfig-052-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041414.IJjJzikx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041414.IJjJzikx-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-Introduce-cpu-affinity-for-sockmap/20241102-001844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241101161624.568527-2-mrpre%40163.com
+patch subject: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+config: i386-randconfig-141-20241102 (https://download.01.org/0day-ci/archive/20241103/202411030036.PSKG1pW3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411041414.IJjJzikx-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411030036.PSKG1pW3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml:40:8: [warning] wrong indentation: expected 2 but found 7 (indentation)
-   Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:76:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:82:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
---
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: properties:clocks:items: 'anyOf' conditional failed, one must be fixed:
-   ['description:Display controller reference clock source'] is not of type 'object', 'boolean'
-   'description:Display controller reference clock source' is not of type 'object', 'boolean'
-   from schema $id: http://json-schema.org/draft-07/schema#
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: properties:reg: 'oneOf' conditional failed, one must be fixed:
-   [{'description': 'Offset and length of the memory mapped registers'}] is too short
-   False schema does not allow 1
-   hint: "minItems" is only needed if less than the "items" list length
-   from schema $id: http://devicetree.org/meta-schemas/items.yaml#
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: properties:clocks: 'oneOf' conditional failed, one must be fixed:
-   ['description:Display controller reference clock source'] is too short
-   False schema does not allow 1
-   hint: "minItems" is only needed if less than the "items" list length
-   from schema $id: http://devicetree.org/meta-schemas/items.yaml#
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: 'Example' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
-   from schema $id: http://devicetree.org/meta-schemas/base.yaml#
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: properties:clocks: 'oneOf' conditional failed, one must be fixed:
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: properties:clocks: 'anyOf' conditional failed, one must be fixed:
-   'maxItems' is a required property
-   hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-   'minItems' is not one of ['maxItems', 'description', 'deprecated']
-   hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-   'items' is not one of ['maxItems', 'description', 'deprecated']
-   hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-   'minItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-   'items' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-   ['description:Display controller reference clock source'] is valid under each of {'type': 'array', 'maxItems': 1, 'items': {'allOf': [{'$ref': '#/array'}], 'required': ['items']}}, {'type': 'array', 'items': {'$ref': '#/single'}}
-   hint: "items" can be a list defining each entry or a schema applying to all items. A list has an implicit size. A schema requires minItems/maxItems to define the size.
-   hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
-   from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
-   'minItems' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-   'items' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-   'type' is a required property
-   hint: DT nodes ("object" type in schemas) can only use a subset of json-schema keywords
-   from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
-   $id: http://devicetree.org/schemas/dc/snps,dc.yaml
-   file: Documentation/devicetree/bindings/gpu/phytium,dc.yaml
-   Documentation/devicetree/bindings/mfd/rockchip,rk808.yaml: ^(DCDC_REG[1-4]|LDO_REG[1-8]|SWITCH_REG[1-2])$: Missing additionalProperties/unevaluatedProperties constraint
---
->> Documentation/devicetree/bindings/gpu/phytium,dc.yaml: ignoring, error in schema: properties: clocks: items
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/framebuffer.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/framebuffer.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/shared-dma-pool.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/shared-dma-pool.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/reserved-memory.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/reserved-memory.yaml#'
-   /usr/local/lib/python3.11/dist-packages/dtschema/schemas/reserved-memory/memory-region.yaml: warning: ignoring duplicate '$id' value 'http://devicetree.org/schemas/reserved-memory/memory-region.yaml#'
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-odd-pixels: missing type definition
-   Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml: dual-lvds-even-pixels: missing type definition
-   Documentation/devicetree/bindings/input/touchscreen/ti,tsc2005.yaml: ti,x-plate-ohms: missing type definition
-   Documentation/devicetree/bindings/sound/audio-graph-port.yaml: convert-sample-format: missing type definition
-   Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml: i2c-alias: missing type definition
-   Warning: Duplicate compatible "maxim,max6625" found in schemas matching "$id":
+smatch warnings:
+net/core/sock_map.c:511 sock_map_update_common() warn: variable dereferenced before check 'psock' (see line 492)
 
-vim +40 Documentation/devicetree/bindings/gpu/phytium,dc.yaml
+vim +/psock +511 net/core/sock_map.c
 
-ab9ff1e3856931 lishuo 2024-01-19  33  
-ab9ff1e3856931 lishuo 2024-01-19  34  required:
-ab9ff1e3856931 lishuo 2024-01-19  35    - compatible
-ab9ff1e3856931 lishuo 2024-01-19  36    - reg
-ab9ff1e3856931 lishuo 2024-01-19  37    - interrupts
-ab9ff1e3856931 lishuo 2024-01-19  38  
-ab9ff1e3856931 lishuo 2024-01-19  39  Example:
-ab9ff1e3856931 lishuo 2024-01-19 @40         /memreserve/ 0xf4000000 0x4000000; // (optional)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  467  static int sock_map_update_common(struct bpf_map *map, u32 idx,
+ffed654afa8dc1 mrpre           2024-11-02  468  				  struct sock *sk, u64 flags, s32 target_cpu)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  469  {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  470  	struct bpf_stab *stab = container_of(map, struct bpf_stab, map);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  471  	struct sk_psock_link *link;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  472  	struct sk_psock *psock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  473  	struct sock *osk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  474  	int ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  475  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  476  	WARN_ON_ONCE(!rcu_read_lock_held());
+604326b41a6fb9 Daniel Borkmann 2018-10-13  477  	if (unlikely(flags > BPF_EXIST))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  478  		return -EINVAL;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  479  	if (unlikely(idx >= map->max_entries))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  480  		return -E2BIG;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  481  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  482  	link = sk_psock_init_link();
+604326b41a6fb9 Daniel Borkmann 2018-10-13  483  	if (!link)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  484  		return -ENOMEM;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  485  
+2004fdbd8a2b56 Cong Wang       2021-03-30  486  	ret = sock_map_link(map, sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  487  	if (ret < 0)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  488  		goto out_free;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  489  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  490  	psock = sk_psock(sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  491  	WARN_ON_ONCE(!psock);
+ffed654afa8dc1 mrpre           2024-11-02 @492  	psock->target_cpu = target_cpu;
+                                                        ^^^^^^^^^^^^^^^^^
+The patch adds an unchecked dereference
+
+35d2b7ffffc1d9 John Fastabend  2023-08-29  493  	spin_lock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  494  	osk = stab->sks[idx];
+604326b41a6fb9 Daniel Borkmann 2018-10-13  495  	if (osk && flags == BPF_NOEXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  496  		ret = -EEXIST;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  497  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  498  	} else if (!osk && flags == BPF_EXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  499  		ret = -ENOENT;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  500  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  501  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  502  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  503  	sock_map_add_link(psock, link, map, &stab->sks[idx]);
+
+This also dereferences psock btw.
+
+604326b41a6fb9 Daniel Borkmann 2018-10-13  504  	stab->sks[idx] = sk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  505  	if (osk)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  506  		sock_map_unref(osk, &stab->sks[idx]);
+35d2b7ffffc1d9 John Fastabend  2023-08-29  507  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  508  	return 0;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  509  out_unlock:
+35d2b7ffffc1d9 John Fastabend  2023-08-29  510  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13 @511  	if (psock)
+                                                            ^^^^^
+Probably after 6 years of not triggering the WARN_ON_ONCE() on line 490, we can
+remove this check?
+
+604326b41a6fb9 Daniel Borkmann 2018-10-13  512  		sk_psock_put(sk, psock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  513  out_free:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  514  	sk_psock_free_link(link);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  515  	return ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  516  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
