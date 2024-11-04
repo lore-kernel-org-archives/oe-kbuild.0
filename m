@@ -1,338 +1,317 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC4D1CB318
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 18:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730743355; cv=none; b=jxssB28d5AaS8fBxY/pewLd4aE3v2sR6rktSE8gqWiWC42aL47GstSlTuLs3JPxIBLTL7ro0YeAZzrKF6toZaVVHXQrW/a8pEb4aGqOSGqQKeN6fHwR0yGaxp8We93q3YHuAcfmvSSmKhRTL31mBwupBnv3fcGliqfLQg1Ih6Ag=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730743355; c=relaxed/simple;
-	bh=yiVl1s+zNH7dW39I1ewG1GMclpdbO2ybvKsg0FMo3sA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dIV79cXKkTIez7yE2yKdG5fOpWfn6u8nIbPf0qZGS0g7U/XpNnD0CvdkL1jEYNoFwQzLZKw+y87RSWuSXC2ZZyVQrqO5U5pWKV6fYGBHAnvkSG3/XelJoe1yPJ3oj7Au44FERR+gDdS743V+NYFQIRDCj3Bl9NRnqbc0vbeB0g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOAJDC1e; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C500C1CACE8;
+	Mon,  4 Nov 2024 18:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730744952; cv=fail; b=K2Oc65xfqMo+Y1eDLOEAJ5c7BUf0ctbS0Gb2OPuorQNKTxXK7r7mK8M8QO3k2SLx8QYVljku1sQcvF3cVhIUf1gRZSd0PQZ8eQ72HnDuNgLRzIH4EcJePyO6455f7VIcdIcrsiMWBYGgtTlaHoxz+14DGJT8dlu+5rfiVYgvIPE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730744952; c=relaxed/simple;
+	bh=bk/a2M+YyTVGLklyPs0AkStQSEU3KsfdBmB1fp9rNHo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=m8BD9Ft67pNKzU5E+zo3bh3S4X/FWqy1AHDRlXg+/G1LEVcqL16CfTUsZx9NTBcY7wX4UGsLWhmxP8f5ZNsr/fX6RfWPkzsQR/hhvUu6obysProczq1c+8MuFQQPgiAQIijRdUFc1+NP6ZtqHWUewZMxWdxeukChZKhjWginExY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XkKx3Jw7; arc=fail smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOAJDC1e"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XkKx3Jw7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730743353; x=1762279353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yiVl1s+zNH7dW39I1ewG1GMclpdbO2ybvKsg0FMo3sA=;
-  b=HOAJDC1ejY0wS/Kcy50Gxut/vEA0ysBYsozFRC9XtHBj4+CnVwkEispL
-   M1/fThCdtVChQHFb0Q5bEweRLQbWRz/3r26i/aDoZhcaHUP27X1WjUE1/
-   keqVBFa3uRLkBjFKuBA//3B+qf9MZHP7QIr90yQduqlN3Yqmyh3pMoOGR
-   NrWqwKCEk7UVoSJT1ltAkK7kyZPQ9wT2TQZ8SCOavPy7fJVmkeAGJu7/Q
-   QjRVsKIN6mHLvgpnMmKEZAi5TIbePte+Q1rkfbHfWTOpxZxLA58HWSGMz
-   uMdgwNPWgKF88fwCVt/IQicZg8H55fyAx6B6psmPHpqZ3pd7o9RSn7laV
+  t=1730744951; x=1762280951;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=bk/a2M+YyTVGLklyPs0AkStQSEU3KsfdBmB1fp9rNHo=;
+  b=XkKx3Jw7LfYuAKb1gfnU1L2rBQhEUyVN4UivFvR+2DzIrOArZuw3uAVd
+   2u1q1YUon6nuUPLGWOAsvDUKATvcN0lGAE9oMlXLovmQ9fNa3yKTcvZP3
+   dpPchClQYRdlRkc/OqcJsxN25nalKWyd2zzDj08n/PIeF8ZGAFweIDUaT
+   KrhhwpquCqHzbdy7gqzWELb20j/1oElAp7hbadhBgcTKA0b25cz4Fxjyw
+   LH5R62RtRZkoiN9WPggTHFmLxW3NGSPFfkUJJJfYq7lO2+4gL8KlilfHu
+   dTExNQ+4bjXcEVYsOH+PnODV7gkyB+OojQakw1Y90hWpSt32HagaoEVFm
    Q==;
-X-CSE-ConnectionGUID: WgrlEGXRQd+Q/E3fEmQsVA==
-X-CSE-MsgGUID: 3Rgrl/n1TpWAQr7adPBGMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30307902"
+X-CSE-ConnectionGUID: Fge82LxNRUqadVENFu2r3Q==
+X-CSE-MsgGUID: ux+NTUd9S++SeofdrQRwdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30622423"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30307902"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:02:31 -0800
-X-CSE-ConnectionGUID: S6R4+HtZRje1mKLNJ4SsbQ==
-X-CSE-MsgGUID: 1EHOSZl7Siy25wUZrKik1Q==
+   d="scan'208";a="30622423"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:29:10 -0800
+X-CSE-ConnectionGUID: gPJ/bsspTP2axq3TF3xgsQ==
+X-CSE-MsgGUID: NrtKsBOlQj+Aa6iB0AE48Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="87669013"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 10:02:29 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t81PG-000l65-1i;
-	Mon, 04 Nov 2024 18:02:26 +0000
-Date: Tue, 5 Nov 2024 02:01:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 2350/2350] net/rxrpc/sendmsg.c:471
- rxrpc_send_data() error: uninitialized symbol 'skb'.
-Message-ID: <202411050217.vVYcKY88-lkp@intel.com>
+   d="scan'208";a="88882953"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Nov 2024 10:29:10 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 4 Nov 2024 10:29:09 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 10:29:09 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.49) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 4 Nov 2024 10:29:09 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lyaaV+ExDBCaR6xzcY9ZCsOFVEDgPAvIspT/YQBy5Y4srgsnKqvWo+FCoC/OLw4wP8LqZB2O74xV0ckurUf2i15y3doll+Dg4jkrh7udEkQ9+mirXFMMEbmBgsA4LuSPc4QKvujwrJvScHbzQgfdRjvUtyUM8zCOWZsxhn2QtPkizesgbmk1CLCkUgq1tCrlMOdUr8L1ih4OaUzWIiW5N5QQXRY5hIoZ0seBvq/Xr2qtUIFER+pz+fyzDikM3HkEHH4ufgTsl6z9gjv5ja3Hm4MGPcTnfHiTmDH47Fu//nZhP3tXy89gvq+ybHUZ61ePEv9fBsCwlTYJHLH9q6i7Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HyAqXXirxrEnL201+WXSWiFZ2subZ7fZux25g2ejZTE=;
+ b=wx7MOPXI8iGrVYA2xRHSZZ3TovOMcaTHMVVlBln+jXex+QJUeZA1QrayJ3tEm02p87xs+1wxUikuPWqUre6Vvv5MqjdeFJgsjeEsWtzCTUBbeWpQOJk1dOn6jQEQoM8TBcmHUcw+AUxV8o8yO8CN3FgyCu9djFH1keiptB2FRINJ14F6DKIyBwBAOyVOAAVF1u5p0dMVpD+7kb+4+rJkriqV0f0v/sXLh5zZ+v32wLDpHAOiEKn2/EkLPlX0KEEB2SAy6rEOGVxPkNQouG8QbQjsQmurB6/PZzwkezXY0bYawdgeo8frC4R/iTRzSG6VGzz8xmbb3wKmZn/to00jfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ0PR11MB5678.namprd11.prod.outlook.com (2603:10b6:a03:3b8::22)
+ by BN9PR11MB5260.namprd11.prod.outlook.com (2603:10b6:408:135::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31; Mon, 4 Nov
+ 2024 18:29:06 +0000
+Received: from SJ0PR11MB5678.namprd11.prod.outlook.com
+ ([fe80::812:6f53:13d:609c]) by SJ0PR11MB5678.namprd11.prod.outlook.com
+ ([fe80::812:6f53:13d:609c%4]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
+ 18:29:06 +0000
+From: "Sridhar, Kanchana P" <kanchana.p.sridhar@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, "oe-kbuild@lists.linux.dev"
+	<oe-kbuild@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"hannes@cmpxchg.org" <hannes@cmpxchg.org>, "yosryahmed@google.com"
+	<yosryahmed@google.com>, "nphamcs@gmail.com" <nphamcs@gmail.com>,
+	"chengming.zhou@linux.dev" <chengming.zhou@linux.dev>,
+	"usamaarif642@gmail.com" <usamaarif642@gmail.com>, "ryan.roberts@arm.com"
+	<ryan.roberts@arm.com>, "Huang, Ying" <ying.huang@intel.com>,
+	"21cnbao@gmail.com" <21cnbao@gmail.com>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "linux-crypto@vger.kernel.org"
+	<linux-crypto@vger.kernel.org>, "herbert@gondor.apana.org.au"
+	<herbert@gondor.apana.org.au>, "davem@davemloft.net" <davem@davemloft.net>,
+	"clabbe@baylibre.com" <clabbe@baylibre.com>, "ardb@kernel.org"
+	<ardb@kernel.org>, "ebiggers@google.com" <ebiggers@google.com>,
+	"surenb@google.com" <surenb@google.com>, "Accardi, Kristen C"
+	<kristen.c.accardi@intel.com>, "zanussi@kernel.org" <zanussi@kernel.org>,
+	"Sridhar, Kanchana P" <kanchana.p.sridhar@intel.com>
+CC: lkp <lkp@intel.com>, "oe-kbuild-all@lists.linux.dev"
+	<oe-kbuild-all@lists.linux.dev>, "Feghali, Wajdi K"
+	<wajdi.k.feghali@intel.com>, "Gopal, Vinodh" <vinodh.gopal@intel.com>
+Subject: RE: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in
+ zswap_store() of large folios.
+Thread-Topic: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in
+ zswap_store() of large folios.
+Thread-Index: AQHbLZ9+ci0x3FTQ5E26KU1IJnhgwrKmzJGAgACll0A=
+Date: Mon, 4 Nov 2024 18:29:06 +0000
+Message-ID: <SJ0PR11MB5678990C825FE48D67D9B0C4C9512@SJ0PR11MB5678.namprd11.prod.outlook.com>
+References: <20241103032111.333282-14-kanchana.p.sridhar@intel.com>
+ <89728727-0fd2-4539-bc89-17a699d7179a@stanley.mountain>
+In-Reply-To: <89728727-0fd2-4539-bc89-17a699d7179a@stanley.mountain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR11MB5678:EE_|BN9PR11MB5260:EE_
+x-ms-office365-filtering-correlation-id: 1f70954d-0230-44d3-0028-08dcfcfe911c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018|921020;
+x-microsoft-antispam-message-info: =?us-ascii?Q?X3vSudW2vi7GTqyKHmY88R2/hwhupbF56paVEEDqo7dPeePNoX59Lr1C9TOM?=
+ =?us-ascii?Q?1G65hkhDSSrQJGXTmEr388iC3OrFM5E2cuqg3gqy/fklWe23EcgWzmu25mVs?=
+ =?us-ascii?Q?klNtNHGiKOKEPBuK65yLcBIPFWyDeRQETnZrOOZngZddP76d2Ls5tKkuy/DV?=
+ =?us-ascii?Q?c7g8fEImCbbCQ3NzoZB4W5q6jbLg3sl8Jrg86W4eD+MKA0yL4tETgv5W/9qO?=
+ =?us-ascii?Q?HJGhhMLB+uXsb0zfPSkI4xph23QuV50No5PvpcF//bNOPCm8RvqJ0M/pd2s5?=
+ =?us-ascii?Q?V0gBhT/6OWijNwTfERF8UfRQxalJVnlDNNCI38qT0zOPlyxHQqkmyf6xP+8y?=
+ =?us-ascii?Q?ZVhix4RrXdF5BFA5poGqpAdsLNA0RgCqNwroiHK479wGhG6lO3IF/4vPQrEw?=
+ =?us-ascii?Q?UaiJXMNB04uT/YlSs624MPGbCuX2VQMRFs9F6U+JyUuVcMfUxKrVeWexgcBT?=
+ =?us-ascii?Q?Duu09aT7MGxPSegbs1YG9C+1p6zoc/j0AUIw7dpWoBbtwM1TGCzwCKbjXZhH?=
+ =?us-ascii?Q?1QzUzU6cQVHzrhJnYxrQiFj31DlUV84rQdmja1nhrjMm1HYpTas4lv3OpidJ?=
+ =?us-ascii?Q?vXGa3c6nS8Ow1ukkvy37k+x2DSjye6fPDcA9I3ziUg2HYb1SWmlR7Jiv2iXo?=
+ =?us-ascii?Q?u8NzH8JGCRm8s7VaSukIoS7cTh0oo8Gstp98d8RwpWz8IMlcWRWsWcJ5c+As?=
+ =?us-ascii?Q?N2LWWtkhPs1jyeAoHYxQKRGp6O5sNUa4OTbcuzK9Mk5NpFj2gqIzT8HgUpS6?=
+ =?us-ascii?Q?NuTKYG7HtUlzcAOyQPUgPDiNKMPDp7vW7T0FTyf82eh5iOyhTdeQ0a3uqWY4?=
+ =?us-ascii?Q?6pfYv68HhE0PaVqnXe4klWkkftprdDg+lu1p6xee/Y0xphn15B32zFNoWsiI?=
+ =?us-ascii?Q?XjNcVENYaC142tFHfr4csPPy4VJPF99ndDckTWuq7zwEjcve01ztxVhACU8k?=
+ =?us-ascii?Q?T/4xHnOfY/YtTofPRYA0APeIaFv9qO/ZUUsc9yhjacSmhHb2RQxNMCvtiq/A?=
+ =?us-ascii?Q?/M3p4BFg6rDs0VDmN1PvY/KyjYv7Pucjym/pPLuKvk+UDR3f0CakK4RsITqv?=
+ =?us-ascii?Q?XoFUsSkHl7fcBiXnQNQoRWgGp60zXMfjkzEaTocevg50H0c2flC9ayhVp7zg?=
+ =?us-ascii?Q?Eng3RLl4g9NJ45UE2/BK68TAn32ddCsB9ZCXeAQJLml6eh+by0173G8YDh0Z?=
+ =?us-ascii?Q?w4dI8xY82zh2d1yRhVyHpUoY+B2Kr01VCYkF8IoMxuPHJPT/1zzxXzVEDxj3?=
+ =?us-ascii?Q?2FJuZm6lXYsm/PpjLhE8r2G7gbhTaaDvUUJd845oMIKifOTuD8oUFSFlSE3e?=
+ =?us-ascii?Q?e8hP2EWi2D5ZqMKTkszzaLzUem1Rv1JF4xVS4xyUgmeRpw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5678.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Uvhyo8Z8IINT4iJ2O9hlXyhq7RxRgyiXF9l6ug/gfwbAq5brjrN37i6YqEpj?=
+ =?us-ascii?Q?aEC0clSYXozUH36FB4FtbAVgWIN8v7cGHQMIU54Sm7+pYbYkyKRgtcbRPOnR?=
+ =?us-ascii?Q?yy5+xiQgA4DiPe4AErTnBjcEGtKqDmXuAXi2ZdSvsMfQh7z/JQFQksNvZTnp?=
+ =?us-ascii?Q?qfw57OqjN4f9r/O415rWNZuLe0IDVZf9AU0hEsndgOOSkDuVsXX4tw76TIy8?=
+ =?us-ascii?Q?Sb2jJP9ysvUrXDZBspNb3urovoiqMMxneWpDzyJ3+GnZlsiGpnxswlpjYMGC?=
+ =?us-ascii?Q?zpt4W0dZfPv28laNbCJTyW2cWaxoOBgSRdkR+/O50Ozgxy+fUBy3sH36ID+Y?=
+ =?us-ascii?Q?1upmZo3QxMcjby75jhpe/kPL3ERYgqhKWxQa9U+EnHChYuS8ePB2W+lXGRz2?=
+ =?us-ascii?Q?l+4+FjQcIdGodyy9HJpqM8icPbmOFggCkmgCaS7CjL5Bbb2hkStD/Rs2nfT3?=
+ =?us-ascii?Q?si0EgeEnxmnsIcZyx7ZH/oNDq0xEXZH7X+9TnAm6Js4vk1c5gpvV47evC5eW?=
+ =?us-ascii?Q?XuhmaVkEb3gaD/IBwWUl2jXjweBpTtDFRbqTrdLbqwZYCprff0ygikOX1W1C?=
+ =?us-ascii?Q?ivagRqB6zFerunZT9EJjyzRIq80QKhusFMzqGSfceuNUwSUHw8lBoZE6IsB6?=
+ =?us-ascii?Q?2Xcc105Oz5BgxvDuGmhzrs9qxCkvgOSkW/YoGTgOJtZJ3peKL6St5RX1C3Av?=
+ =?us-ascii?Q?MA06tfjTQKITXxfT3iDoNzDIDNOuDKSY4HOGU0Rz09K88lfXr9ko+Maf9y7f?=
+ =?us-ascii?Q?RyuvMmdhE0qgHG04ID2dJeBxKMuWuzrZUFJpJntX7zAFikzbHCAlyf42usoe?=
+ =?us-ascii?Q?h2FFTe5Xdh5pWvggDxsGnyQX9XeIOvMNVe+XsIuw39MLA8fNwwTR78dYbT3k?=
+ =?us-ascii?Q?yb7jsCE8a0epD1foT6jVgFRj+6aIxv34RLuUa88Sjwl/af588liEfQrso1gb?=
+ =?us-ascii?Q?esXJ2sb/nRXUyUskKdjbIdg4ECFsZUepLKHWR4/ezEkVTh5j3QHmlBYMJ9Br?=
+ =?us-ascii?Q?vLEIcLHb16VzBiSNSv8xUs585ekTkM8FohTwKPnk4jnChPsbyJJr9Ee0NvCX?=
+ =?us-ascii?Q?F/FZnNYq6Sne9PQx5O8EokzIWI2hRRV5cbca5KsFUskY+Nwun/q7sar5FHt7?=
+ =?us-ascii?Q?MKXhewSw/xtj1mL+jsnlnYLuobpB8jqWlYPOV1CJTKKj3D60bdqSh3f9l5pb?=
+ =?us-ascii?Q?vMjvvA1OQGW1spynQAahbwDTfva319CBeUoH+qHH/iu7c9/i+pMZbmAGfy5l?=
+ =?us-ascii?Q?+bpclDvLPhG7vGyZS2jWKSoHh4aomDpSZyQboU1qf/LgS44zUQxugan7jguH?=
+ =?us-ascii?Q?j11yPlMufE7aJisYYDveKCy/AIYfGO8XmMFCS7iqzg1Kv9vJDRc0fsDD7zGS?=
+ =?us-ascii?Q?TDUFeAqCq8Hl4huVnFxH8JRF3dkkbfD4u79VVtwZk5sug+ECITAcNhM/sCHZ?=
+ =?us-ascii?Q?jO5+WfP6ncts8mquWZMirBOjjUzfhW0/YxZEO91aqMl+b+UAMrQtap/ZI+kj?=
+ =?us-ascii?Q?KgMAAwBmHrkYqhH8a8RJo9dr/ULTEZfZ3BujfayTgMDLNjZhXTGs60UE87iy?=
+ =?us-ascii?Q?gE3EAz5lPvy3VcpjYIGyrjCYSwLCKOpZlGPQg8P4RzHL0yJskOHHncOqMKUQ?=
+ =?us-ascii?Q?MA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5678.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f70954d-0230-44d3-0028-08dcfcfe911c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2024 18:29:06.5742
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zqxgW0jzjLP20mMrTiSVVOVOMeG39L/cafnuCNBtzCNRpL0yEzuUm60/EYXaDfZZBOFfApw0cX9ndeqe/og1lRYVklR+8Uwv8derMfge9SE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5260
+X-OriginatorOrg: intel.com
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Zheng Zengkai <zhengzengkai@huawei.com>
+Hi Dan,
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   7435f796ba0cdd99338403d56a92dec9c0f89730
-commit: 5a5d74ffcd49103d4781651bdb6a3e5175551dd6 [2350/2350] rxrpc: Fix locking in rxrpc's sendmsg
-:::::: branch date: 4 hours ago
-:::::: commit date: 1 year, 11 months ago
-config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411050217.vVYcKY88-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> -----Original Message-----
+> From: Dan Carpenter <dan.carpenter@linaro.org>
+> Sent: Monday, November 4, 2024 12:31 AM
+> To: oe-kbuild@lists.linux.dev; Sridhar, Kanchana P
+> <kanchana.p.sridhar@intel.com>; linux-kernel@vger.kernel.org; linux-
+> mm@kvack.org; hannes@cmpxchg.org; yosryahmed@google.com;
+> nphamcs@gmail.com; chengming.zhou@linux.dev;
+> usamaarif642@gmail.com; ryan.roberts@arm.com; Huang, Ying
+> <ying.huang@intel.com>; 21cnbao@gmail.com; akpm@linux-foundation.org;
+> linux-crypto@vger.kernel.org; herbert@gondor.apana.org.au;
+> davem@davemloft.net; clabbe@baylibre.com; ardb@kernel.org;
+> ebiggers@google.com; surenb@google.com; Accardi, Kristen C
+> <kristen.c.accardi@intel.com>; zanussi@kernel.org
+> Cc: lkp <lkp@intel.com>; oe-kbuild-all@lists.linux.dev; Feghali, Wajdi K
+> <wajdi.k.feghali@intel.com>; Gopal, Vinodh <vinodh.gopal@intel.com>;
+> Sridhar, Kanchana P <kanchana.p.sridhar@intel.com>
+> Subject: Re: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA
+> in zswap_store() of large folios.
+>=20
+> Hi Kanchana,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-
+> Sridhar/crypto-acomp-Define-two-new-interfaces-for-compress-decompress-
+> batching/20241103-112337
+> base:   5c4cf96cd70230100b5d396d45a5c9a332539d19
+> patch link:    https://lore.kernel.org/r/20241103032111.333282-14-
+> kanchana.p.sridhar%40intel.com
+> patch subject: [PATCH v2 13/13] mm: zswap: Compress batching with Intel
+> IAA in zswap_store() of large folios.
+> config: x86_64-randconfig-161-20241104 (https://download.01.org/0day-
+> ci/archive/20241104/202411040859.2z0MfFkR-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411040859.2z0MfFkR-lkp@intel.com/
+>=20
+> smatch warnings:
+> mm/zswap.c:1788 zswap_store_propagate_errors() warn: variable
+> dereferenced before check 'sbp->entry' (see line 1785)
+>=20
+> vim +1788 mm/zswap.c
+>=20
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1771  static
+> __always_inline void zswap_store_propagate_errors(
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1772  	struct
+> zswap_store_pipeline_state *zst,
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1773  	u8
+> error_batch_idx)
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1774  {
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1775  	u8 i;
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1776
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1777  	if (zst-
+> >errors[error_batch_idx])
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1778
+> 	return;
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1779
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1780  	for (i =3D 0; i <
+> zst->nr_comp_pages; ++i) {
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1781
+> 	struct zswap_store_sub_batch_page *sbp =3D &zst->sub_batch[i];
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1782
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1783  		if
+> (sbp->batch_idx =3D=3D error_batch_idx) {
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1784
+> 	if (!sbp->error) {
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1785
+> 		if (!IS_ERR_VALUE(sbp->entry->handle))
+>                                                                          =
+                         ^^^^^^^^^^^^^^^^^^
+> Dereferenced
+>=20
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1786
+> 			zpool_free(zst->pool->zpool, sbp->entry->handle);
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1787
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1788
+> 		if (sbp->entry) {
+>                                                                          =
+           ^^^^^^^^^^
+> Checked too late
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411050217.vVYcKY88-lkp@intel.com/
+Thanks for pointing this out.  The implementation makes sure that all
+sbp->entry values are valid before it gets to zswap_store_propagate_errors(=
+).
+That said, I agree, the sbp->entry check can be done earlier to make the
+code more correct/readable. I will fix this in v3.
 
-New smatch warnings:
-net/rxrpc/sendmsg.c:471 rxrpc_send_data() error: uninitialized symbol 'skb'.
+Thanks,
+Kanchana
 
-Old smatch warnings:
-net/rxrpc/sendmsg.c:818 rxrpc_kernel_send_data() warn: argument 2 to %lu specifier is cast from pointer
-net/rxrpc/sendmsg.c:818 rxrpc_kernel_send_data() warn: argument 3 to %lx specifier is cast from pointer
-net/rxrpc/sendmsg.c:818 rxrpc_kernel_send_data() warn: argument 5 to %lu specifier is cast from pointer
-net/rxrpc/sendmsg.c:818 rxrpc_kernel_send_data() warn: argument 6 to %lx specifier is cast from pointer
-net/rxrpc/sendmsg.c:819 rxrpc_kernel_send_data() warn: argument 2 to %lu specifier is cast from pointer
-net/rxrpc/sendmsg.c:819 rxrpc_kernel_send_data() warn: argument 3 to %lx specifier is cast from pointer
-net/rxrpc/sendmsg.c:819 rxrpc_kernel_send_data() warn: argument 5 to %lu specifier is cast from pointer
-net/rxrpc/sendmsg.c:819 rxrpc_kernel_send_data() warn: argument 6 to %lx specifier is cast from pointer
+>=20
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1789
+> 			zswap_entry_cache_free(sbp->entry);
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1790
+> 			sbp->entry =3D NULL;
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1791
+> 		}
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1792
+> 		sbp->error =3D -EINVAL;
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1793
+> 	}
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1794  		}
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1795  	}
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1796
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1797  	/*
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1798  	 * Set zswap
+> status for the folio to "error"
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1799  	 * for use in
+> swap_writepage.
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1800  	 */
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1801  	zst-
+> >errors[error_batch_idx] =3D -EINVAL;
+> c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1802  }
+>=20
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-vim +/skb +471 net/rxrpc/sendmsg.c
-
-0b58b8a18be4932 David Howells 2016-09-02  281  
-0b58b8a18be4932 David Howells 2016-09-02  282  /*
-0b58b8a18be4932 David Howells 2016-09-02  283   * send data through a socket
-0b58b8a18be4932 David Howells 2016-09-02  284   * - must be called in process context
-540b1c48c37ac0a David Howells 2017-02-27  285   * - The caller holds the call user access mutex, but not the socket lock.
-0b58b8a18be4932 David Howells 2016-09-02  286   */
-0b58b8a18be4932 David Howells 2016-09-02  287  static int rxrpc_send_data(struct rxrpc_sock *rx,
-0b58b8a18be4932 David Howells 2016-09-02  288  			   struct rxrpc_call *call,
-e833251ad813168 David Howells 2017-08-29  289  			   struct msghdr *msg, size_t len,
-5a5d74ffcd49103 David Howells 2022-12-02  290  			   rxrpc_notify_end_tx_t notify_end_tx,
-5a5d74ffcd49103 David Howells 2022-12-02  291  			   bool *_dropped_lock)
-0b58b8a18be4932 David Howells 2016-09-02  292  {
-0b58b8a18be4932 David Howells 2016-09-02  293  	struct rxrpc_skb_priv *sp;
-0b58b8a18be4932 David Howells 2016-09-02  294  	struct sk_buff *skb;
-0b58b8a18be4932 David Howells 2016-09-02  295  	struct sock *sk = &rx->sk;
-5a5d74ffcd49103 David Howells 2022-12-02  296  	enum rxrpc_call_state state;
-0b58b8a18be4932 David Howells 2016-09-02  297  	long timeo;
-5a5d74ffcd49103 David Howells 2022-12-02  298  	bool more = msg->msg_flags & MSG_MORE;
-5a5d74ffcd49103 David Howells 2022-12-02  299  	int ret, copied = 0;
-0b58b8a18be4932 David Howells 2016-09-02  300  
-0b58b8a18be4932 David Howells 2016-09-02  301  	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
-0b58b8a18be4932 David Howells 2016-09-02  302  
-0b58b8a18be4932 David Howells 2016-09-02  303  	/* this should be in poll */
-0b58b8a18be4932 David Howells 2016-09-02  304  	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
-0b58b8a18be4932 David Howells 2016-09-02  305  
-5a5d74ffcd49103 David Howells 2022-12-02  306  reload:
-5a5d74ffcd49103 David Howells 2022-12-02  307  	ret = -EPIPE;
-639f181f0ee20d3 David Howells 2020-07-20  308  	if (sk->sk_shutdown & SEND_SHUTDOWN)
-5a5d74ffcd49103 David Howells 2022-12-02  309  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  310  	state = READ_ONCE(call->state);
-5a5d74ffcd49103 David Howells 2022-12-02  311  	ret = -ESHUTDOWN;
-5a5d74ffcd49103 David Howells 2022-12-02  312  	if (state >= RXRPC_CALL_COMPLETE)
-5a5d74ffcd49103 David Howells 2022-12-02  313  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  314  	ret = -EPROTO;
-5a5d74ffcd49103 David Howells 2022-12-02  315  	if (state != RXRPC_CALL_CLIENT_SEND_REQUEST &&
-5a5d74ffcd49103 David Howells 2022-12-02  316  	    state != RXRPC_CALL_SERVER_ACK_REQUEST &&
-5a5d74ffcd49103 David Howells 2022-12-02  317  	    state != RXRPC_CALL_SERVER_SEND_REPLY)
-5a5d74ffcd49103 David Howells 2022-12-02  318  		goto maybe_error;
-0b58b8a18be4932 David Howells 2016-09-02  319  
-5a5d74ffcd49103 David Howells 2022-12-02  320  	ret = -EMSGSIZE;
-e754eba685aac2a David Howells 2017-06-07  321  	if (call->tx_total_len != -1) {
-5a5d74ffcd49103 David Howells 2022-12-02  322  		if (len - copied > call->tx_total_len)
-5a5d74ffcd49103 David Howells 2022-12-02  323  			goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  324  		if (!more && len - copied != call->tx_total_len)
-5a5d74ffcd49103 David Howells 2022-12-02  325  			goto maybe_error;
-e754eba685aac2a David Howells 2017-06-07  326  	}
-e754eba685aac2a David Howells 2017-06-07  327  
-0b58b8a18be4932 David Howells 2016-09-02  328  	skb = call->tx_pending;
-0b58b8a18be4932 David Howells 2016-09-02  329  	call->tx_pending = NULL;
-987db9f7cd1e77e David Howells 2019-08-19  330  	rxrpc_see_skb(skb, rxrpc_skb_seen);
-0b58b8a18be4932 David Howells 2016-09-02  331  
-0b58b8a18be4932 David Howells 2016-09-02  332  	do {
-7aa51da7c88d42c David Howells 2016-09-22  333  		/* Check to see if there's a ping ACK to reply to. */
-7aa51da7c88d42c David Howells 2016-09-22  334  		if (call->ackr_reason == RXRPC_ACK_PING_RESPONSE)
-bd1fdf8cfdf3fdb David Howells 2017-11-24  335  			rxrpc_send_ack_packet(call, false, NULL);
-7aa51da7c88d42c David Howells 2016-09-22  336  
-0b58b8a18be4932 David Howells 2016-09-02  337  		if (!skb) {
-0b58b8a18be4932 David Howells 2016-09-02  338  			size_t size, chunk, max, space;
-0b58b8a18be4932 David Howells 2016-09-02  339  
-0b58b8a18be4932 David Howells 2016-09-02  340  			_debug("alloc");
-0b58b8a18be4932 David Howells 2016-09-02  341  
-5a5d74ffcd49103 David Howells 2022-12-02  342  			if (!rxrpc_check_tx_space(call, NULL))
-5a5d74ffcd49103 David Howells 2022-12-02  343  				goto wait_for_space;
-0b58b8a18be4932 David Howells 2016-09-02  344  
-182f50562490e58 David Howells 2016-09-17  345  			max = RXRPC_JUMBO_DATALEN;
-0b58b8a18be4932 David Howells 2016-09-02  346  			max -= call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  347  			max &= ~(call->conn->size_align - 1UL);
-0b58b8a18be4932 David Howells 2016-09-02  348  
-0b58b8a18be4932 David Howells 2016-09-02  349  			chunk = max;
-0b58b8a18be4932 David Howells 2016-09-02  350  			if (chunk > msg_data_left(msg) && !more)
-0b58b8a18be4932 David Howells 2016-09-02  351  				chunk = msg_data_left(msg);
-0b58b8a18be4932 David Howells 2016-09-02  352  
-0b58b8a18be4932 David Howells 2016-09-02  353  			space = chunk + call->conn->size_align;
-0b58b8a18be4932 David Howells 2016-09-02  354  			space &= ~(call->conn->size_align - 1UL);
-0b58b8a18be4932 David Howells 2016-09-02  355  
-5a924b8951f835b David Howells 2016-09-22  356  			size = space + call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  357  
-0b58b8a18be4932 David Howells 2016-09-02  358  			_debug("SIZE: %zu/%zu/%zu", chunk, space, size);
-0b58b8a18be4932 David Howells 2016-09-02  359  
-0b58b8a18be4932 David Howells 2016-09-02  360  			/* create a buffer that we can retain until it's ACK'd */
-0b58b8a18be4932 David Howells 2016-09-02  361  			skb = sock_alloc_send_skb(
-0b58b8a18be4932 David Howells 2016-09-02  362  				sk, size, msg->msg_flags & MSG_DONTWAIT, &ret);
-0b58b8a18be4932 David Howells 2016-09-02  363  			if (!skb)
-0b58b8a18be4932 David Howells 2016-09-02  364  				goto maybe_error;
-0b58b8a18be4932 David Howells 2016-09-02  365  
-b311e68420aa520 David Howells 2019-08-19  366  			sp = rxrpc_skb(skb);
-b311e68420aa520 David Howells 2019-08-19  367  			sp->rx_flags |= RXRPC_SKB_TX_BUFFER;
-987db9f7cd1e77e David Howells 2019-08-19  368  			rxrpc_new_skb(skb, rxrpc_skb_new);
-0b58b8a18be4932 David Howells 2016-09-02  369  
-0b58b8a18be4932 David Howells 2016-09-02  370  			_debug("ALLOC SEND %p", skb);
-0b58b8a18be4932 David Howells 2016-09-02  371  
-0b58b8a18be4932 David Howells 2016-09-02  372  			ASSERTCMP(skb->mark, ==, 0);
-0b58b8a18be4932 David Howells 2016-09-02  373  
-5a924b8951f835b David Howells 2016-09-22  374  			_debug("HS: %u", call->conn->security_size);
-5a924b8951f835b David Howells 2016-09-22  375  			skb_reserve(skb, call->conn->security_size);
-5a924b8951f835b David Howells 2016-09-22  376  			skb->len += call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  377  
-0b58b8a18be4932 David Howells 2016-09-02  378  			sp->remain = chunk;
-0b58b8a18be4932 David Howells 2016-09-02  379  			if (sp->remain > skb_tailroom(skb))
-0b58b8a18be4932 David Howells 2016-09-02  380  				sp->remain = skb_tailroom(skb);
-0b58b8a18be4932 David Howells 2016-09-02  381  
-0b58b8a18be4932 David Howells 2016-09-02  382  			_net("skb: hr %d, tr %d, hl %d, rm %d",
-0b58b8a18be4932 David Howells 2016-09-02  383  			       skb_headroom(skb),
-0b58b8a18be4932 David Howells 2016-09-02  384  			       skb_tailroom(skb),
-0b58b8a18be4932 David Howells 2016-09-02  385  			       skb_headlen(skb),
-0b58b8a18be4932 David Howells 2016-09-02  386  			       sp->remain);
-0b58b8a18be4932 David Howells 2016-09-02  387  
-0b58b8a18be4932 David Howells 2016-09-02  388  			skb->ip_summed = CHECKSUM_UNNECESSARY;
-0b58b8a18be4932 David Howells 2016-09-02  389  		}
-0b58b8a18be4932 David Howells 2016-09-02  390  
-0b58b8a18be4932 David Howells 2016-09-02  391  		_debug("append");
-0b58b8a18be4932 David Howells 2016-09-02  392  		sp = rxrpc_skb(skb);
-0b58b8a18be4932 David Howells 2016-09-02  393  
-0b58b8a18be4932 David Howells 2016-09-02  394  		/* append next segment of data to the current buffer */
-0b58b8a18be4932 David Howells 2016-09-02  395  		if (msg_data_left(msg) > 0) {
-0b58b8a18be4932 David Howells 2016-09-02  396  			int copy = skb_tailroom(skb);
-0b58b8a18be4932 David Howells 2016-09-02  397  			ASSERTCMP(copy, >, 0);
-0b58b8a18be4932 David Howells 2016-09-02  398  			if (copy > msg_data_left(msg))
-0b58b8a18be4932 David Howells 2016-09-02  399  				copy = msg_data_left(msg);
-0b58b8a18be4932 David Howells 2016-09-02  400  			if (copy > sp->remain)
-0b58b8a18be4932 David Howells 2016-09-02  401  				copy = sp->remain;
-0b58b8a18be4932 David Howells 2016-09-02  402  
-0b58b8a18be4932 David Howells 2016-09-02  403  			_debug("add");
-0b58b8a18be4932 David Howells 2016-09-02  404  			ret = skb_add_data(skb, &msg->msg_iter, copy);
-0b58b8a18be4932 David Howells 2016-09-02  405  			_debug("added");
-0b58b8a18be4932 David Howells 2016-09-02  406  			if (ret < 0)
-0b58b8a18be4932 David Howells 2016-09-02  407  				goto efault;
-0b58b8a18be4932 David Howells 2016-09-02  408  			sp->remain -= copy;
-0b58b8a18be4932 David Howells 2016-09-02  409  			skb->mark += copy;
-0b58b8a18be4932 David Howells 2016-09-02  410  			copied += copy;
-e754eba685aac2a David Howells 2017-06-07  411  			if (call->tx_total_len != -1)
-e754eba685aac2a David Howells 2017-06-07  412  				call->tx_total_len -= copy;
-0b58b8a18be4932 David Howells 2016-09-02  413  		}
-0b58b8a18be4932 David Howells 2016-09-02  414  
-e122d845a01ece2 David Howells 2019-01-10  415  		/* check for the far side aborting the call or a network error
-e122d845a01ece2 David Howells 2019-01-10  416  		 * occurring */
-e122d845a01ece2 David Howells 2019-01-10  417  		if (call->state == RXRPC_CALL_COMPLETE)
-e122d845a01ece2 David Howells 2019-01-10  418  			goto call_terminated;
-e122d845a01ece2 David Howells 2019-01-10  419  
-0b58b8a18be4932 David Howells 2016-09-02  420  		/* add the packet to the send queue if it's now full */
-0b58b8a18be4932 David Howells 2016-09-02  421  		if (sp->remain <= 0 ||
-0b58b8a18be4932 David Howells 2016-09-02  422  		    (msg_data_left(msg) == 0 && !more)) {
-0b58b8a18be4932 David Howells 2016-09-02  423  			struct rxrpc_connection *conn = call->conn;
-0b58b8a18be4932 David Howells 2016-09-02  424  			uint32_t seq;
-0b58b8a18be4932 David Howells 2016-09-02  425  			size_t pad;
-0b58b8a18be4932 David Howells 2016-09-02  426  
-0b58b8a18be4932 David Howells 2016-09-02  427  			/* pad out if we're using security */
-0b58b8a18be4932 David Howells 2016-09-02  428  			if (conn->security_ix) {
-0b58b8a18be4932 David Howells 2016-09-02  429  				pad = conn->security_size + skb->mark;
-0b58b8a18be4932 David Howells 2016-09-02  430  				pad = conn->size_align - pad;
-0b58b8a18be4932 David Howells 2016-09-02  431  				pad &= conn->size_align - 1;
-0b58b8a18be4932 David Howells 2016-09-02  432  				_debug("pad %zu", pad);
-0b58b8a18be4932 David Howells 2016-09-02  433  				if (pad)
-b080db585384b9f Johannes Berg 2017-06-16  434  					skb_put_zero(skb, pad);
-0b58b8a18be4932 David Howells 2016-09-02  435  			}
-0b58b8a18be4932 David Howells 2016-09-02  436  
-248f219cb8bcbfb David Howells 2016-09-08  437  			seq = call->tx_top + 1;
-0b58b8a18be4932 David Howells 2016-09-02  438  
-0b58b8a18be4932 David Howells 2016-09-02  439  			sp->hdr.seq	= seq;
-0b58b8a18be4932 David Howells 2016-09-02  440  			sp->hdr._rsvd	= 0;
-0b58b8a18be4932 David Howells 2016-09-02  441  			sp->hdr.flags	= conn->out_clientflag;
-5a924b8951f835b David Howells 2016-09-22  442  
-0b58b8a18be4932 David Howells 2016-09-02  443  			if (msg_data_left(msg) == 0 && !more)
-0b58b8a18be4932 David Howells 2016-09-02  444  				sp->hdr.flags |= RXRPC_LAST_PACKET;
-248f219cb8bcbfb David Howells 2016-09-08  445  			else if (call->tx_top - call->tx_hard_ack <
-248f219cb8bcbfb David Howells 2016-09-08  446  				 call->tx_winsize)
-0b58b8a18be4932 David Howells 2016-09-02  447  				sp->hdr.flags |= RXRPC_MORE_PACKETS;
-0b58b8a18be4932 David Howells 2016-09-02  448  
-91fcfbe8852edb9 David Howells 2019-10-07  449  			ret = call->security->secure_packet(
-5a924b8951f835b David Howells 2016-09-22  450  				call, skb, skb->mark, skb->head);
-0b58b8a18be4932 David Howells 2016-09-02  451  			if (ret < 0)
-0b58b8a18be4932 David Howells 2016-09-02  452  				goto out;
-0b58b8a18be4932 David Howells 2016-09-02  453  
-8e8715aaa905f65 Marc Dionne   2019-04-12  454  			ret = rxrpc_queue_packet(rx, call, skb,
-e833251ad813168 David Howells 2017-08-29  455  						 !msg_data_left(msg) && !more,
-e833251ad813168 David Howells 2017-08-29  456  						 notify_end_tx);
-8e8715aaa905f65 Marc Dionne   2019-04-12  457  			/* Should check for failure here */
-0b58b8a18be4932 David Howells 2016-09-02  458  			skb = NULL;
-0b58b8a18be4932 David Howells 2016-09-02  459  		}
-0b58b8a18be4932 David Howells 2016-09-02  460  	} while (msg_data_left(msg) > 0);
-0b58b8a18be4932 David Howells 2016-09-02  461  
-0b58b8a18be4932 David Howells 2016-09-02  462  success:
-0b58b8a18be4932 David Howells 2016-09-02  463  	ret = copied;
-504deca5022022a David Howells 2022-09-29  464  	if (READ_ONCE(call->state) == RXRPC_CALL_COMPLETE) {
-504deca5022022a David Howells 2022-09-29  465  		read_lock_bh(&call->state_lock);
-504deca5022022a David Howells 2022-09-29  466  		if (call->error < 0)
-504deca5022022a David Howells 2022-09-29  467  			ret = call->error;
-504deca5022022a David Howells 2022-09-29  468  		read_unlock_bh(&call->state_lock);
-504deca5022022a David Howells 2022-09-29  469  	}
-0b58b8a18be4932 David Howells 2016-09-02  470  out:
-0b58b8a18be4932 David Howells 2016-09-02 @471  	call->tx_pending = skb;
-0b58b8a18be4932 David Howells 2016-09-02  472  	_leave(" = %d", ret);
-0b58b8a18be4932 David Howells 2016-09-02  473  	return ret;
-0b58b8a18be4932 David Howells 2016-09-02  474  
-e122d845a01ece2 David Howells 2019-01-10  475  call_terminated:
-987db9f7cd1e77e David Howells 2019-08-19  476  	rxrpc_free_skb(skb, rxrpc_skb_freed);
-e122d845a01ece2 David Howells 2019-01-10  477  	_leave(" = %d", call->error);
-e122d845a01ece2 David Howells 2019-01-10  478  	return call->error;
-e122d845a01ece2 David Howells 2019-01-10  479  
-0b58b8a18be4932 David Howells 2016-09-02  480  maybe_error:
-0b58b8a18be4932 David Howells 2016-09-02  481  	if (copied)
-0b58b8a18be4932 David Howells 2016-09-02  482  		goto success;
-0b58b8a18be4932 David Howells 2016-09-02  483  	goto out;
-0b58b8a18be4932 David Howells 2016-09-02  484  
-0b58b8a18be4932 David Howells 2016-09-02  485  efault:
-0b58b8a18be4932 David Howells 2016-09-02  486  	ret = -EFAULT;
-0b58b8a18be4932 David Howells 2016-09-02  487  	goto out;
-5a5d74ffcd49103 David Howells 2022-12-02  488  
-5a5d74ffcd49103 David Howells 2022-12-02  489  wait_for_space:
-5a5d74ffcd49103 David Howells 2022-12-02  490  	ret = -EAGAIN;
-5a5d74ffcd49103 David Howells 2022-12-02  491  	if (msg->msg_flags & MSG_DONTWAIT)
-5a5d74ffcd49103 David Howells 2022-12-02  492  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  493  	mutex_unlock(&call->user_mutex);
-5a5d74ffcd49103 David Howells 2022-12-02  494  	*_dropped_lock = true;
-5a5d74ffcd49103 David Howells 2022-12-02  495  	ret = rxrpc_wait_for_tx_window(rx, call, &timeo,
-5a5d74ffcd49103 David Howells 2022-12-02  496  				       msg->msg_flags & MSG_WAITALL);
-5a5d74ffcd49103 David Howells 2022-12-02  497  	if (ret < 0)
-5a5d74ffcd49103 David Howells 2022-12-02  498  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  499  	if (call->interruptibility == RXRPC_INTERRUPTIBLE) {
-5a5d74ffcd49103 David Howells 2022-12-02  500  		if (mutex_lock_interruptible(&call->user_mutex) < 0) {
-5a5d74ffcd49103 David Howells 2022-12-02  501  			ret = sock_intr_errno(timeo);
-5a5d74ffcd49103 David Howells 2022-12-02  502  			goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  503  		}
-5a5d74ffcd49103 David Howells 2022-12-02  504  	} else {
-5a5d74ffcd49103 David Howells 2022-12-02  505  		mutex_lock(&call->user_mutex);
-5a5d74ffcd49103 David Howells 2022-12-02  506  	}
-5a5d74ffcd49103 David Howells 2022-12-02  507  	*_dropped_lock = false;
-5a5d74ffcd49103 David Howells 2022-12-02  508  	goto reload;
-0b58b8a18be4932 David Howells 2016-09-02  509  }
-df423a4af125f5b David Howells 2016-09-02  510  
-
-:::::: The code at line 471 was first introduced by commit
-:::::: 0b58b8a18be4932849ec88a820b08345c6528ea5 rxrpc: Split sendmsg from packet transmission code
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
