@@ -1,187 +1,333 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11011010.outbound.protection.outlook.com [52.101.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AF01B81C1;
-	Mon,  4 Nov 2024 11:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730719537; cv=fail; b=VtwR4flBZmEvwdxVMj/Ld9wWg23Gb7jxGtLg8Tx7nb4AmAqlUEF8E8OKjYhjKDz/MdKBFsiecY5qeaNgmOt5/6jKW1YNnPodap3eY0fIIVo4mSnWsIwULIEFM6ZJBmHKTcU2wS+SCZAvkNZWYyn8GqnjH+sAvHM59LZSQV3b82g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730719537; c=relaxed/simple;
-	bh=t3X+hmdyupChYgDUyxk39+kDxfQNr2RqKp4Kvjhhmus=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ajuDfVMPa0SfQ1ykyNkme/6r6LdzGi51TTpilFJoYzbaHq/f9scLIqEUTDCebKxCoK41dqWs8FKQ0aLrl71eJErVfwHMGEmRT80/UUuXHSpXblMlof9uxaUJw4VNY1MBf+I6X+BA5WzhbFZzqfT7Bgr4Gyh8tIAp2agetaYkku4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=YN1BrmVi; arc=fail smtp.client-ip=52.101.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7911B395A
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 11:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730721493; cv=none; b=QTyeS4GRGWhjOQKhpXRmuDvwpECpMdqbyznmA4BQrzNB2u5JikG+Iizq8Fg2FhIq/2xqEHWUnjzd1jl5kNHwJNtE2Hwrmbv/dv7rRaTfbilJ2VlKhjopndAH3PzTUShHCMLGHWx9oitWcnmm5xx/86d5sc1itYTveXdHIccpegs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730721493; c=relaxed/simple;
+	bh=+c8B5Mjrfw4gagjb2nhMHU8K8VGsxPaWbnexdkHzyPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ucD0CMTzt8U0WRNyXorJwp8hn7AQJk3ImDnq4RQZzIeauQjBJnT3w3c40ZWAedLuDunqCS2BxvV/1DPeN8MojgAf0n1UxcF1/Kcbj1fyP0+9nJthAfFBEle5U/GwSe3P1UmaePIMcF3XUsL85x2x9Ky/1f8l4je+y+bzGykurGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lttqdGBb; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="YN1BrmVi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rq2vwaEeA67E6Imqya3y+txq5Xuux5vW/0l7DdiORR3npqw/FWNLzNk1Ddz6Y1sy8wHCJf+/8GklYRYiTEMNrzcReuKk/Q/3xk9piPIED/QuC4cYZ1eX+1JIYR+Rlei4Tu+RRHduw4Z7ZJexuM43XRh3EimP12jf6GuCRviIC0W6MfGrA2auJyoeb2yv1iB3152hsZBog0go9EalX7AbInxPQ0F5tJzdpaAV+3YZaRY909druDL5QOqcrr5HfsH00gKZ/bGBsTkclSv+GUHOy4ZBaVDV4PSNlknX8aAKsYohVcjNRtPjRHB0j94PPnGb6iFZxNWpR4c2ggRin3yv+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PybNwq3iWjC/PQKolVokNx9cIz0mgafE/31W9xWpNJ8=;
- b=YoP9A2ztssp79LQCXruf9ifnru61e1kKfv/xVjdwZzYTDDUjU2p7v2ge4E2UiUnLSVzpEpg9dZpn5ZxbRKnXxXeTQESJRN9Kylx6GURRn5Why6HN2dXvwF+uf9CujW4b7x7OUYN1AVbHni+MdkOtXbIHeKmkE5Y6BuyoUvo6aoJeo/0B79qFOD3PRxUFD2qlCOt9Zf/HPKjU0XQWcAtHQ/osrBkFc+VODBgEV2y7Au88agQtPrAOQUymulOWfnfLEDMxBSkE+6iKfBNLUvESVSA0H/iN8KpbpxRBvJAyHgsRm/O8WrnfY3mCpJOGR2r7J1846kGx+EnYNW6EDiwiJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PybNwq3iWjC/PQKolVokNx9cIz0mgafE/31W9xWpNJ8=;
- b=YN1BrmVivRBDsRVUo7AzCwGCeEm+60cZmWZXSVT6zKb9VAkfKdHSca5PiMt/aMxciBNn8nngNJe84wWQ/zgRBiePw1kFN5dx1wMXpt5M8qdoGWxMVf5nUT4pc5+6tC4lIAWprjFGSmVtegq6uGyq7/WNGJo1Ph5UBGTPEpj5qglaBljwauifx4kczs99VA9iaBmoAONMnM2Ho1hy19tGfyBM0h46Y/TeSW4XpDYZd9MUnJgSMEf/hoQiRe3TmuTKYe1K9ruDwaMDbIav0dwxX1i+Plj5RofvT3LY223wmBLuZH53YEjoa6/iJmfXxBDt39aSt3VI1x//y+u9fKeezQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM9PR04MB8487.eurprd04.prod.outlook.com (2603:10a6:20b:41a::6)
- by GV1PR04MB10799.eurprd04.prod.outlook.com (2603:10a6:150:20f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 11:25:30 +0000
-Received: from AM9PR04MB8487.eurprd04.prod.outlook.com
- ([fe80::6d7a:8d2:f020:455]) by AM9PR04MB8487.eurprd04.prod.outlook.com
- ([fe80::6d7a:8d2:f020:455%5]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 11:25:30 +0000
-Message-ID: <08a0a250-b1fc-422c-aada-fe3ed74cc0b9@oss.nxp.com>
-Date: Mon, 4 Nov 2024 13:25:20 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/7] mfd: nxp-siul2: add support for NXP SIUL2
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chester Lin <chester62515@gmail.com>, Matthias Brugger <mbrugger@suse.com>,
- Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>,
- Larisa Grigore <larisa.grigore@nxp.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Dong Aisheng <aisheng.dong@nxp.com>,
- Jacky Bai <ping.bai@nxp.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, NXP S32 Linux Team <s32@nxp.com>,
- Christophe Lizzi <clizzi@redhat.com>, Alberto Ruiz <aruizrui@redhat.com>,
- Enric Balletbo <eballetb@redhat.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, imx@lists.linux.dev
-References: <48498f47-1601-432b-bde5-f487668d1e85@stanley.mountain>
-Content-Language: en-US
-From: Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>
-In-Reply-To: <48498f47-1601-432b-bde5-f487668d1e85@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0037.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5dd::8) To AM9PR04MB8487.eurprd04.prod.outlook.com
- (2603:10a6:20b:41a::6)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lttqdGBb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730721491; x=1762257491;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+c8B5Mjrfw4gagjb2nhMHU8K8VGsxPaWbnexdkHzyPI=;
+  b=lttqdGBbSKuRcvCxWm5VZUEWALn3h/S+fulCRhzSCxLHOBugCN13EXeX
+   O6qjZ9dJbvE0aJuDITtYBzd+9ihGKO+7r6o8l+0JAR0hVGXXRPg2Rv61x
+   OH245IKvtphSfPXw5bNkaQ+T6gyuVAsL2HIOUay+3EWpdL6U3Gs7HWmcB
+   euZtXU4P/XvcluqoehHoR4Uxh7mXu0hZ3TNv3EkYIWoKUYkbxUbk3p/78
+   5pFACHY8tRF1xOgU7eS3bHygr+OH7MxoPhsD0lk7Kh+UYr109hlI4DjHp
+   DzrWjpD8R28OEXl5tg3JUFPjr6VBYzGI8aJgxjRa2TJXaE/t+awAAghjk
+   Q==;
+X-CSE-ConnectionGUID: GMXsPB/pTd68JuM3hOE68A==
+X-CSE-MsgGUID: Tpeo/OFNQaKe3u5yscS0nA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="18031381"
+X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
+   d="scan'208";a="18031381"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 03:58:11 -0800
+X-CSE-ConnectionGUID: n3a3D1diRDOgkfndOnwq4Q==
+X-CSE-MsgGUID: etfC0Z6vR8iBt/QH8SdpZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
+   d="scan'208";a="88457824"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2024 03:58:09 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7vig-000kn7-1J;
+	Mon, 04 Nov 2024 11:58:06 +0000
+Date: Mon, 4 Nov 2024 19:58:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
+Message-ID: <202411041913.fBGhLvW9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8487:EE_|GV1PR04MB10799:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a1faa8b-6520-459a-d32c-08dcfcc363c2
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VFZYcjNJaGkvQnptcWNyR1JtbWI3eGo2MnJHUDJ2UndUNFY5U3k5R0s4VUpQ?=
- =?utf-8?B?WjR1YXQrZ2VwOTRIMW1IVlE2YVZsSnBmSmlVQ3pkMENMMGRWQXg5eEI1Q0pI?=
- =?utf-8?B?Y0FQOVZEaUJVNktCdUVRMFpqWGtYVzZheE5uaWJ6a1IvZjBnWmF3ekxsK0t0?=
- =?utf-8?B?eU81TkwvcnZuQmVsOFc1cGM0YlFUU1pSZkh0bFFBenAyd0xldUlhWUlDZktJ?=
- =?utf-8?B?OFFSYWZ1OThDVjNRR2JvblhkWDlNTVFIMjBtNGs5aVVqSDNiU2ZWVWxzZ2Ex?=
- =?utf-8?B?SFZWVWpQN0lqZmtCeElWTWp5dzBsaWhYeTZCQmNtZ0FXZmVWMFFWcEo2MG0y?=
- =?utf-8?B?YWRSeDloOUV5VSsvM0kxYi9TWHNSMGpEMDRITDRIQ0ltdEpVamxlbVpzK3JC?=
- =?utf-8?B?R3VQUW5HbkhwL1hVZm01VEh2ZWZvMHdMMzhZWkdQZEpacWRQU1A5dCswTGEv?=
- =?utf-8?B?aTFNcitnUFBDM2R3bU5sdXh6OWJXcmVnNk9uTXg1N1c4L2RSK1p4VWxzVEV1?=
- =?utf-8?B?VUpEdU8ya2lWQXliaUhkQlYvTGdaSGxmYTZwSGlBcmh0Q3B5UnlLN1A3WXN1?=
- =?utf-8?B?eW0vaDFhY3FwVVpidjhCeXQ4ZWplSDhucElyTVlRM3laRmU2ZGdWQ1NsVEJa?=
- =?utf-8?B?V0p4cEJqb2kxUEZBNnRrblpKelVGbG1PUmc5VVQ5S3pDNHJkTU1nTHFFQnJ4?=
- =?utf-8?B?Mmh1cTRUcTlLMzJndDJ6N0YvQ05qNzY1V2JWRFVxeU1veFJSUjk4Smd1cXla?=
- =?utf-8?B?RTJrMUZnTElOYnJEUFUvb3JjZG1NU3Y3bktZWWVnakdZRW1ibjNCVlQ0YWVO?=
- =?utf-8?B?bW41VXorRWVMVElTY1VNaEZDR2VIWGRKSlBhblFiM0FSd3RuT0hYazdOYUNL?=
- =?utf-8?B?OVM1UTFoRTZmeU5XelRnRkNOOGJpdFlDZXhzK2RFcHVnNDlZUjRSR2kxYzB3?=
- =?utf-8?B?bjU5OEwrM0dRWm5nY0tpK2dPTXo5K1JiUUFnQnRGd3NzeVZRaE9uM3BPampn?=
- =?utf-8?B?MFZKYnk4cVMvUENMbDAvRHQyRm8xeXlEUDVRRUVPeDlPUjUxUmNKWVFoV1dF?=
- =?utf-8?B?NGNoNlJRcjhIVFY5RmF4Nkc2VG1KUTBYcnBZODhtYURxUGNUeDlzUWpGcThQ?=
- =?utf-8?B?SnZzV3JVM1NPUGdZRUgxeWlvY0lGR0hDQW9VdEltSHBsOUV2UXVsTjhZRWov?=
- =?utf-8?B?WGNWQ09Wd29EUGJBU2VUbGZNTFNYYnJQZnhuWFFwNGwvL1drYmc4VVdiTy82?=
- =?utf-8?B?bmdMcHZNRlh4d3VJTThCby9NZGYwQytXQmtuc3RaY0NFZWZnT0RXZmJWTGNX?=
- =?utf-8?B?ZlhrazFBR2lkS2UvS2RtWHEzY05pQ2FaQXZ6Ym81ZGZNQkR3bnNzT3VaZFpx?=
- =?utf-8?B?VFFsUDE4QmNsc0ZRZ0VocG1YcWg3K2xCdjhzb0d0RE94M0plN0NMNlkyYm84?=
- =?utf-8?B?Uzk4NmlZVFk4cXhrV0d3THAvTG1BbXJkcGFLS2lzTEllbWlDbDlLR1ZsRGMv?=
- =?utf-8?B?Qk4vSFZvMFhFb1grNEVZdVlPZ2o1dG51ZVNuZC9KSlVQWlovNytRWEU4Kzcy?=
- =?utf-8?B?RmdLVjZLakQ5WXltQ2JLekhUWHdnSDVKalRkQnYrOTJQaVRRelo0Y0xDcjVi?=
- =?utf-8?B?L3AycG16WVNGM0t3UXFXeVpxK1pKVTNRYU1wdy9INjhLR1FvdEp3Ui96RTNR?=
- =?utf-8?B?aUxwaDdDOTNhQk5BN2xmeXBMeSs4WEM3Ni8weEl2dGlqdm1iTTg5bE56Zmc0?=
- =?utf-8?B?ZERXcHlielRMZThPUlY0M3dGMEVTMzBJVDh1ZFJPN2J4K05ZeElhL0dLMFU3?=
- =?utf-8?Q?0AuH4mYlsBBC5jsFR7RcwbXGqP2Mr0Ni4GmvI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8487.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bmthVk5RbktRK3dSRU9WdFlld0RFYmxodTAxaHFSUVRLY0gxUy93REwwTUtw?=
- =?utf-8?B?VHZxcmJTaGxFaHZaWG1NcDlOQ2ViMUhjeDdEVW54eS9sWDFOeVJGbnpXVXFk?=
- =?utf-8?B?MGZGVGFBZDhLeU9nN1N1emppWkNrclVoMytzTDFLM242U0prSnFoTFdQR2pX?=
- =?utf-8?B?cnpTMmJlMVNhNzBvdXV2Z1RDMm00Y2lwYkZiMUMvbmpTajlyanFDd1NnRHAz?=
- =?utf-8?B?S3lhRXc5eDhVdE5ENjBNc0g4aXVOc2h3ZVoxY3ZGcEZteTRlY2pkWUhYTy85?=
- =?utf-8?B?SDBJQlZjR2Y2d0ZqWHhha1JIMDJUU1RLQzFrM0NJeVRRMzlNTzVOd3ZkQm85?=
- =?utf-8?B?cXd1N0laS3NVcVVsZjJ0WGNsRlF1dzR0RkVGNTFPN2h1Y0tiREZGRVlMeE5L?=
- =?utf-8?B?YzRWUVRGMVpFUzVOdG5uZGx0bE5DL2NsSURaWTJITzdqeTk5b3hwMTVQcko2?=
- =?utf-8?B?QVZSRjgxUTlXcm55bnd2VXBaditsN0UxYWNUN0JlajZlZ1lZOEEyY2RaakpF?=
- =?utf-8?B?RkRCdldpdCt1Wk1HeHVGc0FLWERwMFdmanZ6K0V0TEt4N05PTEh1T2FZUG1N?=
- =?utf-8?B?eGQveXQzWEdONEZkcjBJZ0VnMlFzV2xGSmxNZWZRTmZSS2R6aUVmcW1mTEZa?=
- =?utf-8?B?WUpJY2VLSGpjZU1wRjVmTkRXbW9wSkRaZHZOcmJhUWhrd01pYmJmeUc2NUNz?=
- =?utf-8?B?Mk9DRzhGbEUzZ0swazk1YXRjbHNkK2JkV0krR2krTVhzcjRkSXlSVmlRL0Nr?=
- =?utf-8?B?WjRHcFNnNGU1bXFPVWhrU3JRTUt6allNeEVYV0cwL1NuVzZxZzlBK3piRDk5?=
- =?utf-8?B?NFB3STlzWlNQd0lBZk1RNllkWmtNeU01TFkzL1lUMjM2QXZhQnc4OFZvcjNI?=
- =?utf-8?B?ZElmcXpCWUc2U2tmMzV2QU5EaUhMOTNKTjFxS3pYM2NNMlJCdk5SZ1BkTlBX?=
- =?utf-8?B?YWovQ09sOTh5bWpNRnFBd05LYy9GVmF4aGZQRGU1UC9ZZFJLWnN1YTVaL0lS?=
- =?utf-8?B?eXpOYUtadXJvbDVDSkVSVlh2c2V5alVxTkpwcHFSd1VTK2pkVjBTa0NIY3pS?=
- =?utf-8?B?NFJoZnVrU2ZucTE1VEFBWHVQOUhuUTU1VWROS09uRTMvUjk2WFRnamkzVW8z?=
- =?utf-8?B?KzVScE4weEZZbEcveURqaFZlVEdhM29CTEQyejJMUEVmcDZvaTVZOFFoSDg5?=
- =?utf-8?B?d05NN0R5UkcwenlPa1hBY0xtOHlyekVub3FqZmdUeUMxWjYxcXFUZ1VFOXhZ?=
- =?utf-8?B?ZXlPcmNLeW16NjBkbVVZWEoxTktSODQzcVJtb1l3bFAvbFdPelpxdXJkU1FW?=
- =?utf-8?B?bkoxY2xpMXhjN1BuYzRESVRqMjBUZ05ENElLZWQzeVFBcHI4Q1N0ZlhvOTFF?=
- =?utf-8?B?VThLbUZLWGk2eFN4bU5VaDNsTnc2Y1hDM1EwYld4UzlnUHF0azhnaGtNb0Va?=
- =?utf-8?B?ZHE4cldjN0tXclpjWkFnRTNTL09RUW53UTVVVlUrZUdjWnh6WHMzRW10c2E5?=
- =?utf-8?B?OTdDWS8vdXZaTXlKSitYOXMzcUxqVXdqeURqQk9XWlpoQnQyaFBDRkVJRitD?=
- =?utf-8?B?QlJBTVIvYUl2ZDdRRFB3MFpxVlN2Z2orYlBBbEFQR05TcFJyeUp0SlBFYk4z?=
- =?utf-8?B?YWFicmdvd1A0b2M1RWNQQnB2MjQzNGVKZ0lYQmdyaTY4ZURaUTVQMmt3K3FE?=
- =?utf-8?B?UVVkakhlcjQ1eFdzRmtuR1hWMXNUSkVLSk96dkFmR2MzVVludEs2MElWaXV2?=
- =?utf-8?B?MVNYRHR2VklNbmZOUHg4SDZrSzIyK2xuSDZKVTJHWGJTaFM0Zk8yUzdqOXpm?=
- =?utf-8?B?TEFkNHY4QXRzOHRRQmVxU2tpZ2VlWENRTldaYStJdUhDeSt2Y29CV3FqaG1x?=
- =?utf-8?B?U0dEbGxjaGVJRWdXREw5QjR4TUZOZ0R5R3ZINUZJUlFkaTZMYWlib2IveU03?=
- =?utf-8?B?Vyt2eDZCRHh5cFV4MUdOOGxiaU5KQWg5Y2l4YTVrT3cxQ3VmbENpbmIrWE1B?=
- =?utf-8?B?NUkrSkEzQkdjZE5MT2MvRDJTTEJBQUtWTGtnV1BRV3FJNVdpMDc5YmF1bXZl?=
- =?utf-8?B?VVJ3Tis3eTJDSDBmcnQ3azRWWUJkNUVYK24vSFczOHdhUW9OeThrTStENVpY?=
- =?utf-8?B?dDZoRUhqNHVyeS9TNEpGNU05MjdiY1ozcWd0dy9tSjd2TzYwWFNBU2hvVnJv?=
- =?utf-8?B?ckE9PQ==?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a1faa8b-6520-459a-d32c-08dcfcc363c2
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8487.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 11:25:30.4475
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ll/UNKbOK/u55UVQiZVx+Ca9Oqm2L8tuCcaf/UyE3Jl6QD85hQW/WAKYCk+Jhnz5EM34tjK4o5ZXfQ0HRM5T0wWJ+NIrNwNMcjK+yYsYjf8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10799
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+CC: linux-kernel@vger.kernel.org
+TO: Edward Cree <ecree.xilinx@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
 
-On 02/11/2024 10:37, Dan Carpenter wrote:
-> Hi Andrei,
-> 
-> kernel test robot noticed the following build warnings:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
+commit: 87925151191b64d9623e63ccf11e517eacc99d7d net: ethtool: add a mutex protecting RSS contexts
+date:   4 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-054-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041913.fBGhLvW9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
-Thank you very much! I will fix this and all of the other kernel
-test robot errors in v6.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411041913.fBGhLvW9-lkp@intel.com/
 
-Best regards,
-Andrei
+cocci warnings: (new ones prefixed by >>)
+>> net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
+
+vim +1506 net/ethtool/ioctl.c
+
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1276  
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1277  static noinline_for_stack int ethtool_set_rxfh(struct net_device *dev,
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1278  					       void __user *useraddr)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1279  {
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1280  	u32 rss_cfg_offset = offsetof(struct ethtool_rxfh, rss_config[0]);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1281  	const struct ethtool_ops *ops = dev->ethtool_ops;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1282  	u32 dev_indir_size = 0, dev_key_size = 0, i;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1283  	struct ethtool_rxfh_param rxfh_dev = {};
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1284  	struct ethtool_rxfh_context *ctx = NULL;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1285  	struct netlink_ext_ack *extack = NULL;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1286  	struct ethtool_rxnfc rx_rings;
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1287  	struct ethtool_rxfh rxfh;
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1288  	bool locked = false; /* dev->ethtool->rss_lock taken */
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1289  	u32 indir_bytes = 0;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1290  	bool create = false;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1291  	u8 *rss_config;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1292  	int ret;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1293  
+892311f66f2411b net/core/ethtool.c  Eyal Perry      2014-12-02  1294  	if (!ops->get_rxnfc || !ops->set_rxfh)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1295  		return -EOPNOTSUPP;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1296  
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1297  	if (ops->get_rxfh_indir_size)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1298  		dev_indir_size = ops->get_rxfh_indir_size(dev);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1299  	if (ops->get_rxfh_key_size)
+d340c862e760815 net/core/ethtool.c  Dan Carpenter   2015-02-20  1300  		dev_key_size = ops->get_rxfh_key_size(dev);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1301  
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1302  	if (copy_from_user(&rxfh, useraddr, sizeof(rxfh)))
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1303  		return -EFAULT;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1304  
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1305  	/* Check that reserved fields are 0 for now */
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1306  	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd32)
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1307  		return -EINVAL;
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1308  	/* Most drivers don't handle rss_context, check it's 0 as well */
+dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1309  	if (rxfh.rss_context && !ops->cap_rss_ctx_supported)
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1310  		return -EOPNOTSUPP;
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1311  	/* Check input data transformation capabilities */
+948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1312  	if (rxfh.input_xfrm && rxfh.input_xfrm != RXH_XFRM_SYM_XOR &&
+948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1313  	    rxfh.input_xfrm != RXH_XFRM_NO_CHANGE)
+948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1314  		return -EINVAL;
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1315  	if ((rxfh.input_xfrm & RXH_XFRM_SYM_XOR) &&
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1316  	    !ops->cap_rss_sym_xor_supported)
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1317  		return -EOPNOTSUPP;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1318  	create = rxfh.rss_context == ETH_RXFH_CONTEXT_ALLOC;
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1319  
+892311f66f2411b net/core/ethtool.c  Eyal Perry      2014-12-02  1320  	/* If either indir, hash key or function is valid, proceed further.
+0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1321  	 * Must request at least one change: indir size, hash key, function
+0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1322  	 * or input transformation.
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1323  	 */
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1324  	if ((rxfh.indir_size &&
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1325  	     rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE &&
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1326  	     rxfh.indir_size != dev_indir_size) ||
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1327  	    (rxfh.key_size && (rxfh.key_size != dev_key_size)) ||
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1328  	    (rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE &&
+0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1329  	     rxfh.key_size == 0 && rxfh.hfunc == ETH_RSS_HASH_NO_CHANGE &&
+0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1330  	     rxfh.input_xfrm == RXH_XFRM_NO_CHANGE))
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1331  		return -EINVAL;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1332  
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1333  	if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1334  		indir_bytes = dev_indir_size * sizeof(rxfh_dev.indir[0]);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1335  
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1336  	rss_config = kzalloc(indir_bytes + rxfh.key_size, GFP_USER);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1337  	if (!rss_config)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1338  		return -ENOMEM;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1339  
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1340  	rx_rings.cmd = ETHTOOL_GRXRINGS;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1341  	ret = ops->get_rxnfc(dev, &rx_rings, NULL);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1342  	if (ret)
+7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1343  		goto out;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1344  
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1345  	/* rxfh.indir_size == 0 means reset the indir table to default (master
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1346  	 * context) or delete the context (other RSS contexts).
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1347  	 * rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE means leave it unchanged.
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1348  	 */
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1349  	if (rxfh.indir_size &&
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1350  	    rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE) {
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1351  		rxfh_dev.indir = (u32 *)rss_config;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1352  		rxfh_dev.indir_size = dev_indir_size;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1353  		ret = ethtool_copy_validate_indir(rxfh_dev.indir,
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1354  						  useraddr + rss_cfg_offset,
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1355  						  &rx_rings,
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1356  						  rxfh.indir_size);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1357  		if (ret)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1358  			goto out;
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1359  	} else if (rxfh.indir_size == 0) {
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1360  		if (rxfh.rss_context == 0) {
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1361  			u32 *indir;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1362  
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1363  			rxfh_dev.indir = (u32 *)rss_config;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1364  			rxfh_dev.indir_size = dev_indir_size;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1365  			indir = rxfh_dev.indir;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1366  			for (i = 0; i < dev_indir_size; i++)
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1367  				indir[i] = ethtool_rxfh_indir_default(i, rx_rings.data);
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1368  		} else {
+dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1369  			rxfh_dev.rss_delete = true;
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1370  		}
+7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1371  	}
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1372  
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1373  	if (rxfh.key_size) {
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1374  		rxfh_dev.key_size = dev_key_size;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1375  		rxfh_dev.key = rss_config + indir_bytes;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1376  		if (copy_from_user(rxfh_dev.key,
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1377  				   useraddr + rss_cfg_offset + indir_bytes,
+f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1378  				   rxfh.key_size)) {
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1379  			ret = -EFAULT;
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1380  			goto out;
+7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1381  		}
+278bc4296bd64ff net/core/ethtool.c  Ben Hutchings   2011-12-15  1382  	}
+7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1383  
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1384  	if (rxfh.rss_context) {
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27 @1385  		mutex_lock(&dev->ethtool->rss_lock);
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1386  		locked = true;
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1387  	}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1388  	if (create) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1389  		if (rxfh_dev.rss_delete) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1390  			ret = -EINVAL;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1391  			goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1392  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1393  		ctx = kzalloc(ethtool_rxfh_context_size(dev_indir_size,
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1394  							dev_key_size,
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1395  							ops->rxfh_priv_size),
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1396  			      GFP_KERNEL_ACCOUNT);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1397  		if (!ctx) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1398  			ret = -ENOMEM;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1399  			goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1400  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1401  		ctx->indir_size = dev_indir_size;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1402  		ctx->key_size = dev_key_size;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1403  		ctx->priv_size = ops->rxfh_priv_size;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1404  		/* Initialise to an empty context */
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1405  		ctx->hfunc = ETH_RSS_HASH_NO_CHANGE;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1406  		ctx->input_xfrm = RXH_XFRM_NO_CHANGE;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1407  		if (ops->create_rxfh_context) {
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1408  			u32 limit = ops->rxfh_max_context_id ?: U32_MAX;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1409  			u32 ctx_id;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1410  
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1411  			/* driver uses new API, core allocates ID */
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1412  			ret = xa_alloc(&dev->ethtool->rss_ctx, &ctx_id, ctx,
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1413  				       XA_LIMIT(1, limit), GFP_KERNEL_ACCOUNT);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1414  			if (ret < 0) {
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1415  				kfree(ctx);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1416  				goto out;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1417  			}
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1418  			WARN_ON(!ctx_id); /* can't happen */
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1419  			rxfh.rss_context = ctx_id;
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1420  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1421  	} else if (rxfh.rss_context) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1422  		ctx = xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1423  		if (!ctx) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1424  			ret = -ENOENT;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1425  			goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1426  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1427  	}
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1428  	rxfh_dev.hfunc = rxfh.hfunc;
+dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1429  	rxfh_dev.rss_context = rxfh.rss_context;
+13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1430  	rxfh_dev.input_xfrm = rxfh.input_xfrm;
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1431  
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1432  	if (rxfh.rss_context && ops->create_rxfh_context) {
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1433  		if (create)
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1434  			ret = ops->create_rxfh_context(dev, ctx, &rxfh_dev,
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1435  						       extack);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1436  		else if (rxfh_dev.rss_delete)
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1437  			ret = ops->remove_rxfh_context(dev, ctx,
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1438  						       rxfh.rss_context,
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1439  						       extack);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1440  		else
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1441  			ret = ops->modify_rxfh_context(dev, ctx, &rxfh_dev,
+30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1442  						       extack);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1443  	} else {
+fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1444  		ret = ops->set_rxfh(dev, &rxfh_dev, extack);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1445  	}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1446  	if (ret) {
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1447  		if (create) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1448  			/* failed to create, free our new tracking entry */
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1449  			if (ops->create_rxfh_context)
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1450  				xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1451  			kfree(ctx);
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1452  		}
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1453  		goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1454  	}
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1455  
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1456  	if (copy_to_user(useraddr + offsetof(struct ethtool_rxfh, rss_context),
+dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1457  			 &rxfh_dev.rss_context, sizeof(rxfh_dev.rss_context)))
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1458  		ret = -EFAULT;
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1459  
+dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1460  	if (!rxfh_dev.rss_context) {
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1461  		/* indicate whether rxfh was set to default */
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1462  		if (rxfh.indir_size == 0)
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1463  			dev->priv_flags &= ~IFF_RXFH_CONFIGURED;
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1464  		else if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
+d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1465  			dev->priv_flags |= IFF_RXFH_CONFIGURED;
+84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1466  	}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1467  	/* Update rss_ctx tracking */
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1468  	if (create && !ops->create_rxfh_context) {
+847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1469  		/* driver uses old API, it chose context ID */
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1470  		if (WARN_ON(xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context))) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1471  			/* context ID reused, our tracking is screwed */
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1472  			kfree(ctx);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1473  			goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1474  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1475  		/* Allocate the exact ID the driver gave us */
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1476  		if (xa_is_err(xa_store(&dev->ethtool->rss_ctx, rxfh.rss_context,
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1477  				       ctx, GFP_KERNEL))) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1478  			kfree(ctx);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1479  			goto out;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1480  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1481  	}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1482  	if (rxfh_dev.rss_delete) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1483  		WARN_ON(xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context) != ctx);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1484  		kfree(ctx);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1485  	} else if (ctx) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1486  		if (rxfh_dev.indir) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1487  			for (i = 0; i < dev_indir_size; i++)
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1488  				ethtool_rxfh_context_indir(ctx)[i] = rxfh_dev.indir[i];
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1489  			ctx->indir_configured = 1;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1490  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1491  		if (rxfh_dev.key) {
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1492  			memcpy(ethtool_rxfh_context_key(ctx), rxfh_dev.key,
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1493  			       dev_key_size);
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1494  			ctx->key_configured = 1;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1495  		}
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1496  		if (rxfh_dev.hfunc != ETH_RSS_HASH_NO_CHANGE)
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1497  			ctx->hfunc = rxfh_dev.hfunc;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1498  		if (rxfh_dev.input_xfrm != RXH_XFRM_NO_CHANGE)
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1499  			ctx->input_xfrm = rxfh_dev.input_xfrm;
+eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1500  	}
+a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1501  
+a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1502  out:
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1503  	if (locked)
+87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1504  		mutex_unlock(&dev->ethtool->rss_lock);
+3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1505  	kfree(rss_config);
+a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30 @1506  	return ret;
+a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1507  }
+a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1508  
+
+:::::: The code at line 1506 was first introduced by commit
+:::::: a5b6ee291e39e285e021cf251dbcf770c83cd74e ethtool: Add support for control of RX flow hash indirection
+
+:::::: TO: Ben Hutchings <bhutchings@solarflare.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
