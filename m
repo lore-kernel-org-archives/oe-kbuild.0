@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7911B395A
-	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 11:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B7179C8
+	for <oe-kbuild@lists.linux.dev>; Mon,  4 Nov 2024 12:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730721493; cv=none; b=QTyeS4GRGWhjOQKhpXRmuDvwpECpMdqbyznmA4BQrzNB2u5JikG+Iizq8Fg2FhIq/2xqEHWUnjzd1jl5kNHwJNtE2Hwrmbv/dv7rRaTfbilJ2VlKhjopndAH3PzTUShHCMLGHWx9oitWcnmm5xx/86d5sc1itYTveXdHIccpegs=
+	t=1730724676; cv=none; b=T70MwGQU6s9/P30a7FzRVILogHn4CVLqK09JE3QURmMZZORztcl4KUKApY5FXqUtFvitYRsjuDvaAMrW8BXc2Y7NHVmuhdp7JcJifTZON/3NZdNorVGqXFUfOs48J1xSuU2sY817qtO95EsFnH3b3JMFfHhha/wxhL97E56YrPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730721493; c=relaxed/simple;
-	bh=+c8B5Mjrfw4gagjb2nhMHU8K8VGsxPaWbnexdkHzyPI=;
+	s=arc-20240116; t=1730724676; c=relaxed/simple;
+	bh=1EYt31HyxE3Vs8NftsX4jOQBAEEcjddKxxqoqFgkoCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ucD0CMTzt8U0WRNyXorJwp8hn7AQJk3ImDnq4RQZzIeauQjBJnT3w3c40ZWAedLuDunqCS2BxvV/1DPeN8MojgAf0n1UxcF1/Kcbj1fyP0+9nJthAfFBEle5U/GwSe3P1UmaePIMcF3XUsL85x2x9Ky/1f8l4je+y+bzGykurGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lttqdGBb; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=YoL11nvKCWgeql08begpT02nRvZOaYOXDDl+pK/qIHBX0nhPjSxZB3g1tjkLlZZvTKYcWxcvKYYqqkCuCyZV0tDo0ekFbDWZTUEkiwMQDg8OoDYZt2MTAwwJ1X1SUbn/15kwfAqqJ3b9P5Q/iD1Mc2K7nrw5P8u+Zb7naYZuPF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ap8RDmDZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lttqdGBb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ap8RDmDZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730721491; x=1762257491;
+  t=1730724675; x=1762260675;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+c8B5Mjrfw4gagjb2nhMHU8K8VGsxPaWbnexdkHzyPI=;
-  b=lttqdGBbSKuRcvCxWm5VZUEWALn3h/S+fulCRhzSCxLHOBugCN13EXeX
-   O6qjZ9dJbvE0aJuDITtYBzd+9ihGKO+7r6o8l+0JAR0hVGXXRPg2Rv61x
-   OH245IKvtphSfPXw5bNkaQ+T6gyuVAsL2HIOUay+3EWpdL6U3Gs7HWmcB
-   euZtXU4P/XvcluqoehHoR4Uxh7mXu0hZ3TNv3EkYIWoKUYkbxUbk3p/78
-   5pFACHY8tRF1xOgU7eS3bHygr+OH7MxoPhsD0lk7Kh+UYr109hlI4DjHp
-   DzrWjpD8R28OEXl5tg3JUFPjr6VBYzGI8aJgxjRa2TJXaE/t+awAAghjk
-   Q==;
-X-CSE-ConnectionGUID: GMXsPB/pTd68JuM3hOE68A==
-X-CSE-MsgGUID: Tpeo/OFNQaKe3u5yscS0nA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="18031381"
+  bh=1EYt31HyxE3Vs8NftsX4jOQBAEEcjddKxxqoqFgkoCM=;
+  b=ap8RDmDZORJnCYLRu4IIDwytbmxSrSSQzSugOffOOLK8DWX88WyKBb5P
+   A5VJtdyzCmvzgqIJd4XRFcLxKBSYyRqFT0S0Zc4BYsCanD38z9lHUwKDq
+   aMEa29/NFIh5PiyJYHu57xELtGBbo52M4U+q3XcAATBpXsvil41F8PQ0H
+   wpx7hfAvlzCeQOdWHWa21neRbfBNiVmokeMfRKu85pZdP9Ev1wpPqgm/H
+   BTRRaAxHjsw1XPp9cQdy+ans3oOgm6wiH9Os3P2SX533RmSf5sQLxuRO2
+   AofMzvp+ZoB68XQJNVkWYNWx7asEacOkTnpYHNMxw2oK2EoN/BWtwp53H
+   g==;
+X-CSE-ConnectionGUID: Lg+DpA1UTSGitDNCaXUGgg==
+X-CSE-MsgGUID: raE+uHlaSwO25Mw3JNPm+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="34206769"
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="18031381"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 03:58:11 -0800
-X-CSE-ConnectionGUID: n3a3D1diRDOgkfndOnwq4Q==
-X-CSE-MsgGUID: etfC0Z6vR8iBt/QH8SdpZQ==
+   d="scan'208";a="34206769"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 04:51:14 -0800
+X-CSE-ConnectionGUID: lnqh/by2Q22Q17OMsi/MYg==
+X-CSE-MsgGUID: K15cQn2jQseZzp7Gg3oCyA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="88457824"
+   d="scan'208";a="83746910"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2024 03:58:09 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 04 Nov 2024 04:51:13 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7vig-000kn7-1J;
-	Mon, 04 Nov 2024 11:58:06 +0000
-Date: Mon, 4 Nov 2024 19:58:00 +0800
+	id 1t7wY2-000kpV-1z;
+	Mon, 04 Nov 2024 12:51:10 +0000
+Date: Mon, 4 Nov 2024 20:50:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
-Message-ID: <202411041913.fBGhLvW9-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176
+ mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r]
+ (local cap)
+Message-ID: <202411042047.FpydCvXU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,269 +66,92 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Edward Cree <ecree.xilinx@gmail.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+TO: Chank Chen <chank.chen@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Shayne Chen <shayne.chen@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-commit: 87925151191b64d9623e63ccf11e517eacc99d7d net: ethtool: add a mutex protecting RSS contexts
-date:   4 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-054-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041913.fBGhLvW9-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+commit: e35f43aa34d36e6cb1de00705c08026b023ef5ed wifi: mt76: connac: add MBSSID support for mt7996
+date:   1 year, 1 month ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 1 year, 1 month ago
+config: sh-randconfig-r073-20241104 (https://download.01.org/0day-ci/archive/20241104/202411042047.FpydCvXU-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411041913.fBGhLvW9-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411042047.FpydCvXU-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> net/ethtool/ioctl.c:1506:1-7: preceding lock on line 1385
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2176 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'sub_elem->data' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:2168 mt7996_mcu_beacon_mbss() warn: potential spectre issue 'elem->data' [r] (local cap)
 
-vim +1506 net/ethtool/ioctl.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:345 mt7996_mcu_rx_radar_detected() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:347 mt7996_mcu_rx_radar_detected() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:427 mt7996_mcu_ie_countdown() warn: potential spectre issue 'dev->mt76.phys' [r] (local cap)
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:434 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
+drivers/net/wireless/mediatek/mt76/mt7996/mcu.c:439 mt7996_mcu_ie_countdown() warn: possible spectre second half.  'mphy'
 
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1276  
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1277  static noinline_for_stack int ethtool_set_rxfh(struct net_device *dev,
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1278  					       void __user *useraddr)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1279  {
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1280  	u32 rss_cfg_offset = offsetof(struct ethtool_rxfh, rss_config[0]);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1281  	const struct ethtool_ops *ops = dev->ethtool_ops;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1282  	u32 dev_indir_size = 0, dev_key_size = 0, i;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1283  	struct ethtool_rxfh_param rxfh_dev = {};
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1284  	struct ethtool_rxfh_context *ctx = NULL;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1285  	struct netlink_ext_ack *extack = NULL;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1286  	struct ethtool_rxnfc rx_rings;
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1287  	struct ethtool_rxfh rxfh;
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1288  	bool locked = false; /* dev->ethtool->rss_lock taken */
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1289  	u32 indir_bytes = 0;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1290  	bool create = false;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1291  	u8 *rss_config;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1292  	int ret;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1293  
-892311f66f2411b net/core/ethtool.c  Eyal Perry      2014-12-02  1294  	if (!ops->get_rxnfc || !ops->set_rxfh)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1295  		return -EOPNOTSUPP;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1296  
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1297  	if (ops->get_rxfh_indir_size)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1298  		dev_indir_size = ops->get_rxfh_indir_size(dev);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1299  	if (ops->get_rxfh_key_size)
-d340c862e760815 net/core/ethtool.c  Dan Carpenter   2015-02-20  1300  		dev_key_size = ops->get_rxfh_key_size(dev);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1301  
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1302  	if (copy_from_user(&rxfh, useraddr, sizeof(rxfh)))
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1303  		return -EFAULT;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1304  
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1305  	/* Check that reserved fields are 0 for now */
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1306  	if (rxfh.rsvd8[0] || rxfh.rsvd8[1] || rxfh.rsvd32)
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1307  		return -EINVAL;
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1308  	/* Most drivers don't handle rss_context, check it's 0 as well */
-dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1309  	if (rxfh.rss_context && !ops->cap_rss_ctx_supported)
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1310  		return -EOPNOTSUPP;
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1311  	/* Check input data transformation capabilities */
-948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1312  	if (rxfh.input_xfrm && rxfh.input_xfrm != RXH_XFRM_SYM_XOR &&
-948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1313  	    rxfh.input_xfrm != RXH_XFRM_NO_CHANGE)
-948f97f9d8d2aa3 net/ethtool/ioctl.c Ahmed Zaki      2024-01-04  1314  		return -EINVAL;
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1315  	if ((rxfh.input_xfrm & RXH_XFRM_SYM_XOR) &&
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1316  	    !ops->cap_rss_sym_xor_supported)
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1317  		return -EOPNOTSUPP;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1318  	create = rxfh.rss_context == ETH_RXFH_CONTEXT_ALLOC;
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1319  
-892311f66f2411b net/core/ethtool.c  Eyal Perry      2014-12-02  1320  	/* If either indir, hash key or function is valid, proceed further.
-0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1321  	 * Must request at least one change: indir size, hash key, function
-0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1322  	 * or input transformation.
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1323  	 */
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1324  	if ((rxfh.indir_size &&
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1325  	     rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE &&
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1326  	     rxfh.indir_size != dev_indir_size) ||
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1327  	    (rxfh.key_size && (rxfh.key_size != dev_key_size)) ||
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1328  	    (rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE &&
-0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1329  	     rxfh.key_size == 0 && rxfh.hfunc == ETH_RSS_HASH_NO_CHANGE &&
-0dd415d155050f5 net/ethtool/ioctl.c Ahmed Zaki      2023-12-21  1330  	     rxfh.input_xfrm == RXH_XFRM_NO_CHANGE))
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1331  		return -EINVAL;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1332  
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1333  	if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1334  		indir_bytes = dev_indir_size * sizeof(rxfh_dev.indir[0]);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1335  
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1336  	rss_config = kzalloc(indir_bytes + rxfh.key_size, GFP_USER);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1337  	if (!rss_config)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1338  		return -ENOMEM;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1339  
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1340  	rx_rings.cmd = ETHTOOL_GRXRINGS;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1341  	ret = ops->get_rxnfc(dev, &rx_rings, NULL);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1342  	if (ret)
-7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1343  		goto out;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1344  
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1345  	/* rxfh.indir_size == 0 means reset the indir table to default (master
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1346  	 * context) or delete the context (other RSS contexts).
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1347  	 * rxfh.indir_size == ETH_RXFH_INDIR_NO_CHANGE means leave it unchanged.
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1348  	 */
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1349  	if (rxfh.indir_size &&
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1350  	    rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE) {
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1351  		rxfh_dev.indir = (u32 *)rss_config;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1352  		rxfh_dev.indir_size = dev_indir_size;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1353  		ret = ethtool_copy_validate_indir(rxfh_dev.indir,
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1354  						  useraddr + rss_cfg_offset,
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1355  						  &rx_rings,
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1356  						  rxfh.indir_size);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1357  		if (ret)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1358  			goto out;
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1359  	} else if (rxfh.indir_size == 0) {
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1360  		if (rxfh.rss_context == 0) {
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1361  			u32 *indir;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1362  
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1363  			rxfh_dev.indir = (u32 *)rss_config;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1364  			rxfh_dev.indir_size = dev_indir_size;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1365  			indir = rxfh_dev.indir;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1366  			for (i = 0; i < dev_indir_size; i++)
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1367  				indir[i] = ethtool_rxfh_indir_default(i, rx_rings.data);
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1368  		} else {
-dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1369  			rxfh_dev.rss_delete = true;
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1370  		}
-7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1371  	}
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1372  
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1373  	if (rxfh.key_size) {
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1374  		rxfh_dev.key_size = dev_key_size;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1375  		rxfh_dev.key = rss_config + indir_bytes;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1376  		if (copy_from_user(rxfh_dev.key,
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1377  				   useraddr + rss_cfg_offset + indir_bytes,
-f062a3844845d26 net/core/ethtool.c  Ben Hutchings   2014-05-15  1378  				   rxfh.key_size)) {
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1379  			ret = -EFAULT;
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1380  			goto out;
-7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1381  		}
-278bc4296bd64ff net/core/ethtool.c  Ben Hutchings   2011-12-15  1382  	}
-7850f63f1620512 net/core/ethtool.c  Ben Hutchings   2011-12-15  1383  
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1384  	if (rxfh.rss_context) {
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27 @1385  		mutex_lock(&dev->ethtool->rss_lock);
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1386  		locked = true;
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1387  	}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1388  	if (create) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1389  		if (rxfh_dev.rss_delete) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1390  			ret = -EINVAL;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1391  			goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1392  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1393  		ctx = kzalloc(ethtool_rxfh_context_size(dev_indir_size,
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1394  							dev_key_size,
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1395  							ops->rxfh_priv_size),
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1396  			      GFP_KERNEL_ACCOUNT);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1397  		if (!ctx) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1398  			ret = -ENOMEM;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1399  			goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1400  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1401  		ctx->indir_size = dev_indir_size;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1402  		ctx->key_size = dev_key_size;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1403  		ctx->priv_size = ops->rxfh_priv_size;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1404  		/* Initialise to an empty context */
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1405  		ctx->hfunc = ETH_RSS_HASH_NO_CHANGE;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1406  		ctx->input_xfrm = RXH_XFRM_NO_CHANGE;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1407  		if (ops->create_rxfh_context) {
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1408  			u32 limit = ops->rxfh_max_context_id ?: U32_MAX;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1409  			u32 ctx_id;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1410  
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1411  			/* driver uses new API, core allocates ID */
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1412  			ret = xa_alloc(&dev->ethtool->rss_ctx, &ctx_id, ctx,
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1413  				       XA_LIMIT(1, limit), GFP_KERNEL_ACCOUNT);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1414  			if (ret < 0) {
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1415  				kfree(ctx);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1416  				goto out;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1417  			}
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1418  			WARN_ON(!ctx_id); /* can't happen */
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1419  			rxfh.rss_context = ctx_id;
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1420  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1421  	} else if (rxfh.rss_context) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1422  		ctx = xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1423  		if (!ctx) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1424  			ret = -ENOENT;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1425  			goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1426  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1427  	}
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1428  	rxfh_dev.hfunc = rxfh.hfunc;
-dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1429  	rxfh_dev.rss_context = rxfh.rss_context;
-13e59344fb9d3c9 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1430  	rxfh_dev.input_xfrm = rxfh.input_xfrm;
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1431  
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1432  	if (rxfh.rss_context && ops->create_rxfh_context) {
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1433  		if (create)
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1434  			ret = ops->create_rxfh_context(dev, ctx, &rxfh_dev,
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1435  						       extack);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1436  		else if (rxfh_dev.rss_delete)
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1437  			ret = ops->remove_rxfh_context(dev, ctx,
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1438  						       rxfh.rss_context,
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1439  						       extack);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1440  		else
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1441  			ret = ops->modify_rxfh_context(dev, ctx, &rxfh_dev,
-30a32cdf6b13035 net/ethtool/ioctl.c Edward Cree     2024-06-27  1442  						       extack);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1443  	} else {
-fb6e30a72539ce2 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1444  		ret = ops->set_rxfh(dev, &rxfh_dev, extack);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1445  	}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1446  	if (ret) {
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1447  		if (create) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1448  			/* failed to create, free our new tracking entry */
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1449  			if (ops->create_rxfh_context)
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1450  				xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1451  			kfree(ctx);
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1452  		}
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1453  		goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1454  	}
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1455  
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1456  	if (copy_to_user(useraddr + offsetof(struct ethtool_rxfh, rss_context),
-dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1457  			 &rxfh_dev.rss_context, sizeof(rxfh_dev.rss_context)))
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1458  		ret = -EFAULT;
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1459  
-dcd8dbf9e734eb3 net/ethtool/ioctl.c Ahmed Zaki      2023-12-12  1460  	if (!rxfh_dev.rss_context) {
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1461  		/* indicate whether rxfh was set to default */
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1462  		if (rxfh.indir_size == 0)
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1463  			dev->priv_flags &= ~IFF_RXFH_CONFIGURED;
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1464  		else if (rxfh.indir_size != ETH_RXFH_INDIR_NO_CHANGE)
-d4ab4286276fcd6 net/core/ethtool.c  Keller, Jacob E 2016-02-08  1465  			dev->priv_flags |= IFF_RXFH_CONFIGURED;
-84a1d9c4820080b net/core/ethtool.c  Edward Cree     2018-03-08  1466  	}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1467  	/* Update rss_ctx tracking */
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1468  	if (create && !ops->create_rxfh_context) {
-847a8ab186767be net/ethtool/ioctl.c Edward Cree     2024-06-27  1469  		/* driver uses old API, it chose context ID */
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1470  		if (WARN_ON(xa_load(&dev->ethtool->rss_ctx, rxfh.rss_context))) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1471  			/* context ID reused, our tracking is screwed */
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1472  			kfree(ctx);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1473  			goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1474  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1475  		/* Allocate the exact ID the driver gave us */
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1476  		if (xa_is_err(xa_store(&dev->ethtool->rss_ctx, rxfh.rss_context,
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1477  				       ctx, GFP_KERNEL))) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1478  			kfree(ctx);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1479  			goto out;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1480  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1481  	}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1482  	if (rxfh_dev.rss_delete) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1483  		WARN_ON(xa_erase(&dev->ethtool->rss_ctx, rxfh.rss_context) != ctx);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1484  		kfree(ctx);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1485  	} else if (ctx) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1486  		if (rxfh_dev.indir) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1487  			for (i = 0; i < dev_indir_size; i++)
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1488  				ethtool_rxfh_context_indir(ctx)[i] = rxfh_dev.indir[i];
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1489  			ctx->indir_configured = 1;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1490  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1491  		if (rxfh_dev.key) {
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1492  			memcpy(ethtool_rxfh_context_key(ctx), rxfh_dev.key,
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1493  			       dev_key_size);
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1494  			ctx->key_configured = 1;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1495  		}
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1496  		if (rxfh_dev.hfunc != ETH_RSS_HASH_NO_CHANGE)
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1497  			ctx->hfunc = rxfh_dev.hfunc;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1498  		if (rxfh_dev.input_xfrm != RXH_XFRM_NO_CHANGE)
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1499  			ctx->input_xfrm = rxfh_dev.input_xfrm;
-eac9122f0c41b83 net/ethtool/ioctl.c Edward Cree     2024-06-27  1500  	}
-a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1501  
-a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1502  out:
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1503  	if (locked)
-87925151191b64d net/ethtool/ioctl.c Edward Cree     2024-06-27  1504  		mutex_unlock(&dev->ethtool->rss_lock);
-3de0b592394d17b net/core/ethtool.c  Venkata Duvvuru 2014-04-21  1505  	kfree(rss_config);
-a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30 @1506  	return ret;
-a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1507  }
-a5b6ee291e39e28 net/core/ethtool.c  Ben Hutchings   2010-06-30  1508  
+vim +2176 drivers/net/wireless/mediatek/mt76/mt7996/mcu.c
 
-:::::: The code at line 1506 was first introduced by commit
-:::::: a5b6ee291e39e285e021cf251dbcf770c83cd74e ethtool: Add support for control of RX flow hash indirection
-
-:::::: TO: Ben Hutchings <bhutchings@solarflare.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+98686cd21624c7 Shayne Chen 2022-11-22  2149  
+e35f43aa34d36e Chank Chen  2023-08-31  2150  static void
+e35f43aa34d36e Chank Chen  2023-08-31  2151  mt7996_mcu_beacon_mbss(struct sk_buff *rskb, struct sk_buff *skb,
+e35f43aa34d36e Chank Chen  2023-08-31  2152  		       struct ieee80211_vif *vif, struct bss_bcn_content_tlv *bcn,
+e35f43aa34d36e Chank Chen  2023-08-31  2153  		       struct ieee80211_mutable_offsets *offs)
+e35f43aa34d36e Chank Chen  2023-08-31  2154  {
+e35f43aa34d36e Chank Chen  2023-08-31  2155  	struct bss_bcn_mbss_tlv *mbss;
+e35f43aa34d36e Chank Chen  2023-08-31  2156  	const struct element *elem;
+e35f43aa34d36e Chank Chen  2023-08-31  2157  	struct tlv *tlv;
+e35f43aa34d36e Chank Chen  2023-08-31  2158  
+e35f43aa34d36e Chank Chen  2023-08-31  2159  	if (!vif->bss_conf.bssid_indicator)
+e35f43aa34d36e Chank Chen  2023-08-31  2160  		return;
+e35f43aa34d36e Chank Chen  2023-08-31  2161  
+e35f43aa34d36e Chank Chen  2023-08-31  2162  	tlv = mt7996_mcu_add_uni_tlv(rskb, UNI_BSS_INFO_BCN_MBSSID, sizeof(*mbss));
+e35f43aa34d36e Chank Chen  2023-08-31  2163  
+e35f43aa34d36e Chank Chen  2023-08-31  2164  	mbss = (struct bss_bcn_mbss_tlv *)tlv;
+e35f43aa34d36e Chank Chen  2023-08-31  2165  	mbss->offset[0] = cpu_to_le16(offs->tim_offset);
+e35f43aa34d36e Chank Chen  2023-08-31  2166  	mbss->bitmap = cpu_to_le32(1);
+e35f43aa34d36e Chank Chen  2023-08-31  2167  
+e35f43aa34d36e Chank Chen  2023-08-31 @2168  	for_each_element_id(elem, WLAN_EID_MULTIPLE_BSSID,
+e35f43aa34d36e Chank Chen  2023-08-31  2169  			    &skb->data[offs->mbssid_off],
+e35f43aa34d36e Chank Chen  2023-08-31  2170  			    skb->len - offs->mbssid_off) {
+e35f43aa34d36e Chank Chen  2023-08-31  2171  		const struct element *sub_elem;
+e35f43aa34d36e Chank Chen  2023-08-31  2172  
+e35f43aa34d36e Chank Chen  2023-08-31  2173  		if (elem->datalen < 2)
+e35f43aa34d36e Chank Chen  2023-08-31  2174  			continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2175  
+e35f43aa34d36e Chank Chen  2023-08-31 @2176  		for_each_element(sub_elem, elem->data + 1, elem->datalen - 1) {
+e35f43aa34d36e Chank Chen  2023-08-31  2177  			const struct ieee80211_bssid_index *idx;
+e35f43aa34d36e Chank Chen  2023-08-31  2178  			const u8 *idx_ie;
+e35f43aa34d36e Chank Chen  2023-08-31  2179  
+e35f43aa34d36e Chank Chen  2023-08-31  2180  			/* not a valid BSS profile */
+e35f43aa34d36e Chank Chen  2023-08-31  2181  			if (sub_elem->id || sub_elem->datalen < 4)
+e35f43aa34d36e Chank Chen  2023-08-31  2182  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2183  
+e35f43aa34d36e Chank Chen  2023-08-31  2184  			/* Find WLAN_EID_MULTI_BSSID_IDX
+e35f43aa34d36e Chank Chen  2023-08-31  2185  			 * in the merged nontransmitted profile
+e35f43aa34d36e Chank Chen  2023-08-31  2186  			 */
+e35f43aa34d36e Chank Chen  2023-08-31  2187  			idx_ie = cfg80211_find_ie(WLAN_EID_MULTI_BSSID_IDX,
+e35f43aa34d36e Chank Chen  2023-08-31  2188  						  sub_elem->data, sub_elem->datalen);
+e35f43aa34d36e Chank Chen  2023-08-31  2189  			if (!idx_ie || idx_ie[1] < sizeof(*idx))
+e35f43aa34d36e Chank Chen  2023-08-31  2190  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2191  
+e35f43aa34d36e Chank Chen  2023-08-31  2192  			idx = (void *)(idx_ie + 2);
+e35f43aa34d36e Chank Chen  2023-08-31  2193  			if (!idx->bssid_index || idx->bssid_index > 31)
+e35f43aa34d36e Chank Chen  2023-08-31  2194  				continue;
+e35f43aa34d36e Chank Chen  2023-08-31  2195  
+e35f43aa34d36e Chank Chen  2023-08-31  2196  			mbss->offset[idx->bssid_index] = cpu_to_le16(idx_ie -
+e35f43aa34d36e Chank Chen  2023-08-31  2197  								     skb->data);
+e35f43aa34d36e Chank Chen  2023-08-31  2198  			mbss->bitmap |= cpu_to_le32(BIT(idx->bssid_index));
+e35f43aa34d36e Chank Chen  2023-08-31  2199  		}
+e35f43aa34d36e Chank Chen  2023-08-31  2200  	}
+e35f43aa34d36e Chank Chen  2023-08-31  2201  }
+e35f43aa34d36e Chank Chen  2023-08-31  2202  
 
 -- 
 0-DAY CI Kernel Test Service
