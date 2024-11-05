@@ -1,173 +1,218 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE751714CF
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 16:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706A03BBC5
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 16:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730823256; cv=none; b=NsWee4VhMwjxdr/RHoqypmgZSRfLW43ZWi4HCXh8rDDFdIi82UTJkQIHH1R2NMON/L/FYK4kvDHgreUk+vHL3vbPK+m766AFODFvNXB2JJ7vI1UMbotwwTevODR6nw9wKYrbssbkdxSRcv09/0cKWCv9M1i5ODrYol0jbWGEaMo=
+	t=1730823404; cv=none; b=DbedpYJUun4eTSC3hOWzOug2xFzrWZAhd5KA+EsDG4HcO7OvjxgBGRz19mboShv/KYwNu6UzJqNb6RE2NwVHzuBoPtB8yJTeM/vnCPmAAK98SRE/CCU+qM4Mlp1DjCXAv7KJYDYg6GFgO6z8iX9c586PD3XEdlQmpwfs/XceTHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730823256; c=relaxed/simple;
-	bh=zppZAH8X6U3FP72XUi2tye0Pcl7hqMND1YSvSrvadFI=;
+	s=arc-20240116; t=1730823404; c=relaxed/simple;
+	bh=ulXv1Zv8KZpzd7Ffxi0Lc1QMMMfm+qSrdATYdrQysdo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KmH7CFbNB7Vu7Ailnj0VBvzMXdQLZ17AGSmsNVow8bY2SZ2KLh66VPhHSaV/ub3gRuIFjKOR/v+oLrlco82iohsuDDknmJAYBgwPbeF4vNVP8uYlg6kO+DQ3JQgRB65Z2ZSMpC/xOSsnM1u3uchqPq5lrmqnUlV5y0feELnOeYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HmPRU3Y4; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition; b=LmH5LCD5MBW36ZRYVJiTlw8R5NPUONq9I7pnhVXtPok9mbTntKBONFLoobftC7dzZJPIvPtpR24OOwQLP4XDoFLHgWi0fQpSdu/HTHuuff97epSgMI6Mz+M8iSY+L7G0cMCfR//o23Fwx+DRK3kHMuPZRn5sHW7w9LUCmCz9rnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u2BsiMEw; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HmPRU3Y4"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-431695fa98bso44632945e9.3
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 Nov 2024 08:14:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u2BsiMEw"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43193678216so48658815e9.0
+        for <oe-kbuild@lists.linux.dev>; Tue, 05 Nov 2024 08:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730823251; x=1731428051; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KBEKWQ7whZejS2/hZ6iXkECy++Ar3aGZcPYclrZ82FU=;
-        b=HmPRU3Y4/LH9I49MD+fKJJVFeVvX2Slvr3s6D8Yzz7PBbvOLQK4TffHKEfZVebmqoT
-         Ff+/cFRsbgBT0jhxwHR8M0JewXlNra33Hl0gKYdbyg3SvRmp0vsZ75beFy0DLe8r3j9e
-         /a6rwdPOWPs9Lp0rgQFUK0HKbUFpSW6wC3DRHQ/T2NJGOzLi8v7fzO3QX+/EvqNxoFgq
-         9o8w8r6tnv9CCHKAGx1W3HATQyq0IbG61PPIisraXRX9XfFOl3aP9M+KkYWDL2quVn6F
-         4JlgdtTxAUj+8boT73bJ78FXxyeykLhtZqZRfUoJnunqwH97mqyIfhuZdOSb9f+AOKpf
-         cNxQ==
+        d=linaro.org; s=google; t=1730823400; x=1731428200; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ErWpMdX9kJb8DHKb1BI5lN2B87TEzku9dZL3tB8NZgE=;
+        b=u2BsiMEwtXmJm8qt0pUSbs5FO3Q5Nk4tObnO8qQ/PgMh+676MWwoAybXrAkVrydTWN
+         XjZwJ3wZFTYrGQ+mLZjmT4+usyaKpIbeCqKYv3PEmR1J1A7eh7GKV3cVPyC4i0VZG/1E
+         qYxN/BjpsEiJONYrjoKQCzusIbTQLfDBFX9DWYa0rRG0VlZPelgA51JFnV0lOD/FT6ad
+         m3kfnIeATQhLJsEeH9gDKflvIQ9uxGPVCKy/RVeeejPPmTLYlLYyVYmG2Z+SxgrHAPsH
+         MnOSHeOwjmEY3Yr/WporP2aayygoEIMs5gXVs8XClD54Mc82+Vp6lXAtyvwfDqv2veuV
+         0Y5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730823251; x=1731428051;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KBEKWQ7whZejS2/hZ6iXkECy++Ar3aGZcPYclrZ82FU=;
-        b=g6x6PAtZ2CUVAu7dYIw+JV++510C4TUb6lpxz+CgE7bkOHZF02cV/ltz33u9YP93mM
-         xKRYhQ0K5zFiIH6PuVLKQbVlhfgiQbDt9QyfKELnbSwIAwnWU92FAreIoKTt5ThkE2oe
-         f1zvudarY5Z0kHjcmcg9LVc5zAYMI8GLE84xogAqnlILoJ7VAarC/1BL7MkRhmTmPg4C
-         iHxjvi2w415fI4FS8TMnCwGb5eRW39Svv3nDdhL+87ABhzvQDEyowfUqYkp0qq7RLV+b
-         w+DyQyHr1PKZ2D/diiUDwQo2+OGuC72+HfBqAcSuLG20ESj5a150dmyhfiEtKeCWB7kD
-         ICRw==
-X-Gm-Message-State: AOJu0Yw3nx6jG32eezL9ZP59sZRyM6zb6EfYnoXMG4ZVAq3kMJrY8LWX
-	eXXIXW9v42amOLRXLFYzVVOxrsemMBkFbkAXbi83aczHWCZ8Sfg9Z8dmgus5MY1+kn8CqEdsBSy
-	1VIo8NA==
-X-Google-Smtp-Source: AGHT+IF/10ly+aE9afn4Rkzv7jcskSH8CteUjsrcvQ7xsgl/Gb7qkAY8aoCFoxVDQTejg5e0oVpTWw==
-X-Received: by 2002:a05:600c:3b14:b0:426:8884:2c58 with SMTP id 5b1f17b1804b1-4319ac6fb0amr308634645e9.4.1730823250793;
-        Tue, 05 Nov 2024 08:14:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730823400; x=1731428200;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ErWpMdX9kJb8DHKb1BI5lN2B87TEzku9dZL3tB8NZgE=;
+        b=rQG4hRGv3WjXQbrMmc0mDVzg1W+F6ziORYQJ+RXg1S9+3VWM5/FSin69LXwdo2OErA
+         8CxknpiqTElNrqdAgZocixVx3GPiU0jHfue5ri9tMuv8NjY37LDSEZROMkRzcP3ASCOd
+         KiYcMfSv4xzeEfLmnFZkN9wix1EvT4A45ZQlZFIq7urcFWHN9ua4zqMSDGfNU3HyYesC
+         nGodWtlEroqUgG22U1f8MJ5jqOu+9iXcZoEvxmDlcd1uawOl+ek04ViRzjY2OH6eY8ve
+         C8cpjTZYQXwKAr6khvXtt3GlLVR0VncdxQD5GQCbxFJcT1NzAsmhO0kF8QeqJz6XmekQ
+         2ubg==
+X-Gm-Message-State: AOJu0YwukPkDakd4yvg+ZD1AkP+AfD9cLdhlojOOyq4GW8cjqgc7Z7HJ
+	VOVxZfUYPFDs9zCCGYgQuyUm94KoZDArsRBLzSQo6kMecYD0aAFdmqsq7a+U55jXdLsr0difhc/
+	fDBuNHA==
+X-Google-Smtp-Source: AGHT+IFnd00Lem/gBJDfBsBNRXhNWcCdKkCDzO4PZ2I/5J/Y5cvvBpi2P0mSVm0SwxjjN9sdM7x8Qw==
+X-Received: by 2002:a05:6000:acc:b0:37d:452b:478f with SMTP id ffacd0b85a97d-380610f244fmr25203220f8f.4.1730823400497;
+        Tue, 05 Nov 2024 08:16:40 -0800 (PST)
 Received: from localhost ([154.14.63.34])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c0f9bbccsm16819585f8f.0.2024.11.05.08.14.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e5d6sm16626073f8f.76.2024.11.05.08.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 08:14:10 -0800 (PST)
-Date: Tue, 5 Nov 2024 19:14:09 +0300
+        Tue, 05 Nov 2024 08:16:40 -0800 (PST)
+Date: Tue, 5 Nov 2024 19:16:39 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Yue Haibing <yuehaibing@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>
-Subject: [tnguy-net-queue:dev-queue 9/14]
- drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2377 ixgbe_clean_rx_irq()
- error: uninitialized symbol 'xdp_res'.
-Message-ID: <f5a33a3d-daa3-4252-a741-0ba16104f400@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 64/68] fs/xfs/xfs_rtalloc.c:1487 xfs_growfs_rt()
+ warn: inconsistent returns '&mp->m_growlock'.
+Message-ID: <016a880c-2b78-417c-8cbe-482bd7732c8f@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
-head:   278dfaa171a0061a341f6b5d44c2c9913a2b7fa8
-commit: c919a57ea9cdd6aa02e0e411d8fdb3e3485353cc [9/14] ixgbe: Fix passing 0 to ERR_PTR in ixgbe_run_xdp()
-config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411052110.vjxFpzue-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   bdd2e8eca7805ce39b762a49098e4852c59b6f1f
+commit: 937d89e065a77b67572051a23436accd7ce4c782 [64/68] xfs: factor out a xfs_rt_check_size helper
+config: x86_64-randconfig-161-20241105 (https://download.01.org/0day-ci/archive/20241105/202411052208.zlY4ueQm-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411052110.vjxFpzue-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411052208.zlY4ueQm-lkp@intel.com/
 
 New smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2377 ixgbe_clean_rx_irq() error: uninitialized symbol 'xdp_res'.
+fs/xfs/xfs_rtalloc.c:1487 xfs_growfs_rt() warn: inconsistent returns '&mp->m_growlock'.
 
+vim +1487 fs/xfs/xfs_rtalloc.c
 
-vim +/xdp_res +2377 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1365  int
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1366  xfs_growfs_rt(
+c2290446af8946b Darrick J. Wong     2024-10-15  1367  	struct xfs_mount	*mp,
+c2290446af8946b Darrick J. Wong     2024-10-15  1368  	struct xfs_growfs_rt	*in)
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1369  {
+c2290446af8946b Darrick J. Wong     2024-10-15  1370  	xfs_rgnumber_t		old_rgcount = mp->m_sb.sb_rgcount;
+c2290446af8946b Darrick J. Wong     2024-10-15  1371  	xfs_rgnumber_t		new_rgcount = 1;
+c2290446af8946b Darrick J. Wong     2024-10-15  1372  	xfs_rgnumber_t		rgno;
+a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1373  	xfs_agblock_t		old_rextsize = mp->m_sb.sb_rextsize;
+e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1374  	int			error;
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1375  
+743bb4650da9e25 sandeen@sandeen.net 2008-11-25  1376  	if (!capable(CAP_SYS_ADMIN))
+2451337dd043901 Dave Chinner        2014-06-25  1377  		return -EPERM;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1378  
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1379  	/* Needs to have been mounted with an rt device. */
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1380  	if (!XFS_IS_REALTIME_MOUNT(mp))
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1381  		return -EINVAL;
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1382  
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1383  	if (!mutex_trylock(&mp->m_growlock))
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1384  		return -EWOULDBLOCK;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1385  
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1386  	/* Shrink not supported. */
+e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1387  	error = -EINVAL;
+7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1388  	if (in->newblocks <= mp->m_sb.sb_rblocks)
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1389  		goto out_unlock;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1390  	/* Can only change rt extent size when adding rt volume. */
+7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1391  	if (mp->m_sb.sb_rblocks > 0 && in->extsize != mp->m_sb.sb_rextsize)
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1392  		goto out_unlock;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1393  
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1394  	/* Range check the extent size. */
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1395  	if (XFS_FSB_TO_B(mp, in->extsize) > XFS_MAX_RTEXTSIZE ||
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1396  	    XFS_FSB_TO_B(mp, in->extsize) < XFS_MIN_RTEXTSIZE)
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1397  		goto out_unlock;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1398  
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1399  	/* Unsupported realtime features. */
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1400  	error = -EOPNOTSUPP;
+9c871895435c232 Darrick J. Wong     2024-10-15  1401  	if ((xfs_has_rmapbt(mp) || xfs_has_quota(mp)) && !xfs_has_rtgroups(mp))
+1d1fde3ab4498cf Darrick J. Wong     2024-10-15  1402  		goto out_unlock;
+c74ba44d90a5216 Darrick J. Wong     2024-10-15  1403  	if (xfs_has_reflink(mp) &&
+c74ba44d90a5216 Darrick J. Wong     2024-10-15  1404  	    !xfs_reflink_supports_rextsize(mp, in->extsize))
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1405  		goto out_unlock;
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1406  
+7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1407  	error = xfs_sb_validate_fsb_count(&mp->m_sb, in->newblocks);
+0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1408  	if (error)
+937d89e065a77b6 Christoph Hellwig   2024-07-30  1409  		return error;
 
-5a85e737f30ce7 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Eliezer Tamir          2013-06-10  2314  static int ixgbe_clean_rx_irq(struct ixgbe_q_vector *q_vector,
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2315  			       struct ixgbe_ring *rx_ring,
-f4de00ed58df50 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-09-25  2316  			       const int budget)
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2317  {
-43b5169d8355cc drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2318  	unsigned int total_rx_bytes = 0, total_rx_packets = 0, frame_sz = 0;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2319  	struct ixgbe_adapter *adapter = q_vector->adapter;
-33fdc82f08835d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2320  #ifdef IXGBE_FCOE
-4ffdf91a5feae6 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Mark Rustad            2012-07-18  2321  	int ddp_bytes;
-4ffdf91a5feae6 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Mark Rustad            2012-07-18  2322  	unsigned int mss = 0;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2323  #endif /* IXGBE_FCOE */
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2324  	u16 cleaned_count = ixgbe_desc_unused(rx_ring);
-c0d4e9d223c5f4 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Maciej Fijalkowski     2021-01-18  2325  	unsigned int offset = rx_ring->rx_offset;
-ad088ec4807688 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2018-06-26  2326  	unsigned int xdp_xmit = 0;
-99ffc5ade4e870 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2018-01-03  2327  	struct xdp_buff xdp;
-c919a57ea9cdd6 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Yue Haibing            2024-10-18  2328  	int xdp_res;
-99ffc5ade4e870 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2018-01-03  2329  
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2330  	/* Frame size depend on rx_ring setup when PAGE_SIZE=4K */
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2331  #if (PAGE_SIZE < 8192)
-43b5169d8355cc drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2332  	frame_sz = ixgbe_rx_frame_truesize(rx_ring, 0);
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2333  #endif
-43b5169d8355cc drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2334  	xdp_init_buff(&xdp, frame_sz, &rx_ring->xdp_rxq);
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2335  
-fdabfc8a74c713 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Eric W. Biederman      2014-03-14  2336  	while (likely(total_rx_packets < budget)) {
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2337  		union ixgbe_adv_rx_desc *rx_desc;
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2338  		struct ixgbe_rx_buffer *rx_buffer;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2339  		struct sk_buff *skb;
-a06316dc87bdc0 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Björn Töpel            2020-08-25  2340  		int rx_buffer_pgcnt;
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2341  		unsigned int size;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2342  
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2343  		/* return some buffers to hardware, one at a time is too slow */
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2344  		if (cleaned_count >= IXGBE_RX_BUFFER_WRITE) {
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2345  			ixgbe_alloc_rx_buffers(rx_ring, cleaned_count);
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2346  			cleaned_count = 0;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2347  		}
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2348  
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2349  		rx_desc = IXGBE_RX_DESC(rx_ring, rx_ring->next_to_clean);
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2350  		size = le16_to_cpu(rx_desc->wb.upper.length);
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2351  		if (!size)
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2352  			break;
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2353  
-124b74c18e0e31 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2014-12-11  2354  		/* This memory barrier is needed to keep us from reading
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2355  		 * any other fields out of the rx_desc until we know the
-124b74c18e0e31 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2014-12-11  2356  		 * descriptor has been written back
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2357  		 */
-124b74c18e0e31 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2014-12-11  2358  		dma_rmb();
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2359  
-a06316dc87bdc0 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Björn Töpel            2020-08-25  2360  		rx_buffer = ixgbe_get_rx_buffer(rx_ring, rx_desc, &skb, size, &rx_buffer_pgcnt);
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2361  
-18806c9ea28320 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2012-07-20  2362  		/* retrieve a buffer from the ring */
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2363  		if (!skb) {
-be9df4aff65f18 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2364  			unsigned char *hard_start;
-be9df4aff65f18 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2365  
-be9df4aff65f18 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2366  			hard_start = page_address(rx_buffer->page) +
-be9df4aff65f18 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2367  				     rx_buffer->page_offset - offset;
-be9df4aff65f18 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2020-12-22  2368  			xdp_prepare_buff(&xdp, hard_start, offset, size, true);
-470bcfd6039b39 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Lorenzo Bianconi       2022-05-12  2369  			xdp_buff_clear_frags_flag(&xdp);
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2370  #if (PAGE_SIZE > 4096)
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2371  			/* At larger PAGE_SIZE, frame_sz depend on len size */
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2372  			xdp.frame_sz = ixgbe_rx_frame_truesize(rx_ring, size);
-cf02512899805d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2020-05-14  2373  #endif
-c919a57ea9cdd6 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Yue Haibing            2024-10-18  2374  			xdp_res = ixgbe_run_xdp(adapter, rx_ring, &xdp);
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2375  		}
+goto out_unlock;
 
-xdp_res uninitialized on else path
+937d89e065a77b6 Christoph Hellwig   2024-07-30  1410  
+937d89e065a77b6 Christoph Hellwig   2024-07-30  1411  	error = xfs_rt_check_size(mp, in->newblocks - 1);
+ba3726742c1712c Dave Chinner        2014-10-02  1412  	if (error)
+937d89e065a77b6 Christoph Hellwig   2024-07-30  1413  		return error;
 
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2376  
-c919a57ea9cdd6 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Yue Haibing            2024-10-18 @2377  		if (xdp_res) {
-ad088ec4807688 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2018-06-26  2378  			if (xdp_res & (IXGBE_XDP_TX | IXGBE_XDP_REDIR)) {
-ad088ec4807688 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Jesper Dangaard Brouer 2018-06-26  2379  				xdp_xmit |= xdp_res;
-33fdc82f08835d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2380  				ixgbe_rx_buffer_flip(rx_ring, rx_buffer, size);
-7379f97a4fce3c drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-03-28  2381  			} else {
-33fdc82f08835d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2382  				rx_buffer->pagecnt_bias++;
-7379f97a4fce3c drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-03-28  2383  			}
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2384  			total_rx_packets++;
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2385  			total_rx_bytes += size;
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2386  		} else if (skb) {
-3fd218767fa498 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c Alexander Duyck        2017-01-17  2387  			ixgbe_add_rx_frag(rx_ring, rx_buffer, skb, size);
-9247080816297d drivers/net/ethernet/intel/ixgbe/ixgbe_main.c John Fastabend         2017-04-24  2388  		} else if (ring_uses_build_skb(rx_ring)) {
+same
+
+1922c949c59f93b Dave Chinner        2010-09-22  1414  
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1415  	/*
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1416  	 * Calculate new parameters.  These are the final values to be reached.
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1417  	 */
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1418  	error = -EINVAL;
+140f03a1285d84d Christoph Hellwig   2024-10-15  1419  	if (in->newblocks < in->extsize)
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1420  		goto out_unlock;
+7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1421  
+140f03a1285d84d Christoph Hellwig   2024-10-15  1422  	/* Make sure the new fs size won't cause problems with the log. */
+59ad7d04a88ab22 Darrick J. Wong     2024-10-15  1423  	error = xfs_growfs_check_rtgeom(mp, mp->m_sb.sb_dblocks, in->newblocks,
+59ad7d04a88ab22 Darrick J. Wong     2024-10-15  1424  			in->extsize);
+140f03a1285d84d Christoph Hellwig   2024-10-15  1425  	if (error)
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1426  		goto out_unlock;
+65eed012d1f2d0f Omar Sandoval       2018-12-21  1427  
+c2290446af8946b Darrick J. Wong     2024-10-15  1428  	if (xfs_has_rtgroups(mp)) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1429  		error = xfs_growfs_rt_prep_groups(mp, in->newblocks,
+c2290446af8946b Darrick J. Wong     2024-10-15  1430  				in->extsize, &new_rgcount);
+c2290446af8946b Darrick J. Wong     2024-10-15  1431  		if (error)
+c2290446af8946b Darrick J. Wong     2024-10-15  1432  			goto out_unlock;
+c2290446af8946b Darrick J. Wong     2024-10-15  1433  	}
+c2290446af8946b Darrick J. Wong     2024-10-15  1434  
+c2290446af8946b Darrick J. Wong     2024-10-15  1435  	if (xfs_grow_last_rtg(mp)) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1436  		error = xfs_growfs_rtg(mp, old_rgcount - 1, in->newblocks,
+c2290446af8946b Darrick J. Wong     2024-10-15  1437  				in->extsize);
+3cb30d5162292a3 Christoph Hellwig   2024-08-30  1438  		if (error)
+3cb30d5162292a3 Christoph Hellwig   2024-08-30  1439  			goto out_unlock;
+c2290446af8946b Darrick J. Wong     2024-10-15  1440  	}
+7249c95a3fd72c7 Darrick J. Wong     2020-10-07  1441  
+c2290446af8946b Darrick J. Wong     2024-10-15  1442  	for (rgno = old_rgcount; rgno < new_rgcount; rgno++) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1443  		xfs_rtbxlen_t	rextents = div_u64(in->newblocks, in->extsize);
+c2290446af8946b Darrick J. Wong     2024-10-15  1444  
+c2290446af8946b Darrick J. Wong     2024-10-15  1445  		error = xfs_rtgroup_alloc(mp, rgno, new_rgcount, rextents);
+a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1446  		if (error)
+e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1447  			goto out_unlock;
+c2290446af8946b Darrick J. Wong     2024-10-15  1448  
+c2290446af8946b Darrick J. Wong     2024-10-15  1449  		error = xfs_growfs_rtg(mp, rgno, in->newblocks, in->extsize);
+c2290446af8946b Darrick J. Wong     2024-10-15  1450  		if (error) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1451  			struct xfs_rtgroup	*rtg;
+c2290446af8946b Darrick J. Wong     2024-10-15  1452  
+c2290446af8946b Darrick J. Wong     2024-10-15  1453  			rtg = xfs_rtgroup_grab(mp, rgno);
+c2290446af8946b Darrick J. Wong     2024-10-15  1454  			if (!WARN_ON_ONCE(!rtg)) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1455  				xfs_rtunmount_rtg(rtg);
+c2290446af8946b Darrick J. Wong     2024-10-15  1456  				xfs_rtgroup_rele(rtg);
+c2290446af8946b Darrick J. Wong     2024-10-15  1457  				xfs_rtgroup_free(mp, rgno);
+c2290446af8946b Darrick J. Wong     2024-10-15  1458  			}
+c2290446af8946b Darrick J. Wong     2024-10-15  1459  			break;
+c2290446af8946b Darrick J. Wong     2024-10-15  1460  		}
+a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1461  	}
+a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1462  
+c2290446af8946b Darrick J. Wong     2024-10-15  1463  	if (!error && old_rextsize != in->extsize)
+c2290446af8946b Darrick J. Wong     2024-10-15  1464  		error = xfs_growfs_rt_fixup_extsize(mp);
+c2290446af8946b Darrick J. Wong     2024-10-15  1465  
+c2290446af8946b Darrick J. Wong     2024-10-15  1466  	/*
+c2290446af8946b Darrick J. Wong     2024-10-15  1467  	 * Update secondary superblocks now the physical grow has completed.
+c2290446af8946b Darrick J. Wong     2024-10-15  1468  	 *
+c2290446af8946b Darrick J. Wong     2024-10-15  1469  	 * Also do this in case of an error as we might have already
+c2290446af8946b Darrick J. Wong     2024-10-15  1470  	 * successfully updated one or more RTGs and incremented sb_rgcount.
+c2290446af8946b Darrick J. Wong     2024-10-15  1471  	 */
+c2290446af8946b Darrick J. Wong     2024-10-15  1472  	if (!xfs_is_shutdown(mp)) {
+c2290446af8946b Darrick J. Wong     2024-10-15  1473  		int error2 = xfs_update_secondary_sbs(mp);
+c2290446af8946b Darrick J. Wong     2024-10-15  1474  
+c2290446af8946b Darrick J. Wong     2024-10-15  1475  		if (!error)
+c2290446af8946b Darrick J. Wong     2024-10-15  1476  			error = error2;
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1477  
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1478  		/* Reset the rt metadata btree space reservations. */
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1479  		xfs_rt_resv_free(mp);
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1480  		error2 = xfs_rt_resv_init(mp);
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1481  		if (error2 && error2 != -ENOSPC)
+3db6c1b842a69bf Darrick J. Wong     2024-10-15  1482  			error = error2;
+c2290446af8946b Darrick J. Wong     2024-10-15  1483  	}
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1484  
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1485  out_unlock:
+16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1486  	mutex_unlock(&mp->m_growlock);
+^1da177e4c3f415 Linus Torvalds      2005-04-16 @1487  	return error;
+^1da177e4c3f415 Linus Torvalds      2005-04-16  1488  }
 
 -- 
 0-DAY CI Kernel Test Service
