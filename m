@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BF383
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 05:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E3C1FE0F4
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730784132; cv=none; b=DNKOvXj5QgSvY4zkwEW0EK7f/xf3Zt0kZJC5dEfk9Vj3D5z3wCQ+hZ3Zz3ejkgll3lpk35CgYCXazluH6lcCnMiHaZbbAk5CJndVrTjezAI3znCK2SK0Uw9EhxscEhiLYGC3QOUfimXG2ItaJzyM7cNI98PcFK4KuTFm5DzGarM=
+	t=1730788637; cv=none; b=ATWOm05wXbwagSZZ5oM2ZcLmAQIGqFFnxs06Sly3eDUfsRsFQK4/SnFC6CesDBqD7kcZIf0anPIb1MUPONdx8SESmy+x81qaq6KL544xxCzRaQyXLOoack1L6IjHJuV0N5TvxCkb+f3yWXBBzmre3YWdkOjONJ+kA0PreoBhJwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730784132; c=relaxed/simple;
-	bh=NO5fO+8+tPMVyOLFsBmrHAIOaAlklqiPF2iRLvoDLXw=;
+	s=arc-20240116; t=1730788637; c=relaxed/simple;
+	bh=Su8aAtaBzY4C/hqUzePCMSSGK724DpLmH+I5a9kuKo0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fNtikayx9iK/ZB88sSLvjSo9+eat6SQ0+zRMhpYkAfJY0RW0EyMIZW/QKDPQyJMYiA1uEDKVd+0CTSZU67a2CW5zjUyo6RGxtgs1qVujr/fMoPuyzajSUIu2N1VYU32dZL9ig/x+wOoq4WHyMuTcjO/AJTVef/VtdJaRrwRjse0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kncCSRgG; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jRUL2BznXdrZd+TEPWIQMpTVDEDmqHZouNXnCoSKvyfWtxWdNin6BDB4nYZGDduWOR3GQJ0aMQBz14QhDZ1gBTSZ1eN2cfRbeE5w636NhKxW9adimQVRaMqVuazT6ll9ykGGgygw/RSpWhw6aVH5YwvPYXEaySs+ziaV5F60EvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DijaQAPU; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kncCSRgG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730784130; x=1762320130;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NO5fO+8+tPMVyOLFsBmrHAIOaAlklqiPF2iRLvoDLXw=;
-  b=kncCSRgGLf/faCFX4e+ivkdPaRbbPzq7buNEed8w2pLKrhz3ippFQpEe
-   y43yCS4XNeLRqBiiq5S372WTc5tb/dpltbXijo7imVEIs0e2TZ4mX5Fg3
-   s14ASGzn0TtAyv1hm6NH+PkVzs6cXgK9xJSZv9zPvfxP8WLdfBc139ZRt
-   EpAQgFycFz0cU5NcCB8SOD+LHgQz2FUukkX7O6VCwB7W8NxFZHEvBrWyt
-   A5DJsMninnxOepVrb+dS90i0IirVUgqodMZRLfnTHnObnpVI5+IDBZN5w
-   8Q3J6NVV6q2T/X9vnv10NYveKSloIe6CTT9yy7tMloCy5JzcGui8x3g5F
-   w==;
-X-CSE-ConnectionGUID: YSGsxiH0RdayeeQF/Desfg==
-X-CSE-MsgGUID: OQLdJibsRzeqo0Ai8Gd3Nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="33349350"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="33349350"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 21:22:08 -0800
-X-CSE-ConnectionGUID: zrme053qQTuV2dAmUDOWuw==
-X-CSE-MsgGUID: 5yrxBoGfStCiX1NBD5rjEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="84211389"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Nov 2024 21:22:08 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8C0z-000lf5-0r;
-	Tue, 05 Nov 2024 05:22:05 +0000
-Date: Tue, 5 Nov 2024 13:21:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code
- 'ret'
-Message-ID: <202411051350.KNy6ZIWA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DijaQAPU"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5ceb75f9631so5064320a12.0
+        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730788632; x=1731393432; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
+        b=DijaQAPUuAyt3D9h/UCs0whw+kRUt5JPGx0vPgby3aonttBdVkp0zNfQZ/1LlGojri
+         rPAXy8a7bLVD6m9IFLb2ORbGtdvo7+Mp5sbBkaFtKIZG9o8ldeBALU93A/pF5OeMUNS+
+         8R0Qb06Z7ujLGHZ9cxzIwbO3o82jQQ1HU58HP/WEZ6XZq2vzoJfuD5E8Lutpzu95pxVZ
+         ZogW3MGibh7YKAnxz6C6WJrFhGdzgbm8T2Rzb5A9kVNko5LYBMYrEdiZ6NXx/5aJSBFH
+         DmWtLu71T5/+FKdvAx81TtlqG1tawJwjdksp/x/eZJImXxsohGkgRDPE+/2WQctrOSXO
+         lKZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730788632; x=1731393432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
+        b=wq7NhJP1ETmR4DOpOGjUHf4uezBqLzLVQIYb2kjIhOGIda4OHg9O7/trJyIw4xZLnW
+         JdQbOSxYEHaHn4H2BQXnrA4CgFGaJS74i78pjeghDFCzLL5zMyb4WURDIgB/fDnTto37
+         ulZNMQ4SDySTLj5hFqD4DEIlw9dtt5spja35w1c6SmbZehgLl4m4bqIeS5p+bJMV51Cl
+         FatnzVS2xa4kZChcwS1jB8OHb5cjkzMLBp1yitTrWsL6QX+Kr8qZWdpj3lREvXULPPNv
+         tAc1jBPd7DyhAqEiUOPWTEXLpT09ju1uyObCqyvoTBROhST6gxJvLW4VlGsDR+cEsO0j
+         SYPw==
+X-Gm-Message-State: AOJu0YwhZ87pFfoXrxfzqqsuvrRK38BgwblATV5XrqEc1PIkRde5lqjB
+	XJ8iwEQy/FYzkr6DBnMb6fwmNkcAF6hT17hc7oUywHo28/J4CnekYv80Hx0izhNn74QHpxQhMs6
+	wmXSN9w==
+X-Google-Smtp-Source: AGHT+IEw0TjNJQYuD9PXpUhLi54N1/pbpRHrodKx9NromPzYVShSWicHZCGTAC+gdLH11vbeEKw6gQ==
+X-Received: by 2002:a05:6402:5112:b0:5ca:151a:b84c with SMTP id 4fb4d7f45d1cf-5cbbf8cb79amr25866641a12.18.1730788632417;
+        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
+Received: from localhost ([77.241.232.19])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6ab082bsm835298a12.29.2024.11.04.22.37.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
+Date: Tue, 5 Nov 2024 09:37:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2350/2350] net/rxrpc/sendmsg.c:471
+ rxrpc_send_data() error: uninitialized symbol 'skb'.
+Message-ID: <a93550a2-91bb-45e9-9297-682212268d94@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,190 +67,257 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Herve Codina <herve.codina@bootlin.com>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
-commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
-date:   9 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 weeks ago
-config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051350.KNy6ZIWA-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   7435f796ba0cdd99338403d56a92dec9c0f89730
+commit: 5a5d74ffcd49103d4781651bdb6a3e5175551dd6 [2350/2350] rxrpc: Fix locking in rxrpc's sendmsg
+config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411050217.vVYcKY88-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411051350.KNy6ZIWA-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411050217.vVYcKY88-lkp@intel.com/
 
-smatch warnings:
-drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code 'ret'
+New smatch warnings:
+net/rxrpc/sendmsg.c:471 rxrpc_send_data() error: uninitialized symbol 'skb'.
 
-vim +/ret +1942 drivers/soc/fsl/qe/qmc.c
+vim +/skb +471 net/rxrpc/sendmsg.c
 
-de5fdb7d14b34f Herve Codina 2024-08-08  1827  
-3178d58e0b9772 Herve Codina 2023-02-17  1828  static int qmc_probe(struct platform_device *pdev)
-3178d58e0b9772 Herve Codina 2023-02-17  1829  {
-3178d58e0b9772 Herve Codina 2023-02-17  1830  	struct device_node *np = pdev->dev.of_node;
-3178d58e0b9772 Herve Codina 2023-02-17  1831  	unsigned int nb_chans;
-3178d58e0b9772 Herve Codina 2023-02-17  1832  	struct qmc *qmc;
-3178d58e0b9772 Herve Codina 2023-02-17  1833  	int irq;
-3178d58e0b9772 Herve Codina 2023-02-17  1834  	int ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1835  
-3178d58e0b9772 Herve Codina 2023-02-17  1836  	qmc = devm_kzalloc(&pdev->dev, sizeof(*qmc), GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1837  	if (!qmc)
-3178d58e0b9772 Herve Codina 2023-02-17  1838  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1839  
-3178d58e0b9772 Herve Codina 2023-02-17  1840  	qmc->dev = &pdev->dev;
-d23ae9f1815e89 Herve Codina 2024-08-08  1841  	qmc->data = of_device_get_match_data(&pdev->dev);
-d23ae9f1815e89 Herve Codina 2024-08-08  1842  	if (!qmc->data) {
-d23ae9f1815e89 Herve Codina 2024-08-08  1843  		dev_err(qmc->dev, "Missing match data\n");
-d23ae9f1815e89 Herve Codina 2024-08-08  1844  		return -EINVAL;
-d23ae9f1815e89 Herve Codina 2024-08-08  1845  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1846  	INIT_LIST_HEAD(&qmc->chan_head);
-3178d58e0b9772 Herve Codina 2023-02-17  1847  
-a13bf605342ea9 Herve Codina 2024-08-08  1848  	qmc->tsa_serial = devm_tsa_serial_get_byphandle(qmc->dev, np, "fsl,tsa-serial");
-a13bf605342ea9 Herve Codina 2024-08-08  1849  	if (IS_ERR(qmc->tsa_serial)) {
-a13bf605342ea9 Herve Codina 2024-08-08  1850  		return dev_err_probe(qmc->dev, PTR_ERR(qmc->tsa_serial),
-a13bf605342ea9 Herve Codina 2024-08-08  1851  				     "Failed to get TSA serial\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1852  	}
-a13bf605342ea9 Herve Codina 2024-08-08  1853  
-727b3ab490a5f5 Herve Codina 2024-08-08  1854  	ret = qmc_init_resources(qmc, pdev);
-727b3ab490a5f5 Herve Codina 2024-08-08  1855  	if (ret)
-727b3ab490a5f5 Herve Codina 2024-08-08  1856  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1857  
-3178d58e0b9772 Herve Codina 2023-02-17  1858  	/* Parse channels informationss */
-3178d58e0b9772 Herve Codina 2023-02-17  1859  	ret = qmc_of_parse_chans(qmc, np);
-3178d58e0b9772 Herve Codina 2023-02-17  1860  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1861  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1862  
-3178d58e0b9772 Herve Codina 2023-02-17  1863  	nb_chans = qmc_nb_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1864  
-3178d58e0b9772 Herve Codina 2023-02-17  1865  	/*
-3178d58e0b9772 Herve Codina 2023-02-17  1866  	 * Allocate the buffer descriptor table
-3178d58e0b9772 Herve Codina 2023-02-17  1867  	 * 8 rx and 8 tx descriptors per channel
-3178d58e0b9772 Herve Codina 2023-02-17  1868  	 */
-3178d58e0b9772 Herve Codina 2023-02-17  1869  	qmc->bd_size = (nb_chans * (QMC_NB_TXBDS + QMC_NB_RXBDS)) * sizeof(cbd_t);
-3178d58e0b9772 Herve Codina 2023-02-17  1870  	qmc->bd_table = dmam_alloc_coherent(qmc->dev, qmc->bd_size,
-3178d58e0b9772 Herve Codina 2023-02-17  1871  					    &qmc->bd_dma_addr, GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1872  	if (!qmc->bd_table) {
-3178d58e0b9772 Herve Codina 2023-02-17  1873  		dev_err(qmc->dev, "Failed to allocate bd table\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1874  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1875  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1876  	memset(qmc->bd_table, 0, qmc->bd_size);
-3178d58e0b9772 Herve Codina 2023-02-17  1877  
-3178d58e0b9772 Herve Codina 2023-02-17  1878  	qmc_write32(qmc->scc_pram + QMC_GBL_MCBASE, qmc->bd_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1879  
-3178d58e0b9772 Herve Codina 2023-02-17  1880  	/* Allocate the interrupt table */
-3178d58e0b9772 Herve Codina 2023-02-17  1881  	qmc->int_size = QMC_NB_INTS * sizeof(u16);
-3178d58e0b9772 Herve Codina 2023-02-17  1882  	qmc->int_table = dmam_alloc_coherent(qmc->dev, qmc->int_size,
-3178d58e0b9772 Herve Codina 2023-02-17  1883  					     &qmc->int_dma_addr, GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1884  	if (!qmc->int_table) {
-3178d58e0b9772 Herve Codina 2023-02-17  1885  		dev_err(qmc->dev, "Failed to allocate interrupt table\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1886  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1887  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1888  	memset(qmc->int_table, 0, qmc->int_size);
-3178d58e0b9772 Herve Codina 2023-02-17  1889  
-3178d58e0b9772 Herve Codina 2023-02-17  1890  	qmc->int_curr = qmc->int_table;
-3178d58e0b9772 Herve Codina 2023-02-17  1891  	qmc_write32(qmc->scc_pram + QMC_GBL_INTBASE, qmc->int_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1892  	qmc_write32(qmc->scc_pram + QMC_GBL_INTPTR, qmc->int_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1893  
-3178d58e0b9772 Herve Codina 2023-02-17  1894  	/* Set MRBLR (valid for HDLC only) max MRU + max CRC */
-3178d58e0b9772 Herve Codina 2023-02-17  1895  	qmc_write16(qmc->scc_pram + QMC_GBL_MRBLR, HDLC_MAX_MRU + 4);
-3178d58e0b9772 Herve Codina 2023-02-17  1896  
-3178d58e0b9772 Herve Codina 2023-02-17  1897  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFTHR, 1);
-3178d58e0b9772 Herve Codina 2023-02-17  1898  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFCNT, 1);
-3178d58e0b9772 Herve Codina 2023-02-17  1899  
-3178d58e0b9772 Herve Codina 2023-02-17  1900  	qmc_write32(qmc->scc_pram + QMC_GBL_C_MASK32, 0xDEBB20E3);
-3178d58e0b9772 Herve Codina 2023-02-17  1901  	qmc_write16(qmc->scc_pram + QMC_GBL_C_MASK16, 0xF0B8);
-3178d58e0b9772 Herve Codina 2023-02-17  1902  
-eb680d563089e5 Herve Codina 2024-08-08  1903  	if (qmc_is_qe(qmc)) {
-eb680d563089e5 Herve Codina 2024-08-08  1904  		/* Zeroed the reserved area */
-eb680d563089e5 Herve Codina 2024-08-08  1905  		memset_io(qmc->scc_pram + QMC_QE_GBL_RSV_B0_START, 0,
-eb680d563089e5 Herve Codina 2024-08-08  1906  			  QMC_QE_GBL_RSV_B0_SIZE);
-eb680d563089e5 Herve Codina 2024-08-08  1907  
-eb680d563089e5 Herve Codina 2024-08-08  1908  		qmc_write32(qmc->scc_pram + QMC_QE_GBL_GCSBASE, qmc->dpram_offset);
-eb680d563089e5 Herve Codina 2024-08-08  1909  
-eb680d563089e5 Herve Codina 2024-08-08  1910  		/* Init 'framer parameters' area and set the base addresses */
-eb680d563089e5 Herve Codina 2024-08-08  1911  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE, 0x01, 64);
-eb680d563089e5 Herve Codina 2024-08-08  1912  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE + 64, 0x01, 64);
-eb680d563089e5 Herve Codina 2024-08-08  1913  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_RX_FRM_BASE,
-eb680d563089e5 Herve Codina 2024-08-08  1914  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE);
-eb680d563089e5 Herve Codina 2024-08-08  1915  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_TX_FRM_BASE,
-eb680d563089e5 Herve Codina 2024-08-08  1916  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE + 64);
-eb680d563089e5 Herve Codina 2024-08-08  1917  	}
-eb680d563089e5 Herve Codina 2024-08-08  1918  
-2d965e25fa4180 Herve Codina 2023-12-05  1919  	ret = qmc_init_tsa(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1920  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1921  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1922  
-3178d58e0b9772 Herve Codina 2023-02-17  1923  	qmc_write16(qmc->scc_pram + QMC_GBL_QMCSTATE, 0x8000);
-3178d58e0b9772 Herve Codina 2023-02-17  1924  
-3178d58e0b9772 Herve Codina 2023-02-17  1925  	ret = qmc_setup_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1926  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1927  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1928  
-3178d58e0b9772 Herve Codina 2023-02-17  1929  	/* Init interrupts table */
-3178d58e0b9772 Herve Codina 2023-02-17  1930  	ret = qmc_setup_ints(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1931  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1932  		return ret;
-a13bf605342ea9 Herve Codina 2024-08-08  1933  
-eb680d563089e5 Herve Codina 2024-08-08  1934  	/* Init SCC (CPM1) or UCC (QE) */
-de5fdb7d14b34f Herve Codina 2024-08-08  1935  	ret = qmc_init_xcc(qmc);
-de5fdb7d14b34f Herve Codina 2024-08-08  1936  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1937  		return ret;
-a13bf605342ea9 Herve Codina 2024-08-08  1938  
-de5fdb7d14b34f Herve Codina 2024-08-08  1939  	/* Set the irq handler */
-3178d58e0b9772 Herve Codina 2023-02-17  1940  	irq = platform_get_irq(pdev, 0);
-3178d58e0b9772 Herve Codina 2023-02-17  1941  	if (irq < 0)
-de5fdb7d14b34f Herve Codina 2024-08-08 @1942  		goto err_exit_xcc;
-3178d58e0b9772 Herve Codina 2023-02-17  1943  	ret = devm_request_irq(qmc->dev, irq, qmc_irq_handler, 0, "qmc", qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1944  	if (ret < 0)
-de5fdb7d14b34f Herve Codina 2024-08-08  1945  		goto err_exit_xcc;
-3178d58e0b9772 Herve Codina 2023-02-17  1946  
-3178d58e0b9772 Herve Codina 2023-02-17  1947  	/* Enable interrupts */
-3178d58e0b9772 Herve Codina 2023-02-17  1948  	qmc_write16(qmc->scc_regs + SCC_SCCM,
-3178d58e0b9772 Herve Codina 2023-02-17  1949  		    SCC_SCCE_IQOV | SCC_SCCE_GINT | SCC_SCCE_GUN | SCC_SCCE_GOV);
-3178d58e0b9772 Herve Codina 2023-02-17  1950  
-3178d58e0b9772 Herve Codina 2023-02-17  1951  	ret = qmc_finalize_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1952  	if (ret < 0)
-3178d58e0b9772 Herve Codina 2023-02-17  1953  		goto err_disable_intr;
-3178d58e0b9772 Herve Codina 2023-02-17  1954  
-e49dd637e02589 Herve Codina 2024-08-08  1955  	/* Enable transmitter and receiver */
-3178d58e0b9772 Herve Codina 2023-02-17  1956  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, SCC_GSMRL_ENR | SCC_GSMRL_ENT);
-3178d58e0b9772 Herve Codina 2023-02-17  1957  
-3178d58e0b9772 Herve Codina 2023-02-17  1958  	platform_set_drvdata(pdev, qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1959  
-ba3b7e4753c5ad Herve Codina 2023-12-05  1960  	/* Populate channel related devices */
-ba3b7e4753c5ad Herve Codina 2023-12-05  1961  	ret = devm_of_platform_populate(qmc->dev);
-ba3b7e4753c5ad Herve Codina 2023-12-05  1962  	if (ret)
-ba3b7e4753c5ad Herve Codina 2023-12-05  1963  		goto err_disable_txrx;
-ba3b7e4753c5ad Herve Codina 2023-12-05  1964  
-3178d58e0b9772 Herve Codina 2023-02-17  1965  	return 0;
-3178d58e0b9772 Herve Codina 2023-02-17  1966  
-ba3b7e4753c5ad Herve Codina 2023-12-05  1967  err_disable_txrx:
-ba3b7e4753c5ad Herve Codina 2023-12-05  1968  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, 0);
-ba3b7e4753c5ad Herve Codina 2023-12-05  1969  
-3178d58e0b9772 Herve Codina 2023-02-17  1970  err_disable_intr:
-3178d58e0b9772 Herve Codina 2023-02-17  1971  	qmc_write16(qmc->scc_regs + SCC_SCCM, 0);
-3178d58e0b9772 Herve Codina 2023-02-17  1972  
-de5fdb7d14b34f Herve Codina 2024-08-08  1973  err_exit_xcc:
-de5fdb7d14b34f Herve Codina 2024-08-08  1974  	qmc_exit_xcc(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1975  	return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1976  }
-3178d58e0b9772 Herve Codina 2023-02-17  1977  
+0b58b8a18be4932 David Howells 2016-09-02  287  static int rxrpc_send_data(struct rxrpc_sock *rx,
+0b58b8a18be4932 David Howells 2016-09-02  288  			   struct rxrpc_call *call,
+e833251ad813168 David Howells 2017-08-29  289  			   struct msghdr *msg, size_t len,
+5a5d74ffcd49103 David Howells 2022-12-02  290  			   rxrpc_notify_end_tx_t notify_end_tx,
+5a5d74ffcd49103 David Howells 2022-12-02  291  			   bool *_dropped_lock)
+0b58b8a18be4932 David Howells 2016-09-02  292  {
+0b58b8a18be4932 David Howells 2016-09-02  293  	struct rxrpc_skb_priv *sp;
+0b58b8a18be4932 David Howells 2016-09-02  294  	struct sk_buff *skb;
+0b58b8a18be4932 David Howells 2016-09-02  295  	struct sock *sk = &rx->sk;
+5a5d74ffcd49103 David Howells 2022-12-02  296  	enum rxrpc_call_state state;
+0b58b8a18be4932 David Howells 2016-09-02  297  	long timeo;
+5a5d74ffcd49103 David Howells 2022-12-02  298  	bool more = msg->msg_flags & MSG_MORE;
+5a5d74ffcd49103 David Howells 2022-12-02  299  	int ret, copied = 0;
+0b58b8a18be4932 David Howells 2016-09-02  300  
+0b58b8a18be4932 David Howells 2016-09-02  301  	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
+0b58b8a18be4932 David Howells 2016-09-02  302  
+0b58b8a18be4932 David Howells 2016-09-02  303  	/* this should be in poll */
+0b58b8a18be4932 David Howells 2016-09-02  304  	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+0b58b8a18be4932 David Howells 2016-09-02  305  
+5a5d74ffcd49103 David Howells 2022-12-02  306  reload:
+5a5d74ffcd49103 David Howells 2022-12-02  307  	ret = -EPIPE;
+639f181f0ee20d3 David Howells 2020-07-20  308  	if (sk->sk_shutdown & SEND_SHUTDOWN)
+5a5d74ffcd49103 David Howells 2022-12-02  309  		goto maybe_error;
 
-:::::: The code at line 1942 was first introduced by commit
-:::::: de5fdb7d14b34f7fea930f2d72cf0241ec679e72 soc: fsl: cpm1: qmc: Introduce qmc_{init,exit}_xcc() and their CPM1 version
+STEP 1: We hit this goto.  copied is false.
 
-:::::: TO: Herve Codina <herve.codina@bootlin.com>
-:::::: CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+5a5d74ffcd49103 David Howells 2022-12-02  310  	state = READ_ONCE(call->state);
+5a5d74ffcd49103 David Howells 2022-12-02  311  	ret = -ESHUTDOWN;
+5a5d74ffcd49103 David Howells 2022-12-02  312  	if (state >= RXRPC_CALL_COMPLETE)
+5a5d74ffcd49103 David Howells 2022-12-02  313  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  314  	ret = -EPROTO;
+5a5d74ffcd49103 David Howells 2022-12-02  315  	if (state != RXRPC_CALL_CLIENT_SEND_REQUEST &&
+5a5d74ffcd49103 David Howells 2022-12-02  316  	    state != RXRPC_CALL_SERVER_ACK_REQUEST &&
+5a5d74ffcd49103 David Howells 2022-12-02  317  	    state != RXRPC_CALL_SERVER_SEND_REPLY)
+5a5d74ffcd49103 David Howells 2022-12-02  318  		goto maybe_error;
+0b58b8a18be4932 David Howells 2016-09-02  319  
+5a5d74ffcd49103 David Howells 2022-12-02  320  	ret = -EMSGSIZE;
+e754eba685aac2a David Howells 2017-06-07  321  	if (call->tx_total_len != -1) {
+5a5d74ffcd49103 David Howells 2022-12-02  322  		if (len - copied > call->tx_total_len)
+5a5d74ffcd49103 David Howells 2022-12-02  323  			goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  324  		if (!more && len - copied != call->tx_total_len)
+5a5d74ffcd49103 David Howells 2022-12-02  325  			goto maybe_error;
+e754eba685aac2a David Howells 2017-06-07  326  	}
+e754eba685aac2a David Howells 2017-06-07  327  
+0b58b8a18be4932 David Howells 2016-09-02  328  	skb = call->tx_pending;
+0b58b8a18be4932 David Howells 2016-09-02  329  	call->tx_pending = NULL;
+987db9f7cd1e77e David Howells 2019-08-19  330  	rxrpc_see_skb(skb, rxrpc_skb_seen);
+0b58b8a18be4932 David Howells 2016-09-02  331  
+0b58b8a18be4932 David Howells 2016-09-02  332  	do {
+7aa51da7c88d42c David Howells 2016-09-22  333  		/* Check to see if there's a ping ACK to reply to. */
+7aa51da7c88d42c David Howells 2016-09-22  334  		if (call->ackr_reason == RXRPC_ACK_PING_RESPONSE)
+bd1fdf8cfdf3fdb David Howells 2017-11-24  335  			rxrpc_send_ack_packet(call, false, NULL);
+7aa51da7c88d42c David Howells 2016-09-22  336  
+0b58b8a18be4932 David Howells 2016-09-02  337  		if (!skb) {
+0b58b8a18be4932 David Howells 2016-09-02  338  			size_t size, chunk, max, space;
+0b58b8a18be4932 David Howells 2016-09-02  339  
+0b58b8a18be4932 David Howells 2016-09-02  340  			_debug("alloc");
+0b58b8a18be4932 David Howells 2016-09-02  341  
+5a5d74ffcd49103 David Howells 2022-12-02  342  			if (!rxrpc_check_tx_space(call, NULL))
+5a5d74ffcd49103 David Howells 2022-12-02  343  				goto wait_for_space;
+0b58b8a18be4932 David Howells 2016-09-02  344  
+182f50562490e58 David Howells 2016-09-17  345  			max = RXRPC_JUMBO_DATALEN;
+0b58b8a18be4932 David Howells 2016-09-02  346  			max -= call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  347  			max &= ~(call->conn->size_align - 1UL);
+0b58b8a18be4932 David Howells 2016-09-02  348  
+0b58b8a18be4932 David Howells 2016-09-02  349  			chunk = max;
+0b58b8a18be4932 David Howells 2016-09-02  350  			if (chunk > msg_data_left(msg) && !more)
+0b58b8a18be4932 David Howells 2016-09-02  351  				chunk = msg_data_left(msg);
+0b58b8a18be4932 David Howells 2016-09-02  352  
+0b58b8a18be4932 David Howells 2016-09-02  353  			space = chunk + call->conn->size_align;
+0b58b8a18be4932 David Howells 2016-09-02  354  			space &= ~(call->conn->size_align - 1UL);
+0b58b8a18be4932 David Howells 2016-09-02  355  
+5a924b8951f835b David Howells 2016-09-22  356  			size = space + call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  357  
+0b58b8a18be4932 David Howells 2016-09-02  358  			_debug("SIZE: %zu/%zu/%zu", chunk, space, size);
+0b58b8a18be4932 David Howells 2016-09-02  359  
+0b58b8a18be4932 David Howells 2016-09-02  360  			/* create a buffer that we can retain until it's ACK'd */
+0b58b8a18be4932 David Howells 2016-09-02  361  			skb = sock_alloc_send_skb(
+0b58b8a18be4932 David Howells 2016-09-02  362  				sk, size, msg->msg_flags & MSG_DONTWAIT, &ret);
+0b58b8a18be4932 David Howells 2016-09-02  363  			if (!skb)
+0b58b8a18be4932 David Howells 2016-09-02  364  				goto maybe_error;
+0b58b8a18be4932 David Howells 2016-09-02  365  
+b311e68420aa520 David Howells 2019-08-19  366  			sp = rxrpc_skb(skb);
+b311e68420aa520 David Howells 2019-08-19  367  			sp->rx_flags |= RXRPC_SKB_TX_BUFFER;
+987db9f7cd1e77e David Howells 2019-08-19  368  			rxrpc_new_skb(skb, rxrpc_skb_new);
+0b58b8a18be4932 David Howells 2016-09-02  369  
+0b58b8a18be4932 David Howells 2016-09-02  370  			_debug("ALLOC SEND %p", skb);
+0b58b8a18be4932 David Howells 2016-09-02  371  
+0b58b8a18be4932 David Howells 2016-09-02  372  			ASSERTCMP(skb->mark, ==, 0);
+0b58b8a18be4932 David Howells 2016-09-02  373  
+5a924b8951f835b David Howells 2016-09-22  374  			_debug("HS: %u", call->conn->security_size);
+5a924b8951f835b David Howells 2016-09-22  375  			skb_reserve(skb, call->conn->security_size);
+5a924b8951f835b David Howells 2016-09-22  376  			skb->len += call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  377  
+0b58b8a18be4932 David Howells 2016-09-02  378  			sp->remain = chunk;
+0b58b8a18be4932 David Howells 2016-09-02  379  			if (sp->remain > skb_tailroom(skb))
+0b58b8a18be4932 David Howells 2016-09-02  380  				sp->remain = skb_tailroom(skb);
+0b58b8a18be4932 David Howells 2016-09-02  381  
+0b58b8a18be4932 David Howells 2016-09-02  382  			_net("skb: hr %d, tr %d, hl %d, rm %d",
+0b58b8a18be4932 David Howells 2016-09-02  383  			       skb_headroom(skb),
+0b58b8a18be4932 David Howells 2016-09-02  384  			       skb_tailroom(skb),
+0b58b8a18be4932 David Howells 2016-09-02  385  			       skb_headlen(skb),
+0b58b8a18be4932 David Howells 2016-09-02  386  			       sp->remain);
+0b58b8a18be4932 David Howells 2016-09-02  387  
+0b58b8a18be4932 David Howells 2016-09-02  388  			skb->ip_summed = CHECKSUM_UNNECESSARY;
+0b58b8a18be4932 David Howells 2016-09-02  389  		}
+0b58b8a18be4932 David Howells 2016-09-02  390  
+0b58b8a18be4932 David Howells 2016-09-02  391  		_debug("append");
+0b58b8a18be4932 David Howells 2016-09-02  392  		sp = rxrpc_skb(skb);
+0b58b8a18be4932 David Howells 2016-09-02  393  
+0b58b8a18be4932 David Howells 2016-09-02  394  		/* append next segment of data to the current buffer */
+0b58b8a18be4932 David Howells 2016-09-02  395  		if (msg_data_left(msg) > 0) {
+0b58b8a18be4932 David Howells 2016-09-02  396  			int copy = skb_tailroom(skb);
+0b58b8a18be4932 David Howells 2016-09-02  397  			ASSERTCMP(copy, >, 0);
+0b58b8a18be4932 David Howells 2016-09-02  398  			if (copy > msg_data_left(msg))
+0b58b8a18be4932 David Howells 2016-09-02  399  				copy = msg_data_left(msg);
+0b58b8a18be4932 David Howells 2016-09-02  400  			if (copy > sp->remain)
+0b58b8a18be4932 David Howells 2016-09-02  401  				copy = sp->remain;
+0b58b8a18be4932 David Howells 2016-09-02  402  
+0b58b8a18be4932 David Howells 2016-09-02  403  			_debug("add");
+0b58b8a18be4932 David Howells 2016-09-02  404  			ret = skb_add_data(skb, &msg->msg_iter, copy);
+0b58b8a18be4932 David Howells 2016-09-02  405  			_debug("added");
+0b58b8a18be4932 David Howells 2016-09-02  406  			if (ret < 0)
+0b58b8a18be4932 David Howells 2016-09-02  407  				goto efault;
+0b58b8a18be4932 David Howells 2016-09-02  408  			sp->remain -= copy;
+0b58b8a18be4932 David Howells 2016-09-02  409  			skb->mark += copy;
+0b58b8a18be4932 David Howells 2016-09-02  410  			copied += copy;
+e754eba685aac2a David Howells 2017-06-07  411  			if (call->tx_total_len != -1)
+e754eba685aac2a David Howells 2017-06-07  412  				call->tx_total_len -= copy;
+0b58b8a18be4932 David Howells 2016-09-02  413  		}
+0b58b8a18be4932 David Howells 2016-09-02  414  
+e122d845a01ece2 David Howells 2019-01-10  415  		/* check for the far side aborting the call or a network error
+e122d845a01ece2 David Howells 2019-01-10  416  		 * occurring */
+e122d845a01ece2 David Howells 2019-01-10  417  		if (call->state == RXRPC_CALL_COMPLETE)
+e122d845a01ece2 David Howells 2019-01-10  418  			goto call_terminated;
+e122d845a01ece2 David Howells 2019-01-10  419  
+0b58b8a18be4932 David Howells 2016-09-02  420  		/* add the packet to the send queue if it's now full */
+0b58b8a18be4932 David Howells 2016-09-02  421  		if (sp->remain <= 0 ||
+0b58b8a18be4932 David Howells 2016-09-02  422  		    (msg_data_left(msg) == 0 && !more)) {
+0b58b8a18be4932 David Howells 2016-09-02  423  			struct rxrpc_connection *conn = call->conn;
+0b58b8a18be4932 David Howells 2016-09-02  424  			uint32_t seq;
+0b58b8a18be4932 David Howells 2016-09-02  425  			size_t pad;
+0b58b8a18be4932 David Howells 2016-09-02  426  
+0b58b8a18be4932 David Howells 2016-09-02  427  			/* pad out if we're using security */
+0b58b8a18be4932 David Howells 2016-09-02  428  			if (conn->security_ix) {
+0b58b8a18be4932 David Howells 2016-09-02  429  				pad = conn->security_size + skb->mark;
+0b58b8a18be4932 David Howells 2016-09-02  430  				pad = conn->size_align - pad;
+0b58b8a18be4932 David Howells 2016-09-02  431  				pad &= conn->size_align - 1;
+0b58b8a18be4932 David Howells 2016-09-02  432  				_debug("pad %zu", pad);
+0b58b8a18be4932 David Howells 2016-09-02  433  				if (pad)
+b080db585384b9f Johannes Berg 2017-06-16  434  					skb_put_zero(skb, pad);
+0b58b8a18be4932 David Howells 2016-09-02  435  			}
+0b58b8a18be4932 David Howells 2016-09-02  436  
+248f219cb8bcbfb David Howells 2016-09-08  437  			seq = call->tx_top + 1;
+0b58b8a18be4932 David Howells 2016-09-02  438  
+0b58b8a18be4932 David Howells 2016-09-02  439  			sp->hdr.seq	= seq;
+0b58b8a18be4932 David Howells 2016-09-02  440  			sp->hdr._rsvd	= 0;
+0b58b8a18be4932 David Howells 2016-09-02  441  			sp->hdr.flags	= conn->out_clientflag;
+5a924b8951f835b David Howells 2016-09-22  442  
+0b58b8a18be4932 David Howells 2016-09-02  443  			if (msg_data_left(msg) == 0 && !more)
+0b58b8a18be4932 David Howells 2016-09-02  444  				sp->hdr.flags |= RXRPC_LAST_PACKET;
+248f219cb8bcbfb David Howells 2016-09-08  445  			else if (call->tx_top - call->tx_hard_ack <
+248f219cb8bcbfb David Howells 2016-09-08  446  				 call->tx_winsize)
+0b58b8a18be4932 David Howells 2016-09-02  447  				sp->hdr.flags |= RXRPC_MORE_PACKETS;
+0b58b8a18be4932 David Howells 2016-09-02  448  
+91fcfbe8852edb9 David Howells 2019-10-07  449  			ret = call->security->secure_packet(
+5a924b8951f835b David Howells 2016-09-22  450  				call, skb, skb->mark, skb->head);
+0b58b8a18be4932 David Howells 2016-09-02  451  			if (ret < 0)
+0b58b8a18be4932 David Howells 2016-09-02  452  				goto out;
+0b58b8a18be4932 David Howells 2016-09-02  453  
+8e8715aaa905f65 Marc Dionne   2019-04-12  454  			ret = rxrpc_queue_packet(rx, call, skb,
+e833251ad813168 David Howells 2017-08-29  455  						 !msg_data_left(msg) && !more,
+e833251ad813168 David Howells 2017-08-29  456  						 notify_end_tx);
+8e8715aaa905f65 Marc Dionne   2019-04-12  457  			/* Should check for failure here */
+0b58b8a18be4932 David Howells 2016-09-02  458  			skb = NULL;
+0b58b8a18be4932 David Howells 2016-09-02  459  		}
+0b58b8a18be4932 David Howells 2016-09-02  460  	} while (msg_data_left(msg) > 0);
+0b58b8a18be4932 David Howells 2016-09-02  461  
+0b58b8a18be4932 David Howells 2016-09-02  462  success:
+0b58b8a18be4932 David Howells 2016-09-02  463  	ret = copied;
+504deca5022022a David Howells 2022-09-29  464  	if (READ_ONCE(call->state) == RXRPC_CALL_COMPLETE) {
+504deca5022022a David Howells 2022-09-29  465  		read_lock_bh(&call->state_lock);
+504deca5022022a David Howells 2022-09-29  466  		if (call->error < 0)
+504deca5022022a David Howells 2022-09-29  467  			ret = call->error;
+504deca5022022a David Howells 2022-09-29  468  		read_unlock_bh(&call->state_lock);
+504deca5022022a David Howells 2022-09-29  469  	}
+0b58b8a18be4932 David Howells 2016-09-02  470  out:
+0b58b8a18be4932 David Howells 2016-09-02 @471  	call->tx_pending = skb;
+
+STEP 3: skb is uninitialized
+
+0b58b8a18be4932 David Howells 2016-09-02  472  	_leave(" = %d", ret);
+0b58b8a18be4932 David Howells 2016-09-02  473  	return ret;
+0b58b8a18be4932 David Howells 2016-09-02  474  
+e122d845a01ece2 David Howells 2019-01-10  475  call_terminated:
+987db9f7cd1e77e David Howells 2019-08-19  476  	rxrpc_free_skb(skb, rxrpc_skb_freed);
+e122d845a01ece2 David Howells 2019-01-10  477  	_leave(" = %d", call->error);
+e122d845a01ece2 David Howells 2019-01-10  478  	return call->error;
+e122d845a01ece2 David Howells 2019-01-10  479  
+0b58b8a18be4932 David Howells 2016-09-02  480  maybe_error:
+0b58b8a18be4932 David Howells 2016-09-02  481  	if (copied)
+0b58b8a18be4932 David Howells 2016-09-02  482  		goto success;
+0b58b8a18be4932 David Howells 2016-09-02  483  	goto out;
+
+STEP 2: goto out
+
+0b58b8a18be4932 David Howells 2016-09-02  484  
+0b58b8a18be4932 David Howells 2016-09-02  485  efault:
+0b58b8a18be4932 David Howells 2016-09-02  486  	ret = -EFAULT;
+0b58b8a18be4932 David Howells 2016-09-02  487  	goto out;
+5a5d74ffcd49103 David Howells 2022-12-02  488  
+5a5d74ffcd49103 David Howells 2022-12-02  489  wait_for_space:
+5a5d74ffcd49103 David Howells 2022-12-02  490  	ret = -EAGAIN;
+5a5d74ffcd49103 David Howells 2022-12-02  491  	if (msg->msg_flags & MSG_DONTWAIT)
+5a5d74ffcd49103 David Howells 2022-12-02  492  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  493  	mutex_unlock(&call->user_mutex);
+5a5d74ffcd49103 David Howells 2022-12-02  494  	*_dropped_lock = true;
+5a5d74ffcd49103 David Howells 2022-12-02  495  	ret = rxrpc_wait_for_tx_window(rx, call, &timeo,
+5a5d74ffcd49103 David Howells 2022-12-02  496  				       msg->msg_flags & MSG_WAITALL);
+5a5d74ffcd49103 David Howells 2022-12-02  497  	if (ret < 0)
+5a5d74ffcd49103 David Howells 2022-12-02  498  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  499  	if (call->interruptibility == RXRPC_INTERRUPTIBLE) {
+5a5d74ffcd49103 David Howells 2022-12-02  500  		if (mutex_lock_interruptible(&call->user_mutex) < 0) {
+5a5d74ffcd49103 David Howells 2022-12-02  501  			ret = sock_intr_errno(timeo);
+5a5d74ffcd49103 David Howells 2022-12-02  502  			goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  503  		}
+5a5d74ffcd49103 David Howells 2022-12-02  504  	} else {
+5a5d74ffcd49103 David Howells 2022-12-02  505  		mutex_lock(&call->user_mutex);
+5a5d74ffcd49103 David Howells 2022-12-02  506  	}
+5a5d74ffcd49103 David Howells 2022-12-02  507  	*_dropped_lock = false;
+5a5d74ffcd49103 David Howells 2022-12-02  508  	goto reload;
+0b58b8a18be4932 David Howells 2016-09-02  509  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
