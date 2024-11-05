@@ -1,64 +1,64 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFA71FDFB9
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4521B3958
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730788799; cv=none; b=Fpq5o6S06f7vx8Z1vatGpr94HMGuxSPFzxmSSB4Bw38rBnBije6S1WstrsT1Mas05RsYfIP0kmfpdkP/Q/J8tGJWYtt62H0CH65qJ71tM9hx+dQaEzDuuMwVODHpBzwu2MagjMBkKypHhsKe5s32OT8ZQ99iuffaocHmROeGgY8=
+	t=1730789173; cv=none; b=sFOmknSR0cgvflC6YE8vzIYKn1qqPtpFg3tmouKqZkHUTlVTQNxmGWN4DbcPE8kU+R1D4Pr0zYSPtDFGFzDNoCa80giSPf1Fwdd/9YkYDM/qTaK4kVYzbEoXXcfQkOUxnlp8CGH7Um2VftDM/Oap4a5OXQ3sa5CC88nZS6YINKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730788799; c=relaxed/simple;
-	bh=osWFfjiRMZmln2tfVA40+CxH/vF3L7VYQ7+XM0b4tyk=;
+	s=arc-20240116; t=1730789173; c=relaxed/simple;
+	bh=hSQTiFZQF0hGorX49JWUNc3bUyS2+/nohnICuzTw4Tk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XCmNWCAz9ccQYJhVCvxV/IzbOGOkumSbvaitdD6Og/oCDmVhT1Pm86tlbkWf9aTPvTPGIy/4eR8A7yaVz6nTBAy2JDAGtDUNuPfLPTf9U5v8obhqZrI2xmvX3PrrBPpeEkchAHFLU9dVxIZSxxgrQqNlY13y7ACLUsUJWjIEiNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j1ZcHjwW; arc=none smtp.client-ip=209.85.208.175
+	 Content-Disposition; b=VFgYcLBBOHeNuwsdbUOoNn6DTuUbVxYuBtroDIeeYRhX/gHcmqDZ3CkTfdv3CRql9T7CkvgF5Ddf6gTXtqdyLDiytzQIEDdPQ0ltlbTZb5fF+Db55W3cGAsbwQ8tUDWiMGmVxn9QjrUbn1jYVTyuOoqpSQLZBraQ+ldrF3u9q0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRFk7iYX; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j1ZcHjwW"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso76845131fa.3
-        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:39:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRFk7iYX"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a9a0c7abaa6so601196166b.2
+        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:46:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730788795; x=1731393595; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730789169; x=1731393969; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=JjjtXMtGuwIRBr+56AsB967LHxN57g5CTB1bW9ee0Jw=;
-        b=j1ZcHjwWsAy00SwrZtwccAJjmQwEVNNg+Cg+m03pxaY0CaCD1DO1fLgA957AZhILd3
-         sm0VMa6LHuxB81vVXYRyBp33q8+GcrdgEzf/bX//FyJMXafSSF6Te5wbHHSzTIv2NTxs
-         gdw885UmRYHN40J2IHUx0a+aWiSd8VeMYvVSHx/lJJa7rFGmr7pqKr2UF5uM+ivuebj4
-         ssWoBRc7v+euj1p46ddgdCFc+WiJYJsGwNJvL+8t/Ccuxbtl9K4s9lkWuCQMnFbsfj+u
-         WnS36lG5+LQhptmTW9UMZIXhSpYbl9GVML2/TdFJZ8Ebi0oCMriDF6hP1cnzF4oEoKD/
-         +N6w==
+        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
+        b=jRFk7iYXGG4igX5UWKRCY0Z+9x9YmqDU5oZEAjt4c2wgcIo1mAZTt3OlPCELm8Kl66
+         6TEYqaPOlzeYNYV93PtX0eJLuQUYbGJ4geSDaeYi8tfmNj0lTChU0NlFQTDdqgOF/Pw3
+         bGfDRQ0wEfJUC3FJ4popa/DTtfzqwt4lfFeFvczXclyZOi6Augq4gvCMF5L+xT8pFLf4
+         qkjBCrdE0IuewLRObBtYGyYB4tSX2J9MpFMGhlLPKBKJS14s7IF0dl0J3KoKItXQy0YX
+         lc8VLhgmauej7jmOe48O32j8IYb3Ya0/zVD77waxb9xYRosYh9oQOJWLqVMk7yG8rabb
+         xt1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730788795; x=1731393595;
+        d=1e100.net; s=20230601; t=1730789169; x=1731393969;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JjjtXMtGuwIRBr+56AsB967LHxN57g5CTB1bW9ee0Jw=;
-        b=CBQpdUBqg1I5tldxumSF9SJrratQKcHB5MvoMDIua6yLkxvIA4mqFfZR5hKWi4cHIv
-         WtxiMaXYtq9Fv7xUG0BRXKrGLbrI6N9+Gsno88ImOOmZIJA1IT6zZwwQR76NVh4G+Oxx
-         YmbiFvqSM1U4aF8Y/nHdiEFGTRTCS3fquyvIzkq3BqtJSzeInAYwYxdQetgH3jfmwyGD
-         2zR23A1Q0nsQUgPlm+UoUg3Zgb9MYUTuAx6N/G4OYz+WnDrBjA1iqm7wiCXUmAXMj5RH
-         sIQgjZju6QrRo2ar1eFuWpmXmvQ6ir1zpIDRdKMY+bzS0dVcYoXgHtpq0+J+SPSSDeSG
-         ZEKQ==
-X-Gm-Message-State: AOJu0YzS3wm/KSmlZDIntadEsHJrrwiV5XtMUNvb/Pe7GX26ZtXvw0EF
-	iMPgVpNWGu+qgRt9rjbZZsLM3JVST1fZ74SoE8QQ3b+Yu4Gjsq5n5Zu1wv7rxllZdZ4cA3EK/uS
-	QAXOUdA==
-X-Google-Smtp-Source: AGHT+IEgvF2tKauKjoh+b/U6a4uWkiQllyeHEuJ94jfOhA+ltb0bUXqhs+lH45B8HtflobulBp5l8g==
-X-Received: by 2002:a05:651c:158f:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2fedb7d8957mr109871771fa.27.1730788794951;
-        Mon, 04 Nov 2024 22:39:54 -0800 (PST)
+        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
+        b=YX90U6TBG7wQ3oJh5aLSa61SCeR1hOMBZRrZXrsN3bVGwQMV6iIX2BPKcsSWu05s7w
+         TzmgfmpFqgrMcGY4Q8L+clDrYVvbedbwiMOdvucwAlbhBb2WnVMOmiRzzMlO+mA5xnFj
+         hFPtmkHI+7zIjhNhJfzZ0AZ8i4H9kyJsn5Wtd7GPcJiEHGBcIlDqPnu5qqR4xV/vvEM4
+         KkhTLE2YfG8EOz5AxOJHWsSThytkz5XfSQ6n9ASziy3CKIgeHZ7HBDeXXhHbhQZlsKQN
+         xb80M8lM4KT0LNrVDDjDZYEV9L9i/rLLixMWpbsvtvZ8KAIGjR6/NnlQeTUbOySyXgX8
+         5gvQ==
+X-Gm-Message-State: AOJu0Yx8Pwkn+J27a7MwsKAl7XmikAHqdf0jaiUa14qzQjXOMnzytl14
+	DvEbxkHq0Thb0WEaTWQ1f7tlgsE5qhGmFAqYSi6s++K/L6Uk1bSHtm8IaRFEICQLSokZYSx0oLh
+	7EJNhng==
+X-Google-Smtp-Source: AGHT+IFqwgIDPvpZ5dC/UJEbtwUiJ7w8TtUpn5NEnOCbcZpBiyi9BvlhK2QfQs6WOzzLE4V2LpOqVg==
+X-Received: by 2002:a17:906:db08:b0:a9a:1165:1bb with SMTP id a640c23a62f3a-a9e658c1759mr1660385166b.65.1730789169295;
+        Mon, 04 Nov 2024 22:46:09 -0800 (PST)
 Received: from localhost ([77.241.232.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16d67a6sm87428266b.60.2024.11.04.22.39.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17d0af1sm85658866b.94.2024.11.04.22.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 22:39:54 -0800 (PST)
-Date: Tue, 5 Nov 2024 09:39:53 +0300
+        Mon, 04 Nov 2024 22:46:08 -0800 (PST)
+Date: Tue, 5 Nov 2024 09:46:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sujuan Chen <sujuan.chen@mediatek.com>
+To: oe-kbuild@lists.linux.dev, Herve Codina <herve.codina@bootlin.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>,
-	Lorenzo Bianconi <lorenzo@kernel.org>
-Subject: drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186
- mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
-Message-ID: <1526b868-7cb2-4929-8bc2-8b78e69ced76@suswa.mountain>
+	linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code
+ 'ret'
+Message-ID: <bac2dc94-1bf3-4dcf-b776-cd78ef992d28@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -69,149 +69,174 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-commit: 83eafc9251d6d30574b629ac637c56d168fcbdd9 wifi: mt76: mt7996: add wed tx support
-config: sh-randconfig-r073-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050315.cahqHi8j-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.1.0
+head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
+commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
+config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051350.KNy6ZIWA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411050315.cahqHi8j-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411051350.KNy6ZIWA-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186 mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
+smatch warnings:
+drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code 'ret'
 
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt7996/pci.c:192 mt7996_pci_probe() error: uninitialized symbol 'hif2_dev'.
+vim +/ret +1942 drivers/soc/fsl/qe/qmc.c
 
-vim +/hif2_irq +186 drivers/net/wireless/mediatek/mt76/mt7996/pci.c
+3178d58e0b9772 Herve Codina 2023-02-17  1828  static int qmc_probe(struct platform_device *pdev)
+3178d58e0b9772 Herve Codina 2023-02-17  1829  {
+3178d58e0b9772 Herve Codina 2023-02-17  1830  	struct device_node *np = pdev->dev.of_node;
+3178d58e0b9772 Herve Codina 2023-02-17  1831  	unsigned int nb_chans;
+3178d58e0b9772 Herve Codina 2023-02-17  1832  	struct qmc *qmc;
+3178d58e0b9772 Herve Codina 2023-02-17  1833  	int irq;
+3178d58e0b9772 Herve Codina 2023-02-17  1834  	int ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1835  
+3178d58e0b9772 Herve Codina 2023-02-17  1836  	qmc = devm_kzalloc(&pdev->dev, sizeof(*qmc), GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1837  	if (!qmc)
+3178d58e0b9772 Herve Codina 2023-02-17  1838  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1839  
+3178d58e0b9772 Herve Codina 2023-02-17  1840  	qmc->dev = &pdev->dev;
+d23ae9f1815e89 Herve Codina 2024-08-08  1841  	qmc->data = of_device_get_match_data(&pdev->dev);
+d23ae9f1815e89 Herve Codina 2024-08-08  1842  	if (!qmc->data) {
+d23ae9f1815e89 Herve Codina 2024-08-08  1843  		dev_err(qmc->dev, "Missing match data\n");
+d23ae9f1815e89 Herve Codina 2024-08-08  1844  		return -EINVAL;
+d23ae9f1815e89 Herve Codina 2024-08-08  1845  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1846  	INIT_LIST_HEAD(&qmc->chan_head);
+3178d58e0b9772 Herve Codina 2023-02-17  1847  
+a13bf605342ea9 Herve Codina 2024-08-08  1848  	qmc->tsa_serial = devm_tsa_serial_get_byphandle(qmc->dev, np, "fsl,tsa-serial");
+a13bf605342ea9 Herve Codina 2024-08-08  1849  	if (IS_ERR(qmc->tsa_serial)) {
+a13bf605342ea9 Herve Codina 2024-08-08  1850  		return dev_err_probe(qmc->dev, PTR_ERR(qmc->tsa_serial),
+a13bf605342ea9 Herve Codina 2024-08-08  1851  				     "Failed to get TSA serial\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1852  	}
+a13bf605342ea9 Herve Codina 2024-08-08  1853  
+727b3ab490a5f5 Herve Codina 2024-08-08  1854  	ret = qmc_init_resources(qmc, pdev);
+727b3ab490a5f5 Herve Codina 2024-08-08  1855  	if (ret)
+727b3ab490a5f5 Herve Codina 2024-08-08  1856  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1857  
+3178d58e0b9772 Herve Codina 2023-02-17  1858  	/* Parse channels informationss */
+3178d58e0b9772 Herve Codina 2023-02-17  1859  	ret = qmc_of_parse_chans(qmc, np);
+3178d58e0b9772 Herve Codina 2023-02-17  1860  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1861  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1862  
+3178d58e0b9772 Herve Codina 2023-02-17  1863  	nb_chans = qmc_nb_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1864  
+3178d58e0b9772 Herve Codina 2023-02-17  1865  	/*
+3178d58e0b9772 Herve Codina 2023-02-17  1866  	 * Allocate the buffer descriptor table
+3178d58e0b9772 Herve Codina 2023-02-17  1867  	 * 8 rx and 8 tx descriptors per channel
+3178d58e0b9772 Herve Codina 2023-02-17  1868  	 */
+3178d58e0b9772 Herve Codina 2023-02-17  1869  	qmc->bd_size = (nb_chans * (QMC_NB_TXBDS + QMC_NB_RXBDS)) * sizeof(cbd_t);
+3178d58e0b9772 Herve Codina 2023-02-17  1870  	qmc->bd_table = dmam_alloc_coherent(qmc->dev, qmc->bd_size,
+3178d58e0b9772 Herve Codina 2023-02-17  1871  					    &qmc->bd_dma_addr, GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1872  	if (!qmc->bd_table) {
+3178d58e0b9772 Herve Codina 2023-02-17  1873  		dev_err(qmc->dev, "Failed to allocate bd table\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1874  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1875  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1876  	memset(qmc->bd_table, 0, qmc->bd_size);
+3178d58e0b9772 Herve Codina 2023-02-17  1877  
+3178d58e0b9772 Herve Codina 2023-02-17  1878  	qmc_write32(qmc->scc_pram + QMC_GBL_MCBASE, qmc->bd_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1879  
+3178d58e0b9772 Herve Codina 2023-02-17  1880  	/* Allocate the interrupt table */
+3178d58e0b9772 Herve Codina 2023-02-17  1881  	qmc->int_size = QMC_NB_INTS * sizeof(u16);
+3178d58e0b9772 Herve Codina 2023-02-17  1882  	qmc->int_table = dmam_alloc_coherent(qmc->dev, qmc->int_size,
+3178d58e0b9772 Herve Codina 2023-02-17  1883  					     &qmc->int_dma_addr, GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1884  	if (!qmc->int_table) {
+3178d58e0b9772 Herve Codina 2023-02-17  1885  		dev_err(qmc->dev, "Failed to allocate interrupt table\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1886  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1887  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1888  	memset(qmc->int_table, 0, qmc->int_size);
+3178d58e0b9772 Herve Codina 2023-02-17  1889  
+3178d58e0b9772 Herve Codina 2023-02-17  1890  	qmc->int_curr = qmc->int_table;
+3178d58e0b9772 Herve Codina 2023-02-17  1891  	qmc_write32(qmc->scc_pram + QMC_GBL_INTBASE, qmc->int_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1892  	qmc_write32(qmc->scc_pram + QMC_GBL_INTPTR, qmc->int_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1893  
+3178d58e0b9772 Herve Codina 2023-02-17  1894  	/* Set MRBLR (valid for HDLC only) max MRU + max CRC */
+3178d58e0b9772 Herve Codina 2023-02-17  1895  	qmc_write16(qmc->scc_pram + QMC_GBL_MRBLR, HDLC_MAX_MRU + 4);
+3178d58e0b9772 Herve Codina 2023-02-17  1896  
+3178d58e0b9772 Herve Codina 2023-02-17  1897  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFTHR, 1);
+3178d58e0b9772 Herve Codina 2023-02-17  1898  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFCNT, 1);
+3178d58e0b9772 Herve Codina 2023-02-17  1899  
+3178d58e0b9772 Herve Codina 2023-02-17  1900  	qmc_write32(qmc->scc_pram + QMC_GBL_C_MASK32, 0xDEBB20E3);
+3178d58e0b9772 Herve Codina 2023-02-17  1901  	qmc_write16(qmc->scc_pram + QMC_GBL_C_MASK16, 0xF0B8);
+3178d58e0b9772 Herve Codina 2023-02-17  1902  
+eb680d563089e5 Herve Codina 2024-08-08  1903  	if (qmc_is_qe(qmc)) {
+eb680d563089e5 Herve Codina 2024-08-08  1904  		/* Zeroed the reserved area */
+eb680d563089e5 Herve Codina 2024-08-08  1905  		memset_io(qmc->scc_pram + QMC_QE_GBL_RSV_B0_START, 0,
+eb680d563089e5 Herve Codina 2024-08-08  1906  			  QMC_QE_GBL_RSV_B0_SIZE);
+eb680d563089e5 Herve Codina 2024-08-08  1907  
+eb680d563089e5 Herve Codina 2024-08-08  1908  		qmc_write32(qmc->scc_pram + QMC_QE_GBL_GCSBASE, qmc->dpram_offset);
+eb680d563089e5 Herve Codina 2024-08-08  1909  
+eb680d563089e5 Herve Codina 2024-08-08  1910  		/* Init 'framer parameters' area and set the base addresses */
+eb680d563089e5 Herve Codina 2024-08-08  1911  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE, 0x01, 64);
+eb680d563089e5 Herve Codina 2024-08-08  1912  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE + 64, 0x01, 64);
+eb680d563089e5 Herve Codina 2024-08-08  1913  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_RX_FRM_BASE,
+eb680d563089e5 Herve Codina 2024-08-08  1914  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE);
+eb680d563089e5 Herve Codina 2024-08-08  1915  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_TX_FRM_BASE,
+eb680d563089e5 Herve Codina 2024-08-08  1916  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE + 64);
+eb680d563089e5 Herve Codina 2024-08-08  1917  	}
+eb680d563089e5 Herve Codina 2024-08-08  1918  
+2d965e25fa4180 Herve Codina 2023-12-05  1919  	ret = qmc_init_tsa(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1920  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1921  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1922  
+3178d58e0b9772 Herve Codina 2023-02-17  1923  	qmc_write16(qmc->scc_pram + QMC_GBL_QMCSTATE, 0x8000);
+3178d58e0b9772 Herve Codina 2023-02-17  1924  
+3178d58e0b9772 Herve Codina 2023-02-17  1925  	ret = qmc_setup_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1926  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1927  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1928  
+3178d58e0b9772 Herve Codina 2023-02-17  1929  	/* Init interrupts table */
+3178d58e0b9772 Herve Codina 2023-02-17  1930  	ret = qmc_setup_ints(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1931  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1932  		return ret;
+a13bf605342ea9 Herve Codina 2024-08-08  1933  
+eb680d563089e5 Herve Codina 2024-08-08  1934  	/* Init SCC (CPM1) or UCC (QE) */
+de5fdb7d14b34f Herve Codina 2024-08-08  1935  	ret = qmc_init_xcc(qmc);
+de5fdb7d14b34f Herve Codina 2024-08-08  1936  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1937  		return ret;
+a13bf605342ea9 Herve Codina 2024-08-08  1938  
+de5fdb7d14b34f Herve Codina 2024-08-08  1939  	/* Set the irq handler */
+3178d58e0b9772 Herve Codina 2023-02-17  1940  	irq = platform_get_irq(pdev, 0);
+3178d58e0b9772 Herve Codina 2023-02-17  1941  	if (irq < 0)
+de5fdb7d14b34f Herve Codina 2024-08-08 @1942  		goto err_exit_xcc;
 
-98686cd21624c7 Shayne Chen 2022-11-22   91  static int mt7996_pci_probe(struct pci_dev *pdev,
-98686cd21624c7 Shayne Chen 2022-11-22   92  			    const struct pci_device_id *id)
-98686cd21624c7 Shayne Chen 2022-11-22   93  {
-98686cd21624c7 Shayne Chen 2022-11-22   94  	struct pci_dev *hif2_dev;
-83eafc9251d6d3 Sujuan Chen 2023-10-20   95  	struct mt7996_hif *hif2;
-98686cd21624c7 Shayne Chen 2022-11-22   96  	struct mt7996_dev *dev;
-83eafc9251d6d3 Sujuan Chen 2023-10-20   97  	int irq, hif2_irq, ret;
-98686cd21624c7 Shayne Chen 2022-11-22   98  	struct mt76_dev *mdev;
-98686cd21624c7 Shayne Chen 2022-11-22   99  
-98686cd21624c7 Shayne Chen 2022-11-22  100  	ret = pcim_enable_device(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  101  	if (ret)
-98686cd21624c7 Shayne Chen 2022-11-22  102  		return ret;
-98686cd21624c7 Shayne Chen 2022-11-22  103  
-98686cd21624c7 Shayne Chen 2022-11-22  104  	ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
-98686cd21624c7 Shayne Chen 2022-11-22  105  	if (ret)
-98686cd21624c7 Shayne Chen 2022-11-22  106  		return ret;
-98686cd21624c7 Shayne Chen 2022-11-22  107  
-98686cd21624c7 Shayne Chen 2022-11-22  108  	pci_set_master(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  109  
-98686cd21624c7 Shayne Chen 2022-11-22  110  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-98686cd21624c7 Shayne Chen 2022-11-22  111  	if (ret)
-98686cd21624c7 Shayne Chen 2022-11-22  112  		return ret;
-98686cd21624c7 Shayne Chen 2022-11-22  113  
-98686cd21624c7 Shayne Chen 2022-11-22  114  	mt76_pci_disable_aspm(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  115  
-98686cd21624c7 Shayne Chen 2022-11-22  116  	if (id->device == 0x7991)
-98686cd21624c7 Shayne Chen 2022-11-22  117  		return mt7996_pci_hif2_probe(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  118  
-98686cd21624c7 Shayne Chen 2022-11-22  119  	dev = mt7996_mmio_probe(&pdev->dev, pcim_iomap_table(pdev)[0],
-98686cd21624c7 Shayne Chen 2022-11-22  120  				id->device);
-98686cd21624c7 Shayne Chen 2022-11-22  121  	if (IS_ERR(dev))
-98686cd21624c7 Shayne Chen 2022-11-22  122  		return PTR_ERR(dev);
-98686cd21624c7 Shayne Chen 2022-11-22  123  
-98686cd21624c7 Shayne Chen 2022-11-22  124  	mdev = &dev->mt76;
-98686cd21624c7 Shayne Chen 2022-11-22  125  	mt7996_wfsys_reset(dev);
-98686cd21624c7 Shayne Chen 2022-11-22  126  	hif2 = mt7996_pci_init_hif2(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  127  
-83eafc9251d6d3 Sujuan Chen 2023-10-20  128  	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  129  	if (ret < 0)
-83eafc9251d6d3 Sujuan Chen 2023-10-20  130  		goto free_wed_or_irq_vector;
-83eafc9251d6d3 Sujuan Chen 2023-10-20  131  
-83eafc9251d6d3 Sujuan Chen 2023-10-20  132  	if (!ret) {
-98686cd21624c7 Shayne Chen 2022-11-22  133  		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-98686cd21624c7 Shayne Chen 2022-11-22  134  		if (ret < 0)
-98686cd21624c7 Shayne Chen 2022-11-22  135  			goto free_device;
-98686cd21624c7 Shayne Chen 2022-11-22  136  
-98686cd21624c7 Shayne Chen 2022-11-22  137  		irq = pdev->irq;
-83eafc9251d6d3 Sujuan Chen 2023-10-20  138  	}
-83eafc9251d6d3 Sujuan Chen 2023-10-20  139  
-98686cd21624c7 Shayne Chen 2022-11-22  140  	ret = devm_request_irq(mdev->dev, irq, mt7996_irq_handler,
-98686cd21624c7 Shayne Chen 2022-11-22  141  			       IRQF_SHARED, KBUILD_MODNAME, dev);
-98686cd21624c7 Shayne Chen 2022-11-22  142  	if (ret)
-83eafc9251d6d3 Sujuan Chen 2023-10-20  143  		goto free_wed_or_irq_vector;
-98686cd21624c7 Shayne Chen 2022-11-22  144  
-98686cd21624c7 Shayne Chen 2022-11-22  145  	mt76_wr(dev, MT_INT_MASK_CSR, 0);
-98686cd21624c7 Shayne Chen 2022-11-22  146  	/* master switch of PCIe tnterrupt enable */
-98686cd21624c7 Shayne Chen 2022-11-22  147  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
-98686cd21624c7 Shayne Chen 2022-11-22  148  
-98686cd21624c7 Shayne Chen 2022-11-22  149  	if (hif2) {
-98686cd21624c7 Shayne Chen 2022-11-22  150  		hif2_dev = container_of(hif2->dev, struct pci_dev, dev);
-98686cd21624c7 Shayne Chen 2022-11-22  151  		dev->hif2 = hif2;
-98686cd21624c7 Shayne Chen 2022-11-22  152  
-83eafc9251d6d3 Sujuan Chen 2023-10-20  153  		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  154  		if (ret < 0)
-83eafc9251d6d3 Sujuan Chen 2023-10-20  155  			goto free_hif2_wed_irq_vector;
-83eafc9251d6d3 Sujuan Chen 2023-10-20  156  
-83eafc9251d6d3 Sujuan Chen 2023-10-20  157  		if (!ret) {
-83eafc9251d6d3 Sujuan Chen 2023-10-20  158  			ret = pci_alloc_irq_vectors(hif2_dev, 1, 1,
-83eafc9251d6d3 Sujuan Chen 2023-10-20  159  						    PCI_IRQ_ALL_TYPES);
-98686cd21624c7 Shayne Chen 2022-11-22  160  			if (ret < 0)
-98686cd21624c7 Shayne Chen 2022-11-22  161  				goto free_hif2;
-98686cd21624c7 Shayne Chen 2022-11-22  162  
-98686cd21624c7 Shayne Chen 2022-11-22  163  			dev->hif2->irq = hif2_dev->irq;
-83eafc9251d6d3 Sujuan Chen 2023-10-20  164  			hif2_irq = dev->hif2->irq;
-83eafc9251d6d3 Sujuan Chen 2023-10-20  165  		}
-83eafc9251d6d3 Sujuan Chen 2023-10-20  166  
-83eafc9251d6d3 Sujuan Chen 2023-10-20  167  		ret = devm_request_irq(mdev->dev, hif2_irq, mt7996_irq_handler,
-83eafc9251d6d3 Sujuan Chen 2023-10-20  168  				       IRQF_SHARED, KBUILD_MODNAME "-hif",
-83eafc9251d6d3 Sujuan Chen 2023-10-20  169  				       dev);
-98686cd21624c7 Shayne Chen 2022-11-22  170  		if (ret)
-83eafc9251d6d3 Sujuan Chen 2023-10-20  171  			goto free_hif2_wed_irq_vector;
-98686cd21624c7 Shayne Chen 2022-11-22  172  
-98686cd21624c7 Shayne Chen 2022-11-22  173  		mt76_wr(dev, MT_INT1_MASK_CSR, 0);
-98686cd21624c7 Shayne Chen 2022-11-22  174  		/* master switch of PCIe tnterrupt enable */
-98686cd21624c7 Shayne Chen 2022-11-22  175  		mt76_wr(dev, MT_PCIE1_MAC_INT_ENABLE, 0xff);
-98686cd21624c7 Shayne Chen 2022-11-22  176  	}
+ret = irq;
 
-hif2_irq is uninitialized on else path
-
-98686cd21624c7 Shayne Chen 2022-11-22  177  
-98686cd21624c7 Shayne Chen 2022-11-22  178  	ret = mt7996_register_device(dev);
-98686cd21624c7 Shayne Chen 2022-11-22  179  	if (ret)
-98686cd21624c7 Shayne Chen 2022-11-22  180  		goto free_hif2_irq;
-98686cd21624c7 Shayne Chen 2022-11-22  181  
-98686cd21624c7 Shayne Chen 2022-11-22  182  	return 0;
-98686cd21624c7 Shayne Chen 2022-11-22  183  
-98686cd21624c7 Shayne Chen 2022-11-22  184  free_hif2_irq:
-98686cd21624c7 Shayne Chen 2022-11-22  185  	if (dev->hif2)
-83eafc9251d6d3 Sujuan Chen 2023-10-20 @186  		devm_free_irq(mdev->dev, hif2_irq, dev);
-
-Uninitialized.  No need to call devm_free_irq().  devm_ stuff is freed
-automatically if probe() fails.
-
-83eafc9251d6d3 Sujuan Chen 2023-10-20  187  free_hif2_wed_irq_vector:
-83eafc9251d6d3 Sujuan Chen 2023-10-20  188  	if (dev->hif2) {
-83eafc9251d6d3 Sujuan Chen 2023-10-20  189  		if (mtk_wed_device_active(&dev->mt76.mmio.wed_hif2))
-83eafc9251d6d3 Sujuan Chen 2023-10-20  190  			mtk_wed_device_detach(&dev->mt76.mmio.wed_hif2);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  191  		else
-98686cd21624c7 Shayne Chen 2022-11-22  192  			pci_free_irq_vectors(hif2_dev);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  193  	}
-98686cd21624c7 Shayne Chen 2022-11-22  194  free_hif2:
-98686cd21624c7 Shayne Chen 2022-11-22  195  	if (dev->hif2)
-98686cd21624c7 Shayne Chen 2022-11-22  196  		put_device(dev->hif2->dev);
-98686cd21624c7 Shayne Chen 2022-11-22  197  	devm_free_irq(mdev->dev, irq, dev);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  198  free_wed_or_irq_vector:
-83eafc9251d6d3 Sujuan Chen 2023-10-20  199  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
-83eafc9251d6d3 Sujuan Chen 2023-10-20  200  		mtk_wed_device_detach(&dev->mt76.mmio.wed);
-83eafc9251d6d3 Sujuan Chen 2023-10-20  201  	else
-98686cd21624c7 Shayne Chen 2022-11-22  202  		pci_free_irq_vectors(pdev);
-98686cd21624c7 Shayne Chen 2022-11-22  203  free_device:
-98686cd21624c7 Shayne Chen 2022-11-22  204  	mt76_free_device(&dev->mt76);
-98686cd21624c7 Shayne Chen 2022-11-22  205  
-98686cd21624c7 Shayne Chen 2022-11-22  206  	return ret;
-98686cd21624c7 Shayne Chen 2022-11-22  207  }
+3178d58e0b9772 Herve Codina 2023-02-17  1943  	ret = devm_request_irq(qmc->dev, irq, qmc_irq_handler, 0, "qmc", qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1944  	if (ret < 0)
+de5fdb7d14b34f Herve Codina 2024-08-08  1945  		goto err_exit_xcc;
+3178d58e0b9772 Herve Codina 2023-02-17  1946  
+3178d58e0b9772 Herve Codina 2023-02-17  1947  	/* Enable interrupts */
+3178d58e0b9772 Herve Codina 2023-02-17  1948  	qmc_write16(qmc->scc_regs + SCC_SCCM,
+3178d58e0b9772 Herve Codina 2023-02-17  1949  		    SCC_SCCE_IQOV | SCC_SCCE_GINT | SCC_SCCE_GUN | SCC_SCCE_GOV);
+3178d58e0b9772 Herve Codina 2023-02-17  1950  
+3178d58e0b9772 Herve Codina 2023-02-17  1951  	ret = qmc_finalize_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1952  	if (ret < 0)
+3178d58e0b9772 Herve Codina 2023-02-17  1953  		goto err_disable_intr;
+3178d58e0b9772 Herve Codina 2023-02-17  1954  
+e49dd637e02589 Herve Codina 2024-08-08  1955  	/* Enable transmitter and receiver */
+3178d58e0b9772 Herve Codina 2023-02-17  1956  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, SCC_GSMRL_ENR | SCC_GSMRL_ENT);
+3178d58e0b9772 Herve Codina 2023-02-17  1957  
+3178d58e0b9772 Herve Codina 2023-02-17  1958  	platform_set_drvdata(pdev, qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1959  
+ba3b7e4753c5ad Herve Codina 2023-12-05  1960  	/* Populate channel related devices */
+ba3b7e4753c5ad Herve Codina 2023-12-05  1961  	ret = devm_of_platform_populate(qmc->dev);
+ba3b7e4753c5ad Herve Codina 2023-12-05  1962  	if (ret)
+ba3b7e4753c5ad Herve Codina 2023-12-05  1963  		goto err_disable_txrx;
+ba3b7e4753c5ad Herve Codina 2023-12-05  1964  
+3178d58e0b9772 Herve Codina 2023-02-17  1965  	return 0;
+3178d58e0b9772 Herve Codina 2023-02-17  1966  
+ba3b7e4753c5ad Herve Codina 2023-12-05  1967  err_disable_txrx:
+ba3b7e4753c5ad Herve Codina 2023-12-05  1968  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, 0);
+ba3b7e4753c5ad Herve Codina 2023-12-05  1969  
+3178d58e0b9772 Herve Codina 2023-02-17  1970  err_disable_intr:
+3178d58e0b9772 Herve Codina 2023-02-17  1971  	qmc_write16(qmc->scc_regs + SCC_SCCM, 0);
+3178d58e0b9772 Herve Codina 2023-02-17  1972  
+de5fdb7d14b34f Herve Codina 2024-08-08  1973  err_exit_xcc:
+de5fdb7d14b34f Herve Codina 2024-08-08  1974  	qmc_exit_xcc(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1975  	return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1976  }
 
 -- 
 0-DAY CI Kernel Test Service
