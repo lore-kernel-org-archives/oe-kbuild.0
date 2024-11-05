@@ -1,220 +1,217 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706A03BBC5
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 16:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730823404; cv=none; b=DbedpYJUun4eTSC3hOWzOug2xFzrWZAhd5KA+EsDG4HcO7OvjxgBGRz19mboShv/KYwNu6UzJqNb6RE2NwVHzuBoPtB8yJTeM/vnCPmAAK98SRE/CCU+qM4Mlp1DjCXAv7KJYDYg6GFgO6z8iX9c586PD3XEdlQmpwfs/XceTHQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730823404; c=relaxed/simple;
-	bh=ulXv1Zv8KZpzd7Ffxi0Lc1QMMMfm+qSrdATYdrQysdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LmH5LCD5MBW36ZRYVJiTlw8R5NPUONq9I7pnhVXtPok9mbTntKBONFLoobftC7dzZJPIvPtpR24OOwQLP4XDoFLHgWi0fQpSdu/HTHuuff97epSgMI6Mz+M8iSY+L7G0cMCfR//o23Fwx+DRK3kHMuPZRn5sHW7w9LUCmCz9rnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u2BsiMEw; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF731D9A60;
+	Tue,  5 Nov 2024 16:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730824582; cv=fail; b=M5zMX7lapR5sfbAfKf8X04ghzHYykWNx7+YD1CB+TLQ+Ub10gCiDXi7YJBQk47YTHSVKNLDjKFmQq+HDvX2sEpiNRBSh4EhAVqtVUtEFc2lapVEh+xEUpiLKelsR38duLLbdwpvLqz5papuLGcs0hCULnw2N0bdBIPm6GLXsipA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730824582; c=relaxed/simple;
+	bh=jsetFZWQ4qdZcUxi5hfnP+sHqyEvhZGDYCS0Pcs/jGM=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WdNajs5Oc6M7KiuEesyG39Vzf8FJWhR7/3mbGqRj+lanTE2Ke8wbY2IOshzug0UTzypMSqMO6ZDnNR//VzNUeVdbVevHpu2EyJNZSRkcy+k47XHnUpa0izPQSvUGdTl2DpYG9VRdLZVBjTqwlvI4Y2R8XRp4ZI9ldqHQ+1Cx088=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AmFZeQ6x; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u2BsiMEw"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43193678216so48658815e9.0
-        for <oe-kbuild@lists.linux.dev>; Tue, 05 Nov 2024 08:16:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730823400; x=1731428200; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ErWpMdX9kJb8DHKb1BI5lN2B87TEzku9dZL3tB8NZgE=;
-        b=u2BsiMEwtXmJm8qt0pUSbs5FO3Q5Nk4tObnO8qQ/PgMh+676MWwoAybXrAkVrydTWN
-         XjZwJ3wZFTYrGQ+mLZjmT4+usyaKpIbeCqKYv3PEmR1J1A7eh7GKV3cVPyC4i0VZG/1E
-         qYxN/BjpsEiJONYrjoKQCzusIbTQLfDBFX9DWYa0rRG0VlZPelgA51JFnV0lOD/FT6ad
-         m3kfnIeATQhLJsEeH9gDKflvIQ9uxGPVCKy/RVeeejPPmTLYlLYyVYmG2Z+SxgrHAPsH
-         MnOSHeOwjmEY3Yr/WporP2aayygoEIMs5gXVs8XClD54Mc82+Vp6lXAtyvwfDqv2veuV
-         0Y5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730823400; x=1731428200;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ErWpMdX9kJb8DHKb1BI5lN2B87TEzku9dZL3tB8NZgE=;
-        b=rQG4hRGv3WjXQbrMmc0mDVzg1W+F6ziORYQJ+RXg1S9+3VWM5/FSin69LXwdo2OErA
-         8CxknpiqTElNrqdAgZocixVx3GPiU0jHfue5ri9tMuv8NjY37LDSEZROMkRzcP3ASCOd
-         KiYcMfSv4xzeEfLmnFZkN9wix1EvT4A45ZQlZFIq7urcFWHN9ua4zqMSDGfNU3HyYesC
-         nGodWtlEroqUgG22U1f8MJ5jqOu+9iXcZoEvxmDlcd1uawOl+ek04ViRzjY2OH6eY8ve
-         C8cpjTZYQXwKAr6khvXtt3GlLVR0VncdxQD5GQCbxFJcT1NzAsmhO0kF8QeqJz6XmekQ
-         2ubg==
-X-Gm-Message-State: AOJu0YwukPkDakd4yvg+ZD1AkP+AfD9cLdhlojOOyq4GW8cjqgc7Z7HJ
-	VOVxZfUYPFDs9zCCGYgQuyUm94KoZDArsRBLzSQo6kMecYD0aAFdmqsq7a+U55jXdLsr0difhc/
-	fDBuNHA==
-X-Google-Smtp-Source: AGHT+IFnd00Lem/gBJDfBsBNRXhNWcCdKkCDzO4PZ2I/5J/Y5cvvBpi2P0mSVm0SwxjjN9sdM7x8Qw==
-X-Received: by 2002:a05:6000:acc:b0:37d:452b:478f with SMTP id ffacd0b85a97d-380610f244fmr25203220f8f.4.1730823400497;
-        Tue, 05 Nov 2024 08:16:40 -0800 (PST)
-Received: from localhost ([154.14.63.34])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e5d6sm16626073f8f.76.2024.11.05.08.16.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 08:16:40 -0800 (PST)
-Date: Tue, 5 Nov 2024 19:16:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 64/68] fs/xfs/xfs_rtalloc.c:1487 xfs_growfs_rt()
- warn: inconsistent returns '&mp->m_growlock'.
-Message-ID: <016a880c-2b78-417c-8cbe-482bd7732c8f@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AmFZeQ6x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730824580; x=1762360580;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=jsetFZWQ4qdZcUxi5hfnP+sHqyEvhZGDYCS0Pcs/jGM=;
+  b=AmFZeQ6xaJOPY09FrRqQRXnSsN61ITRyVKYRXs72ixCFmIrOklP+gCPi
+   1Dc+5TyYWch7FUU9ydsF/bQClZbLVaidUcq7nbdP30vnLL6u0cVIAJCd/
+   RBPmooOQIy1BsKg+U9DEG9geXrNiEMyamjtXusB77gX7i+J+aCqRRSdQA
+   7oDyiNiTcFAcE6FtQNvQ2UiAUspAH2A2bbX5n5AHgY64Bie6ZPNz4TM3N
+   qOE0MatpBDUjE/QGX/hPSmohSquixFnf8D/0WeA+iM+BAtpsBQskm1WDC
+   4mH/t+7qWXadANz4FpWzgI2GEWSzB1pLlY2S+dFVsM2Fl85eO3vizDTXO
+   A==;
+X-CSE-ConnectionGUID: 6mKPfGKDTR25RdsWAjUHWA==
+X-CSE-MsgGUID: O1JChylfR0e2cna0Up0Fgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30356235"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30356235"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 08:36:10 -0800
+X-CSE-ConnectionGUID: 6xiPjpv/QX6WgJuqDv5cww==
+X-CSE-MsgGUID: wwrD4zxETgCmPHk2EjGU8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
+   d="scan'208";a="88648353"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 05 Nov 2024 08:36:09 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 5 Nov 2024 08:36:09 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 5 Nov 2024 08:36:09 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 5 Nov 2024 08:36:08 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Cui2ZnL5MH7q0sKRoPWBJ5EWRAqU8K18YMY6vduIeuj72K2eto3z34+JD3uZMdUc9FChdrC0HwA/NPePry58MtVPTZj+/OdwWHYFcBnH6IQOb+gObbb4L83R8P/0+hverAeoHqsNkqjOexmY2eUcSjkHY0gQ948kpkN517z6ptV72C9NEHW5v5pABlHPiAMKw+T4OCvo+8NVnA5F8+NVr3RHNlcqqjvoyrFRnK9Dx3wkCortTBuRxNhvbC9ZWVcHmtgoYnpX0BOX3q1NMN+peVItRcuqstvmrFkcdU/ek6WTwHNK+Nm9G4tTqUM7407yz1RTA2l7YgodGVoMo5isEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yuzrxZWgYY7lmsnEQBDxD8gOcabdBMLd4KDdXNBAMG4=;
+ b=w0khpan9PDzqrI/6UryJiDFXCVKfR8jo0oqmhLCmrhYK6BwArkFgrJfWs9Tk0EQWtM61VTBOWxvzw7OY/xsehb6gbkZL0lYVoQ7f+rl2LvkF4n6GMEiyPYl0r6GQOKVeu6OEp27kvrwEbPEZbPk1WVnTvgU1a1kjbl5KZLWCQO9tRtwEza41X4XF6P5bbtWxiL5BEKE8whT3e7nG++eVBs7be15qQMF4tEcKuc5YecGADtSK3NduBtgBo0QAb2envua5PxQ2FAdOg8DhGxXb5geEnv3Id5sRj1vbs4WbgDZFbq4n6RoVgAtZ8kOIQQy/SeAcxQa5HW+AIKQ/LctrDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6435.namprd11.prod.outlook.com (2603:10b6:208:3bb::9)
+ by SJ2PR11MB7669.namprd11.prod.outlook.com (2603:10b6:a03:4c3::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
+ 2024 16:36:04 +0000
+Received: from BL3PR11MB6435.namprd11.prod.outlook.com
+ ([fe80::23a7:1661:19d4:c1ab]) by BL3PR11MB6435.namprd11.prod.outlook.com
+ ([fe80::23a7:1661:19d4:c1ab%7]) with mapi id 15.20.8137.018; Tue, 5 Nov 2024
+ 16:36:04 +0000
+Message-ID: <d207a82b-45c6-4b75-a4be-6cb7d0af9463@intel.com>
+Date: Tue, 5 Nov 2024 08:36:01 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [tnguy-net-queue:dev-queue 9/14]
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2377 ixgbe_clean_rx_irq()
+ error: uninitialized symbol 'xdp_res'.
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	"Yue Haibing" <yuehaibing@huawei.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Intel Wired LAN
+	<intel-wired-lan@lists.osuosl.org>
+References: <f5a33a3d-daa3-4252-a741-0ba16104f400@suswa.mountain>
+Content-Language: en-US
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+In-Reply-To: <f5a33a3d-daa3-4252-a741-0ba16104f400@suswa.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0225.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::20) To BL3PR11MB6435.namprd11.prod.outlook.com
+ (2603:10b6:208:3bb::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6435:EE_|SJ2PR11MB7669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12700e46-b451-4bc7-d5c9-08dcfdb7f0c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UUc0NVBSckswRS8wYmwxSjl1ODRoeUFYZU9USEJXOWU4YzBMa3pDVEVFZ3lH?=
+ =?utf-8?B?aTJpdTQvQW94RXZYWmlNbmZTZG45aW80L0ZCeG9tVWNGKzNBZ1RPc01CR2NN?=
+ =?utf-8?B?c3ZqZUlKcFVLbFZ4VHMwM2doQk4yckdOUmhCVG9VN1h2a3h2SkV2T2VVOUlj?=
+ =?utf-8?B?WVRWRThOOUJ6NHpOYVM3VE5WcCsxY1BHN1FoeEFhU1lhZG44TUhKQUlWQ2NM?=
+ =?utf-8?B?TFk2VGdGa2JtKzV1NzEvTE1xV1gxV1BMdmY1dWw1SzlQc3NqaDBUSk9JOXlH?=
+ =?utf-8?B?M1pkb0ViSmFzNDgxQXhmeHdOTmVmNWFwd1dNbHR4MDJaVUhBd01ma2xkcVhv?=
+ =?utf-8?B?b0JDMll4bTBiYVZLU3pDSGQ0bEkyYjNCdCswc0tJMTJONTJ6MTJUTjRmbFdm?=
+ =?utf-8?B?VEUzWXFvOEFiVmlRMmI4YjdBNTdOR1VwalVDWVA1TFdhdHdUNFVrTEpGalFT?=
+ =?utf-8?B?SzlVUzQ2YkduUjN1ZE1aUjZva3BXalFvZUY3NU9FcWJxVkNEbnRFNzFXSUdK?=
+ =?utf-8?B?b1g2Uk9ZOW5SY3pLRjl5SlZGaUtucm5zdU5uQ25TZ2lNYmVCYm9GNlZhdExm?=
+ =?utf-8?B?MmJGWFpGM2puUmtvSnY4UEJTbnNTa1Z5SFFWdWVjM0x1UVFQYW41eXJWSDZU?=
+ =?utf-8?B?RFQwTkhzSTF5WmZ6TFZWcSsvQ2RXZ2RWVGhaQVM0NFRheG9MSzhpL3dFYWI5?=
+ =?utf-8?B?RWZ2WExSTlBUWWVCU2tDSVlwMUwzY2oxRWxSZVlHMUdja2U4cGU1aVc5bEhz?=
+ =?utf-8?B?d2xDZWhRYTdycUltdDZta2ZVbEVidUE3UGdaUGJ0R09QSXkzM21QWXR4amZu?=
+ =?utf-8?B?U2dNdkJZbjhqRkdTeWlKdStES25Nb1lYKzIyeWdIM0lwUlFUYUorM1FMRWpB?=
+ =?utf-8?B?Zi9uUUFzc2taY2tsZzhuUzZmZU1IUTZkSHdoRnA5aFc4bWVmMS9POGcycXpv?=
+ =?utf-8?B?dHZxaHI0K3NxMVVMWVZ5dFVCRFM3eTRXU2JBQ09GSGsvTUMzVmMwMnBxeUNJ?=
+ =?utf-8?B?L2UrS1FRa1NBQ1FsNWN1U2JnSTZDVnBiL1BkNm82VXE2VnpvM29mWE9YVWlF?=
+ =?utf-8?B?b1lTdGI1akpNYzEwaVZXYVZrc1hzM2diQ2M5ajhCblkvQVZxNFlBdU4zL2Uv?=
+ =?utf-8?B?QjJaR3BjeVdUUVUzaThrRGMxdWRLRnNuZ1M3UnJZZENHeWphZU5sNkhsYnZQ?=
+ =?utf-8?B?Z1k3RkpvbHMrMkJhZWFmdVJGVG1BKytQQ0ZwUGNiUVRqUFQ0T2EwaXBFbjhR?=
+ =?utf-8?B?QU16cVdTQi8ycWhQdmpBY21wWUFWUUFVMmIvc2N1VlFuajdvVHlzdlhBdVZ6?=
+ =?utf-8?B?aUk5bm41VTBSdW9oTFNzUHRHMFdxZjU4TU1Rd2xYZ1pxd2NnUlNZRHlVT1Y0?=
+ =?utf-8?B?aHRTYmpCVzFYVHdhZlJtMzJlT3pzcjZKVEFPa1ZnUVNOTW9hMnhyamJPOUxa?=
+ =?utf-8?B?YU1XalNhQXI5K3R1S2Z0TEk1VnJSQTZPcVVZSmUvL2pJMU5LRkY1SUxTTjBC?=
+ =?utf-8?B?R1pKcGtXSUNtOGorRFdXZ3hwVXZ4QTVXWndSeDJPOVpwS2J3eEN1OXdOOURx?=
+ =?utf-8?B?dFpaZjNiR01kUTFyNHNyMjBJQWtLb0JBSmxVcjZxQTQzMStab3E3QXA2SHVr?=
+ =?utf-8?B?WDB5aHE3Ymd4N3FHY3pHeUNOVjRuaDVBaUFESUMwMGROVTFTUXF3UjFHc0Jh?=
+ =?utf-8?B?U2JDek1iRWhYQkp3VmkvdDk3Y2dNSUJ2c041NWFITXBoTEFUb2ZqTUl3PT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR11MB6435.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3hXVDRWOWhHcVd0a2Y1czFma2xSbVNPTlQyd0ZHRW5TejVUeVpJYVFKaVlF?=
+ =?utf-8?B?enN5Q2IxSHI5a2owUDlNK3FhbHorbk1OSytBWThVTUJETVFUN0hiS1k3dXht?=
+ =?utf-8?B?dWJZekRFNXlsSWJkMUVOZHlGRlVpYXVpSTVHd0I4THdYaHczT2llUUVWdTI2?=
+ =?utf-8?B?c0VTeUxseEtkQ09uWElLYTV5ejJiQm54YXpLNzQ2WS9qbWhNMkdPS2tWUzdy?=
+ =?utf-8?B?SG5qRGFvUm9QOUg0RmhqdFhGYmNiWGlGQW50QmtObmZ3clZWUW04ZmMzV1g5?=
+ =?utf-8?B?T3d4QW54VnBMY1phWU5MM0hiMjRGYkdVZ25FQmJTa1BLbE1DclNaUkJFaCt1?=
+ =?utf-8?B?UWl3K2tUc2w5S1N6dXFzd0gvWXVIVGpUWklORHY3S0U3NG1udjE5Yk1HVzg4?=
+ =?utf-8?B?RG54d0lWQkRhVXpUWEplRC9EQmVUWkRJZ3hMVXpTcUFqNDRHbjRYbDBHNlpz?=
+ =?utf-8?B?SWgzaWhPTjErckU4WFU3ZktUYjlOVVg5SjZtK0ZpOHA4RjJVZ3pSY2xSUDV4?=
+ =?utf-8?B?THB2Z1JaM0IyOTdleEhHWmVIMUFZaThBcHRNL1JIaG5oUFB5WVpMbVNOL2Fo?=
+ =?utf-8?B?Vi9vQXpoTDdyalRSNWdPUE1manpZamZlUzdyZ3BtQ0dGVWhwUXhZSWF4Qld3?=
+ =?utf-8?B?bC9ZUlZiSGRtSzZFOWdHQjlnbld0QUlwR29SdGNmdzdtVVVwYm1YTzVIQXJ4?=
+ =?utf-8?B?SjdHRXRUbURnczNSRlNtQXlIQlFETjN5VUg5WExWbURVRjFmVldUK2Z3WFhN?=
+ =?utf-8?B?MzErMEdqdWlKWml2dmZaSk9lczBMeEJKN3J1QjBHSS83bnlPREdMZGxzQmph?=
+ =?utf-8?B?Sk9yWHZEdElFRWwwdmlCNmloN2xWNUN2SjlnTVIxZGx3M3pnUnRlbHpzWHd4?=
+ =?utf-8?B?YVo3K1lidnA3czVwbUpGYUhzU1NsK0wxMXNWT1pjMXJWbzRuSEpLTGZ0Z0lL?=
+ =?utf-8?B?OHp2b3A4bWRVVVJtSU8wUVZXSjRnMjE1a3lkaFZEYXVYckZ0RnpZZnRFK0xX?=
+ =?utf-8?B?MW41MFJ2eUplVDNDSHJTVjJhdTVWTEhsWmdBQUowSUtGYTd1QlA1TW5rUzBv?=
+ =?utf-8?B?WGNLa1M3N1lkbkNKUW9XcGh3NUpGd1d6TnJic1B2ZXZNbjVEZjY2b0tpQmhi?=
+ =?utf-8?B?WkZjdzBiYVlEK2lUQVVvdm4xeDVGdnN5aGEzRW9HWk1LVE1pNktycVJFOFJm?=
+ =?utf-8?B?bXpQeVQ5QVJXRUIzVC9IRWVjWUZqOVY4bktBSUJDWHppOFRDaUtnUTJWT2VD?=
+ =?utf-8?B?YU9neVN2dE82azZqVjFKN3Mrb3dCeDlTdU51WW1YYmNmcStKYy9rQUJtN0Ru?=
+ =?utf-8?B?MTl4YlplWjQrcSswdjUvL05nRGZjZFRNdzRxK2lIUlYzRzlTUEJqMnBDNU1u?=
+ =?utf-8?B?NzFUNHFUNVlkbS95MktmRFpOU3VvOFVBQ3RIUFlEZnRoaW1rbStJQVNYUWVS?=
+ =?utf-8?B?UTNnRXFwck1xbHBxYkpjbVhCVVhGcUx5NzN6NGpFWTdFMUExSkJnYlhpMnlC?=
+ =?utf-8?B?cXVMOGM4bXRyYlZVb1NCRUJlMTQ4U29YRzNJRnovY2ZPMEQzK0JsNENYQ1pK?=
+ =?utf-8?B?Sy9QMjZqOHgrS0FTWnBYNzZ2Y3FJWnRkTGRPNUcwd21xMjlYNFBodktGdFlw?=
+ =?utf-8?B?ZjVxUWxKM1hDbTlGZlVWd2J1T0FjRUxUZWlyTVo0cGU5dDI2d3NYSFdQRXRE?=
+ =?utf-8?B?MWJSUEQ2Y3k2RmRib1lhV3RjTG1ZMTBCbzJRakFORkRBN3B3eC93YmNoT2Jh?=
+ =?utf-8?B?OG80VEVEMWtnVXJLc1BleEpZWEs2M0Y4aE1Rc0Voam9mZTg3ZW15eWtlaHBS?=
+ =?utf-8?B?NlZUaCtWVUpBZFdDeXIzY1lNS25oK0VnNnN6aitnbG9uNXJNWE1wQ3dPY1pk?=
+ =?utf-8?B?bVRMR0pZZjZKZXZyRGJGQ0dFSTlrSWUvNzVDYitOeGEzNk5HcElvVXd0Y1Yw?=
+ =?utf-8?B?MkJxVWI2NFJSTFVON09RaFUyTGtLazNRZUpGZ2c4VFFDTDRXTE5qZ0tvSU1Z?=
+ =?utf-8?B?UEZWd3o5clc1RW50UkNOaE8yMWZ3NHhGdGJUNEdYdG16aHVoWThKaVhCQStk?=
+ =?utf-8?B?S0VSVlFlVDhGeWxRWFQ5MGxEejBrZDhVdTlTcXJNRXkwdGtETFJFZ21ha3hI?=
+ =?utf-8?B?cFlRdGNaSDE2dnFuWWFHSU1mRmU4ZXIxN1FGbER3Z1c4UXdPSyttVml1djk3?=
+ =?utf-8?B?TXc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12700e46-b451-4bc7-d5c9-08dcfdb7f0c2
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6435.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 16:36:04.2614
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xZ9IralikEF53ZkEKjzAd4V7aOpMrXZ4UiRMd3/rZtbWWWcQe+sILjkbXtOMNzRjogAM35JFo1zuNR2N7IMDg0KEd6OV3F/2uyLruSw4vlY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7669
+X-OriginatorOrg: intel.com
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   bdd2e8eca7805ce39b762a49098e4852c59b6f1f
-commit: 937d89e065a77b67572051a23436accd7ce4c782 [64/68] xfs: factor out a xfs_rt_check_size helper
-config: x86_64-randconfig-161-20241105 (https://download.01.org/0day-ci/archive/20241105/202411052208.zlY4ueQm-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411052208.zlY4ueQm-lkp@intel.com/
 
-New smatch warnings:
-fs/xfs/xfs_rtalloc.c:1487 xfs_growfs_rt() warn: inconsistent returns '&mp->m_growlock'.
+On 11/5/2024 8:14 AM, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git dev-queue
+> head:   278dfaa171a0061a341f6b5d44c2c9913a2b7fa8
+> commit: c919a57ea9cdd6aa02e0e411d8fdb3e3485353cc [9/14] ixgbe: Fix passing 0 to ERR_PTR in ixgbe_run_xdp()
+> config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411052110.vjxFpzue-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411052110.vjxFpzue-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:2377 ixgbe_clean_rx_irq() error: uninitialized symbol 'xdp_res'.
 
-vim +1487 fs/xfs/xfs_rtalloc.c
+Thanks for the report Dan. Looks like the old version wasn't dropped 
+from the *net tree when it changed target trees. There's a new version 
+on *next that doesn't contain this issue:
 
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1365  int
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1366  xfs_growfs_rt(
-c2290446af8946b Darrick J. Wong     2024-10-15  1367  	struct xfs_mount	*mp,
-c2290446af8946b Darrick J. Wong     2024-10-15  1368  	struct xfs_growfs_rt	*in)
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1369  {
-c2290446af8946b Darrick J. Wong     2024-10-15  1370  	xfs_rgnumber_t		old_rgcount = mp->m_sb.sb_rgcount;
-c2290446af8946b Darrick J. Wong     2024-10-15  1371  	xfs_rgnumber_t		new_rgcount = 1;
-c2290446af8946b Darrick J. Wong     2024-10-15  1372  	xfs_rgnumber_t		rgno;
-a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1373  	xfs_agblock_t		old_rextsize = mp->m_sb.sb_rextsize;
-e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1374  	int			error;
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1375  
-743bb4650da9e25 sandeen@sandeen.net 2008-11-25  1376  	if (!capable(CAP_SYS_ADMIN))
-2451337dd043901 Dave Chinner        2014-06-25  1377  		return -EPERM;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1378  
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1379  	/* Needs to have been mounted with an rt device. */
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1380  	if (!XFS_IS_REALTIME_MOUNT(mp))
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1381  		return -EINVAL;
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1382  
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1383  	if (!mutex_trylock(&mp->m_growlock))
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1384  		return -EWOULDBLOCK;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1385  
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1386  	/* Shrink not supported. */
-e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1387  	error = -EINVAL;
-7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1388  	if (in->newblocks <= mp->m_sb.sb_rblocks)
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1389  		goto out_unlock;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1390  	/* Can only change rt extent size when adding rt volume. */
-7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1391  	if (mp->m_sb.sb_rblocks > 0 && in->extsize != mp->m_sb.sb_rextsize)
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1392  		goto out_unlock;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1393  
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1394  	/* Range check the extent size. */
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1395  	if (XFS_FSB_TO_B(mp, in->extsize) > XFS_MAX_RTEXTSIZE ||
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1396  	    XFS_FSB_TO_B(mp, in->extsize) < XFS_MIN_RTEXTSIZE)
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1397  		goto out_unlock;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1398  
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1399  	/* Unsupported realtime features. */
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1400  	error = -EOPNOTSUPP;
-9c871895435c232 Darrick J. Wong     2024-10-15  1401  	if ((xfs_has_rmapbt(mp) || xfs_has_quota(mp)) && !xfs_has_rtgroups(mp))
-1d1fde3ab4498cf Darrick J. Wong     2024-10-15  1402  		goto out_unlock;
-c74ba44d90a5216 Darrick J. Wong     2024-10-15  1403  	if (xfs_has_reflink(mp) &&
-c74ba44d90a5216 Darrick J. Wong     2024-10-15  1404  	    !xfs_reflink_supports_rextsize(mp, in->extsize))
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1405  		goto out_unlock;
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1406  
-7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1407  	error = xfs_sb_validate_fsb_count(&mp->m_sb, in->newblocks);
-0e2af9296f4f9c4 Darrick J. Wong     2021-07-12  1408  	if (error)
-937d89e065a77b6 Christoph Hellwig   2024-07-30  1409  		return error;
+https://lore.kernel.org/intel-wired-lan/20241026041249.1267664-4-yuehaibing@huawei.com/
 
-goto out_unlock;
+Thanks,
+Tony
 
-937d89e065a77b6 Christoph Hellwig   2024-07-30  1410  
-937d89e065a77b6 Christoph Hellwig   2024-07-30  1411  	error = xfs_rt_check_size(mp, in->newblocks - 1);
-ba3726742c1712c Dave Chinner        2014-10-02  1412  	if (error)
-937d89e065a77b6 Christoph Hellwig   2024-07-30  1413  		return error;
-
-same
-
-1922c949c59f93b Dave Chinner        2010-09-22  1414  
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1415  	/*
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1416  	 * Calculate new parameters.  These are the final values to be reached.
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1417  	 */
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1418  	error = -EINVAL;
-140f03a1285d84d Christoph Hellwig   2024-10-15  1419  	if (in->newblocks < in->extsize)
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1420  		goto out_unlock;
-7996f10ce6cc6a9 Christoph Hellwig   2024-08-30  1421  
-140f03a1285d84d Christoph Hellwig   2024-10-15  1422  	/* Make sure the new fs size won't cause problems with the log. */
-59ad7d04a88ab22 Darrick J. Wong     2024-10-15  1423  	error = xfs_growfs_check_rtgeom(mp, mp->m_sb.sb_dblocks, in->newblocks,
-59ad7d04a88ab22 Darrick J. Wong     2024-10-15  1424  			in->extsize);
-140f03a1285d84d Christoph Hellwig   2024-10-15  1425  	if (error)
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1426  		goto out_unlock;
-65eed012d1f2d0f Omar Sandoval       2018-12-21  1427  
-c2290446af8946b Darrick J. Wong     2024-10-15  1428  	if (xfs_has_rtgroups(mp)) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1429  		error = xfs_growfs_rt_prep_groups(mp, in->newblocks,
-c2290446af8946b Darrick J. Wong     2024-10-15  1430  				in->extsize, &new_rgcount);
-c2290446af8946b Darrick J. Wong     2024-10-15  1431  		if (error)
-c2290446af8946b Darrick J. Wong     2024-10-15  1432  			goto out_unlock;
-c2290446af8946b Darrick J. Wong     2024-10-15  1433  	}
-c2290446af8946b Darrick J. Wong     2024-10-15  1434  
-c2290446af8946b Darrick J. Wong     2024-10-15  1435  	if (xfs_grow_last_rtg(mp)) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1436  		error = xfs_growfs_rtg(mp, old_rgcount - 1, in->newblocks,
-c2290446af8946b Darrick J. Wong     2024-10-15  1437  				in->extsize);
-3cb30d5162292a3 Christoph Hellwig   2024-08-30  1438  		if (error)
-3cb30d5162292a3 Christoph Hellwig   2024-08-30  1439  			goto out_unlock;
-c2290446af8946b Darrick J. Wong     2024-10-15  1440  	}
-7249c95a3fd72c7 Darrick J. Wong     2020-10-07  1441  
-c2290446af8946b Darrick J. Wong     2024-10-15  1442  	for (rgno = old_rgcount; rgno < new_rgcount; rgno++) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1443  		xfs_rtbxlen_t	rextents = div_u64(in->newblocks, in->extsize);
-c2290446af8946b Darrick J. Wong     2024-10-15  1444  
-c2290446af8946b Darrick J. Wong     2024-10-15  1445  		error = xfs_rtgroup_alloc(mp, rgno, new_rgcount, rextents);
-a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1446  		if (error)
-e0bdb91d92d21a1 Christoph Hellwig   2024-10-15  1447  			goto out_unlock;
-c2290446af8946b Darrick J. Wong     2024-10-15  1448  
-c2290446af8946b Darrick J. Wong     2024-10-15  1449  		error = xfs_growfs_rtg(mp, rgno, in->newblocks, in->extsize);
-c2290446af8946b Darrick J. Wong     2024-10-15  1450  		if (error) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1451  			struct xfs_rtgroup	*rtg;
-c2290446af8946b Darrick J. Wong     2024-10-15  1452  
-c2290446af8946b Darrick J. Wong     2024-10-15  1453  			rtg = xfs_rtgroup_grab(mp, rgno);
-c2290446af8946b Darrick J. Wong     2024-10-15  1454  			if (!WARN_ON_ONCE(!rtg)) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1455  				xfs_rtunmount_rtg(rtg);
-c2290446af8946b Darrick J. Wong     2024-10-15  1456  				xfs_rtgroup_rele(rtg);
-c2290446af8946b Darrick J. Wong     2024-10-15  1457  				xfs_rtgroup_free(mp, rgno);
-c2290446af8946b Darrick J. Wong     2024-10-15  1458  			}
-c2290446af8946b Darrick J. Wong     2024-10-15  1459  			break;
-c2290446af8946b Darrick J. Wong     2024-10-15  1460  		}
-a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1461  	}
-a24cae8fc1f13f6 Darrick J. Wong     2024-08-22  1462  
-c2290446af8946b Darrick J. Wong     2024-10-15  1463  	if (!error && old_rextsize != in->extsize)
-c2290446af8946b Darrick J. Wong     2024-10-15  1464  		error = xfs_growfs_rt_fixup_extsize(mp);
-c2290446af8946b Darrick J. Wong     2024-10-15  1465  
-c2290446af8946b Darrick J. Wong     2024-10-15  1466  	/*
-c2290446af8946b Darrick J. Wong     2024-10-15  1467  	 * Update secondary superblocks now the physical grow has completed.
-c2290446af8946b Darrick J. Wong     2024-10-15  1468  	 *
-c2290446af8946b Darrick J. Wong     2024-10-15  1469  	 * Also do this in case of an error as we might have already
-c2290446af8946b Darrick J. Wong     2024-10-15  1470  	 * successfully updated one or more RTGs and incremented sb_rgcount.
-c2290446af8946b Darrick J. Wong     2024-10-15  1471  	 */
-c2290446af8946b Darrick J. Wong     2024-10-15  1472  	if (!xfs_is_shutdown(mp)) {
-c2290446af8946b Darrick J. Wong     2024-10-15  1473  		int error2 = xfs_update_secondary_sbs(mp);
-c2290446af8946b Darrick J. Wong     2024-10-15  1474  
-c2290446af8946b Darrick J. Wong     2024-10-15  1475  		if (!error)
-c2290446af8946b Darrick J. Wong     2024-10-15  1476  			error = error2;
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1477  
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1478  		/* Reset the rt metadata btree space reservations. */
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1479  		xfs_rt_resv_free(mp);
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1480  		error2 = xfs_rt_resv_init(mp);
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1481  		if (error2 && error2 != -ENOSPC)
-3db6c1b842a69bf Darrick J. Wong     2024-10-15  1482  			error = error2;
-c2290446af8946b Darrick J. Wong     2024-10-15  1483  	}
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1484  
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1485  out_unlock:
-16e1fbdce9c8d08 Darrick J. Wong     2024-08-22  1486  	mutex_unlock(&mp->m_growlock);
-^1da177e4c3f415 Linus Torvalds      2005-04-16 @1487  	return error;
-^1da177e4c3f415 Linus Torvalds      2005-04-16  1488  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> vim +/xdp_res +2377 drivers/net/ethernet/intel/ixgbe/ixgbe_main.c
