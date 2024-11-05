@@ -1,64 +1,57 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4521B3958
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BF81B5336
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 07:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730789173; cv=none; b=sFOmknSR0cgvflC6YE8vzIYKn1qqPtpFg3tmouKqZkHUTlVTQNxmGWN4DbcPE8kU+R1D4Pr0zYSPtDFGFzDNoCa80giSPf1Fwdd/9YkYDM/qTaK4kVYzbEoXXcfQkOUxnlp8CGH7Um2VftDM/Oap4a5OXQ3sa5CC88nZS6YINKU=
+	t=1730790501; cv=none; b=X9uKY75DX9c6WntxyCN+/n55V6vkVoTJhMWyF3mgKznuoKF0+XAKzoiUYbbEclz4AhXpheDPc1axu4Oz/nFAjtzAdcEDHCdXghWFWZBAOqBSgL8yUeBaAn5xl+zZAmB43xxJ3yPhNfGZrfUJap02UO3BAcjD5TjCiMCbOclG2wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730789173; c=relaxed/simple;
-	bh=hSQTiFZQF0hGorX49JWUNc3bUyS2+/nohnICuzTw4Tk=;
+	s=arc-20240116; t=1730790501; c=relaxed/simple;
+	bh=I85kJxTtIyjKfy/cPf/Sq5bSRGHd0eMChNh2R7dt4f0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VFgYcLBBOHeNuwsdbUOoNn6DTuUbVxYuBtroDIeeYRhX/gHcmqDZ3CkTfdv3CRql9T7CkvgF5Ddf6gTXtqdyLDiytzQIEDdPQ0ltlbTZb5fF+Db55W3cGAsbwQ8tUDWiMGmVxn9QjrUbn1jYVTyuOoqpSQLZBraQ+ldrF3u9q0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRFk7iYX; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SFQ2J2/qbXJFWpPaQTS9lY60M6UnL71MeyLfgynOdCcjvDuCBI4oE5h2lpa5PVk7X/d+cnPOljBQXSoz5IzEXEyd+pDJE6DcYUQIyplot5uQUD3Uod4m+Lt4En90fT3dIycvIvdQc/BVAVoOG7no61t/FZNzXLeCqJXV0YfDzW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2jUUKfK; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRFk7iYX"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a9a0c7abaa6so601196166b.2
-        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730789169; x=1731393969; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
-        b=jRFk7iYXGG4igX5UWKRCY0Z+9x9YmqDU5oZEAjt4c2wgcIo1mAZTt3OlPCELm8Kl66
-         6TEYqaPOlzeYNYV93PtX0eJLuQUYbGJ4geSDaeYi8tfmNj0lTChU0NlFQTDdqgOF/Pw3
-         bGfDRQ0wEfJUC3FJ4popa/DTtfzqwt4lfFeFvczXclyZOi6Augq4gvCMF5L+xT8pFLf4
-         qkjBCrdE0IuewLRObBtYGyYB4tSX2J9MpFMGhlLPKBKJS14s7IF0dl0J3KoKItXQy0YX
-         lc8VLhgmauej7jmOe48O32j8IYb3Ya0/zVD77waxb9xYRosYh9oQOJWLqVMk7yG8rabb
-         xt1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730789169; x=1731393969;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
-        b=YX90U6TBG7wQ3oJh5aLSa61SCeR1hOMBZRrZXrsN3bVGwQMV6iIX2BPKcsSWu05s7w
-         TzmgfmpFqgrMcGY4Q8L+clDrYVvbedbwiMOdvucwAlbhBb2WnVMOmiRzzMlO+mA5xnFj
-         hFPtmkHI+7zIjhNhJfzZ0AZ8i4H9kyJsn5Wtd7GPcJiEHGBcIlDqPnu5qqR4xV/vvEM4
-         KkhTLE2YfG8EOz5AxOJHWsSThytkz5XfSQ6n9ASziy3CKIgeHZ7HBDeXXhHbhQZlsKQN
-         xb80M8lM4KT0LNrVDDjDZYEV9L9i/rLLixMWpbsvtvZ8KAIGjR6/NnlQeTUbOySyXgX8
-         5gvQ==
-X-Gm-Message-State: AOJu0Yx8Pwkn+J27a7MwsKAl7XmikAHqdf0jaiUa14qzQjXOMnzytl14
-	DvEbxkHq0Thb0WEaTWQ1f7tlgsE5qhGmFAqYSi6s++K/L6Uk1bSHtm8IaRFEICQLSokZYSx0oLh
-	7EJNhng==
-X-Google-Smtp-Source: AGHT+IFqwgIDPvpZ5dC/UJEbtwUiJ7w8TtUpn5NEnOCbcZpBiyi9BvlhK2QfQs6WOzzLE4V2LpOqVg==
-X-Received: by 2002:a17:906:db08:b0:a9a:1165:1bb with SMTP id a640c23a62f3a-a9e658c1759mr1660385166b.65.1730789169295;
-        Mon, 04 Nov 2024 22:46:09 -0800 (PST)
-Received: from localhost ([77.241.232.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17d0af1sm85658866b.94.2024.11.04.22.46.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 22:46:08 -0800 (PST)
-Date: Tue, 5 Nov 2024 09:46:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Herve Codina <herve.codina@bootlin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>
-Subject: drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code
- 'ret'
-Message-ID: <bac2dc94-1bf3-4dcf-b776-cd78ef992d28@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2jUUKfK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730790500; x=1762326500;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I85kJxTtIyjKfy/cPf/Sq5bSRGHd0eMChNh2R7dt4f0=;
+  b=U2jUUKfKxV7kml8Li9tIXLSfDgx2WmFo0bZq5hAXlZnCoYcuarj0OV86
+   TRoPI9jrs2t3lbbtf4pXIUnreHUGEYUhvFAfNpZrH9zs01Os5QhoKO4NO
+   2IjKlnK3IyBu04DhGhzYvCMQav4+gy8JTeubdEttcEJz9yGP3x1SUW8cp
+   f4eoyfUYrN4OiO0dSqkwLOkhjanIcR+znq4zgESaNBUreDRI5UYG7pi/8
+   fcnzsWwtOPxSan7puh7pNg1z0wLrnrhDaiMpWVuyKQpR/bWKT7tH9wcOU
+   9CDsgQFfyeGylGr4bkYSnuiRpCV7431utG7Tho5YTKqttGZBgmQ0+J46Z
+   w==;
+X-CSE-ConnectionGUID: kkfQ+TK2SReh4ojKL7Cw7Q==
+X-CSE-MsgGUID: zImW0WY2SO2TZZT+c1AMog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30635554"
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
+   d="scan'208";a="30635554"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:08:19 -0800
+X-CSE-ConnectionGUID: 0UgaroHRRGyaysGXTwJvQg==
+X-CSE-MsgGUID: bwsag4p4QaeaHORLQt9NZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="88657635"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 04 Nov 2024 23:08:11 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t8Dfc-000lk3-0Z;
+	Tue, 05 Nov 2024 07:08:08 +0000
+Date: Tue, 5 Nov 2024 15:07:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 1/1] rtc: mediatek: Add mt6685 RTC driver
+Message-ID: <202411051432.87wz8PnO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -68,177 +61,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
-commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
-config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051350.KNy6ZIWA-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241031135807.31605-1-ot_shunxi.zhang@mediatek.com>
+References: <20241031135807.31605-1-ot_shunxi.zhang@mediatek.com>
+TO: shunxi zhang <ot_shunxi.zhang@mediatek.com>
+TO: alexandre.belloni@bootlin.com
+TO: matthias.bgg@gmail.com
+TO: angelogioacchino.delregno@collabora.com
+TO: lee@kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-rtc@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-mediatek@lists.infradead.org
+CC: Shunxi Zhang <ot_shunxi.zhang@mediatek.com>
+
+Hi shunxi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on lee-mfd/for-mfd-next lee-leds/for-leds-next lee-mfd/for-mfd-fixes linus/master v6.12-rc6 next-20241104]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/shunxi-zhang/rtc-mediatek-Add-mt6685-RTC-driver/20241031-220013
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20241031135807.31605-1-ot_shunxi.zhang%40mediatek.com
+patch subject: [PATCH 1/1] rtc: mediatek: Add mt6685 RTC driver
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: sparc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051432.87wz8PnO-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411051350.KNy6ZIWA-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411051432.87wz8PnO-lkp@intel.com/
 
 smatch warnings:
-drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code 'ret'
+drivers/rtc/rtc-mt6685.c:90 rtc_bulk_read() error: uninitialized symbol 'ret'.
+drivers/rtc/rtc-mt6685.c:114 rtc_bulk_write() error: uninitialized symbol 'ret'.
+drivers/rtc/rtc-mt6685.c:1225 rtc_nvram_read() error: uninitialized symbol 'ret'.
+drivers/rtc/rtc-mt6685.c:1253 rtc_nvram_write() error: uninitialized symbol 'ret'.
 
-vim +/ret +1942 drivers/soc/fsl/qe/qmc.c
+vim +/ret +90 drivers/rtc/rtc-mt6685.c
 
-3178d58e0b9772 Herve Codina 2023-02-17  1828  static int qmc_probe(struct platform_device *pdev)
-3178d58e0b9772 Herve Codina 2023-02-17  1829  {
-3178d58e0b9772 Herve Codina 2023-02-17  1830  	struct device_node *np = pdev->dev.of_node;
-3178d58e0b9772 Herve Codina 2023-02-17  1831  	unsigned int nb_chans;
-3178d58e0b9772 Herve Codina 2023-02-17  1832  	struct qmc *qmc;
-3178d58e0b9772 Herve Codina 2023-02-17  1833  	int irq;
-3178d58e0b9772 Herve Codina 2023-02-17  1834  	int ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1835  
-3178d58e0b9772 Herve Codina 2023-02-17  1836  	qmc = devm_kzalloc(&pdev->dev, sizeof(*qmc), GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1837  	if (!qmc)
-3178d58e0b9772 Herve Codina 2023-02-17  1838  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1839  
-3178d58e0b9772 Herve Codina 2023-02-17  1840  	qmc->dev = &pdev->dev;
-d23ae9f1815e89 Herve Codina 2024-08-08  1841  	qmc->data = of_device_get_match_data(&pdev->dev);
-d23ae9f1815e89 Herve Codina 2024-08-08  1842  	if (!qmc->data) {
-d23ae9f1815e89 Herve Codina 2024-08-08  1843  		dev_err(qmc->dev, "Missing match data\n");
-d23ae9f1815e89 Herve Codina 2024-08-08  1844  		return -EINVAL;
-d23ae9f1815e89 Herve Codina 2024-08-08  1845  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1846  	INIT_LIST_HEAD(&qmc->chan_head);
-3178d58e0b9772 Herve Codina 2023-02-17  1847  
-a13bf605342ea9 Herve Codina 2024-08-08  1848  	qmc->tsa_serial = devm_tsa_serial_get_byphandle(qmc->dev, np, "fsl,tsa-serial");
-a13bf605342ea9 Herve Codina 2024-08-08  1849  	if (IS_ERR(qmc->tsa_serial)) {
-a13bf605342ea9 Herve Codina 2024-08-08  1850  		return dev_err_probe(qmc->dev, PTR_ERR(qmc->tsa_serial),
-a13bf605342ea9 Herve Codina 2024-08-08  1851  				     "Failed to get TSA serial\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1852  	}
-a13bf605342ea9 Herve Codina 2024-08-08  1853  
-727b3ab490a5f5 Herve Codina 2024-08-08  1854  	ret = qmc_init_resources(qmc, pdev);
-727b3ab490a5f5 Herve Codina 2024-08-08  1855  	if (ret)
-727b3ab490a5f5 Herve Codina 2024-08-08  1856  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1857  
-3178d58e0b9772 Herve Codina 2023-02-17  1858  	/* Parse channels informationss */
-3178d58e0b9772 Herve Codina 2023-02-17  1859  	ret = qmc_of_parse_chans(qmc, np);
-3178d58e0b9772 Herve Codina 2023-02-17  1860  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1861  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1862  
-3178d58e0b9772 Herve Codina 2023-02-17  1863  	nb_chans = qmc_nb_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1864  
-3178d58e0b9772 Herve Codina 2023-02-17  1865  	/*
-3178d58e0b9772 Herve Codina 2023-02-17  1866  	 * Allocate the buffer descriptor table
-3178d58e0b9772 Herve Codina 2023-02-17  1867  	 * 8 rx and 8 tx descriptors per channel
-3178d58e0b9772 Herve Codina 2023-02-17  1868  	 */
-3178d58e0b9772 Herve Codina 2023-02-17  1869  	qmc->bd_size = (nb_chans * (QMC_NB_TXBDS + QMC_NB_RXBDS)) * sizeof(cbd_t);
-3178d58e0b9772 Herve Codina 2023-02-17  1870  	qmc->bd_table = dmam_alloc_coherent(qmc->dev, qmc->bd_size,
-3178d58e0b9772 Herve Codina 2023-02-17  1871  					    &qmc->bd_dma_addr, GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1872  	if (!qmc->bd_table) {
-3178d58e0b9772 Herve Codina 2023-02-17  1873  		dev_err(qmc->dev, "Failed to allocate bd table\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1874  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1875  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1876  	memset(qmc->bd_table, 0, qmc->bd_size);
-3178d58e0b9772 Herve Codina 2023-02-17  1877  
-3178d58e0b9772 Herve Codina 2023-02-17  1878  	qmc_write32(qmc->scc_pram + QMC_GBL_MCBASE, qmc->bd_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1879  
-3178d58e0b9772 Herve Codina 2023-02-17  1880  	/* Allocate the interrupt table */
-3178d58e0b9772 Herve Codina 2023-02-17  1881  	qmc->int_size = QMC_NB_INTS * sizeof(u16);
-3178d58e0b9772 Herve Codina 2023-02-17  1882  	qmc->int_table = dmam_alloc_coherent(qmc->dev, qmc->int_size,
-3178d58e0b9772 Herve Codina 2023-02-17  1883  					     &qmc->int_dma_addr, GFP_KERNEL);
-3178d58e0b9772 Herve Codina 2023-02-17  1884  	if (!qmc->int_table) {
-3178d58e0b9772 Herve Codina 2023-02-17  1885  		dev_err(qmc->dev, "Failed to allocate interrupt table\n");
-a13bf605342ea9 Herve Codina 2024-08-08  1886  		return -ENOMEM;
-3178d58e0b9772 Herve Codina 2023-02-17  1887  	}
-3178d58e0b9772 Herve Codina 2023-02-17  1888  	memset(qmc->int_table, 0, qmc->int_size);
-3178d58e0b9772 Herve Codina 2023-02-17  1889  
-3178d58e0b9772 Herve Codina 2023-02-17  1890  	qmc->int_curr = qmc->int_table;
-3178d58e0b9772 Herve Codina 2023-02-17  1891  	qmc_write32(qmc->scc_pram + QMC_GBL_INTBASE, qmc->int_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1892  	qmc_write32(qmc->scc_pram + QMC_GBL_INTPTR, qmc->int_dma_addr);
-3178d58e0b9772 Herve Codina 2023-02-17  1893  
-3178d58e0b9772 Herve Codina 2023-02-17  1894  	/* Set MRBLR (valid for HDLC only) max MRU + max CRC */
-3178d58e0b9772 Herve Codina 2023-02-17  1895  	qmc_write16(qmc->scc_pram + QMC_GBL_MRBLR, HDLC_MAX_MRU + 4);
-3178d58e0b9772 Herve Codina 2023-02-17  1896  
-3178d58e0b9772 Herve Codina 2023-02-17  1897  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFTHR, 1);
-3178d58e0b9772 Herve Codina 2023-02-17  1898  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFCNT, 1);
-3178d58e0b9772 Herve Codina 2023-02-17  1899  
-3178d58e0b9772 Herve Codina 2023-02-17  1900  	qmc_write32(qmc->scc_pram + QMC_GBL_C_MASK32, 0xDEBB20E3);
-3178d58e0b9772 Herve Codina 2023-02-17  1901  	qmc_write16(qmc->scc_pram + QMC_GBL_C_MASK16, 0xF0B8);
-3178d58e0b9772 Herve Codina 2023-02-17  1902  
-eb680d563089e5 Herve Codina 2024-08-08  1903  	if (qmc_is_qe(qmc)) {
-eb680d563089e5 Herve Codina 2024-08-08  1904  		/* Zeroed the reserved area */
-eb680d563089e5 Herve Codina 2024-08-08  1905  		memset_io(qmc->scc_pram + QMC_QE_GBL_RSV_B0_START, 0,
-eb680d563089e5 Herve Codina 2024-08-08  1906  			  QMC_QE_GBL_RSV_B0_SIZE);
-eb680d563089e5 Herve Codina 2024-08-08  1907  
-eb680d563089e5 Herve Codina 2024-08-08  1908  		qmc_write32(qmc->scc_pram + QMC_QE_GBL_GCSBASE, qmc->dpram_offset);
-eb680d563089e5 Herve Codina 2024-08-08  1909  
-eb680d563089e5 Herve Codina 2024-08-08  1910  		/* Init 'framer parameters' area and set the base addresses */
-eb680d563089e5 Herve Codina 2024-08-08  1911  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE, 0x01, 64);
-eb680d563089e5 Herve Codina 2024-08-08  1912  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE + 64, 0x01, 64);
-eb680d563089e5 Herve Codina 2024-08-08  1913  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_RX_FRM_BASE,
-eb680d563089e5 Herve Codina 2024-08-08  1914  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE);
-eb680d563089e5 Herve Codina 2024-08-08  1915  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_TX_FRM_BASE,
-eb680d563089e5 Herve Codina 2024-08-08  1916  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE + 64);
-eb680d563089e5 Herve Codina 2024-08-08  1917  	}
-eb680d563089e5 Herve Codina 2024-08-08  1918  
-2d965e25fa4180 Herve Codina 2023-12-05  1919  	ret = qmc_init_tsa(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1920  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1921  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1922  
-3178d58e0b9772 Herve Codina 2023-02-17  1923  	qmc_write16(qmc->scc_pram + QMC_GBL_QMCSTATE, 0x8000);
-3178d58e0b9772 Herve Codina 2023-02-17  1924  
-3178d58e0b9772 Herve Codina 2023-02-17  1925  	ret = qmc_setup_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1926  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1927  		return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1928  
-3178d58e0b9772 Herve Codina 2023-02-17  1929  	/* Init interrupts table */
-3178d58e0b9772 Herve Codina 2023-02-17  1930  	ret = qmc_setup_ints(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1931  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1932  		return ret;
-a13bf605342ea9 Herve Codina 2024-08-08  1933  
-eb680d563089e5 Herve Codina 2024-08-08  1934  	/* Init SCC (CPM1) or UCC (QE) */
-de5fdb7d14b34f Herve Codina 2024-08-08  1935  	ret = qmc_init_xcc(qmc);
-de5fdb7d14b34f Herve Codina 2024-08-08  1936  	if (ret)
-a13bf605342ea9 Herve Codina 2024-08-08  1937  		return ret;
-a13bf605342ea9 Herve Codina 2024-08-08  1938  
-de5fdb7d14b34f Herve Codina 2024-08-08  1939  	/* Set the irq handler */
-3178d58e0b9772 Herve Codina 2023-02-17  1940  	irq = platform_get_irq(pdev, 0);
-3178d58e0b9772 Herve Codina 2023-02-17  1941  	if (irq < 0)
-de5fdb7d14b34f Herve Codina 2024-08-08 @1942  		goto err_exit_xcc;
-
-ret = irq;
-
-3178d58e0b9772 Herve Codina 2023-02-17  1943  	ret = devm_request_irq(qmc->dev, irq, qmc_irq_handler, 0, "qmc", qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1944  	if (ret < 0)
-de5fdb7d14b34f Herve Codina 2024-08-08  1945  		goto err_exit_xcc;
-3178d58e0b9772 Herve Codina 2023-02-17  1946  
-3178d58e0b9772 Herve Codina 2023-02-17  1947  	/* Enable interrupts */
-3178d58e0b9772 Herve Codina 2023-02-17  1948  	qmc_write16(qmc->scc_regs + SCC_SCCM,
-3178d58e0b9772 Herve Codina 2023-02-17  1949  		    SCC_SCCE_IQOV | SCC_SCCE_GINT | SCC_SCCE_GUN | SCC_SCCE_GOV);
-3178d58e0b9772 Herve Codina 2023-02-17  1950  
-3178d58e0b9772 Herve Codina 2023-02-17  1951  	ret = qmc_finalize_chans(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1952  	if (ret < 0)
-3178d58e0b9772 Herve Codina 2023-02-17  1953  		goto err_disable_intr;
-3178d58e0b9772 Herve Codina 2023-02-17  1954  
-e49dd637e02589 Herve Codina 2024-08-08  1955  	/* Enable transmitter and receiver */
-3178d58e0b9772 Herve Codina 2023-02-17  1956  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, SCC_GSMRL_ENR | SCC_GSMRL_ENT);
-3178d58e0b9772 Herve Codina 2023-02-17  1957  
-3178d58e0b9772 Herve Codina 2023-02-17  1958  	platform_set_drvdata(pdev, qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1959  
-ba3b7e4753c5ad Herve Codina 2023-12-05  1960  	/* Populate channel related devices */
-ba3b7e4753c5ad Herve Codina 2023-12-05  1961  	ret = devm_of_platform_populate(qmc->dev);
-ba3b7e4753c5ad Herve Codina 2023-12-05  1962  	if (ret)
-ba3b7e4753c5ad Herve Codina 2023-12-05  1963  		goto err_disable_txrx;
-ba3b7e4753c5ad Herve Codina 2023-12-05  1964  
-3178d58e0b9772 Herve Codina 2023-02-17  1965  	return 0;
-3178d58e0b9772 Herve Codina 2023-02-17  1966  
-ba3b7e4753c5ad Herve Codina 2023-12-05  1967  err_disable_txrx:
-ba3b7e4753c5ad Herve Codina 2023-12-05  1968  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, 0);
-ba3b7e4753c5ad Herve Codina 2023-12-05  1969  
-3178d58e0b9772 Herve Codina 2023-02-17  1970  err_disable_intr:
-3178d58e0b9772 Herve Codina 2023-02-17  1971  	qmc_write16(qmc->scc_regs + SCC_SCCM, 0);
-3178d58e0b9772 Herve Codina 2023-02-17  1972  
-de5fdb7d14b34f Herve Codina 2024-08-08  1973  err_exit_xcc:
-de5fdb7d14b34f Herve Codina 2024-08-08  1974  	qmc_exit_xcc(qmc);
-3178d58e0b9772 Herve Codina 2023-02-17  1975  	return ret;
-3178d58e0b9772 Herve Codina 2023-02-17  1976  }
+962f506d526195 Shunxi Zhang 2024-10-31   75  
+962f506d526195 Shunxi Zhang 2024-10-31   76  static int rtc_bulk_read(struct mt6685_rtc *rtc, unsigned int reg,
+962f506d526195 Shunxi Zhang 2024-10-31   77  			 void *val, size_t val_count)
+962f506d526195 Shunxi Zhang 2024-10-31   78  {
+962f506d526195 Shunxi Zhang 2024-10-31   79  	int ret;
+962f506d526195 Shunxi Zhang 2024-10-31   80  
+962f506d526195 Shunxi Zhang 2024-10-31   81  	if (rtc->data->single_read_write_is_supported) {
+962f506d526195 Shunxi Zhang 2024-10-31   82  		ret = regmap_bulk_read(rtc->regmap, reg, val, val_count);
+962f506d526195 Shunxi Zhang 2024-10-31   83  	} else {
+962f506d526195 Shunxi Zhang 2024-10-31   84  		int i;
+962f506d526195 Shunxi Zhang 2024-10-31   85  
+962f506d526195 Shunxi Zhang 2024-10-31   86  		for (i = 0; i < val_count; i += 2)
+962f506d526195 Shunxi Zhang 2024-10-31   87  			ret = regmap_bulk_read(rtc->regmap, reg + i, val + i, 2);
+962f506d526195 Shunxi Zhang 2024-10-31   88  	}
+962f506d526195 Shunxi Zhang 2024-10-31   89  
+962f506d526195 Shunxi Zhang 2024-10-31  @90  	return ret;
+962f506d526195 Shunxi Zhang 2024-10-31   91  }
+962f506d526195 Shunxi Zhang 2024-10-31   92  
+962f506d526195 Shunxi Zhang 2024-10-31   93  static int rtc_read(struct mt6685_rtc *rtc, unsigned int reg,
+962f506d526195 Shunxi Zhang 2024-10-31   94  		    unsigned int *val)
+962f506d526195 Shunxi Zhang 2024-10-31   95  {
+962f506d526195 Shunxi Zhang 2024-10-31   96  	rtc_bulk_read(rtc, reg, val, 2);
+962f506d526195 Shunxi Zhang 2024-10-31   97  	return 0;
+962f506d526195 Shunxi Zhang 2024-10-31   98  }
+962f506d526195 Shunxi Zhang 2024-10-31   99  
+962f506d526195 Shunxi Zhang 2024-10-31  100  static int rtc_bulk_write(struct mt6685_rtc *rtc, unsigned int reg,
+962f506d526195 Shunxi Zhang 2024-10-31  101  			  const void *val, size_t val_count)
+962f506d526195 Shunxi Zhang 2024-10-31  102  {
+962f506d526195 Shunxi Zhang 2024-10-31  103  	int ret;
+962f506d526195 Shunxi Zhang 2024-10-31  104  
+962f506d526195 Shunxi Zhang 2024-10-31  105  	if (rtc->data->single_read_write_is_supported) {
+962f506d526195 Shunxi Zhang 2024-10-31  106  		ret = regmap_bulk_write(rtc->regmap, reg, val, val_count);
+962f506d526195 Shunxi Zhang 2024-10-31  107  	} else {
+962f506d526195 Shunxi Zhang 2024-10-31  108  		int i;
+962f506d526195 Shunxi Zhang 2024-10-31  109  
+962f506d526195 Shunxi Zhang 2024-10-31  110  		for (i = 0; i < val_count; i += 2)
+962f506d526195 Shunxi Zhang 2024-10-31  111  			ret = regmap_bulk_write(rtc->regmap, reg + i, val + i, 2);
+962f506d526195 Shunxi Zhang 2024-10-31  112  	}
+962f506d526195 Shunxi Zhang 2024-10-31  113  
+962f506d526195 Shunxi Zhang 2024-10-31 @114  	return ret;
+962f506d526195 Shunxi Zhang 2024-10-31  115  }
+962f506d526195 Shunxi Zhang 2024-10-31  116  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
