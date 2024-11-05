@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0961D2B03
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 10:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA241C07D9
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 11:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730803467; cv=none; b=iwX+CfdwdK6u27ocmDpP6h8Ew8KmxXIaaTwrWqQc5DoUduDHti02xe5TxRXuXP4gSRiTIDpEb3Dr9PmIiSN87B+zrHIHJtVitrMrYq15vZCWRVO3pwLipBnE2G6iovKS2OpZoigx6m9DQqDOhbnhlI8bixFH+PYmOcFoqqBtDjo=
+	t=1730805987; cv=none; b=AoyYEZ+/15x+Y+pu1tbO+A74GWMb9rKciFUxqNvXPJCxfdLfiSocBNmu+/QhSm3wUgujd23Ia+8l7sjT/3eS/64C2AJXlvdosLS/xraWBO/D/Ty8bZGBpOOg8wkDEz8pk//FruCUioSMZWDEaybX1Si0GvNGEuKkxn9HmXYCeFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730803467; c=relaxed/simple;
-	bh=t0X9LL7tNgsBA+VuX2aCLj6aTQkfxcsqLSgKfemIN/I=;
+	s=arc-20240116; t=1730805987; c=relaxed/simple;
+	bh=eFbYiikUA4q84MF9YWAxQQ+rD7t7X+Z548RVNAmkLhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bowZZaxWeCWCNESu+Q57+X9zdtADstZInuPeKnKfIJSFtvrZuAJ4x1IFIBo/h0/Tl31uolDSSLwDEhD7JRt6pkQM+qjPZoTSViEl4uL2O06tTjXZU+AQbv3PKyPQUzChTuCrK19QCeB8Q9tB5hKnrOFNKAjJMyCtVc+9hv9TOFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cmVIv9la; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=iBkQ9Z+G+bjnzbWMUTKKM68gVC+9RH/VFEfsi71bUiCXBz2LIk6sQcuFBStre+VEpNBWURXhcwBsCYGGUjCOAIsCaxNAaz9IyziWuOkLl2HwcdeWsO4zsK2LrhjlhBxRIQqygYBr8+jnEhpB+XXndSOBCUF76EZBu1TkQpVOa74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjNEPh8H; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cmVIv9la"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjNEPh8H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730803464; x=1762339464;
+  t=1730805985; x=1762341985;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t0X9LL7tNgsBA+VuX2aCLj6aTQkfxcsqLSgKfemIN/I=;
-  b=cmVIv9ladGLEBDid7oa/3Zll9kSXU6WvZ7mUPy9XgoVDiq/0BGhXU+Ao
-   ORiXVTSQGmLDsVy0hWJuu4hwvGCuCxcLOFUtsYcbhsV05wn94Cvcc2Cpr
-   uApzLu6I01njq3/21pd9pW0c3SNKjlq5LAodlYSM0YFh9rJtDdbiGpOHw
-   AJR2DnPW1wZN5LCJcqsRw+PokQIkW/RBkC2iz/lXVzz6b0ysCPG/VSsrz
-   WK1y1dCQOIAxUos0UsuU2mOy3GtWzn+Mrz+nNHQHLinvCW25hEYKssYZQ
-   xNcdL+x8aZQoqLITXo+XVf8bycrebx4TACl3QfmfZJ2YZeeS2okJWXNCo
+  bh=eFbYiikUA4q84MF9YWAxQQ+rD7t7X+Z548RVNAmkLhg=;
+  b=LjNEPh8HscLCbvrUxXwyM3pNBGnc9jrwfHGnpszQt15L4Dpp7BALkHS+
+   7/lRqJymMdrB81cmlJ21ya6fspnTBUxk+6sG65Icn0IMMq8lMC0YIjlf6
+   BQRN1iWzPnzJncBxq/4KjWEFnfY+qHz3w6o/uAJ5kERA0bdMvR3a6cQFO
+   P5R3VFojRiYsb+iXoeRAF/v3F0D0+x2hXSHW9IE2+PM9WZckP1YpVjnzI
+   SqzwFoOCx3VNagCqTXlFI8cw0n4omfFkKwOESokoZ+VbqEhS6qiT0yZx4
+   VgQY3zg/SaJVFcZsS0H5Xl7UkKs8J6d844hAE+3BKHRrwhiy6QPKBt/rf
    A==;
-X-CSE-ConnectionGUID: 6SkdmQtRQTycvPJsj+U8jA==
-X-CSE-MsgGUID: ow1jAmVST7iNgupMTgZCRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48006394"
+X-CSE-ConnectionGUID: cCtsr0hzTUmwmdmMyeMfQA==
+X-CSE-MsgGUID: BOOafz7FTU2pCNlDG1mOzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30710704"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="48006394"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 02:44:24 -0800
-X-CSE-ConnectionGUID: SSSIWWxITkqM+0anVNJUaA==
-X-CSE-MsgGUID: BWMo4VP+QLu0i/A+aMsorQ==
+   d="scan'208";a="30710704"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 03:26:24 -0800
+X-CSE-ConnectionGUID: SwmCn266RTaFjS34pl/2vw==
+X-CSE-MsgGUID: IMoFci+oSQGZD8HHVVF3XQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="89111580"
+X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
+   d="scan'208";a="84374449"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2024 02:44:23 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2024 03:26:25 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8H2q-000lvj-2D;
-	Tue, 05 Nov 2024 10:44:20 +0000
-Date: Tue, 5 Nov 2024 18:44:11 +0800
+	id 1t8HhW-000lyP-0h;
+	Tue, 05 Nov 2024 11:26:22 +0000
+Date: Tue, 5 Nov 2024 19:26:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-6.6 1351/1351] mm/page_alloc.c:4591
- check_after_alloc() warn: bitwise AND condition is false here
-Message-ID: <202411052003.6oqMloey-lkp@intel.com>
+Subject: [jarkko-tpmdd:tpm2key-v8 11/12]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:633 tpm2_key_rsa_preparse() error:
+ uninitialized symbol 'ret'.
+Message-ID: <202411051927.zyKNO38H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,96 +65,60 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Wupeng Ma <mawupeng1@huawei.com>
+TO: Jarkko Sakkinen <jarkko@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   93af945a84362704003ed46f6c5068cb8a7ee60a
-commit: 200321e8a69ef82350d070de35ac4a666ab79ba6 [1351/1351] mm: mem_reliable: Add limiting the usage of reliable memory
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411052003.6oqMloey-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   70a2627b8284f6c04ea99db77b2365c83179e7cf
+commit: 70ff943241a1202554120aa67fdb4708c684fed4 [11/12] KEYS: asymmetric: Add tpm2_key_rsa signer
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 days ago
+config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051927.zyKNO38H-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411052003.6oqMloey-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411051927.zyKNO38H-lkp@intel.com/
 
 smatch warnings:
-mm/page_alloc.c:4591 check_after_alloc() warn: bitwise AND condition is false here
+crypto/asymmetric_keys/tpm2_key_rsa.c:633 tpm2_key_rsa_preparse() error: uninitialized symbol 'ret'.
 
-vim +4591 mm/page_alloc.c
+vim +/ret +633 crypto/asymmetric_keys/tpm2_key_rsa.c
 
-200321e8a69ef8 Ma Wupeng 2024-01-10  4575  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4576  /*
-200321e8a69ef8 Ma Wupeng 2024-01-10  4577   * return true means memory allocation need retry and flag GFP_RELIABLE
-200321e8a69ef8 Ma Wupeng 2024-01-10  4578   * must be cleared.
-200321e8a69ef8 Ma Wupeng 2024-01-10  4579   */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4580  static inline bool check_after_alloc(gfp_t *gfp, unsigned int order,
-200321e8a69ef8 Ma Wupeng 2024-01-10  4581  				     int preferred_nid,
-200321e8a69ef8 Ma Wupeng 2024-01-10  4582  				     struct alloc_context *ac,
-200321e8a69ef8 Ma Wupeng 2024-01-10  4583  				     struct page **_page)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4584  {
-200321e8a69ef8 Ma Wupeng 2024-01-10  4585  	int retry_times = MAX_RECLAIM_RETRIES;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4586  	int nr_pages;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4587  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4588  	if (!mem_reliable_is_enabled())
-200321e8a69ef8 Ma Wupeng 2024-01-10  4589  		return false;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4590  
-200321e8a69ef8 Ma Wupeng 2024-01-10 @4591  	if (!(*gfp & GFP_RELIABLE))
-200321e8a69ef8 Ma Wupeng 2024-01-10  4592  		return false;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4593  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4594  	if (!*_page)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4595  		goto out_retry;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4596  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4597  	if (*gfp & __GFP_NOFAIL || current->flags & PF_MEMALLOC)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4598  		goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4599  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4600  	/* percpu counter is not initialized, ignore limit check */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4601  	if (!mem_reliable_counter_initialized())
-200321e8a69ef8 Ma Wupeng 2024-01-10  4602  		goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4603  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4604  limit_check:
-200321e8a69ef8 Ma Wupeng 2024-01-10  4605  	/* user task is limited by task_reliable_limit */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4606  	if (!reliable_mem_limit_check(1 << order))
-200321e8a69ef8 Ma Wupeng 2024-01-10  4607  		goto out_free_page;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4608  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4609  	goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4610  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4611  out_free_page:
-200321e8a69ef8 Ma Wupeng 2024-01-10  4612  	if (mem_reliable_should_reclaim() && retry_times--) {
-200321e8a69ef8 Ma Wupeng 2024-01-10  4613  		nr_pages = mem_reliable_direct_reclaim(1 << order, ac);
-200321e8a69ef8 Ma Wupeng 2024-01-10  4614  		if (nr_pages)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4615  			goto limit_check;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4616  	}
-200321e8a69ef8 Ma Wupeng 2024-01-10  4617  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4618  	__free_pages(*_page, order);
-200321e8a69ef8 Ma Wupeng 2024-01-10  4619  	*_page = NULL;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4620  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4621  out_retry:
-200321e8a69ef8 Ma Wupeng 2024-01-10  4622  	if (is_global_init(current)) {
-200321e8a69ef8 Ma Wupeng 2024-01-10  4623  		*gfp &= ~GFP_RELIABLE;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4624  		return true;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4625  	}
-200321e8a69ef8 Ma Wupeng 2024-01-10  4626  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4627  	if (*gfp & (__GFP_NORETRY | __GFP_RETRY_MAYFAIL | __GFP_THISNODE))
-200321e8a69ef8 Ma Wupeng 2024-01-10  4628  		goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4629  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4630  	/* Coredumps can quickly deplete all memory reserves */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4631  	if (current->flags & PF_DUMPCORE)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4632  		goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4633  	/* The OOM killer will not help higher order allocs */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4634  	if (order > PAGE_ALLOC_COSTLY_ORDER)
-200321e8a69ef8 Ma Wupeng 2024-01-10  4635  		goto out;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4636  
-200321e8a69ef8 Ma Wupeng 2024-01-10  4637  	/* oom here */
-200321e8a69ef8 Ma Wupeng 2024-01-10  4638  	mem_reliable_out_of_memory(*gfp, order, preferred_nid, ac->nodemask);
-200321e8a69ef8 Ma Wupeng 2024-01-10  4639  out:
-200321e8a69ef8 Ma Wupeng 2024-01-10  4640  	return false;
-200321e8a69ef8 Ma Wupeng 2024-01-10  4641  }
-200321e8a69ef8 Ma Wupeng 2024-01-10  4642  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  622  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  623  /*
+70ff943241a120 Jarkko Sakkinen 2024-05-26  624   * Attempt to parse a data blob for a key as a TPM private key blob.
+70ff943241a120 Jarkko Sakkinen 2024-05-26  625   */
+70ff943241a120 Jarkko Sakkinen 2024-05-26  626  static int tpm2_key_rsa_preparse(struct key_preparsed_payload *prep)
+70ff943241a120 Jarkko Sakkinen 2024-05-26  627  {
+70ff943241a120 Jarkko Sakkinen 2024-05-26  628  	struct tpm2_key *key;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  629  	int ret;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  630  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  631  	key = tpm2_key_decode(prep->data, prep->datalen);
+70ff943241a120 Jarkko Sakkinen 2024-05-26  632  	if (IS_ERR(key))
+70ff943241a120 Jarkko Sakkinen 2024-05-26 @633  		return ret;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  634  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  635  	if (key->oid != OID_TPMLoadableKey) {
+70ff943241a120 Jarkko Sakkinen 2024-05-26  636  		kfree(key);
+70ff943241a120 Jarkko Sakkinen 2024-05-26  637  		return -EBADMSG;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  638  	}
+70ff943241a120 Jarkko Sakkinen 2024-05-26  639  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  640  	ret = __tpm2_key_rsa_preparse(key);
+70ff943241a120 Jarkko Sakkinen 2024-05-26  641  	if (ret < 0) {
+70ff943241a120 Jarkko Sakkinen 2024-05-26  642  		kfree(key);
+70ff943241a120 Jarkko Sakkinen 2024-05-26  643  		return ret;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  644  	}
+70ff943241a120 Jarkko Sakkinen 2024-05-26  645  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  646  	prep->payload.data[asym_subtype] = &tpm2_key_rsa_subtype;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  647  	prep->payload.data[asym_key_ids] = NULL;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  648  	prep->payload.data[asym_crypto] = key;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  649  	prep->payload.data[asym_auth] = NULL;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  650  	prep->quotalen = 100;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  651  
+70ff943241a120 Jarkko Sakkinen 2024-05-26  652  	return 0;
+70ff943241a120 Jarkko Sakkinen 2024-05-26  653  }
+70ff943241a120 Jarkko Sakkinen 2024-05-26  654  
 
 -- 
 0-DAY CI Kernel Test Service
