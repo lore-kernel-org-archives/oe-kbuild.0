@@ -1,63 +1,64 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E3C1FE0F4
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFA71FDFB9
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 06:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730788637; cv=none; b=ATWOm05wXbwagSZZ5oM2ZcLmAQIGqFFnxs06Sly3eDUfsRsFQK4/SnFC6CesDBqD7kcZIf0anPIb1MUPONdx8SESmy+x81qaq6KL544xxCzRaQyXLOoack1L6IjHJuV0N5TvxCkb+f3yWXBBzmre3YWdkOjONJ+kA0PreoBhJwA=
+	t=1730788799; cv=none; b=Fpq5o6S06f7vx8Z1vatGpr94HMGuxSPFzxmSSB4Bw38rBnBije6S1WstrsT1Mas05RsYfIP0kmfpdkP/Q/J8tGJWYtt62H0CH65qJ71tM9hx+dQaEzDuuMwVODHpBzwu2MagjMBkKypHhsKe5s32OT8ZQ99iuffaocHmROeGgY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730788637; c=relaxed/simple;
-	bh=Su8aAtaBzY4C/hqUzePCMSSGK724DpLmH+I5a9kuKo0=;
+	s=arc-20240116; t=1730788799; c=relaxed/simple;
+	bh=osWFfjiRMZmln2tfVA40+CxH/vF3L7VYQ7+XM0b4tyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jRUL2BznXdrZd+TEPWIQMpTVDEDmqHZouNXnCoSKvyfWtxWdNin6BDB4nYZGDduWOR3GQJ0aMQBz14QhDZ1gBTSZ1eN2cfRbeE5w636NhKxW9adimQVRaMqVuazT6ll9ykGGgygw/RSpWhw6aVH5YwvPYXEaySs+ziaV5F60EvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DijaQAPU; arc=none smtp.client-ip=209.85.208.46
+	 Content-Disposition; b=XCmNWCAz9ccQYJhVCvxV/IzbOGOkumSbvaitdD6Og/oCDmVhT1Pm86tlbkWf9aTPvTPGIy/4eR8A7yaVz6nTBAy2JDAGtDUNuPfLPTf9U5v8obhqZrI2xmvX3PrrBPpeEkchAHFLU9dVxIZSxxgrQqNlY13y7ACLUsUJWjIEiNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=j1ZcHjwW; arc=none smtp.client-ip=209.85.208.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DijaQAPU"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5ceb75f9631so5064320a12.0
-        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:37:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j1ZcHjwW"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso76845131fa.3
+        for <oe-kbuild@lists.linux.dev>; Mon, 04 Nov 2024 22:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730788632; x=1731393432; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1730788795; x=1731393595; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
-        b=DijaQAPUuAyt3D9h/UCs0whw+kRUt5JPGx0vPgby3aonttBdVkp0zNfQZ/1LlGojri
-         rPAXy8a7bLVD6m9IFLb2ORbGtdvo7+Mp5sbBkaFtKIZG9o8ldeBALU93A/pF5OeMUNS+
-         8R0Qb06Z7ujLGHZ9cxzIwbO3o82jQQ1HU58HP/WEZ6XZq2vzoJfuD5E8Lutpzu95pxVZ
-         ZogW3MGibh7YKAnxz6C6WJrFhGdzgbm8T2Rzb5A9kVNko5LYBMYrEdiZ6NXx/5aJSBFH
-         DmWtLu71T5/+FKdvAx81TtlqG1tawJwjdksp/x/eZJImXxsohGkgRDPE+/2WQctrOSXO
-         lKZQ==
+        bh=JjjtXMtGuwIRBr+56AsB967LHxN57g5CTB1bW9ee0Jw=;
+        b=j1ZcHjwWsAy00SwrZtwccAJjmQwEVNNg+Cg+m03pxaY0CaCD1DO1fLgA957AZhILd3
+         sm0VMa6LHuxB81vVXYRyBp33q8+GcrdgEzf/bX//FyJMXafSSF6Te5wbHHSzTIv2NTxs
+         gdw885UmRYHN40J2IHUx0a+aWiSd8VeMYvVSHx/lJJa7rFGmr7pqKr2UF5uM+ivuebj4
+         ssWoBRc7v+euj1p46ddgdCFc+WiJYJsGwNJvL+8t/Ccuxbtl9K4s9lkWuCQMnFbsfj+u
+         WnS36lG5+LQhptmTW9UMZIXhSpYbl9GVML2/TdFJZ8Ebi0oCMriDF6hP1cnzF4oEoKD/
+         +N6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730788632; x=1731393432;
+        d=1e100.net; s=20230601; t=1730788795; x=1731393595;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
-        b=wq7NhJP1ETmR4DOpOGjUHf4uezBqLzLVQIYb2kjIhOGIda4OHg9O7/trJyIw4xZLnW
-         JdQbOSxYEHaHn4H2BQXnrA4CgFGaJS74i78pjeghDFCzLL5zMyb4WURDIgB/fDnTto37
-         ulZNMQ4SDySTLj5hFqD4DEIlw9dtt5spja35w1c6SmbZehgLl4m4bqIeS5p+bJMV51Cl
-         FatnzVS2xa4kZChcwS1jB8OHb5cjkzMLBp1yitTrWsL6QX+Kr8qZWdpj3lREvXULPPNv
-         tAc1jBPd7DyhAqEiUOPWTEXLpT09ju1uyObCqyvoTBROhST6gxJvLW4VlGsDR+cEsO0j
-         SYPw==
-X-Gm-Message-State: AOJu0YwhZ87pFfoXrxfzqqsuvrRK38BgwblATV5XrqEc1PIkRde5lqjB
-	XJ8iwEQy/FYzkr6DBnMb6fwmNkcAF6hT17hc7oUywHo28/J4CnekYv80Hx0izhNn74QHpxQhMs6
-	wmXSN9w==
-X-Google-Smtp-Source: AGHT+IEw0TjNJQYuD9PXpUhLi54N1/pbpRHrodKx9NromPzYVShSWicHZCGTAC+gdLH11vbeEKw6gQ==
-X-Received: by 2002:a05:6402:5112:b0:5ca:151a:b84c with SMTP id 4fb4d7f45d1cf-5cbbf8cb79amr25866641a12.18.1730788632417;
-        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
+        bh=JjjtXMtGuwIRBr+56AsB967LHxN57g5CTB1bW9ee0Jw=;
+        b=CBQpdUBqg1I5tldxumSF9SJrratQKcHB5MvoMDIua6yLkxvIA4mqFfZR5hKWi4cHIv
+         WtxiMaXYtq9Fv7xUG0BRXKrGLbrI6N9+Gsno88ImOOmZIJA1IT6zZwwQR76NVh4G+Oxx
+         YmbiFvqSM1U4aF8Y/nHdiEFGTRTCS3fquyvIzkq3BqtJSzeInAYwYxdQetgH3jfmwyGD
+         2zR23A1Q0nsQUgPlm+UoUg3Zgb9MYUTuAx6N/G4OYz+WnDrBjA1iqm7wiCXUmAXMj5RH
+         sIQgjZju6QrRo2ar1eFuWpmXmvQ6ir1zpIDRdKMY+bzS0dVcYoXgHtpq0+J+SPSSDeSG
+         ZEKQ==
+X-Gm-Message-State: AOJu0YzS3wm/KSmlZDIntadEsHJrrwiV5XtMUNvb/Pe7GX26ZtXvw0EF
+	iMPgVpNWGu+qgRt9rjbZZsLM3JVST1fZ74SoE8QQ3b+Yu4Gjsq5n5Zu1wv7rxllZdZ4cA3EK/uS
+	QAXOUdA==
+X-Google-Smtp-Source: AGHT+IEgvF2tKauKjoh+b/U6a4uWkiQllyeHEuJ94jfOhA+ltb0bUXqhs+lH45B8HtflobulBp5l8g==
+X-Received: by 2002:a05:651c:158f:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2fedb7d8957mr109871771fa.27.1730788794951;
+        Mon, 04 Nov 2024 22:39:54 -0800 (PST)
 Received: from localhost ([77.241.232.19])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6ab082bsm835298a12.29.2024.11.04.22.37.11
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16d67a6sm87428266b.60.2024.11.04.22.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
-Date: Tue, 5 Nov 2024 09:37:11 +0300
+        Mon, 04 Nov 2024 22:39:54 -0800 (PST)
+Date: Tue, 5 Nov 2024 09:39:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
-	Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2350/2350] net/rxrpc/sendmsg.c:471
- rxrpc_send_data() error: uninitialized symbol 'skb'.
-Message-ID: <a93550a2-91bb-45e9-9297-682212268d94@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, Sujuan Chen <sujuan.chen@mediatek.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Felix Fietkau <nbd@nbd.name>,
+	Lorenzo Bianconi <lorenzo@kernel.org>
+Subject: drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186
+ mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
+Message-ID: <1526b868-7cb2-4929-8bc2-8b78e69ced76@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -67,255 +68,150 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   7435f796ba0cdd99338403d56a92dec9c0f89730
-commit: 5a5d74ffcd49103d4781651bdb6a3e5175551dd6 [2350/2350] rxrpc: Fix locking in rxrpc's sendmsg
-config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411050217.vVYcKY88-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
+commit: 83eafc9251d6d30574b629ac637c56d168fcbdd9 wifi: mt76: mt7996: add wed tx support
+config: sh-randconfig-r073-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050315.cahqHi8j-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411050217.vVYcKY88-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411050315.cahqHi8j-lkp@intel.com/
 
 New smatch warnings:
-net/rxrpc/sendmsg.c:471 rxrpc_send_data() error: uninitialized symbol 'skb'.
+drivers/net/wireless/mediatek/mt76/mt7996/pci.c:186 mt7996_pci_probe() error: uninitialized symbol 'hif2_irq'.
 
-vim +/skb +471 net/rxrpc/sendmsg.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7996/pci.c:192 mt7996_pci_probe() error: uninitialized symbol 'hif2_dev'.
 
-0b58b8a18be4932 David Howells 2016-09-02  287  static int rxrpc_send_data(struct rxrpc_sock *rx,
-0b58b8a18be4932 David Howells 2016-09-02  288  			   struct rxrpc_call *call,
-e833251ad813168 David Howells 2017-08-29  289  			   struct msghdr *msg, size_t len,
-5a5d74ffcd49103 David Howells 2022-12-02  290  			   rxrpc_notify_end_tx_t notify_end_tx,
-5a5d74ffcd49103 David Howells 2022-12-02  291  			   bool *_dropped_lock)
-0b58b8a18be4932 David Howells 2016-09-02  292  {
-0b58b8a18be4932 David Howells 2016-09-02  293  	struct rxrpc_skb_priv *sp;
-0b58b8a18be4932 David Howells 2016-09-02  294  	struct sk_buff *skb;
-0b58b8a18be4932 David Howells 2016-09-02  295  	struct sock *sk = &rx->sk;
-5a5d74ffcd49103 David Howells 2022-12-02  296  	enum rxrpc_call_state state;
-0b58b8a18be4932 David Howells 2016-09-02  297  	long timeo;
-5a5d74ffcd49103 David Howells 2022-12-02  298  	bool more = msg->msg_flags & MSG_MORE;
-5a5d74ffcd49103 David Howells 2022-12-02  299  	int ret, copied = 0;
-0b58b8a18be4932 David Howells 2016-09-02  300  
-0b58b8a18be4932 David Howells 2016-09-02  301  	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
-0b58b8a18be4932 David Howells 2016-09-02  302  
-0b58b8a18be4932 David Howells 2016-09-02  303  	/* this should be in poll */
-0b58b8a18be4932 David Howells 2016-09-02  304  	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
-0b58b8a18be4932 David Howells 2016-09-02  305  
-5a5d74ffcd49103 David Howells 2022-12-02  306  reload:
-5a5d74ffcd49103 David Howells 2022-12-02  307  	ret = -EPIPE;
-639f181f0ee20d3 David Howells 2020-07-20  308  	if (sk->sk_shutdown & SEND_SHUTDOWN)
-5a5d74ffcd49103 David Howells 2022-12-02  309  		goto maybe_error;
+vim +/hif2_irq +186 drivers/net/wireless/mediatek/mt76/mt7996/pci.c
 
-STEP 1: We hit this goto.  copied is false.
+98686cd21624c7 Shayne Chen 2022-11-22   91  static int mt7996_pci_probe(struct pci_dev *pdev,
+98686cd21624c7 Shayne Chen 2022-11-22   92  			    const struct pci_device_id *id)
+98686cd21624c7 Shayne Chen 2022-11-22   93  {
+98686cd21624c7 Shayne Chen 2022-11-22   94  	struct pci_dev *hif2_dev;
+83eafc9251d6d3 Sujuan Chen 2023-10-20   95  	struct mt7996_hif *hif2;
+98686cd21624c7 Shayne Chen 2022-11-22   96  	struct mt7996_dev *dev;
+83eafc9251d6d3 Sujuan Chen 2023-10-20   97  	int irq, hif2_irq, ret;
+98686cd21624c7 Shayne Chen 2022-11-22   98  	struct mt76_dev *mdev;
+98686cd21624c7 Shayne Chen 2022-11-22   99  
+98686cd21624c7 Shayne Chen 2022-11-22  100  	ret = pcim_enable_device(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  101  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  102  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  103  
+98686cd21624c7 Shayne Chen 2022-11-22  104  	ret = pcim_iomap_regions(pdev, BIT(0), pci_name(pdev));
+98686cd21624c7 Shayne Chen 2022-11-22  105  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  106  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  107  
+98686cd21624c7 Shayne Chen 2022-11-22  108  	pci_set_master(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  109  
+98686cd21624c7 Shayne Chen 2022-11-22  110  	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+98686cd21624c7 Shayne Chen 2022-11-22  111  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  112  		return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  113  
+98686cd21624c7 Shayne Chen 2022-11-22  114  	mt76_pci_disable_aspm(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  115  
+98686cd21624c7 Shayne Chen 2022-11-22  116  	if (id->device == 0x7991)
+98686cd21624c7 Shayne Chen 2022-11-22  117  		return mt7996_pci_hif2_probe(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  118  
+98686cd21624c7 Shayne Chen 2022-11-22  119  	dev = mt7996_mmio_probe(&pdev->dev, pcim_iomap_table(pdev)[0],
+98686cd21624c7 Shayne Chen 2022-11-22  120  				id->device);
+98686cd21624c7 Shayne Chen 2022-11-22  121  	if (IS_ERR(dev))
+98686cd21624c7 Shayne Chen 2022-11-22  122  		return PTR_ERR(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  123  
+98686cd21624c7 Shayne Chen 2022-11-22  124  	mdev = &dev->mt76;
+98686cd21624c7 Shayne Chen 2022-11-22  125  	mt7996_wfsys_reset(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  126  	hif2 = mt7996_pci_init_hif2(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  127  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  128  	ret = mt7996_mmio_wed_init(dev, pdev, false, &irq);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  129  	if (ret < 0)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  130  		goto free_wed_or_irq_vector;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  131  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  132  	if (!ret) {
+98686cd21624c7 Shayne Chen 2022-11-22  133  		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+98686cd21624c7 Shayne Chen 2022-11-22  134  		if (ret < 0)
+98686cd21624c7 Shayne Chen 2022-11-22  135  			goto free_device;
+98686cd21624c7 Shayne Chen 2022-11-22  136  
+98686cd21624c7 Shayne Chen 2022-11-22  137  		irq = pdev->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  138  	}
+83eafc9251d6d3 Sujuan Chen 2023-10-20  139  
+98686cd21624c7 Shayne Chen 2022-11-22  140  	ret = devm_request_irq(mdev->dev, irq, mt7996_irq_handler,
+98686cd21624c7 Shayne Chen 2022-11-22  141  			       IRQF_SHARED, KBUILD_MODNAME, dev);
+98686cd21624c7 Shayne Chen 2022-11-22  142  	if (ret)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  143  		goto free_wed_or_irq_vector;
+98686cd21624c7 Shayne Chen 2022-11-22  144  
+98686cd21624c7 Shayne Chen 2022-11-22  145  	mt76_wr(dev, MT_INT_MASK_CSR, 0);
+98686cd21624c7 Shayne Chen 2022-11-22  146  	/* master switch of PCIe tnterrupt enable */
+98686cd21624c7 Shayne Chen 2022-11-22  147  	mt76_wr(dev, MT_PCIE_MAC_INT_ENABLE, 0xff);
+98686cd21624c7 Shayne Chen 2022-11-22  148  
+98686cd21624c7 Shayne Chen 2022-11-22  149  	if (hif2) {
+98686cd21624c7 Shayne Chen 2022-11-22  150  		hif2_dev = container_of(hif2->dev, struct pci_dev, dev);
+98686cd21624c7 Shayne Chen 2022-11-22  151  		dev->hif2 = hif2;
+98686cd21624c7 Shayne Chen 2022-11-22  152  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  153  		ret = mt7996_mmio_wed_init(dev, hif2_dev, true, &hif2_irq);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  154  		if (ret < 0)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  155  			goto free_hif2_wed_irq_vector;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  156  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  157  		if (!ret) {
+83eafc9251d6d3 Sujuan Chen 2023-10-20  158  			ret = pci_alloc_irq_vectors(hif2_dev, 1, 1,
+83eafc9251d6d3 Sujuan Chen 2023-10-20  159  						    PCI_IRQ_ALL_TYPES);
+98686cd21624c7 Shayne Chen 2022-11-22  160  			if (ret < 0)
+98686cd21624c7 Shayne Chen 2022-11-22  161  				goto free_hif2;
+98686cd21624c7 Shayne Chen 2022-11-22  162  
+98686cd21624c7 Shayne Chen 2022-11-22  163  			dev->hif2->irq = hif2_dev->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  164  			hif2_irq = dev->hif2->irq;
+83eafc9251d6d3 Sujuan Chen 2023-10-20  165  		}
+83eafc9251d6d3 Sujuan Chen 2023-10-20  166  
+83eafc9251d6d3 Sujuan Chen 2023-10-20  167  		ret = devm_request_irq(mdev->dev, hif2_irq, mt7996_irq_handler,
+83eafc9251d6d3 Sujuan Chen 2023-10-20  168  				       IRQF_SHARED, KBUILD_MODNAME "-hif",
+83eafc9251d6d3 Sujuan Chen 2023-10-20  169  				       dev);
+98686cd21624c7 Shayne Chen 2022-11-22  170  		if (ret)
+83eafc9251d6d3 Sujuan Chen 2023-10-20  171  			goto free_hif2_wed_irq_vector;
+98686cd21624c7 Shayne Chen 2022-11-22  172  
+98686cd21624c7 Shayne Chen 2022-11-22  173  		mt76_wr(dev, MT_INT1_MASK_CSR, 0);
+98686cd21624c7 Shayne Chen 2022-11-22  174  		/* master switch of PCIe tnterrupt enable */
+98686cd21624c7 Shayne Chen 2022-11-22  175  		mt76_wr(dev, MT_PCIE1_MAC_INT_ENABLE, 0xff);
+98686cd21624c7 Shayne Chen 2022-11-22  176  	}
 
-5a5d74ffcd49103 David Howells 2022-12-02  310  	state = READ_ONCE(call->state);
-5a5d74ffcd49103 David Howells 2022-12-02  311  	ret = -ESHUTDOWN;
-5a5d74ffcd49103 David Howells 2022-12-02  312  	if (state >= RXRPC_CALL_COMPLETE)
-5a5d74ffcd49103 David Howells 2022-12-02  313  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  314  	ret = -EPROTO;
-5a5d74ffcd49103 David Howells 2022-12-02  315  	if (state != RXRPC_CALL_CLIENT_SEND_REQUEST &&
-5a5d74ffcd49103 David Howells 2022-12-02  316  	    state != RXRPC_CALL_SERVER_ACK_REQUEST &&
-5a5d74ffcd49103 David Howells 2022-12-02  317  	    state != RXRPC_CALL_SERVER_SEND_REPLY)
-5a5d74ffcd49103 David Howells 2022-12-02  318  		goto maybe_error;
-0b58b8a18be4932 David Howells 2016-09-02  319  
-5a5d74ffcd49103 David Howells 2022-12-02  320  	ret = -EMSGSIZE;
-e754eba685aac2a David Howells 2017-06-07  321  	if (call->tx_total_len != -1) {
-5a5d74ffcd49103 David Howells 2022-12-02  322  		if (len - copied > call->tx_total_len)
-5a5d74ffcd49103 David Howells 2022-12-02  323  			goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  324  		if (!more && len - copied != call->tx_total_len)
-5a5d74ffcd49103 David Howells 2022-12-02  325  			goto maybe_error;
-e754eba685aac2a David Howells 2017-06-07  326  	}
-e754eba685aac2a David Howells 2017-06-07  327  
-0b58b8a18be4932 David Howells 2016-09-02  328  	skb = call->tx_pending;
-0b58b8a18be4932 David Howells 2016-09-02  329  	call->tx_pending = NULL;
-987db9f7cd1e77e David Howells 2019-08-19  330  	rxrpc_see_skb(skb, rxrpc_skb_seen);
-0b58b8a18be4932 David Howells 2016-09-02  331  
-0b58b8a18be4932 David Howells 2016-09-02  332  	do {
-7aa51da7c88d42c David Howells 2016-09-22  333  		/* Check to see if there's a ping ACK to reply to. */
-7aa51da7c88d42c David Howells 2016-09-22  334  		if (call->ackr_reason == RXRPC_ACK_PING_RESPONSE)
-bd1fdf8cfdf3fdb David Howells 2017-11-24  335  			rxrpc_send_ack_packet(call, false, NULL);
-7aa51da7c88d42c David Howells 2016-09-22  336  
-0b58b8a18be4932 David Howells 2016-09-02  337  		if (!skb) {
-0b58b8a18be4932 David Howells 2016-09-02  338  			size_t size, chunk, max, space;
-0b58b8a18be4932 David Howells 2016-09-02  339  
-0b58b8a18be4932 David Howells 2016-09-02  340  			_debug("alloc");
-0b58b8a18be4932 David Howells 2016-09-02  341  
-5a5d74ffcd49103 David Howells 2022-12-02  342  			if (!rxrpc_check_tx_space(call, NULL))
-5a5d74ffcd49103 David Howells 2022-12-02  343  				goto wait_for_space;
-0b58b8a18be4932 David Howells 2016-09-02  344  
-182f50562490e58 David Howells 2016-09-17  345  			max = RXRPC_JUMBO_DATALEN;
-0b58b8a18be4932 David Howells 2016-09-02  346  			max -= call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  347  			max &= ~(call->conn->size_align - 1UL);
-0b58b8a18be4932 David Howells 2016-09-02  348  
-0b58b8a18be4932 David Howells 2016-09-02  349  			chunk = max;
-0b58b8a18be4932 David Howells 2016-09-02  350  			if (chunk > msg_data_left(msg) && !more)
-0b58b8a18be4932 David Howells 2016-09-02  351  				chunk = msg_data_left(msg);
-0b58b8a18be4932 David Howells 2016-09-02  352  
-0b58b8a18be4932 David Howells 2016-09-02  353  			space = chunk + call->conn->size_align;
-0b58b8a18be4932 David Howells 2016-09-02  354  			space &= ~(call->conn->size_align - 1UL);
-0b58b8a18be4932 David Howells 2016-09-02  355  
-5a924b8951f835b David Howells 2016-09-22  356  			size = space + call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  357  
-0b58b8a18be4932 David Howells 2016-09-02  358  			_debug("SIZE: %zu/%zu/%zu", chunk, space, size);
-0b58b8a18be4932 David Howells 2016-09-02  359  
-0b58b8a18be4932 David Howells 2016-09-02  360  			/* create a buffer that we can retain until it's ACK'd */
-0b58b8a18be4932 David Howells 2016-09-02  361  			skb = sock_alloc_send_skb(
-0b58b8a18be4932 David Howells 2016-09-02  362  				sk, size, msg->msg_flags & MSG_DONTWAIT, &ret);
-0b58b8a18be4932 David Howells 2016-09-02  363  			if (!skb)
-0b58b8a18be4932 David Howells 2016-09-02  364  				goto maybe_error;
-0b58b8a18be4932 David Howells 2016-09-02  365  
-b311e68420aa520 David Howells 2019-08-19  366  			sp = rxrpc_skb(skb);
-b311e68420aa520 David Howells 2019-08-19  367  			sp->rx_flags |= RXRPC_SKB_TX_BUFFER;
-987db9f7cd1e77e David Howells 2019-08-19  368  			rxrpc_new_skb(skb, rxrpc_skb_new);
-0b58b8a18be4932 David Howells 2016-09-02  369  
-0b58b8a18be4932 David Howells 2016-09-02  370  			_debug("ALLOC SEND %p", skb);
-0b58b8a18be4932 David Howells 2016-09-02  371  
-0b58b8a18be4932 David Howells 2016-09-02  372  			ASSERTCMP(skb->mark, ==, 0);
-0b58b8a18be4932 David Howells 2016-09-02  373  
-5a924b8951f835b David Howells 2016-09-22  374  			_debug("HS: %u", call->conn->security_size);
-5a924b8951f835b David Howells 2016-09-22  375  			skb_reserve(skb, call->conn->security_size);
-5a924b8951f835b David Howells 2016-09-22  376  			skb->len += call->conn->security_size;
-0b58b8a18be4932 David Howells 2016-09-02  377  
-0b58b8a18be4932 David Howells 2016-09-02  378  			sp->remain = chunk;
-0b58b8a18be4932 David Howells 2016-09-02  379  			if (sp->remain > skb_tailroom(skb))
-0b58b8a18be4932 David Howells 2016-09-02  380  				sp->remain = skb_tailroom(skb);
-0b58b8a18be4932 David Howells 2016-09-02  381  
-0b58b8a18be4932 David Howells 2016-09-02  382  			_net("skb: hr %d, tr %d, hl %d, rm %d",
-0b58b8a18be4932 David Howells 2016-09-02  383  			       skb_headroom(skb),
-0b58b8a18be4932 David Howells 2016-09-02  384  			       skb_tailroom(skb),
-0b58b8a18be4932 David Howells 2016-09-02  385  			       skb_headlen(skb),
-0b58b8a18be4932 David Howells 2016-09-02  386  			       sp->remain);
-0b58b8a18be4932 David Howells 2016-09-02  387  
-0b58b8a18be4932 David Howells 2016-09-02  388  			skb->ip_summed = CHECKSUM_UNNECESSARY;
-0b58b8a18be4932 David Howells 2016-09-02  389  		}
-0b58b8a18be4932 David Howells 2016-09-02  390  
-0b58b8a18be4932 David Howells 2016-09-02  391  		_debug("append");
-0b58b8a18be4932 David Howells 2016-09-02  392  		sp = rxrpc_skb(skb);
-0b58b8a18be4932 David Howells 2016-09-02  393  
-0b58b8a18be4932 David Howells 2016-09-02  394  		/* append next segment of data to the current buffer */
-0b58b8a18be4932 David Howells 2016-09-02  395  		if (msg_data_left(msg) > 0) {
-0b58b8a18be4932 David Howells 2016-09-02  396  			int copy = skb_tailroom(skb);
-0b58b8a18be4932 David Howells 2016-09-02  397  			ASSERTCMP(copy, >, 0);
-0b58b8a18be4932 David Howells 2016-09-02  398  			if (copy > msg_data_left(msg))
-0b58b8a18be4932 David Howells 2016-09-02  399  				copy = msg_data_left(msg);
-0b58b8a18be4932 David Howells 2016-09-02  400  			if (copy > sp->remain)
-0b58b8a18be4932 David Howells 2016-09-02  401  				copy = sp->remain;
-0b58b8a18be4932 David Howells 2016-09-02  402  
-0b58b8a18be4932 David Howells 2016-09-02  403  			_debug("add");
-0b58b8a18be4932 David Howells 2016-09-02  404  			ret = skb_add_data(skb, &msg->msg_iter, copy);
-0b58b8a18be4932 David Howells 2016-09-02  405  			_debug("added");
-0b58b8a18be4932 David Howells 2016-09-02  406  			if (ret < 0)
-0b58b8a18be4932 David Howells 2016-09-02  407  				goto efault;
-0b58b8a18be4932 David Howells 2016-09-02  408  			sp->remain -= copy;
-0b58b8a18be4932 David Howells 2016-09-02  409  			skb->mark += copy;
-0b58b8a18be4932 David Howells 2016-09-02  410  			copied += copy;
-e754eba685aac2a David Howells 2017-06-07  411  			if (call->tx_total_len != -1)
-e754eba685aac2a David Howells 2017-06-07  412  				call->tx_total_len -= copy;
-0b58b8a18be4932 David Howells 2016-09-02  413  		}
-0b58b8a18be4932 David Howells 2016-09-02  414  
-e122d845a01ece2 David Howells 2019-01-10  415  		/* check for the far side aborting the call or a network error
-e122d845a01ece2 David Howells 2019-01-10  416  		 * occurring */
-e122d845a01ece2 David Howells 2019-01-10  417  		if (call->state == RXRPC_CALL_COMPLETE)
-e122d845a01ece2 David Howells 2019-01-10  418  			goto call_terminated;
-e122d845a01ece2 David Howells 2019-01-10  419  
-0b58b8a18be4932 David Howells 2016-09-02  420  		/* add the packet to the send queue if it's now full */
-0b58b8a18be4932 David Howells 2016-09-02  421  		if (sp->remain <= 0 ||
-0b58b8a18be4932 David Howells 2016-09-02  422  		    (msg_data_left(msg) == 0 && !more)) {
-0b58b8a18be4932 David Howells 2016-09-02  423  			struct rxrpc_connection *conn = call->conn;
-0b58b8a18be4932 David Howells 2016-09-02  424  			uint32_t seq;
-0b58b8a18be4932 David Howells 2016-09-02  425  			size_t pad;
-0b58b8a18be4932 David Howells 2016-09-02  426  
-0b58b8a18be4932 David Howells 2016-09-02  427  			/* pad out if we're using security */
-0b58b8a18be4932 David Howells 2016-09-02  428  			if (conn->security_ix) {
-0b58b8a18be4932 David Howells 2016-09-02  429  				pad = conn->security_size + skb->mark;
-0b58b8a18be4932 David Howells 2016-09-02  430  				pad = conn->size_align - pad;
-0b58b8a18be4932 David Howells 2016-09-02  431  				pad &= conn->size_align - 1;
-0b58b8a18be4932 David Howells 2016-09-02  432  				_debug("pad %zu", pad);
-0b58b8a18be4932 David Howells 2016-09-02  433  				if (pad)
-b080db585384b9f Johannes Berg 2017-06-16  434  					skb_put_zero(skb, pad);
-0b58b8a18be4932 David Howells 2016-09-02  435  			}
-0b58b8a18be4932 David Howells 2016-09-02  436  
-248f219cb8bcbfb David Howells 2016-09-08  437  			seq = call->tx_top + 1;
-0b58b8a18be4932 David Howells 2016-09-02  438  
-0b58b8a18be4932 David Howells 2016-09-02  439  			sp->hdr.seq	= seq;
-0b58b8a18be4932 David Howells 2016-09-02  440  			sp->hdr._rsvd	= 0;
-0b58b8a18be4932 David Howells 2016-09-02  441  			sp->hdr.flags	= conn->out_clientflag;
-5a924b8951f835b David Howells 2016-09-22  442  
-0b58b8a18be4932 David Howells 2016-09-02  443  			if (msg_data_left(msg) == 0 && !more)
-0b58b8a18be4932 David Howells 2016-09-02  444  				sp->hdr.flags |= RXRPC_LAST_PACKET;
-248f219cb8bcbfb David Howells 2016-09-08  445  			else if (call->tx_top - call->tx_hard_ack <
-248f219cb8bcbfb David Howells 2016-09-08  446  				 call->tx_winsize)
-0b58b8a18be4932 David Howells 2016-09-02  447  				sp->hdr.flags |= RXRPC_MORE_PACKETS;
-0b58b8a18be4932 David Howells 2016-09-02  448  
-91fcfbe8852edb9 David Howells 2019-10-07  449  			ret = call->security->secure_packet(
-5a924b8951f835b David Howells 2016-09-22  450  				call, skb, skb->mark, skb->head);
-0b58b8a18be4932 David Howells 2016-09-02  451  			if (ret < 0)
-0b58b8a18be4932 David Howells 2016-09-02  452  				goto out;
-0b58b8a18be4932 David Howells 2016-09-02  453  
-8e8715aaa905f65 Marc Dionne   2019-04-12  454  			ret = rxrpc_queue_packet(rx, call, skb,
-e833251ad813168 David Howells 2017-08-29  455  						 !msg_data_left(msg) && !more,
-e833251ad813168 David Howells 2017-08-29  456  						 notify_end_tx);
-8e8715aaa905f65 Marc Dionne   2019-04-12  457  			/* Should check for failure here */
-0b58b8a18be4932 David Howells 2016-09-02  458  			skb = NULL;
-0b58b8a18be4932 David Howells 2016-09-02  459  		}
-0b58b8a18be4932 David Howells 2016-09-02  460  	} while (msg_data_left(msg) > 0);
-0b58b8a18be4932 David Howells 2016-09-02  461  
-0b58b8a18be4932 David Howells 2016-09-02  462  success:
-0b58b8a18be4932 David Howells 2016-09-02  463  	ret = copied;
-504deca5022022a David Howells 2022-09-29  464  	if (READ_ONCE(call->state) == RXRPC_CALL_COMPLETE) {
-504deca5022022a David Howells 2022-09-29  465  		read_lock_bh(&call->state_lock);
-504deca5022022a David Howells 2022-09-29  466  		if (call->error < 0)
-504deca5022022a David Howells 2022-09-29  467  			ret = call->error;
-504deca5022022a David Howells 2022-09-29  468  		read_unlock_bh(&call->state_lock);
-504deca5022022a David Howells 2022-09-29  469  	}
-0b58b8a18be4932 David Howells 2016-09-02  470  out:
-0b58b8a18be4932 David Howells 2016-09-02 @471  	call->tx_pending = skb;
+hif2_irq is uninitialized on else path
 
-STEP 3: skb is uninitialized
+98686cd21624c7 Shayne Chen 2022-11-22  177  
+98686cd21624c7 Shayne Chen 2022-11-22  178  	ret = mt7996_register_device(dev);
+98686cd21624c7 Shayne Chen 2022-11-22  179  	if (ret)
+98686cd21624c7 Shayne Chen 2022-11-22  180  		goto free_hif2_irq;
+98686cd21624c7 Shayne Chen 2022-11-22  181  
+98686cd21624c7 Shayne Chen 2022-11-22  182  	return 0;
+98686cd21624c7 Shayne Chen 2022-11-22  183  
+98686cd21624c7 Shayne Chen 2022-11-22  184  free_hif2_irq:
+98686cd21624c7 Shayne Chen 2022-11-22  185  	if (dev->hif2)
+83eafc9251d6d3 Sujuan Chen 2023-10-20 @186  		devm_free_irq(mdev->dev, hif2_irq, dev);
 
-0b58b8a18be4932 David Howells 2016-09-02  472  	_leave(" = %d", ret);
-0b58b8a18be4932 David Howells 2016-09-02  473  	return ret;
-0b58b8a18be4932 David Howells 2016-09-02  474  
-e122d845a01ece2 David Howells 2019-01-10  475  call_terminated:
-987db9f7cd1e77e David Howells 2019-08-19  476  	rxrpc_free_skb(skb, rxrpc_skb_freed);
-e122d845a01ece2 David Howells 2019-01-10  477  	_leave(" = %d", call->error);
-e122d845a01ece2 David Howells 2019-01-10  478  	return call->error;
-e122d845a01ece2 David Howells 2019-01-10  479  
-0b58b8a18be4932 David Howells 2016-09-02  480  maybe_error:
-0b58b8a18be4932 David Howells 2016-09-02  481  	if (copied)
-0b58b8a18be4932 David Howells 2016-09-02  482  		goto success;
-0b58b8a18be4932 David Howells 2016-09-02  483  	goto out;
+Uninitialized.  No need to call devm_free_irq().  devm_ stuff is freed
+automatically if probe() fails.
 
-STEP 2: goto out
-
-0b58b8a18be4932 David Howells 2016-09-02  484  
-0b58b8a18be4932 David Howells 2016-09-02  485  efault:
-0b58b8a18be4932 David Howells 2016-09-02  486  	ret = -EFAULT;
-0b58b8a18be4932 David Howells 2016-09-02  487  	goto out;
-5a5d74ffcd49103 David Howells 2022-12-02  488  
-5a5d74ffcd49103 David Howells 2022-12-02  489  wait_for_space:
-5a5d74ffcd49103 David Howells 2022-12-02  490  	ret = -EAGAIN;
-5a5d74ffcd49103 David Howells 2022-12-02  491  	if (msg->msg_flags & MSG_DONTWAIT)
-5a5d74ffcd49103 David Howells 2022-12-02  492  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  493  	mutex_unlock(&call->user_mutex);
-5a5d74ffcd49103 David Howells 2022-12-02  494  	*_dropped_lock = true;
-5a5d74ffcd49103 David Howells 2022-12-02  495  	ret = rxrpc_wait_for_tx_window(rx, call, &timeo,
-5a5d74ffcd49103 David Howells 2022-12-02  496  				       msg->msg_flags & MSG_WAITALL);
-5a5d74ffcd49103 David Howells 2022-12-02  497  	if (ret < 0)
-5a5d74ffcd49103 David Howells 2022-12-02  498  		goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  499  	if (call->interruptibility == RXRPC_INTERRUPTIBLE) {
-5a5d74ffcd49103 David Howells 2022-12-02  500  		if (mutex_lock_interruptible(&call->user_mutex) < 0) {
-5a5d74ffcd49103 David Howells 2022-12-02  501  			ret = sock_intr_errno(timeo);
-5a5d74ffcd49103 David Howells 2022-12-02  502  			goto maybe_error;
-5a5d74ffcd49103 David Howells 2022-12-02  503  		}
-5a5d74ffcd49103 David Howells 2022-12-02  504  	} else {
-5a5d74ffcd49103 David Howells 2022-12-02  505  		mutex_lock(&call->user_mutex);
-5a5d74ffcd49103 David Howells 2022-12-02  506  	}
-5a5d74ffcd49103 David Howells 2022-12-02  507  	*_dropped_lock = false;
-5a5d74ffcd49103 David Howells 2022-12-02  508  	goto reload;
-0b58b8a18be4932 David Howells 2016-09-02  509  }
+83eafc9251d6d3 Sujuan Chen 2023-10-20  187  free_hif2_wed_irq_vector:
+83eafc9251d6d3 Sujuan Chen 2023-10-20  188  	if (dev->hif2) {
+83eafc9251d6d3 Sujuan Chen 2023-10-20  189  		if (mtk_wed_device_active(&dev->mt76.mmio.wed_hif2))
+83eafc9251d6d3 Sujuan Chen 2023-10-20  190  			mtk_wed_device_detach(&dev->mt76.mmio.wed_hif2);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  191  		else
+98686cd21624c7 Shayne Chen 2022-11-22  192  			pci_free_irq_vectors(hif2_dev);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  193  	}
+98686cd21624c7 Shayne Chen 2022-11-22  194  free_hif2:
+98686cd21624c7 Shayne Chen 2022-11-22  195  	if (dev->hif2)
+98686cd21624c7 Shayne Chen 2022-11-22  196  		put_device(dev->hif2->dev);
+98686cd21624c7 Shayne Chen 2022-11-22  197  	devm_free_irq(mdev->dev, irq, dev);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  198  free_wed_or_irq_vector:
+83eafc9251d6d3 Sujuan Chen 2023-10-20  199  	if (mtk_wed_device_active(&dev->mt76.mmio.wed))
+83eafc9251d6d3 Sujuan Chen 2023-10-20  200  		mtk_wed_device_detach(&dev->mt76.mmio.wed);
+83eafc9251d6d3 Sujuan Chen 2023-10-20  201  	else
+98686cd21624c7 Shayne Chen 2022-11-22  202  		pci_free_irq_vectors(pdev);
+98686cd21624c7 Shayne Chen 2022-11-22  203  free_device:
+98686cd21624c7 Shayne Chen 2022-11-22  204  	mt76_free_device(&dev->mt76);
+98686cd21624c7 Shayne Chen 2022-11-22  205  
+98686cd21624c7 Shayne Chen 2022-11-22  206  	return ret;
+98686cd21624c7 Shayne Chen 2022-11-22  207  }
 
 -- 
 0-DAY CI Kernel Test Service
