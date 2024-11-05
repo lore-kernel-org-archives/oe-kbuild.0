@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A7918132A
-	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 07:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76D41B78F3
+	for <oe-kbuild@lists.linux.dev>; Tue,  5 Nov 2024 07:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730791154; cv=none; b=c3HgvNj9LwDDWUd05P/jueFrfcqo8CLjD0hXA2rxGntHcLKFhQHIqMvbrDeJFPFLffLyB3VMmbA1pq1HpqBdDamgORv4ff8mr9P3oM1GCk1Q2LJAqP6LMXvGPrGNDJ6JYSrJZbUpkk6MnzNYs9CPbaHIeKTTc5sAhcg2T65vtFY=
+	t=1730791157; cv=none; b=ObdHV/ywmGEZyAqfeV7LOS8YB2dqHX9G/81Df/OhM26LzsvPmehP3JAisBHVnlP/fd5I4RQTn2b5Zoc6T+0YSsOutNDS51gXqpR4OEBTVb2DTSmSqY0JntytIoJ8kj9Z16zErT5YHRhboN5oOrAPlxWPg4IHqsh1rC2ibqWNIHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730791154; c=relaxed/simple;
-	bh=LOad309vqyEsfnDO+ZpabjoZM0tVujVQWqgzihqbR9I=;
+	s=arc-20240116; t=1730791157; c=relaxed/simple;
+	bh=D8WLdh0gg/7AsESrhg30MH2N7lMtP1RB3ezCMsIgpO4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ASQTA+AlHNzCFQ3gQY3pY7qencTgN43TjbHOzKTbC1+a/lfH+pNN8FB/MwIymMq+nC9llgxdWahAsSVOyCJZ+fvbVt0LWJWYZfEwnnQKNfBXqghC31smbMbXhVA5HsErGGH33b0vwZJX0wkP1QvepU1fR+jMQs9gBLiBhAEirOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHzfp0Ci; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=ow8kmsN2+bWxW22kUPXPdV8aqk3PCIUG65OUgfikeQY4oFMx/DJv6JpJbbVeMwXaFrapDnaiyMbRaR7HVvbn2vnRKRNzVclJBw/eJ1h9pw8FjpJAPcYzYVv47uvH0umQO/fSK7YR1+M43nynhEcNm10GicE6WFJE4jctEipTkSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlHZGCRS; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHzfp0Ci"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlHZGCRS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730791152; x=1762327152;
+  t=1730791155; x=1762327155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LOad309vqyEsfnDO+ZpabjoZM0tVujVQWqgzihqbR9I=;
-  b=nHzfp0Ci9Hj8zvM/xYvfcC8pkW9YEmc8N65JyT//UnHd//UvMYwAYwIv
-   TVJ3VMmk3imY1VqDb7+GOTzik8F1QKvZSOgemUpNkgIYgX28zN1QV7X3j
-   Sr8/biMqXXHeVU0HHFeeVO+xDP67DRF3KJSvmnDeBklxc2suHkxOA0Fxh
-   JsmOPYhfyoPCApBNT/AQZ6AaiWcgl9fkUkUdbrDHiEnV1CesYOFsATFjW
-   uVI7sW5Zwl4YECbrqxesME4jTUDe/TWM2d+a3iFxkT8OI4ep8nEeG1lhS
-   zW9+A+yn3Hi3ev6JJ0AiiodNJswGl0BoT/AxOXCDSH8dxFvJM1Bx93CgK
-   Q==;
-X-CSE-ConnectionGUID: XM29biDqRzyMlS2c8t8ISg==
-X-CSE-MsgGUID: yHjsoc+8SpaC7wpbM+N2TA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34209897"
+  bh=D8WLdh0gg/7AsESrhg30MH2N7lMtP1RB3ezCMsIgpO4=;
+  b=ZlHZGCRS11PKl0sZ6sPmVJBz209ZOrTTnOKmUMK5EQWIvm89kj403NJ/
+   udejiXWMx0UFc8qmvYybX3iJtvYGR7WPV0yn/cylGeHwmBUk+kDZisLZB
+   3HZY0FuCJMfNpy6+743PbKmFFk+JzQx+Z7PxFM5KelpsVYZDBNPHx3yGG
+   MECirik8MhEAc7vDU4wdJ7hhUg64MTfucoMjusyRl1dzUicXRmWI3djxh
+   S+etCOc+rQV21KigE3X9c9URUp5Ga+LqSlvFQZk1LJ9J9lPlZwlF6MCUj
+   dfcg74xOcbVdx6Nwk07BXOG63TjNHVbjoFtUDja7rlqBr4goFSjnCMwWY
+   w==;
+X-CSE-ConnectionGUID: 4RENQcdDR0WAA/Tinpi3UA==
+X-CSE-MsgGUID: r12uoIbXTki3LjugrAutpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34209899"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34209897"
+   d="scan'208";a="34209899"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 23:19:12 -0800
-X-CSE-ConnectionGUID: GlRwTiV2Rhmn3O0z8uGDmA==
-X-CSE-MsgGUID: 2QixOWAdQ6qctFAo9PPbXw==
+X-CSE-ConnectionGUID: I3H3RS9MQqeHPjkA/32pvA==
+X-CSE-MsgGUID: tfwRKBVeQsKBw+s68p03Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="83799412"
+   d="scan'208";a="83799416"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 04 Nov 2024 23:19:11 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8DqG-000lkT-1K;
+	id 1t8DqG-000lkl-2A;
 	Tue, 05 Nov 2024 07:19:08 +0000
-Date: Tue, 5 Nov 2024 15:18:46 +0800
+Date: Tue, 5 Nov 2024 15:18:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [tip:timers/vdso 11/42] arch/powerpc/mm/pgtable-frag.c:25
- pte_frag_destroy() warn: mask and shift to zero: expr='(pte_frag & ~(~(((1)
- << 12) - 1))) >> 12'
-Message-ID: <202411051527.wNrHvEGw-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1351/1351] mm/page_alloc.c:4552
+ prepare_before_alloc() warn: bitwise AND condition is false here
+Message-ID: <202411051748.CMTAbO6V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -65,53 +64,56 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-CC: x86@kernel.org
-TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Arnd Bergmann <arnd@arndb.de>
+TO: kernel@openeuler.org
+TO: Wupeng Ma <mawupeng1@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   7fa3c36ea2707c495cf31ccab733ac8bf3f9d0c2
-commit: efe8419ae78d65e83edc31aad74b605c12e7d60c [11/42] vdso: Introduce vdso/page.h
-:::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051527.wNrHvEGw-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   25571440419e086ce4361fed1e31c2304a9a9a48
+commit: 7829f27d03dbdb975be3a72915dc71ac414f2a16 [1351/1351] mm: mem_reliable: Alloc task memory from reliable region
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411051748.CMTAbO6V-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411051527.wNrHvEGw-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411051748.CMTAbO6V-lkp@intel.com/
 
 smatch warnings:
-arch/powerpc/mm/pgtable-frag.c:25 pte_frag_destroy() warn: mask and shift to zero: expr='(pte_frag & ~(~(((1) << 12) - 1))) >> 12'
+mm/page_alloc.c:4552 prepare_before_alloc() warn: bitwise AND condition is false here
 
-vim +25 arch/powerpc/mm/pgtable-frag.c
+vim +4552 mm/page_alloc.c
 
-a95d133c8643ca Christophe Leroy      2018-11-29  17  
-a95d133c8643ca Christophe Leroy      2018-11-29  18  void pte_frag_destroy(void *pte_frag)
-a95d133c8643ca Christophe Leroy      2018-11-29  19  {
-a95d133c8643ca Christophe Leroy      2018-11-29  20  	int count;
-4eaca96140b33e Vishal Moola (Oracle  2023-08-07  21) 	struct ptdesc *ptdesc;
-a95d133c8643ca Christophe Leroy      2018-11-29  22  
-4eaca96140b33e Vishal Moola (Oracle  2023-08-07  23) 	ptdesc = virt_to_ptdesc(pte_frag);
-a95d133c8643ca Christophe Leroy      2018-11-29  24  	/* drop all the pending references */
-a95d133c8643ca Christophe Leroy      2018-11-29 @25  	count = ((unsigned long)pte_frag & ~PAGE_MASK) >> PTE_FRAG_SIZE_SHIFT;
-a95d133c8643ca Christophe Leroy      2018-11-29  26  	/* We allow PTE_FRAG_NR fragments from a PTE page */
-4eaca96140b33e Vishal Moola (Oracle  2023-08-07  27) 	if (atomic_sub_and_test(PTE_FRAG_NR - count, &ptdesc->pt_frag_refcount)) {
-4eaca96140b33e Vishal Moola (Oracle  2023-08-07  28) 		pagetable_pte_dtor(ptdesc);
-4eaca96140b33e Vishal Moola (Oracle  2023-08-07  29) 		pagetable_free(ptdesc);
-a95d133c8643ca Christophe Leroy      2018-11-29  30  	}
-a95d133c8643ca Christophe Leroy      2018-11-29  31  }
-a95d133c8643ca Christophe Leroy      2018-11-29  32  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: a95d133c8643cae40a35f82184640d312ba9f11f powerpc/mm: Move pte_fragment_alloc() to a common location
-
-:::::: TO: Christophe Leroy <christophe.leroy@c-s.fr>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+387ba26fb1cb9b Mel Gorman 2021-04-29  4532  
+7829f27d03dbdb Ma Wupeng  2024-01-10  4533  static inline void prepare_before_alloc(gfp_t *gfp_mask)
+7829f27d03dbdb Ma Wupeng  2024-01-10  4534  {
+7829f27d03dbdb Ma Wupeng  2024-01-10  4535  	bool zone_movable;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4536  
+7829f27d03dbdb Ma Wupeng  2024-01-10  4537  	if (!mem_reliable_is_enabled())
+7829f27d03dbdb Ma Wupeng  2024-01-10  4538  		return;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4539  
+7829f27d03dbdb Ma Wupeng  2024-01-10  4540  	/*
+7829f27d03dbdb Ma Wupeng  2024-01-10  4541  	 * memory reliable only handle memory allocation from movable zone
+7829f27d03dbdb Ma Wupeng  2024-01-10  4542  	 * (force alloc from non-movable zone or force alloc from movable
+7829f27d03dbdb Ma Wupeng  2024-01-10  4543  	 * zone) to get total isolation.
+7829f27d03dbdb Ma Wupeng  2024-01-10  4544  	 */
+7829f27d03dbdb Ma Wupeng  2024-01-10  4545  	zone_movable = gfp_zone(*gfp_mask & ~GFP_RELIABLE) == ZONE_MOVABLE;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4546  	if (!zone_movable)
+7829f27d03dbdb Ma Wupeng  2024-01-10  4547  		goto clear_flag;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4548  
+7829f27d03dbdb Ma Wupeng  2024-01-10  4549  	if (!in_task())
+7829f27d03dbdb Ma Wupeng  2024-01-10  4550  		return;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4551  
+7829f27d03dbdb Ma Wupeng  2024-01-10 @4552  	if ((current->flags & PF_RELIABLE) || is_global_init(current))
+7829f27d03dbdb Ma Wupeng  2024-01-10  4553  		*gfp_mask |= GFP_RELIABLE;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4554  
+7829f27d03dbdb Ma Wupeng  2024-01-10  4555  	return;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4556  clear_flag:
+7829f27d03dbdb Ma Wupeng  2024-01-10  4557  	*gfp_mask &= ~GFP_RELIABLE;
+7829f27d03dbdb Ma Wupeng  2024-01-10  4558  }
+7829f27d03dbdb Ma Wupeng  2024-01-10  4559  
 
 -- 
 0-DAY CI Kernel Test Service
