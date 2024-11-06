@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AEF645
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Nov 2024 17:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87EB28EF
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Nov 2024 18:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730914592; cv=none; b=hjyQJ/ULfmkXoM0XZMXDiBwNnEQke63hOFXDLIw2gVtHzwlGCa7i2Kdy4RxInHBuBxLDCqih2eu7IiFXon0jIBP7x21Ek/shfv3RHpbpj6Zajku6hH5uaohcb9BBuz4nnRcgHg9zFAW/wvDUMsJTiJVFui8ZELPPftsGfbq0Yss=
+	t=1730918133; cv=none; b=sfk5Bh18HhgMPL/nWVXVz4nQ/Iu1ega8sPQIu3nQpjnthtdjOMEf++3aKxM4HsCjreoPBsP30HSvszdxqvERyBjJeXH8OZj0tJraJMCHsmfOoq2Olz/wCrio+7o+jBYzTMMFK4gUvy2SNftnJ7A3qjLqiYRk1/gUnF3R8XcWRO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730914592; c=relaxed/simple;
-	bh=rttJdRJSMwviLM4blZNBVqD/eCdwjRDZRmODCzkhatU=;
+	s=arc-20240116; t=1730918133; c=relaxed/simple;
+	bh=XX6LFH5p7lkBifndZ1LhQ5L+HnkpF7B+b7g054yXGTQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tbhviws+Nj/HgWuL63jnsFYXaiA0PHGzdAdWDVTNxivzbLTcdQfQWG7JU4J087tMXCAd//hqbMSYGezFbUVujg+cWHm8Ud/0dhbkPIrDnhMhgCFbGR4/cC12X9o32C6KQ31QXZsfe2Dewq6GJlxT8djO+aorTCQjaCcaRMnjap4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FMJI6LJd; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=gII1HVfqDEQfAL8cbuQgbz5r/FEX8yKTvSJWtSA7bCSwZir+PXUgoeqWID6LkJ1yH/M6AACsqvJWTagp9dwkxcImcpnxEsbaHr1zZRG2wj/+WWRTvuGyynrxu2tQjH0ayIYUf/RukozLeFCPbU36af+1XTIT+zT5u+HBnRj97Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNwS2Boe; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMJI6LJd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNwS2Boe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730914589; x=1762450589;
+  t=1730918132; x=1762454132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rttJdRJSMwviLM4blZNBVqD/eCdwjRDZRmODCzkhatU=;
-  b=FMJI6LJd8lg5JnbUQ6c1fQBB9QgqzSzPGleKtfvlKuBB4+G50U+xVV5z
-   zZuHCnexmTqi2VH8Hr+Rixn5lJg/Pjv3xpYILbhOIEp9PehqEbbQukAh/
-   EA0Qh4czpwTQCveWDDiEQPbUkRtJTuLXWv1HgZ3zUSCpGRG1lqEWpM1CD
-   d7q+YcQBWQiYhqLsOFLtoQ+3FeiPU2nsxX5u1U6EKGmuGnPLey+JP6iLT
-   dkjoKAc2N9HoJtBsdg7vl3mhpJkJikLbjSr5UOUmo1Oll/xaSWm5LOlU7
-   0Y42EoaoLVx0FT5LzqkD5nUf+7pUDLZmCNm+hIPd6p/caqFVjYH2NMjC1
-   Q==;
-X-CSE-ConnectionGUID: weGIt3LyTP+5VJhIvw0WaA==
-X-CSE-MsgGUID: KF+70QQCQ02lOs4e2A9R9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30135791"
+  bh=XX6LFH5p7lkBifndZ1LhQ5L+HnkpF7B+b7g054yXGTQ=;
+  b=BNwS2Boer9kq0eA4Qxxl+U7HtsZQCzmtZ96BEqQt29tdaMR3GvxZyYMt
+   5v5VQtRP2yzg4+SLT6Vxw4lcgDlscpUdidQtY2xQftrNZOHhjrRMz6BCs
+   ZKKY3cKpFqlIDPXDxh3v0MVSwZcKAiTLspJGdmeioN/q2MSdMbRuwSRK6
+   BnkS57Un8v4pqKL0UBppF4vcbELRJwyFyQ44X06Rr/uqrbY97yG+2Bwnp
+   cXt+8GpRs5X3Avp70TUaqksxY4++PzqVlSCJPBO/n4Y3oMCfBHdD16Lmh
+   AzOaMHoO6a3kyo0DvZGY/AlvYMu83fONaoLXJ7SryJYGWymKSC37eIzdK
+   w==;
+X-CSE-ConnectionGUID: 8gQjYqATRHqPyZbn8pQB6A==
+X-CSE-MsgGUID: PtsI4PX9TkyiwDo6JE4aVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30957230"
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="30135791"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 09:36:25 -0800
-X-CSE-ConnectionGUID: jEahsMK1SO+AAW91VQzbTA==
-X-CSE-MsgGUID: zfwGwBj1THiODBZqzbagsQ==
+   d="scan'208";a="30957230"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:35:31 -0800
+X-CSE-ConnectionGUID: EwdODaIYTMCSHlJbepI/xA==
+X-CSE-MsgGUID: UMv6pZVBScGMlkDnk0cVeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="89774181"
+   d="scan'208";a="89231679"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2024 09:33:28 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2024 10:35:29 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8juI-000pDu-1N;
-	Wed, 06 Nov 2024 17:33:26 +0000
-Date: Thu, 7 Nov 2024 01:32:28 +0800
+	id 1t8ksK-000pHY-1A;
+	Wed, 06 Nov 2024 18:35:28 +0000
+Date: Thu, 7 Nov 2024 02:34:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: [broonie-ci:fileSB0yEw 172/181]
- arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: esai@59010000:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202411070157.LCbvDcwD-lkp@intel.com>
+Subject: [android-common:android15-6.6-partner_predev 81/81]
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated
+ properties are not allowed ('mdio', 'phy-handle', 'phy-mode',
+ 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config',
+ 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-...
+Message-ID: <202411070207.6gluS0i7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,184 +66,41 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 :::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
 :::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Frank Li <Frank.Li@nxp.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: cros-kernel-buildreports@googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileSB0yEw
-head:   9b915776e0e6a2d185498077e0ebdb154a2751ac
-commit: adf7ea48ce05a6c5c44f0f9d3f81e83e5cb70c3e [172/181] ASoC: dt-bindings: fsl-esai: allow fsl,imx8qm-esai fallback to fsl,imx6ull-esai
-:::::: branch date: 3 hours ago
-:::::: commit date: 29 hours ago
-config: arm64-randconfig-051-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070157.LCbvDcwD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
+head:   4f78c3d7bcf25a6712f168ec3e669c779412364f
+commit: 120ab6c06f69b39e54c949542fa85fd49ff51278 [81/81] arm64: dts: qcom: sa8775p-ride: enable ethernet0
+:::::: branch date: 7 days ago
+:::::: commit date: 1 year, 4 months ago
+config: arm64-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241107/202411070207.6gluS0i7-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
 dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070157.LCbvDcwD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070207.6gluS0i7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411070157.LCbvDcwD-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411070207.6gluS0i7-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8dx-colibri-aster.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-eval-v3.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8dx-colibri-eval-v3.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris-v2.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8dx-colibri-iris-v2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8dx-colibri-iris.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8dx-colibri-iris.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8dxp-tqma8xdp-mba8xx.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-eval-v1.2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-ixora-v1.1.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-eval-v1.2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-apalis-v1.1-ixora-v1.1.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qm-mek.dtb: esai@59810000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-ai_ml.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-aster.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-colibri-aster.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-eval-v3.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-colibri-eval-v3.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris-v2.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-colibri-iris-v2.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-mek.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
---
->> arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: esai@59010000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['fsl,imx8qm-esai'] is too short
-   	'fsl,imx8qm-esai' is not one of ['fsl,imx35-esai', 'fsl,imx6ull-esai', 'fsl,vf610-esai']
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,esai.yaml#
-   arch/arm64/boot/dts/freescale/imx8qxp-tqma8xqp-mba8xx.dtb: usbphy@5b100000: 'nxp,sim' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/fsl,mxs-usbphy.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000: 'power-domains' is a required property
+   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: rx-queues-config:queue3:snps,priority: [12] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: snps,pbl: [32] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: snps,pbl: [32] is not one of [1, 2, 4, 8, 16, 32]
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+>> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000: Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
