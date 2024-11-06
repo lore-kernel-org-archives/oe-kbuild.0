@@ -1,130 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5462318F2DB
-	for <oe-kbuild@lists.linux.dev>; Wed,  6 Nov 2024 04:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E49713541B
+	for <oe-kbuild@lists.linux.dev>; Wed,  6 Nov 2024 04:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730866510; cv=none; b=dvzb4f03Fvkm6uAI3Dm+J81ooTxmIC3DXzxDyYszRMsBeFGeraKOcVlnY88rYOz7Oh//jSQvKCA5ROPxrGYs3rZSuOEeZB5RLz+7suwzCJIxdzM2dXST+CiLJM52ft2Pf06mjB/wqMjknt2ErlJv0XNsHJECPrOfUfaRo2iKvvo=
+	t=1730869031; cv=none; b=u0Y6Y5Oklie6eeI9qUlfxgqLCRRG23IVTxuseDZ82dbNYaA9WvVxXwDuh2G02cNAGFpD4AffLm3ZMq7EQwogXMdb4iLYeExCXwhVUm5so8oGiox8+UGGaURaKxYZWctW9MU+Si5/JRajyf80MN8c4YJEZiKZd0YjoOqF/Iwrd/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730866510; c=relaxed/simple;
-	bh=twyEqcjjSyxl2NOkRzi9Muo4adaM9wow30rn0KJ2DuY=;
+	s=arc-20240116; t=1730869031; c=relaxed/simple;
+	bh=14L5IMkGn/mpZIICNpps7PFgUkXjTYEyD0hlLmMMkeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tyv+w2MHXnTgsUe7jIqMkz+2BeJxVx9ZJVCynmi4QSetbegGxES3wNkr9uYIsgOPvrPit9wWR/SVmvI1OcNo/Svs0PTH7wvbk9hHSXMyh8K83ZzEFCVaHY6a5+N4wbq7L8RR4vPIvjoEAcb5v2FE8npKnCNa7kYA5XRRZq9V2Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nk3Ssd6j; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=Uzcv0CD/fpl4tw7WcWGlZI2BVgysVZoq83Fcbh3DrCIwcsB/Xnl0aHrNvoFXMZuKCmI1QbDM6YA5oNQuZGbMxAXA9MdS0+I2bis5FrUUMR5zBxLjnRH3bcMugiSw6SmZ2Zb7t+KAI2HtQ/BTVtxPyKlOJ9S4MmlMldXS36FXhdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifhe9YDN; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nk3Ssd6j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifhe9YDN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730866508; x=1762402508;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=twyEqcjjSyxl2NOkRzi9Muo4adaM9wow30rn0KJ2DuY=;
-  b=Nk3Ssd6jh5h0WyW0in09QEVffs/dWrXhkUUmMdbWiaqRL6nWaESbz4EQ
-   owfieNqwFyWNTbuFzwlnSaiwzF+dSGbBgjQx2FIqMA+yWRuNo+bS0bPoy
-   PFwoelIZKskRuVQloRFq0lA41Reb2nJzq5PxI3V3evtRTqTMbBBZnRFHz
-   so4yu6Xq9lmqKnik5+9bij7a2TD1nyIEVWTUcvK2tBAaOb/hzfs7+Wct4
-   7tgs6100Lf+VQRNlhW0gm3iydlhZixOOSpCqlbAEmzmbyxUr/D3H0MVFg
-   AJ3Qy6t7LSGKuGIBLCIrBFBXKe3pJ6RUsqa7vtb0BfWS2PV9BPHlwW+AC
-   w==;
-X-CSE-ConnectionGUID: iFwvjydHTr21AF2MF6dpHQ==
-X-CSE-MsgGUID: PXWp4yADQwijFmTfMFPB2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30762690"
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="30762690"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 20:15:07 -0800
-X-CSE-ConnectionGUID: mB0E7YsjQaOOSUSB04KMZg==
-X-CSE-MsgGUID: bXB+f2eITAmou6o3i4/zSA==
+  t=1730869029; x=1762405029;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=14L5IMkGn/mpZIICNpps7PFgUkXjTYEyD0hlLmMMkeI=;
+  b=ifhe9YDNVFRiTVQK29W+APmumNIHIab1mPJzpvEJKT2j5IvCocSF8zYD
+   mGk71w8HE/QbgoCxuOvjJvsk2rFyN571F09ELGmmnuS5Yn4I6kccZSeWW
+   cOKliOwbsrQB+KwU/jJh4kZww3q+/7p7EQpi/vf2rjWu6q1RpWJo1E/yX
+   MoeDwf3lKVxHYveE22vS7d9qb2Ly67lYveeln/39Rfz9qjXiS4O5C99L5
+   wIT1Al/K6X0DZNKgvuPsARUKS3TASSMXbJGAChCHcFVaqXqsQasjGRvqk
+   Y1FxRyB7JCyWi6TFB1+lkwDaTcOyMCV679RVi4Q+zlZCBRiPJENebAx5O
+   Q==;
+X-CSE-ConnectionGUID: 2SPSeBy0RCeBqy2ylFom6Q==
+X-CSE-MsgGUID: Iql+1XJdQpGAMBgZrhaI/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34344354"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34344354"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 20:57:09 -0800
+X-CSE-ConnectionGUID: rAqKmkmrRZqE3BNA7QdGlA==
+X-CSE-MsgGUID: QH+hSbUVQHyt8JvaaKe/uQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="88821677"
+   d="scan'208";a="85145218"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2024 20:15:06 -0800
+  by orviesa008.jf.intel.com with ESMTP; 05 Nov 2024 20:57:08 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8XRg-000mvT-1h;
-	Wed, 06 Nov 2024 04:15:04 +0000
-Date: Wed, 6 Nov 2024 12:14:34 +0800
+	id 1t8Y6L-000mwu-2Y;
+	Wed, 06 Nov 2024 04:57:05 +0000
+Date: Wed, 6 Nov 2024 12:56:08 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH RESEND v13 11/12] arm64: dts: Add DTS for Marvell PXA1908
- and samsung,coreprimevelte
-Message-ID: <202411061108.kn6BbdSf-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [weiny2:dcd-v4-2024-11-05 15/28] drivers/cxl/core/port.c:209
+ mode_store() error: buffer overflow 'cxl_decoder_mode_names' 12 <= 12
+Message-ID: <202411061211.ULVM47Ie-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241104-pxa1908-lkml-v13-11-e050609b8d6c@skole.hr>
-References: <20241104-pxa1908-lkml-v13-11-e050609b8d6c@skole.hr>
-TO: "Duje Mihanović via B4 Relay" <devnull+duje.mihanovic.skole.hr@kernel.org>
-TO: Michael Turquette <mturquette@baylibre.com>
-TO: Stephen Boyd <sboyd@kernel.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Rob Herring <robh+dt@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Tony Lindgren <tony@atomide.com>
-TO: Haojian Zhuang <haojian.zhuang@linaro.org>
-TO: "Duje Mihanović" <duje.mihanovic@skole.hr>
-TO: Lubomir Rintel <lkundrak@v3.sk>
-TO: Catalin Marinas <catalin.marinas@arm.com>
-TO: Will Deacon <will@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: phone-devel@vger.kernel.org
-CC: ~postmarketos/upstreaming@lists.sr.ht
-CC: Karel Balej <balejk@matfyz.cz>
-CC: David Wronek <david@mainlining.org>
-CC: linux-clk@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-gpio@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
+TO: Navneet Singh <navneet.singh@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Hi Duje,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi-via-B4-Relay/clk-mmp-Switch-to-use-struct-u32_fract-instead-of-custom-one/20241105-010102
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241104-pxa1908-lkml-v13-11-e050609b8d6c%40skole.hr
-patch subject: [PATCH RESEND v13 11/12] arm64: dts: Add DTS for Marvell PXA1908 and samsung,coreprimevelte
-:::::: branch date: 35 hours ago
-:::::: commit date: 35 hours ago
-config: arm64-randconfig-051-20241105 (https://download.01.org/0day-ci/archive/20241106/202411061108.kn6BbdSf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061108.kn6BbdSf-lkp@intel.com/reproduce)
+tree:   https://github.com/weiny2/linux-kernel.git dcd-v4-2024-11-05
+head:   dba3b28deacf7cfa58557386a37dc0aceb7dcb64
+commit: d3250f65fdd004a774008ed2c989cda1053fb738 [15/28] cxl/port: Add endpoint decoder DC mode support to sysfs
+:::::: branch date: 11 hours ago
+:::::: commit date: 12 hours ago
+config: i386-randconfig-141-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061211.ULVM47Ie-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411061108.kn6BbdSf-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411061211.ULVM47Ie-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dts:38.9-41.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: /: memory: False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 0]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: mmc@80000: pinctrl-names: ['default'] is too short
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
->> arch/arm64/boot/dts/marvell/pxa1908-samsung-coreprimevelte.dtb: mmc@80000: Unevaluated properties are not allowed ('pinctrl-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/sdhci-pxa.yaml#
+New smatch warnings:
+drivers/cxl/core/port.c:209 mode_store() error: buffer overflow 'cxl_decoder_mode_names' 12 <= 12
+drivers/cxl/core/port.c:213 mode_store() error: testing array offset 'mode' after use.
+
+Old smatch warnings:
+drivers/cxl/core/port.c:362 cxl_root_decoder_visible() error: we previously assumed 'a' could be null (see line 358)
+
+vim +/cxl_decoder_mode_names +209 drivers/cxl/core/port.c
+
+cf880423b6a059 Dan Williams  2022-05-23  200  
+cf880423b6a059 Dan Williams  2022-05-23  201  static ssize_t mode_store(struct device *dev, struct device_attribute *attr,
+cf880423b6a059 Dan Williams  2022-05-23  202  			  const char *buf, size_t len)
+cf880423b6a059 Dan Williams  2022-05-23  203  {
+cf880423b6a059 Dan Williams  2022-05-23  204  	struct cxl_endpoint_decoder *cxled = to_cxl_endpoint_decoder(dev);
+cf880423b6a059 Dan Williams  2022-05-23  205  	enum cxl_decoder_mode mode;
+cf880423b6a059 Dan Williams  2022-05-23  206  	ssize_t rc;
+cf880423b6a059 Dan Williams  2022-05-23  207  
+d3250f65fdd004 Navneet Singh 2023-07-05  208  	for (mode = 0; mode < CXL_DECODER_MODE_MAX; mode++)
+d3250f65fdd004 Navneet Singh 2023-07-05 @209  		if (sysfs_streq(buf, cxl_decoder_mode_names[mode]))
+d3250f65fdd004 Navneet Singh 2023-07-05  210  			break;
+d3250f65fdd004 Navneet Singh 2023-07-05  211  
+d3250f65fdd004 Navneet Singh 2023-07-05  212  	if (mode == CXL_DECODER_NONE ||
+d3250f65fdd004 Navneet Singh 2023-07-05 @213  	    mode == CXL_DECODER_DEAD ||
+d3250f65fdd004 Navneet Singh 2023-07-05  214  	    mode == CXL_DECODER_MODE_MAX)
+d3250f65fdd004 Navneet Singh 2023-07-05  215  		return -EINVAL;
+d3250f65fdd004 Navneet Singh 2023-07-05  216  
+d3250f65fdd004 Navneet Singh 2023-07-05  217  	/* Not yet supported */
+d3250f65fdd004 Navneet Singh 2023-07-05  218  	if (mode >= CXL_DECODER_MIXED)
+cf880423b6a059 Dan Williams  2022-05-23  219  		return -EINVAL;
+cf880423b6a059 Dan Williams  2022-05-23  220  
+cf880423b6a059 Dan Williams  2022-05-23  221  	rc = cxl_dpa_set_mode(cxled, mode);
+cf880423b6a059 Dan Williams  2022-05-23  222  	if (rc)
+cf880423b6a059 Dan Williams  2022-05-23  223  		return rc;
+cf880423b6a059 Dan Williams  2022-05-23  224  
+cf880423b6a059 Dan Williams  2022-05-23  225  	return len;
+cf880423b6a059 Dan Williams  2022-05-23  226  }
+cf880423b6a059 Dan Williams  2022-05-23  227  static DEVICE_ATTR_RW(mode);
+cf880423b6a059 Dan Williams  2022-05-23  228  
 
 -- 
 0-DAY CI Kernel Test Service
