@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567A51E1A25
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 10:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7987194C7A
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 10:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730975350; cv=none; b=JaI5CXQjReDZ7qhEgbimA3JYcg+stIrnf25BXIgqYQEIX3pCW32vylsgamf/uHuMGFjUFWdK96lKj+tY0tAyCCb5kfOEXwJ6CKzUn9fakBPWawdhcPUIy4oC9MCBb/Pg+QeVqXzWrORwjTCindKTl+BjUDz5msrs/z/HMTbXWkI=
+	t=1730975821; cv=none; b=tRIAP47icF/8tiY9v8ZHcKLmpVqbHSlMtRBQ9LMF1M1Jw3WOXRMAgyHaDVKe/dy6INuXd6QNy1oXYohdk0MaQv7If61GChq++Rf/CXSeR2acJp77/t9EbixOjZjblxFeqUdSc3qb6XgZGLq1ugaCliTswWoTPKlT9uidAoHh+KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730975350; c=relaxed/simple;
-	bh=A+C2ov9tDAAMyJBoSDimpOREEE7cjYioSFbPHiAyS94=;
+	s=arc-20240116; t=1730975821; c=relaxed/simple;
+	bh=uXeL6oPT1sRD6DNR1Ei1tfZg04k2YN6pse+xtQD5Jjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IXJ9RgLeHDCPcTS8PyinzYCpvh8YZLspIHCchWOzfIeh8ZPTgQ3QujkEkkqErg6zCcOb7pkHhFrXcERIWHJP1+bWZhIeiRnkCOtbouKzSqmiNXh0sAo7sVDUPd3xL9NorK15dspe+HfL6A6LqatmhMVeGqteirPiFmLENs/P0zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KsHET+9s; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=MBMdCGFLQODvjKkbrBzM9bi4mnPkf1tk2mhhdxwURIsutFh4ov+jh9skuyutERDSTeH+m2akFGhQMAUTDVEOtjRGjkTAcoOQ+I4SvkPXDtc2TE8nCHAXGq2jLsLESZ0lFN9aAdbJuIX31EP+7RZ9bi4QLCPmXStB/QK+H0gDRrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=quXLq2/V; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsHET+9s"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730975347; x=1762511347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=A+C2ov9tDAAMyJBoSDimpOREEE7cjYioSFbPHiAyS94=;
-  b=KsHET+9skZU+VF67YJCoHqPK3SzXbGRXeU5pMfGdccBZrJuTTemjBXc8
-   IlBQacI0D6trh4neZGSJaxhLeSgAb+fOt67FtEnzBGddPOqUF464E5ft+
-   SZfl2MLrwEVFMnGY00en9dQ0J8YOxN15jCG12wJKNEPuBQqu7er/B5Ccx
-   hQ6v2wK+yrC0fHllK3eJ6gJklbrrdoRljmDZHo9OQj9vCkH1vnvv1YcuO
-   E8ALNFFAFzj7fYAKnFtAn8fHMhqnEEh9yZJAAXynJ2SuaGUoSIpbtqJC/
-   Dm/D0EX+MCbexmq6R9fi+3c5W9V0MwEoIzSd20Cq+g6AadLbkDtqysWlV
-   A==;
-X-CSE-ConnectionGUID: nc6XO9OqSFebbsCrxpnLOA==
-X-CSE-MsgGUID: x/PUPZveQ0CHT2LU0fTA8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30769898"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30769898"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 02:29:07 -0800
-X-CSE-ConnectionGUID: FyvVwzXwS5WGApnfUrAhxQ==
-X-CSE-MsgGUID: QMQ7KDdwRHaCK2j6CGh2ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="89664284"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2024 02:29:05 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8zl9-000q63-2b;
-	Thu, 07 Nov 2024 10:29:03 +0000
-Date: Thu, 7 Nov 2024 18:28:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [android-common:android15-6.6-partner_predev 81/81]
- arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb:
- system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
-Message-ID: <202411071834.UJOmgPdh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="quXLq2/V"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43168d9c6c9so6556895e9.3
+        for <oe-kbuild@lists.linux.dev>; Thu, 07 Nov 2024 02:36:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730975817; x=1731580617; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S54IrLpHtNn97UBj1ol5mcFhoNy+46NWo9YLyxcmnDs=;
+        b=quXLq2/VvxqIst1lNyC5ilZwOnZTKP7j8twaKHXUnTNkCpiJx8+FYSofVX6LRRuHEe
+         2hUDmVxbocYdd7YRzeWvqyWYOu/Gi0jj+cz4C6VZrqjZ+WXAbbUyfNOaNYcjJHviESUc
+         nH15R20MeuKFZBtG5bYGb/LisywAdi8588WrxqlgZNPscMQ58x6s84R3RK5TlDUKJ/Or
+         ZkA0EMq/adait/fhL12xlS2/i4kq0RH3q5NCG7FjNqtR+ZVCSDSokjBWgeOGaXRYtfzo
+         5GNM0SHHy6oro40ZfFRqa4j+h1s6BzAoUG2TaYKZHWhb/yI97C2exf2M12pTW6SUKamn
+         oOPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730975817; x=1731580617;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S54IrLpHtNn97UBj1ol5mcFhoNy+46NWo9YLyxcmnDs=;
+        b=X2bgCe7ArMK+exz61lOwSXY68MDGHqfVz+CwO2SVH4si50PJ2rx+Qt6T3/hJ/jo4f+
+         vkq6rdPLf+83+a+SHcF+Q38L1OtM7VaNNpCwPMGBR8I5SYtoh8CHavxzxB/PaE47RDyR
+         dMFkBmZkdpLIs7eVxWTNbudUJ5S9xdlxElwIXQJMXKy9oLiaJCiqN54YiyVuaJMibl6j
+         8cCzP++M6ymTaYU/K1x7XhTvEwNzfLs+RqS268hoUdHWL1U8GIHnR7lGqiuZQ2GnFDFX
+         L0KMfVdhVrTQBVuMBeBmKGCJYUV/qeZteuL1k8O4bFBwz3C/CkAEasgwhZ9/nETv4OMc
+         C9ww==
+X-Gm-Message-State: AOJu0YweNaQlw0gFPSY+smjFQZQFv9SLyEhUYxwwISno+q3YPjQD3FiX
+	xfeFqX54AEX8gA8avZE3gBYDX6tQ6z0TbKiBJi516FVwT/XtWv+wXOl5ZgghACIT7GvcJip6rZP
+	mIY8=
+X-Google-Smtp-Source: AGHT+IHJN10jxR25SKTrqoQSOU4fqH3/hpD0VG7KU7sTzSUI1QddhOzAtwQ33b1IaUwDG2RJB9NHWA==
+X-Received: by 2002:a05:600c:3593:b0:430:54a4:5ad7 with SMTP id 5b1f17b1804b1-4319ac76449mr400894365e9.1.1730975817526;
+        Thu, 07 Nov 2024 02:36:57 -0800 (PST)
+Received: from localhost ([89.101.241.141])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97c6b6sm1330220f8f.24.2024.11.07.02.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 02:36:56 -0800 (PST)
+Date: Thu, 7 Nov 2024 13:36:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Yingbao Jia <yingbao.jia@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: [openeuler:OLK-5.10 22553/30000]
+ drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100
+ isst_if_get_tpmi_instance_count() warn: potential spectre issue
+ 'isst_common.sst_inst' [r] (local cap)
+Message-ID: <d26fa958-ea6a-4052-ab26-3d33dbca595f@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,78 +70,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: too old problem, older than 3 months"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: cros-kernel-buildreports@googlegroups.com
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
-head:   4f78c3d7bcf25a6712f168ec3e669c779412364f
-commit: 74cf6675c35ec3034053a69926f4d98e52852eb0 [81/81] arm64: dts: qcom: sc8180x: Fix LLCC reg property
-:::::: branch date: 8 days ago
-:::::: commit date: 1 year, 4 months ago
-config: arm64-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241107/202411071834.UJOmgPdh-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411071834.UJOmgPdh-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   99db8adce903def72c36be0dbc5a2f459422b9bc
+commit: 4dc4d762dd6ed4cb851209a87e79d7d936b3fb4c [22553/30000] platform/x86: ISST: Enumerate TPMI SST and create framework
+config: x86_64-randconfig-161-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071052.IGzXSZzF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411071834.UJOmgPdh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411071052.IGzXSZzF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000: clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000: clock-names: ['aux', 'ref_clk_src', 'ref', 'com_aux'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000: '#clock-cells', 'ports' do not match any of the regexes: '^dp-phy@[0-9a-f]+$', '^usb3-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800: compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800: compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: dsi@ae94000: interrupts: [[4], [4]] is too long
---
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000: clock-names:2: 'com_aux' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000: clock-names: ['aux', 'ref_clk_src', 'ref', 'com_aux'] is too long
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000: '#clock-cells', 'ports' do not match any of the regexes: '^dp-phy@[0-9a-f]+$', '^usb3-phy@[0-9a-f]+$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000: reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800: compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800: compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: dsi@ae94000: interrupts: [[4], [4]] is too long
+smatch warnings:
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:104 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+
+vim +100 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
+
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   88  static int isst_if_get_tpmi_instance_count(void __user *argp)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   89  {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   90  	struct isst_tpmi_instance_count tpmi_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   91  	struct tpmi_sst_struct *sst_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   92  	int i;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   93  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   94  	if (copy_from_user(&tpmi_inst, argp, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   95  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   96  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   97  	if (tpmi_inst.socket_id >= topology_max_packages())
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   98  		return -EINVAL;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   99  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @100  	tpmi_inst.count = isst_common.sst_inst[tpmi_inst.socket_id]->number_of_power_domains;
+
+I'm not a Spectre v1 expert but this seems like a problem where you
+would need to use array_index_nospec()
+
+I've added Dan Williams to the CC list.  He told me at Plumbs that he
+loves talking about Spectre v1.  :P  lol.
+
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  101  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  102  	sst_inst = isst_common.sst_inst[tpmi_inst.socket_id];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  103  	tpmi_inst.valid_mask = 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @104  	for (i = 0; i < sst_inst->number_of_power_domains; ++i) {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  105  		struct tpmi_per_power_domain_info *power_domain_info;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  106  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  107  		power_domain_info = &sst_inst->power_domain_info[i];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  108  		if (power_domain_info->sst_base)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  109  			tpmi_inst.valid_mask |= BIT(i);
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  110  	}
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  111  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  112  	if (copy_to_user(argp, &tpmi_inst, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  113  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  114  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  115  	return 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  116  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
