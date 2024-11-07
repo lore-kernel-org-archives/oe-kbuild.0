@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16F24A28
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 00:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52406746E
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 01:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730938787; cv=none; b=EPXiwFoYCbFNeGsCxCVUKM3A5Rr7A05R/WBG1iTZeTZnP0HBnqioUXiB3tehwW8hnbsL2JonF6YT7esLCPe1/p3ALSvTx94fO3tkq8ZEEbYReMsNhUQt7b4u/8d6zKqTEzgukTMjs1tTxF69KUGdFsUaj5aIAFCbme/YfsHSguQ=
+	t=1730941969; cv=none; b=liRm0iB3Gse3yFNI4nzKbTPjWi47J4eA0XskfZ247vgUODX9F4aL7Zk/bmjLbrAOgG8MewjvrlqDlvlKjcBeBolJiEPJh2Fgzj+EAXQKqzDwuxrfeXbGLTuE8u782oU9melXteTwY81g8KxGNaHpODbigpddn7L3kotHtci0e2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730938787; c=relaxed/simple;
-	bh=MMmoVGb7HR0O9EiMSkqK8sOUBNNdsn2xgTC4ZP747vw=;
+	s=arc-20240116; t=1730941969; c=relaxed/simple;
+	bh=rZuJxkUq3JrDoo90K/WBqGwKIqJ9lqtWweJLh3Mu3po=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rwUurntN/3njK2pit3VhLxCFfg8e5zP0BBB/SF1U5GACwB71uPQtO2JFq8gwHn15UJT7ViSC23VjtLSScRNtVnZmX9AT6e1xaZyGPh8Y32VOOXS7hHGv00EPkDwGUgV0vcarOdC44gAAdlfBsPHKAQHwty+Z6vsNZQ6D764Bm5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DoY0GnMd; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=c3NIJeunAXipoNSsD3uWT9GjA0kp7MOPnFDqcWxp6h11d+d9/ZtYOu0Aqpr+Y4gX+67zFXZTkELLQSS2AWilN3+p2gDzxro+aWp9fWcb59heaNWDVnLgctYCHVJAucILXlaT8VlvrvpJaqA/Vrm5DOwpg/X8cgT/l8wwEOFmpLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUOmrUvZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DoY0GnMd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUOmrUvZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730938786; x=1762474786;
+  t=1730941967; x=1762477967;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MMmoVGb7HR0O9EiMSkqK8sOUBNNdsn2xgTC4ZP747vw=;
-  b=DoY0GnMdHp4ZVIOAxePHKVoN3Fd+SlDlrfFu1YQxjluCotjqG6YBx6Rn
-   MGN8J482GdObO5qlqoFCLtuagmfBjXyZ+ywD25sx4KIAVNMv6ksYGGk0K
-   hqqIQLgGNKfZR7spiwau7yFsdZCTfc+fmINwhFRonQeZSMmk5N7GG3TCk
-   cIvuysD0WCqtBWPLW59cZuTFRjmcjIKlCykDuQTjVMtGsPPGeRKDl+iLW
-   byr2dPw3DxvfPSPhwkbN4/ZNXLRuMcisXYIpbelLtwM9yxV7el22WoEhV
-   onNZ6v5obex4zcCVS8xYICf5NaRHbJEPXXeCf2M/Br5Dx7lXTxKlXsLsJ
-   A==;
-X-CSE-ConnectionGUID: +jCOktxYS+qSxFDD0yP/XA==
-X-CSE-MsgGUID: 7UUHd0f7QoWqsqcKRS5AGA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30533059"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30533059"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 16:19:45 -0800
-X-CSE-ConnectionGUID: k71s5EtvRLKNOxUK99hOIQ==
-X-CSE-MsgGUID: O50Gh8tlRQGeVV9As5PTnQ==
+  bh=rZuJxkUq3JrDoo90K/WBqGwKIqJ9lqtWweJLh3Mu3po=;
+  b=lUOmrUvZCm9ZRc8nGA/T9sQTqFC1F3g+ViSJk6Lr9s8GDi/RFIuPpV4i
+   ED8cd1FyW4vcFS2pG+arbSv+9a9mw/kESDyPCVVmd2dQuL2PK3fmuDBnm
+   crdtKVHfyq0aGNAEiYn7BWjP5U+fx+7ybmtrxXwpmvEsRQOMAS3GSBrPJ
+   pmxLkIuJNgQ5vLQp1BacYshuJQ7W3HfS3DDSqP7P5WqcOgtTFZo2fWgM8
+   C47zxaAf2ddg3GnXLgetwMxcHOjLdSj0px6LXocAIaEcgZYKmsnbQoYMh
+   5f57cTjF8fYEY7NRCeNfdEf7wsuvWzqsvyi/eBZrD2qTgILY9EQUK1vBz
+   w==;
+X-CSE-ConnectionGUID: hecyJL0pRLGVmjUNZPBjlg==
+X-CSE-MsgGUID: acm7HcOSSauGypGLfi+cvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30885599"
+X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
+   d="scan'208";a="30885599"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:12:47 -0800
+X-CSE-ConnectionGUID: EA3QdvIwQ9iuyWtnAp3rfA==
+X-CSE-MsgGUID: Y17D1maEQGO4qXbORbFPBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="115638183"
+   d="scan'208";a="84807207"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2024 16:19:43 -0800
+  by orviesa010.jf.intel.com with ESMTP; 06 Nov 2024 17:12:45 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8qFQ-000pYk-2h;
-	Thu, 07 Nov 2024 00:19:40 +0000
-Date: Thu, 7 Nov 2024 08:18:53 +0800
+	id 1t8r4l-000pc0-15;
+	Thu, 07 Nov 2024 01:12:43 +0000
+Date: Thu, 7 Nov 2024 09:12:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-6.6 1344/16464] block/bdev.c:829 bdev_open_by_dev()
- warn: possible memory leak of 'handle'
-Message-ID: <202411070817.MsBLoDva-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: arch/arm64/kvm/vgic/vgic-its.c:119:30-33: ERROR: reference preceded
+ by free on line 98
+Message-ID: <202411070956.1yAmwJdZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,151 +64,145 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Li Lingfeng <lilingfeng3@huawei.com>
+CC: linux-kernel@vger.kernel.org
+TO: Oliver Upton <oliver.upton@linux.dev>
+CC: Marc Zyngier <maz@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8edd62f80cd8e00a4ecb15f57010d8fdbff12e16
-commit: 498bc4954a0850611dc7b0193bc5c5a31479aecf [1344/16464] block: Add config option to not allow writing to mounted devices
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-161-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070817.MsBLoDva-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f43b15692129904ccc064180fa2dd796ba3843a5
+commit: 1d6f83f60f79ff0118823d904dc1f04ba89f9428 KVM: arm64: vgic: Store LPIs in an xarray
+date:   9 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 9 months ago
+config: arm64-randconfig-r064-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070956.1yAmwJdZ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411070817.MsBLoDva-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411070956.1yAmwJdZ-lkp@intel.com/
 
-smatch warnings:
-block/bdev.c:829 bdev_open_by_dev() warn: possible memory leak of 'handle'
+cocci warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/vgic/vgic-its.c:119:30-33: ERROR: reference preceded by free on line 98
 
-vim +/handle +829 block/bdev.c
+vim +119 arch/arm64/kvm/vgic/vgic-its.c
 
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  784  
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  785  /**
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  786   * bdev_open_by_dev - open a block device by device number
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  787   * @dev: device number of block device to open
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  788   * @mode: open mode (BLK_OPEN_*)
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  789   * @holder: exclusive holder identifier
-0718afd47f70cf block/bdev.c   Christoph Hellwig 2023-06-01  790   * @hops: holder operations
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  791   *
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  792   * Open the block device described by device number @dev. If @holder is not
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  793   * %NULL, the block device is opened with exclusive access.  Exclusive opens may
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  794   * nest for the same @holder.
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  795   *
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  796   * Use this interface ONLY if you really do not have anything better - i.e. when
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  797   * you are behind a truly sucky interface and all you are given is a device
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  798   * number.  Everything else should use bdev_open_by_path().
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  799   *
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  800   * CONTEXT:
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  801   * Might sleep.
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  802   *
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  803   * RETURNS:
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  804   * Handle with a reference to the block_device on success, ERR_PTR(-errno) on
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  805   * failure.
-d4d77629953eab fs/block_dev.c Tejun Heo         2010-11-13  806   */
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  807  struct bdev_handle *bdev_open_by_dev(dev_t dev, blk_mode_t mode, void *holder,
-0718afd47f70cf block/bdev.c   Christoph Hellwig 2023-06-01  808  				     const struct blk_holder_ops *hops)
-^1da177e4c3f41 fs/block_dev.c Linus Torvalds    2005-04-16  809  {
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  810  	struct bdev_handle *handle = kmalloc(sizeof(struct bdev_handle),
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  811  					     GFP_KERNEL);
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  812  	struct block_device *bdev;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  813  	bool unblock_events = true;
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  814  	struct gendisk *disk;
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  815  	int ret;
-e5c7fb400227df fs/block_dev.c Christoph Hellwig 2020-08-31  816  
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  817  	if (!handle)
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  818  		return ERR_PTR(-ENOMEM);
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  819  
-7918f0f6fdafa1 fs/block_dev.c Christoph Hellwig 2020-11-23  820  	ret = devcgroup_check_permission(DEVCG_DEV_BLOCK,
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  821  			MAJOR(dev), MINOR(dev),
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  822  			((mode & BLK_OPEN_READ) ? DEVCG_ACC_READ : 0) |
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  823  			((mode & BLK_OPEN_WRITE) ? DEVCG_ACC_WRITE : 0));
-e5c7fb400227df fs/block_dev.c Christoph Hellwig 2020-08-31  824  	if (ret)
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  825  		goto free_handle;
-4e7b5671c6a883 fs/block_dev.c Christoph Hellwig 2020-11-23  826  
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  827  	/* Blocking writes requires exclusive opener */
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  828  	if (mode & BLK_OPEN_RESTRICT_WRITES && !holder)
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08 @829  		return ERR_PTR(-EINVAL);
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  830  
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  831  	bdev = blkdev_get_no_open(dev);
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  832  	if (!bdev) {
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  833  		ret = -ENXIO;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  834  		goto free_handle;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  835  	}
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  836  	disk = bdev->bd_disk;
-e5c7fb400227df fs/block_dev.c Christoph Hellwig 2020-08-31  837  
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  838  	if (holder) {
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  839  		mode |= BLK_OPEN_EXCL;
-0718afd47f70cf block/bdev.c   Christoph Hellwig 2023-06-01  840  		ret = bd_prepare_to_claim(bdev, holder, hops);
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  841  		if (ret)
-37c3fc9abb25cd fs/block_dev.c Christoph Hellwig 2020-11-25  842  			goto put_blkdev;
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  843  	} else {
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  844  		if (WARN_ON_ONCE(mode & BLK_OPEN_EXCL)) {
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  845  			ret = -EIO;
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  846  			goto put_blkdev;
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  847  		}
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  848  	}
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  849  
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  850  	disk_block_events(disk);
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  851  
-a8698707a1835b fs/block_dev.c Christoph Hellwig 2021-05-25  852  	mutex_lock(&disk->open_mutex);
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  853  	ret = -ENXIO;
-50b4aecfbbb098 fs/block_dev.c Christoph Hellwig 2021-08-09  854  	if (!disk_live(disk))
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  855  		goto abort_claiming;
-efcf5932230b94 block/bdev.c   Ming Lei          2021-11-11  856  	if (!try_module_get(disk->fops->owner))
-efcf5932230b94 block/bdev.c   Ming Lei          2021-11-11  857  		goto abort_claiming;
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  858  	ret = -EBUSY;
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  859  	if (!bdev_may_open(bdev, mode))
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  860  		goto abort_claiming;
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  861  	if (bdev_is_partition(bdev))
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  862  		ret = blkdev_get_part(bdev, mode);
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  863  	else
-362529d9280af4 fs/block_dev.c Christoph Hellwig 2021-05-25  864  		ret = blkdev_get_whole(bdev, mode);
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  865  	if (ret)
-efcf5932230b94 block/bdev.c   Ming Lei          2021-11-11  866  		goto put_module;
-498bc4954a0850 block/bdev.c   Jan Kara          2023-12-08  867  	bdev_claim_write_access(bdev, mode);
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  868  	if (holder) {
-0718afd47f70cf block/bdev.c   Christoph Hellwig 2023-06-01  869  		bd_finish_claiming(bdev, holder, hops);
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  870  
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  871  		/*
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  872  		 * Block event polling for write claims if requested.  Any write
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  873  		 * holder makes the write_holder state stick until all are
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  874  		 * released.  This is good enough and tracking individual
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  875  		 * writeable reference is too fragile given the way @mode is
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  876  		 * used in blkdev_get/put().
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  877  		 */
-05bdb9965305bb block/bdev.c   Christoph Hellwig 2023-06-08  878  		if ((mode & BLK_OPEN_WRITE) && !bdev->bd_write_holder &&
-1545e0b419ba1d block/bdev.c   Christoph Hellwig 2021-11-22  879  		    (disk->event_flags & DISK_EVENT_FLAG_BLOCK_ON_EXCL_WRITE)) {
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  880  			bdev->bd_write_holder = true;
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  881  			unblock_events = false;
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  882  		}
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  883  	}
-a8698707a1835b fs/block_dev.c Christoph Hellwig 2021-05-25  884  	mutex_unlock(&disk->open_mutex);
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  885  
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  886  	if (unblock_events)
-5b56b6ed574b58 fs/block_dev.c Christoph Hellwig 2020-11-23  887  		disk_unblock_events(disk);
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  888  	handle->bdev = bdev;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  889  	handle->holder = holder;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  890  	handle->mode = mode;
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  891  	return handle;
-efcf5932230b94 block/bdev.c   Ming Lei          2021-11-11  892  put_module:
-efcf5932230b94 block/bdev.c   Ming Lei          2021-11-11  893  	module_put(disk->fops->owner);
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  894  abort_claiming:
-2736e8eeb0ccdc block/bdev.c   Christoph Hellwig 2023-06-08  895  	if (holder)
-37c3fc9abb25cd fs/block_dev.c Christoph Hellwig 2020-11-25  896  		bd_abort_claiming(bdev, holder);
-a8698707a1835b fs/block_dev.c Christoph Hellwig 2021-05-25  897  	mutex_unlock(&disk->open_mutex);
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  898  	disk_unblock_events(disk);
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  899  put_blkdev:
-22ae8ce8b89241 fs/block_dev.c Christoph Hellwig 2020-11-26  900  	blkdev_put_no_open(bdev);
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  901  free_handle:
-bd11bbc24b9009 block/bdev.c   Jan Kara          2023-11-30  902  	kfree(handle);
-603106af5aea5b block/bdev.c   Jan Kara          2023-11-30  903  	return ERR_PTR(ret);
-bd11bbc24b9009 block/bdev.c   Jan Kara          2023-11-30  904  }
-bd11bbc24b9009 block/bdev.c   Jan Kara          2023-11-30  905  EXPORT_SYMBOL(bdev_open_by_dev);
-bd11bbc24b9009 block/bdev.c   Jan Kara          2023-11-30  906  
+59c5ab40989afa virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   25  
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   26  static int vgic_its_save_tables_v0(struct vgic_its *its);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   27  static int vgic_its_restore_tables_v0(struct vgic_its *its);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   28  static int vgic_its_commit_v0(struct vgic_its *its);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   29  static int update_lpi_config(struct kvm *kvm, struct vgic_irq *irq,
+6ce18e3a5f3308 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2017-10-27   30  			     struct kvm_vcpu *filter_vcpu, bool needs_inv);
+71afe470e20db1 virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-04-13   31  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   32  /*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   33   * Creates a new (reference to a) struct vgic_irq for a given LPI.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   34   * If this LPI is already mapped on another ITS, we increase its refcount
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   35   * and return a pointer to the existing structure.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   36   * If this is a "new" LPI, we allocate and initialize a new struct vgic_irq.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   37   * This function returns a pointer to the _unlocked_ structure.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   38   */
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   39  static struct vgic_irq *vgic_add_lpi(struct kvm *kvm, u32 intid,
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   40  				     struct kvm_vcpu *vcpu)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   41  {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   42  	struct vgic_dist *dist = &kvm->arch.vgic;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   43  	struct vgic_irq *irq = vgic_get_irq(kvm, NULL, intid), *oldirq;
+388d4359680b56 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2018-05-11   44  	unsigned long flags;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   45  	int ret;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   46  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   47  	/* In this case there is no put, since we keep the reference. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   48  	if (irq)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   49  		return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   50  
+3ef231670b9e90 arch/arm64/kvm/vgic/vgic-its.c Jia He           2021-09-07   51  	irq = kzalloc(sizeof(struct vgic_irq), GFP_KERNEL_ACCOUNT);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   52  	if (!irq)
+99e5e886a0a59d virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2016-08-01   53  		return ERR_PTR(-ENOMEM);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   54  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   55  	ret = xa_reserve_irq(&dist->lpi_xa, intid, GFP_KERNEL_ACCOUNT);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   56  	if (ret) {
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   57  		kfree(irq);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   58  		return ERR_PTR(ret);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   59  	}
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   60  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   61  	INIT_LIST_HEAD(&irq->lpi_list);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   62  	INIT_LIST_HEAD(&irq->ap_list);
+8fa3adb8c6beee virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   63  	raw_spin_lock_init(&irq->irq_lock);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   64  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   65  	irq->config = VGIC_CONFIG_EDGE;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   66  	kref_init(&irq->refcount);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   67  	irq->intid = intid;
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04   68  	irq->target_vcpu = vcpu;
+8df3c8f33f46ad virt/kvm/arm/vgic/vgic-its.c   Christoffer Dall 2018-07-16   69  	irq->group = 1;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   70  
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07   71  	raw_spin_lock_irqsave(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   72  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   73  	/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   74  	 * There could be a race with another vgic_add_lpi(), so we need to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   75  	 * check that we don't add a second list entry with the same LPI.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   76  	 */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   77  	list_for_each_entry(oldirq, &dist->lpi_list_head, lpi_list) {
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   78  		if (oldirq->intid != intid)
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   79  			continue;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   80  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   81  		/* Someone was faster with adding this LPI, lets use that. */
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   82  		kfree(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   83  		irq = oldirq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   84  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   85  		/*
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   86  		 * This increases the refcount, the caller is expected to
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   87  		 * call vgic_put_irq() on the returned pointer once it's
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   88  		 * finished with the IRQ.
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   89  		 */
+d97594e6bc1b4a virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2016-07-17   90  		vgic_get_irq_kref(irq);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   91  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   92  		goto out_unlock;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   93  	}
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15   94  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   95  	ret = xa_err(xa_store(&dist->lpi_xa, intid, irq, 0));
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   96  	if (ret) {
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   97  		xa_release(&dist->lpi_xa, intid);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  @98  		kfree(irq);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21   99  		goto out_unlock;
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  100  	}
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  101  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  102  	list_add_tail(&irq->lpi_list, &dist->lpi_list_head);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  103  	dist->lpi_list_count++;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  104  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  105  out_unlock:
+fc3bc475231e12 virt/kvm/arm/vgic/vgic-its.c   Julien Thierry   2019-01-07  106  	raw_spin_unlock_irqrestore(&dist->lpi_list_lock, flags);
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  107  
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  108  	if (ret)
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  109  		return ERR_PTR(ret);
+1d6f83f60f79ff arch/arm64/kvm/vgic/vgic-its.c Oliver Upton     2024-02-21  110  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  111  	/*
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  112  	 * We "cache" the configuration table entries in our struct vgic_irq's.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  113  	 * However we only have those structs for mapped IRQs, so we read in
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  114  	 * the respective config data from memory here upon mapping the LPI.
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  115  	 *
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  116  	 * Should any of these fail, behave as if we couldn't create the LPI
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  117  	 * by dropping the refcount and returning the error.
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  118  	 */
+6ce18e3a5f3308 virt/kvm/arm/vgic/vgic-its.c   Marc Zyngier     2017-10-27 @119  	ret = update_lpi_config(kvm, irq, NULL, false);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  120  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  121  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  122  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  123  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  124  
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  125  	ret = vgic_v3_lpi_sync_pending_status(kvm, irq);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  126  	if (ret) {
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  127  		vgic_put_irq(kvm, irq);
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  128  		return ERR_PTR(ret);
+57bdb436ce869a virt/kvm/arm/vgic/vgic-its.c   Zenghui Yu       2020-04-14  129  	}
+06bd5359549d7a virt/kvm/arm/vgic/vgic-its.c   Eric Auger       2017-05-04  130  
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  131  	return irq;
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  132  }
+df9f58fbea9bc6 virt/kvm/arm/vgic/vgic-its.c   Andre Przywara   2016-07-15  133  
+
+:::::: The code at line 119 was first introduced by commit
+:::::: 6ce18e3a5f3308670b49093b1c350d2834428358 KVM: arm/arm64: GICv4: Handle INVALL applied to a vPE
+
+:::::: TO: Marc Zyngier <marc.zyngier@arm.com>
+:::::: CC: Christoffer Dall <christoffer.dall@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
