@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D6018F2C3
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 05:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CB1192B90
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 05:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730956503; cv=none; b=uHXPJpDCkPohMvdxBysqQQxwZ6UK2Vm2HFsxlUFrmnRyrdu6Od2qNImRZVl3qDVFnrCjTQveZqVbgDpJQwjKVfgSy6jk4TZbLiADZRwquvnq3AY7xQ7ECpsXgbY02aqbIY/Ha4VW8SK6lNgAfuv6uT3FHJsoWV3F7pz8DZy7eA0=
+	t=1730958420; cv=none; b=gFEgYo4iOYFN4ns1MMdKuOm6nYUH5TelyogCkD63hdv4M7QZptLIXLPS19ArxRl0qP3CCi7C34yY4EZC9qIsEzZu1QRNWGINgLFWwYuYj4C+aWF4j+14rQqq/s892PFkr8xAJFrmI6DRkIRPf3+tJKr9CIi9c/aF0kqw0VfTRJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730956503; c=relaxed/simple;
-	bh=9lTUCjmbTSJ3R0VTSdufohPnO809gR0I16oeKS9n/1c=;
+	s=arc-20240116; t=1730958420; c=relaxed/simple;
+	bh=aaAHcRm68WFtK4gzsRywrE1YBwoYqmjgd5pTmFLY1Tc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B48G18pfkNfny0eN892jreqoWoa2vjdOdZTu3ZfGGVuQ8kjCMvPFIb1fuZgMPa+CVh2MNOzEpTrqRXrVMK3itoKoJI0eu0GArpRwuzThPMwrJPY1WIsLpLM9qWQrvCGW4dQJNkb4U2jL1+gPVPSViqrvO+8NbzLnfENQcIaxTEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2+wF7PH; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=fwkhX7sp1x0TDPTeX04FZQMcv0DMoiEBW8XYwzD+ZV1o4xBdqXdlQBtCMb6ivX0ufApQ4vaXY5uNC9ptgBikf2bGx0KYtKMxa2PsgaTwKtRKOavF2Md6ve3F7Qc3BvQbWe06glfPr+u+xXYF13rsGtfHDlg11l/dONf5FrlGz5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwwahBOX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2+wF7PH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwwahBOX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730956500; x=1762492500;
+  t=1730958419; x=1762494419;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9lTUCjmbTSJ3R0VTSdufohPnO809gR0I16oeKS9n/1c=;
-  b=L2+wF7PH85bCeldVIvZgZSjEMAt5A/p3oK84vQNdOwk0+VAcMRigQt6p
-   hZXeEAcbuOURuKcChMqp4M31oBlK6aJGHvsw+Ca08Jm6V2y7m5wEx/Djl
-   m5SCSN9ARLpjzc0iACQPwKTyzYF8wYLqxzMejkwOgfVmJ3I2sxzN53tKX
-   mFZgkpeD0/eIpxAcORAiVlgMG5408BLDE7/+3/bHF7yCYk8EZcWoxRKGq
-   syUWuXNPHDdY8mfTjxxR3GFylRPYAMQ2lIhhSvU6kC0tT0yB8cMOof40R
-   k9JQX08Vuj0Ntb7kxBZ2vLUjx8k9Ypfs+fVf6ZNTuXbRXZzPJi/m/9GBH
+  bh=aaAHcRm68WFtK4gzsRywrE1YBwoYqmjgd5pTmFLY1Tc=;
+  b=bwwahBOXXGR6nR13J0Z9PbCRC8i+YG6vOxgk40HD6mMZkKQm2K72vnBR
+   jF6JRfv30EBws7gXPCCH5m1Omeuy2YBTw8+QX2OrMn3VvoDFuuB3e65Gn
+   2+mkNJw9aUm5UYGlWO+5svpG5IlH+Aktj5pfuHuf/WnC3Wvzt+h4o4k7X
+   QMtb24TD/dtkCvycEP62V3dez2R+X6zId/OlY5kGTqGCuiatjVTveCsed
+   ONkTL8haogDMuHOfw/AwUGVLaTG1SYi9Ir7URzxRk64AAmvoi4Wz1oD+y
+   vZit+F3OmOv96tRa4A/fDL5+cqf3VNNbigOq8MtAlS9+ABIerontvWvIN
    g==;
-X-CSE-ConnectionGUID: utdu624qQ9Oo6+/97fE4OA==
-X-CSE-MsgGUID: CUOesfzjTJGE97dnpirQTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30942950"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30942950"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 21:14:57 -0800
-X-CSE-ConnectionGUID: 1cfwfumKSoqtCAv0UZz1vw==
-X-CSE-MsgGUID: 6DNpFxNgRqqSrlu5EyCX1A==
+X-CSE-ConnectionGUID: YjjT+NbiRFq554DHlDMlyQ==
+X-CSE-MsgGUID: 5SFVHHqiT9CdhxWB++/Qiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="56183960"
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="56183960"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 21:46:58 -0800
+X-CSE-ConnectionGUID: VqcvNMHnSDeefcECjSoXzQ==
+X-CSE-MsgGUID: R3Q9eQZ5QoqR2r5tPoWW0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="84890901"
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="84482532"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Nov 2024 21:14:56 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Nov 2024 21:46:56 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8ur8-000pqE-0F;
-	Thu, 07 Nov 2024 05:14:54 +0000
-Date: Thu, 7 Nov 2024 13:14:38 +0800
+	id 1t8vM6-000prW-2E;
+	Thu, 07 Nov 2024 05:46:54 +0000
+Date: Thu, 7 Nov 2024 13:45:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: [openeuler:OLK-5.10 22545/30000]
- drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:584
- isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst'
- [r]
-Message-ID: <202411071314.jQ2pjY5A-lkp@intel.com>
+Subject: drivers/iommu/amd/iommu.c:2011 init_gcr3_table() warn: missing error
+ code? 'ret'
+Message-ID: <202411071356.ZGPCgGEQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -66,110 +64,70 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: kernel@openeuler.org
-TO: Yingbao Jia <yingbao.jia@intel.com>
+CC: linux-kernel@vger.kernel.org
+TO: Vasant Hegde <vasant.hegde@amd.com>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   9f3762914f29a565e005c36bf3d6e5b2e2b5eebc
-commit: d596e923a1905248b0f6693182c6ea140dec6c27 [22545/30000] platform/x86: ISST: Add SST-CP support via TPMI
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-161-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071314.jQ2pjY5A-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ff7afaeca1a15fbeaa2c4795ee806c0667bd77b2
+commit: c9e8701132e6cc162d082e7dad8a2e9110f5f8fd iommu/amd: Setup GCR3 table in advance if domain is SVA capable
+date:   7 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-161-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071356.ZGPCgGEQ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411071314.jQ2pjY5A-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411071356.ZGPCgGEQ-lkp@intel.com/
 
-New smatch warnings:
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:584 isst_if_clos_assoc() warn: potential spectre issue 'isst_common.sst_inst' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:586 isst_if_clos_assoc() warn: possible spectre second half.  'sst_inst'
+smatch warnings:
+drivers/iommu/amd/iommu.c:2011 init_gcr3_table() warn: missing error code? 'ret'
 
-Old smatch warnings:
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:589 isst_if_clos_assoc() warn: potential spectre issue 'sst_inst->power_domain_info' [r]
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:629 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
-drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:633 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
+vim +/ret +2011 drivers/iommu/amd/iommu.c
 
-vim +584 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
-
-d596e923a19052 Srinivas Pandruvada 2023-03-07  541  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  542  static long isst_if_clos_assoc(void __user *argp)
-d596e923a19052 Srinivas Pandruvada 2023-03-07  543  {
-d596e923a19052 Srinivas Pandruvada 2023-03-07  544  	struct isst_if_clos_assoc_cmds assoc_cmds;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  545  	unsigned char __user *ptr;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  546  	int i;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  547  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  548  	/* Each multi command has u16 command count as the first field */
-d596e923a19052 Srinivas Pandruvada 2023-03-07  549  	if (copy_from_user(&assoc_cmds, argp, sizeof(assoc_cmds)))
-d596e923a19052 Srinivas Pandruvada 2023-03-07  550  		return -EFAULT;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  551  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  552  	if (!assoc_cmds.cmd_count || assoc_cmds.cmd_count > ISST_IF_CMD_LIMIT)
-d596e923a19052 Srinivas Pandruvada 2023-03-07  553  		return -EINVAL;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  554  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  555  	ptr = argp + offsetof(struct isst_if_clos_assoc_cmds, assoc_info);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  556  	for (i = 0; i < assoc_cmds.cmd_count; ++i) {
-d596e923a19052 Srinivas Pandruvada 2023-03-07  557  		struct tpmi_per_power_domain_info *power_domain_info;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  558  		struct isst_if_clos_assoc clos_assoc;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  559  		int punit_id, punit_cpu_no, pkg_id;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  560  		struct tpmi_sst_struct *sst_inst;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  561  		int offset, shift, cpu;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  562  		u64 val, mask, clos;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  563  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  564  		if (copy_from_user(&clos_assoc, ptr, sizeof(clos_assoc)))
-d596e923a19052 Srinivas Pandruvada 2023-03-07  565  			return -EFAULT;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  566  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  567  		if (clos_assoc.socket_id > topology_max_packages())
-d596e923a19052 Srinivas Pandruvada 2023-03-07  568  			return -EINVAL;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  569  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  570  		cpu = clos_assoc.logical_cpu;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  571  		clos = clos_assoc.clos;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  572  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  573  		if (assoc_cmds.punit_cpu_map)
-d596e923a19052 Srinivas Pandruvada 2023-03-07  574  			punit_cpu_no = cpu;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  575  		else
-d596e923a19052 Srinivas Pandruvada 2023-03-07  576  			return -EOPNOTSUPP;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  577  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  578  		if (punit_cpu_no < 0)
-d596e923a19052 Srinivas Pandruvada 2023-03-07  579  			return -EINVAL;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  580  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  581  		punit_id = clos_assoc.power_domain_id;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  582  		pkg_id = clos_assoc.socket_id;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  583  
-d596e923a19052 Srinivas Pandruvada 2023-03-07 @584  		sst_inst = isst_common.sst_inst[pkg_id];
-d596e923a19052 Srinivas Pandruvada 2023-03-07  585  
-d596e923a19052 Srinivas Pandruvada 2023-03-07 @586  		if (clos_assoc.power_domain_id > sst_inst->number_of_power_domains)
-d596e923a19052 Srinivas Pandruvada 2023-03-07  587  			return -EINVAL;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  588  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  589  		power_domain_info = &sst_inst->power_domain_info[punit_id];
-d596e923a19052 Srinivas Pandruvada 2023-03-07  590  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  591  		offset = SST_CLOS_ASSOC_0_OFFSET +
-d596e923a19052 Srinivas Pandruvada 2023-03-07  592  				(punit_cpu_no / SST_CLOS_ASSOC_CPUS_PER_REG) * SST_REG_SIZE;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  593  		shift = punit_cpu_no % SST_CLOS_ASSOC_CPUS_PER_REG;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  594  		shift *= SST_CLOS_ASSOC_BITS_PER_CPU;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  595  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  596  		val = readq(power_domain_info->sst_base +
-d596e923a19052 Srinivas Pandruvada 2023-03-07  597  				power_domain_info->sst_header.cp_offset + offset);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  598  		if (assoc_cmds.get_set) {
-d596e923a19052 Srinivas Pandruvada 2023-03-07  599  			mask = GENMASK_ULL((shift + SST_CLOS_ASSOC_BITS_PER_CPU - 1), shift);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  600  			val &= ~mask;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  601  			val |= (clos << shift);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  602  			writeq(val, power_domain_info->sst_base +
-d596e923a19052 Srinivas Pandruvada 2023-03-07  603  					power_domain_info->sst_header.cp_offset + offset);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  604  		} else {
-d596e923a19052 Srinivas Pandruvada 2023-03-07  605  			val >>= shift;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  606  			clos_assoc.clos = val & GENMASK(SST_CLOS_ASSOC_BITS_PER_CPU - 1, 0);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  607  			if (copy_to_user(ptr, &clos_assoc, sizeof(clos_assoc)))
-d596e923a19052 Srinivas Pandruvada 2023-03-07  608  				return -EFAULT;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  609  		}
-d596e923a19052 Srinivas Pandruvada 2023-03-07  610  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  611  		ptr += sizeof(clos_assoc);
-d596e923a19052 Srinivas Pandruvada 2023-03-07  612  	}
-d596e923a19052 Srinivas Pandruvada 2023-03-07  613  
-d596e923a19052 Srinivas Pandruvada 2023-03-07  614  	return 0;
-d596e923a19052 Srinivas Pandruvada 2023-03-07  615  }
-d596e923a19052 Srinivas Pandruvada 2023-03-07  616  
+c5ebd096253910 Vasant Hegde 2024-04-18  1981  
+c9e8701132e6cc Vasant Hegde 2024-04-18  1982  /*
+c9e8701132e6cc Vasant Hegde 2024-04-18  1983   * If domain is SVA capable then initialize GCR3 table. Also if domain is
+c9e8701132e6cc Vasant Hegde 2024-04-18  1984   * in v2 page table mode then update GCR3[0].
+c9e8701132e6cc Vasant Hegde 2024-04-18  1985   */
+c9e8701132e6cc Vasant Hegde 2024-04-18  1986  static int init_gcr3_table(struct iommu_dev_data *dev_data,
+c9e8701132e6cc Vasant Hegde 2024-04-18  1987  			   struct protection_domain *pdom)
+c9e8701132e6cc Vasant Hegde 2024-04-18  1988  {
+c9e8701132e6cc Vasant Hegde 2024-04-18  1989  	struct amd_iommu *iommu = get_amd_iommu_from_dev_data(dev_data);
+c9e8701132e6cc Vasant Hegde 2024-04-18  1990  	int max_pasids = dev_data->max_pasids;
+c9e8701132e6cc Vasant Hegde 2024-04-18  1991  	int ret = 0;
+c9e8701132e6cc Vasant Hegde 2024-04-18  1992  
+c9e8701132e6cc Vasant Hegde 2024-04-18  1993  	 /*
+c9e8701132e6cc Vasant Hegde 2024-04-18  1994  	  * If domain is in pt mode then setup GCR3 table only if device
+c9e8701132e6cc Vasant Hegde 2024-04-18  1995  	  * is PASID capable
+c9e8701132e6cc Vasant Hegde 2024-04-18  1996  	  */
+c9e8701132e6cc Vasant Hegde 2024-04-18  1997  	if (pdom_is_in_pt_mode(pdom) && !pdev_pasid_supported(dev_data))
+c9e8701132e6cc Vasant Hegde 2024-04-18  1998  		return ret;
+c9e8701132e6cc Vasant Hegde 2024-04-18  1999  
+c9e8701132e6cc Vasant Hegde 2024-04-18  2000  	/*
+c9e8701132e6cc Vasant Hegde 2024-04-18  2001  	 * By default, setup GCR3 table to support MAX PASIDs
+c9e8701132e6cc Vasant Hegde 2024-04-18  2002  	 * supported by the device/IOMMU.
+c9e8701132e6cc Vasant Hegde 2024-04-18  2003  	 */
+c9e8701132e6cc Vasant Hegde 2024-04-18  2004  	ret = setup_gcr3_table(&dev_data->gcr3_info, iommu,
+c9e8701132e6cc Vasant Hegde 2024-04-18  2005  			       max_pasids > 0 ?  max_pasids : 1);
+c9e8701132e6cc Vasant Hegde 2024-04-18  2006  	if (ret)
+c9e8701132e6cc Vasant Hegde 2024-04-18  2007  		return ret;
+c9e8701132e6cc Vasant Hegde 2024-04-18  2008  
+c9e8701132e6cc Vasant Hegde 2024-04-18  2009  	/* Setup GCR3[0] only if domain is setup with v2 page table mode */
+c9e8701132e6cc Vasant Hegde 2024-04-18  2010  	if (!pdom_is_v2_pgtbl_mode(pdom))
+c9e8701132e6cc Vasant Hegde 2024-04-18 @2011  		return ret;
+c9e8701132e6cc Vasant Hegde 2024-04-18  2012  
+c9e8701132e6cc Vasant Hegde 2024-04-18  2013  	ret = update_gcr3(dev_data, 0, iommu_virt_to_phys(pdom->iop.pgd), true);
+c9e8701132e6cc Vasant Hegde 2024-04-18  2014  	if (ret)
+c9e8701132e6cc Vasant Hegde 2024-04-18  2015  		free_gcr3_table(&dev_data->gcr3_info);
+c9e8701132e6cc Vasant Hegde 2024-04-18  2016  
+c9e8701132e6cc Vasant Hegde 2024-04-18  2017  	return ret;
+c9e8701132e6cc Vasant Hegde 2024-04-18  2018  }
+c9e8701132e6cc Vasant Hegde 2024-04-18  2019  
 
 -- 
 0-DAY CI Kernel Test Service
