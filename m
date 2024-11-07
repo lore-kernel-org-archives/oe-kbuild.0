@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1A4217916
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 22:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B301D8E01
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 23:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731017798; cv=none; b=k4xYy4YArn31ZLNGZZeTfYcVz694xAKi49vcKt1/OgXwbwOgFRBCst5tcAXz6lhZv4P4inubG51ecgOHx2v2VFt4TgbwySyrLzUq8Ul/+xOZFw9i/HqSPV5P8mj/Cl1UHeimhwhQe4vQfgdabcaWHIYWf6JKbe0fN3C3xWUTjtc=
+	t=1731023382; cv=none; b=kXex3a8lB95pTHNDFFuG/RYAjHpyIBieR74DcONzStFZ0zOisyGEPbOFWECDtsdo9cwEoUbLCU8+NSDTmLA3Nl8a3wXIwRcrGc8LISQT6y6Uh838SApxDK7eFn7KNTOuoCissvJsF4H3TFkSUYJ9X+hxJcm4dywQ+erlGuKZcUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731017798; c=relaxed/simple;
-	bh=Z7yDgO56meFY6ItfX7aKY3sayE9xjnEVYDdyTtcTu+4=;
+	s=arc-20240116; t=1731023382; c=relaxed/simple;
+	bh=QXMJr8J6tUvfXGoNtnJ5xpEBlVBDH1gmPHJCLIe598g=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BheJ7fdb3DPS0iLYyRYJpfek4jUfTD3gTIeTBwmWuR9mATmSZi8cXHmGMQzWcuJd9JOqmvrXbxOmcrJYtEKG5chQARDd6FMMK93cOYUiEVhfIFxmOSIFPol+y1UiwrjpjPYhBSkThJDcXdZUHE32+Wn9a7NIyTUQM533hqixPks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsXTI6hS; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=fGriBKTX7cogKGxlgnQ57uq2Tho01u5Z3XlXKtL1vFqXEnOxuNz9kPL7453IPgvjj37TNIgyoQckLlfgsUnrB5goMgjdJH3HaVx8xvuyvnU1iAKxAyD6hU6JarN1+0Ewgey7hi4rUIzCyl1MI6VRtrh+XhXAUyV8trrGX6ZIkwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyk+ov2w; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsXTI6hS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyk+ov2w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731017797; x=1762553797;
+  t=1731023381; x=1762559381;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z7yDgO56meFY6ItfX7aKY3sayE9xjnEVYDdyTtcTu+4=;
-  b=QsXTI6hS+1Pyh/k70f7FIk8vc4y5PUustlP+kcT9DrFRvGDPwwD9xe2B
-   ypdJDVKGK3M7YEPSuiyGMVYkF16gK1hoqkYcFvC3U5myetZMWNo8gNzhu
-   zJjwbsJJs5bNy5r1kp7dhYbjQkDngVIGDYOoaWQSNsy71jbybVSz/eNn9
-   A5II+K6y1jZBEeTv9+mGHHA4IZqZ8DsVV1pzV5+lJO/7eYv2vVGhB8Abh
-   khtoPyAPhD9oA7CHt3li9la8PlCMzAfoly/AcQh3I1JhM+7tZeITwIPe+
-   1wo66hXdWQaSTxdkDklfrKLoECTmMHeVSZIBAjHex799RUK+G6OZT03KZ
+  bh=QXMJr8J6tUvfXGoNtnJ5xpEBlVBDH1gmPHJCLIe598g=;
+  b=fyk+ov2wbnFB5Yr/YoMMMjMHdiXsjS0A9j+fd/LGVuc9bsbw5U1iQGuv
+   37/8BzdtUIBSVxtUZTp44K0cTRS2q7eO9pRAK7E8Yo9m+X60j92IBTy6I
+   ny5ATNVqRoy0QIlpa672cD5alBZ/gAYeuOQTSRGb19ZlLwmpAC3uPRTYB
+   JxTZdq0/lJpIH5DZtGwHu8yJPLwvU13m3Xc93jz1NqG/F8kLUgFxLSXAN
+   DVfY8Mk1LXNXwl7YEzy5IYkc08N7ZXNFwSpV2+vfYc+5kzFIPKvsF1hq7
+   NMkpdWlGKwgO468GF2EcI4T5cNES9MSh1XSxNwM3STgBdyisZw6NCDUUz
    w==;
-X-CSE-ConnectionGUID: 4SlVvJuBST6CXHKdCtTqrA==
-X-CSE-MsgGUID: PBTkbeeTT4yE5oEBcf11lQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41506917"
+X-CSE-ConnectionGUID: dAu6QWJeSgunfuMQGvApbQ==
+X-CSE-MsgGUID: CNtUluQOTH2NuWYqGEEXsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="31004628"
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="41506917"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 14:16:34 -0800
-X-CSE-ConnectionGUID: Wja8pnPaQLavsCLk/3WiEA==
-X-CSE-MsgGUID: juNXBiuxQg2bMeD7tiOcCg==
+   d="scan'208";a="31004628"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 15:49:40 -0800
+X-CSE-ConnectionGUID: 8mr4v61qTSyCqvd3Hfgd6Q==
+X-CSE-MsgGUID: qYKB5wz0RRWKUoR+dQbckQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="89204497"
+   d="scan'208";a="116145775"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Nov 2024 14:16:33 -0800
+  by orviesa002.jf.intel.com with ESMTP; 07 Nov 2024 15:49:38 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9Ann-000qii-09;
-	Thu, 07 Nov 2024 22:16:31 +0000
-Date: Fri, 8 Nov 2024 06:15:45 +0800
+	id 1t9CFr-000qnM-1x;
+	Thu, 07 Nov 2024 23:49:35 +0000
+Date: Fri, 8 Nov 2024 07:49:15 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: Re: [PATCH V10 12/12] ublk: support leasing io buffer to io_uring
-Message-ID: <202411080639.shF21Vmc-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
+Message-ID: <202411080756.6eYdrM5X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -63,58 +63,75 @@ Content-Disposition: inline
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241107110149.890530-13-ming.lei@redhat.com>
-References: <20241107110149.890530-13-ming.lei@redhat.com>
-TO: Ming Lei <ming.lei@redhat.com>
-TO: Jens Axboe <axboe@kernel.dk>
-TO: io-uring@vger.kernel.org
-TO: Pavel Begunkov <asml.silence@gmail.com>
-CC: linux-block@vger.kernel.org
-CC: Uday Shankar <ushankar@purestorage.com>
-CC: Akilesh Kailash <akailash@google.com>
-CC: Ming Lei <ming.lei@redhat.com>
+In-Reply-To: <20241106061812.6819-3-vicentiu.galanopulo@remote-tech.co.uk>
+References: <20241106061812.6819-3-vicentiu.galanopulo@remote-tech.co.uk>
+TO: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+TO: Pavel Machek <pavel@ucw.cz>
+TO: Lee Jones <lee@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+TO: linux-leds@vger.kernel.org
+TO: devicetree@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: linux-doc@vger.kernel.org
 
-Hi Ming,
+Hi Vicentiu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20241107]
-[cannot apply to linus/master v6.12-rc6]
+[auto build test WARNING on lee-leds/for-leds-next]
+[also build test WARNING on robh/for-next linus/master v6.12-rc6 next-20241107]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/io_uring-rsrc-pass-struct-io_ring_ctx-reference-to-rsrc-helpers/20241107-190456
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20241107110149.890530-13-ming.lei%40redhat.com
-patch subject: [PATCH V10 12/12] ublk: support leasing io buffer to io_uring
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-r063-20241108 (https://download.01.org/0day-ci/archive/20241108/202411080639.shF21Vmc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-142011
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20241106061812.6819-3-vicentiu.galanopulo%40remote-tech.co.uk
+patch subject: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080756.6eYdrM5X-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411080639.shF21Vmc-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411080756.6eYdrM5X-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/block/ublk_drv.c:88:19-22: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+smatch warnings:
+drivers/leds/leds-st1202.c:175 st1202_brightness_get() error: uninitialized symbol 'value'.
 
-vim +88 drivers/block/ublk_drv.c
+vim +/value +175 drivers/leds/leds-st1202.c
 
-79e9f68a5502d0 Ming Lei 2024-11-07  81  
-0edb3696c1713c Ming Lei 2022-07-13  82  struct ublk_rq_data {
-3ab6e94ca53924 Ming Lei 2022-10-29  83  	struct llist_node node;
-8284066946e6d9 Ming Lei 2023-05-19  84  
-8284066946e6d9 Ming Lei 2023-05-19  85  	struct kref ref;
-79e9f68a5502d0 Ming Lei 2024-11-07  86  
-79e9f68a5502d0 Ming Lei 2024-11-07  87  	bool allocated_bvec;
-79e9f68a5502d0 Ming Lei 2024-11-07 @88  	struct uring_kbuf buf[0];
-0edb3696c1713c Ming Lei 2022-07-13  89  };
-0edb3696c1713c Ming Lei 2022-07-13  90  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  154  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  155  static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  156  {
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  157  	struct st1202_led *led;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  158  	struct st1202_chip *chip;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  159  	u8 value;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  160  	int ret;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  161  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  162  	led = cdev_to_st1202_led(led_cdev);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  163  	chip = led->chip;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  164  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  165  	mutex_lock(&chip->lock);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  166  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  167  	ret = st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num,
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  168  				&value);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  169  	if (ret != 0)
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  170  		dev_err(&chip->client->dev, "Reading register [0x%x] failed, error: %d\n",
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  171  			ST1202_ILED_REG0 + led->led_num, ret);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  172  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  173  	mutex_unlock(&chip->lock);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  174  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06 @175  	return value;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  176  }
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  177  
 
 -- 
 0-DAY CI Kernel Test Service
