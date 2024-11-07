@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9FA212F11
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 14:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20677212F13
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 15:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730991140; cv=none; b=HR8WMcEvGO02zaq366AJ97/ngmwsYt3Txa4V3plMMKOdKcwf57UbfsYqBh8EvZAQjzCQsXJv+IGJBacvwkQqin4NSs1RrIX1tic6QUWtApG78O9PktKYaQRVYUM5HEW0mIzX7A8IDSanH+pcl69/XmBwAuZaiqcRZaIp+5t0xkI=
+	t=1730993003; cv=none; b=WTt7Si+427+iUVaecihkvIHvkZ1k8MRrqNLP9pi7ovM07JE9If/apIcAjkq4PUHK7BRS8M7c7GVOfFwgX6LdTCAFs6UcFM98KkYT0rgCCCWvMY4pvuj8R76Rjt4GlQlu+g/qI6lSrWF7AlQXxkW55R2TR9lE3fW+d60SeBE10Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730991140; c=relaxed/simple;
-	bh=dVYL/svwebEq3XLZilQLAZX4qvT2CBvZOgezZV+XKEE=;
+	s=arc-20240116; t=1730993003; c=relaxed/simple;
+	bh=5lX4P66dYU5/OZJnC+HDTJhY38siEw98qe4iTfthwH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B5wBMfZScbcKY4JXHSHS3OyQqZHQKc6C7Qixzr2BEvPuXNNFBcDpj4fWiCbg5bty2S2oq3b79Z54bsZPXIoo8zJ7CX+t5YPrWS0elNhah/Wb4oXATuwmrACr6IHDVUgsKwZPyk4pN5SAUZq97mty3tqdTqA2f9HQRKlXWoZ3Ns4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRx32BDy; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=Kbv6kSsTuYrb3NXqDi68g8itDkbg6AwMqEa1bKraNucgUtMJubDNv5iDw1mYiDnY44ibQt9+958ykrTlX94g3eNg/667Me3q2Cj4UtwmejYreusHi0GYLas4cHo3/G2nyf2AsPzuDdEUteS4cEqFuY4DUO3Sb2nzi1Um4zCRaH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKNOu/jM; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRx32BDy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKNOu/jM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730991139; x=1762527139;
+  t=1730993001; x=1762529001;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dVYL/svwebEq3XLZilQLAZX4qvT2CBvZOgezZV+XKEE=;
-  b=dRx32BDyrrmHGk6CTItyWSWPPgnZzaMGbvkUyYGTEEFYxl6NYt9I6RVa
-   7d2Oi7ytPLyNr1DRG8nHI24SO1gxHbvazbJdLYnBUXAzRwL6P4hHosTGy
-   A8h0663cP5Sy3c40+lz93gj6IW8JR4MNkPCKwkDiCViXpoiClRVAq3GEP
-   N8kFWoKAsf39C50pPUDSfx+B8YvkhPU/Ta+c771PqWTIPd42RSHKXoB1J
-   bkP+GjZ380lPB2bWXn18mObPcqDRhmYIoen6V3L5EmWYlLIMTK7DTDlv/
-   wmINGaTB1Va1Y+jHVDXffxzHlOaQeQnSUE/nN6QarYCKY5+84UqWjxAMC
-   Q==;
-X-CSE-ConnectionGUID: ULh4OoLHTEShG1HpGD3o+w==
-X-CSE-MsgGUID: qXRFwuC5Rz+cKGe4CAiNaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41428571"
-X-IronPort-AV: E=Sophos;i="6.12,135,1728975600"; 
-   d="scan'208";a="41428571"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 06:52:17 -0800
-X-CSE-ConnectionGUID: Cx/vfc4xS8SmbsYzlD6e4w==
-X-CSE-MsgGUID: 5tIqdZptR9GLschc8BrivA==
+  bh=5lX4P66dYU5/OZJnC+HDTJhY38siEw98qe4iTfthwH8=;
+  b=XKNOu/jMkMZITL6Fp5EC3Vd5p9sxpNz4iJAGnxh8Sr6XqUoQTfMGfF6Z
+   drdNfAc+XQ6CZOENkocgSH1yLBr1zwb753nYHDWEHjThJ0pzvML2nHqSv
+   6guJcSKn8znwjQZz3edybu9Pu+fCaItnJ/ZVkxc9ILERgfGOZxELI/G5i
+   rfzvV4Ge1B8GbHweUI8+bL4sKGlXwSAbrEKVU8AGEZ7e0Mja2foYPDEeQ
+   GRoUNZGakhNSiNsalEDV3/hAgepvqWUQsExv9Mmf+CX3g7KVKNinVpZl/
+   ZWG+ywCM+IlK1/LSk4L+WGyMMxK2GA8Qk3xiRZCQefEcpi162R/7vuLUZ
+   g==;
+X-CSE-ConnectionGUID: NJluEDmoRs+Z/mMBrAwJuQ==
+X-CSE-MsgGUID: 1CH6PtSfSomV3Pmj4UMPVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34533320"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34533320"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 07:23:21 -0800
+X-CSE-ConnectionGUID: O0jxM1DrTVqjxEc1v7S62Q==
+X-CSE-MsgGUID: poBpUzZ8R06og5W1IbYbwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,135,1728975600"; 
-   d="scan'208";a="89069983"
+   d="scan'208";a="85453737"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Nov 2024 06:52:16 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 07 Nov 2024 07:23:19 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t93rq-000qMs-1L;
-	Thu, 07 Nov 2024 14:52:14 +0000
-Date: Thu, 7 Nov 2024 22:51:25 +0800
+	id 1t94Lt-000qRI-0U;
+	Thu, 07 Nov 2024 15:23:17 +0000
+Date: Thu, 7 Nov 2024 23:22:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 9/9] arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add
- overlay for SCIF1
-Message-ID: <202411072225.k9C7eGkO-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: drivers/irqchip/irq-loongarch-avec.c:182 complete_irq_moving()
+ error: uninitialized symbol 'isr'.
+Message-ID: <202411072324.f1s5oPfe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,66 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241106120118.1719888-10-claudiu.beznea.uj@bp.renesas.com>
-References: <20241106120118.1719888-10-claudiu.beznea.uj@bp.renesas.com>
-TO: Claudiu <claudiu.beznea@tuxon.dev>
-TO: geert+renesas@glider.be
-TO: magnus.damm@gmail.com
-TO: robh@kernel.org
-TO: krzk+dt@kernel.org
-TO: conor+dt@kernel.org
-TO: mturquette@baylibre.com
-TO: sboyd@kernel.org
-TO: gregkh@linuxfoundation.org
-TO: jirislaby@kernel.org
-TO: p.zabel@pengutronix.de
-TO: lethal@linux-sh.org
-TO: g.liakhovetski@gmx.de
-TO: ysato@users.sourceforge.jp
-TO: ulrich.hecht+renesas@gmail.com
-CC: claudiu.beznea@tuxon.dev
-CC: linux-renesas-soc@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-clk@vger.kernel.org
-CC: linux-serial@vger.kernel.org
-CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+TO: Tianyang Zhang <zhangtianyang@loongson.cn>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Jianmin Lv <lvjianmin@loongson.cn>
+CC: Liupu Wang <wangliupu@loongson.cn>
+CC: Huacai Chen <chenhuacai@loongson.cn>
 
-Hi Claudiu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20241106]
-[cannot apply to geert-renesas-devel/next tty/tty-testing tty/tty-next tty/tty-linus geert-renesas-drivers/renesas-clk linus/master v6.12-rc6 v6.12-rc5 v6.12-rc4 v6.12-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-reset-and-power-domain-for-the-remaining-SCIFs/20241106-200619
-base:   next-20241106
-patch link:    https://lore.kernel.org/r/20241106120118.1719888-10-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH 9/9] arm64: dts: renesas: r9a08g045s33-smarc-pmod: Add overlay for SCIF1
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: arm64-randconfig-051-20241107 (https://download.01.org/0day-ci/archive/20241107/202411072225.k9C7eGkO-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411072225.k9C7eGkO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ff7afaeca1a15fbeaa2c4795ee806c0667bd77b2
+commit: ae16f05c928a1336d5d9d19fd805d7bf29c3f0c8 irqchip/loongarch-avec: Add AVEC irqchip support
+date:   3 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 3 months ago
+config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241107/202411072324.f1s5oPfe-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411072225.k9C7eGkO-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411072324.f1s5oPfe-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc-pmod.dtb: clock-controller@11010000: #power-domain-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/clock/renesas,rzg2l-cpg.yaml#
+New smatch warnings:
+drivers/irqchip/irq-loongarch-avec.c:182 complete_irq_moving() error: uninitialized symbol 'isr'.
+
+Old smatch warnings:
+internal error: ../lib/gcc/loongarch64-linux/14.2.0/include/larchintrin.h:291 SQL error #2: near "and": syntax error
+internal error: ../lib/gcc/loongarch64-linux/14.2.0/include/larchintrin.h:291 SQL: 'select * from return_states where  and type = 1044 and parameter = -1 and key = '$' limit 1;'
+
+vim +/isr +182 drivers/irqchip/irq-loongarch-avec.c
+
+ae16f05c928a13 Tianyang Zhang 2024-08-23  153  
+ae16f05c928a13 Tianyang Zhang 2024-08-23  154  void complete_irq_moving(void)
+ae16f05c928a13 Tianyang Zhang 2024-08-23  155  {
+ae16f05c928a13 Tianyang Zhang 2024-08-23  156  	struct pending_list *plist = this_cpu_ptr(&pending_list);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  157  	struct avecintc_data *adata, *tdata;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  158  	int cpu, vector, bias;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  159  	uint64_t isr;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  160  
+ae16f05c928a13 Tianyang Zhang 2024-08-23  161  	guard(raw_spinlock)(&loongarch_avec.lock);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  162  
+ae16f05c928a13 Tianyang Zhang 2024-08-23  163  	list_for_each_entry_safe(adata, tdata, &plist->head, entry) {
+ae16f05c928a13 Tianyang Zhang 2024-08-23  164  		cpu = adata->prev_cpu;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  165  		vector = adata->prev_vec;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  166  		bias = vector / VECTORS_PER_REG;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  167  		switch (bias) {
+ae16f05c928a13 Tianyang Zhang 2024-08-23  168  		case 0:
+ae16f05c928a13 Tianyang Zhang 2024-08-23  169  			isr = csr_read64(LOONGARCH_CSR_ISR0);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  170  			break;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  171  		case 1:
+ae16f05c928a13 Tianyang Zhang 2024-08-23  172  			isr = csr_read64(LOONGARCH_CSR_ISR1);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  173  			break;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  174  		case 2:
+ae16f05c928a13 Tianyang Zhang 2024-08-23  175  			isr = csr_read64(LOONGARCH_CSR_ISR2);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  176  			break;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  177  		case 3:
+ae16f05c928a13 Tianyang Zhang 2024-08-23  178  			isr = csr_read64(LOONGARCH_CSR_ISR3);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  179  			break;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  180  		}
+ae16f05c928a13 Tianyang Zhang 2024-08-23  181  
+ae16f05c928a13 Tianyang Zhang 2024-08-23 @182  		if (isr & (1UL << (vector % VECTORS_PER_REG))) {
+ae16f05c928a13 Tianyang Zhang 2024-08-23  183  			mp_ops.send_ipi_single(cpu, ACTION_CLEAR_VECTOR);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  184  			continue;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  185  		}
+ae16f05c928a13 Tianyang Zhang 2024-08-23  186  		list_del(&adata->entry);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  187  		irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, false);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  188  		this_cpu_write(irq_map[vector], NULL);
+ae16f05c928a13 Tianyang Zhang 2024-08-23  189  		adata->moving = 0;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  190  		adata->prev_cpu = adata->cpu;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  191  		adata->prev_vec = adata->vec;
+ae16f05c928a13 Tianyang Zhang 2024-08-23  192  	}
+ae16f05c928a13 Tianyang Zhang 2024-08-23  193  }
+ae16f05c928a13 Tianyang Zhang 2024-08-23  194  #endif
+ae16f05c928a13 Tianyang Zhang 2024-08-23  195  
 
 -- 
 0-DAY CI Kernel Test Service
