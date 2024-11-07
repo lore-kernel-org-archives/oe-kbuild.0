@@ -1,68 +1,58 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CF61E2601
-	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 11:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCE61E6DC1
+	for <oe-kbuild@lists.linux.dev>; Thu,  7 Nov 2024 11:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730977981; cv=none; b=iLYwvsOnie2VSvIxk8K3eGo+GaRxteIkhksGg3j5wb4Qj8gxD1/Cxjj3FWheC5UEmqvcKo3mR9R0zU+QocoFVu0vWKU+2PZsrQM0+uDrecEWRWtyYPJy1ynmbuOaf7ubAhYkEUgawSrAHGzSNbmlp4g6u6+dhwsk30oBRZWT5Ao=
+	t=1730978411; cv=none; b=kJyviRT3QU+Z03alw99vw+BdB7slsxYR64BCZ608BGS+IoJH94NsRq2v3xsKWFEmkazuvUYE20/6ugqNuI5WWcHyqpz4oJzAZqyASk1XSoNQ3mPEMy4PkmHWltzDF1rOA2/WmJ9i1F4mk908680hWfXoXUGnvSW0yez3wY9xSdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730977981; c=relaxed/simple;
-	bh=FAssYMuT3g1UCnr1f1768ULjkSWodEn3Mogao3a8VUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sb4vArjs/hZakp5cHf9fmhAcC/CHTkTJPT32Akd4UXiwD+3XIZandOnovcK2nlgGVgx+Lly7a3hk8Hy7qn7KuqxKp5rlc+qOp4rWiqgo+MW9cOYI/v4JKYbV2X/i18Qo1Yr+WKs03rR3uIIhB7DhwUPbsSSkKeiMrEhgp/KZrGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g9FrVVIg; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730978411; c=relaxed/simple;
+	bh=h1Kmzzux6J9mJh6EuJtyy/NAN2mEAPoOh/9CQcuWpDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QKFl46Bb4fzceWE+luvrPzTi46n/GaRdae+Qsg3UTf8N5j3rZIoMFXSwzXrtInLU3xoppRL9wPDWTeA87rZJRd91B9nJcMLo2diioDvT/X45+augBQRQahi82UEWG4O6QKXjcfCrL65P/b0eMCOWqu25hb4HW5vxQ4tFymLIzGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QUNJRXFi; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g9FrVVIg"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9ed49edd41so141938466b.0
-        for <oe-kbuild@lists.linux.dev>; Thu, 07 Nov 2024 03:12:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730977978; x=1731582778; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bxTnaansLsGwyX4X1dG26PErwNbDYPOXaZq2IphXvjY=;
-        b=g9FrVVIg34n8rlhbFATVsc7ikeoMwdNlSa9MK5RS0DJiYsWGMV2MfpDwMF1LfMuvGI
-         WwYG07/Bt+3HpAedTThMnjZP+X+KdIAS9od3sA6S2xtIkvgvRBAlGV3ubHHlEXwa8Phn
-         kzGAWC0i46UXEbPuP4cDOOXi+JbOXWR8Rr700medzpOYVwMQqBiS+zmec5jjCqN0sfoy
-         GgxTPQ1RT/svvJk4ZKK08pjIL/NNDB6xOKB9TV3NSSNMioNTn2sjJnxd6JMdTlGUAjD8
-         kYk5+BiMyNxF8AQYiQ4ZIp7tSyw46CdShIdMfwfTdT5GCGE/wjL+Xk/J0rD2iKqqc7AX
-         Lqbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730977978; x=1731582778;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bxTnaansLsGwyX4X1dG26PErwNbDYPOXaZq2IphXvjY=;
-        b=qWX1raKv/7VNgD63wYBNfKHT4y4OFR34cgTGG4s2F4qybA82+xRoukh1mXvFfcs7bg
-         HkktU/4SKujLO01vWtPq0+QsATPgDoj4sMENPzoIAGt4C3JGd+3pja5Rp6yRkFDIniK9
-         cSCUmqDfs7SVHdb7ET2nMMM1nkIAgGcj/lL/N4zAKV5we5wSCpuRgFnxOjtsVzb4KBx0
-         b+osHpx6UjTIbPPDctPS0Y4PRd2WX7tkrAj8SiHB4t6hqScCSEt1ZkGDepY8zk5S4l9C
-         aQfiuBP4sMSDq1BClEQYIuWOtl2B/MV3myfCX5nkLNfDFuk42KzwT24ZiZPFMMbV/PFR
-         8+zQ==
-X-Gm-Message-State: AOJu0YxNa6t4OK7M8jY6AhS3ftaa2gVGbB9FWEjR1qVBipgrcYpDEhwK
-	NOOFXU7SQrD+q913ErMXV6K8hF5OsqQqRENno/5ay5VMhnlTKa2nKMivOfYSnZelMTJmTJbnKuz
-	TBV8=
-X-Google-Smtp-Source: AGHT+IFphj611143VdJsImYjeAH+pxPMUc82CFGVDH/4iqS20JWIIoXXYG/sr/hULPByHmo8QW5suw==
-X-Received: by 2002:a17:907:7d8d:b0:a9a:1e4d:856d with SMTP id a640c23a62f3a-a9de5edb084mr4352238366b.22.1730977978083;
-        Thu, 07 Nov 2024 03:12:58 -0800 (PST)
-Received: from localhost ([154.14.63.34])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0e0fabesm77450566b.174.2024.11.07.03.12.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 03:12:57 -0800 (PST)
-Date: Thu, 7 Nov 2024 14:12:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Cindy Lu <lulu@redhat.com>,
-	jasowang@redhat.com, mst@redhat.com, michael.christie@oracle.com,
-	sgarzare@redhat.com, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 5/9] vhost: Add kthread support in function
- vhost_worker_queue()
-Message-ID: <e55d4e60-37ed-49ad-a8cc-f7b6adb03b09@suswa.mountain>
-References: <20241105072642.898710-6-lulu@redhat.com>
- <247f4cd6-5653-4eef-9436-5699b44c4b82@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QUNJRXFi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730978409; x=1762514409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h1Kmzzux6J9mJh6EuJtyy/NAN2mEAPoOh/9CQcuWpDs=;
+  b=QUNJRXFiZtuE4/eWd22jjLucn7zPmVh4LWdJgKanYPi7/L+MuPX9fhTU
+   kEaerqmQP9vBPacrSXI0A5QAfwf0YH7wfAacMvtpzH4aLa6KCIb+EiYBK
+   zJlxdj5dZxL8ZGQmm06Qao1CEi3HHGrjxMPMJkHqDg8zSZRPhwSgDsl/R
+   odF/s2wriDXmQyGUT81Bal54EvoBtfRx6f9p+sy5k0obZmTCUL1ZaGhZP
+   KdtCJkxDo9XCINPzTFU9vDQ06D9MTSfx0osQ6JR75m/ewfvkldwkq8IIe
+   x3kYx+NlUjbZugfDFTQqaZLWOLLBK6xtd0Ld9azbhRF9MUhQWrClVGurL
+   g==;
+X-CSE-ConnectionGUID: ErOgXtNzSf6etJUPhvu3rA==
+X-CSE-MsgGUID: OPGDN7WYRoKqT2rFBCrKFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41432974"
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="41432974"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 03:20:09 -0800
+X-CSE-ConnectionGUID: xjaRwHFfQVazSWXIvJuP9g==
+X-CSE-MsgGUID: p5AaQXXQQ+O6QeD1qw/sGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="108319163"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2024 03:20:07 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t90YX-000q9i-2P;
+	Thu, 07 Nov 2024 11:20:05 +0000
+Date: Thu, 7 Nov 2024 19:20:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 6/9] vhost: Add kthread support in function
+ vhost_worker_destroy()
+Message-ID: <202411071945.ExiEHgoX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -71,43 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <247f4cd6-5653-4eef-9436-5699b44c4b82@suswa.mountain>
 
-On Thu, Nov 07, 2024 at 01:38:56PM +0300, Dan Carpenter wrote:
-> Hi Cindy,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-parameter-to-allow-user-select-kthread/20241105-153254
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-> patch link:    https://lore.kernel.org/r/20241105072642.898710-6-lulu%40redhat.com
-> patch subject: [PATCH v3 5/9] vhost: Add kthread support in function vhost_worker_queue()
-> config: x86_64-randconfig-161-20241106 (https://download.01.org/0day-ci/archive/20241107/202411071251.tQLG8K6C-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202411071251.tQLG8K6C-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/vhost/vhost.c:241 vhost_worker_queue() error: we previously assumed 'worker' could be null (see line 241)
-> 
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241105072642.898710-7-lulu@redhat.com>
+References: <20241105072642.898710-7-lulu@redhat.com>
+TO: Cindy Lu <lulu@redhat.com>
+TO: lulu@redhat.com
+TO: jasowang@redhat.com
+TO: mst@redhat.com
+TO: michael.christie@oracle.com
+TO: sgarzare@redhat.com
+TO: linux-kernel@vger.kernel.org
+TO: virtualization@lists.linux-foundation.org
+TO: netdev@vger.kernel.org
 
-I only meant to send this warning.
+Hi Cindy,
 
-> Old smatch warnings:
-> drivers/vhost/vhost.c:311 vhost_dev_flush() warn: iterator 'i' not incremented
-> drivers/vhost/vhost.c:678 vhost_attach_cgroups() error: uninitialized symbol 'ret'.
-> drivers/vhost/vhost.c:673 vhost_attach_cgroups() warn: iterator 'i' not incremented
-> 
+kernel test robot noticed the following build warnings:
 
-Not these.  I need to fix these for systems without the cross function
-DB...  #embarassing.
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-parameter-to-allow-user-select-kthread/20241105-153254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20241105072642.898710-7-lulu%40redhat.com
+patch subject: [PATCH v3 6/9] vhost: Add kthread support in function vhost_worker_destroy()
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241106 (https://download.01.org/0day-ci/archive/20241107/202411071945.ExiEHgoX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411071945.ExiEHgoX-lkp@intel.com/
+
+New smatch warnings:
+drivers/vhost/vhost.c:721 vhost_worker_destroy() error: we previously assumed 'worker' could be null (see line 721)
+
+Old smatch warnings:
+drivers/vhost/vhost.c:241 vhost_worker_queue() error: we previously assumed 'worker' could be null (see line 241)
+drivers/vhost/vhost.c:311 vhost_dev_flush() warn: iterator 'i' not incremented
+drivers/vhost/vhost.c:678 vhost_attach_cgroups() error: uninitialized symbol 'ret'.
+drivers/vhost/vhost.c:673 vhost_attach_cgroups() warn: iterator 'i' not incremented
+
+vim +/worker +721 drivers/vhost/vhost.c
+
+5ce995f313ce56 Jason Wang    2020-05-29  717  
+1cdaafa1b8b4ef Mike Christie 2023-06-26  718  static void vhost_worker_destroy(struct vhost_dev *dev,
+1cdaafa1b8b4ef Mike Christie 2023-06-26  719  				 struct vhost_worker *worker)
+1a5f8090c6de99 Mike Christie 2023-03-10  720  {
+e4dec2edddbd54 Cindy Lu      2024-11-05 @721  	if (!worker && !worker->fn)
+1a5f8090c6de99 Mike Christie 2023-03-10  722  		return;
+1a5f8090c6de99 Mike Christie 2023-03-10  723  
+1cdaafa1b8b4ef Mike Christie 2023-06-26  724  	WARN_ON(!llist_empty(&worker->work_list));
+1cdaafa1b8b4ef Mike Christie 2023-06-26  725  	xa_erase(&dev->worker_xa, worker->id);
+e4dec2edddbd54 Cindy Lu      2024-11-05  726  	worker->fn->stop(dev->inherit_owner ? (void *)worker->vtsk :
+e4dec2edddbd54 Cindy Lu      2024-11-05  727  					      (void *)worker->task);
+e4dec2edddbd54 Cindy Lu      2024-11-05  728  	kfree(worker->fn);
+1cdaafa1b8b4ef Mike Christie 2023-06-26  729  	kfree(worker);
+1cdaafa1b8b4ef Mike Christie 2023-06-26  730  }
+1cdaafa1b8b4ef Mike Christie 2023-06-26  731  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
