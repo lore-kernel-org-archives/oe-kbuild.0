@@ -1,57 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB071F1319
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B00A1F131F
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731075610; cv=none; b=hYJ188avZcDPakWVKfXUlAqj4ihoeLByl5EXpnXmkGUsE92yo572SsNe/rHZoNmBJncgEyY0GIf4kDluPXBQh8d+xjqT1WWU6Ffq6RD8yx0CxbDy86+D/NQd5BtNKGkeZ45W+/49YeD0gQtr6igTieUudi0giFIVXIivrtcAxso=
+	t=1731076447; cv=none; b=Lo85JvzvzExpzlrO3UFcrNAByknjlDqyzlPAKYnucg8P3qGTa/PlLXAv71mVKQCWT4fpcGcyzfruv8amBZ7tlzDMlejh6ctBAk5sFdxQVZDFetaxLtZ8QYcTZfz8/qTrVjJ9+avd8hSUcCa9/NMUYq5ZLpGQ4/ix8DZsKHB48xM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731075610; c=relaxed/simple;
-	bh=t9fAJFwkrTBKTfAT1EZucSjCcSRJDyT4OUqzbUHzzaY=;
+	s=arc-20240116; t=1731076447; c=relaxed/simple;
+	bh=DPU+D+82CmA9h5Ph6EL7ffraHSVchVSGoKUFRSRG56Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GC++q0SvGRP4L96H3wsnEopFjSFIMU9qtM3R7vUKkTDLCZATunMZZUZTtWVLMlTuS/6yHxP73Oh7frMXwh+y92oySrpsIRx5MFSln9NrnhD1nhQr4jdtmQNINc2vlUYOeBfqI1suzU0GdVKCVENcFHG89Nk3ZZFMKlxIo+otnhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFE/bAds; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=P+gw2yrxwmyhmL/EJ+wNJoNXNMj9H+xDljmFhqXXQ0gBDpp25MHTpXyo2zCfhFE/WwNRN58/nrMLx0Y4z/xCpUughg6z9X9CCIG/b0l1JWLJdWMz7wshtIPZhByJOFZwYe3kGFvPzsDT77RmyD7cxifFSgyTZ3mtVl2u4mfT6Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ybP7BiNd; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFE/bAds"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731075608; x=1762611608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t9fAJFwkrTBKTfAT1EZucSjCcSRJDyT4OUqzbUHzzaY=;
-  b=SFE/bAdsiQTtLZr6I1RG5MAgdgHgR08xz8eEdmeqyyZTxKI1/kZg2m2g
-   7FUGNrjYRU5aWb+sWCyZ2mew9rkeb/G6Il6DX8ykE3is2z1ubikBLCi9z
-   Hirz8x8nhXJ5vE8/WWc0t9KRHQk2O+jKNL/4mM49CZsTrcZRkDeQeTWfS
-   hSQNKlvc8JDa9PS35bUgXlyu+SFcG2HVEt+hGNHxzfvk6U4KMg7HYM1zS
-   eWA0tYi2LEw1hrHSqa7MnzF9aV34oO8N3NbTp5lIrNUerGqWSN8Ki8vj+
-   4oXijS+stQIUhIskGPOwmc3GWlZy4IBdOW8eqiGdv8sO3BSY7TKG3d5xp
-   A==;
-X-CSE-ConnectionGUID: wI6wV10XQwKIiU+4vxfZqg==
-X-CSE-MsgGUID: dk5iy/4UTVCty0dnHSHS7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="41575764"
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="41575764"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 06:20:07 -0800
-X-CSE-ConnectionGUID: vUA2gVkETKqsg3K+IpxiUQ==
-X-CSE-MsgGUID: Ex68GUueReWvAa8RW4HkWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="90212424"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2024 06:20:06 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9PqG-000rUs-17;
-	Fri, 08 Nov 2024 14:20:04 +0000
-Date: Fri, 8 Nov 2024 22:19:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v3 1/2] dt-bindings: linflexuart: add clock definitions
-Message-ID: <202411082240.1XGlojLB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ybP7BiNd"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37ed7eb07a4so1486211f8f.2
+        for <oe-kbuild@lists.linux.dev>; Fri, 08 Nov 2024 06:34:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731076443; x=1731681243; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
+        b=ybP7BiNdPXCNfpB0UQFFVoXysTCsmaQ9R3QmJ1aTFpMLdc14v9AAH+YMl40+DjkccB
+         2ag23e9yjCNrnSgllLiF8+/VjAuyZCAWnlv2p3bAA2F3t3pnRZKsIfrThsn70SuwjX39
+         ksVBQIBDr4E8sboyqy2knzSjxk2DyyAWLOEjiPlIFF6k1HLACb7yEBBwnDm0z3Uny3QE
+         VwQa7p1o7K1KBSeGdsp8NXBZfsIPhMiqiIxDucNc+Bi2cT2l+2+cqoS6pZqEmJX5uJAo
+         w43R/STqQbTl2dlS/EIRLd3XJK/SG33bfIHBzNBu7aXDg7FI+PDuEsk0/dVHi5+DB7jp
+         N/Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731076443; x=1731681243;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
+        b=N6mUGpyIAhZdPyvj2zMNJnk7OZGS0i4TCokxwDDnVqXn1cwsuJctGB/CJoTAiUtWQC
+         kSJwjZNabdKo59wcXgKk6KHCGyG1mcXLwMEOSFxeRiXugKcl4d5YEErabLjosy0jOK8j
+         z464CDdfP4F641rUICtkNomLfwLxzfUXr2SqRftxneW6VySMTtGdFCTOEJJQxaRYAyQP
+         vl2ftSSUoktDITQjGs2M2UiD/vz2czs3eokoT+cJKaQFaQE7U7k73ZCyoPleVnvkt0je
+         KZDZgtVVTusLObi7SYMV2Jv+ubh8WrI7J+cCu3tYwWtAgHu7lDHrLwX+FTjWNJSU9ISS
+         jERQ==
+X-Gm-Message-State: AOJu0YwtvwP3ATipQg5vRLYyk9+/jQ9QkXB1AxknIrqNTvseQfjhxuuh
+	gAMdU/iq32Y6FtL+rC2/4AXFOPV5RuyqGq0xcifb2E3ODAgoQ4/3WWtuw2NsQRBimXmBFicUGlv
+	3
+X-Google-Smtp-Source: AGHT+IFiQTvvUUVNBS+RC050g+C25oacYB7OQt6yFvIZkoyX4jf9tm4lHFTxhmnrBwsgz4a+MFioMQ==
+X-Received: by 2002:a05:6000:1866:b0:37d:4870:dedf with SMTP id ffacd0b85a97d-381f172a6e7mr2781004f8f.19.1731076443139;
+        Fri, 08 Nov 2024 06:34:03 -0800 (PST)
+Received: from localhost ([89.101.134.25])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed99a34bsm4960209f8f.54.2024.11.08.06.34.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 06:34:02 -0800 (PST)
+Date: Fri, 8 Nov 2024 17:34:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
+Message-ID: <954d6aa4-5dc7-4421-9b92-4cb9a0b9d40c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -60,91 +73,61 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241106061812.6819-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241107114611.758433-2-ciprianmarian.costea@oss.nxp.com>
-References: <20241107114611.758433-2-ciprianmarian.costea@oss.nxp.com>
-TO: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Jiri Slaby <jirislaby@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Chester Lin <chester62515@gmail.com>
-CC: linux-kernel@vger.kernel.org
-CC: linux-serial@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: NXP S32 Linux Team <s32@nxp.com>
-CC: imx@lists.linux.dev
-CC: Christophe Lizzi <clizzi@redhat.com>
-CC: Alberto Ruiz <aruizrui@redhat.com>
-CC: Enric Balletbo <eballetb@redhat.com>
-CC: Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>
-
-Hi Ciprian,
+Hi Vicentiu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus robh/for-next linus/master v6.12-rc6 next-20241108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-linflexuart-add-clock-definitions/20241107-194716
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20241107114611.758433-2-ciprianmarian.costea%40oss.nxp.com
-patch subject: [PATCH v3 1/2] dt-bindings: linflexuart: add clock definitions
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: arm64-randconfig-051-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082240.1XGlojLB-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411082240.1XGlojLB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-142011
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20241106061812.6819-3-vicentiu.galanopulo%40remote-tech.co.uk
+patch subject: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
+config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080756.6eYdrM5X-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411082240.1XGlojLB-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411080756.6eYdrM5X-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: serial@401c8000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: serial@401c8000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
---
->> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401c8000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401c8000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401cc000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401cc000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
---
->> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401c8000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401c8000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401cc000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401cc000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
---
->> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@40053000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@40053000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@400bc000: 'clocks' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
->> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@400bc000: 'clock-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+smatch warnings:
+drivers/leds/leds-st1202.c:175 st1202_brightness_get() error: uninitialized symbol 'value'.
+
+vim +/value +175 drivers/leds/leds-st1202.c
+
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  155  static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  156  {
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  157  	struct st1202_led *led;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  158  	struct st1202_chip *chip;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  159  	u8 value;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  160  	int ret;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  161  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  162  	led = cdev_to_st1202_led(led_cdev);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  163  	chip = led->chip;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  164  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  165  	mutex_lock(&chip->lock);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  166  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  167  	ret = st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num,
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  168  				&value);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  169  	if (ret != 0)
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  170  		dev_err(&chip->client->dev, "Reading register [0x%x] failed, error: %d\n",
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  171  			ST1202_ILED_REG0 + led->led_num, ret);
+
+Presumably value is uninitialized if st1202_read_reg() fails.  Normally
+I would just mark st1202_read_reg() as a no-fail function and not
+report it but here there is explicit error checking so it's weird.
+
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  172  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  173  	mutex_unlock(&chip->lock);
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  174  
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06 @175  	return value;
+7e6780184dc934 Vicentiu Galanopulo 2024-11-06  176  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
