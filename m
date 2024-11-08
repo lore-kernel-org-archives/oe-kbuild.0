@@ -1,170 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A9319DF8C
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 03:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4F528F1
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 04:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731037851; cv=none; b=Dbh4qyL9Fq0PkHjB5m1G/ouvgByI23hdIKIGR/LORkdk8dSZyo/QB8XAUTEv14YkQpGIiUP9xgjt4S8QniHFoQ6eV76jZA4f4Pl71qX8TZaZHJ/j32KymP7gZN+l0U+mRzWYue2Ux8C3Dwr+zfrz3wgo2g1doXe0Gxi9N6zmjDU=
+	t=1731038454; cv=none; b=hmnuJD2VqRljdYYmmZfHkZYPjGSCmKNbRih5QSnxbo09EjwSUJSzYhtVotaxdNtNkV4TTf+uGjirB65fxElzJMmJLfdy/oCFTR0/goe0lX8B01XfpVfMWhdHVVU+kCmV5jzi3upSEiBtRbq1Rm/EKktIvyriUije89QEohTqtpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731037851; c=relaxed/simple;
-	bh=Q/xV0HCFQS0jkbV6Nzn80Hzm8RwApAVSz9zbMifOAWA=;
+	s=arc-20240116; t=1731038454; c=relaxed/simple;
+	bh=6JeHFweXTKn1wCZnJfl5ewPdVBC2xchCSw9f2RZ7CRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ac1etDSXogaLkqqWy2dFbFyBn+zl1rD6gnd+/d3L5+qFQM2XVZVIJgMPW9B8dCdEWW3bk4DDVjhJqT1ntVhTryDWTKLBXIvtBlizfaXsuqhvDirqWi45kkrrr05wgPR6gjgjyH2pFdQmtYFWflkO8+d8k/4b84g9upeuoUQS8Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kQLkUWoR; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=rjOskzwMph4tVDG0s2Av2ushIGCtgVx4J/rmVFTiC9/9s6xLSiom1ucLJMcZGrsimP+zZWbiMjZBJpBUgu6KRlKCTdRI1AarUhBfAbEVX245ZkenQCw6t5QYi0xTd/PMJyx+2enkDWgHdxiE07JjSElqWLSSszppsKxCYuhmBsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KChvWCSI; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kQLkUWoR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KChvWCSI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731037850; x=1762573850;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Q/xV0HCFQS0jkbV6Nzn80Hzm8RwApAVSz9zbMifOAWA=;
-  b=kQLkUWoRGO58DsbHOJvPS/bIKobObPUGKEPTVUf4MQ/6iwROG5LzS9Rb
-   ky6IfmRLAkBfQcvmInBE/XMEnDm0JopKlsE0ZY1ZIi0220s1lWdN4CxUO
-   +073MnJwlXt3Zw7/9dGxixgHg9zlC2fE5BhwhDw+NI5wPLtR61A/KXiOW
-   R+SU9OODyHf1bvIXTDLxdaZttIBIcOPmlGKMNGsQCcK/863bfT3U+p+2q
-   3UTlHePG3XZMVFG9LGs5bCd2jYl94EZVc1yUQj7kepaszV3SdTwv4uR0Q
-   X8ojpS6a/JLPQZUzJXU7t4Ti3B/miFapCdBst34w44UNCY/Jkm2OlDnh9
+  t=1731038451; x=1762574451;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6JeHFweXTKn1wCZnJfl5ewPdVBC2xchCSw9f2RZ7CRw=;
+  b=KChvWCSIQutOfDrlryN8dch9FZ7gVej+RTU111N2L+AxpzHTh4PATtJI
+   HV1KYZMA64pI3qbx8mHZTw2Cs8Q69qHcMHGNOV3KE+IwfjqqbQ+dFvyFx
+   1EZl+7boOUP3v6OOBQC3xFv8GLSAfR6bprucdoLDH9yxHQU0Yh+IIijII
+   LV3maNeoEQORVXAfKdEWjvE5aM4raAhzv6GYqP3LiByuZMDwiordp3U+M
+   KoOxK8Fmr7Pqy71RgLaUfD9JJDxih/PxcR3dtyOCkMAT+BU5ymrEDmirS
+   Me8rhsffKTJOCtTJv2boF9R6b6xfScX2c13D07Kk5+kw+eMlaHnvIxXGd
    A==;
-X-CSE-ConnectionGUID: JYAtlAlfQxSyejchjr67lw==
-X-CSE-MsgGUID: vSxpigKJRMCyqt+ntfzyBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34834799"
-X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="34834799"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 19:50:49 -0800
-X-CSE-ConnectionGUID: /WEndsXwRI20UR69V+/7eQ==
-X-CSE-MsgGUID: f4E/fVNjQB+yu+2gkKvS7Q==
+X-CSE-ConnectionGUID: uk+UIWgZRQSf3O1iaGAwRQ==
+X-CSE-MsgGUID: is2g6/wdSMij3udQDCSk4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31079888"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31079888"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 20:00:50 -0800
+X-CSE-ConnectionGUID: rNHNl97FSICRV+Xjda35UQ==
+X-CSE-MsgGUID: Vk0Xb9GLQICdZNkAqRhIIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="85345754"
+   d="scan'208";a="90489602"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Nov 2024 19:50:48 -0800
+  by orviesa004.jf.intel.com with ESMTP; 07 Nov 2024 20:00:48 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9G1F-000qzK-1U;
-	Fri, 08 Nov 2024 03:50:45 +0000
-Date: Fri, 8 Nov 2024 11:50:20 +0800
+	id 1t9GAv-000qze-1s;
+	Fri, 08 Nov 2024 04:00:45 +0000
+Date: Fri, 8 Nov 2024 12:00:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH] crypto: caam - add error check to
- caam_rsa_set_priv_key_form
-Message-ID: <202411081137.LPAjeqWV-lkp@intel.com>
+Subject: drivers/soc/apple/mailbox.c:292 apple_mbox_get() warn: passing zero
+ to 'ERR_PTR'
+Message-ID: <202411081103.7IiOcvUp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241104121511.1634822-1-chenridong@huaweicloud.com>
-References: <20241104121511.1634822-1-chenridong@huaweicloud.com>
-TO: Chen Ridong <chenridong@huaweicloud.com>
-TO: horia.geanta@nxp.com
-TO: pankaj.gupta@nxp.com
-TO: gaurav.jain@nxp.com
-TO: herbert@gondor.apana.org.au
-TO: davem@davemloft.net
-TO: tudor-dan.ambarus@nxp.com
-TO: radu.alexe@nxp.com
-CC: linux-crypto@vger.kernel.org
-CC: chenridong@huawei.com
-CC: wangweiyang2@huawei.com
+CC: linux-kernel@vger.kernel.org
+TO: Hector Martin <marcan@marcan.st>
 
-Hi Chen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.12-rc6 next-20241107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/crypto-caam-add-error-check-to-caam_rsa_set_priv_key_form/20241104-202521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241104121511.1634822-1-chenridong%40huaweicloud.com
-patch subject: [PATCH] crypto: caam - add error check to caam_rsa_set_priv_key_form
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: openrisc-randconfig-r071-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081137.LPAjeqWV-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   906bd684e4b1e517dd424a354744c5b0aebef8af
+commit: c84292d9d253706267889cf2614400712f15d689 soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+config: sparc-randconfig-r072-20241107 (https://download.01.org/0day-ci/archive/20241108/202411081103.7IiOcvUp-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202411081137.LPAjeqWV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411081103.7IiOcvUp-lkp@intel.com/
 
 smatch warnings:
-drivers/crypto/caam/caampkc.c:1085 caam_rsa_set_priv_key() warn: missing unwind goto?
+drivers/soc/apple/mailbox.c:292 apple_mbox_get() warn: passing zero to 'ERR_PTR'
 
-vim +1085 drivers/crypto/caam/caampkc.c
+vim +/ERR_PTR +292 drivers/soc/apple/mailbox.c
 
-52e26d77b8b3de Radu Alexe    2017-04-25  1048  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1049  static int caam_rsa_set_priv_key(struct crypto_akcipher *tfm, const void *key,
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1050  				 unsigned int keylen)
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1051  {
-4cb4f7c11deef5 Herbert Xu    2022-11-25  1052  	struct caam_rsa_ctx *ctx = akcipher_tfm_ctx_dma(tfm);
-8439e94fceb381 Horia Geantă  2016-11-09  1053  	struct rsa_key raw_key = {NULL};
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1054  	struct caam_rsa_key *rsa_key = &ctx->key;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1055  	int ret;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1056  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1057  	/* Free the old RSA key if any */
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1058  	caam_rsa_free_key(rsa_key);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1059  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1060  	ret = rsa_parse_priv_key(&raw_key, key, keylen);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1061  	if (ret)
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1062  		return ret;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1063  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1064  	/* Copy key in DMA zone */
-199354d7fb6eaa Herbert Xu    2022-12-30  1065  	rsa_key->d = kmemdup(raw_key.d, raw_key.d_sz, GFP_KERNEL);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1066  	if (!rsa_key->d)
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1067  		goto err;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1068  
-199354d7fb6eaa Herbert Xu    2022-12-30  1069  	rsa_key->e = kmemdup(raw_key.e, raw_key.e_sz, GFP_KERNEL);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1070  	if (!rsa_key->e)
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1071  		goto err;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1072  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1073  	/*
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1074  	 * Skip leading zeros and copy the positive integer to a buffer
-199354d7fb6eaa Herbert Xu    2022-12-30  1075  	 * allocated in the GFP_KERNEL zone. The decryption descriptor
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1076  	 * expects a positive integer for the RSA modulus and uses its length as
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1077  	 * decryption output length.
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1078  	 */
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1079  	rsa_key->n = caam_read_raw_data(raw_key.n, &raw_key.n_sz);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1080  	if (!rsa_key->n)
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1081  		goto err;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1082  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1083  	if (caam_rsa_check_key_length(raw_key.n_sz << 3)) {
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1084  		caam_rsa_free_key(rsa_key);
-8c419778ab57e4 Tudor Ambarus 2016-07-04 @1085  		return -EINVAL;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1086  	}
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1087  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1088  	rsa_key->d_sz = raw_key.d_sz;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1089  	rsa_key->e_sz = raw_key.e_sz;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1090  	rsa_key->n_sz = raw_key.n_sz;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1091  
-0aa745ef94c209 Chen Ridong   2024-11-04  1092  	ret = caam_rsa_set_priv_key_form(ctx, &raw_key);
-0aa745ef94c209 Chen Ridong   2024-11-04  1093  	if (ret)
-0aa745ef94c209 Chen Ridong   2024-11-04  1094  		goto err;
-52e26d77b8b3de Radu Alexe    2017-04-25  1095  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1096  	return 0;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1097  
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1098  err:
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1099  	caam_rsa_free_key(rsa_key);
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1100  	return -ENOMEM;
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1101  }
-8c419778ab57e4 Tudor Ambarus 2016-07-04  1102  
+6e1457fcad3ff6 Hector Martin 2023-03-14  281  
+6e1457fcad3ff6 Hector Martin 2023-03-14  282  struct apple_mbox *apple_mbox_get(struct device *dev, int index)
+6e1457fcad3ff6 Hector Martin 2023-03-14  283  {
+6e1457fcad3ff6 Hector Martin 2023-03-14  284  	struct of_phandle_args args;
+6e1457fcad3ff6 Hector Martin 2023-03-14  285  	struct platform_device *pdev;
+6e1457fcad3ff6 Hector Martin 2023-03-14  286  	struct apple_mbox *mbox;
+6e1457fcad3ff6 Hector Martin 2023-03-14  287  	int ret;
+6e1457fcad3ff6 Hector Martin 2023-03-14  288  
+6e1457fcad3ff6 Hector Martin 2023-03-14  289  	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
+6e1457fcad3ff6 Hector Martin 2023-03-14  290  					 index, &args);
+6e1457fcad3ff6 Hector Martin 2023-03-14  291  	if (ret || !args.np)
+6e1457fcad3ff6 Hector Martin 2023-03-14 @292  		return ERR_PTR(ret);
+6e1457fcad3ff6 Hector Martin 2023-03-14  293  
+6e1457fcad3ff6 Hector Martin 2023-03-14  294  	pdev = of_find_device_by_node(args.np);
+6e1457fcad3ff6 Hector Martin 2023-03-14  295  	of_node_put(args.np);
+6e1457fcad3ff6 Hector Martin 2023-03-14  296  
+6e1457fcad3ff6 Hector Martin 2023-03-14  297  	if (!pdev)
+6e1457fcad3ff6 Hector Martin 2023-03-14  298  		return ERR_PTR(EPROBE_DEFER);
+6e1457fcad3ff6 Hector Martin 2023-03-14  299  
+6e1457fcad3ff6 Hector Martin 2023-03-14  300  	mbox = platform_get_drvdata(pdev);
+6e1457fcad3ff6 Hector Martin 2023-03-14  301  	if (!mbox)
+6e1457fcad3ff6 Hector Martin 2023-03-14  302  		return ERR_PTR(EPROBE_DEFER);
+6e1457fcad3ff6 Hector Martin 2023-03-14  303  
+6e1457fcad3ff6 Hector Martin 2023-03-14  304  	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
+6e1457fcad3ff6 Hector Martin 2023-03-14  305  		return ERR_PTR(ENODEV);
+6e1457fcad3ff6 Hector Martin 2023-03-14  306  
+6e1457fcad3ff6 Hector Martin 2023-03-14  307  	return mbox;
+6e1457fcad3ff6 Hector Martin 2023-03-14  308  }
+6e1457fcad3ff6 Hector Martin 2023-03-14  309  EXPORT_SYMBOL(apple_mbox_get);
+6e1457fcad3ff6 Hector Martin 2023-03-14  310  
+
+:::::: The code at line 292 was first introduced by commit
+:::::: 6e1457fcad3ff6b1885e64f5e393db5ff5ec2a42 soc: apple: mailbox: Add ASC/M3 mailbox driver
+
+:::::: TO: Hector Martin <marcan@marcan.st>
+:::::: CC: Hector Martin <marcan@marcan.st>
 
 -- 
 0-DAY CI Kernel Test Service
