@@ -1,58 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB23F1E7C26
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 12:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012F81DEFC2
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731068892; cv=none; b=lLrTjcqr+PAjf59IXV+BkzwxWARj+rR+6ARvXa4NCZwvM1c4yp51VxsuD90gg0GiZHyj9iXWFPyCWAU/pOZhjNrUmHfCL0CqzhilwjqTC57GvZrf3KGopP6hxSRiopaeuWtFU5AOO0uyVDRs6JLCu9xoP8qdfazm2nqbmwo2JPQ=
+	t=1731075587; cv=none; b=MsqZP3KYImVw7iscv6CJjm2LRiQ5Qoncc8/C/L28Z54IIyLxagyWouggOGE9ccX5fkdFcksQB4yctj6cztXhAMxbSl7enB1sQMY7TIK9OeBi8aqH3g1AhH8mCRn0N9uVFePrRG1ICjEDdwFXAp4h4k1V/IRDw/0QTxj8q3ir7u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731068892; c=relaxed/simple;
-	bh=NGY4B+iIFrN5c6HxZksLpGnvP9XJCGtGSUAv1z+kEOI=;
+	s=arc-20240116; t=1731075587; c=relaxed/simple;
+	bh=ZLLRMH49n6WaYFzMYL7hdn+IuXPLKE4cMZuz6YX2Flw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E4Z8HUqit5QtFJvYyN5tK4PvCuukDev4FrrDzcBgEIYsT7Mnub5LntmEEyFCI9737TJWa4/rUySQMLF59qLufDRUGtSU/+OvZwYh9Gsvj721t1IjAYE9/raFZyA3xXImMzmpR9amVmLsE8fw20ukUBn1ujYjCotMxcPENkX7qx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F1WGkHbg; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=cLkeW3fr9ksyjXeYCRqWMBVqadTUd8fGn4sGhm8oqs1+nV8G3jkfxN9GCzbkv7Q/9bzaAITE4pbo7jwq/zx+oAtsII6GT03wPUDY6lqpQhpZKNmCURNU/fXLXbaYCVMFcuJ521RdEjlXXdMIpp7LeA1b2J478peeKnLE41cSh10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tvPvGV97; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F1WGkHbg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731068891; x=1762604891;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NGY4B+iIFrN5c6HxZksLpGnvP9XJCGtGSUAv1z+kEOI=;
-  b=F1WGkHbg7bzUHY5t5wmEest2XPYY0yE510X5GxOi5qMh7r0gEtO/ZOLw
-   ggTZIWrlVAI+/9IVfXWEkbWOwaY+MRHBrrroUcQuuCvCBdWIHGDJupUGF
-   NfxofvIieYBy5rmI6FuhznyOOL0siwHhNBw/y+LX/CGDsDJ7SrTa/3AbR
-   quebjT2+ZYfe5P11fLhom/cQ+AKmgzlD0oMccnS5EsBy70WNfQOCZDzvu
-   a1KhL7gXHb8Vi2Kq9L1RCAh7TtMVEqI8nFUGxQ6NnaoXdIs6pLYSyt7Dz
-   qmNgC+vaRwREgLkAKWuCVyoWP/vj02Q7IpkaNmnHtOTKTh2eUgFtQ+B85
-   A==;
-X-CSE-ConnectionGUID: IRpQniiHTESOisvRWFIuww==
-X-CSE-MsgGUID: er8Vgx3yTgS2pwDehtsWTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41509126"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41509126"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 04:28:09 -0800
-X-CSE-ConnectionGUID: mEis2mbpS5qnI7pbYyUpTg==
-X-CSE-MsgGUID: PTglKhhgQHyyHIZm5XQwWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="90083788"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Nov 2024 04:28:05 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9O5q-000rPu-0K;
-	Fri, 08 Nov 2024 12:28:02 +0000
-Date: Fri, 8 Nov 2024 20:27:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: arch/arm/lib/xor-neon.c:14:2: sparse: sparse: You should compile
- this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-Message-ID: <202411082053.cxHgnubU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tvPvGV97"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9404c0d50so2623066a12.3
+        for <oe-kbuild@lists.linux.dev>; Fri, 08 Nov 2024 06:19:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731075584; x=1731680384; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VGA9Y6BP3dpROBWYVYwafi2ecYshZ4WbiAsNU+E9Uq0=;
+        b=tvPvGV972kyF0X7jCPTCCyf6uJre9B6guvjG/EBY5xbldeiaUE8Hh5Oz1MEcdTIjMP
+         W/77g2wEHMsNXaNZ1df3parZHc6FbLkwrt6Q4ftF0u8Vt0dE2qFdeYs72op2lwlQqupz
+         3FGUJuMMDpsicWoQec5uxnwlC9mT5FLtDHQSNhrsAIL4m8ZHoB/L/jaA8xtbwySJNtg6
+         DwW5FPSPkPCzJpYhveh7/9y1sggqKKyMbGtZzB466LZRXJWNJ7tNv9D4+UrxIT3J/KZF
+         LdtPGAkK1dAbcSnkQ5otMIEqZFz2w03GYQRQD8I6T31MfVZp8TEmbuHCSaSt+of01azb
+         L6rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731075584; x=1731680384;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VGA9Y6BP3dpROBWYVYwafi2ecYshZ4WbiAsNU+E9Uq0=;
+        b=WJeE42umSXgrsbth1mGFui741oSoS72+q0y0g7PUoVj2iRP/mcnuXOh98XO6azjQe3
+         +cgD+Ykm7qhpyOL9ZzkEiS1g6vlDC0fb4R/uXW/WN7RwSYpkAdIbCx+dgPdVOvWCyPqP
+         p6Cm5LXaDzc9ySfipE56EpTv/YQelgkSeFMuB/5NAArjUx1ewdH1DPsnHafHCQdhmo2I
+         ENtjIWI4K8pvl34t63BXkXE8wHuMgLTU7EpQ87vtyZ/pRxARF6XJ3XRzlzpMju3e3FNK
+         HVKQyQZ5iYksgQANZO6quL3mcXePTEE8HtEKTxuJIIFr48lu1YoibwqXHN5zLAtfYf8F
+         X0UQ==
+X-Gm-Message-State: AOJu0YyVO+CHpUXhrNEoRyGJVLsLGopOgCBCASZ3cv0jKeHSjE0YLxXB
+	09DvqzzVQu/qpcxFv/rshiRTVIH3rTWtE6tN0zUOa3YJ6Gw+rMTUE1TKg0djj/Y0yEzg1m6eyJi
+	0
+X-Google-Smtp-Source: AGHT+IHmXybQiAHW1OqbfUTN22sas0nIZd7gHqCAPHOaYdpQEeD0jrEFikAP+yhuHydY+dzM1edQDw==
+X-Received: by 2002:a05:6402:d0d:b0:5ca:151a:b84c with SMTP id 4fb4d7f45d1cf-5cf0a320706mr2220233a12.18.1731075583567;
+        Fri, 08 Nov 2024 06:19:43 -0800 (PST)
+Received: from localhost ([154.14.63.34])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03bb765asm2025429a12.48.2024.11.08.06.19.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 06:19:43 -0800 (PST)
+Date: Fri, 8 Nov 2024 17:19:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Shawn Lin <shawn.lin@rock-chips.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"Rafael J . Wysocki" <rafael@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Avri Altman <avri.altman@wdc.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	YiFeng Zhao <zyf@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
+	linux-scsi@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v4 4/7] pmdomain: core: Introduce
+ dev_pm_genpd_rpm_always_on()
+Message-ID: <54ad5572-3ad6-4c8d-80cd-b2f975ad91bf@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,136 +81,97 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
 
-:::::: 
-:::::: Manual check reason: "low confidence static check first_new_problem: arch/arm/lib/xor-neon.c:14:2: sparse: sparse: You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'"
-:::::: 
+Hi Shawn,
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-kernel@vger.kernel.org
-TO: Kent Overstreet <kent.overstreet@linux.dev>
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   906bd684e4b1e517dd424a354744c5b0aebef8af
-commit: cd575ddf57af004913ff5a994aa5f3203216fa68 bcachefs: Erasure coding
-date:   1 year, 1 month ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 1 year, 1 month ago
-config: arm-randconfig-r131-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082053.cxHgnubU-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce: (https://download.01.org/0day-ci/archive/20241108/202411082053.cxHgnubU-lkp@intel.com/reproduce)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/dt-bindings-ufs-Document-Rockchip-UFS-host-controller/20241104-191810
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/1730705521-23081-5-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH v4 4/7] pmdomain: core: Introduce dev_pm_genpd_rpm_always_on()
+config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080432.5dWP6wRt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411082053.cxHgnubU-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411080432.5dWP6wRt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/lib/xor-neon.c:14:2: sparse: sparse: You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
---
-   lib/raid6/recov_neon_inner.c: note: in included file:
-   /opt/cross/clang-592c0fe55f/lib/clang/20/include/arm_neon.h:28:2: sparse: sparse: "NEON intrinsics not available with the soft-float ABI. Please use -mfloat-abi=softfp or -mfloat-abi=hard"
-   lib/raid6/recov_neon_inner.c: note: in included file:
-   lib/raid6/neon.h:15:50: sparse: sparse: Expected ) in function declarator
-   lib/raid6/neon.h:15:50: sparse: sparse: got *
-   lib/raid6/neon.h:19:50: sparse: sparse: Expected ) in function declarator
-   lib/raid6/neon.h:19:50: sparse: sparse: got *
-   lib/raid6/recov_neon_inner.c:16:19: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:16:19: sparse: sparse: got vqtbl1q_u8
-   lib/raid6/recov_neon_inner.c:20:33: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:20:33: sparse: sparse: got pair
-   lib/raid6/recov_neon_inner.c:21:9: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid6/recov_neon_inner.c:21:9: sparse: sparse: got }
->> lib/raid6/recov_neon_inner.c:23:9: sparse: sparse: Trying to use reserved word 'return' as identifier
-   lib/raid6/recov_neon_inner.c:23:16: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:23:16: sparse: sparse: got vcombine_u8
-   lib/raid6/recov_neon_inner.c:25:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid6/recov_neon_inner.c:25:1: sparse: sparse: got }
-   lib/raid6/recov_neon_inner.c:33:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:33:20: sparse: sparse: got pm1
-   lib/raid6/recov_neon_inner.c:34:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:34:20: sparse: sparse: got qm0
-   lib/raid6/recov_neon_inner.c:35:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:35:20: sparse: sparse: got qm1
-   lib/raid6/recov_neon_inner.c:36:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:36:20: sparse: sparse: got x0f
-   lib/raid6/recov_neon_inner.c:50:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   lib/raid6/recov_neon_inner.c:50:16: sparse: sparse: missing type declaration for parameter 'bytes'
-   lib/raid6/recov_neon_inner.c:51:28: sparse: sparse: Expected ; at end of statement
-   lib/raid6/recov_neon_inner.c:51:28: sparse: sparse: got vx
-   lib/raid6/recov_neon_inner.c:76:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid6/recov_neon_inner.c:76:1: sparse: sparse: got }
-   lib/raid6/recov_neon_inner.c:82:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:82:20: sparse: sparse: got qm1
-   lib/raid6/recov_neon_inner.c:83:20: sparse: sparse: Expected ; at end of declaration
-   lib/raid6/recov_neon_inner.c:83:20: sparse: sparse: got x0f
-   lib/raid6/recov_neon_inner.c:92:9: sparse: sparse: Trying to use reserved word 'while' as identifier
-   lib/raid6/recov_neon_inner.c:92:16: sparse: sparse: missing type declaration for parameter 'bytes'
-   lib/raid6/recov_neon_inner.c:93:28: sparse: sparse: Expected ; at end of statement
-   lib/raid6/recov_neon_inner.c:93:28: sparse: sparse: got vx
-   lib/raid6/recov_neon_inner.c:111:1: sparse: sparse: Expected ; at the end of type declaration
-   lib/raid6/recov_neon_inner.c:111:1: sparse: sparse: got }
-   lib/raid6/recov_neon_inner.c:53:17: sparse: sparse: undefined identifier 'px'
-   lib/raid6/recov_neon_inner.c:53:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:54:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:54:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:56:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:56:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
-   lib/raid6/recov_neon_inner.c:57:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:57:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:58:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:58:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:59:17: sparse: sparse: undefined identifier 'qx'
-   lib/raid6/recov_neon_inner.c:59:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:61:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:61:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
-   lib/raid6/recov_neon_inner.c:62:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:62:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:63:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:63:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:64:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:64:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:65:17: sparse: sparse: undefined identifier 'db'
-   lib/raid6/recov_neon_inner.c:65:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:67:17: sparse: sparse: undefined identifier 'vst1q_u8'
-   lib/raid6/recov_neon_inner.c:68:17: sparse: sparse: undefined identifier 'vst1q_u8'
-   lib/raid6/recov_neon_inner.c:71:17: sparse: sparse: undefined identifier 'p'
-   lib/raid6/recov_neon_inner.c:72:17: sparse: sparse: undefined identifier 'q'
-   lib/raid6/recov_neon_inner.c:73:17: sparse: sparse: undefined identifier 'dp'
-   lib/raid6/recov_neon_inner.c:74:17: sparse: sparse: undefined identifier 'dq'
-   lib/raid6/recov_neon_inner.c:95:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:95:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:97:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:97:22: sparse: sparse: undefined identifier 'vshrq_n_u8'
-   lib/raid6/recov_neon_inner.c:98:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:98:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:99:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:99:22: sparse: sparse: undefined identifier 'vqtbl1q_u8'
-   lib/raid6/recov_neon_inner.c:100:17: sparse: sparse: undefined identifier 'vx'
-   lib/raid6/recov_neon_inner.c:100:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:101:17: sparse: sparse: undefined identifier 'vy'
-   lib/raid6/recov_neon_inner.c:101:22: sparse: sparse: undefined identifier 'veorq_u8'
-   lib/raid6/recov_neon_inner.c:103:17: sparse: sparse: undefined identifier 'vst1q_u8'
-   lib/raid6/recov_neon_inner.c:104:17: sparse: sparse: undefined identifier 'vst1q_u8'
-   lib/raid6/recov_neon_inner.c:107:17: sparse: sparse: undefined identifier 'p'
-   lib/raid6/recov_neon_inner.c:108:17: sparse: sparse: undefined identifier 'q'
-   lib/raid6/recov_neon_inner.c:109:17: sparse: sparse: undefined identifier 'dq'
+New smatch warnings:
+drivers/pmdomain/core.c:898 genpd_power_off() warn: curly braces intended?
 
-vim +14 arch/arm/lib/xor-neon.c
+vim +898 drivers/pmdomain/core.c
 
-01956597cbc46d Ard Biesheuvel    2013-05-17  12  
-01956597cbc46d Ard Biesheuvel    2013-05-17  13  #ifndef __ARM_NEON__
-de9c0d49d85dc5 Nathan Chancellor 2019-02-02 @14  #error You should compile this file with '-march=armv7-a -mfloat-abi=softfp -mfpu=neon'
-01956597cbc46d Ard Biesheuvel    2013-05-17  15  #endif
-01956597cbc46d Ard Biesheuvel    2013-05-17  16  
+2da835452a08758 drivers/base/power/domain.c Ulf Hansson     2017-02-17  850  static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
+2da835452a08758 drivers/base/power/domain.c Ulf Hansson     2017-02-17  851  			   unsigned int depth)
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  852  {
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  853  	struct pm_domain_data *pdd;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  854  	struct gpd_link *link;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  855  	unsigned int not_suspended = 0;
+f63816e43d90442 drivers/base/power/domain.c Ulf Hansson     2020-09-24  856  	int ret;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  857  
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  858  	/*
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  859  	 * Do not try to power off the domain in the following situations:
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  860  	 * (1) The domain is already in the "power off" state.
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  861  	 * (2) System suspend is in progress.
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  862  	 */
+41e2c8e0060db25 drivers/base/power/domain.c Ulf Hansson     2017-03-20  863  	if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  864  		return 0;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  865  
+ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  866  	/*
+ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  867  	 * Abort power off for the PM domain in the following situations:
+ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  868  	 * (1) The domain is configured as always on.
+ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  869  	 * (2) When the domain has a subdomain being powered on.
+ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  870  	 */
+ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  871  	if (genpd_is_always_on(genpd) ||
+ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  872  			genpd_is_rpm_always_on(genpd) ||
+ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  873  			atomic_read(&genpd->sd_count) > 0)
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  874  		return -EBUSY;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  875  
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  876  	/*
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  877  	 * The children must be in their deepest (powered-off) states to allow
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  878  	 * the parent to be powered off. Note that, there's no need for
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  879  	 * additional locking, as powering on a child, requires the parent's
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  880  	 * lock to be acquired first.
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  881  	 */
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  882  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  883  		struct generic_pm_domain *child = link->child;
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  884  		if (child->state_idx < child->state_count - 1)
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  885  			return -EBUSY;
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  886  	}
+e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  887  
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  888  	list_for_each_entry(pdd, &genpd->dev_list, list_node) {
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  889  		/*
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  890  		 * Do not allow PM domain to be powered off, when an IRQ safe
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  891  		 * device is part of a non-IRQ safe domain.
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  892  		 */
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  893  		if (!pm_runtime_suspended(pdd->dev) ||
+7a02444b8fc25ac drivers/base/power/domain.c Ulf Hansson     2022-05-11  894  			irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
 
-:::::: The code at line 14 was first introduced by commit
-:::::: de9c0d49d85dc563549972edc5589d195cd5e859 ARM: 8833/1: Ensure that NEON code always compiles with Clang
+{
 
-:::::: TO: Nathan Chancellor <natechancellor@gmail.com>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  895  			not_suspended++;
+f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  896  
+f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  897  			/* The device may need its PM domain to stay powered on. */
+f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04 @898  			if (to_gpd_data(pdd)->rpm_always_on)
+f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  899  				return -EBUSY;
+
+}
+
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  900  	}
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  901  
+3c64649d1cf9f32 drivers/base/power/domain.c Ulf Hansson     2017-02-17  902  	if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  903  		return -EBUSY;
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  904  
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  905  	if (genpd->gov && genpd->gov->power_down_ok) {
+1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  906  		if (!genpd->gov->power_down_ok(&genpd->domain))
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
