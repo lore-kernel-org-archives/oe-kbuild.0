@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEDC14A90
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 01:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E411187
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 03:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731030960; cv=none; b=kwH0THeAqUP5KlFH8BkxsRvmLjG0TR7FXs8m0boKhaqnsGK2gr/iDG8h4yr2GlAArRGvEqata8L/zsqlXq/gusKGnAILB8vgpJj75vrJHtB1RUiNyF/ZuSEJbrB7mLCb1WDQ5tvxaLSyv7oIg1ISR1dHYAMb7vNPmr/c2gMZEoI=
+	t=1731036590; cv=none; b=U3ZFrcxEFXgD/iIMSMspANz1kUUwWUsQBYo9L0ozI9RkPyNMonGUcp2OSsPtvhKbVmefM6/abYJFcrpeLIFUXhSZ3STmqQpih9qggcfzj0Z87Z7ldQTMMlS1KdRaj0Rqkuhdcs7tum8/CQhYI4aRf7fxwtF7fb6O96BVERL5G2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731030960; c=relaxed/simple;
-	bh=AOVjfWyCSGec1KkulaHelVUEcaO/1/TG3NAbwr9xkpk=;
+	s=arc-20240116; t=1731036590; c=relaxed/simple;
+	bh=DrJvp13VQ29ppQBCcxWR/wn14lvA37XuMc7sQXphq3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GBiHe46Th1uAZk0cxmdd0XL6t9XN6OsJaEN6XnVXOC89/IKDnqf030rTzqHyDcATPjJBHkVf7lg4nQ9KxP6AbfG25aSgnr60h5+uKQ7r4XD/sWQi+w6nJdHS0M+1pVFPmX3N1B29cVIyT0P77XhYlrxlowQ9o2nI/E/V5blgUR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLoo8Kfn; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=N40SBUVi1oQwHqAkcHRULP+/THHwGRWgVuC+GgkZX5MXxLHiONH6LG+27qnH61oGPEm7Jm/eQjWm5udb5Jquq5a8nxBmVhBXkrukdJnQX6VDwuqmofOB9g7iLvC4ECf6zA6HkHghSHxsRTufjgcW5glHC4Cs4pl1M7zd/13s6Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fVDICiED; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLoo8Kfn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fVDICiED"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731030959; x=1762566959;
+  t=1731036589; x=1762572589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AOVjfWyCSGec1KkulaHelVUEcaO/1/TG3NAbwr9xkpk=;
-  b=cLoo8Kfngng7WnhLHM8qOHB5IrEwKmsJpQb4fbeO5XdkMqU+v08Kc/iC
-   UODRzV2WLBgpzsvt4jVdv4mgPwDQYAi6zTpkYmEVvpk4i+fKTreR4+JOE
-   9VxBu6NAX6iqH1F7aA+46xuHoE+lYODPeVUut1VQMpGFp35ILjBXK4Rqr
-   JgRlifnl7qgX66us9gWBoiho+cKJw3F6TmwdYV/+bPxsWT+5u1qCCTQg/
-   iI/TjsprRfka3FNZ9DO6VWb9qJ+gTf5pCLxtSLtlLVmkXi67oTIA1IoB6
-   +DhHPbNXkhdVZFZ9jAuZF2WL8U0qUGXsAgl1yb7wwynK2FpU6X6HIoATn
+  bh=DrJvp13VQ29ppQBCcxWR/wn14lvA37XuMc7sQXphq3k=;
+  b=fVDICiEDFwDEHVTMzlhIG4ihDls18KjSqz/lb+XlWfLGDdekXrYQXXBQ
+   R9FIXGWnRQwa6SWWrqAqmMp2rSHEoiH7sMwu2l3q51Q/WkU08eWwqjf4J
+   8X8QHIuGqQkK4yiA3vvhcx8GW7y3LvW0wPj+e3c8jVK7V0sq+jd3pP65c
+   KAf7PXXMWpQjolY5mBVLa0oWinzpiCThzhX9ny127wq03xtMGQY3NbGlr
+   BcNeBTYiCcGMWhIcP+Jjktvn6hxRla4bKEIhogNtbpSQPyP1rJRhpPFft
+   ShdRGSaMGkWelQ33r3eR9PRg5rHNmaQ1x3MQR+P3mU5G0qCmptc96PB98
    Q==;
-X-CSE-ConnectionGUID: oFgBD/DtQDqtqedYcdwrQA==
-X-CSE-MsgGUID: t4H5YAb2Raak1SjFnIU0RA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="33753701"
+X-CSE-ConnectionGUID: 4iUpJpUdTdC6QkEhiaUxoQ==
+X-CSE-MsgGUID: 3T7XQ0OzSbOULR9PW9YpMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="30324491"
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="33753701"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 17:55:57 -0800
-X-CSE-ConnectionGUID: TNc8BNQaS7GFsQXafLNd9g==
-X-CSE-MsgGUID: 0PN+y/K4Qk6ZDejALs64pQ==
+   d="scan'208";a="30324491"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 19:29:49 -0800
+X-CSE-ConnectionGUID: 4ZcFzl49R0++z6kqngFxbg==
+X-CSE-MsgGUID: KekLT4loRgeX0uWWVgWX0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="85650675"
+   d="scan'208";a="86168145"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 07 Nov 2024 17:55:42 -0800
+  by orviesa008.jf.intel.com with ESMTP; 07 Nov 2024 19:29:48 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9EDr-000qtW-0k;
-	Fri, 08 Nov 2024 01:55:39 +0000
-Date: Fri, 8 Nov 2024 09:54:56 +0800
+	id 1t9Fgv-000qym-0q;
+	Fri, 08 Nov 2024 03:29:45 +0000
+Date: Fri, 8 Nov 2024 11:29:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v7 3/7] dt-bindings: pinctrl: mediatek,mt6779-pinctrl:
- Add MT6795
-Message-ID: <202411080949.t4LFRG5P-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: fs/ext4/extents.c:2270 ext4_ext_find_hole() error: uninitialized
+ symbol 'len'.
+Message-ID: <202411081305.HNvtSrNo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,70 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241106100741.173825-4-y.oudjana@protonmail.com>
-References: <20241106100741.173825-4-y.oudjana@protonmail.com>
-TO: Yassine Oudjana <y.oudjana@protonmail.com>
-TO: Sean Wang <sean.wang@kernel.org>
-TO: Linus Walleij <linus.walleij@linaro.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Matthias Brugger <matthias.bgg@gmail.com>
-TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-TO: Andy Teng <andy.teng@mediatek.com>
-CC: Yassine Oudjana <y.oudjana@protonmail.com>
-CC: linux-mediatek@lists.infradead.org
-CC: linux-gpio@vger.kernel.org
-CC: devicetree@vger.kernel.org
 CC: linux-kernel@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
+TO: Zhang Yi <yi.zhang@huawei.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Jan Kara <jack@suse.cz>
 
-Hi Yassine,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next robh/for-next linus/master v6.12-rc6 next-20241107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Oudjana/dt-bindings-pinctrl-mediatek-mt6779-pinctrl-Pull-pinctrl-node-changes-from-MT6795-document/20241106-181127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241106100741.173825-4-y.oudjana%40protonmail.com
-patch subject: [PATCH v7 3/7] dt-bindings: pinctrl: mediatek,mt6779-pinctrl: Add MT6795
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: arm64-randconfig-051-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080949.t4LFRG5P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080949.t4LFRG5P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   906bd684e4b1e517dd424a354744c5b0aebef8af
+commit: 6430dea07e85958fa87d0276c0c4388dd51e630b ext4: correct the hole length returned by ext4_map_blocks()
+date:   9 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 months ago
+config: sparc-randconfig-r071-20241107 (https://download.01.org/0day-ci/archive/20241108/202411081305.HNvtSrNo-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411080949.t4LFRG5P-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411081305.HNvtSrNo-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@10006000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
->> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pinctrl@10005000: interrupts: [[0, 153, 4], [0, 154, 4]] is too long
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt6779-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: timer@10008000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt6795-timer', 'mediatek,mt6577-timer'] is too long
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt6577-timer', 'mediatek,mt6765-timer', 'mediatek,mt6795-systimer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt2701-timer', 'mediatek,mt6580-timer', 'mediatek,mt6582-timer', 'mediatek,mt6589-timer', 'mediatek,mt7623-timer', 'mediatek,mt8127-timer', 'mediatek,mt8135-timer', 'mediatek,mt8173-timer', 'mediatek,mt8516-timer']
-   	'mediatek,mt6795-timer' is not one of ['mediatek,mt7629-timer', 'mediatek,mt8183-timer', 'mediatek,mt8186-timer', 'mediatek,mt8188-timer', 'mediatek,mt8192-timer', 'mediatek,mt8195-timer', 'mediatek,mt8365-systimer']
-   	'mediatek,mt6765-timer' was expected
-   	from schema $id: http://devicetree.org/schemas/timer/mediatek,timer.yaml#
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/timer@10008000: failed to match any schema with compatible: ['mediatek,mt6795-timer', 'mediatek,mt6577-timer']
-   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pwrap@1000d000: 'mt6331' does not match any of the regexes: 'pinctrl-[0-9]+'
+smatch warnings:
+fs/ext4/extents.c:2270 ext4_ext_find_hole() error: uninitialized symbol 'len'.
+
+vim +/len +2270 fs/ext4/extents.c
+
+bb5835edcdf8bf Theodore Ts'o    2019-08-11  2229  
+bb5835edcdf8bf Theodore Ts'o    2019-08-11  2230  
+a86c61812637c7 Alex Tomas       2006-10-11  2231  /*
+6430dea07e8595 Zhang Yi         2024-01-27  2232   * ext4_ext_find_hole - find hole around given block according to the given path
+140a52508a6838 Jan Kara         2016-03-09  2233   * @inode:	inode we lookup in
+140a52508a6838 Jan Kara         2016-03-09  2234   * @path:	path in extent tree to @lblk
+140a52508a6838 Jan Kara         2016-03-09  2235   * @lblk:	pointer to logical block around which we want to determine hole
+140a52508a6838 Jan Kara         2016-03-09  2236   *
+140a52508a6838 Jan Kara         2016-03-09  2237   * Determine hole length (and start if easily possible) around given logical
+140a52508a6838 Jan Kara         2016-03-09  2238   * block. We don't try too hard to find the beginning of the hole but @path
+140a52508a6838 Jan Kara         2016-03-09  2239   * actually points to extent before @lblk, we provide it.
+140a52508a6838 Jan Kara         2016-03-09  2240   *
+140a52508a6838 Jan Kara         2016-03-09  2241   * The function returns the length of a hole starting at @lblk. We update @lblk
+140a52508a6838 Jan Kara         2016-03-09  2242   * to the beginning of the hole if we managed to find it.
+a86c61812637c7 Alex Tomas       2006-10-11  2243   */
+6430dea07e8595 Zhang Yi         2024-01-27  2244  static ext4_lblk_t ext4_ext_find_hole(struct inode *inode,
+140a52508a6838 Jan Kara         2016-03-09  2245  				      struct ext4_ext_path *path,
+140a52508a6838 Jan Kara         2016-03-09  2246  				      ext4_lblk_t *lblk)
+a86c61812637c7 Alex Tomas       2006-10-11  2247  {
+a86c61812637c7 Alex Tomas       2006-10-11  2248  	int depth = ext_depth(inode);
+a86c61812637c7 Alex Tomas       2006-10-11  2249  	struct ext4_extent *ex;
+140a52508a6838 Jan Kara         2016-03-09  2250  	ext4_lblk_t len;
+a86c61812637c7 Alex Tomas       2006-10-11  2251  
+a86c61812637c7 Alex Tomas       2006-10-11  2252  	ex = path[depth].p_ext;
+a86c61812637c7 Alex Tomas       2006-10-11  2253  	if (ex == NULL) {
+2f8e0a7c6c89f8 Zheng Liu        2014-11-25  2254  		/* there is no extent yet, so gap is [0;-] */
+140a52508a6838 Jan Kara         2016-03-09  2255  		*lblk = 0;
+2f8e0a7c6c89f8 Zheng Liu        2014-11-25  2256  		len = EXT_MAX_BLOCKS;
+140a52508a6838 Jan Kara         2016-03-09  2257  	} else if (*lblk < le32_to_cpu(ex->ee_block)) {
+140a52508a6838 Jan Kara         2016-03-09  2258  		len = le32_to_cpu(ex->ee_block) - *lblk;
+140a52508a6838 Jan Kara         2016-03-09  2259  	} else if (*lblk >= le32_to_cpu(ex->ee_block)
+a2df2a63407803 Amit Arora       2007-07-17  2260  			+ ext4_ext_get_actual_len(ex)) {
+725d26d3f09ccb Aneesh Kumar K.V 2008-01-28  2261  		ext4_lblk_t next;
+725d26d3f09ccb Aneesh Kumar K.V 2008-01-28  2262  
+140a52508a6838 Jan Kara         2016-03-09  2263  		*lblk = le32_to_cpu(ex->ee_block) + ext4_ext_get_actual_len(ex);
+725d26d3f09ccb Aneesh Kumar K.V 2008-01-28  2264  		next = ext4_ext_next_allocated_block(path);
+140a52508a6838 Jan Kara         2016-03-09  2265  		BUG_ON(next == *lblk);
+140a52508a6838 Jan Kara         2016-03-09  2266  		len = next - *lblk;
+a86c61812637c7 Alex Tomas       2006-10-11  2267  	} else {
+a86c61812637c7 Alex Tomas       2006-10-11  2268  		BUG();
+a86c61812637c7 Alex Tomas       2006-10-11  2269  	}
+140a52508a6838 Jan Kara         2016-03-09 @2270  	return len;
+140a52508a6838 Jan Kara         2016-03-09  2271  }
+140a52508a6838 Jan Kara         2016-03-09  2272  
+
+:::::: The code at line 2270 was first introduced by commit
+:::::: 140a52508a68387e22486659ff9eaa89a24f6e40 ext4: factor out determining of hole size
+
+:::::: TO: Jan Kara <jack@suse.cz>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 -- 
 0-DAY CI Kernel Test Service
