@@ -1,70 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B00A1F131F
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958F81F5822
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 15:12:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731076447; cv=none; b=Lo85JvzvzExpzlrO3UFcrNAByknjlDqyzlPAKYnucg8P3qGTa/PlLXAv71mVKQCWT4fpcGcyzfruv8amBZ7tlzDMlejh6ctBAk5sFdxQVZDFetaxLtZ8QYcTZfz8/qTrVjJ9+avd8hSUcCa9/NMUYq5ZLpGQ4/ix8DZsKHB48xM=
+	t=1731078732; cv=none; b=jj0/ermlbm+9DaLFvyTE4+knU06f/FWoA2IVZnuNCN1X+E1gRPadBRffxfcGmSxtfYGyQC3Nl3q4kb6EAWXufIe9t/fH9ayDfZL00146+thEXVuTB6uXWytEQYDBB69qaXzYHz0kNDVl3cL0P4sFp+R9bdj2Cdl2mKxNsx8cuP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731076447; c=relaxed/simple;
-	bh=DPU+D+82CmA9h5Ph6EL7ffraHSVchVSGoKUFRSRG56Q=;
+	s=arc-20240116; t=1731078732; c=relaxed/simple;
+	bh=Ari8A1KhBihfLBV8g+EKOW7mNkocSN0BsshjDZnkJA8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=P+gw2yrxwmyhmL/EJ+wNJoNXNMj9H+xDljmFhqXXQ0gBDpp25MHTpXyo2zCfhFE/WwNRN58/nrMLx0Y4z/xCpUughg6z9X9CCIG/b0l1JWLJdWMz7wshtIPZhByJOFZwYe3kGFvPzsDT77RmyD7cxifFSgyTZ3mtVl2u4mfT6Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ybP7BiNd; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=qn87ojFPPpugSSrC+EHpI+x5eiqMBOUTdLFdZKwcf6iFsT0mrZ3r+K06S3ih3WYt7VQTR7hVdP5jeQFE70jWBoEB+boJDBaHpfp6Y/Ux+Mp6vxgcBWQOHbtEsERwXBYAqYZKjigZLEGbAf5LG2qRUSHuzFdnUIt6of6Ctj4HN9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l741hoyU; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ybP7BiNd"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37ed7eb07a4so1486211f8f.2
-        for <oe-kbuild@lists.linux.dev>; Fri, 08 Nov 2024 06:34:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731076443; x=1731681243; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
-        b=ybP7BiNdPXCNfpB0UQFFVoXysTCsmaQ9R3QmJ1aTFpMLdc14v9AAH+YMl40+DjkccB
-         2ag23e9yjCNrnSgllLiF8+/VjAuyZCAWnlv2p3bAA2F3t3pnRZKsIfrThsn70SuwjX39
-         ksVBQIBDr4E8sboyqy2knzSjxk2DyyAWLOEjiPlIFF6k1HLACb7yEBBwnDm0z3Uny3QE
-         VwQa7p1o7K1KBSeGdsp8NXBZfsIPhMiqiIxDucNc+Bi2cT2l+2+cqoS6pZqEmJX5uJAo
-         w43R/STqQbTl2dlS/EIRLd3XJK/SG33bfIHBzNBu7aXDg7FI+PDuEsk0/dVHi5+DB7jp
-         N/Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731076443; x=1731681243;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4aKxG3gwOAGANkGkZ2NSS+guj7HDwh0arnh3SiLCSnU=;
-        b=N6mUGpyIAhZdPyvj2zMNJnk7OZGS0i4TCokxwDDnVqXn1cwsuJctGB/CJoTAiUtWQC
-         kSJwjZNabdKo59wcXgKk6KHCGyG1mcXLwMEOSFxeRiXugKcl4d5YEErabLjosy0jOK8j
-         z464CDdfP4F641rUICtkNomLfwLxzfUXr2SqRftxneW6VySMTtGdFCTOEJJQxaRYAyQP
-         vl2ftSSUoktDITQjGs2M2UiD/vz2czs3eokoT+cJKaQFaQE7U7k73ZCyoPleVnvkt0je
-         KZDZgtVVTusLObi7SYMV2Jv+ubh8WrI7J+cCu3tYwWtAgHu7lDHrLwX+FTjWNJSU9ISS
-         jERQ==
-X-Gm-Message-State: AOJu0YwtvwP3ATipQg5vRLYyk9+/jQ9QkXB1AxknIrqNTvseQfjhxuuh
-	gAMdU/iq32Y6FtL+rC2/4AXFOPV5RuyqGq0xcifb2E3ODAgoQ4/3WWtuw2NsQRBimXmBFicUGlv
-	3
-X-Google-Smtp-Source: AGHT+IFiQTvvUUVNBS+RC050g+C25oacYB7OQt6yFvIZkoyX4jf9tm4lHFTxhmnrBwsgz4a+MFioMQ==
-X-Received: by 2002:a05:6000:1866:b0:37d:4870:dedf with SMTP id ffacd0b85a97d-381f172a6e7mr2781004f8f.19.1731076443139;
-        Fri, 08 Nov 2024 06:34:03 -0800 (PST)
-Received: from localhost ([89.101.134.25])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed99a34bsm4960209f8f.54.2024.11.08.06.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 06:34:02 -0800 (PST)
-Date: Fri, 8 Nov 2024 17:34:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
-Message-ID: <954d6aa4-5dc7-4421-9b92-4cb9a0b9d40c@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l741hoyU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731078731; x=1762614731;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ari8A1KhBihfLBV8g+EKOW7mNkocSN0BsshjDZnkJA8=;
+  b=l741hoyUkC/TYiVKD96q/+cxA5/99c38MjQZOaDCh2Xy2v2FDUssobvm
+   8jQRoS8VgrGRZIMeuLy7SefHl04rd1SaXhDFOhjiufJHPpNWwPgbwDUfb
+   mdiCD+JCR/SU8hfVN+yjuqLE5gS9aQQBltBACjEbF5fj0mMf+Q7UdG8Jg
+   Pl0vzzSLHU+hheT/zJpcgxqtSnBtiGSAI59zHrYoIGDmDFzqKqKBzQhfy
+   hvHGi0m1WZy2WkE0tGLPkPZLGKK/BRUqJMyq/AH4kkvBEEZJgUitGMv1R
+   aR5a5inHlnlH7js7AtbPaErBBypgpNEavMJD9lijcSZUJWzGqWAdRYg55
+   w==;
+X-CSE-ConnectionGUID: AkKReNG9Sku//kfbWeUEHA==
+X-CSE-MsgGUID: tBjx2vWEREC9xmFCA7mNmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30734867"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30734867"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 07:12:11 -0800
+X-CSE-ConnectionGUID: Lp0Pqm+DQqyhk+5Bsbx3eA==
+X-CSE-MsgGUID: kpK80P8OSBStjRUt7CfJmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="116473376"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 08 Nov 2024 07:12:07 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9Qeb-000rXJ-1j;
+	Fri, 08 Nov 2024 15:12:05 +0000
+Date: Fri, 8 Nov 2024 23:11:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH] Fix: Ensure auth_data and ap_addr are properly set
+ before marking STA as authenticated
+Message-ID: <202411082330.Lvi2renZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -73,61 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106061812.6819-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-Hi Vicentiu,
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241108022828.6571-1-sarvesh20123@gmail.com>
+References: <20241108022828.6571-1-sarvesh20123@gmail.com>
+TO: Saru2003 <sarvesh20123@gmail.com>
+TO: johannes@sipsolutions.net
+CC: davem@davemloft.net
+CC: edumazet@google.com
+CC: kuba@kernel.org
+CC: pabeni@redhat.com
+CC: linux-wireless@vger.kernel.org
+CC: netdev@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: Saru2003 <sarvesh20123@gmail.com>
+
+Hi Saru2003,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.12-rc6 next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-142011
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20241106061812.6819-3-vicentiu.galanopulo%40remote-tech.co.uk
-patch subject: [PATCH 3/3] [PATCH v6] leds: Add LED1202 I2C driver
-config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080756.6eYdrM5X-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Saru2003/Fix-Ensure-auth_data-and-ap_addr-are-properly-set-before-marking-STA-as-authenticated/20241108-103338
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20241108022828.6571-1-sarvesh20123%40gmail.com
+patch subject: [PATCH] Fix: Ensure auth_data and ap_addr are properly set before marking STA as authenticated
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: i386-randconfig-141-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082330.Lvi2renZ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411080756.6eYdrM5X-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411082330.Lvi2renZ-lkp@intel.com/
 
 smatch warnings:
-drivers/leds/leds-st1202.c:175 st1202_brightness_get() error: uninitialized symbol 'value'.
+net/mac80211/mlme.c:4341 ieee80211_mark_sta_auth() warn: this array is probably non-NULL. 'ifmgd->auth_data->ap_addr'
 
-vim +/value +175 drivers/leds/leds-st1202.c
+vim +4341 net/mac80211/mlme.c
 
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  155  static enum led_brightness st1202_brightness_get(struct led_classdev *led_cdev)
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  156  {
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  157  	struct st1202_led *led;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  158  	struct st1202_chip *chip;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  159  	u8 value;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  160  	int ret;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  161  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  162  	led = cdev_to_st1202_led(led_cdev);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  163  	chip = led->chip;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  164  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  165  	mutex_lock(&chip->lock);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  166  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  167  	ret = st1202_read_reg(chip, ST1202_ILED_REG0 + led->led_num,
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  168  				&value);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  169  	if (ret != 0)
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  170  		dev_err(&chip->client->dev, "Reading register [0x%x] failed, error: %d\n",
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  171  			ST1202_ILED_REG0 + led->led_num, ret);
-
-Presumably value is uninitialized if st1202_read_reg() fails.  Normally
-I would just mark st1202_read_reg() as a no-fail function and not
-report it but here there is explicit error checking so it's weird.
-
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  172  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  173  	mutex_unlock(&chip->lock);
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  174  
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06 @175  	return value;
-7e6780184dc934 Vicentiu Galanopulo 2024-11-06  176  }
+66e67e41890844 Johannes Berg 2012-01-20  4334  
+a857c21eaf3988 Johannes Berg 2022-07-12  4335  static bool ieee80211_mark_sta_auth(struct ieee80211_sub_if_data *sdata)
+fc107a93307165 Jouni Malinen 2018-10-11  4336  {
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4337  	struct ieee80211_if_managed *ifmgd = &sdata->u.mgd;
+8bade8abd8cde5 Saru2003      2024-11-08  4338  	const u8 *ap_addr;
+fc107a93307165 Jouni Malinen 2018-10-11  4339  	struct sta_info *sta;
+fc107a93307165 Jouni Malinen 2018-10-11  4340  	
+8bade8abd8cde5 Saru2003      2024-11-08 @4341  	if (!ifmgd->auth_data || !ifmgd->auth_data->ap_addr) {
+8bade8abd8cde5 Saru2003      2024-11-08  4342  		sdata_info(sdata, "auth_data not set or ap_addr missing\n");
+8bade8abd8cde5 Saru2003      2024-11-08  4343  		return false;
+8bade8abd8cde5 Saru2003      2024-11-08  4344  	}
+8bade8abd8cde5 Saru2003      2024-11-08  4345  
+8bade8abd8cde5 Saru2003      2024-11-08  4346  	ap_addr = ifmgd->auth_data->ap_addr;
+8bade8abd8cde5 Saru2003      2024-11-08  4347  
+5435af6e6ac013 Johannes Berg 2023-08-28  4348  	lockdep_assert_wiphy(sdata->local->hw.wiphy);
+5435af6e6ac013 Johannes Berg 2023-08-28  4349  
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4350  	sdata_info(sdata, "authenticated\n");
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4351  	ifmgd->auth_data->done = true;
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4352  	ifmgd->auth_data->timeout = jiffies + IEEE80211_AUTH_WAIT_ASSOC;
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4353  	ifmgd->auth_data->timeout_started = true;
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4354  	run_again(sdata, ifmgd->auth_data->timeout);
+efb543e61cc3a2 Jouni Malinen 2018-10-11  4355  
+fc107a93307165 Jouni Malinen 2018-10-11  4356  	/* move station state to auth */
+b65567b03c9502 Johannes Berg 2022-06-24  4357  	sta = sta_info_get(sdata, ap_addr);
+fc107a93307165 Jouni Malinen 2018-10-11  4358  	if (!sta) {
+8bade8abd8cde5 Saru2003      2024-11-08  4359  	        sdata_info(sdata, "STA %pM not found, skipping authentication mark\n", ap_addr);
+4d3acf4311a040 Johannes Berg 2023-08-28  4360  		return false;
+fc107a93307165 Jouni Malinen 2018-10-11  4361  	}
+fc107a93307165 Jouni Malinen 2018-10-11  4362  	if (sta_info_move_state(sta, IEEE80211_STA_AUTH)) {
+b65567b03c9502 Johannes Berg 2022-06-24  4363  		sdata_info(sdata, "failed moving %pM to auth\n", ap_addr);
+4d3acf4311a040 Johannes Berg 2023-08-28  4364  		return false;
+fc107a93307165 Jouni Malinen 2018-10-11  4365  	}
+fc107a93307165 Jouni Malinen 2018-10-11  4366  
+4d3acf4311a040 Johannes Berg 2023-08-28  4367  	return true;
+fc107a93307165 Jouni Malinen 2018-10-11  4368  }
+fc107a93307165 Jouni Malinen 2018-10-11  4369  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
