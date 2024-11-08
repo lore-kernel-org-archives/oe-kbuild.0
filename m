@@ -1,78 +1,57 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012F81DEFC2
-	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBB071F1319
+	for <oe-kbuild@lists.linux.dev>; Fri,  8 Nov 2024 14:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731075587; cv=none; b=MsqZP3KYImVw7iscv6CJjm2LRiQ5Qoncc8/C/L28Z54IIyLxagyWouggOGE9ccX5fkdFcksQB4yctj6cztXhAMxbSl7enB1sQMY7TIK9OeBi8aqH3g1AhH8mCRn0N9uVFePrRG1ICjEDdwFXAp4h4k1V/IRDw/0QTxj8q3ir7u8=
+	t=1731075610; cv=none; b=hYJ188avZcDPakWVKfXUlAqj4ihoeLByl5EXpnXmkGUsE92yo572SsNe/rHZoNmBJncgEyY0GIf4kDluPXBQh8d+xjqT1WWU6Ffq6RD8yx0CxbDy86+D/NQd5BtNKGkeZ45W+/49YeD0gQtr6igTieUudi0giFIVXIivrtcAxso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731075587; c=relaxed/simple;
-	bh=ZLLRMH49n6WaYFzMYL7hdn+IuXPLKE4cMZuz6YX2Flw=;
+	s=arc-20240116; t=1731075610; c=relaxed/simple;
+	bh=t9fAJFwkrTBKTfAT1EZucSjCcSRJDyT4OUqzbUHzzaY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=cLkeW3fr9ksyjXeYCRqWMBVqadTUd8fGn4sGhm8oqs1+nV8G3jkfxN9GCzbkv7Q/9bzaAITE4pbo7jwq/zx+oAtsII6GT03wPUDY6lqpQhpZKNmCURNU/fXLXbaYCVMFcuJ521RdEjlXXdMIpp7LeA1b2J478peeKnLE41cSh10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tvPvGV97; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=GC++q0SvGRP4L96H3wsnEopFjSFIMU9qtM3R7vUKkTDLCZATunMZZUZTtWVLMlTuS/6yHxP73Oh7frMXwh+y92oySrpsIRx5MFSln9NrnhD1nhQr4jdtmQNINc2vlUYOeBfqI1suzU0GdVKCVENcFHG89Nk3ZZFMKlxIo+otnhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SFE/bAds; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tvPvGV97"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c9404c0d50so2623066a12.3
-        for <oe-kbuild@lists.linux.dev>; Fri, 08 Nov 2024 06:19:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731075584; x=1731680384; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VGA9Y6BP3dpROBWYVYwafi2ecYshZ4WbiAsNU+E9Uq0=;
-        b=tvPvGV972kyF0X7jCPTCCyf6uJre9B6guvjG/EBY5xbldeiaUE8Hh5Oz1MEcdTIjMP
-         W/77g2wEHMsNXaNZ1df3parZHc6FbLkwrt6Q4ftF0u8Vt0dE2qFdeYs72op2lwlQqupz
-         3FGUJuMMDpsicWoQec5uxnwlC9mT5FLtDHQSNhrsAIL4m8ZHoB/L/jaA8xtbwySJNtg6
-         DwW5FPSPkPCzJpYhveh7/9y1sggqKKyMbGtZzB466LZRXJWNJ7tNv9D4+UrxIT3J/KZF
-         LdtPGAkK1dAbcSnkQ5otMIEqZFz2w03GYQRQD8I6T31MfVZp8TEmbuHCSaSt+of01azb
-         L6rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731075584; x=1731680384;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VGA9Y6BP3dpROBWYVYwafi2ecYshZ4WbiAsNU+E9Uq0=;
-        b=WJeE42umSXgrsbth1mGFui741oSoS72+q0y0g7PUoVj2iRP/mcnuXOh98XO6azjQe3
-         +cgD+Ykm7qhpyOL9ZzkEiS1g6vlDC0fb4R/uXW/WN7RwSYpkAdIbCx+dgPdVOvWCyPqP
-         p6Cm5LXaDzc9ySfipE56EpTv/YQelgkSeFMuB/5NAArjUx1ewdH1DPsnHafHCQdhmo2I
-         ENtjIWI4K8pvl34t63BXkXE8wHuMgLTU7EpQ87vtyZ/pRxARF6XJ3XRzlzpMju3e3FNK
-         HVKQyQZ5iYksgQANZO6quL3mcXePTEE8HtEKTxuJIIFr48lu1YoibwqXHN5zLAtfYf8F
-         X0UQ==
-X-Gm-Message-State: AOJu0YyVO+CHpUXhrNEoRyGJVLsLGopOgCBCASZ3cv0jKeHSjE0YLxXB
-	09DvqzzVQu/qpcxFv/rshiRTVIH3rTWtE6tN0zUOa3YJ6Gw+rMTUE1TKg0djj/Y0yEzg1m6eyJi
-	0
-X-Google-Smtp-Source: AGHT+IHmXybQiAHW1OqbfUTN22sas0nIZd7gHqCAPHOaYdpQEeD0jrEFikAP+yhuHydY+dzM1edQDw==
-X-Received: by 2002:a05:6402:d0d:b0:5ca:151a:b84c with SMTP id 4fb4d7f45d1cf-5cf0a320706mr2220233a12.18.1731075583567;
-        Fri, 08 Nov 2024 06:19:43 -0800 (PST)
-Received: from localhost ([154.14.63.34])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03bb765asm2025429a12.48.2024.11.08.06.19.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 06:19:43 -0800 (PST)
-Date: Fri, 8 Nov 2024 17:19:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Shawn Lin <shawn.lin@rock-chips.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	YiFeng Zhao <zyf@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
-	linux-scsi@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 4/7] pmdomain: core: Introduce
- dev_pm_genpd_rpm_always_on()
-Message-ID: <54ad5572-3ad6-4c8d-80cd-b2f975ad91bf@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SFE/bAds"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731075608; x=1762611608;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t9fAJFwkrTBKTfAT1EZucSjCcSRJDyT4OUqzbUHzzaY=;
+  b=SFE/bAdsiQTtLZr6I1RG5MAgdgHgR08xz8eEdmeqyyZTxKI1/kZg2m2g
+   7FUGNrjYRU5aWb+sWCyZ2mew9rkeb/G6Il6DX8ykE3is2z1ubikBLCi9z
+   Hirz8x8nhXJ5vE8/WWc0t9KRHQk2O+jKNL/4mM49CZsTrcZRkDeQeTWfS
+   hSQNKlvc8JDa9PS35bUgXlyu+SFcG2HVEt+hGNHxzfvk6U4KMg7HYM1zS
+   eWA0tYi2LEw1hrHSqa7MnzF9aV34oO8N3NbTp5lIrNUerGqWSN8Ki8vj+
+   4oXijS+stQIUhIskGPOwmc3GWlZy4IBdOW8eqiGdv8sO3BSY7TKG3d5xp
+   A==;
+X-CSE-ConnectionGUID: wI6wV10XQwKIiU+4vxfZqg==
+X-CSE-MsgGUID: dk5iy/4UTVCty0dnHSHS7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="41575764"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="41575764"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 06:20:07 -0800
+X-CSE-ConnectionGUID: vUA2gVkETKqsg3K+IpxiUQ==
+X-CSE-MsgGUID: Ex68GUueReWvAa8RW4HkWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="90212424"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2024 06:20:06 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9PqG-000rUs-17;
+	Fri, 08 Nov 2024 14:20:04 +0000
+Date: Fri, 8 Nov 2024 22:19:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com
+Subject: Re: [PATCH v3 1/2] dt-bindings: linflexuart: add clock definitions
+Message-ID: <202411082240.1XGlojLB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -81,97 +60,91 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
 
-Hi Shawn,
+:::::: 
+:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
+:::::: 
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <20241107114611.758433-2-ciprianmarian.costea@oss.nxp.com>
+References: <20241107114611.758433-2-ciprianmarian.costea@oss.nxp.com>
+TO: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Jiri Slaby <jirislaby@kernel.org>
+TO: Rob Herring <robh@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Conor Dooley <conor+dt@kernel.org>
+TO: Chester Lin <chester62515@gmail.com>
+CC: linux-kernel@vger.kernel.org
+CC: linux-serial@vger.kernel.org
+CC: devicetree@vger.kernel.org
+CC: NXP S32 Linux Team <s32@nxp.com>
+CC: imx@lists.linux.dev
+CC: Christophe Lizzi <clizzi@redhat.com>
+CC: Alberto Ruiz <aruizrui@redhat.com>
+CC: Enric Balletbo <eballetb@redhat.com>
+CC: Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>
+
+Hi Ciprian,
 
 kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus robh/for-next linus/master v6.12-rc6 next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/dt-bindings-ufs-Document-Rockchip-UFS-host-controller/20241104-191810
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/1730705521-23081-5-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v4 4/7] pmdomain: core: Introduce dev_pm_genpd_rpm_always_on()
-config: loongarch-randconfig-r073-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080432.5dWP6wRt-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-linflexuart-add-clock-definitions/20241107-194716
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20241107114611.758433-2-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH v3 1/2] dt-bindings: linflexuart: add clock definitions
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: arm64-randconfig-051-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082240.1XGlojLB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411082240.1XGlojLB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411080432.5dWP6wRt-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411082240.1XGlojLB-lkp@intel.com/
 
-New smatch warnings:
-drivers/pmdomain/core.c:898 genpd_power_off() warn: curly braces intended?
-
-vim +898 drivers/pmdomain/core.c
-
-2da835452a08758 drivers/base/power/domain.c Ulf Hansson     2017-02-17  850  static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
-2da835452a08758 drivers/base/power/domain.c Ulf Hansson     2017-02-17  851  			   unsigned int depth)
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  852  {
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  853  	struct pm_domain_data *pdd;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  854  	struct gpd_link *link;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  855  	unsigned int not_suspended = 0;
-f63816e43d90442 drivers/base/power/domain.c Ulf Hansson     2020-09-24  856  	int ret;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  857  
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  858  	/*
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  859  	 * Do not try to power off the domain in the following situations:
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  860  	 * (1) The domain is already in the "power off" state.
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  861  	 * (2) System suspend is in progress.
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  862  	 */
-41e2c8e0060db25 drivers/base/power/domain.c Ulf Hansson     2017-03-20  863  	if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  864  		return 0;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  865  
-ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  866  	/*
-ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  867  	 * Abort power off for the PM domain in the following situations:
-ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  868  	 * (1) The domain is configured as always on.
-ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  869  	 * (2) When the domain has a subdomain being powered on.
-ffaa42e8a40b7f1 drivers/base/power/domain.c Ulf Hansson     2017-03-20  870  	 */
-ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  871  	if (genpd_is_always_on(genpd) ||
-ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  872  			genpd_is_rpm_always_on(genpd) ||
-ed61e18a4b4e445 drivers/base/power/domain.c Leonard Crestez 2019-04-30  873  			atomic_read(&genpd->sd_count) > 0)
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  874  		return -EBUSY;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  875  
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  876  	/*
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  877  	 * The children must be in their deepest (powered-off) states to allow
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  878  	 * the parent to be powered off. Note that, there's no need for
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  879  	 * additional locking, as powering on a child, requires the parent's
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  880  	 * lock to be acquired first.
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  881  	 */
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  882  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  883  		struct generic_pm_domain *child = link->child;
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  884  		if (child->state_idx < child->state_count - 1)
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  885  			return -EBUSY;
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  886  	}
-e7d90cfac5510f8 drivers/base/power/domain.c Ulf Hansson     2022-02-17  887  
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  888  	list_for_each_entry(pdd, &genpd->dev_list, list_node) {
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  889  		/*
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  890  		 * Do not allow PM domain to be powered off, when an IRQ safe
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  891  		 * device is part of a non-IRQ safe domain.
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  892  		 */
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  893  		if (!pm_runtime_suspended(pdd->dev) ||
-7a02444b8fc25ac drivers/base/power/domain.c Ulf Hansson     2022-05-11  894  			irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
-
-{
-
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  895  			not_suspended++;
-f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  896  
-f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  897  			/* The device may need its PM domain to stay powered on. */
-f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04 @898  			if (to_gpd_data(pdd)->rpm_always_on)
-f0f6da10152fb8f drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  899  				return -EBUSY;
-
-}
-
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  900  	}
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  901  
-3c64649d1cf9f32 drivers/base/power/domain.c Ulf Hansson     2017-02-17  902  	if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  903  		return -EBUSY;
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  904  
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  905  	if (genpd->gov && genpd->gov->power_down_ok) {
-1f8728b7adc4c2b drivers/base/power/domain.c Ulf Hansson     2017-02-17  906  		if (!genpd->gov->power_down_ok(&genpd->domain))
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: serial@401c8000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g274a-evb.dtb: serial@401c8000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+--
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401c8000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401c8000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401cc000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g274a-rdb2.dtb: serial@401cc000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+--
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401c8000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401c8000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401cc000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32g399a-rdb3.dtb: serial@401cc000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+--
+>> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@40053000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@40053000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@400bc000: 'clocks' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
+>> arch/arm64/boot/dts/freescale/s32v234-evb.dtb: serial@400bc000: 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/serial/fsl,s32-linflexuart.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
