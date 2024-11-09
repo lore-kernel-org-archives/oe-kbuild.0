@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8AD38DF9
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 Nov 2024 06:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE1838DF9
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 Nov 2024 08:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731135521; cv=none; b=jCGtch6w8zoRiX8C+sNnKnVUCwR7ucLsE9xDRClaN6CCZ2nKAZAAblmXnwLACnRFEqIJIMl93taRNBK05Eh/yt6+L6cTmhYz6BrwvjMiS1Y2pl5wHli7kZjsMVlbl970d7gb9GiOfoiTF3JC9NgQzL+0D5IBdJA986TAjMLN5f0=
+	t=1731142364; cv=none; b=LetN5uEYkJO6lOBhkyq2MK2T906mvCbYmy69o8ZjL2zhL9v0TDfOBBgkeaLXAul4FHKpasPG5RXKSkpZtfzN5GINf0ahHlbCwb6z/TKclQ5olsQEHhgkl1zl/eY8ED8gyF4142rvT9ETIQk8wf/ZUZCXAOecpfbn7GdBfB0NmGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731135521; c=relaxed/simple;
-	bh=SpEIltgrImYRzxT9kcsQMl03OL6JPVLV65kDd46USRI=;
+	s=arc-20240116; t=1731142364; c=relaxed/simple;
+	bh=i+QPe1uLLlR5SUzwuyCRVUNkKd0iMKTfhGAGkiSvYWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JKROJKFyHGh/Hj1nTSRj/fFSoExFUJxUoh6rnGW6kZZfOnpyKzbRpZwqMwnd0jG2m3QdYQnf6KN07x/8t2a+oAxaR1yedd/GwWcOeptNvOMsRpa/zhd5aAnaenXVlZO+FJqMAo3ZqTYQNek2WsgDEoAADmlvqWdhdPN8XnylWAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yqzul+9+; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=QvF5bvwVy5qPO0bU4aQdRXv3svfHR3Gj+xURb0fiQj3DkTNo42Vx7LMro+PEdo+osz73ORYwdXSwbbzZA9NVmTDiGo+0OAOXVCKXPFxgkCIUQYuMyfpUg70HPaZ9WulTPyuLRgcbPkkQQKOceO23FA33mQJnzpB+faNQ3B9DY84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXJkwH/v; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yqzul+9+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXJkwH/v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731135519; x=1762671519;
+  t=1731142362; x=1762678362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SpEIltgrImYRzxT9kcsQMl03OL6JPVLV65kDd46USRI=;
-  b=Yqzul+9+J0QVPIlHKcS/ifMJunHcQROB0MESe8bUxyzt4gxKAMO9Wj8V
-   vS5k+nFSImpBMm/vfn3tudl7UUtN60cPqWa/Z/tjxjKY0klRCN+YWymtK
-   zhQJqKbNVldHgf7pb5AgSLxwhX+EZIigwQHaxi4xJtTF8Bd/fcAXkeQpK
-   DFfb+SioPOLE6MpdTxYsNAcO2txVLHY7xg6FzjhRKMqMy/cNfGoBj70DN
-   3/gFNhifmXgjxLEQZNuyJh7rD9gSasIewXNuq1vmnziUWVr7lruCr2epp
-   /+BT3au+RsevA1y7RI451Nzk5OPmcpRJWIssIDfE5uGkZdMvHh9iFTK2q
-   w==;
-X-CSE-ConnectionGUID: C4Ju73T5STu6r/htqq3nBw==
-X-CSE-MsgGUID: FP6g/L40RcSVfTeY9ci4Dg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="30435338"
+  bh=i+QPe1uLLlR5SUzwuyCRVUNkKd0iMKTfhGAGkiSvYWU=;
+  b=YXJkwH/vjOD9WEELy30ZjdaF3nanxa2+2NUf5R0PuSCAKJjpGfrel40i
+   HZMVs/bgppCbuK21CXtf7m9AgZMhrQyQyGGZbvIu4X7EJNfeneAYW+fEw
+   VhMO37Jh0coBUIHHIvnfeQLBdqfbZZsdOvF+YTKJdMfH+CiMKMmG7Fv0H
+   EniMo9fMO1R8V0M8i2ZQ/YmicfLRBV9dkmdjnpns4FZm0+mw3zbZbJKTg
+   huVRfQuHJBD5kHEdf05CO4IyvA1ACpKLDiSxTTAv294K+oGDE+VXkvn00
+   Jx66Ag5MA5c3A4CfDE129JgU4ORlLE60wSiCrWN2XqqaFt6gHp8tCWzyD
+   g==;
+X-CSE-ConnectionGUID: 7R9GB4nJSxGApTIujXGerw==
+X-CSE-MsgGUID: ktooUwGlRJCu9oEaA85UMw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="18646741"
 X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="30435338"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 22:58:37 -0800
-X-CSE-ConnectionGUID: /userXTqQW+nsHdfb3eQRw==
-X-CSE-MsgGUID: xNt94eiZR0OggCOi+DFFeQ==
+   d="scan'208";a="18646741"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 00:52:41 -0800
+X-CSE-ConnectionGUID: vu/2pSjHQvaviPqQRzvM2w==
+X-CSE-MsgGUID: l3WmWSVnTXCW4FWtE/o68A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="86296850"
+   d="scan'208";a="109243724"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Nov 2024 22:58:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 09 Nov 2024 00:52:40 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9fQY-000s9k-1O;
-	Sat, 09 Nov 2024 06:58:34 +0000
-Date: Sat, 9 Nov 2024 14:57:39 +0800
+	id 1t9hCv-000sEu-1q;
+	Sat, 09 Nov 2024 08:52:37 +0000
+Date: Sat, 9 Nov 2024 16:51:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: [at91:at91-dt 13/13]
- arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb:
- /apb/dma-controller@f0008000: failed to match any schema with compatible:
- ['microchip,sam9x7-dma', 'atmel,sama5d4-dma']
-Message-ID: <202411091413.DRaeUmv7-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH RFC v5 09/16] fuse: {uring} Add uring sqe commit and
+ fetch support
+Message-ID: <202411091639.9TrH6yhu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,74 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-TO: Varshini Rajendran <varshini.rajendran@microchip.com>
-CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-CC: Hari Prasath Gujulan Elango <hari.prasathge@microchip.com>
+In-Reply-To: <20241107-fuse-uring-for-6-10-rfc4-v5-9-e8660a991499@ddn.com>
+References: <20241107-fuse-uring-for-6-10-rfc4-v5-9-e8660a991499@ddn.com>
+TO: Bernd Schubert <bschubert@ddn.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/at91/linux.git at91-dt
-head:   371a47c9a58a13e339fce2a3118c9ee6a8422258
-commit: 371a47c9a58a13e339fce2a3118c9ee6a8422258 [13/13] ARM: dts: microchip: sam9x75_curiosity: add sam9x75 curiosity board
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-051-20241106 (https://download.01.org/0day-ci/archive/20241109/202411091413.DRaeUmv7-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411091413.DRaeUmv7-lkp@intel.com/reproduce)
+Hi Bernd,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 0c3836482481200ead7b416ca80c68a29cfdaabd]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-to-fuse_dev_end_requests-and-make-non-static/20241108-013957
+base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+patch link:    https://lore.kernel.org/r/20241107-fuse-uring-for-6-10-rfc4-v5-9-e8660a991499%40ddn.com
+patch subject: [PATCH RFC v5 09/16] fuse: {uring} Add uring sqe commit and fetch support
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-161-20241109 (https://download.01.org/0day-ci/archive/20241109/202411091639.9TrH6yhu-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411091413.DRaeUmv7-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411091639.9TrH6yhu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/dma-controller@f0008000: failed to match any schema with compatible: ['microchip,sam9x7-dma', 'atmel,sama5d4-dma']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/dma-controller@f0008000: failed to match any schema with compatible: ['microchip,sam9x7-dma', 'atmel,sama5d4-dma']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ssc@f0010000: failed to match any schema with compatible: ['microchip,sam9x7-ssc', 'atmel,at91sam9g45-ssc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ssc@f0010000: failed to match any schema with compatible: ['microchip,sam9x7-ssc', 'atmel,at91sam9g45-ssc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/timer@f0028000: failed to match any schema with compatible: ['microchip,sam9x7-pit64b', 'microchip,sam9x60-pit64b']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/timer@f0028000: failed to match any schema with compatible: ['microchip,sam9x7-pit64b', 'microchip,sam9x60-pit64b']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/timer@f0040000: failed to match any schema with compatible: ['microchip,sam9x7-pit64b', 'microchip,sam9x60-pit64b']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/timer@f0040000: failed to match any schema with compatible: ['microchip,sam9x7-pit64b', 'microchip,sam9x60-pit64b']
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: timer@f8008000: compatible:0: 'microchip,sam9x7-tcb' is not one of ['atmel,at91rm9200-tcb', 'atmel,at91sam9x5-tcb', 'atmel,sama5d2-tcb']
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: timer@f8008000: compatible:1: 'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: timer@f8008000: compatible:2: 'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: timer@f8008000: compatible: ['microchip,sam9x7-tcb', 'atmel,sama5d2-tcb', 'simple-mfd', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/soc/microchip/atmel,at91rm9200-tcb.yaml#
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/timer@f8008000: failed to match any schema with compatible: ['microchip,sam9x7-tcb', 'atmel,sama5d2-tcb', 'simple-mfd', 'syscon']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/matrix@ffffde00: failed to match any schema with compatible: ['microchip,sam9x7-matrix', 'atmel,at91sam9x5-matrix', 'syscon']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/matrix@ffffde00: failed to match any schema with compatible: ['microchip,sam9x7-matrix', 'atmel,at91sam9x5-matrix', 'syscon']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/ecc-engine@ffffe000: failed to match any schema with compatible: ['microchip,sam9x7-pmecc', 'atmel,at91sam9g45-pmecc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/mpddrc@ffffe800: failed to match any schema with compatible: ['microchip,sam9x7-ddramc', 'atmel,sama5d3-ddramc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/mpddrc@ffffe800: failed to match any schema with compatible: ['microchip,sam9x7-ddramc', 'atmel,sama5d3-ddramc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/smc@ffffea00: failed to match any schema with compatible: ['microchip,sam9x7-smc', 'atmel,at91sam9260-smc', 'syscon']
-   arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/interrupt-controller@fffff100: failed to match any schema with compatible: ['microchip,sam9x7-aic']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: reset-controller@fffffe00: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x7-rstc', 'microchip,sam9x60-rstc'] is too long
-   	'microchip,sam9x7-rstc' is not one of ['atmel,at91sam9260-rstc', 'atmel,at91sam9g45-rstc', 'atmel,sama5d3-rstc', 'microchip,sam9x60-rstc', 'microchip,sama7g5-rstc']
-   	'atmel,sama5d3-rstc' was expected
-   	'atmel,at91sam9g45-rstc' was expected
-   	from schema $id: http://devicetree.org/schemas/reset/atmel,at91sam9260-reset.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/reset-controller@fffffe00: failed to match any schema with compatible: ['microchip,sam9x7-rstc', 'microchip,sam9x60-rstc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: poweroff@fffffe10: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['microchip,sam9x7-shdwc', 'microchip,sam9x60-shdwc'] is too long
-   	'microchip,sama7g5-shdwc' was expected
-   	'microchip,sam9x7-shdwc' is not one of ['atmel,sama5d2-shdwc', 'microchip,sam9x60-shdwc']
-   	'syscon' was expected
-   	from schema $id: http://devicetree.org/schemas/power/reset/atmel,sama5d2-shdwc.yaml#
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/poweroff@fffffe10: failed to match any schema with compatible: ['microchip,sam9x7-shdwc', 'microchip,sam9x60-shdwc']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x7-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
->> arch/arm/boot/dts/microchip/at91-sam9x75_curiosity.dtb: /apb/syscon@fffffe60: failed to match any schema with compatible: ['microchip,sam9x7-gpbr', 'atmel,at91sam9260-gpbr', 'syscon']
+smatch warnings:
+fs/fuse/dev_uring.c:251 fuse_uring_copy_from_ring() warn: maybe return -EFAULT instead of the bytes remaining?
+
+vim +251 fs/fuse/dev_uring.c
+
+7940d4237db3ce Bernd Schubert 2024-11-07  237  
+7940d4237db3ce Bernd Schubert 2024-11-07  238  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+7940d4237db3ce Bernd Schubert 2024-11-07  239  				     struct fuse_req *req,
+7940d4237db3ce Bernd Schubert 2024-11-07  240  				     struct fuse_ring_ent *ent)
+7940d4237db3ce Bernd Schubert 2024-11-07  241  {
+7940d4237db3ce Bernd Schubert 2024-11-07  242  	struct fuse_copy_state cs;
+7940d4237db3ce Bernd Schubert 2024-11-07  243  	struct fuse_args *args = req->args;
+7940d4237db3ce Bernd Schubert 2024-11-07  244  	struct iov_iter iter;
+7940d4237db3ce Bernd Schubert 2024-11-07  245  	int err;
+7940d4237db3ce Bernd Schubert 2024-11-07  246  	int res_arg_len;
+7940d4237db3ce Bernd Schubert 2024-11-07  247  
+7940d4237db3ce Bernd Schubert 2024-11-07  248  	err = copy_from_user(&res_arg_len, &ent->headers->in_out_arg_len,
+7940d4237db3ce Bernd Schubert 2024-11-07  249  			     sizeof(res_arg_len));
+7940d4237db3ce Bernd Schubert 2024-11-07  250  	if (err)
+7940d4237db3ce Bernd Schubert 2024-11-07 @251  		return err;
+7940d4237db3ce Bernd Schubert 2024-11-07  252  
+7940d4237db3ce Bernd Schubert 2024-11-07  253  	err = import_ubuf(ITER_SOURCE, ent->payload, ent->max_arg_len, &iter);
+7940d4237db3ce Bernd Schubert 2024-11-07  254  	if (err)
+7940d4237db3ce Bernd Schubert 2024-11-07  255  		return err;
+7940d4237db3ce Bernd Schubert 2024-11-07  256  
+7940d4237db3ce Bernd Schubert 2024-11-07  257  	fuse_copy_init(&cs, 0, &iter);
+7940d4237db3ce Bernd Schubert 2024-11-07  258  	cs.is_uring = 1;
+7940d4237db3ce Bernd Schubert 2024-11-07  259  	cs.req = req;
+7940d4237db3ce Bernd Schubert 2024-11-07  260  
+7940d4237db3ce Bernd Schubert 2024-11-07  261  	return fuse_copy_out_args(&cs, args, res_arg_len);
+7940d4237db3ce Bernd Schubert 2024-11-07  262  }
+7940d4237db3ce Bernd Schubert 2024-11-07  263  
 
 -- 
 0-DAY CI Kernel Test Service
