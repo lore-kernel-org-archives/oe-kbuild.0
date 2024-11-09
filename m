@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1341A233D67
-	for <oe-kbuild@lists.linux.dev>; Sat,  9 Nov 2024 09:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C4A1DFD1
+	for <oe-kbuild@lists.linux.dev>; Sat,  9 Nov 2024 09:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731142964; cv=none; b=LY3qLMfFTEcbWZcTo0/FKU6YAxI6PMBJtNAqVDh2SBTSeCdEY3hqkUgnAlImKvKPRuZZjzJdospXAGyGN6meLV5h4HwrPHWoQlFDf7iKMlRx7DAvt14NZwqpDP1HbEuNkBHqxUI8ZJEJORUbAwG6nwg0u6aCjszXmzL8ZO0Bikw=
+	t=1731144225; cv=none; b=oKvGb7946eYY3py8C/yCdNP9+aBx+KIIU5w4EMoCmRGrrBv9/bmn73/5Y2B0gFLKxTgHn4rZ4y7V0mgmD+SB+lV5CB5+CI/Tkz3cuirUnFiDPKAUs8nswkBKaHQWEidZCxuCtVdJ6qqXrRHciULE6zF4pAfFQ7Z3YNYbDGMU0Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731142964; c=relaxed/simple;
-	bh=Raa02qqXf1SZEpfXAzhRQx0GQ1ASS6M5gTQZgpuI9pU=;
+	s=arc-20240116; t=1731144225; c=relaxed/simple;
+	bh=32G3iZGOGhd6QTpJDaz/a5ZFAJZ3liIpWfYoBHZqbuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e9wCkMZP5FttHC4tNPguz4HFopfRbxFoYvpAMQ+lHT2UMGBUxeBS+GNKfRaRQaNq0WAVh2qVxM/cjcqhteTZeDjD1Y6ddTrGWpXlXVFMtCFxE6aLCTbFnKMnbwmfQ7HURptK4hyhIy2EKyJYJ0RUeTtrg0hwFJid9iLcTEajo8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2H2GWf/; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=pHMUC8SxQil/LcZIi4NIX+VrS0tg+SMyQ+Qc3jdRscjTtnk9532uKBcMUlfl3l8r3cf8YT3r5/ZpL46y4O3p5GzpZK5UsbRpBQyt9H4wLtgJGpVtnRJHhWLcwFoOil/T+0itxnnc2+JXyS9G/iJazbSqq0ScZ2e/cSKAt/GgMaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OqkLOjB+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2H2GWf/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OqkLOjB+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731142962; x=1762678962;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Raa02qqXf1SZEpfXAzhRQx0GQ1ASS6M5gTQZgpuI9pU=;
-  b=G2H2GWf/Ml+OROTy05a6YppjVQIFn5YhWJoe48vc/5Hhfb+wlxsQTMTd
-   IhdZssvVc43/xFQsBp/c+Ta73LZ5s+Bq2dyBUgj8ATaHfvxyyk/Yf80j8
-   lMv0OHc46xyr9s295LG2/bN6XSgMD3yWp2vOn0ft3GUT0cf9lgmXZw01H
-   5kpLE5UD8HyKG3wd5Ac2TpeOlV6dr/fATBEUbe61Ay3MAfqIdz2KpZi49
-   seGFqCuV/6QKtpx9QsKveowNzOUg4lRYHJ6OE255LTop7l+Sui31fS3Hl
-   1zC2IWCugmTlxTEGQ8MrDib6muU/Cao7SQmOnFf23du/DLvs6vPXJyqMh
-   A==;
-X-CSE-ConnectionGUID: gnwscIRHRfaJZuQfOdfrwA==
-X-CSE-MsgGUID: FGmeZjLmQkSgtApEfrqHBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="30437990"
-X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="30437990"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 01:02:41 -0800
-X-CSE-ConnectionGUID: pPfcL1W0RsaoIi4i5LtsQQ==
-X-CSE-MsgGUID: NH1L+qsoSsO7jS7bWUTSQg==
+  t=1731144223; x=1762680223;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=32G3iZGOGhd6QTpJDaz/a5ZFAJZ3liIpWfYoBHZqbuM=;
+  b=OqkLOjB+iYqXI6zZnCjLurKXd0v71F+V8Uh+4K6gC0VMWlPnM6SlOfDt
+   R+eEYBi/BUkqMbOI1iv91H6nZ7Y6FphzhxOoja2bbEpeXHm+YBsrAAMQC
+   K3AMYMSNcIX0rUFcljbNQdOM3dTazM4mytydYbYMVbCXPL+ltSkasI0TR
+   N5476I+snWDoJ4ygIOY6ds03Flow4slmkH421vvi6mKLT1lghQ31/54Ym
+   Utxac1HGzvpSFE5f4kUbDu2epVf7e9aEQhrGb6eUwbvHe3IWAVuPPMbL4
+   iKJRrK0L3IUVB1rIAjg/7LUmRllLShh8N2hHl1+Ok7h9udLh0A8F+jSmS
+   Q==;
+X-CSE-ConnectionGUID: zZxMtwaXQ12gb9HP/ZReDA==
+X-CSE-MsgGUID: LDAkGkIjQ4eFlndgYB8dxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53585939"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53585939"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 01:23:42 -0800
+X-CSE-ConnectionGUID: dsAIkG2hREWtO4KrUlfg1g==
+X-CSE-MsgGUID: rbb+odwJQHe76uUw15P6vg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="116833792"
+   d="scan'208";a="123483382"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Nov 2024 01:02:40 -0800
+  by orviesa001.jf.intel.com with ESMTP; 09 Nov 2024 01:23:40 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9hMb-000sF8-29;
-	Sat, 09 Nov 2024 09:02:37 +0000
-Date: Sat, 9 Nov 2024 17:02:03 +0800
+	id 1t9hgv-000sFS-2f;
+	Sat, 09 Nov 2024 09:23:37 +0000
+Date: Sat, 9 Nov 2024 17:23:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com
-Subject: Re: [PATCH 1/3] arm64: dts: qcom: x1e80100: Add missing
- #address-cells/#size-cells to firmware node
-Message-ID: <202411091645.frq37ALT-lkp@intel.com>
+Subject: Re: [PATCH 1/3] arm64: dts: rockchip: add mipi dcphy nodes to rk3588
+Message-ID: <202411091741.HIXExrzJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,372 +61,477 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
+::::::=20
+:::::: Manual check reason: "dtcheck: binding changes may go via different =
+trees"
+::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241109-x1e80100-fix-address-size-cells-missing-warnings-v1-1-c1e173369657@linaro.org>
-References: <20241109-x1e80100-fix-address-size-cells-missing-warnings-v1-1-c1e173369657@linaro.org>
-TO: Abel Vesa <abel.vesa@linaro.org>
-TO: Bjorn Andersson <andersson@kernel.org>
-TO: Konrad Dybcio <konradybcio@kernel.org>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-TO: Sibi Sankar <quic_sibis@quicinc.com>
-TO: Rajendra Nayak <quic_rjendra@quicinc.com>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Johan Hovold <johan@kernel.org>
-CC: linux-arm-msm@vger.kernel.org
+In-Reply-To: <20241106123758.423584-2-heiko@sntech.de>
+References: <20241106123758.423584-2-heiko@sntech.de>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: heiko@sntech.de
+CC: quentin.schulz@cherry.de
 CC: devicetree@vger.kernel.org
+CC: linux-arm-kernel@lists.infradead.org
+CC: linux-rockchip@lists.infradead.org
 CC: linux-kernel@vger.kernel.org
-CC: Abel Vesa <abel.vesa@linaro.org>
-CC: stable+noautosel@kernel.org
+CC: Heiko Stuebner <heiko.stuebner@cherry.de>
 
-Hi Abel,
+Hi Heiko,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/arm64-dts-qcom-x1e80100-Add-missing-address-cells-size-cells-to-firmware-node/20241109-060638
-base:   929beafbe7acce3267c06115e13e03ff6e50548a
-patch link:    https://lore.kernel.org/r/20241109-x1e80100-fix-address-size-cells-missing-warnings-v1-1-c1e173369657%40linaro.org
-patch subject: [PATCH 1/3] arm64: dts: qcom: x1e80100: Add missing #address-cells/#size-cells to firmware node
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: arm64-randconfig-002-20241109 (https://download.01.org/0day-ci/archive/20241109/202411091645.frq37ALT-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/arm64=
+-dts-rockchip-add-mipi-dcphy-nodes-to-rk3588/20241106-210147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchi=
+p.git for-next
+patch link:    https://lore.kernel.org/r/20241106123758.423584-2-heiko%40sn=
+tech.de
+patch subject: [PATCH 1/3] arm64: dts: rockchip: add mipi dcphy nodes to rk=
+3588
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm64-randconfig-051-20241107 (https://download.01.org/0day-ci/arch=
+ive/20241109/202411091741.HIXExrzJ-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411091645.frq37ALT-lkp@intel.com/reproduce)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20241109/202411091741.HIXExrzJ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411091645.frq37ALT-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411091741.HIXExrzJ-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: analog-sound: Unev=
+aluated properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /hdmi@fde80000: =
+failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@feda0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@fedb0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /hdmi@fde800=
+00: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-q=
+p']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@feda000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
+']
+>> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@fedb000=
+0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
+']
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1276.7-1284.4: Warning =
+(graph_child_address): /usb@fc000000/port: graph node has single child node=
+ 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: analog-sound: 'simple-=
+audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
+card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
+-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
+', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 --
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:306.11-316.4: Warning (avoid_unnecessary_addr_size): /firmware: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/x1e80100.dtsi:5792.26-5897.5: Warning (avoid_unnecessary_addr_size): /soc@0/rsc@17500000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4158.11-4168.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /hdmi@f=
+de80000: failed to match any schema with compatible: ['rockchip,rk3588-dw-h=
+dmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
+da0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
+db0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
+dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: analog-=
+sound: 'simple-audio-card,hp-det-gpios' does not match any of the regexes: =
+'^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]=
++)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,pla=
+t(@[0-9a-f]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible:0: 't=
+sd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'ad,adm9=
+240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'asterala=
+bs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', 'blute=
+k,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'capella=
+,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dallas,ds17=
+80', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,dps920a=
+b', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devantech,sr=
+f10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech,dmard=
+06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', 'elgin,=
+jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121', 'ho=
+neywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ-hwmon=
+', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infineon,tl=
+v493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe12254',=
+ 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'injoini=
+c,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', 'inspur=
+,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,isl69260=
+', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnology,ltc=
+2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim,ds180=
+3-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max5481',=
+ 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', 'mcube=
+,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', 'meas,=
+ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,tsys01',=
+ 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc6255', '=
+memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp3422',=
+ 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'microchip,=
+mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp4017-103'=
+, 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp4017-503'=
+, 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp4018-502'=
+, 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp4019-104'=
+, 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654', 'mic=
+rochip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da280', '=
+miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp2891', 'm=
+ps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', 'mps,mp=
+5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80', 'nati=
+onal,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki,ml86v=
+7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', 'renes=
+as,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', 'samsun=
+g,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirion,sgp4=
+0', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'sensortek,s=
+tk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si7005', '=
+silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir,mango=
+h-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc1008', '=
+ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm73', '=
+ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tmp125',=
+ 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps544b20'=
+, 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti,tsc20=
+03', 'vicor,pli1209bc', 'winbond,w83793']
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible: ['ts=
+d,mule', 'ti,amc6821'] is too long
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: 'i2c-mux' does n=
+ot match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /i2c@fd880000/fan@18: fa=
+iled to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
+   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /hdmi@fde80000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@feda0000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@fedb0000: failed to=
+ match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound: 'simple-audio-=
+card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,c=
+odec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio=
+-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pi=
+nctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /hdmi@fde80000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@feda0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@fedb0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: sound: 'simple-au=
+dio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-ca=
+rd,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-a=
+udio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$',=
+ 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound: 'simple-audio-c=
+ard,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,co=
+dec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-=
+card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pin=
+ctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /hdmi@fde80000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@feda0000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@fedb0000: =
+failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: sound: 'simple-=
+audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
+card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
+-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
+', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: sound: 'simple-audi=
+o-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card=
+,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-aud=
+io-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', '=
+pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1149.7-1157.4: Warnin=
+g (graph_child_address): /usb@fc000000/port: graph node has single child no=
+de 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: analog-sound: Uneval=
+uated properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /pcie-oscillator: fa=
+iled to match any schema with compatible: ['gated-fixed-clock']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /hdmi@fde80000: failed =
+to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@feda0000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@fedb0000: failed t=
+o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: analog-sound: Unevaluat=
+ed properties are not allowed ('hp-det-gpios' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
+aml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
+:0: 'tsd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'a=
+d,adm9240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'as=
+teralabs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', =
+'blutek,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'c=
+apella,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dalla=
+s,ds1780', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,d=
+ps920ab', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devant=
+ech,srf10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech=
+,dmard06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', '=
+elgin,jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121=
+', 'honeywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ=
+-hwmon', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infin=
+eon,tlv493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe1=
+2254', 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'i=
+njoinic,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', '=
+inspur,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,is=
+l69260', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnolo=
+gy,ltc2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim=
+,ds1803-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max=
+5481', 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', =
+'mcube,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', =
+'meas,ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,ts=
+ys01', 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc62=
+55', 'memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp=
+3422', 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'micr=
+ochip,mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp401=
+7-103', 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp401=
+7-503', 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp401=
+8-502', 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp401=
+9-104', 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654'=
+, 'microchip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da2=
+80', 'miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp289=
+1', 'mps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', '=
+mps,mp5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80',=
+ 'national,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki=
+,ml86v7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', =
+'renesas,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', '=
+samsung,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirio=
+n,sgp40', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'senso=
+rtek,stk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si70=
+05', 'silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir=
+,mangoh-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc10=
+08', 'ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm=
+73', 'ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tm=
+p125', 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps5=
+44b20', 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti=
+,tsc2003', 'vicor,pli1209bc', 'winbond,w83793']
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
+: ['tsd,mule', 'ti,amc6821'] is too long
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: 'i2c-mux' =
+does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
+   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /i2c@fec80000/fan@=
+18: failed to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1130.7-1138.4: Warning=
+ (graph_child_address): /usb@fc000000/port: graph node has single child nod=
+e 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /hdmi@fde80000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@feda0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@fedb0000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /hdmi@fde80000: =
+failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@feda0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@fedb0000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: analog-sound: 's=
+imple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-=
+audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^=
+simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-=
+f]+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /hdmi@fde80000=
+: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: audio-codec@11=
+: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yam=
+l#
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@feda0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@fedb0000:=
+ failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /hdmi@fde80000: f=
+ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@feda0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@fedb0000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /hdmi@fde80000: failed=
+ to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@feda0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@fedb0000: failed =
+to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /hdmi@fde80000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@feda0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@fedb0000: faile=
+d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /hdmi@fde80000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@feda0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@fedb0000: fail=
+ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: analog-sound: 'simp=
+le-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-aud=
+io-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^sim=
+ple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+=
+)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /hdmi@fde80000: fa=
+iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@feda0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+>> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@fedb0000: fai=
+led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
+   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: analog-sound: 'sim=
+ple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-au=
+dio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^si=
+mple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]=
++)?$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
 
-vim +306 arch/arm64/boot/dts/qcom/x1e80100.dtsi
-
-af16b00578a7a1 Rajendra Nayak      2023-12-05   23  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   24  / {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   25  	interrupt-parent = <&intc>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   26  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   27  	#address-cells = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   28  	#size-cells = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   29  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   30  	chosen { };
-af16b00578a7a1 Rajendra Nayak      2023-12-05   31  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   32  	clocks {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   33  		xo_board: xo-board {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   34  			compatible = "fixed-clock";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   35  			clock-frequency = <76800000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   36  			#clock-cells = <0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   37  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   38  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   39  		sleep_clk: sleep-clk {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   40  			compatible = "fixed-clock";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   41  			clock-frequency = <32000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   42  			#clock-cells = <0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   43  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   44  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   45  		bi_tcxo_div2: bi-tcxo-div2-clk {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   46  			compatible = "fixed-factor-clock";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   47  			#clock-cells = <0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   48  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   49  			clocks = <&rpmhcc RPMH_CXO_CLK>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   50  			clock-mult = <1>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   51  			clock-div = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   52  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   53  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   54  		bi_tcxo_ao_div2: bi-tcxo-ao-div2-clk {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   55  			compatible = "fixed-factor-clock";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   56  			#clock-cells = <0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   57  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   58  			clocks = <&rpmhcc RPMH_CXO_CLK_A>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   59  			clock-mult = <1>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   60  			clock-div = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   61  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   62  	};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   63  
-af16b00578a7a1 Rajendra Nayak      2023-12-05   64  	cpus {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   65  		#address-cells = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   66  		#size-cells = <0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   67  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   68  		cpu0: cpu@0 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   69  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   70  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   71  			reg = <0x0 0x0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   72  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   73  			next-level-cache = <&l2_0>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   74  			power-domains = <&cpu_pd0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   75  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   76  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   77  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   78  			l2_0: l2-cache {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   79  				compatible = "cache";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   80  				cache-level = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   81  				cache-unified;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   82  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   83  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   84  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   85  		cpu1: cpu@100 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   86  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   87  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   88  			reg = <0x0 0x100>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   89  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   90  			next-level-cache = <&l2_0>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   91  			power-domains = <&cpu_pd1>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   92  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   93  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05   94  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05   95  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22   96  		cpu2: cpu@200 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05   97  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   98  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05   99  			reg = <0x0 0x200>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  100  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  101  			next-level-cache = <&l2_0>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  102  			power-domains = <&cpu_pd2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  103  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  104  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  105  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  106  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  107  		cpu3: cpu@300 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  108  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  109  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  110  			reg = <0x0 0x300>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  111  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  112  			next-level-cache = <&l2_0>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  113  			power-domains = <&cpu_pd3>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  114  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  115  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  116  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  117  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  118  		cpu4: cpu@10000 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  119  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  120  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  121  			reg = <0x0 0x10000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  122  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  123  			next-level-cache = <&l2_1>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  124  			power-domains = <&cpu_pd4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  125  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  126  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  127  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  128  			l2_1: l2-cache {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  129  				compatible = "cache";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  130  				cache-level = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  131  				cache-unified;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  132  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  133  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  134  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  135  		cpu5: cpu@10100 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  136  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  137  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  138  			reg = <0x0 0x10100>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  139  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  140  			next-level-cache = <&l2_1>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  141  			power-domains = <&cpu_pd5>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  142  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  143  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  144  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  145  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  146  		cpu6: cpu@10200 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  147  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  148  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  149  			reg = <0x0 0x10200>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  150  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  151  			next-level-cache = <&l2_1>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  152  			power-domains = <&cpu_pd6>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  153  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  154  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  155  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  156  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  157  		cpu7: cpu@10300 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  158  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  159  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  160  			reg = <0x0 0x10300>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  161  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  162  			next-level-cache = <&l2_1>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  163  			power-domains = <&cpu_pd7>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  164  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  165  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  166  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  167  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  168  		cpu8: cpu@20000 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  169  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  170  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  171  			reg = <0x0 0x20000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  172  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  173  			next-level-cache = <&l2_2>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  174  			power-domains = <&cpu_pd8>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  175  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  176  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  177  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  178  			l2_2: l2-cache {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  179  				compatible = "cache";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  180  				cache-level = <2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  181  				cache-unified;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  182  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  183  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  184  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  185  		cpu9: cpu@20100 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  186  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  187  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  188  			reg = <0x0 0x20100>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  189  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  190  			next-level-cache = <&l2_2>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  191  			power-domains = <&cpu_pd9>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  192  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  193  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  194  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  195  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  196  		cpu10: cpu@20200 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  197  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  198  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  199  			reg = <0x0 0x20200>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  200  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  201  			next-level-cache = <&l2_2>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  202  			power-domains = <&cpu_pd10>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  203  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  204  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  205  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  206  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  207  		cpu11: cpu@20300 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  208  			device_type = "cpu";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  209  			compatible = "qcom,oryon";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  210  			reg = <0x0 0x20300>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  211  			enable-method = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  212  			next-level-cache = <&l2_2>;
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  213  			power-domains = <&cpu_pd11>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  214  			power-domain-names = "psci";
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  215  			cpu-idle-states = <&cluster_c4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  216  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  217  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  218  		cpu-map {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  219  			cluster0 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  220  				core0 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  221  					cpu = <&cpu0>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  222  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  223  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  224  				core1 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  225  					cpu = <&cpu1>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  226  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  227  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  228  				core2 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  229  					cpu = <&cpu2>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  230  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  231  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  232  				core3 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  233  					cpu = <&cpu3>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  234  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  235  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  236  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  237  			cluster1 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  238  				core0 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  239  					cpu = <&cpu4>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  240  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  241  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  242  				core1 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  243  					cpu = <&cpu5>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  244  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  245  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  246  				core2 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  247  					cpu = <&cpu6>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  248  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  249  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  250  				core3 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  251  					cpu = <&cpu7>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  252  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  253  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  254  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  255  			cluster2 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  256  				core0 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  257  					cpu = <&cpu8>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  258  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  259  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  260  				core1 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  261  					cpu = <&cpu9>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  262  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  263  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  264  				core2 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  265  					cpu = <&cpu10>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  266  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  267  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  268  				core3 {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  269  					cpu = <&cpu11>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  270  				};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  271  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  272  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  273  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  274  		idle-states {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  275  			entry-method = "psci";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  276  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  277  			cluster_c4: cpu-sleep-0 {
-af16b00578a7a1 Rajendra Nayak      2023-12-05  278  				compatible = "arm,idle-state";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  279  				idle-state-name = "ret";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  280  				arm,psci-suspend-param = <0x00000004>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  281  				entry-latency-us = <180>;
-2e65616ef07fa4 Konrad Dybcio       2024-07-16  282  				exit-latency-us = <500>;
-2e65616ef07fa4 Konrad Dybcio       2024-07-16  283  				min-residency-us = <600>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  284  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  285  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  286  
-af16b00578a7a1 Rajendra Nayak      2023-12-05  287  		domain-idle-states {
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  288  			cluster_cl4: cluster-sleep-0 {
-cb939b9b354268 Rajendra Nayak      2024-03-17  289  				compatible = "domain-idle-state";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  290  				arm,psci-suspend-param = <0x01000044>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  291  				entry-latency-us = <350>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  292  				exit-latency-us = <500>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  293  				min-residency-us = <2500>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  294  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  295  
-6a3649903ccd95 Krzysztof Kozlowski 2024-10-22  296  			cluster_cl5: cluster-sleep-1 {
-cb939b9b354268 Rajendra Nayak      2024-03-17  297  				compatible = "domain-idle-state";
-af16b00578a7a1 Rajendra Nayak      2023-12-05  298  				arm,psci-suspend-param = <0x01000054>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  299  				entry-latency-us = <2200>;
-2e65616ef07fa4 Konrad Dybcio       2024-07-16  300  				exit-latency-us = <4000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  301  				min-residency-us = <7000>;
-af16b00578a7a1 Rajendra Nayak      2023-12-05  302  			};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  303  		};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  304  	};
-af16b00578a7a1 Rajendra Nayak      2023-12-05  305  
-af16b00578a7a1 Rajendra Nayak      2023-12-05 @306  	firmware {
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
