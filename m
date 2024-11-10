@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3D59460
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 00:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE7422615
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 01:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731197829; cv=none; b=YJS5tQp1QmOQrEV0RJFrojsK9BAewcTqgYHdPlBpgn4wUR3TVmOEHb4UdytL+QKCekLBrMcJExr+Bim79HeNYEb26FBtAA4FByYx52Gy8wJK3aj0sXk6YY5FKnDU55ZNBwrukJ8lRcLp88oRmf6BhYuCX+cDyQChMXLQ9gpQTsI=
+	t=1731200950; cv=none; b=neoqH4Nv69fwUcix12PwmutpRgqAHZaIH3J0xiyniofj36DqcDqGfVij0b9bmAUTDXb1K+D5Fg0ZH48W+Ubr3zW5kT9CKWeChYDhDbj4lGk2Y8O4MZ3BTx896c5OvKl/YcQ+GtOUKyU6T3hftHk1oOl7Q8yocXWvtk7kY8I5h3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731197829; c=relaxed/simple;
-	bh=TdW18vvHIIfpDg/h5ONY7N0yic1sSxfDH/76rclW8iY=;
+	s=arc-20240116; t=1731200950; c=relaxed/simple;
+	bh=LwqTXS67BX8nB1RZfzTmU4H6SLinY5fUv7JO/7RqTQA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FUCtbrkCN83ra37tJ7y5Cel5m7LtEoOMgRWwo3OQcXoNwSi8glNPUTDcRbpe2VnuxHN1GWeHWtxnPYPuMv/iDpJFgss/y6jwZ2DJTAUbwICpXMQg8FWJKsEtw6kevDr88DOCfftMc2q7ADkYNg8bPI9dGORt0JrEPwRggxXuUtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhSiMqDo; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=H6irSFqIM3+iSH+BgouMYYw5K7L4Pc5P2mMUe6MoWoCFshGWhUVoOwhS/mEQNdxQVa7YDHnicRJE+Cn8/7qX1fzj+pUQ8K/BE45yZ5nQpMTf4qk2tU7XFlVvc1OR5outcv50mOL/vlmE0YOFvfvQY+rpE33Nu1KE/UpN3Si8dXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ArbbPkls; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhSiMqDo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ArbbPkls"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731197828; x=1762733828;
+  t=1731200949; x=1762736949;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TdW18vvHIIfpDg/h5ONY7N0yic1sSxfDH/76rclW8iY=;
-  b=YhSiMqDoqAXSJOnHs+Vwc190xRgs7OWsxlT9KwoXXxj5ld7bqxr9W7YW
-   ddgdpEfegQlGPbUyQGuFuOplQwDo918mSuFQrPU1hENit4RvL3CuUma0X
-   LQ+dKMEVm8o7thrdOo6TwSmq+cdnINrjZa3dQr1YspvQ0fmRFKTG8SCzG
-   qTNXKW3lftABwIhe/qxgxR/tQpRrSaU27jVNMW7ohPLB2ofDanFBflluR
-   SnkJeyKhmzV9ZjCM8wFKw4U/esOC8Hcr63PEivwgU4OYLMx2bh86iD090
-   FTICM2c5+dv0cxYkKRNwOrqgYdye5peBdF4VeDoHgs0FE/jnwh0XRfBBV
+  bh=LwqTXS67BX8nB1RZfzTmU4H6SLinY5fUv7JO/7RqTQA=;
+  b=ArbbPklsRHC56drRgkCFWoABRb0+PPI9Nedr2vbTIfnK/l2WqobB6fBG
+   umu4+iciMerdyolBAbqJ+Qho09sAu3PqSWbL9Ju4j1XihGQA5Tv4zBxfY
+   hXsIEx0n0TwKHaKWAv3MXrnMnAeRFBR9Pqlkei2ITJLbIPlsSBdzg21u0
+   p0xHEQ1i9HzDyFeZp9t8N4WQAyyCwKxLPNU1V+GvJDO8oQSflipSfu7Jb
+   qm6bofhR1z7ap6RiDhcQ/3PLCjf/9IzxLC+lh8C79MsLHBIjhmbnTRr3s
+   uANPNKgg1oEvJkQisOuZ9BBwttLOZse2mbVaoLFPMvFgKyM1jC8+4mgET
    w==;
-X-CSE-ConnectionGUID: CYinH1GfSaq5DF/vPUDO/Q==
-X-CSE-MsgGUID: e4NKO2l/TguVTEKqfIIhPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="56444390"
-X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="56444390"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 16:17:07 -0800
-X-CSE-ConnectionGUID: t4SwYA4iSTKMTpp7uitMgg==
-X-CSE-MsgGUID: eTJ3gAzhS4yPKXFEVj9Y+w==
+X-CSE-ConnectionGUID: sXro1Fg2QP6VPf7tgEipuw==
+X-CSE-MsgGUID: 6quiHBa/TkaTvlyQsstqLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53610189"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53610189"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 17:09:08 -0800
+X-CSE-ConnectionGUID: DxSIayh/RVae/WHO7ZHbeQ==
+X-CSE-MsgGUID: EaxvFqGdTieCwtnqXub2hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="86635245"
+   d="scan'208";a="86159617"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2024 16:17:05 -0800
+  by orviesa009.jf.intel.com with ESMTP; 09 Nov 2024 17:09:06 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9vdX-000smk-1S;
-	Sun, 10 Nov 2024 00:17:03 +0000
-Date: Sun, 10 Nov 2024 08:16:41 +0800
+	id 1t9wRs-000so2-0S;
+	Sun, 10 Nov 2024 01:09:04 +0000
+Date: Sun, 10 Nov 2024 09:08:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH v7 2/2] dt-bindings: mtd: davinci: convert to yaml
-Message-ID: <202411100709.XHrQ0p9y-lkp@intel.com>
+Cc: lkp@intel.com, Dan Carpenter <error27@gmail.com>
+Subject: [morimoto:sound-cleanup-2024-11-08 64/70] sound/soc/soc-core.c:1485
+ snd_soc_runtime_set_dai_fmt() error: uninitialized symbol 'ret'.
+Message-ID: <202411100830.bgjHCvBu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -61,145 +62,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-:::::: 
-:::::: Manual check reason: "dtcheck: binding changes may go via different trees"
-:::::: 
-
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241107-ondie-v7-2-98829fc8a958@gmail.com>
-References: <20241107-ondie-v7-2-98829fc8a958@gmail.com>
-TO: Marcus Folkesson <marcus.folkesson@gmail.com>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
-TO: Richard Weinberger <richard@nod.at>
-TO: Vignesh Raghavendra <vigneshr@ti.com>
-TO: Rob Herring <robh@kernel.org>
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-TO: Conor Dooley <conor+dt@kernel.org>
-CC: linux-mtd@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: devicetree@vger.kernel.org
-CC: Marcus Folkesson <marcus.folkesson@gmail.com>
+TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Hi Marcus,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 200289db261f0c8131a5756133e9d30966289c3b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcus-Folkesson/mtd-nand-davinci-add-support-for-on-die-ECC-engine-type/20241107-214944
-base:   200289db261f0c8131a5756133e9d30966289c3b
-patch link:    https://lore.kernel.org/r/20241107-ondie-v7-2-98829fc8a958%40gmail.com
-patch subject: [PATCH v7 2/2] dt-bindings: mtd: davinci: convert to yaml
+tree:   https://github.com/morimoto/linux sound-cleanup-2024-11-08
+head:   e9ab69de24b2818ae26f88e606ccea272bfa1705
+commit: 01b4cc0d22025e9acb81886a3b136e67375f5df2 [64/70] ASoC: soc-core: use soc_core_ret()
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: arm-randconfig-052-20241108 (https://download.01.org/0day-ci/archive/20241110/202411100709.XHrQ0p9y-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100709.XHrQ0p9y-lkp@intel.com/reproduce)
+config: i386-randconfig-141-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100830.bgjHCvBu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411100709.XHrQ0p9y-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202411100830.bgjHCvBu-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: /soc@1c00000/clock-controller@227000: failed to match any schema with compatible: ['ti,da850-psc1']
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: /soc@1c00000/pin-controller@22c00c: failed to match any schema with compatible: ['ti,da850-pupd']
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: /soc@1c00000/display@213000: failed to match any schema with compatible: ['ti,da850-tilcdc']
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: /aemif@68000000: failed to match any schema with compatible: ['ti,da850-aemif']
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: cs3: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: nand@2000000,0: $nodename:0: 'nand@2000000,0' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: nand@2000000,0: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
->> arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: nand@2000000,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: gpio-keys: 'user1', 'user2' do not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-lcdk.dtb: vga-bridge: '#address-cells', '#size-cells' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/simple-bridge.yaml#
---
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: /soc@1c00000/clock-controller@227000: failed to match any schema with compatible: ['ti,da850-psc1']
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: /soc@1c00000/pin-controller@22c00c: failed to match any schema with compatible: ['ti,da850-pupd']
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: /soc@1c00000/display@213000: failed to match any schema with compatible: ['ti,da850-tilcdc']
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: /aemif@68000000: failed to match any schema with compatible: ['ti,da850-aemif']
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: cs3: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: nand@2000000,0: $nodename:0: 'nand@2000000,0' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: nand@2000000,0: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
->> arch/arm/boot/dts/ti/davinci/da850-evm.dtb: nand@2000000,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/davinci/da850-evm.dtb: /panel: failed to match any schema with compatible: ['ti,tilcdc,panel']
---
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0: $nodename:0: 'nand@0,0' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0: compatible: ['ti,keystone-nand', 'ti,davinci-nand'] is too long
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
->> arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'nand-ecc-mode', 'nand-on-flash-bbt', 'partition@0', 'partition@100000', 'partition@180000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: pcie@21800000: compatible: ['ti,keystone-pcie', 'snps,dw-pcie'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: pcie@21800000: reg: [[562040832, 8192], [562036736, 4096], [39977256, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/emif@21010000: failed to match any schema with compatible: ['ti,emif-keystone']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/dsp@10800000: failed to match any schema with compatible: ['ti,k2hk-dsp']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/dsp@11800000: failed to match any schema with compatible: ['ti,k2hk-dsp']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/dsp@12800000: failed to match any schema with compatible: ['ti,k2hk-dsp']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/dsp@13800000: failed to match any schema with compatible: ['ti,k2hk-dsp']
---
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0: $nodename:0: 'nand@0,0' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0: compatible: ['ti,keystone-nand', 'ti,davinci-nand'] is too long
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
->> arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'nand-ecc-mode', 'nand-on-flash-bbt', 'partition@0', 'partition@100000', 'partition@180000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: pcie@21800000: compatible: ['ti,keystone-pcie', 'snps,dw-pcie'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: pcie@21800000: reg: [[562040832, 8192], [562036736, 4096], [39977256, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/emif@21010000: failed to match any schema with compatible: ['ti,emif-keystone']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: sram@70000000: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/dsp@10800000: failed to match any schema with compatible: ['ti,k2l-dsp']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/dsp@11800000: failed to match any schema with compatible: ['ti,k2l-dsp']
---
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0: $nodename:0: 'nand@0,0' does not match '^nand-controller(@.*)?'
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0: compatible: ['ti,keystone-nand', 'ti,davinci-nand'] is too long
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
->> arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'compatible', 'nand-ecc-mode', 'nand-on-flash-bbt', 'partition@0', 'partition@100000', 'partition@180000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/ti,davinci-nand.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: pcie@21800000: compatible: ['ti,keystone-pcie', 'snps,dw-pcie'] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: pcie@21800000: reg: [[562040832, 8192], [562036736, 4096], [39977256, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/pci/ti,am65-pci-host.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/emif@21010000: failed to match any schema with compatible: ['ti,emif-keystone']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/usb_phy@2620750: failed to match any schema with compatible: ['ti,keystone-usbphy']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: usb@25000000: 'clock-names' does not match any of the regexes: 'pinctrl-[0-9]+', 'usb@[a-f0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/dsp@10800000: failed to match any schema with compatible: ['ti,k2e-dsp']
+New smatch warnings:
+sound/soc/soc-core.c:1485 snd_soc_runtime_set_dai_fmt() error: uninitialized symbol 'ret'.
+
+Old smatch warnings:
+sound/soc/soc-core.c:1704 soc_probe_link_dais() error: uninitialized symbol 'ret'.
+sound/soc/soc-core.c:1744 soc_probe_link_components() error: uninitialized symbol 'ret'.
+sound/soc/soc-core.c:1795 soc_probe_aux_devices() error: uninitialized symbol 'ret'.
+
+vim +/ret +1485 sound/soc/soc-core.c
+
+ba9e82a1c89193 Kuninori Morimoto 2021-05-27  1445  
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1446  /**
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1447   * snd_soc_runtime_set_dai_fmt() - Change DAI link format for a ASoC runtime
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1448   * @rtd: The runtime for which the DAI link format should be changed
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1449   * @dai_fmt: The new DAI link format
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1450   *
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1451   * This function updates the DAI link format for all DAIs connected to the DAI
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1452   * link for the specified runtime.
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1453   *
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1454   * Note: For setups with a static format set the dai_fmt field in the
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1455   * corresponding snd_dai_link struct instead of using this function.
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1456   *
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1457   * Returns 0 on success, otherwise a negative error code.
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1458   */
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1459  int snd_soc_runtime_set_dai_fmt(struct snd_soc_pcm_runtime *rtd,
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1460  				unsigned int dai_fmt)
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1461  {
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1462  	struct snd_soc_dai *cpu_dai;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1463  	struct snd_soc_dai *codec_dai;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1464  	unsigned int i;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1465  	int ret;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1466  
+7db07e37e13cfd Kuninori Morimoto 2021-10-18  1467  	if (!dai_fmt)
+7db07e37e13cfd Kuninori Morimoto 2021-10-18  1468  		return 0;
+7db07e37e13cfd Kuninori Morimoto 2021-10-18  1469  
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1470  	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1471  		ret = snd_soc_dai_set_fmt(codec_dai, dai_fmt);
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1472  		if (ret != 0 && ret != -ENOTSUPP)
+01b4cc0d22025e Kuninori Morimoto 2024-11-08  1473  			goto err;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1474  	}
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1475  
+6c076273a326cc Charles Keepax    2022-05-19  1476  	/* Flip the polarity for the "CPU" end of link */
+6c076273a326cc Charles Keepax    2022-05-19  1477  	dai_fmt = snd_soc_daifmt_clock_provider_flipped(dai_fmt);
+b44a67f8936659 Kuninori Morimoto 2021-06-14  1478  
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1479  	for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
+6c076273a326cc Charles Keepax    2022-05-19  1480  		ret = snd_soc_dai_set_fmt(cpu_dai, dai_fmt);
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1481  		if (ret != 0 && ret != -ENOTSUPP)
+01b4cc0d22025e Kuninori Morimoto 2024-11-08  1482  			goto err;
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1483  	}
+01b4cc0d22025e Kuninori Morimoto 2024-11-08  1484  err:
+01b4cc0d22025e Kuninori Morimoto 2024-11-08 @1485  	return soc_core_ret(rtd->dev, ret);
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1486  }
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1487  EXPORT_SYMBOL_GPL(snd_soc_runtime_set_dai_fmt);
+4d1a98b5f1abaa Kuninori Morimoto 2021-05-27  1488  
 
 -- 
 0-DAY CI Kernel Test Service
