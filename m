@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61539347B4
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 05:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFC12556E
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 09:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731215843; cv=none; b=pFOx2YFWms8gh5x5gCUQ0PO+yRQtT4Hehs6GomZiPEGPt+x06cLmuRCdxpy/+ZBwvk1CuSbM+H1dVrfRm5XGg0I6VJrT7DLXGU6gLTVt0Z5qNCn56zKUDariaj44/vjhuh/qNFUyeBDD58tMvrcCdywBJ9szuWrw+nL7CiwD3nE=
+	t=1731229247; cv=none; b=DkQrzNRQjOmbb/hFdEB6pj2O0SBOT4X3G/PispIdAxgv0N6JXQdgZT28NG/TpymFSkTHXF7903+08r99dtTxxgzQNXK+8IVSJVxMxz6PjQ//svTvyD84Nfpp+FSX/rvbL5SyVi5iX+S1cvpzux0ocbP0ssEnjnHlIJxfZVmysgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731215843; c=relaxed/simple;
-	bh=feV6XOPt0Rp63/87zP/6zjV5+TVPZEGtjzkB/asn+BA=;
+	s=arc-20240116; t=1731229247; c=relaxed/simple;
+	bh=apbNzk9UTNY2cm4KSfR+ilbzHG+dyvDswBUzUYuJYH8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h2Npm+sVIqWum00A6iUMx/mIjwPTLMqyhVgW19wDqQGaDsOALS9YxSBx4wX5XvBDQnrlVIb7YzMAROXyz8dLEAp+t/XZJJ3QjceDVKKSfXDX0SyDbfy9KPj2jT60xb0zrhnVNmik6PbT1MC+oE8QC3dugl/1+Zh5vDRCu0PYnQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPEOp3bB; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=u3BB5dbAUbAZce9mTUbAPx1ef5DmisduJGE/fawVPVdqieJ5JotD1hChXZ4L4C5mCZn8yHVPvM8LgiWezp3vsfyOSLfmWhhcrQWek+8VUV4w/pnwuZQx3+dhWduYKfV4QZ9VWgxNsl7o2ntfheayZwMLzQS3ELT7Qtc+ee9qh/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O5DkKBXh; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPEOp3bB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5DkKBXh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731215841; x=1762751841;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=feV6XOPt0Rp63/87zP/6zjV5+TVPZEGtjzkB/asn+BA=;
-  b=mPEOp3bBvH69nUkPOl2WilPI4phglBYj4C3hdHIv1qsau4TLbKxKD/ht
-   p/1OlKXtcVDu0TOJuT9FHtETh93voniiWsFr9Bqz6wLzoxtU7S9yxjPQj
-   l5U9W0q8VZaFhsCTsGMADn15EmJoRwc/elNJjADV9SWjTB1DA2f7F7cRq
-   g6NWBs7mb/YmKVpbZPEDDMSQSqMBvf7C6xilKg6fC6bGdHVh420kkCiWe
-   Quf5KQn38uYVBVBTSmJCyEmDfzG1eJDklxsVEIgSBQy5Www4RoKMf49zc
-   SURr1iEpz3NIvPrpSigelkVAskL2OfRnbBrNzeDicV8+waOHcPkG3hF1Q
+  t=1731229245; x=1762765245;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=apbNzk9UTNY2cm4KSfR+ilbzHG+dyvDswBUzUYuJYH8=;
+  b=O5DkKBXhDvAeELnq+murXjCYyHOBEhH2FYLMw+Jdi0kLxLcjda4VhDx+
+   9IVHi71FHaXGB4sPBOLL9kERE5it7cSK8RkBx70Dn8ir0NYD78QAy2bEY
+   EeTMyqhDzFOxoDK6io5+h1Qms+ct7SOeKAKH7317X+/6QkhUWwpyEEMNf
+   BPxqBenKFhV7sdXkqakvvi9q4tGZq+cZhE5SkKoZV0OEUXTQHCPR0g0xX
+   iuAVCBoUxhMYf9Hos5s8OyPr/YkImxK7inL79vCkx/2leXrNWwRw7wMlG
+   TTlExULQFtJnesIROnVI8Lt74OmUg8JSWp+hfInjgnh54hcem3eD2+gg8
    g==;
-X-CSE-ConnectionGUID: 0ObrGldoRRCiR/SJLSL+aA==
-X-CSE-MsgGUID: CHRkVRqORVyG9hpcH0WH5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31012216"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31012216"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 21:17:20 -0800
-X-CSE-ConnectionGUID: ExhAuPN9TU2TxITkf/bsEA==
-X-CSE-MsgGUID: QKF2dRO1RpOq0rAuuhKZFA==
+X-CSE-ConnectionGUID: Wg3tVbUWRbe7Up3ZY/8P0Q==
+X-CSE-MsgGUID: udcn/gZaQjmI9TyXr/MAZA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="30940478"
+X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
+   d="scan'208";a="30940478"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 01:00:44 -0800
+X-CSE-ConnectionGUID: 7asoCXSGT7aUyme5Bt9UPA==
+X-CSE-MsgGUID: NDeXITgdR2CA5I6GYJoGAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="86735419"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Nov 2024 21:17:18 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+   d="scan'208";a="91454705"
+Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Nov 2024 01:00:43 -0800
+Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA0K4-000t10-1k;
-	Sun, 10 Nov 2024 05:17:16 +0000
-Date: Sun, 10 Nov 2024 13:16:32 +0800
+	id 1tA3oH-00003h-02;
+	Sun, 10 Nov 2024 09:00:41 +0000
+Date: Sun, 10 Nov 2024 17:00:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com
-Subject: Re: [PATCH 2/3] arm64: dts: rockchip: add dsi controller nodes on
- rk3588
-Message-ID: <202411101212.Fi0WmjjF-lkp@intel.com>
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 2327/10559] drivers/i2c/i2c-smbus.c:202:8-33:
+ WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT
+ (unless it is nested IRQ)
+Message-ID: <202411101614.GsphiMNE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -62,600 +62,82 @@ List-Unsubscribe: <mailto:oe-kbuild+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-::::::=20
-:::::: Manual check reason: "dtcheck: binding changes may go via different =
-trees"
-::::::=20
 
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
-In-Reply-To: <20241106123758.423584-3-heiko@sntech.de>
-References: <20241106123758.423584-3-heiko@sntech.de>
-TO: Heiko Stuebner <heiko@sntech.de>
-TO: heiko@sntech.de
-CC: quentin.schulz@cherry.de
-CC: devicetree@vger.kernel.org
-CC: linux-arm-kernel@lists.infradead.org
-CC: linux-rockchip@lists.infradead.org
-CC: linux-kernel@vger.kernel.org
-CC: Heiko Stuebner <heiko.stuebner@cherry.de>
+TO: Wolfram Sang <wsa-dev@sang-engineering.com>
+CC: Andi Shyti <andi.shyti@kernel.org>
 
-Hi Heiko,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   929beafbe7acce3267c06115e13e03ff6e50548a
+commit: 270cc3c54e229758b7c079e3aa3ef171e6d8698b [2327/10559] i2c: support gpio-binding for SMBAlerts
+:::::: branch date: 2 days ago
+:::::: commit date: 5 weeks ago
+config: arc-randconfig-r061-20241110 (https://download.01.org/0day-ci/archive/20241110/202411101614.GsphiMNE-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on next-20241108]
-[cannot apply to linus/master v6.12-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/arm64=
--dts-rockchip-add-mipi-dcphy-nodes-to-rk3588/20241106-210147
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchi=
-p.git for-next
-patch link:    https://lore.kernel.org/r/20241106123758.423584-3-heiko%40sn=
-tech.de
-patch subject: [PATCH 2/3] arm64: dts: rockchip: add dsi controller nodes o=
-n rk3588
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-051-20241107 (https://download.01.org/0day-ci/arch=
-ive/20241110/202411101212.Fi0WmjjF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20241110/202411101212.Fi0WmjjF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411101212.Fi0WmjjF-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411101614.GsphiMNE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /dsi@fde20000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /dsi@fde30000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /hdmi@fde80000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@feda0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: /phy@fedb0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: analog-sound: Unev=
-aluated properties are not allowed ('hp-det-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
-aml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /dsi@fde20000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /dsi@fde30000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /hdmi@fde80000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@feda0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: /phy@fedb0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /dsi@fde20000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /dsi@fde30000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /hdmi@fde80000: =
-failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@feda0000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: /phy@fedb0000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /dsi@fde2000=
-0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /dsi@fde3000=
-0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /hdmi@fde800=
-00: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-q=
-p']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@feda000=
-0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
-']
-   arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: /phy@fedb000=
-0: failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy=
-']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /dsi@fde20000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /dsi@fde30000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /hdmi@fde80000=
-: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@feda0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: /phy@fedb0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /dsi@fde20000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /dsi@fde30000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /hdmi@fde80000=
-: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@feda0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: /phy@fedb0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts:1276.7-1284.4: Warning =
-(graph_child_address): /usb@fc000000/port: graph node has single child node=
- 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /dsi@fde20000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /dsi@fde30000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /hdmi@fde80000: failed=
- to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@feda0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: /phy@fedb0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: analog-sound: 'simple-=
-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
--audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
-', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /dsi@fd=
-e20000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /dsi@fd=
-e30000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /hdmi@f=
-de80000: failed to match any schema with compatible: ['rockchip,rk3588-dw-h=
-dmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
-da0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: /phy@fe=
-db0000: failed to match any schema with compatible: ['rockchip,rk3588-mipi-=
-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: analog-=
-sound: 'simple-audio-card,hp-det-gpios' does not match any of the regexes: =
-'^simple-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]=
-+)?$', '^simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,pla=
-t(@[0-9a-f]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible:0: 't=
-sd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'ad,adm9=
-240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'asterala=
-bs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', 'blute=
-k,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'capella=
-,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dallas,ds17=
-80', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,dps920a=
-b', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devantech,sr=
-f10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech,dmard=
-06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', 'elgin,=
-jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121', 'ho=
-neywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ-hwmon=
-', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infineon,tl=
-v493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe12254',=
- 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'injoini=
-c,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', 'inspur=
-,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,isl69260=
-', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnology,ltc=
-2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim,ds180=
-3-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max5481',=
- 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', 'mcube=
-,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', 'meas,=
-ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,tsys01',=
- 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc6255', '=
-memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp3422',=
- 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'microchip,=
-mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp4017-103'=
-, 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp4017-503'=
-, 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp4018-502'=
-, 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp4019-104'=
-, 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654', 'mic=
-rochip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da280', '=
-miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp2891', 'm=
-ps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', 'mps,mp=
-5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80', 'nati=
-onal,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki,ml86v=
-7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', 'renes=
-as,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', 'samsun=
-g,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirion,sgp4=
-0', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'sensortek,s=
-tk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si7005', '=
-silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir,mango=
-h-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc1008', '=
-ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm73', '=
-ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tmp125',=
- 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps544b20'=
-, 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti,tsc20=
-03', 'vicor,pli1209bc', 'winbond,w83793']
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: compatible: ['ts=
-d,mule', 'ti,amc6821'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: fan@18: 'i2c-mux' does n=
-ot match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /i2c@fd880000/fan@18: fa=
-iled to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /dsi@fde20000: failed to=
- match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /dsi@fde30000: failed to=
- match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /hdmi@fde80000: failed t=
-o match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@feda0000: failed to=
- match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: /phy@fedb0000: failed to=
- match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /dsi@fde20000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /dsi@fde30000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /hdmi@fde80000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@feda0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: /phy@fedb0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: sound: 'simple-audio-=
-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,c=
-odec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio=
--card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pi=
-nctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /dsi@fde20000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /dsi@fde30000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /hdmi@fde80000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@feda0000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: /phy@fedb0000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: sound: 'simple-au=
-dio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-ca=
-rd,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-a=
-udio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$',=
- 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /dsi@fde20000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /dsi@fde30000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /hdmi@fde80000: failed=
- to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@feda0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: /phy@fedb0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: sound: 'simple-audio-c=
-ard,hp-det-gpios' does not match any of the regexes: '^simple-audio-card,co=
-dec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-audio-=
-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', 'pin=
-ctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /dsi@fde20000: =
-failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /dsi@fde30000: =
-failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /hdmi@fde80000:=
- failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@feda0000: =
-failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: /phy@fedb0000: =
-failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: sound: 'simple-=
-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-=
-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple=
--audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$=
-', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /dsi@fde20000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /dsi@fde30000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /hdmi@fde80000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@feda0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: /phy@fedb0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: sound: 'simple-audi=
-o-card,hp-det-gpios' does not match any of the regexes: '^simple-audio-card=
-,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^simple-aud=
-io-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+)?$', '=
-pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dts:1149.7-1157.4: Warnin=
-g (graph_child_address): /usb@fc000000/port: graph node has single child no=
-de 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /dsi@fde20000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /dsi@fde30000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /hdmi@fde80000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@feda0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /phy@fedb0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: analog-sound: Uneval=
-uated properties are not allowed ('hp-det-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
-aml#
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: /pcie-oscillator: fa=
-iled to match any schema with compatible: ['gated-fixed-clock']
---
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /dsi@fde20000: failed t=
-o match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /dsi@fde30000: failed t=
-o match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /hdmi@fde80000: failed =
-to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@feda0000: failed t=
-o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: /phy@fedb0000: failed t=
-o match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: analog-sound: Unevaluat=
-ed properties are not allowed ('hp-det-gpios' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.y=
-aml#
---
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /dsi@fde20000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /dsi@fde30000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /hdmi@fde80000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
-:0: 'tsd,mule' is not one of ['acbel,fsg032', 'ad,ad7414', 'adi,ad7414', 'a=
-d,adm9240', 'adi,ad5110', 'adi,adp5589', 'adi,lt7182s', 'ams,iaq-core', 'as=
-teralabs,pt5161l', 'atmel,atecc508a', 'atmel,atsha204', 'atmel,atsha204a', =
-'blutek,bpa-rs600', 'bosch,bme680', 'capella,cm32181', 'capella,cm3232', 'c=
-apella,cm3323', 'cisco,spi-petra', 'dallas,ds1631', 'dallas,ds1682', 'dalla=
-s,ds1780', 'dallas,ds4510', 'delta,ahe50dc-fan', 'delta,dps650ab', 'delta,d=
-ps920ab', 'delta,q54sj108a2', 'devantech,srf02', 'devantech,srf08', 'devant=
-ech,srf10', 'dh,dhcom-board', 'dlg,da9053', 'domintech,dmard05', 'domintech=
-,dmard06', 'domintech,dmard07', 'domintech,dmard09', 'domintech,dmard10', '=
-elgin,jg10309-01', 'fsl,mma7660', 'fsl,mma8450', 'fsl,mpl3115', 'fsl,mpr121=
-', 'honeywell,hi6130', 'ibm,cffps', 'ibm,cffps1', 'ibm,cffps2', 'ibm,p8-occ=
--hwmon', 'infineon,dps310', 'infineon,ir36021', 'infineon,irps5401', 'infin=
-eon,tlv493d-a1b6', 'infineon,xdp710', 'infineon,xdpe11280', 'infineon,xdpe1=
-2254', 'infineon,xdpe12284', 'infineon,xdpe15284', 'infineon,xdpe152c4', 'i=
-njoinic,ip5108', 'injoinic,ip5109', 'injoinic,ip5207', 'injoinic,ip5209', '=
-inspur,ipsps1', 'isil,isl29028', 'isil,isl29030', 'isil,isl68137', 'isil,is=
-l69260', 'isil,isl69269', 'isil,isl76682', 'jedec,spd5118', 'lineartechnolo=
-gy,ltc2488', 'maxim,ds1050', 'maxim,ds1803-010', 'maxim,ds1803-050', 'maxim=
-,ds1803-100', 'maxim,ds3502', 'maxim,max1619', 'maxim,max31730', 'maxim,max=
-5481', 'maxim,max5482', 'maxim,max5483', 'maxim,max5484', 'maxim,max6621', =
-'mcube,mc3230', 'meas,htu21', 'meas,ms5637', 'meas,ms5803', 'meas,ms5805', =
-'meas,ms5837', 'meas,ms8607-humidity', 'meas,ms8607-temppressure', 'meas,ts=
-ys01', 'memsic,mmc35240', 'memsic,mxc4005', 'memsic,mxc6225', 'memsic,mxc62=
-55', 'memsic,mxc6655', 'menlo,m53cpld', 'microchip,mcp3421', 'microchip,mcp=
-3422', 'microchip,mcp3423', 'microchip,mcp3424', 'microchip,mcp3425', 'micr=
-ochip,mcp3426', 'microchip,mcp3427', 'microchip,mcp3428', 'microchip,mcp401=
-7-103', 'microchip,mcp4017-104', 'microchip,mcp4017-502', 'microchip,mcp401=
-7-503', 'microchip,mcp4018-103', 'microchip,mcp4018-104', 'microchip,mcp401=
-8-502', 'microchip,mcp4018-503', 'microchip,mcp4019-103', 'microchip,mcp401=
-9-104', 'microchip,mcp4019-502', 'microchip,mcp4019-503', 'microchip,tc654'=
-, 'microchip,tc655', 'micron,spi-authenta', 'miramems,da226', 'miramems,da2=
-80', 'miramems,da311', 'mps,mp2856', 'mps,mp2857', 'mps,mp2888', 'mps,mp289=
-1', 'mps,mp2971', 'mps,mp2973', 'mps,mp2975', 'mps,mp2993', 'mps,mp5920', '=
-mps,mp5990', 'mps,mp9941', 'mps,mpq8785', 'national,lm63', 'national,lm80',=
- 'national,lm81', 'national,lm85', 'national,lm92', 'nuvoton,w83773g', 'oki=
-,ml86v7667', 'plx,pex8648', 'pulsedlight,lidar-lite-v2', 'renesas,hs3001', =
-'renesas,isl29501', 'rohm,bh2228fv', 'rohm,dh2228fv', 'samsung,24ad0xd1', '=
-samsung,exynos-sataphy-i2c', 'semtech,sx1301', 'sensirion,sgp30', 'sensirio=
-n,sgp40', 'sensirion,sgpc3', 'sensirion,sht4x', 'sensortek,stk8312', 'senso=
-rtek,stk8ba50', 'sgx,vz89x', 'silabs,em3581', 'silabs,si3210', 'silabs,si70=
-05', 'silabs,si7020', 'skyworks,sky81452', 'sparkfun,qwiic-joystick', 'swir=
-,mangoh-iotport-spi', 'taos,tsl2550', 'ti,amc6821', 'ti,hdc1000', 'ti,hdc10=
-08', 'ti,hdc1010', 'ti,hdc1050', 'ti,hdc1080', 'ti,lm70', 'ti,lm71', 'ti,lm=
-73', 'ti,lm74', 'ti,lm96000', 'ti,tmp103', 'ti,tmp121', 'ti,tmp122', 'ti,tm=
-p125', 'ti,tps40400', 'ti,tps53676', 'ti,tps53679', 'ti,tps53688', 'ti,tps5=
-44b20', 'ti,tps544b25', 'ti,tps544c20', 'ti,tps544c25', 'ti,tps546d24', 'ti=
-,tsc2003', 'vicor,pli1209bc', 'winbond,w83793']
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: compatible=
-: ['tsd,mule', 'ti,amc6821'] is too long
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: fan@18: 'i2c-mux' =
-does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/trivial-devices.yaml#
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /i2c@fec80000/fan@=
-18: failed to match any schema with compatible: ['tsd,mule', 'ti,amc6821']
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@feda0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: /phy@fedb0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /dsi@fde20000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /dsi@fde30000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /hdmi@fde80000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@feda0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: /phy@fedb0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /dsi@fde20000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /dsi@fde30000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /hdmi@fde80000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@feda0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: /phy@fedb0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /dsi@fde20000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /dsi@fde30000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /hdmi@fde80000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@feda0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: /phy@fedb0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts:1130.7-1138.4: Warning=
- (graph_child_address): /usb@fc000000/port: graph node has single child nod=
-e 'endpoint@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /dsi@fde20000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /dsi@fde30000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /hdmi@fde80000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@feda0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: /phy@fedb0000: failed=
- to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /dsi@fde20000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /dsi@fde30000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /hdmi@fde80000: =
-failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@feda0000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: /phy@fedb0000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: analog-sound: 's=
-imple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-=
-audio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^=
-simple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-=
-f]+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /dsi@fde20000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /dsi@fde30000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /hdmi@fde80000=
-: failed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: audio-codec@11=
-: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yam=
-l#
-   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@feda0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: /phy@fedb0000:=
- failed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /dsi@fde20000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /dsi@fde30000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /hdmi@fde80000: f=
-ailed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@feda0000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: /phy@fedb0000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /dsi@fde20000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /dsi@fde30000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /hdmi@fde80000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@feda0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: /phy@fedb0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /dsi@fde20000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /dsi@fde30000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /hdmi@fde80000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@feda0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: /phy@fedb0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /dsi@fde20000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /dsi@fde30000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /hdmi@fde80000: failed=
- to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@feda0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: /phy@fedb0000: failed =
-to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /dsi@fde20000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /dsi@fde30000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /hdmi@fde80000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@feda0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: /phy@fedb0000: faile=
-d to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /dsi@fde20000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /dsi@fde30000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /hdmi@fde80000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@feda0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: /phy@fedb0000: fail=
-ed to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: analog-sound: 'simp=
-le-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-aud=
-io-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^sim=
-ple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]+=
-)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
---
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /dsi@fde20000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
->> arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /dsi@fde30000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dsi2']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /hdmi@fde80000: fa=
-iled to match any schema with compatible: ['rockchip,rk3588-dw-hdmi-qp']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@feda0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: /phy@fedb0000: fai=
-led to match any schema with compatible: ['rockchip,rk3588-mipi-dcphy']
-   arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: analog-sound: 'sim=
-ple-audio-card,hp-det-gpios' does not match any of the regexes: '^simple-au=
-dio-card,codec(@[0-9a-f]+)?$', '^simple-audio-card,cpu(@[0-9a-f]+)?$', '^si=
-mple-audio-card,dai-link(@[0-9a-f]+)?$', '^simple-audio-card,plat(@[0-9a-f]=
-+)?$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/sound/simple-card.yaml#
+cocci warnings: (new ones prefixed by >>)
+>> drivers/i2c/i2c-smbus.c:202:8-33: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
---=20
+vim +202 drivers/i2c/i2c-smbus.c
+
+b5527a7766f050 Jean Delvare 2010-03-02  164  
+b5527a7766f050 Jean Delvare 2010-03-02  165  /* Setup SMBALERT# infrastructure */
+a00f6d3723f561 Stephen Kitt 2022-10-12  166  static int smbalert_probe(struct i2c_client *ara)
+b5527a7766f050 Jean Delvare 2010-03-02  167  {
+6d4028c644edc0 Jingoo Han   2013-07-30  168  	struct i2c_smbus_alert_setup *setup = dev_get_platdata(&ara->dev);
+b5527a7766f050 Jean Delvare 2010-03-02  169  	struct i2c_smbus_alert *alert;
+b5527a7766f050 Jean Delvare 2010-03-02  170  	struct i2c_adapter *adapter = ara->adapter;
+270cc3c54e2297 Wolfram Sang 2024-09-09  171  	unsigned long irqflags = IRQF_SHARED | IRQF_ONESHOT;
+270cc3c54e2297 Wolfram Sang 2024-09-09  172  	struct gpio_desc *gpiod;
+9b9f2b8bc2ac98 Phil Reid    2017-08-24  173  	int res, irq;
+b5527a7766f050 Jean Delvare 2010-03-02  174  
+71b578452ec6b2 Julia Lawall 2012-10-05  175  	alert = devm_kzalloc(&ara->dev, sizeof(struct i2c_smbus_alert),
+71b578452ec6b2 Julia Lawall 2012-10-05  176  			     GFP_KERNEL);
+b5527a7766f050 Jean Delvare 2010-03-02  177  	if (!alert)
+b5527a7766f050 Jean Delvare 2010-03-02  178  		return -ENOMEM;
+b5527a7766f050 Jean Delvare 2010-03-02  179  
+69d17246ab255d Phil Reid    2017-08-24  180  	if (setup) {
+9b9f2b8bc2ac98 Phil Reid    2017-08-24  181  		irq = setup->irq;
+69d17246ab255d Phil Reid    2017-08-24  182  	} else {
+a263a84088f689 Akhil R      2022-01-28  183  		irq = fwnode_irq_get_byname(dev_fwnode(adapter->dev.parent),
+a263a84088f689 Akhil R      2022-01-28  184  					    "smbus_alert");
+270cc3c54e2297 Wolfram Sang 2024-09-09  185  		if (irq <= 0) {
+270cc3c54e2297 Wolfram Sang 2024-09-09  186  			gpiod = devm_gpiod_get(adapter->dev.parent, "smbalert", GPIOD_IN);
+270cc3c54e2297 Wolfram Sang 2024-09-09  187  			if (IS_ERR(gpiod))
+270cc3c54e2297 Wolfram Sang 2024-09-09  188  				return PTR_ERR(gpiod);
+270cc3c54e2297 Wolfram Sang 2024-09-09  189  
+270cc3c54e2297 Wolfram Sang 2024-09-09  190  			irq = gpiod_to_irq(gpiod);
+69d17246ab255d Phil Reid    2017-08-24  191  			if (irq <= 0)
+69d17246ab255d Phil Reid    2017-08-24  192  				return irq;
+270cc3c54e2297 Wolfram Sang 2024-09-09  193  
+270cc3c54e2297 Wolfram Sang 2024-09-09  194  			irqflags |= IRQF_TRIGGER_FALLING;
+270cc3c54e2297 Wolfram Sang 2024-09-09  195  		}
+69d17246ab255d Phil Reid    2017-08-24  196  	}
+69d17246ab255d Phil Reid    2017-08-24  197  
+9b9f2b8bc2ac98 Phil Reid    2017-08-24  198  	INIT_WORK(&alert->alert, smbalert_work);
+b5527a7766f050 Jean Delvare 2010-03-02  199  	alert->ara = ara;
+b5527a7766f050 Jean Delvare 2010-03-02  200  
+9b9f2b8bc2ac98 Phil Reid    2017-08-24  201  	if (irq > 0) {
+270cc3c54e2297 Wolfram Sang 2024-09-09 @202  		res = devm_request_threaded_irq(&ara->dev, irq, NULL, smbus_alert,
+270cc3c54e2297 Wolfram Sang 2024-09-09  203  						irqflags, "smbus_alert", alert);
+71b578452ec6b2 Julia Lawall 2012-10-05  204  		if (res)
+b5527a7766f050 Jean Delvare 2010-03-02  205  			return res;
+b5527a7766f050 Jean Delvare 2010-03-02  206  	}
+b5527a7766f050 Jean Delvare 2010-03-02  207  
+b5527a7766f050 Jean Delvare 2010-03-02  208  	i2c_set_clientdata(ara, alert);
+9b9f2b8bc2ac98 Phil Reid    2017-08-24  209  	dev_info(&adapter->dev, "supports SMBALERT#\n");
+b5527a7766f050 Jean Delvare 2010-03-02  210  
+b5527a7766f050 Jean Delvare 2010-03-02  211  	return 0;
+b5527a7766f050 Jean Delvare 2010-03-02  212  }
+b5527a7766f050 Jean Delvare 2010-03-02  213  
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
