@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5152322B
-	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 13:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D7D322B
+	for <oe-kbuild@lists.linux.dev>; Sun, 10 Nov 2024 14:40:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731245346; cv=none; b=aO4C7iRaocx9t3LL8ft9m8ghnouLj6/eG+YuGSw8z2not8ABRDsBeYCvSiBhm8PxTgNGWIcOuY1gZoQ26ZITzJBsBuD3axntI+76L+gjMjHnzygAwuJA/B9PfIM0PwNbFOLcUflRSbQESQkyG+XhUWfdyyumgyPkI3mUHrDPIcg=
+	t=1731249613; cv=none; b=i3cejZV9O0Ztwyr5vbKsl9ZntsA65gd/YXVtc6n0AbjixUmlsdh7xKtltgAInnutbI7uds1dBeaXV6SoYpjHLn3A/vfcvdUO2Gq1EnWsBNMIT6dT0p2e5EB1XfUoOQ+QJ7xjJHvP00IOEQBs/4vidclBBA2aPmLgsS7L4uumVM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731245346; c=relaxed/simple;
-	bh=zGPXn3GFVyJaMnP2biEppd74lhcsrv7SNwXUJnOx9Fk=;
+	s=arc-20240116; t=1731249613; c=relaxed/simple;
+	bh=E/eHRaDJ3+ZNviM9Z6BphsZRM8zJ8TZWOhmif4piuVk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=scyCtzhtOdQessrcvit3x1Gkn1Ps8YpnJrd3dCpSxRnXWK+VoVW2GyfSbgmha3agUZksYsxGVhH22FGBQFFSwFJOBzCJYtGoagyg3zoInQBOist+k1bTcZhoX4XsODneqXImL7co90EeR9o9qMIIu/by02i8DX3odr0NaBDPK4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwuVhqqx; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=FIhMLlBg+ayny2mJ1+XbsQWRaeekyuqrZPP0m6h/6WF8Aipv7EVJ5PDJAJZJfRSEU9PAas+BgZc9ik21LU5aHD+SIIzxAD8GK+1+yhFJk+C0w9LMSBb+5KG9hodKeWPQcDc+C96ZxqI0BM5GFKd7F4mPuuY1Q8aviNtDh9R9Uso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEHFQJtZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwuVhqqx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEHFQJtZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731245345; x=1762781345;
+  t=1731249612; x=1762785612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zGPXn3GFVyJaMnP2biEppd74lhcsrv7SNwXUJnOx9Fk=;
-  b=EwuVhqqxBKTvm/c5f0GGXdyMzw1HVcwHwXfV6ewevl6VGGplC2lB8tEW
-   2BNNMvFRUHOWdYX2OQt0fY1/BfHCHJ+j4d9JilAfug75WgI2bu9DvyjnV
-   FI68M59gcXWrRPTFyX9JoxlRmFOqbaN2V4JXNm6EZEvYeiXF8PipNrzmi
-   a0+7M91WKvtYf8ci/LG1k1/hsaBhbf3t/4Xa9lkLcJFpqbP5HpVB7W+RB
-   LrbnR2o9JfHE2p6uEUhwLyVnlwQcPXNwepTIHcc8qutHuCFM8sR8dnc1+
-   J13WsV05hJYijDoAcohmf/uf+zrrWAnODTR7RKUZMTxWYa47CuPaDEthN
-   A==;
-X-CSE-ConnectionGUID: v++YBKFuRbiLi3Jg1KEf+g==
-X-CSE-MsgGUID: zRWnNSZ6SmSeo+RqX4fsUQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53628377"
+  bh=E/eHRaDJ3+ZNviM9Z6BphsZRM8zJ8TZWOhmif4piuVk=;
+  b=EEHFQJtZvdF3Eyv7I6ZlEynvyi0gdKpuOt/d5BwNo8UaBaNMz8YA++e/
+   UiuHuTz6mH7AriXe/KvYF/oB35yUE9e+W5s88exrepcV3S5qxAmFyuF/B
+   S/Zcu1mXFnRsG1ReVVz0FltvxQ9A3WKWqoTvZngB/9TtEEXWPmj6KTZtB
+   XVJ7bxAb/vr1zhI7nK5sMKtO2nOpKBWUukF3ohCUM4FKC0PY/LjduhX32
+   6iagdKMu39OHVOAWDsDJaD2HX49IExAvHwZu6QVWXYi8aPxdPO7D9wjE9
+   GBb9mu/YCWhR0R4yeLFtZ7QXdjP4bVthhGhdb1N6hULTzilufPlBDq5QF
+   w==;
+X-CSE-ConnectionGUID: tEJg664KT0Oghpob4oYftA==
+X-CSE-MsgGUID: K3kZcntQSLWgRYQdKXmH9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30836513"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53628377"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 05:29:04 -0800
-X-CSE-ConnectionGUID: TljKSBNuRvaaBwPvC4BsRA==
-X-CSE-MsgGUID: 7bwQR7JQQHyKa6yVvsxhEQ==
+   d="scan'208";a="30836513"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 06:40:11 -0800
+X-CSE-ConnectionGUID: L0WZd7NpR6GUIfd9Cek/IA==
+X-CSE-MsgGUID: iqPTTsiuQbiEzQsqL/p98Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="117365268"
+   d="scan'208";a="86412022"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 10 Nov 2024 05:29:03 -0800
+  by orviesa009.jf.intel.com with ESMTP; 10 Nov 2024 06:40:11 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA7zx-00009x-0v;
-	Sun, 10 Nov 2024 13:29:01 +0000
-Date: Sun, 10 Nov 2024 21:28:21 +0800
+	id 1tA96m-0000Bz-03;
+	Sun, 10 Nov 2024 14:40:08 +0000
+Date: Sun, 10 Nov 2024 22:40:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: oe-kbuild@lists.linux.dev
 Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: drivers/gpu/drm/xe/xe_guc_ct.c:532:1-7: preceding lock on line 512
-Message-ID: <202411102156.82B2ylE5-lkp@intel.com>
+Subject: drivers/iommu/iommufd/fault.c:115:38-43: ERROR: invalid reference to
+ the index variable of the iterator on line 107
+Message-ID: <202411102249.17V47Lz6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild@lists.linux.dev
 List-Id: <oe-kbuild.lists.linux.dev>
@@ -64,101 +65,60 @@ Content-Disposition: inline
 BCC: lkp@intel.com
 CC: oe-kbuild-all@lists.linux.dev
 CC: linux-kernel@vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
-CC: Matthew Brost <matthew.brost@intel.com>
+TO: Lu Baolu <baolu.lu@linux.intel.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Kevin Tian <kevin.tian@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   de2f378f2b771b39594c04695feee86476743a69
-commit: dad33831d8d137ee28b21c3c2296463a01aa5b78 drm/xe/ct: hold fast_lock when reserving space for g2h
-date:   11 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-104-20241110 (https://download.01.org/0day-ci/archive/20241110/202411102156.82B2ylE5-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+commit: b7d8833677baad8c80ed1aac8c396d687e64a376 iommufd: Fault-capable hwpt attach/detach/replace
+date:   4 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-054-20241110 (https://download.01.org/0day-ci/archive/20241110/202411102249.17V47Lz6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202411102156.82B2ylE5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411102249.17V47Lz6-lkp@intel.com/
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xe/xe_guc_ct.c:532:1-7: preceding lock on line 512
+>> drivers/iommu/iommufd/fault.c:115:38-43: ERROR: invalid reference to the index variable of the iterator on line 107
 
-vim +532 drivers/gpu/drm/xe/xe_guc_ct.c
+vim +115 drivers/iommu/iommufd/fault.c
 
-dd08ebf6c3525a Matthew Brost 2023-03-30  470  
-dd08ebf6c3525a Matthew Brost 2023-03-30  471  static int __guc_ct_send_locked(struct xe_guc_ct *ct, const u32 *action,
-dd08ebf6c3525a Matthew Brost 2023-03-30  472  				u32 len, u32 g2h_len, u32 num_g2h,
-dd08ebf6c3525a Matthew Brost 2023-03-30  473  				struct g2h_fence *g2h_fence)
-dd08ebf6c3525a Matthew Brost 2023-03-30  474  {
-dd08ebf6c3525a Matthew Brost 2023-03-30  475  	int ret;
-dd08ebf6c3525a Matthew Brost 2023-03-30  476  
-dd08ebf6c3525a Matthew Brost 2023-03-30  477  	XE_BUG_ON(g2h_len && g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  478  	XE_BUG_ON(num_g2h && g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  479  	XE_BUG_ON(g2h_len && !num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  480  	XE_BUG_ON(!g2h_len && num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  481  	lockdep_assert_held(&ct->lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  482  
-a7ca8157ec7b59 Rodrigo Vivi  2023-05-16  483  	if (unlikely(ct->ctbs.h2g.info.broken)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  484  		ret = -EPIPE;
-dd08ebf6c3525a Matthew Brost 2023-03-30  485  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  486  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  487  
-dd08ebf6c3525a Matthew Brost 2023-03-30  488  	if (unlikely(!ct->enabled)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  489  		ret = -ENODEV;
-dd08ebf6c3525a Matthew Brost 2023-03-30  490  		goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  491  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  492  
-dd08ebf6c3525a Matthew Brost 2023-03-30  493  	if (g2h_fence) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  494  		g2h_len = GUC_CTB_HXG_MSG_MAX_LEN;
-dd08ebf6c3525a Matthew Brost 2023-03-30  495  		num_g2h = 1;
-dd08ebf6c3525a Matthew Brost 2023-03-30  496  
-dd08ebf6c3525a Matthew Brost 2023-03-30  497  		if (g2h_fence_needs_alloc(g2h_fence)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  498  			void *ptr;
-dd08ebf6c3525a Matthew Brost 2023-03-30  499  
-dd08ebf6c3525a Matthew Brost 2023-03-30  500  			g2h_fence->seqno = (ct->fence_seqno++ & 0xffff);
-dd08ebf6c3525a Matthew Brost 2023-03-30  501  			ptr = xa_store(&ct->fence_lookup,
-dd08ebf6c3525a Matthew Brost 2023-03-30  502  				       g2h_fence->seqno,
-dd08ebf6c3525a Matthew Brost 2023-03-30  503  				       g2h_fence, GFP_ATOMIC);
-dd08ebf6c3525a Matthew Brost 2023-03-30  504  			if (IS_ERR(ptr)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  505  				ret = PTR_ERR(ptr);
-dd08ebf6c3525a Matthew Brost 2023-03-30  506  				goto out;
-dd08ebf6c3525a Matthew Brost 2023-03-30  507  			}
-dd08ebf6c3525a Matthew Brost 2023-03-30  508  		}
-dd08ebf6c3525a Matthew Brost 2023-03-30  509  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  510  
-dad33831d8d137 Matthew Auld  2023-07-10  511  	if (g2h_len)
-dad33831d8d137 Matthew Auld  2023-07-10 @512  		spin_lock_irq(&ct->fast_lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  513  retry:
-dd08ebf6c3525a Matthew Brost 2023-03-30  514  	ret = has_room(ct, len + GUC_CTB_HDR_LEN, g2h_len);
-dd08ebf6c3525a Matthew Brost 2023-03-30  515  	if (unlikely(ret))
-dad33831d8d137 Matthew Auld  2023-07-10  516  		goto out_unlock;
-dd08ebf6c3525a Matthew Brost 2023-03-30  517  
-dd08ebf6c3525a Matthew Brost 2023-03-30  518  	ret = h2g_write(ct, action, len, g2h_fence ? g2h_fence->seqno : 0,
-dd08ebf6c3525a Matthew Brost 2023-03-30  519  			!!g2h_fence);
-dd08ebf6c3525a Matthew Brost 2023-03-30  520  	if (unlikely(ret)) {
-dd08ebf6c3525a Matthew Brost 2023-03-30  521  		if (ret == -EAGAIN)
-dd08ebf6c3525a Matthew Brost 2023-03-30  522  			goto retry;
-dad33831d8d137 Matthew Auld  2023-07-10  523  		goto out_unlock;
-dd08ebf6c3525a Matthew Brost 2023-03-30  524  	}
-dd08ebf6c3525a Matthew Brost 2023-03-30  525  
-dad33831d8d137 Matthew Auld  2023-07-10  526  	__g2h_reserve_space(ct, g2h_len, num_g2h);
-dd08ebf6c3525a Matthew Brost 2023-03-30  527  	xe_guc_notify(ct_to_guc(ct));
-dad33831d8d137 Matthew Auld  2023-07-10  528  out_unlock:
-dad33831d8d137 Matthew Auld  2023-07-10  529  	if (g2h_len)
-dad33831d8d137 Matthew Auld  2023-07-10  530  		spin_unlock_irq(&ct->fast_lock);
-dd08ebf6c3525a Matthew Brost 2023-03-30  531  out:
-dd08ebf6c3525a Matthew Brost 2023-03-30 @532  	return ret;
-dd08ebf6c3525a Matthew Brost 2023-03-30  533  }
-dd08ebf6c3525a Matthew Brost 2023-03-30  534  
-
-:::::: The code at line 532 was first introduced by commit
-:::::: dd08ebf6c3525a7ea2186e636df064ea47281987 drm/xe: Introduce a new DRM driver for Intel GPUs
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+b7d8833677baad Lu Baolu 2024-07-02   95  
+b7d8833677baad Lu Baolu 2024-07-02   96  static void iommufd_auto_response_faults(struct iommufd_hw_pagetable *hwpt,
+b7d8833677baad Lu Baolu 2024-07-02   97  					 struct iommufd_attach_handle *handle)
+b7d8833677baad Lu Baolu 2024-07-02   98  {
+b7d8833677baad Lu Baolu 2024-07-02   99  	struct iommufd_fault *fault = hwpt->fault;
+b7d8833677baad Lu Baolu 2024-07-02  100  	struct iopf_group *group, *next;
+b7d8833677baad Lu Baolu 2024-07-02  101  	unsigned long index;
+b7d8833677baad Lu Baolu 2024-07-02  102  
+b7d8833677baad Lu Baolu 2024-07-02  103  	if (!fault)
+b7d8833677baad Lu Baolu 2024-07-02  104  		return;
+b7d8833677baad Lu Baolu 2024-07-02  105  
+b7d8833677baad Lu Baolu 2024-07-02  106  	mutex_lock(&fault->mutex);
+b7d8833677baad Lu Baolu 2024-07-02 @107  	list_for_each_entry_safe(group, next, &fault->deliver, node) {
+b7d8833677baad Lu Baolu 2024-07-02  108  		if (group->attach_handle != &handle->handle)
+b7d8833677baad Lu Baolu 2024-07-02  109  			continue;
+b7d8833677baad Lu Baolu 2024-07-02  110  		list_del(&group->node);
+b7d8833677baad Lu Baolu 2024-07-02  111  		iopf_group_response(group, IOMMU_PAGE_RESP_INVALID);
+b7d8833677baad Lu Baolu 2024-07-02  112  		iopf_free_group(group);
+b7d8833677baad Lu Baolu 2024-07-02  113  	}
+b7d8833677baad Lu Baolu 2024-07-02  114  
+b7d8833677baad Lu Baolu 2024-07-02 @115  	xa_for_each(&fault->response, index, group) {
+b7d8833677baad Lu Baolu 2024-07-02  116  		if (group->attach_handle != &handle->handle)
+b7d8833677baad Lu Baolu 2024-07-02  117  			continue;
+b7d8833677baad Lu Baolu 2024-07-02  118  		xa_erase(&fault->response, index);
+b7d8833677baad Lu Baolu 2024-07-02  119  		iopf_group_response(group, IOMMU_PAGE_RESP_INVALID);
+b7d8833677baad Lu Baolu 2024-07-02  120  		iopf_free_group(group);
+b7d8833677baad Lu Baolu 2024-07-02  121  	}
+b7d8833677baad Lu Baolu 2024-07-02  122  	mutex_unlock(&fault->mutex);
+b7d8833677baad Lu Baolu 2024-07-02  123  }
+b7d8833677baad Lu Baolu 2024-07-02  124  
 
 -- 
 0-DAY CI Kernel Test Service
